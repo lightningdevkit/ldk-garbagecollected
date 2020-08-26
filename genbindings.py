@@ -120,8 +120,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         if ret_conv is not None:
             ret_conv_pfx, ret_conv_sfx = ret_conv
 
-        out_java.write(" " + re_match.group(2).replace('_', '') + "(")
-        out_c.write(" JNICALL " + re_match.group(2).replace('_', '') + "(JNIEnv * _env, jclass _b")
+        out_java.write(" " + re_match.group(2) + "(")
+        out_c.write(" JNICALL " + re_match.group(2).replace('_', '_1') + "(JNIEnv * _env, jclass _b")
 
         arg_names = []
         for idx, arg in enumerate(re_match.group(3).split(',')):
@@ -160,7 +160,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
 public class bindings {
 	static {
-		System.loadLibrary(\"lightning\");
+		System.loadLibrary(\"lightningjni\");
 	}
 
 """)
@@ -170,21 +170,34 @@ public class bindings {
 
     in_block_comment = False
     in_block_enum = False
-    in_block_struct = False
+    cur_block_struct = None
     in_block_union = False
 
     fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
     fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
     reg_fn_regex = re.compile("([A-Za-z_0-9\* ]* \*?)([a-zA-Z_0-9]*)\((.*)\);$")
+    const_val_regex = re.compile("^extern const ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
 
     for line in in_h:
         if in_block_comment:
             #out_java.write("\t" + line)
             if line.endswith("*/\n"):
                 in_block_comment = False
-        elif in_block_struct:
+        elif cur_block_struct is not None:
+            cur_block_struct  = cur_block_struct + line
             if line.startswith("} "):
-                in_block_struct = False
+                field_lines = []
+                struct_lines = cur_block_struct.split("\n")
+                for idx, struct_line in enumerate(struct_lines):
+                    if struct_line.strip().startswith("/*"):
+                        in_block_comment = True
+                    if in_block_comment:
+                        if struct_line.endswith("*/"):
+                            in_block_comment = False
+                    else:
+                        field_lines.append(struct_line)
+                #out_java.write("".join(field_lines) + "\n")
+                cur_block_struct = None
         elif in_block_union:
             if line.startswith("} "):
                 in_block_union = False
@@ -195,6 +208,7 @@ public class bindings {
             fn_ptr = fn_ptr_regex.match(line)
             fn_ret_arr = fn_ret_arr_regex.match(line)
             reg_fn = reg_fn_regex.match(line)
+            const_val = const_val_regex.match(line)
 
             if line.startswith("#include <"):
                 pass
@@ -205,7 +219,7 @@ public class bindings {
             elif line.startswith("typedef enum "):
                 in_block_enum = True
             elif line.startswith("typedef struct "):
-                in_block_struct = True
+                cur_block_struct = line
             elif line.startswith("typedef union "):
                 in_block_union = True
             elif line.startswith("typedef "):
@@ -216,6 +230,9 @@ public class bindings {
                 map_fn(fn_ret_arr, fn_ret_arr.group(4))
             elif reg_fn is not None:
                 map_fn(reg_fn, None)
+            elif const_val_regex is not None:
+                # TODO Map const variables
+                pass
             else:
                 assert(line == "\n")
 
