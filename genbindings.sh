@@ -5,7 +5,7 @@ if [ "$1" = "" -o "$2" = "" ]; then
 	exit 1
 fi
 set -e
-./genbindings.py "$1/lightning-c-bindings/include/lightning.h" src/main/java/org/ldk/bindings.java src/main/jni/bindings.c
-javac -h src/main/jni src/main/java/org/ldk/bindings.java
-rm src/main/java/org/ldk/bindings.class
-gcc -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Wall -Isrc/main/jni -I"$1/lightning-c-bindings/include/" $2 src/main/jni/bindings.c "$1"/target/debug/liblightning.a
+./genbindings.py "$1/lightning-c-bindings/include/lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/jni/bindings.c
+javac -h src/main/jni src/main/java/org/ldk/impl/bindings.java
+rm src/main/java/org/ldk/impl/bindings*.class
+clang -Wall -Wno-incompatible-pointer-types -flto -fuse-ld=lld -O2 -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni -I"$1/lightning-c-bindings/include/" $2 src/main/jni/bindings.c "$1"/target/debug/liblightning.a
