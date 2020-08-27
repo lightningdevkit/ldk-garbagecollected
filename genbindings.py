@@ -10,6 +10,47 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
     var_is_arr_regex = re.compile("\(\*([A-za-z_]*)\)\[([0-9]*)\]")
     var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
+    def java_c_types(fn_arg, ret_arr_len):
+        fn_arg = fn_arg.strip()
+        if fn_arg.startswith("MUST_USE_RES "):
+            fn_arg = fn_arg[13:]
+        if fn_arg.startswith("const "):
+            fn_arg = fn_arg[6:]
+
+        is_ptr = False
+        if fn_arg.startswith("void"):
+            java_ty = "void"
+            c_ty = "void"
+            fn_arg = fn_arg.strip("void ")
+        elif fn_arg.startswith("bool"):
+            java_ty = "boolean"
+            c_ty = "jboolean"
+            fn_arg = fn_arg.strip("bool ")
+        elif fn_arg.startswith("uint8_t"):
+            java_ty = "byte"
+            c_ty = "jbyte"
+            fn_arg = fn_arg.strip("uint8_t ")
+        elif fn_arg.startswith("uint32_t"):
+            java_ty = "int"
+            c_ty = "jint"
+            fn_arg = fn_arg.strip("uint32_t ")
+        elif fn_arg.startswith("uint64_t"):
+            java_ty = "long"
+            c_ty = "jlong"
+            fn_arg = fn_arg.strip("uint64_t ")
+        else:
+            ma = var_ty_regex.match(fn_arg)
+            java_ty = "long"
+            c_ty = "jlong"
+            fn_arg = ma.group(2)
+            is_ptr = True
+
+        var_is_arr = var_is_arr_regex.match(fn_arg)
+        if var_is_arr is not None or ret_arr_len is not None:
+            java_ty = java_ty + "[]"
+            c_ty = c_ty + "Array"
+        return (java_ty, c_ty, is_ptr)
+
     def map_type(fn_arg, print_void, ret_arr_len, is_free):
         fn_arg = fn_arg.strip()
         if fn_arg.startswith("MUST_USE_RES "):
@@ -17,58 +58,43 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         if fn_arg.startswith("const "):
             fn_arg = fn_arg[6:]
 
-        c_ty = None
+        (java_ty, c_ty, is_ptr) = java_c_types(fn_arg, ret_arr_len)
         is_ptr_to_obj = None
         if fn_arg.startswith("void"):
-            if print_void:
-                out_java.write("void")
-                c_ty = "void"
-            else:
+            if not print_void:
                 return (None, None, None)
             fn_arg = fn_arg.strip("void ")
-        elif fn_arg.startswith("bool"):
-            out_java.write("boolean")
-            c_ty = "jboolean"
-            fn_arg = fn_arg.strip("bool ")
-        elif fn_arg.startswith("uint8_t"):
-            out_java.write("byte")
-            c_ty = "jbyte"
-            fn_arg = fn_arg.strip("uint8_t ")
-        elif fn_arg.startswith("uint32_t"):
-            out_java.write("int")
-            c_ty = "jint"
-            fn_arg = fn_arg.strip("uint32_t ")
-        elif fn_arg.startswith("uint64_t"):
-            out_java.write("long")
-            c_ty = "jlong"
-            fn_arg = fn_arg.strip("uint64_t ")
+        elif not is_ptr:
+            split = fn_arg.split(" ", 2)
+            if len(split) > 1:
+                fn_arg = split[1]
+            else:
+                fn_arg = ""
         else:
             ma = var_ty_regex.match(fn_arg)
-            out_java.write("long")
-            out_c.write("jlong")
             is_ptr_to_obj = ma.group(1)
             fn_arg = ma.group(2)
-        if c_ty is not None:
-            out_c.write(c_ty)
+        assert(c_ty is not None)
+        assert(java_ty is not None)
+        out_c.write(c_ty)
+        out_java.write(java_ty)
 
         var_is_arr = var_is_arr_regex.match(fn_arg)
         no_ptr = fn_arg.replace('*', '')
         if var_is_arr is not None or ret_arr_len is not None:
-            out_java.write("[] ")
-            out_c.write("Array ")
             if var_is_arr is not None:
                 arr_name = var_is_arr.group(1)
                 arr_len = var_is_arr.group(2)
-                out_java.write(arr_name)
-                out_c.write(arr_name)
+                out_java.write(" " + arr_name)
+                out_c.write(" " + arr_name)
             else:
                 arr_name = "ret"
                 arr_len = ret_arr_len
-            assert(c_ty == "jbyte")
+            assert(c_ty == "jbyteArray")
             return ("unsigned char " + arr_name + "_arr[" + arr_len + "];\n" +
                     "(*_env)->GetByteArrayRegion (_env, """ + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" +
                     "unsigned char (*""" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;",
-                (c_ty + "Array " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_len + ");\n" +
+                (c_ty + " " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_len + ");\n" +
                     "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_len + ", *",
                     ");\nreturn ret_arr;"),
                 arr_name + "_ref")
