@@ -257,13 +257,6 @@ public class bindings {
                 if is_opaque:
                     opaque_structs.add(struct_name)
                 if len(trait_fn_lines) > 0:
-                    out_java.write("\tpublic interface " + struct_name + " {\n")
-                    for fn_line in trait_fn_lines:
-                        if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            out_java.write("\t\t void " + fn_line.group(2) + "(/* TODO + rtype */);\n")
-                    out_java.write("\t}\n")
-                    out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl);\n")
-
                     out_c.write("typedef struct " + struct_name + "_JCalls {\n")
                     out_c.write("\tJNIEnv *env;\n")
                     out_c.write("\tjobject o;\n")
@@ -272,11 +265,16 @@ public class bindings {
                             out_c.write("\tjmethodID " + fn_line.group(2) + "_meth;\n")
                     out_c.write("} " + struct_name + "_JCalls;\n")
 
+                    out_java.write("\tpublic interface " + struct_name + " {\n")
                     for fn_line in trait_fn_lines:
                         if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            out_c.write("void " + fn_line.group(2) + "_jcall(void* this_arg/* TODO + rtype */) {\n")
+                            (java_ty, c_ty, is_ptr) = java_c_types(fn_line.group(1), None)
+
+                            out_java.write("\t\t " + java_ty + " " + fn_line.group(2) + "(/* TODO */);\n")
+
+                            out_c.write(c_ty + " " + fn_line.group(2) + "_jcall(void* this_arg/* TODO */) {\n")
                             out_c.write("\t" + struct_name + "_JCalls *arg = (" + struct_name + "_JCalls*) this_arg;\n")
-                            out_c.write("\t(*arg->env)->CallObjectMethod(arg->env, arg->o, arg->" + fn_line.group(2) + "_meth);\n");
+                            out_c.write("\treturn (*arg->env)->Call" + java_ty.title() + "Method(arg->env, arg->o, arg->" + fn_line.group(2) + "_meth);\n");
                             out_c.write("}\n")
                         elif fn_line.group(2) == "free":
                             out_c.write("void " + struct_name + "_JCalls_free(void* this_arg) {\n")
@@ -290,6 +288,8 @@ public class bindings {
                             out_c.write("\tmemcpy(ret, this_arg, sizeof(" + struct_name + "_JCalls));\n")
                             out_c.write("\treturn ret;\n")
                             out_c.write("}\n")
+                    out_java.write("\t}\n")
+                    out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl);\n")
 
                     out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o) {\n")
                     out_c.write("\tjclass c = (*env)->GetObjectClass(env, o);\n")
