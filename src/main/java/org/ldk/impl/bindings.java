@@ -6,104 +6,104 @@ public class bindings {
 	}
 
 	public interface LDKMessageSendEventsProvider {
-		 long get_and_clear_pending_msg_events(/* TODO */);
+		 long get_and_clear_pending_msg_events();
 	}
 	public static native long LDKMessageSendEventsProvider_new(LDKMessageSendEventsProvider impl);
 	public interface LDKEventsProvider {
-		 long get_and_clear_pending_events(/* TODO */);
+		 long get_and_clear_pending_events();
 	}
 	public static native long LDKEventsProvider_new(LDKEventsProvider impl);
 	public interface LDKLogger {
-		 void log(/* TODO */);
+		 void log(long record);
 	}
 	public static native long LDKLogger_new(LDKLogger impl);
 	public interface LDKChainWatchInterface {
-		 void install_watch_tx(/* TODO */);
-		 void install_watch_outpoint(/* TODO */);
-		 void watch_all_txn(/* TODO */);
-		 long get_chain_utxo(/* TODO */);
-		 long filter_block(/* TODO */);
-		 long reentered(/* TODO */);
+		 void install_watch_tx(byte[] txid, long script_pub_key);
+		 void install_watch_outpoint(long outpoint, long out_script);
+		 void watch_all_txn();
+		 long get_chain_utxo(long genesis_hash, long unspent_tx_output_identifier);
+		 long filter_block(long block);
+		 long reentered();
 	}
 	public static native long LDKChainWatchInterface_new(LDKChainWatchInterface impl);
 	public interface LDKBroadcasterInterface {
-		 void broadcast_transaction(/* TODO */);
+		 void broadcast_transaction(long tx);
 	}
 	public static native long LDKBroadcasterInterface_new(LDKBroadcasterInterface impl);
 	public interface LDKChainListener {
-		 void block_connected(/* TODO */);
-		 void block_disconnected(/* TODO */);
+		 void block_connected(byte[] header, int height, long txn_matched, long indexes_of_txn_matched);
+		 void block_disconnected(byte[] header, int disconnected_height);
 	}
 	public static native long LDKChainListener_new(LDKChainListener impl);
 	public interface LDKFeeEstimator {
-		 int get_est_sat_per_1000_weight(/* TODO */);
+		 int get_est_sat_per_1000_weight(long confirmation_target);
 	}
 	public static native long LDKFeeEstimator_new(LDKFeeEstimator impl);
 	public interface LDKChannelKeys {
-		 long get_per_commitment_point(/* TODO */);
-		 long release_commitment_secret(/* TODO */);
-		 long key_derivation_params(/* TODO */);
-		 long sign_remote_commitment(/* TODO */);
-		 long sign_local_commitment(/* TODO */);
-		 long sign_local_commitment_htlc_transactions(/* TODO */);
-		 long sign_justice_transaction(/* TODO */);
-		 long sign_remote_htlc_transaction(/* TODO */);
-		 long sign_closing_transaction(/* TODO */);
-		 long sign_channel_announcement(/* TODO */);
-		 void on_accept(/* TODO */);
+		 long get_per_commitment_point(long idx);
+		 long release_commitment_secret(long idx);
+		 long key_derivation_params();
+		 long sign_remote_commitment(int feerate_per_kw, long commitment_tx, long keys, long htlcs);
+		 long sign_local_commitment(long local_commitment_tx);
+		 long sign_local_commitment_htlc_transactions(long local_commitment_tx);
+		 long sign_justice_transaction(long justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
+		 long sign_remote_htlc_transaction(long htlc_tx, long input, long amount, long per_commitment_point, long htlc);
+		 long sign_closing_transaction(long closing_tx);
+		 long sign_channel_announcement(long msg);
+		 void on_accept(long channel_points, long remote_to_self_delay, long local_to_self_delay);
 	}
 	public static native long LDKChannelKeys_new(LDKChannelKeys impl);
 	public interface LDKKeysInterface {
-		 long get_node_secret(/* TODO */);
-		 long get_destination_script(/* TODO */);
-		 long get_shutdown_pubkey(/* TODO */);
-		 long get_channel_keys(/* TODO */);
-		 long get_secure_random_bytes(/* TODO */);
+		 long get_node_secret();
+		 long get_destination_script();
+		 long get_shutdown_pubkey();
+		 long get_channel_keys(boolean inbound, long channel_value_satoshis);
+		 long get_secure_random_bytes();
 	}
 	public static native long LDKKeysInterface_new(LDKKeysInterface impl);
 	public interface LDKManyChannelMonitor {
-		 long add_monitor(/* TODO */);
-		 long update_monitor(/* TODO */);
-		 long get_and_clear_pending_monitor_events(/* TODO */);
+		 long add_monitor(long funding_txo, long monitor);
+		 long update_monitor(long funding_txo, long monitor);
+		 long get_and_clear_pending_monitor_events();
 	}
 	public static native long LDKManyChannelMonitor_new(LDKManyChannelMonitor impl);
 	public interface LDKChannelMessageHandler {
-		 void handle_open_channel(/* TODO */);
-		 void handle_accept_channel(/* TODO */);
-		 void handle_funding_created(/* TODO */);
-		 void handle_funding_signed(/* TODO */);
-		 void handle_funding_locked(/* TODO */);
-		 void handle_shutdown(/* TODO */);
-		 void handle_closing_signed(/* TODO */);
-		 void handle_update_add_htlc(/* TODO */);
-		 void handle_update_fulfill_htlc(/* TODO */);
-		 void handle_update_fail_htlc(/* TODO */);
-		 void handle_update_fail_malformed_htlc(/* TODO */);
-		 void handle_commitment_signed(/* TODO */);
-		 void handle_revoke_and_ack(/* TODO */);
-		 void handle_update_fee(/* TODO */);
-		 void handle_announcement_signatures(/* TODO */);
-		 void peer_disconnected(/* TODO */);
-		 void peer_connected(/* TODO */);
-		 void handle_channel_reestablish(/* TODO */);
-		 void handle_error(/* TODO */);
+		 void handle_open_channel(long their_node_id, long their_features, long msg);
+		 void handle_accept_channel(long their_node_id, long their_features, long msg);
+		 void handle_funding_created(long their_node_id, long msg);
+		 void handle_funding_signed(long their_node_id, long msg);
+		 void handle_funding_locked(long their_node_id, long msg);
+		 void handle_shutdown(long their_node_id, long msg);
+		 void handle_closing_signed(long their_node_id, long msg);
+		 void handle_update_add_htlc(long their_node_id, long msg);
+		 void handle_update_fulfill_htlc(long their_node_id, long msg);
+		 void handle_update_fail_htlc(long their_node_id, long msg);
+		 void handle_update_fail_malformed_htlc(long their_node_id, long msg);
+		 void handle_commitment_signed(long their_node_id, long msg);
+		 void handle_revoke_and_ack(long their_node_id, long msg);
+		 void handle_update_fee(long their_node_id, long msg);
+		 void handle_announcement_signatures(long their_node_id, long msg);
+		 void peer_disconnected(long their_node_id, boolean no_connection_possible);
+		 void peer_connected(long their_node_id, long msg);
+		 void handle_channel_reestablish(long their_node_id, long msg);
+		 void handle_error(long their_node_id, long msg);
 	}
 	public static native long LDKChannelMessageHandler_new(LDKChannelMessageHandler impl);
 	public interface LDKRoutingMessageHandler {
-		 long handle_node_announcement(/* TODO */);
-		 long handle_channel_announcement(/* TODO */);
-		 long handle_channel_update(/* TODO */);
-		 void handle_htlc_fail_channel_update(/* TODO */);
-		 long get_next_channel_announcements(/* TODO */);
-		 long get_next_node_announcements(/* TODO */);
-		 boolean should_request_full_sync(/* TODO */);
+		 long handle_node_announcement(long msg);
+		 long handle_channel_announcement(long msg);
+		 long handle_channel_update(long msg);
+		 void handle_htlc_fail_channel_update(long update);
+		 long get_next_channel_announcements(long starting_point, byte batch_amount);
+		 long get_next_node_announcements(long starting_point, byte batch_amount);
+		 boolean should_request_full_sync(long node_id);
 	}
 	public static native long LDKRoutingMessageHandler_new(LDKRoutingMessageHandler impl);
 	public interface LDKSocketDescriptor {
-		 long send_data(/* TODO */);
-		 void disconnect_socket(/* TODO */);
-		 boolean eq(/* TODO */);
-		 long hash(/* TODO */);
+		 long send_data(long data, boolean resume_read);
+		 void disconnect_socket();
+		 boolean eq(long other_arg);
+		 long hash();
 	}
 	public static native long LDKSocketDescriptor_new(LDKSocketDescriptor impl);
 	/// extern const void (*C2Tuple_HTLCOutputInCommitmentSignatureZ_free)(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ);

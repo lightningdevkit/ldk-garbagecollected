@@ -21,35 +21,43 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         if fn_arg.startswith("void"):
             java_ty = "void"
             c_ty = "void"
-            fn_arg = fn_arg.strip("void ")
+            fn_arg = fn_arg[4:].strip()
         elif fn_arg.startswith("bool"):
             java_ty = "boolean"
             c_ty = "jboolean"
-            fn_arg = fn_arg.strip("bool ")
+            fn_arg = fn_arg[4:].strip()
         elif fn_arg.startswith("uint8_t"):
             java_ty = "byte"
             c_ty = "jbyte"
-            fn_arg = fn_arg.strip("uint8_t ")
+            fn_arg = fn_arg[7:].strip()
         elif fn_arg.startswith("uint32_t"):
             java_ty = "int"
             c_ty = "jint"
-            fn_arg = fn_arg.strip("uint32_t ")
+            fn_arg = fn_arg[8:].strip()
         elif fn_arg.startswith("uint64_t"):
             java_ty = "long"
             c_ty = "jlong"
-            fn_arg = fn_arg.strip("uint64_t ")
+            fn_arg = fn_arg[8:].strip()
         else:
             ma = var_ty_regex.match(fn_arg)
             java_ty = "long"
             c_ty = "jlong"
-            fn_arg = ma.group(2)
+            fn_arg = ma.group(2).strip()
             is_ptr = True
+
+        if fn_arg.startswith(" *") or fn_arg.startswith("*"):
+            fn_arg = fn_arg.replace("*", "").strip()
+            is_ptr = True
+            c_ty = "jlong"
+            java_ty = "long"
 
         var_is_arr = var_is_arr_regex.match(fn_arg)
         if var_is_arr is not None or ret_arr_len is not None:
             java_ty = java_ty + "[]"
             c_ty = c_ty + "Array"
-        return (java_ty, c_ty, is_ptr)
+            if var_is_arr is not None:
+                return (java_ty, c_ty, is_ptr, var_is_arr.group(1))
+        return (java_ty, c_ty, is_ptr, fn_arg)
 
     def map_type(fn_arg, print_void, ret_arr_len, is_free):
         fn_arg = fn_arg.strip()
@@ -58,7 +66,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         if fn_arg.startswith("const "):
             fn_arg = fn_arg[6:]
 
-        (java_ty, c_ty, is_ptr) = java_c_types(fn_arg, ret_arr_len)
+        (java_ty, c_ty, is_ptr, _) = java_c_types(fn_arg, ret_arr_len)
         is_ptr_to_obj = None
         if fn_arg.startswith("void"):
             if not print_void:
@@ -214,7 +222,7 @@ public class bindings {
     const_val_regex = re.compile("^extern const ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
 
     line_indicates_opaque_regex = re.compile("^   bool _underlying_ref;$")
-    line_indicates_trait_regex = re.compile("^   ([A-Za-z_0-9]* \*?)\(\*([A-Za-z_0-9]*)\)\((const )?void \*this_arg.*\);$")
+    line_indicates_trait_regex = re.compile("^   ([A-Za-z_0-9]* \*?)\(\*([A-Za-z_0-9]*)\)\((const )?void \*this_arg(.*)\);$")
     assert(line_indicates_trait_regex.match("   uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);"))
     assert(line_indicates_trait_regex.match("   LDKCVec_MessageSendEventZ (*get_and_clear_pending_msg_events)(const void *this_arg);"))
     assert(line_indicates_trait_regex.match("   void *(*clone)(const void *this_arg);"))
@@ -268,22 +276,60 @@ public class bindings {
                     out_java.write("\tpublic interface " + struct_name + " {\n")
                     for fn_line in trait_fn_lines:
                         if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            (java_ty, c_ty, is_ptr) = java_c_types(fn_line.group(1), None)
+                            (java_ty, c_ty, is_ptr, _) = java_c_types(fn_line.group(1), None)
 
-                            out_java.write("\t\t " + java_ty + " " + fn_line.group(2) + "(/* TODO */);\n")
+                            out_java.write("\t\t " + java_ty + " " + fn_line.group(2) + "(")
+                            is_const = fn_line.group(3) is not None
+                            #if not is_ptr:
+                            #    out_c.write(c_ty + " " + fn_line.group(2) + "_jcall(")
+                            #else:
+                            out_c.write(fn_line.group(1) + fn_line.group(2) + "_jcall(")
+                            if is_const:
+                                out_c.write("const void* this_arg")
+                            else:
+                                out_c.write("void* this_arg")
 
-                            out_c.write(c_ty + " " + fn_line.group(2) + "_jcall(void* this_arg/* TODO */) {\n")
-                            out_c.write("\t" + struct_name + "_JCalls *arg = (" + struct_name + "_JCalls*) this_arg;\n")
-                            out_c.write("\treturn (*arg->env)->Call" + java_ty.title() + "Method(arg->env, arg->o, arg->" + fn_line.group(2) + "_meth);\n");
+                            #arg_names = []
+                            for idx, arg in enumerate(fn_line.group(4).split(',')):
+                                if arg == "":
+                                    continue
+                                if idx >= 2:
+                                    out_java.write(", ")
+                                out_c.write(", ")
+                                #arg_names.append(map_type(arg, True, None, False))
+                                out_c.write(arg.strip())
+                                (arg_java_ty, arg_c_ty, arg_is_ptr, arg_name) = java_c_types(arg, None)
+                                out_java.write(arg_java_ty + " " + arg_name)
+
+                            out_java.write(");\n")
+                            out_c.write(") {\n")
+                            out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+
+                            if not is_ptr:
+                                out_c.write("\treturn (*j_calls->env)->Call" + java_ty.title() + "Method(j_calls->env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth")
+                            else:
+                                out_c.write("\t" + fn_line.group(1).strip() + "* ret = (" + fn_line.group(1).strip() + "*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth");
+                            for arg in fn_line.group(4).split(','):
+                                if arg == "":
+                                    continue
+                                (arg_java_ty, arg_c_ty, arg_is_ptr, arg_name) = java_c_types(arg, None)
+                                # TODO: Run conversion here!
+                                out_c.write(", " + arg_name)
+                            out_c.write(");\n");
+
+                            if is_ptr:
+                                out_c.write("\t" + fn_line.group(1).strip() + " res = *ret;\n")
+                                out_c.write("\tfree(ret);\n")
+                                out_c.write("\treturn res;\n")
                             out_c.write("}\n")
                         elif fn_line.group(2) == "free":
                             out_c.write("void " + struct_name + "_JCalls_free(void* this_arg) {\n")
-                            out_c.write("\t" + struct_name + "_JCalls *arg = (" + struct_name + "_JCalls*) this_arg;\n")
-                            out_c.write("\t(*arg->env)->DeleteGlobalRef(arg->env, arg->o);\n")
-                            out_c.write("\tfree(arg);\n")
+                            out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+                            out_c.write("\t(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);\n")
+                            out_c.write("\tfree(j_calls);\n")
                             out_c.write("}\n")
                         elif fn_line.group(2) == "clone":
-                            out_c.write("void* " + struct_name + "_JCalls_clone(void* this_arg) {\n")
+                            out_c.write("void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
                             out_c.write("\t" + struct_name + "_JCalls *ret = malloc(sizeof(" + struct_name + "_JCalls));\n")
                             out_c.write("\tmemcpy(ret, this_arg, sizeof(" + struct_name + "_JCalls));\n")
                             out_c.write("\treturn ret;\n")

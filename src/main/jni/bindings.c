@@ -10,14 +10,17 @@ typedef struct LDKMessageSendEventsProvider_JCalls {
 	jobject o;
 	jmethodID get_and_clear_pending_msg_events_meth;
 } LDKMessageSendEventsProvider_JCalls;
-jlong get_and_clear_pending_msg_events_jcall(void* this_arg/* TODO */) {
-	LDKMessageSendEventsProvider_JCalls *arg = (LDKMessageSendEventsProvider_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_and_clear_pending_msg_events_meth);
+LDKCVec_MessageSendEventZ get_and_clear_pending_msg_events_jcall(const void* this_arg) {
+	LDKMessageSendEventsProvider_JCalls *j_calls = (LDKMessageSendEventsProvider_JCalls*) this_arg;
+	LDKCVec_MessageSendEventZ* ret = (LDKCVec_MessageSendEventZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_and_clear_pending_msg_events_meth);
+	LDKCVec_MessageSendEventZ res = *ret;
+	free(ret);
+	return res;
 }
 void LDKMessageSendEventsProvider_JCalls_free(void* this_arg) {
-	LDKMessageSendEventsProvider_JCalls *arg = (LDKMessageSendEventsProvider_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKMessageSendEventsProvider_JCalls *j_calls = (LDKMessageSendEventsProvider_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -40,14 +43,17 @@ typedef struct LDKEventsProvider_JCalls {
 	jobject o;
 	jmethodID get_and_clear_pending_events_meth;
 } LDKEventsProvider_JCalls;
-jlong get_and_clear_pending_events_jcall(void* this_arg/* TODO */) {
-	LDKEventsProvider_JCalls *arg = (LDKEventsProvider_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_and_clear_pending_events_meth);
+LDKCVec_EventZ get_and_clear_pending_events_jcall(const void* this_arg) {
+	LDKEventsProvider_JCalls *j_calls = (LDKEventsProvider_JCalls*) this_arg;
+	LDKCVec_EventZ* ret = (LDKCVec_EventZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_and_clear_pending_events_meth);
+	LDKCVec_EventZ res = *ret;
+	free(ret);
+	return res;
 }
 void LDKEventsProvider_JCalls_free(void* this_arg) {
-	LDKEventsProvider_JCalls *arg = (LDKEventsProvider_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKEventsProvider_JCalls *j_calls = (LDKEventsProvider_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKEventsProvider_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -70,14 +76,14 @@ typedef struct LDKLogger_JCalls {
 	jobject o;
 	jmethodID log_meth;
 } LDKLogger_JCalls;
-void log_jcall(void* this_arg/* TODO */) {
-	LDKLogger_JCalls *arg = (LDKLogger_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->log_meth);
+void log_jcall(const void* this_arg, const char *record) {
+	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->log_meth, record);
 }
 void LDKLogger_JCalls_free(void* this_arg) {
-	LDKLogger_JCalls *arg = (LDKLogger_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -105,34 +111,43 @@ typedef struct LDKChainWatchInterface_JCalls {
 	jmethodID filter_block_meth;
 	jmethodID reentered_meth;
 } LDKChainWatchInterface_JCalls;
-void install_watch_tx_jcall(void* this_arg/* TODO */) {
-	LDKChainWatchInterface_JCalls *arg = (LDKChainWatchInterface_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->install_watch_tx_meth);
+void install_watch_tx_jcall(const void* this_arg, const uint8_t (*txid)[32], LDKu8slice script_pub_key) {
+	LDKChainWatchInterface_JCalls *j_calls = (LDKChainWatchInterface_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->install_watch_tx_meth, txid, script_pub_key);
 }
-void install_watch_outpoint_jcall(void* this_arg/* TODO */) {
-	LDKChainWatchInterface_JCalls *arg = (LDKChainWatchInterface_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->install_watch_outpoint_meth);
+void install_watch_outpoint_jcall(const void* this_arg, LDKC2Tuple_Txidu32Z outpoint, LDKu8slice out_script) {
+	LDKChainWatchInterface_JCalls *j_calls = (LDKChainWatchInterface_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->install_watch_outpoint_meth, outpoint, out_script);
 }
-void watch_all_txn_jcall(void* this_arg/* TODO */) {
-	LDKChainWatchInterface_JCalls *arg = (LDKChainWatchInterface_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->watch_all_txn_meth);
+void watch_all_txn_jcall(const void* this_arg) {
+	LDKChainWatchInterface_JCalls *j_calls = (LDKChainWatchInterface_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->watch_all_txn_meth);
 }
-jlong get_chain_utxo_jcall(void* this_arg/* TODO */) {
-	LDKChainWatchInterface_JCalls *arg = (LDKChainWatchInterface_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_chain_utxo_meth);
+LDKCResult_C2Tuple_Scriptu64ZChainErrorZ get_chain_utxo_jcall(const void* this_arg, LDKThirtyTwoBytes genesis_hash, uint64_t unspent_tx_output_identifier) {
+	LDKChainWatchInterface_JCalls *j_calls = (LDKChainWatchInterface_JCalls*) this_arg;
+	LDKCResult_C2Tuple_Scriptu64ZChainErrorZ* ret = (LDKCResult_C2Tuple_Scriptu64ZChainErrorZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_chain_utxo_meth, genesis_hash, unspent_tx_output_identifier);
+	LDKCResult_C2Tuple_Scriptu64ZChainErrorZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong filter_block_jcall(void* this_arg/* TODO */) {
-	LDKChainWatchInterface_JCalls *arg = (LDKChainWatchInterface_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->filter_block_meth);
+LDKCVec_usizeZ filter_block_jcall(const void* this_arg, LDKu8slice block) {
+	LDKChainWatchInterface_JCalls *j_calls = (LDKChainWatchInterface_JCalls*) this_arg;
+	LDKCVec_usizeZ* ret = (LDKCVec_usizeZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->filter_block_meth, block);
+	LDKCVec_usizeZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong reentered_jcall(void* this_arg/* TODO */) {
-	LDKChainWatchInterface_JCalls *arg = (LDKChainWatchInterface_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->reentered_meth);
+uintptr_t reentered_jcall(const void* this_arg) {
+	LDKChainWatchInterface_JCalls *j_calls = (LDKChainWatchInterface_JCalls*) this_arg;
+	uintptr_t* ret = (uintptr_t*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->reentered_meth);
+	uintptr_t res = *ret;
+	free(ret);
+	return res;
 }
 void LDKChainWatchInterface_JCalls_free(void* this_arg) {
-	LDKChainWatchInterface_JCalls *arg = (LDKChainWatchInterface_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKChainWatchInterface_JCalls *j_calls = (LDKChainWatchInterface_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChainWatchInterface_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -170,14 +185,14 @@ typedef struct LDKBroadcasterInterface_JCalls {
 	jobject o;
 	jmethodID broadcast_transaction_meth;
 } LDKBroadcasterInterface_JCalls;
-void broadcast_transaction_jcall(void* this_arg/* TODO */) {
-	LDKBroadcasterInterface_JCalls *arg = (LDKBroadcasterInterface_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->broadcast_transaction_meth);
+void broadcast_transaction_jcall(const void* this_arg, LDKTransaction tx) {
+	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->broadcast_transaction_meth, tx);
 }
 void LDKBroadcasterInterface_JCalls_free(void* this_arg) {
-	LDKBroadcasterInterface_JCalls *arg = (LDKBroadcasterInterface_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -201,18 +216,18 @@ typedef struct LDKChainListener_JCalls {
 	jmethodID block_connected_meth;
 	jmethodID block_disconnected_meth;
 } LDKChainListener_JCalls;
-void block_connected_jcall(void* this_arg/* TODO */) {
-	LDKChainListener_JCalls *arg = (LDKChainListener_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->block_connected_meth);
+void block_connected_jcall(const void* this_arg, const uint8_t (*header)[80], uint32_t height, LDKCVec_TransactionZ txn_matched, LDKusizeslice indexes_of_txn_matched) {
+	LDKChainListener_JCalls *j_calls = (LDKChainListener_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->block_connected_meth, header, height, txn_matched, indexes_of_txn_matched);
 }
-void block_disconnected_jcall(void* this_arg/* TODO */) {
-	LDKChainListener_JCalls *arg = (LDKChainListener_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->block_disconnected_meth);
+void block_disconnected_jcall(const void* this_arg, const uint8_t (*header)[80], uint32_t disconnected_height) {
+	LDKChainListener_JCalls *j_calls = (LDKChainListener_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->block_disconnected_meth, header, disconnected_height);
 }
 void LDKChainListener_JCalls_free(void* this_arg) {
-	LDKChainListener_JCalls *arg = (LDKChainListener_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKChainListener_JCalls *j_calls = (LDKChainListener_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChainListener_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -238,14 +253,14 @@ typedef struct LDKFeeEstimator_JCalls {
 	jobject o;
 	jmethodID get_est_sat_per_1000_weight_meth;
 } LDKFeeEstimator_JCalls;
-jint get_est_sat_per_1000_weight_jcall(void* this_arg/* TODO */) {
-	LDKFeeEstimator_JCalls *arg = (LDKFeeEstimator_JCalls*) this_arg;
-	return (*arg->env)->CallIntMethod(arg->env, arg->o, arg->get_est_sat_per_1000_weight_meth);
+uint32_t get_est_sat_per_1000_weight_jcall(const void* this_arg, LDKConfirmationTarget confirmation_target) {
+	LDKFeeEstimator_JCalls *j_calls = (LDKFeeEstimator_JCalls*) this_arg;
+	return (*j_calls->env)->CallIntMethod(j_calls->env, j_calls->o, j_calls->get_est_sat_per_1000_weight_meth, confirmation_target);
 }
 void LDKFeeEstimator_JCalls_free(void* this_arg) {
-	LDKFeeEstimator_JCalls *arg = (LDKFeeEstimator_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKFeeEstimator_JCalls *j_calls = (LDKFeeEstimator_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -278,59 +293,89 @@ typedef struct LDKChannelKeys_JCalls {
 	jmethodID sign_channel_announcement_meth;
 	jmethodID on_accept_meth;
 } LDKChannelKeys_JCalls;
-jlong get_per_commitment_point_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_per_commitment_point_meth);
+LDKPublicKey get_per_commitment_point_jcall(const void* this_arg, uint64_t idx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKPublicKey* ret = (LDKPublicKey*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_per_commitment_point_meth, idx);
+	LDKPublicKey res = *ret;
+	free(ret);
+	return res;
 }
-jlong release_commitment_secret_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->release_commitment_secret_meth);
+LDKThirtyTwoBytes release_commitment_secret_jcall(const void* this_arg, uint64_t idx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKThirtyTwoBytes* ret = (LDKThirtyTwoBytes*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->release_commitment_secret_meth, idx);
+	LDKThirtyTwoBytes res = *ret;
+	free(ret);
+	return res;
 }
-jlong key_derivation_params_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->key_derivation_params_meth);
+LDKC2Tuple_u64u64Z key_derivation_params_jcall(const void* this_arg) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKC2Tuple_u64u64Z* ret = (LDKC2Tuple_u64u64Z*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->key_derivation_params_meth);
+	LDKC2Tuple_u64u64Z res = *ret;
+	free(ret);
+	return res;
 }
-jlong sign_remote_commitment_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->sign_remote_commitment_meth);
+LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_remote_commitment_jcall(const void* this_arg, uint32_t feerate_per_kw, LDKTransaction commitment_tx, const LDKPreCalculatedTxCreationKeys *keys, LDKCVec_HTLCOutputInCommitmentZ htlcs) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->sign_remote_commitment_meth, feerate_per_kw, commitment_tx, keys, htlcs);
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong sign_local_commitment_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->sign_local_commitment_meth);
+LDKCResult_SignatureNoneZ sign_local_commitment_jcall(const void* this_arg, const LDKLocalCommitmentTransaction *local_commitment_tx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->sign_local_commitment_meth, local_commitment_tx);
+	LDKCResult_SignatureNoneZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong sign_local_commitment_htlc_transactions_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->sign_local_commitment_htlc_transactions_meth);
+LDKCResult_CVec_SignatureZNoneZ sign_local_commitment_htlc_transactions_jcall(const void* this_arg, const LDKLocalCommitmentTransaction *local_commitment_tx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKCResult_CVec_SignatureZNoneZ* ret = (LDKCResult_CVec_SignatureZNoneZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->sign_local_commitment_htlc_transactions_meth, local_commitment_tx);
+	LDKCResult_CVec_SignatureZNoneZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong sign_justice_transaction_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->sign_justice_transaction_meth);
+LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const LDKHTLCOutputInCommitment *htlc) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->sign_justice_transaction_meth, justice_tx, input, amount, per_commitment_key, htlc);
+	LDKCResult_SignatureNoneZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong sign_remote_htlc_transaction_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->sign_remote_htlc_transaction_meth);
+LDKCResult_SignatureNoneZ sign_remote_htlc_transaction_jcall(const void* this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment *htlc) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->sign_remote_htlc_transaction_meth, htlc_tx, input, amount, per_commitment_point, htlc);
+	LDKCResult_SignatureNoneZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong sign_closing_transaction_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->sign_closing_transaction_meth);
+LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, LDKTransaction closing_tx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->sign_closing_transaction_meth, closing_tx);
+	LDKCResult_SignatureNoneZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong sign_channel_announcement_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->sign_channel_announcement_meth);
+LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, const LDKUnsignedChannelAnnouncement *msg) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->sign_channel_announcement_meth, msg);
+	LDKCResult_SignatureNoneZ res = *ret;
+	free(ret);
+	return res;
 }
-void on_accept_jcall(void* this_arg/* TODO */) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->on_accept_meth);
+void on_accept_jcall(void* this_arg, const LDKChannelPublicKeys *channel_points, uint16_t remote_to_self_delay, uint16_t local_to_self_delay) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->on_accept_meth, channel_points, remote_to_self_delay, local_to_self_delay);
 }
-void* LDKChannelKeys_JCalls_clone(void* this_arg) {
+void* LDKChannelKeys_JCalls_clone(const void* this_arg) {
 	LDKChannelKeys_JCalls *ret = malloc(sizeof(LDKChannelKeys_JCalls));
 	memcpy(ret, this_arg, sizeof(LDKChannelKeys_JCalls));
 	return ret;
 }
 void LDKChannelKeys_JCalls_free(void* this_arg) {
-	LDKChannelKeys_JCalls *arg = (LDKChannelKeys_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -388,30 +433,45 @@ typedef struct LDKKeysInterface_JCalls {
 	jmethodID get_channel_keys_meth;
 	jmethodID get_secure_random_bytes_meth;
 } LDKKeysInterface_JCalls;
-jlong get_node_secret_jcall(void* this_arg/* TODO */) {
-	LDKKeysInterface_JCalls *arg = (LDKKeysInterface_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_node_secret_meth);
+LDKSecretKey get_node_secret_jcall(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	LDKSecretKey* ret = (LDKSecretKey*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_node_secret_meth);
+	LDKSecretKey res = *ret;
+	free(ret);
+	return res;
 }
-jlong get_destination_script_jcall(void* this_arg/* TODO */) {
-	LDKKeysInterface_JCalls *arg = (LDKKeysInterface_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_destination_script_meth);
+LDKCVec_u8Z get_destination_script_jcall(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	LDKCVec_u8Z* ret = (LDKCVec_u8Z*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_destination_script_meth);
+	LDKCVec_u8Z res = *ret;
+	free(ret);
+	return res;
 }
-jlong get_shutdown_pubkey_jcall(void* this_arg/* TODO */) {
-	LDKKeysInterface_JCalls *arg = (LDKKeysInterface_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_shutdown_pubkey_meth);
+LDKPublicKey get_shutdown_pubkey_jcall(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	LDKPublicKey* ret = (LDKPublicKey*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_shutdown_pubkey_meth);
+	LDKPublicKey res = *ret;
+	free(ret);
+	return res;
 }
-jlong get_channel_keys_jcall(void* this_arg/* TODO */) {
-	LDKKeysInterface_JCalls *arg = (LDKKeysInterface_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_channel_keys_meth);
+LDKChannelKeys get_channel_keys_jcall(const void* this_arg, bool inbound, uint64_t channel_value_satoshis) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	LDKChannelKeys* ret = (LDKChannelKeys*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_channel_keys_meth, inbound, channel_value_satoshis);
+	LDKChannelKeys res = *ret;
+	free(ret);
+	return res;
 }
-jlong get_secure_random_bytes_jcall(void* this_arg/* TODO */) {
-	LDKKeysInterface_JCalls *arg = (LDKKeysInterface_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_secure_random_bytes_meth);
+LDKThirtyTwoBytes get_secure_random_bytes_jcall(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	LDKThirtyTwoBytes* ret = (LDKThirtyTwoBytes*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_secure_random_bytes_meth);
+	LDKThirtyTwoBytes res = *ret;
+	free(ret);
+	return res;
 }
 void LDKKeysInterface_JCalls_free(void* this_arg) {
-	LDKKeysInterface_JCalls *arg = (LDKKeysInterface_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -448,22 +508,31 @@ typedef struct LDKManyChannelMonitor_JCalls {
 	jmethodID update_monitor_meth;
 	jmethodID get_and_clear_pending_monitor_events_meth;
 } LDKManyChannelMonitor_JCalls;
-jlong add_monitor_jcall(void* this_arg/* TODO */) {
-	LDKManyChannelMonitor_JCalls *arg = (LDKManyChannelMonitor_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->add_monitor_meth);
+LDKCResult_NoneChannelMonitorUpdateErrZ add_monitor_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitor monitor) {
+	LDKManyChannelMonitor_JCalls *j_calls = (LDKManyChannelMonitor_JCalls*) this_arg;
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->add_monitor_meth, funding_txo, monitor);
+	LDKCResult_NoneChannelMonitorUpdateErrZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong update_monitor_jcall(void* this_arg/* TODO */) {
-	LDKManyChannelMonitor_JCalls *arg = (LDKManyChannelMonitor_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->update_monitor_meth);
+LDKCResult_NoneChannelMonitorUpdateErrZ update_monitor_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate monitor) {
+	LDKManyChannelMonitor_JCalls *j_calls = (LDKManyChannelMonitor_JCalls*) this_arg;
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->update_monitor_meth, funding_txo, monitor);
+	LDKCResult_NoneChannelMonitorUpdateErrZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong get_and_clear_pending_monitor_events_jcall(void* this_arg/* TODO */) {
-	LDKManyChannelMonitor_JCalls *arg = (LDKManyChannelMonitor_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_and_clear_pending_monitor_events_meth);
+LDKCVec_MonitorEventZ get_and_clear_pending_monitor_events_jcall(const void* this_arg) {
+	LDKManyChannelMonitor_JCalls *j_calls = (LDKManyChannelMonitor_JCalls*) this_arg;
+	LDKCVec_MonitorEventZ* ret = (LDKCVec_MonitorEventZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_and_clear_pending_monitor_events_meth);
+	LDKCVec_MonitorEventZ res = *ret;
+	free(ret);
+	return res;
 }
 void LDKManyChannelMonitor_JCalls_free(void* this_arg) {
-	LDKManyChannelMonitor_JCalls *arg = (LDKManyChannelMonitor_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKManyChannelMonitor_JCalls *j_calls = (LDKManyChannelMonitor_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKManyChannelMonitor_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -510,86 +579,86 @@ typedef struct LDKChannelMessageHandler_JCalls {
 	jmethodID handle_channel_reestablish_meth;
 	jmethodID handle_error_meth;
 } LDKChannelMessageHandler_JCalls;
-void handle_open_channel_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_open_channel_meth);
+void handle_open_channel_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKOpenChannel *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_open_channel_meth, their_node_id, their_features, msg);
 }
-void handle_accept_channel_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_accept_channel_meth);
+void handle_accept_channel_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_accept_channel_meth, their_node_id, their_features, msg);
 }
-void handle_funding_created_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_funding_created_meth);
+void handle_funding_created_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingCreated *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_funding_created_meth, their_node_id, msg);
 }
-void handle_funding_signed_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_funding_signed_meth);
+void handle_funding_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingSigned *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_funding_signed_meth, their_node_id, msg);
 }
-void handle_funding_locked_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_funding_locked_meth);
+void handle_funding_locked_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingLocked *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_funding_locked_meth, their_node_id, msg);
 }
-void handle_shutdown_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_shutdown_meth);
+void handle_shutdown_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKShutdown *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_shutdown_meth, their_node_id, msg);
 }
-void handle_closing_signed_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_closing_signed_meth);
+void handle_closing_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKClosingSigned *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_closing_signed_meth, their_node_id, msg);
 }
-void handle_update_add_htlc_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_update_add_htlc_meth);
+void handle_update_add_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_update_add_htlc_meth, their_node_id, msg);
 }
-void handle_update_fulfill_htlc_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_update_fulfill_htlc_meth);
+void handle_update_fulfill_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_update_fulfill_htlc_meth, their_node_id, msg);
 }
-void handle_update_fail_htlc_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_update_fail_htlc_meth);
+void handle_update_fail_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_update_fail_htlc_meth, their_node_id, msg);
 }
-void handle_update_fail_malformed_htlc_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_update_fail_malformed_htlc_meth);
+void handle_update_fail_malformed_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_update_fail_malformed_htlc_meth, their_node_id, msg);
 }
-void handle_commitment_signed_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_commitment_signed_meth);
+void handle_commitment_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKCommitmentSigned *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_commitment_signed_meth, their_node_id, msg);
 }
-void handle_revoke_and_ack_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_revoke_and_ack_meth);
+void handle_revoke_and_ack_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKRevokeAndACK *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_revoke_and_ack_meth, their_node_id, msg);
 }
-void handle_update_fee_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_update_fee_meth);
+void handle_update_fee_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFee *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_update_fee_meth, their_node_id, msg);
 }
-void handle_announcement_signatures_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_announcement_signatures_meth);
+void handle_announcement_signatures_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_announcement_signatures_meth, their_node_id, msg);
 }
-void peer_disconnected_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->peer_disconnected_meth);
+void peer_disconnected_jcall(const void* this_arg, LDKPublicKey their_node_id, bool no_connection_possible) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->peer_disconnected_meth, their_node_id, no_connection_possible);
 }
-void peer_connected_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->peer_connected_meth);
+void peer_connected_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInit *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->peer_connected_meth, their_node_id, msg);
 }
-void handle_channel_reestablish_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_channel_reestablish_meth);
+void handle_channel_reestablish_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKChannelReestablish *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_channel_reestablish_meth, their_node_id, msg);
 }
-void handle_error_jcall(void* this_arg/* TODO */) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_error_meth);
+void handle_error_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKErrorMessage *msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_error_meth, their_node_id, msg);
 }
 void LDKChannelMessageHandler_JCalls_free(void* this_arg) {
-	LDKChannelMessageHandler_JCalls *arg = (LDKChannelMessageHandler_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -672,38 +741,53 @@ typedef struct LDKRoutingMessageHandler_JCalls {
 	jmethodID get_next_node_announcements_meth;
 	jmethodID should_request_full_sync_meth;
 } LDKRoutingMessageHandler_JCalls;
-jlong handle_node_announcement_jcall(void* this_arg/* TODO */) {
-	LDKRoutingMessageHandler_JCalls *arg = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->handle_node_announcement_meth);
+LDKCResult_boolLightningErrorZ handle_node_announcement_jcall(const void* this_arg, const LDKNodeAnnouncement *msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->handle_node_announcement_meth, msg);
+	LDKCResult_boolLightningErrorZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong handle_channel_announcement_jcall(void* this_arg/* TODO */) {
-	LDKRoutingMessageHandler_JCalls *arg = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->handle_channel_announcement_meth);
+LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* this_arg, const LDKChannelAnnouncement *msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->handle_channel_announcement_meth, msg);
+	LDKCResult_boolLightningErrorZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong handle_channel_update_jcall(void* this_arg/* TODO */) {
-	LDKRoutingMessageHandler_JCalls *arg = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->handle_channel_update_meth);
+LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg, const LDKChannelUpdate *msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->handle_channel_update_meth, msg);
+	LDKCResult_boolLightningErrorZ res = *ret;
+	free(ret);
+	return res;
 }
-void handle_htlc_fail_channel_update_jcall(void* this_arg/* TODO */) {
-	LDKRoutingMessageHandler_JCalls *arg = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->handle_htlc_fail_channel_update_meth);
+void handle_htlc_fail_channel_update_jcall(const void* this_arg, const LDKHTLCFailChannelUpdate *update) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->handle_htlc_fail_channel_update_meth, update);
 }
-jlong get_next_channel_announcements_jcall(void* this_arg/* TODO */) {
-	LDKRoutingMessageHandler_JCalls *arg = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_next_channel_announcements_meth);
+LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcements_jcall(const void* this_arg, uint64_t starting_point, uint8_t batch_amount) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ* ret = (LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_next_channel_announcements_meth, starting_point, batch_amount);
+	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ res = *ret;
+	free(ret);
+	return res;
 }
-jlong get_next_node_announcements_jcall(void* this_arg/* TODO */) {
-	LDKRoutingMessageHandler_JCalls *arg = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->get_next_node_announcements_meth);
+LDKCVec_NodeAnnouncementZ get_next_node_announcements_jcall(const void* this_arg, LDKPublicKey starting_point, uint8_t batch_amount) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	LDKCVec_NodeAnnouncementZ* ret = (LDKCVec_NodeAnnouncementZ*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->get_next_node_announcements_meth, starting_point, batch_amount);
+	LDKCVec_NodeAnnouncementZ res = *ret;
+	free(ret);
+	return res;
 }
-jboolean should_request_full_sync_jcall(void* this_arg/* TODO */) {
-	LDKRoutingMessageHandler_JCalls *arg = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	return (*arg->env)->CallBooleanMethod(arg->env, arg->o, arg->should_request_full_sync_meth);
+bool should_request_full_sync_jcall(const void* this_arg, LDKPublicKey node_id) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	return (*j_calls->env)->CallBooleanMethod(j_calls->env, j_calls->o, j_calls->should_request_full_sync_meth, node_id);
 }
 void LDKRoutingMessageHandler_JCalls_free(void* this_arg) {
-	LDKRoutingMessageHandler_JCalls *arg = (LDKRoutingMessageHandler_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
@@ -747,31 +831,34 @@ typedef struct LDKSocketDescriptor_JCalls {
 	jmethodID eq_meth;
 	jmethodID hash_meth;
 } LDKSocketDescriptor_JCalls;
-jlong send_data_jcall(void* this_arg/* TODO */) {
-	LDKSocketDescriptor_JCalls *arg = (LDKSocketDescriptor_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->send_data_meth);
+uintptr_t send_data_jcall(void* this_arg, LDKu8slice data, bool resume_read) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	uintptr_t* ret = (uintptr_t*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->send_data_meth, data, resume_read);
+	uintptr_t res = *ret;
+	free(ret);
+	return res;
 }
-void disconnect_socket_jcall(void* this_arg/* TODO */) {
-	LDKSocketDescriptor_JCalls *arg = (LDKSocketDescriptor_JCalls*) this_arg;
-	return (*arg->env)->CallVoidMethod(arg->env, arg->o, arg->disconnect_socket_meth);
+void disconnect_socket_jcall(void* this_arg) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->disconnect_socket_meth);
 }
-jboolean eq_jcall(void* this_arg/* TODO */) {
-	LDKSocketDescriptor_JCalls *arg = (LDKSocketDescriptor_JCalls*) this_arg;
-	return (*arg->env)->CallBooleanMethod(arg->env, arg->o, arg->eq_meth);
+bool eq_jcall(const void* this_arg, const void *other_arg) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	return (*j_calls->env)->CallBooleanMethod(j_calls->env, j_calls->o, j_calls->eq_meth, other_arg);
 }
-jlong hash_jcall(void* this_arg/* TODO */) {
-	LDKSocketDescriptor_JCalls *arg = (LDKSocketDescriptor_JCalls*) this_arg;
-	return (*arg->env)->CallLongMethod(arg->env, arg->o, arg->hash_meth);
+uint64_t hash_jcall(const void* this_arg) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	return (*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->hash_meth);
 }
-void* LDKSocketDescriptor_JCalls_clone(void* this_arg) {
+void* LDKSocketDescriptor_JCalls_clone(const void* this_arg) {
 	LDKSocketDescriptor_JCalls *ret = malloc(sizeof(LDKSocketDescriptor_JCalls));
 	memcpy(ret, this_arg, sizeof(LDKSocketDescriptor_JCalls));
 	return ret;
 }
 void LDKSocketDescriptor_JCalls_free(void* this_arg) {
-	LDKSocketDescriptor_JCalls *arg = (LDKSocketDescriptor_JCalls*) this_arg;
-	(*arg->env)->DeleteGlobalRef(arg->env, arg->o);
-	free(arg);
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);
+	free(j_calls);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1new (JNIEnv * env, jclass _a, jobject o) {
 	jclass c = (*env)->GetObjectClass(env, o);
