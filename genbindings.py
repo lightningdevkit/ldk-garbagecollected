@@ -18,6 +18,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             fn_arg = fn_arg[6:]
 
         is_ptr = False
+        take_by_ptr = False
         if fn_arg.startswith("void"):
             java_ty = "void"
             c_ty = "void"
@@ -47,7 +48,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             java_ty = "long"
             c_ty = "jlong"
             fn_arg = ma.group(2).strip()
-            is_ptr = True
+            take_by_ptr = True
 
         if fn_arg.startswith(" *") or fn_arg.startswith("*"):
             fn_arg = fn_arg.replace("*", "").strip()
@@ -57,11 +58,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
         var_is_arr = var_is_arr_regex.match(fn_arg)
         if var_is_arr is not None or ret_arr_len is not None:
+            assert(not take_by_ptr)
             java_ty = java_ty + "[]"
             c_ty = c_ty + "Array"
             if var_is_arr is not None:
-                return (java_ty, c_ty, is_ptr, var_is_arr.group(1))
-        return (java_ty, c_ty, is_ptr, fn_arg)
+                return (java_ty, c_ty, is_ptr, False, var_is_arr.group(1))
+        return (java_ty, c_ty, is_ptr or take_by_ptr, is_ptr, fn_arg)
 
     def map_type(fn_arg, print_void, ret_arr_len, is_free):
         fn_arg = fn_arg.strip()
@@ -70,7 +72,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         if fn_arg.startswith("const "):
             fn_arg = fn_arg[6:]
 
-        (java_ty, c_ty, is_ptr, _) = java_c_types(fn_arg, ret_arr_len)
+        (java_ty, c_ty, is_ptr, rust_takes_ptr, var_name) = java_c_types(fn_arg, ret_arr_len)
         is_ptr_to_obj = None
         if fn_arg.startswith("void"):
             if not print_void:
@@ -92,13 +94,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_java.write(java_ty)
 
         var_is_arr = var_is_arr_regex.match(fn_arg)
-        no_ptr = fn_arg.replace('*', '')
-        if var_is_arr is not None or ret_arr_len is not None:
+        if c_ty.endswith("Array"):
             if var_is_arr is not None:
-                arr_name = var_is_arr.group(1)
+                arr_name = var_name
                 arr_len = var_is_arr.group(2)
-                out_java.write(" " + arr_name)
-                out_c.write(" " + arr_name)
+                out_java.write(" " + var_name)
+                out_c.write(" " + var_name)
             else:
                 arr_name = "ret"
                 arr_len = ret_arr_len
@@ -110,25 +111,26 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_len + ", *",
                     ");\nreturn ret_arr;"),
                 arr_name + "_ref")
-        elif no_ptr.strip() != "":
+        elif var_name != "":
             # If we have a parameter name, print it (noting that it may indicate its a pointer)
-            out_java.write(" " + no_ptr.strip())
-            out_c.write(" " + no_ptr.strip())
+            out_java.write(" " + var_name)
+            out_c.write(" " + var_name)
             if is_ptr_to_obj is not None:
-                if no_ptr == fn_arg:
-                    base_conv = is_ptr_to_obj + " " + no_ptr.strip() + "_conv = *(" + is_ptr_to_obj + "*)" + no_ptr.strip() + ";\nfree((void*)" + no_ptr.strip() + ");";
+                assert(is_ptr)
+                if not rust_takes_ptr:
+                    base_conv = is_ptr_to_obj + " " + var_name + "_conv = *(" + is_ptr_to_obj + "*)" + var_name + ";\nfree((void*)" + var_name + ");";
                     if is_ptr_to_obj in opaque_structs:
-                        return (base_conv + "\n" + no_ptr.strip() + "_conv._underlying_ref = false;",
-                            "XXX2", no_ptr.strip() + "_conv")
-                    return (base_conv, "XXX2", no_ptr.strip() + "_conv")
+                        return (base_conv + "\n" + var_name + "_conv._underlying_ref = false;",
+                            "XXX2", var_name + "_conv")
+                    return (base_conv, "XXX2", var_name + "_conv")
                 else:
                     assert(not is_free)
-                    return (is_ptr_to_obj + "* " + no_ptr.strip() + "_conv = (" + is_ptr_to_obj + "*)" + no_ptr.strip() + ";",
-                            "XXX2", no_ptr.strip() + "_conv")
-            elif no_ptr != fn_arg:
-                return ("YYY1", "XXX3", no_ptr.strip())
+                    return (is_ptr_to_obj + "* " + var_name + "_conv = (" + is_ptr_to_obj + "*)" + var_name + ";",
+                            "XXX2", var_name + "_conv")
+            elif rust_takes_ptr:
+                return ("YYY1", "XXX3", var_name)
             else:
-                return (None, "XXX4", no_ptr.strip())
+                return (None, "XXX4", var_name)
         elif not print_void:
             # We don't have a parameter name, and want one, just call it arg
             out_java.write(" arg")
@@ -142,7 +144,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         else:
             # We don't have a parameter name, and don't want one (cause we're returning)
             if is_ptr_to_obj is not None:
-                if no_ptr == fn_arg:
+                if not rust_takes_ptr:
                     if is_ptr_to_obj in opaque_structs:
                         # If we're returning a newly-allocated struct, we don't want Rust to ever
                         # free, instead relying on the Java GC to lose the ref. We undo this in
@@ -280,7 +282,7 @@ public class bindings {
                     out_java.write("\tpublic interface " + struct_name + " {\n")
                     for fn_line in trait_fn_lines:
                         if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            (java_ty, c_ty, is_ptr, _) = java_c_types(fn_line.group(1), None)
+                            (java_ty, c_ty, is_ptr, _, _) = java_c_types(fn_line.group(1), None)
 
                             out_java.write("\t\t " + java_ty + " " + fn_line.group(2) + "(")
                             is_const = fn_line.group(3) is not None
@@ -302,7 +304,7 @@ public class bindings {
                                 out_c.write(", ")
                                 #arg_names.append(map_type(arg, True, None, False))
                                 out_c.write(arg.strip())
-                                (arg_java_ty, arg_c_ty, arg_is_ptr, arg_name) = java_c_types(arg, None)
+                                (arg_java_ty, arg_c_ty, arg_is_ptr, _, arg_name) = java_c_types(arg, None)
                                 out_java.write(arg_java_ty + " " + arg_name)
 
                             out_java.write(");\n")
@@ -316,7 +318,7 @@ public class bindings {
                             for arg in fn_line.group(4).split(','):
                                 if arg == "":
                                     continue
-                                (arg_java_ty, arg_c_ty, arg_is_ptr, arg_name) = java_c_types(arg, None)
+                                (arg_java_ty, arg_c_ty, arg_is_ptr, _, arg_name) = java_c_types(arg, None)
                                 # TODO: Run conversion here!
                                 out_c.write(", " + arg_name)
                             out_c.write(");\n");
