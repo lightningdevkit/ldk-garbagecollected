@@ -8,4 +8,5 @@ set -e
 ./genbindings.py "$1/lightning-c-bindings/include/lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/jni/bindings.c
 javac -h src/main/jni src/main/java/org/ldk/impl/bindings.java
 rm src/main/java/org/ldk/impl/bindings*.class
-clang -Wall -flto -fuse-ld=lld -O2 -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni -I"$1/lightning-c-bindings/include/" $2 src/main/jni/bindings.c "$1"/target/debug/liblightning.a
+clang -Wall -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni -I"$1/lightning-c-bindings/include/" $2 src/main/jni/bindings.c "$1"/target/debug/liblightning.a
+#clang -Wall -flto -fuse-ld=lld -O2 -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni -I"$1/lightning-c-bindings/include/" $2 src/main/jni/bindings.c "$1"/target/release/liblightning.a
