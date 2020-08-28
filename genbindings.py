@@ -30,6 +30,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             java_ty = "byte"
             c_ty = "jbyte"
             fn_arg = fn_arg[7:].strip()
+        elif fn_arg.startswith("uint16_t"):
+            java_ty = "short"
+            c_ty = "jshort"
+            fn_arg = fn_arg[8:].strip()
         elif fn_arg.startswith("uint32_t"):
             java_ty = "int"
             c_ty = "jint"
