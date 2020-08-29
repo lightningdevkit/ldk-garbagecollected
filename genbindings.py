@@ -19,6 +19,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
         is_ptr = False
         take_by_ptr = False
+        rust_obj = None
         if fn_arg.startswith("void"):
             java_ty = "void"
             c_ty = "void"
@@ -48,6 +49,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             java_ty = "long"
             c_ty = "jlong"
             fn_arg = ma.group(2).strip()
+            rust_obj = ma.group(1).strip()
             take_by_ptr = True
 
         if fn_arg.startswith(" *") or fn_arg.startswith("*"):
@@ -62,8 +64,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             java_ty = java_ty + "[]"
             c_ty = c_ty + "Array"
             if var_is_arr is not None:
-                return (java_ty, c_ty, is_ptr, False, var_is_arr.group(1))
-        return (java_ty, c_ty, is_ptr or take_by_ptr, is_ptr, fn_arg)
+                return (None, java_ty, c_ty, is_ptr, False, var_is_arr.group(1), var_is_arr.group(2))
+        return (rust_obj, java_ty, c_ty, is_ptr or take_by_ptr, is_ptr, fn_arg, None)
 
     class TypeInfo:
         def __init__(self, c_ty, java_ty, arg_name, arg_conv, arg_conv_name, ret_conv, ret_conv_name):
@@ -91,35 +93,15 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 out_c.write(" arg")
 
     def map_type(fn_arg, print_void, ret_arr_len, is_free):
-        fn_arg = fn_arg.strip()
-        if fn_arg.startswith("MUST_USE_RES "):
-            fn_arg = fn_arg[13:]
-        if fn_arg.startswith("const "):
-            fn_arg = fn_arg[6:]
-
-        (java_ty, c_ty, is_ptr, rust_takes_ptr, var_name) = java_c_types(fn_arg, ret_arr_len)
-        is_ptr_to_obj = None
-        if fn_arg.startswith("void"):
+        (is_ptr_to_obj, java_ty, c_ty, is_ptr, rust_takes_ptr, var_name, arr_len) = java_c_types(fn_arg, ret_arr_len)
+        if c_ty == "void":
             if not print_void:
                 return TypeInfo(c_ty = c_ty, java_ty = java_ty, arg_name = var_name,
                     arg_conv = None, arg_conv_name = None, ret_conv = None, ret_conv_name = None)
-            fn_arg = fn_arg.strip("void ")
-        elif not is_ptr:
-            split = fn_arg.split(" ", 2)
-            if len(split) > 1:
-                fn_arg = split[1]
-            else:
-                fn_arg = ""
-        else:
-            ma = var_ty_regex.match(fn_arg)
-            is_ptr_to_obj = ma.group(1)
-            fn_arg = ma.group(2)
 
-        var_is_arr = var_is_arr_regex.match(fn_arg)
         if c_ty.endswith("Array"):
-            if var_is_arr is not None:
+            if arr_len is not None:
                 arr_name = var_name
-                arr_len = var_is_arr.group(2)
             else:
                 arr_name = "ret"
                 arr_len = ret_arr_len
@@ -327,7 +309,7 @@ public class bindings {
                     out_java.write("\tpublic interface " + struct_name + " {\n")
                     for fn_line in trait_fn_lines:
                         if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            (java_ty, c_ty, is_ptr, _, _) = java_c_types(fn_line.group(1), None)
+                            (_, java_ty, c_ty, is_ptr, _, _, _) = java_c_types(fn_line.group(1), None)
 
                             out_java.write("\t\t " + java_ty + " " + fn_line.group(2) + "(")
                             is_const = fn_line.group(3) is not None
