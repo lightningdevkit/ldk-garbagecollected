@@ -14,7 +14,7 @@ public class bindings {
 	}
 	public static native long LDKEventsProvider_new(LDKEventsProvider impl);
 	public interface LDKLogger {
-		 void log(long record);
+		 void log(String record);
 	}
 	public static native long LDKLogger_new(LDKLogger impl);
 	public interface LDKChainWatchInterface {

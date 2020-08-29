@@ -28,7 +28,7 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_1
 	LDKMessageSendEventsProvider_JCalls *calls = malloc(sizeof(LDKMessageSendEventsProvider_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->get_and_clear_pending_msg_events_meth = (*env)->GetMethodID(env, c, "get_and_clear_pending_msg_events", "TODO");
+	calls->get_and_clear_pending_msg_events_meth = (*env)->GetMethodID(env, c, "get_and_clear_pending_msg_events", "()J");
 	assert(calls->get_and_clear_pending_msg_events_meth != NULL);
 
 	LDKMessageSendEventsProvider *ret = malloc(sizeof(LDKMessageSendEventsProvider));
@@ -61,7 +61,7 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKEventsProvider_1new (JNIEnv
 	LDKEventsProvider_JCalls *calls = malloc(sizeof(LDKEventsProvider_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->get_and_clear_pending_events_meth = (*env)->GetMethodID(env, c, "get_and_clear_pending_events", "TODO");
+	calls->get_and_clear_pending_events_meth = (*env)->GetMethodID(env, c, "get_and_clear_pending_events", "()J");
 	assert(calls->get_and_clear_pending_events_meth != NULL);
 
 	LDKEventsProvider *ret = malloc(sizeof(LDKEventsProvider));
@@ -91,7 +91,7 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new (JNIEnv * env, 
 	LDKLogger_JCalls *calls = malloc(sizeof(LDKLogger_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->log_meth = (*env)->GetMethodID(env, c, "log", "TODO");
+	calls->log_meth = (*env)->GetMethodID(env, c, "log", "(Ljava/lang/String;)V");
 	assert(calls->log_meth != NULL);
 
 	LDKLogger *ret = malloc(sizeof(LDKLogger));
@@ -157,17 +157,17 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChainWatchInterface_1new (J
 	LDKChainWatchInterface_JCalls *calls = malloc(sizeof(LDKChainWatchInterface_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->install_watch_tx_meth = (*env)->GetMethodID(env, c, "install_watch_tx", "TODO");
+	calls->install_watch_tx_meth = (*env)->GetMethodID(env, c, "install_watch_tx", "([BJ)V");
 	assert(calls->install_watch_tx_meth != NULL);
-	calls->install_watch_outpoint_meth = (*env)->GetMethodID(env, c, "install_watch_outpoint", "TODO");
+	calls->install_watch_outpoint_meth = (*env)->GetMethodID(env, c, "install_watch_outpoint", "(JJ)V");
 	assert(calls->install_watch_outpoint_meth != NULL);
-	calls->watch_all_txn_meth = (*env)->GetMethodID(env, c, "watch_all_txn", "TODO");
+	calls->watch_all_txn_meth = (*env)->GetMethodID(env, c, "watch_all_txn", "()V");
 	assert(calls->watch_all_txn_meth != NULL);
-	calls->get_chain_utxo_meth = (*env)->GetMethodID(env, c, "get_chain_utxo", "TODO");
+	calls->get_chain_utxo_meth = (*env)->GetMethodID(env, c, "get_chain_utxo", "(JJ)J");
 	assert(calls->get_chain_utxo_meth != NULL);
-	calls->filter_block_meth = (*env)->GetMethodID(env, c, "filter_block", "TODO");
+	calls->filter_block_meth = (*env)->GetMethodID(env, c, "filter_block", "(J)J");
 	assert(calls->filter_block_meth != NULL);
-	calls->reentered_meth = (*env)->GetMethodID(env, c, "reentered", "TODO");
+	calls->reentered_meth = (*env)->GetMethodID(env, c, "reentered", "()J");
 	assert(calls->reentered_meth != NULL);
 
 	LDKChainWatchInterface *ret = malloc(sizeof(LDKChainWatchInterface));
@@ -202,7 +202,7 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1new (
 	LDKBroadcasterInterface_JCalls *calls = malloc(sizeof(LDKBroadcasterInterface_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->broadcast_transaction_meth = (*env)->GetMethodID(env, c, "broadcast_transaction", "TODO");
+	calls->broadcast_transaction_meth = (*env)->GetMethodID(env, c, "broadcast_transaction", "(J)V");
 	assert(calls->broadcast_transaction_meth != NULL);
 
 	LDKBroadcasterInterface *ret = malloc(sizeof(LDKBroadcasterInterface));
@@ -241,9 +241,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChainListener_1new (JNIEnv 
 	LDKChainListener_JCalls *calls = malloc(sizeof(LDKChainListener_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->block_connected_meth = (*env)->GetMethodID(env, c, "block_connected", "TODO");
+	calls->block_connected_meth = (*env)->GetMethodID(env, c, "block_connected", "([BIJJ)V");
 	assert(calls->block_connected_meth != NULL);
-	calls->block_disconnected_meth = (*env)->GetMethodID(env, c, "block_disconnected", "TODO");
+	calls->block_disconnected_meth = (*env)->GetMethodID(env, c, "block_disconnected", "([BI)V");
 	assert(calls->block_disconnected_meth != NULL);
 
 	LDKChainListener *ret = malloc(sizeof(LDKChainListener));
@@ -274,7 +274,7 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1new (JNIEnv *
 	LDKFeeEstimator_JCalls *calls = malloc(sizeof(LDKFeeEstimator_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->get_est_sat_per_1000_weight_meth = (*env)->GetMethodID(env, c, "get_est_sat_per_1000_weight", "TODO");
+	calls->get_est_sat_per_1000_weight_meth = (*env)->GetMethodID(env, c, "get_est_sat_per_1000_weight", "(J)I");
 	assert(calls->get_est_sat_per_1000_weight_meth != NULL);
 
 	LDKFeeEstimator *ret = malloc(sizeof(LDKFeeEstimator));
@@ -391,27 +391,27 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new (JNIEnv * 
 	LDKChannelKeys_JCalls *calls = malloc(sizeof(LDKChannelKeys_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->get_per_commitment_point_meth = (*env)->GetMethodID(env, c, "get_per_commitment_point", "TODO");
+	calls->get_per_commitment_point_meth = (*env)->GetMethodID(env, c, "get_per_commitment_point", "(J)J");
 	assert(calls->get_per_commitment_point_meth != NULL);
-	calls->release_commitment_secret_meth = (*env)->GetMethodID(env, c, "release_commitment_secret", "TODO");
+	calls->release_commitment_secret_meth = (*env)->GetMethodID(env, c, "release_commitment_secret", "(J)J");
 	assert(calls->release_commitment_secret_meth != NULL);
-	calls->key_derivation_params_meth = (*env)->GetMethodID(env, c, "key_derivation_params", "TODO");
+	calls->key_derivation_params_meth = (*env)->GetMethodID(env, c, "key_derivation_params", "()J");
 	assert(calls->key_derivation_params_meth != NULL);
-	calls->sign_remote_commitment_meth = (*env)->GetMethodID(env, c, "sign_remote_commitment", "TODO");
+	calls->sign_remote_commitment_meth = (*env)->GetMethodID(env, c, "sign_remote_commitment", "(IJJJ)J");
 	assert(calls->sign_remote_commitment_meth != NULL);
-	calls->sign_local_commitment_meth = (*env)->GetMethodID(env, c, "sign_local_commitment", "TODO");
+	calls->sign_local_commitment_meth = (*env)->GetMethodID(env, c, "sign_local_commitment", "(J)J");
 	assert(calls->sign_local_commitment_meth != NULL);
-	calls->sign_local_commitment_htlc_transactions_meth = (*env)->GetMethodID(env, c, "sign_local_commitment_htlc_transactions", "TODO");
+	calls->sign_local_commitment_htlc_transactions_meth = (*env)->GetMethodID(env, c, "sign_local_commitment_htlc_transactions", "(J)J");
 	assert(calls->sign_local_commitment_htlc_transactions_meth != NULL);
-	calls->sign_justice_transaction_meth = (*env)->GetMethodID(env, c, "sign_justice_transaction", "TODO");
+	calls->sign_justice_transaction_meth = (*env)->GetMethodID(env, c, "sign_justice_transaction", "(JJJ[BJ)J");
 	assert(calls->sign_justice_transaction_meth != NULL);
-	calls->sign_remote_htlc_transaction_meth = (*env)->GetMethodID(env, c, "sign_remote_htlc_transaction", "TODO");
+	calls->sign_remote_htlc_transaction_meth = (*env)->GetMethodID(env, c, "sign_remote_htlc_transaction", "(JJJJJ)J");
 	assert(calls->sign_remote_htlc_transaction_meth != NULL);
-	calls->sign_closing_transaction_meth = (*env)->GetMethodID(env, c, "sign_closing_transaction", "TODO");
+	calls->sign_closing_transaction_meth = (*env)->GetMethodID(env, c, "sign_closing_transaction", "(J)J");
 	assert(calls->sign_closing_transaction_meth != NULL);
-	calls->sign_channel_announcement_meth = (*env)->GetMethodID(env, c, "sign_channel_announcement", "TODO");
+	calls->sign_channel_announcement_meth = (*env)->GetMethodID(env, c, "sign_channel_announcement", "(J)J");
 	assert(calls->sign_channel_announcement_meth != NULL);
-	calls->on_accept_meth = (*env)->GetMethodID(env, c, "on_accept", "TODO");
+	calls->on_accept_meth = (*env)->GetMethodID(env, c, "on_accept", "(JSS)V");
 	assert(calls->on_accept_meth != NULL);
 
 	LDKChannelKeys *ret = malloc(sizeof(LDKChannelKeys));
@@ -487,15 +487,15 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1new (JNIEnv 
 	LDKKeysInterface_JCalls *calls = malloc(sizeof(LDKKeysInterface_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->get_node_secret_meth = (*env)->GetMethodID(env, c, "get_node_secret", "TODO");
+	calls->get_node_secret_meth = (*env)->GetMethodID(env, c, "get_node_secret", "()J");
 	assert(calls->get_node_secret_meth != NULL);
-	calls->get_destination_script_meth = (*env)->GetMethodID(env, c, "get_destination_script", "TODO");
+	calls->get_destination_script_meth = (*env)->GetMethodID(env, c, "get_destination_script", "()J");
 	assert(calls->get_destination_script_meth != NULL);
-	calls->get_shutdown_pubkey_meth = (*env)->GetMethodID(env, c, "get_shutdown_pubkey", "TODO");
+	calls->get_shutdown_pubkey_meth = (*env)->GetMethodID(env, c, "get_shutdown_pubkey", "()J");
 	assert(calls->get_shutdown_pubkey_meth != NULL);
-	calls->get_channel_keys_meth = (*env)->GetMethodID(env, c, "get_channel_keys", "TODO");
+	calls->get_channel_keys_meth = (*env)->GetMethodID(env, c, "get_channel_keys", "(ZJ)J");
 	assert(calls->get_channel_keys_meth != NULL);
-	calls->get_secure_random_bytes_meth = (*env)->GetMethodID(env, c, "get_secure_random_bytes", "TODO");
+	calls->get_secure_random_bytes_meth = (*env)->GetMethodID(env, c, "get_secure_random_bytes", "()J");
 	assert(calls->get_secure_random_bytes_meth != NULL);
 
 	LDKKeysInterface *ret = malloc(sizeof(LDKKeysInterface));
@@ -548,11 +548,11 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKManyChannelMonitor_1new (JN
 	LDKManyChannelMonitor_JCalls *calls = malloc(sizeof(LDKManyChannelMonitor_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->add_monitor_meth = (*env)->GetMethodID(env, c, "add_monitor", "TODO");
+	calls->add_monitor_meth = (*env)->GetMethodID(env, c, "add_monitor", "(JJ)J");
 	assert(calls->add_monitor_meth != NULL);
-	calls->update_monitor_meth = (*env)->GetMethodID(env, c, "update_monitor", "TODO");
+	calls->update_monitor_meth = (*env)->GetMethodID(env, c, "update_monitor", "(JJ)J");
 	assert(calls->update_monitor_meth != NULL);
-	calls->get_and_clear_pending_monitor_events_meth = (*env)->GetMethodID(env, c, "get_and_clear_pending_monitor_events", "TODO");
+	calls->get_and_clear_pending_monitor_events_meth = (*env)->GetMethodID(env, c, "get_and_clear_pending_monitor_events", "()J");
 	assert(calls->get_and_clear_pending_monitor_events_meth != NULL);
 
 	LDKManyChannelMonitor *ret = malloc(sizeof(LDKManyChannelMonitor));
@@ -674,43 +674,43 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1new 
 	LDKChannelMessageHandler_JCalls *calls = malloc(sizeof(LDKChannelMessageHandler_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->handle_open_channel_meth = (*env)->GetMethodID(env, c, "handle_open_channel", "TODO");
+	calls->handle_open_channel_meth = (*env)->GetMethodID(env, c, "handle_open_channel", "(JJJ)V");
 	assert(calls->handle_open_channel_meth != NULL);
-	calls->handle_accept_channel_meth = (*env)->GetMethodID(env, c, "handle_accept_channel", "TODO");
+	calls->handle_accept_channel_meth = (*env)->GetMethodID(env, c, "handle_accept_channel", "(JJJ)V");
 	assert(calls->handle_accept_channel_meth != NULL);
-	calls->handle_funding_created_meth = (*env)->GetMethodID(env, c, "handle_funding_created", "TODO");
+	calls->handle_funding_created_meth = (*env)->GetMethodID(env, c, "handle_funding_created", "(JJ)V");
 	assert(calls->handle_funding_created_meth != NULL);
-	calls->handle_funding_signed_meth = (*env)->GetMethodID(env, c, "handle_funding_signed", "TODO");
+	calls->handle_funding_signed_meth = (*env)->GetMethodID(env, c, "handle_funding_signed", "(JJ)V");
 	assert(calls->handle_funding_signed_meth != NULL);
-	calls->handle_funding_locked_meth = (*env)->GetMethodID(env, c, "handle_funding_locked", "TODO");
+	calls->handle_funding_locked_meth = (*env)->GetMethodID(env, c, "handle_funding_locked", "(JJ)V");
 	assert(calls->handle_funding_locked_meth != NULL);
-	calls->handle_shutdown_meth = (*env)->GetMethodID(env, c, "handle_shutdown", "TODO");
+	calls->handle_shutdown_meth = (*env)->GetMethodID(env, c, "handle_shutdown", "(JJ)V");
 	assert(calls->handle_shutdown_meth != NULL);
-	calls->handle_closing_signed_meth = (*env)->GetMethodID(env, c, "handle_closing_signed", "TODO");
+	calls->handle_closing_signed_meth = (*env)->GetMethodID(env, c, "handle_closing_signed", "(JJ)V");
 	assert(calls->handle_closing_signed_meth != NULL);
-	calls->handle_update_add_htlc_meth = (*env)->GetMethodID(env, c, "handle_update_add_htlc", "TODO");
+	calls->handle_update_add_htlc_meth = (*env)->GetMethodID(env, c, "handle_update_add_htlc", "(JJ)V");
 	assert(calls->handle_update_add_htlc_meth != NULL);
-	calls->handle_update_fulfill_htlc_meth = (*env)->GetMethodID(env, c, "handle_update_fulfill_htlc", "TODO");
+	calls->handle_update_fulfill_htlc_meth = (*env)->GetMethodID(env, c, "handle_update_fulfill_htlc", "(JJ)V");
 	assert(calls->handle_update_fulfill_htlc_meth != NULL);
-	calls->handle_update_fail_htlc_meth = (*env)->GetMethodID(env, c, "handle_update_fail_htlc", "TODO");
+	calls->handle_update_fail_htlc_meth = (*env)->GetMethodID(env, c, "handle_update_fail_htlc", "(JJ)V");
 	assert(calls->handle_update_fail_htlc_meth != NULL);
-	calls->handle_update_fail_malformed_htlc_meth = (*env)->GetMethodID(env, c, "handle_update_fail_malformed_htlc", "TODO");
+	calls->handle_update_fail_malformed_htlc_meth = (*env)->GetMethodID(env, c, "handle_update_fail_malformed_htlc", "(JJ)V");
 	assert(calls->handle_update_fail_malformed_htlc_meth != NULL);
-	calls->handle_commitment_signed_meth = (*env)->GetMethodID(env, c, "handle_commitment_signed", "TODO");
+	calls->handle_commitment_signed_meth = (*env)->GetMethodID(env, c, "handle_commitment_signed", "(JJ)V");
 	assert(calls->handle_commitment_signed_meth != NULL);
-	calls->handle_revoke_and_ack_meth = (*env)->GetMethodID(env, c, "handle_revoke_and_ack", "TODO");
+	calls->handle_revoke_and_ack_meth = (*env)->GetMethodID(env, c, "handle_revoke_and_ack", "(JJ)V");
 	assert(calls->handle_revoke_and_ack_meth != NULL);
-	calls->handle_update_fee_meth = (*env)->GetMethodID(env, c, "handle_update_fee", "TODO");
+	calls->handle_update_fee_meth = (*env)->GetMethodID(env, c, "handle_update_fee", "(JJ)V");
 	assert(calls->handle_update_fee_meth != NULL);
-	calls->handle_announcement_signatures_meth = (*env)->GetMethodID(env, c, "handle_announcement_signatures", "TODO");
+	calls->handle_announcement_signatures_meth = (*env)->GetMethodID(env, c, "handle_announcement_signatures", "(JJ)V");
 	assert(calls->handle_announcement_signatures_meth != NULL);
-	calls->peer_disconnected_meth = (*env)->GetMethodID(env, c, "peer_disconnected", "TODO");
+	calls->peer_disconnected_meth = (*env)->GetMethodID(env, c, "peer_disconnected", "(JZ)V");
 	assert(calls->peer_disconnected_meth != NULL);
-	calls->peer_connected_meth = (*env)->GetMethodID(env, c, "peer_connected", "TODO");
+	calls->peer_connected_meth = (*env)->GetMethodID(env, c, "peer_connected", "(JJ)V");
 	assert(calls->peer_connected_meth != NULL);
-	calls->handle_channel_reestablish_meth = (*env)->GetMethodID(env, c, "handle_channel_reestablish", "TODO");
+	calls->handle_channel_reestablish_meth = (*env)->GetMethodID(env, c, "handle_channel_reestablish", "(JJ)V");
 	assert(calls->handle_channel_reestablish_meth != NULL);
-	calls->handle_error_meth = (*env)->GetMethodID(env, c, "handle_error", "TODO");
+	calls->handle_error_meth = (*env)->GetMethodID(env, c, "handle_error", "(JJ)V");
 	assert(calls->handle_error_meth != NULL);
 
 	LDKChannelMessageHandler *ret = malloc(sizeof(LDKChannelMessageHandler));
@@ -803,19 +803,19 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1new 
 	LDKRoutingMessageHandler_JCalls *calls = malloc(sizeof(LDKRoutingMessageHandler_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->handle_node_announcement_meth = (*env)->GetMethodID(env, c, "handle_node_announcement", "TODO");
+	calls->handle_node_announcement_meth = (*env)->GetMethodID(env, c, "handle_node_announcement", "(J)J");
 	assert(calls->handle_node_announcement_meth != NULL);
-	calls->handle_channel_announcement_meth = (*env)->GetMethodID(env, c, "handle_channel_announcement", "TODO");
+	calls->handle_channel_announcement_meth = (*env)->GetMethodID(env, c, "handle_channel_announcement", "(J)J");
 	assert(calls->handle_channel_announcement_meth != NULL);
-	calls->handle_channel_update_meth = (*env)->GetMethodID(env, c, "handle_channel_update", "TODO");
+	calls->handle_channel_update_meth = (*env)->GetMethodID(env, c, "handle_channel_update", "(J)J");
 	assert(calls->handle_channel_update_meth != NULL);
-	calls->handle_htlc_fail_channel_update_meth = (*env)->GetMethodID(env, c, "handle_htlc_fail_channel_update", "TODO");
+	calls->handle_htlc_fail_channel_update_meth = (*env)->GetMethodID(env, c, "handle_htlc_fail_channel_update", "(J)V");
 	assert(calls->handle_htlc_fail_channel_update_meth != NULL);
-	calls->get_next_channel_announcements_meth = (*env)->GetMethodID(env, c, "get_next_channel_announcements", "TODO");
+	calls->get_next_channel_announcements_meth = (*env)->GetMethodID(env, c, "get_next_channel_announcements", "(JB)J");
 	assert(calls->get_next_channel_announcements_meth != NULL);
-	calls->get_next_node_announcements_meth = (*env)->GetMethodID(env, c, "get_next_node_announcements", "TODO");
+	calls->get_next_node_announcements_meth = (*env)->GetMethodID(env, c, "get_next_node_announcements", "(JB)J");
 	assert(calls->get_next_node_announcements_meth != NULL);
-	calls->should_request_full_sync_meth = (*env)->GetMethodID(env, c, "should_request_full_sync", "TODO");
+	calls->should_request_full_sync_meth = (*env)->GetMethodID(env, c, "should_request_full_sync", "(J)Z");
 	assert(calls->should_request_full_sync_meth != NULL);
 
 	LDKRoutingMessageHandler *ret = malloc(sizeof(LDKRoutingMessageHandler));
@@ -874,13 +874,13 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1new (JNIE
 	LDKSocketDescriptor_JCalls *calls = malloc(sizeof(LDKSocketDescriptor_JCalls));
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->send_data_meth = (*env)->GetMethodID(env, c, "send_data", "TODO");
+	calls->send_data_meth = (*env)->GetMethodID(env, c, "send_data", "(JZ)J");
 	assert(calls->send_data_meth != NULL);
-	calls->disconnect_socket_meth = (*env)->GetMethodID(env, c, "disconnect_socket", "TODO");
+	calls->disconnect_socket_meth = (*env)->GetMethodID(env, c, "disconnect_socket", "()V");
 	assert(calls->disconnect_socket_meth != NULL);
-	calls->eq_meth = (*env)->GetMethodID(env, c, "eq", "TODO");
+	calls->eq_meth = (*env)->GetMethodID(env, c, "eq", "(V)Z");
 	assert(calls->eq_meth != NULL);
-	calls->hash_meth = (*env)->GetMethodID(env, c, "hash", "TODO");
+	calls->hash_meth = (*env)->GetMethodID(env, c, "hash", "()J");
 	assert(calls->hash_meth != NULL);
 
 	LDKSocketDescriptor *ret = malloc(sizeof(LDKSocketDescriptor));
