@@ -112,12 +112,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         var_is_arr = var_is_arr_regex.match(fn_arg)
         if var_is_arr is not None or ret_arr_len is not None:
             assert(not take_by_ptr)
-            #assert(not passed_as_ptr)
+            assert(not is_ptr)
             java_ty = java_ty + "[]"
             c_ty = c_ty + "Array"
             if var_is_arr is not None:
-                return TypeInfo(rust_obj=None, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr,
-                    is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2))
+                return TypeInfo(rust_obj=None, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
+                    passed_as_ptr=False, is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2))
         return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
             is_ptr=is_ptr, var_name=fn_arg, arr_len=None)
 
@@ -169,6 +169,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             elif ty_info.is_ptr:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = ty_info.var_name, ret_conv = None, ret_conv_name = None)
+            elif ty_info.java_ty == "String":
+                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                    arg_conv = None, arg_conv_name = None,
+                    ret_conv = ("jstring " + ty_info.var_name + "_conv = (*_env)->NewStringUTF(_env, ", ");"), ret_conv_name = ty_info.var_name + "_conv")
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = ty_info.var_name, ret_conv = None, ret_conv_name = None)

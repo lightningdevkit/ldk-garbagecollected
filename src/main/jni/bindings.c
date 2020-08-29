@@ -78,7 +78,8 @@ typedef struct LDKLogger_JCalls {
 } LDKLogger_JCalls;
 void log_jcall(const void* this_arg, const char *record) {
 	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
-	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->log_meth, record);
+	jstring record_conv = (*j_calls->env)->NewStringUTF(j_calls->env, record);
+	return (*j_calls->env)->CallVoidMethod(j_calls->env, j_calls->o, j_calls->log_meth, record_conv);
 }
 void LDKLogger_JCalls_free(void* this_arg) {
 	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
