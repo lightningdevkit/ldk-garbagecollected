@@ -5,6 +5,8 @@ public class bindings {
 		System.loadLibrary("lightningjni");
 	}
 
+	public static native long LDKSecretKey_new();
+
 	public interface LDKMessageSendEventsProvider {
 		 long get_and_clear_pending_msg_events();
 	}

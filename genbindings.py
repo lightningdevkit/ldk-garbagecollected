@@ -290,6 +290,13 @@ public class bindings {
     out_c.write("#include <string.h>\n")
     out_c.write("#include <stdatomic.h>\n\n")
 
+    # XXX: Temporarily write out a manual SecretKey_new() for testing, we should auto-gen this kind of thing
+    out_java.write("\tpublic static native long LDKSecretKey_new();\n\n") # TODO: rm me
+    out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSecretKey_1new(JNIEnv * _env, jclass _b) {\n") # TODO: rm me
+    out_c.write("\tLDKSecretKey* key = (LDKSecretKey*)malloc(sizeof(LDKSecretKey));\n") # TODO: rm me
+    out_c.write("\treturn (long)key;\n") # TODO: rm me
+    out_c.write("}\n") # TODO: rm me
+
     in_block_comment = False
     in_block_enum = False
     cur_block_struct = None

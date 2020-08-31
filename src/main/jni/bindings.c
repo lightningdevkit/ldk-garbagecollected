@@ -5,6 +5,10 @@
 #include <string.h>
 #include <stdatomic.h>
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSecretKey_1new(JNIEnv * _env, jclass _b) {
+	LDKSecretKey* key = (LDKSecretKey*)malloc(sizeof(LDKSecretKey));
+	return (long)key;
+}
 typedef struct LDKMessageSendEventsProvider_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;

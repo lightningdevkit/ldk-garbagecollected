@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKSecretKey_new
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSecretKey_1new
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKMessageSendEventsProvider_new
  * Signature: (Lorg/ldk/impl/bindings/LDKMessageSendEventsProvider;)J
  */
