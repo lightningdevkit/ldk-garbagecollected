@@ -44,6 +44,7 @@ class ConvInfo:
 
 with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.argv[3], "w") as out_c:
     opaque_structs = set()
+    trait_structs = set()
 
     var_is_arr_regex = re.compile("\(\*([A-za-z_]*)\)\[([0-9]*)\]")
     var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
@@ -151,12 +152,21 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             if ty_info.rust_obj is not None:
                 assert(ty_info.passed_as_ptr)
                 if not ty_info.is_ptr:
+                    if ty_info.rust_obj in trait_structs:
+                        base_conv = ty_info.rust_obj + " *" + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";"
+                        if not is_free:
+                            base_conv = base_conv + "\n" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv->this_arg);"
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = base_conv,
+                            arg_conv_name = "*" + ty_info.var_name + "_conv",
+                            ret_conv = None, ret_conv_name = None)
                     base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";\nfree((void*)" + ty_info.var_name + ");";
                     if ty_info.rust_obj in opaque_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv + "\n" + ty_info.var_name + "_conv._underlying_ref = false;",
                             arg_conv_name = ty_info.var_name + "_conv",
                             ret_conv = None, ret_conv_name = None)
+
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv",
                         ret_conv = None, ret_conv_name = None)
@@ -276,8 +286,9 @@ public class bindings {
     out_c.write("#include \"org_ldk_impl_bindings.h\"\n")
     out_c.write("#include <rust_types.h>\n")
     out_c.write("#include <lightning.h>\n")
-    out_c.write("#include <assert.h>\n\n")
-    out_c.write("#include <string.h>\n\n")
+    out_c.write("#include <assert.h>\n")
+    out_c.write("#include <string.h>\n")
+    out_c.write("#include <stdatomic.h>\n\n")
 
     in_block_comment = False
     in_block_enum = False
@@ -294,6 +305,8 @@ public class bindings {
     assert(line_indicates_trait_regex.match("   uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);"))
     assert(line_indicates_trait_regex.match("   LDKCVec_MessageSendEventZ (*get_and_clear_pending_msg_events)(const void *this_arg);"))
     assert(line_indicates_trait_regex.match("   void *(*clone)(const void *this_arg);"))
+    line_field_var_regex = re.compile("^   ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
+    assert(line_field_var_regex.match("   LDKMessageSendEventsProvider MessageSendEventsProvider;"))
     struct_name_regex = re.compile("^typedef struct (MUST_USE_STRUCT )?(LDK[A-Za-z_0-9]*) {$")
     assert(struct_name_regex.match("typedef struct LDKCVecTempl_u8 {"))
 
@@ -310,6 +323,7 @@ public class bindings {
                 struct_lines = cur_block_struct.split("\n")
                 is_opaque = False
                 trait_fn_lines = []
+                field_var_lines = []
 
                 for idx, struct_line in enumerate(struct_lines):
                     if struct_line.strip().startswith("/*"):
@@ -326,6 +340,9 @@ public class bindings {
                         trait_fn_match = line_indicates_trait_regex.match(struct_line)
                         if trait_fn_match is not None:
                             trait_fn_lines.append(trait_fn_match)
+                        field_var_match = line_field_var_regex.match(struct_line)
+                        if field_var_match is not None:
+                            field_var_lines.append(field_var_match)
                         field_lines.append(struct_line)
 
                 assert(struct_name is not None)
@@ -333,9 +350,14 @@ public class bindings {
                 if is_opaque:
                     opaque_structs.add(struct_name)
                 if len(trait_fn_lines) > 0:
+                    trait_structs.add(struct_name)
                     out_c.write("typedef struct " + struct_name + "_JCalls {\n")
+                    out_c.write("\tatomic_size_t refcnt;\n")
                     out_c.write("\tJNIEnv *env;\n")
                     out_c.write("\tjobject o;\n")
+                    for var_line in field_var_lines:
+                        if var_line.group(1) in trait_structs:
+                            out_c.write("\t" + var_line.group(1) + "_JCalls* " + var_line.group(2) + ";\n")
                     for fn_line in trait_fn_lines:
                         if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
                             out_c.write("\tjmethodID " + fn_line.group(2) + "_meth;\n")
@@ -401,22 +423,36 @@ public class bindings {
                         elif fn_line.group(2) == "free":
                             out_c.write("void " + struct_name + "_JCalls_free(void* this_arg) {\n")
                             out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-                            out_c.write("\t(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);\n")
-                            out_c.write("\tfree(j_calls);\n")
-                            out_c.write("}\n")
-                        elif fn_line.group(2) == "clone":
-                            out_c.write("void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
-                            out_c.write("\t" + struct_name + "_JCalls *ret = malloc(sizeof(" + struct_name + "_JCalls));\n")
-                            out_c.write("\tmemcpy(ret, this_arg, sizeof(" + struct_name + "_JCalls));\n")
-                            out_c.write("\treturn ret;\n")
-                            out_c.write("}\n")
-                    out_java.write("\t}\n")
-                    out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl);\n")
+                            out_c.write("\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n")
+                            out_c.write("\t\t(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);\n")
+                            out_c.write("\t\tfree(j_calls);\n")
+                            out_c.write("\t}\n}\n")
 
-                    out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o) {\n")
+                    # Write out a clone function whether we need one or not, as we use them in moving to rust
+                    out_c.write("void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
+                    out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+                    out_c.write("\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n")
+                    for var_line in field_var_lines:
+                        if var_line.group(1) in trait_structs:
+                            out_c.write("\tatomic_fetch_add_explicit(&j_calls->" + var_line.group(2) + "->refcnt, 1, memory_order_release);\n")
+                    out_c.write("\treturn (void*) this_arg;\n")
+                    out_c.write("}\n")
+
+                    out_java.write("\t}\n")
+
+                    out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl")
+                    out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o")
+                    for var_line in field_var_lines:
+                        if var_line.group(1) in trait_structs:
+                            out_java.write(", " + var_line.group(1) + " " + var_line.group(2))
+                            out_c.write(", jobject " + var_line.group(2))
+                    out_java.write(");\n")
+                    out_c.write(") {\n")
+
                     out_c.write("\tjclass c = (*env)->GetObjectClass(env, o);\n")
                     out_c.write("\tassert(c != NULL);\n")
                     out_c.write("\t" + struct_name + "_JCalls *calls = malloc(sizeof(" + struct_name + "_JCalls));\n")
+                    out_c.write("\tatomic_init(&calls->refcnt, 1);\n")
                     out_c.write("\tcalls->env = env;\n")
                     out_c.write("\tcalls->o = (*env)->NewGlobalRef(env, o);\n")
                     for (fn_line, java_meth_descr) in zip(trait_fn_lines, java_meths):
@@ -432,6 +468,10 @@ public class bindings {
                             out_c.write("\tret->free = " + struct_name + "_JCalls_free;\n")
                         else:
                             out_c.write("\tret->clone = " + struct_name + "_JCalls_clone;\n")
+                    for var_line in field_var_lines:
+                        if var_line.group(1) in trait_structs:
+                            out_c.write("\tret->" + var_line.group(2) + " = *(" + var_line.group(1) + "*)Java_org_ldk_impl_bindings_" + var_line.group(1) + "_1new(env, _a, " + var_line.group(2) + ");\n")
+                            out_c.write("\tcalls->" + var_line.group(2) + " = ret->" + var_line.group(2) + ".this_arg;\n")
                     out_c.write("\treturn (long)ret;\n")
                     out_c.write("}\n\n")
 

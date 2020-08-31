@@ -90,10 +90,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKManyChannelMonitor_1new
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    LDKChannelMessageHandler_new
- * Signature: (Lorg/ldk/impl/bindings/LDKChannelMessageHandler;)J
+ * Signature: (Lorg/ldk/impl/bindings/LDKChannelMessageHandler;Lorg/ldk/impl/bindings/LDKMessageSendEventsProvider;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1new
-  (JNIEnv *, jclass, jobject);
+  (JNIEnv *, jclass, jobject, jobject);
 
 /*
  * Class:     org_ldk_impl_bindings

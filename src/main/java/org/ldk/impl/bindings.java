@@ -88,7 +88,7 @@ public class bindings {
 		 void handle_channel_reestablish(long their_node_id, long msg);
 		 void handle_error(long their_node_id, long msg);
 	}
-	public static native long LDKChannelMessageHandler_new(LDKChannelMessageHandler impl);
+	public static native long LDKChannelMessageHandler_new(LDKChannelMessageHandler impl, LDKMessageSendEventsProvider MessageSendEventsProvider);
 	public interface LDKRoutingMessageHandler {
 		 long handle_node_announcement(long msg);
 		 long handle_channel_announcement(long msg);
