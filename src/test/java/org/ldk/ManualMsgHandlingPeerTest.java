@@ -3,7 +3,7 @@ package org.ldk;
 import org.junit.jupiter.api.Test;
 import org.ldk.impl.bindings;
 
-public class PeerTest {
+public class ManualMsgHandlingPeerTest {
     @Test
     void test_message_handler() {
         long logger = bindings.LDKLogger_new((String arg)->{
