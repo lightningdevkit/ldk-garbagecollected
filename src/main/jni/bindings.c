@@ -5,6 +5,12 @@
 #include <string.h>
 #include <stdatomic.h>
 
+jmethodID ordinal_meth = NULL;
+JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class) {
+	ordinal_meth = (*env)->GetMethodID(env, enum_class, "ordinal", "()I");
+	assert(ordinal_meth != NULL);
+}
+
 #include <threads.h>
 static mtx_t allocation_mtx;
 
@@ -52,6 +58,246 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSecretKey_1new(JNIEnv * _e
 	LDKSecretKey* key = (LDKSecretKey*)MALLOC(sizeof(LDKSecretKey), "LDKSecretKey");
 	return (long)key;
 }
+static inline LDKChainError LDKChainError_from_java(JNIEnv *env, jclass val) {
+	switch ((*env)->CallIntMethod(env, val, ordinal_meth)) {
+		case 0: return LDKChainError_NotSupported;
+		case 1: return LDKChainError_NotWatched;
+		case 2: return LDKChainError_UnknownTx;
+	}
+	assert(false);
+}
+static inline jclass LDKChainError_to_java(JNIEnv *env, LDKChainError val) {
+	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
+	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKChainError;");
+	assert(enum_class != NULL);
+	switch (val) {
+		case LDKChainError_NotSupported: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKChainError_NotSupported", "Lorg/ldk/impl/bindings$LDKChainError;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKChainError_NotWatched: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKChainError_NotWatched", "Lorg/ldk/impl/bindings$LDKChainError;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKChainError_UnknownTx: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKChainError_UnknownTx", "Lorg/ldk/impl/bindings$LDKChainError;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		default: assert(false);
+	}
+}
+
+static inline LDKChannelMonitorUpdateErr LDKChannelMonitorUpdateErr_from_java(JNIEnv *env, jclass val) {
+	switch ((*env)->CallIntMethod(env, val, ordinal_meth)) {
+		case 0: return LDKChannelMonitorUpdateErr_TemporaryFailure;
+		case 1: return LDKChannelMonitorUpdateErr_PermanentFailure;
+	}
+	assert(false);
+}
+static inline jclass LDKChannelMonitorUpdateErr_to_java(JNIEnv *env, LDKChannelMonitorUpdateErr val) {
+	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
+	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKChannelMonitorUpdateErr;");
+	assert(enum_class != NULL);
+	switch (val) {
+		case LDKChannelMonitorUpdateErr_TemporaryFailure: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKChannelMonitorUpdateErr_TemporaryFailure", "Lorg/ldk/impl/bindings$LDKChannelMonitorUpdateErr;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKChannelMonitorUpdateErr_PermanentFailure: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKChannelMonitorUpdateErr_PermanentFailure", "Lorg/ldk/impl/bindings$LDKChannelMonitorUpdateErr;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		default: assert(false);
+	}
+}
+
+static inline LDKConfirmationTarget LDKConfirmationTarget_from_java(JNIEnv *env, jclass val) {
+	switch ((*env)->CallIntMethod(env, val, ordinal_meth)) {
+		case 0: return LDKConfirmationTarget_Background;
+		case 1: return LDKConfirmationTarget_Normal;
+		case 2: return LDKConfirmationTarget_HighPriority;
+	}
+	assert(false);
+}
+static inline jclass LDKConfirmationTarget_to_java(JNIEnv *env, LDKConfirmationTarget val) {
+	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
+	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKConfirmationTarget;");
+	assert(enum_class != NULL);
+	switch (val) {
+		case LDKConfirmationTarget_Background: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKConfirmationTarget_Background", "Lorg/ldk/impl/bindings$LDKConfirmationTarget;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKConfirmationTarget_Normal: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKConfirmationTarget_Normal", "Lorg/ldk/impl/bindings$LDKConfirmationTarget;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKConfirmationTarget_HighPriority: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKConfirmationTarget_HighPriority", "Lorg/ldk/impl/bindings$LDKConfirmationTarget;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		default: assert(false);
+	}
+}
+
+static inline LDKLevel LDKLevel_from_java(JNIEnv *env, jclass val) {
+	switch ((*env)->CallIntMethod(env, val, ordinal_meth)) {
+		case 0: return LDKLevel_Off;
+		case 1: return LDKLevel_Error;
+		case 2: return LDKLevel_Warn;
+		case 3: return LDKLevel_Info;
+		case 4: return LDKLevel_Debug;
+		case 5: return LDKLevel_Trace;
+	}
+	assert(false);
+}
+static inline jclass LDKLevel_to_java(JNIEnv *env, LDKLevel val) {
+	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
+	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKLevel;");
+	assert(enum_class != NULL);
+	switch (val) {
+		case LDKLevel_Off: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Off", "Lorg/ldk/impl/bindings$LDKLevel;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKLevel_Error: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Error", "Lorg/ldk/impl/bindings$LDKLevel;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKLevel_Warn: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Warn", "Lorg/ldk/impl/bindings$LDKLevel;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKLevel_Info: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Info", "Lorg/ldk/impl/bindings$LDKLevel;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKLevel_Debug: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Debug", "Lorg/ldk/impl/bindings$LDKLevel;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKLevel_Trace: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Trace", "Lorg/ldk/impl/bindings$LDKLevel;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		default: assert(false);
+	}
+}
+
+static inline LDKNetwork LDKNetwork_from_java(JNIEnv *env, jclass val) {
+	switch ((*env)->CallIntMethod(env, val, ordinal_meth)) {
+		case 0: return LDKNetwork_Bitcoin;
+		case 1: return LDKNetwork_Testnet;
+		case 2: return LDKNetwork_Regtest;
+	}
+	assert(false);
+}
+static inline jclass LDKNetwork_to_java(JNIEnv *env, LDKNetwork val) {
+	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
+	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKNetwork;");
+	assert(enum_class != NULL);
+	switch (val) {
+		case LDKNetwork_Bitcoin: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKNetwork_Bitcoin", "Lorg/ldk/impl/bindings$LDKNetwork;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKNetwork_Testnet: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKNetwork_Testnet", "Lorg/ldk/impl/bindings$LDKNetwork;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKNetwork_Regtest: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKNetwork_Regtest", "Lorg/ldk/impl/bindings$LDKNetwork;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		default: assert(false);
+	}
+}
+
+static inline LDKSecp256k1Error LDKSecp256k1Error_from_java(JNIEnv *env, jclass val) {
+	switch ((*env)->CallIntMethod(env, val, ordinal_meth)) {
+		case 0: return LDKSecp256k1Error_IncorrectSignature;
+		case 1: return LDKSecp256k1Error_InvalidMessage;
+		case 2: return LDKSecp256k1Error_InvalidPublicKey;
+		case 3: return LDKSecp256k1Error_InvalidSignature;
+		case 4: return LDKSecp256k1Error_InvalidSecretKey;
+		case 5: return LDKSecp256k1Error_InvalidRecoveryId;
+		case 6: return LDKSecp256k1Error_InvalidTweak;
+		case 7: return LDKSecp256k1Error_NotEnoughMemory;
+		case 8: return LDKSecp256k1Error_CallbackPanicked;
+	}
+	assert(false);
+}
+static inline jclass LDKSecp256k1Error_to_java(JNIEnv *env, LDKSecp256k1Error val) {
+	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
+	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+	assert(enum_class != NULL);
+	switch (val) {
+		case LDKSecp256k1Error_IncorrectSignature: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_IncorrectSignature", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKSecp256k1Error_InvalidMessage: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidMessage", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKSecp256k1Error_InvalidPublicKey: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidPublicKey", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKSecp256k1Error_InvalidSignature: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidSignature", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKSecp256k1Error_InvalidSecretKey: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidSecretKey", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKSecp256k1Error_InvalidRecoveryId: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidRecoveryId", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKSecp256k1Error_InvalidTweak: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidTweak", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKSecp256k1Error_NotEnoughMemory: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_NotEnoughMemory", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		case LDKSecp256k1Error_CallbackPanicked: {
+			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_CallbackPanicked", "Lorg/ldk/impl/bindings$LDKSecp256k1Error;");
+			assert(field != NULL);
+			return (*env)->GetStaticObjectField(env, enum_class, field);
+		}
+		default: assert(false);
+	}
+}
+
 typedef struct LDKMessageSendEventsProvider_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;
@@ -394,7 +640,8 @@ typedef struct LDKFeeEstimator_JCalls {
 } LDKFeeEstimator_JCalls;
 uint32_t get_est_sat_per_1000_weight_jcall(const void* this_arg, LDKConfirmationTarget confirmation_target) {
 	LDKFeeEstimator_JCalls *j_calls = (LDKFeeEstimator_JCalls*) this_arg;
-	return (*j_calls->env)->CallIntMethod(j_calls->env, j_calls->o, j_calls->get_est_sat_per_1000_weight_meth, confirmation_target);
+	jclass confirmation_target_conv = LDKConfirmationTarget_to_java(j_calls->env, confirmation_target);
+	return (*j_calls->env)->CallIntMethod(j_calls->env, j_calls->o, j_calls->get_est_sat_per_1000_weight_meth, confirmation_target_conv);
 }
 static void LDKFeeEstimator_JCalls_free(void* this_arg) {
 	LDKFeeEstimator_JCalls *j_calls = (LDKFeeEstimator_JCalls*) this_arg;
@@ -415,7 +662,7 @@ static inline LDKFeeEstimator LDKFeeEstimator_init (JNIEnv * env, jclass _a, job
 	atomic_init(&calls->refcnt, 1);
 	calls->env = env;
 	calls->o = (*env)->NewGlobalRef(env, o);
-	calls->get_est_sat_per_1000_weight_meth = (*env)->GetMethodID(env, c, "get_est_sat_per_1000_weight", "(J)I");
+	calls->get_est_sat_per_1000_weight_meth = (*env)->GetMethodID(env, c, "get_est_sat_per_1000_weight", "(Lorg/ldk/impl/bindings$LDKConfirmationTarget;)I");
 	assert(calls->get_est_sat_per_1000_weight_meth != NULL);
 
 	LDKFeeEstimator ret = {
@@ -1160,7 +1407,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementCh
 	return C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(arg_conv);
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1Scriptu64ZChainErrorZ_1err(JNIEnv * _env, jclass _b, jlong arg) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1Scriptu64ZChainErrorZ_1err(JNIEnv * _env, jclass _b, jclass arg) {
 	LDKChainError arg_conv = *(LDKChainError*)arg;
 	FREE((void*)arg);
 	LDKCResult_C2Tuple_Scriptu64ZChainErrorZ* ret = MALLOC(sizeof(LDKCResult_C2Tuple_Scriptu64ZChainErrorZ), "LDKCResult_C2Tuple_Scriptu64ZChainErrorZ");
@@ -1246,7 +1493,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NoneAPIErrorZ_1free(J
 	return CResult_NoneAPIErrorZ_free(arg_conv);
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NoneChannelMonitorUpdateErrZ_1err(JNIEnv * _env, jclass _b, jlong arg) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NoneChannelMonitorUpdateErrZ_1err(JNIEnv * _env, jclass _b, jclass arg) {
 	LDKChannelMonitorUpdateErr arg_conv = *(LDKChannelMonitorUpdateErr*)arg;
 	FREE((void*)arg);
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = MALLOC(sizeof(LDKCResult_NoneChannelMonitorUpdateErrZ), "LDKCResult_NoneChannelMonitorUpdateErrZ");
@@ -1338,7 +1585,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1SignatureNoneZ_1ok(J
 	return (long)ret;
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysSecpErrorZ_1err(JNIEnv * _env, jclass _b, jlong arg) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysSecpErrorZ_1err(JNIEnv * _env, jclass _b, jclass arg) {
 	LDKSecp256k1Error arg_conv = *(LDKSecp256k1Error*)arg;
 	FREE((void*)arg);
 	LDKCResult_TxCreationKeysSecpErrorZ* ret = MALLOC(sizeof(LDKCResult_TxCreationKeysSecpErrorZ), "LDKCResult_TxCreationKeysSecpErrorZ");
@@ -1697,10 +1944,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_APIError_1free(JNIEnv * _env, 
 	return APIError_free(this_ptr_conv);
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Level_1max(JNIEnv * _env, jclass _b) {
-	LDKLevel* ret = MALLOC(sizeof(LDKLevel), "LDKLevel");
-	*ret = Level_max();
-	return (long)ret;
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_Level_1max(JNIEnv * _env, jclass _b) {
+	jclass ret = LDKLevel_to_java(_env, Level_max());
+	return ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Logger_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -2173,9 +2419,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChainWatchInterfaceUtil_1as_1
 	return (long)ret;
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChainWatchInterfaceUtil_1new(JNIEnv * _env, jclass _b, jlong network) {
-	LDKNetwork network_conv = *(LDKNetwork*)network;
-	FREE((void*)network);
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChainWatchInterfaceUtil_1new(JNIEnv * _env, jclass _b, jclass network) {
+	LDKNetwork network_conv = LDKNetwork_from_java(_env, network);
 	LDKChainWatchInterfaceUtil* ret = MALLOC(sizeof(LDKChainWatchInterfaceUtil), "LDKChainWatchInterfaceUtil");
 	*ret = ChainWatchInterfaceUtil_new(network_conv);
 	assert(!ret->_underlying_ref);
@@ -2436,12 +2681,11 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_KeysManager_1free(JNIEnv * _en
 	return KeysManager_free(this_ptr_conv);
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_KeysManager_1new(JNIEnv * _env, jclass _b, jbyteArray seed, jlong network, jlong starting_time_secs, jint starting_time_nanos) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_KeysManager_1new(JNIEnv * _env, jclass _b, jbyteArray seed, jclass network, jlong starting_time_secs, jint starting_time_nanos) {
 	unsigned char seed_arr[32];
 	(*_env)->GetByteArrayRegion (_env, seed, 0, 32, seed_arr);
 	unsigned char (*seed_ref)[32] = &seed_arr;
-	LDKNetwork network_conv = *(LDKNetwork*)network;
-	FREE((void*)network);
+	LDKNetwork network_conv = LDKNetwork_from_java(_env, network);
 	LDKKeysManager* ret = MALLOC(sizeof(LDKKeysManager), "LDKKeysManager");
 	*ret = KeysManager_new(seed_ref, network_conv, starting_time_secs, starting_time_nanos);
 	assert(!ret->_underlying_ref);
@@ -2581,9 +2825,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PaymentSendFailure_1free(JNIEn
 	return PaymentSendFailure_free(this_ptr_conv);
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new(JNIEnv * _env, jclass _b, jlong network, jlong fee_est, jlong monitor, jlong tx_broadcaster, jlong logger, jlong keys_manager, jlong config, jlong current_blockchain_height) {
-	LDKNetwork network_conv = *(LDKNetwork*)network;
-	FREE((void*)network);
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new(JNIEnv * _env, jclass _b, jclass network, jlong fee_est, jlong monitor, jlong tx_broadcaster, jlong logger, jlong keys_manager, jlong config, jlong current_blockchain_height) {
+	LDKNetwork network_conv = LDKNetwork_from_java(_env, network);
 	LDKFeeEstimator fee_est_conv = *(LDKFeeEstimator*)fee_est;
 	LDKFeeEstimator_JCalls_clone(fee_est_conv.this_arg);
 	LDKManyChannelMonitor monitor_conv = *(LDKManyChannelMonitor*)monitor;

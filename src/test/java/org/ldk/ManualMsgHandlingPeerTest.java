@@ -135,6 +135,9 @@ public class ManualMsgHandlingPeerTest {
 
         long peer_manager = bindings.PeerManager_new(message_handler, our_node_secret, random_data, logger);
 
+        // Test Level_max() since its the only place we create a java object from a Rust-returned enum.
+        assert bindings.Level_max() == bindings.LDKLevel.LDKLevel_Trace;
+
         // Note that we can't rely on finalizer order, so don't bother trying to rely on it here
         bindings.Logger_free(logger);
         bindings.ChannelMessageHandler_free(chan_handler);

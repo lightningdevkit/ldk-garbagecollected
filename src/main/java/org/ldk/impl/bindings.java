@@ -1,12 +1,52 @@
 package org.ldk.impl;
 
 public class bindings {
+	static native void init(java.lang.Class c);
 	static {
 		System.loadLibrary("lightningjni");
+		init(java.lang.Enum.class);
 	}
 
 	public static native long LDKSecretKey_new();
 
+	public enum LDKChainError {
+	   LDKChainError_NotSupported,
+	   LDKChainError_NotWatched,
+	   LDKChainError_UnknownTx,
+	}
+	public enum LDKChannelMonitorUpdateErr {
+	   LDKChannelMonitorUpdateErr_TemporaryFailure,
+	   LDKChannelMonitorUpdateErr_PermanentFailure,
+	}
+	public enum LDKConfirmationTarget {
+	   LDKConfirmationTarget_Background,
+	   LDKConfirmationTarget_Normal,
+	   LDKConfirmationTarget_HighPriority,
+	}
+	public enum LDKLevel {
+	   LDKLevel_Off,
+	   LDKLevel_Error,
+	   LDKLevel_Warn,
+	   LDKLevel_Info,
+	   LDKLevel_Debug,
+	   LDKLevel_Trace,
+	}
+	public enum LDKNetwork {
+	   LDKNetwork_Bitcoin,
+	   LDKNetwork_Testnet,
+	   LDKNetwork_Regtest,
+	}
+	public enum LDKSecp256k1Error {
+	   LDKSecp256k1Error_IncorrectSignature,
+	   LDKSecp256k1Error_InvalidMessage,
+	   LDKSecp256k1Error_InvalidPublicKey,
+	   LDKSecp256k1Error_InvalidSignature,
+	   LDKSecp256k1Error_InvalidSecretKey,
+	   LDKSecp256k1Error_InvalidRecoveryId,
+	   LDKSecp256k1Error_InvalidTweak,
+	   LDKSecp256k1Error_NotEnoughMemory,
+	   LDKSecp256k1Error_CallbackPanicked,
+	}
 	public interface LDKMessageSendEventsProvider {
 		 long get_and_clear_pending_msg_events();
 	}
@@ -38,7 +78,7 @@ public class bindings {
 	}
 	public static native long LDKChainListener_new(LDKChainListener impl);
 	public interface LDKFeeEstimator {
-		 int get_est_sat_per_1000_weight(long confirmation_target);
+		 int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target);
 	}
 	public static native long LDKFeeEstimator_new(LDKFeeEstimator impl);
 	public interface LDKChannelKeys {
@@ -123,7 +163,7 @@ public class bindings {
 	/// extern const void (*C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free)(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ);
 	public static native void C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(long arg);
 	/// extern const LDKCResult_C2Tuple_Scriptu64ZChainErrorZ (*CResult_C2Tuple_Scriptu64ZChainErrorZ_err)(LDKChainError);
-	public static native long CResult_C2Tuple_Scriptu64ZChainErrorZ_err(long arg);
+	public static native long CResult_C2Tuple_Scriptu64ZChainErrorZ_err(LDKChainError arg);
 	/// extern const void (*CResult_C2Tuple_Scriptu64ZChainErrorZ_free)(LDKCResult_C2Tuple_Scriptu64ZChainErrorZ);
 	public static native void CResult_C2Tuple_Scriptu64ZChainErrorZ_free(long arg);
 	/// extern const LDKCResult_C2Tuple_Scriptu64ZChainErrorZ (*CResult_C2Tuple_Scriptu64ZChainErrorZ_ok)(LDKC2Tuple_Scriptu64Z);
@@ -147,7 +187,7 @@ public class bindings {
 	/// extern const void (*CResult_NoneAPIErrorZ_free)(LDKCResult_NoneAPIErrorZ);
 	public static native void CResult_NoneAPIErrorZ_free(long arg);
 	/// extern const LDKCResult_NoneChannelMonitorUpdateErrZ (*CResult_NoneChannelMonitorUpdateErrZ_err)(LDKChannelMonitorUpdateErr);
-	public static native long CResult_NoneChannelMonitorUpdateErrZ_err(long arg);
+	public static native long CResult_NoneChannelMonitorUpdateErrZ_err(LDKChannelMonitorUpdateErr arg);
 	/// extern const void (*CResult_NoneChannelMonitorUpdateErrZ_free)(LDKCResult_NoneChannelMonitorUpdateErrZ);
 	public static native void CResult_NoneChannelMonitorUpdateErrZ_free(long arg);
 	/// extern const LDKCResult_NoneMonitorUpdateErrorZ (*CResult_NoneMonitorUpdateErrorZ_err)(LDKMonitorUpdateError);
@@ -173,7 +213,7 @@ public class bindings {
 	/// extern const LDKCResult_SignatureNoneZ (*CResult_SignatureNoneZ_ok)(LDKSignature);
 	public static native long CResult_SignatureNoneZ_ok(long arg);
 	/// extern const LDKCResult_TxCreationKeysSecpErrorZ (*CResult_TxCreationKeysSecpErrorZ_err)(LDKSecp256k1Error);
-	public static native long CResult_TxCreationKeysSecpErrorZ_err(long arg);
+	public static native long CResult_TxCreationKeysSecpErrorZ_err(LDKSecp256k1Error arg);
 	/// extern const void (*CResult_TxCreationKeysSecpErrorZ_free)(LDKCResult_TxCreationKeysSecpErrorZ);
 	public static native void CResult_TxCreationKeysSecpErrorZ_free(long arg);
 	/// extern const LDKCResult_TxCreationKeysSecpErrorZ (*CResult_TxCreationKeysSecpErrorZ_ok)(LDKTxCreationKeys);
@@ -281,7 +321,7 @@ public class bindings {
 	/// void APIError_free(LDKAPIError this_ptr);
 	public static native void APIError_free(long this_ptr);
 	/// MUST_USE_RES LDKLevel Level_max(void);
-	public static native long Level_max();
+	public static native LDKLevel Level_max();
 	/// void Logger_free(LDKLogger this_ptr);
 	public static native void Logger_free(long this_ptr);
 	/// void ChannelHandshakeConfig_free(LDKChannelHandshakeConfig this_ptr);
@@ -425,7 +465,7 @@ public class bindings {
 	/// LDKChainWatchInterface ChainWatchInterfaceUtil_as_ChainWatchInterface(const LDKChainWatchInterfaceUtil *this_arg);
 	public static native long ChainWatchInterfaceUtil_as_ChainWatchInterface(long this_arg);
 	/// MUST_USE_RES LDKChainWatchInterfaceUtil ChainWatchInterfaceUtil_new(LDKNetwork network);
-	public static native long ChainWatchInterfaceUtil_new(long network);
+	public static native long ChainWatchInterfaceUtil_new(LDKNetwork network);
 	/// MUST_USE_RES bool ChainWatchInterfaceUtil_does_match_tx(const LDKChainWatchInterfaceUtil *this_arg, LDKTransaction tx);
 	public static native boolean ChainWatchInterfaceUtil_does_match_tx(long this_arg, long tx);
 	/// void OutPoint_free(LDKOutPoint this_ptr);
@@ -495,7 +535,7 @@ public class bindings {
 	/// void KeysManager_free(LDKKeysManager this_ptr);
 	public static native void KeysManager_free(long this_ptr);
 	/// MUST_USE_RES LDKKeysManager KeysManager_new(const uint8_t (*seed)[32], LDKNetwork network, uint64_t starting_time_secs, uint32_t starting_time_nanos);
-	public static native long KeysManager_new(byte[] seed, long network, long starting_time_secs, int starting_time_nanos);
+	public static native long KeysManager_new(byte[] seed, LDKNetwork network, long starting_time_secs, int starting_time_nanos);
 	/// MUST_USE_RES LDKInMemoryChannelKeys KeysManager_derive_channel_keys(const LDKKeysManager *this_arg, uint64_t channel_value_satoshis, uint64_t params_1, uint64_t params_2);
 	public static native long KeysManager_derive_channel_keys(long this_arg, long channel_value_satoshis, long params_1, long params_2);
 	/// LDKKeysInterface KeysManager_as_KeysInterface(const LDKKeysManager *this_arg);
@@ -539,7 +579,7 @@ public class bindings {
 	/// void PaymentSendFailure_free(LDKPaymentSendFailure this_ptr);
 	public static native void PaymentSendFailure_free(long this_ptr);
 	/// MUST_USE_RES LDKChannelManager ChannelManager_new(LDKNetwork network, LDKFeeEstimator fee_est, LDKManyChannelMonitor monitor, LDKBroadcasterInterface tx_broadcaster, LDKLogger logger, LDKKeysInterface keys_manager, LDKUserConfig config, uintptr_t current_blockchain_height);
-	public static native long ChannelManager_new(long network, long fee_est, long monitor, long tx_broadcaster, long logger, long keys_manager, long config, long current_blockchain_height);
+	public static native long ChannelManager_new(LDKNetwork network, long fee_est, long monitor, long tx_broadcaster, long logger, long keys_manager, long config, long current_blockchain_height);
 	/// MUST_USE_RES LDKCResult_NoneAPIErrorZ ChannelManager_create_channel(const LDKChannelManager *this_arg, LDKPublicKey their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, uint64_t user_id, LDKUserConfig override_config);
 	public static native long ChannelManager_create_channel(long this_arg, long their_network_key, long channel_value_satoshis, long push_msat, long user_id, long override_config);
 	/// MUST_USE_RES LDKCVec_ChannelDetailsZ ChannelManager_list_channels(const LDKChannelManager *this_arg);

@@ -46,6 +46,7 @@ class ConvInfo:
 with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.argv[3], "w") as out_c:
     opaque_structs = set()
     trait_structs = set()
+    unitary_enums = set()
 
     var_is_arr_regex = re.compile("\(\*([A-za-z_]*)\)\[([0-9]*)\]")
     var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
@@ -98,12 +99,20 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             fn_arg = fn_arg[6:].strip()
         else:
             ma = var_ty_regex.match(fn_arg)
-            java_ty = "long"
-            c_ty = "jlong"
-            fn_ty_arg = "J"
-            fn_arg = ma.group(2).strip()
-            rust_obj = ma.group(1).strip()
-            take_by_ptr = True
+            if ma.group(1).strip() in unitary_enums:
+                java_ty = ma.group(1).strip()
+                c_ty = "jclass"
+                fn_ty_arg = "Lorg/ldk/impl/bindings$" + ma.group(1).strip() + ";"
+                fn_arg = ma.group(2).strip()
+                rust_obj = ma.group(1).strip()
+                take_by_ptr = True
+            else:
+                java_ty = "long"
+                c_ty = "jlong"
+                fn_ty_arg = "J"
+                fn_arg = ma.group(2).strip()
+                rust_obj = ma.group(1).strip()
+                take_by_ptr = True
 
         if fn_arg.startswith(" *") or fn_arg.startswith("*"):
             fn_arg = fn_arg.replace("*", "").strip()
@@ -153,6 +162,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             if ty_info.rust_obj is not None:
                 assert(ty_info.passed_as_ptr)
                 if not ty_info.is_ptr:
+                    if ty_info.rust_obj in unitary_enums:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_from_java(_env, " + ty_info.var_name + ");",
+                            arg_conv_name = ty_info.var_name + "_conv",
+                            ret_conv = ("jclass " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_to_java(_env, ", ");"),
+                            ret_conv_name = ty_info.var_name + "_conv")
                     base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";";
                     if ty_info.rust_obj in trait_structs:
                         if not is_free:
@@ -205,6 +220,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             # We don't have a parameter name, and don't want one (cause we're returning)
             if ty_info.rust_obj is not None:
                 if not ty_info.is_ptr:
+                    if ty_info.rust_obj in unitary_enums:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = ty_info.rust_obj + " ret = " + ty_info.rust_obj + "_from_java(_env, " + ty_info.var_name + ");",
+                            arg_conv_name = "ret",
+                            ret_conv = ("jclass ret = " + ty_info.rust_obj + "_to_java(_env, ", ");"), ret_conv_name = "ret")
                     if ty_info.rust_obj in opaque_structs:
                         # If we're returning a newly-allocated struct, we don't want Rust to ever
                         # free, instead relying on the Java GC to lose the ref. We undo this in
@@ -425,8 +445,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
     out_java.write("""package org.ldk.impl;
 
 public class bindings {
+	static native void init(java.lang.Class c);
 	static {
 		System.loadLibrary(\"lightningjni\");
+		init(java.lang.Enum.class);
 	}
 
 """)
@@ -436,6 +458,13 @@ public class bindings {
     out_c.write("#include <assert.h>\n")
     out_c.write("#include <string.h>\n")
     out_c.write("#include <stdatomic.h>\n\n")
+
+    out_c.write("jmethodID ordinal_meth = NULL;\n")
+    out_c.write("JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class) {\n")
+    out_c.write("\tordinal_meth = (*env)->GetMethodID(env, enum_class, \"ordinal\", \"()I\");\n")
+    out_c.write("\tassert(ordinal_meth != NULL);\n")
+    out_c.write("}\n\n")
+
     if sys.argv[4] == "false":
         out_c.write("#define MALLOC(a, _) malloc(a)\n")
         out_c.write("#define FREE free\n\n")
@@ -486,9 +515,7 @@ public class bindings {
     out_c.write("}\n") # TODO: rm me
 
     in_block_comment = False
-    in_block_enum = False
-    cur_block_struct = None
-    in_block_union = False
+    cur_block_obj = None
 
     fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
     fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
@@ -502,7 +529,7 @@ public class bindings {
     assert(line_indicates_trait_regex.match("   void *(*clone)(const void *this_arg);"))
     line_field_var_regex = re.compile("^   ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
     assert(line_field_var_regex.match("   LDKMessageSendEventsProvider MessageSendEventsProvider;"))
-    struct_name_regex = re.compile("^typedef (struct|enum) (MUST_USE_STRUCT )?(LDK[A-Za-z_0-9]*) {$")
+    struct_name_regex = re.compile("^typedef (struct|enum|union) (MUST_USE_STRUCT )?(LDK[A-Za-z_0-9]*) {$")
     assert(struct_name_regex.match("typedef struct LDKCVecTempl_u8 {"))
     assert(struct_name_regex.match("typedef enum LDKNetwork {"))
 
@@ -511,17 +538,20 @@ public class bindings {
             #out_java.write("\t" + line)
             if line.endswith("*/\n"):
                 in_block_comment = False
-        elif cur_block_struct is not None:
-            cur_block_struct  = cur_block_struct + line
+        elif cur_block_obj is not None:
+            cur_block_obj  = cur_block_obj + line
             if line.startswith("} "):
                 field_lines = []
                 struct_name = None
-                struct_lines = cur_block_struct.split("\n")
+                obj_lines = cur_block_obj.split("\n")
                 is_opaque = False
+                is_unitary_enum = False
+                is_union_enum = False
+                is_union = False
                 trait_fn_lines = []
                 field_var_lines = []
 
-                for idx, struct_line in enumerate(struct_lines):
+                for idx, struct_line in enumerate(obj_lines):
                     if struct_line.strip().startswith("/*"):
                         in_block_comment = True
                     if in_block_comment:
@@ -530,7 +560,14 @@ public class bindings {
                     else:
                         struct_name_match = struct_name_regex.match(struct_line)
                         if struct_name_match is not None:
-                            struct_name = struct_name_match.group(2)
+                            struct_name = struct_name_match.group(3)
+                            if struct_name_match.group(1) == "enum":
+                                if not struct_name.endswith("_Tag"):
+                                    is_unitary_enum = True
+                                else:
+                                    is_union_enum = True
+                            elif struct_name_match.group(1) == "union":
+                                is_union = True
                         if line_indicates_opaque_regex.match(struct_line):
                             is_opaque = True
                         trait_fn_match = line_indicates_trait_regex.match(struct_line)
@@ -542,20 +579,57 @@ public class bindings {
                         field_lines.append(struct_line)
 
                 assert(struct_name is not None)
-                assert(len(trait_fn_lines) == 0 or not is_opaque)
+                assert(len(trait_fn_lines) == 0 or not (is_opaque or is_unitary_enum or is_union_enum or is_union))
+                assert(not is_opaque or not (len(trait_fn_lines) != 0 or is_unitary_enum or is_union_enum or is_union))
+                assert(not is_unitary_enum or not (len(trait_fn_lines) != 0 or is_opaque or is_union_enum or is_union))
+                assert(not is_union_enum or not (len(trait_fn_lines) != 0 or is_unitary_enum or is_opaque or is_union))
+                assert(not is_union or not (len(trait_fn_lines) != 0 or is_unitary_enum or is_union_enum or is_opaque))
                 if is_opaque:
                     opaque_structs.add(struct_name)
-                if len(trait_fn_lines) > 0:
+                elif is_unitary_enum:
+                    unitary_enums.add(struct_name)
+                    out_c.write("static inline " + struct_name + " " + struct_name + "_from_java(JNIEnv *env, jclass val) {\n")
+                    out_c.write("\tswitch ((*env)->CallIntMethod(env, val, ordinal_meth)) {\n")
+                    ord_v = 0
+                    for idx, struct_line in enumerate(field_lines):
+                        if idx == 0:
+                            out_java.write("\tpublic enum " + struct_name + " {\n")
+                        elif idx == len(field_lines) - 3:
+                            assert(struct_line.endswith("_Sentinel,"))
+                        elif idx == len(field_lines) - 2:
+                            out_java.write("\t}\n")
+                        elif idx == len(field_lines) - 1:
+                            assert(struct_line == "")
+                        else:
+                            out_java.write("\t" + struct_line + "\n")
+                            out_c.write("\t\tcase %d: return %s;\n" % (ord_v, struct_line.strip().strip(",")))
+                            ord_v = ord_v + 1
+                    out_c.write("\t}\n")
+                    out_c.write("\tassert(false);\n")
+                    out_c.write("}\n")
+
+                    ord_v = 0
+                    out_c.write("static inline jclass " + struct_name + "_to_java(JNIEnv *env, " + struct_name + " val) {\n")
+                    out_c.write("\t// TODO: This is pretty inefficient, we really need to cache the field IDs and class\n")
+                    out_c.write("\tjclass enum_class = (*env)->FindClass(env, \"Lorg/ldk/impl/bindings$" + struct_name + ";\");\n")
+                    out_c.write("\tassert(enum_class != NULL);\n")
+                    out_c.write("\tswitch (val) {\n")
+                    for idx, struct_line in enumerate(field_lines):
+                        if idx > 0 and idx < len(field_lines) - 3:
+                            variant = struct_line.strip().strip(",")
+                            out_c.write("\t\tcase " + variant + ": {\n")
+                            out_c.write("\t\t\tjfieldID field = (*env)->GetStaticFieldID(env, enum_class, \"" + variant + "\", \"Lorg/ldk/impl/bindings$" + struct_name + ";\");\n")
+                            out_c.write("\t\t\tassert(field != NULL);\n")
+                            out_c.write("\t\t\treturn (*env)->GetStaticObjectField(env, enum_class, field);\n")
+                            out_c.write("\t\t}\n")
+                            ord_v = ord_v + 1
+                    out_c.write("\t\tdefault: assert(false);\n")
+                    out_c.write("\t}\n")
+                    out_c.write("}\n\n")
+                elif len(trait_fn_lines) > 0:
                     trait_structs.add(struct_name)
                     map_trait(struct_name, field_var_lines, trait_fn_lines)
-                    #out_java.write("/* " + "\n".join(field_lines) + "*/\n")
-                cur_block_struct = None
-        elif in_block_union:
-            if line.startswith("} "):
-                in_block_union = False
-        elif in_block_enum:
-            if line.startswith("} "):
-                in_block_enum = False
+                cur_block_obj = None
         else:
             fn_ptr = fn_ptr_regex.match(line)
             fn_ret_arr = fn_ret_arr_regex.match(line)
@@ -569,11 +643,11 @@ public class bindings {
                 if not line.endswith("*/\n"):
                     in_block_comment = True
             elif line.startswith("typedef enum "):
-                in_block_enum = True
+                cur_block_obj = line
             elif line.startswith("typedef struct "):
-                cur_block_struct = line
+                cur_block_obj = line
             elif line.startswith("typedef union "):
-                in_block_union = True
+                cur_block_obj = line
             elif line.startswith("typedef "):
                 pass
             elif fn_ptr is not None:

@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    init
+ * Signature: (Ljava/lang/Class;)V
+ */
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_init
+  (JNIEnv *, jclass, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKSecretKey_new
  * Signature: ()J
  */
@@ -178,10 +186,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementCh
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_C2Tuple_Scriptu64ZChainErrorZ_err
- * Signature: (J)J
+ * Signature: (Lorg/ldk/impl/bindings/LDKChainError;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1Scriptu64ZChainErrorZ_1err
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -274,10 +282,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NoneAPIErrorZ_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_NoneChannelMonitorUpdateErrZ_err
- * Signature: (J)J
+ * Signature: (Lorg/ldk/impl/bindings/LDKChannelMonitorUpdateErr;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NoneChannelMonitorUpdateErrZ_1err
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -378,10 +386,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1SignatureNoneZ_1ok
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_TxCreationKeysSecpErrorZ_err
- * Signature: (J)J
+ * Signature: (Lorg/ldk/impl/bindings/LDKSecp256k1Error;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysSecpErrorZ_1err
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -810,9 +818,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_APIError_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Level_max
- * Signature: ()J
+ * Signature: ()Lorg/ldk/impl/bindings/LDKLevel;
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Level_1max
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_Level_1max
   (JNIEnv *, jclass);
 
 /*
@@ -1386,10 +1394,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChainWatchInterfaceUtil_1as_1
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChainWatchInterfaceUtil_new
- * Signature: (J)J
+ * Signature: (Lorg/ldk/impl/bindings/LDKNetwork;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChainWatchInterfaceUtil_1new
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -1666,10 +1674,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_KeysManager_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    KeysManager_new
- * Signature: ([BJJI)J
+ * Signature: ([BLorg/ldk/impl/bindings/LDKNetwork;JI)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_KeysManager_1new
-  (JNIEnv *, jclass, jbyteArray, jlong, jlong, jint);
+  (JNIEnv *, jclass, jbyteArray, jobject, jlong, jint);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -1842,10 +1850,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PaymentSendFailure_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelManager_new
- * Signature: (JJJJJJJJ)J
+ * Signature: (Lorg/ldk/impl/bindings/LDKNetwork;JJJJJJJ)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new
-  (JNIEnv *, jclass, jlong, jlong, jlong, jlong, jlong, jlong, jlong, jlong);
+  (JNIEnv *, jclass, jobject, jlong, jlong, jlong, jlong, jlong, jlong, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
