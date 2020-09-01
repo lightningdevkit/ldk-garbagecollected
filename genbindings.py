@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import sys, re
 
-if len(sys.argv) != 4:
-    print("USAGE: /path/to/lightning.h /path/to/bindings/output.java /path/to/bindings/output.c")
+if len(sys.argv) != 5:
+    print("USAGE: /path/to/lightning.h /path/to/bindings/output.java /path/to/bindings/output.c debug")
+    print("debug should be true or false and indicates whether to track allocations and ensure we don't leak")
     sys.exit(1)
 
 class TypeInfo:
@@ -152,15 +153,17 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             if ty_info.rust_obj is not None:
                 assert(ty_info.passed_as_ptr)
                 if not ty_info.is_ptr:
+                    base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";";
                     if ty_info.rust_obj in trait_structs:
-                        base_conv = ty_info.rust_obj + " *" + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";"
                         if not is_free:
-                            base_conv = base_conv + "\n" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv->this_arg);"
+                            base_conv = base_conv + "\n" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv.this_arg);"
+                        else:
+                            base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv,
-                            arg_conv_name = "*" + ty_info.var_name + "_conv",
+                            arg_conv_name = ty_info.var_name + "_conv",
                             ret_conv = None, ret_conv_name = None)
-                    base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";\nfree((void*)" + ty_info.var_name + ");";
+                    base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
                     if ty_info.rust_obj in opaque_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv + "\n" + ty_info.var_name + "_conv._underlying_ref = false;",
@@ -191,7 +194,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             if ty_info.rust_obj is not None:
                 assert(not is_free or ty_info.rust_obj not in opaque_structs);
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = ty_info.rust_obj + " arg_conv = *(" + ty_info.rust_obj + "*)arg;\nfree((void*)arg);",
+                    arg_conv = ty_info.rust_obj + " arg_conv = *(" + ty_info.rust_obj + "*)arg;\nFREE((void*)arg);",
                     arg_conv_name = "arg_conv",
                     ret_conv = None, ret_conv_name = None)
             else:
@@ -208,12 +211,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         # any _free function.
                         # To avoid any issues, we first assert that the incoming object is non-ref.
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            ret_conv = (ty_info.rust_obj + "* ret = malloc(sizeof(" + ty_info.rust_obj + "));\n*ret = ", ";\nassert(!ret->_underlying_ref);\nret->_underlying_ref = true;"),
+                            ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";\nassert(!ret->_underlying_ref);\nret->_underlying_ref = true;"),
                             ret_conv_name = "(long)ret",
                             arg_conv = None, arg_conv_name = None)
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            ret_conv = (ty_info.rust_obj + "* ret = malloc(sizeof(" + ty_info.rust_obj + "));\n*ret = ", ";"),
+                            ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
                             ret_conv_name = "(long)ret",
                             arg_conv = None, arg_conv_name = None)
                 else:
@@ -289,11 +292,52 @@ public class bindings {
     out_c.write("#include <assert.h>\n")
     out_c.write("#include <string.h>\n")
     out_c.write("#include <stdatomic.h>\n\n")
+    if sys.argv[4] == "false":
+        out_c.write("#define MALLOC(a, _) malloc(a)\n")
+        out_c.write("#define FREE free\n\n")
+    else:
+        out_c.write("#include <threads.h>\n")
+        out_c.write("static mtx_t allocation_mtx;\n\n")
+        out_c.write("void __attribute__((constructor)) init_mtx() {\n")
+        out_c.write("\tassert(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);\n")
+        out_c.write("}\n\n")
+        out_c.write("typedef struct allocation {\n")
+        out_c.write("\tstruct allocation* next;\n")
+        out_c.write("\tvoid* ptr;\n")
+        out_c.write("\tconst char* struct_name;\n")
+        out_c.write("} allocation;\n")
+        out_c.write("static allocation* allocation_ll = NULL;\n\n")
+        out_c.write("void* MALLOC(size_t len, const char* struct_name) {\n")
+        out_c.write("\tvoid* res = malloc(len);\n")
+        out_c.write("\tallocation* new_alloc = malloc(sizeof(allocation));\n")
+        out_c.write("\tnew_alloc->ptr = res;\n")
+        out_c.write("\tnew_alloc->struct_name = struct_name;\n")
+        out_c.write("\tassert(mtx_lock(&allocation_mtx) == thrd_success);\n")
+        out_c.write("\tnew_alloc->next = allocation_ll;\n")
+        out_c.write("\tallocation_ll = new_alloc;\n")
+        out_c.write("\tassert(mtx_unlock(&allocation_mtx) == thrd_success);\n")
+        out_c.write("\treturn res;\n")
+        out_c.write("}\n\n")
+        out_c.write("void FREE(void* ptr) {\n")
+        out_c.write("\tallocation* p = NULL;\n")
+        out_c.write("\tassert(mtx_lock(&allocation_mtx) == thrd_success);\n")
+        out_c.write("\tallocation* it = allocation_ll;\n")
+        out_c.write("\twhile (it->ptr != ptr) { p = it; it = it->next; }\n")
+        out_c.write("\tif (p) { p->next = it->next; } else { allocation_ll = it->next; }\n")
+        out_c.write("\tassert(mtx_unlock(&allocation_mtx) == thrd_success);\n")
+        out_c.write("\tassert(it->ptr == ptr);\n")
+        out_c.write("\tfree(it);\n")
+        out_c.write("\tfree(ptr);\n")
+        out_c.write("}\n\n")
+        out_c.write("void __attribute__((destructor)) check_leaks() {\n")
+        out_c.write("\tfor (allocation* a = allocation_ll; a != NULL; a = a->next) { fprintf(stderr, \"%s %p remains\\n\", a->struct_name, a->ptr); }\n")
+        out_c.write("\tassert(allocation_ll == NULL);\n")
+        out_c.write("}\n\n")
 
     # XXX: Temporarily write out a manual SecretKey_new() for testing, we should auto-gen this kind of thing
     out_java.write("\tpublic static native long LDKSecretKey_new();\n\n") # TODO: rm me
     out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSecretKey_1new(JNIEnv * _env, jclass _b) {\n") # TODO: rm me
-    out_c.write("\tLDKSecretKey* key = (LDKSecretKey*)malloc(sizeof(LDKSecretKey));\n") # TODO: rm me
+    out_c.write("\tLDKSecretKey* key = (LDKSecretKey*)MALLOC(sizeof(LDKSecretKey), \"LDKSecretKey\");\n") # TODO: rm me
     out_c.write("\treturn (long)key;\n") # TODO: rm me
     out_c.write("}\n") # TODO: rm me
 
@@ -424,19 +468,19 @@ public class bindings {
 
                             if ret_ty_info.passed_as_ptr:
                                 out_c.write("\t" + fn_line.group(1).strip() + " res = *ret;\n")
-                                out_c.write("\tfree(ret);\n")
+                                out_c.write("\tFREE(ret);\n")
                                 out_c.write("\treturn res;\n")
                             out_c.write("}\n")
                         elif fn_line.group(2) == "free":
-                            out_c.write("void " + struct_name + "_JCalls_free(void* this_arg) {\n")
+                            out_c.write("static void " + struct_name + "_JCalls_free(void* this_arg) {\n")
                             out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
                             out_c.write("\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n")
                             out_c.write("\t\t(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);\n")
-                            out_c.write("\t\tfree(j_calls);\n")
+                            out_c.write("\t\tFREE(j_calls);\n")
                             out_c.write("\t}\n}\n")
 
                     # Write out a clone function whether we need one or not, as we use them in moving to rust
-                    out_c.write("void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
+                    out_c.write("static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
                     out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
                     out_c.write("\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n")
                     for var_line in field_var_lines:
@@ -448,7 +492,7 @@ public class bindings {
                     out_java.write("\t}\n")
 
                     out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl")
-                    out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o")
+                    out_c.write("static inline " + struct_name + " " + struct_name + "_init (JNIEnv * env, jclass _a, jobject o")
                     for var_line in field_var_lines:
                         if var_line.group(1) in trait_structs:
                             out_java.write(", " + var_line.group(1) + " " + var_line.group(2))
@@ -458,7 +502,7 @@ public class bindings {
 
                     out_c.write("\tjclass c = (*env)->GetObjectClass(env, o);\n")
                     out_c.write("\tassert(c != NULL);\n")
-                    out_c.write("\t" + struct_name + "_JCalls *calls = malloc(sizeof(" + struct_name + "_JCalls));\n")
+                    out_c.write("\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n")
                     out_c.write("\tatomic_init(&calls->refcnt, 1);\n")
                     out_c.write("\tcalls->env = env;\n")
                     out_c.write("\tcalls->o = (*env)->NewGlobalRef(env, o);\n")
@@ -466,21 +510,38 @@ public class bindings {
                         if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
                             out_c.write("\tcalls->" + fn_line.group(2) + "_meth = (*env)->GetMethodID(env, c, \"" + fn_line.group(2) + "\", \"" + java_meth_descr + "\");\n")
                             out_c.write("\tassert(calls->" + fn_line.group(2) + "_meth != NULL);\n")
-                    out_c.write("\n\t" + struct_name + " *ret = malloc(sizeof(" + struct_name + "));\n")
-                    out_c.write("\tret->this_arg = (void*) calls;\n")
+                    out_c.write("\n\t" + struct_name + " ret = {\n")
+                    out_c.write("\t\t.this_arg = (void*) calls,\n")
                     for fn_line in trait_fn_lines:
                         if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            out_c.write("\tret->" + fn_line.group(2) + " = " + fn_line.group(2) + "_jcall;\n")
+                            out_c.write("\t\t." + fn_line.group(2) + " = " + fn_line.group(2) + "_jcall,\n")
                         elif fn_line.group(2) == "free":
-                            out_c.write("\tret->free = " + struct_name + "_JCalls_free;\n")
+                            out_c.write("\t\t.free = " + struct_name + "_JCalls_free,\n")
                         else:
-                            out_c.write("\tret->clone = " + struct_name + "_JCalls_clone;\n")
+                            out_c.write("\t\t.clone = " + struct_name + "_JCalls_clone,\n")
                     for var_line in field_var_lines:
                         if var_line.group(1) in trait_structs:
-                            out_c.write("\tret->" + var_line.group(2) + " = *(" + var_line.group(1) + "*)Java_org_ldk_impl_bindings_" + var_line.group(1) + "_1new(env, _a, " + var_line.group(2) + ");\n")
-                            out_c.write("\tcalls->" + var_line.group(2) + " = ret->" + var_line.group(2) + ".this_arg;\n")
-                    out_c.write("\treturn (long)ret;\n")
-                    out_c.write("}\n\n")
+                            out_c.write("\t\t." + var_line.group(2) + " = " + var_line.group(1) + "_init(env, _a, " + var_line.group(2) + "),\n")
+                    out_c.write("\t};\n")
+                    for var_line in field_var_lines:
+                        if var_line.group(1) in trait_structs:
+                            out_c.write("\tcalls->" + var_line.group(2) + " = ret." + var_line.group(2) + ".this_arg;\n")
+                    out_c.write("\treturn ret;\n")
+                    out_c.write("}\n")
+
+                    out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o")
+                    for var_line in field_var_lines:
+                        if var_line.group(1) in trait_structs:
+                            out_c.write(", jobject " + var_line.group(2))
+                    out_c.write(") {\n")
+                    out_c.write("\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
+                    out_c.write("\t*res_ptr = " + struct_name + "_init(env, _a, o")
+                    for var_line in field_var_lines:
+                        if var_line.group(1) in trait_structs:
+                            out_c.write(", " + var_line.group(2))
+                    out_c.write(");\n")
+                    out_c.write("\treturn (long)res_ptr;\n")
+                    out_c.write("}\n")
 
                     #out_java.write("/* " + "\n".join(field_lines) + "*/\n")
                 cur_block_struct = None
