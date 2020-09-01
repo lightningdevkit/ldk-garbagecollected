@@ -278,6 +278,150 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             out_c.write(";")
         out_c.write("\n}\n\n")
 
+    def map_trait(struct_name, field_var_lines, trait_fn_lines):
+        out_c.write("typedef struct " + struct_name + "_JCalls {\n")
+        out_c.write("\tatomic_size_t refcnt;\n")
+        out_c.write("\tJNIEnv *env;\n")
+        out_c.write("\tjobject o;\n")
+        for var_line in field_var_lines:
+            if var_line.group(1) in trait_structs:
+                out_c.write("\t" + var_line.group(1) + "_JCalls* " + var_line.group(2) + ";\n")
+        for fn_line in trait_fn_lines:
+            if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
+                out_c.write("\tjmethodID " + fn_line.group(2) + "_meth;\n")
+        out_c.write("} " + struct_name + "_JCalls;\n")
+
+        out_java.write("\tpublic interface " + struct_name + " {\n")
+        java_meths = []
+        for fn_line in trait_fn_lines:
+            java_meth_descr = "("
+            if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
+                ret_ty_info = java_c_types(fn_line.group(1), None)
+
+                out_java.write("\t\t " + ret_ty_info.java_ty + " " + fn_line.group(2) + "(")
+                is_const = fn_line.group(3) is not None
+                out_c.write(fn_line.group(1) + fn_line.group(2) + "_jcall(")
+                if is_const:
+                    out_c.write("const void* this_arg")
+                else:
+                    out_c.write("void* this_arg")
+
+                arg_names = []
+                for idx, arg in enumerate(fn_line.group(4).split(',')):
+                    if arg == "":
+                        continue
+                    if idx >= 2:
+                        out_java.write(", ")
+                    out_c.write(", ")
+                    arg_conv_info = map_type(arg, True, None, False)
+                    out_c.write(arg.strip())
+                    out_java.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
+                    arg_names.append(arg_conv_info)
+                    java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
+                java_meth_descr = java_meth_descr + ")" + ret_ty_info.java_fn_ty_arg
+                java_meths.append(java_meth_descr)
+
+                out_java.write(");\n")
+                out_c.write(") {\n")
+                out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+
+                for arg_info in arg_names:
+                    if arg_info.ret_conv is not None:
+                        out_c.write("\t" + arg_info.ret_conv[0].replace('\n', '\n\t').replace("_env", "j_calls->env"));
+                        out_c.write(arg_info.arg_name)
+                        out_c.write(arg_info.ret_conv[1].replace('\n', '\n\t').replace("_env", "j_calls->env") + "\n")
+
+                if not ret_ty_info.passed_as_ptr:
+                    out_c.write("\treturn (*j_calls->env)->Call" + ret_ty_info.java_ty.title() + "Method(j_calls->env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth")
+                else:
+                    out_c.write("\t" + fn_line.group(1).strip() + "* ret = (" + fn_line.group(1).strip() + "*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth");
+
+                for arg_info in arg_names:
+                    if arg_info.ret_conv is not None:
+                        out_c.write(", " + arg_info.ret_conv_name)
+                    else:
+                        out_c.write(", " + arg_info.arg_name)
+                out_c.write(");\n");
+
+                if ret_ty_info.passed_as_ptr:
+                    out_c.write("\t" + fn_line.group(1).strip() + " res = *ret;\n")
+                    out_c.write("\tFREE(ret);\n")
+                    out_c.write("\treturn res;\n")
+                out_c.write("}\n")
+            elif fn_line.group(2) == "free":
+                out_c.write("static void " + struct_name + "_JCalls_free(void* this_arg) {\n")
+                out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+                out_c.write("\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n")
+                out_c.write("\t\t(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);\n")
+                out_c.write("\t\tFREE(j_calls);\n")
+                out_c.write("\t}\n}\n")
+
+        # Write out a clone function whether we need one or not, as we use them in moving to rust
+        out_c.write("static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
+        out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+        out_c.write("\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n")
+        for var_line in field_var_lines:
+            if var_line.group(1) in trait_structs:
+                out_c.write("\tatomic_fetch_add_explicit(&j_calls->" + var_line.group(2) + "->refcnt, 1, memory_order_release);\n")
+        out_c.write("\treturn (void*) this_arg;\n")
+        out_c.write("}\n")
+
+        out_java.write("\t}\n")
+
+        out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl")
+        out_c.write("static inline " + struct_name + " " + struct_name + "_init (JNIEnv * env, jclass _a, jobject o")
+        for var_line in field_var_lines:
+            if var_line.group(1) in trait_structs:
+                out_java.write(", " + var_line.group(1) + " " + var_line.group(2))
+                out_c.write(", jobject " + var_line.group(2))
+        out_java.write(");\n")
+        out_c.write(") {\n")
+
+        out_c.write("\tjclass c = (*env)->GetObjectClass(env, o);\n")
+        out_c.write("\tassert(c != NULL);\n")
+        out_c.write("\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n")
+        out_c.write("\tatomic_init(&calls->refcnt, 1);\n")
+        out_c.write("\tcalls->env = env;\n")
+        out_c.write("\tcalls->o = (*env)->NewGlobalRef(env, o);\n")
+        for (fn_line, java_meth_descr) in zip(trait_fn_lines, java_meths):
+            if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
+                out_c.write("\tcalls->" + fn_line.group(2) + "_meth = (*env)->GetMethodID(env, c, \"" + fn_line.group(2) + "\", \"" + java_meth_descr + "\");\n")
+                out_c.write("\tassert(calls->" + fn_line.group(2) + "_meth != NULL);\n")
+        out_c.write("\n\t" + struct_name + " ret = {\n")
+        out_c.write("\t\t.this_arg = (void*) calls,\n")
+        for fn_line in trait_fn_lines:
+            if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
+                out_c.write("\t\t." + fn_line.group(2) + " = " + fn_line.group(2) + "_jcall,\n")
+            elif fn_line.group(2) == "free":
+                out_c.write("\t\t.free = " + struct_name + "_JCalls_free,\n")
+            else:
+                out_c.write("\t\t.clone = " + struct_name + "_JCalls_clone,\n")
+        for var_line in field_var_lines:
+            if var_line.group(1) in trait_structs:
+                out_c.write("\t\t." + var_line.group(2) + " = " + var_line.group(1) + "_init(env, _a, " + var_line.group(2) + "),\n")
+        out_c.write("\t};\n")
+        for var_line in field_var_lines:
+            if var_line.group(1) in trait_structs:
+                out_c.write("\tcalls->" + var_line.group(2) + " = ret." + var_line.group(2) + ".this_arg;\n")
+        out_c.write("\treturn ret;\n")
+        out_c.write("}\n")
+
+        out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o")
+        for var_line in field_var_lines:
+            if var_line.group(1) in trait_structs:
+                out_c.write(", jobject " + var_line.group(2))
+        out_c.write(") {\n")
+        out_c.write("\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
+        out_c.write("\t*res_ptr = " + struct_name + "_init(env, _a, o")
+        for var_line in field_var_lines:
+            if var_line.group(1) in trait_structs:
+                out_c.write(", " + var_line.group(2))
+        out_c.write(");\n")
+        out_c.write("\treturn (long)res_ptr;\n")
+        out_c.write("}\n")
+
+
+
     out_java.write("""package org.ldk.impl;
 
 public class bindings {
@@ -358,8 +502,9 @@ public class bindings {
     assert(line_indicates_trait_regex.match("   void *(*clone)(const void *this_arg);"))
     line_field_var_regex = re.compile("^   ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
     assert(line_field_var_regex.match("   LDKMessageSendEventsProvider MessageSendEventsProvider;"))
-    struct_name_regex = re.compile("^typedef struct (MUST_USE_STRUCT )?(LDK[A-Za-z_0-9]*) {$")
+    struct_name_regex = re.compile("^typedef (struct|enum) (MUST_USE_STRUCT )?(LDK[A-Za-z_0-9]*) {$")
     assert(struct_name_regex.match("typedef struct LDKCVecTempl_u8 {"))
+    assert(struct_name_regex.match("typedef enum LDKNetwork {"))
 
     for line in in_h:
         if in_block_comment:
@@ -402,147 +547,7 @@ public class bindings {
                     opaque_structs.add(struct_name)
                 if len(trait_fn_lines) > 0:
                     trait_structs.add(struct_name)
-                    out_c.write("typedef struct " + struct_name + "_JCalls {\n")
-                    out_c.write("\tatomic_size_t refcnt;\n")
-                    out_c.write("\tJNIEnv *env;\n")
-                    out_c.write("\tjobject o;\n")
-                    for var_line in field_var_lines:
-                        if var_line.group(1) in trait_structs:
-                            out_c.write("\t" + var_line.group(1) + "_JCalls* " + var_line.group(2) + ";\n")
-                    for fn_line in trait_fn_lines:
-                        if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            out_c.write("\tjmethodID " + fn_line.group(2) + "_meth;\n")
-                    out_c.write("} " + struct_name + "_JCalls;\n")
-
-                    out_java.write("\tpublic interface " + struct_name + " {\n")
-                    java_meths = []
-                    for fn_line in trait_fn_lines:
-                        java_meth_descr = "("
-                        if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            ret_ty_info = java_c_types(fn_line.group(1), None)
-
-                            out_java.write("\t\t " + ret_ty_info.java_ty + " " + fn_line.group(2) + "(")
-                            is_const = fn_line.group(3) is not None
-                            out_c.write(fn_line.group(1) + fn_line.group(2) + "_jcall(")
-                            if is_const:
-                                out_c.write("const void* this_arg")
-                            else:
-                                out_c.write("void* this_arg")
-
-                            arg_names = []
-                            for idx, arg in enumerate(fn_line.group(4).split(',')):
-                                if arg == "":
-                                    continue
-                                if idx >= 2:
-                                    out_java.write(", ")
-                                out_c.write(", ")
-                                arg_conv_info = map_type(arg, True, None, False)
-                                out_c.write(arg.strip())
-                                out_java.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
-                                arg_names.append(arg_conv_info)
-                                java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
-                            java_meth_descr = java_meth_descr + ")" + ret_ty_info.java_fn_ty_arg
-                            java_meths.append(java_meth_descr)
-
-                            out_java.write(");\n")
-                            out_c.write(") {\n")
-                            out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-
-                            for arg_info in arg_names:
-                                if arg_info.ret_conv is not None:
-                                    out_c.write("\t" + arg_info.ret_conv[0].replace('\n', '\n\t').replace("_env", "j_calls->env"));
-                                    out_c.write(arg_info.arg_name)
-                                    out_c.write(arg_info.ret_conv[1].replace('\n', '\n\t').replace("_env", "j_calls->env") + "\n")
-
-                            if not ret_ty_info.passed_as_ptr:
-                                out_c.write("\treturn (*j_calls->env)->Call" + ret_ty_info.java_ty.title() + "Method(j_calls->env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth")
-                            else:
-                                out_c.write("\t" + fn_line.group(1).strip() + "* ret = (" + fn_line.group(1).strip() + "*)(*j_calls->env)->CallLongMethod(j_calls->env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth");
-
-                            for arg_info in arg_names:
-                                if arg_info.ret_conv is not None:
-                                    out_c.write(", " + arg_info.ret_conv_name)
-                                else:
-                                    out_c.write(", " + arg_info.arg_name)
-                            out_c.write(");\n");
-
-                            if ret_ty_info.passed_as_ptr:
-                                out_c.write("\t" + fn_line.group(1).strip() + " res = *ret;\n")
-                                out_c.write("\tFREE(ret);\n")
-                                out_c.write("\treturn res;\n")
-                            out_c.write("}\n")
-                        elif fn_line.group(2) == "free":
-                            out_c.write("static void " + struct_name + "_JCalls_free(void* this_arg) {\n")
-                            out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-                            out_c.write("\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n")
-                            out_c.write("\t\t(*j_calls->env)->DeleteGlobalRef(j_calls->env, j_calls->o);\n")
-                            out_c.write("\t\tFREE(j_calls);\n")
-                            out_c.write("\t}\n}\n")
-
-                    # Write out a clone function whether we need one or not, as we use them in moving to rust
-                    out_c.write("static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
-                    out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-                    out_c.write("\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n")
-                    for var_line in field_var_lines:
-                        if var_line.group(1) in trait_structs:
-                            out_c.write("\tatomic_fetch_add_explicit(&j_calls->" + var_line.group(2) + "->refcnt, 1, memory_order_release);\n")
-                    out_c.write("\treturn (void*) this_arg;\n")
-                    out_c.write("}\n")
-
-                    out_java.write("\t}\n")
-
-                    out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl")
-                    out_c.write("static inline " + struct_name + " " + struct_name + "_init (JNIEnv * env, jclass _a, jobject o")
-                    for var_line in field_var_lines:
-                        if var_line.group(1) in trait_structs:
-                            out_java.write(", " + var_line.group(1) + " " + var_line.group(2))
-                            out_c.write(", jobject " + var_line.group(2))
-                    out_java.write(");\n")
-                    out_c.write(") {\n")
-
-                    out_c.write("\tjclass c = (*env)->GetObjectClass(env, o);\n")
-                    out_c.write("\tassert(c != NULL);\n")
-                    out_c.write("\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n")
-                    out_c.write("\tatomic_init(&calls->refcnt, 1);\n")
-                    out_c.write("\tcalls->env = env;\n")
-                    out_c.write("\tcalls->o = (*env)->NewGlobalRef(env, o);\n")
-                    for (fn_line, java_meth_descr) in zip(trait_fn_lines, java_meths):
-                        if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            out_c.write("\tcalls->" + fn_line.group(2) + "_meth = (*env)->GetMethodID(env, c, \"" + fn_line.group(2) + "\", \"" + java_meth_descr + "\");\n")
-                            out_c.write("\tassert(calls->" + fn_line.group(2) + "_meth != NULL);\n")
-                    out_c.write("\n\t" + struct_name + " ret = {\n")
-                    out_c.write("\t\t.this_arg = (void*) calls,\n")
-                    for fn_line in trait_fn_lines:
-                        if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                            out_c.write("\t\t." + fn_line.group(2) + " = " + fn_line.group(2) + "_jcall,\n")
-                        elif fn_line.group(2) == "free":
-                            out_c.write("\t\t.free = " + struct_name + "_JCalls_free,\n")
-                        else:
-                            out_c.write("\t\t.clone = " + struct_name + "_JCalls_clone,\n")
-                    for var_line in field_var_lines:
-                        if var_line.group(1) in trait_structs:
-                            out_c.write("\t\t." + var_line.group(2) + " = " + var_line.group(1) + "_init(env, _a, " + var_line.group(2) + "),\n")
-                    out_c.write("\t};\n")
-                    for var_line in field_var_lines:
-                        if var_line.group(1) in trait_structs:
-                            out_c.write("\tcalls->" + var_line.group(2) + " = ret." + var_line.group(2) + ".this_arg;\n")
-                    out_c.write("\treturn ret;\n")
-                    out_c.write("}\n")
-
-                    out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o")
-                    for var_line in field_var_lines:
-                        if var_line.group(1) in trait_structs:
-                            out_c.write(", jobject " + var_line.group(2))
-                    out_c.write(") {\n")
-                    out_c.write("\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-                    out_c.write("\t*res_ptr = " + struct_name + "_init(env, _a, o")
-                    for var_line in field_var_lines:
-                        if var_line.group(1) in trait_structs:
-                            out_c.write(", " + var_line.group(2))
-                    out_c.write(");\n")
-                    out_c.write("\treturn (long)res_ptr;\n")
-                    out_c.write("}\n")
-
+                    map_trait(struct_name, field_var_lines, trait_fn_lines)
                     #out_java.write("/* " + "\n".join(field_lines) + "*/\n")
                 cur_block_struct = None
         elif in_block_union:
