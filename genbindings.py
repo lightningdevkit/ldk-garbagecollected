@@ -87,11 +87,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             c_ty = "jint"
             fn_ty_arg = "I"
             fn_arg = fn_arg[8:].strip()
-        elif fn_arg.startswith("uint64_t"):
+        elif fn_arg.startswith("uint64_t") or fn_arg.startswith("uintptr_t"):
             java_ty = "long"
             c_ty = "jlong"
             fn_ty_arg = "J"
-            fn_arg = fn_arg[8:].strip()
+            if fn_arg.startswith("uint64_t"):
+                fn_arg = fn_arg[8:].strip()
+            else:
+                fn_arg = fn_arg[9:].strip()
         elif is_const and fn_arg.startswith("char *"):
             java_ty = "String"
             c_ty = "const char*"
@@ -171,7 +174,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";";
                     if ty_info.rust_obj in trait_structs:
                         if not is_free:
-                            base_conv = base_conv + "\n" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv.this_arg);"
+                            base_conv = base_conv + "\nif (" + ty_info.var_name + "_conv.free == " + ty_info.rust_obj + "_JCalls_free) {\n"
+                            base_conv = base_conv + "\t// If this_arg is a JCalls struct, then we need to increment the refcnt in it.\n"
+                            base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv.this_arg);\n}"
                         else:
                             base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
