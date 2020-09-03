@@ -186,7 +186,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
                     if ty_info.rust_obj in opaque_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            arg_conv = base_conv + "\n" + ty_info.var_name + "_conv._underlying_ref = false;",
+                            arg_conv = base_conv + "\n" + ty_info.var_name + "_conv.is_owned = true;",
                             arg_conv_name = ty_info.var_name + "_conv",
                             ret_conv = None, ret_conv_name = None)
 
@@ -236,7 +236,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         # any _free function.
                         # To avoid any issues, we first assert that the incoming object is non-ref.
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";\nassert(!ret->_underlying_ref);\nret->_underlying_ref = true;"),
+                            ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";\nassert(ret->is_owned);\nret->is_owned = false;"),
                             ret_conv_name = "(long)ret",
                             arg_conv = None, arg_conv_name = None)
                     else:
@@ -527,7 +527,7 @@ public class bindings {
     reg_fn_regex = re.compile("([A-Za-z_0-9\* ]* \*?)([a-zA-Z_0-9]*)\((.*)\);$")
     const_val_regex = re.compile("^extern const ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
 
-    line_indicates_opaque_regex = re.compile("^   bool _underlying_ref;$")
+    line_indicates_opaque_regex = re.compile("^   bool is_owned;$")
     line_indicates_trait_regex = re.compile("^   ([A-Za-z_0-9]* \*?)\(\*([A-Za-z_0-9]*)\)\((const )?void \*this_arg(.*)\);$")
     assert(line_indicates_trait_regex.match("   uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);"))
     assert(line_indicates_trait_regex.match("   LDKCVec_MessageSendEventZ (*get_and_clear_pending_msg_events)(const void *this_arg);"))

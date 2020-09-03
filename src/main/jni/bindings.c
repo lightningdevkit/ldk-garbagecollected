@@ -1868,7 +1868,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NoneMonitorUpdateErr
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1new(JNIEnv * _env, jclass _b, jlong a, jlong b) {
 	LDKOutPoint a_conv = *(LDKOutPoint*)a;
 	FREE((void*)a);
-	a_conv._underlying_ref = false;
+	a_conv.is_owned = true;
 	LDKCVec_u8Z b_conv = *(LDKCVec_u8Z*)b;
 	FREE((void*)b);
 	LDKC2Tuple_OutPointScriptZ* ret = MALLOC(sizeof(LDKC2Tuple_OutPointScriptZ), "LDKC2Tuple_OutPointScriptZ");
@@ -1879,13 +1879,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1new
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1new(JNIEnv * _env, jclass _b, jlong a, jlong b, jlong c) {
 	LDKChannelAnnouncement a_conv = *(LDKChannelAnnouncement*)a;
 	FREE((void*)a);
-	a_conv._underlying_ref = false;
+	a_conv.is_owned = true;
 	LDKChannelUpdate b_conv = *(LDKChannelUpdate*)b;
 	FREE((void*)b);
-	b_conv._underlying_ref = false;
+	b_conv.is_owned = true;
 	LDKChannelUpdate c_conv = *(LDKChannelUpdate*)c;
 	FREE((void*)c);
-	c_conv._underlying_ref = false;
+	c_conv.is_owned = true;
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
 	*ret = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a_conv, b_conv, c_conv);
 	return (long)ret;
@@ -1900,7 +1900,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NonePeerHandleErrorZ
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1HTLCOutputInCommitmentSignatureZ_1new(JNIEnv * _env, jclass _b, jlong a, jlong b) {
 	LDKHTLCOutputInCommitment a_conv = *(LDKHTLCOutputInCommitment*)a;
 	FREE((void*)a);
-	a_conv._underlying_ref = false;
+	a_conv.is_owned = true;
 	LDKSignature b_conv = *(LDKSignature*)b;
 	FREE((void*)b);
 	LDKC2Tuple_HTLCOutputInCommitmentSignatureZ* ret = MALLOC(sizeof(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ), "LDKC2Tuple_HTLCOutputInCommitmentSignatureZ");
@@ -1952,7 +1952,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Logger_1free(JNIEnv * _env, jc
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelHandshakeConfig_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelHandshakeConfig this_ptr_conv = *(LDKChannelHandshakeConfig*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelHandshakeConfig_free(this_ptr_conv);
 }
 
@@ -1989,23 +1989,23 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelHandshakeConfig_1set_1o
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelHandshakeConfig_1new(JNIEnv * _env, jclass _b, jint minimum_depth_arg, jshort our_to_self_delay_arg, jlong our_htlc_minimum_msat_arg) {
 	LDKChannelHandshakeConfig* ret = MALLOC(sizeof(LDKChannelHandshakeConfig), "LDKChannelHandshakeConfig");
 	*ret = ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelHandshakeConfig_1default(JNIEnv * _env, jclass _b) {
 	LDKChannelHandshakeConfig* ret = MALLOC(sizeof(LDKChannelHandshakeConfig), "LDKChannelHandshakeConfig");
 	*ret = ChannelHandshakeConfig_default();
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelHandshakeLimits_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv = *(LDKChannelHandshakeLimits*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelHandshakeLimits_free(this_ptr_conv);
 }
 
@@ -2112,23 +2112,23 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelHandshakeLimits_1set_1t
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelHandshakeLimits_1new(JNIEnv * _env, jclass _b, jlong min_funding_satoshis_arg, jlong max_htlc_minimum_msat_arg, jlong min_max_htlc_value_in_flight_msat_arg, jlong max_channel_reserve_satoshis_arg, jshort min_max_accepted_htlcs_arg, jlong min_dust_limit_satoshis_arg, jlong max_dust_limit_satoshis_arg, jint max_minimum_depth_arg, jboolean force_announced_channel_preference_arg, jshort their_to_self_delay_arg) {
 	LDKChannelHandshakeLimits* ret = MALLOC(sizeof(LDKChannelHandshakeLimits), "LDKChannelHandshakeLimits");
 	*ret = ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, min_dust_limit_satoshis_arg, max_dust_limit_satoshis_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelHandshakeLimits_1default(JNIEnv * _env, jclass _b) {
 	LDKChannelHandshakeLimits* ret = MALLOC(sizeof(LDKChannelHandshakeLimits), "LDKChannelHandshakeLimits");
 	*ret = ChannelHandshakeLimits_default();
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelConfig this_ptr_conv = *(LDKChannelConfig*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelConfig_free(this_ptr_conv);
 }
 
@@ -2165,16 +2165,16 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1set_1commit_1up
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1new(JNIEnv * _env, jclass _b, jint fee_proportional_millionths_arg, jboolean announced_channel_arg, jboolean commit_upfront_shutdown_pubkey_arg) {
 	LDKChannelConfig* ret = MALLOC(sizeof(LDKChannelConfig), "LDKChannelConfig");
 	*ret = ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1default(JNIEnv * _env, jclass _b) {
 	LDKChannelConfig* ret = MALLOC(sizeof(LDKChannelConfig), "LDKChannelConfig");
 	*ret = ChannelConfig_default();
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2190,15 +2190,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1read(JNIEnv * 
 	FREE((void*)ser);
 	LDKChannelConfig* ret = MALLOC(sizeof(LDKChannelConfig), "LDKChannelConfig");
 	*ret = ChannelConfig_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UserConfig_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUserConfig this_ptr_conv = *(LDKUserConfig*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UserConfig_free(this_ptr_conv);
 }
 
@@ -2206,8 +2206,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UserConfig_1get_1own_1channel
 	LDKUserConfig* this_ptr_conv = (LDKUserConfig*)this_ptr;
 	LDKChannelHandshakeConfig* ret = MALLOC(sizeof(LDKChannelHandshakeConfig), "LDKChannelHandshakeConfig");
 	*ret = UserConfig_get_own_channel_config(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2215,7 +2215,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UserConfig_1set_1own_1channel_
 	LDKUserConfig* this_ptr_conv = (LDKUserConfig*)this_ptr;
 	LDKChannelHandshakeConfig val_conv = *(LDKChannelHandshakeConfig*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return UserConfig_set_own_channel_config(this_ptr_conv, val_conv);
 }
 
@@ -2223,8 +2223,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UserConfig_1get_1peer_1channe
 	LDKUserConfig* this_ptr_conv = (LDKUserConfig*)this_ptr;
 	LDKChannelHandshakeLimits* ret = MALLOC(sizeof(LDKChannelHandshakeLimits), "LDKChannelHandshakeLimits");
 	*ret = UserConfig_get_peer_channel_config_limits(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2232,7 +2232,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UserConfig_1set_1peer_1channel
 	LDKUserConfig* this_ptr_conv = (LDKUserConfig*)this_ptr;
 	LDKChannelHandshakeLimits val_conv = *(LDKChannelHandshakeLimits*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return UserConfig_set_peer_channel_config_limits(this_ptr_conv, val_conv);
 }
 
@@ -2240,8 +2240,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UserConfig_1get_1channel_1opt
 	LDKUserConfig* this_ptr_conv = (LDKUserConfig*)this_ptr;
 	LDKChannelConfig* ret = MALLOC(sizeof(LDKChannelConfig), "LDKChannelConfig");
 	*ret = UserConfig_get_channel_options(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2249,32 +2249,32 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UserConfig_1set_1channel_1opti
 	LDKUserConfig* this_ptr_conv = (LDKUserConfig*)this_ptr;
 	LDKChannelConfig val_conv = *(LDKChannelConfig*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return UserConfig_set_channel_options(this_ptr_conv, val_conv);
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UserConfig_1new(JNIEnv * _env, jclass _b, jlong own_channel_config_arg, jlong peer_channel_config_limits_arg, jlong channel_options_arg) {
 	LDKChannelHandshakeConfig own_channel_config_arg_conv = *(LDKChannelHandshakeConfig*)own_channel_config_arg;
 	FREE((void*)own_channel_config_arg);
-	own_channel_config_arg_conv._underlying_ref = false;
+	own_channel_config_arg_conv.is_owned = true;
 	LDKChannelHandshakeLimits peer_channel_config_limits_arg_conv = *(LDKChannelHandshakeLimits*)peer_channel_config_limits_arg;
 	FREE((void*)peer_channel_config_limits_arg);
-	peer_channel_config_limits_arg_conv._underlying_ref = false;
+	peer_channel_config_limits_arg_conv.is_owned = true;
 	LDKChannelConfig channel_options_arg_conv = *(LDKChannelConfig*)channel_options_arg;
 	FREE((void*)channel_options_arg);
-	channel_options_arg_conv._underlying_ref = false;
+	channel_options_arg_conv.is_owned = true;
 	LDKUserConfig* ret = MALLOC(sizeof(LDKUserConfig), "LDKUserConfig");
 	*ret = UserConfig_new(own_channel_config_arg_conv, peer_channel_config_limits_arg_conv, channel_options_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UserConfig_1default(JNIEnv * _env, jclass _b) {
 	LDKUserConfig* ret = MALLOC(sizeof(LDKUserConfig), "LDKUserConfig");
 	*ret = UserConfig_default();
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2305,15 +2305,15 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_FeeEstimator_1free(JNIEnv * _e
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChainWatchedUtil_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChainWatchedUtil this_ptr_conv = *(LDKChainWatchedUtil*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChainWatchedUtil_free(this_ptr_conv);
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChainWatchedUtil_1new(JNIEnv * _env, jclass _b) {
 	LDKChainWatchedUtil* ret = MALLOC(sizeof(LDKChainWatchedUtil), "LDKChainWatchedUtil");
 	*ret = ChainWatchedUtil_new();
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2351,7 +2351,7 @@ JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_ChainWatchedUtil_1does_1ma
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_BlockNotifier_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKBlockNotifier this_ptr_conv = *(LDKBlockNotifier*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return BlockNotifier_free(this_ptr_conv);
 }
 
@@ -2363,8 +2363,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_BlockNotifier_1new(JNIEnv * _
 	}
 	LDKBlockNotifier* ret = MALLOC(sizeof(LDKBlockNotifier), "LDKBlockNotifier");
 	*ret = BlockNotifier_new(chain_monitor_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2408,7 +2408,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_BlockNotifier_1block_1disconne
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChainWatchInterfaceUtil_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChainWatchInterfaceUtil this_ptr_conv = *(LDKChainWatchInterfaceUtil*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChainWatchInterfaceUtil_free(this_ptr_conv);
 }
 
@@ -2423,8 +2423,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChainWatchInterfaceUtil_1new(
 	LDKNetwork network_conv = LDKNetwork_from_java(_env, network);
 	LDKChainWatchInterfaceUtil* ret = MALLOC(sizeof(LDKChainWatchInterfaceUtil), "LDKChainWatchInterfaceUtil");
 	*ret = ChainWatchInterfaceUtil_new(network_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2438,7 +2438,7 @@ JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_ChainWatchInterfaceUtil_1d
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_OutPoint_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKOutPoint this_ptr_conv = *(LDKOutPoint*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return OutPoint_free(this_ptr_conv);
 }
 
@@ -2471,8 +2471,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OutPoint_1new(JNIEnv * _env, 
 	FREE((void*)txid_arg);
 	LDKOutPoint* ret = MALLOC(sizeof(LDKOutPoint), "LDKOutPoint");
 	*ret = OutPoint_new(txid_arg_conv, index_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2495,8 +2495,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OutPoint_1read(JNIEnv * _env,
 	FREE((void*)ser);
 	LDKOutPoint* ret = MALLOC(sizeof(LDKOutPoint), "LDKOutPoint");
 	*ret = OutPoint_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2521,7 +2521,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_KeysInterface_1free(JNIEnv * _
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKInMemoryChannelKeys this_ptr_conv = *(LDKInMemoryChannelKeys*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return InMemoryChannelKeys_free(this_ptr_conv);
 }
 
@@ -2626,8 +2626,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1new(JNIE
 	FREE((void*)key_derivation_params);
 	LDKInMemoryChannelKeys* ret = MALLOC(sizeof(LDKInMemoryChannelKeys), "LDKInMemoryChannelKeys");
 	*ret = InMemoryChannelKeys_new(funding_key_conv, revocation_base_key_conv, payment_key_conv, delayed_payment_base_key_conv, htlc_base_key_conv, commitment_seed_conv, channel_value_satoshis, key_derivation_params_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2635,8 +2635,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1remote_1
 	LDKInMemoryChannelKeys* this_arg_conv = (LDKInMemoryChannelKeys*)this_arg;
 	LDKChannelPublicKeys* ret = MALLOC(sizeof(LDKChannelPublicKeys), "LDKChannelPublicKeys");
 	*ret = InMemoryChannelKeys_remote_pubkeys(this_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2669,15 +2669,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1read(JNI
 	FREE((void*)ser);
 	LDKInMemoryChannelKeys* ret = MALLOC(sizeof(LDKInMemoryChannelKeys), "LDKInMemoryChannelKeys");
 	*ret = InMemoryChannelKeys_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_KeysManager_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKKeysManager this_ptr_conv = *(LDKKeysManager*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return KeysManager_free(this_ptr_conv);
 }
 
@@ -2688,8 +2688,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_KeysManager_1new(JNIEnv * _en
 	LDKNetwork network_conv = LDKNetwork_from_java(_env, network);
 	LDKKeysManager* ret = MALLOC(sizeof(LDKKeysManager), "LDKKeysManager");
 	*ret = KeysManager_new(seed_ref, network_conv, starting_time_secs, starting_time_nanos);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2697,8 +2697,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_KeysManager_1derive_1channel_
 	LDKKeysManager* this_arg_conv = (LDKKeysManager*)this_arg;
 	LDKInMemoryChannelKeys* ret = MALLOC(sizeof(LDKInMemoryChannelKeys), "LDKInMemoryChannelKeys");
 	*ret = KeysManager_derive_channel_keys(this_arg_conv, channel_value_satoshis, params_1, params_2);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2712,14 +2712,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_KeysManager_1as_1KeysInterfac
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelManager this_ptr_conv = *(LDKChannelManager*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelManager_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelDetails_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelDetails this_ptr_conv = *(LDKChannelDetails*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelDetails_free(this_ptr_conv);
 }
 
@@ -2755,8 +2755,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelDetails_1get_1counterp
 	LDKChannelDetails* this_ptr_conv = (LDKChannelDetails*)this_ptr;
 	LDKInitFeatures* ret = MALLOC(sizeof(LDKInitFeatures), "LDKInitFeatures");
 	*ret = ChannelDetails_get_counterparty_features(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2764,7 +2764,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelDetails_1set_1counterpa
 	LDKChannelDetails* this_ptr_conv = (LDKChannelDetails*)this_ptr;
 	LDKInitFeatures val_conv = *(LDKInitFeatures*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return ChannelDetails_set_counterparty_features(this_ptr_conv, val_conv);
 }
 
@@ -2821,7 +2821,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelDetails_1set_1is_1live(
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PaymentSendFailure_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKPaymentSendFailure this_ptr_conv = *(LDKPaymentSendFailure*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return PaymentSendFailure_free(this_ptr_conv);
 }
 
@@ -2854,11 +2854,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new(JNIEnv * 
 	}
 	LDKUserConfig config_conv = *(LDKUserConfig*)config;
 	FREE((void*)config);
-	config_conv._underlying_ref = false;
+	config_conv.is_owned = true;
 	LDKChannelManager* ret = MALLOC(sizeof(LDKChannelManager), "LDKChannelManager");
 	*ret = ChannelManager_new(network_conv, fee_est_conv, monitor_conv, tx_broadcaster_conv, logger_conv, keys_manager_conv, config_conv, current_blockchain_height);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -2868,7 +2868,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1create_1chann
 	FREE((void*)their_network_key);
 	LDKUserConfig override_config_conv = *(LDKUserConfig*)override_config;
 	FREE((void*)override_config);
-	override_config_conv._underlying_ref = false;
+	override_config_conv.is_owned = true;
 	LDKCResult_NoneAPIErrorZ* ret = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
 	*ret = ChannelManager_create_channel(this_arg_conv, their_network_key_conv, channel_value_satoshis, push_msat, user_id, override_config_conv);
 	return (long)ret;
@@ -2930,7 +2930,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1funding_1trans
 	unsigned char (*temporary_channel_id_ref)[32] = &temporary_channel_id_arr;
 	LDKOutPoint funding_txo_conv = *(LDKOutPoint*)funding_txo;
 	FREE((void*)funding_txo);
-	funding_txo_conv._underlying_ref = false;
+	funding_txo_conv.is_owned = true;
 	return ChannelManager_funding_transaction_generated(this_arg_conv, temporary_channel_id_ref, funding_txo_conv);
 }
 
@@ -3018,7 +3018,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1as_1ChannelMe
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManagerReadArgs_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelManagerReadArgs this_ptr_conv = *(LDKChannelManagerReadArgs*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelManagerReadArgs_free(this_ptr_conv);
 }
 
@@ -3106,8 +3106,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManagerReadArgs_1get_1
 	LDKChannelManagerReadArgs* this_ptr_conv = (LDKChannelManagerReadArgs*)this_ptr;
 	LDKUserConfig* ret = MALLOC(sizeof(LDKUserConfig), "LDKUserConfig");
 	*ret = ChannelManagerReadArgs_get_default_config(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -3115,7 +3115,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManagerReadArgs_1set_1d
 	LDKChannelManagerReadArgs* this_ptr_conv = (LDKChannelManagerReadArgs*)this_ptr;
 	LDKUserConfig val_conv = *(LDKUserConfig*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return ChannelManagerReadArgs_set_default_config(this_ptr_conv, val_conv);
 }
 
@@ -3147,20 +3147,20 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManagerReadArgs_1new(J
 	}
 	LDKUserConfig default_config_conv = *(LDKUserConfig*)default_config;
 	FREE((void*)default_config);
-	default_config_conv._underlying_ref = false;
+	default_config_conv.is_owned = true;
 	LDKCVec_ChannelMonitorZ channel_monitors_conv = *(LDKCVec_ChannelMonitorZ*)channel_monitors;
 	FREE((void*)channel_monitors);
 	LDKChannelManagerReadArgs* ret = MALLOC(sizeof(LDKChannelManagerReadArgs), "LDKChannelManagerReadArgs");
 	*ret = ChannelManagerReadArgs_new(keys_manager_conv, fee_estimator_conv, monitor_conv, tx_broadcaster_conv, logger_conv, default_config_conv, channel_monitors_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelMonitorUpdate this_ptr_conv = *(LDKChannelMonitorUpdate*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelMonitorUpdate_free(this_ptr_conv);
 }
 
@@ -3186,29 +3186,29 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1read(JN
 	FREE((void*)ser);
 	LDKChannelMonitorUpdate* ret = MALLOC(sizeof(LDKChannelMonitorUpdate), "LDKChannelMonitorUpdate");
 	*ret = ChannelMonitorUpdate_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_MonitorUpdateError_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKMonitorUpdateError this_ptr_conv = *(LDKMonitorUpdateError*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return MonitorUpdateError_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_MonitorEvent_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKMonitorEvent this_ptr_conv = *(LDKMonitorEvent*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return MonitorEvent_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKHTLCUpdate this_ptr_conv = *(LDKHTLCUpdate*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return HTLCUpdate_free(this_ptr_conv);
 }
 
@@ -3224,15 +3224,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1read(JNIEnv * _en
 	FREE((void*)ser);
 	LDKHTLCUpdate* ret = MALLOC(sizeof(LDKHTLCUpdate), "LDKHTLCUpdate");
 	*ret = HTLCUpdate_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelMonitor this_ptr_conv = *(LDKChannelMonitor*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelMonitor_free(this_ptr_conv);
 }
 
@@ -3246,7 +3246,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1update_1monit
 	LDKChannelMonitor* this_arg_conv = (LDKChannelMonitor*)this_arg;
 	LDKChannelMonitorUpdate updates_conv = *(LDKChannelMonitorUpdate*)updates;
 	FREE((void*)updates);
-	updates_conv._underlying_ref = false;
+	updates_conv.is_owned = true;
 	LDKBroadcasterInterface* broadcaster_conv = (LDKBroadcasterInterface*)broadcaster;
 	LDKLogger* logger_conv = (LDKLogger*)logger;
 	LDKCResult_NoneMonitorUpdateErrorZ* ret = MALLOC(sizeof(LDKCResult_NoneMonitorUpdateErrorZ), "LDKCResult_NoneMonitorUpdateErrorZ");
@@ -3291,21 +3291,21 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1get_1latest_1
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_DecodeError_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKDecodeError this_ptr_conv = *(LDKDecodeError*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return DecodeError_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Init_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKInit this_ptr_conv = *(LDKInit*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return Init_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKErrorMessage this_ptr_conv = *(LDKErrorMessage*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ErrorMessage_free(this_ptr_conv);
 }
 
@@ -3344,15 +3344,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1new(JNIEnv * _e
 	FREE((void*)data_arg);
 	LDKErrorMessage* ret = MALLOC(sizeof(LDKErrorMessage), "LDKErrorMessage");
 	*ret = ErrorMessage_new(channel_id_arg_conv, data_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Ping_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKPing this_ptr_conv = *(LDKPing*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return Ping_free(this_ptr_conv);
 }
 
@@ -3379,15 +3379,15 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Ping_1set_1byteslen(JNIEnv * _
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1new(JNIEnv * _env, jclass _b, jshort ponglen_arg, jshort byteslen_arg) {
 	LDKPing* ret = MALLOC(sizeof(LDKPing), "LDKPing");
 	*ret = Ping_new(ponglen_arg, byteslen_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Pong_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKPong this_ptr_conv = *(LDKPong*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return Pong_free(this_ptr_conv);
 }
 
@@ -3404,15 +3404,15 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Pong_1set_1byteslen(JNIEnv * _
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Pong_1new(JNIEnv * _env, jclass _b, jshort byteslen_arg) {
 	LDKPong* ret = MALLOC(sizeof(LDKPong), "LDKPong");
 	*ret = Pong_new(byteslen_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_OpenChannel_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKOpenChannel this_ptr_conv = *(LDKOpenChannel*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return OpenChannel_free(this_ptr_conv);
 }
 
@@ -3631,7 +3631,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_OpenChannel_1set_1channel_1fla
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKAcceptChannel this_ptr_conv = *(LDKAcceptChannel*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return AcceptChannel_free(this_ptr_conv);
 }
 
@@ -3806,7 +3806,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1set_1first_1per
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_FundingCreated_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKFundingCreated this_ptr_conv = *(LDKFundingCreated*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return FundingCreated_free(this_ptr_conv);
 }
 
@@ -3871,15 +3871,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingCreated_1new(JNIEnv * 
 	FREE((void*)signature_arg);
 	LDKFundingCreated* ret = MALLOC(sizeof(LDKFundingCreated), "LDKFundingCreated");
 	*ret = FundingCreated_new(temporary_channel_id_arg_conv, funding_txid_arg_conv, funding_output_index_arg, signature_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_FundingSigned_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKFundingSigned this_ptr_conv = *(LDKFundingSigned*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return FundingSigned_free(this_ptr_conv);
 }
 
@@ -3918,15 +3918,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingSigned_1new(JNIEnv * _
 	FREE((void*)signature_arg);
 	LDKFundingSigned* ret = MALLOC(sizeof(LDKFundingSigned), "LDKFundingSigned");
 	*ret = FundingSigned_new(channel_id_arg_conv, signature_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_FundingLocked_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKFundingLocked this_ptr_conv = *(LDKFundingLocked*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return FundingLocked_free(this_ptr_conv);
 }
 
@@ -3965,15 +3965,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingLocked_1new(JNIEnv * _
 	FREE((void*)next_per_commitment_point_arg);
 	LDKFundingLocked* ret = MALLOC(sizeof(LDKFundingLocked), "LDKFundingLocked");
 	*ret = FundingLocked_new(channel_id_arg_conv, next_per_commitment_point_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Shutdown_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKShutdown this_ptr_conv = *(LDKShutdown*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return Shutdown_free(this_ptr_conv);
 }
 
@@ -4012,15 +4012,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1new(JNIEnv * _env, 
 	FREE((void*)scriptpubkey_arg);
 	LDKShutdown* ret = MALLOC(sizeof(LDKShutdown), "LDKShutdown");
 	*ret = Shutdown_new(channel_id_arg_conv, scriptpubkey_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKClosingSigned this_ptr_conv = *(LDKClosingSigned*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ClosingSigned_free(this_ptr_conv);
 }
 
@@ -4069,15 +4069,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1new(JNIEnv * _
 	FREE((void*)signature_arg);
 	LDKClosingSigned* ret = MALLOC(sizeof(LDKClosingSigned), "LDKClosingSigned");
 	*ret = ClosingSigned_new(channel_id_arg_conv, fee_satoshis_arg, signature_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUpdateAddHTLC this_ptr_conv = *(LDKUpdateAddHTLC*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UpdateAddHTLC_free(this_ptr_conv);
 }
 
@@ -4142,7 +4142,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1set_1cltv_1expi
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUpdateFulfillHTLC this_ptr_conv = *(LDKUpdateFulfillHTLC*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UpdateFulfillHTLC_free(this_ptr_conv);
 }
 
@@ -4191,15 +4191,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1new(JNIEnv
 	FREE((void*)payment_preimage_arg);
 	LDKUpdateFulfillHTLC* ret = MALLOC(sizeof(LDKUpdateFulfillHTLC), "LDKUpdateFulfillHTLC");
 	*ret = UpdateFulfillHTLC_new(channel_id_arg_conv, htlc_id_arg, payment_preimage_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUpdateFailHTLC this_ptr_conv = *(LDKUpdateFailHTLC*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UpdateFailHTLC_free(this_ptr_conv);
 }
 
@@ -4230,7 +4230,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1set_1htlc_1id(
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv = *(LDKUpdateFailMalformedHTLC*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UpdateFailMalformedHTLC_free(this_ptr_conv);
 }
 
@@ -4271,7 +4271,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1set_1
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKCommitmentSigned this_ptr_conv = *(LDKCommitmentSigned*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return CommitmentSigned_free(this_ptr_conv);
 }
 
@@ -4319,15 +4319,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1new(JNIEnv 
 	FREE((void*)htlc_signatures_arg);
 	LDKCommitmentSigned* ret = MALLOC(sizeof(LDKCommitmentSigned), "LDKCommitmentSigned");
 	*ret = CommitmentSigned_new(channel_id_arg_conv, signature_arg_conv, htlc_signatures_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKRevokeAndACK this_ptr_conv = *(LDKRevokeAndACK*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return RevokeAndACK_free(this_ptr_conv);
 }
 
@@ -4382,15 +4382,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1new(JNIEnv * _e
 	FREE((void*)next_per_commitment_point_arg);
 	LDKRevokeAndACK* ret = MALLOC(sizeof(LDKRevokeAndACK), "LDKRevokeAndACK");
 	*ret = RevokeAndACK_new(channel_id_arg_conv, per_commitment_secret_arg_conv, next_per_commitment_point_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UpdateFee_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUpdateFee this_ptr_conv = *(LDKUpdateFee*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UpdateFee_free(this_ptr_conv);
 }
 
@@ -4423,15 +4423,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFee_1new(JNIEnv * _env,
 	FREE((void*)channel_id_arg);
 	LDKUpdateFee* ret = MALLOC(sizeof(LDKUpdateFee), "LDKUpdateFee");
 	*ret = UpdateFee_new(channel_id_arg_conv, feerate_per_kw_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_DataLossProtect_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKDataLossProtect this_ptr_conv = *(LDKDataLossProtect*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return DataLossProtect_free(this_ptr_conv);
 }
 
@@ -4470,15 +4470,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_DataLossProtect_1new(JNIEnv *
 	FREE((void*)my_current_per_commitment_point_arg);
 	LDKDataLossProtect* ret = MALLOC(sizeof(LDKDataLossProtect), "LDKDataLossProtect");
 	*ret = DataLossProtect_new(your_last_per_commitment_secret_arg_conv, my_current_per_commitment_point_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelReestablish this_ptr_conv = *(LDKChannelReestablish*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelReestablish_free(this_ptr_conv);
 }
 
@@ -4519,7 +4519,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1set_1next_
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKAnnouncementSignatures this_ptr_conv = *(LDKAnnouncementSignatures*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return AnnouncementSignatures_free(this_ptr_conv);
 }
 
@@ -4584,8 +4584,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1new(J
 	FREE((void*)bitcoin_signature_arg);
 	LDKAnnouncementSignatures* ret = MALLOC(sizeof(LDKAnnouncementSignatures), "LDKAnnouncementSignatures");
 	*ret = AnnouncementSignatures_new(channel_id_arg_conv, short_channel_id_arg, node_signature_arg_conv, bitcoin_signature_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -4598,7 +4598,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NetAddress_1free(JNIEnv * _env
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv = *(LDKUnsignedNodeAnnouncement*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UnsignedNodeAnnouncement_free(this_ptr_conv);
 }
 
@@ -4664,7 +4664,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1set_
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKNodeAnnouncement this_ptr_conv = *(LDKNodeAnnouncement*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return NodeAnnouncement_free(this_ptr_conv);
 }
 
@@ -4686,8 +4686,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1get_1conten
 	LDKNodeAnnouncement* this_ptr_conv = (LDKNodeAnnouncement*)this_ptr;
 	LDKUnsignedNodeAnnouncement* ret = MALLOC(sizeof(LDKUnsignedNodeAnnouncement), "LDKUnsignedNodeAnnouncement");
 	*ret = NodeAnnouncement_get_contents(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -4695,7 +4695,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1set_1content
 	LDKNodeAnnouncement* this_ptr_conv = (LDKNodeAnnouncement*)this_ptr;
 	LDKUnsignedNodeAnnouncement val_conv = *(LDKUnsignedNodeAnnouncement*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return NodeAnnouncement_set_contents(this_ptr_conv, val_conv);
 }
 
@@ -4704,18 +4704,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1new(JNIEnv 
 	FREE((void*)signature_arg);
 	LDKUnsignedNodeAnnouncement contents_arg_conv = *(LDKUnsignedNodeAnnouncement*)contents_arg;
 	FREE((void*)contents_arg);
-	contents_arg_conv._underlying_ref = false;
+	contents_arg_conv.is_owned = true;
 	LDKNodeAnnouncement* ret = MALLOC(sizeof(LDKNodeAnnouncement), "LDKNodeAnnouncement");
 	*ret = NodeAnnouncement_new(signature_arg_conv, contents_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv = *(LDKUnsignedChannelAnnouncement*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UnsignedChannelAnnouncement_free(this_ptr_conv);
 }
 
@@ -4802,7 +4802,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1s
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelAnnouncement this_ptr_conv = *(LDKChannelAnnouncement*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelAnnouncement_free(this_ptr_conv);
 }
 
@@ -4866,8 +4866,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1get_1con
 	LDKChannelAnnouncement* this_ptr_conv = (LDKChannelAnnouncement*)this_ptr;
 	LDKUnsignedChannelAnnouncement* ret = MALLOC(sizeof(LDKUnsignedChannelAnnouncement), "LDKUnsignedChannelAnnouncement");
 	*ret = ChannelAnnouncement_get_contents(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -4875,7 +4875,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1set_1cont
 	LDKChannelAnnouncement* this_ptr_conv = (LDKChannelAnnouncement*)this_ptr;
 	LDKUnsignedChannelAnnouncement val_conv = *(LDKUnsignedChannelAnnouncement*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return ChannelAnnouncement_set_contents(this_ptr_conv, val_conv);
 }
 
@@ -4890,18 +4890,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1new(JNIE
 	FREE((void*)bitcoin_signature_2_arg);
 	LDKUnsignedChannelAnnouncement contents_arg_conv = *(LDKUnsignedChannelAnnouncement*)contents_arg;
 	FREE((void*)contents_arg);
-	contents_arg_conv._underlying_ref = false;
+	contents_arg_conv.is_owned = true;
 	LDKChannelAnnouncement* ret = MALLOC(sizeof(LDKChannelAnnouncement), "LDKChannelAnnouncement");
 	*ret = ChannelAnnouncement_new(node_signature_1_arg_conv, node_signature_2_arg_conv, bitcoin_signature_1_arg_conv, bitcoin_signature_2_arg_conv, contents_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv = *(LDKUnsignedChannelUpdate*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return UnsignedChannelUpdate_free(this_ptr_conv);
 }
 
@@ -4992,7 +4992,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1set_1fe
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelUpdate this_ptr_conv = *(LDKChannelUpdate*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelUpdate_free(this_ptr_conv);
 }
 
@@ -5014,8 +5014,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1get_1contents(
 	LDKChannelUpdate* this_ptr_conv = (LDKChannelUpdate*)this_ptr;
 	LDKUnsignedChannelUpdate* ret = MALLOC(sizeof(LDKUnsignedChannelUpdate), "LDKUnsignedChannelUpdate");
 	*ret = ChannelUpdate_get_contents(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5023,7 +5023,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1set_1contents(J
 	LDKChannelUpdate* this_ptr_conv = (LDKChannelUpdate*)this_ptr;
 	LDKUnsignedChannelUpdate val_conv = *(LDKUnsignedChannelUpdate*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return ChannelUpdate_set_contents(this_ptr_conv, val_conv);
 }
 
@@ -5032,11 +5032,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1new(JNIEnv * _
 	FREE((void*)signature_arg);
 	LDKUnsignedChannelUpdate contents_arg_conv = *(LDKUnsignedChannelUpdate*)contents_arg;
 	FREE((void*)contents_arg);
-	contents_arg_conv._underlying_ref = false;
+	contents_arg_conv.is_owned = true;
 	LDKChannelUpdate* ret = MALLOC(sizeof(LDKChannelUpdate), "LDKChannelUpdate");
 	*ret = ChannelUpdate_new(signature_arg_conv, contents_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5049,7 +5049,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ErrorAction_1free(JNIEnv * _en
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LightningError_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKLightningError this_ptr_conv = *(LDKLightningError*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return LightningError_free(this_ptr_conv);
 }
 
@@ -5088,15 +5088,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LightningError_1new(JNIEnv * 
 	FREE((void*)action_arg);
 	LDKLightningError* ret = MALLOC(sizeof(LDKLightningError), "LDKLightningError");
 	*ret = LightningError_new(err_arg_conv, action_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKCommitmentUpdate this_ptr_conv = *(LDKCommitmentUpdate*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return CommitmentUpdate_free(this_ptr_conv);
 }
 
@@ -5132,8 +5132,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1get_1update
 	LDKCommitmentUpdate* this_ptr_conv = (LDKCommitmentUpdate*)this_ptr;
 	LDKUpdateFee* ret = MALLOC(sizeof(LDKUpdateFee), "LDKUpdateFee");
 	*ret = CommitmentUpdate_get_update_fee(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5141,7 +5141,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1set_1update_
 	LDKCommitmentUpdate* this_ptr_conv = (LDKCommitmentUpdate*)this_ptr;
 	LDKUpdateFee val_conv = *(LDKUpdateFee*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return CommitmentUpdate_set_update_fee(this_ptr_conv, val_conv);
 }
 
@@ -5149,8 +5149,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1get_1commit
 	LDKCommitmentUpdate* this_ptr_conv = (LDKCommitmentUpdate*)this_ptr;
 	LDKCommitmentSigned* ret = MALLOC(sizeof(LDKCommitmentSigned), "LDKCommitmentSigned");
 	*ret = CommitmentUpdate_get_commitment_signed(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5158,7 +5158,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1set_1commitm
 	LDKCommitmentUpdate* this_ptr_conv = (LDKCommitmentUpdate*)this_ptr;
 	LDKCommitmentSigned val_conv = *(LDKCommitmentSigned*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return CommitmentUpdate_set_commitment_signed(this_ptr_conv, val_conv);
 }
 
@@ -5173,14 +5173,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1new(JNIEnv 
 	FREE((void*)update_fail_malformed_htlcs_arg);
 	LDKUpdateFee update_fee_arg_conv = *(LDKUpdateFee*)update_fee_arg;
 	FREE((void*)update_fee_arg);
-	update_fee_arg_conv._underlying_ref = false;
+	update_fee_arg_conv.is_owned = true;
 	LDKCommitmentSigned commitment_signed_arg_conv = *(LDKCommitmentSigned*)commitment_signed_arg;
 	FREE((void*)commitment_signed_arg);
-	commitment_signed_arg_conv._underlying_ref = false;
+	commitment_signed_arg_conv.is_owned = true;
 	LDKCommitmentUpdate* ret = MALLOC(sizeof(LDKCommitmentUpdate), "LDKCommitmentUpdate");
 	*ret = CommitmentUpdate_new(update_add_htlcs_arg_conv, update_fulfill_htlcs_arg_conv, update_fail_htlcs_arg_conv, update_fail_malformed_htlcs_arg_conv, update_fee_arg_conv, commitment_signed_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5214,8 +5214,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1read(JNIEnv * 
 	FREE((void*)ser);
 	LDKAcceptChannel* ret = MALLOC(sizeof(LDKAcceptChannel), "LDKAcceptChannel");
 	*ret = AcceptChannel_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5231,8 +5231,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1read(
 	FREE((void*)ser);
 	LDKAnnouncementSignatures* ret = MALLOC(sizeof(LDKAnnouncementSignatures), "LDKAnnouncementSignatures");
 	*ret = AnnouncementSignatures_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5248,8 +5248,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1read(JNIE
 	FREE((void*)ser);
 	LDKChannelReestablish* ret = MALLOC(sizeof(LDKChannelReestablish), "LDKChannelReestablish");
 	*ret = ChannelReestablish_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5265,8 +5265,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1read(JNIEnv * 
 	FREE((void*)ser);
 	LDKClosingSigned* ret = MALLOC(sizeof(LDKClosingSigned), "LDKClosingSigned");
 	*ret = ClosingSigned_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5282,8 +5282,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1read(JNIEnv
 	FREE((void*)ser);
 	LDKCommitmentSigned* ret = MALLOC(sizeof(LDKCommitmentSigned), "LDKCommitmentSigned");
 	*ret = CommitmentSigned_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5299,8 +5299,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingCreated_1read(JNIEnv *
 	FREE((void*)ser);
 	LDKFundingCreated* ret = MALLOC(sizeof(LDKFundingCreated), "LDKFundingCreated");
 	*ret = FundingCreated_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5316,8 +5316,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingSigned_1read(JNIEnv * 
 	FREE((void*)ser);
 	LDKFundingSigned* ret = MALLOC(sizeof(LDKFundingSigned), "LDKFundingSigned");
 	*ret = FundingSigned_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5333,8 +5333,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingLocked_1read(JNIEnv * 
 	FREE((void*)ser);
 	LDKFundingLocked* ret = MALLOC(sizeof(LDKFundingLocked), "LDKFundingLocked");
 	*ret = FundingLocked_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5350,8 +5350,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Init_1read(JNIEnv * _env, jcl
 	FREE((void*)ser);
 	LDKInit* ret = MALLOC(sizeof(LDKInit), "LDKInit");
 	*ret = Init_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5367,8 +5367,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OpenChannel_1read(JNIEnv * _e
 	FREE((void*)ser);
 	LDKOpenChannel* ret = MALLOC(sizeof(LDKOpenChannel), "LDKOpenChannel");
 	*ret = OpenChannel_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5384,8 +5384,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1read(JNIEnv * _
 	FREE((void*)ser);
 	LDKRevokeAndACK* ret = MALLOC(sizeof(LDKRevokeAndACK), "LDKRevokeAndACK");
 	*ret = RevokeAndACK_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5401,8 +5401,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1read(JNIEnv * _env,
 	FREE((void*)ser);
 	LDKShutdown* ret = MALLOC(sizeof(LDKShutdown), "LDKShutdown");
 	*ret = Shutdown_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5418,8 +5418,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1read(JNIEnv *
 	FREE((void*)ser);
 	LDKUpdateFailHTLC* ret = MALLOC(sizeof(LDKUpdateFailHTLC), "LDKUpdateFailHTLC");
 	*ret = UpdateFailHTLC_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5435,8 +5435,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1read
 	FREE((void*)ser);
 	LDKUpdateFailMalformedHTLC* ret = MALLOC(sizeof(LDKUpdateFailMalformedHTLC), "LDKUpdateFailMalformedHTLC");
 	*ret = UpdateFailMalformedHTLC_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5452,8 +5452,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFee_1read(JNIEnv * _env
 	FREE((void*)ser);
 	LDKUpdateFee* ret = MALLOC(sizeof(LDKUpdateFee), "LDKUpdateFee");
 	*ret = UpdateFee_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5469,8 +5469,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1read(JNIEn
 	FREE((void*)ser);
 	LDKUpdateFulfillHTLC* ret = MALLOC(sizeof(LDKUpdateFulfillHTLC), "LDKUpdateFulfillHTLC");
 	*ret = UpdateFulfillHTLC_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5486,8 +5486,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1read(JNIEnv * 
 	FREE((void*)ser);
 	LDKUpdateAddHTLC* ret = MALLOC(sizeof(LDKUpdateAddHTLC), "LDKUpdateAddHTLC");
 	*ret = UpdateAddHTLC_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5503,8 +5503,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1read(JNIEnv * _env, jcl
 	FREE((void*)ser);
 	LDKPing* ret = MALLOC(sizeof(LDKPing), "LDKPing");
 	*ret = Ping_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5520,8 +5520,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Pong_1read(JNIEnv * _env, jcl
 	FREE((void*)ser);
 	LDKPong* ret = MALLOC(sizeof(LDKPong), "LDKPong");
 	*ret = Pong_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5537,8 +5537,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1
 	FREE((void*)ser);
 	LDKUnsignedChannelAnnouncement* ret = MALLOC(sizeof(LDKUnsignedChannelAnnouncement), "LDKUnsignedChannelAnnouncement");
 	*ret = UnsignedChannelAnnouncement_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5554,8 +5554,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1read(JNI
 	FREE((void*)ser);
 	LDKChannelAnnouncement* ret = MALLOC(sizeof(LDKChannelAnnouncement), "LDKChannelAnnouncement");
 	*ret = ChannelAnnouncement_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5571,8 +5571,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1read(J
 	FREE((void*)ser);
 	LDKUnsignedChannelUpdate* ret = MALLOC(sizeof(LDKUnsignedChannelUpdate), "LDKUnsignedChannelUpdate");
 	*ret = UnsignedChannelUpdate_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5588,8 +5588,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1read(JNIEnv * 
 	FREE((void*)ser);
 	LDKChannelUpdate* ret = MALLOC(sizeof(LDKChannelUpdate), "LDKChannelUpdate");
 	*ret = ChannelUpdate_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5605,8 +5605,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1read(JNIEnv * _
 	FREE((void*)ser);
 	LDKErrorMessage* ret = MALLOC(sizeof(LDKErrorMessage), "LDKErrorMessage");
 	*ret = ErrorMessage_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5622,8 +5622,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1rea
 	FREE((void*)ser);
 	LDKUnsignedNodeAnnouncement* ret = MALLOC(sizeof(LDKUnsignedNodeAnnouncement), "LDKUnsignedNodeAnnouncement");
 	*ret = UnsignedNodeAnnouncement_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5639,15 +5639,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1read(JNIEnv
 	FREE((void*)ser);
 	LDKNodeAnnouncement* ret = MALLOC(sizeof(LDKNodeAnnouncement), "LDKNodeAnnouncement");
 	*ret = NodeAnnouncement_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_MessageHandler_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKMessageHandler this_ptr_conv = *(LDKMessageHandler*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return MessageHandler_free(this_ptr_conv);
 }
 
@@ -5696,8 +5696,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_MessageHandler_1new(JNIEnv * 
 	}
 	LDKMessageHandler* ret = MALLOC(sizeof(LDKMessageHandler), "LDKMessageHandler");
 	*ret = MessageHandler_new(chan_handler_arg_conv, route_handler_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5710,7 +5710,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_SocketDescriptor_1free(JNIEnv 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerHandleError_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKPeerHandleError this_ptr_conv = *(LDKPeerHandleError*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return PeerHandleError_free(this_ptr_conv);
 }
 
@@ -5727,22 +5727,22 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerHandleError_1set_1no_1conn
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PeerHandleError_1new(JNIEnv * _env, jclass _b, jboolean no_connection_possible_arg) {
 	LDKPeerHandleError* ret = MALLOC(sizeof(LDKPeerHandleError), "LDKPeerHandleError");
 	*ret = PeerHandleError_new(no_connection_possible_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKPeerManager this_ptr_conv = *(LDKPeerManager*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return PeerManager_free(this_ptr_conv);
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PeerManager_1new(JNIEnv * _env, jclass _b, jlong message_handler, jlong our_node_secret, jbyteArray ephemeral_random_data, jlong logger) {
 	LDKMessageHandler message_handler_conv = *(LDKMessageHandler*)message_handler;
 	FREE((void*)message_handler);
-	message_handler_conv._underlying_ref = false;
+	message_handler_conv.is_owned = true;
 	LDKSecretKey our_node_secret_conv = *(LDKSecretKey*)our_node_secret;
 	FREE((void*)our_node_secret);
 	unsigned char ephemeral_random_data_arr[32];
@@ -5755,8 +5755,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PeerManager_1new(JNIEnv * _en
 	}
 	LDKPeerManager* ret = MALLOC(sizeof(LDKPeerManager), "LDKPeerManager");
 	*ret = PeerManager_new(message_handler_conv, our_node_secret_conv, ephemeral_random_data_ref, logger_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5839,7 +5839,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_build_1commitment_1secret(JNI
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKTxCreationKeys this_ptr_conv = *(LDKTxCreationKeys*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return TxCreationKeys_free(this_ptr_conv);
 }
 
@@ -5926,8 +5926,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1new(JNIEnv * 
 	FREE((void*)a_delayed_payment_key_arg);
 	LDKTxCreationKeys* ret = MALLOC(sizeof(LDKTxCreationKeys), "LDKTxCreationKeys");
 	*ret = TxCreationKeys_new(per_commitment_point_arg_conv, revocation_key_arg_conv, a_htlc_key_arg_conv, b_htlc_key_arg_conv, a_delayed_payment_key_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5943,26 +5943,26 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1read(JNIEnv *
 	FREE((void*)ser);
 	LDKTxCreationKeys* ret = MALLOC(sizeof(LDKTxCreationKeys), "LDKTxCreationKeys");
 	*ret = TxCreationKeys_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PreCalculatedTxCreationKeys_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKPreCalculatedTxCreationKeys this_ptr_conv = *(LDKPreCalculatedTxCreationKeys*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return PreCalculatedTxCreationKeys_free(this_ptr_conv);
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PreCalculatedTxCreationKeys_1new(JNIEnv * _env, jclass _b, jlong keys) {
 	LDKTxCreationKeys keys_conv = *(LDKTxCreationKeys*)keys;
 	FREE((void*)keys);
-	keys_conv._underlying_ref = false;
+	keys_conv.is_owned = true;
 	LDKPreCalculatedTxCreationKeys* ret = MALLOC(sizeof(LDKPreCalculatedTxCreationKeys), "LDKPreCalculatedTxCreationKeys");
 	*ret = PreCalculatedTxCreationKeys_new(keys_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5970,8 +5970,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PreCalculatedTxCreationKeys_1
 	LDKPreCalculatedTxCreationKeys* this_arg_conv = (LDKPreCalculatedTxCreationKeys*)this_arg;
 	LDKTxCreationKeys* ret = MALLOC(sizeof(LDKTxCreationKeys), "LDKTxCreationKeys");
 	*ret = PreCalculatedTxCreationKeys_trust_key_derivation(this_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -5985,7 +5985,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PreCalculatedTxCreationKeys_1
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelPublicKeys this_ptr_conv = *(LDKChannelPublicKeys*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelPublicKeys_free(this_ptr_conv);
 }
 
@@ -6072,8 +6072,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1new(JNIEnv
 	FREE((void*)htlc_basepoint_arg);
 	LDKChannelPublicKeys* ret = MALLOC(sizeof(LDKChannelPublicKeys), "LDKChannelPublicKeys");
 	*ret = ChannelPublicKeys_new(funding_pubkey_arg_conv, revocation_basepoint_arg_conv, payment_point_arg_conv, delayed_payment_basepoint_arg_conv, htlc_basepoint_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6089,8 +6089,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1read(JNIEn
 	FREE((void*)ser);
 	LDKChannelPublicKeys* ret = MALLOC(sizeof(LDKChannelPublicKeys), "LDKChannelPublicKeys");
 	*ret = ChannelPublicKeys_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6123,7 +6123,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_get_1revokeable_1redeemscript
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKHTLCOutputInCommitment this_ptr_conv = *(LDKHTLCOutputInCommitment*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return HTLCOutputInCommitment_free(this_ptr_conv);
 }
 
@@ -6183,8 +6183,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1read(
 	FREE((void*)ser);
 	LDKHTLCOutputInCommitment* ret = MALLOC(sizeof(LDKHTLCOutputInCommitment), "LDKHTLCOutputInCommitment");
 	*ret = HTLCOutputInCommitment_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6223,7 +6223,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_build_1htlc_1transaction(JNIE
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LocalCommitmentTransaction_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKLocalCommitmentTransaction this_ptr_conv = *(LDKLocalCommitmentTransaction*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return LocalCommitmentTransaction_free(this_ptr_conv);
 }
 
@@ -6283,13 +6283,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LocalCommitmentTransaction_1n
 	FREE((void*)their_funding_key);
 	LDKTxCreationKeys local_keys_conv = *(LDKTxCreationKeys*)local_keys;
 	FREE((void*)local_keys);
-	local_keys_conv._underlying_ref = false;
+	local_keys_conv.is_owned = true;
 	LDKCVec_C2Tuple_HTLCOutputInCommitmentSignatureZZ htlc_data_conv = *(LDKCVec_C2Tuple_HTLCOutputInCommitmentSignatureZZ*)htlc_data;
 	FREE((void*)htlc_data);
 	LDKLocalCommitmentTransaction* ret = MALLOC(sizeof(LDKLocalCommitmentTransaction), "LDKLocalCommitmentTransaction");
 	*ret = LocalCommitmentTransaction_new_missing_local_sig(unsigned_tx_conv, their_sig_conv, our_funding_key_conv, their_funding_key_conv, local_keys_conv, feerate_per_kw, htlc_data_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6297,8 +6297,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LocalCommitmentTransaction_1t
 	LDKLocalCommitmentTransaction* this_arg_conv = (LDKLocalCommitmentTransaction*)this_arg;
 	LDKTxCreationKeys* ret = MALLOC(sizeof(LDKTxCreationKeys), "LDKTxCreationKeys");
 	*ret = LocalCommitmentTransaction_trust_key_derivation(this_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6343,36 +6343,36 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LocalCommitmentTransaction_1r
 	FREE((void*)ser);
 	LDKLocalCommitmentTransaction* ret = MALLOC(sizeof(LDKLocalCommitmentTransaction), "LDKLocalCommitmentTransaction");
 	*ret = LocalCommitmentTransaction_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InitFeatures_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKInitFeatures this_ptr_conv = *(LDKInitFeatures*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return InitFeatures_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKNodeFeatures this_ptr_conv = *(LDKNodeFeatures*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return NodeFeatures_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelFeatures_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelFeatures this_ptr_conv = *(LDKChannelFeatures*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelFeatures_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RouteHop_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKRouteHop this_ptr_conv = *(LDKRouteHop*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return RouteHop_free(this_ptr_conv);
 }
 
@@ -6423,7 +6423,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RouteHop_1set_1cltv_1expiry_1d
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Route_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKRoute this_ptr_conv = *(LDKRoute*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return Route_free(this_ptr_conv);
 }
 
@@ -6439,8 +6439,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Route_1new(JNIEnv * _env, jcl
 	FREE((void*)paths_arg);
 	LDKRoute* ret = MALLOC(sizeof(LDKRoute), "LDKRoute");
 	*ret = Route_new(paths_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6456,15 +6456,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Route_1read(JNIEnv * _env, jc
 	FREE((void*)ser);
 	LDKRoute* ret = MALLOC(sizeof(LDKRoute), "LDKRoute");
 	*ret = Route_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RouteHint_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKRouteHint this_ptr_conv = *(LDKRouteHint*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return RouteHint_free(this_ptr_conv);
 }
 
@@ -6496,8 +6496,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RouteHint_1get_1fees(JNIEnv *
 	LDKRouteHint* this_ptr_conv = (LDKRouteHint*)this_ptr;
 	LDKRoutingFees* ret = MALLOC(sizeof(LDKRoutingFees), "LDKRoutingFees");
 	*ret = RouteHint_get_fees(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6505,7 +6505,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RouteHint_1set_1fees(JNIEnv * 
 	LDKRouteHint* this_ptr_conv = (LDKRouteHint*)this_ptr;
 	LDKRoutingFees val_conv = *(LDKRoutingFees*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return RouteHint_set_fees(this_ptr_conv, val_conv);
 }
 
@@ -6534,11 +6534,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RouteHint_1new(JNIEnv * _env,
 	FREE((void*)src_node_id_arg);
 	LDKRoutingFees fees_arg_conv = *(LDKRoutingFees*)fees_arg;
 	FREE((void*)fees_arg);
-	fees_arg_conv._underlying_ref = false;
+	fees_arg_conv.is_owned = true;
 	LDKRouteHint* ret = MALLOC(sizeof(LDKRouteHint), "LDKRouteHint");
 	*ret = RouteHint_new(src_node_id_arg_conv, short_channel_id_arg, fees_arg_conv, cltv_expiry_delta_arg, htlc_minimum_msat_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6564,21 +6564,21 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_get_1route(JNIEnv * _env, jcl
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKNetworkGraph this_ptr_conv = *(LDKNetworkGraph*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return NetworkGraph_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LockedNetworkGraph_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKLockedNetworkGraph this_ptr_conv = *(LDKLockedNetworkGraph*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return LockedNetworkGraph_free(this_ptr_conv);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NetGraphMsgHandler_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKNetGraphMsgHandler this_ptr_conv = *(LDKNetGraphMsgHandler*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return NetGraphMsgHandler_free(this_ptr_conv);
 }
 
@@ -6595,8 +6595,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetGraphMsgHandler_1new(JNIEn
 	}
 	LDKNetGraphMsgHandler* ret = MALLOC(sizeof(LDKNetGraphMsgHandler), "LDKNetGraphMsgHandler");
 	*ret = NetGraphMsgHandler_new(chain_monitor_conv, logger_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6613,11 +6613,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetGraphMsgHandler_1from_1net
 	}
 	LDKNetworkGraph network_graph_conv = *(LDKNetworkGraph*)network_graph;
 	FREE((void*)network_graph);
-	network_graph_conv._underlying_ref = false;
+	network_graph_conv.is_owned = true;
 	LDKNetGraphMsgHandler* ret = MALLOC(sizeof(LDKNetGraphMsgHandler), "LDKNetGraphMsgHandler");
 	*ret = NetGraphMsgHandler_from_net_graph(chain_monitor_conv, logger_conv, network_graph_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6625,8 +6625,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetGraphMsgHandler_1read_1loc
 	LDKNetGraphMsgHandler* this_arg_conv = (LDKNetGraphMsgHandler*)this_arg;
 	LDKLockedNetworkGraph* ret = MALLOC(sizeof(LDKLockedNetworkGraph), "LDKLockedNetworkGraph");
 	*ret = NetGraphMsgHandler_read_locked_graph(this_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6634,8 +6634,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LockedNetworkGraph_1graph(JNI
 	LDKLockedNetworkGraph* this_arg_conv = (LDKLockedNetworkGraph*)this_arg;
 	LDKNetworkGraph* ret = MALLOC(sizeof(LDKNetworkGraph), "LDKNetworkGraph");
 	*ret = LockedNetworkGraph_graph(this_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6649,7 +6649,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetGraphMsgHandler_1as_1Routi
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv = *(LDKDirectionalChannelInfo*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return DirectionalChannelInfo_free(this_ptr_conv);
 }
 
@@ -6705,15 +6705,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1read(
 	FREE((void*)ser);
 	LDKDirectionalChannelInfo* ret = MALLOC(sizeof(LDKDirectionalChannelInfo), "LDKDirectionalChannelInfo");
 	*ret = DirectionalChannelInfo_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKChannelInfo this_ptr_conv = *(LDKChannelInfo*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return ChannelInfo_free(this_ptr_conv);
 }
 
@@ -6735,8 +6735,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1get_1one_1to_1tw
 	LDKChannelInfo* this_ptr_conv = (LDKChannelInfo*)this_ptr;
 	LDKDirectionalChannelInfo* ret = MALLOC(sizeof(LDKDirectionalChannelInfo), "LDKDirectionalChannelInfo");
 	*ret = ChannelInfo_get_one_to_two(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6744,7 +6744,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1set_1one_1to_1two
 	LDKChannelInfo* this_ptr_conv = (LDKChannelInfo*)this_ptr;
 	LDKDirectionalChannelInfo val_conv = *(LDKDirectionalChannelInfo*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return ChannelInfo_set_one_to_two(this_ptr_conv, val_conv);
 }
 
@@ -6766,8 +6766,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1get_1two_1to_1on
 	LDKChannelInfo* this_ptr_conv = (LDKChannelInfo*)this_ptr;
 	LDKDirectionalChannelInfo* ret = MALLOC(sizeof(LDKDirectionalChannelInfo), "LDKDirectionalChannelInfo");
 	*ret = ChannelInfo_get_two_to_one(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6775,7 +6775,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1set_1two_1to_1one
 	LDKChannelInfo* this_ptr_conv = (LDKChannelInfo*)this_ptr;
 	LDKDirectionalChannelInfo val_conv = *(LDKDirectionalChannelInfo*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return ChannelInfo_set_two_to_one(this_ptr_conv, val_conv);
 }
 
@@ -6791,15 +6791,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1read(JNIEnv * _e
 	FREE((void*)ser);
 	LDKChannelInfo* ret = MALLOC(sizeof(LDKChannelInfo), "LDKChannelInfo");
 	*ret = ChannelInfo_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RoutingFees_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKRoutingFees this_ptr_conv = *(LDKRoutingFees*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return RoutingFees_free(this_ptr_conv);
 }
 
@@ -6826,8 +6826,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RoutingFees_1set_1proportional
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1new(JNIEnv * _env, jclass _b, jint base_msat_arg, jint proportional_millionths_arg) {
 	LDKRoutingFees* ret = MALLOC(sizeof(LDKRoutingFees), "LDKRoutingFees");
 	*ret = RoutingFees_new(base_msat_arg, proportional_millionths_arg);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6836,8 +6836,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1read(JNIEnv * _e
 	FREE((void*)ser);
 	LDKRoutingFees* ret = MALLOC(sizeof(LDKRoutingFees), "LDKRoutingFees");
 	*ret = RoutingFees_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6851,7 +6851,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1write(JNIEnv * _
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKNodeAnnouncementInfo this_ptr_conv = *(LDKNodeAnnouncementInfo*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return NodeAnnouncementInfo_free(this_ptr_conv);
 }
 
@@ -6912,15 +6912,15 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1read(JN
 	FREE((void*)ser);
 	LDKNodeAnnouncementInfo* ret = MALLOC(sizeof(LDKNodeAnnouncementInfo), "LDKNodeAnnouncementInfo");
 	*ret = NodeAnnouncementInfo_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeInfo_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKNodeInfo this_ptr_conv = *(LDKNodeInfo*)this_ptr;
 	FREE((void*)this_ptr);
-	this_ptr_conv._underlying_ref = false;
+	this_ptr_conv.is_owned = true;
 	return NodeInfo_free(this_ptr_conv);
 }
 
@@ -6935,8 +6935,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1get_1lowest_1inboun
 	LDKNodeInfo* this_ptr_conv = (LDKNodeInfo*)this_ptr;
 	LDKRoutingFees* ret = MALLOC(sizeof(LDKRoutingFees), "LDKRoutingFees");
 	*ret = NodeInfo_get_lowest_inbound_channel_fees(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6944,7 +6944,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeInfo_1set_1lowest_1inbound
 	LDKNodeInfo* this_ptr_conv = (LDKNodeInfo*)this_ptr;
 	LDKRoutingFees val_conv = *(LDKRoutingFees*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return NodeInfo_set_lowest_inbound_channel_fees(this_ptr_conv, val_conv);
 }
 
@@ -6952,8 +6952,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1get_1announcement_1
 	LDKNodeInfo* this_ptr_conv = (LDKNodeInfo*)this_ptr;
 	LDKNodeAnnouncementInfo* ret = MALLOC(sizeof(LDKNodeAnnouncementInfo), "LDKNodeAnnouncementInfo");
 	*ret = NodeInfo_get_announcement_info(this_ptr_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6961,7 +6961,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeInfo_1set_1announcement_1i
 	LDKNodeInfo* this_ptr_conv = (LDKNodeInfo*)this_ptr;
 	LDKNodeAnnouncementInfo val_conv = *(LDKNodeAnnouncementInfo*)val;
 	FREE((void*)val);
-	val_conv._underlying_ref = false;
+	val_conv.is_owned = true;
 	return NodeInfo_set_announcement_info(this_ptr_conv, val_conv);
 }
 
@@ -6970,14 +6970,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1new(JNIEnv * _env, 
 	FREE((void*)channels_arg);
 	LDKRoutingFees lowest_inbound_channel_fees_arg_conv = *(LDKRoutingFees*)lowest_inbound_channel_fees_arg;
 	FREE((void*)lowest_inbound_channel_fees_arg);
-	lowest_inbound_channel_fees_arg_conv._underlying_ref = false;
+	lowest_inbound_channel_fees_arg_conv.is_owned = true;
 	LDKNodeAnnouncementInfo announcement_info_arg_conv = *(LDKNodeAnnouncementInfo*)announcement_info_arg;
 	FREE((void*)announcement_info_arg);
-	announcement_info_arg_conv._underlying_ref = false;
+	announcement_info_arg_conv.is_owned = true;
 	LDKNodeInfo* ret = MALLOC(sizeof(LDKNodeInfo), "LDKNodeInfo");
 	*ret = NodeInfo_new(channels_arg_conv, lowest_inbound_channel_fees_arg_conv, announcement_info_arg_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -6993,8 +6993,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1read(JNIEnv * _env,
 	FREE((void*)ser);
 	LDKNodeInfo* ret = MALLOC(sizeof(LDKNodeInfo), "LDKNodeInfo");
 	*ret = NodeInfo_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
@@ -7010,16 +7010,16 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1read(JNIEnv * _
 	FREE((void*)ser);
 	LDKNetworkGraph* ret = MALLOC(sizeof(LDKNetworkGraph), "LDKNetworkGraph");
 	*ret = NetworkGraph_read(ser_conv);
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1new(JNIEnv * _env, jclass _b) {
 	LDKNetworkGraph* ret = MALLOC(sizeof(LDKNetworkGraph), "LDKNetworkGraph");
 	*ret = NetworkGraph_new();
-	assert(!ret->_underlying_ref);
-	ret->_underlying_ref = true;
+	assert(ret->is_owned);
+	ret->is_owned = false;
 	return (long)ret;
 }
 
