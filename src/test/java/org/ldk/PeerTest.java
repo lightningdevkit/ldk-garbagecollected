@@ -20,19 +20,19 @@ public class PeerTest {
                 // We should broadcast
             }
         });
-        long chain_monitor = bindings.LDKManyChannelMonitor_new(new bindings.LDKManyChannelMonitor() {
+        long chain_monitor = bindings.LDKWatch_new(new bindings.LDKWatch() {
             @Override
-            public long add_monitor(long funding_txo, long monitor) {
+            public long watch_channel(long funding_txo, long monitor) {
                 return 0;
             }
 
             @Override
-            public long update_monitor(long funding_txo, long monitor) {
+            public long update_channel(long funding_txo, long update) {
                 return 0;
             }
 
             @Override
-            public long get_and_clear_pending_monitor_events() {
+            public long release_pending_monitor_events() {
                 return 0;
             }
         });
@@ -44,38 +44,7 @@ public class PeerTest {
         long chan_manager = bindings.ChannelManager_new(bindings.LDKNetwork.LDKNetwork_Bitcoin, fee_estimator, chain_monitor, tx_broadcaster, logger, keys_interface, config, 1);
 
         long chan_handler = bindings.ChannelManager_as_ChannelMessageHandler(chan_manager);
-        long chain_watch = bindings.LDKChainWatchInterface_new(new bindings.LDKChainWatchInterface() {
-            @Override
-            public void install_watch_tx(byte[] txid, long script_pub_key) {
-
-            }
-
-            @Override
-            public void install_watch_outpoint(long outpoint, long out_script) {
-
-            }
-
-            @Override
-            public void watch_all_txn() {
-
-            }
-
-            @Override
-            public long get_chain_utxo(long genesis_hash, long unspent_tx_output_identifier) {
-                return 0;
-            }
-
-            @Override
-            public long filter_block(long block) {
-                return 0;
-            }
-
-            @Override
-            public long reentered() {
-                return 0;
-            }
-        });
-        long router = bindings.NetGraphMsgHandler_new(chain_watch, logger);
+        long router = bindings.NetGraphMsgHandler_new(0, logger);
         long route_handler = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(router);
         long message_handler = bindings.MessageHandler_new(chan_handler, route_handler);
         long our_node_secret = bindings.LDKSecretKey_new(); //TODO: Need LDKSecretKey constructor
@@ -88,12 +57,11 @@ public class PeerTest {
         bindings.Logger_free(logger);
         bindings.FeeEstimator_free(fee_estimator);
         bindings.BroadcasterInterface_free(tx_broadcaster);
-        bindings.ManyChannelMonitor_free(chain_monitor);
+        bindings.Watch_free(chain_monitor);
         bindings.KeysManager_free(keys);
         bindings.KeysInterface_free(keys_interface);
         bindings.ChannelManager_free(chan_manager);
         bindings.ChannelMessageHandler_free(chan_handler);
-        bindings.ChainWatchInterface_free(chain_watch);
         bindings.NetGraphMsgHandler_free(router);
         bindings.RoutingMessageHandler_free(route_handler);
         //bindings.MessageHandler_free(message_handler);
