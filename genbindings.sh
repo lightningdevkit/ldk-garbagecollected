@@ -12,8 +12,9 @@ set -e
 ./genbindings.py "$1/lightning-c-bindings/include/lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/jni/bindings.c $3
 javac -h src/main/jni src/main/java/org/ldk/impl/bindings.java
 rm src/main/java/org/ldk/impl/bindings*.class
+COMPILE="clang -std=c11 -Wall -Wno-unused-function -Wl,--no-undefined -pthread -ldl -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni"
 if [ "$3" = "true" ]; then
-	clang -std=c11 -Wall -Wno-unused-function -g -pthread -ldl -fsanitize=address -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni -I"$1/lightning-c-bindings/include/" $2 src/main/jni/bindings.c "$1"/target/debug/liblightning.a
+	$COMPILE -g -fsanitize=address -shared-libasan -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/debug/libldk.a
 else
-	clang -Wall -Wno-unused-function -Wl,--no-undefined -shared-libasan -pthread -ldl -flto -fuse-ld=lld -O2 -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni -I"$1/lightning-c-bindings/include/" $2 src/main/jni/bindings.c "$1"/target/release/liblightning.a
+	$COMPILE -flto -fuse-ld=lld -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/release/libldk.a
 fi
