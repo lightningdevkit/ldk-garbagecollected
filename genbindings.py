@@ -532,6 +532,7 @@ public class bindings {
     reg_fn_regex = re.compile("([A-Za-z_0-9\* ]* \*?)([a-zA-Z_0-9]*)\((.*)\);$")
     const_val_regex = re.compile("^extern const ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
 
+    line_indicates_result_regex = re.compile("^   bool result_ok;$")
     line_indicates_opaque_regex = re.compile("^   bool is_owned;$")
     line_indicates_trait_regex = re.compile("^   ([A-Za-z_0-9]* \*?)\(\*([A-Za-z_0-9]*)\)\((const )?void \*this_arg(.*)\);$")
     assert(line_indicates_trait_regex.match("   uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);"))
@@ -542,7 +543,10 @@ public class bindings {
     struct_name_regex = re.compile("^typedef (struct|enum|union) (MUST_USE_STRUCT )?(LDK[A-Za-z_0-9]*) {$")
     assert(struct_name_regex.match("typedef struct LDKCVecTempl_u8 {"))
     assert(struct_name_regex.match("typedef enum LDKNetwork {"))
+    struct_alias_regex = re.compile("^typedef (LDK[A-Za-z_0-9]*) (LDK[A-Za-z_0-9]*);$")
+    assert(struct_alias_regex.match("typedef LDKCResultTempl_bool__PeerHandleError LDKCResult_boolPeerHandleErrorZ;"))
 
+    result_templ_structs = set()
     for line in in_h:
         if in_block_comment:
             #out_java.write("\t" + line)
@@ -555,6 +559,7 @@ public class bindings {
                 struct_name = None
                 obj_lines = cur_block_obj.split("\n")
                 is_opaque = False
+                is_result = False
                 is_unitary_enum = False
                 is_union_enum = False
                 is_union = False
@@ -580,6 +585,8 @@ public class bindings {
                                 is_union = True
                         if line_indicates_opaque_regex.match(struct_line):
                             is_opaque = True
+                        elif line_indicates_result_regex.match(struct_line):
+                            is_result = True
                         trait_fn_match = line_indicates_trait_regex.match(struct_line)
                         if trait_fn_match is not None:
                             trait_fn_lines.append(trait_fn_match)
@@ -596,6 +603,8 @@ public class bindings {
                 assert(not is_union or not (len(trait_fn_lines) != 0 or is_unitary_enum or is_union_enum or is_opaque))
                 if is_opaque:
                     opaque_structs.add(struct_name)
+                elif is_result:
+                    result_templ_structs.add(struct_name)
                 elif is_unitary_enum:
                     unitary_enums.add(struct_name)
                     out_c.write("static inline " + struct_name + " " + struct_name + "_from_java(JNIEnv *env, jclass val) {\n")
@@ -659,6 +668,19 @@ public class bindings {
             elif line.startswith("typedef union "):
                 cur_block_obj = line
             elif line.startswith("typedef "):
+                alias_match =  struct_alias_regex.match(line)
+                if alias_match.group(1) in result_templ_structs:
+                    out_java.write("\tpublic static native boolean " + alias_match.group(2) + "_result_ok(long arg);\n")
+                    out_java.write("\tpublic static native long " + alias_match.group(2) + "_get_inner(long arg);\n")
+                    out_c.write("JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_" + alias_match.group(2).replace("_", "_1") + "_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {\n")
+                    out_c.write("\treturn ((" + alias_match.group(2) + "*)arg)->result_ok;\n")
+                    out_c.write("}\n")
+                    out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_" + alias_match.group(2).replace("_", "_1") + "_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {\n")
+                    out_c.write("\tif (((" + alias_match.group(2) + "*)arg)->result_ok) {\n")
+                    out_c.write("\t\treturn (long)((" + alias_match.group(2) + "*)arg)->contents.result;\n")
+                    out_c.write("\t} else {\n")
+                    out_c.write("\t\treturn (long)((" + alias_match.group(2) + "*)arg)->contents.err;\n")
+                    out_c.write("\t}\n}\n")
                 pass
             elif fn_ptr is not None:
                 map_fn(fn_ptr, None)

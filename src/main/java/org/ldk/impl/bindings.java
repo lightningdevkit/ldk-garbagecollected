@@ -46,6 +46,22 @@ public class bindings {
 	   LDKSecp256k1Error_NotEnoughMemory,
 	   LDKSecp256k1Error_CallbackPanicked,
 	}
+	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
+	public static native long LDKCResult_NoneChannelMonitorUpdateErrZ_get_inner(long arg);
+	public static native boolean LDKCResult_NoneMonitorUpdateErrorZ_result_ok(long arg);
+	public static native long LDKCResult_NoneMonitorUpdateErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(long arg);
+	public static native long LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_inner(long arg);
+	public static native boolean LDKCResult_SignatureNoneZ_result_ok(long arg);
+	public static native long LDKCResult_SignatureNoneZ_get_inner(long arg);
+	public static native boolean LDKCResult_CVec_SignatureZNoneZ_result_ok(long arg);
+	public static native long LDKCResult_CVec_SignatureZNoneZ_get_inner(long arg);
+	public static native boolean LDKCResult_NoneAPIErrorZ_result_ok(long arg);
+	public static native long LDKCResult_NoneAPIErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_NonePaymentSendFailureZ_result_ok(long arg);
+	public static native long LDKCResult_NonePaymentSendFailureZ_get_inner(long arg);
+	public static native boolean LDKCResult_NonePeerHandleErrorZ_result_ok(long arg);
+	public static native long LDKCResult_NonePeerHandleErrorZ_get_inner(long arg);
 	public interface LDKMessageSendEventsProvider {
 		 long get_and_clear_pending_msg_events();
 	}
@@ -61,6 +77,8 @@ public class bindings {
 	}
 	public static native long LDKLogger_new(LDKLogger impl);
 	public static native LDKLogger LDKLogger_get_obj_from_jcalls(long val);
+	public static native boolean LDKCResult_TxOutAccessErrorZ_result_ok(long arg);
+	public static native long LDKCResult_TxOutAccessErrorZ_get_inner(long arg);
 	public interface LDKAccess {
 		 long get_utxo(byte[] genesis_hash, long short_channel_id);
 	}
@@ -136,6 +154,8 @@ public class bindings {
 	}
 	public static native long LDKChannelMessageHandler_new(LDKChannelMessageHandler impl, LDKMessageSendEventsProvider MessageSendEventsProvider);
 	public static native LDKChannelMessageHandler LDKChannelMessageHandler_get_obj_from_jcalls(long val);
+	public static native boolean LDKCResult_boolLightningErrorZ_result_ok(long arg);
+	public static native long LDKCResult_boolLightningErrorZ_get_inner(long arg);
 	public interface LDKRoutingMessageHandler {
 		 long handle_node_announcement(long msg);
 		 long handle_channel_announcement(long msg);
@@ -155,6 +175,18 @@ public class bindings {
 	}
 	public static native long LDKSocketDescriptor_new(LDKSocketDescriptor impl);
 	public static native LDKSocketDescriptor LDKSocketDescriptor_get_obj_from_jcalls(long val);
+	public static native boolean LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(long arg);
+	public static native long LDKCResult_CVec_u8ZPeerHandleErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_boolPeerHandleErrorZ_result_ok(long arg);
+	public static native long LDKCResult_boolPeerHandleErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_SecretKeySecpErrorZ_result_ok(long arg);
+	public static native long LDKCResult_SecretKeySecpErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_PublicKeySecpErrorZ_result_ok(long arg);
+	public static native long LDKCResult_PublicKeySecpErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_TxCreationKeysSecpErrorZ_result_ok(long arg);
+	public static native long LDKCResult_TxCreationKeysSecpErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_RouteLightningErrorZ_result_ok(long arg);
+	public static native long LDKCResult_RouteLightningErrorZ_get_inner(long arg);
 	/// extern const void (*C2Tuple_HTLCOutputInCommitmentSignatureZ_free)(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ);
 	public static native void C2Tuple_HTLCOutputInCommitmentSignatureZ_free(long arg);
 	/// extern const void (*C2Tuple_OutPointScriptZ_free)(LDKC2Tuple_OutPointScriptZ);
