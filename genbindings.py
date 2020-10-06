@@ -183,7 +183,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv,
                             arg_conv_name = ty_info.var_name + "_conv",
-                            ret_conv = None, ret_conv_name = None)
+                            ret_conv = ("CANT PASS TRAIT TO Java?", ""), ret_conv_name = "NO CONV POSSIBLE")
                     if ty_info.rust_obj != "LDKu8slice":
                         # Don't bother free'ing slices passed in - we often pass them Rust -> Rust
                         base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
@@ -191,17 +191,17 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv + "\n" + ty_info.var_name + "_conv.is_owned = true;",
                             arg_conv_name = ty_info.var_name + "_conv",
-                            ret_conv = None, ret_conv_name = None)
+                            ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref")
 
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv",
-                        ret_conv = None, ret_conv_name = None)
+                        ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref")
                 else:
                     assert(not is_free)
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                         arg_conv_name = ty_info.var_name + "_conv",
-                        ret_conv = None, ret_conv_name = None)
+                        ret_conv = None, ret_conv_name = None) # its a pointer, no conv needed
             elif ty_info.is_ptr:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = ty_info.var_name, ret_conv = None, ret_conv_name = None)
