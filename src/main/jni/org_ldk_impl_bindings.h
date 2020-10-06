@@ -41,6 +41,22 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    get_u8_slice_bytes
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    bytes_to_u8_vec
+ * Signature: ([B)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec
+  (JNIEnv *, jclass, jbyteArray);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    u8_vec_len
  * Signature: (J)J
  */
