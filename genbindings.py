@@ -253,8 +253,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = None, ret_conv = None, ret_conv_name = None)
 
-    def map_fn(re_match, ret_arr_len):
-        out_java.write("\t/// " + line)
+    def map_fn(line, re_match, ret_arr_len, c_call_string):
+        out_java.write("\t// " + line)
         out_java.write("\tpublic static native ")
         out_c.write("JNIEXPORT ")
 
@@ -290,11 +290,16 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         else:
             out_c.write("\treturn ");
 
-        out_c.write(re_match.group(2) + "(")
+        if c_call_string is None:
+            out_c.write(re_match.group(2) + "(")
+        else:
+            out_c.write(c_call_string)
         for idx, info in enumerate(arg_names):
             if info.arg_conv_name is not None:
                 if idx != 0:
                     out_c.write(", ")
+                elif c_call_string is not None:
+                    continue
                 out_c.write(info.arg_conv_name)
         out_c.write(")")
         if ret_info.ret_conv is not None:
@@ -451,71 +456,122 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_c.write("\treturn ((" + struct_name + "_JCalls*)val)->o;\n")
         out_c.write("}\n")
 
+        for fn_line in trait_fn_lines:
+            # For now, just disable enabling the _call_log - we don't know how to inverse-map String
+            is_log = fn_line.group(2) == "log" and struct_name == "LDKLogger"
+            if fn_line.group(2) != "free" and fn_line.group(2) != "clone" and fn_line.group(2) != "eq" and not is_log:
+                dummy_line = fn_line.group(1) + struct_name + "_call_" + fn_line.group(2) + " " + struct_name + "* arg" + fn_line.group(4) + "\n"
+                map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(arg_conv->" + fn_line.group(2) + ")(arg_conv->this_arg")
 
     out_java.write("""package org.ldk.impl;
 
 public class bindings {
-	static native void init(java.lang.Class c);
 	static {
 		System.loadLibrary(\"lightningjni\");
 		init(java.lang.Enum.class);
 	}
-
 """)
-    out_c.write("#include \"org_ldk_impl_bindings.h\"\n")
-    out_c.write("#include <rust_types.h>\n")
-    out_c.write("#include <lightning.h>\n")
-    out_c.write("#include <assert.h>\n")
-    out_c.write("#include <string.h>\n")
-    out_c.write("#include <stdatomic.h>\n\n")
-
-    out_c.write("jmethodID ordinal_meth = NULL;\n")
-    out_c.write("JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class) {\n")
-    out_c.write("\tordinal_meth = (*env)->GetMethodID(env, enum_class, \"ordinal\", \"()I\");\n")
-    out_c.write("\tassert(ordinal_meth != NULL);\n")
-    out_c.write("}\n\n")
+    out_c.write("""#include \"org_ldk_impl_bindings.h\"
+#include <rust_types.h>
+#include <lightning.h>
+#include <assert.h>
+#include <string.h>
+#include <stdatomic.h>
+""")
 
     if sys.argv[4] == "false":
         out_c.write("#define MALLOC(a, _) malloc(a)\n")
-        out_c.write("#define FREE free\n\n")
+        out_c.write("#define FREE free\n")
     else:
-        out_c.write("#include <threads.h>\n")
-        out_c.write("static mtx_t allocation_mtx;\n\n")
-        out_c.write("void __attribute__((constructor)) init_mtx() {\n")
-        out_c.write("\tassert(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);\n")
-        out_c.write("}\n\n")
-        out_c.write("typedef struct allocation {\n")
-        out_c.write("\tstruct allocation* next;\n")
-        out_c.write("\tvoid* ptr;\n")
-        out_c.write("\tconst char* struct_name;\n")
-        out_c.write("} allocation;\n")
-        out_c.write("static allocation* allocation_ll = NULL;\n\n")
-        out_c.write("void* MALLOC(size_t len, const char* struct_name) {\n")
-        out_c.write("\tvoid* res = malloc(len);\n")
-        out_c.write("\tallocation* new_alloc = malloc(sizeof(allocation));\n")
-        out_c.write("\tnew_alloc->ptr = res;\n")
-        out_c.write("\tnew_alloc->struct_name = struct_name;\n")
-        out_c.write("\tassert(mtx_lock(&allocation_mtx) == thrd_success);\n")
-        out_c.write("\tnew_alloc->next = allocation_ll;\n")
-        out_c.write("\tallocation_ll = new_alloc;\n")
-        out_c.write("\tassert(mtx_unlock(&allocation_mtx) == thrd_success);\n")
-        out_c.write("\treturn res;\n")
-        out_c.write("}\n\n")
-        out_c.write("void FREE(void* ptr) {\n")
-        out_c.write("\tallocation* p = NULL;\n")
-        out_c.write("\tassert(mtx_lock(&allocation_mtx) == thrd_success);\n")
-        out_c.write("\tallocation* it = allocation_ll;\n")
-        out_c.write("\twhile (it->ptr != ptr) { p = it; it = it->next; }\n")
-        out_c.write("\tif (p) { p->next = it->next; } else { allocation_ll = it->next; }\n")
-        out_c.write("\tassert(mtx_unlock(&allocation_mtx) == thrd_success);\n")
-        out_c.write("\tassert(it->ptr == ptr);\n")
-        out_c.write("\tfree(it);\n")
-        out_c.write("\tfree(ptr);\n")
-        out_c.write("}\n\n")
-        out_c.write("void __attribute__((destructor)) check_leaks() {\n")
-        out_c.write("\tfor (allocation* a = allocation_ll; a != NULL; a = a->next) { fprintf(stderr, \"%s %p remains\\n\", a->struct_name, a->ptr); }\n")
-        out_c.write("\tassert(allocation_ll == NULL);\n")
-        out_c.write("}\n\n")
+        out_c.write("""
+#include <threads.h>
+static mtx_t allocation_mtx;
+
+void __attribute__((constructor)) init_mtx() {
+	assert(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);
+}
+
+typedef struct allocation {
+	struct allocation* next;
+	void* ptr;
+	const char* struct_name;
+} allocation;
+static allocation* allocation_ll = NULL;
+
+void* MALLOC(size_t len, const char* struct_name) {
+	void* res = malloc(len);
+	allocation* new_alloc = malloc(sizeof(allocation));
+	new_alloc->ptr = res;
+	new_alloc->struct_name = struct_name;
+	assert(mtx_lock(&allocation_mtx) == thrd_success);
+	new_alloc->next = allocation_ll;
+	allocation_ll = new_alloc;
+	assert(mtx_unlock(&allocation_mtx) == thrd_success);
+	return res;
+}
+
+void FREE(void* ptr) {
+	allocation* p = NULL;
+	assert(mtx_lock(&allocation_mtx) == thrd_success);
+	allocation* it = allocation_ll;
+	while (it->ptr != ptr) { p = it; it = it->next; }
+	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
+	assert(mtx_unlock(&allocation_mtx) == thrd_success);
+	assert(it->ptr == ptr);
+	free(it);
+	free(ptr);
+}
+
+void __attribute__((destructor)) check_leaks() {
+	for (allocation* a = allocation_ll; a != NULL; a = a->next) { fprintf(stderr, "%s %p remains\\n", a->struct_name, a->ptr); }
+	assert(allocation_ll == NULL);
+}
+""")
+
+    out_java.write("""
+	static native void init(java.lang.Class c);
+
+	public static native boolean deref_bool(long ptr);
+	public static native long deref_long(long ptr);
+	public static native void free_heap_ptr(long ptr);
+	public static native long u8_vec_to_heap_slice(long vec);
+	public static native long u8_vec_len(long vec);
+
+""")
+    out_c.write("""
+jmethodID ordinal_meth = NULL;
+JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class) {
+	ordinal_meth = (*env)->GetMethodID(env, enum_class, "ordinal", "()I");
+	assert(ordinal_meth != NULL);
+}
+
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_deref_1bool (JNIEnv * env, jclass _a, jlong ptr) {
+	return *((bool*)ptr);
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_deref_1long (JNIEnv * env, jclass _a, jlong ptr) {
+	return *((long*)ptr);
+}
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr (JNIEnv * env, jclass _a, jlong ptr) {
+	FREE((void*)ptr);
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1to_1heap_1slice (JNIEnv * env, jclass _a, jlong ptr) {
+	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
+	LDKu8slice *slice = (LDKu8slice*)MALLOC(sizeof(LDKu8slice), "u8slice");
+        slice->data = vec->data;
+        slice->datalen = vec->datalen;
+	return (long)slice;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1len (JNIEnv * env, jclass _a, jlong ptr) {
+	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
+	return (long)vec->datalen;
+}
+
+// We assume that CVec_u8Z and u8slice are the same size and layout (and thus pointers to the two can be mixed)
+_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKu8slice), "Vec<u8> and [u8] need to have been mapped identically");
+_Static_assert(offsetof(LDKCVec_u8Z, data) == offsetof(LDKu8slice, data), "Vec<u8> and [u8] need to have been mapped identically");
+_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), "Vec<u8> and [u8] need to have been mapped identically");
+
+""")
 
     # XXX: Temporarily write out a manual SecretKey_new() for testing, we should auto-gen this kind of thing
     out_java.write("\tpublic static native long LDKSecretKey_new();\n\n") # TODO: rm me
@@ -683,11 +739,11 @@ public class bindings {
                     out_c.write("\t}\n}\n")
                 pass
             elif fn_ptr is not None:
-                map_fn(fn_ptr, None)
+                map_fn(line, fn_ptr, None, None)
             elif fn_ret_arr is not None:
-                map_fn(fn_ret_arr, fn_ret_arr.group(4))
+                map_fn(line, fn_ret_arr, fn_ret_arr.group(4), None)
             elif reg_fn is not None:
-                map_fn(reg_fn, None)
+                map_fn(line, reg_fn, None, None)
             elif const_val_regex is not None:
                 # TODO Map const variables
                 pass
