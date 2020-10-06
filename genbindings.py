@@ -184,7 +184,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             arg_conv = base_conv,
                             arg_conv_name = ty_info.var_name + "_conv",
                             ret_conv = None, ret_conv_name = None)
-                    base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
+                    if ty_info.rust_obj != "LDKu8slice":
+                        # Don't bother free'ing slices passed in - we often pass them Rust -> Rust
+                        base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
                     if ty_info.rust_obj in opaque_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv + "\n" + ty_info.var_name + "_conv.is_owned = true;",
@@ -534,7 +536,6 @@ void __attribute__((destructor)) check_leaks() {
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);
 	public static native void free_heap_ptr(long ptr);
-	public static native long u8_vec_to_heap_slice(long vec);
 	public static native long u8_vec_len(long vec);
 
 """)
@@ -553,13 +554,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_deref_1long (JNIEnv * env, jc
 }
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr (JNIEnv * env, jclass _a, jlong ptr) {
 	FREE((void*)ptr);
-}
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1to_1heap_1slice (JNIEnv * env, jclass _a, jlong ptr) {
-	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
-	LDKu8slice *slice = (LDKu8slice*)MALLOC(sizeof(LDKu8slice), "u8slice");
-        slice->data = vec->data;
-        slice->datalen = vec->datalen;
-	return (long)slice;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1len (JNIEnv * env, jclass _a, jlong ptr) {
 	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;

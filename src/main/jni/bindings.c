@@ -63,13 +63,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_deref_1long (JNIEnv * env, jc
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr (JNIEnv * env, jclass _a, jlong ptr) {
 	FREE((void*)ptr);
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1to_1heap_1slice (JNIEnv * env, jclass _a, jlong ptr) {
-	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
-	LDKu8slice *slice = (LDKu8slice*)MALLOC(sizeof(LDKu8slice), "u8slice");
-        slice->data = vec->data;
-        slice->datalen = vec->datalen;
-	return (long)slice;
-}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1len (JNIEnv * env, jclass _a, jlong ptr) {
 	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
 	return (long)vec->datalen;
@@ -1057,7 +1050,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKFilter_1call_1register_1tx(
 	(*_env)->GetByteArrayRegion (_env, txid, 0, 32, txid_arr);
 	unsigned char (*txid_ref)[32] = &txid_arr;
 	LDKu8slice script_pubkey_conv = *(LDKu8slice*)script_pubkey;
-	FREE((void*)script_pubkey);
 	return (arg_conv->register_tx)(arg_conv->this_arg, txid_ref, script_pubkey_conv);
 }
 
@@ -1065,7 +1057,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKFilter_1call_1register_1out
 	LDKFilter* arg_conv = (LDKFilter*)arg;
 	LDKOutPoint* outpoint_conv = (LDKOutPoint*)outpoint;
 	LDKu8slice script_pubkey_conv = *(LDKu8slice*)script_pubkey;
-	FREE((void*)script_pubkey);
 	return (arg_conv->register_output)(arg_conv->this_arg, outpoint_conv, script_pubkey_conv);
 }
 
@@ -1906,7 +1897,6 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1get_1o
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1call_1send_1data(JNIEnv * _env, jclass _b, jlong arg, jlong data, jboolean resume_read) {
 	LDKSocketDescriptor* arg_conv = (LDKSocketDescriptor*)arg;
 	LDKu8slice data_conv = *(LDKu8slice*)data;
-	FREE((void*)data);
 	return (arg_conv->send_data)(arg_conv->this_arg, data_conv, resume_read);
 }
 
@@ -2872,7 +2862,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKChannelConfig* ret = MALLOC(sizeof(LDKChannelConfig), "LDKChannelConfig");
 	*ret = ChannelConfig_read(ser_conv);
 	assert(ret->is_owned);
@@ -3082,7 +3071,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1write(J
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKChannelMonitorUpdate* ret = MALLOC(sizeof(LDKChannelMonitorUpdate), "LDKChannelMonitorUpdate");
 	*ret = ChannelMonitorUpdate_read(ser_conv);
 	assert(ret->is_owned);
@@ -3120,7 +3108,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1write(JNIEnv * _e
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKHTLCUpdate* ret = MALLOC(sizeof(LDKHTLCUpdate), "LDKHTLCUpdate");
 	*ret = HTLCUpdate_read(ser_conv);
 	assert(ret->is_owned);
@@ -3288,7 +3275,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OutPoint_1write(JNIEnv * _env
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OutPoint_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKOutPoint* ret = MALLOC(sizeof(LDKOutPoint), "LDKOutPoint");
 	*ret = OutPoint_read(ser_conv);
 	assert(ret->is_owned);
@@ -3462,7 +3448,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1write(JN
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKInMemoryChannelKeys* ret = MALLOC(sizeof(LDKInMemoryChannelKeys), "LDKInMemoryChannelKeys");
 	*ret = InMemoryChannelKeys_read(ser_conv);
 	assert(ret->is_owned);
@@ -6174,7 +6159,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKAcceptChannel* ret = MALLOC(sizeof(LDKAcceptChannel), "LDKAcceptChannel");
 	*ret = AcceptChannel_read(ser_conv);
 	assert(ret->is_owned);
@@ -6191,7 +6175,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1write
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKAnnouncementSignatures* ret = MALLOC(sizeof(LDKAnnouncementSignatures), "LDKAnnouncementSignatures");
 	*ret = AnnouncementSignatures_read(ser_conv);
 	assert(ret->is_owned);
@@ -6208,7 +6191,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1write(JNI
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKChannelReestablish* ret = MALLOC(sizeof(LDKChannelReestablish), "LDKChannelReestablish");
 	*ret = ChannelReestablish_read(ser_conv);
 	assert(ret->is_owned);
@@ -6225,7 +6207,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKClosingSigned* ret = MALLOC(sizeof(LDKClosingSigned), "LDKClosingSigned");
 	*ret = ClosingSigned_read(ser_conv);
 	assert(ret->is_owned);
@@ -6242,7 +6223,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1write(JNIEn
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKCommitmentSigned* ret = MALLOC(sizeof(LDKCommitmentSigned), "LDKCommitmentSigned");
 	*ret = CommitmentSigned_read(ser_conv);
 	assert(ret->is_owned);
@@ -6259,7 +6239,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingCreated_1write(JNIEnv 
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingCreated_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKFundingCreated* ret = MALLOC(sizeof(LDKFundingCreated), "LDKFundingCreated");
 	*ret = FundingCreated_read(ser_conv);
 	assert(ret->is_owned);
@@ -6276,7 +6255,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingSigned_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingSigned_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKFundingSigned* ret = MALLOC(sizeof(LDKFundingSigned), "LDKFundingSigned");
 	*ret = FundingSigned_read(ser_conv);
 	assert(ret->is_owned);
@@ -6293,7 +6271,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingLocked_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingLocked_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKFundingLocked* ret = MALLOC(sizeof(LDKFundingLocked), "LDKFundingLocked");
 	*ret = FundingLocked_read(ser_conv);
 	assert(ret->is_owned);
@@ -6310,7 +6287,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Init_1write(JNIEnv * _env, jc
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Init_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKInit* ret = MALLOC(sizeof(LDKInit), "LDKInit");
 	*ret = Init_read(ser_conv);
 	assert(ret->is_owned);
@@ -6327,7 +6303,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OpenChannel_1write(JNIEnv * _
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OpenChannel_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKOpenChannel* ret = MALLOC(sizeof(LDKOpenChannel), "LDKOpenChannel");
 	*ret = OpenChannel_read(ser_conv);
 	assert(ret->is_owned);
@@ -6344,7 +6319,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1write(JNIEnv * 
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKRevokeAndACK* ret = MALLOC(sizeof(LDKRevokeAndACK), "LDKRevokeAndACK");
 	*ret = RevokeAndACK_read(ser_conv);
 	assert(ret->is_owned);
@@ -6361,7 +6335,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1write(JNIEnv * _env
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKShutdown* ret = MALLOC(sizeof(LDKShutdown), "LDKShutdown");
 	*ret = Shutdown_read(ser_conv);
 	assert(ret->is_owned);
@@ -6378,7 +6351,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1write(JNIEnv 
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKUpdateFailHTLC* ret = MALLOC(sizeof(LDKUpdateFailHTLC), "LDKUpdateFailHTLC");
 	*ret = UpdateFailHTLC_read(ser_conv);
 	assert(ret->is_owned);
@@ -6395,7 +6367,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1writ
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKUpdateFailMalformedHTLC* ret = MALLOC(sizeof(LDKUpdateFailMalformedHTLC), "LDKUpdateFailMalformedHTLC");
 	*ret = UpdateFailMalformedHTLC_read(ser_conv);
 	assert(ret->is_owned);
@@ -6412,7 +6383,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFee_1write(JNIEnv * _en
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFee_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKUpdateFee* ret = MALLOC(sizeof(LDKUpdateFee), "LDKUpdateFee");
 	*ret = UpdateFee_read(ser_conv);
 	assert(ret->is_owned);
@@ -6429,7 +6399,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1write(JNIE
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKUpdateFulfillHTLC* ret = MALLOC(sizeof(LDKUpdateFulfillHTLC), "LDKUpdateFulfillHTLC");
 	*ret = UpdateFulfillHTLC_read(ser_conv);
 	assert(ret->is_owned);
@@ -6446,7 +6415,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKUpdateAddHTLC* ret = MALLOC(sizeof(LDKUpdateAddHTLC), "LDKUpdateAddHTLC");
 	*ret = UpdateAddHTLC_read(ser_conv);
 	assert(ret->is_owned);
@@ -6463,7 +6431,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1write(JNIEnv * _env, jc
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKPing* ret = MALLOC(sizeof(LDKPing), "LDKPing");
 	*ret = Ping_read(ser_conv);
 	assert(ret->is_owned);
@@ -6480,7 +6447,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Pong_1write(JNIEnv * _env, jc
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Pong_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKPong* ret = MALLOC(sizeof(LDKPong), "LDKPong");
 	*ret = Pong_read(ser_conv);
 	assert(ret->is_owned);
@@ -6497,7 +6463,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKUnsignedChannelAnnouncement* ret = MALLOC(sizeof(LDKUnsignedChannelAnnouncement), "LDKUnsignedChannelAnnouncement");
 	*ret = UnsignedChannelAnnouncement_read(ser_conv);
 	assert(ret->is_owned);
@@ -6514,7 +6479,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1write(JN
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKChannelAnnouncement* ret = MALLOC(sizeof(LDKChannelAnnouncement), "LDKChannelAnnouncement");
 	*ret = ChannelAnnouncement_read(ser_conv);
 	assert(ret->is_owned);
@@ -6531,7 +6495,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1write(
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKUnsignedChannelUpdate* ret = MALLOC(sizeof(LDKUnsignedChannelUpdate), "LDKUnsignedChannelUpdate");
 	*ret = UnsignedChannelUpdate_read(ser_conv);
 	assert(ret->is_owned);
@@ -6548,7 +6511,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKChannelUpdate* ret = MALLOC(sizeof(LDKChannelUpdate), "LDKChannelUpdate");
 	*ret = ChannelUpdate_read(ser_conv);
 	assert(ret->is_owned);
@@ -6565,7 +6527,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1write(JNIEnv * 
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKErrorMessage* ret = MALLOC(sizeof(LDKErrorMessage), "LDKErrorMessage");
 	*ret = ErrorMessage_read(ser_conv);
 	assert(ret->is_owned);
@@ -6582,7 +6543,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1wri
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKUnsignedNodeAnnouncement* ret = MALLOC(sizeof(LDKUnsignedNodeAnnouncement), "LDKUnsignedNodeAnnouncement");
 	*ret = UnsignedNodeAnnouncement_read(ser_conv);
 	assert(ret->is_owned);
@@ -6599,7 +6559,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1write(JNIEn
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKNodeAnnouncement* ret = MALLOC(sizeof(LDKNodeAnnouncement), "LDKNodeAnnouncement");
 	*ret = NodeAnnouncement_read(ser_conv);
 	assert(ret->is_owned);
@@ -6609,7 +6568,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1read(JNIEnv
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKQueryShortChannelIds* ret = MALLOC(sizeof(LDKQueryShortChannelIds), "LDKQueryShortChannelIds");
 	*ret = QueryShortChannelIds_read(ser_conv);
 	assert(ret->is_owned);
@@ -6626,7 +6584,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1write(J
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKReplyShortChannelIdsEnd* ret = MALLOC(sizeof(LDKReplyShortChannelIdsEnd), "LDKReplyShortChannelIdsEnd");
 	*ret = ReplyShortChannelIdsEnd_read(ser_conv);
 	assert(ret->is_owned);
@@ -6643,7 +6600,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_1writ
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKQueryChannelRange* ret = MALLOC(sizeof(LDKQueryChannelRange), "LDKQueryChannelRange");
 	*ret = QueryChannelRange_read(ser_conv);
 	assert(ret->is_owned);
@@ -6660,7 +6616,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1write(JNIE
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKReplyChannelRange* ret = MALLOC(sizeof(LDKReplyChannelRange), "LDKReplyChannelRange");
 	*ret = ReplyChannelRange_read(ser_conv);
 	assert(ret->is_owned);
@@ -6677,7 +6632,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1write(JNIE
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_GossipTimestampFilter_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKGossipTimestampFilter* ret = MALLOC(sizeof(LDKGossipTimestampFilter), "LDKGossipTimestampFilter");
 	*ret = GossipTimestampFilter_read(ser_conv);
 	assert(ret->is_owned);
@@ -6853,7 +6807,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PeerManager_1read_1event(JNIE
 	LDKPeerManager* this_arg_conv = (LDKPeerManager*)this_arg;
 	LDKSocketDescriptor* peer_descriptor_conv = (LDKSocketDescriptor*)peer_descriptor;
 	LDKu8slice data_conv = *(LDKu8slice*)data;
-	FREE((void*)data);
 	LDKCResult_boolPeerHandleErrorZ* ret = MALLOC(sizeof(LDKCResult_boolPeerHandleErrorZ), "LDKCResult_boolPeerHandleErrorZ");
 	*ret = PeerManager_read_event(this_arg_conv, peer_descriptor_conv, data_conv);
 	return (long)ret;
@@ -7031,7 +6984,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1write(JNIEnv 
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKTxCreationKeys* ret = MALLOC(sizeof(LDKTxCreationKeys), "LDKTxCreationKeys");
 	*ret = TxCreationKeys_read(ser_conv);
 	assert(ret->is_owned);
@@ -7177,7 +7129,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1write(JNIE
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKChannelPublicKeys* ret = MALLOC(sizeof(LDKChannelPublicKeys), "LDKChannelPublicKeys");
 	*ret = ChannelPublicKeys_read(ser_conv);
 	assert(ret->is_owned);
@@ -7271,7 +7222,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1write
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKHTLCOutputInCommitment* ret = MALLOC(sizeof(LDKHTLCOutputInCommitment), "LDKHTLCOutputInCommitment");
 	*ret = HTLCOutputInCommitment_read(ser_conv);
 	assert(ret->is_owned);
@@ -7406,7 +7356,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1
 	(*_env)->GetByteArrayRegion (_env, funding_key, 0, 32, funding_key_arr);
 	unsigned char (*funding_key_ref)[32] = &funding_key_arr;
 	LDKu8slice funding_redeemscript_conv = *(LDKu8slice*)funding_redeemscript;
-	FREE((void*)funding_redeemscript);
 	LDKSignature* ret = MALLOC(sizeof(LDKSignature), "LDKSignature");
 	*ret = HolderCommitmentTransaction_get_holder_sig(this_arg_conv, funding_key_ref, funding_redeemscript_conv, channel_value_satoshis);
 	return (long)ret;
@@ -7431,7 +7380,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKHolderCommitmentTransaction* ret = MALLOC(sizeof(LDKHolderCommitmentTransaction), "LDKHolderCommitmentTransaction");
 	*ret = HolderCommitmentTransaction_read(ser_conv);
 	assert(ret->is_owned);
@@ -7594,7 +7542,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Route_1write(JNIEnv * _env, j
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Route_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKRoute* ret = MALLOC(sizeof(LDKRoute), "LDKRoute");
 	*ret = Route_read(ser_conv);
 	assert(ret->is_owned);
@@ -7852,7 +7799,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1write
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKDirectionalChannelInfo* ret = MALLOC(sizeof(LDKDirectionalChannelInfo), "LDKDirectionalChannelInfo");
 	*ret = DirectionalChannelInfo_read(ser_conv);
 	assert(ret->is_owned);
@@ -7972,7 +7918,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1write(JNIEnv * _
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKChannelInfo* ret = MALLOC(sizeof(LDKChannelInfo), "LDKChannelInfo");
 	*ret = ChannelInfo_read(ser_conv);
 	assert(ret->is_owned);
@@ -8017,7 +7962,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1new(JNIEnv * _en
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKRoutingFees* ret = MALLOC(sizeof(LDKRoutingFees), "LDKRoutingFees");
 	*ret = RoutingFees_read(ser_conv);
 	assert(ret->is_owned);
@@ -8147,7 +8091,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1write(J
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKNodeAnnouncementInfo* ret = MALLOC(sizeof(LDKNodeAnnouncementInfo), "LDKNodeAnnouncementInfo");
 	*ret = NodeAnnouncementInfo_read(ser_conv);
 	assert(ret->is_owned);
@@ -8228,7 +8171,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1write(JNIEnv * _env
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKNodeInfo* ret = MALLOC(sizeof(LDKNodeInfo), "LDKNodeInfo");
 	*ret = NodeInfo_read(ser_conv);
 	assert(ret->is_owned);
@@ -8245,7 +8187,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1write(JNIEnv * 
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1read(JNIEnv * _env, jclass _b, jlong ser) {
 	LDKu8slice ser_conv = *(LDKu8slice*)ser;
-	FREE((void*)ser);
 	LDKNetworkGraph* ret = MALLOC(sizeof(LDKNetworkGraph), "LDKNetworkGraph");
 	*ret = NetworkGraph_read(ser_conv);
 	assert(ret->is_owned);

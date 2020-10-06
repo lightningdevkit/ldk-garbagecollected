@@ -41,14 +41,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    u8_vec_to_heap_slice
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1to_1heap_1slice
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
  * Method:    u8_vec_len
  * Signature: (J)J
  */

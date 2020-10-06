@@ -11,7 +11,6 @@ public class bindings {
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);
 	public static native void free_heap_ptr(long ptr);
-	public static native long u8_vec_to_heap_slice(long vec);
 	public static native long u8_vec_len(long vec);
 
 	public static native long LDKSecretKey_new();
