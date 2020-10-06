@@ -679,6 +679,12 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                 assert(not is_union or not (len(trait_fn_lines) != 0 or is_unitary_enum or is_union_enum or is_opaque))
                 if is_opaque:
                     opaque_structs.add(struct_name)
+                    out_java.write("\tpublic static native long " + struct_name + "_optional_none();\n")
+                    out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1optional_1none (JNIEnv * env, jclass _a) {\n")
+                    out_c.write("\t" + struct_name + " *ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
+                    out_c.write("\tret->inner = NULL;\n")
+                    out_c.write("\treturn (long)ret;\n")
+                    out_c.write("}\n")
                 elif is_result:
                     result_templ_structs.add(struct_name)
                 elif is_unitary_enum:

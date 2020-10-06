@@ -340,6 +340,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonito
 		return (long)((LDKCResult_NoneChannelMonitorUpdateErrZ*)arg)->contents.err;
 	}
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKMonitorUpdateError_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKMonitorUpdateError *ret = MALLOC(sizeof(LDKMonitorUpdateError), "LDKMonitorUpdateError");
+	ret->inner = NULL;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NoneMonitorUpdateErrorZ*)arg)->result_ok;
 }
@@ -349,6 +354,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdate
 	} else {
 		return (long)((LDKCResult_NoneMonitorUpdateErrorZ*)arg)->contents.err;
 	}
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKOutPoint_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKOutPoint *ret = MALLOC(sizeof(LDKOutPoint), "LDKOutPoint");
+	ret->inner = NULL;
+	return (long)ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg)->result_ok;
@@ -390,6 +400,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1ge
 		return (long)((LDKCResult_NoneAPIErrorZ*)arg)->contents.err;
 	}
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPaymentSendFailure_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKPaymentSendFailure *ret = MALLOC(sizeof(LDKPaymentSendFailure), "LDKPaymentSendFailure");
+	ret->inner = NULL;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NonePaymentSendFailureZ*)arg)->result_ok;
 }
@@ -400,6 +415,21 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFa
 		return (long)((LDKCResult_NonePaymentSendFailureZ*)arg)->contents.err;
 	}
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelAnnouncement_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelAnnouncement *ret = MALLOC(sizeof(LDKChannelAnnouncement), "LDKChannelAnnouncement");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelUpdate_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelUpdate *ret = MALLOC(sizeof(LDKChannelUpdate), "LDKChannelUpdate");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPeerHandleError_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKPeerHandleError *ret = MALLOC(sizeof(LDKPeerHandleError), "LDKPeerHandleError");
+	ret->inner = NULL;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NonePeerHandleErrorZ*)arg)->result_ok;
 }
@@ -409,6 +439,76 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErr
 	} else {
 		return (long)((LDKCResult_NonePeerHandleErrorZ*)arg)->contents.err;
 	}
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCOutputInCommitment_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKHTLCOutputInCommitment *ret = MALLOC(sizeof(LDKHTLCOutputInCommitment), "LDKHTLCOutputInCommitment");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKAcceptChannel_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKAcceptChannel *ret = MALLOC(sizeof(LDKAcceptChannel), "LDKAcceptChannel");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKOpenChannel_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKOpenChannel *ret = MALLOC(sizeof(LDKOpenChannel), "LDKOpenChannel");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKFundingCreated_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKFundingCreated *ret = MALLOC(sizeof(LDKFundingCreated), "LDKFundingCreated");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKFundingSigned_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKFundingSigned *ret = MALLOC(sizeof(LDKFundingSigned), "LDKFundingSigned");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKFundingLocked_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKFundingLocked *ret = MALLOC(sizeof(LDKFundingLocked), "LDKFundingLocked");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKAnnouncementSignatures_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKAnnouncementSignatures *ret = MALLOC(sizeof(LDKAnnouncementSignatures), "LDKAnnouncementSignatures");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCommitmentUpdate_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKCommitmentUpdate *ret = MALLOC(sizeof(LDKCommitmentUpdate), "LDKCommitmentUpdate");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRevokeAndACK_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKRevokeAndACK *ret = MALLOC(sizeof(LDKRevokeAndACK), "LDKRevokeAndACK");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKClosingSigned_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKClosingSigned *ret = MALLOC(sizeof(LDKClosingSigned), "LDKClosingSigned");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKShutdown_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKShutdown *ret = MALLOC(sizeof(LDKShutdown), "LDKShutdown");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelReestablish_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelReestablish *ret = MALLOC(sizeof(LDKChannelReestablish), "LDKChannelReestablish");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNodeAnnouncement_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKNodeAnnouncement *ret = MALLOC(sizeof(LDKNodeAnnouncement), "LDKNodeAnnouncement");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKErrorMessage_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKErrorMessage *ret = MALLOC(sizeof(LDKErrorMessage), "LDKErrorMessage");
+	ret->inner = NULL;
+	return (long)ret;
 }
 typedef struct LDKMessageSendEventsProvider_JCalls {
 	atomic_size_t refcnt;
@@ -584,6 +684,26 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new (JNIEnv * env, 
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKLogger_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
 	return ((LDKLogger_JCalls*)val)->o;
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelHandshakeConfig_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelHandshakeConfig *ret = MALLOC(sizeof(LDKChannelHandshakeConfig), "LDKChannelHandshakeConfig");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelHandshakeLimits_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelHandshakeLimits *ret = MALLOC(sizeof(LDKChannelHandshakeLimits), "LDKChannelHandshakeLimits");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelConfig_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelConfig *ret = MALLOC(sizeof(LDKChannelConfig), "LDKChannelConfig");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUserConfig_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUserConfig *ret = MALLOC(sizeof(LDKUserConfig), "LDKUserConfig");
+	ret->inner = NULL;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_TxOutAccessErrorZ*)arg)->result_ok;
 }
@@ -660,6 +780,26 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKAccess_1call_1get_1utxo(JN
 	return (long)ret;
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelPublicKeys_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelPublicKeys *ret = MALLOC(sizeof(LDKChannelPublicKeys), "LDKChannelPublicKeys");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPreCalculatedTxCreationKeys_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKPreCalculatedTxCreationKeys *ret = MALLOC(sizeof(LDKPreCalculatedTxCreationKeys), "LDKPreCalculatedTxCreationKeys");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHolderCommitmentTransaction_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKHolderCommitmentTransaction *ret = MALLOC(sizeof(LDKHolderCommitmentTransaction), "LDKHolderCommitmentTransaction");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUnsignedChannelAnnouncement_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUnsignedChannelAnnouncement *ret = MALLOC(sizeof(LDKUnsignedChannelAnnouncement), "LDKUnsignedChannelAnnouncement");
+	ret->inner = NULL;
+	return (long)ret;
+}
 typedef struct LDKChannelKeys_JCalls {
 	atomic_size_t refcnt;
 	JavaVM *vm;
@@ -947,6 +1087,21 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1call_1on_1acce
 	return (arg_conv->on_accept)(arg_conv->this_arg, channel_points_conv, counterparty_selected_contest_delay, holder_selected_contest_delay);
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelMonitor_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelMonitor *ret = MALLOC(sizeof(LDKChannelMonitor), "LDKChannelMonitor");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelMonitorUpdate_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelMonitorUpdate *ret = MALLOC(sizeof(LDKChannelMonitorUpdate), "LDKChannelMonitorUpdate");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKMonitorEvent_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKMonitorEvent *ret = MALLOC(sizeof(LDKMonitorEvent), "LDKMonitorEvent");
+	ret->inner = NULL;
+	return (long)ret;
+}
 typedef struct LDKWatch_JCalls {
 	atomic_size_t refcnt;
 	JavaVM *vm;
@@ -1262,6 +1417,16 @@ JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1call_1get_1es
 	return (arg_conv->get_est_sat_per_1000_weight)(arg_conv->this_arg, confirmation_target_conv);
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChainMonitor_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChainMonitor *ret = MALLOC(sizeof(LDKChainMonitor), "LDKChainMonitor");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCUpdate_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKHTLCUpdate *ret = MALLOC(sizeof(LDKHTLCUpdate), "LDKHTLCUpdate");
+	ret->inner = NULL;
+	return (long)ret;
+}
 typedef struct LDKKeysInterface_JCalls {
 	atomic_size_t refcnt;
 	JavaVM *vm;
@@ -1403,6 +1568,71 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1call_1get_1
 	return (long)ret;
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKInMemoryChannelKeys_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKInMemoryChannelKeys *ret = MALLOC(sizeof(LDKInMemoryChannelKeys), "LDKInMemoryChannelKeys");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKKeysManager_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKKeysManager *ret = MALLOC(sizeof(LDKKeysManager), "LDKKeysManager");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelManager_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelManager *ret = MALLOC(sizeof(LDKChannelManager), "LDKChannelManager");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelDetails_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelDetails *ret = MALLOC(sizeof(LDKChannelDetails), "LDKChannelDetails");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKInitFeatures_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKInitFeatures *ret = MALLOC(sizeof(LDKInitFeatures), "LDKInitFeatures");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRoute_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKRoute *ret = MALLOC(sizeof(LDKRoute), "LDKRoute");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUpdateAddHTLC_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUpdateAddHTLC *ret = MALLOC(sizeof(LDKUpdateAddHTLC), "LDKUpdateAddHTLC");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUpdateFulfillHTLC_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUpdateFulfillHTLC *ret = MALLOC(sizeof(LDKUpdateFulfillHTLC), "LDKUpdateFulfillHTLC");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUpdateFailHTLC_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUpdateFailHTLC *ret = MALLOC(sizeof(LDKUpdateFailHTLC), "LDKUpdateFailHTLC");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUpdateFailMalformedHTLC_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUpdateFailMalformedHTLC *ret = MALLOC(sizeof(LDKUpdateFailMalformedHTLC), "LDKUpdateFailMalformedHTLC");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCommitmentSigned_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKCommitmentSigned *ret = MALLOC(sizeof(LDKCommitmentSigned), "LDKCommitmentSigned");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUpdateFee_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUpdateFee *ret = MALLOC(sizeof(LDKUpdateFee), "LDKUpdateFee");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKInit_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKInit *ret = MALLOC(sizeof(LDKInit), "LDKInit");
+	ret->inner = NULL;
+	return (long)ret;
+}
 typedef struct LDKChannelMessageHandler_JCalls {
 	atomic_size_t refcnt;
 	JavaVM *vm;
@@ -1816,6 +2046,81 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1call
 	return (arg_conv->handle_error)(arg_conv->this_arg, their_node_id_conv, msg_conv);
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelManagerReadArgs_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelManagerReadArgs *ret = MALLOC(sizeof(LDKChannelManagerReadArgs), "LDKChannelManagerReadArgs");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKDecodeError_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKDecodeError *ret = MALLOC(sizeof(LDKDecodeError), "LDKDecodeError");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPing_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKPing *ret = MALLOC(sizeof(LDKPing), "LDKPing");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPong_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKPong *ret = MALLOC(sizeof(LDKPong), "LDKPong");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKDataLossProtect_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKDataLossProtect *ret = MALLOC(sizeof(LDKDataLossProtect), "LDKDataLossProtect");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUnsignedNodeAnnouncement_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUnsignedNodeAnnouncement *ret = MALLOC(sizeof(LDKUnsignedNodeAnnouncement), "LDKUnsignedNodeAnnouncement");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNodeFeatures_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKNodeFeatures *ret = MALLOC(sizeof(LDKNodeFeatures), "LDKNodeFeatures");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelFeatures_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelFeatures *ret = MALLOC(sizeof(LDKChannelFeatures), "LDKChannelFeatures");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUnsignedChannelUpdate_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKUnsignedChannelUpdate *ret = MALLOC(sizeof(LDKUnsignedChannelUpdate), "LDKUnsignedChannelUpdate");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKQueryChannelRange_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKQueryChannelRange *ret = MALLOC(sizeof(LDKQueryChannelRange), "LDKQueryChannelRange");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKReplyChannelRange_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKReplyChannelRange *ret = MALLOC(sizeof(LDKReplyChannelRange), "LDKReplyChannelRange");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKQueryShortChannelIds_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKQueryShortChannelIds *ret = MALLOC(sizeof(LDKQueryShortChannelIds), "LDKQueryShortChannelIds");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKReplyShortChannelIdsEnd_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKReplyShortChannelIdsEnd *ret = MALLOC(sizeof(LDKReplyShortChannelIdsEnd), "LDKReplyShortChannelIdsEnd");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKGossipTimestampFilter_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKGossipTimestampFilter *ret = MALLOC(sizeof(LDKGossipTimestampFilter), "LDKGossipTimestampFilter");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKLightningError_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKLightningError *ret = MALLOC(sizeof(LDKLightningError), "LDKLightningError");
+	ret->inner = NULL;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_boolLightningErrorZ*)arg)->result_ok;
 }
@@ -2007,6 +2312,11 @@ JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1
 	return (arg_conv->should_request_full_sync)(arg_conv->this_arg, node_id_conv);
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKMessageHandler_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKMessageHandler *ret = MALLOC(sizeof(LDKMessageHandler), "LDKMessageHandler");
+	ret->inner = NULL;
+	return (long)ret;
+}
 typedef struct LDKSocketDescriptor_JCalls {
 	atomic_size_t refcnt;
 	JavaVM *vm;
@@ -2106,6 +2416,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1call_1ha
 	return (arg_conv->hash)(arg_conv->this_arg);
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPeerManager_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKPeerManager *ret = MALLOC(sizeof(LDKPeerManager), "LDKPeerManager");
+	ret->inner = NULL;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg)->result_ok;
 }
@@ -2146,6 +2461,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErro
 		return (long)((LDKCResult_PublicKeySecpErrorZ*)arg)->contents.err;
 	}
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKTxCreationKeys_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKTxCreationKeys *ret = MALLOC(sizeof(LDKTxCreationKeys), "LDKTxCreationKeys");
+	ret->inner = NULL;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_TxCreationKeysSecpErrorZ*)arg)->result_ok;
 }
@@ -2156,6 +2476,21 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSec
 		return (long)((LDKCResult_TxCreationKeysSecpErrorZ*)arg)->contents.err;
 	}
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRouteHop_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKRouteHop *ret = MALLOC(sizeof(LDKRouteHop), "LDKRouteHop");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRouteHint_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKRouteHint *ret = MALLOC(sizeof(LDKRouteHint), "LDKRouteHint");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRoutingFees_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKRoutingFees *ret = MALLOC(sizeof(LDKRoutingFees), "LDKRoutingFees");
+	ret->inner = NULL;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_RouteLightningErrorZ*)arg)->result_ok;
 }
@@ -2165,6 +2500,41 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErr
 	} else {
 		return (long)((LDKCResult_RouteLightningErrorZ*)arg)->contents.err;
 	}
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNetworkGraph_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKNetworkGraph *ret = MALLOC(sizeof(LDKNetworkGraph), "LDKNetworkGraph");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKLockedNetworkGraph_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKLockedNetworkGraph *ret = MALLOC(sizeof(LDKLockedNetworkGraph), "LDKLockedNetworkGraph");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNetGraphMsgHandler_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKNetGraphMsgHandler *ret = MALLOC(sizeof(LDKNetGraphMsgHandler), "LDKNetGraphMsgHandler");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKDirectionalChannelInfo_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKDirectionalChannelInfo *ret = MALLOC(sizeof(LDKDirectionalChannelInfo), "LDKDirectionalChannelInfo");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelInfo_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKChannelInfo *ret = MALLOC(sizeof(LDKChannelInfo), "LDKChannelInfo");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNodeAnnouncementInfo_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKNodeAnnouncementInfo *ret = MALLOC(sizeof(LDKNodeAnnouncementInfo), "LDKNodeAnnouncementInfo");
+	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNodeInfo_1optional_1none (JNIEnv * env, jclass _a) {
+	LDKNodeInfo *ret = MALLOC(sizeof(LDKNodeInfo), "LDKNodeInfo");
+	ret->inner = NULL;
+	return (long)ret;
 }
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_C2Tuple_1HTLCOutputInCommitmentSignatureZ_1free(JNIEnv * _env, jclass _b, jlong arg) {
 	LDKC2Tuple_HTLCOutputInCommitmentSignatureZ arg_conv = *(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ*)arg;
