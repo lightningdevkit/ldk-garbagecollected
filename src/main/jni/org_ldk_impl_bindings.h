@@ -33,11 +33,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKMessageSendEventsProvider_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKMessageSendEventsProvider;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKEventsProvider_new
  * Signature: (Lorg/ldk/impl/bindings/LDKEventsProvider;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKEventsProvider_1new
   (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKEventsProvider_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKEventsProvider;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKEventsProvider_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -49,11 +65,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKLogger_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKLogger;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKLogger_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKAccess_new
  * Signature: (Lorg/ldk/impl/bindings/LDKAccess;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKAccess_1new
   (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKAccess_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKAccess;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAccess_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -65,11 +97,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKChannelKeys_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKChannelKeys;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKWatch_new
  * Signature: (Lorg/ldk/impl/bindings/LDKWatch;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKWatch_1new
   (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKWatch_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKWatch;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKWatch_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -81,11 +129,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKFilter_1new
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKFilter_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKFilter;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKFilter_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKBroadcasterInterface_new
  * Signature: (Lorg/ldk/impl/bindings/LDKBroadcasterInterface;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1new
   (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKBroadcasterInterface_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKBroadcasterInterface;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -97,11 +161,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1new
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKFeeEstimator_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKFeeEstimator;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKKeysInterface_new
  * Signature: (Lorg/ldk/impl/bindings/LDKKeysInterface;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1new
   (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKKeysInterface_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKKeysInterface;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -113,6 +193,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1new
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKChannelMessageHandler_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKChannelMessageHandler;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKRoutingMessageHandler_new
  * Signature: (Lorg/ldk/impl/bindings/LDKRoutingMessageHandler;)J
  */
@@ -121,11 +209,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1new
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKRoutingMessageHandler_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKRoutingMessageHandler;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKSocketDescriptor_new
  * Signature: (Lorg/ldk/impl/bindings/LDKSocketDescriptor;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1new
   (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKSocketDescriptor_get_obj_from_jcalls
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKSocketDescriptor;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1get_1obj_1from_1jcalls
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings

@@ -446,6 +446,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_c.write("\treturn (long)res_ptr;\n")
         out_c.write("}\n")
 
+        out_java.write("\tpublic static native " + struct_name + " " + struct_name + "_get_obj_from_jcalls(long val);\n")
+        out_c.write("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {\n")
+        out_c.write("\treturn ((" + struct_name + "_JCalls*)val)->o;\n")
+        out_c.write("}\n")
 
 
     out_java.write("""package org.ldk.impl;

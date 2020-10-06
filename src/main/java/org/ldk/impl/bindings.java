@@ -50,18 +50,22 @@ public class bindings {
 		 long get_and_clear_pending_msg_events();
 	}
 	public static native long LDKMessageSendEventsProvider_new(LDKMessageSendEventsProvider impl);
+	public static native LDKMessageSendEventsProvider LDKMessageSendEventsProvider_get_obj_from_jcalls(long val);
 	public interface LDKEventsProvider {
 		 long get_and_clear_pending_events();
 	}
 	public static native long LDKEventsProvider_new(LDKEventsProvider impl);
+	public static native LDKEventsProvider LDKEventsProvider_get_obj_from_jcalls(long val);
 	public interface LDKLogger {
 		 void log(String record);
 	}
 	public static native long LDKLogger_new(LDKLogger impl);
+	public static native LDKLogger LDKLogger_get_obj_from_jcalls(long val);
 	public interface LDKAccess {
 		 long get_utxo(byte[] genesis_hash, long short_channel_id);
 	}
 	public static native long LDKAccess_new(LDKAccess impl);
+	public static native LDKAccess LDKAccess_get_obj_from_jcalls(long val);
 	public interface LDKChannelKeys {
 		 long get_per_commitment_point(long idx);
 		 long release_commitment_secret(long idx);
@@ -76,25 +80,30 @@ public class bindings {
 		 void on_accept(long channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
 	}
 	public static native long LDKChannelKeys_new(LDKChannelKeys impl);
+	public static native LDKChannelKeys LDKChannelKeys_get_obj_from_jcalls(long val);
 	public interface LDKWatch {
 		 long watch_channel(long funding_txo, long monitor);
 		 long update_channel(long funding_txo, long update);
 		 long release_pending_monitor_events();
 	}
 	public static native long LDKWatch_new(LDKWatch impl);
+	public static native LDKWatch LDKWatch_get_obj_from_jcalls(long val);
 	public interface LDKFilter {
 		 void register_tx(byte[] txid, long script_pubkey);
 		 void register_output(long outpoint, long script_pubkey);
 	}
 	public static native long LDKFilter_new(LDKFilter impl);
+	public static native LDKFilter LDKFilter_get_obj_from_jcalls(long val);
 	public interface LDKBroadcasterInterface {
 		 void broadcast_transaction(long tx);
 	}
 	public static native long LDKBroadcasterInterface_new(LDKBroadcasterInterface impl);
+	public static native LDKBroadcasterInterface LDKBroadcasterInterface_get_obj_from_jcalls(long val);
 	public interface LDKFeeEstimator {
 		 int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target);
 	}
 	public static native long LDKFeeEstimator_new(LDKFeeEstimator impl);
+	public static native LDKFeeEstimator LDKFeeEstimator_get_obj_from_jcalls(long val);
 	public interface LDKKeysInterface {
 		 long get_node_secret();
 		 long get_destination_script();
@@ -103,6 +112,7 @@ public class bindings {
 		 long get_secure_random_bytes();
 	}
 	public static native long LDKKeysInterface_new(LDKKeysInterface impl);
+	public static native LDKKeysInterface LDKKeysInterface_get_obj_from_jcalls(long val);
 	public interface LDKChannelMessageHandler {
 		 void handle_open_channel(long their_node_id, long their_features, long msg);
 		 void handle_accept_channel(long their_node_id, long their_features, long msg);
@@ -125,6 +135,7 @@ public class bindings {
 		 void handle_error(long their_node_id, long msg);
 	}
 	public static native long LDKChannelMessageHandler_new(LDKChannelMessageHandler impl, LDKMessageSendEventsProvider MessageSendEventsProvider);
+	public static native LDKChannelMessageHandler LDKChannelMessageHandler_get_obj_from_jcalls(long val);
 	public interface LDKRoutingMessageHandler {
 		 long handle_node_announcement(long msg);
 		 long handle_channel_announcement(long msg);
@@ -135,6 +146,7 @@ public class bindings {
 		 boolean should_request_full_sync(long node_id);
 	}
 	public static native long LDKRoutingMessageHandler_new(LDKRoutingMessageHandler impl);
+	public static native LDKRoutingMessageHandler LDKRoutingMessageHandler_get_obj_from_jcalls(long val);
 	public interface LDKSocketDescriptor {
 		 long send_data(long data, boolean resume_read);
 		 void disconnect_socket();
@@ -142,6 +154,7 @@ public class bindings {
 		 long hash();
 	}
 	public static native long LDKSocketDescriptor_new(LDKSocketDescriptor impl);
+	public static native LDKSocketDescriptor LDKSocketDescriptor_get_obj_from_jcalls(long val);
 	/// extern const void (*C2Tuple_HTLCOutputInCommitmentSignatureZ_free)(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ);
 	public static native void C2Tuple_HTLCOutputInCommitmentSignatureZ_free(long arg);
 	/// extern const void (*C2Tuple_OutPointScriptZ_free)(LDKC2Tuple_OutPointScriptZ);

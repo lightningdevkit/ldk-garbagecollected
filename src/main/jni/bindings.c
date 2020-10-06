@@ -299,6 +299,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_1
 	*res_ptr = LDKMessageSendEventsProvider_init(env, _a, o);
 	return (long)res_ptr;
 }
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKMessageSendEventsProvider_JCalls*)val)->o;
+}
 typedef struct LDKEventsProvider_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;
@@ -346,6 +349,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKEventsProvider_1new (JNIEnv
 	*res_ptr = LDKEventsProvider_init(env, _a, o);
 	return (long)res_ptr;
 }
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKEventsProvider_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKEventsProvider_JCalls*)val)->o;
+}
 typedef struct LDKLogger_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;
@@ -390,6 +396,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new (JNIEnv * env, 
 	LDKLogger *res_ptr = MALLOC(sizeof(LDKLogger), "LDKLogger");
 	*res_ptr = LDKLogger_init(env, _a, o);
 	return (long)res_ptr;
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKLogger_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKLogger_JCalls*)val)->o;
 }
 typedef struct LDKAccess_JCalls {
 	atomic_size_t refcnt;
@@ -439,6 +448,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKAccess_1new (JNIEnv * env, 
 	LDKAccess *res_ptr = MALLOC(sizeof(LDKAccess), "LDKAccess");
 	*res_ptr = LDKAccess_init(env, _a, o);
 	return (long)res_ptr;
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAccess_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKAccess_JCalls*)val)->o;
 }
 typedef struct LDKChannelKeys_JCalls {
 	atomic_size_t refcnt;
@@ -597,6 +609,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new (JNIEnv * 
 	*res_ptr = LDKChannelKeys_init(env, _a, o);
 	return (long)res_ptr;
 }
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKChannelKeys_JCalls*)val)->o;
+}
 typedef struct LDKWatch_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;
@@ -666,6 +681,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKWatch_1new (JNIEnv * env, j
 	*res_ptr = LDKWatch_init(env, _a, o);
 	return (long)res_ptr;
 }
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKWatch_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKWatch_JCalls*)val)->o;
+}
 typedef struct LDKFilter_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;
@@ -720,6 +738,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKFilter_1new (JNIEnv * env, 
 	*res_ptr = LDKFilter_init(env, _a, o);
 	return (long)res_ptr;
 }
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKFilter_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKFilter_JCalls*)val)->o;
+}
 typedef struct LDKBroadcasterInterface_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;
@@ -763,6 +784,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1new (
 	LDKBroadcasterInterface *res_ptr = MALLOC(sizeof(LDKBroadcasterInterface), "LDKBroadcasterInterface");
 	*res_ptr = LDKBroadcasterInterface_init(env, _a, o);
 	return (long)res_ptr;
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKBroadcasterInterface_JCalls*)val)->o;
 }
 typedef struct LDKFeeEstimator_JCalls {
 	atomic_size_t refcnt;
@@ -808,6 +832,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1new (JNIEnv *
 	LDKFeeEstimator *res_ptr = MALLOC(sizeof(LDKFeeEstimator), "LDKFeeEstimator");
 	*res_ptr = LDKFeeEstimator_init(env, _a, o);
 	return (long)res_ptr;
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKFeeEstimator_JCalls*)val)->o;
 }
 typedef struct LDKKeysInterface_JCalls {
 	atomic_size_t refcnt;
@@ -899,6 +926,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1new (JNIEnv 
 	LDKKeysInterface *res_ptr = MALLOC(sizeof(LDKKeysInterface), "LDKKeysInterface");
 	*res_ptr = LDKKeysInterface_init(env, _a, o);
 	return (long)res_ptr;
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKKeysInterface_JCalls*)val)->o;
 }
 typedef struct LDKChannelMessageHandler_JCalls {
 	atomic_size_t refcnt;
@@ -1092,6 +1122,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1new 
 	*res_ptr = LDKChannelMessageHandler_init(env, _a, o, MessageSendEventsProvider);
 	return (long)res_ptr;
 }
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKChannelMessageHandler_JCalls*)val)->o;
+}
 typedef struct LDKRoutingMessageHandler_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;
@@ -1199,6 +1232,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1new 
 	*res_ptr = LDKRoutingMessageHandler_init(env, _a, o);
 	return (long)res_ptr;
 }
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKRoutingMessageHandler_JCalls*)val)->o;
+}
 typedef struct LDKSocketDescriptor_JCalls {
 	atomic_size_t refcnt;
 	JNIEnv *env;
@@ -1267,6 +1303,9 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1new (JNIE
 	LDKSocketDescriptor *res_ptr = MALLOC(sizeof(LDKSocketDescriptor), "LDKSocketDescriptor");
 	*res_ptr = LDKSocketDescriptor_init(env, _a, o);
 	return (long)res_ptr;
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
+	return ((LDKSocketDescriptor_JCalls*)val)->o;
 }
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_C2Tuple_1HTLCOutputInCommitmentSignatureZ_1free(JNIEnv * _env, jclass _b, jlong arg) {
 	LDKC2Tuple_HTLCOutputInCommitmentSignatureZ arg_conv = *(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ*)arg;
