@@ -1247,7 +1247,7 @@ static inline LDKSocketDescriptor LDKSocketDescriptor_init (JNIEnv * env, jclass
 	assert(calls->send_data_meth != NULL);
 	calls->disconnect_socket_meth = (*env)->GetMethodID(env, c, "disconnect_socket", "()V");
 	assert(calls->disconnect_socket_meth != NULL);
-	calls->eq_meth = (*env)->GetMethodID(env, c, "eq", "(V)Z");
+	calls->eq_meth = (*env)->GetMethodID(env, c, "eq", "(J)Z");
 	assert(calls->eq_meth != NULL);
 	calls->hash_meth = (*env)->GetMethodID(env, c, "hash", "()J");
 	assert(calls->hash_meth != NULL);

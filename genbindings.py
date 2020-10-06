@@ -122,6 +122,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             is_ptr = True
             c_ty = "jlong"
             java_ty = "long"
+            fn_ty_arg = "J"
 
         var_is_arr = var_is_arr_regex.match(fn_arg)
         if var_is_arr is not None or ret_arr_len is not None:
