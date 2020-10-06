@@ -57,10 +57,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    u8_vec_len
+ * Method:    vec_slice_len
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1len
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len
   (JNIEnv *, jclass, jlong);
 
 /*

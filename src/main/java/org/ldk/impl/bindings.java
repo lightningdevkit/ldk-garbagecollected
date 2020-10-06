@@ -13,7 +13,7 @@ public class bindings {
 	public static native void free_heap_ptr(long ptr);
 	public static native byte[] get_u8_slice_bytes(long slice_ptr);
 	public static native long bytes_to_u8_vec(byte[] bytes);
-	public static native long u8_vec_len(long vec);
+	public static native long vec_slice_len(long vec);
 
 	public static native long LDKSecretKey_new();
 

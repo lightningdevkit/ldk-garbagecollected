@@ -77,7 +77,12 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec (JNIEnv * _
 	(*_env)->GetByteArrayRegion (_env, bytes, 0, vec->datalen, vec->data);
 	return (long)vec;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_u8_1vec_1len (JNIEnv * env, jclass _a, jlong ptr) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env, jclass _a, jlong ptr) {
+        // Check offsets of a few Vec types are all consistent as we're meant to be generic across types
+	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_SignatureZ, datalen), "Vec<*> needs to be mapped identically");
+	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_MessageSendEventZ, datalen), "Vec<*> needs to be mapped identically");
+	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_EventZ, datalen), "Vec<*> needs to be mapped identically");
+	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_C2Tuple_usizeTransactionZZ, datalen), "Vec<*> needs to be mapped identically");
 	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
 	return (long)vec->datalen;
 }
