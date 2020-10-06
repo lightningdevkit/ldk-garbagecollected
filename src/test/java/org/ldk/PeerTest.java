@@ -30,17 +30,17 @@ public class PeerTest {
             this.chain_monitor = bindings.LDKWatch_new(new bindings.LDKWatch() {
                 @Override
                 public long watch_channel(long funding_txo, long monitor) {
-                    return 0;
+                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
                 }
 
                 @Override
                 public long update_channel(long funding_txo, long update) {
-                    return 0;
+                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
                 }
 
                 @Override
                 public long release_pending_monitor_events() {
-                    return 0;
+                    return bindings.new_empty_slice_vec();
                 }
             });
 
@@ -134,9 +134,23 @@ public class PeerTest {
         do_read_event(list, peer2.peer_manager, descriptor2, bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_inner(init_vec));
         bindings.CResult_CVec_u8ZPeerHandleErrorZ_free(init_vec);
 
-        while (!list.isEmpty()) {
-            list.poll().join();
-        }
+        while (!list.isEmpty()) { list.poll().join(); }
+
+        long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, bindings.ChannelManager_get_our_node_id(peer2.chan_manager), 10000, 1000, 0, bindings.LDKUserConfig_optional_none());
+        assert bindings.LDKCResult_NoneAPIErrorZ_result_ok(cc_res);
+        bindings.CResult_NoneAPIErrorZ_free(cc_res);
+
+        bindings.PeerManager_process_events(peer1.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+        bindings.PeerManager_process_events(peer2.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+
+        long peer1_chans = bindings.ChannelManager_list_channels(peer1.chan_manager);
+        long peer2_chans = bindings.ChannelManager_list_channels(peer2.chan_manager);
+        assert bindings.vec_slice_len(peer1_chans) == 1;
+        assert bindings.vec_slice_len(peer2_chans) == 1;
+        bindings.CVec_ChannelDetailsZ_free(peer1_chans);
+        bindings.CVec_ChannelDetailsZ_free(peer2_chans);
 
         peer1.free();
         peer2.free();

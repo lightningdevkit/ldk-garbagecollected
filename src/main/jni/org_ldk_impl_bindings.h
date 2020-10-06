@@ -65,6 +65,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    new_empty_slice_vec
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKSecretKey_new
  * Signature: ()J
  */
