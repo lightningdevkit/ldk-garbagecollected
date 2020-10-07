@@ -15,6 +15,7 @@ public class PeerTest {
         final long keys_interface;
         final long config;
         final long chan_manager;
+        final long chan_manager_events;
         final long chan_handler;
         final long router;
         final long route_handler;
@@ -50,6 +51,7 @@ public class PeerTest {
             this.keys_interface = bindings.KeysManager_as_KeysInterface(keys);
             this.config = bindings.UserConfig_default();
             this.chan_manager = bindings.ChannelManager_new(bindings.LDKNetwork.LDKNetwork_Bitcoin, fee_estimator, chain_monitor, tx_broadcaster, logger, keys_interface, config, 1);
+            this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
 
             this.chan_handler = bindings.ChannelManager_as_ChannelMessageHandler(chan_manager);
             this.router = bindings.NetGraphMsgHandler_new(0, logger);
@@ -70,6 +72,7 @@ public class PeerTest {
             bindings.KeysManager_free(keys);
             bindings.KeysInterface_free(keys_interface);
             bindings.ChannelManager_free(chan_manager);
+            bindings.EventsProvider_free(chan_manager_events);
             bindings.ChannelMessageHandler_free(chan_handler);
             bindings.NetGraphMsgHandler_free(router);
             bindings.RoutingMessageHandler_free(route_handler);
@@ -144,6 +147,11 @@ public class PeerTest {
         while (!list.isEmpty()) { list.poll().join(); }
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
+
+        long events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events);
+        bindings.VecOrSliceDef events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
+        assert events_arr_info.datalen == 1;
+        bindings.CVec_EventZ_free(events);
 
         long peer1_chans = bindings.ChannelManager_list_channels(peer1.chan_manager);
         long peer2_chans = bindings.ChannelManager_list_channels(peer2.chan_manager);

@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    init
- * Signature: (Ljava/lang/Class;)V
+ * Signature: (Ljava/lang/Class;Ljava/lang/Class;)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_init
-  (JNIEnv *, jclass, jclass);
+  (JNIEnv *, jclass, jclass, jclass);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -81,6 +81,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSecretKey_1new
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_u8_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1u8_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok
  * Signature: (J)Z
  */
@@ -126,6 +134,22 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdate
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKOutPoint_1optional_1none
   (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_TxOut_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1TxOut_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_Signature_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Signature_1arr_1info
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -265,6 +289,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCOutputInCommitment_1op
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_SpendableOutputDescriptor_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1SpendableOutputDescriptor_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKAcceptChannel_optional_none
  * Signature: ()J
  */
@@ -369,6 +401,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKErrorMessage_1optional_1no
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_MessageSendEvent_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1MessageSendEvent_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKMessageSendEventsProvider_new
  * Signature: (Lorg/ldk/impl/bindings/LDKMessageSendEventsProvider;)J
  */
@@ -389,6 +429,14 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvide
  * Signature: (J)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_1call_1get_1and_1clear_1pending_1msg_1events
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_Event_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Event_1arr_1info
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -518,6 +566,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelPublicKeys_1optiona
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPreCalculatedTxCreationKeys_1optional_1none
   (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_HTLCOutputInCommitment_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1HTLCOutputInCommitment_1arr_1info
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -665,6 +721,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKMonitorEvent_1optional_1no
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_MonitorEvent_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1MonitorEvent_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKWatch_new
  * Signature: (Lorg/ldk/impl/bindings/LDKWatch;)J
  */
@@ -793,11 +857,35 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChainMonitor_1optional_1no
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_C2TupleTempl_usize__Transaction_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1usize_1_1Transaction_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKHTLCUpdate_optional_none
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCUpdate_1optional_1none
   (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_Transaction_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Transaction_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1ThirtyTwoBytes_1_1CVecTempl_1TxOut_1arr_1info
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -897,11 +985,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKInitFeatures_1optional_1no
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_ChannelDetails_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1ChannelDetails_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKRoute_optional_none
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRoute_1optional_1none
   (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_NetAddress_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1NetAddress_1arr_1info
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -1137,6 +1241,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelManagerReadArgs_1op
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_ChannelMonitor_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1ChannelMonitor_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKDecodeError_optional_none
  * Signature: ()J
  */
@@ -1217,6 +1329,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKReplyChannelRange_1optiona
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_u64_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1u64_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKQueryShortChannelIds_optional_none
  * Signature: ()J
  */
@@ -1249,6 +1369,38 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKLightningError_1optional_1
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_UpdateAddHTLC_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateAddHTLC_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_UpdateFulfillHTLC_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFulfillHTLC_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_UpdateFailHTLC_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailHTLC_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_UpdateFailMalformedHTLC_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailMalformedHTLC_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKCResult_boolLightningErrorZ_result_ok
  * Signature: (J)Z
  */
@@ -1261,6 +1413,22 @@ JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningE
  * Signature: (J)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1inner
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C3TupleTempl_1ChannelAnnouncement_1_1ChannelUpdate_1_1ChannelUpdate_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_NodeAnnouncement_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1NodeAnnouncement_1arr_1info
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -1393,6 +1561,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPeerManager_1optional_1non
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_PublicKey_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1PublicKey_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok
  * Signature: (J)Z
  */
@@ -1481,11 +1657,35 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSec
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1HTLCOutputInCommitment_1_1Signature_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKRouteHop_optional_none
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRouteHop_1optional_1none
   (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_RouteHop_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHop_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_CVecTempl_RouteHop_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1CVecTempl_1RouteHop_1arr_1info
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -1526,6 +1726,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErr
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNetworkGraph_1optional_1none
   (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCVecTempl_RouteHint_arr_info
+ * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHint_1arr_1info
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings

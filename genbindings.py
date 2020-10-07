@@ -469,14 +469,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 dummy_line = fn_line.group(1) + struct_name + "_call_" + fn_line.group(2) + " " + struct_name + "* arg" + fn_line.group(4) + "\n"
                 map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(arg_conv->" + fn_line.group(2) + ")(arg_conv->this_arg")
 
-    out_java.write("""package org.ldk.impl;
-
-public class bindings {
-	static {
-		System.loadLibrary(\"lightningjni\");
-		init(java.lang.Enum.class);
-	}
-""")
     out_c.write("""#include \"org_ldk_impl_bindings.h\"
 #include <rust_types.h>
 #include <lightning.h>
@@ -535,9 +527,22 @@ void __attribute__((destructor)) check_leaks() {
 	DO_ASSERT(allocation_ll == NULL);
 }
 """)
+    out_java.write("""package org.ldk.impl;
 
-    out_java.write("""
-	static native void init(java.lang.Class c);
+public class bindings {
+	public static class VecOrSliceDef {
+		public long dataptr;
+		public long datalen;
+		public long stride;
+		public VecOrSliceDef(long dataptr, long datalen, long stride) {
+			this.dataptr = dataptr; this.datalen = datalen; this.stride = stride;
+		}
+	}
+	static {
+		System.loadLibrary(\"lightningjni\");
+		init(java.lang.Enum.class, VecOrSliceDef.class);
+	}
+	static native void init(java.lang.Class c, java.lang.Class slicedef);
 
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);
@@ -550,9 +555,15 @@ void __attribute__((destructor)) check_leaks() {
 """)
     out_c.write("""
 jmethodID ordinal_meth = NULL;
-JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class) {
+jmethodID slicedef_meth = NULL;
+jclass slicedef_cls = NULL;
+JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class, jclass slicedef_class) {
 	ordinal_meth = (*env)->GetMethodID(env, enum_class, "ordinal", "()I");
 	DO_ASSERT(ordinal_meth != NULL);
+	slicedef_meth = (*env)->GetMethodID(env, slicedef_class, "<init>", "(JJJ)V");
+	DO_ASSERT(slicedef_meth != NULL);
+	slicedef_cls = (*env)->NewGlobalRef(env, slicedef_class);
+	DO_ASSERT(slicedef_cls != NULL);
 }
 
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_deref_1bool (JNIEnv * env, jclass _a, jlong ptr) {
@@ -621,6 +632,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
     const_val_regex = re.compile("^extern const ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
 
     line_indicates_result_regex = re.compile("^   bool result_ok;$")
+    line_indicates_vec_regex = re.compile("^   ([A-Za-z_0-9]*) \*data;$")
     line_indicates_opaque_regex = re.compile("^   bool is_owned;$")
     line_indicates_trait_regex = re.compile("^   ([A-Za-z_0-9]* \*?)\(\*([A-Za-z_0-9]*)\)\((const )?void \*this_arg(.*)\);$")
     assert(line_indicates_trait_regex.match("   uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);"))
@@ -645,6 +657,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
             if line.startswith("} "):
                 field_lines = []
                 struct_name = None
+                vec_ty = None
                 obj_lines = cur_block_obj.split("\n")
                 is_opaque = False
                 is_result = False
@@ -662,6 +675,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                             in_block_comment = False
                     else:
                         struct_name_match = struct_name_regex.match(struct_line)
+                        vec_ty_match = line_indicates_vec_regex.match(struct_line)
                         if struct_name_match is not None:
                             struct_name = struct_name_match.group(3)
                             if struct_name_match.group(1) == "enum":
@@ -675,6 +689,8 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                             is_opaque = True
                         elif line_indicates_result_regex.match(struct_line):
                             is_result = True
+                        elif vec_ty_match is not None and struct_name.startswith("LDKCVecTempl_"):
+                            vec_ty = vec_ty_match.group(1)
                         trait_fn_match = line_indicates_trait_regex.match(struct_line)
                         if trait_fn_match is not None:
                             trait_fn_lines.append(trait_fn_match)
@@ -699,6 +715,12 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                     out_c.write("}\n")
                 elif is_result:
                     result_templ_structs.add(struct_name)
+                elif vec_ty is not None:
+                    out_java.write("\tpublic static native VecOrSliceDef " + struct_name + "_arr_info(long vec_ptr);\n")
+                    out_c.write("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {\n")
+                    out_c.write("\t" + struct_name + " *vec = (" + struct_name + "*)ptr;\n")
+                    out_c.write("\treturn (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(" + vec_ty + "));\n")
+                    out_c.write("}\n")
                 elif is_unitary_enum:
                     unitary_enums.add(struct_name)
                     out_c.write("static inline " + struct_name + " " + struct_name + "_from_java(JNIEnv *env, jclass val) {\n")
