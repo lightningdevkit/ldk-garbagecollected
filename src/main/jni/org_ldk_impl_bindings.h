@@ -842,7 +842,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1get_1obj_1
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    LDKFeeEstimator_call_get_est_sat_per_1000_weight
- * Signature: (JLorg/ldk/impl/bindings/LDKConfirmationTarget;)I
+ * Signature: (JLorg/ldk/enums/LDKConfirmationTarget;)I
  */
 JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1call_1get_1est_1sat_1per_11000_1weight
   (JNIEnv *, jclass, jlong, jobject);
@@ -1914,7 +1914,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NoneAPIErrorZ_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_NoneChannelMonitorUpdateErrZ_err
- * Signature: (Lorg/ldk/impl/bindings/LDKChannelMonitorUpdateErr;)J
+ * Signature: (Lorg/ldk/enums/LDKChannelMonitorUpdateErr;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NoneChannelMonitorUpdateErrZ_1err
   (JNIEnv *, jclass, jobject);
@@ -1978,7 +1978,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NonePeerHandleErrorZ_
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_PublicKeySecpErrorZ_err
- * Signature: (Lorg/ldk/impl/bindings/LDKSecp256k1Error;)J
+ * Signature: (Lorg/ldk/enums/LDKSecp256k1Error;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1PublicKeySecpErrorZ_1err
   (JNIEnv *, jclass, jobject);
@@ -2026,7 +2026,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1RouteLightningErrorZ
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_SecretKeySecpErrorZ_err
- * Signature: (Lorg/ldk/impl/bindings/LDKSecp256k1Error;)J
+ * Signature: (Lorg/ldk/enums/LDKSecp256k1Error;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1SecretKeySecpErrorZ_1err
   (JNIEnv *, jclass, jobject);
@@ -2066,7 +2066,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1SignatureNoneZ_1ok
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_TxCreationKeysSecpErrorZ_err
- * Signature: (Lorg/ldk/impl/bindings/LDKSecp256k1Error;)J
+ * Signature: (Lorg/ldk/enums/LDKSecp256k1Error;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysSecpErrorZ_1err
   (JNIEnv *, jclass, jobject);
@@ -2090,7 +2090,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1TxCreationKeysSecpEr
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_TxOutAccessErrorZ_err
- * Signature: (Lorg/ldk/impl/bindings/LDKAccessError;)J
+ * Signature: (Lorg/ldk/enums/LDKAccessError;)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1TxOutAccessErrorZ_1err
   (JNIEnv *, jclass, jobject);
@@ -2546,7 +2546,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_APIError_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Level_max
- * Signature: ()Lorg/ldk/impl/bindings/LDKLevel;
+ * Signature: ()Lorg/ldk/enums/LDKLevel;
  */
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_Level_1max
   (JNIEnv *, jclass);
@@ -3482,7 +3482,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_KeysManager_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    KeysManager_new
- * Signature: ([BLorg/ldk/impl/bindings/LDKNetwork;JI)J
+ * Signature: ([BLorg/ldk/enums/LDKNetwork;JI)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_KeysManager_1new
   (JNIEnv *, jclass, jbyteArray, jobject, jlong, jint);
@@ -3658,7 +3658,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PaymentSendFailure_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelManager_new
- * Signature: (Lorg/ldk/impl/bindings/LDKNetwork;JJJJJJJ)J
+ * Signature: (Lorg/ldk/enums/LDKNetwork;JJJJJJJ)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new
   (JNIEnv *, jclass, jobject, jlong, jlong, jlong, jlong, jlong, jlong, jlong);

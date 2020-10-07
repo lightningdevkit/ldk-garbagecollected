@@ -1,4 +1,5 @@
 package org.ldk.impl;
+import org.ldk.enums.*;
 
 public class bindings {
 	public static class VecOrSliceDef {
@@ -25,43 +26,6 @@ public class bindings {
 
 	public static native long LDKSecretKey_new();
 
-	public enum LDKAccessError {
-	   LDKAccessError_UnknownChain,
-	   LDKAccessError_UnknownTx,
-	}
-	public enum LDKChannelMonitorUpdateErr {
-	   LDKChannelMonitorUpdateErr_TemporaryFailure,
-	   LDKChannelMonitorUpdateErr_PermanentFailure,
-	}
-	public enum LDKConfirmationTarget {
-	   LDKConfirmationTarget_Background,
-	   LDKConfirmationTarget_Normal,
-	   LDKConfirmationTarget_HighPriority,
-	}
-	public enum LDKLevel {
-	   LDKLevel_Off,
-	   LDKLevel_Error,
-	   LDKLevel_Warn,
-	   LDKLevel_Info,
-	   LDKLevel_Debug,
-	   LDKLevel_Trace,
-	}
-	public enum LDKNetwork {
-	   LDKNetwork_Bitcoin,
-	   LDKNetwork_Testnet,
-	   LDKNetwork_Regtest,
-	}
-	public enum LDKSecp256k1Error {
-	   LDKSecp256k1Error_IncorrectSignature,
-	   LDKSecp256k1Error_InvalidMessage,
-	   LDKSecp256k1Error_InvalidPublicKey,
-	   LDKSecp256k1Error_InvalidSignature,
-	   LDKSecp256k1Error_InvalidSecretKey,
-	   LDKSecp256k1Error_InvalidRecoveryId,
-	   LDKSecp256k1Error_InvalidTweak,
-	   LDKSecp256k1Error_NotEnoughMemory,
-	   LDKSecp256k1Error_CallbackPanicked,
-	}
 	public static native VecOrSliceDef LDKCVecTempl_u8_arr_info(long vec_ptr);
 	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
 	public static native long LDKCResult_NoneChannelMonitorUpdateErrZ_get_inner(long arg);

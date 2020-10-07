@@ -2,6 +2,7 @@ package org.ldk;
 
 import org.junit.jupiter.api.Test;
 import org.ldk.impl.bindings;
+import org.ldk.enums.*;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -47,10 +48,10 @@ public class PeerTest {
 
             byte[] key_seed = new byte[32];
             for (byte i = 0; i < 32; i++) { key_seed[i] = (byte) (i ^ seed); }
-            this.keys = bindings.KeysManager_new(key_seed, bindings.LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int)(System.currentTimeMillis() * 1000) & 0xffffffff);
+            this.keys = bindings.KeysManager_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int)(System.currentTimeMillis() * 1000) & 0xffffffff);
             this.keys_interface = bindings.KeysManager_as_KeysInterface(keys);
             this.config = bindings.UserConfig_default();
-            this.chan_manager = bindings.ChannelManager_new(bindings.LDKNetwork.LDKNetwork_Bitcoin, fee_estimator, chain_monitor, tx_broadcaster, logger, keys_interface, config, 1);
+            this.chan_manager = bindings.ChannelManager_new(LDKNetwork.LDKNetwork_Bitcoin, fee_estimator, chain_monitor, tx_broadcaster, logger, keys_interface, config, 1);
             this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
 
             this.chan_handler = bindings.ChannelManager_as_ChannelMessageHandler(chan_manager);
