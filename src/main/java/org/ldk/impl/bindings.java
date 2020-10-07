@@ -26,6 +26,12 @@ public class bindings {
 
 	public static native long LDKSecretKey_new();
 
+	static { LDKAccessError.values(); /* Force enum statics to run */ }
+	static { LDKChannelMonitorUpdateErr.values(); /* Force enum statics to run */ }
+	static { LDKConfirmationTarget.values(); /* Force enum statics to run */ }
+	static { LDKLevel.values(); /* Force enum statics to run */ }
+	static { LDKNetwork.values(); /* Force enum statics to run */ }
+	static { LDKSecp256k1Error.values(); /* Force enum statics to run */ }
 	public static native VecOrSliceDef LDKCVecTempl_u8_arr_info(long vec_ptr);
 	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
 	public static native long LDKCResult_NoneChannelMonitorUpdateErrZ_get_inner(long arg);

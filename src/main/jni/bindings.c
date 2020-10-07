@@ -120,21 +120,23 @@ static inline LDKAccessError LDKAccessError_from_java(JNIEnv *env, jclass val) {
 	}
 	abort();
 }
+static jclass LDKAccessError_class = NULL;
+static jfieldID LDKAccessError_LDKAccessError_UnknownChain = NULL;
+static jfieldID LDKAccessError_LDKAccessError_UnknownTx = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_enums_LDKAccessError_init (JNIEnv * env, jclass clz) {
+	LDKAccessError_class = (*env)->NewGlobalRef(env, clz);
+	DO_ASSERT(LDKAccessError_class != NULL);
+	LDKAccessError_LDKAccessError_UnknownChain = (*env)->GetStaticFieldID(env, LDKAccessError_class, "LDKAccessError_UnknownChain", "Lorg/ldk/enums/LDKAccessError;");
+	DO_ASSERT(LDKAccessError_LDKAccessError_UnknownChain != NULL);
+	LDKAccessError_LDKAccessError_UnknownTx = (*env)->GetStaticFieldID(env, LDKAccessError_class, "LDKAccessError_UnknownTx", "Lorg/ldk/enums/LDKAccessError;");
+	DO_ASSERT(LDKAccessError_LDKAccessError_UnknownTx != NULL);
+}
 static inline jclass LDKAccessError_to_java(JNIEnv *env, LDKAccessError val) {
-	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
-	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/enums/LDKAccessError;");
-	DO_ASSERT(enum_class != NULL);
 	switch (val) {
-		case LDKAccessError_UnknownChain: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKAccessError_UnknownChain", "Lorg/ldk/enums/LDKAccessError;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKAccessError_UnknownTx: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKAccessError_UnknownTx", "Lorg/ldk/enums/LDKAccessError;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
+		case LDKAccessError_UnknownChain:
+			return (*env)->GetStaticObjectField(env, LDKAccessError_class, LDKAccessError_LDKAccessError_UnknownChain);
+		case LDKAccessError_UnknownTx:
+			return (*env)->GetStaticObjectField(env, LDKAccessError_class, LDKAccessError_LDKAccessError_UnknownTx);
 		default: abort();
 	}
 }
@@ -146,21 +148,23 @@ static inline LDKChannelMonitorUpdateErr LDKChannelMonitorUpdateErr_from_java(JN
 	}
 	abort();
 }
+static jclass LDKChannelMonitorUpdateErr_class = NULL;
+static jfieldID LDKChannelMonitorUpdateErr_LDKChannelMonitorUpdateErr_TemporaryFailure = NULL;
+static jfieldID LDKChannelMonitorUpdateErr_LDKChannelMonitorUpdateErr_PermanentFailure = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_enums_LDKChannelMonitorUpdateErr_init (JNIEnv * env, jclass clz) {
+	LDKChannelMonitorUpdateErr_class = (*env)->NewGlobalRef(env, clz);
+	DO_ASSERT(LDKChannelMonitorUpdateErr_class != NULL);
+	LDKChannelMonitorUpdateErr_LDKChannelMonitorUpdateErr_TemporaryFailure = (*env)->GetStaticFieldID(env, LDKChannelMonitorUpdateErr_class, "LDKChannelMonitorUpdateErr_TemporaryFailure", "Lorg/ldk/enums/LDKChannelMonitorUpdateErr;");
+	DO_ASSERT(LDKChannelMonitorUpdateErr_LDKChannelMonitorUpdateErr_TemporaryFailure != NULL);
+	LDKChannelMonitorUpdateErr_LDKChannelMonitorUpdateErr_PermanentFailure = (*env)->GetStaticFieldID(env, LDKChannelMonitorUpdateErr_class, "LDKChannelMonitorUpdateErr_PermanentFailure", "Lorg/ldk/enums/LDKChannelMonitorUpdateErr;");
+	DO_ASSERT(LDKChannelMonitorUpdateErr_LDKChannelMonitorUpdateErr_PermanentFailure != NULL);
+}
 static inline jclass LDKChannelMonitorUpdateErr_to_java(JNIEnv *env, LDKChannelMonitorUpdateErr val) {
-	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
-	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/enums/LDKChannelMonitorUpdateErr;");
-	DO_ASSERT(enum_class != NULL);
 	switch (val) {
-		case LDKChannelMonitorUpdateErr_TemporaryFailure: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKChannelMonitorUpdateErr_TemporaryFailure", "Lorg/ldk/enums/LDKChannelMonitorUpdateErr;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKChannelMonitorUpdateErr_PermanentFailure: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKChannelMonitorUpdateErr_PermanentFailure", "Lorg/ldk/enums/LDKChannelMonitorUpdateErr;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
+		case LDKChannelMonitorUpdateErr_TemporaryFailure:
+			return (*env)->GetStaticObjectField(env, LDKChannelMonitorUpdateErr_class, LDKChannelMonitorUpdateErr_LDKChannelMonitorUpdateErr_TemporaryFailure);
+		case LDKChannelMonitorUpdateErr_PermanentFailure:
+			return (*env)->GetStaticObjectField(env, LDKChannelMonitorUpdateErr_class, LDKChannelMonitorUpdateErr_LDKChannelMonitorUpdateErr_PermanentFailure);
 		default: abort();
 	}
 }
@@ -173,26 +177,28 @@ static inline LDKConfirmationTarget LDKConfirmationTarget_from_java(JNIEnv *env,
 	}
 	abort();
 }
+static jclass LDKConfirmationTarget_class = NULL;
+static jfieldID LDKConfirmationTarget_LDKConfirmationTarget_Background = NULL;
+static jfieldID LDKConfirmationTarget_LDKConfirmationTarget_Normal = NULL;
+static jfieldID LDKConfirmationTarget_LDKConfirmationTarget_HighPriority = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_enums_LDKConfirmationTarget_init (JNIEnv * env, jclass clz) {
+	LDKConfirmationTarget_class = (*env)->NewGlobalRef(env, clz);
+	DO_ASSERT(LDKConfirmationTarget_class != NULL);
+	LDKConfirmationTarget_LDKConfirmationTarget_Background = (*env)->GetStaticFieldID(env, LDKConfirmationTarget_class, "LDKConfirmationTarget_Background", "Lorg/ldk/enums/LDKConfirmationTarget;");
+	DO_ASSERT(LDKConfirmationTarget_LDKConfirmationTarget_Background != NULL);
+	LDKConfirmationTarget_LDKConfirmationTarget_Normal = (*env)->GetStaticFieldID(env, LDKConfirmationTarget_class, "LDKConfirmationTarget_Normal", "Lorg/ldk/enums/LDKConfirmationTarget;");
+	DO_ASSERT(LDKConfirmationTarget_LDKConfirmationTarget_Normal != NULL);
+	LDKConfirmationTarget_LDKConfirmationTarget_HighPriority = (*env)->GetStaticFieldID(env, LDKConfirmationTarget_class, "LDKConfirmationTarget_HighPriority", "Lorg/ldk/enums/LDKConfirmationTarget;");
+	DO_ASSERT(LDKConfirmationTarget_LDKConfirmationTarget_HighPriority != NULL);
+}
 static inline jclass LDKConfirmationTarget_to_java(JNIEnv *env, LDKConfirmationTarget val) {
-	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
-	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/enums/LDKConfirmationTarget;");
-	DO_ASSERT(enum_class != NULL);
 	switch (val) {
-		case LDKConfirmationTarget_Background: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKConfirmationTarget_Background", "Lorg/ldk/enums/LDKConfirmationTarget;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKConfirmationTarget_Normal: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKConfirmationTarget_Normal", "Lorg/ldk/enums/LDKConfirmationTarget;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKConfirmationTarget_HighPriority: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKConfirmationTarget_HighPriority", "Lorg/ldk/enums/LDKConfirmationTarget;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
+		case LDKConfirmationTarget_Background:
+			return (*env)->GetStaticObjectField(env, LDKConfirmationTarget_class, LDKConfirmationTarget_LDKConfirmationTarget_Background);
+		case LDKConfirmationTarget_Normal:
+			return (*env)->GetStaticObjectField(env, LDKConfirmationTarget_class, LDKConfirmationTarget_LDKConfirmationTarget_Normal);
+		case LDKConfirmationTarget_HighPriority:
+			return (*env)->GetStaticObjectField(env, LDKConfirmationTarget_class, LDKConfirmationTarget_LDKConfirmationTarget_HighPriority);
 		default: abort();
 	}
 }
@@ -208,41 +214,43 @@ static inline LDKLevel LDKLevel_from_java(JNIEnv *env, jclass val) {
 	}
 	abort();
 }
+static jclass LDKLevel_class = NULL;
+static jfieldID LDKLevel_LDKLevel_Off = NULL;
+static jfieldID LDKLevel_LDKLevel_Error = NULL;
+static jfieldID LDKLevel_LDKLevel_Warn = NULL;
+static jfieldID LDKLevel_LDKLevel_Info = NULL;
+static jfieldID LDKLevel_LDKLevel_Debug = NULL;
+static jfieldID LDKLevel_LDKLevel_Trace = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_enums_LDKLevel_init (JNIEnv * env, jclass clz) {
+	LDKLevel_class = (*env)->NewGlobalRef(env, clz);
+	DO_ASSERT(LDKLevel_class != NULL);
+	LDKLevel_LDKLevel_Off = (*env)->GetStaticFieldID(env, LDKLevel_class, "LDKLevel_Off", "Lorg/ldk/enums/LDKLevel;");
+	DO_ASSERT(LDKLevel_LDKLevel_Off != NULL);
+	LDKLevel_LDKLevel_Error = (*env)->GetStaticFieldID(env, LDKLevel_class, "LDKLevel_Error", "Lorg/ldk/enums/LDKLevel;");
+	DO_ASSERT(LDKLevel_LDKLevel_Error != NULL);
+	LDKLevel_LDKLevel_Warn = (*env)->GetStaticFieldID(env, LDKLevel_class, "LDKLevel_Warn", "Lorg/ldk/enums/LDKLevel;");
+	DO_ASSERT(LDKLevel_LDKLevel_Warn != NULL);
+	LDKLevel_LDKLevel_Info = (*env)->GetStaticFieldID(env, LDKLevel_class, "LDKLevel_Info", "Lorg/ldk/enums/LDKLevel;");
+	DO_ASSERT(LDKLevel_LDKLevel_Info != NULL);
+	LDKLevel_LDKLevel_Debug = (*env)->GetStaticFieldID(env, LDKLevel_class, "LDKLevel_Debug", "Lorg/ldk/enums/LDKLevel;");
+	DO_ASSERT(LDKLevel_LDKLevel_Debug != NULL);
+	LDKLevel_LDKLevel_Trace = (*env)->GetStaticFieldID(env, LDKLevel_class, "LDKLevel_Trace", "Lorg/ldk/enums/LDKLevel;");
+	DO_ASSERT(LDKLevel_LDKLevel_Trace != NULL);
+}
 static inline jclass LDKLevel_to_java(JNIEnv *env, LDKLevel val) {
-	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
-	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/enums/LDKLevel;");
-	DO_ASSERT(enum_class != NULL);
 	switch (val) {
-		case LDKLevel_Off: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Off", "Lorg/ldk/enums/LDKLevel;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKLevel_Error: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Error", "Lorg/ldk/enums/LDKLevel;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKLevel_Warn: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Warn", "Lorg/ldk/enums/LDKLevel;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKLevel_Info: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Info", "Lorg/ldk/enums/LDKLevel;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKLevel_Debug: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Debug", "Lorg/ldk/enums/LDKLevel;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKLevel_Trace: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKLevel_Trace", "Lorg/ldk/enums/LDKLevel;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
+		case LDKLevel_Off:
+			return (*env)->GetStaticObjectField(env, LDKLevel_class, LDKLevel_LDKLevel_Off);
+		case LDKLevel_Error:
+			return (*env)->GetStaticObjectField(env, LDKLevel_class, LDKLevel_LDKLevel_Error);
+		case LDKLevel_Warn:
+			return (*env)->GetStaticObjectField(env, LDKLevel_class, LDKLevel_LDKLevel_Warn);
+		case LDKLevel_Info:
+			return (*env)->GetStaticObjectField(env, LDKLevel_class, LDKLevel_LDKLevel_Info);
+		case LDKLevel_Debug:
+			return (*env)->GetStaticObjectField(env, LDKLevel_class, LDKLevel_LDKLevel_Debug);
+		case LDKLevel_Trace:
+			return (*env)->GetStaticObjectField(env, LDKLevel_class, LDKLevel_LDKLevel_Trace);
 		default: abort();
 	}
 }
@@ -255,26 +263,28 @@ static inline LDKNetwork LDKNetwork_from_java(JNIEnv *env, jclass val) {
 	}
 	abort();
 }
+static jclass LDKNetwork_class = NULL;
+static jfieldID LDKNetwork_LDKNetwork_Bitcoin = NULL;
+static jfieldID LDKNetwork_LDKNetwork_Testnet = NULL;
+static jfieldID LDKNetwork_LDKNetwork_Regtest = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_enums_LDKNetwork_init (JNIEnv * env, jclass clz) {
+	LDKNetwork_class = (*env)->NewGlobalRef(env, clz);
+	DO_ASSERT(LDKNetwork_class != NULL);
+	LDKNetwork_LDKNetwork_Bitcoin = (*env)->GetStaticFieldID(env, LDKNetwork_class, "LDKNetwork_Bitcoin", "Lorg/ldk/enums/LDKNetwork;");
+	DO_ASSERT(LDKNetwork_LDKNetwork_Bitcoin != NULL);
+	LDKNetwork_LDKNetwork_Testnet = (*env)->GetStaticFieldID(env, LDKNetwork_class, "LDKNetwork_Testnet", "Lorg/ldk/enums/LDKNetwork;");
+	DO_ASSERT(LDKNetwork_LDKNetwork_Testnet != NULL);
+	LDKNetwork_LDKNetwork_Regtest = (*env)->GetStaticFieldID(env, LDKNetwork_class, "LDKNetwork_Regtest", "Lorg/ldk/enums/LDKNetwork;");
+	DO_ASSERT(LDKNetwork_LDKNetwork_Regtest != NULL);
+}
 static inline jclass LDKNetwork_to_java(JNIEnv *env, LDKNetwork val) {
-	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
-	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/enums/LDKNetwork;");
-	DO_ASSERT(enum_class != NULL);
 	switch (val) {
-		case LDKNetwork_Bitcoin: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKNetwork_Bitcoin", "Lorg/ldk/enums/LDKNetwork;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKNetwork_Testnet: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKNetwork_Testnet", "Lorg/ldk/enums/LDKNetwork;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKNetwork_Regtest: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKNetwork_Regtest", "Lorg/ldk/enums/LDKNetwork;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
+		case LDKNetwork_Bitcoin:
+			return (*env)->GetStaticObjectField(env, LDKNetwork_class, LDKNetwork_LDKNetwork_Bitcoin);
+		case LDKNetwork_Testnet:
+			return (*env)->GetStaticObjectField(env, LDKNetwork_class, LDKNetwork_LDKNetwork_Testnet);
+		case LDKNetwork_Regtest:
+			return (*env)->GetStaticObjectField(env, LDKNetwork_class, LDKNetwork_LDKNetwork_Regtest);
 		default: abort();
 	}
 }
@@ -293,56 +303,58 @@ static inline LDKSecp256k1Error LDKSecp256k1Error_from_java(JNIEnv *env, jclass 
 	}
 	abort();
 }
+static jclass LDKSecp256k1Error_class = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_IncorrectSignature = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidMessage = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidPublicKey = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidSignature = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidSecretKey = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidRecoveryId = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidTweak = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_NotEnoughMemory = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_CallbackPanicked = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_enums_LDKSecp256k1Error_init (JNIEnv * env, jclass clz) {
+	LDKSecp256k1Error_class = (*env)->NewGlobalRef(env, clz);
+	DO_ASSERT(LDKSecp256k1Error_class != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_IncorrectSignature = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_IncorrectSignature", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_IncorrectSignature != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_InvalidMessage = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_InvalidMessage", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_InvalidMessage != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_InvalidPublicKey = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_InvalidPublicKey", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_InvalidPublicKey != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_InvalidSignature = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_InvalidSignature", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_InvalidSignature != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_InvalidSecretKey = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_InvalidSecretKey", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_InvalidSecretKey != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_InvalidRecoveryId = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_InvalidRecoveryId", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_InvalidRecoveryId != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_InvalidTweak = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_InvalidTweak", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_InvalidTweak != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_NotEnoughMemory = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_NotEnoughMemory", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_NotEnoughMemory != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_CallbackPanicked = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_CallbackPanicked", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	DO_ASSERT(LDKSecp256k1Error_LDKSecp256k1Error_CallbackPanicked != NULL);
+}
 static inline jclass LDKSecp256k1Error_to_java(JNIEnv *env, LDKSecp256k1Error val) {
-	// TODO: This is pretty inefficient, we really need to cache the field IDs and class
-	jclass enum_class = (*env)->FindClass(env, "Lorg/ldk/enums/LDKSecp256k1Error;");
-	DO_ASSERT(enum_class != NULL);
 	switch (val) {
-		case LDKSecp256k1Error_IncorrectSignature: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_IncorrectSignature", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKSecp256k1Error_InvalidMessage: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidMessage", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKSecp256k1Error_InvalidPublicKey: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidPublicKey", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKSecp256k1Error_InvalidSignature: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidSignature", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKSecp256k1Error_InvalidSecretKey: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidSecretKey", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKSecp256k1Error_InvalidRecoveryId: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidRecoveryId", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKSecp256k1Error_InvalidTweak: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_InvalidTweak", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKSecp256k1Error_NotEnoughMemory: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_NotEnoughMemory", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
-		case LDKSecp256k1Error_CallbackPanicked: {
-			jfieldID field = (*env)->GetStaticFieldID(env, enum_class, "LDKSecp256k1Error_CallbackPanicked", "Lorg/ldk/enums/LDKSecp256k1Error;");
-			DO_ASSERT(field != NULL);
-			return (*env)->GetStaticObjectField(env, enum_class, field);
-		}
+		case LDKSecp256k1Error_IncorrectSignature:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_IncorrectSignature);
+		case LDKSecp256k1Error_InvalidMessage:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_InvalidMessage);
+		case LDKSecp256k1Error_InvalidPublicKey:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_InvalidPublicKey);
+		case LDKSecp256k1Error_InvalidSignature:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_InvalidSignature);
+		case LDKSecp256k1Error_InvalidSecretKey:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_InvalidSecretKey);
+		case LDKSecp256k1Error_InvalidRecoveryId:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_InvalidRecoveryId);
+		case LDKSecp256k1Error_InvalidTweak:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_InvalidTweak);
+		case LDKSecp256k1Error_NotEnoughMemory:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_NotEnoughMemory);
+		case LDKSecp256k1Error_CallbackPanicked:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_CallbackPanicked);
 		default: abort();
 	}
 }

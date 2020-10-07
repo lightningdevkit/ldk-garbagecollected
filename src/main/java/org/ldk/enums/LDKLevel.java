@@ -7,4 +7,6 @@ public enum LDKLevel {
    LDKLevel_Info,
    LDKLevel_Debug,
    LDKLevel_Trace,
+	; static native void init();
+	static { init(); }
 }
