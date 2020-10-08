@@ -20,7 +20,7 @@ typedef struct allocation {
 } allocation;
 static allocation* allocation_ll = NULL;
 
-void* MALLOC(size_t len, const char* struct_name) {
+static void* MALLOC(size_t len, const char* struct_name) {
 	void* res = malloc(len);
 	allocation* new_alloc = malloc(sizeof(allocation));
 	new_alloc->ptr = res;
@@ -32,7 +32,7 @@ void* MALLOC(size_t len, const char* struct_name) {
 	return res;
 }
 
-void FREE(void* ptr) {
+static void FREE(void* ptr) {
 	allocation* p = NULL;
 	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
 	allocation* it = allocation_ll;
@@ -49,9 +49,9 @@ void __attribute__((destructor)) check_leaks() {
 	DO_ASSERT(allocation_ll == NULL);
 }
 
-jmethodID ordinal_meth = NULL;
-jmethodID slicedef_meth = NULL;
-jclass slicedef_cls = NULL;
+static jmethodID ordinal_meth = NULL;
+static jmethodID slicedef_meth = NULL;
+static jclass slicedef_cls = NULL;
 JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class, jclass slicedef_class) {
 	ordinal_meth = (*env)->GetMethodID(env, enum_class, "ordinal", "()I");
 	DO_ASSERT(ordinal_meth != NULL);
@@ -436,16 +436,16 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZN
 		return (long)((LDKCResult_CVec_SignatureZNoneZ*)arg)->contents.err;
 	}
 }
-jclass LDKAPIError_APIMisuseError_class = NULL;
-jmethodID LDKAPIError_APIMisuseError_meth = NULL;
-jclass LDKAPIError_FeeRateTooHigh_class = NULL;
-jmethodID LDKAPIError_FeeRateTooHigh_meth = NULL;
-jclass LDKAPIError_RouteError_class = NULL;
-jmethodID LDKAPIError_RouteError_meth = NULL;
-jclass LDKAPIError_ChannelUnavailable_class = NULL;
-jmethodID LDKAPIError_ChannelUnavailable_meth = NULL;
-jclass LDKAPIError_MonitorUpdateFailed_class = NULL;
-jmethodID LDKAPIError_MonitorUpdateFailed_meth = NULL;
+static jclass LDKAPIError_APIMisuseError_class = NULL;
+static jmethodID LDKAPIError_APIMisuseError_meth = NULL;
+static jclass LDKAPIError_FeeRateTooHigh_class = NULL;
+static jmethodID LDKAPIError_FeeRateTooHigh_meth = NULL;
+static jclass LDKAPIError_RouteError_class = NULL;
+static jmethodID LDKAPIError_RouteError_meth = NULL;
+static jclass LDKAPIError_ChannelUnavailable_class = NULL;
+static jmethodID LDKAPIError_ChannelUnavailable_meth = NULL;
+static jclass LDKAPIError_MonitorUpdateFailed_class = NULL;
+static jmethodID LDKAPIError_MonitorUpdateFailed_meth = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKAPIError_init (JNIEnv * env, jclass _a) {
 	LDKAPIError_APIMisuseError_class =
 		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKAPIError$APIMisuseError;"));
@@ -552,12 +552,12 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCOutputInCommitment_1op
 	ret->inner = NULL;
 	return (long)ret;
 }
-jclass LDKSpendableOutputDescriptor_StaticOutput_class = NULL;
-jmethodID LDKSpendableOutputDescriptor_StaticOutput_meth = NULL;
-jclass LDKSpendableOutputDescriptor_DynamicOutputP2WSH_class = NULL;
-jmethodID LDKSpendableOutputDescriptor_DynamicOutputP2WSH_meth = NULL;
-jclass LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class = NULL;
-jmethodID LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth = NULL;
+static jclass LDKSpendableOutputDescriptor_StaticOutput_class = NULL;
+static jmethodID LDKSpendableOutputDescriptor_StaticOutput_meth = NULL;
+static jclass LDKSpendableOutputDescriptor_DynamicOutputP2WSH_class = NULL;
+static jmethodID LDKSpendableOutputDescriptor_DynamicOutputP2WSH_meth = NULL;
+static jclass LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class = NULL;
+static jmethodID LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKSpendableOutputDescriptor_init (JNIEnv * env, jclass _a) {
 	LDKSpendableOutputDescriptor_StaticOutput_class =
 		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKSpendableOutputDescriptor$StaticOutput;"));
@@ -597,20 +597,20 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1SpendableOutp
 	LDKCVecTempl_SpendableOutputDescriptor *vec = (LDKCVecTempl_SpendableOutputDescriptor*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKSpendableOutputDescriptor));
 }
-jclass LDKEvent_FundingGenerationReady_class = NULL;
-jmethodID LDKEvent_FundingGenerationReady_meth = NULL;
-jclass LDKEvent_FundingBroadcastSafe_class = NULL;
-jmethodID LDKEvent_FundingBroadcastSafe_meth = NULL;
-jclass LDKEvent_PaymentReceived_class = NULL;
-jmethodID LDKEvent_PaymentReceived_meth = NULL;
-jclass LDKEvent_PaymentSent_class = NULL;
-jmethodID LDKEvent_PaymentSent_meth = NULL;
-jclass LDKEvent_PaymentFailed_class = NULL;
-jmethodID LDKEvent_PaymentFailed_meth = NULL;
-jclass LDKEvent_PendingHTLCsForwardable_class = NULL;
-jmethodID LDKEvent_PendingHTLCsForwardable_meth = NULL;
-jclass LDKEvent_SpendableOutputs_class = NULL;
-jmethodID LDKEvent_SpendableOutputs_meth = NULL;
+static jclass LDKEvent_FundingGenerationReady_class = NULL;
+static jmethodID LDKEvent_FundingGenerationReady_meth = NULL;
+static jclass LDKEvent_FundingBroadcastSafe_class = NULL;
+static jmethodID LDKEvent_FundingBroadcastSafe_meth = NULL;
+static jclass LDKEvent_PaymentReceived_class = NULL;
+static jmethodID LDKEvent_PaymentReceived_meth = NULL;
+static jclass LDKEvent_PaymentSent_class = NULL;
+static jmethodID LDKEvent_PaymentSent_meth = NULL;
+static jclass LDKEvent_PaymentFailed_class = NULL;
+static jmethodID LDKEvent_PaymentFailed_meth = NULL;
+static jclass LDKEvent_PendingHTLCsForwardable_class = NULL;
+static jmethodID LDKEvent_PendingHTLCsForwardable_meth = NULL;
+static jclass LDKEvent_SpendableOutputs_class = NULL;
+static jmethodID LDKEvent_SpendableOutputs_meth = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKEvent_init (JNIEnv * env, jclass _a) {
 	LDKEvent_FundingGenerationReady_class =
 		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKEvent$FundingGenerationReady;"));
@@ -747,12 +747,12 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKErrorMessage_1optional_1no
 	ret->inner = NULL;
 	return (long)ret;
 }
-jclass LDKErrorAction_DisconnectPeer_class = NULL;
-jmethodID LDKErrorAction_DisconnectPeer_meth = NULL;
-jclass LDKErrorAction_IgnoreError_class = NULL;
-jmethodID LDKErrorAction_IgnoreError_meth = NULL;
-jclass LDKErrorAction_SendErrorMessage_class = NULL;
-jmethodID LDKErrorAction_SendErrorMessage_meth = NULL;
+static jclass LDKErrorAction_DisconnectPeer_class = NULL;
+static jmethodID LDKErrorAction_DisconnectPeer_meth = NULL;
+static jclass LDKErrorAction_IgnoreError_class = NULL;
+static jmethodID LDKErrorAction_IgnoreError_meth = NULL;
+static jclass LDKErrorAction_SendErrorMessage_class = NULL;
+static jmethodID LDKErrorAction_SendErrorMessage_meth = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKErrorAction_init (JNIEnv * env, jclass _a) {
 	LDKErrorAction_DisconnectPeer_class =
 		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKErrorAction$DisconnectPeer;"));
@@ -786,12 +786,12 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKErrorAction_1ref_1from_1
 		default: abort();
 	}
 }
-jclass LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class = NULL;
-jmethodID LDKHTLCFailChannelUpdate_ChannelUpdateMessage_meth = NULL;
-jclass LDKHTLCFailChannelUpdate_ChannelClosed_class = NULL;
-jmethodID LDKHTLCFailChannelUpdate_ChannelClosed_meth = NULL;
-jclass LDKHTLCFailChannelUpdate_NodeFailure_class = NULL;
-jmethodID LDKHTLCFailChannelUpdate_NodeFailure_meth = NULL;
+static jclass LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class = NULL;
+static jmethodID LDKHTLCFailChannelUpdate_ChannelUpdateMessage_meth = NULL;
+static jclass LDKHTLCFailChannelUpdate_ChannelClosed_class = NULL;
+static jmethodID LDKHTLCFailChannelUpdate_ChannelClosed_meth = NULL;
+static jclass LDKHTLCFailChannelUpdate_NodeFailure_class = NULL;
+static jmethodID LDKHTLCFailChannelUpdate_NodeFailure_meth = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKHTLCFailChannelUpdate_init (JNIEnv * env, jclass _a) {
 	LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class =
 		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKHTLCFailChannelUpdate$ChannelUpdateMessage;"));
@@ -827,38 +827,38 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKHTLCFailChannelUpdate_1r
 		default: abort();
 	}
 }
-jclass LDKMessageSendEvent_SendAcceptChannel_class = NULL;
-jmethodID LDKMessageSendEvent_SendAcceptChannel_meth = NULL;
-jclass LDKMessageSendEvent_SendOpenChannel_class = NULL;
-jmethodID LDKMessageSendEvent_SendOpenChannel_meth = NULL;
-jclass LDKMessageSendEvent_SendFundingCreated_class = NULL;
-jmethodID LDKMessageSendEvent_SendFundingCreated_meth = NULL;
-jclass LDKMessageSendEvent_SendFundingSigned_class = NULL;
-jmethodID LDKMessageSendEvent_SendFundingSigned_meth = NULL;
-jclass LDKMessageSendEvent_SendFundingLocked_class = NULL;
-jmethodID LDKMessageSendEvent_SendFundingLocked_meth = NULL;
-jclass LDKMessageSendEvent_SendAnnouncementSignatures_class = NULL;
-jmethodID LDKMessageSendEvent_SendAnnouncementSignatures_meth = NULL;
-jclass LDKMessageSendEvent_UpdateHTLCs_class = NULL;
-jmethodID LDKMessageSendEvent_UpdateHTLCs_meth = NULL;
-jclass LDKMessageSendEvent_SendRevokeAndACK_class = NULL;
-jmethodID LDKMessageSendEvent_SendRevokeAndACK_meth = NULL;
-jclass LDKMessageSendEvent_SendClosingSigned_class = NULL;
-jmethodID LDKMessageSendEvent_SendClosingSigned_meth = NULL;
-jclass LDKMessageSendEvent_SendShutdown_class = NULL;
-jmethodID LDKMessageSendEvent_SendShutdown_meth = NULL;
-jclass LDKMessageSendEvent_SendChannelReestablish_class = NULL;
-jmethodID LDKMessageSendEvent_SendChannelReestablish_meth = NULL;
-jclass LDKMessageSendEvent_BroadcastChannelAnnouncement_class = NULL;
-jmethodID LDKMessageSendEvent_BroadcastChannelAnnouncement_meth = NULL;
-jclass LDKMessageSendEvent_BroadcastNodeAnnouncement_class = NULL;
-jmethodID LDKMessageSendEvent_BroadcastNodeAnnouncement_meth = NULL;
-jclass LDKMessageSendEvent_BroadcastChannelUpdate_class = NULL;
-jmethodID LDKMessageSendEvent_BroadcastChannelUpdate_meth = NULL;
-jclass LDKMessageSendEvent_HandleError_class = NULL;
-jmethodID LDKMessageSendEvent_HandleError_meth = NULL;
-jclass LDKMessageSendEvent_PaymentFailureNetworkUpdate_class = NULL;
-jmethodID LDKMessageSendEvent_PaymentFailureNetworkUpdate_meth = NULL;
+static jclass LDKMessageSendEvent_SendAcceptChannel_class = NULL;
+static jmethodID LDKMessageSendEvent_SendAcceptChannel_meth = NULL;
+static jclass LDKMessageSendEvent_SendOpenChannel_class = NULL;
+static jmethodID LDKMessageSendEvent_SendOpenChannel_meth = NULL;
+static jclass LDKMessageSendEvent_SendFundingCreated_class = NULL;
+static jmethodID LDKMessageSendEvent_SendFundingCreated_meth = NULL;
+static jclass LDKMessageSendEvent_SendFundingSigned_class = NULL;
+static jmethodID LDKMessageSendEvent_SendFundingSigned_meth = NULL;
+static jclass LDKMessageSendEvent_SendFundingLocked_class = NULL;
+static jmethodID LDKMessageSendEvent_SendFundingLocked_meth = NULL;
+static jclass LDKMessageSendEvent_SendAnnouncementSignatures_class = NULL;
+static jmethodID LDKMessageSendEvent_SendAnnouncementSignatures_meth = NULL;
+static jclass LDKMessageSendEvent_UpdateHTLCs_class = NULL;
+static jmethodID LDKMessageSendEvent_UpdateHTLCs_meth = NULL;
+static jclass LDKMessageSendEvent_SendRevokeAndACK_class = NULL;
+static jmethodID LDKMessageSendEvent_SendRevokeAndACK_meth = NULL;
+static jclass LDKMessageSendEvent_SendClosingSigned_class = NULL;
+static jmethodID LDKMessageSendEvent_SendClosingSigned_meth = NULL;
+static jclass LDKMessageSendEvent_SendShutdown_class = NULL;
+static jmethodID LDKMessageSendEvent_SendShutdown_meth = NULL;
+static jclass LDKMessageSendEvent_SendChannelReestablish_class = NULL;
+static jmethodID LDKMessageSendEvent_SendChannelReestablish_meth = NULL;
+static jclass LDKMessageSendEvent_BroadcastChannelAnnouncement_class = NULL;
+static jmethodID LDKMessageSendEvent_BroadcastChannelAnnouncement_meth = NULL;
+static jclass LDKMessageSendEvent_BroadcastNodeAnnouncement_class = NULL;
+static jmethodID LDKMessageSendEvent_BroadcastNodeAnnouncement_meth = NULL;
+static jclass LDKMessageSendEvent_BroadcastChannelUpdate_class = NULL;
+static jmethodID LDKMessageSendEvent_BroadcastChannelUpdate_meth = NULL;
+static jclass LDKMessageSendEvent_HandleError_class = NULL;
+static jmethodID LDKMessageSendEvent_HandleError_meth = NULL;
+static jclass LDKMessageSendEvent_PaymentFailureNetworkUpdate_class = NULL;
+static jmethodID LDKMessageSendEvent_PaymentFailureNetworkUpdate_meth = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKMessageSendEvent_init (JNIEnv * env, jclass _a) {
 	LDKMessageSendEvent_SendAcceptChannel_class =
 		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendAcceptChannel;"));
@@ -2131,14 +2131,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRoute_1optional_1none (JNI
 	ret->inner = NULL;
 	return (long)ret;
 }
-jclass LDKNetAddress_IPv4_class = NULL;
-jmethodID LDKNetAddress_IPv4_meth = NULL;
-jclass LDKNetAddress_IPv6_class = NULL;
-jmethodID LDKNetAddress_IPv6_meth = NULL;
-jclass LDKNetAddress_OnionV2_class = NULL;
-jmethodID LDKNetAddress_OnionV2_meth = NULL;
-jclass LDKNetAddress_OnionV3_class = NULL;
-jmethodID LDKNetAddress_OnionV3_meth = NULL;
+static jclass LDKNetAddress_IPv4_class = NULL;
+static jmethodID LDKNetAddress_IPv4_meth = NULL;
+static jclass LDKNetAddress_IPv6_class = NULL;
+static jmethodID LDKNetAddress_IPv6_meth = NULL;
+static jclass LDKNetAddress_OnionV2_class = NULL;
+static jmethodID LDKNetAddress_OnionV2_meth = NULL;
+static jclass LDKNetAddress_OnionV3_class = NULL;
+static jmethodID LDKNetAddress_OnionV3_meth = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKNetAddress_init (JNIEnv * env, jclass _a) {
 	LDKNetAddress_IPv4_class =
 		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKNetAddress$IPv4;"));

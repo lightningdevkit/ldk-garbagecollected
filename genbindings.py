@@ -524,7 +524,7 @@ typedef struct allocation {
 } allocation;
 static allocation* allocation_ll = NULL;
 
-void* MALLOC(size_t len, const char* struct_name) {
+static void* MALLOC(size_t len, const char* struct_name) {
 	void* res = malloc(len);
 	allocation* new_alloc = malloc(sizeof(allocation));
 	new_alloc->ptr = res;
@@ -536,7 +536,7 @@ void* MALLOC(size_t len, const char* struct_name) {
 	return res;
 }
 
-void FREE(void* ptr) {
+static void FREE(void* ptr) {
 	allocation* p = NULL;
 	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
 	allocation* it = allocation_ll;
@@ -582,9 +582,9 @@ public class bindings {
 
 """)
     out_c.write("""
-jmethodID ordinal_meth = NULL;
-jmethodID slicedef_meth = NULL;
-jclass slicedef_cls = NULL;
+static jmethodID ordinal_meth = NULL;
+static jmethodID slicedef_meth = NULL;
+static jclass slicedef_cls = NULL;
 JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class, jclass slicedef_class) {
 	ordinal_meth = (*env)->GetMethodID(env, enum_class, "ordinal", "()I");
 	DO_ASSERT(ordinal_meth != NULL);
@@ -782,8 +782,8 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                         else:
                             var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
                             out_java.write("\t\tpublic final static class " + var_name + " extends " + struct_name + " {\n")
-                            out_c.write("jclass " + struct_name + "_" + var_name + "_class = NULL;\n")
-                            out_c.write("jmethodID " + struct_name + "_" + var_name + "_meth = NULL;\n")
+                            out_c.write("static jclass " + struct_name + "_" + var_name + "_class = NULL;\n")
+                            out_c.write("static jmethodID " + struct_name + "_" + var_name + "_meth = NULL;\n")
                             init_meth_jty_str = ""
                             init_meth_params = ""
                             init_meth_body = ""

@@ -14,7 +14,7 @@ rm -f src/main/java/org/ldk/enums/*.java
 ./genbindings.py "$1/lightning-c-bindings/include/lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk/enums src/main/jni/bindings.c $3
 javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/impl/bindings.java
 rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
-COMPILE="clang -std=c11 -Wall -Wno-unused-function -Wl,--no-undefined -pthread -ldl -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni"
+COMPILE="clang -std=c11 -Wall -Wno-unused-function -Wl,--no-undefined -pthread -ldl -o liblightningjni.so -shared -fPIC -Wno-pointer-sign -Isrc/main/jni -Wl,--version-script=libcode.version"
 if [ "$3" = "true" ]; then
 	$COMPILE -g -fsanitize=address -shared-libasan -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/debug/libldk.a
 else
