@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PeerTest {
@@ -156,16 +157,22 @@ public class PeerTest {
         assert event instanceof bindings.LDKEvent.FundingGenerationReady;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).channel_value_satoshis == 10000;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).user_channel_id == 42;
-        assert bindings.get_u8_slice_bytes(((bindings.LDKEvent.FundingGenerationReady)event).output_script).length == 34;
-        byte[] chan_id = bindings.read_bytes(((bindings.LDKEvent.FundingGenerationReady)event).temporary_channel_id, 32);
+        byte[] funding_spk = bindings.get_u8_slice_bytes(((bindings.LDKEvent.FundingGenerationReady)event).output_script);
+        assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
+        byte[] chan_id = ((bindings.LDKEvent.FundingGenerationReady)event).temporary_channel_id;
         bindings.CVec_EventZ_free(events);
+
+        //bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, bindings.OutPoint);
 
         long peer1_chans = bindings.ChannelManager_list_channels(peer1.chan_manager);
         long peer2_chans = bindings.ChannelManager_list_channels(peer2.chan_manager);
         assert bindings.vec_slice_len(peer1_chans) == 1;
         assert bindings.vec_slice_len(peer2_chans) == 1;
-        assert java.util.Arrays.equals(bindings.ChannelDetails_get_channel_id(bindings.LDKCVecTempl_ChannelDetails_arr_info(peer1_chans).dataptr), chan_id);
-        assert java.util.Arrays.equals(bindings.ChannelDetails_get_channel_id(bindings.LDKCVecTempl_ChannelDetails_arr_info(peer2_chans).dataptr), chan_id);
+        long peer_1_chan_info_ptr = bindings.LDKCVecTempl_ChannelDetails_arr_info(peer1_chans).dataptr;
+        assert bindings.ChannelDetails_get_channel_value_satoshis(peer_1_chan_info_ptr) == 10000;
+        assert !bindings.ChannelDetails_get_is_live(peer_1_chan_info_ptr);
+        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer_1_chan_info_ptr), chan_id);
+        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(bindings.LDKCVecTempl_ChannelDetails_arr_info(peer2_chans).dataptr), chan_id);
         bindings.CVec_ChannelDetailsZ_free(peer1_chans);
         bindings.CVec_ChannelDetailsZ_free(peer2_chans);
 

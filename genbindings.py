@@ -74,7 +74,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 lastund = True
         return (ret + lastchar.lower()).strip("_")
 
-    var_is_arr_regex = re.compile("\(\*([A-za-z_]*)\)\[([0-9]*)\]")
+    var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([0-9]*)\]")
     var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
     def java_c_types(fn_arg, ret_arr_len):
         fn_arg = fn_arg.strip()
@@ -88,6 +88,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         is_ptr = False
         take_by_ptr = False
         rust_obj = None
+        if fn_arg.startswith("LDKThirtyTwoBytes"):
+            fn_arg = "uint8_t (*" + fn_arg[18:] + ")[32]"
+            assert var_is_arr_regex.match(fn_arg[8:])
+            rust_obj = "LDKThirtyTwoBytes"
+
         if fn_arg.startswith("void"):
             java_ty = "void"
             c_ty = "void"
@@ -157,7 +162,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             java_ty = java_ty + "[]"
             c_ty = c_ty + "Array"
             if var_is_arr is not None:
-                return TypeInfo(rust_obj=None, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
+                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
                     passed_as_ptr=False, is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2))
         return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
             is_ptr=is_ptr, var_name=fn_arg, arr_len=None)
@@ -178,14 +183,18 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 arr_name = "ret"
                 arr_len = ret_arr_len
             assert(ty_info.c_ty == "jbyteArray")
+            if ty_info.rust_obj is not None:
+                arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n" + "(*_env)->GetByteArrayRegion (_env, """ + arr_name + ", 0, " + arr_len + ", " + arr_name + "_ref.data);"
+                arr_access = ("", ".data")
+            else:
+                arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n" + "(*_env)->GetByteArrayRegion (_env, """ + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" + "unsigned char (*""" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
+                arr_access = ("*", "")
             return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n" +
-                    "(*_env)->GetByteArrayRegion (_env, """ + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" +
-                    "unsigned char (*""" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;",
+                arg_conv = arg_conv,
                 arg_conv_name = arr_name + "_ref",
                 ret_conv = ("jbyteArray " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_len + ");\n" +
-                    "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_len + ", *",
-                    ");"),
+                    "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_len + ", " + arr_access[0],
+                    arr_access[1] + ");"),
                 ret_conv_name = arr_name + "_arr")
         elif ty_info.var_name != "":
             # If we have a parameter name, print it (noting that it may indicate its a pointer)
@@ -392,7 +401,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         out_c.write(arg_info.arg_name)
                         out_c.write(arg_info.ret_conv[1].replace('\n', '\n\t').replace("_env", "env") + "\n")
 
-                if not ret_ty_info.passed_as_ptr:
+                if ret_ty_info.c_ty.endswith("Array"):
+                    assert(ret_ty_info.c_ty == "jbyteArray")
+                    out_c.write("\tjbyteArray jret = (*env)->CallObjectMethod(env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth")
+                elif not ret_ty_info.passed_as_ptr:
                     out_c.write("\treturn (*env)->Call" + ret_ty_info.java_ty.title() + "Method(env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth")
                 else:
                     out_c.write("\t" + fn_line.group(1).strip() + "* ret = (" + fn_line.group(1).strip() + "*)(*env)->CallLongMethod(env, j_calls->o, j_calls->" + fn_line.group(2) + "_meth");
@@ -403,6 +415,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     else:
                         out_c.write(", " + arg_info.arg_name)
                 out_c.write(");\n");
+                if ret_ty_info.c_ty.endswith("Array"):
+                    out_c.write("\tLDKThirtyTwoBytes ret;\n")
+                    out_c.write("\t(*env)->GetByteArrayRegion(env, jret, 0, " + ret_ty_info.arr_len + ", ret.data);\n")
+                    out_c.write("\treturn ret;\n")
 
                 if ret_ty_info.passed_as_ptr:
                     out_c.write("\t" + fn_line.group(1).strip() + " res = *ret;\n")
@@ -822,23 +838,22 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                     for idx, struct_line in enumerate(tag_field_lines):
                         if idx != 0 and idx < len(tag_field_lines) - 3:
                             var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
-                            out_c.write("\t\tcase " + struct_name + "_" + var_name + ":\n")
-                            out_c.write("\t\t\treturn (*env)->NewObject(env, " + struct_name + "_" + var_name + "_class, " + struct_name + "_" + var_name + "_meth")
+                            out_c.write("\t\tcase " + struct_name + "_" + var_name + ": {\n")
+                            c_params_text = ""
                             if "LDK" + var_name in union_enum_items[struct_name]:
                                 enum_var_lines = union_enum_items[struct_name]["LDK" + var_name]
-                                out_c.write(",\n\t\t\t\t")
                                 for idx, field in enumerate(enum_var_lines):
                                     if idx != 0 and idx < len(enum_var_lines) - 2:
-                                        field_ty = java_c_types(field.strip(' ;'), None)
-                                        if idx >= 2:
-                                            out_c.write(", ")
-                                        if field_ty.is_ptr:
-                                            out_c.write("(long)")
-                                        elif field_ty.passed_as_ptr or field_ty.arr_len is not None:
-                                            out_c.write("(long)&")
-                                        out_c.write("obj->" + camel_to_snake(var_name) + "." + field_ty.var_name)
-                                out_c.write("\n\t\t\t")
-                            out_c.write(");\n")
+                                        field_map = map_type(field.strip(' ;'), False, None, False)
+                                        if field_map.ret_conv is not None:
+                                            out_c.write("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t").replace("_env", "env"))
+                                            out_c.write("obj->" + camel_to_snake(var_name) + "." + field_map.arg_name)
+                                            out_c.write(field_map.ret_conv[1] + "\n")
+                                            c_params_text = c_params_text + ", " + field_map.ret_conv_name
+                                        else:
+                                            c_params_text = c_params_text + ", obj->" + camel_to_snake(var_name) + "." + field_map.arg_name
+                            out_c.write("\t\t\treturn (*env)->NewObject(env, " + struct_name + "_" + var_name + "_class, " + struct_name + "_" + var_name + "_meth" + c_params_text + ");\n")
+                            out_c.write("\t\t}\n")
                     out_c.write("\t\tdefault: abort();\n")
                     out_c.write("\t}\n}\n")
                 elif is_unitary_enum:
