@@ -70,6 +70,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_deref_1long (JNIEnv * env, jc
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr (JNIEnv * env, jclass _a, jlong ptr) {
 	FREE((void*)ptr);
 }
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_read_1bytes (JNIEnv * _env, jclass _b, jlong ptr, jlong len) {
+	jbyteArray ret_arr = (*_env)->NewByteArray(_env, len);
+	(*_env)->SetByteArrayRegion(_env, ret_arr, 0, len, (unsigned char*)ptr);
+	return ret_arr;
+}
 JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes (JNIEnv * _env, jclass _b, jlong slice_ptr) {
 	LDKu8slice *slice = (LDKu8slice*)slice_ptr;
 	jbyteArray ret_arr = (*_env)->NewByteArray(_env, slice->datalen);
@@ -431,6 +436,67 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZN
 		return (long)((LDKCResult_CVec_SignatureZNoneZ*)arg)->contents.err;
 	}
 }
+jclass LDKAPIError_APIMisuseError_class = NULL;
+jmethodID LDKAPIError_APIMisuseError_meth = NULL;
+jclass LDKAPIError_FeeRateTooHigh_class = NULL;
+jmethodID LDKAPIError_FeeRateTooHigh_meth = NULL;
+jclass LDKAPIError_RouteError_class = NULL;
+jmethodID LDKAPIError_RouteError_meth = NULL;
+jclass LDKAPIError_ChannelUnavailable_class = NULL;
+jmethodID LDKAPIError_ChannelUnavailable_meth = NULL;
+jclass LDKAPIError_MonitorUpdateFailed_class = NULL;
+jmethodID LDKAPIError_MonitorUpdateFailed_meth = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKAPIError_init (JNIEnv * env, jclass _a) {
+	LDKAPIError_APIMisuseError_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKAPIError$APIMisuseError;"));
+	DO_ASSERT(LDKAPIError_APIMisuseError_class != NULL);
+	LDKAPIError_APIMisuseError_meth = (*env)->GetMethodID(env, LDKAPIError_APIMisuseError_class, "<init>", "(J)V");
+	DO_ASSERT(LDKAPIError_APIMisuseError_meth != NULL);
+	LDKAPIError_FeeRateTooHigh_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKAPIError$FeeRateTooHigh;"));
+	DO_ASSERT(LDKAPIError_FeeRateTooHigh_class != NULL);
+	LDKAPIError_FeeRateTooHigh_meth = (*env)->GetMethodID(env, LDKAPIError_FeeRateTooHigh_class, "<init>", "(JI)V");
+	DO_ASSERT(LDKAPIError_FeeRateTooHigh_meth != NULL);
+	LDKAPIError_RouteError_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKAPIError$RouteError;"));
+	DO_ASSERT(LDKAPIError_RouteError_class != NULL);
+	LDKAPIError_RouteError_meth = (*env)->GetMethodID(env, LDKAPIError_RouteError_class, "<init>", "(J)V");
+	DO_ASSERT(LDKAPIError_RouteError_meth != NULL);
+	LDKAPIError_ChannelUnavailable_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKAPIError$ChannelUnavailable;"));
+	DO_ASSERT(LDKAPIError_ChannelUnavailable_class != NULL);
+	LDKAPIError_ChannelUnavailable_meth = (*env)->GetMethodID(env, LDKAPIError_ChannelUnavailable_class, "<init>", "(J)V");
+	DO_ASSERT(LDKAPIError_ChannelUnavailable_meth != NULL);
+	LDKAPIError_MonitorUpdateFailed_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKAPIError$MonitorUpdateFailed;"));
+	DO_ASSERT(LDKAPIError_MonitorUpdateFailed_class != NULL);
+	LDKAPIError_MonitorUpdateFailed_meth = (*env)->GetMethodID(env, LDKAPIError_MonitorUpdateFailed_class, "<init>", "()V");
+	DO_ASSERT(LDKAPIError_MonitorUpdateFailed_meth != NULL);
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAPIError_1ref_1from_1ptr (JNIEnv * env, jclass _c, jlong ptr) {
+	LDKAPIError *obj = (LDKAPIError*)ptr;
+	switch(obj->tag) {
+		case LDKAPIError_APIMisuseError:
+			return (*env)->NewObject(env, LDKAPIError_APIMisuseError_class, LDKAPIError_APIMisuseError_meth,
+				(long)&obj->api_misuse_error.err
+			);
+		case LDKAPIError_FeeRateTooHigh:
+			return (*env)->NewObject(env, LDKAPIError_FeeRateTooHigh_class, LDKAPIError_FeeRateTooHigh_meth,
+				(long)&obj->fee_rate_too_high.err, obj->fee_rate_too_high.feerate
+			);
+		case LDKAPIError_RouteError:
+			return (*env)->NewObject(env, LDKAPIError_RouteError_class, LDKAPIError_RouteError_meth,
+				(long)&obj->route_error.err
+			);
+		case LDKAPIError_ChannelUnavailable:
+			return (*env)->NewObject(env, LDKAPIError_ChannelUnavailable_class, LDKAPIError_ChannelUnavailable_meth,
+				(long)&obj->channel_unavailable.err
+			);
+		case LDKAPIError_MonitorUpdateFailed:
+			return (*env)->NewObject(env, LDKAPIError_MonitorUpdateFailed_class, LDKAPIError_MonitorUpdateFailed_meth);
+		default: abort();
+	}
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NoneAPIErrorZ*)arg)->result_ok;
 }
@@ -486,9 +552,135 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCOutputInCommitment_1op
 	ret->inner = NULL;
 	return (long)ret;
 }
+jclass LDKSpendableOutputDescriptor_StaticOutput_class = NULL;
+jmethodID LDKSpendableOutputDescriptor_StaticOutput_meth = NULL;
+jclass LDKSpendableOutputDescriptor_DynamicOutputP2WSH_class = NULL;
+jmethodID LDKSpendableOutputDescriptor_DynamicOutputP2WSH_meth = NULL;
+jclass LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class = NULL;
+jmethodID LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKSpendableOutputDescriptor_init (JNIEnv * env, jclass _a) {
+	LDKSpendableOutputDescriptor_StaticOutput_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKSpendableOutputDescriptor$StaticOutput;"));
+	DO_ASSERT(LDKSpendableOutputDescriptor_StaticOutput_class != NULL);
+	LDKSpendableOutputDescriptor_StaticOutput_meth = (*env)->GetMethodID(env, LDKSpendableOutputDescriptor_StaticOutput_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKSpendableOutputDescriptor_StaticOutput_meth != NULL);
+	LDKSpendableOutputDescriptor_DynamicOutputP2WSH_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKSpendableOutputDescriptor$DynamicOutputP2WSH;"));
+	DO_ASSERT(LDKSpendableOutputDescriptor_DynamicOutputP2WSH_class != NULL);
+	LDKSpendableOutputDescriptor_DynamicOutputP2WSH_meth = (*env)->GetMethodID(env, LDKSpendableOutputDescriptor_DynamicOutputP2WSH_class, "<init>", "(JJSJJJ)V");
+	DO_ASSERT(LDKSpendableOutputDescriptor_DynamicOutputP2WSH_meth != NULL);
+	LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKSpendableOutputDescriptor$StaticOutputCounterpartyPayment;"));
+	DO_ASSERT(LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class != NULL);
+	LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth = (*env)->GetMethodID(env, LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class, "<init>", "(JJJ)V");
+	DO_ASSERT(LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth != NULL);
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSpendableOutputDescriptor_1ref_1from_1ptr (JNIEnv * env, jclass _c, jlong ptr) {
+	LDKSpendableOutputDescriptor *obj = (LDKSpendableOutputDescriptor*)ptr;
+	switch(obj->tag) {
+		case LDKSpendableOutputDescriptor_StaticOutput:
+			return (*env)->NewObject(env, LDKSpendableOutputDescriptor_StaticOutput_class, LDKSpendableOutputDescriptor_StaticOutput_meth,
+				(long)&obj->static_output.outpoint, (long)&obj->static_output.output
+			);
+		case LDKSpendableOutputDescriptor_DynamicOutputP2WSH:
+			return (*env)->NewObject(env, LDKSpendableOutputDescriptor_DynamicOutputP2WSH_class, LDKSpendableOutputDescriptor_DynamicOutputP2WSH_meth,
+				(long)&obj->dynamic_output_p2wsh.outpoint, (long)&obj->dynamic_output_p2wsh.per_commitment_point, obj->dynamic_output_p2wsh.to_self_delay, (long)&obj->dynamic_output_p2wsh.output, (long)&obj->dynamic_output_p2wsh.key_derivation_params, (long)&obj->dynamic_output_p2wsh.revocation_pubkey
+			);
+		case LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment:
+			return (*env)->NewObject(env, LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class, LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth,
+				(long)&obj->static_output_counterparty_payment.outpoint, (long)&obj->static_output_counterparty_payment.output, (long)&obj->static_output_counterparty_payment.key_derivation_params
+			);
+		default: abort();
+	}
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1SpendableOutputDescriptor_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_SpendableOutputDescriptor *vec = (LDKCVecTempl_SpendableOutputDescriptor*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKSpendableOutputDescriptor));
+}
+jclass LDKEvent_FundingGenerationReady_class = NULL;
+jmethodID LDKEvent_FundingGenerationReady_meth = NULL;
+jclass LDKEvent_FundingBroadcastSafe_class = NULL;
+jmethodID LDKEvent_FundingBroadcastSafe_meth = NULL;
+jclass LDKEvent_PaymentReceived_class = NULL;
+jmethodID LDKEvent_PaymentReceived_meth = NULL;
+jclass LDKEvent_PaymentSent_class = NULL;
+jmethodID LDKEvent_PaymentSent_meth = NULL;
+jclass LDKEvent_PaymentFailed_class = NULL;
+jmethodID LDKEvent_PaymentFailed_meth = NULL;
+jclass LDKEvent_PendingHTLCsForwardable_class = NULL;
+jmethodID LDKEvent_PendingHTLCsForwardable_meth = NULL;
+jclass LDKEvent_SpendableOutputs_class = NULL;
+jmethodID LDKEvent_SpendableOutputs_meth = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKEvent_init (JNIEnv * env, jclass _a) {
+	LDKEvent_FundingGenerationReady_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKEvent$FundingGenerationReady;"));
+	DO_ASSERT(LDKEvent_FundingGenerationReady_class != NULL);
+	LDKEvent_FundingGenerationReady_meth = (*env)->GetMethodID(env, LDKEvent_FundingGenerationReady_class, "<init>", "(JJJJ)V");
+	DO_ASSERT(LDKEvent_FundingGenerationReady_meth != NULL);
+	LDKEvent_FundingBroadcastSafe_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKEvent$FundingBroadcastSafe;"));
+	DO_ASSERT(LDKEvent_FundingBroadcastSafe_class != NULL);
+	LDKEvent_FundingBroadcastSafe_meth = (*env)->GetMethodID(env, LDKEvent_FundingBroadcastSafe_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKEvent_FundingBroadcastSafe_meth != NULL);
+	LDKEvent_PaymentReceived_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKEvent$PaymentReceived;"));
+	DO_ASSERT(LDKEvent_PaymentReceived_class != NULL);
+	LDKEvent_PaymentReceived_meth = (*env)->GetMethodID(env, LDKEvent_PaymentReceived_class, "<init>", "(JJJ)V");
+	DO_ASSERT(LDKEvent_PaymentReceived_meth != NULL);
+	LDKEvent_PaymentSent_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKEvent$PaymentSent;"));
+	DO_ASSERT(LDKEvent_PaymentSent_class != NULL);
+	LDKEvent_PaymentSent_meth = (*env)->GetMethodID(env, LDKEvent_PaymentSent_class, "<init>", "(J)V");
+	DO_ASSERT(LDKEvent_PaymentSent_meth != NULL);
+	LDKEvent_PaymentFailed_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKEvent$PaymentFailed;"));
+	DO_ASSERT(LDKEvent_PaymentFailed_class != NULL);
+	LDKEvent_PaymentFailed_meth = (*env)->GetMethodID(env, LDKEvent_PaymentFailed_class, "<init>", "(JZ)V");
+	DO_ASSERT(LDKEvent_PaymentFailed_meth != NULL);
+	LDKEvent_PendingHTLCsForwardable_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKEvent$PendingHTLCsForwardable;"));
+	DO_ASSERT(LDKEvent_PendingHTLCsForwardable_class != NULL);
+	LDKEvent_PendingHTLCsForwardable_meth = (*env)->GetMethodID(env, LDKEvent_PendingHTLCsForwardable_class, "<init>", "(J)V");
+	DO_ASSERT(LDKEvent_PendingHTLCsForwardable_meth != NULL);
+	LDKEvent_SpendableOutputs_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKEvent$SpendableOutputs;"));
+	DO_ASSERT(LDKEvent_SpendableOutputs_class != NULL);
+	LDKEvent_SpendableOutputs_meth = (*env)->GetMethodID(env, LDKEvent_SpendableOutputs_class, "<init>", "(J)V");
+	DO_ASSERT(LDKEvent_SpendableOutputs_meth != NULL);
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKEvent_1ref_1from_1ptr (JNIEnv * env, jclass _c, jlong ptr) {
+	LDKEvent *obj = (LDKEvent*)ptr;
+	switch(obj->tag) {
+		case LDKEvent_FundingGenerationReady:
+			return (*env)->NewObject(env, LDKEvent_FundingGenerationReady_class, LDKEvent_FundingGenerationReady_meth,
+				(long)&obj->funding_generation_ready.temporary_channel_id, obj->funding_generation_ready.channel_value_satoshis, (long)&obj->funding_generation_ready.output_script, obj->funding_generation_ready.user_channel_id
+			);
+		case LDKEvent_FundingBroadcastSafe:
+			return (*env)->NewObject(env, LDKEvent_FundingBroadcastSafe_class, LDKEvent_FundingBroadcastSafe_meth,
+				(long)&obj->funding_broadcast_safe.funding_txo, obj->funding_broadcast_safe.user_channel_id
+			);
+		case LDKEvent_PaymentReceived:
+			return (*env)->NewObject(env, LDKEvent_PaymentReceived_class, LDKEvent_PaymentReceived_meth,
+				(long)&obj->payment_received.payment_hash, (long)&obj->payment_received.payment_secret, obj->payment_received.amt
+			);
+		case LDKEvent_PaymentSent:
+			return (*env)->NewObject(env, LDKEvent_PaymentSent_class, LDKEvent_PaymentSent_meth,
+				(long)&obj->payment_sent.payment_preimage
+			);
+		case LDKEvent_PaymentFailed:
+			return (*env)->NewObject(env, LDKEvent_PaymentFailed_class, LDKEvent_PaymentFailed_meth,
+				(long)&obj->payment_failed.payment_hash, obj->payment_failed.rejected_by_dest
+			);
+		case LDKEvent_PendingHTLCsForwardable:
+			return (*env)->NewObject(env, LDKEvent_PendingHTLCsForwardable_class, LDKEvent_PendingHTLCsForwardable_meth,
+				obj->pending_htl_cs_forwardable.time_forwardable
+			);
+		case LDKEvent_SpendableOutputs:
+			return (*env)->NewObject(env, LDKEvent_SpendableOutputs_class, LDKEvent_SpendableOutputs_meth,
+				(long)&obj->spendable_outputs.outputs
+			);
+		default: abort();
+	}
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKAcceptChannel_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKAcceptChannel *ret = MALLOC(sizeof(LDKAcceptChannel), "LDKAcceptChannel");
@@ -554,6 +746,270 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKErrorMessage_1optional_1no
 	LDKErrorMessage *ret = MALLOC(sizeof(LDKErrorMessage), "LDKErrorMessage");
 	ret->inner = NULL;
 	return (long)ret;
+}
+jclass LDKErrorAction_DisconnectPeer_class = NULL;
+jmethodID LDKErrorAction_DisconnectPeer_meth = NULL;
+jclass LDKErrorAction_IgnoreError_class = NULL;
+jmethodID LDKErrorAction_IgnoreError_meth = NULL;
+jclass LDKErrorAction_SendErrorMessage_class = NULL;
+jmethodID LDKErrorAction_SendErrorMessage_meth = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKErrorAction_init (JNIEnv * env, jclass _a) {
+	LDKErrorAction_DisconnectPeer_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKErrorAction$DisconnectPeer;"));
+	DO_ASSERT(LDKErrorAction_DisconnectPeer_class != NULL);
+	LDKErrorAction_DisconnectPeer_meth = (*env)->GetMethodID(env, LDKErrorAction_DisconnectPeer_class, "<init>", "(J)V");
+	DO_ASSERT(LDKErrorAction_DisconnectPeer_meth != NULL);
+	LDKErrorAction_IgnoreError_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKErrorAction$IgnoreError;"));
+	DO_ASSERT(LDKErrorAction_IgnoreError_class != NULL);
+	LDKErrorAction_IgnoreError_meth = (*env)->GetMethodID(env, LDKErrorAction_IgnoreError_class, "<init>", "()V");
+	DO_ASSERT(LDKErrorAction_IgnoreError_meth != NULL);
+	LDKErrorAction_SendErrorMessage_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKErrorAction$SendErrorMessage;"));
+	DO_ASSERT(LDKErrorAction_SendErrorMessage_class != NULL);
+	LDKErrorAction_SendErrorMessage_meth = (*env)->GetMethodID(env, LDKErrorAction_SendErrorMessage_class, "<init>", "(J)V");
+	DO_ASSERT(LDKErrorAction_SendErrorMessage_meth != NULL);
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKErrorAction_1ref_1from_1ptr (JNIEnv * env, jclass _c, jlong ptr) {
+	LDKErrorAction *obj = (LDKErrorAction*)ptr;
+	switch(obj->tag) {
+		case LDKErrorAction_DisconnectPeer:
+			return (*env)->NewObject(env, LDKErrorAction_DisconnectPeer_class, LDKErrorAction_DisconnectPeer_meth,
+				(long)&obj->disconnect_peer.msg
+			);
+		case LDKErrorAction_IgnoreError:
+			return (*env)->NewObject(env, LDKErrorAction_IgnoreError_class, LDKErrorAction_IgnoreError_meth);
+		case LDKErrorAction_SendErrorMessage:
+			return (*env)->NewObject(env, LDKErrorAction_SendErrorMessage_class, LDKErrorAction_SendErrorMessage_meth,
+				(long)&obj->send_error_message.msg
+			);
+		default: abort();
+	}
+}
+jclass LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class = NULL;
+jmethodID LDKHTLCFailChannelUpdate_ChannelUpdateMessage_meth = NULL;
+jclass LDKHTLCFailChannelUpdate_ChannelClosed_class = NULL;
+jmethodID LDKHTLCFailChannelUpdate_ChannelClosed_meth = NULL;
+jclass LDKHTLCFailChannelUpdate_NodeFailure_class = NULL;
+jmethodID LDKHTLCFailChannelUpdate_NodeFailure_meth = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKHTLCFailChannelUpdate_init (JNIEnv * env, jclass _a) {
+	LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKHTLCFailChannelUpdate$ChannelUpdateMessage;"));
+	DO_ASSERT(LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class != NULL);
+	LDKHTLCFailChannelUpdate_ChannelUpdateMessage_meth = (*env)->GetMethodID(env, LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class, "<init>", "(J)V");
+	DO_ASSERT(LDKHTLCFailChannelUpdate_ChannelUpdateMessage_meth != NULL);
+	LDKHTLCFailChannelUpdate_ChannelClosed_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKHTLCFailChannelUpdate$ChannelClosed;"));
+	DO_ASSERT(LDKHTLCFailChannelUpdate_ChannelClosed_class != NULL);
+	LDKHTLCFailChannelUpdate_ChannelClosed_meth = (*env)->GetMethodID(env, LDKHTLCFailChannelUpdate_ChannelClosed_class, "<init>", "(JZ)V");
+	DO_ASSERT(LDKHTLCFailChannelUpdate_ChannelClosed_meth != NULL);
+	LDKHTLCFailChannelUpdate_NodeFailure_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKHTLCFailChannelUpdate$NodeFailure;"));
+	DO_ASSERT(LDKHTLCFailChannelUpdate_NodeFailure_class != NULL);
+	LDKHTLCFailChannelUpdate_NodeFailure_meth = (*env)->GetMethodID(env, LDKHTLCFailChannelUpdate_NodeFailure_class, "<init>", "(JZ)V");
+	DO_ASSERT(LDKHTLCFailChannelUpdate_NodeFailure_meth != NULL);
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKHTLCFailChannelUpdate_1ref_1from_1ptr (JNIEnv * env, jclass _c, jlong ptr) {
+	LDKHTLCFailChannelUpdate *obj = (LDKHTLCFailChannelUpdate*)ptr;
+	switch(obj->tag) {
+		case LDKHTLCFailChannelUpdate_ChannelUpdateMessage:
+			return (*env)->NewObject(env, LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class, LDKHTLCFailChannelUpdate_ChannelUpdateMessage_meth,
+				(long)&obj->channel_update_message.msg
+			);
+		case LDKHTLCFailChannelUpdate_ChannelClosed:
+			return (*env)->NewObject(env, LDKHTLCFailChannelUpdate_ChannelClosed_class, LDKHTLCFailChannelUpdate_ChannelClosed_meth,
+				obj->channel_closed.short_channel_id, obj->channel_closed.is_permanent
+			);
+		case LDKHTLCFailChannelUpdate_NodeFailure:
+			return (*env)->NewObject(env, LDKHTLCFailChannelUpdate_NodeFailure_class, LDKHTLCFailChannelUpdate_NodeFailure_meth,
+				(long)&obj->node_failure.node_id, obj->node_failure.is_permanent
+			);
+		default: abort();
+	}
+}
+jclass LDKMessageSendEvent_SendAcceptChannel_class = NULL;
+jmethodID LDKMessageSendEvent_SendAcceptChannel_meth = NULL;
+jclass LDKMessageSendEvent_SendOpenChannel_class = NULL;
+jmethodID LDKMessageSendEvent_SendOpenChannel_meth = NULL;
+jclass LDKMessageSendEvent_SendFundingCreated_class = NULL;
+jmethodID LDKMessageSendEvent_SendFundingCreated_meth = NULL;
+jclass LDKMessageSendEvent_SendFundingSigned_class = NULL;
+jmethodID LDKMessageSendEvent_SendFundingSigned_meth = NULL;
+jclass LDKMessageSendEvent_SendFundingLocked_class = NULL;
+jmethodID LDKMessageSendEvent_SendFundingLocked_meth = NULL;
+jclass LDKMessageSendEvent_SendAnnouncementSignatures_class = NULL;
+jmethodID LDKMessageSendEvent_SendAnnouncementSignatures_meth = NULL;
+jclass LDKMessageSendEvent_UpdateHTLCs_class = NULL;
+jmethodID LDKMessageSendEvent_UpdateHTLCs_meth = NULL;
+jclass LDKMessageSendEvent_SendRevokeAndACK_class = NULL;
+jmethodID LDKMessageSendEvent_SendRevokeAndACK_meth = NULL;
+jclass LDKMessageSendEvent_SendClosingSigned_class = NULL;
+jmethodID LDKMessageSendEvent_SendClosingSigned_meth = NULL;
+jclass LDKMessageSendEvent_SendShutdown_class = NULL;
+jmethodID LDKMessageSendEvent_SendShutdown_meth = NULL;
+jclass LDKMessageSendEvent_SendChannelReestablish_class = NULL;
+jmethodID LDKMessageSendEvent_SendChannelReestablish_meth = NULL;
+jclass LDKMessageSendEvent_BroadcastChannelAnnouncement_class = NULL;
+jmethodID LDKMessageSendEvent_BroadcastChannelAnnouncement_meth = NULL;
+jclass LDKMessageSendEvent_BroadcastNodeAnnouncement_class = NULL;
+jmethodID LDKMessageSendEvent_BroadcastNodeAnnouncement_meth = NULL;
+jclass LDKMessageSendEvent_BroadcastChannelUpdate_class = NULL;
+jmethodID LDKMessageSendEvent_BroadcastChannelUpdate_meth = NULL;
+jclass LDKMessageSendEvent_HandleError_class = NULL;
+jmethodID LDKMessageSendEvent_HandleError_meth = NULL;
+jclass LDKMessageSendEvent_PaymentFailureNetworkUpdate_class = NULL;
+jmethodID LDKMessageSendEvent_PaymentFailureNetworkUpdate_meth = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKMessageSendEvent_init (JNIEnv * env, jclass _a) {
+	LDKMessageSendEvent_SendAcceptChannel_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendAcceptChannel;"));
+	DO_ASSERT(LDKMessageSendEvent_SendAcceptChannel_class != NULL);
+	LDKMessageSendEvent_SendAcceptChannel_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendAcceptChannel_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendAcceptChannel_meth != NULL);
+	LDKMessageSendEvent_SendOpenChannel_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendOpenChannel;"));
+	DO_ASSERT(LDKMessageSendEvent_SendOpenChannel_class != NULL);
+	LDKMessageSendEvent_SendOpenChannel_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendOpenChannel_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendOpenChannel_meth != NULL);
+	LDKMessageSendEvent_SendFundingCreated_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendFundingCreated;"));
+	DO_ASSERT(LDKMessageSendEvent_SendFundingCreated_class != NULL);
+	LDKMessageSendEvent_SendFundingCreated_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendFundingCreated_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendFundingCreated_meth != NULL);
+	LDKMessageSendEvent_SendFundingSigned_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendFundingSigned;"));
+	DO_ASSERT(LDKMessageSendEvent_SendFundingSigned_class != NULL);
+	LDKMessageSendEvent_SendFundingSigned_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendFundingSigned_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendFundingSigned_meth != NULL);
+	LDKMessageSendEvent_SendFundingLocked_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendFundingLocked;"));
+	DO_ASSERT(LDKMessageSendEvent_SendFundingLocked_class != NULL);
+	LDKMessageSendEvent_SendFundingLocked_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendFundingLocked_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendFundingLocked_meth != NULL);
+	LDKMessageSendEvent_SendAnnouncementSignatures_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendAnnouncementSignatures;"));
+	DO_ASSERT(LDKMessageSendEvent_SendAnnouncementSignatures_class != NULL);
+	LDKMessageSendEvent_SendAnnouncementSignatures_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendAnnouncementSignatures_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendAnnouncementSignatures_meth != NULL);
+	LDKMessageSendEvent_UpdateHTLCs_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$UpdateHTLCs;"));
+	DO_ASSERT(LDKMessageSendEvent_UpdateHTLCs_class != NULL);
+	LDKMessageSendEvent_UpdateHTLCs_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_UpdateHTLCs_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_UpdateHTLCs_meth != NULL);
+	LDKMessageSendEvent_SendRevokeAndACK_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendRevokeAndACK;"));
+	DO_ASSERT(LDKMessageSendEvent_SendRevokeAndACK_class != NULL);
+	LDKMessageSendEvent_SendRevokeAndACK_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendRevokeAndACK_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendRevokeAndACK_meth != NULL);
+	LDKMessageSendEvent_SendClosingSigned_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendClosingSigned;"));
+	DO_ASSERT(LDKMessageSendEvent_SendClosingSigned_class != NULL);
+	LDKMessageSendEvent_SendClosingSigned_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendClosingSigned_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendClosingSigned_meth != NULL);
+	LDKMessageSendEvent_SendShutdown_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendShutdown;"));
+	DO_ASSERT(LDKMessageSendEvent_SendShutdown_class != NULL);
+	LDKMessageSendEvent_SendShutdown_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendShutdown_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendShutdown_meth != NULL);
+	LDKMessageSendEvent_SendChannelReestablish_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendChannelReestablish;"));
+	DO_ASSERT(LDKMessageSendEvent_SendChannelReestablish_class != NULL);
+	LDKMessageSendEvent_SendChannelReestablish_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendChannelReestablish_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_SendChannelReestablish_meth != NULL);
+	LDKMessageSendEvent_BroadcastChannelAnnouncement_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$BroadcastChannelAnnouncement;"));
+	DO_ASSERT(LDKMessageSendEvent_BroadcastChannelAnnouncement_class != NULL);
+	LDKMessageSendEvent_BroadcastChannelAnnouncement_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_BroadcastChannelAnnouncement_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_BroadcastChannelAnnouncement_meth != NULL);
+	LDKMessageSendEvent_BroadcastNodeAnnouncement_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$BroadcastNodeAnnouncement;"));
+	DO_ASSERT(LDKMessageSendEvent_BroadcastNodeAnnouncement_class != NULL);
+	LDKMessageSendEvent_BroadcastNodeAnnouncement_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_BroadcastNodeAnnouncement_class, "<init>", "(J)V");
+	DO_ASSERT(LDKMessageSendEvent_BroadcastNodeAnnouncement_meth != NULL);
+	LDKMessageSendEvent_BroadcastChannelUpdate_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$BroadcastChannelUpdate;"));
+	DO_ASSERT(LDKMessageSendEvent_BroadcastChannelUpdate_class != NULL);
+	LDKMessageSendEvent_BroadcastChannelUpdate_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_BroadcastChannelUpdate_class, "<init>", "(J)V");
+	DO_ASSERT(LDKMessageSendEvent_BroadcastChannelUpdate_meth != NULL);
+	LDKMessageSendEvent_HandleError_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$HandleError;"));
+	DO_ASSERT(LDKMessageSendEvent_HandleError_class != NULL);
+	LDKMessageSendEvent_HandleError_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_HandleError_class, "<init>", "(JJ)V");
+	DO_ASSERT(LDKMessageSendEvent_HandleError_meth != NULL);
+	LDKMessageSendEvent_PaymentFailureNetworkUpdate_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$PaymentFailureNetworkUpdate;"));
+	DO_ASSERT(LDKMessageSendEvent_PaymentFailureNetworkUpdate_class != NULL);
+	LDKMessageSendEvent_PaymentFailureNetworkUpdate_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_PaymentFailureNetworkUpdate_class, "<init>", "(J)V");
+	DO_ASSERT(LDKMessageSendEvent_PaymentFailureNetworkUpdate_meth != NULL);
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1from_1ptr (JNIEnv * env, jclass _c, jlong ptr) {
+	LDKMessageSendEvent *obj = (LDKMessageSendEvent*)ptr;
+	switch(obj->tag) {
+		case LDKMessageSendEvent_SendAcceptChannel:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendAcceptChannel_class, LDKMessageSendEvent_SendAcceptChannel_meth,
+				(long)&obj->send_accept_channel.node_id, (long)&obj->send_accept_channel.msg
+			);
+		case LDKMessageSendEvent_SendOpenChannel:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendOpenChannel_class, LDKMessageSendEvent_SendOpenChannel_meth,
+				(long)&obj->send_open_channel.node_id, (long)&obj->send_open_channel.msg
+			);
+		case LDKMessageSendEvent_SendFundingCreated:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendFundingCreated_class, LDKMessageSendEvent_SendFundingCreated_meth,
+				(long)&obj->send_funding_created.node_id, (long)&obj->send_funding_created.msg
+			);
+		case LDKMessageSendEvent_SendFundingSigned:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendFundingSigned_class, LDKMessageSendEvent_SendFundingSigned_meth,
+				(long)&obj->send_funding_signed.node_id, (long)&obj->send_funding_signed.msg
+			);
+		case LDKMessageSendEvent_SendFundingLocked:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendFundingLocked_class, LDKMessageSendEvent_SendFundingLocked_meth,
+				(long)&obj->send_funding_locked.node_id, (long)&obj->send_funding_locked.msg
+			);
+		case LDKMessageSendEvent_SendAnnouncementSignatures:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendAnnouncementSignatures_class, LDKMessageSendEvent_SendAnnouncementSignatures_meth,
+				(long)&obj->send_announcement_signatures.node_id, (long)&obj->send_announcement_signatures.msg
+			);
+		case LDKMessageSendEvent_UpdateHTLCs:
+			return (*env)->NewObject(env, LDKMessageSendEvent_UpdateHTLCs_class, LDKMessageSendEvent_UpdateHTLCs_meth,
+				(long)&obj->update_htl_cs.node_id, (long)&obj->update_htl_cs.updates
+			);
+		case LDKMessageSendEvent_SendRevokeAndACK:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendRevokeAndACK_class, LDKMessageSendEvent_SendRevokeAndACK_meth,
+				(long)&obj->send_revoke_and_ack.node_id, (long)&obj->send_revoke_and_ack.msg
+			);
+		case LDKMessageSendEvent_SendClosingSigned:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendClosingSigned_class, LDKMessageSendEvent_SendClosingSigned_meth,
+				(long)&obj->send_closing_signed.node_id, (long)&obj->send_closing_signed.msg
+			);
+		case LDKMessageSendEvent_SendShutdown:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendShutdown_class, LDKMessageSendEvent_SendShutdown_meth,
+				(long)&obj->send_shutdown.node_id, (long)&obj->send_shutdown.msg
+			);
+		case LDKMessageSendEvent_SendChannelReestablish:
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendChannelReestablish_class, LDKMessageSendEvent_SendChannelReestablish_meth,
+				(long)&obj->send_channel_reestablish.node_id, (long)&obj->send_channel_reestablish.msg
+			);
+		case LDKMessageSendEvent_BroadcastChannelAnnouncement:
+			return (*env)->NewObject(env, LDKMessageSendEvent_BroadcastChannelAnnouncement_class, LDKMessageSendEvent_BroadcastChannelAnnouncement_meth,
+				(long)&obj->broadcast_channel_announcement.msg, (long)&obj->broadcast_channel_announcement.update_msg
+			);
+		case LDKMessageSendEvent_BroadcastNodeAnnouncement:
+			return (*env)->NewObject(env, LDKMessageSendEvent_BroadcastNodeAnnouncement_class, LDKMessageSendEvent_BroadcastNodeAnnouncement_meth,
+				(long)&obj->broadcast_node_announcement.msg
+			);
+		case LDKMessageSendEvent_BroadcastChannelUpdate:
+			return (*env)->NewObject(env, LDKMessageSendEvent_BroadcastChannelUpdate_class, LDKMessageSendEvent_BroadcastChannelUpdate_meth,
+				(long)&obj->broadcast_channel_update.msg
+			);
+		case LDKMessageSendEvent_HandleError:
+			return (*env)->NewObject(env, LDKMessageSendEvent_HandleError_class, LDKMessageSendEvent_HandleError_meth,
+				(long)&obj->handle_error.node_id, (long)&obj->handle_error.action
+			);
+		case LDKMessageSendEvent_PaymentFailureNetworkUpdate:
+			return (*env)->NewObject(env, LDKMessageSendEvent_PaymentFailureNetworkUpdate_class, LDKMessageSendEvent_PaymentFailureNetworkUpdate_meth,
+				(long)&obj->payment_failure_network_update.update
+			);
+		default: abort();
+	}
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1MessageSendEvent_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_MessageSendEvent *vec = (LDKCVecTempl_MessageSendEvent*)ptr;
@@ -1674,6 +2130,58 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRoute_1optional_1none (JNI
 	LDKRoute *ret = MALLOC(sizeof(LDKRoute), "LDKRoute");
 	ret->inner = NULL;
 	return (long)ret;
+}
+jclass LDKNetAddress_IPv4_class = NULL;
+jmethodID LDKNetAddress_IPv4_meth = NULL;
+jclass LDKNetAddress_IPv6_class = NULL;
+jmethodID LDKNetAddress_IPv6_meth = NULL;
+jclass LDKNetAddress_OnionV2_class = NULL;
+jmethodID LDKNetAddress_OnionV2_meth = NULL;
+jclass LDKNetAddress_OnionV3_class = NULL;
+jmethodID LDKNetAddress_OnionV3_meth = NULL;
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKNetAddress_init (JNIEnv * env, jclass _a) {
+	LDKNetAddress_IPv4_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKNetAddress$IPv4;"));
+	DO_ASSERT(LDKNetAddress_IPv4_class != NULL);
+	LDKNetAddress_IPv4_meth = (*env)->GetMethodID(env, LDKNetAddress_IPv4_class, "<init>", "(JS)V");
+	DO_ASSERT(LDKNetAddress_IPv4_meth != NULL);
+	LDKNetAddress_IPv6_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKNetAddress$IPv6;"));
+	DO_ASSERT(LDKNetAddress_IPv6_class != NULL);
+	LDKNetAddress_IPv6_meth = (*env)->GetMethodID(env, LDKNetAddress_IPv6_class, "<init>", "(JS)V");
+	DO_ASSERT(LDKNetAddress_IPv6_meth != NULL);
+	LDKNetAddress_OnionV2_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKNetAddress$OnionV2;"));
+	DO_ASSERT(LDKNetAddress_OnionV2_class != NULL);
+	LDKNetAddress_OnionV2_meth = (*env)->GetMethodID(env, LDKNetAddress_OnionV2_class, "<init>", "(JS)V");
+	DO_ASSERT(LDKNetAddress_OnionV2_meth != NULL);
+	LDKNetAddress_OnionV3_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKNetAddress$OnionV3;"));
+	DO_ASSERT(LDKNetAddress_OnionV3_class != NULL);
+	LDKNetAddress_OnionV3_meth = (*env)->GetMethodID(env, LDKNetAddress_OnionV3_class, "<init>", "(JSBS)V");
+	DO_ASSERT(LDKNetAddress_OnionV3_meth != NULL);
+}
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKNetAddress_1ref_1from_1ptr (JNIEnv * env, jclass _c, jlong ptr) {
+	LDKNetAddress *obj = (LDKNetAddress*)ptr;
+	switch(obj->tag) {
+		case LDKNetAddress_IPv4:
+			return (*env)->NewObject(env, LDKNetAddress_IPv4_class, LDKNetAddress_IPv4_meth,
+				(long)&obj->i_pv4.addr, obj->i_pv4.port
+			);
+		case LDKNetAddress_IPv6:
+			return (*env)->NewObject(env, LDKNetAddress_IPv6_class, LDKNetAddress_IPv6_meth,
+				(long)&obj->i_pv6.addr, obj->i_pv6.port
+			);
+		case LDKNetAddress_OnionV2:
+			return (*env)->NewObject(env, LDKNetAddress_OnionV2_class, LDKNetAddress_OnionV2_meth,
+				(long)&obj->onion_v2.addr, obj->onion_v2.port
+			);
+		case LDKNetAddress_OnionV3:
+			return (*env)->NewObject(env, LDKNetAddress_OnionV3_class, LDKNetAddress_OnionV3_meth,
+				(long)&obj->onion_v3.ed25519_pubkey, obj->onion_v3.checksum, obj->onion_v3.version, obj->onion_v3.port
+			);
+		default: abort();
+	}
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1NetAddress_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_NetAddress *vec = (LDKCVecTempl_NetAddress*)ptr;

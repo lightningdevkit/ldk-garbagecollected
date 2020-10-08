@@ -140,7 +140,7 @@ public class PeerTest {
 
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, bindings.ChannelManager_get_our_node_id(peer2.chan_manager), 10000, 1000, 0, bindings.LDKUserConfig_optional_none());
+        long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, bindings.ChannelManager_get_our_node_id(peer2.chan_manager), 10000, 1000, 42, bindings.LDKUserConfig_optional_none());
         assert bindings.LDKCResult_NoneAPIErrorZ_result_ok(cc_res);
         bindings.CResult_NoneAPIErrorZ_free(cc_res);
 
@@ -152,12 +152,20 @@ public class PeerTest {
         long events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events);
         bindings.VecOrSliceDef events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
         assert events_arr_info.datalen == 1;
+        bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events_arr_info.dataptr);
+        assert event instanceof bindings.LDKEvent.FundingGenerationReady;
+        assert ((bindings.LDKEvent.FundingGenerationReady)event).channel_value_satoshis == 10000;
+        assert ((bindings.LDKEvent.FundingGenerationReady)event).user_channel_id == 42;
+        assert bindings.get_u8_slice_bytes(((bindings.LDKEvent.FundingGenerationReady)event).output_script).length == 34;
+        byte[] chan_id = bindings.read_bytes(((bindings.LDKEvent.FundingGenerationReady)event).temporary_channel_id, 32);
         bindings.CVec_EventZ_free(events);
 
         long peer1_chans = bindings.ChannelManager_list_channels(peer1.chan_manager);
         long peer2_chans = bindings.ChannelManager_list_channels(peer2.chan_manager);
         assert bindings.vec_slice_len(peer1_chans) == 1;
         assert bindings.vec_slice_len(peer2_chans) == 1;
+        assert java.util.Arrays.equals(bindings.ChannelDetails_get_channel_id(bindings.LDKCVecTempl_ChannelDetails_arr_info(peer1_chans).dataptr), chan_id);
+        assert java.util.Arrays.equals(bindings.ChannelDetails_get_channel_id(bindings.LDKCVecTempl_ChannelDetails_arr_info(peer2_chans).dataptr), chan_id);
         bindings.CVec_ChannelDetailsZ_free(peer1_chans);
         bindings.CVec_ChannelDetailsZ_free(peer2_chans);
 

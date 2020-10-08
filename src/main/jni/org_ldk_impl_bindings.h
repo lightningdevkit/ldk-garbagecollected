@@ -41,6 +41,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    read_bytes
+ * Signature: (JJ)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_read_1bytes
+  (JNIEnv *, jclass, jlong, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    get_u8_slice_bytes
  * Signature: (J)[B
  */
@@ -201,6 +209,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZN
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKAPIError_ref_from_ptr
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKAPIError;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAPIError_1ref_1from_1ptr
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKCResult_NoneAPIErrorZ_result_ok
  * Signature: (J)Z
  */
@@ -289,10 +305,26 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCOutputInCommitment_1op
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKSpendableOutputDescriptor_ref_from_ptr
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKSpendableOutputDescriptor;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSpendableOutputDescriptor_1ref_1from_1ptr
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKCVecTempl_SpendableOutputDescriptor_arr_info
  * Signature: (J)Lorg/ldk/impl/bindings/VecOrSliceDef;
  */
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1SpendableOutputDescriptor_1arr_1info
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKEvent_ref_from_ptr
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKEvent;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKEvent_1ref_1from_1ptr
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -398,6 +430,30 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNodeAnnouncement_1optional
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKErrorMessage_1optional_1none
   (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKErrorAction_ref_from_ptr
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKErrorAction;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKErrorAction_1ref_1from_1ptr
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKHTLCFailChannelUpdate_ref_from_ptr
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKHTLCFailChannelUpdate;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKHTLCFailChannelUpdate_1ref_1from_1ptr
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKMessageSendEvent_ref_from_ptr
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKMessageSendEvent;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1from_1ptr
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -998,6 +1054,14 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1ChannelDetail
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRoute_1optional_1none
   (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKNetAddress_ref_from_ptr
+ * Signature: (J)Lorg/ldk/impl/bindings/LDKNetAddress;
+ */
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKNetAddress_1ref_1from_1ptr
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings

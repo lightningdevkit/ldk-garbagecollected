@@ -19,6 +19,7 @@ public class bindings {
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);
 	public static native void free_heap_ptr(long ptr);
+	public static native byte[] read_bytes(long ptr, long len);
 	public static native byte[] get_u8_slice_bytes(long slice_ptr);
 	public static native long bytes_to_u8_vec(byte[] bytes);
 	public static native long vec_slice_len(long vec);
@@ -47,6 +48,31 @@ public class bindings {
 	public static native long LDKCResult_SignatureNoneZ_get_inner(long arg);
 	public static native boolean LDKCResult_CVec_SignatureZNoneZ_result_ok(long arg);
 	public static native long LDKCResult_CVec_SignatureZNoneZ_get_inner(long arg);
+	public static class LDKAPIError {
+		private LDKAPIError() {}
+		public final static class APIMisuseError extends LDKAPIError {
+			public long err;
+			APIMisuseError(long err) { this.err = err; }
+		}
+		public final static class FeeRateTooHigh extends LDKAPIError {
+			public long err;
+			public int feerate;
+			FeeRateTooHigh(long err, int feerate) { this.err = err; this.feerate = feerate; }
+		}
+		public final static class RouteError extends LDKAPIError {
+			public long err;
+			RouteError(long err) { this.err = err; }
+		}
+		public final static class ChannelUnavailable extends LDKAPIError {
+			public long err;
+			ChannelUnavailable(long err) { this.err = err; }
+		}
+		public final static class MonitorUpdateFailed extends LDKAPIError {
+		}
+		static native void init();
+	}
+	static { LDKAPIError.init(); }
+	public static native LDKAPIError LDKAPIError_ref_from_ptr(long ptr);
 	public static native boolean LDKCResult_NoneAPIErrorZ_result_ok(long arg);
 	public static native long LDKCResult_NoneAPIErrorZ_get_inner(long arg);
 	public static native long LDKPaymentSendFailure_optional_none();
@@ -58,7 +84,74 @@ public class bindings {
 	public static native boolean LDKCResult_NonePeerHandleErrorZ_result_ok(long arg);
 	public static native long LDKCResult_NonePeerHandleErrorZ_get_inner(long arg);
 	public static native long LDKHTLCOutputInCommitment_optional_none();
+	public static class LDKSpendableOutputDescriptor {
+		private LDKSpendableOutputDescriptor() {}
+		public final static class StaticOutput extends LDKSpendableOutputDescriptor {
+			public long outpoint;
+			public long output;
+			StaticOutput(long outpoint, long output) { this.outpoint = outpoint; this.output = output; }
+		}
+		public final static class DynamicOutputP2WSH extends LDKSpendableOutputDescriptor {
+			public long outpoint;
+			public long per_commitment_point;
+			public short to_self_delay;
+			public long output;
+			public long key_derivation_params;
+			public long revocation_pubkey;
+			DynamicOutputP2WSH(long outpoint, long per_commitment_point, short to_self_delay, long output, long key_derivation_params, long revocation_pubkey) { this.outpoint = outpoint; this.per_commitment_point = per_commitment_point; this.to_self_delay = to_self_delay; this.output = output; this.key_derivation_params = key_derivation_params; this.revocation_pubkey = revocation_pubkey; }
+		}
+		public final static class StaticOutputCounterpartyPayment extends LDKSpendableOutputDescriptor {
+			public long outpoint;
+			public long output;
+			public long key_derivation_params;
+			StaticOutputCounterpartyPayment(long outpoint, long output, long key_derivation_params) { this.outpoint = outpoint; this.output = output; this.key_derivation_params = key_derivation_params; }
+		}
+		static native void init();
+	}
+	static { LDKSpendableOutputDescriptor.init(); }
+	public static native LDKSpendableOutputDescriptor LDKSpendableOutputDescriptor_ref_from_ptr(long ptr);
 	public static native VecOrSliceDef LDKCVecTempl_SpendableOutputDescriptor_arr_info(long vec_ptr);
+	public static class LDKEvent {
+		private LDKEvent() {}
+		public final static class FundingGenerationReady extends LDKEvent {
+			public long temporary_channel_id;
+			public long channel_value_satoshis;
+			public long output_script;
+			public long user_channel_id;
+			FundingGenerationReady(long temporary_channel_id, long channel_value_satoshis, long output_script, long user_channel_id) { this.temporary_channel_id = temporary_channel_id; this.channel_value_satoshis = channel_value_satoshis; this.output_script = output_script; this.user_channel_id = user_channel_id; }
+		}
+		public final static class FundingBroadcastSafe extends LDKEvent {
+			public long funding_txo;
+			public long user_channel_id;
+			FundingBroadcastSafe(long funding_txo, long user_channel_id) { this.funding_txo = funding_txo; this.user_channel_id = user_channel_id; }
+		}
+		public final static class PaymentReceived extends LDKEvent {
+			public long payment_hash;
+			public long payment_secret;
+			public long amt;
+			PaymentReceived(long payment_hash, long payment_secret, long amt) { this.payment_hash = payment_hash; this.payment_secret = payment_secret; this.amt = amt; }
+		}
+		public final static class PaymentSent extends LDKEvent {
+			public long payment_preimage;
+			PaymentSent(long payment_preimage) { this.payment_preimage = payment_preimage; }
+		}
+		public final static class PaymentFailed extends LDKEvent {
+			public long payment_hash;
+			public boolean rejected_by_dest;
+			PaymentFailed(long payment_hash, boolean rejected_by_dest) { this.payment_hash = payment_hash; this.rejected_by_dest = rejected_by_dest; }
+		}
+		public final static class PendingHTLCsForwardable extends LDKEvent {
+			public long time_forwardable;
+			PendingHTLCsForwardable(long time_forwardable) { this.time_forwardable = time_forwardable; }
+		}
+		public final static class SpendableOutputs extends LDKEvent {
+			public long outputs;
+			SpendableOutputs(long outputs) { this.outputs = outputs; }
+		}
+		static native void init();
+	}
+	static { LDKEvent.init(); }
+	public static native LDKEvent LDKEvent_ref_from_ptr(long ptr);
 	public static native long LDKAcceptChannel_optional_none();
 	public static native long LDKOpenChannel_optional_none();
 	public static native long LDKFundingCreated_optional_none();
@@ -72,6 +165,125 @@ public class bindings {
 	public static native long LDKChannelReestablish_optional_none();
 	public static native long LDKNodeAnnouncement_optional_none();
 	public static native long LDKErrorMessage_optional_none();
+	public static class LDKErrorAction {
+		private LDKErrorAction() {}
+		public final static class DisconnectPeer extends LDKErrorAction {
+			public long msg;
+			DisconnectPeer(long msg) { this.msg = msg; }
+		}
+		public final static class IgnoreError extends LDKErrorAction {
+		}
+		public final static class SendErrorMessage extends LDKErrorAction {
+			public long msg;
+			SendErrorMessage(long msg) { this.msg = msg; }
+		}
+		static native void init();
+	}
+	static { LDKErrorAction.init(); }
+	public static native LDKErrorAction LDKErrorAction_ref_from_ptr(long ptr);
+	public static class LDKHTLCFailChannelUpdate {
+		private LDKHTLCFailChannelUpdate() {}
+		public final static class ChannelUpdateMessage extends LDKHTLCFailChannelUpdate {
+			public long msg;
+			ChannelUpdateMessage(long msg) { this.msg = msg; }
+		}
+		public final static class ChannelClosed extends LDKHTLCFailChannelUpdate {
+			public long short_channel_id;
+			public boolean is_permanent;
+			ChannelClosed(long short_channel_id, boolean is_permanent) { this.short_channel_id = short_channel_id; this.is_permanent = is_permanent; }
+		}
+		public final static class NodeFailure extends LDKHTLCFailChannelUpdate {
+			public long node_id;
+			public boolean is_permanent;
+			NodeFailure(long node_id, boolean is_permanent) { this.node_id = node_id; this.is_permanent = is_permanent; }
+		}
+		static native void init();
+	}
+	static { LDKHTLCFailChannelUpdate.init(); }
+	public static native LDKHTLCFailChannelUpdate LDKHTLCFailChannelUpdate_ref_from_ptr(long ptr);
+	public static class LDKMessageSendEvent {
+		private LDKMessageSendEvent() {}
+		public final static class SendAcceptChannel extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendAcceptChannel(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class SendOpenChannel extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendOpenChannel(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class SendFundingCreated extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendFundingCreated(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class SendFundingSigned extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendFundingSigned(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class SendFundingLocked extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendFundingLocked(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class SendAnnouncementSignatures extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendAnnouncementSignatures(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class UpdateHTLCs extends LDKMessageSendEvent {
+			public long node_id;
+			public long updates;
+			UpdateHTLCs(long node_id, long updates) { this.node_id = node_id; this.updates = updates; }
+		}
+		public final static class SendRevokeAndACK extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendRevokeAndACK(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class SendClosingSigned extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendClosingSigned(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class SendShutdown extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendShutdown(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class SendChannelReestablish extends LDKMessageSendEvent {
+			public long node_id;
+			public long msg;
+			SendChannelReestablish(long node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
+		public final static class BroadcastChannelAnnouncement extends LDKMessageSendEvent {
+			public long msg;
+			public long update_msg;
+			BroadcastChannelAnnouncement(long msg, long update_msg) { this.msg = msg; this.update_msg = update_msg; }
+		}
+		public final static class BroadcastNodeAnnouncement extends LDKMessageSendEvent {
+			public long msg;
+			BroadcastNodeAnnouncement(long msg) { this.msg = msg; }
+		}
+		public final static class BroadcastChannelUpdate extends LDKMessageSendEvent {
+			public long msg;
+			BroadcastChannelUpdate(long msg) { this.msg = msg; }
+		}
+		public final static class HandleError extends LDKMessageSendEvent {
+			public long node_id;
+			public long action;
+			HandleError(long node_id, long action) { this.node_id = node_id; this.action = action; }
+		}
+		public final static class PaymentFailureNetworkUpdate extends LDKMessageSendEvent {
+			public long update;
+			PaymentFailureNetworkUpdate(long update) { this.update = update; }
+		}
+		static native void init();
+	}
+	static { LDKMessageSendEvent.init(); }
+	public static native LDKMessageSendEvent LDKMessageSendEvent_ref_from_ptr(long ptr);
 	public static native VecOrSliceDef LDKCVecTempl_MessageSendEvent_arr_info(long vec_ptr);
 	public interface LDKMessageSendEventsProvider {
 		 long get_and_clear_pending_msg_events();
@@ -220,6 +432,34 @@ public class bindings {
 	public static native long LDKInitFeatures_optional_none();
 	public static native VecOrSliceDef LDKCVecTempl_ChannelDetails_arr_info(long vec_ptr);
 	public static native long LDKRoute_optional_none();
+	public static class LDKNetAddress {
+		private LDKNetAddress() {}
+		public final static class IPv4 extends LDKNetAddress {
+			public long addr;
+			public short port;
+			IPv4(long addr, short port) { this.addr = addr; this.port = port; }
+		}
+		public final static class IPv6 extends LDKNetAddress {
+			public long addr;
+			public short port;
+			IPv6(long addr, short port) { this.addr = addr; this.port = port; }
+		}
+		public final static class OnionV2 extends LDKNetAddress {
+			public long addr;
+			public short port;
+			OnionV2(long addr, short port) { this.addr = addr; this.port = port; }
+		}
+		public final static class OnionV3 extends LDKNetAddress {
+			public long ed25519_pubkey;
+			public short checksum;
+			public byte version;
+			public short port;
+			OnionV3(long ed25519_pubkey, short checksum, byte version, short port) { this.ed25519_pubkey = ed25519_pubkey; this.checksum = checksum; this.version = version; this.port = port; }
+		}
+		static native void init();
+	}
+	static { LDKNetAddress.init(); }
+	public static native LDKNetAddress LDKNetAddress_ref_from_ptr(long ptr);
 	public static native VecOrSliceDef LDKCVecTempl_NetAddress_arr_info(long vec_ptr);
 	public static native long LDKUpdateAddHTLC_optional_none();
 	public static native long LDKUpdateFulfillHTLC_optional_none();

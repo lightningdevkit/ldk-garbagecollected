@@ -48,6 +48,32 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
     trait_structs = set()
     unitary_enums = set()
 
+    def camel_to_snake(s):
+        # Convert camel case to snake case, in a way that appears to match cbindgen
+        con = "_"
+        ret = ""
+        lastchar = ""
+        lastund = False
+        for char in s:
+            if lastchar.isupper():
+                if not char.isupper() and not lastund:
+                    ret = ret + "_"
+                    lastund = True
+                else:
+                    lastund = False
+                ret = ret + lastchar.lower()
+            else:
+                ret = ret + lastchar
+                if char.isupper() and not lastund:
+                    ret = ret + "_"
+                    lastund = True
+                else:
+                    lastund = False
+            lastchar = char
+            if char.isnumeric():
+                lastund = True
+        return (ret + lastchar.lower()).strip("_")
+
     var_is_arr_regex = re.compile("\(\*([A-za-z_]*)\)\[([0-9]*)\]")
     var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
     def java_c_types(fn_arg, ret_arr_len):
@@ -548,6 +574,7 @@ public class bindings {
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);
 	public static native void free_heap_ptr(long ptr);
+	public static native byte[] read_bytes(long ptr, long len);
 	public static native byte[] get_u8_slice_bytes(long slice_ptr);
 	public static native long bytes_to_u8_vec(byte[] bytes);
 	public static native long vec_slice_len(long vec);
@@ -575,6 +602,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_deref_1long (JNIEnv * env, jc
 }
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr (JNIEnv * env, jclass _a, jlong ptr) {
 	FREE((void*)ptr);
+}
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_read_1bytes (JNIEnv * _env, jclass _b, jlong ptr, jlong len) {
+	jbyteArray ret_arr = (*_env)->NewByteArray(_env, len);
+	(*_env)->SetByteArrayRegion(_env, ret_arr, 0, len, (unsigned char*)ptr);
+	return ret_arr;
 }
 JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes (JNIEnv * _env, jclass _b, jlong slice_ptr) {
 	LDKu8slice *slice = (LDKu8slice*)slice_ptr;
@@ -648,6 +680,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
     assert(struct_alias_regex.match("typedef LDKCResultTempl_bool__PeerHandleError LDKCResult_boolPeerHandleErrorZ;"))
 
     result_templ_structs = set()
+    union_enum_items = {}
     for line in in_h:
         if in_block_comment:
             #out_java.write("\t" + line)
@@ -708,6 +741,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                 assert(not is_union or not (len(trait_fn_lines) != 0 or is_unitary_enum or is_union_enum or is_opaque or is_result or vec_ty is not None))
                 assert(not is_result or not (len(trait_fn_lines) != 0 or is_unitary_enum or is_union_enum or is_opaque or is_union or vec_ty is not None))
                 assert(vec_ty is None or not (len(trait_fn_lines) != 0 or is_unitary_enum or is_union_enum or is_opaque or is_union or is_result))
+
                 if is_opaque:
                     opaque_structs.add(struct_name)
                     out_java.write("\tpublic static native long " + struct_name + "_optional_none();\n")
@@ -724,6 +758,89 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                     out_c.write("\t" + struct_name + " *vec = (" + struct_name + "*)ptr;\n")
                     out_c.write("\treturn (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(" + vec_ty + "));\n")
                     out_c.write("}\n")
+                elif is_union_enum:
+                    assert(struct_name.endswith("_Tag"))
+                    struct_name = struct_name[:-4]
+                    union_enum_items[struct_name] = {"field_lines": field_lines}
+                elif struct_name.endswith("_Body") and struct_name.split("_")[0] in union_enum_items:
+                    enum_var_name = struct_name.split("_")
+                    union_enum_items[enum_var_name[0]][enum_var_name[1]] = field_lines
+                elif struct_name in union_enum_items:
+                    tag_field_lines = union_enum_items[struct_name]["field_lines"]
+                    init_meth_jty_strs = {}
+                    for idx, struct_line in enumerate(tag_field_lines):
+                        if idx == 0:
+                            out_java.write("\tpublic static class " + struct_name + " {\n")
+                            out_java.write("\t\tprivate " + struct_name + "() {}\n")
+                        elif idx == len(tag_field_lines) - 3:
+                            assert(struct_line.endswith("_Sentinel,"))
+                        elif idx == len(tag_field_lines) - 2:
+                            out_java.write("\t\tstatic native void init();\n")
+                            out_java.write("\t}\n")
+                        elif idx == len(tag_field_lines) - 1:
+                            assert(struct_line == "")
+                        else:
+                            var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
+                            out_java.write("\t\tpublic final static class " + var_name + " extends " + struct_name + " {\n")
+                            out_c.write("jclass " + struct_name + "_" + var_name + "_class = NULL;\n")
+                            out_c.write("jmethodID " + struct_name + "_" + var_name + "_meth = NULL;\n")
+                            init_meth_jty_str = ""
+                            init_meth_params = ""
+                            init_meth_body = ""
+                            if "LDK" + var_name in union_enum_items[struct_name]:
+                                enum_var_lines = union_enum_items[struct_name]["LDK" + var_name]
+                                for idx, field in enumerate(enum_var_lines):
+                                    if idx != 0 and idx < len(enum_var_lines) - 2:
+                                        field_ty = java_c_types(field.strip(' ;'), None)
+                                        out_java.write("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.var_name + ";\n")
+                                        init_meth_jty_str = init_meth_jty_str + field_ty.java_fn_ty_arg
+                                        if idx > 1:
+                                            init_meth_params = init_meth_params + ", "
+                                        init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.var_name
+                                        init_meth_body = init_meth_body + "this." + field_ty.var_name + " = " + field_ty.var_name + "; "
+                                out_java.write("\t\t\t" + var_name + "(" + init_meth_params + ") { ")
+                                out_java.write(init_meth_body)
+                                out_java.write("}\n")
+                            out_java.write("\t\t}\n")
+                            init_meth_jty_strs[var_name] = init_meth_jty_str
+                    out_java.write("\tstatic { " + struct_name + ".init(); }\n")
+                    out_java.write("\tpublic static native " + struct_name + " " + struct_name + "_ref_from_ptr(long ptr);\n");
+
+                    out_c.write("JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024" + struct_name.replace("_", "_1") + "_init (JNIEnv * env, jclass _a) {\n")
+                    for idx, struct_line in enumerate(tag_field_lines):
+                        if idx != 0 and idx < len(tag_field_lines) - 3:
+                            var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
+                            out_c.write("\t" + struct_name + "_" + var_name + "_class =\n")
+                            out_c.write("\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"Lorg/ldk/impl/bindings$" + struct_name + "$" + var_name + ";\"));\n")
+                            out_c.write("\tDO_ASSERT(" + struct_name + "_" + var_name + "_class != NULL);\n")
+                            out_c.write("\t" + struct_name + "_" + var_name + "_meth = (*env)->GetMethodID(env, " + struct_name + "_" + var_name + "_class, \"<init>\", \"(" + init_meth_jty_strs[var_name] + ")V\");\n")
+                            out_c.write("\tDO_ASSERT(" + struct_name + "_" + var_name + "_meth != NULL);\n")
+                    out_c.write("}\n")
+                    out_c.write("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1ref_1from_1ptr (JNIEnv * env, jclass _c, jlong ptr) {\n")
+                    out_c.write("\t" + struct_name + " *obj = (" + struct_name + "*)ptr;\n")
+                    out_c.write("\tswitch(obj->tag) {\n")
+                    for idx, struct_line in enumerate(tag_field_lines):
+                        if idx != 0 and idx < len(tag_field_lines) - 3:
+                            var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
+                            out_c.write("\t\tcase " + struct_name + "_" + var_name + ":\n")
+                            out_c.write("\t\t\treturn (*env)->NewObject(env, " + struct_name + "_" + var_name + "_class, " + struct_name + "_" + var_name + "_meth")
+                            if "LDK" + var_name in union_enum_items[struct_name]:
+                                enum_var_lines = union_enum_items[struct_name]["LDK" + var_name]
+                                out_c.write(",\n\t\t\t\t")
+                                for idx, field in enumerate(enum_var_lines):
+                                    if idx != 0 and idx < len(enum_var_lines) - 2:
+                                        field_ty = java_c_types(field.strip(' ;'), None)
+                                        if idx >= 2:
+                                            out_c.write(", ")
+                                        if field_ty.is_ptr:
+                                            out_c.write("(long)")
+                                        elif field_ty.passed_as_ptr or field_ty.arr_len is not None:
+                                            out_c.write("(long)&")
+                                        out_c.write("obj->" + camel_to_snake(var_name) + "." + field_ty.var_name)
+                                out_c.write("\n\t\t\t")
+                            out_c.write(");\n")
+                    out_c.write("\t\tdefault: abort();\n")
+                    out_c.write("\t}\n}\n")
                 elif is_unitary_enum:
                     with open(sys.argv[3] + "/" + struct_name + ".java", "w") as out_java_enum:
                         out_java_enum.write("package org.ldk.enums;\n\n")
@@ -771,7 +888,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                         for idx, struct_line in enumerate(field_lines):
                             if idx > 0 and idx < len(field_lines) - 3:
                                 variant = struct_line.strip().strip(",")
-                                out_c.write("\t\tcase " + variant + ": \n")
+                                out_c.write("\t\tcase " + variant + ":\n")
                                 out_c.write("\t\t\treturn (*env)->GetStaticObjectField(env, " + struct_name + "_class, " + struct_name + "_" + variant + ");\n")
                                 ord_v = ord_v + 1
                         out_c.write("\t\tdefault: abort();\n")
