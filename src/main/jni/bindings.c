@@ -88,6 +88,14 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec (JNIEnv * _
 	(*_env)->GetByteArrayRegion (_env, bytes, 0, vec->datalen, vec->data);
 	return (long)vec;
 }
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
+	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
+	txdata->datalen = (*env)->GetArrayLength(env, bytes);
+	txdata->data = (uint8_t*)malloc(txdata->datalen); // May be freed by rust, so don't track allocation
+	txdata->data_is_owned = true;
+	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
+	return (long)txdata;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env, jclass _a, jlong ptr) {
         // Check offsets of a few Vec types are all consistent as we're meant to be generic across types
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_SignatureZ, datalen), "Vec<*> needs to be mapped identically");
@@ -368,6 +376,29 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1u8_1arr_1info
 	LDKCVecTempl_u8 *vec = (LDKCVecTempl_u8*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(uint8_t));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1u8_1new(JNIEnv *env, jclass _b, jbyteArray elems){
+	LDKCVecTempl_u8 *ret = MALLOC(sizeof(LDKCVecTempl_u8), "LDKCVecTempl_u8");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(uint8_t) * ret->datalen); // often freed by rust directly
+		jbyte *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			ret->data[i] = java_elems[i];
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1usize_1_1Transaction_1new(JNIEnv *_env, jclass _b, jlong a, jlong b) {
+	LDKC2TupleTempl_usize__Transaction* ret = MALLOC(sizeof(LDKC2TupleTempl_usize__Transaction), "LDKC2TupleTempl_usize__Transaction");
+	ret->a = a;
+	LDKTransaction b_conv = *(LDKTransaction*)b;
+	FREE((void*)b);
+	ret->b = b_conv;
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NoneChannelMonitorUpdateErrZ*)arg)->result_ok;
 }
@@ -398,13 +429,86 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKOutPoint_1optional_1none (
 	ret->inner = NULL;
 	return (long)ret;
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1OutPoint_1_1CVec_1u8Z_1new(JNIEnv *_env, jclass _b, jlong a, jlong b) {
+	LDKC2TupleTempl_OutPoint__CVec_u8Z* ret = MALLOC(sizeof(LDKC2TupleTempl_OutPoint__CVec_u8Z), "LDKC2TupleTempl_OutPoint__CVec_u8Z");
+	LDKOutPoint a_conv = *(LDKOutPoint*)a;
+	FREE((void*)a);
+	a_conv.is_owned = true;
+	ret->a = a_conv;
+	LDKCVec_u8Z b_conv = *(LDKCVec_u8Z*)b;
+	FREE((void*)b);
+	ret->b = b_conv;
+	return (long)ret;
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1TxOut_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_TxOut *vec = (LDKCVecTempl_TxOut*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKTxOut));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1TxOut_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_TxOut *ret = MALLOC(sizeof(LDKCVecTempl_TxOut), "LDKCVecTempl_TxOut");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKTxOut) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKTxOut arr_elem_conv = *(LDKTxOut*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1ThirtyTwoBytes_1_1CVecTempl_1TxOut_1new(JNIEnv *_env, jclass _b, jbyteArray a, jlong b) {
+	LDKC2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut* ret = MALLOC(sizeof(LDKC2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut), "LDKC2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut");
+	LDKThirtyTwoBytes a_ref;
+	(*_env)->GetByteArrayRegion (_env, a, 0, 32, a_ref.data);
+	ret->a = a_ref;
+	LDKCVecTempl_TxOut b_conv = *(LDKCVecTempl_TxOut*)b;
+	FREE((void*)b);
+	ret->b = b_conv;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1u64_1_1u64_1new(JNIEnv *_env, jclass _b, jlong a, jlong b) {
+	LDKC2TupleTempl_u64__u64* ret = MALLOC(sizeof(LDKC2TupleTempl_u64__u64), "LDKC2TupleTempl_u64__u64");
+	ret->a = a;
+	ret->b = b;
+	return (long)ret;
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Signature_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_Signature *vec = (LDKCVecTempl_Signature*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKSignature));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Signature_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_Signature *ret = MALLOC(sizeof(LDKCVecTempl_Signature), "LDKCVecTempl_Signature");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKSignature) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKSignature arr_elem_conv = *(LDKSignature*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1Signature_1_1CVecTempl_1Signature_1new(JNIEnv *_env, jclass _b, jlong a, jlong b) {
+	LDKC2TupleTempl_Signature__CVecTempl_Signature* ret = MALLOC(sizeof(LDKC2TupleTempl_Signature__CVecTempl_Signature), "LDKC2TupleTempl_Signature__CVecTempl_Signature");
+	LDKSignature a_conv = *(LDKSignature*)a;
+	FREE((void*)a);
+	ret->a = a_conv;
+	LDKCVecTempl_Signature b_conv = *(LDKCVecTempl_Signature*)b;
+	FREE((void*)b);
+	ret->b = b_conv;
+	return (long)ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg)->result_ok;
@@ -533,6 +637,22 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelUpdate_1optional_1n
 	ret->inner = NULL;
 	return (long)ret;
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3TupleTempl_1ChannelAnnouncement_1_1ChannelUpdate_1_1ChannelUpdate_1new(JNIEnv *_env, jclass _b, jlong a, jlong b, jlong c) {
+	LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate* ret = MALLOC(sizeof(LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate), "LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate");
+	LDKChannelAnnouncement a_conv = *(LDKChannelAnnouncement*)a;
+	FREE((void*)a);
+	a_conv.is_owned = true;
+	ret->a = a_conv;
+	LDKChannelUpdate b_conv = *(LDKChannelUpdate*)b;
+	FREE((void*)b);
+	b_conv.is_owned = true;
+	ret->b = b_conv;
+	LDKChannelUpdate c_conv = *(LDKChannelUpdate*)c;
+	FREE((void*)c);
+	c_conv.is_owned = true;
+	ret->c = c_conv;
+	return (long)ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPeerHandleError_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKPeerHandleError *ret = MALLOC(sizeof(LDKPeerHandleError), "LDKPeerHandleError");
 	ret->inner = NULL;
@@ -551,6 +671,17 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErr
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCOutputInCommitment_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKHTLCOutputInCommitment *ret = MALLOC(sizeof(LDKHTLCOutputInCommitment), "LDKHTLCOutputInCommitment");
 	ret->inner = NULL;
+	return (long)ret;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1HTLCOutputInCommitment_1_1Signature_1new(JNIEnv *_env, jclass _b, jlong a, jlong b) {
+	LDKC2TupleTempl_HTLCOutputInCommitment__Signature* ret = MALLOC(sizeof(LDKC2TupleTempl_HTLCOutputInCommitment__Signature), "LDKC2TupleTempl_HTLCOutputInCommitment__Signature");
+	LDKHTLCOutputInCommitment a_conv = *(LDKHTLCOutputInCommitment*)a;
+	FREE((void*)a);
+	a_conv.is_owned = true;
+	ret->a = a_conv;
+	LDKSignature b_conv = *(LDKSignature*)b;
+	FREE((void*)b);
+	ret->b = b_conv;
 	return (long)ret;
 }
 static jclass LDKSpendableOutputDescriptor_StaticOutput_class = NULL;
@@ -604,6 +735,24 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSpendableOutputDescripto
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1SpendableOutputDescriptor_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_SpendableOutputDescriptor *vec = (LDKCVecTempl_SpendableOutputDescriptor*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKSpendableOutputDescriptor));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1SpendableOutputDescriptor_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_SpendableOutputDescriptor *ret = MALLOC(sizeof(LDKCVecTempl_SpendableOutputDescriptor), "LDKCVecTempl_SpendableOutputDescriptor");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKSpendableOutputDescriptor) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKSpendableOutputDescriptor arr_elem_conv = *(LDKSpendableOutputDescriptor*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 static jclass LDKEvent_FundingGenerationReady_class = NULL;
 static jmethodID LDKEvent_FundingGenerationReady_meth = NULL;
@@ -1042,6 +1191,24 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1MessageSendEv
 	LDKCVecTempl_MessageSendEvent *vec = (LDKCVecTempl_MessageSendEvent*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKMessageSendEvent));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1MessageSendEvent_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_MessageSendEvent *ret = MALLOC(sizeof(LDKCVecTempl_MessageSendEvent), "LDKCVecTempl_MessageSendEvent");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKMessageSendEvent) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKMessageSendEvent arr_elem_conv = *(LDKMessageSendEvent*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 typedef struct LDKMessageSendEventsProvider_JCalls {
 	atomic_size_t refcnt;
 	JavaVM *vm;
@@ -1106,6 +1273,24 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Event_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_Event *vec = (LDKCVecTempl_Event*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKEvent));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Event_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_Event *ret = MALLOC(sizeof(LDKCVecTempl_Event), "LDKCVecTempl_Event");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKEvent) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKEvent arr_elem_conv = *(LDKEvent*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 typedef struct LDKEventsProvider_JCalls {
 	atomic_size_t refcnt;
@@ -1329,6 +1514,25 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKPreCalculatedTxCreationKey
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1HTLCOutputInCommitment_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_HTLCOutputInCommitment *vec = (LDKCVecTempl_HTLCOutputInCommitment*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKHTLCOutputInCommitment));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1HTLCOutputInCommitment_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_HTLCOutputInCommitment *ret = MALLOC(sizeof(LDKCVecTempl_HTLCOutputInCommitment), "LDKCVecTempl_HTLCOutputInCommitment");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKHTLCOutputInCommitment) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKHTLCOutputInCommitment arr_elem_conv = *(LDKHTLCOutputInCommitment*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHolderCommitmentTransaction_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKHolderCommitmentTransaction *ret = MALLOC(sizeof(LDKHolderCommitmentTransaction), "LDKHolderCommitmentTransaction");
@@ -1645,6 +1849,25 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKMonitorEvent_1optional_1no
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1MonitorEvent_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_MonitorEvent *vec = (LDKCVecTempl_MonitorEvent*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKMonitorEvent));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1MonitorEvent_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_MonitorEvent *ret = MALLOC(sizeof(LDKCVecTempl_MonitorEvent), "LDKCVecTempl_MonitorEvent");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKMonitorEvent) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKMonitorEvent arr_elem_conv = *(LDKMonitorEvent*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 typedef struct LDKWatch_JCalls {
 	atomic_size_t refcnt;
@@ -1970,6 +2193,24 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_
 	LDKCVecTempl_C2TupleTempl_usize__Transaction *vec = (LDKCVecTempl_C2TupleTempl_usize__Transaction*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKC2TupleTempl_usize__Transaction));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1usize_1_1Transaction_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_C2TupleTempl_usize__Transaction *ret = MALLOC(sizeof(LDKCVecTempl_C2TupleTempl_usize__Transaction), "LDKCVecTempl_C2TupleTempl_usize__Transaction");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKC2TupleTempl_usize__Transaction) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKC2TupleTempl_usize__Transaction arr_elem_conv = *(LDKC2TupleTempl_usize__Transaction*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKHTLCUpdate_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKHTLCUpdate *ret = MALLOC(sizeof(LDKHTLCUpdate), "LDKHTLCUpdate");
 	ret->inner = NULL;
@@ -1979,9 +2220,45 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Transaction_1
 	LDKCVecTempl_Transaction *vec = (LDKCVecTempl_Transaction*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKTransaction));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Transaction_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_Transaction *ret = MALLOC(sizeof(LDKCVecTempl_Transaction), "LDKCVecTempl_Transaction");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKTransaction) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKTransaction arr_elem_conv = *(LDKTransaction*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1ThirtyTwoBytes_1_1CVecTempl_1TxOut_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut *vec = (LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKC2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1ThirtyTwoBytes_1_1CVecTempl_1TxOut_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut *ret = MALLOC(sizeof(LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut), "LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKC2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKC2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut arr_elem_conv = *(LDKC2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 typedef struct LDKKeysInterface_JCalls {
 	atomic_size_t refcnt;
@@ -2153,6 +2430,25 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1ChannelDetail
 	LDKCVecTempl_ChannelDetails *vec = (LDKCVecTempl_ChannelDetails*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKChannelDetails));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1ChannelDetails_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_ChannelDetails *ret = MALLOC(sizeof(LDKCVecTempl_ChannelDetails), "LDKCVecTempl_ChannelDetails");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKChannelDetails) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKChannelDetails arr_elem_conv = *(LDKChannelDetails*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRoute_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKRoute *ret = MALLOC(sizeof(LDKRoute), "LDKRoute");
 	ret->inner = NULL;
@@ -2214,6 +2510,24 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKNetAddress_1ref_1from_1p
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1NetAddress_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_NetAddress *vec = (LDKCVecTempl_NetAddress*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKNetAddress));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1NetAddress_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_NetAddress *ret = MALLOC(sizeof(LDKCVecTempl_NetAddress), "LDKCVecTempl_NetAddress");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKNetAddress) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKNetAddress arr_elem_conv = *(LDKNetAddress*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKUpdateAddHTLC_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKUpdateAddHTLC *ret = MALLOC(sizeof(LDKUpdateAddHTLC), "LDKUpdateAddHTLC");
@@ -2672,6 +2986,25 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1ChannelMonito
 	LDKCVecTempl_ChannelMonitor *vec = (LDKCVecTempl_ChannelMonitor*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKChannelMonitor));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1ChannelMonitor_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_ChannelMonitor *ret = MALLOC(sizeof(LDKCVecTempl_ChannelMonitor), "LDKCVecTempl_ChannelMonitor");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKChannelMonitor) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKChannelMonitor arr_elem_conv = *(LDKChannelMonitor*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKDecodeError_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKDecodeError *ret = MALLOC(sizeof(LDKDecodeError), "LDKDecodeError");
 	ret->inner = NULL;
@@ -2726,6 +3059,21 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1u64_1arr_1inf
 	LDKCVecTempl_u64 *vec = (LDKCVecTempl_u64*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(uint64_t));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1u64_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_u64 *ret = MALLOC(sizeof(LDKCVecTempl_u64), "LDKCVecTempl_u64");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(uint64_t) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			ret->data[i] = java_elems[i];
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKQueryShortChannelIds_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKQueryShortChannelIds *ret = MALLOC(sizeof(LDKQueryShortChannelIds), "LDKQueryShortChannelIds");
 	ret->inner = NULL;
@@ -2750,17 +3098,93 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateAddHTLC
 	LDKCVecTempl_UpdateAddHTLC *vec = (LDKCVecTempl_UpdateAddHTLC*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKUpdateAddHTLC));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateAddHTLC_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_UpdateAddHTLC *ret = MALLOC(sizeof(LDKCVecTempl_UpdateAddHTLC), "LDKCVecTempl_UpdateAddHTLC");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKUpdateAddHTLC) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKUpdateAddHTLC arr_elem_conv = *(LDKUpdateAddHTLC*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFulfillHTLC_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_UpdateFulfillHTLC *vec = (LDKCVecTempl_UpdateFulfillHTLC*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKUpdateFulfillHTLC));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFulfillHTLC_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_UpdateFulfillHTLC *ret = MALLOC(sizeof(LDKCVecTempl_UpdateFulfillHTLC), "LDKCVecTempl_UpdateFulfillHTLC");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKUpdateFulfillHTLC) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKUpdateFulfillHTLC arr_elem_conv = *(LDKUpdateFulfillHTLC*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailHTLC_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_UpdateFailHTLC *vec = (LDKCVecTempl_UpdateFailHTLC*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKUpdateFailHTLC));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailHTLC_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_UpdateFailHTLC *ret = MALLOC(sizeof(LDKCVecTempl_UpdateFailHTLC), "LDKCVecTempl_UpdateFailHTLC");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKUpdateFailHTLC) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKUpdateFailHTLC arr_elem_conv = *(LDKUpdateFailHTLC*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailMalformedHTLC_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_UpdateFailMalformedHTLC *vec = (LDKCVecTempl_UpdateFailMalformedHTLC*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKUpdateFailMalformedHTLC));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailMalformedHTLC_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_UpdateFailMalformedHTLC *ret = MALLOC(sizeof(LDKCVecTempl_UpdateFailMalformedHTLC), "LDKCVecTempl_UpdateFailMalformedHTLC");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKUpdateFailMalformedHTLC) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKUpdateFailMalformedHTLC arr_elem_conv = *(LDKUpdateFailMalformedHTLC*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_boolLightningErrorZ*)arg)->result_ok;
@@ -2776,9 +3200,46 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C3TupleTempl_
 	LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate *vec = (LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C3TupleTempl_1ChannelAnnouncement_1_1ChannelUpdate_1_1ChannelUpdate_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate *ret = MALLOC(sizeof(LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate), "LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate arr_elem_conv = *(LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1NodeAnnouncement_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_NodeAnnouncement *vec = (LDKCVecTempl_NodeAnnouncement*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKNodeAnnouncement));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1NodeAnnouncement_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_NodeAnnouncement *ret = MALLOC(sizeof(LDKCVecTempl_NodeAnnouncement), "LDKCVecTempl_NodeAnnouncement");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKNodeAnnouncement) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKNodeAnnouncement arr_elem_conv = *(LDKNodeAnnouncement*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 typedef struct LDKRoutingMessageHandler_JCalls {
 	atomic_size_t refcnt;
@@ -3074,6 +3535,24 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1PublicKey_1ar
 	LDKCVecTempl_PublicKey *vec = (LDKCVecTempl_PublicKey*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKPublicKey));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1PublicKey_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_PublicKey *ret = MALLOC(sizeof(LDKCVecTempl_PublicKey), "LDKCVecTempl_PublicKey");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKPublicKey) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKPublicKey arr_elem_conv = *(LDKPublicKey*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg)->result_ok;
 }
@@ -3133,6 +3612,24 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_
 	LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature *vec = (LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKC2TupleTempl_HTLCOutputInCommitment__Signature));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1HTLCOutputInCommitment_1_1Signature_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature *ret = MALLOC(sizeof(LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature), "LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKC2TupleTempl_HTLCOutputInCommitment__Signature) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKC2TupleTempl_HTLCOutputInCommitment__Signature arr_elem_conv = *(LDKC2TupleTempl_HTLCOutputInCommitment__Signature*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRouteHop_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKRouteHop *ret = MALLOC(sizeof(LDKRouteHop), "LDKRouteHop");
 	ret->inner = NULL;
@@ -3142,9 +3639,46 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHop_1arr
 	LDKCVecTempl_RouteHop *vec = (LDKCVecTempl_RouteHop*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKRouteHop));
 }
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHop_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_RouteHop *ret = MALLOC(sizeof(LDKCVecTempl_RouteHop), "LDKCVecTempl_RouteHop");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKRouteHop) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKRouteHop arr_elem_conv = *(LDKRouteHop*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1CVecTempl_1RouteHop_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_CVecTempl_RouteHop *vec = (LDKCVecTempl_CVecTempl_RouteHop*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKCVecTempl_RouteHop));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1CVecTempl_1RouteHop_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_CVecTempl_RouteHop *ret = MALLOC(sizeof(LDKCVecTempl_CVecTempl_RouteHop), "LDKCVecTempl_CVecTempl_RouteHop");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKCVecTempl_RouteHop) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKCVecTempl_RouteHop arr_elem_conv = *(LDKCVecTempl_RouteHop*)arr_elem;
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKRouteHint_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKRouteHint *ret = MALLOC(sizeof(LDKRouteHint), "LDKRouteHint");
@@ -3174,6 +3708,25 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKNetworkGraph_1optional_1no
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHint_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_RouteHint *vec = (LDKCVecTempl_RouteHint*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKRouteHint));
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHint_1new(JNIEnv *env, jclass _b, jlongArray elems){
+	LDKCVecTempl_RouteHint *ret = MALLOC(sizeof(LDKCVecTempl_RouteHint), "LDKCVecTempl_RouteHint");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = malloc(sizeof(LDKRouteHint) * ret->datalen); // often freed by rust directly
+		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			jlong arr_elem = java_elems[i];
+			LDKRouteHint arr_elem_conv = *(LDKRouteHint*)arr_elem;
+			FREE((void*)arr_elem);
+			arr_elem_conv.is_owned = true;
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKLockedNetworkGraph_1optional_1none (JNIEnv * env, jclass _a) {
 	LDKLockedNetworkGraph *ret = MALLOC(sizeof(LDKLockedNetworkGraph), "LDKLockedNetworkGraph");

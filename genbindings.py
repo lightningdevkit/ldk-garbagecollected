@@ -184,10 +184,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 arr_len = ret_arr_len
             assert(ty_info.c_ty == "jbyteArray")
             if ty_info.rust_obj is not None:
-                arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n" + "(*_env)->GetByteArrayRegion (_env, """ + arr_name + ", 0, " + arr_len + ", " + arr_name + "_ref.data);"
+                arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n" + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_ref.data);"
                 arr_access = ("", ".data")
             else:
-                arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n" + "(*_env)->GetByteArrayRegion (_env, """ + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" + "unsigned char (*""" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
+                arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n" + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
                 arr_access = ("*", "")
             return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                 arg_conv = arg_conv,
@@ -220,7 +220,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             arg_conv_name = ty_info.var_name + "_conv",
                             ret_conv = ("CANT PASS TRAIT TO Java?", ""), ret_conv_name = "NO CONV POSSIBLE")
                     if ty_info.rust_obj != "LDKu8slice":
-                        # Don't bother free'ing slices passed in - we often pass them Rust -> Rust
+                        # Don't bother free'ing slices passed in - Rust doesn't auto-free the
+                        # underlying unlike Vecs, and it gives Java more freedom.
                         base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
                     if ty_info.rust_obj in opaque_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -476,7 +477,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_c.write("\t\tdefault: abort();\n")
         out_c.write("\t}\n}\n")
 
-
     def map_trait(struct_name, field_var_lines, trait_fn_lines):
         out_c.write("typedef struct " + struct_name + "_JCalls {\n")
         out_c.write("\tatomic_size_t refcnt;\n")
@@ -724,6 +724,7 @@ public class bindings {
 	public static native byte[] read_bytes(long ptr, long len);
 	public static native byte[] get_u8_slice_bytes(long slice_ptr);
 	public static native long bytes_to_u8_vec(byte[] bytes);
+	public static native long new_txpointer_copy_data(byte[] txdata);
 	public static native long vec_slice_len(long vec);
 	public static native long new_empty_slice_vec();
 
@@ -767,6 +768,14 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec (JNIEnv * _
 	vec->data = (uint8_t*)malloc(vec->datalen); // May be freed by rust, so don't track allocation
 	(*_env)->GetByteArrayRegion (_env, bytes, 0, vec->datalen, vec->data);
 	return (long)vec;
+}
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
+	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
+	txdata->datalen = (*env)->GetArrayLength(env, bytes);
+	txdata->data = (uint8_t*)malloc(txdata->datalen); // May be freed by rust, so don't track allocation
+	txdata->data_is_owned = true;
+	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
+	return (long)txdata;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env, jclass _a, jlong ptr) {
         // Check offsets of a few Vec types are all consistent as we're meant to be generic across types
@@ -830,7 +839,6 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
     union_enum_items = {}
     for line in in_h:
         if in_block_comment:
-            #out_java.write("\t" + line)
             if line.endswith("*/\n"):
                 in_block_comment = False
         elif cur_block_obj is not None:
@@ -845,6 +853,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                 is_unitary_enum = False
                 is_union_enum = False
                 is_union = False
+                is_tuple = False
                 trait_fn_lines = []
                 field_var_lines = []
 
@@ -856,7 +865,6 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                             in_block_comment = False
                     else:
                         struct_name_match = struct_name_regex.match(struct_line)
-                        vec_ty_match = line_indicates_vec_regex.match(struct_line)
                         if struct_name_match is not None:
                             struct_name = struct_name_match.group(3)
                             if struct_name_match.group(1) == "enum":
@@ -870,8 +878,11 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                             is_opaque = True
                         elif line_indicates_result_regex.match(struct_line):
                             is_result = True
-                        elif vec_ty_match is not None and struct_name.startswith("LDKCVecTempl_"):
+                        vec_ty_match = line_indicates_vec_regex.match(struct_line)
+                        if vec_ty_match is not None and struct_name.startswith("LDKCVecTempl_"):
                             vec_ty = vec_ty_match.group(1)
+                        elif struct_name.startswith("LDKC2TupleTempl_") or struct_name.startswith("LDKC3TupleTempl_"):
+                            is_tuple = True
                         trait_fn_match = line_indicates_trait_regex.match(struct_line)
                         if trait_fn_match is not None:
                             trait_fn_lines.append(trait_fn_match)
@@ -899,11 +910,60 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                     out_c.write("}\n")
                 elif is_result:
                     result_templ_structs.add(struct_name)
+                elif is_tuple:
+                    out_java.write("\tpublic static native long " + struct_name + "_new(")
+                    out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new(JNIEnv *_env, jclass _b")
+                    for idx, line in enumerate(field_lines):
+                        if idx != 0 and idx < len(field_lines) - 2:
+                            ty_info = java_c_types(line.strip(';'), None)
+                            if idx != 1:
+                                out_java.write(", ")
+                            e = chr(ord('a') + idx - 1)
+                            out_java.write(ty_info.java_ty + " " + e)
+                            out_c.write(", " + ty_info.c_ty + " " + e)
+                    out_java.write(");\n")
+                    out_c.write(") {\n")
+                    out_c.write("\t" + struct_name + "* ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
+                    for idx, line in enumerate(field_lines):
+                        if idx != 0 and idx < len(field_lines) - 2:
+                            ty_info = map_type(line.strip(';'), False, None, False)
+                            e = chr(ord('a') + idx - 1)
+                            if ty_info.arg_conv is not None:
+                                out_c.write("\t" + ty_info.arg_conv.replace("\n", "\n\t"))
+                                out_c.write("\n\tret->" + e + " = " + ty_info.arg_conv_name + ";\n")
+                            else:
+                                out_c.write("\tret->" + e + " = " + e + ";\n")
+                    out_c.write("\treturn (long)ret;\n")
+                    out_c.write("}\n")
                 elif vec_ty is not None:
                     out_java.write("\tpublic static native VecOrSliceDef " + struct_name + "_arr_info(long vec_ptr);\n")
                     out_c.write("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {\n")
                     out_c.write("\t" + struct_name + " *vec = (" + struct_name + "*)ptr;\n")
                     out_c.write("\treturn (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(" + vec_ty + "));\n")
+                    out_c.write("}\n")
+
+                    ty_info = map_type(vec_ty + " arr_elem", False, None, False)
+                    out_java.write("\tpublic static native long " + struct_name + "_new(" + ty_info.java_ty + "[] elems);\n")
+                    out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new(JNIEnv *env, jclass _b, j" + ty_info.java_ty + "Array elems){\n")
+                    out_c.write("\t" + struct_name + " *ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
+                    out_c.write("\tret->datalen = (*env)->GetArrayLength(env, elems);\n")
+                    out_c.write("\tif (ret->datalen == 0) {\n")
+                    out_c.write("\t\tret->data = NULL;\n")
+                    out_c.write("\t} else {\n")
+                    out_c.write("\t\tret->data = malloc(sizeof(" + vec_ty + ") * ret->datalen); // often freed by rust directly\n")
+                    assert len(ty_info.java_fn_ty_arg) == 1 # ie we're a primitive of some form
+                    out_c.write("\t\t" + ty_info.c_ty + " *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);\n")
+                    out_c.write("\t\tfor (size_t i = 0; i < ret->datalen; i++) {\n")
+                    if ty_info.arg_conv is not None:
+                        out_c.write("\t\t\t" + ty_info.c_ty + " arr_elem = java_elems[i];\n")
+                        out_c.write("\t\t\t" + ty_info.arg_conv.replace("\n", "\n\t\t\t") + "\n")
+                        out_c.write("\t\t\tret->data[i] = " + ty_info.arg_conv_name + ";\n")
+                    else:
+                        out_c.write("\t\t\tret->data[i] = java_elems[i];\n")
+                    out_c.write("\t\t}\n")
+                    out_c.write("\t\t(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);\n")
+                    out_c.write("\t}\n")
+                    out_c.write("\treturn (long)ret;\n")
                     out_c.write("}\n")
                 elif is_union_enum:
                     assert(struct_name.endswith("_Tag"))
