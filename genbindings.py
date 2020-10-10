@@ -657,33 +657,48 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_c.write("""#include <assert.h>
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
 
+// Running a leak check across all the allocations and frees of the JDK is a mess,
+// so instead we implement our own naive leak checker here, relying on the -wrap
+// linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
+// and free'd in Rust or C across the generated bindings shared library.
 #include <threads.h>
+#include <execinfo.h>
+#include <unistd.h>
 static mtx_t allocation_mtx;
 
 void __attribute__((constructor)) init_mtx() {
 	DO_ASSERT(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);
 }
 
+#define BT_MAX 128
 typedef struct allocation {
 	struct allocation* next;
 	void* ptr;
 	const char* struct_name;
+	void* bt[BT_MAX];
+	int bt_len;
 } allocation;
 static allocation* allocation_ll = NULL;
 
-static void* MALLOC(size_t len, const char* struct_name) {
-	void* res = malloc(len);
-	allocation* new_alloc = malloc(sizeof(allocation));
+void* __real_malloc(size_t len);
+void* __real_calloc(size_t nmemb, size_t len);
+static void new_allocation(void* res, const char* struct_name) {
+	allocation* new_alloc = __real_malloc(sizeof(allocation));
 	new_alloc->ptr = res;
 	new_alloc->struct_name = struct_name;
+	new_alloc->bt_len = backtrace(new_alloc->bt, BT_MAX);
 	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
 	new_alloc->next = allocation_ll;
 	allocation_ll = new_alloc;
 	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
+}
+static void* MALLOC(size_t len, const char* struct_name) {
+	void* res = __real_malloc(len);
+	new_allocation(res, struct_name);
 	return res;
 }
-
-static void FREE(void* ptr) {
+void __real_free(void* ptr);
+static void alloc_freed(void* ptr) {
 	allocation* p = NULL;
 	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
 	allocation* it = allocation_ll;
@@ -691,12 +706,46 @@ static void FREE(void* ptr) {
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
 	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
 	DO_ASSERT(it->ptr == ptr);
-	free(it);
-	free(ptr);
+	__real_free(it);
+}
+static void FREE(void* ptr) {
+	alloc_freed(ptr);
+	__real_free(ptr);
+}
+
+void* __wrap_malloc(size_t len) {
+	void* res = __real_malloc(len);
+	new_allocation(res, "malloc call");
+	return res;
+}
+void* __wrap_calloc(size_t nmemb, size_t len) {
+	void* res = __real_calloc(nmemb, len);
+	new_allocation(res, "calloc call");
+	return res;
+}
+void __wrap_free(void* ptr) {
+	alloc_freed(ptr);
+	__real_free(ptr);
+}
+
+void* __real_realloc(void* ptr, size_t newlen);
+void* __wrap_realloc(void* ptr, size_t len) {
+	alloc_freed(ptr);
+	void* res = __real_realloc(ptr, len);
+	new_allocation(res, "realloc call");
+	return res;
+}
+void __wrap_reallocarray(void* ptr, size_t new_sz) {
+	// Rust doesn't seem to use reallocarray currently
+	assert(false);
 }
 
 void __attribute__((destructor)) check_leaks() {
-	for (allocation* a = allocation_ll; a != NULL; a = a->next) { fprintf(stderr, "%s %p remains\\n", a->struct_name, a->ptr); }
+	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
+                fprintf(stderr, "%s %p remains:\\n", a->struct_name, a->ptr);
+		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
+                fprintf(stderr, "\\n\\n");
+	}
 	DO_ASSERT(allocation_ll == NULL);
 }
 """)
@@ -765,14 +814,14 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes (J
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec (JNIEnv * _env, jclass _b, jbyteArray bytes) {
 	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)MALLOC(sizeof(LDKCVec_u8Z), "LDKCVec_u8");
 	vec->datalen = (*_env)->GetArrayLength(_env, bytes);
-	vec->data = (uint8_t*)malloc(vec->datalen); // May be freed by rust, so don't track allocation
+	vec->data = (uint8_t*)MALLOC(vec->datalen, "LDKCVec_u8Z Bytes");
 	(*_env)->GetByteArrayRegion (_env, bytes, 0, vec->datalen, vec->data);
 	return (long)vec;
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
 	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
 	txdata->datalen = (*env)->GetArrayLength(env, bytes);
-	txdata->data = (uint8_t*)malloc(txdata->datalen); // May be freed by rust, so don't track allocation
+	txdata->data = (uint8_t*)MALLOC(txdata->datalen, "Tx Data Bytes");
 	txdata->data_is_owned = true;
 	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
 	return (long)txdata;
@@ -950,7 +999,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                     out_c.write("\tif (ret->datalen == 0) {\n")
                     out_c.write("\t\tret->data = NULL;\n")
                     out_c.write("\t} else {\n")
-                    out_c.write("\t\tret->data = malloc(sizeof(" + vec_ty + ") * ret->datalen); // often freed by rust directly\n")
+                    out_c.write("\t\tret->data = MALLOC(sizeof(" + vec_ty + ") * ret->datalen, \"" + struct_name + " Data\");\n")
                     assert len(ty_info.java_fn_ty_arg) == 1 # ie we're a primitive of some form
                     out_c.write("\t\t" + ty_info.c_ty + " *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);\n")
                     out_c.write("\t\tfor (size_t i = 0; i < ret->datalen; i++) {\n")
