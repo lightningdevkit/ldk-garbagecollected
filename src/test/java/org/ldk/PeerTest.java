@@ -1,10 +1,15 @@
 package org.ldk;
 
+import org.bitcoinj.core.*;
+import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PeerTest {
@@ -23,6 +28,7 @@ public class PeerTest {
         final long route_handler;
         final long message_handler;
         final long peer_manager;
+        HashMap<byte[], Long> monitors;
 
         Peer(byte seed) {
             logger = bindings.LDKLogger_new((String arg)-> System.out.println(seed + ": " + arg));
@@ -30,14 +36,24 @@ public class PeerTest {
             this.tx_broadcaster = bindings.LDKBroadcasterInterface_new(tx -> {
                 // We should broadcast
             });
+            this.monitors = new HashMap<>();
             this.chain_monitor = bindings.LDKWatch_new(new bindings.LDKWatch() {
                 @Override
                 public long watch_channel(long funding_txo, long monitor) {
+                    synchronized (monitors) {
+                        assert monitors.put(bindings.OutPoint_get_txid(funding_txo), monitor) == null;
+                    }
+                    bindings.OutPoint_free(funding_txo);
                     return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
                 }
 
                 @Override
                 public long update_channel(long funding_txo, long update) {
+                    synchronized (monitors) {
+                        bindings.ChannelMonitor_update_monitor(monitors.get(bindings.OutPoint_get_txid(funding_txo)), update, tx_broadcaster, logger);
+                    }
+                    bindings.OutPoint_free(funding_txo);
+                    bindings.ChannelMonitorUpdate_free(update);
                     return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
                 }
 
@@ -65,6 +81,21 @@ public class PeerTest {
             this.peer_manager = bindings.PeerManager_new(message_handler, bindings.LDKKeysInterface_call_get_node_secret(keys_interface), random_data, logger);
         }
 
+        void connect_block(Block b, Transaction t) {
+            byte[] header = b.bitcoinSerialize();
+            long txn = bindings.LDKCVecTempl_C2TupleTempl_usize__Transaction_new(
+                    new long[] {bindings.C2Tuple_usizeTransactionZ_new(1, bindings.new_txpointer_copy_data(t.bitcoinSerialize()))});
+            bindings.ChannelManager_block_connected(chan_manager, header, txn, 1);
+            synchronized (monitors) {
+                for (Long mon : monitors.values()) {
+                    txn = bindings.LDKCVecTempl_C2TupleTempl_usize__Transaction_new(
+                            new long[] {bindings.C2Tuple_usizeTransactionZ_new(1, bindings.new_txpointer_copy_data(t.bitcoinSerialize()))});
+                    long ret = bindings.ChannelMonitor_block_connected(mon, header, txn, 1, tx_broadcaster, fee_estimator, logger);
+                    bindings.CVec_C2Tuple_TxidCVec_TxOutZZZ_free(ret);
+                }
+            }
+        }
+
         void free() {
             // Note that we can't rely on finalizer order, so don't bother trying to rely on it here
             bindings.Logger_free(logger);
@@ -80,6 +111,11 @@ public class PeerTest {
             bindings.RoutingMessageHandler_free(route_handler);
             //MessageHandler was actually moved into the route_handler!: bindings.MessageHandler_free(message_handler);
             bindings.PeerManager_free(peer_manager);
+            synchronized (monitors) {
+                for (Long mon : monitors.values()) {
+                    bindings.ChannelMonitor_free(mon);
+                }
+            }
         }
     }
 
@@ -93,7 +129,7 @@ public class PeerTest {
             assert bindings.LDKCResult_boolPeerHandleErrorZ_result_ok(res);
             //assert bindings.deref_bool(bindings.LDKCResult_boolPeerHandleErrorZ_get_inner(res));
             bindings.CResult_boolPeerHandleErrorZ_free(res);
-            bindings.free_heap_ptr(arr_vec);
+            bindings.CVec_u8Z_free(arr_vec);
         });
         thread.start();
         list.add(thread);
@@ -141,7 +177,7 @@ public class PeerTest {
 
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, bindings.ChannelManager_get_our_node_id(peer2.chan_manager), 10000, 1000, 42, bindings.LDKUserConfig_optional_none());
+        long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, bindings.ChannelManager_get_our_node_id(peer2.chan_manager), 10000, 1000, 42, 0);
         assert bindings.LDKCResult_NoneAPIErrorZ_result_ok(cc_res);
         bindings.CResult_NoneAPIErrorZ_free(cc_res);
 
@@ -162,17 +198,38 @@ public class PeerTest {
         byte[] chan_id = ((bindings.LDKEvent.FundingGenerationReady)event).temporary_channel_id;
         bindings.CVec_EventZ_free(events);
 
-        //bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, bindings.OutPoint);
+        Transaction funding = new Transaction(NetworkParameters.fromID(NetworkParameters.ID_MAINNET));
+        funding.addInput(new TransactionInput(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), funding, new byte[0]));
+        //funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
+        funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
+        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, bindings.OutPoint_new(funding.getTxId().getBytes(), (short) 0));
+
+        bindings.PeerManager_process_events(peer1.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+        bindings.PeerManager_process_events(peer2.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+
+        events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events);
+        events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
+        assert events_arr_info.datalen == 1;
+        event = bindings.LDKEvent_ref_from_ptr(events_arr_info.dataptr);
+        assert event instanceof bindings.LDKEvent.FundingBroadcastSafe;
+        bindings.CVec_EventZ_free(events);
+
+        Block b = new Block(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), 2, Sha256Hash.ZERO_HASH, Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
+        peer1.connect_block(b, funding);
+        peer2.connect_block(b, funding);
 
         long peer1_chans = bindings.ChannelManager_list_channels(peer1.chan_manager);
         long peer2_chans = bindings.ChannelManager_list_channels(peer2.chan_manager);
         assert bindings.vec_slice_len(peer1_chans) == 1;
         assert bindings.vec_slice_len(peer2_chans) == 1;
-        long peer_1_chan_info_ptr = bindings.LDKCVecTempl_ChannelDetails_arr_info(peer1_chans).dataptr;
-        assert bindings.ChannelDetails_get_channel_value_satoshis(peer_1_chan_info_ptr) == 10000;
-        assert !bindings.ChannelDetails_get_is_live(peer_1_chan_info_ptr);
-        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer_1_chan_info_ptr), chan_id);
-        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(bindings.LDKCVecTempl_ChannelDetails_arr_info(peer2_chans).dataptr), chan_id);
+        long[] peer_1_chan_info = bindings.LDKCVecTempl_ChannelDetails_arr_info(peer1_chans);
+        assert peer_1_chan_info.length == 1;
+        assert bindings.ChannelDetails_get_channel_value_satoshis(peer_1_chan_info[0]) == 10000;
+        assert !bindings.ChannelDetails_get_is_live(peer_1_chan_info[0]);
+        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer_1_chan_info[0]), funding.getTxId().getBytes());
+        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(bindings.LDKCVecTempl_ChannelDetails_arr_info(peer2_chans)[0]), funding.getTxId().getBytes());
         bindings.CVec_ChannelDetailsZ_free(peer1_chans);
         bindings.CVec_ChannelDetailsZ_free(peer2_chans);
 

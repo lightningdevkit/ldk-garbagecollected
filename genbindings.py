@@ -200,6 +200,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             # If we have a parameter name, print it (noting that it may indicate its a pointer)
             if ty_info.rust_obj is not None:
                 assert(ty_info.passed_as_ptr)
+                opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
+                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
+                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);"
                 if not ty_info.is_ptr:
                     if ty_info.rust_obj in unitary_enums:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -207,6 +210,19 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             arg_conv_name = ty_info.var_name + "_conv",
                             ret_conv = ("jclass " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_to_java(_env, ", ");"),
                             ret_conv_name = ty_info.var_name + "_conv")
+                    if ty_info.rust_obj in opaque_structs:
+                        ret_conv_suf = ";\nDO_ASSERT((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
+                        ret_conv_suf = ret_conv_suf + "DO_ASSERT((((long)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
+                        ret_conv_suf = ret_conv_suf + "long " + ty_info.var_name + "_ref;\n"
+                        ret_conv_suf = ret_conv_suf + "if (" + ty_info.var_name + "_var.is_owned) {\n"
+                        ret_conv_suf = ret_conv_suf + "\t" + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner | 1;\n"
+                        ret_conv_suf = ret_conv_suf + "} else {\n"
+                        ret_conv_suf = ret_conv_suf + "\t" + ty_info.var_name + "_ref = (long)&" + ty_info.var_name + "_var;\n"
+                        ret_conv_suf = ret_conv_suf + "}"
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv",
+                            ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", ret_conv_suf),
+                            ret_conv_name = ty_info.var_name + "_ref")
                     base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";";
                     if ty_info.rust_obj in trait_structs:
                         if not is_free:
@@ -223,17 +239,15 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                         # underlying unlike Vecs, and it gives Java more freedom.
                         base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
-                    if ty_info.rust_obj in opaque_structs:
-                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            arg_conv = base_conv + "\n" + ty_info.var_name + "_conv.is_owned = true;",
-                            arg_conv_name = ty_info.var_name + "_conv",
-                            ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref")
-
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv",
                         ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref")
                 else:
                     assert(not is_free)
+                    if ty_info.rust_obj in opaque_structs:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv",
+                            ret_conv = None, ret_conv_name = None) # its a pointer, no conv needed
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                         arg_conv_name = ty_info.var_name + "_conv",
@@ -275,8 +289,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         # any _free function.
                         # To avoid any issues, we first assert that the incoming object is non-ref.
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";\nDO_ASSERT(ret->is_owned);\nret->is_owned = false;"),
-                            ret_conv_name = "(long)ret",
+                            ret_conv = (ty_info.rust_obj + " ret = ", ";\nDO_ASSERT(ret.is_owned);"),
+                            ret_conv_name = "((long)ret.inner) | 1",
                             arg_conv = None, arg_conv_name = None)
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -468,7 +482,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             if field_map.ret_conv is not None:
                                 out_c.write("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t").replace("_env", "env"))
                                 out_c.write("obj->" + camel_to_snake(var_name) + "." + field_map.arg_name)
-                                out_c.write(field_map.ret_conv[1] + "\n")
+                                out_c.write(field_map.ret_conv[1].replace("\n", "\n\t\t\t") + "\n")
                                 c_params_text = c_params_text + ", " + field_map.ret_conv_name
                             else:
                                 c_params_text = c_params_text + ", obj->" + camel_to_snake(var_name) + "." + field_map.arg_name
@@ -547,7 +561,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         out_c.write(", " + arg_info.arg_name)
                 out_c.write(");\n");
                 if ret_ty_info.c_ty.endswith("Array"):
-                    out_c.write("\tLDKThirtyTwoBytes ret;\n")
+                    out_c.write("\t" + ret_ty_info.rust_obj + " ret;\n")
                     out_c.write("\t(*env)->GetByteArrayRegion(env, jret, 0, " + ret_ty_info.arr_len + ", ret.data);\n")
                     out_c.write("\treturn ret;\n")
 
@@ -742,9 +756,9 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 
 void __attribute__((destructor)) check_leaks() {
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-                fprintf(stderr, "%s %p remains:\\n", a->struct_name, a->ptr);
+		fprintf(stderr, "%s %p remains:\\n", a->struct_name, a->ptr);
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
-                fprintf(stderr, "\\n\\n");
+		fprintf(stderr, "\\n\\n");
 	}
 	DO_ASSERT(allocation_ll == NULL);
 }
@@ -951,12 +965,6 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
                 if is_opaque:
                     opaque_structs.add(struct_name)
-                    out_java.write("\tpublic static native long " + struct_name + "_optional_none();\n")
-                    out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1optional_1none (JNIEnv * env, jclass _a) {\n")
-                    out_c.write("\t" + struct_name + " *ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-                    out_c.write("\tret->inner = NULL;\n")
-                    out_c.write("\treturn (long)ret;\n")
-                    out_c.write("}\n")
                 elif is_result:
                     result_templ_structs.add(struct_name)
                 elif is_tuple:
@@ -985,10 +993,24 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                     out_c.write("\treturn (long)ret;\n")
                     out_c.write("}\n")
                 elif vec_ty is not None:
-                    out_java.write("\tpublic static native VecOrSliceDef " + struct_name + "_arr_info(long vec_ptr);\n")
-                    out_c.write("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {\n")
+                    if vec_ty in opaque_structs:
+                        out_java.write("\tpublic static native long[] " + struct_name + "_arr_info(long vec_ptr);\n")
+                        out_c.write("JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {\n")
+                    else:
+                        out_java.write("\tpublic static native VecOrSliceDef " + struct_name + "_arr_info(long vec_ptr);\n")
+                        out_c.write("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {\n")
                     out_c.write("\t" + struct_name + " *vec = (" + struct_name + "*)ptr;\n")
-                    out_c.write("\treturn (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(" + vec_ty + "));\n")
+                    if vec_ty in opaque_structs:
+                        out_c.write("\tjlongArray ret = (*env)->NewLongArray(env, vec->datalen);\n")
+                        out_c.write("\tjlong *ret_elems = (*env)->GetPrimitiveArrayCritical(env, ret, NULL);\n")
+                        out_c.write("\tfor (size_t i = 0; i < vec->datalen; i++) {\n")
+                        out_c.write("\t\tDO_ASSERT((((long)vec->data[i].inner) & 1) == 0);\n")
+                        out_c.write("\t\tret_elems[i] = (long)vec->data[i].inner | (vec->data[i].is_owned ? 1 : 0);\n")
+                        out_c.write("\t}\n")
+                        out_c.write("\t(*env)->ReleasePrimitiveArrayCritical(env, ret, ret_elems, 0);\n")
+                        out_c.write("\treturn ret;\n")
+                    else:
+                        out_c.write("\treturn (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(" + vec_ty + "));\n")
                     out_c.write("}\n")
 
                     ty_info = map_type(vec_ty + " arr_elem", False, None, False)

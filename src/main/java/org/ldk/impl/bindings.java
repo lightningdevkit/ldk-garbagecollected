@@ -22,6 +22,7 @@ public class bindings {
 	public static native byte[] read_bytes(long ptr, long len);
 	public static native byte[] get_u8_slice_bytes(long slice_ptr);
 	public static native long bytes_to_u8_vec(byte[] bytes);
+	public static native long new_txpointer_copy_data(byte[] txdata);
 	public static native long vec_slice_len(long vec);
 	public static native long new_empty_slice_vec();
 
@@ -38,10 +39,8 @@ public class bindings {
 	public static native long LDKC2TupleTempl_usize__Transaction_new(long a, long b);
 	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
 	public static native long LDKCResult_NoneChannelMonitorUpdateErrZ_get_inner(long arg);
-	public static native long LDKMonitorUpdateError_optional_none();
 	public static native boolean LDKCResult_NoneMonitorUpdateErrorZ_result_ok(long arg);
 	public static native long LDKCResult_NoneMonitorUpdateErrorZ_get_inner(long arg);
-	public static native long LDKOutPoint_optional_none();
 	public static native long LDKC2TupleTempl_OutPoint__CVec_u8Z_new(long a, long b);
 	public static native VecOrSliceDef LDKCVecTempl_TxOut_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_TxOut_new(long[] elems);
@@ -83,16 +82,11 @@ public class bindings {
 	public static native LDKAPIError LDKAPIError_ref_from_ptr(long ptr);
 	public static native boolean LDKCResult_NoneAPIErrorZ_result_ok(long arg);
 	public static native long LDKCResult_NoneAPIErrorZ_get_inner(long arg);
-	public static native long LDKPaymentSendFailure_optional_none();
 	public static native boolean LDKCResult_NonePaymentSendFailureZ_result_ok(long arg);
 	public static native long LDKCResult_NonePaymentSendFailureZ_get_inner(long arg);
-	public static native long LDKChannelAnnouncement_optional_none();
-	public static native long LDKChannelUpdate_optional_none();
 	public static native long LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate_new(long a, long b, long c);
-	public static native long LDKPeerHandleError_optional_none();
 	public static native boolean LDKCResult_NonePeerHandleErrorZ_result_ok(long arg);
 	public static native long LDKCResult_NonePeerHandleErrorZ_get_inner(long arg);
-	public static native long LDKHTLCOutputInCommitment_optional_none();
 	public static native long LDKC2TupleTempl_HTLCOutputInCommitment__Signature_new(long a, long b);
 	public static class LDKSpendableOutputDescriptor {
 		private LDKSpendableOutputDescriptor() {}
@@ -163,19 +157,6 @@ public class bindings {
 	}
 	static { LDKEvent.init(); }
 	public static native LDKEvent LDKEvent_ref_from_ptr(long ptr);
-	public static native long LDKAcceptChannel_optional_none();
-	public static native long LDKOpenChannel_optional_none();
-	public static native long LDKFundingCreated_optional_none();
-	public static native long LDKFundingSigned_optional_none();
-	public static native long LDKFundingLocked_optional_none();
-	public static native long LDKAnnouncementSignatures_optional_none();
-	public static native long LDKCommitmentUpdate_optional_none();
-	public static native long LDKRevokeAndACK_optional_none();
-	public static native long LDKClosingSigned_optional_none();
-	public static native long LDKShutdown_optional_none();
-	public static native long LDKChannelReestablish_optional_none();
-	public static native long LDKNodeAnnouncement_optional_none();
-	public static native long LDKErrorMessage_optional_none();
 	public static class LDKErrorAction {
 		private LDKErrorAction() {}
 		public final static class DisconnectPeer extends LDKErrorAction {
@@ -318,10 +299,6 @@ public class bindings {
 	}
 	public static native long LDKLogger_new(LDKLogger impl);
 	public static native LDKLogger LDKLogger_get_obj_from_jcalls(long val);
-	public static native long LDKChannelHandshakeConfig_optional_none();
-	public static native long LDKChannelHandshakeLimits_optional_none();
-	public static native long LDKChannelConfig_optional_none();
-	public static native long LDKUserConfig_optional_none();
 	public static native boolean LDKCResult_TxOutAccessErrorZ_result_ok(long arg);
 	public static native long LDKCResult_TxOutAccessErrorZ_get_inner(long arg);
 	public interface LDKAccess {
@@ -331,12 +308,8 @@ public class bindings {
 	public static native LDKAccess LDKAccess_get_obj_from_jcalls(long val);
 	// LDKCResult_TxOutAccessErrorZ LDKAccess_call_get_utxo LDKAccess* arg, const uint8_t (*genesis_hash)[32], uint64_t short_channel_id
 	public static native long LDKAccess_call_get_utxo(long arg, byte[] genesis_hash, long short_channel_id);
-	public static native long LDKChannelPublicKeys_optional_none();
-	public static native long LDKPreCalculatedTxCreationKeys_optional_none();
-	public static native VecOrSliceDef LDKCVecTempl_HTLCOutputInCommitment_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_HTLCOutputInCommitment_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_HTLCOutputInCommitment_new(long[] elems);
-	public static native long LDKHolderCommitmentTransaction_optional_none();
-	public static native long LDKUnsignedChannelAnnouncement_optional_none();
 	public interface LDKChannelKeys {
 		 long get_per_commitment_point(long idx);
 		 byte[] release_commitment_secret(long idx);
@@ -374,10 +347,7 @@ public class bindings {
 	public static native long LDKChannelKeys_call_sign_channel_announcement(long arg, long msg);
 	// void LDKChannelKeys_call_on_accept LDKChannelKeys* arg, const LDKChannelPublicKeys *channel_points, uint16_t counterparty_selected_contest_delay, uint16_t holder_selected_contest_delay
 	public static native void LDKChannelKeys_call_on_accept(long arg, long channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
-	public static native long LDKChannelMonitor_optional_none();
-	public static native long LDKChannelMonitorUpdate_optional_none();
-	public static native long LDKMonitorEvent_optional_none();
-	public static native VecOrSliceDef LDKCVecTempl_MonitorEvent_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_MonitorEvent_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_MonitorEvent_new(long[] elems);
 	public interface LDKWatch {
 		 long watch_channel(long funding_txo, long monitor);
@@ -416,10 +386,8 @@ public class bindings {
 	public static native LDKFeeEstimator LDKFeeEstimator_get_obj_from_jcalls(long val);
 	// uint32_t LDKFeeEstimator_call_get_est_sat_per_1000_weight LDKFeeEstimator* arg, LDKConfirmationTarget confirmation_target
 	public static native int LDKFeeEstimator_call_get_est_sat_per_1000_weight(long arg, LDKConfirmationTarget confirmation_target);
-	public static native long LDKChainMonitor_optional_none();
 	public static native VecOrSliceDef LDKCVecTempl_C2TupleTempl_usize__Transaction_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C2TupleTempl_usize__Transaction_new(long[] elems);
-	public static native long LDKHTLCUpdate_optional_none();
 	public static native VecOrSliceDef LDKCVecTempl_Transaction_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_Transaction_new(long[] elems);
 	public static native VecOrSliceDef LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut_arr_info(long vec_ptr);
@@ -443,14 +411,8 @@ public class bindings {
 	public static native long LDKKeysInterface_call_get_channel_keys(long arg, boolean inbound, long channel_value_satoshis);
 	// LDKThirtyTwoBytes LDKKeysInterface_call_get_secure_random_bytes LDKKeysInterface* arg
 	public static native byte[] LDKKeysInterface_call_get_secure_random_bytes(long arg);
-	public static native long LDKInMemoryChannelKeys_optional_none();
-	public static native long LDKKeysManager_optional_none();
-	public static native long LDKChannelManager_optional_none();
-	public static native long LDKChannelDetails_optional_none();
-	public static native long LDKInitFeatures_optional_none();
-	public static native VecOrSliceDef LDKCVecTempl_ChannelDetails_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_ChannelDetails_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_ChannelDetails_new(long[] elems);
-	public static native long LDKRoute_optional_none();
 	public static class LDKNetAddress {
 		private LDKNetAddress() {}
 		public final static class IPv4 extends LDKNetAddress {
@@ -481,13 +443,6 @@ public class bindings {
 	public static native LDKNetAddress LDKNetAddress_ref_from_ptr(long ptr);
 	public static native VecOrSliceDef LDKCVecTempl_NetAddress_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_NetAddress_new(long[] elems);
-	public static native long LDKUpdateAddHTLC_optional_none();
-	public static native long LDKUpdateFulfillHTLC_optional_none();
-	public static native long LDKUpdateFailHTLC_optional_none();
-	public static native long LDKUpdateFailMalformedHTLC_optional_none();
-	public static native long LDKCommitmentSigned_optional_none();
-	public static native long LDKUpdateFee_optional_none();
-	public static native long LDKInit_optional_none();
 	public interface LDKChannelMessageHandler {
 		 void handle_open_channel(long their_node_id, long their_features, long msg);
 		 void handle_accept_channel(long their_node_id, long their_features, long msg);
@@ -549,38 +504,23 @@ public class bindings {
 	public static native void LDKChannelMessageHandler_call_handle_channel_reestablish(long arg, long their_node_id, long msg);
 	// void LDKChannelMessageHandler_call_handle_error LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKErrorMessage *msg
 	public static native void LDKChannelMessageHandler_call_handle_error(long arg, long their_node_id, long msg);
-	public static native long LDKChannelManagerReadArgs_optional_none();
-	public static native VecOrSliceDef LDKCVecTempl_ChannelMonitor_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_ChannelMonitor_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_ChannelMonitor_new(long[] elems);
-	public static native long LDKDecodeError_optional_none();
-	public static native long LDKPing_optional_none();
-	public static native long LDKPong_optional_none();
-	public static native long LDKDataLossProtect_optional_none();
-	public static native long LDKUnsignedNodeAnnouncement_optional_none();
-	public static native long LDKNodeFeatures_optional_none();
-	public static native long LDKChannelFeatures_optional_none();
-	public static native long LDKUnsignedChannelUpdate_optional_none();
-	public static native long LDKQueryChannelRange_optional_none();
-	public static native long LDKReplyChannelRange_optional_none();
 	public static native VecOrSliceDef LDKCVecTempl_u64_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_u64_new(long[] elems);
-	public static native long LDKQueryShortChannelIds_optional_none();
-	public static native long LDKReplyShortChannelIdsEnd_optional_none();
-	public static native long LDKGossipTimestampFilter_optional_none();
-	public static native long LDKLightningError_optional_none();
-	public static native VecOrSliceDef LDKCVecTempl_UpdateAddHTLC_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_UpdateAddHTLC_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_UpdateAddHTLC_new(long[] elems);
-	public static native VecOrSliceDef LDKCVecTempl_UpdateFulfillHTLC_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_UpdateFulfillHTLC_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_UpdateFulfillHTLC_new(long[] elems);
-	public static native VecOrSliceDef LDKCVecTempl_UpdateFailHTLC_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_UpdateFailHTLC_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_UpdateFailHTLC_new(long[] elems);
-	public static native VecOrSliceDef LDKCVecTempl_UpdateFailMalformedHTLC_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_UpdateFailMalformedHTLC_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_UpdateFailMalformedHTLC_new(long[] elems);
 	public static native boolean LDKCResult_boolLightningErrorZ_result_ok(long arg);
 	public static native long LDKCResult_boolLightningErrorZ_get_inner(long arg);
 	public static native VecOrSliceDef LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate_new(long[] elems);
-	public static native VecOrSliceDef LDKCVecTempl_NodeAnnouncement_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_NodeAnnouncement_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_NodeAnnouncement_new(long[] elems);
 	public interface LDKRoutingMessageHandler {
 		 long handle_node_announcement(long msg);
@@ -607,7 +547,6 @@ public class bindings {
 	public static native long LDKRoutingMessageHandler_call_get_next_node_announcements(long arg, long starting_point, byte batch_amount);
 	// bool LDKRoutingMessageHandler_call_should_request_full_sync LDKRoutingMessageHandler* arg, LDKPublicKey node_id
 	public static native boolean LDKRoutingMessageHandler_call_should_request_full_sync(long arg, long node_id);
-	public static native long LDKMessageHandler_optional_none();
 	public interface LDKSocketDescriptor {
 		 long send_data(long data, boolean resume_read);
 		 void disconnect_socket();
@@ -622,7 +561,6 @@ public class bindings {
 	public static native void LDKSocketDescriptor_call_disconnect_socket(long arg);
 	// uint64_t LDKSocketDescriptor_call_hash LDKSocketDescriptor* arg
 	public static native long LDKSocketDescriptor_call_hash(long arg);
-	public static native long LDKPeerManager_optional_none();
 	public static native VecOrSliceDef LDKCVecTempl_PublicKey_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_PublicKey_new(long[] elems);
 	public static native boolean LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(long arg);
@@ -633,29 +571,18 @@ public class bindings {
 	public static native long LDKCResult_SecretKeySecpErrorZ_get_inner(long arg);
 	public static native boolean LDKCResult_PublicKeySecpErrorZ_result_ok(long arg);
 	public static native long LDKCResult_PublicKeySecpErrorZ_get_inner(long arg);
-	public static native long LDKTxCreationKeys_optional_none();
 	public static native boolean LDKCResult_TxCreationKeysSecpErrorZ_result_ok(long arg);
 	public static native long LDKCResult_TxCreationKeysSecpErrorZ_get_inner(long arg);
 	public static native VecOrSliceDef LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature_new(long[] elems);
-	public static native long LDKRouteHop_optional_none();
-	public static native VecOrSliceDef LDKCVecTempl_RouteHop_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_RouteHop_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_RouteHop_new(long[] elems);
 	public static native VecOrSliceDef LDKCVecTempl_CVecTempl_RouteHop_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_CVecTempl_RouteHop_new(long[] elems);
-	public static native long LDKRouteHint_optional_none();
-	public static native long LDKRoutingFees_optional_none();
 	public static native boolean LDKCResult_RouteLightningErrorZ_result_ok(long arg);
 	public static native long LDKCResult_RouteLightningErrorZ_get_inner(long arg);
-	public static native long LDKNetworkGraph_optional_none();
-	public static native VecOrSliceDef LDKCVecTempl_RouteHint_arr_info(long vec_ptr);
+	public static native long[] LDKCVecTempl_RouteHint_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_RouteHint_new(long[] elems);
-	public static native long LDKLockedNetworkGraph_optional_none();
-	public static native long LDKNetGraphMsgHandler_optional_none();
-	public static native long LDKDirectionalChannelInfo_optional_none();
-	public static native long LDKChannelInfo_optional_none();
-	public static native long LDKNodeAnnouncementInfo_optional_none();
-	public static native long LDKNodeInfo_optional_none();
 	// extern const void (*C2Tuple_HTLCOutputInCommitmentSignatureZ_free)(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ);
 	public static native void C2Tuple_HTLCOutputInCommitmentSignatureZ_free(long arg);
 	// extern const void (*C2Tuple_OutPointScriptZ_free)(LDKC2Tuple_OutPointScriptZ);
