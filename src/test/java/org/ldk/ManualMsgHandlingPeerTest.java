@@ -12,97 +12,97 @@ public class ManualMsgHandlingPeerTest {
         });
         long chan_handler = bindings.LDKChannelMessageHandler_new(new bindings.LDKChannelMessageHandler() {
             @Override
-            public void handle_open_channel(long their_node_id, long their_features, long msg) {
+            public void handle_open_channel(byte[] their_node_id, long their_features, long msg) {
 
             }
 
             @Override
-            public void handle_accept_channel(long their_node_id, long their_features, long msg) {
+            public void handle_accept_channel(byte[] their_node_id, long their_features, long msg) {
 
             }
 
             @Override
-            public void handle_funding_created(long their_node_id, long msg) {
+            public void handle_funding_created(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_funding_signed(long their_node_id, long msg) {
+            public void handle_funding_signed(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_funding_locked(long their_node_id, long msg) {
+            public void handle_funding_locked(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_shutdown(long their_node_id, long msg) {
+            public void handle_shutdown(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_closing_signed(long their_node_id, long msg) {
+            public void handle_closing_signed(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_update_add_htlc(long their_node_id, long msg) {
+            public void handle_update_add_htlc(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_update_fulfill_htlc(long their_node_id, long msg) {
+            public void handle_update_fulfill_htlc(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_update_fail_htlc(long their_node_id, long msg) {
+            public void handle_update_fail_htlc(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_update_fail_malformed_htlc(long their_node_id, long msg) {
+            public void handle_update_fail_malformed_htlc(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_commitment_signed(long their_node_id, long msg) {
+            public void handle_commitment_signed(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_revoke_and_ack(long their_node_id, long msg) {
+            public void handle_revoke_and_ack(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_update_fee(long their_node_id, long msg) {
+            public void handle_update_fee(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_announcement_signatures(long their_node_id, long msg) {
+            public void handle_announcement_signatures(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void peer_disconnected(long their_node_id, boolean no_connection_possible) {
+            public void peer_disconnected(byte[] their_node_id, boolean no_connection_possible) {
 
             }
 
             @Override
-            public void peer_connected(long their_node_id, long msg) {
+            public void peer_connected(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_channel_reestablish(long their_node_id, long msg) {
+            public void handle_channel_reestablish(byte[] their_node_id, long msg) {
 
             }
 
             @Override
-            public void handle_error(long their_node_id, long msg) {
+            public void handle_error(byte[] their_node_id, long msg) {
 
             }
         }, () -> 0);
@@ -122,10 +122,10 @@ public class ManualMsgHandlingPeerTest {
             @Override public long get_next_channel_announcements(long starting_point, byte batch_amount) {
                 return 0;
             }
-            @Override public long get_next_node_announcements(long starting_point, byte batch_amount) {
+            @Override public long get_next_node_announcements(byte[] starting_point, byte batch_amount) {
                 return 0;
             }
-            @Override public boolean should_request_full_sync(long node_id) {
+            @Override public boolean should_request_full_sync(byte[] node_id) {
                 return false;
             }
         });
