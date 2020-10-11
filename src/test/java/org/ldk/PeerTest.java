@@ -277,6 +277,42 @@ public class PeerTest {
         assert bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(payment_res);
         bindings.CResult_NonePaymentSendFailureZ_free(payment_res);
 
+        bindings.PeerManager_process_events(peer1.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+        bindings.PeerManager_process_events(peer2.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+        bindings.PeerManager_process_events(peer1.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+
+        long peer2_events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer2.chan_manager_events);
+        bindings.VecOrSliceDef event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer2_events);
+        assert event_arr_info.datalen == 1;
+        bindings.LDKEvent forwardable = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
+        assert forwardable instanceof bindings.LDKEvent.PendingHTLCsForwardable;
+        bindings.CVec_EventZ_free(peer2_events);
+        bindings.ChannelManager_process_pending_htlc_forwards(peer2.chan_manager);
+
+        peer2_events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer2.chan_manager_events);
+        event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer2_events);
+        assert event_arr_info.datalen == 1;
+        bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
+        assert payment_recvd instanceof bindings.LDKEvent.PaymentReceived;
+        assert bindings.ChannelManager_claim_funds(peer2.chan_manager, payment_preimage, new byte[32], ((bindings.LDKEvent.PaymentReceived)payment_recvd).amt);
+        bindings.CVec_EventZ_free(peer2_events);
+
+        bindings.PeerManager_process_events(peer2.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+        bindings.PeerManager_process_events(peer1.peer_manager);
+        while (!list.isEmpty()) { list.poll().join(); }
+
+        long peer1_events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events);
+        event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer1_events);
+        assert event_arr_info.datalen == 1;
+        bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
+        assert sent instanceof bindings.LDKEvent.PaymentSent;
+        assert Arrays.equals(((bindings.LDKEvent.PaymentSent)sent).payment_preimage, payment_preimage);
+        bindings.CVec_EventZ_free(peer1_events);
+
         peer1.free();
         peer2.free();
         bindings.SocketDescriptor_free(descriptor2);
