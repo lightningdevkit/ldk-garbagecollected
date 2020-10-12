@@ -2,6 +2,8 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 
+import org.ldk.enums.*;
+
 public class BroadcasterInterface extends CommonBase {
 	BroadcasterInterface(Object _dummy, long ptr) { super(ptr); }
 	public BroadcasterInterface(bindings.LDKBroadcasterInterface arg) {
@@ -13,4 +15,5 @@ public class BroadcasterInterface extends CommonBase {
 		bindings.BroadcasterInterface_free(ptr); super.finalize();
 	}
 
+	// Skipped BroadcasterInterface_call_broadcast_transaction
 }

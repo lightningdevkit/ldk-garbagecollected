@@ -2,6 +2,8 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 
+import org.ldk.enums.*;
+
 public class Logger extends CommonBase {
 	Logger(Object _dummy, long ptr) { super(ptr); }
 	public Logger(bindings.LDKLogger arg) {

@@ -2,6 +2,8 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 
+import org.ldk.enums.*;
+
 public class Watch extends CommonBase {
 	Watch(Object _dummy, long ptr) { super(ptr); }
 	public Watch(bindings.LDKWatch arg) {
@@ -13,4 +15,7 @@ public class Watch extends CommonBase {
 		bindings.Watch_free(ptr); super.finalize();
 	}
 
+	// Skipped Watch_call_watch_channel
+	// Skipped Watch_call_update_channel
+	// Skipped Watch_call_release_pending_monitor_events
 }

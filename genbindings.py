@@ -118,6 +118,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             assert var_is_arr_regex.match(fn_arg[8:])
             rust_obj = "LDKPublicKey"
             arr_access = "compressed_form"
+        if fn_arg.startswith("LDKSecretKey"):
+            fn_arg = "uint8_t (*" + fn_arg[13:] + ")[32]"
+            assert var_is_arr_regex.match(fn_arg[8:])
+            rust_obj = "LDKSecretKey"
+            arr_access = "bytes"
         #if fn_arg.startswith("LDKSignature"):
         #    fn_arg = "uint8_t (*" + fn_arg[13:] + ")[64]"
         #    assert var_is_arr_regex.match(fn_arg[8:])
@@ -380,7 +385,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             arg_names.append(arg_conv_info)
 
         out_java_struct = None
-        if "LDK" + struct_meth in opaque_structs and not is_free:
+        if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free:
             out_java_struct = open(sys.argv[3] + "/structs/" + struct_meth + ".java", "a")
             if not args_known:
                 out_java_struct.write("\t// Skipped " + re_match.group(2) + "\n")
@@ -630,6 +635,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
             out_java_trait.write("package org.ldk.structs;\n\n")
             out_java_trait.write("import org.ldk.impl.bindings;\n\n")
+            out_java_trait.write("import org.ldk.enums.*;\n\n")
             out_java_trait.write("public class " + struct_name.replace("LDK","") + " extends CommonBase {\n")
             out_java_trait.write("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); }\n")
             out_java_trait.write("\tpublic " + struct_name.replace("LDK", "") + "(bindings." + struct_name + " arg")
@@ -648,7 +654,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             out_java_trait.write("\tprotected void finalize() throws Throwable {\n")
             out_java_trait.write("\t\tbindings." + struct_name.replace("LDK","") + "_free(ptr); super.finalize();\n")
             out_java_trait.write("\t}\n\n")
-            out_java_trait.write("}\n")
 
             out_java.write("\tpublic interface " + struct_name + " {\n")
             java_meths = []
@@ -798,12 +803,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             out_c.write("\treturn ret;\n")
             out_c.write("}\n")
 
-            for fn_line in trait_fn_lines:
-                # For now, just disable enabling the _call_log - we don't know how to inverse-map String
-                is_log = fn_line.group(2) == "log" and struct_name == "LDKLogger"
-                if fn_line.group(2) != "free" and fn_line.group(2) != "clone" and fn_line.group(2) != "eq" and not is_log:
-                    dummy_line = fn_line.group(1) + struct_name + "_call_" + fn_line.group(2) + " " + struct_name + "* arg" + fn_line.group(4) + "\n"
-                    map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(arg_conv->" + fn_line.group(2) + ")(arg_conv->this_arg")
+        for fn_line in trait_fn_lines:
+            # For now, just disable enabling the _call_log - we don't know how to inverse-map String
+            is_log = fn_line.group(2) == "log" and struct_name == "LDKLogger"
+            if fn_line.group(2) != "free" and fn_line.group(2) != "clone" and fn_line.group(2) != "eq" and not is_log:
+                dummy_line = fn_line.group(1) + struct_name.replace("LDK", "") + "_call_" + fn_line.group(2) + " " + struct_name + "* this_arg" + fn_line.group(4) + "\n"
+                map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(this_arg_conv->" + fn_line.group(2) + ")(this_arg_conv->this_arg")
 
     out_c.write("""#include \"org_ldk_impl_bindings.h\"
 #include <rust_types.h>
@@ -1027,13 +1032,6 @@ class CommonBase {
 	public long _test_only_get_ptr() { return this.ptr; }
 }
 """)
-
-    # XXX: Temporarily write out a manual SecretKey_new() for testing, we should auto-gen this kind of thing
-    out_java.write("\tpublic static native long LDKSecretKey_new();\n\n") # TODO: rm me
-    out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSecretKey_1new(JNIEnv * _env, jclass _b) {\n") # TODO: rm me
-    out_c.write("\tLDKSecretKey* key = (LDKSecretKey*)MALLOC(sizeof(LDKSecretKey), \"LDKSecretKey\");\n") # TODO: rm me
-    out_c.write("\treturn (long)key;\n") # TODO: rm me
-    out_c.write("}\n") # TODO: rm me
 
     in_block_comment = False
     cur_block_obj = None
@@ -1284,5 +1282,8 @@ class CommonBase {
 
     out_java.write("}\n")
     for struct_name in opaque_structs:
+        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "a") as out_java_struct:
+            out_java_struct.write("}\n")
+    for struct_name in trait_structs:
         with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "a") as out_java_struct:
             out_java_struct.write("}\n")

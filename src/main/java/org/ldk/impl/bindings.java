@@ -26,8 +26,6 @@ public class bindings {
 	public static native long vec_slice_len(long vec);
 	public static native long new_empty_slice_vec();
 
-	public static native long LDKSecretKey_new();
-
 	static { LDKAccessError.values(); /* Force enum statics to run */ }
 	static { LDKChannelMonitorUpdateErr.values(); /* Force enum statics to run */ }
 	static { LDKConfirmationTarget.values(); /* Force enum statics to run */ }
@@ -283,8 +281,8 @@ public class bindings {
 	}
 	public static native long LDKMessageSendEventsProvider_new(LDKMessageSendEventsProvider impl);
 	public static native LDKMessageSendEventsProvider LDKMessageSendEventsProvider_get_obj_from_jcalls(long val);
-	// LDKCVec_MessageSendEventZ LDKMessageSendEventsProvider_call_get_and_clear_pending_msg_events LDKMessageSendEventsProvider* arg
-	public static native long LDKMessageSendEventsProvider_call_get_and_clear_pending_msg_events(long arg);
+	// LDKCVec_MessageSendEventZ MessageSendEventsProvider_call_get_and_clear_pending_msg_events LDKMessageSendEventsProvider* this_arg
+	public static native long MessageSendEventsProvider_call_get_and_clear_pending_msg_events(long this_arg);
 	public static native VecOrSliceDef LDKCVecTempl_Event_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_Event_new(long[] elems);
 	public interface LDKEventsProvider {
@@ -292,8 +290,8 @@ public class bindings {
 	}
 	public static native long LDKEventsProvider_new(LDKEventsProvider impl);
 	public static native LDKEventsProvider LDKEventsProvider_get_obj_from_jcalls(long val);
-	// LDKCVec_EventZ LDKEventsProvider_call_get_and_clear_pending_events LDKEventsProvider* arg
-	public static native long LDKEventsProvider_call_get_and_clear_pending_events(long arg);
+	// LDKCVec_EventZ EventsProvider_call_get_and_clear_pending_events LDKEventsProvider* this_arg
+	public static native long EventsProvider_call_get_and_clear_pending_events(long this_arg);
 	public interface LDKLogger {
 		 void log(String record);
 	}
@@ -306,8 +304,8 @@ public class bindings {
 	}
 	public static native long LDKAccess_new(LDKAccess impl);
 	public static native LDKAccess LDKAccess_get_obj_from_jcalls(long val);
-	// LDKCResult_TxOutAccessErrorZ LDKAccess_call_get_utxo LDKAccess* arg, const uint8_t (*genesis_hash)[32], uint64_t short_channel_id
-	public static native long LDKAccess_call_get_utxo(long arg, byte[] genesis_hash, long short_channel_id);
+	// LDKCResult_TxOutAccessErrorZ Access_call_get_utxo LDKAccess* this_arg, const uint8_t (*genesis_hash)[32], uint64_t short_channel_id
+	public static native long Access_call_get_utxo(long this_arg, byte[] genesis_hash, long short_channel_id);
 	public static native long[] LDKCVecTempl_HTLCOutputInCommitment_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_HTLCOutputInCommitment_new(long[] elems);
 	public interface LDKChannelKeys {
@@ -325,28 +323,28 @@ public class bindings {
 	}
 	public static native long LDKChannelKeys_new(LDKChannelKeys impl);
 	public static native LDKChannelKeys LDKChannelKeys_get_obj_from_jcalls(long val);
-	// LDKPublicKey LDKChannelKeys_call_get_per_commitment_point LDKChannelKeys* arg, uint64_t idx
-	public static native byte[] LDKChannelKeys_call_get_per_commitment_point(long arg, long idx);
-	// LDKThirtyTwoBytes LDKChannelKeys_call_release_commitment_secret LDKChannelKeys* arg, uint64_t idx
-	public static native byte[] LDKChannelKeys_call_release_commitment_secret(long arg, long idx);
-	// LDKC2Tuple_u64u64Z LDKChannelKeys_call_key_derivation_params LDKChannelKeys* arg
-	public static native long LDKChannelKeys_call_key_derivation_params(long arg);
-	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ LDKChannelKeys_call_sign_counterparty_commitment LDKChannelKeys* arg, uint32_t feerate_per_kw, LDKTransaction commitment_tx, const LDKPreCalculatedTxCreationKeys *keys, LDKCVec_HTLCOutputInCommitmentZ htlcs
-	public static native long LDKChannelKeys_call_sign_counterparty_commitment(long arg, int feerate_per_kw, long commitment_tx, long keys, long htlcs);
-	// LDKCResult_SignatureNoneZ LDKChannelKeys_call_sign_holder_commitment LDKChannelKeys* arg, const LDKHolderCommitmentTransaction *holder_commitment_tx
-	public static native long LDKChannelKeys_call_sign_holder_commitment(long arg, long holder_commitment_tx);
-	// LDKCResult_CVec_SignatureZNoneZ LDKChannelKeys_call_sign_holder_commitment_htlc_transactions LDKChannelKeys* arg, const LDKHolderCommitmentTransaction *holder_commitment_tx
-	public static native long LDKChannelKeys_call_sign_holder_commitment_htlc_transactions(long arg, long holder_commitment_tx);
-	// LDKCResult_SignatureNoneZ LDKChannelKeys_call_sign_justice_transaction LDKChannelKeys* arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const LDKHTLCOutputInCommitment *htlc
-	public static native long LDKChannelKeys_call_sign_justice_transaction(long arg, long justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
-	// LDKCResult_SignatureNoneZ LDKChannelKeys_call_sign_counterparty_htlc_transaction LDKChannelKeys* arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment *htlc
-	public static native long LDKChannelKeys_call_sign_counterparty_htlc_transaction(long arg, long htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
-	// LDKCResult_SignatureNoneZ LDKChannelKeys_call_sign_closing_transaction LDKChannelKeys* arg, LDKTransaction closing_tx
-	public static native long LDKChannelKeys_call_sign_closing_transaction(long arg, long closing_tx);
-	// LDKCResult_SignatureNoneZ LDKChannelKeys_call_sign_channel_announcement LDKChannelKeys* arg, const LDKUnsignedChannelAnnouncement *msg
-	public static native long LDKChannelKeys_call_sign_channel_announcement(long arg, long msg);
-	// void LDKChannelKeys_call_on_accept LDKChannelKeys* arg, const LDKChannelPublicKeys *channel_points, uint16_t counterparty_selected_contest_delay, uint16_t holder_selected_contest_delay
-	public static native void LDKChannelKeys_call_on_accept(long arg, long channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
+	// LDKPublicKey ChannelKeys_call_get_per_commitment_point LDKChannelKeys* this_arg, uint64_t idx
+	public static native byte[] ChannelKeys_call_get_per_commitment_point(long this_arg, long idx);
+	// LDKThirtyTwoBytes ChannelKeys_call_release_commitment_secret LDKChannelKeys* this_arg, uint64_t idx
+	public static native byte[] ChannelKeys_call_release_commitment_secret(long this_arg, long idx);
+	// LDKC2Tuple_u64u64Z ChannelKeys_call_key_derivation_params LDKChannelKeys* this_arg
+	public static native long ChannelKeys_call_key_derivation_params(long this_arg);
+	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ChannelKeys_call_sign_counterparty_commitment LDKChannelKeys* this_arg, uint32_t feerate_per_kw, LDKTransaction commitment_tx, const LDKPreCalculatedTxCreationKeys *keys, LDKCVec_HTLCOutputInCommitmentZ htlcs
+	public static native long ChannelKeys_call_sign_counterparty_commitment(long this_arg, int feerate_per_kw, long commitment_tx, long keys, long htlcs);
+	// LDKCResult_SignatureNoneZ ChannelKeys_call_sign_holder_commitment LDKChannelKeys* this_arg, const LDKHolderCommitmentTransaction *holder_commitment_tx
+	public static native long ChannelKeys_call_sign_holder_commitment(long this_arg, long holder_commitment_tx);
+	// LDKCResult_CVec_SignatureZNoneZ ChannelKeys_call_sign_holder_commitment_htlc_transactions LDKChannelKeys* this_arg, const LDKHolderCommitmentTransaction *holder_commitment_tx
+	public static native long ChannelKeys_call_sign_holder_commitment_htlc_transactions(long this_arg, long holder_commitment_tx);
+	// LDKCResult_SignatureNoneZ ChannelKeys_call_sign_justice_transaction LDKChannelKeys* this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const LDKHTLCOutputInCommitment *htlc
+	public static native long ChannelKeys_call_sign_justice_transaction(long this_arg, long justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
+	// LDKCResult_SignatureNoneZ ChannelKeys_call_sign_counterparty_htlc_transaction LDKChannelKeys* this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment *htlc
+	public static native long ChannelKeys_call_sign_counterparty_htlc_transaction(long this_arg, long htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
+	// LDKCResult_SignatureNoneZ ChannelKeys_call_sign_closing_transaction LDKChannelKeys* this_arg, LDKTransaction closing_tx
+	public static native long ChannelKeys_call_sign_closing_transaction(long this_arg, long closing_tx);
+	// LDKCResult_SignatureNoneZ ChannelKeys_call_sign_channel_announcement LDKChannelKeys* this_arg, const LDKUnsignedChannelAnnouncement *msg
+	public static native long ChannelKeys_call_sign_channel_announcement(long this_arg, long msg);
+	// void ChannelKeys_call_on_accept LDKChannelKeys* this_arg, const LDKChannelPublicKeys *channel_points, uint16_t counterparty_selected_contest_delay, uint16_t holder_selected_contest_delay
+	public static native void ChannelKeys_call_on_accept(long this_arg, long channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
 	public static native long[] LDKCVecTempl_MonitorEvent_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_MonitorEvent_new(long[] elems);
 	public interface LDKWatch {
@@ -356,36 +354,36 @@ public class bindings {
 	}
 	public static native long LDKWatch_new(LDKWatch impl);
 	public static native LDKWatch LDKWatch_get_obj_from_jcalls(long val);
-	// LDKCResult_NoneChannelMonitorUpdateErrZ LDKWatch_call_watch_channel LDKWatch* arg, LDKOutPoint funding_txo, LDKChannelMonitor monitor
-	public static native long LDKWatch_call_watch_channel(long arg, long funding_txo, long monitor);
-	// LDKCResult_NoneChannelMonitorUpdateErrZ LDKWatch_call_update_channel LDKWatch* arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate update
-	public static native long LDKWatch_call_update_channel(long arg, long funding_txo, long update);
-	// LDKCVec_MonitorEventZ LDKWatch_call_release_pending_monitor_events LDKWatch* arg
-	public static native long LDKWatch_call_release_pending_monitor_events(long arg);
+	// LDKCResult_NoneChannelMonitorUpdateErrZ Watch_call_watch_channel LDKWatch* this_arg, LDKOutPoint funding_txo, LDKChannelMonitor monitor
+	public static native long Watch_call_watch_channel(long this_arg, long funding_txo, long monitor);
+	// LDKCResult_NoneChannelMonitorUpdateErrZ Watch_call_update_channel LDKWatch* this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate update
+	public static native long Watch_call_update_channel(long this_arg, long funding_txo, long update);
+	// LDKCVec_MonitorEventZ Watch_call_release_pending_monitor_events LDKWatch* this_arg
+	public static native long Watch_call_release_pending_monitor_events(long this_arg);
 	public interface LDKFilter {
 		 void register_tx(byte[] txid, long script_pubkey);
 		 void register_output(long outpoint, long script_pubkey);
 	}
 	public static native long LDKFilter_new(LDKFilter impl);
 	public static native LDKFilter LDKFilter_get_obj_from_jcalls(long val);
-	// void LDKFilter_call_register_tx LDKFilter* arg, const uint8_t (*txid)[32], LDKu8slice script_pubkey
-	public static native void LDKFilter_call_register_tx(long arg, byte[] txid, long script_pubkey);
-	// void LDKFilter_call_register_output LDKFilter* arg, const LDKOutPoint *outpoint, LDKu8slice script_pubkey
-	public static native void LDKFilter_call_register_output(long arg, long outpoint, long script_pubkey);
+	// void Filter_call_register_tx LDKFilter* this_arg, const uint8_t (*txid)[32], LDKu8slice script_pubkey
+	public static native void Filter_call_register_tx(long this_arg, byte[] txid, long script_pubkey);
+	// void Filter_call_register_output LDKFilter* this_arg, const LDKOutPoint *outpoint, LDKu8slice script_pubkey
+	public static native void Filter_call_register_output(long this_arg, long outpoint, long script_pubkey);
 	public interface LDKBroadcasterInterface {
 		 void broadcast_transaction(long tx);
 	}
 	public static native long LDKBroadcasterInterface_new(LDKBroadcasterInterface impl);
 	public static native LDKBroadcasterInterface LDKBroadcasterInterface_get_obj_from_jcalls(long val);
-	// void LDKBroadcasterInterface_call_broadcast_transaction LDKBroadcasterInterface* arg, LDKTransaction tx
-	public static native void LDKBroadcasterInterface_call_broadcast_transaction(long arg, long tx);
+	// void BroadcasterInterface_call_broadcast_transaction LDKBroadcasterInterface* this_arg, LDKTransaction tx
+	public static native void BroadcasterInterface_call_broadcast_transaction(long this_arg, long tx);
 	public interface LDKFeeEstimator {
 		 int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target);
 	}
 	public static native long LDKFeeEstimator_new(LDKFeeEstimator impl);
 	public static native LDKFeeEstimator LDKFeeEstimator_get_obj_from_jcalls(long val);
-	// uint32_t LDKFeeEstimator_call_get_est_sat_per_1000_weight LDKFeeEstimator* arg, LDKConfirmationTarget confirmation_target
-	public static native int LDKFeeEstimator_call_get_est_sat_per_1000_weight(long arg, LDKConfirmationTarget confirmation_target);
+	// uint32_t FeeEstimator_call_get_est_sat_per_1000_weight LDKFeeEstimator* this_arg, LDKConfirmationTarget confirmation_target
+	public static native int FeeEstimator_call_get_est_sat_per_1000_weight(long this_arg, LDKConfirmationTarget confirmation_target);
 	public static native VecOrSliceDef LDKCVecTempl_C2TupleTempl_usize__Transaction_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C2TupleTempl_usize__Transaction_new(long[] elems);
 	public static native VecOrSliceDef LDKCVecTempl_Transaction_arr_info(long vec_ptr);
@@ -393,7 +391,7 @@ public class bindings {
 	public static native VecOrSliceDef LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut_new(long[] elems);
 	public interface LDKKeysInterface {
-		 long get_node_secret();
+		 byte[] get_node_secret();
 		 long get_destination_script();
 		 byte[] get_shutdown_pubkey();
 		 long get_channel_keys(boolean inbound, long channel_value_satoshis);
@@ -401,16 +399,16 @@ public class bindings {
 	}
 	public static native long LDKKeysInterface_new(LDKKeysInterface impl);
 	public static native LDKKeysInterface LDKKeysInterface_get_obj_from_jcalls(long val);
-	// LDKSecretKey LDKKeysInterface_call_get_node_secret LDKKeysInterface* arg
-	public static native long LDKKeysInterface_call_get_node_secret(long arg);
-	// LDKCVec_u8Z LDKKeysInterface_call_get_destination_script LDKKeysInterface* arg
-	public static native long LDKKeysInterface_call_get_destination_script(long arg);
-	// LDKPublicKey LDKKeysInterface_call_get_shutdown_pubkey LDKKeysInterface* arg
-	public static native byte[] LDKKeysInterface_call_get_shutdown_pubkey(long arg);
-	// LDKChannelKeys LDKKeysInterface_call_get_channel_keys LDKKeysInterface* arg, bool inbound, uint64_t channel_value_satoshis
-	public static native long LDKKeysInterface_call_get_channel_keys(long arg, boolean inbound, long channel_value_satoshis);
-	// LDKThirtyTwoBytes LDKKeysInterface_call_get_secure_random_bytes LDKKeysInterface* arg
-	public static native byte[] LDKKeysInterface_call_get_secure_random_bytes(long arg);
+	// LDKSecretKey KeysInterface_call_get_node_secret LDKKeysInterface* this_arg
+	public static native byte[] KeysInterface_call_get_node_secret(long this_arg);
+	// LDKCVec_u8Z KeysInterface_call_get_destination_script LDKKeysInterface* this_arg
+	public static native long KeysInterface_call_get_destination_script(long this_arg);
+	// LDKPublicKey KeysInterface_call_get_shutdown_pubkey LDKKeysInterface* this_arg
+	public static native byte[] KeysInterface_call_get_shutdown_pubkey(long this_arg);
+	// LDKChannelKeys KeysInterface_call_get_channel_keys LDKKeysInterface* this_arg, bool inbound, uint64_t channel_value_satoshis
+	public static native long KeysInterface_call_get_channel_keys(long this_arg, boolean inbound, long channel_value_satoshis);
+	// LDKThirtyTwoBytes KeysInterface_call_get_secure_random_bytes LDKKeysInterface* this_arg
+	public static native byte[] KeysInterface_call_get_secure_random_bytes(long this_arg);
 	public static native long[] LDKCVecTempl_ChannelDetails_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_ChannelDetails_new(long[] elems);
 	public static class LDKNetAddress {
@@ -466,44 +464,44 @@ public class bindings {
 	}
 	public static native long LDKChannelMessageHandler_new(LDKChannelMessageHandler impl, LDKMessageSendEventsProvider MessageSendEventsProvider);
 	public static native LDKChannelMessageHandler LDKChannelMessageHandler_get_obj_from_jcalls(long val);
-	// void LDKChannelMessageHandler_call_handle_open_channel LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKOpenChannel *msg
-	public static native void LDKChannelMessageHandler_call_handle_open_channel(long arg, byte[] their_node_id, long their_features, long msg);
-	// void LDKChannelMessageHandler_call_handle_accept_channel LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel *msg
-	public static native void LDKChannelMessageHandler_call_handle_accept_channel(long arg, byte[] their_node_id, long their_features, long msg);
-	// void LDKChannelMessageHandler_call_handle_funding_created LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKFundingCreated *msg
-	public static native void LDKChannelMessageHandler_call_handle_funding_created(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_funding_signed LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKFundingSigned *msg
-	public static native void LDKChannelMessageHandler_call_handle_funding_signed(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_funding_locked LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKFundingLocked *msg
-	public static native void LDKChannelMessageHandler_call_handle_funding_locked(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_shutdown LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKShutdown *msg
-	public static native void LDKChannelMessageHandler_call_handle_shutdown(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_closing_signed LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKClosingSigned *msg
-	public static native void LDKChannelMessageHandler_call_handle_closing_signed(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_update_add_htlc LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC *msg
-	public static native void LDKChannelMessageHandler_call_handle_update_add_htlc(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_update_fulfill_htlc LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC *msg
-	public static native void LDKChannelMessageHandler_call_handle_update_fulfill_htlc(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_update_fail_htlc LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC *msg
-	public static native void LDKChannelMessageHandler_call_handle_update_fail_htlc(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_update_fail_malformed_htlc LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC *msg
-	public static native void LDKChannelMessageHandler_call_handle_update_fail_malformed_htlc(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_commitment_signed LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKCommitmentSigned *msg
-	public static native void LDKChannelMessageHandler_call_handle_commitment_signed(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_revoke_and_ack LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKRevokeAndACK *msg
-	public static native void LDKChannelMessageHandler_call_handle_revoke_and_ack(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_update_fee LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKUpdateFee *msg
-	public static native void LDKChannelMessageHandler_call_handle_update_fee(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_announcement_signatures LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures *msg
-	public static native void LDKChannelMessageHandler_call_handle_announcement_signatures(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_peer_disconnected LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, bool no_connection_possible
-	public static native void LDKChannelMessageHandler_call_peer_disconnected(long arg, byte[] their_node_id, boolean no_connection_possible);
-	// void LDKChannelMessageHandler_call_peer_connected LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKInit *msg
-	public static native void LDKChannelMessageHandler_call_peer_connected(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_channel_reestablish LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKChannelReestablish *msg
-	public static native void LDKChannelMessageHandler_call_handle_channel_reestablish(long arg, byte[] their_node_id, long msg);
-	// void LDKChannelMessageHandler_call_handle_error LDKChannelMessageHandler* arg, LDKPublicKey their_node_id, const LDKErrorMessage *msg
-	public static native void LDKChannelMessageHandler_call_handle_error(long arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_open_channel LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKOpenChannel *msg
+	public static native void ChannelMessageHandler_call_handle_open_channel(long this_arg, byte[] their_node_id, long their_features, long msg);
+	// void ChannelMessageHandler_call_handle_accept_channel LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel *msg
+	public static native void ChannelMessageHandler_call_handle_accept_channel(long this_arg, byte[] their_node_id, long their_features, long msg);
+	// void ChannelMessageHandler_call_handle_funding_created LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKFundingCreated *msg
+	public static native void ChannelMessageHandler_call_handle_funding_created(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_funding_signed LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKFundingSigned *msg
+	public static native void ChannelMessageHandler_call_handle_funding_signed(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_funding_locked LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKFundingLocked *msg
+	public static native void ChannelMessageHandler_call_handle_funding_locked(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_shutdown LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKShutdown *msg
+	public static native void ChannelMessageHandler_call_handle_shutdown(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_closing_signed LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKClosingSigned *msg
+	public static native void ChannelMessageHandler_call_handle_closing_signed(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_update_add_htlc LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC *msg
+	public static native void ChannelMessageHandler_call_handle_update_add_htlc(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_update_fulfill_htlc LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC *msg
+	public static native void ChannelMessageHandler_call_handle_update_fulfill_htlc(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_update_fail_htlc LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC *msg
+	public static native void ChannelMessageHandler_call_handle_update_fail_htlc(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_update_fail_malformed_htlc LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC *msg
+	public static native void ChannelMessageHandler_call_handle_update_fail_malformed_htlc(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_commitment_signed LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKCommitmentSigned *msg
+	public static native void ChannelMessageHandler_call_handle_commitment_signed(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_revoke_and_ack LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKRevokeAndACK *msg
+	public static native void ChannelMessageHandler_call_handle_revoke_and_ack(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_update_fee LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKUpdateFee *msg
+	public static native void ChannelMessageHandler_call_handle_update_fee(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_announcement_signatures LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures *msg
+	public static native void ChannelMessageHandler_call_handle_announcement_signatures(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_peer_disconnected LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, bool no_connection_possible
+	public static native void ChannelMessageHandler_call_peer_disconnected(long this_arg, byte[] their_node_id, boolean no_connection_possible);
+	// void ChannelMessageHandler_call_peer_connected LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKInit *msg
+	public static native void ChannelMessageHandler_call_peer_connected(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_channel_reestablish LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKChannelReestablish *msg
+	public static native void ChannelMessageHandler_call_handle_channel_reestablish(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_call_handle_error LDKChannelMessageHandler* this_arg, LDKPublicKey their_node_id, const LDKErrorMessage *msg
+	public static native void ChannelMessageHandler_call_handle_error(long this_arg, byte[] their_node_id, long msg);
 	public static native long[] LDKCVecTempl_ChannelMonitor_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_ChannelMonitor_new(long[] elems);
 	public static native VecOrSliceDef LDKCVecTempl_u64_arr_info(long vec_ptr);
@@ -533,20 +531,20 @@ public class bindings {
 	}
 	public static native long LDKRoutingMessageHandler_new(LDKRoutingMessageHandler impl);
 	public static native LDKRoutingMessageHandler LDKRoutingMessageHandler_get_obj_from_jcalls(long val);
-	// LDKCResult_boolLightningErrorZ LDKRoutingMessageHandler_call_handle_node_announcement LDKRoutingMessageHandler* arg, const LDKNodeAnnouncement *msg
-	public static native long LDKRoutingMessageHandler_call_handle_node_announcement(long arg, long msg);
-	// LDKCResult_boolLightningErrorZ LDKRoutingMessageHandler_call_handle_channel_announcement LDKRoutingMessageHandler* arg, const LDKChannelAnnouncement *msg
-	public static native long LDKRoutingMessageHandler_call_handle_channel_announcement(long arg, long msg);
-	// LDKCResult_boolLightningErrorZ LDKRoutingMessageHandler_call_handle_channel_update LDKRoutingMessageHandler* arg, const LDKChannelUpdate *msg
-	public static native long LDKRoutingMessageHandler_call_handle_channel_update(long arg, long msg);
-	// void LDKRoutingMessageHandler_call_handle_htlc_fail_channel_update LDKRoutingMessageHandler* arg, const LDKHTLCFailChannelUpdate *update
-	public static native void LDKRoutingMessageHandler_call_handle_htlc_fail_channel_update(long arg, long update);
-	// LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ LDKRoutingMessageHandler_call_get_next_channel_announcements LDKRoutingMessageHandler* arg, uint64_t starting_point, uint8_t batch_amount
-	public static native long LDKRoutingMessageHandler_call_get_next_channel_announcements(long arg, long starting_point, byte batch_amount);
-	// LDKCVec_NodeAnnouncementZ LDKRoutingMessageHandler_call_get_next_node_announcements LDKRoutingMessageHandler* arg, LDKPublicKey starting_point, uint8_t batch_amount
-	public static native long LDKRoutingMessageHandler_call_get_next_node_announcements(long arg, byte[] starting_point, byte batch_amount);
-	// bool LDKRoutingMessageHandler_call_should_request_full_sync LDKRoutingMessageHandler* arg, LDKPublicKey node_id
-	public static native boolean LDKRoutingMessageHandler_call_should_request_full_sync(long arg, byte[] node_id);
+	// LDKCResult_boolLightningErrorZ RoutingMessageHandler_call_handle_node_announcement LDKRoutingMessageHandler* this_arg, const LDKNodeAnnouncement *msg
+	public static native long RoutingMessageHandler_call_handle_node_announcement(long this_arg, long msg);
+	// LDKCResult_boolLightningErrorZ RoutingMessageHandler_call_handle_channel_announcement LDKRoutingMessageHandler* this_arg, const LDKChannelAnnouncement *msg
+	public static native long RoutingMessageHandler_call_handle_channel_announcement(long this_arg, long msg);
+	// LDKCResult_boolLightningErrorZ RoutingMessageHandler_call_handle_channel_update LDKRoutingMessageHandler* this_arg, const LDKChannelUpdate *msg
+	public static native long RoutingMessageHandler_call_handle_channel_update(long this_arg, long msg);
+	// void RoutingMessageHandler_call_handle_htlc_fail_channel_update LDKRoutingMessageHandler* this_arg, const LDKHTLCFailChannelUpdate *update
+	public static native void RoutingMessageHandler_call_handle_htlc_fail_channel_update(long this_arg, long update);
+	// LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ RoutingMessageHandler_call_get_next_channel_announcements LDKRoutingMessageHandler* this_arg, uint64_t starting_point, uint8_t batch_amount
+	public static native long RoutingMessageHandler_call_get_next_channel_announcements(long this_arg, long starting_point, byte batch_amount);
+	// LDKCVec_NodeAnnouncementZ RoutingMessageHandler_call_get_next_node_announcements LDKRoutingMessageHandler* this_arg, LDKPublicKey starting_point, uint8_t batch_amount
+	public static native long RoutingMessageHandler_call_get_next_node_announcements(long this_arg, byte[] starting_point, byte batch_amount);
+	// bool RoutingMessageHandler_call_should_request_full_sync LDKRoutingMessageHandler* this_arg, LDKPublicKey node_id
+	public static native boolean RoutingMessageHandler_call_should_request_full_sync(long this_arg, byte[] node_id);
 	public interface LDKSocketDescriptor {
 		 long send_data(long data, boolean resume_read);
 		 void disconnect_socket();
@@ -555,12 +553,12 @@ public class bindings {
 	}
 	public static native long LDKSocketDescriptor_new(LDKSocketDescriptor impl);
 	public static native LDKSocketDescriptor LDKSocketDescriptor_get_obj_from_jcalls(long val);
-	// uintptr_t LDKSocketDescriptor_call_send_data LDKSocketDescriptor* arg, LDKu8slice data, bool resume_read
-	public static native long LDKSocketDescriptor_call_send_data(long arg, long data, boolean resume_read);
-	// void LDKSocketDescriptor_call_disconnect_socket LDKSocketDescriptor* arg
-	public static native void LDKSocketDescriptor_call_disconnect_socket(long arg);
-	// uint64_t LDKSocketDescriptor_call_hash LDKSocketDescriptor* arg
-	public static native long LDKSocketDescriptor_call_hash(long arg);
+	// uintptr_t SocketDescriptor_call_send_data LDKSocketDescriptor* this_arg, LDKu8slice data, bool resume_read
+	public static native long SocketDescriptor_call_send_data(long this_arg, long data, boolean resume_read);
+	// void SocketDescriptor_call_disconnect_socket LDKSocketDescriptor* this_arg
+	public static native void SocketDescriptor_call_disconnect_socket(long this_arg);
+	// uint64_t SocketDescriptor_call_hash LDKSocketDescriptor* this_arg
+	public static native long SocketDescriptor_call_hash(long this_arg);
 	public static native VecOrSliceDef LDKCVecTempl_PublicKey_arr_info(long vec_ptr);
 	public static native boolean LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(long arg);
 	public static native long LDKCResult_CVec_u8ZPeerHandleErrorZ_get_inner(long arg);
@@ -647,7 +645,7 @@ public class bindings {
 	// extern const void (*CResult_SecretKeySecpErrorZ_free)(LDKCResult_SecretKeySecpErrorZ);
 	public static native void CResult_SecretKeySecpErrorZ_free(long arg);
 	// extern const LDKCResult_SecretKeySecpErrorZ (*CResult_SecretKeySecpErrorZ_ok)(LDKSecretKey);
-	public static native long CResult_SecretKeySecpErrorZ_ok(long arg);
+	public static native long CResult_SecretKeySecpErrorZ_ok(byte[] arg);
 	// extern const void (*CResult_SignatureNoneZ_free)(LDKCResult_SignatureNoneZ);
 	public static native void CResult_SignatureNoneZ_free(long arg);
 	// extern const LDKCResult_SignatureNoneZ (*CResult_SignatureNoneZ_ok)(LDKSignature);
@@ -985,29 +983,29 @@ public class bindings {
 	// const uint8_t (*InMemoryChannelKeys_get_funding_key(const LDKInMemoryChannelKeys *this_ptr))[32];
 	public static native byte[] InMemoryChannelKeys_get_funding_key(long this_ptr);
 	// void InMemoryChannelKeys_set_funding_key(LDKInMemoryChannelKeys *this_ptr, LDKSecretKey val);
-	public static native void InMemoryChannelKeys_set_funding_key(long this_ptr, long val);
+	public static native void InMemoryChannelKeys_set_funding_key(long this_ptr, byte[] val);
 	// const uint8_t (*InMemoryChannelKeys_get_revocation_base_key(const LDKInMemoryChannelKeys *this_ptr))[32];
 	public static native byte[] InMemoryChannelKeys_get_revocation_base_key(long this_ptr);
 	// void InMemoryChannelKeys_set_revocation_base_key(LDKInMemoryChannelKeys *this_ptr, LDKSecretKey val);
-	public static native void InMemoryChannelKeys_set_revocation_base_key(long this_ptr, long val);
+	public static native void InMemoryChannelKeys_set_revocation_base_key(long this_ptr, byte[] val);
 	// const uint8_t (*InMemoryChannelKeys_get_payment_key(const LDKInMemoryChannelKeys *this_ptr))[32];
 	public static native byte[] InMemoryChannelKeys_get_payment_key(long this_ptr);
 	// void InMemoryChannelKeys_set_payment_key(LDKInMemoryChannelKeys *this_ptr, LDKSecretKey val);
-	public static native void InMemoryChannelKeys_set_payment_key(long this_ptr, long val);
+	public static native void InMemoryChannelKeys_set_payment_key(long this_ptr, byte[] val);
 	// const uint8_t (*InMemoryChannelKeys_get_delayed_payment_base_key(const LDKInMemoryChannelKeys *this_ptr))[32];
 	public static native byte[] InMemoryChannelKeys_get_delayed_payment_base_key(long this_ptr);
 	// void InMemoryChannelKeys_set_delayed_payment_base_key(LDKInMemoryChannelKeys *this_ptr, LDKSecretKey val);
-	public static native void InMemoryChannelKeys_set_delayed_payment_base_key(long this_ptr, long val);
+	public static native void InMemoryChannelKeys_set_delayed_payment_base_key(long this_ptr, byte[] val);
 	// const uint8_t (*InMemoryChannelKeys_get_htlc_base_key(const LDKInMemoryChannelKeys *this_ptr))[32];
 	public static native byte[] InMemoryChannelKeys_get_htlc_base_key(long this_ptr);
 	// void InMemoryChannelKeys_set_htlc_base_key(LDKInMemoryChannelKeys *this_ptr, LDKSecretKey val);
-	public static native void InMemoryChannelKeys_set_htlc_base_key(long this_ptr, long val);
+	public static native void InMemoryChannelKeys_set_htlc_base_key(long this_ptr, byte[] val);
 	// const uint8_t (*InMemoryChannelKeys_get_commitment_seed(const LDKInMemoryChannelKeys *this_ptr))[32];
 	public static native byte[] InMemoryChannelKeys_get_commitment_seed(long this_ptr);
 	// void InMemoryChannelKeys_set_commitment_seed(LDKInMemoryChannelKeys *this_ptr, LDKThirtyTwoBytes val);
 	public static native void InMemoryChannelKeys_set_commitment_seed(long this_ptr, byte[] val);
 	// MUST_USE_RES LDKInMemoryChannelKeys InMemoryChannelKeys_new(LDKSecretKey funding_key, LDKSecretKey revocation_base_key, LDKSecretKey payment_key, LDKSecretKey delayed_payment_base_key, LDKSecretKey htlc_base_key, LDKThirtyTwoBytes commitment_seed, uint64_t channel_value_satoshis, LDKC2Tuple_u64u64Z key_derivation_params);
-	public static native long InMemoryChannelKeys_new(long funding_key, long revocation_base_key, long payment_key, long delayed_payment_base_key, long htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, long key_derivation_params);
+	public static native long InMemoryChannelKeys_new(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, long key_derivation_params);
 	// MUST_USE_RES LDKChannelPublicKeys InMemoryChannelKeys_counterparty_pubkeys(const LDKInMemoryChannelKeys *this_arg);
 	public static native long InMemoryChannelKeys_counterparty_pubkeys(long this_arg);
 	// MUST_USE_RES uint16_t InMemoryChannelKeys_counterparty_selected_contest_delay(const LDKInMemoryChannelKeys *this_arg);
@@ -1989,7 +1987,7 @@ public class bindings {
 	// void PeerManager_free(LDKPeerManager this_ptr);
 	public static native void PeerManager_free(long this_ptr);
 	// MUST_USE_RES LDKPeerManager PeerManager_new(LDKMessageHandler message_handler, LDKSecretKey our_node_secret, const uint8_t (*ephemeral_random_data)[32], LDKLogger logger);
-	public static native long PeerManager_new(long message_handler, long our_node_secret, byte[] ephemeral_random_data, long logger);
+	public static native long PeerManager_new(long message_handler, byte[] our_node_secret, byte[] ephemeral_random_data, long logger);
 	// MUST_USE_RES LDKCVec_PublicKeyZ PeerManager_get_peer_node_ids(const LDKPeerManager *this_arg);
 	public static native long PeerManager_get_peer_node_ids(long this_arg);
 	// MUST_USE_RES LDKCResult_CVec_u8ZPeerHandleErrorZ PeerManager_new_outbound_connection(const LDKPeerManager *this_arg, LDKPublicKey their_node_id, LDKSocketDescriptor descriptor);

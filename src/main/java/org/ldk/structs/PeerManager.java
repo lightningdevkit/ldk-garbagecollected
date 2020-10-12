@@ -10,7 +10,12 @@ public class PeerManager extends CommonBase {
 		bindings.PeerManager_free(ptr); super.finalize();
 	}
 
-	// Skipped PeerManager_new
+	public PeerManager(MessageHandler message_handler, byte[] our_node_secret, byte[] ephemeral_random_data, Logger logger) {
+		super(bindings.PeerManager_new(message_handler.ptr & ~1, our_node_secret, ephemeral_random_data, logger.ptr));
+		this.ptrs_to.add(message_handler);
+		this.ptrs_to.add(logger);
+	}
+
 	// Skipped PeerManager_get_peer_node_ids
 	// Skipped PeerManager_new_outbound_connection
 	// Skipped PeerManager_new_inbound_connection

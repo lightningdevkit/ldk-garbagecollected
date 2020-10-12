@@ -130,9 +130,9 @@ public class ManualMsgHandlingPeerTest {
             }
         });
         long message_handler = bindings.MessageHandler_new(chan_handler, route_handler);
-        long our_node_secret = bindings.LDKSecretKey_new(); //TODO: Need LDKSecretKey constructor
+        byte[] our_node_secret = new byte[32];
         byte[] random_data = new byte[32];
-        for (byte i = 0; i < 32; i++) { random_data[i] = i; }
+        for (byte i = 0; i < 32; i++) { random_data[i] = i; our_node_secret[i] = (byte) (i ^ 0xff); }
 
         long peer_manager = bindings.PeerManager_new(message_handler, our_node_secret, random_data, logger);
 

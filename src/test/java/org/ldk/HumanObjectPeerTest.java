@@ -18,9 +18,9 @@ public class HumanObjectPeerTest {
         final long fee_estimator;
         final long tx_broadcaster;
         final KeysManager keys;
-        final long keys_interface;
+        final KeysInterface keys_interface;
         final ChannelManager chan_manager;
-        final long chan_manager_events;
+        final EventsProvider chan_manager_events;
         final long chan_handler;
         final long router;
         final long route_handler;
@@ -78,12 +78,12 @@ public class HumanObjectPeerTest {
                 key_seed[i] = (byte) (i ^ seed);
             }
             this.keys = new KeysManager(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
-            this.keys_interface = bindings.KeysManager_as_KeysInterface(keys._test_only_get_ptr());
+            this.keys_interface = keys.as_KeysInterface();
             this.chan_manager = new ChannelManager(LDKNetwork.LDKNetwork_Bitcoin, new FeeEstimator(confirmation_target -> 0), chain_monitor,
                     new BroadcasterInterface(tx -> {
                     }), new Logger(log_trait), keys.as_KeysInterface(), new UserConfig(), 1);
             this.node_id = chan_manager.get_our_node_id();
-            this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager._test_only_get_ptr());
+            this.chan_manager_events = chan_manager.as_EventsProvider();
 
             this.chan_handler = bindings.ChannelManager_as_ChannelMessageHandler(chan_manager._test_only_get_ptr());
             this.router = bindings.NetGraphMsgHandler_new(0, logger);
@@ -94,7 +94,7 @@ public class HumanObjectPeerTest {
             for (byte i = 0; i < 32; i++) {
                 random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
             }
-            this.peer_manager = bindings.PeerManager_new(message_handler, bindings.LDKKeysInterface_call_get_node_secret(keys_interface), random_data, logger);
+            this.peer_manager = bindings.PeerManager_new(message_handler, keys_interface.call_get_node_secret(), random_data, logger);
             System.gc();
         }
 
@@ -125,8 +125,6 @@ public class HumanObjectPeerTest {
             bindings.Logger_free(logger);
             bindings.FeeEstimator_free(fee_estimator);
             bindings.BroadcasterInterface_free(tx_broadcaster);
-            bindings.KeysInterface_free(keys_interface);
-            bindings.EventsProvider_free(chan_manager_events);
             bindings.ChannelMessageHandler_free(chan_handler);
             bindings.NetGraphMsgHandler_free(router);
             bindings.RoutingMessageHandler_free(route_handler);
@@ -217,7 +215,7 @@ public class HumanObjectPeerTest {
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events);
+        long events = bindings.EventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
         bindings.VecOrSliceDef events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
         assert events_arr_info.datalen == 1;
         bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events_arr_info.dataptr);
@@ -241,7 +239,7 @@ public class HumanObjectPeerTest {
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events);
+        events = bindings.EventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
         events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
         assert events_arr_info.datalen == 1;
         event = bindings.LDKEvent_ref_from_ptr(events_arr_info.dataptr);
@@ -295,7 +293,7 @@ public class HumanObjectPeerTest {
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long peer2_events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer2.chan_manager_events);
+        long peer2_events = bindings.EventsProvider_call_get_and_clear_pending_events(peer2.chan_manager_events._test_only_get_ptr());
         bindings.VecOrSliceDef event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer2_events);
         assert event_arr_info.datalen == 1;
         bindings.LDKEvent forwardable = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
@@ -303,7 +301,7 @@ public class HumanObjectPeerTest {
         bindings.CVec_EventZ_free(peer2_events);
         bindings.ChannelManager_process_pending_htlc_forwards(peer2.chan_manager._test_only_get_ptr());
 
-        peer2_events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer2.chan_manager_events);
+        peer2_events = bindings.EventsProvider_call_get_and_clear_pending_events(peer2.chan_manager_events._test_only_get_ptr());
         event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer2_events);
         assert event_arr_info.datalen == 1;
         bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
@@ -316,7 +314,7 @@ public class HumanObjectPeerTest {
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long peer1_events = bindings.LDKEventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events);
+        long peer1_events = bindings.EventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
         event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer1_events);
         assert event_arr_info.datalen == 1;
         bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);

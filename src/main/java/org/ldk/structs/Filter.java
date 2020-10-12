@@ -2,6 +2,8 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 
+import org.ldk.enums.*;
+
 public class Filter extends CommonBase {
 	Filter(Object _dummy, long ptr) { super(ptr); }
 	public Filter(bindings.LDKFilter arg) {
@@ -13,4 +15,6 @@ public class Filter extends CommonBase {
 		bindings.Filter_free(ptr); super.finalize();
 	}
 
+	// Skipped Filter_call_register_tx
+	// Skipped Filter_call_register_output
 }

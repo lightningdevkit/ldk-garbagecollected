@@ -2,6 +2,8 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 
+import org.ldk.enums.*;
+
 public class MessageSendEventsProvider extends CommonBase {
 	MessageSendEventsProvider(Object _dummy, long ptr) { super(ptr); }
 	public MessageSendEventsProvider(bindings.LDKMessageSendEventsProvider arg) {
@@ -13,4 +15,5 @@ public class MessageSendEventsProvider extends CommonBase {
 		bindings.MessageSendEventsProvider_free(ptr); super.finalize();
 	}
 
+	// Skipped MessageSendEventsProvider_call_get_and_clear_pending_msg_events
 }

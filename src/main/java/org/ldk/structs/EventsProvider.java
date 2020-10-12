@@ -2,6 +2,8 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 
+import org.ldk.enums.*;
+
 public class EventsProvider extends CommonBase {
 	EventsProvider(Object _dummy, long ptr) { super(ptr); }
 	public EventsProvider(bindings.LDKEventsProvider arg) {
@@ -13,4 +15,5 @@ public class EventsProvider extends CommonBase {
 		bindings.EventsProvider_free(ptr); super.finalize();
 	}
 
+	// Skipped EventsProvider_call_get_and_clear_pending_events
 }

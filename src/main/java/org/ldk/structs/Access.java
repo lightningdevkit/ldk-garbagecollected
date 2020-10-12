@@ -2,6 +2,8 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 
+import org.ldk.enums.*;
+
 public class Access extends CommonBase {
 	Access(Object _dummy, long ptr) { super(ptr); }
 	public Access(bindings.LDKAccess arg) {
@@ -13,4 +15,5 @@ public class Access extends CommonBase {
 		bindings.Access_free(ptr); super.finalize();
 	}
 
+	// Skipped Access_call_get_utxo
 }

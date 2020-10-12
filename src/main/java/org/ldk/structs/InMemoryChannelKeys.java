@@ -21,35 +21,55 @@ public class InMemoryChannelKeys extends CommonBase {
 		return ret;
 	}
 
-	// Skipped InMemoryChannelKeys_set_funding_key
+	public void set_funding_key(InMemoryChannelKeys this_ptr, byte[] val) {
+		bindings.InMemoryChannelKeys_set_funding_key(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	public byte[] get_revocation_base_key(InMemoryChannelKeys this_ptr) {
 		byte[] ret = bindings.InMemoryChannelKeys_get_revocation_base_key(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
-	// Skipped InMemoryChannelKeys_set_revocation_base_key
+	public void set_revocation_base_key(InMemoryChannelKeys this_ptr, byte[] val) {
+		bindings.InMemoryChannelKeys_set_revocation_base_key(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	public byte[] get_payment_key(InMemoryChannelKeys this_ptr) {
 		byte[] ret = bindings.InMemoryChannelKeys_get_payment_key(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
-	// Skipped InMemoryChannelKeys_set_payment_key
+	public void set_payment_key(InMemoryChannelKeys this_ptr, byte[] val) {
+		bindings.InMemoryChannelKeys_set_payment_key(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	public byte[] get_delayed_payment_base_key(InMemoryChannelKeys this_ptr) {
 		byte[] ret = bindings.InMemoryChannelKeys_get_delayed_payment_base_key(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
-	// Skipped InMemoryChannelKeys_set_delayed_payment_base_key
+	public void set_delayed_payment_base_key(InMemoryChannelKeys this_ptr, byte[] val) {
+		bindings.InMemoryChannelKeys_set_delayed_payment_base_key(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	public byte[] get_htlc_base_key(InMemoryChannelKeys this_ptr) {
 		byte[] ret = bindings.InMemoryChannelKeys_get_htlc_base_key(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
-	// Skipped InMemoryChannelKeys_set_htlc_base_key
+	public void set_htlc_base_key(InMemoryChannelKeys this_ptr, byte[] val) {
+		bindings.InMemoryChannelKeys_set_htlc_base_key(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	public byte[] get_commitment_seed(InMemoryChannelKeys this_ptr) {
 		byte[] ret = bindings.InMemoryChannelKeys_get_commitment_seed(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
