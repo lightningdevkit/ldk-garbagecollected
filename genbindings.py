@@ -2,7 +2,7 @@
 import sys, re
 
 if len(sys.argv) != 6:
-    print("USAGE: /path/to/lightning.h /path/to/bindings/output.java /path/to/bindings/enums/ /path/to/bindings/output.c debug")
+    print("USAGE: /path/to/lightning.h /path/to/bindings/output.java /path/to/bindings/ /path/to/bindings/output.c debug")
     print("debug should be true or false and indicates whether to track allocations and ensure we don't leak")
     sys.exit(1)
 
@@ -347,8 +347,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_java.write("\tpublic static native ")
         out_c.write("JNIEXPORT ")
 
+        is_free = re_match.group(2).endswith("_free")
+        struct_meth = re_match.group(2).split("_")[0]
+
         ret_info = map_type(re_match.group(1), True, ret_arr_len, False)
         ret_info.print_ty()
+
         if ret_info.ret_conv is not None:
             ret_conv_pfx, ret_conv_sfx = ret_info.ret_conv
 
@@ -356,19 +360,59 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_c.write(" JNICALL Java_org_ldk_impl_bindings_" + re_match.group(2).replace('_', '_1') + "(JNIEnv * _env, jclass _b")
 
         arg_names = []
+        takes_self = False
+        args_known = not ret_info.passed_as_ptr or ret_info.rust_obj in opaque_structs or ret_info.rust_obj in trait_structs
         for idx, arg in enumerate(re_match.group(3).split(',')):
             if idx != 0:
                 out_java.write(", ")
             if arg != "void":
                 out_c.write(", ")
-            arg_conv_info = map_type(arg, False, None, re_match.group(2).endswith("_free"))
+            arg_conv_info = map_type(arg, False, None, is_free)
             if arg_conv_info.c_ty != "void":
                 arg_conv_info.print_ty()
                 arg_conv_info.print_name()
+            if arg_conv_info.arg_name == "this_arg":
+                takes_self = True
+            if arg_conv_info.passed_as_ptr and not arg_conv_info.rust_obj in opaque_structs:
+                if not arg_conv_info.rust_obj in trait_structs and not arg_conv_info.rust_obj in unitary_enums:
+                    print(re_match.group(2) + " bad - " + arg_conv_info.rust_obj)
+                    args_known = False
             arg_names.append(arg_conv_info)
+
+        out_java_struct = None
+        if "LDK" + struct_meth in opaque_structs and not is_free:
+            out_java_struct = open(sys.argv[3] + "/structs/" + struct_meth + ".java", "a")
+            if not args_known:
+                out_java_struct.write("\t// Skipped " + re_match.group(2) + "\n")
+                out_java_struct.close()
+                out_java_struct = None
+            else:
+                out_java_struct.write("\tpublic ")
+                meth_n = re_match.group(2)[len(struct_meth) + 1:]
+                if ret_info.rust_obj == "LDK" + struct_meth:
+                    out_java_struct.write(struct_meth + "(")
+                elif ret_info.rust_obj in opaque_structs or ret_info.rust_obj in trait_structs:
+                    out_java_struct.write(ret_info.rust_obj.replace("LDK", "") + " " + meth_n + "(")
+                else:
+                    out_java_struct.write(ret_info.java_ty + " " + meth_n + "(")
+                for idx, arg in enumerate(arg_names):
+                    if idx != 0:
+                        if not takes_self or idx > 1:
+                            out_java_struct.write(", ")
+                    if arg.java_ty != "void" and arg.arg_name != "this_arg":
+                        if arg.passed_as_ptr:
+                            if arg.rust_obj in opaque_structs or arg.rust_obj in trait_structs:
+                                out_java_struct.write(arg.rust_obj.replace("LDK", "") + " " + arg.arg_name)
+                            else:
+                                out_java_struct.write(arg.rust_obj + " " + arg.arg_name)
+                        else:
+                            out_java_struct.write(arg.java_ty + " " + arg.arg_name)
+
 
         out_java.write(");\n")
         out_c.write(") {\n")
+        if out_java_struct is not None:
+            out_java_struct.write(") {\n")
 
         for info in arg_names:
             if info.arg_conv is not None:
@@ -397,9 +441,51 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         else:
             out_c.write(";")
         out_c.write("\n}\n\n")
+        if out_java_struct is not None:
+            out_java_struct.write("\t\t")
+            if ret_info.rust_obj == "LDK" + struct_meth:
+                out_java_struct.write("super(")
+            elif ret_info.java_ty != "void" and not ret_info.passed_as_ptr:
+                out_java_struct.write(ret_info.java_ty + " ret = ")
+            elif ret_info.java_ty != "void":
+                out_java_struct.write(ret_info.rust_obj.replace("LDK", "") + " ret = ")
+                if ret_info.rust_obj in opaque_structs or ret_info.rust_obj in trait_structs:
+                    out_java_struct.write("new " + ret_info.rust_obj.replace("LDK", "") + "(null, ")
+            out_java_struct.write("bindings." + re_match.group(2) + "(")
+            for idx, info in enumerate(arg_names):
+                if idx != 0:
+                    out_java_struct.write(", ")
+                if info.arg_name == "this_arg":
+                    out_java_struct.write("this.ptr")
+                elif info.passed_as_ptr and info.rust_obj in opaque_structs:
+                    out_java_struct.write(info.arg_name + ".ptr & ~1")
+                elif info.passed_as_ptr and info.rust_obj in trait_structs:
+                    out_java_struct.write(info.arg_name + ".ptr")
+                else:
+                    out_java_struct.write(info.arg_name)
+            out_java_struct.write(")")
+            if ret_info.rust_obj == "LDK" + struct_meth:
+                out_java_struct.write(");\n")
+            elif ret_info.rust_obj in opaque_structs:
+                out_java_struct.write(");\n")
+            elif ret_info.rust_obj in trait_structs:
+                out_java_struct.write(");\n\t\tret.ptrs_to.add(this);\n")
+            else:
+                out_java_struct.write(";\n")
+
+            for info in arg_names:
+                if info.arg_name == "this_arg":
+                    pass
+                elif info.passed_as_ptr and (info.rust_obj in opaque_structs or info.rust_obj in trait_structs):
+                    out_java_struct.write("\t\tthis.ptrs_to.add(" + info.arg_name + ");\n")
+
+            if ret_info.java_ty != "void" and ret_info.rust_obj != "LDK" + struct_meth:
+                out_java_struct.write("\t\treturn ret;\n")
+            out_java_struct.write("\t}\n\n")
+            out_java_struct.close()
 
     def map_unitary_enum(struct_name, field_lines):
-        with open(sys.argv[3] + "/" + struct_name + ".java", "w") as out_java_enum:
+        with open(sys.argv[3] + "/enums/" + struct_name + ".java", "w") as out_java_enum:
             out_java_enum.write("package org.ldk.enums;\n\n")
             unitary_enums.add(struct_name)
             out_c.write("static inline " + struct_name + " " + struct_name + "_from_java(JNIEnv *env, jclass val) {\n")
@@ -529,172 +615,195 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_c.write("\t}\n}\n")
 
     def map_trait(struct_name, field_var_lines, trait_fn_lines):
-        out_c.write("typedef struct " + struct_name + "_JCalls {\n")
-        out_c.write("\tatomic_size_t refcnt;\n")
-        out_c.write("\tJavaVM *vm;\n")
-        out_c.write("\tjweak o;\n")
-        for var_line in field_var_lines:
-            if var_line.group(1) in trait_structs:
-                out_c.write("\t" + var_line.group(1) + "_JCalls* " + var_line.group(2) + ";\n")
-        for fn_line in trait_fn_lines:
-            if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                out_c.write("\tjmethodID " + fn_line.group(2) + "_meth;\n")
-        out_c.write("} " + struct_name + "_JCalls;\n")
+        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "w") as out_java_trait:
+            out_c.write("typedef struct " + struct_name + "_JCalls {\n")
+            out_c.write("\tatomic_size_t refcnt;\n")
+            out_c.write("\tJavaVM *vm;\n")
+            out_c.write("\tjweak o;\n")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_c.write("\t" + var_line.group(1) + "_JCalls* " + var_line.group(2) + ";\n")
+            for fn_line in trait_fn_lines:
+                if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
+                    out_c.write("\tjmethodID " + fn_line.group(2) + "_meth;\n")
+            out_c.write("} " + struct_name + "_JCalls;\n")
 
-        out_java.write("\tpublic interface " + struct_name + " {\n")
-        java_meths = []
-        for fn_line in trait_fn_lines:
-            java_meth_descr = "("
-            if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                ret_ty_info = java_c_types(fn_line.group(1), None)
+            out_java_trait.write("package org.ldk.structs;\n\n")
+            out_java_trait.write("import org.ldk.impl.bindings;\n\n")
+            out_java_trait.write("public class " + struct_name.replace("LDK","") + " extends CommonBase {\n")
+            out_java_trait.write("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); }\n")
+            out_java_trait.write("\tpublic " + struct_name.replace("LDK", "") + "(bindings." + struct_name + " arg")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_java_trait.write(", bindings." + var_line.group(1) + " " + var_line.group(2))
+            out_java_trait.write(") {\n")
+            out_java_trait.write("\t\tsuper(bindings." + struct_name + "_new(arg")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_java_trait.write(", " + var_line.group(2))
+            out_java_trait.write("));\n")
+            out_java_trait.write("\t\tthis.ptrs_to.add(arg);\n")
+            out_java_trait.write("\t}\n")
+            out_java_trait.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
+            out_java_trait.write("\tprotected void finalize() throws Throwable {\n")
+            out_java_trait.write("\t\tbindings." + struct_name.replace("LDK","") + "_free(ptr); super.finalize();\n")
+            out_java_trait.write("\t}\n\n")
+            out_java_trait.write("}\n")
 
-                out_java.write("\t\t " + ret_ty_info.java_ty + " " + fn_line.group(2) + "(")
-                is_const = fn_line.group(3) is not None
-                out_c.write(fn_line.group(1) + fn_line.group(2) + "_jcall(")
-                if is_const:
-                    out_c.write("const void* this_arg")
-                else:
-                    out_c.write("void* this_arg")
+            out_java.write("\tpublic interface " + struct_name + " {\n")
+            java_meths = []
+            for fn_line in trait_fn_lines:
+                java_meth_descr = "("
+                if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
+                    ret_ty_info = java_c_types(fn_line.group(1), None)
 
-                arg_names = []
-                for idx, arg in enumerate(fn_line.group(4).split(',')):
-                    if arg == "":
-                        continue
-                    if idx >= 2:
-                        out_java.write(", ")
-                    out_c.write(", ")
-                    arg_conv_info = map_type(arg, True, None, False)
-                    out_c.write(arg.strip())
-                    out_java.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
-                    arg_names.append(arg_conv_info)
-                    java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
-                java_meth_descr = java_meth_descr + ")" + ret_ty_info.java_fn_ty_arg
-                java_meths.append(java_meth_descr)
-
-                out_java.write(");\n")
-                out_c.write(") {\n")
-                out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-                out_c.write("\tJNIEnv *env;\n")
-                out_c.write("\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n")
-
-                for arg_info in arg_names:
-                    if arg_info.ret_conv is not None:
-                        out_c.write("\t" + arg_info.ret_conv[0].replace('\n', '\n\t').replace("_env", "env"));
-                        out_c.write(arg_info.arg_name)
-                        out_c.write(arg_info.ret_conv[1].replace('\n', '\n\t').replace("_env", "env") + "\n")
-
-                out_c.write("\tjobject obj = (*env)->NewLocalRef(env, j_calls->o);\n\tDO_ASSERT(obj != NULL);\n")
-                if ret_ty_info.c_ty.endswith("Array"):
-                    assert(ret_ty_info.c_ty == "jbyteArray")
-                    out_c.write("\tjbyteArray jret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.group(2) + "_meth")
-                elif not ret_ty_info.passed_as_ptr:
-                    out_c.write("\treturn (*env)->Call" + ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.group(2) + "_meth")
-                else:
-                    out_c.write("\t" + fn_line.group(1).strip() + "* ret = (" + fn_line.group(1).strip() + "*)(*env)->CallLongMethod(env, obj, j_calls->" + fn_line.group(2) + "_meth");
-
-                for arg_info in arg_names:
-                    if arg_info.ret_conv is not None:
-                        out_c.write(", " + arg_info.ret_conv_name)
+                    out_java.write("\t\t " + ret_ty_info.java_ty + " " + fn_line.group(2) + "(")
+                    is_const = fn_line.group(3) is not None
+                    out_c.write(fn_line.group(1) + fn_line.group(2) + "_jcall(")
+                    if is_const:
+                        out_c.write("const void* this_arg")
                     else:
-                        out_c.write(", " + arg_info.arg_name)
-                out_c.write(");\n");
-                if ret_ty_info.c_ty.endswith("Array"):
-                    out_c.write("\t" + ret_ty_info.rust_obj + " ret;\n")
-                    out_c.write("\t(*env)->GetByteArrayRegion(env, jret, 0, " + ret_ty_info.arr_len + ", ret." + ret_ty_info.arr_access + ");\n")
-                    out_c.write("\treturn ret;\n")
+                        out_c.write("void* this_arg")
 
-                if ret_ty_info.passed_as_ptr:
-                    out_c.write("\t" + fn_line.group(1).strip() + " res = *ret;\n")
-                    out_c.write("\tFREE(ret);\n")
-                    out_c.write("\treturn res;\n")
-                out_c.write("}\n")
-            elif fn_line.group(2) == "free":
-                out_c.write("static void " + struct_name + "_JCalls_free(void* this_arg) {\n")
-                out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-                out_c.write("\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n")
-                out_c.write("\t\tJNIEnv *env;\n")
-                out_c.write("\t\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n")
-                out_c.write("\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n")
-                out_c.write("\t\tFREE(j_calls);\n")
-                out_c.write("\t}\n}\n")
+                    arg_names = []
+                    for idx, arg in enumerate(fn_line.group(4).split(',')):
+                        if arg == "":
+                            continue
+                        if idx >= 2:
+                            out_java.write(", ")
+                        out_c.write(", ")
+                        arg_conv_info = map_type(arg, True, None, False)
+                        out_c.write(arg.strip())
+                        out_java.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
+                        arg_names.append(arg_conv_info)
+                        java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
+                    java_meth_descr = java_meth_descr + ")" + ret_ty_info.java_fn_ty_arg
+                    java_meths.append(java_meth_descr)
 
-        # Write out a clone function whether we need one or not, as we use them in moving to rust
-        out_c.write("static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
-        out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-        out_c.write("\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n")
-        for var_line in field_var_lines:
-            if var_line.group(1) in trait_structs:
-                out_c.write("\tatomic_fetch_add_explicit(&j_calls->" + var_line.group(2) + "->refcnt, 1, memory_order_release);\n")
-        out_c.write("\treturn (void*) this_arg;\n")
-        out_c.write("}\n")
+                    out_java.write(");\n")
+                    out_c.write(") {\n")
+                    out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+                    out_c.write("\tJNIEnv *env;\n")
+                    out_c.write("\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n")
 
-        out_java.write("\t}\n")
+                    for arg_info in arg_names:
+                        if arg_info.ret_conv is not None:
+                            out_c.write("\t" + arg_info.ret_conv[0].replace('\n', '\n\t').replace("_env", "env"));
+                            out_c.write(arg_info.arg_name)
+                            out_c.write(arg_info.ret_conv[1].replace('\n', '\n\t').replace("_env", "env") + "\n")
 
-        out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl")
-        out_c.write("static inline " + struct_name + " " + struct_name + "_init (JNIEnv * env, jclass _a, jobject o")
-        for var_line in field_var_lines:
-            if var_line.group(1) in trait_structs:
-                out_java.write(", " + var_line.group(1) + " " + var_line.group(2))
-                out_c.write(", jobject " + var_line.group(2))
-        out_java.write(");\n")
-        out_c.write(") {\n")
+                    out_c.write("\tjobject obj = (*env)->NewLocalRef(env, j_calls->o);\n\tDO_ASSERT(obj != NULL);\n")
+                    if ret_ty_info.c_ty.endswith("Array"):
+                        assert(ret_ty_info.c_ty == "jbyteArray")
+                        out_c.write("\tjbyteArray jret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.group(2) + "_meth")
+                    elif not ret_ty_info.passed_as_ptr:
+                        out_c.write("\treturn (*env)->Call" + ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.group(2) + "_meth")
+                    else:
+                        out_c.write("\t" + fn_line.group(1).strip() + "* ret = (" + fn_line.group(1).strip() + "*)(*env)->CallLongMethod(env, obj, j_calls->" + fn_line.group(2) + "_meth");
 
-        out_c.write("\tjclass c = (*env)->GetObjectClass(env, o);\n")
-        out_c.write("\tDO_ASSERT(c != NULL);\n")
-        out_c.write("\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n")
-        out_c.write("\tatomic_init(&calls->refcnt, 1);\n")
-        out_c.write("\tDO_ASSERT((*env)->GetJavaVM(env, &calls->vm) == 0);\n")
-        out_c.write("\tcalls->o = (*env)->NewWeakGlobalRef(env, o);\n")
-        for (fn_line, java_meth_descr) in zip(trait_fn_lines, java_meths):
-            if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                out_c.write("\tcalls->" + fn_line.group(2) + "_meth = (*env)->GetMethodID(env, c, \"" + fn_line.group(2) + "\", \"" + java_meth_descr + "\");\n")
-                out_c.write("\tDO_ASSERT(calls->" + fn_line.group(2) + "_meth != NULL);\n")
-        out_c.write("\n\t" + struct_name + " ret = {\n")
-        out_c.write("\t\t.this_arg = (void*) calls,\n")
-        for fn_line in trait_fn_lines:
-            if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
-                out_c.write("\t\t." + fn_line.group(2) + " = " + fn_line.group(2) + "_jcall,\n")
-            elif fn_line.group(2) == "free":
-                out_c.write("\t\t.free = " + struct_name + "_JCalls_free,\n")
-            else:
-                out_c.write("\t\t.clone = " + struct_name + "_JCalls_clone,\n")
-        for var_line in field_var_lines:
-            if var_line.group(1) in trait_structs:
-                out_c.write("\t\t." + var_line.group(2) + " = " + var_line.group(1) + "_init(env, _a, " + var_line.group(2) + "),\n")
-        out_c.write("\t};\n")
-        for var_line in field_var_lines:
-            if var_line.group(1) in trait_structs:
-                out_c.write("\tcalls->" + var_line.group(2) + " = ret." + var_line.group(2) + ".this_arg;\n")
-        out_c.write("\treturn ret;\n")
-        out_c.write("}\n")
+                    for arg_info in arg_names:
+                        if arg_info.ret_conv is not None:
+                            out_c.write(", " + arg_info.ret_conv_name)
+                        else:
+                            out_c.write(", " + arg_info.arg_name)
+                    out_c.write(");\n");
+                    if ret_ty_info.c_ty.endswith("Array"):
+                        out_c.write("\t" + ret_ty_info.rust_obj + " ret;\n")
+                        out_c.write("\t(*env)->GetByteArrayRegion(env, jret, 0, " + ret_ty_info.arr_len + ", ret." + ret_ty_info.arr_access + ");\n")
+                        out_c.write("\treturn ret;\n")
 
-        out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o")
-        for var_line in field_var_lines:
-            if var_line.group(1) in trait_structs:
-                out_c.write(", jobject " + var_line.group(2))
-        out_c.write(") {\n")
-        out_c.write("\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-        out_c.write("\t*res_ptr = " + struct_name + "_init(env, _a, o")
-        for var_line in field_var_lines:
-            if var_line.group(1) in trait_structs:
-                out_c.write(", " + var_line.group(2))
-        out_c.write(");\n")
-        out_c.write("\treturn (long)res_ptr;\n")
-        out_c.write("}\n")
+                    if ret_ty_info.passed_as_ptr:
+                        out_c.write("\t" + fn_line.group(1).strip() + " res = *ret;\n")
+                        out_c.write("\tFREE(ret);\n")
+                        out_c.write("\treturn res;\n")
+                    out_c.write("}\n")
+                elif fn_line.group(2) == "free":
+                    out_c.write("static void " + struct_name + "_JCalls_free(void* this_arg) {\n")
+                    out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+                    out_c.write("\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n")
+                    out_c.write("\t\tJNIEnv *env;\n")
+                    out_c.write("\t\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n")
+                    out_c.write("\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n")
+                    out_c.write("\t\tFREE(j_calls);\n")
+                    out_c.write("\t}\n}\n")
 
-        out_java.write("\tpublic static native " + struct_name + " " + struct_name + "_get_obj_from_jcalls(long val);\n")
-        out_c.write("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {\n")
-        out_c.write("\tjobject ret = (*env)->NewLocalRef(env, ((" + struct_name + "_JCalls*)val)->o);\n")
-        out_c.write("\tDO_ASSERT(ret != NULL);\n")
-        out_c.write("\treturn ret;\n")
-        out_c.write("}\n")
+            # Write out a clone function whether we need one or not, as we use them in moving to rust
+            out_c.write("static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
+            out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
+            out_c.write("\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_c.write("\tatomic_fetch_add_explicit(&j_calls->" + var_line.group(2) + "->refcnt, 1, memory_order_release);\n")
+            out_c.write("\treturn (void*) this_arg;\n")
+            out_c.write("}\n")
 
-        for fn_line in trait_fn_lines:
-            # For now, just disable enabling the _call_log - we don't know how to inverse-map String
-            is_log = fn_line.group(2) == "log" and struct_name == "LDKLogger"
-            if fn_line.group(2) != "free" and fn_line.group(2) != "clone" and fn_line.group(2) != "eq" and not is_log:
-                dummy_line = fn_line.group(1) + struct_name + "_call_" + fn_line.group(2) + " " + struct_name + "* arg" + fn_line.group(4) + "\n"
-                map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(arg_conv->" + fn_line.group(2) + ")(arg_conv->this_arg")
+            out_java.write("\t}\n")
+
+            out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl")
+            out_c.write("static inline " + struct_name + " " + struct_name + "_init (JNIEnv * env, jclass _a, jobject o")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_java.write(", " + var_line.group(1) + " " + var_line.group(2))
+                    out_c.write(", jobject " + var_line.group(2))
+            out_java.write(");\n")
+            out_c.write(") {\n")
+
+            out_c.write("\tjclass c = (*env)->GetObjectClass(env, o);\n")
+            out_c.write("\tDO_ASSERT(c != NULL);\n")
+            out_c.write("\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n")
+            out_c.write("\tatomic_init(&calls->refcnt, 1);\n")
+            out_c.write("\tDO_ASSERT((*env)->GetJavaVM(env, &calls->vm) == 0);\n")
+            out_c.write("\tcalls->o = (*env)->NewWeakGlobalRef(env, o);\n")
+            for (fn_line, java_meth_descr) in zip(trait_fn_lines, java_meths):
+                if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
+                    out_c.write("\tcalls->" + fn_line.group(2) + "_meth = (*env)->GetMethodID(env, c, \"" + fn_line.group(2) + "\", \"" + java_meth_descr + "\");\n")
+                    out_c.write("\tDO_ASSERT(calls->" + fn_line.group(2) + "_meth != NULL);\n")
+            out_c.write("\n\t" + struct_name + " ret = {\n")
+            out_c.write("\t\t.this_arg = (void*) calls,\n")
+            for fn_line in trait_fn_lines:
+                if fn_line.group(2) != "free" and fn_line.group(2) != "clone":
+                    out_c.write("\t\t." + fn_line.group(2) + " = " + fn_line.group(2) + "_jcall,\n")
+                elif fn_line.group(2) == "free":
+                    out_c.write("\t\t.free = " + struct_name + "_JCalls_free,\n")
+                else:
+                    out_c.write("\t\t.clone = " + struct_name + "_JCalls_clone,\n")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_c.write("\t\t." + var_line.group(2) + " = " + var_line.group(1) + "_init(env, _a, " + var_line.group(2) + "),\n")
+            out_c.write("\t};\n")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_c.write("\tcalls->" + var_line.group(2) + " = ret." + var_line.group(2) + ".this_arg;\n")
+            out_c.write("\treturn ret;\n")
+            out_c.write("}\n")
+
+            out_c.write("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_c.write(", jobject " + var_line.group(2))
+            out_c.write(") {\n")
+            out_c.write("\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
+            out_c.write("\t*res_ptr = " + struct_name + "_init(env, _a, o")
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    out_c.write(", " + var_line.group(2))
+            out_c.write(");\n")
+            out_c.write("\treturn (long)res_ptr;\n")
+            out_c.write("}\n")
+
+            out_java.write("\tpublic static native " + struct_name + " " + struct_name + "_get_obj_from_jcalls(long val);\n")
+            out_c.write("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {\n")
+            out_c.write("\tjobject ret = (*env)->NewLocalRef(env, ((" + struct_name + "_JCalls*)val)->o);\n")
+            out_c.write("\tDO_ASSERT(ret != NULL);\n")
+            out_c.write("\treturn ret;\n")
+            out_c.write("}\n")
+
+            for fn_line in trait_fn_lines:
+                # For now, just disable enabling the _call_log - we don't know how to inverse-map String
+                is_log = fn_line.group(2) == "log" and struct_name == "LDKLogger"
+                if fn_line.group(2) != "free" and fn_line.group(2) != "clone" and fn_line.group(2) != "eq" and not is_log:
+                    dummy_line = fn_line.group(1) + struct_name + "_call_" + fn_line.group(2) + " " + struct_name + "* arg" + fn_line.group(4) + "\n"
+                    map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(arg_conv->" + fn_line.group(2) + ")(arg_conv->this_arg")
 
     out_c.write("""#include \"org_ldk_impl_bindings.h\"
 #include <rust_types.h>
@@ -908,6 +1017,17 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 """)
 
+    with open(sys.argv[3] + "/structs/CommonBase.java", "a") as out_java_struct:
+        out_java_struct.write("""package org.ldk.structs;
+import java.util.LinkedList;
+class CommonBase {
+	final long ptr;
+	LinkedList<Object> ptrs_to = new LinkedList();
+	protected CommonBase(long ptr) { this.ptr = ptr; }
+	public long _test_only_get_ptr() { return this.ptr; }
+}
+""")
+
     # XXX: Temporarily write out a manual SecretKey_new() for testing, we should auto-gen this kind of thing
     out_java.write("\tpublic static native long LDKSecretKey_new();\n\n") # TODO: rm me
     out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKSecretKey_1new(JNIEnv * _env, jclass _b) {\n") # TODO: rm me
@@ -918,9 +1038,6 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
     in_block_comment = False
     cur_block_obj = None
 
-    fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
-    fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
-    reg_fn_regex = re.compile("([A-Za-z_0-9\* ]* \*?)([a-zA-Z_0-9]*)\((.*)\);$")
     const_val_regex = re.compile("^extern const ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
 
     line_indicates_result_regex = re.compile("^   (LDKCResultPtr_[A-Za-z_0-9]*) contents;$")
@@ -1007,6 +1124,16 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
                 if is_opaque:
                     opaque_structs.add(struct_name)
+                    with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "w") as out_java_struct:
+                        out_java_struct.write("package org.ldk.structs;\n\n")
+                        out_java_struct.write("import org.ldk.impl.bindings;\n")
+                        out_java_struct.write("import org.ldk.enums.*;\n\n")
+                        out_java_struct.write("public class " + struct_name.replace("LDK","") + " extends CommonBase {\n")
+                        out_java_struct.write("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); }\n")
+                        out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
+                        out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
+                        out_java_struct.write("\t\tbindings." + struct_name.replace("LDK","") + "_free(ptr); super.finalize();\n")
+                        out_java_struct.write("\t}\n\n")
                 elif result_contents is not None:
                     result_templ_structs.add(struct_name)
                     assert result_contents in result_ptr_struct_items
@@ -1156,3 +1283,6 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
                 assert(line == "\n")
 
     out_java.write("}\n")
+    for struct_name in opaque_structs:
+        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "a") as out_java_struct:
+            out_java_struct.write("}\n")
