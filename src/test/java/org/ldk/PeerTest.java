@@ -31,15 +31,22 @@ public class PeerTest {
         final long peer_manager;
         HashMap<String, Long> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
+        bindings.LDKFeeEstimator fee_est;
+        bindings.LDKBroadcasterInterface broad_trait;
+        bindings.LDKLogger log_trait;
+        bindings.LDKWatch watcher;
 
         Peer(byte seed) {
-            logger = bindings.LDKLogger_new((String arg)-> System.out.println(seed + ": " + arg));
-            this.fee_estimator = bindings.LDKFeeEstimator_new(confirmation_target -> 0);
-            this.tx_broadcaster = bindings.LDKBroadcasterInterface_new(tx -> {
+            this.log_trait = (String arg)-> System.out.println(seed + ": " + arg);
+            logger = bindings.LDKLogger_new(this.log_trait);
+            this.fee_est = confirmation_target -> 0;
+            this.fee_estimator = bindings.LDKFeeEstimator_new(this.fee_est);
+            this.broad_trait = tx -> {
                 // We should broadcast
-            });
+            };
+            this.tx_broadcaster = bindings.LDKBroadcasterInterface_new(this.broad_trait);
             this.monitors = new HashMap<>();
-            this.chain_monitor = bindings.LDKWatch_new(new bindings.LDKWatch() {
+            this.watcher = new bindings.LDKWatch() {
                 @Override
                 public long watch_channel(long funding_txo, long monitor) {
                     synchronized (monitors) {
@@ -73,7 +80,8 @@ public class PeerTest {
                     }
                     return bindings.new_empty_slice_vec();
                 }
-            });
+            };
+            this.chain_monitor = bindings.LDKWatch_new(this.watcher);
 
             byte[] key_seed = new byte[32];
             for (byte i = 0; i < 32; i++) { key_seed[i] = (byte) (i ^ seed); }
@@ -164,7 +172,7 @@ public class PeerTest {
         ConcurrentLinkedQueue<Thread> list = new ConcurrentLinkedQueue<Thread>();
         LongHolder descriptor1 = new LongHolder();
         LongHolder descriptor1ref = descriptor1;
-        long descriptor2 = bindings.LDKSocketDescriptor_new(new bindings.LDKSocketDescriptor() {
+        bindings.LDKSocketDescriptor sock1 = new bindings.LDKSocketDescriptor() {
             @Override
             public long send_data(long data, boolean resume_read) {
                 return do_read_event(list, peer1.peer_manager, descriptor1ref.val, data).length;
@@ -173,9 +181,10 @@ public class PeerTest {
             @Override public void disconnect_socket() { assert false; }
             @Override public boolean eq(long other_arg) { return bindings.LDKSocketDescriptor_get_obj_from_jcalls(other_arg).hash() == 2; }
             @Override public long hash() { return 2; }
-        });
+        };
+        long descriptor2 = bindings.LDKSocketDescriptor_new(sock1);
 
-        descriptor1.val = bindings.LDKSocketDescriptor_new(new bindings.LDKSocketDescriptor() {
+        bindings.LDKSocketDescriptor sock2 = new bindings.LDKSocketDescriptor() {
             @Override
             public long send_data(long data, boolean resume_read) {
                 return do_read_event(list, peer2.peer_manager, descriptor2, data).length;
@@ -184,7 +193,8 @@ public class PeerTest {
             @Override public void disconnect_socket() { assert false; }
             @Override public boolean eq(long other_arg) { return bindings.LDKSocketDescriptor_get_obj_from_jcalls(other_arg).hash() == 1; }
             @Override public long hash() { return 1; }
-        });
+        };
+        descriptor1.val = bindings.LDKSocketDescriptor_new(sock2);
 
         long init_vec = bindings.PeerManager_new_outbound_connection(peer1.peer_manager, peer2.node_id, descriptor1.val);
         assert(bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(init_vec));
