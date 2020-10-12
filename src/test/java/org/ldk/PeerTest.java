@@ -66,7 +66,7 @@ public class PeerTest {
                         bindings.CResult_NoneMonitorUpdateErrorZ_free(update_res);
                     }
                     bindings.OutPoint_free(funding_txo);
-                    //bindings.ChannelMonitorUpdate_free(update); We'll need this after 681
+                    bindings.ChannelMonitorUpdate_free(update);
                     return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
                 }
 
@@ -132,6 +132,7 @@ public class PeerTest {
             bindings.Watch_free(chain_monitor);
             bindings.KeysManager_free(keys);
             bindings.KeysInterface_free(keys_interface);
+            bindings.UserConfig_free(config);
             bindings.ChannelManager_free(chan_manager);
             bindings.EventsProvider_free(chan_manager_events);
             bindings.ChannelMessageHandler_free(chan_handler);
@@ -233,7 +234,9 @@ public class PeerTest {
         funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
         funding.getInput(0).getWitness().setPush(0, new byte[] {0x1});
         funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
-        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, bindings.OutPoint_new(funding.getTxId().getReversedBytes(), (short) 0));
+        long funding_txo = bindings.OutPoint_new(funding.getTxId().getReversedBytes(), (short) 0);
+        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, funding_txo);
+        bindings.OutPoint_free(funding_txo);
 
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }

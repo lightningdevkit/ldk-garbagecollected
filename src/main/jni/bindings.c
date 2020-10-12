@@ -475,6 +475,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1OutPoint_1_1
 	LDKOutPoint a_conv;
 	a_conv.inner = (void*)(a & (~1));
 	a_conv.is_owned = (a & 1) || (a == 0);
+	if (a_conv.inner != NULL)
+		a_conv = OutPoint_clone(&a_conv);
 	ret->a = a_conv;
 	LDKCVec_u8Z b_conv = *(LDKCVec_u8Z*)b;
 	FREE((void*)b);
@@ -673,14 +675,20 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3TupleTempl_1ChannelAnnou
 	LDKChannelAnnouncement a_conv;
 	a_conv.inner = (void*)(a & (~1));
 	a_conv.is_owned = (a & 1) || (a == 0);
+	if (a_conv.inner != NULL)
+		a_conv = ChannelAnnouncement_clone(&a_conv);
 	ret->a = a_conv;
 	LDKChannelUpdate b_conv;
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = (b & 1) || (b == 0);
+	if (b_conv.inner != NULL)
+		b_conv = ChannelUpdate_clone(&b_conv);
 	ret->b = b_conv;
 	LDKChannelUpdate c_conv;
 	c_conv.inner = (void*)(c & (~1));
 	c_conv.is_owned = (c & 1) || (c == 0);
+	if (c_conv.inner != NULL)
+		c_conv = ChannelUpdate_clone(&c_conv);
 	ret->c = c_conv;
 	return (long)ret;
 }
@@ -700,6 +708,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1HTLCOutputIn
 	LDKHTLCOutputInCommitment a_conv;
 	a_conv.inner = (void*)(a & (~1));
 	a_conv.is_owned = (a & 1) || (a == 0);
+	if (a_conv.inner != NULL)
+		a_conv = HTLCOutputInCommitment_clone(&a_conv);
 	ret->a = a_conv;
 	LDKSignature b_conv = *(LDKSignature*)b;
 	FREE((void*)b);
@@ -1670,6 +1680,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1HTLCOutputInCom
 			LDKHTLCOutputInCommitment arr_elem_conv;
 			arr_elem_conv.inner = (void*)(arr_elem & (~1));
 			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			if (arr_elem_conv.inner != NULL)
+				arr_elem_conv = HTLCOutputInCommitment_clone(&arr_elem_conv);
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -2161,6 +2173,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKWatch_1call_1watch_1channe
 	LDKOutPoint funding_txo_conv;
 	funding_txo_conv.inner = (void*)(funding_txo & (~1));
 	funding_txo_conv.is_owned = (funding_txo & 1) || (funding_txo == 0);
+	if (funding_txo_conv.inner != NULL)
+		funding_txo_conv = OutPoint_clone(&funding_txo_conv);
 	LDKChannelMonitor monitor_conv;
 	monitor_conv.inner = (void*)(monitor & (~1));
 	monitor_conv.is_owned = (monitor & 1) || (monitor == 0);
@@ -2174,9 +2188,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKWatch_1call_1update_1chann
 	LDKOutPoint funding_txo_conv;
 	funding_txo_conv.inner = (void*)(funding_txo & (~1));
 	funding_txo_conv.is_owned = (funding_txo & 1) || (funding_txo == 0);
+	if (funding_txo_conv.inner != NULL)
+		funding_txo_conv = OutPoint_clone(&funding_txo_conv);
 	LDKChannelMonitorUpdate update_conv;
 	update_conv.inner = (void*)(update & (~1));
 	update_conv.is_owned = (update & 1) || (update == 0);
+	if (update_conv.inner != NULL)
+		update_conv = ChannelMonitorUpdate_clone(&update_conv);
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = MALLOC(sizeof(LDKCResult_NoneChannelMonitorUpdateErrZ), "LDKCResult_NoneChannelMonitorUpdateErrZ");
 	*ret = (arg_conv->update_channel)(arg_conv->this_arg, funding_txo_conv, update_conv);
 	return (long)ret;
@@ -3324,6 +3342,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateAddHTLC_1
 			LDKUpdateAddHTLC arr_elem_conv;
 			arr_elem_conv.inner = (void*)(arr_elem & (~1));
 			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			if (arr_elem_conv.inner != NULL)
+				arr_elem_conv = UpdateAddHTLC_clone(&arr_elem_conv);
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -3354,6 +3374,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFulfillHT
 			LDKUpdateFulfillHTLC arr_elem_conv;
 			arr_elem_conv.inner = (void*)(arr_elem & (~1));
 			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			if (arr_elem_conv.inner != NULL)
+				arr_elem_conv = UpdateFulfillHTLC_clone(&arr_elem_conv);
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -3384,6 +3406,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailHTLC_
 			LDKUpdateFailHTLC arr_elem_conv;
 			arr_elem_conv.inner = (void*)(arr_elem & (~1));
 			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			if (arr_elem_conv.inner != NULL)
+				arr_elem_conv = UpdateFailHTLC_clone(&arr_elem_conv);
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -3414,6 +3438,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailMalfo
 			LDKUpdateFailMalformedHTLC arr_elem_conv;
 			arr_elem_conv.inner = (void*)(arr_elem & (~1));
 			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			if (arr_elem_conv.inner != NULL)
+				arr_elem_conv = UpdateFailMalformedHTLC_clone(&arr_elem_conv);
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -3477,6 +3503,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1NodeAnnouncemen
 			LDKNodeAnnouncement arr_elem_conv;
 			arr_elem_conv.inner = (void*)(arr_elem & (~1));
 			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			if (arr_elem_conv.inner != NULL)
+				arr_elem_conv = NodeAnnouncement_clone(&arr_elem_conv);
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -3902,6 +3930,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHop_1new(J
 			LDKRouteHop arr_elem_conv;
 			arr_elem_conv.inner = (void*)(arr_elem & (~1));
 			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			if (arr_elem_conv.inner != NULL)
+				arr_elem_conv = RouteHop_clone(&arr_elem_conv);
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -4489,6 +4519,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1new
 	LDKOutPoint a_conv;
 	a_conv.inner = (void*)(a & (~1));
 	a_conv.is_owned = (a & 1) || (a == 0);
+	if (a_conv.inner != NULL)
+		a_conv = OutPoint_clone(&a_conv);
 	LDKCVec_u8Z b_conv = *(LDKCVec_u8Z*)b;
 	FREE((void*)b);
 	LDKC2Tuple_OutPointScriptZ* ret = MALLOC(sizeof(LDKC2Tuple_OutPointScriptZ), "LDKC2Tuple_OutPointScriptZ");
@@ -4556,12 +4588,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementC
 	LDKChannelAnnouncement a_conv;
 	a_conv.inner = (void*)(a & (~1));
 	a_conv.is_owned = (a & 1) || (a == 0);
+	if (a_conv.inner != NULL)
+		a_conv = ChannelAnnouncement_clone(&a_conv);
 	LDKChannelUpdate b_conv;
 	b_conv.inner = (void*)(b & (~1));
 	b_conv.is_owned = (b & 1) || (b == 0);
+	if (b_conv.inner != NULL)
+		b_conv = ChannelUpdate_clone(&b_conv);
 	LDKChannelUpdate c_conv;
 	c_conv.inner = (void*)(c & (~1));
 	c_conv.is_owned = (c & 1) || (c == 0);
+	if (c_conv.inner != NULL)
+		c_conv = ChannelUpdate_clone(&c_conv);
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
 	*ret = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a_conv, b_conv, c_conv);
 	return (long)ret;
@@ -4577,6 +4615,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1HTLCOutputInCommitme
 	LDKHTLCOutputInCommitment a_conv;
 	a_conv.inner = (void*)(a & (~1));
 	a_conv.is_owned = (a & 1) || (a == 0);
+	if (a_conv.inner != NULL)
+		a_conv = HTLCOutputInCommitment_clone(&a_conv);
 	LDKSignature b_conv = *(LDKSignature*)b;
 	FREE((void*)b);
 	LDKC2Tuple_HTLCOutputInCommitmentSignatureZ* ret = MALLOC(sizeof(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ), "LDKC2Tuple_HTLCOutputInCommitmentSignatureZ");
@@ -4969,6 +5009,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UserConfig_1set_1own_1channel_
 	LDKChannelHandshakeConfig val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = ChannelHandshakeConfig_clone(&val_conv);
 	return UserConfig_set_own_channel_config(&this_ptr_conv, val_conv);
 }
 
@@ -4987,6 +5029,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UserConfig_1set_1peer_1channel
 	LDKChannelHandshakeLimits val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = ChannelHandshakeLimits_clone(&val_conv);
 	return UserConfig_set_peer_channel_config_limits(&this_ptr_conv, val_conv);
 }
 
@@ -5005,6 +5049,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UserConfig_1set_1channel_1opti
 	LDKChannelConfig val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = ChannelConfig_clone(&val_conv);
 	return UserConfig_set_channel_options(&this_ptr_conv, val_conv);
 }
 
@@ -5012,12 +5058,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UserConfig_1new(JNIEnv * _env
 	LDKChannelHandshakeConfig own_channel_config_arg_conv;
 	own_channel_config_arg_conv.inner = (void*)(own_channel_config_arg & (~1));
 	own_channel_config_arg_conv.is_owned = (own_channel_config_arg & 1) || (own_channel_config_arg == 0);
+	if (own_channel_config_arg_conv.inner != NULL)
+		own_channel_config_arg_conv = ChannelHandshakeConfig_clone(&own_channel_config_arg_conv);
 	LDKChannelHandshakeLimits peer_channel_config_limits_arg_conv;
 	peer_channel_config_limits_arg_conv.inner = (void*)(peer_channel_config_limits_arg & (~1));
 	peer_channel_config_limits_arg_conv.is_owned = (peer_channel_config_limits_arg & 1) || (peer_channel_config_limits_arg == 0);
+	if (peer_channel_config_limits_arg_conv.inner != NULL)
+		peer_channel_config_limits_arg_conv = ChannelHandshakeLimits_clone(&peer_channel_config_limits_arg_conv);
 	LDKChannelConfig channel_options_arg_conv;
 	channel_options_arg_conv.inner = (void*)(channel_options_arg & (~1));
 	channel_options_arg_conv.is_owned = (channel_options_arg & 1) || (channel_options_arg == 0);
+	if (channel_options_arg_conv.inner != NULL)
+		channel_options_arg_conv = ChannelConfig_clone(&channel_options_arg_conv);
 	LDKUserConfig ret = UserConfig_new(own_channel_config_arg_conv, peer_channel_config_limits_arg_conv, channel_options_arg_conv);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -5227,6 +5279,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1update_1monit
 	LDKChannelMonitorUpdate updates_conv;
 	updates_conv.inner = (void*)(updates & (~1));
 	updates_conv.is_owned = (updates & 1) || (updates == 0);
+	if (updates_conv.inner != NULL)
+		updates_conv = ChannelMonitorUpdate_clone(&updates_conv);
 	LDKBroadcasterInterface* broadcaster_conv = (LDKBroadcasterInterface*)broadcaster;
 	LDKLogger* logger_conv = (LDKLogger*)logger;
 	LDKCResult_NoneMonitorUpdateErrorZ* ret = MALLOC(sizeof(LDKCResult_NoneMonitorUpdateErrorZ), "LDKCResult_NoneMonitorUpdateErrorZ");
@@ -5824,6 +5878,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new(JNIEnv * 
 	LDKUserConfig config_conv;
 	config_conv.inner = (void*)(config & (~1));
 	config_conv.is_owned = (config & 1) || (config == 0);
+	if (config_conv.inner != NULL)
+		config_conv = UserConfig_clone(&config_conv);
 	LDKChannelManager ret = ChannelManager_new(network_conv, fee_est_conv, chain_monitor_conv, tx_broadcaster_conv, logger_conv, keys_manager_conv, config_conv, current_blockchain_height);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -5837,6 +5893,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1create_1chann
 	LDKUserConfig override_config_conv;
 	override_config_conv.inner = (void*)(override_config & (~1));
 	override_config_conv.is_owned = (override_config & 1) || (override_config == 0);
+	if (override_config_conv.inner != NULL)
+		override_config_conv = UserConfig_clone(&override_config_conv);
 	LDKCResult_NoneAPIErrorZ* ret = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
 	*ret = ChannelManager_create_channel(&this_arg_conv, their_network_key_ref, channel_value_satoshis, push_msat, user_id, override_config_conv);
 	return (long)ret;
@@ -5915,6 +5973,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1funding_1trans
 	LDKOutPoint funding_txo_conv;
 	funding_txo_conv.inner = (void*)(funding_txo & (~1));
 	funding_txo_conv.is_owned = (funding_txo & 1) || (funding_txo == 0);
+	if (funding_txo_conv.inner != NULL)
+		funding_txo_conv = OutPoint_clone(&funding_txo_conv);
 	return ChannelManager_funding_transaction_generated(&this_arg_conv, temporary_channel_id_ref, funding_txo_conv);
 }
 
@@ -6158,6 +6218,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManagerReadArgs_1set_1d
 	LDKUserConfig val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = UserConfig_clone(&val_conv);
 	return ChannelManagerReadArgs_set_default_config(&this_ptr_conv, val_conv);
 }
 
@@ -6190,6 +6252,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManagerReadArgs_1new(J
 	LDKUserConfig default_config_conv;
 	default_config_conv.inner = (void*)(default_config & (~1));
 	default_config_conv.is_owned = (default_config & 1) || (default_config == 0);
+	if (default_config_conv.inner != NULL)
+		default_config_conv = UserConfig_clone(&default_config_conv);
 	LDKCVec_ChannelMonitorZ channel_monitors_conv = *(LDKCVec_ChannelMonitorZ*)channel_monitors;
 	FREE((void*)channel_monitors);
 	LDKChannelManagerReadArgs ret = ChannelManagerReadArgs_new(keys_manager_conv, fee_estimator_conv, chain_monitor_conv, tx_broadcaster_conv, logger_conv, default_config_conv, channel_monitors_conv);
@@ -8081,6 +8145,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1set_1content
 	LDKUnsignedNodeAnnouncement val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = UnsignedNodeAnnouncement_clone(&val_conv);
 	return NodeAnnouncement_set_contents(&this_ptr_conv, val_conv);
 }
 
@@ -8090,6 +8156,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1new(JNIEnv 
 	LDKUnsignedNodeAnnouncement contents_arg_conv;
 	contents_arg_conv.inner = (void*)(contents_arg & (~1));
 	contents_arg_conv.is_owned = (contents_arg & 1) || (contents_arg == 0);
+	if (contents_arg_conv.inner != NULL)
+		contents_arg_conv = UnsignedNodeAnnouncement_clone(&contents_arg_conv);
 	LDKNodeAnnouncement ret = NodeAnnouncement_new(signature_arg_conv, contents_arg_conv);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -8333,6 +8401,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1set_1cont
 	LDKUnsignedChannelAnnouncement val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = UnsignedChannelAnnouncement_clone(&val_conv);
 	return ChannelAnnouncement_set_contents(&this_ptr_conv, val_conv);
 }
 
@@ -8348,6 +8418,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1new(JNIE
 	LDKUnsignedChannelAnnouncement contents_arg_conv;
 	contents_arg_conv.inner = (void*)(contents_arg & (~1));
 	contents_arg_conv.is_owned = (contents_arg & 1) || (contents_arg == 0);
+	if (contents_arg_conv.inner != NULL)
+		contents_arg_conv = UnsignedChannelAnnouncement_clone(&contents_arg_conv);
 	LDKChannelAnnouncement ret = ChannelAnnouncement_new(node_signature_1_arg_conv, node_signature_2_arg_conv, bitcoin_signature_1_arg_conv, bitcoin_signature_2_arg_conv, contents_arg_conv);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -8531,6 +8603,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1set_1contents(J
 	LDKUnsignedChannelUpdate val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = UnsignedChannelUpdate_clone(&val_conv);
 	return ChannelUpdate_set_contents(&this_ptr_conv, val_conv);
 }
 
@@ -8540,6 +8614,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1new(JNIEnv * _
 	LDKUnsignedChannelUpdate contents_arg_conv;
 	contents_arg_conv.inner = (void*)(contents_arg & (~1));
 	contents_arg_conv.is_owned = (contents_arg & 1) || (contents_arg == 0);
+	if (contents_arg_conv.inner != NULL)
+		contents_arg_conv = UnsignedChannelUpdate_clone(&contents_arg_conv);
 	LDKChannelUpdate ret = ChannelUpdate_new(signature_arg_conv, contents_arg_conv);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -9002,6 +9078,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1set_1update_
 	LDKUpdateFee val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = UpdateFee_clone(&val_conv);
 	return CommitmentUpdate_set_update_fee(&this_ptr_conv, val_conv);
 }
 
@@ -9020,6 +9098,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1set_1commitm
 	LDKCommitmentSigned val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = CommitmentSigned_clone(&val_conv);
 	return CommitmentUpdate_set_commitment_signed(&this_ptr_conv, val_conv);
 }
 
@@ -9035,9 +9115,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentUpdate_1new(JNIEnv 
 	LDKUpdateFee update_fee_arg_conv;
 	update_fee_arg_conv.inner = (void*)(update_fee_arg & (~1));
 	update_fee_arg_conv.is_owned = (update_fee_arg & 1) || (update_fee_arg == 0);
+	if (update_fee_arg_conv.inner != NULL)
+		update_fee_arg_conv = UpdateFee_clone(&update_fee_arg_conv);
 	LDKCommitmentSigned commitment_signed_arg_conv;
 	commitment_signed_arg_conv.inner = (void*)(commitment_signed_arg & (~1));
 	commitment_signed_arg_conv.is_owned = (commitment_signed_arg & 1) || (commitment_signed_arg == 0);
+	if (commitment_signed_arg_conv.inner != NULL)
+		commitment_signed_arg_conv = CommitmentSigned_clone(&commitment_signed_arg_conv);
 	LDKCommitmentUpdate ret = CommitmentUpdate_new(update_add_htlcs_arg_conv, update_fulfill_htlcs_arg_conv, update_fail_htlcs_arg_conv, update_fail_malformed_htlcs_arg_conv, update_fee_arg_conv, commitment_signed_arg_conv);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -9924,6 +10008,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PreCalculatedTxCreationKeys_1
 	LDKTxCreationKeys keys_conv;
 	keys_conv.inner = (void*)(keys & (~1));
 	keys_conv.is_owned = (keys & 1) || (keys == 0);
+	if (keys_conv.inner != NULL)
+		keys_conv = TxCreationKeys_clone(&keys_conv);
 	LDKPreCalculatedTxCreationKeys ret = PreCalculatedTxCreationKeys_new(keys_conv);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -10320,6 +10406,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1
 	LDKTxCreationKeys keys_conv;
 	keys_conv.inner = (void*)(keys & (~1));
 	keys_conv.is_owned = (keys & 1) || (keys == 0);
+	if (keys_conv.inner != NULL)
+		keys_conv = TxCreationKeys_clone(&keys_conv);
 	LDKCVec_C2Tuple_HTLCOutputInCommitmentSignatureZZ htlc_data_conv = *(LDKCVec_C2Tuple_HTLCOutputInCommitmentSignatureZZ*)htlc_data;
 	FREE((void*)htlc_data);
 	LDKHolderCommitmentTransaction ret = HolderCommitmentTransaction_new_missing_holder_sig(unsigned_tx_conv, counterparty_sig_conv, holder_funding_key_ref, counterparty_funding_key_ref, keys_conv, feerate_per_kw, htlc_data_conv);
@@ -10628,6 +10716,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RouteHint_1set_1fees(JNIEnv * 
 	LDKRoutingFees val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = RoutingFees_clone(&val_conv);
 	return RouteHint_set_fees(&this_ptr_conv, val_conv);
 }
 
@@ -10665,6 +10755,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RouteHint_1new(JNIEnv * _env,
 	LDKRoutingFees fees_arg_conv;
 	fees_arg_conv.inner = (void*)(fees_arg & (~1));
 	fees_arg_conv.is_owned = (fees_arg & 1) || (fees_arg == 0);
+	if (fees_arg_conv.inner != NULL)
+		fees_arg_conv = RoutingFees_clone(&fees_arg_conv);
 	LDKRouteHint ret = RouteHint_new(src_node_id_arg_ref, short_channel_id_arg, fees_arg_conv, cltv_expiry_delta_arg, htlc_minimum_msat_arg);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -10839,6 +10931,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1set_1l
 	LDKChannelUpdate val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = ChannelUpdate_clone(&val_conv);
 	return DirectionalChannelInfo_set_last_update_message(&this_ptr_conv, val_conv);
 }
 
@@ -10969,6 +11063,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1set_1announcement
 	LDKChannelAnnouncement val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = ChannelAnnouncement_clone(&val_conv);
 	return ChannelInfo_set_announcement_message(&this_ptr_conv, val_conv);
 }
 
@@ -11149,6 +11245,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1set_1ann
 	LDKNodeAnnouncement val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = NodeAnnouncement_clone(&val_conv);
 	return NodeAnnouncementInfo_set_announcement_message(&this_ptr_conv, val_conv);
 }
 
@@ -11165,6 +11263,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1new(JNI
 	LDKNodeAnnouncement announcement_message_arg_conv;
 	announcement_message_arg_conv.inner = (void*)(announcement_message_arg & (~1));
 	announcement_message_arg_conv.is_owned = (announcement_message_arg & 1) || (announcement_message_arg == 0);
+	if (announcement_message_arg_conv.inner != NULL)
+		announcement_message_arg_conv = NodeAnnouncement_clone(&announcement_message_arg_conv);
 	LDKNodeAnnouncementInfo ret = NodeAnnouncementInfo_new(features_arg_conv, last_update_arg, rgb_arg_conv, alias_arg_ref, addresses_arg_conv, announcement_message_arg_conv);
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
@@ -11215,6 +11315,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeInfo_1set_1lowest_1inbound
 	LDKRoutingFees val_conv;
 	val_conv.inner = (void*)(val & (~1));
 	val_conv.is_owned = (val & 1) || (val == 0);
+	if (val_conv.inner != NULL)
+		val_conv = RoutingFees_clone(&val_conv);
 	return NodeInfo_set_lowest_inbound_channel_fees(&this_ptr_conv, val_conv);
 }
 
@@ -11242,6 +11344,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1new(JNIEnv * _env, 
 	LDKRoutingFees lowest_inbound_channel_fees_arg_conv;
 	lowest_inbound_channel_fees_arg_conv.inner = (void*)(lowest_inbound_channel_fees_arg & (~1));
 	lowest_inbound_channel_fees_arg_conv.is_owned = (lowest_inbound_channel_fees_arg & 1) || (lowest_inbound_channel_fees_arg == 0);
+	if (lowest_inbound_channel_fees_arg_conv.inner != NULL)
+		lowest_inbound_channel_fees_arg_conv = RoutingFees_clone(&lowest_inbound_channel_fees_arg_conv);
 	LDKNodeAnnouncementInfo announcement_info_arg_conv;
 	announcement_info_arg_conv.inner = (void*)(announcement_info_arg & (~1));
 	announcement_info_arg_conv.is_owned = (announcement_info_arg & 1) || (announcement_info_arg == 0);

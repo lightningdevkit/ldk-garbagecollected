@@ -23,6 +23,8 @@ class ConvInfo:
         assert(ty_info.c_ty is not None)
         assert(ty_info.java_ty is not None)
         assert(arg_name is not None)
+        self.passed_as_ptr = ty_info.passed_as_ptr
+        self.rust_obj = ty_info.rust_obj
         self.c_ty = ty_info.c_ty
         self.java_ty = ty_info.java_ty
         self.java_fn_ty_arg = ty_info.java_fn_ty_arg
@@ -43,6 +45,22 @@ class ConvInfo:
         else:
             out_java.write(" arg")
             out_c.write(" arg")
+fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
+fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
+reg_fn_regex = re.compile("([A-Za-z_0-9\* ]* \*?)([a-zA-Z_0-9]*)\((.*)\);$")
+clone_fns = set()
+with open(sys.argv[1]) as in_h:
+    for line in in_h:
+        reg_fn = reg_fn_regex.match(line)
+        if reg_fn is not None:
+            if reg_fn.group(2).endswith("_clone"):
+                clone_fns.add(reg_fn.group(2))
+            continue
+        arr_fn = fn_ret_arr_regex.match(line)
+        if arr_fn is not None:
+            if arr_fn.group(2).endswith("_clone"):
+                clone_fns.add(arr_fn.group(2))
+            continue
 
 with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.argv[4], "w") as out_c:
     opaque_structs = set()
@@ -218,6 +236,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
                 opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
                 opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);"
+                if (ty_info.rust_obj.replace("LDK", "") + "_clone") in clone_fns and not ty_info.is_ptr and not is_free:
+                    # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
+                    opaque_arg_conv = opaque_arg_conv + "\nif (" + ty_info.var_name + "_conv.inner != NULL)\n"
+                    opaque_arg_conv = opaque_arg_conv + "\t" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
                 if not ty_info.is_ptr:
                     if ty_info.rust_obj in unitary_enums:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
