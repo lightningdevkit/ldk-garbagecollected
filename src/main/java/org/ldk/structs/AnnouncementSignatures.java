@@ -37,11 +37,32 @@ public class AnnouncementSignatures extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped AnnouncementSignatures_get_node_signature
-	// Skipped AnnouncementSignatures_set_node_signature
-	// Skipped AnnouncementSignatures_get_bitcoin_signature
-	// Skipped AnnouncementSignatures_set_bitcoin_signature
-	// Skipped AnnouncementSignatures_new
+	public byte[] get_node_signature(AnnouncementSignatures this_ptr) {
+		byte[] ret = bindings.AnnouncementSignatures_get_node_signature(this_ptr.ptr & ~1);
+		this.ptrs_to.add(this_ptr);
+		return ret;
+	}
+
+	public void set_node_signature(AnnouncementSignatures this_ptr, byte[] val) {
+		bindings.AnnouncementSignatures_set_node_signature(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
+	public byte[] get_bitcoin_signature(AnnouncementSignatures this_ptr) {
+		byte[] ret = bindings.AnnouncementSignatures_get_bitcoin_signature(this_ptr.ptr & ~1);
+		this.ptrs_to.add(this_ptr);
+		return ret;
+	}
+
+	public void set_bitcoin_signature(AnnouncementSignatures this_ptr, byte[] val) {
+		bindings.AnnouncementSignatures_set_bitcoin_signature(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
+	public AnnouncementSignatures(byte[] channel_id_arg, long short_channel_id_arg, byte[] node_signature_arg, byte[] bitcoin_signature_arg) {
+		super(bindings.AnnouncementSignatures_new(channel_id_arg, short_channel_id_arg, node_signature_arg, bitcoin_signature_arg));
+	}
+
 	// Skipped AnnouncementSignatures_write
 	// Skipped AnnouncementSignatures_read
 }

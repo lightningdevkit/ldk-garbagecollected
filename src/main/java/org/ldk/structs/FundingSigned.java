@@ -26,9 +26,21 @@ public class FundingSigned extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped FundingSigned_get_signature
-	// Skipped FundingSigned_set_signature
-	// Skipped FundingSigned_new
+	public byte[] get_signature(FundingSigned this_ptr) {
+		byte[] ret = bindings.FundingSigned_get_signature(this_ptr.ptr & ~1);
+		this.ptrs_to.add(this_ptr);
+		return ret;
+	}
+
+	public void set_signature(FundingSigned this_ptr, byte[] val) {
+		bindings.FundingSigned_set_signature(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
+	public FundingSigned(byte[] channel_id_arg, byte[] signature_arg) {
+		super(bindings.FundingSigned_new(channel_id_arg, signature_arg));
+	}
+
 	// Skipped FundingSigned_write
 	// Skipped FundingSigned_read
 }

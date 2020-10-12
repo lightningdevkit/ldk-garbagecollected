@@ -26,8 +26,17 @@ public class CommitmentSigned extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped CommitmentSigned_get_signature
-	// Skipped CommitmentSigned_set_signature
+	public byte[] get_signature(CommitmentSigned this_ptr) {
+		byte[] ret = bindings.CommitmentSigned_get_signature(this_ptr.ptr & ~1);
+		this.ptrs_to.add(this_ptr);
+		return ret;
+	}
+
+	public void set_signature(CommitmentSigned this_ptr, byte[] val) {
+		bindings.CommitmentSigned_set_signature(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	// Skipped CommitmentSigned_set_htlc_signatures
 	// Skipped CommitmentSigned_new
 	// Skipped CommitmentSigned_write

@@ -48,9 +48,21 @@ public class FundingCreated extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped FundingCreated_get_signature
-	// Skipped FundingCreated_set_signature
-	// Skipped FundingCreated_new
+	public byte[] get_signature(FundingCreated this_ptr) {
+		byte[] ret = bindings.FundingCreated_get_signature(this_ptr.ptr & ~1);
+		this.ptrs_to.add(this_ptr);
+		return ret;
+	}
+
+	public void set_signature(FundingCreated this_ptr, byte[] val) {
+		bindings.FundingCreated_set_signature(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
+	public FundingCreated(byte[] temporary_channel_id_arg, byte[] funding_txid_arg, short funding_output_index_arg, byte[] signature_arg) {
+		super(bindings.FundingCreated_new(temporary_channel_id_arg, funding_txid_arg, funding_output_index_arg, signature_arg));
+	}
+
 	// Skipped FundingCreated_write
 	// Skipped FundingCreated_read
 }

@@ -123,10 +123,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             assert var_is_arr_regex.match(fn_arg[8:])
             rust_obj = "LDKSecretKey"
             arr_access = "bytes"
-        #if fn_arg.startswith("LDKSignature"):
-        #    fn_arg = "uint8_t (*" + fn_arg[13:] + ")[64]"
-        #    assert var_is_arr_regex.match(fn_arg[8:])
-        #    rust_obj = "LDKSignature"
+        if fn_arg.startswith("LDKSignature"):
+            fn_arg = "uint8_t (*" + fn_arg[13:] + ")[64]"
+            assert var_is_arr_regex.match(fn_arg[8:])
+            rust_obj = "LDKSignature"
+            arr_access = "compact_form"
 
         if fn_arg.startswith("void"):
             java_ty = "void"
@@ -222,10 +223,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 arr_len = ret_arr_len
             assert(ty_info.c_ty == "jbyteArray")
             if ty_info.rust_obj is not None:
-                arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n" + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_ref." + ty_info.arr_access + ");"
+                arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
+                arg_conv = arg_conv + "DO_ASSERT((*_env)->GetArrayLength (_env, " + arr_name + ") == " + arr_len + ");\n"
+                arg_conv = arg_conv + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_ref." + ty_info.arr_access + ");"
                 arr_access = ("", "." + ty_info.arr_access)
             else:
-                arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n" + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
+                arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n"
+                arg_conv = arg_conv + "DO_ASSERT((*_env)->GetArrayLength (_env, " + arr_name + ") == " + arr_len + ");\n"
+                arg_conv = arg_conv + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
                 arr_access = ("*", "")
             return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                 arg_conv = arg_conv,
@@ -714,6 +719,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     out_c.write(");\n");
                     if ret_ty_info.c_ty.endswith("Array"):
                         out_c.write("\t" + ret_ty_info.rust_obj + " ret;\n")
+                        out_c.write("\tDO_ASSERT((*env)->GetArrayLength(env, jret) == " + ret_ty_info.arr_len + ");\n")
                         out_c.write("\t(*env)->GetByteArrayRegion(env, jret, 0, " + ret_ty_info.arr_len + ", ret." + ret_ty_info.arr_access + ");\n")
                         out_c.write("\treturn ret;\n")
 

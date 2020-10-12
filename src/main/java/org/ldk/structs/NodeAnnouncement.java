@@ -15,8 +15,17 @@ public class NodeAnnouncement extends CommonBase {
 		this.ptrs_to.add(orig);
 	}
 
-	// Skipped NodeAnnouncement_get_signature
-	// Skipped NodeAnnouncement_set_signature
+	public byte[] get_signature(NodeAnnouncement this_ptr) {
+		byte[] ret = bindings.NodeAnnouncement_get_signature(this_ptr.ptr & ~1);
+		this.ptrs_to.add(this_ptr);
+		return ret;
+	}
+
+	public void set_signature(NodeAnnouncement this_ptr, byte[] val) {
+		bindings.NodeAnnouncement_set_signature(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	public UnsignedNodeAnnouncement get_contents(NodeAnnouncement this_ptr) {
 		UnsignedNodeAnnouncement ret = new UnsignedNodeAnnouncement(null, bindings.NodeAnnouncement_get_contents(this_ptr.ptr & ~1));
 		this.ptrs_to.add(this_ptr);
@@ -29,7 +38,11 @@ public class NodeAnnouncement extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	// Skipped NodeAnnouncement_new
+	public NodeAnnouncement(byte[] signature_arg, UnsignedNodeAnnouncement contents_arg) {
+		super(bindings.NodeAnnouncement_new(signature_arg, contents_arg.ptr & ~1));
+		this.ptrs_to.add(contents_arg);
+	}
+
 	// Skipped NodeAnnouncement_write
 	// Skipped NodeAnnouncement_read
 }

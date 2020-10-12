@@ -99,7 +99,7 @@ public class HumanObjectPeerTest {
         }
 
         void connect_block(Block b, Transaction t, int height) {
-            byte[] header = b.bitcoinSerialize();
+            byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
             long txn;
             if (t != null)
                 txn = bindings.LDKCVecTempl_C2TupleTempl_usize__Transaction_new(
