@@ -778,6 +778,8 @@ public class bindings {
 	public static native void Logger_free(long this_ptr);
 	// void ChannelHandshakeConfig_free(LDKChannelHandshakeConfig this_ptr);
 	public static native void ChannelHandshakeConfig_free(long this_ptr);
+	// LDKChannelHandshakeConfig ChannelHandshakeConfig_clone(const LDKChannelHandshakeConfig *orig);
+	public static native long ChannelHandshakeConfig_clone(long orig);
 	// uint32_t ChannelHandshakeConfig_get_minimum_depth(const LDKChannelHandshakeConfig *this_ptr);
 	public static native int ChannelHandshakeConfig_get_minimum_depth(long this_ptr);
 	// void ChannelHandshakeConfig_set_minimum_depth(LDKChannelHandshakeConfig *this_ptr, uint32_t val);
@@ -796,6 +798,8 @@ public class bindings {
 	public static native long ChannelHandshakeConfig_default();
 	// void ChannelHandshakeLimits_free(LDKChannelHandshakeLimits this_ptr);
 	public static native void ChannelHandshakeLimits_free(long this_ptr);
+	// LDKChannelHandshakeLimits ChannelHandshakeLimits_clone(const LDKChannelHandshakeLimits *orig);
+	public static native long ChannelHandshakeLimits_clone(long orig);
 	// uint64_t ChannelHandshakeLimits_get_min_funding_satoshis(const LDKChannelHandshakeLimits *this_ptr);
 	public static native long ChannelHandshakeLimits_get_min_funding_satoshis(long this_ptr);
 	// void ChannelHandshakeLimits_set_min_funding_satoshis(LDKChannelHandshakeLimits *this_ptr, uint64_t val);
@@ -842,6 +846,8 @@ public class bindings {
 	public static native long ChannelHandshakeLimits_default();
 	// void ChannelConfig_free(LDKChannelConfig this_ptr);
 	public static native void ChannelConfig_free(long this_ptr);
+	// LDKChannelConfig ChannelConfig_clone(const LDKChannelConfig *orig);
+	public static native long ChannelConfig_clone(long orig);
 	// uint32_t ChannelConfig_get_fee_proportional_millionths(const LDKChannelConfig *this_ptr);
 	public static native int ChannelConfig_get_fee_proportional_millionths(long this_ptr);
 	// void ChannelConfig_set_fee_proportional_millionths(LDKChannelConfig *this_ptr, uint32_t val);
@@ -864,6 +870,8 @@ public class bindings {
 	public static native long ChannelConfig_read(long ser);
 	// void UserConfig_free(LDKUserConfig this_ptr);
 	public static native void UserConfig_free(long this_ptr);
+	// LDKUserConfig UserConfig_clone(const LDKUserConfig *orig);
+	public static native long UserConfig_clone(long orig);
 	// LDKChannelHandshakeConfig UserConfig_get_own_channel_config(const LDKUserConfig *this_ptr);
 	public static native long UserConfig_get_own_channel_config(long this_ptr);
 	// void UserConfig_set_own_channel_config(LDKUserConfig *this_ptr, LDKChannelHandshakeConfig val);
@@ -904,6 +912,8 @@ public class bindings {
 	public static native long ChainMonitor_as_EventsProvider(long this_arg);
 	// void ChannelMonitorUpdate_free(LDKChannelMonitorUpdate this_ptr);
 	public static native void ChannelMonitorUpdate_free(long this_ptr);
+	// LDKChannelMonitorUpdate ChannelMonitorUpdate_clone(const LDKChannelMonitorUpdate *orig);
+	public static native long ChannelMonitorUpdate_clone(long orig);
 	// uint64_t ChannelMonitorUpdate_get_update_id(const LDKChannelMonitorUpdate *this_ptr);
 	public static native long ChannelMonitorUpdate_get_update_id(long this_ptr);
 	// void ChannelMonitorUpdate_set_update_id(LDKChannelMonitorUpdate *this_ptr, uint64_t val);
@@ -918,6 +928,8 @@ public class bindings {
 	public static native void MonitorEvent_free(long this_ptr);
 	// void HTLCUpdate_free(LDKHTLCUpdate this_ptr);
 	public static native void HTLCUpdate_free(long this_ptr);
+	// LDKHTLCUpdate HTLCUpdate_clone(const LDKHTLCUpdate *orig);
+	public static native long HTLCUpdate_clone(long orig);
 	// LDKCVec_u8Z HTLCUpdate_write(const LDKHTLCUpdate *obj);
 	public static native long HTLCUpdate_write(long obj);
 	// LDKHTLCUpdate HTLCUpdate_read(LDKu8slice ser);
@@ -942,6 +954,8 @@ public class bindings {
 	public static native void ChannelMonitor_block_disconnected(long this_arg, byte[] header, int height, long broadcaster, long fee_estimator, long logger);
 	// void OutPoint_free(LDKOutPoint this_ptr);
 	public static native void OutPoint_free(long this_ptr);
+	// LDKOutPoint OutPoint_clone(const LDKOutPoint *orig);
+	public static native long OutPoint_clone(long orig);
 	// const uint8_t (*OutPoint_get_txid(const LDKOutPoint *this_ptr))[32];
 	public static native byte[] OutPoint_get_txid(long this_ptr);
 	// void OutPoint_set_txid(LDKOutPoint *this_ptr, LDKThirtyTwoBytes val);
@@ -966,6 +980,8 @@ public class bindings {
 	public static native void KeysInterface_free(long this_ptr);
 	// void InMemoryChannelKeys_free(LDKInMemoryChannelKeys this_ptr);
 	public static native void InMemoryChannelKeys_free(long this_ptr);
+	// LDKInMemoryChannelKeys InMemoryChannelKeys_clone(const LDKInMemoryChannelKeys *orig);
+	public static native long InMemoryChannelKeys_clone(long orig);
 	// const uint8_t (*InMemoryChannelKeys_get_funding_key(const LDKInMemoryChannelKeys *this_ptr))[32];
 	public static native byte[] InMemoryChannelKeys_get_funding_key(long this_ptr);
 	// void InMemoryChannelKeys_set_funding_key(LDKInMemoryChannelKeys *this_ptr, LDKSecretKey val);
@@ -1126,6 +1142,8 @@ public class bindings {
 	public static native void Init_free(long this_ptr);
 	// void ErrorMessage_free(LDKErrorMessage this_ptr);
 	public static native void ErrorMessage_free(long this_ptr);
+	// LDKErrorMessage ErrorMessage_clone(const LDKErrorMessage *orig);
+	public static native long ErrorMessage_clone(long orig);
 	// const uint8_t (*ErrorMessage_get_channel_id(const LDKErrorMessage *this_ptr))[32];
 	public static native byte[] ErrorMessage_get_channel_id(long this_ptr);
 	// void ErrorMessage_set_channel_id(LDKErrorMessage *this_ptr, LDKThirtyTwoBytes val);
@@ -1158,6 +1176,8 @@ public class bindings {
 	public static native long Pong_new(short byteslen_arg);
 	// void OpenChannel_free(LDKOpenChannel this_ptr);
 	public static native void OpenChannel_free(long this_ptr);
+	// LDKOpenChannel OpenChannel_clone(const LDKOpenChannel *orig);
+	public static native long OpenChannel_clone(long orig);
 	// const uint8_t (*OpenChannel_get_chain_hash(const LDKOpenChannel *this_ptr))[32];
 	public static native byte[] OpenChannel_get_chain_hash(long this_ptr);
 	// void OpenChannel_set_chain_hash(LDKOpenChannel *this_ptr, LDKThirtyTwoBytes val);
@@ -1232,6 +1252,8 @@ public class bindings {
 	public static native void OpenChannel_set_channel_flags(long this_ptr, byte val);
 	// void AcceptChannel_free(LDKAcceptChannel this_ptr);
 	public static native void AcceptChannel_free(long this_ptr);
+	// LDKAcceptChannel AcceptChannel_clone(const LDKAcceptChannel *orig);
+	public static native long AcceptChannel_clone(long orig);
 	// const uint8_t (*AcceptChannel_get_temporary_channel_id(const LDKAcceptChannel *this_ptr))[32];
 	public static native byte[] AcceptChannel_get_temporary_channel_id(long this_ptr);
 	// void AcceptChannel_set_temporary_channel_id(LDKAcceptChannel *this_ptr, LDKThirtyTwoBytes val);
@@ -1290,6 +1312,8 @@ public class bindings {
 	public static native void AcceptChannel_set_first_per_commitment_point(long this_ptr, byte[] val);
 	// void FundingCreated_free(LDKFundingCreated this_ptr);
 	public static native void FundingCreated_free(long this_ptr);
+	// LDKFundingCreated FundingCreated_clone(const LDKFundingCreated *orig);
+	public static native long FundingCreated_clone(long orig);
 	// const uint8_t (*FundingCreated_get_temporary_channel_id(const LDKFundingCreated *this_ptr))[32];
 	public static native byte[] FundingCreated_get_temporary_channel_id(long this_ptr);
 	// void FundingCreated_set_temporary_channel_id(LDKFundingCreated *this_ptr, LDKThirtyTwoBytes val);
@@ -1310,6 +1334,8 @@ public class bindings {
 	public static native long FundingCreated_new(byte[] temporary_channel_id_arg, byte[] funding_txid_arg, short funding_output_index_arg, long signature_arg);
 	// void FundingSigned_free(LDKFundingSigned this_ptr);
 	public static native void FundingSigned_free(long this_ptr);
+	// LDKFundingSigned FundingSigned_clone(const LDKFundingSigned *orig);
+	public static native long FundingSigned_clone(long orig);
 	// const uint8_t (*FundingSigned_get_channel_id(const LDKFundingSigned *this_ptr))[32];
 	public static native byte[] FundingSigned_get_channel_id(long this_ptr);
 	// void FundingSigned_set_channel_id(LDKFundingSigned *this_ptr, LDKThirtyTwoBytes val);
@@ -1322,6 +1348,8 @@ public class bindings {
 	public static native long FundingSigned_new(byte[] channel_id_arg, long signature_arg);
 	// void FundingLocked_free(LDKFundingLocked this_ptr);
 	public static native void FundingLocked_free(long this_ptr);
+	// LDKFundingLocked FundingLocked_clone(const LDKFundingLocked *orig);
+	public static native long FundingLocked_clone(long orig);
 	// const uint8_t (*FundingLocked_get_channel_id(const LDKFundingLocked *this_ptr))[32];
 	public static native byte[] FundingLocked_get_channel_id(long this_ptr);
 	// void FundingLocked_set_channel_id(LDKFundingLocked *this_ptr, LDKThirtyTwoBytes val);
@@ -1334,6 +1362,8 @@ public class bindings {
 	public static native long FundingLocked_new(byte[] channel_id_arg, byte[] next_per_commitment_point_arg);
 	// void Shutdown_free(LDKShutdown this_ptr);
 	public static native void Shutdown_free(long this_ptr);
+	// LDKShutdown Shutdown_clone(const LDKShutdown *orig);
+	public static native long Shutdown_clone(long orig);
 	// const uint8_t (*Shutdown_get_channel_id(const LDKShutdown *this_ptr))[32];
 	public static native byte[] Shutdown_get_channel_id(long this_ptr);
 	// void Shutdown_set_channel_id(LDKShutdown *this_ptr, LDKThirtyTwoBytes val);
@@ -1346,6 +1376,8 @@ public class bindings {
 	public static native long Shutdown_new(byte[] channel_id_arg, long scriptpubkey_arg);
 	// void ClosingSigned_free(LDKClosingSigned this_ptr);
 	public static native void ClosingSigned_free(long this_ptr);
+	// LDKClosingSigned ClosingSigned_clone(const LDKClosingSigned *orig);
+	public static native long ClosingSigned_clone(long orig);
 	// const uint8_t (*ClosingSigned_get_channel_id(const LDKClosingSigned *this_ptr))[32];
 	public static native byte[] ClosingSigned_get_channel_id(long this_ptr);
 	// void ClosingSigned_set_channel_id(LDKClosingSigned *this_ptr, LDKThirtyTwoBytes val);
@@ -1362,6 +1394,8 @@ public class bindings {
 	public static native long ClosingSigned_new(byte[] channel_id_arg, long fee_satoshis_arg, long signature_arg);
 	// void UpdateAddHTLC_free(LDKUpdateAddHTLC this_ptr);
 	public static native void UpdateAddHTLC_free(long this_ptr);
+	// LDKUpdateAddHTLC UpdateAddHTLC_clone(const LDKUpdateAddHTLC *orig);
+	public static native long UpdateAddHTLC_clone(long orig);
 	// const uint8_t (*UpdateAddHTLC_get_channel_id(const LDKUpdateAddHTLC *this_ptr))[32];
 	public static native byte[] UpdateAddHTLC_get_channel_id(long this_ptr);
 	// void UpdateAddHTLC_set_channel_id(LDKUpdateAddHTLC *this_ptr, LDKThirtyTwoBytes val);
@@ -1384,6 +1418,8 @@ public class bindings {
 	public static native void UpdateAddHTLC_set_cltv_expiry(long this_ptr, int val);
 	// void UpdateFulfillHTLC_free(LDKUpdateFulfillHTLC this_ptr);
 	public static native void UpdateFulfillHTLC_free(long this_ptr);
+	// LDKUpdateFulfillHTLC UpdateFulfillHTLC_clone(const LDKUpdateFulfillHTLC *orig);
+	public static native long UpdateFulfillHTLC_clone(long orig);
 	// const uint8_t (*UpdateFulfillHTLC_get_channel_id(const LDKUpdateFulfillHTLC *this_ptr))[32];
 	public static native byte[] UpdateFulfillHTLC_get_channel_id(long this_ptr);
 	// void UpdateFulfillHTLC_set_channel_id(LDKUpdateFulfillHTLC *this_ptr, LDKThirtyTwoBytes val);
@@ -1400,6 +1436,8 @@ public class bindings {
 	public static native long UpdateFulfillHTLC_new(byte[] channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg);
 	// void UpdateFailHTLC_free(LDKUpdateFailHTLC this_ptr);
 	public static native void UpdateFailHTLC_free(long this_ptr);
+	// LDKUpdateFailHTLC UpdateFailHTLC_clone(const LDKUpdateFailHTLC *orig);
+	public static native long UpdateFailHTLC_clone(long orig);
 	// const uint8_t (*UpdateFailHTLC_get_channel_id(const LDKUpdateFailHTLC *this_ptr))[32];
 	public static native byte[] UpdateFailHTLC_get_channel_id(long this_ptr);
 	// void UpdateFailHTLC_set_channel_id(LDKUpdateFailHTLC *this_ptr, LDKThirtyTwoBytes val);
@@ -1410,6 +1448,8 @@ public class bindings {
 	public static native void UpdateFailHTLC_set_htlc_id(long this_ptr, long val);
 	// void UpdateFailMalformedHTLC_free(LDKUpdateFailMalformedHTLC this_ptr);
 	public static native void UpdateFailMalformedHTLC_free(long this_ptr);
+	// LDKUpdateFailMalformedHTLC UpdateFailMalformedHTLC_clone(const LDKUpdateFailMalformedHTLC *orig);
+	public static native long UpdateFailMalformedHTLC_clone(long orig);
 	// const uint8_t (*UpdateFailMalformedHTLC_get_channel_id(const LDKUpdateFailMalformedHTLC *this_ptr))[32];
 	public static native byte[] UpdateFailMalformedHTLC_get_channel_id(long this_ptr);
 	// void UpdateFailMalformedHTLC_set_channel_id(LDKUpdateFailMalformedHTLC *this_ptr, LDKThirtyTwoBytes val);
@@ -1424,6 +1464,8 @@ public class bindings {
 	public static native void UpdateFailMalformedHTLC_set_failure_code(long this_ptr, short val);
 	// void CommitmentSigned_free(LDKCommitmentSigned this_ptr);
 	public static native void CommitmentSigned_free(long this_ptr);
+	// LDKCommitmentSigned CommitmentSigned_clone(const LDKCommitmentSigned *orig);
+	public static native long CommitmentSigned_clone(long orig);
 	// const uint8_t (*CommitmentSigned_get_channel_id(const LDKCommitmentSigned *this_ptr))[32];
 	public static native byte[] CommitmentSigned_get_channel_id(long this_ptr);
 	// void CommitmentSigned_set_channel_id(LDKCommitmentSigned *this_ptr, LDKThirtyTwoBytes val);
@@ -1438,6 +1480,8 @@ public class bindings {
 	public static native long CommitmentSigned_new(byte[] channel_id_arg, long signature_arg, long htlc_signatures_arg);
 	// void RevokeAndACK_free(LDKRevokeAndACK this_ptr);
 	public static native void RevokeAndACK_free(long this_ptr);
+	// LDKRevokeAndACK RevokeAndACK_clone(const LDKRevokeAndACK *orig);
+	public static native long RevokeAndACK_clone(long orig);
 	// const uint8_t (*RevokeAndACK_get_channel_id(const LDKRevokeAndACK *this_ptr))[32];
 	public static native byte[] RevokeAndACK_get_channel_id(long this_ptr);
 	// void RevokeAndACK_set_channel_id(LDKRevokeAndACK *this_ptr, LDKThirtyTwoBytes val);
@@ -1454,6 +1498,8 @@ public class bindings {
 	public static native long RevokeAndACK_new(byte[] channel_id_arg, byte[] per_commitment_secret_arg, byte[] next_per_commitment_point_arg);
 	// void UpdateFee_free(LDKUpdateFee this_ptr);
 	public static native void UpdateFee_free(long this_ptr);
+	// LDKUpdateFee UpdateFee_clone(const LDKUpdateFee *orig);
+	public static native long UpdateFee_clone(long orig);
 	// const uint8_t (*UpdateFee_get_channel_id(const LDKUpdateFee *this_ptr))[32];
 	public static native byte[] UpdateFee_get_channel_id(long this_ptr);
 	// void UpdateFee_set_channel_id(LDKUpdateFee *this_ptr, LDKThirtyTwoBytes val);
@@ -1466,6 +1512,8 @@ public class bindings {
 	public static native long UpdateFee_new(byte[] channel_id_arg, int feerate_per_kw_arg);
 	// void DataLossProtect_free(LDKDataLossProtect this_ptr);
 	public static native void DataLossProtect_free(long this_ptr);
+	// LDKDataLossProtect DataLossProtect_clone(const LDKDataLossProtect *orig);
+	public static native long DataLossProtect_clone(long orig);
 	// const uint8_t (*DataLossProtect_get_your_last_per_commitment_secret(const LDKDataLossProtect *this_ptr))[32];
 	public static native byte[] DataLossProtect_get_your_last_per_commitment_secret(long this_ptr);
 	// void DataLossProtect_set_your_last_per_commitment_secret(LDKDataLossProtect *this_ptr, LDKThirtyTwoBytes val);
@@ -1478,6 +1526,8 @@ public class bindings {
 	public static native long DataLossProtect_new(byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg);
 	// void ChannelReestablish_free(LDKChannelReestablish this_ptr);
 	public static native void ChannelReestablish_free(long this_ptr);
+	// LDKChannelReestablish ChannelReestablish_clone(const LDKChannelReestablish *orig);
+	public static native long ChannelReestablish_clone(long orig);
 	// const uint8_t (*ChannelReestablish_get_channel_id(const LDKChannelReestablish *this_ptr))[32];
 	public static native byte[] ChannelReestablish_get_channel_id(long this_ptr);
 	// void ChannelReestablish_set_channel_id(LDKChannelReestablish *this_ptr, LDKThirtyTwoBytes val);
@@ -1492,6 +1542,8 @@ public class bindings {
 	public static native void ChannelReestablish_set_next_remote_commitment_number(long this_ptr, long val);
 	// void AnnouncementSignatures_free(LDKAnnouncementSignatures this_ptr);
 	public static native void AnnouncementSignatures_free(long this_ptr);
+	// LDKAnnouncementSignatures AnnouncementSignatures_clone(const LDKAnnouncementSignatures *orig);
+	public static native long AnnouncementSignatures_clone(long orig);
 	// const uint8_t (*AnnouncementSignatures_get_channel_id(const LDKAnnouncementSignatures *this_ptr))[32];
 	public static native byte[] AnnouncementSignatures_get_channel_id(long this_ptr);
 	// void AnnouncementSignatures_set_channel_id(LDKAnnouncementSignatures *this_ptr, LDKThirtyTwoBytes val);
@@ -1514,6 +1566,8 @@ public class bindings {
 	public static native void NetAddress_free(long this_ptr);
 	// void UnsignedNodeAnnouncement_free(LDKUnsignedNodeAnnouncement this_ptr);
 	public static native void UnsignedNodeAnnouncement_free(long this_ptr);
+	// LDKUnsignedNodeAnnouncement UnsignedNodeAnnouncement_clone(const LDKUnsignedNodeAnnouncement *orig);
+	public static native long UnsignedNodeAnnouncement_clone(long orig);
 	// LDKNodeFeatures UnsignedNodeAnnouncement_get_features(const LDKUnsignedNodeAnnouncement *this_ptr);
 	public static native long UnsignedNodeAnnouncement_get_features(long this_ptr);
 	// void UnsignedNodeAnnouncement_set_features(LDKUnsignedNodeAnnouncement *this_ptr, LDKNodeFeatures val);
@@ -1538,6 +1592,8 @@ public class bindings {
 	public static native void UnsignedNodeAnnouncement_set_addresses(long this_ptr, long val);
 	// void NodeAnnouncement_free(LDKNodeAnnouncement this_ptr);
 	public static native void NodeAnnouncement_free(long this_ptr);
+	// LDKNodeAnnouncement NodeAnnouncement_clone(const LDKNodeAnnouncement *orig);
+	public static native long NodeAnnouncement_clone(long orig);
 	// LDKSignature NodeAnnouncement_get_signature(const LDKNodeAnnouncement *this_ptr);
 	public static native long NodeAnnouncement_get_signature(long this_ptr);
 	// void NodeAnnouncement_set_signature(LDKNodeAnnouncement *this_ptr, LDKSignature val);
@@ -1550,6 +1606,8 @@ public class bindings {
 	public static native long NodeAnnouncement_new(long signature_arg, long contents_arg);
 	// void UnsignedChannelAnnouncement_free(LDKUnsignedChannelAnnouncement this_ptr);
 	public static native void UnsignedChannelAnnouncement_free(long this_ptr);
+	// LDKUnsignedChannelAnnouncement UnsignedChannelAnnouncement_clone(const LDKUnsignedChannelAnnouncement *orig);
+	public static native long UnsignedChannelAnnouncement_clone(long orig);
 	// LDKChannelFeatures UnsignedChannelAnnouncement_get_features(const LDKUnsignedChannelAnnouncement *this_ptr);
 	public static native long UnsignedChannelAnnouncement_get_features(long this_ptr);
 	// void UnsignedChannelAnnouncement_set_features(LDKUnsignedChannelAnnouncement *this_ptr, LDKChannelFeatures val);
@@ -1580,6 +1638,8 @@ public class bindings {
 	public static native void UnsignedChannelAnnouncement_set_bitcoin_key_2(long this_ptr, byte[] val);
 	// void ChannelAnnouncement_free(LDKChannelAnnouncement this_ptr);
 	public static native void ChannelAnnouncement_free(long this_ptr);
+	// LDKChannelAnnouncement ChannelAnnouncement_clone(const LDKChannelAnnouncement *orig);
+	public static native long ChannelAnnouncement_clone(long orig);
 	// LDKSignature ChannelAnnouncement_get_node_signature_1(const LDKChannelAnnouncement *this_ptr);
 	public static native long ChannelAnnouncement_get_node_signature_1(long this_ptr);
 	// void ChannelAnnouncement_set_node_signature_1(LDKChannelAnnouncement *this_ptr, LDKSignature val);
@@ -1604,6 +1664,8 @@ public class bindings {
 	public static native long ChannelAnnouncement_new(long node_signature_1_arg, long node_signature_2_arg, long bitcoin_signature_1_arg, long bitcoin_signature_2_arg, long contents_arg);
 	// void UnsignedChannelUpdate_free(LDKUnsignedChannelUpdate this_ptr);
 	public static native void UnsignedChannelUpdate_free(long this_ptr);
+	// LDKUnsignedChannelUpdate UnsignedChannelUpdate_clone(const LDKUnsignedChannelUpdate *orig);
+	public static native long UnsignedChannelUpdate_clone(long orig);
 	// const uint8_t (*UnsignedChannelUpdate_get_chain_hash(const LDKUnsignedChannelUpdate *this_ptr))[32];
 	public static native byte[] UnsignedChannelUpdate_get_chain_hash(long this_ptr);
 	// void UnsignedChannelUpdate_set_chain_hash(LDKUnsignedChannelUpdate *this_ptr, LDKThirtyTwoBytes val);
@@ -1638,6 +1700,8 @@ public class bindings {
 	public static native void UnsignedChannelUpdate_set_fee_proportional_millionths(long this_ptr, int val);
 	// void ChannelUpdate_free(LDKChannelUpdate this_ptr);
 	public static native void ChannelUpdate_free(long this_ptr);
+	// LDKChannelUpdate ChannelUpdate_clone(const LDKChannelUpdate *orig);
+	public static native long ChannelUpdate_clone(long orig);
 	// LDKSignature ChannelUpdate_get_signature(const LDKChannelUpdate *this_ptr);
 	public static native long ChannelUpdate_get_signature(long this_ptr);
 	// void ChannelUpdate_set_signature(LDKChannelUpdate *this_ptr, LDKSignature val);
@@ -1650,6 +1714,8 @@ public class bindings {
 	public static native long ChannelUpdate_new(long signature_arg, long contents_arg);
 	// void QueryChannelRange_free(LDKQueryChannelRange this_ptr);
 	public static native void QueryChannelRange_free(long this_ptr);
+	// LDKQueryChannelRange QueryChannelRange_clone(const LDKQueryChannelRange *orig);
+	public static native long QueryChannelRange_clone(long orig);
 	// const uint8_t (*QueryChannelRange_get_chain_hash(const LDKQueryChannelRange *this_ptr))[32];
 	public static native byte[] QueryChannelRange_get_chain_hash(long this_ptr);
 	// void QueryChannelRange_set_chain_hash(LDKQueryChannelRange *this_ptr, LDKThirtyTwoBytes val);
@@ -1666,6 +1732,8 @@ public class bindings {
 	public static native long QueryChannelRange_new(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg);
 	// void ReplyChannelRange_free(LDKReplyChannelRange this_ptr);
 	public static native void ReplyChannelRange_free(long this_ptr);
+	// LDKReplyChannelRange ReplyChannelRange_clone(const LDKReplyChannelRange *orig);
+	public static native long ReplyChannelRange_clone(long orig);
 	// const uint8_t (*ReplyChannelRange_get_chain_hash(const LDKReplyChannelRange *this_ptr))[32];
 	public static native byte[] ReplyChannelRange_get_chain_hash(long this_ptr);
 	// void ReplyChannelRange_set_chain_hash(LDKReplyChannelRange *this_ptr, LDKThirtyTwoBytes val);
@@ -1688,6 +1756,8 @@ public class bindings {
 	public static native long ReplyChannelRange_new(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg, boolean full_information_arg, long short_channel_ids_arg);
 	// void QueryShortChannelIds_free(LDKQueryShortChannelIds this_ptr);
 	public static native void QueryShortChannelIds_free(long this_ptr);
+	// LDKQueryShortChannelIds QueryShortChannelIds_clone(const LDKQueryShortChannelIds *orig);
+	public static native long QueryShortChannelIds_clone(long orig);
 	// const uint8_t (*QueryShortChannelIds_get_chain_hash(const LDKQueryShortChannelIds *this_ptr))[32];
 	public static native byte[] QueryShortChannelIds_get_chain_hash(long this_ptr);
 	// void QueryShortChannelIds_set_chain_hash(LDKQueryShortChannelIds *this_ptr, LDKThirtyTwoBytes val);
@@ -1698,6 +1768,8 @@ public class bindings {
 	public static native long QueryShortChannelIds_new(byte[] chain_hash_arg, long short_channel_ids_arg);
 	// void ReplyShortChannelIdsEnd_free(LDKReplyShortChannelIdsEnd this_ptr);
 	public static native void ReplyShortChannelIdsEnd_free(long this_ptr);
+	// LDKReplyShortChannelIdsEnd ReplyShortChannelIdsEnd_clone(const LDKReplyShortChannelIdsEnd *orig);
+	public static native long ReplyShortChannelIdsEnd_clone(long orig);
 	// const uint8_t (*ReplyShortChannelIdsEnd_get_chain_hash(const LDKReplyShortChannelIdsEnd *this_ptr))[32];
 	public static native byte[] ReplyShortChannelIdsEnd_get_chain_hash(long this_ptr);
 	// void ReplyShortChannelIdsEnd_set_chain_hash(LDKReplyShortChannelIdsEnd *this_ptr, LDKThirtyTwoBytes val);
@@ -1710,6 +1782,8 @@ public class bindings {
 	public static native long ReplyShortChannelIdsEnd_new(byte[] chain_hash_arg, boolean full_information_arg);
 	// void GossipTimestampFilter_free(LDKGossipTimestampFilter this_ptr);
 	public static native void GossipTimestampFilter_free(long this_ptr);
+	// LDKGossipTimestampFilter GossipTimestampFilter_clone(const LDKGossipTimestampFilter *orig);
+	public static native long GossipTimestampFilter_clone(long orig);
 	// const uint8_t (*GossipTimestampFilter_get_chain_hash(const LDKGossipTimestampFilter *this_ptr))[32];
 	public static native byte[] GossipTimestampFilter_get_chain_hash(long this_ptr);
 	// void GossipTimestampFilter_set_chain_hash(LDKGossipTimestampFilter *this_ptr, LDKThirtyTwoBytes val);
@@ -1740,6 +1814,8 @@ public class bindings {
 	public static native long LightningError_new(long err_arg, long action_arg);
 	// void CommitmentUpdate_free(LDKCommitmentUpdate this_ptr);
 	public static native void CommitmentUpdate_free(long this_ptr);
+	// LDKCommitmentUpdate CommitmentUpdate_clone(const LDKCommitmentUpdate *orig);
+	public static native long CommitmentUpdate_clone(long orig);
 	// void CommitmentUpdate_set_update_add_htlcs(LDKCommitmentUpdate *this_ptr, LDKCVec_UpdateAddHTLCZ val);
 	public static native void CommitmentUpdate_set_update_add_htlcs(long this_ptr, long val);
 	// void CommitmentUpdate_set_update_fulfill_htlcs(LDKCommitmentUpdate *this_ptr, LDKCVec_UpdateFulfillHTLCZ val);
@@ -1942,6 +2018,8 @@ public class bindings {
 	public static native long derive_public_revocation_key(byte[] per_commitment_point, byte[] countersignatory_revocation_base_point);
 	// void TxCreationKeys_free(LDKTxCreationKeys this_ptr);
 	public static native void TxCreationKeys_free(long this_ptr);
+	// LDKTxCreationKeys TxCreationKeys_clone(const LDKTxCreationKeys *orig);
+	public static native long TxCreationKeys_clone(long orig);
 	// LDKPublicKey TxCreationKeys_get_per_commitment_point(const LDKTxCreationKeys *this_ptr);
 	public static native byte[] TxCreationKeys_get_per_commitment_point(long this_ptr);
 	// void TxCreationKeys_set_per_commitment_point(LDKTxCreationKeys *this_ptr, LDKPublicKey val);
@@ -1978,6 +2056,8 @@ public class bindings {
 	public static native byte[] PreCalculatedTxCreationKeys_per_commitment_point(long this_arg);
 	// void ChannelPublicKeys_free(LDKChannelPublicKeys this_ptr);
 	public static native void ChannelPublicKeys_free(long this_ptr);
+	// LDKChannelPublicKeys ChannelPublicKeys_clone(const LDKChannelPublicKeys *orig);
+	public static native long ChannelPublicKeys_clone(long orig);
 	// LDKPublicKey ChannelPublicKeys_get_funding_pubkey(const LDKChannelPublicKeys *this_ptr);
 	public static native byte[] ChannelPublicKeys_get_funding_pubkey(long this_ptr);
 	// void ChannelPublicKeys_set_funding_pubkey(LDKChannelPublicKeys *this_ptr, LDKPublicKey val);
@@ -2010,6 +2090,8 @@ public class bindings {
 	public static native long get_revokeable_redeemscript(byte[] revocation_key, short contest_delay, byte[] broadcaster_delayed_payment_key);
 	// void HTLCOutputInCommitment_free(LDKHTLCOutputInCommitment this_ptr);
 	public static native void HTLCOutputInCommitment_free(long this_ptr);
+	// LDKHTLCOutputInCommitment HTLCOutputInCommitment_clone(const LDKHTLCOutputInCommitment *orig);
+	public static native long HTLCOutputInCommitment_clone(long orig);
 	// bool HTLCOutputInCommitment_get_offered(const LDKHTLCOutputInCommitment *this_ptr);
 	public static native boolean HTLCOutputInCommitment_get_offered(long this_ptr);
 	// void HTLCOutputInCommitment_set_offered(LDKHTLCOutputInCommitment *this_ptr, bool val);
@@ -2038,6 +2120,8 @@ public class bindings {
 	public static native long build_htlc_transaction(byte[] prev_hash, int feerate_per_kw, short contest_delay, long htlc, byte[] broadcaster_delayed_payment_key, byte[] revocation_key);
 	// void HolderCommitmentTransaction_free(LDKHolderCommitmentTransaction this_ptr);
 	public static native void HolderCommitmentTransaction_free(long this_ptr);
+	// LDKHolderCommitmentTransaction HolderCommitmentTransaction_clone(const LDKHolderCommitmentTransaction *orig);
+	public static native long HolderCommitmentTransaction_clone(long orig);
 	// LDKTransaction HolderCommitmentTransaction_get_unsigned_tx(const LDKHolderCommitmentTransaction *this_ptr);
 	public static native long HolderCommitmentTransaction_get_unsigned_tx(long this_ptr);
 	// void HolderCommitmentTransaction_set_unsigned_tx(LDKHolderCommitmentTransaction *this_ptr, LDKTransaction val);
@@ -2074,6 +2158,8 @@ public class bindings {
 	public static native void ChannelFeatures_free(long this_ptr);
 	// void RouteHop_free(LDKRouteHop this_ptr);
 	public static native void RouteHop_free(long this_ptr);
+	// LDKRouteHop RouteHop_clone(const LDKRouteHop *orig);
+	public static native long RouteHop_clone(long orig);
 	// LDKPublicKey RouteHop_get_pubkey(const LDKRouteHop *this_ptr);
 	public static native byte[] RouteHop_get_pubkey(long this_ptr);
 	// void RouteHop_set_pubkey(LDKRouteHop *this_ptr, LDKPublicKey val);
@@ -2102,6 +2188,8 @@ public class bindings {
 	public static native long RouteHop_new(byte[] pubkey_arg, long node_features_arg, long short_channel_id_arg, long channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg);
 	// void Route_free(LDKRoute this_ptr);
 	public static native void Route_free(long this_ptr);
+	// LDKRoute Route_clone(const LDKRoute *orig);
+	public static native long Route_clone(long orig);
 	// void Route_set_paths(LDKRoute *this_ptr, LDKCVec_CVec_RouteHopZZ val);
 	public static native void Route_set_paths(long this_ptr, long val);
 	// MUST_USE_RES LDKRoute Route_new(LDKCVec_CVec_RouteHopZZ paths_arg);
@@ -2210,6 +2298,8 @@ public class bindings {
 	public static native long ChannelInfo_read(long ser);
 	// void RoutingFees_free(LDKRoutingFees this_ptr);
 	public static native void RoutingFees_free(long this_ptr);
+	// LDKRoutingFees RoutingFees_clone(const LDKRoutingFees *orig);
+	public static native long RoutingFees_clone(long orig);
 	// uint32_t RoutingFees_get_base_msat(const LDKRoutingFees *this_ptr);
 	public static native int RoutingFees_get_base_msat(long this_ptr);
 	// void RoutingFees_set_base_msat(LDKRoutingFees *this_ptr, uint32_t val);
