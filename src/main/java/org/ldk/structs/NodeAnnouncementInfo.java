@@ -39,7 +39,11 @@ public class NodeAnnouncementInfo extends CommonBase {
 		return ret;
 	}
 
-	// Skipped NodeAnnouncementInfo_set_rgb
+	public void set_rgb(NodeAnnouncementInfo this_ptr, byte[] val) {
+		bindings.NodeAnnouncementInfo_set_rgb(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	public byte[] get_alias(NodeAnnouncementInfo this_ptr) {
 		byte[] ret = bindings.NodeAnnouncementInfo_get_alias(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

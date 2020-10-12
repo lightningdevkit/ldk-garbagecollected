@@ -10,6 +10,11 @@ public class Ping extends CommonBase {
 		bindings.Ping_free(ptr); super.finalize();
 	}
 
+	public Ping(Ping orig) {
+		super(bindings.Ping_clone(orig.ptr & ~1));
+		this.ptrs_to.add(orig);
+	}
+
 	public short get_ponglen(Ping this_ptr) {
 		short ret = bindings.Ping_get_ponglen(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

@@ -55,7 +55,11 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 		return ret;
 	}
 
-	// Skipped UnsignedNodeAnnouncement_set_rgb
+	public void set_rgb(UnsignedNodeAnnouncement this_ptr, byte[] val) {
+		bindings.UnsignedNodeAnnouncement_set_rgb(this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	public byte[] get_alias(UnsignedNodeAnnouncement this_ptr) {
 		byte[] ret = bindings.UnsignedNodeAnnouncement_get_alias(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

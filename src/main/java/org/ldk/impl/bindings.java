@@ -1029,6 +1029,8 @@ public class bindings {
 	public static native void ChannelManager_free(long this_ptr);
 	// void ChannelDetails_free(LDKChannelDetails this_ptr);
 	public static native void ChannelDetails_free(long this_ptr);
+	// LDKChannelDetails ChannelDetails_clone(const LDKChannelDetails *orig);
+	public static native long ChannelDetails_clone(long orig);
 	// const uint8_t (*ChannelDetails_get_channel_id(const LDKChannelDetails *this_ptr))[32];
 	public static native byte[] ChannelDetails_get_channel_id(long this_ptr);
 	// void ChannelDetails_set_channel_id(LDKChannelDetails *this_ptr, LDKThirtyTwoBytes val);
@@ -1082,7 +1084,7 @@ public class bindings {
 	// void ChannelManager_funding_transaction_generated(const LDKChannelManager *this_arg, const uint8_t (*temporary_channel_id)[32], LDKOutPoint funding_txo);
 	public static native void ChannelManager_funding_transaction_generated(long this_arg, byte[] temporary_channel_id, long funding_txo);
 	// void ChannelManager_broadcast_node_announcement(const LDKChannelManager *this_arg, LDKThreeBytes rgb, LDKThirtyTwoBytes alias, LDKCVec_NetAddressZ addresses);
-	public static native void ChannelManager_broadcast_node_announcement(long this_arg, long rgb, byte[] alias, long addresses);
+	public static native void ChannelManager_broadcast_node_announcement(long this_arg, byte[] rgb, byte[] alias, long addresses);
 	// void ChannelManager_process_pending_htlc_forwards(const LDKChannelManager *this_arg);
 	public static native void ChannelManager_process_pending_htlc_forwards(long this_arg);
 	// void ChannelManager_timer_chan_freshness_every_min(const LDKChannelManager *this_arg);
@@ -1137,6 +1139,8 @@ public class bindings {
 	public static native void DecodeError_free(long this_ptr);
 	// void Init_free(LDKInit this_ptr);
 	public static native void Init_free(long this_ptr);
+	// LDKInit Init_clone(const LDKInit *orig);
+	public static native long Init_clone(long orig);
 	// void ErrorMessage_free(LDKErrorMessage this_ptr);
 	public static native void ErrorMessage_free(long this_ptr);
 	// LDKErrorMessage ErrorMessage_clone(const LDKErrorMessage *orig);
@@ -1153,6 +1157,8 @@ public class bindings {
 	public static native long ErrorMessage_new(byte[] channel_id_arg, long data_arg);
 	// void Ping_free(LDKPing this_ptr);
 	public static native void Ping_free(long this_ptr);
+	// LDKPing Ping_clone(const LDKPing *orig);
+	public static native long Ping_clone(long orig);
 	// uint16_t Ping_get_ponglen(const LDKPing *this_ptr);
 	public static native short Ping_get_ponglen(long this_ptr);
 	// void Ping_set_ponglen(LDKPing *this_ptr, uint16_t val);
@@ -1165,6 +1171,8 @@ public class bindings {
 	public static native long Ping_new(short ponglen_arg, short byteslen_arg);
 	// void Pong_free(LDKPong this_ptr);
 	public static native void Pong_free(long this_ptr);
+	// LDKPong Pong_clone(const LDKPong *orig);
+	public static native long Pong_clone(long orig);
 	// uint16_t Pong_get_byteslen(const LDKPong *this_ptr);
 	public static native short Pong_get_byteslen(long this_ptr);
 	// void Pong_set_byteslen(LDKPong *this_ptr, uint16_t val);
@@ -1580,7 +1588,7 @@ public class bindings {
 	// const uint8_t (*UnsignedNodeAnnouncement_get_rgb(const LDKUnsignedNodeAnnouncement *this_ptr))[3];
 	public static native byte[] UnsignedNodeAnnouncement_get_rgb(long this_ptr);
 	// void UnsignedNodeAnnouncement_set_rgb(LDKUnsignedNodeAnnouncement *this_ptr, LDKThreeBytes val);
-	public static native void UnsignedNodeAnnouncement_set_rgb(long this_ptr, long val);
+	public static native void UnsignedNodeAnnouncement_set_rgb(long this_ptr, byte[] val);
 	// const uint8_t (*UnsignedNodeAnnouncement_get_alias(const LDKUnsignedNodeAnnouncement *this_ptr))[32];
 	public static native byte[] UnsignedNodeAnnouncement_get_alias(long this_ptr);
 	// void UnsignedNodeAnnouncement_set_alias(LDKUnsignedNodeAnnouncement *this_ptr, LDKThirtyTwoBytes val);
@@ -2197,6 +2205,8 @@ public class bindings {
 	public static native long Route_read(long ser);
 	// void RouteHint_free(LDKRouteHint this_ptr);
 	public static native void RouteHint_free(long this_ptr);
+	// LDKRouteHint RouteHint_clone(const LDKRouteHint *orig);
+	public static native long RouteHint_clone(long orig);
 	// LDKPublicKey RouteHint_get_src_node_id(const LDKRouteHint *this_ptr);
 	public static native byte[] RouteHint_get_src_node_id(long this_ptr);
 	// void RouteHint_set_src_node_id(LDKRouteHint *this_ptr, LDKPublicKey val);
@@ -2324,7 +2334,7 @@ public class bindings {
 	// const uint8_t (*NodeAnnouncementInfo_get_rgb(const LDKNodeAnnouncementInfo *this_ptr))[3];
 	public static native byte[] NodeAnnouncementInfo_get_rgb(long this_ptr);
 	// void NodeAnnouncementInfo_set_rgb(LDKNodeAnnouncementInfo *this_ptr, LDKThreeBytes val);
-	public static native void NodeAnnouncementInfo_set_rgb(long this_ptr, long val);
+	public static native void NodeAnnouncementInfo_set_rgb(long this_ptr, byte[] val);
 	// const uint8_t (*NodeAnnouncementInfo_get_alias(const LDKNodeAnnouncementInfo *this_ptr))[32];
 	public static native byte[] NodeAnnouncementInfo_get_alias(long this_ptr);
 	// void NodeAnnouncementInfo_set_alias(LDKNodeAnnouncementInfo *this_ptr, LDKThirtyTwoBytes val);
@@ -2336,7 +2346,7 @@ public class bindings {
 	// void NodeAnnouncementInfo_set_announcement_message(LDKNodeAnnouncementInfo *this_ptr, LDKNodeAnnouncement val);
 	public static native void NodeAnnouncementInfo_set_announcement_message(long this_ptr, long val);
 	// MUST_USE_RES LDKNodeAnnouncementInfo NodeAnnouncementInfo_new(LDKNodeFeatures features_arg, uint32_t last_update_arg, LDKThreeBytes rgb_arg, LDKThirtyTwoBytes alias_arg, LDKCVec_NetAddressZ addresses_arg, LDKNodeAnnouncement announcement_message_arg);
-	public static native long NodeAnnouncementInfo_new(long features_arg, int last_update_arg, long rgb_arg, byte[] alias_arg, long addresses_arg, long announcement_message_arg);
+	public static native long NodeAnnouncementInfo_new(long features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, long addresses_arg, long announcement_message_arg);
 	// LDKCVec_u8Z NodeAnnouncementInfo_write(const LDKNodeAnnouncementInfo *obj);
 	public static native long NodeAnnouncementInfo_write(long obj);
 	// LDKNodeAnnouncementInfo NodeAnnouncementInfo_read(LDKu8slice ser);

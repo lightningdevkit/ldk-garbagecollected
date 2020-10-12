@@ -10,6 +10,11 @@ public class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_free(ptr); super.finalize();
 	}
 
+	public ChannelDetails(ChannelDetails orig) {
+		super(bindings.ChannelDetails_clone(orig.ptr & ~1));
+		this.ptrs_to.add(orig);
+	}
+
 	public byte[] get_channel_id(ChannelDetails this_ptr) {
 		byte[] ret = bindings.ChannelDetails_get_channel_id(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

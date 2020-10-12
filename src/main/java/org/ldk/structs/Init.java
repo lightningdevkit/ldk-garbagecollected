@@ -10,6 +10,11 @@ public class Init extends CommonBase {
 		bindings.Init_free(ptr); super.finalize();
 	}
 
+	public Init(Init orig) {
+		super(bindings.Init_clone(orig.ptr & ~1));
+		this.ptrs_to.add(orig);
+	}
+
 	// Skipped Init_write
 	// Skipped Init_read
 }

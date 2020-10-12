@@ -10,6 +10,11 @@ public class RouteHint extends CommonBase {
 		bindings.RouteHint_free(ptr); super.finalize();
 	}
 
+	public RouteHint(RouteHint orig) {
+		super(bindings.RouteHint_clone(orig.ptr & ~1));
+		this.ptrs_to.add(orig);
+	}
+
 	public byte[] get_src_node_id(RouteHint this_ptr) {
 		byte[] ret = bindings.RouteHint_get_src_node_id(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

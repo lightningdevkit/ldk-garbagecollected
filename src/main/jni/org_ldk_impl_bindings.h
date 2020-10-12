@@ -3305,6 +3305,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelDetails_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ChannelDetails_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelDetails_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ChannelDetails_get_channel_id
  * Signature: (J)[B
  */
@@ -3514,10 +3522,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1funding_1trans
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelManager_broadcast_node_announcement
- * Signature: (JJ[BJ)V
+ * Signature: (J[B[BJ)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1broadcast_1node_1announcement
-  (JNIEnv *, jclass, jlong, jlong, jbyteArray, jlong);
+  (JNIEnv *, jclass, jlong, jbyteArray, jbyteArray, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -3737,6 +3745,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Init_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    Init_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Init_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ErrorMessage_free
  * Signature: (J)V
  */
@@ -3801,6 +3817,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Ping_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    Ping_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    Ping_get_ponglen
  * Signature: (J)S
  */
@@ -3845,6 +3869,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1new
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Pong_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    Pong_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Pong_1clone
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -5506,10 +5538,10 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UnsignedNodeAnnouncement_set_rgb
- * Signature: (JJ)V
+ * Signature: (J[B)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1set_1rgb
-  (JNIEnv *, jclass, jlong, jlong);
+  (JNIEnv *, jclass, jlong, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -7977,6 +8009,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RouteHint_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    RouteHint_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RouteHint_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    RouteHint_get_src_node_id
  * Signature: (J)[B
  */
@@ -8482,10 +8522,10 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1ge
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    NodeAnnouncementInfo_set_rgb
- * Signature: (JJ)V
+ * Signature: (J[B)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1set_1rgb
-  (JNIEnv *, jclass, jlong, jlong);
+  (JNIEnv *, jclass, jlong, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -8530,10 +8570,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1set_1ann
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    NodeAnnouncementInfo_new
- * Signature: (JIJ[BJJ)J
+ * Signature: (JI[B[BJJ)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1new
-  (JNIEnv *, jclass, jlong, jint, jlong, jbyteArray, jlong, jlong);
+  (JNIEnv *, jclass, jlong, jint, jbyteArray, jbyteArray, jlong, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings

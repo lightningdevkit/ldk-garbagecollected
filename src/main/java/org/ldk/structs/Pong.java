@@ -10,6 +10,11 @@ public class Pong extends CommonBase {
 		bindings.Pong_free(ptr); super.finalize();
 	}
 
+	public Pong(Pong orig) {
+		super(bindings.Pong_clone(orig.ptr & ~1));
+		this.ptrs_to.add(orig);
+	}
+
 	public short get_byteslen(Pong this_ptr) {
 		short ret = bindings.Pong_get_byteslen(this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
