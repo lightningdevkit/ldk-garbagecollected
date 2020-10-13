@@ -11,29 +11,29 @@ public class OutPoint extends CommonBase {
 	}
 
 	public OutPoint(OutPoint orig) {
-		super(bindings.OutPoint_clone(orig.ptr & ~1));
+		super(bindings.OutPoint_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public byte[] get_txid(OutPoint this_ptr) {
-		byte[] ret = bindings.OutPoint_get_txid(this_ptr.ptr & ~1);
+		byte[] ret = bindings.OutPoint_get_txid(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_txid(OutPoint this_ptr, byte[] val) {
-		bindings.OutPoint_set_txid(this_ptr.ptr & ~1, val);
+		bindings.OutPoint_set_txid(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public short get_index(OutPoint this_ptr) {
-		short ret = bindings.OutPoint_get_index(this_ptr.ptr & ~1);
+		short ret = bindings.OutPoint_get_index(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_index(OutPoint this_ptr, short val) {
-		bindings.OutPoint_set_index(this_ptr.ptr & ~1, val);
+		bindings.OutPoint_set_index(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

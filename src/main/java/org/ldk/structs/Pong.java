@@ -11,18 +11,18 @@ public class Pong extends CommonBase {
 	}
 
 	public Pong(Pong orig) {
-		super(bindings.Pong_clone(orig.ptr & ~1));
+		super(bindings.Pong_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public short get_byteslen(Pong this_ptr) {
-		short ret = bindings.Pong_get_byteslen(this_ptr.ptr & ~1);
+		short ret = bindings.Pong_get_byteslen(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_byteslen(Pong this_ptr, short val) {
-		bindings.Pong_set_byteslen(this_ptr.ptr & ~1, val);
+		bindings.Pong_set_byteslen(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

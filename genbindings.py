@@ -498,9 +498,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 if info.arg_name == "this_arg":
                     out_java_struct.write("this.ptr")
                 elif info.passed_as_ptr and info.rust_obj in opaque_structs:
-                    out_java_struct.write(info.arg_name + ".ptr & ~1")
+                    out_java_struct.write(info.arg_name + " == null ? 0 : " + info.arg_name + ".ptr & ~1")
                 elif info.passed_as_ptr and info.rust_obj in trait_structs:
-                    out_java_struct.write(info.arg_name + ".ptr")
+                    out_java_struct.write(info.arg_name + " == null ? 0 : " + info.arg_name + ".ptr")
                 else:
                     out_java_struct.write(info.arg_name)
             out_java_struct.write(")")

@@ -11,31 +11,31 @@ public class HolderCommitmentTransaction extends CommonBase {
 	}
 
 	public HolderCommitmentTransaction(HolderCommitmentTransaction orig) {
-		super(bindings.HolderCommitmentTransaction_clone(orig.ptr & ~1));
+		super(bindings.HolderCommitmentTransaction_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	// Skipped HolderCommitmentTransaction_get_unsigned_tx
 	// Skipped HolderCommitmentTransaction_set_unsigned_tx
 	public byte[] get_counterparty_sig(HolderCommitmentTransaction this_ptr) {
-		byte[] ret = bindings.HolderCommitmentTransaction_get_counterparty_sig(this_ptr.ptr & ~1);
+		byte[] ret = bindings.HolderCommitmentTransaction_get_counterparty_sig(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_counterparty_sig(HolderCommitmentTransaction this_ptr, byte[] val) {
-		bindings.HolderCommitmentTransaction_set_counterparty_sig(this_ptr.ptr & ~1, val);
+		bindings.HolderCommitmentTransaction_set_counterparty_sig(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public int get_feerate_per_kw(HolderCommitmentTransaction this_ptr) {
-		int ret = bindings.HolderCommitmentTransaction_get_feerate_per_kw(this_ptr.ptr & ~1);
+		int ret = bindings.HolderCommitmentTransaction_get_feerate_per_kw(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_feerate_per_kw(HolderCommitmentTransaction this_ptr, int val) {
-		bindings.HolderCommitmentTransaction_set_feerate_per_kw(this_ptr.ptr & ~1, val);
+		bindings.HolderCommitmentTransaction_set_feerate_per_kw(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

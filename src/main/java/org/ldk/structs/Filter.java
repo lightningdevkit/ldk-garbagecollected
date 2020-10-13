@@ -20,7 +20,7 @@ public class Filter extends CommonBase {
 	}
 
 	public void call_register_output(OutPoint outpoint, byte[] script_pubkey) {
-		bindings.Filter_call_register_output(this.ptr, outpoint.ptr & ~1, script_pubkey);
+		bindings.Filter_call_register_output(this.ptr, outpoint == null ? 0 : outpoint.ptr & ~1, script_pubkey);
 		this.ptrs_to.add(outpoint);
 	}
 

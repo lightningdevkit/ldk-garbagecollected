@@ -11,7 +11,7 @@ public class ChannelManager extends CommonBase {
 	}
 
 	public ChannelManager(LDKNetwork network, FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, long current_blockchain_height) {
-		super(bindings.ChannelManager_new(network, fee_est.ptr, chain_monitor.ptr, tx_broadcaster.ptr, logger.ptr, keys_manager.ptr, config.ptr & ~1, current_blockchain_height));
+		super(bindings.ChannelManager_new(network, fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, current_blockchain_height));
 		this.ptrs_to.add(fee_est);
 		this.ptrs_to.add(chain_monitor);
 		this.ptrs_to.add(tx_broadcaster);
@@ -34,7 +34,7 @@ public class ChannelManager extends CommonBase {
 
 	// Skipped ChannelManager_send_payment
 	public void funding_transaction_generated(byte[] temporary_channel_id, OutPoint funding_txo) {
-		bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_txo.ptr & ~1);
+		bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_txo == null ? 0 : funding_txo.ptr & ~1);
 		this.ptrs_to.add(funding_txo);
 	}
 
@@ -63,7 +63,7 @@ public class ChannelManager extends CommonBase {
 	}
 
 	public void channel_monitor_updated(OutPoint funding_txo, long highest_applied_update_id) {
-		bindings.ChannelManager_channel_monitor_updated(this.ptr, funding_txo.ptr & ~1, highest_applied_update_id);
+		bindings.ChannelManager_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, highest_applied_update_id);
 		this.ptrs_to.add(funding_txo);
 	}
 

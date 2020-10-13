@@ -11,51 +11,51 @@ public class AnnouncementSignatures extends CommonBase {
 	}
 
 	public AnnouncementSignatures(AnnouncementSignatures orig) {
-		super(bindings.AnnouncementSignatures_clone(orig.ptr & ~1));
+		super(bindings.AnnouncementSignatures_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public byte[] get_channel_id(AnnouncementSignatures this_ptr) {
-		byte[] ret = bindings.AnnouncementSignatures_get_channel_id(this_ptr.ptr & ~1);
+		byte[] ret = bindings.AnnouncementSignatures_get_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_channel_id(AnnouncementSignatures this_ptr, byte[] val) {
-		bindings.AnnouncementSignatures_set_channel_id(this_ptr.ptr & ~1, val);
+		bindings.AnnouncementSignatures_set_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public long get_short_channel_id(AnnouncementSignatures this_ptr) {
-		long ret = bindings.AnnouncementSignatures_get_short_channel_id(this_ptr.ptr & ~1);
+		long ret = bindings.AnnouncementSignatures_get_short_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_short_channel_id(AnnouncementSignatures this_ptr, long val) {
-		bindings.AnnouncementSignatures_set_short_channel_id(this_ptr.ptr & ~1, val);
+		bindings.AnnouncementSignatures_set_short_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_node_signature(AnnouncementSignatures this_ptr) {
-		byte[] ret = bindings.AnnouncementSignatures_get_node_signature(this_ptr.ptr & ~1);
+		byte[] ret = bindings.AnnouncementSignatures_get_node_signature(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_node_signature(AnnouncementSignatures this_ptr, byte[] val) {
-		bindings.AnnouncementSignatures_set_node_signature(this_ptr.ptr & ~1, val);
+		bindings.AnnouncementSignatures_set_node_signature(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_bitcoin_signature(AnnouncementSignatures this_ptr) {
-		byte[] ret = bindings.AnnouncementSignatures_get_bitcoin_signature(this_ptr.ptr & ~1);
+		byte[] ret = bindings.AnnouncementSignatures_get_bitcoin_signature(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_bitcoin_signature(AnnouncementSignatures this_ptr, byte[] val) {
-		bindings.AnnouncementSignatures_set_bitcoin_signature(this_ptr.ptr & ~1, val);
+		bindings.AnnouncementSignatures_set_bitcoin_signature(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

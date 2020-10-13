@@ -11,7 +11,7 @@ public class PreCalculatedTxCreationKeys extends CommonBase {
 	}
 
 	public PreCalculatedTxCreationKeys(TxCreationKeys keys) {
-		super(bindings.PreCalculatedTxCreationKeys_new(keys.ptr & ~1));
+		super(bindings.PreCalculatedTxCreationKeys_new(keys == null ? 0 : keys.ptr & ~1));
 		this.ptrs_to.add(keys);
 	}
 

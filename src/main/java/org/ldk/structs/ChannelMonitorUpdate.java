@@ -11,18 +11,18 @@ public class ChannelMonitorUpdate extends CommonBase {
 	}
 
 	public ChannelMonitorUpdate(ChannelMonitorUpdate orig) {
-		super(bindings.ChannelMonitorUpdate_clone(orig.ptr & ~1));
+		super(bindings.ChannelMonitorUpdate_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public long get_update_id(ChannelMonitorUpdate this_ptr) {
-		long ret = bindings.ChannelMonitorUpdate_get_update_id(this_ptr.ptr & ~1);
+		long ret = bindings.ChannelMonitorUpdate_get_update_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_update_id(ChannelMonitorUpdate this_ptr, long val) {
-		bindings.ChannelMonitorUpdate_set_update_id(this_ptr.ptr & ~1, val);
+		bindings.ChannelMonitorUpdate_set_update_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

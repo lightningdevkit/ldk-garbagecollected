@@ -11,62 +11,62 @@ public class TxCreationKeys extends CommonBase {
 	}
 
 	public TxCreationKeys(TxCreationKeys orig) {
-		super(bindings.TxCreationKeys_clone(orig.ptr & ~1));
+		super(bindings.TxCreationKeys_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public byte[] get_per_commitment_point(TxCreationKeys this_ptr) {
-		byte[] ret = bindings.TxCreationKeys_get_per_commitment_point(this_ptr.ptr & ~1);
+		byte[] ret = bindings.TxCreationKeys_get_per_commitment_point(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_per_commitment_point(TxCreationKeys this_ptr, byte[] val) {
-		bindings.TxCreationKeys_set_per_commitment_point(this_ptr.ptr & ~1, val);
+		bindings.TxCreationKeys_set_per_commitment_point(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_revocation_key(TxCreationKeys this_ptr) {
-		byte[] ret = bindings.TxCreationKeys_get_revocation_key(this_ptr.ptr & ~1);
+		byte[] ret = bindings.TxCreationKeys_get_revocation_key(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_revocation_key(TxCreationKeys this_ptr, byte[] val) {
-		bindings.TxCreationKeys_set_revocation_key(this_ptr.ptr & ~1, val);
+		bindings.TxCreationKeys_set_revocation_key(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_broadcaster_htlc_key(TxCreationKeys this_ptr) {
-		byte[] ret = bindings.TxCreationKeys_get_broadcaster_htlc_key(this_ptr.ptr & ~1);
+		byte[] ret = bindings.TxCreationKeys_get_broadcaster_htlc_key(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_broadcaster_htlc_key(TxCreationKeys this_ptr, byte[] val) {
-		bindings.TxCreationKeys_set_broadcaster_htlc_key(this_ptr.ptr & ~1, val);
+		bindings.TxCreationKeys_set_broadcaster_htlc_key(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_countersignatory_htlc_key(TxCreationKeys this_ptr) {
-		byte[] ret = bindings.TxCreationKeys_get_countersignatory_htlc_key(this_ptr.ptr & ~1);
+		byte[] ret = bindings.TxCreationKeys_get_countersignatory_htlc_key(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_countersignatory_htlc_key(TxCreationKeys this_ptr, byte[] val) {
-		bindings.TxCreationKeys_set_countersignatory_htlc_key(this_ptr.ptr & ~1, val);
+		bindings.TxCreationKeys_set_countersignatory_htlc_key(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_broadcaster_delayed_payment_key(TxCreationKeys this_ptr) {
-		byte[] ret = bindings.TxCreationKeys_get_broadcaster_delayed_payment_key(this_ptr.ptr & ~1);
+		byte[] ret = bindings.TxCreationKeys_get_broadcaster_delayed_payment_key(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_broadcaster_delayed_payment_key(TxCreationKeys this_ptr, byte[] val) {
-		bindings.TxCreationKeys_set_broadcaster_delayed_payment_key(this_ptr.ptr & ~1, val);
+		bindings.TxCreationKeys_set_broadcaster_delayed_payment_key(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

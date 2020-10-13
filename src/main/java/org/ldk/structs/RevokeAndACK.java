@@ -11,40 +11,40 @@ public class RevokeAndACK extends CommonBase {
 	}
 
 	public RevokeAndACK(RevokeAndACK orig) {
-		super(bindings.RevokeAndACK_clone(orig.ptr & ~1));
+		super(bindings.RevokeAndACK_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public byte[] get_channel_id(RevokeAndACK this_ptr) {
-		byte[] ret = bindings.RevokeAndACK_get_channel_id(this_ptr.ptr & ~1);
+		byte[] ret = bindings.RevokeAndACK_get_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_channel_id(RevokeAndACK this_ptr, byte[] val) {
-		bindings.RevokeAndACK_set_channel_id(this_ptr.ptr & ~1, val);
+		bindings.RevokeAndACK_set_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_per_commitment_secret(RevokeAndACK this_ptr) {
-		byte[] ret = bindings.RevokeAndACK_get_per_commitment_secret(this_ptr.ptr & ~1);
+		byte[] ret = bindings.RevokeAndACK_get_per_commitment_secret(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_per_commitment_secret(RevokeAndACK this_ptr, byte[] val) {
-		bindings.RevokeAndACK_set_per_commitment_secret(this_ptr.ptr & ~1, val);
+		bindings.RevokeAndACK_set_per_commitment_secret(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_next_per_commitment_point(RevokeAndACK this_ptr) {
-		byte[] ret = bindings.RevokeAndACK_get_next_per_commitment_point(this_ptr.ptr & ~1);
+		byte[] ret = bindings.RevokeAndACK_get_next_per_commitment_point(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_next_per_commitment_point(RevokeAndACK this_ptr, byte[] val) {
-		bindings.RevokeAndACK_set_next_per_commitment_point(this_ptr.ptr & ~1, val);
+		bindings.RevokeAndACK_set_next_per_commitment_point(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

@@ -34,7 +34,7 @@ public class ChannelKeys extends CommonBase {
 	// Skipped ChannelKeys_call_sign_closing_transaction
 	// Skipped ChannelKeys_call_sign_channel_announcement
 	public void call_on_accept(ChannelPublicKeys channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay) {
-		bindings.ChannelKeys_call_on_accept(this.ptr, channel_points.ptr & ~1, counterparty_selected_contest_delay, holder_selected_contest_delay);
+		bindings.ChannelKeys_call_on_accept(this.ptr, channel_points == null ? 0 : channel_points.ptr & ~1, counterparty_selected_contest_delay, holder_selected_contest_delay);
 		this.ptrs_to.add(channel_points);
 	}
 

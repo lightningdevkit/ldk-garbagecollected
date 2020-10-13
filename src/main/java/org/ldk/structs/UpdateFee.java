@@ -11,29 +11,29 @@ public class UpdateFee extends CommonBase {
 	}
 
 	public UpdateFee(UpdateFee orig) {
-		super(bindings.UpdateFee_clone(orig.ptr & ~1));
+		super(bindings.UpdateFee_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public byte[] get_channel_id(UpdateFee this_ptr) {
-		byte[] ret = bindings.UpdateFee_get_channel_id(this_ptr.ptr & ~1);
+		byte[] ret = bindings.UpdateFee_get_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_channel_id(UpdateFee this_ptr, byte[] val) {
-		bindings.UpdateFee_set_channel_id(this_ptr.ptr & ~1, val);
+		bindings.UpdateFee_set_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public int get_feerate_per_kw(UpdateFee this_ptr) {
-		int ret = bindings.UpdateFee_get_feerate_per_kw(this_ptr.ptr & ~1);
+		int ret = bindings.UpdateFee_get_feerate_per_kw(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_feerate_per_kw(UpdateFee this_ptr, int val) {
-		bindings.UpdateFee_set_feerate_per_kw(this_ptr.ptr & ~1, val);
+		bindings.UpdateFee_set_feerate_per_kw(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

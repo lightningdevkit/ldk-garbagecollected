@@ -11,29 +11,29 @@ public class DataLossProtect extends CommonBase {
 	}
 
 	public DataLossProtect(DataLossProtect orig) {
-		super(bindings.DataLossProtect_clone(orig.ptr & ~1));
+		super(bindings.DataLossProtect_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public byte[] get_your_last_per_commitment_secret(DataLossProtect this_ptr) {
-		byte[] ret = bindings.DataLossProtect_get_your_last_per_commitment_secret(this_ptr.ptr & ~1);
+		byte[] ret = bindings.DataLossProtect_get_your_last_per_commitment_secret(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_your_last_per_commitment_secret(DataLossProtect this_ptr, byte[] val) {
-		bindings.DataLossProtect_set_your_last_per_commitment_secret(this_ptr.ptr & ~1, val);
+		bindings.DataLossProtect_set_your_last_per_commitment_secret(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_my_current_per_commitment_point(DataLossProtect this_ptr) {
-		byte[] ret = bindings.DataLossProtect_get_my_current_per_commitment_point(this_ptr.ptr & ~1);
+		byte[] ret = bindings.DataLossProtect_get_my_current_per_commitment_point(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_my_current_per_commitment_point(DataLossProtect this_ptr, byte[] val) {
-		bindings.DataLossProtect_set_my_current_per_commitment_point(this_ptr.ptr & ~1, val);
+		bindings.DataLossProtect_set_my_current_per_commitment_point(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

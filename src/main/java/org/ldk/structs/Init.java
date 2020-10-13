@@ -11,7 +11,7 @@ public class Init extends CommonBase {
 	}
 
 	public Init(Init orig) {
-		super(bindings.Init_clone(orig.ptr & ~1));
+		super(bindings.Init_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 

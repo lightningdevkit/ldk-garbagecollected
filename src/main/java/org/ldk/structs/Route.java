@@ -11,7 +11,7 @@ public class Route extends CommonBase {
 	}
 
 	public Route(Route orig) {
-		super(bindings.Route_clone(orig.ptr & ~1));
+		super(bindings.Route_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 

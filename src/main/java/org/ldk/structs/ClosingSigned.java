@@ -11,40 +11,40 @@ public class ClosingSigned extends CommonBase {
 	}
 
 	public ClosingSigned(ClosingSigned orig) {
-		super(bindings.ClosingSigned_clone(orig.ptr & ~1));
+		super(bindings.ClosingSigned_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public byte[] get_channel_id(ClosingSigned this_ptr) {
-		byte[] ret = bindings.ClosingSigned_get_channel_id(this_ptr.ptr & ~1);
+		byte[] ret = bindings.ClosingSigned_get_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_channel_id(ClosingSigned this_ptr, byte[] val) {
-		bindings.ClosingSigned_set_channel_id(this_ptr.ptr & ~1, val);
+		bindings.ClosingSigned_set_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public long get_fee_satoshis(ClosingSigned this_ptr) {
-		long ret = bindings.ClosingSigned_get_fee_satoshis(this_ptr.ptr & ~1);
+		long ret = bindings.ClosingSigned_get_fee_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_fee_satoshis(ClosingSigned this_ptr, long val) {
-		bindings.ClosingSigned_set_fee_satoshis(this_ptr.ptr & ~1, val);
+		bindings.ClosingSigned_set_fee_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public byte[] get_signature(ClosingSigned this_ptr) {
-		byte[] ret = bindings.ClosingSigned_get_signature(this_ptr.ptr & ~1);
+		byte[] ret = bindings.ClosingSigned_get_signature(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_signature(ClosingSigned this_ptr, byte[] val) {
-		bindings.ClosingSigned_set_signature(this_ptr.ptr & ~1, val);
+		bindings.ClosingSigned_set_signature(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

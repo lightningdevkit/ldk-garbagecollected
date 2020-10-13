@@ -16,7 +16,7 @@ public class ChainMonitor extends CommonBase {
 	}
 
 	public ChainMonitor(Filter chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest) {
-		super(bindings.ChainMonitor_new(chain_source.ptr, broadcaster.ptr, logger.ptr, feeest.ptr));
+		super(bindings.ChainMonitor_new(chain_source == null ? 0 : chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr));
 		this.ptrs_to.add(chain_source);
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(logger);

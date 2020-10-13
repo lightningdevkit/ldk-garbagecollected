@@ -11,40 +11,40 @@ public class ChannelConfig extends CommonBase {
 	}
 
 	public ChannelConfig(ChannelConfig orig) {
-		super(bindings.ChannelConfig_clone(orig.ptr & ~1));
+		super(bindings.ChannelConfig_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public int get_fee_proportional_millionths(ChannelConfig this_ptr) {
-		int ret = bindings.ChannelConfig_get_fee_proportional_millionths(this_ptr.ptr & ~1);
+		int ret = bindings.ChannelConfig_get_fee_proportional_millionths(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_fee_proportional_millionths(ChannelConfig this_ptr, int val) {
-		bindings.ChannelConfig_set_fee_proportional_millionths(this_ptr.ptr & ~1, val);
+		bindings.ChannelConfig_set_fee_proportional_millionths(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public boolean get_announced_channel(ChannelConfig this_ptr) {
-		boolean ret = bindings.ChannelConfig_get_announced_channel(this_ptr.ptr & ~1);
+		boolean ret = bindings.ChannelConfig_get_announced_channel(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_announced_channel(ChannelConfig this_ptr, boolean val) {
-		bindings.ChannelConfig_set_announced_channel(this_ptr.ptr & ~1, val);
+		bindings.ChannelConfig_set_announced_channel(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public boolean get_commit_upfront_shutdown_pubkey(ChannelConfig this_ptr) {
-		boolean ret = bindings.ChannelConfig_get_commit_upfront_shutdown_pubkey(this_ptr.ptr & ~1);
+		boolean ret = bindings.ChannelConfig_get_commit_upfront_shutdown_pubkey(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_commit_upfront_shutdown_pubkey(ChannelConfig this_ptr, boolean val) {
-		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this_ptr.ptr & ~1, val);
+		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 

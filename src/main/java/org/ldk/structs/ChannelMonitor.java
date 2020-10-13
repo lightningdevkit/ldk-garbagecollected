@@ -22,7 +22,7 @@ public class ChannelMonitor extends CommonBase {
 	// Skipped ChannelMonitor_get_latest_holder_commitment_txn
 	// Skipped ChannelMonitor_block_connected
 	public void block_disconnected(byte[] header, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		bindings.ChannelMonitor_block_disconnected(this.ptr, header, height, broadcaster.ptr, fee_estimator.ptr, logger.ptr);
+		bindings.ChannelMonitor_block_disconnected(this.ptr, header, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);

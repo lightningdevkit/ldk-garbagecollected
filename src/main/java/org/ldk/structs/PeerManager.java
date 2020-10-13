@@ -11,7 +11,7 @@ public class PeerManager extends CommonBase {
 	}
 
 	public PeerManager(MessageHandler message_handler, byte[] our_node_secret, byte[] ephemeral_random_data, Logger logger) {
-		super(bindings.PeerManager_new(message_handler.ptr & ~1, our_node_secret, ephemeral_random_data, logger.ptr));
+		super(bindings.PeerManager_new(message_handler == null ? 0 : message_handler.ptr & ~1, our_node_secret, ephemeral_random_data, logger == null ? 0 : logger.ptr));
 		this.ptrs_to.add(message_handler);
 		this.ptrs_to.add(logger);
 	}
@@ -26,7 +26,7 @@ public class PeerManager extends CommonBase {
 	}
 
 	public void socket_disconnected(SocketDescriptor descriptor) {
-		bindings.PeerManager_socket_disconnected(this.ptr, descriptor.ptr);
+		bindings.PeerManager_socket_disconnected(this.ptr, descriptor == null ? 0 : descriptor.ptr);
 		this.ptrs_to.add(descriptor);
 	}
 

@@ -11,117 +11,117 @@ public class ChannelHandshakeLimits extends CommonBase {
 	}
 
 	public ChannelHandshakeLimits(ChannelHandshakeLimits orig) {
-		super(bindings.ChannelHandshakeLimits_clone(orig.ptr & ~1));
+		super(bindings.ChannelHandshakeLimits_clone(orig == null ? 0 : orig.ptr & ~1));
 		this.ptrs_to.add(orig);
 	}
 
 	public long get_min_funding_satoshis(ChannelHandshakeLimits this_ptr) {
-		long ret = bindings.ChannelHandshakeLimits_get_min_funding_satoshis(this_ptr.ptr & ~1);
+		long ret = bindings.ChannelHandshakeLimits_get_min_funding_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_min_funding_satoshis(ChannelHandshakeLimits this_ptr, long val) {
-		bindings.ChannelHandshakeLimits_set_min_funding_satoshis(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_min_funding_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public long get_max_htlc_minimum_msat(ChannelHandshakeLimits this_ptr) {
-		long ret = bindings.ChannelHandshakeLimits_get_max_htlc_minimum_msat(this_ptr.ptr & ~1);
+		long ret = bindings.ChannelHandshakeLimits_get_max_htlc_minimum_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_max_htlc_minimum_msat(ChannelHandshakeLimits this_ptr, long val) {
-		bindings.ChannelHandshakeLimits_set_max_htlc_minimum_msat(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_max_htlc_minimum_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public long get_min_max_htlc_value_in_flight_msat(ChannelHandshakeLimits this_ptr) {
-		long ret = bindings.ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(this_ptr.ptr & ~1);
+		long ret = bindings.ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_min_max_htlc_value_in_flight_msat(ChannelHandshakeLimits this_ptr, long val) {
-		bindings.ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public long get_max_channel_reserve_satoshis(ChannelHandshakeLimits this_ptr) {
-		long ret = bindings.ChannelHandshakeLimits_get_max_channel_reserve_satoshis(this_ptr.ptr & ~1);
+		long ret = bindings.ChannelHandshakeLimits_get_max_channel_reserve_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_max_channel_reserve_satoshis(ChannelHandshakeLimits this_ptr, long val) {
-		bindings.ChannelHandshakeLimits_set_max_channel_reserve_satoshis(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_max_channel_reserve_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public short get_min_max_accepted_htlcs(ChannelHandshakeLimits this_ptr) {
-		short ret = bindings.ChannelHandshakeLimits_get_min_max_accepted_htlcs(this_ptr.ptr & ~1);
+		short ret = bindings.ChannelHandshakeLimits_get_min_max_accepted_htlcs(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_min_max_accepted_htlcs(ChannelHandshakeLimits this_ptr, short val) {
-		bindings.ChannelHandshakeLimits_set_min_max_accepted_htlcs(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_min_max_accepted_htlcs(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public long get_min_dust_limit_satoshis(ChannelHandshakeLimits this_ptr) {
-		long ret = bindings.ChannelHandshakeLimits_get_min_dust_limit_satoshis(this_ptr.ptr & ~1);
+		long ret = bindings.ChannelHandshakeLimits_get_min_dust_limit_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_min_dust_limit_satoshis(ChannelHandshakeLimits this_ptr, long val) {
-		bindings.ChannelHandshakeLimits_set_min_dust_limit_satoshis(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_min_dust_limit_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public long get_max_dust_limit_satoshis(ChannelHandshakeLimits this_ptr) {
-		long ret = bindings.ChannelHandshakeLimits_get_max_dust_limit_satoshis(this_ptr.ptr & ~1);
+		long ret = bindings.ChannelHandshakeLimits_get_max_dust_limit_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_max_dust_limit_satoshis(ChannelHandshakeLimits this_ptr, long val) {
-		bindings.ChannelHandshakeLimits_set_max_dust_limit_satoshis(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_max_dust_limit_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public int get_max_minimum_depth(ChannelHandshakeLimits this_ptr) {
-		int ret = bindings.ChannelHandshakeLimits_get_max_minimum_depth(this_ptr.ptr & ~1);
+		int ret = bindings.ChannelHandshakeLimits_get_max_minimum_depth(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_max_minimum_depth(ChannelHandshakeLimits this_ptr, int val) {
-		bindings.ChannelHandshakeLimits_set_max_minimum_depth(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_max_minimum_depth(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public boolean get_force_announced_channel_preference(ChannelHandshakeLimits this_ptr) {
-		boolean ret = bindings.ChannelHandshakeLimits_get_force_announced_channel_preference(this_ptr.ptr & ~1);
+		boolean ret = bindings.ChannelHandshakeLimits_get_force_announced_channel_preference(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_force_announced_channel_preference(ChannelHandshakeLimits this_ptr, boolean val) {
-		bindings.ChannelHandshakeLimits_set_force_announced_channel_preference(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_force_announced_channel_preference(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
 	public short get_their_to_self_delay(ChannelHandshakeLimits this_ptr) {
-		short ret = bindings.ChannelHandshakeLimits_get_their_to_self_delay(this_ptr.ptr & ~1);
+		short ret = bindings.ChannelHandshakeLimits_get_their_to_self_delay(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
 		return ret;
 	}
 
 	public void set_their_to_self_delay(ChannelHandshakeLimits this_ptr, short val) {
-		bindings.ChannelHandshakeLimits_set_their_to_self_delay(this_ptr.ptr & ~1, val);
+		bindings.ChannelHandshakeLimits_set_their_to_self_delay(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
 		this.ptrs_to.add(this_ptr);
 	}
 
