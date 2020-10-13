@@ -29,12 +29,7 @@ public class NodeInfo extends CommonBase {
 		return ret;
 	}
 
-	public void set_announcement_info(NodeInfo this_ptr, NodeAnnouncementInfo val) {
-		bindings.NodeInfo_set_announcement_info(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
-		this.ptrs_to.add(val);
-	}
-
+	// Skipped NodeInfo_set_announcement_info
 	// Skipped NodeInfo_new
 	// Skipped NodeInfo_write
 	public NodeInfo(byte[] ser) {

@@ -16,13 +16,7 @@ public class NetGraphMsgHandler extends CommonBase {
 		this.ptrs_to.add(logger);
 	}
 
-	public NetGraphMsgHandler(Access chain_access, Logger logger, NetworkGraph network_graph) {
-		super(bindings.NetGraphMsgHandler_from_net_graph(chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr, network_graph == null ? 0 : network_graph.ptr & ~1));
-		this.ptrs_to.add(chain_access);
-		this.ptrs_to.add(logger);
-		this.ptrs_to.add(network_graph);
-	}
-
+	// Skipped NetGraphMsgHandler_from_net_graph
 	public LockedNetworkGraph read_locked_graph() {
 		LockedNetworkGraph ret = new LockedNetworkGraph(null, bindings.NetGraphMsgHandler_read_locked_graph(this.ptr));
 		return ret;

@@ -21,12 +21,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 		return ret;
 	}
 
-	public void set_features(UnsignedNodeAnnouncement this_ptr, NodeFeatures val) {
-		bindings.UnsignedNodeAnnouncement_set_features(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
-		this.ptrs_to.add(val);
-	}
-
+	// Skipped UnsignedNodeAnnouncement_set_features
 	public int get_timestamp(UnsignedNodeAnnouncement this_ptr) {
 		int ret = bindings.UnsignedNodeAnnouncement_get_timestamp(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

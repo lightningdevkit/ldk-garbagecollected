@@ -15,18 +15,8 @@ public class ChannelMessageHandler extends CommonBase {
 		bindings.ChannelMessageHandler_free(ptr); super.finalize();
 	}
 
-	public void call_handle_open_channel(byte[] their_node_id, InitFeatures their_features, OpenChannel msg) {
-		bindings.ChannelMessageHandler_call_handle_open_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
-		this.ptrs_to.add(their_features);
-		this.ptrs_to.add(msg);
-	}
-
-	public void call_handle_accept_channel(byte[] their_node_id, InitFeatures their_features, AcceptChannel msg) {
-		bindings.ChannelMessageHandler_call_handle_accept_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
-		this.ptrs_to.add(their_features);
-		this.ptrs_to.add(msg);
-	}
-
+	// Skipped ChannelMessageHandler_call_handle_open_channel
+	// Skipped ChannelMessageHandler_call_handle_accept_channel
 	public void call_handle_funding_created(byte[] their_node_id, FundingCreated msg) {
 		bindings.ChannelMessageHandler_call_handle_funding_created(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);

@@ -21,12 +21,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 		return ret;
 	}
 
-	public void set_features(UnsignedChannelAnnouncement this_ptr, ChannelFeatures val) {
-		bindings.UnsignedChannelAnnouncement_set_features(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
-		this.ptrs_to.add(val);
-	}
-
+	// Skipped UnsignedChannelAnnouncement_set_features
 	public byte[] get_chain_hash(UnsignedChannelAnnouncement this_ptr) {
 		byte[] ret = bindings.UnsignedChannelAnnouncement_get_chain_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

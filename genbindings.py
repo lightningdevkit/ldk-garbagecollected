@@ -409,6 +409,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 if not arg_conv_info.rust_obj in trait_structs and not arg_conv_info.rust_obj in unitary_enums:
                     print(re_match.group(2) + " bad - " + arg_conv_info.rust_obj)
                     args_known = False
+            if arg_conv_info.arg_conv is not None and "Warning" in arg_conv_info.arg_conv:
+                args_known = False
             arg_names.append(arg_conv_info)
 
         out_java_struct = None
@@ -807,6 +809,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 elif fn_line.group(2) == "free":
                     out_c.write("\t\t.free = " + struct_name + "_JCalls_free,\n")
                 else:
+                    clone_fns.add(struct_name + "_clone")
                     out_c.write("\t\t.clone = " + struct_name + "_JCalls_clone,\n")
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:

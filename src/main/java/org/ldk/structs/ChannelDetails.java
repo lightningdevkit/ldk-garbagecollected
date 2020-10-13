@@ -43,12 +43,7 @@ public class ChannelDetails extends CommonBase {
 		return ret;
 	}
 
-	public void set_counterparty_features(ChannelDetails this_ptr, InitFeatures val) {
-		bindings.ChannelDetails_set_counterparty_features(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
-		this.ptrs_to.add(val);
-	}
-
+	// Skipped ChannelDetails_set_counterparty_features
 	public long get_channel_value_satoshis(ChannelDetails this_ptr) {
 		long ret = bindings.ChannelDetails_get_channel_value_satoshis(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

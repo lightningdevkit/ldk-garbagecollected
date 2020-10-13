@@ -16,12 +16,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 		return ret;
 	}
 
-	public void set_features(NodeAnnouncementInfo this_ptr, NodeFeatures val) {
-		bindings.NodeAnnouncementInfo_set_features(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
-		this.ptrs_to.add(val);
-	}
-
+	// Skipped NodeAnnouncementInfo_set_features
 	public int get_last_update(NodeAnnouncementInfo this_ptr) {
 		int ret = bindings.NodeAnnouncementInfo_get_last_update(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);

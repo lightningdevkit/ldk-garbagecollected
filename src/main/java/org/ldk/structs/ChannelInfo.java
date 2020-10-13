@@ -16,12 +16,7 @@ public class ChannelInfo extends CommonBase {
 		return ret;
 	}
 
-	public void set_features(ChannelInfo this_ptr, ChannelFeatures val) {
-		bindings.ChannelInfo_set_features(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
-		this.ptrs_to.add(val);
-	}
-
+	// Skipped ChannelInfo_set_features
 	public byte[] get_node_one(ChannelInfo this_ptr) {
 		byte[] ret = bindings.ChannelInfo_get_node_one(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
@@ -39,12 +34,7 @@ public class ChannelInfo extends CommonBase {
 		return ret;
 	}
 
-	public void set_one_to_two(ChannelInfo this_ptr, DirectionalChannelInfo val) {
-		bindings.ChannelInfo_set_one_to_two(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
-		this.ptrs_to.add(val);
-	}
-
+	// Skipped ChannelInfo_set_one_to_two
 	public byte[] get_node_two(ChannelInfo this_ptr) {
 		byte[] ret = bindings.ChannelInfo_get_node_two(this_ptr == null ? 0 : this_ptr.ptr & ~1);
 		this.ptrs_to.add(this_ptr);
@@ -62,12 +52,7 @@ public class ChannelInfo extends CommonBase {
 		return ret;
 	}
 
-	public void set_two_to_one(ChannelInfo this_ptr, DirectionalChannelInfo val) {
-		bindings.ChannelInfo_set_two_to_one(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
-		this.ptrs_to.add(val);
-	}
-
+	// Skipped ChannelInfo_set_two_to_one
 	public ChannelAnnouncement get_announcement_message(ChannelInfo this_ptr) {
 		ChannelAnnouncement ret = new ChannelAnnouncement(null, bindings.ChannelInfo_get_announcement_message(this_ptr == null ? 0 : this_ptr.ptr & ~1));
 		this.ptrs_to.add(this_ptr);
