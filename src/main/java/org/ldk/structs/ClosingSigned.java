@@ -53,5 +53,8 @@ public class ClosingSigned extends CommonBase {
 	}
 
 	// Skipped ClosingSigned_write
-	// Skipped ClosingSigned_read
+	public ClosingSigned(byte[] ser) {
+		super(bindings.ClosingSigned_read(ser));
+	}
+
 }

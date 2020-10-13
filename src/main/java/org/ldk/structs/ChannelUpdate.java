@@ -44,5 +44,8 @@ public class ChannelUpdate extends CommonBase {
 	}
 
 	// Skipped ChannelUpdate_write
-	// Skipped ChannelUpdate_read
+	public ChannelUpdate(byte[] ser) {
+		super(bindings.ChannelUpdate_read(ser));
+	}
+
 }

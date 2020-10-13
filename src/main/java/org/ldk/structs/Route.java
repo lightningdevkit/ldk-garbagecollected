@@ -18,5 +18,8 @@ public class Route extends CommonBase {
 	// Skipped Route_set_paths
 	// Skipped Route_new
 	// Skipped Route_write
-	// Skipped Route_read
+	public Route(byte[] ser) {
+		super(bindings.Route_read(ser));
+	}
+
 }

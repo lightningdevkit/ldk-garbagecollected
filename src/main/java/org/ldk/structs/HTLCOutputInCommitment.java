@@ -60,5 +60,8 @@ public class HTLCOutputInCommitment extends CommonBase {
 	}
 
 	// Skipped HTLCOutputInCommitment_write
-	// Skipped HTLCOutputInCommitment_read
+	public HTLCOutputInCommitment(byte[] ser) {
+		super(bindings.HTLCOutputInCommitment_read(ser));
+	}
+
 }

@@ -41,6 +41,9 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 		super(bindings.ReplyShortChannelIdsEnd_new(chain_hash_arg, full_information_arg));
 	}
 
-	// Skipped ReplyShortChannelIdsEnd_read
+	public ReplyShortChannelIdsEnd(byte[] ser) {
+		super(bindings.ReplyShortChannelIdsEnd_read(ser));
+	}
+
 	// Skipped ReplyShortChannelIdsEnd_write
 }

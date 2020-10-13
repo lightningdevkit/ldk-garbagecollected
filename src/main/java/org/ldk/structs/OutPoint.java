@@ -47,5 +47,8 @@ public class OutPoint extends CommonBase {
 	}
 
 	// Skipped OutPoint_write
-	// Skipped OutPoint_read
+	public OutPoint(byte[] ser) {
+		super(bindings.OutPoint_read(ser));
+	}
+
 }

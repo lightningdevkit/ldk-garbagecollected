@@ -170,5 +170,8 @@ public class AcceptChannel extends CommonBase {
 	}
 
 	// Skipped AcceptChannel_write
-	// Skipped AcceptChannel_read
+	public AcceptChannel(byte[] ser) {
+		super(bindings.AcceptChannel_read(ser));
+	}
+
 }

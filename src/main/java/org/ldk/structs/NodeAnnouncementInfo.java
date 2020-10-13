@@ -70,5 +70,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 
 	// Skipped NodeAnnouncementInfo_new
 	// Skipped NodeAnnouncementInfo_write
-	// Skipped NodeAnnouncementInfo_read
+	public NodeAnnouncementInfo(byte[] ser) {
+		super(bindings.NodeAnnouncementInfo_read(ser));
+	}
+
 }

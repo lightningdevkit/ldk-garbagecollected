@@ -28,6 +28,9 @@ public class QueryShortChannelIds extends CommonBase {
 
 	// Skipped QueryShortChannelIds_set_short_channel_ids
 	// Skipped QueryShortChannelIds_new
-	// Skipped QueryShortChannelIds_read
+	public QueryShortChannelIds(byte[] ser) {
+		super(bindings.QueryShortChannelIds_read(ser));
+	}
+
 	// Skipped QueryShortChannelIds_write
 }

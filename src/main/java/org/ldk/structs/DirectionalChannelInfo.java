@@ -67,5 +67,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	}
 
 	// Skipped DirectionalChannelInfo_write
-	// Skipped DirectionalChannelInfo_read
+	public DirectionalChannelInfo(byte[] ser) {
+		super(bindings.DirectionalChannelInfo_read(ser));
+	}
+
 }

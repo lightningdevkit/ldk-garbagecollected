@@ -57,5 +57,8 @@ public class ChannelConfig extends CommonBase {
 	}
 
 	// Skipped ChannelConfig_write
-	// Skipped ChannelConfig_read
+	public ChannelConfig(byte[] ser) {
+		super(bindings.ChannelConfig_read(ser));
+	}
+
 }

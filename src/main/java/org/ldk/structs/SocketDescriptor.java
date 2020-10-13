@@ -15,7 +15,11 @@ public class SocketDescriptor extends CommonBase {
 		bindings.SocketDescriptor_free(ptr); super.finalize();
 	}
 
-	// Skipped SocketDescriptor_call_send_data
+	public long call_send_data(byte[] data, boolean resume_read) {
+		long ret = bindings.SocketDescriptor_call_send_data(this.ptr, data, resume_read);
+		return ret;
+	}
+
 	public void call_disconnect_socket() {
 		bindings.SocketDescriptor_call_disconnect_socket(this.ptr);
 	}

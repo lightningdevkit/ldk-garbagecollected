@@ -42,5 +42,8 @@ public class Ping extends CommonBase {
 	}
 
 	// Skipped Ping_write
-	// Skipped Ping_read
+	public Ping(byte[] ser) {
+		super(bindings.Ping_read(ser));
+	}
+
 }

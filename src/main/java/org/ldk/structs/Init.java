@@ -16,5 +16,8 @@ public class Init extends CommonBase {
 	}
 
 	// Skipped Init_write
-	// Skipped Init_read
+	public Init(byte[] ser) {
+		super(bindings.Init_read(ser));
+	}
+
 }

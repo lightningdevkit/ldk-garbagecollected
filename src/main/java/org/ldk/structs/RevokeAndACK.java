@@ -53,5 +53,8 @@ public class RevokeAndACK extends CommonBase {
 	}
 
 	// Skipped RevokeAndACK_write
-	// Skipped RevokeAndACK_read
+	public RevokeAndACK(byte[] ser) {
+		super(bindings.RevokeAndACK_read(ser));
+	}
+
 }

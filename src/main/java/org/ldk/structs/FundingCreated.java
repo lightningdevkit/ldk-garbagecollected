@@ -64,5 +64,8 @@ public class FundingCreated extends CommonBase {
 	}
 
 	// Skipped FundingCreated_write
-	// Skipped FundingCreated_read
+	public FundingCreated(byte[] ser) {
+		super(bindings.FundingCreated_read(ser));
+	}
+
 }

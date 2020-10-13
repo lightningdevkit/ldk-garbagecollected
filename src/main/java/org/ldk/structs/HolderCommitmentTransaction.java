@@ -51,8 +51,15 @@ public class HolderCommitmentTransaction extends CommonBase {
 		return ret;
 	}
 
-	// Skipped HolderCommitmentTransaction_get_holder_sig
+	public byte[] get_holder_sig(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
+		byte[] ret = bindings.HolderCommitmentTransaction_get_holder_sig(this.ptr, funding_key, funding_redeemscript, channel_value_satoshis);
+		return ret;
+	}
+
 	// Skipped HolderCommitmentTransaction_get_htlc_sigs
 	// Skipped HolderCommitmentTransaction_write
-	// Skipped HolderCommitmentTransaction_read
+	public HolderCommitmentTransaction(byte[] ser) {
+		super(bindings.HolderCommitmentTransaction_read(ser));
+	}
+
 }

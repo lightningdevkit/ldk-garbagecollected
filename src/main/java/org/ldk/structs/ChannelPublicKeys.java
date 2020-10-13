@@ -75,5 +75,8 @@ public class ChannelPublicKeys extends CommonBase {
 	}
 
 	// Skipped ChannelPublicKeys_write
-	// Skipped ChannelPublicKeys_read
+	public ChannelPublicKeys(byte[] ser) {
+		super(bindings.ChannelPublicKeys_read(ser));
+	}
+
 }

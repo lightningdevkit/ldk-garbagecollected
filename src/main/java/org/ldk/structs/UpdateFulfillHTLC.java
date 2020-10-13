@@ -53,5 +53,8 @@ public class UpdateFulfillHTLC extends CommonBase {
 	}
 
 	// Skipped UpdateFulfillHTLC_write
-	// Skipped UpdateFulfillHTLC_read
+	public UpdateFulfillHTLC(byte[] ser) {
+		super(bindings.UpdateFulfillHTLC_read(ser));
+	}
+
 }

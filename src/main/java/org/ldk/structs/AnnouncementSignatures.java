@@ -64,5 +64,8 @@ public class AnnouncementSignatures extends CommonBase {
 	}
 
 	// Skipped AnnouncementSignatures_write
-	// Skipped AnnouncementSignatures_read
+	public AnnouncementSignatures(byte[] ser) {
+		super(bindings.AnnouncementSignatures_read(ser));
+	}
+
 }

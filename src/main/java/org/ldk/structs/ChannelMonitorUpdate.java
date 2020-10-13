@@ -27,5 +27,8 @@ public class ChannelMonitorUpdate extends CommonBase {
 	}
 
 	// Skipped ChannelMonitorUpdate_write
-	// Skipped ChannelMonitorUpdate_read
+	public ChannelMonitorUpdate(byte[] ser) {
+		super(bindings.ChannelMonitorUpdate_read(ser));
+	}
+
 }

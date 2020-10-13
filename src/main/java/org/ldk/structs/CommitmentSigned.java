@@ -40,5 +40,8 @@ public class CommitmentSigned extends CommonBase {
 	// Skipped CommitmentSigned_set_htlc_signatures
 	// Skipped CommitmentSigned_new
 	// Skipped CommitmentSigned_write
-	// Skipped CommitmentSigned_read
+	public CommitmentSigned(byte[] ser) {
+		super(bindings.CommitmentSigned_read(ser));
+	}
+
 }

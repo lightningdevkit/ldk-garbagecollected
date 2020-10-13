@@ -75,6 +75,9 @@ public class TxCreationKeys extends CommonBase {
 	}
 
 	// Skipped TxCreationKeys_write
-	// Skipped TxCreationKeys_read
+	public TxCreationKeys(byte[] ser) {
+		super(bindings.TxCreationKeys_read(ser));
+	}
+
 	// Skipped TxCreationKeys_derive_new
 }

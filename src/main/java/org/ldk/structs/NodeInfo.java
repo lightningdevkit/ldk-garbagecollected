@@ -37,5 +37,8 @@ public class NodeInfo extends CommonBase {
 
 	// Skipped NodeInfo_new
 	// Skipped NodeInfo_write
-	// Skipped NodeInfo_read
+	public NodeInfo(byte[] ser) {
+		super(bindings.NodeInfo_read(ser));
+	}
+
 }

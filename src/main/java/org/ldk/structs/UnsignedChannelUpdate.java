@@ -104,5 +104,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 	}
 
 	// Skipped UnsignedChannelUpdate_write
-	// Skipped UnsignedChannelUpdate_read
+	public UnsignedChannelUpdate(byte[] ser) {
+		super(bindings.UnsignedChannelUpdate_read(ser));
+	}
+
 }

@@ -104,5 +104,8 @@ public class InMemoryChannelKeys extends CommonBase {
 	}
 
 	// Skipped InMemoryChannelKeys_write
-	// Skipped InMemoryChannelKeys_read
+	public InMemoryChannelKeys(byte[] ser) {
+		super(bindings.InMemoryChannelKeys_read(ser));
+	}
+
 }

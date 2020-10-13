@@ -49,5 +49,8 @@ public class ChannelReestablish extends CommonBase {
 	}
 
 	// Skipped ChannelReestablish_write
-	// Skipped ChannelReestablish_read
+	public ChannelReestablish(byte[] ser) {
+		super(bindings.ChannelReestablish_read(ser));
+	}
+
 }

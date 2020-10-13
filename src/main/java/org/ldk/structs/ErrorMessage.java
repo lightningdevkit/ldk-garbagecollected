@@ -30,5 +30,8 @@ public class ErrorMessage extends CommonBase {
 	// Skipped ErrorMessage_set_data
 	// Skipped ErrorMessage_new
 	// Skipped ErrorMessage_write
-	// Skipped ErrorMessage_read
+	public ErrorMessage(byte[] ser) {
+		super(bindings.ErrorMessage_read(ser));
+	}
+
 }

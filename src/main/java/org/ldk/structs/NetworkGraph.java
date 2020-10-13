@@ -11,7 +11,10 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	// Skipped NetworkGraph_write
-	// Skipped NetworkGraph_read
+	public NetworkGraph(byte[] ser) {
+		super(bindings.NetworkGraph_read(ser));
+	}
+
 	public NetworkGraph() {
 		super(bindings.NetworkGraph_new());
 	}

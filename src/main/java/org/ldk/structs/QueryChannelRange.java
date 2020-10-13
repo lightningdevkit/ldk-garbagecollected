@@ -52,6 +52,9 @@ public class QueryChannelRange extends CommonBase {
 		super(bindings.QueryChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg));
 	}
 
-	// Skipped QueryChannelRange_read
+	public QueryChannelRange(byte[] ser) {
+		super(bindings.QueryChannelRange_read(ser));
+	}
+
 	// Skipped QueryChannelRange_write
 }

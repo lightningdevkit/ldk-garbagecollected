@@ -42,5 +42,8 @@ public class FundingLocked extends CommonBase {
 	}
 
 	// Skipped FundingLocked_write
-	// Skipped FundingLocked_read
+	public FundingLocked(byte[] ser) {
+		super(bindings.FundingLocked_read(ser));
+	}
+
 }

@@ -42,5 +42,8 @@ public class FundingSigned extends CommonBase {
 	}
 
 	// Skipped FundingSigned_write
-	// Skipped FundingSigned_read
+	public FundingSigned(byte[] ser) {
+		super(bindings.FundingSigned_read(ser));
+	}
+
 }

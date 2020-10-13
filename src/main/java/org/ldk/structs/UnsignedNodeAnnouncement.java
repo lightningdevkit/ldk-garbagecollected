@@ -73,5 +73,8 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 
 	// Skipped UnsignedNodeAnnouncement_set_addresses
 	// Skipped UnsignedNodeAnnouncement_write
-	// Skipped UnsignedNodeAnnouncement_read
+	public UnsignedNodeAnnouncement(byte[] ser) {
+		super(bindings.UnsignedNodeAnnouncement_read(ser));
+	}
+
 }

@@ -42,5 +42,8 @@ public class UpdateFee extends CommonBase {
 	}
 
 	// Skipped UpdateFee_write
-	// Skipped UpdateFee_read
+	public UpdateFee(byte[] ser) {
+		super(bindings.UpdateFee_read(ser));
+	}
+
 }

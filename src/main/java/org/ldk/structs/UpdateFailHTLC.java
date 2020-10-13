@@ -38,5 +38,8 @@ public class UpdateFailHTLC extends CommonBase {
 	}
 
 	// Skipped UpdateFailHTLC_write
-	// Skipped UpdateFailHTLC_read
+	public UpdateFailHTLC(byte[] ser) {
+		super(bindings.UpdateFailHTLC_read(ser));
+	}
+
 }

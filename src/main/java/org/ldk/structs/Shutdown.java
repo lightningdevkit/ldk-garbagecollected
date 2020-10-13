@@ -26,9 +26,17 @@ public class Shutdown extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped Shutdown_get_scriptpubkey
+	public byte[] get_scriptpubkey(Shutdown this_ptr) {
+		byte[] ret = bindings.Shutdown_get_scriptpubkey(this_ptr.ptr & ~1);
+		this.ptrs_to.add(this_ptr);
+		return ret;
+	}
+
 	// Skipped Shutdown_set_scriptpubkey
 	// Skipped Shutdown_new
 	// Skipped Shutdown_write
-	// Skipped Shutdown_read
+	public Shutdown(byte[] ser) {
+		super(bindings.Shutdown_read(ser));
+	}
+
 }

@@ -49,5 +49,8 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	}
 
 	// Skipped UpdateFailMalformedHTLC_write
-	// Skipped UpdateFailMalformedHTLC_read
+	public UpdateFailMalformedHTLC(byte[] ser) {
+		super(bindings.UpdateFailMalformedHTLC_read(ser));
+	}
+
 }

@@ -61,6 +61,9 @@ public class ReplyChannelRange extends CommonBase {
 
 	// Skipped ReplyChannelRange_set_short_channel_ids
 	// Skipped ReplyChannelRange_new
-	// Skipped ReplyChannelRange_read
+	public ReplyChannelRange(byte[] ser) {
+		super(bindings.ReplyChannelRange_read(ser));
+	}
+
 	// Skipped ReplyChannelRange_write
 }

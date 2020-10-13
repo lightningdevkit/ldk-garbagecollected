@@ -77,5 +77,8 @@ public class ChannelAnnouncement extends CommonBase {
 	}
 
 	// Skipped ChannelAnnouncement_write
-	// Skipped ChannelAnnouncement_read
+	public ChannelAnnouncement(byte[] ser) {
+		super(bindings.ChannelAnnouncement_read(ser));
+	}
+
 }

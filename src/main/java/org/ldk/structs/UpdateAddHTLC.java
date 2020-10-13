@@ -71,5 +71,8 @@ public class UpdateAddHTLC extends CommonBase {
 	}
 
 	// Skipped UpdateAddHTLC_write
-	// Skipped UpdateAddHTLC_read
+	public UpdateAddHTLC(byte[] ser) {
+		super(bindings.UpdateAddHTLC_read(ser));
+	}
+
 }

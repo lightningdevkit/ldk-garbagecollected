@@ -44,5 +44,8 @@ public class NodeAnnouncement extends CommonBase {
 	}
 
 	// Skipped NodeAnnouncement_write
-	// Skipped NodeAnnouncement_read
+	public NodeAnnouncement(byte[] ser) {
+		super(bindings.NodeAnnouncement_read(ser));
+	}
+
 }

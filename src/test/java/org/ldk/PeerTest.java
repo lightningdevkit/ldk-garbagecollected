@@ -6,11 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PeerTest {
@@ -150,19 +147,15 @@ public class PeerTest {
 
     class LongHolder { long val; }
 
-    byte[] do_read_event(ConcurrentLinkedQueue<Thread> list, long pm, long descriptor, long data) {
-        byte[] arr = bindings.get_u8_slice_bytes(data);
+    void do_read_event(ConcurrentLinkedQueue<Thread> list, long pm, long descriptor, byte[] arr) {
         Thread thread = new Thread(() -> {
-            long arr_vec = bindings.bytes_to_u8_vec(arr);
-            long res = bindings.PeerManager_read_event(pm, descriptor, arr_vec);
+            long res = bindings.PeerManager_read_event(pm, descriptor, arr);
             assert bindings.LDKCResult_boolPeerHandleErrorZ_result_ok(res);
             //assert bindings.deref_bool(bindings.LDKCResult_boolPeerHandleErrorZ_get_inner(res));
             bindings.CResult_boolPeerHandleErrorZ_free(res);
-            bindings.CVec_u8Z_free(arr_vec);
         });
         thread.start();
         list.add(thread);
-        return arr;
     }
 
     @Test
@@ -175,8 +168,9 @@ public class PeerTest {
         LongHolder descriptor1ref = descriptor1;
         bindings.LDKSocketDescriptor sock1 = new bindings.LDKSocketDescriptor() {
             @Override
-            public long send_data(long data, boolean resume_read) {
-                return do_read_event(list, peer1.peer_manager, descriptor1ref.val, data).length;
+            public long send_data(byte[] data, boolean resume_read) {
+                do_read_event(list, peer1.peer_manager, descriptor1ref.val, data);
+                return data.length;
             }
 
             @Override public void disconnect_socket() { assert false; }
@@ -187,8 +181,9 @@ public class PeerTest {
 
         bindings.LDKSocketDescriptor sock2 = new bindings.LDKSocketDescriptor() {
             @Override
-            public long send_data(long data, boolean resume_read) {
-                return do_read_event(list, peer2.peer_manager, descriptor2, data).length;
+            public long send_data(byte[] data, boolean resume_read) {
+                do_read_event(list, peer2.peer_manager, descriptor2, data);
+                return data.length;
             }
 
             @Override public void disconnect_socket() { assert false; }
@@ -203,7 +198,7 @@ public class PeerTest {
         long con_res = bindings.PeerManager_new_inbound_connection(peer2.peer_manager, descriptor2);
         assert(bindings.LDKCResult_NonePeerHandleErrorZ_result_ok(con_res));
         bindings.CResult_NonePeerHandleErrorZ_free(con_res);
-        do_read_event(list, peer2.peer_manager, descriptor2, bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_inner(init_vec));
+        do_read_event(list, peer2.peer_manager, descriptor2, bindings.get_u8_slice_bytes(bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_inner(init_vec)));
         bindings.CResult_CVec_u8ZPeerHandleErrorZ_free(init_vec);
 
         while (!list.isEmpty()) { list.poll().join(); }

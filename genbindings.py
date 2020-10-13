@@ -19,7 +19,7 @@ class TypeInfo:
         self.arr_access = arr_access
 
 class ConvInfo:
-    def __init__(self, ty_info, arg_name, arg_conv, arg_conv_name, ret_conv, ret_conv_name):
+    def __init__(self, ty_info, arg_name, arg_conv, arg_conv_name, arg_conv_cleanup, ret_conv, ret_conv_name):
         assert(ty_info.c_ty is not None)
         assert(ty_info.java_ty is not None)
         assert(arg_name is not None)
@@ -31,6 +31,7 @@ class ConvInfo:
         self.arg_name = arg_name
         self.arg_conv = arg_conv
         self.arg_conv_name = arg_conv_name
+        self.arg_conv_cleanup = arg_conv_cleanup
         self.ret_conv = ret_conv
         self.ret_conv_name = ret_conv_name
 
@@ -93,7 +94,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 lastund = True
         return (ret + lastchar.lower()).strip("_")
 
-    var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([0-9]*)\]")
+    var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([a-z0-9]*)\]")
     var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
     def java_c_types(fn_arg, ret_arr_len):
         fn_arg = fn_arg.strip()
@@ -132,6 +133,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             fn_arg = "uint8_t (*" + fn_arg[14:] + ")[3]"
             assert var_is_arr_regex.match(fn_arg[8:])
             rust_obj = "LDKThreeBytes"
+            arr_access = "data"
+        if fn_arg.startswith("LDKu8slice"):
+            fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"
+            assert var_is_arr_regex.match(fn_arg[8:])
+            rust_obj = "LDKu8slice"
             arr_access = "data"
 
         if fn_arg.startswith("void"):
@@ -217,7 +223,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         if ty_info.c_ty == "void":
             if not print_void:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = None, ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                    ret_conv = None, ret_conv_name = None)
 
         if ty_info.c_ty.endswith("Array"):
             arr_len = ty_info.arr_len
@@ -227,23 +234,30 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 arr_name = "ret"
                 arr_len = ret_arr_len
             assert(ty_info.c_ty == "jbyteArray")
-            if ty_info.rust_obj is not None:
+            ret_conv = ("jbyteArray " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_len + ");\n" + "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_len + ", ", "")
+            arg_conv_cleanup = None
+            if not arr_len.isdigit():
+                arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
+                arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = (*_env)->GetByteArrayElements (_env, " + arr_name + ", NULL);\n"
+                arg_conv = arg_conv + arr_name + "_ref." + arr_len + " = (*_env)->GetArrayLength (_env, " + arr_name + ");"
+                arg_conv_cleanup = "(*_env)->ReleaseByteArrayElements(_env, " + arr_name + ", (int8_t*)" + arr_name + "_ref." + ty_info.arr_access + ", 0);"
+                arr_access = "." + ty_info.arr_access
+                ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
+                ret_conv = (ret_conv[0], ";\njbyteArray " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_name + "_var." + arr_len + ");\n")
+                ret_conv = (ret_conv[0], ret_conv[1] + "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_name + "_var." + arr_len + ", " + arr_name + "_var." + ty_info.arr_access + ");")
+            elif ty_info.rust_obj is not None:
                 arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
                 arg_conv = arg_conv + "CHECK((*_env)->GetArrayLength (_env, " + arr_name + ") == " + arr_len + ");\n"
                 arg_conv = arg_conv + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_ref." + ty_info.arr_access + ");"
-                arr_access = ("", "." + ty_info.arr_access)
+                ret_conv = (ret_conv[0], "." + ty_info.arr_access + ");")
             else:
                 arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n"
                 arg_conv = arg_conv + "CHECK((*_env)->GetArrayLength (_env, " + arr_name + ") == " + arr_len + ");\n"
                 arg_conv = arg_conv + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
-                arr_access = ("*", "")
+                ret_conv = (ret_conv[0] + "*", ");")
             return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                arg_conv = arg_conv,
-                arg_conv_name = arr_name + "_ref",
-                ret_conv = ("jbyteArray " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_len + ");\n" +
-                    "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_len + ", " + arr_access[0],
-                    arr_access[1] + ");"),
-                ret_conv_name = arr_name + "_arr")
+                arg_conv = arg_conv, arg_conv_name = arr_name + "_ref", arg_conv_cleanup = arg_conv_cleanup,
+                ret_conv = ret_conv, ret_conv_name = arr_name + "_arr")
         elif ty_info.var_name != "":
             # If we have a parameter name, print it (noting that it may indicate its a pointer)
             if ty_info.rust_obj is not None:
@@ -263,6 +277,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_from_java(_env, " + ty_info.var_name + ");",
                             arg_conv_name = ty_info.var_name + "_conv",
+                            arg_conv_cleanup = None,
                             ret_conv = ("jclass " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_to_java(_env, ", ");"),
                             ret_conv_name = ty_info.var_name + "_conv")
                     if ty_info.rust_obj in opaque_structs:
@@ -275,7 +290,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         ret_conv_suf = ret_conv_suf + "\t" + ty_info.var_name + "_ref = (long)&" + ty_info.var_name + "_var;\n"
                         ret_conv_suf = ret_conv_suf + "}"
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv",
+                            arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", ret_conv_suf),
                             ret_conv_name = ty_info.var_name + "_ref")
                     base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";";
@@ -287,48 +302,47 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         else:
                             base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            arg_conv = base_conv,
-                            arg_conv_name = ty_info.var_name + "_conv",
+                            arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = ("CANT PASS TRAIT TO Java?", ""), ret_conv_name = "NO CONV POSSIBLE")
                     if ty_info.rust_obj != "LDKu8slice":
                         # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                         # underlying unlike Vecs, and it gives Java more freedom.
                         base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv",
+                        arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref")
                 else:
                     assert(not is_free)
                     if ty_info.rust_obj in opaque_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv",
+                            arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = None, ret_conv_name = None) # its a pointer, no conv needed
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
-                        arg_conv_name = ty_info.var_name + "_conv",
+                        arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = None, ret_conv_name = None) # its a pointer, no conv needed
             elif ty_info.is_ptr:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = ty_info.var_name, ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None, ret_conv = None, ret_conv_name = None)
             elif ty_info.java_ty == "String":
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = None,
+                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
                     ret_conv = ("jstring " + ty_info.var_name + "_conv = (*_env)->NewStringUTF(_env, ", ");"), ret_conv_name = ty_info.var_name + "_conv")
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = ty_info.var_name, ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None, ret_conv = None, ret_conv_name = None)
         elif not print_void:
             # We don't have a parameter name, and want one, just call it arg
             if ty_info.rust_obj is not None:
                 assert(not is_free or ty_info.rust_obj not in opaque_structs);
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = ty_info.rust_obj + " arg_conv = *(" + ty_info.rust_obj + "*)arg;\nFREE((void*)arg);",
-                    arg_conv_name = "arg_conv",
+                    arg_conv_name = "arg_conv", arg_conv_cleanup = None,
                     ret_conv = None, ret_conv_name = None)
             else:
                 assert(not is_free)
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = "arg", ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = "arg", arg_conv_cleanup = None, ret_conv = None, ret_conv_name = None)
         else:
             # We don't have a parameter name, and don't want one (cause we're returning)
             if ty_info.rust_obj is not None:
@@ -336,7 +350,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     if ty_info.rust_obj in unitary_enums:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = ty_info.rust_obj + " ret = " + ty_info.rust_obj + "_from_java(_env, " + ty_info.var_name + ");",
-                            arg_conv_name = "ret",
+                            arg_conv_name = "ret", arg_conv_cleanup = None,
                             ret_conv = ("jclass ret = " + ty_info.rust_obj + "_to_java(_env, ", ");"), ret_conv_name = "ret")
                     if ty_info.rust_obj in opaque_structs:
                         # If we're returning a newly-allocated struct, we don't want Rust to ever
@@ -346,19 +360,19 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             ret_conv = (ty_info.rust_obj + " ret = ", ";"),
                             ret_conv_name = "((long)ret.inner) | (ret.is_owned ? 1 : 0)",
-                            arg_conv = None, arg_conv_name = None)
+                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None)
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
                             ret_conv_name = "(long)ret",
-                            arg_conv = None, arg_conv_name = None)
+                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None)
                 else:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         ret_conv = ("long ret = (long)", ";"), ret_conv_name = "ret",
-                        arg_conv = None, arg_conv_name = None)
+                        arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None)
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = None, ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None, ret_conv = None, ret_conv_name = None)
 
     def map_fn(line, re_match, ret_arr_len, c_call_string):
         out_java.write("\t// " + line)
@@ -434,12 +448,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
         for info in arg_names:
             if info.arg_conv is not None:
-                out_c.write("\t" + info.arg_conv.replace('\n', "\n\t") + "\n");
+                out_c.write("\t" + info.arg_conv.replace('\n', "\n\t") + "\n")
 
         if ret_info.ret_conv is not None:
-            out_c.write("\t" + ret_conv_pfx.replace('\n', '\n\t'));
+            out_c.write("\t" + ret_conv_pfx.replace('\n', '\n\t'))
+        elif ret_info.c_ty != "void":
+            out_c.write("\t" + ret_info.c_ty + " ret_val = ")
         else:
-            out_c.write("\treturn ");
+            out_c.write("\t")
 
         if c_call_string is None:
             out_c.write(re_match.group(2) + "(")
@@ -455,9 +471,15 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_c.write(")")
         if ret_info.ret_conv is not None:
             out_c.write(ret_conv_sfx.replace('\n', '\n\t'))
-            out_c.write("\n\treturn " + ret_info.ret_conv_name + ";")
         else:
             out_c.write(";")
+        for info in arg_names:
+            if info.arg_conv_cleanup is not None:
+                out_c.write("\n\t" + info.arg_conv_cleanup.replace("\n", "\n\t"))
+        if ret_info.ret_conv is not None:
+            out_c.write("\n\treturn " + ret_info.ret_conv_name + ";")
+        elif ret_info.c_ty != "void":
+            out_c.write("\n\treturn ret_val;")
         out_c.write("\n}\n\n")
         if out_java_struct is not None:
             out_java_struct.write("\t\t")
@@ -1183,6 +1205,7 @@ class CommonBase {
                                 out_c.write("\n\tret->" + e + " = " + ty_info.arg_conv_name + ";\n")
                             else:
                                 out_c.write("\tret->" + e + " = " + e + ";\n")
+                            assert ty_info.arg_conv_cleanup is None
                     out_c.write("\treturn (long)ret;\n")
                     out_c.write("}\n")
                 elif vec_ty is not None:
@@ -1222,6 +1245,7 @@ class CommonBase {
                             out_c.write("\t\t\t" + ty_info.c_ty + " arr_elem = java_elems[i];\n")
                             out_c.write("\t\t\t" + ty_info.arg_conv.replace("\n", "\n\t\t\t") + "\n")
                             out_c.write("\t\t\tret->data[i] = " + ty_info.arg_conv_name + ";\n")
+                            assert ty_info.arg_conv_cleanup is None
                         else:
                             out_c.write("\t\t\tret->data[i] = java_elems[i];\n")
                         out_c.write("\t\t}\n")

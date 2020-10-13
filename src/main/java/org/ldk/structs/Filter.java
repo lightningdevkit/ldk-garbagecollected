@@ -15,6 +15,13 @@ public class Filter extends CommonBase {
 		bindings.Filter_free(ptr); super.finalize();
 	}
 
-	// Skipped Filter_call_register_tx
-	// Skipped Filter_call_register_output
+	public void call_register_tx(byte[] txid, byte[] script_pubkey) {
+		bindings.Filter_call_register_tx(this.ptr, txid, script_pubkey);
+	}
+
+	public void call_register_output(OutPoint outpoint, byte[] script_pubkey) {
+		bindings.Filter_call_register_output(this.ptr, outpoint.ptr & ~1, script_pubkey);
+		this.ptrs_to.add(outpoint);
+	}
+
 }

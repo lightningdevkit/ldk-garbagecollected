@@ -81,5 +81,8 @@ public class ChannelInfo extends CommonBase {
 	}
 
 	// Skipped ChannelInfo_write
-	// Skipped ChannelInfo_read
+	public ChannelInfo(byte[] ser) {
+		super(bindings.ChannelInfo_read(ser));
+	}
+
 }

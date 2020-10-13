@@ -31,5 +31,8 @@ public class Pong extends CommonBase {
 	}
 
 	// Skipped Pong_write
-	// Skipped Pong_read
+	public Pong(byte[] ser) {
+		super(bindings.Pong_read(ser));
+	}
+
 }

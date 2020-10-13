@@ -214,5 +214,8 @@ public class OpenChannel extends CommonBase {
 	}
 
 	// Skipped OpenChannel_write
-	// Skipped OpenChannel_read
+	public OpenChannel(byte[] ser) {
+		super(bindings.OpenChannel_read(ser));
+	}
+
 }

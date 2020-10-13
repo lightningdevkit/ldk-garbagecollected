@@ -52,6 +52,9 @@ public class GossipTimestampFilter extends CommonBase {
 		super(bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg));
 	}
 
-	// Skipped GossipTimestampFilter_read
+	public GossipTimestampFilter(byte[] ser) {
+		super(bindings.GossipTimestampFilter_read(ser));
+	}
+
 	// Skipped GossipTimestampFilter_write
 }

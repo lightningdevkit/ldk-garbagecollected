@@ -16,5 +16,8 @@ public class HTLCUpdate extends CommonBase {
 	}
 
 	// Skipped HTLCUpdate_write
-	// Skipped HTLCUpdate_read
+	public HTLCUpdate(byte[] ser) {
+		super(bindings.HTLCUpdate_read(ser));
+	}
+
 }

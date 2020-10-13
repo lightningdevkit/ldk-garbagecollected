@@ -94,5 +94,8 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	}
 
 	// Skipped UnsignedChannelAnnouncement_write
-	// Skipped UnsignedChannelAnnouncement_read
+	public UnsignedChannelAnnouncement(byte[] ser) {
+		super(bindings.UnsignedChannelAnnouncement_read(ser));
+	}
+
 }

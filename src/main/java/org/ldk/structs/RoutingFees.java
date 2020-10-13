@@ -41,6 +41,9 @@ public class RoutingFees extends CommonBase {
 		super(bindings.RoutingFees_new(base_msat_arg, proportional_millionths_arg));
 	}
 
-	// Skipped RoutingFees_read
+	public RoutingFees(byte[] ser) {
+		super(bindings.RoutingFees_read(ser));
+	}
+
 	// Skipped RoutingFees_write
 }
