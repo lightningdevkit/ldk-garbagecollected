@@ -46,176 +46,185 @@ class ConvInfo:
         else:
             out_java.write(" arg")
             out_c.write(" arg")
+
+def camel_to_snake(s):
+    # Convert camel case to snake case, in a way that appears to match cbindgen
+    con = "_"
+    ret = ""
+    lastchar = ""
+    lastund = False
+    for char in s:
+        if lastchar.isupper():
+            if not char.isupper() and not lastund:
+                ret = ret + "_"
+                lastund = True
+            else:
+                lastund = False
+            ret = ret + lastchar.lower()
+        else:
+            ret = ret + lastchar
+            if char.isupper() and not lastund:
+                ret = ret + "_"
+                lastund = True
+            else:
+                lastund = False
+        lastchar = char
+        if char.isnumeric():
+            lastund = True
+    return (ret + lastchar.lower()).strip("_")
+
+unitary_enums = set()
+var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([a-z0-9]*)\]")
+var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
+def java_c_types(fn_arg, ret_arr_len):
+    fn_arg = fn_arg.strip()
+    if fn_arg.startswith("MUST_USE_RES "):
+        fn_arg = fn_arg[13:]
+    is_const = False
+    if fn_arg.startswith("const "):
+        fn_arg = fn_arg[6:]
+        is_const = True
+
+    is_ptr = False
+    take_by_ptr = False
+    rust_obj = None
+    arr_access = None
+    if fn_arg.startswith("LDKThirtyTwoBytes"):
+        fn_arg = "uint8_t (*" + fn_arg[18:] + ")[32]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKThirtyTwoBytes"
+        arr_access = "data"
+    if fn_arg.startswith("LDKPublicKey"):
+        fn_arg = "uint8_t (*" + fn_arg[13:] + ")[33]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKPublicKey"
+        arr_access = "compressed_form"
+    if fn_arg.startswith("LDKSecretKey"):
+        fn_arg = "uint8_t (*" + fn_arg[13:] + ")[32]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKSecretKey"
+        arr_access = "bytes"
+    if fn_arg.startswith("LDKSignature"):
+        fn_arg = "uint8_t (*" + fn_arg[13:] + ")[64]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKSignature"
+        arr_access = "compact_form"
+    if fn_arg.startswith("LDKThreeBytes"):
+        fn_arg = "uint8_t (*" + fn_arg[14:] + ")[3]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKThreeBytes"
+        arr_access = "data"
+    if fn_arg.startswith("LDKu8slice"):
+        fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKu8slice"
+        arr_access = "data"
+
+    if fn_arg.startswith("void"):
+        java_ty = "void"
+        c_ty = "void"
+        fn_ty_arg = "V"
+        fn_arg = fn_arg[4:].strip()
+    elif fn_arg.startswith("bool"):
+        java_ty = "boolean"
+        c_ty = "jboolean"
+        fn_ty_arg = "Z"
+        fn_arg = fn_arg[4:].strip()
+    elif fn_arg.startswith("uint8_t"):
+        java_ty = "byte"
+        c_ty = "jbyte"
+        fn_ty_arg = "B"
+        fn_arg = fn_arg[7:].strip()
+    elif fn_arg.startswith("uint16_t"):
+        java_ty = "short"
+        c_ty = "jshort"
+        fn_ty_arg = "S"
+        fn_arg = fn_arg[8:].strip()
+    elif fn_arg.startswith("uint32_t"):
+        java_ty = "int"
+        c_ty = "jint"
+        fn_ty_arg = "I"
+        fn_arg = fn_arg[8:].strip()
+    elif fn_arg.startswith("uint64_t") or fn_arg.startswith("uintptr_t"):
+        java_ty = "long"
+        c_ty = "jlong"
+        fn_ty_arg = "J"
+        if fn_arg.startswith("uint64_t"):
+            fn_arg = fn_arg[8:].strip()
+        else:
+            fn_arg = fn_arg[9:].strip()
+    elif is_const and fn_arg.startswith("char *"):
+        java_ty = "String"
+        c_ty = "const char*"
+        fn_ty_arg = "Ljava/lang/String;"
+        fn_arg = fn_arg[6:].strip()
+    else:
+        ma = var_ty_regex.match(fn_arg)
+        if ma.group(1).strip() in unitary_enums:
+            java_ty = ma.group(1).strip()
+            c_ty = "jclass"
+            fn_ty_arg = "Lorg/ldk/enums/" + ma.group(1).strip() + ";"
+            fn_arg = ma.group(2).strip()
+            rust_obj = ma.group(1).strip()
+            take_by_ptr = True
+        else:
+            java_ty = "long"
+            c_ty = "jlong"
+            fn_ty_arg = "J"
+            fn_arg = ma.group(2).strip()
+            rust_obj = ma.group(1).strip()
+            take_by_ptr = True
+
+    if fn_arg.startswith(" *") or fn_arg.startswith("*"):
+        fn_arg = fn_arg.replace("*", "").strip()
+        is_ptr = True
+        c_ty = "jlong"
+        java_ty = "long"
+        fn_ty_arg = "J"
+
+    var_is_arr = var_is_arr_regex.match(fn_arg)
+    if var_is_arr is not None or ret_arr_len is not None:
+        assert(not take_by_ptr)
+        assert(not is_ptr)
+        java_ty = java_ty + "[]"
+        c_ty = c_ty + "Array"
+        if var_is_arr is not None:
+            if var_is_arr.group(1) == "":
+                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
+                    passed_as_ptr=False, is_ptr=False, var_name="arg", arr_len=var_is_arr.group(2), arr_access=arr_access)
+            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
+                passed_as_ptr=False, is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2), arr_access=arr_access)
+    return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
+        is_ptr=is_ptr, var_name=fn_arg, arr_len=None, arr_access=None)
+
+
+
 fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
 fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
 reg_fn_regex = re.compile("([A-Za-z_0-9\* ]* \*?)([a-zA-Z_0-9]*)\((.*)\);$")
 clone_fns = set()
+constructor_fns = {}
 with open(sys.argv[1]) as in_h:
     for line in in_h:
         reg_fn = reg_fn_regex.match(line)
         if reg_fn is not None:
             if reg_fn.group(2).endswith("_clone"):
                 clone_fns.add(reg_fn.group(2))
+            else:
+                rty = java_c_types(reg_fn.group(1), None)
+                if rty.rust_obj is not None and reg_fn.group(2) == rty.rust_obj.replace("LDK", "") + "_new":
+                    constructor_fns[rty.rust_obj] = reg_fn.group(3)
             continue
         arr_fn = fn_ret_arr_regex.match(line)
         if arr_fn is not None:
             if arr_fn.group(2).endswith("_clone"):
                 clone_fns.add(arr_fn.group(2))
+            # No object constructors return arrays, as then they wouldn't be an object constructor
             continue
 
 with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.argv[4], "w") as out_c:
     opaque_structs = set()
     trait_structs = set()
-    unitary_enums = set()
-
-    def camel_to_snake(s):
-        # Convert camel case to snake case, in a way that appears to match cbindgen
-        con = "_"
-        ret = ""
-        lastchar = ""
-        lastund = False
-        for char in s:
-            if lastchar.isupper():
-                if not char.isupper() and not lastund:
-                    ret = ret + "_"
-                    lastund = True
-                else:
-                    lastund = False
-                ret = ret + lastchar.lower()
-            else:
-                ret = ret + lastchar
-                if char.isupper() and not lastund:
-                    ret = ret + "_"
-                    lastund = True
-                else:
-                    lastund = False
-            lastchar = char
-            if char.isnumeric():
-                lastund = True
-        return (ret + lastchar.lower()).strip("_")
-
-    var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([a-z0-9]*)\]")
-    var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
-    def java_c_types(fn_arg, ret_arr_len):
-        fn_arg = fn_arg.strip()
-        if fn_arg.startswith("MUST_USE_RES "):
-            fn_arg = fn_arg[13:]
-        is_const = False
-        if fn_arg.startswith("const "):
-            fn_arg = fn_arg[6:]
-            is_const = True
-
-        is_ptr = False
-        take_by_ptr = False
-        rust_obj = None
-        arr_access = None
-        if fn_arg.startswith("LDKThirtyTwoBytes"):
-            fn_arg = "uint8_t (*" + fn_arg[18:] + ")[32]"
-            assert var_is_arr_regex.match(fn_arg[8:])
-            rust_obj = "LDKThirtyTwoBytes"
-            arr_access = "data"
-        if fn_arg.startswith("LDKPublicKey"):
-            fn_arg = "uint8_t (*" + fn_arg[13:] + ")[33]"
-            assert var_is_arr_regex.match(fn_arg[8:])
-            rust_obj = "LDKPublicKey"
-            arr_access = "compressed_form"
-        if fn_arg.startswith("LDKSecretKey"):
-            fn_arg = "uint8_t (*" + fn_arg[13:] + ")[32]"
-            assert var_is_arr_regex.match(fn_arg[8:])
-            rust_obj = "LDKSecretKey"
-            arr_access = "bytes"
-        if fn_arg.startswith("LDKSignature"):
-            fn_arg = "uint8_t (*" + fn_arg[13:] + ")[64]"
-            assert var_is_arr_regex.match(fn_arg[8:])
-            rust_obj = "LDKSignature"
-            arr_access = "compact_form"
-        if fn_arg.startswith("LDKThreeBytes"):
-            fn_arg = "uint8_t (*" + fn_arg[14:] + ")[3]"
-            assert var_is_arr_regex.match(fn_arg[8:])
-            rust_obj = "LDKThreeBytes"
-            arr_access = "data"
-        if fn_arg.startswith("LDKu8slice"):
-            fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"
-            assert var_is_arr_regex.match(fn_arg[8:])
-            rust_obj = "LDKu8slice"
-            arr_access = "data"
-
-        if fn_arg.startswith("void"):
-            java_ty = "void"
-            c_ty = "void"
-            fn_ty_arg = "V"
-            fn_arg = fn_arg[4:].strip()
-        elif fn_arg.startswith("bool"):
-            java_ty = "boolean"
-            c_ty = "jboolean"
-            fn_ty_arg = "Z"
-            fn_arg = fn_arg[4:].strip()
-        elif fn_arg.startswith("uint8_t"):
-            java_ty = "byte"
-            c_ty = "jbyte"
-            fn_ty_arg = "B"
-            fn_arg = fn_arg[7:].strip()
-        elif fn_arg.startswith("uint16_t"):
-            java_ty = "short"
-            c_ty = "jshort"
-            fn_ty_arg = "S"
-            fn_arg = fn_arg[8:].strip()
-        elif fn_arg.startswith("uint32_t"):
-            java_ty = "int"
-            c_ty = "jint"
-            fn_ty_arg = "I"
-            fn_arg = fn_arg[8:].strip()
-        elif fn_arg.startswith("uint64_t") or fn_arg.startswith("uintptr_t"):
-            java_ty = "long"
-            c_ty = "jlong"
-            fn_ty_arg = "J"
-            if fn_arg.startswith("uint64_t"):
-                fn_arg = fn_arg[8:].strip()
-            else:
-                fn_arg = fn_arg[9:].strip()
-        elif is_const and fn_arg.startswith("char *"):
-            java_ty = "String"
-            c_ty = "const char*"
-            fn_ty_arg = "Ljava/lang/String;"
-            fn_arg = fn_arg[6:].strip()
-        else:
-            ma = var_ty_regex.match(fn_arg)
-            if ma.group(1).strip() in unitary_enums:
-                java_ty = ma.group(1).strip()
-                c_ty = "jclass"
-                fn_ty_arg = "Lorg/ldk/enums/" + ma.group(1).strip() + ";"
-                fn_arg = ma.group(2).strip()
-                rust_obj = ma.group(1).strip()
-                take_by_ptr = True
-            else:
-                java_ty = "long"
-                c_ty = "jlong"
-                fn_ty_arg = "J"
-                fn_arg = ma.group(2).strip()
-                rust_obj = ma.group(1).strip()
-                take_by_ptr = True
-
-        if fn_arg.startswith(" *") or fn_arg.startswith("*"):
-            fn_arg = fn_arg.replace("*", "").strip()
-            is_ptr = True
-            c_ty = "jlong"
-            java_ty = "long"
-            fn_ty_arg = "J"
-
-        var_is_arr = var_is_arr_regex.match(fn_arg)
-        if var_is_arr is not None or ret_arr_len is not None:
-            assert(not take_by_ptr)
-            assert(not is_ptr)
-            java_ty = java_ty + "[]"
-            c_ty = c_ty + "Array"
-            if var_is_arr is not None:
-                if var_is_arr.group(1) == "":
-                    return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
-                        passed_as_ptr=False, is_ptr=False, var_name="arg", arr_len=var_is_arr.group(2), arr_access=arr_access)
-                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
-                    passed_as_ptr=False, is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2), arr_access=arr_access)
-        return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
-            is_ptr=is_ptr, var_name=fn_arg, arr_len=None, arr_access=None)
 
     def map_type(fn_arg, print_void, ret_arr_len, is_free):
         ty_info = java_c_types(fn_arg, ret_arr_len)
@@ -392,6 +401,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         out_c.write(" JNICALL Java_org_ldk_impl_bindings_" + re_match.group(2).replace('_', '_1') + "(JNIEnv * _env, jclass _b")
 
         arg_names = []
+        default_constructor_args = {}
         takes_self = False
         args_known = not ret_info.passed_as_ptr or ret_info.rust_obj in opaque_structs or ret_info.rust_obj in trait_structs
         for idx, arg in enumerate(re_match.group(3).split(',')):
@@ -407,10 +417,24 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 takes_self = True
             if arg_conv_info.passed_as_ptr and not arg_conv_info.rust_obj in opaque_structs:
                 if not arg_conv_info.rust_obj in trait_structs and not arg_conv_info.rust_obj in unitary_enums:
-                    print(re_match.group(2) + " bad - " + arg_conv_info.rust_obj)
                     args_known = False
             if arg_conv_info.arg_conv is not None and "Warning" in arg_conv_info.arg_conv:
-                args_known = False
+                if arg_conv_info.rust_obj in constructor_fns:
+                    assert not is_free
+                    for explode_arg in constructor_fns[arg_conv_info.rust_obj].split(','):
+                        explode_arg_conv = map_type(explode_arg, False, None, False)
+                        if explode_arg_conv.c_ty == "void":
+                            # We actually want to handle this case, but for now its only used in NetGraphMsgHandler::new()
+                            # which ends up resulting in a redundant constructor - both without arguments for the NetworkGraph.
+                            args_known = False
+                        assert explode_arg_conv.arg_name != "this_arg"
+                        if explode_arg_conv.passed_as_ptr and not explode_arg_conv.rust_obj in trait_structs:
+                            args_known = False
+                        if not arg_conv_info.arg_name in default_constructor_args:
+                            default_constructor_args[arg_conv_info.arg_name] = []
+                        default_constructor_args[arg_conv_info.arg_name].append(explode_arg_conv)
+                else:
+                    args_known = False
             arg_names.append(arg_conv_info)
 
         out_java_struct = None
@@ -434,7 +458,13 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         if not takes_self or idx > 1:
                             out_java_struct.write(", ")
                     if arg.java_ty != "void" and arg.arg_name != "this_arg":
-                        if arg.passed_as_ptr:
+                        if arg.arg_name in default_constructor_args:
+                            for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
+                                if explode_idx != 0:
+                                    out_java_struct.write(", ")
+                                assert explode_arg.rust_obj in opaque_structs or explode_arg.rust_obj in trait_structs
+                                out_java_struct.write(explode_arg.rust_obj.replace("LDK", "") + " " + arg.arg_name + "_" + explode_arg.arg_name)
+                        elif arg.passed_as_ptr:
                             if arg.rust_obj in opaque_structs or arg.rust_obj in trait_structs:
                                 out_java_struct.write(arg.rust_obj.replace("LDK", "") + " " + arg.arg_name)
                             else:
@@ -499,6 +529,15 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     out_java_struct.write(", ")
                 if info.arg_name == "this_arg":
                     out_java_struct.write("this.ptr")
+                elif info.arg_name in default_constructor_args:
+                    out_java_struct.write("bindings." + info.rust_obj.replace("LDK", "") + "_new(")
+                    for explode_idx, explode_arg in enumerate(default_constructor_args[info.arg_name]):
+                        if explode_idx != 0:
+                            out_java_struct.write(", ")
+                        assert explode_arg.passed_as_ptr and explode_arg.rust_obj in trait_structs
+                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
+                        out_java_struct.write(expl_arg_name + " == null ? 0 : " + expl_arg_name + ".ptr")
+                    out_java_struct.write(")")
                 elif info.passed_as_ptr and info.rust_obj in opaque_structs:
                     out_java_struct.write(info.arg_name + " == null ? 0 : " + info.arg_name + ".ptr & ~1")
                 elif info.passed_as_ptr and info.rust_obj in trait_structs:
@@ -518,6 +557,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             for info in arg_names:
                 if info.arg_name == "this_arg":
                     pass
+                elif info.arg_name in default_constructor_args:
+                    for explode_arg in default_constructor_args[info.arg_name]:
+                        out_java_struct.write("\t\tthis.ptrs_to.add(" + info.arg_name + "_" + explode_arg.arg_name + ");\n")
                 elif info.passed_as_ptr and (info.rust_obj in opaque_structs or info.rust_obj in trait_structs):
                     out_java_struct.write("\t\tthis.ptrs_to.add(" + info.arg_name + ");\n")
 
