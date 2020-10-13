@@ -15,5 +15,5 @@ public class Access extends CommonBase {
 		bindings.Access_free(ptr); super.finalize();
 	}
 
-	// Skipped Access_call_get_utxo
+	// Skipped Access_get_utxo
 }

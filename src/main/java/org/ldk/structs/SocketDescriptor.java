@@ -15,17 +15,17 @@ public class SocketDescriptor extends CommonBase {
 		bindings.SocketDescriptor_free(ptr); super.finalize();
 	}
 
-	public long call_send_data(byte[] data, boolean resume_read) {
-		long ret = bindings.SocketDescriptor_call_send_data(this.ptr, data, resume_read);
+	public long send_data(byte[] data, boolean resume_read) {
+		long ret = bindings.SocketDescriptor_send_data(this.ptr, data, resume_read);
 		return ret;
 	}
 
-	public void call_disconnect_socket() {
-		bindings.SocketDescriptor_call_disconnect_socket(this.ptr);
+	public void disconnect_socket() {
+		bindings.SocketDescriptor_disconnect_socket(this.ptr);
 	}
 
-	public long call_hash() {
-		long ret = bindings.SocketDescriptor_call_hash(this.ptr);
+	public long hash() {
+		long ret = bindings.SocketDescriptor_hash(this.ptr);
 		return ret;
 	}
 

@@ -95,7 +95,7 @@ public class HumanObjectPeerTest {
             for (byte i = 0; i < 32; i++) {
                 random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
             }
-            this.peer_manager = bindings.PeerManager_new(message_handler, keys_interface.call_get_node_secret(), random_data, logger);
+            this.peer_manager = bindings.PeerManager_new(message_handler, keys_interface.get_node_secret(), random_data, logger);
             System.gc();
         }
 
@@ -216,7 +216,7 @@ public class HumanObjectPeerTest {
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long events = bindings.EventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
+        long events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
         bindings.VecOrSliceDef events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
         assert events_arr_info.datalen == 1;
         bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events_arr_info.dataptr);
@@ -240,7 +240,7 @@ public class HumanObjectPeerTest {
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        events = bindings.EventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
+        events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
         events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
         assert events_arr_info.datalen == 1;
         event = bindings.LDKEvent_ref_from_ptr(events_arr_info.dataptr);
@@ -294,7 +294,7 @@ public class HumanObjectPeerTest {
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long peer2_events = bindings.EventsProvider_call_get_and_clear_pending_events(peer2.chan_manager_events._test_only_get_ptr());
+        long peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events._test_only_get_ptr());
         bindings.VecOrSliceDef event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer2_events);
         assert event_arr_info.datalen == 1;
         bindings.LDKEvent forwardable = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
@@ -302,7 +302,7 @@ public class HumanObjectPeerTest {
         bindings.CVec_EventZ_free(peer2_events);
         bindings.ChannelManager_process_pending_htlc_forwards(peer2.chan_manager._test_only_get_ptr());
 
-        peer2_events = bindings.EventsProvider_call_get_and_clear_pending_events(peer2.chan_manager_events._test_only_get_ptr());
+        peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events._test_only_get_ptr());
         event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer2_events);
         assert event_arr_info.datalen == 1;
         bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
@@ -315,7 +315,7 @@ public class HumanObjectPeerTest {
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long peer1_events = bindings.EventsProvider_call_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
+        long peer1_events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
         event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer1_events);
         assert event_arr_info.datalen == 1;
         bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);

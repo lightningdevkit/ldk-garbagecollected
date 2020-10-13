@@ -15,25 +15,25 @@ public class KeysInterface extends CommonBase {
 		bindings.KeysInterface_free(ptr); super.finalize();
 	}
 
-	public byte[] call_get_node_secret() {
-		byte[] ret = bindings.KeysInterface_call_get_node_secret(this.ptr);
+	public byte[] get_node_secret() {
+		byte[] ret = bindings.KeysInterface_get_node_secret(this.ptr);
 		return ret;
 	}
 
-	// Skipped KeysInterface_call_get_destination_script
-	public byte[] call_get_shutdown_pubkey() {
-		byte[] ret = bindings.KeysInterface_call_get_shutdown_pubkey(this.ptr);
+	// Skipped KeysInterface_get_destination_script
+	public byte[] get_shutdown_pubkey() {
+		byte[] ret = bindings.KeysInterface_get_shutdown_pubkey(this.ptr);
 		return ret;
 	}
 
-	public ChannelKeys call_get_channel_keys(boolean inbound, long channel_value_satoshis) {
-		ChannelKeys ret = new ChannelKeys(null, bindings.KeysInterface_call_get_channel_keys(this.ptr, inbound, channel_value_satoshis));
+	public ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis) {
+		ChannelKeys ret = new ChannelKeys(null, bindings.KeysInterface_get_channel_keys(this.ptr, inbound, channel_value_satoshis));
 		ret.ptrs_to.add(this);
 		return ret;
 	}
 
-	public byte[] call_get_secure_random_bytes() {
-		byte[] ret = bindings.KeysInterface_call_get_secure_random_bytes(this.ptr);
+	public byte[] get_secure_random_bytes() {
+		byte[] ret = bindings.KeysInterface_get_secure_random_bytes(this.ptr);
 		return ret;
 	}
 

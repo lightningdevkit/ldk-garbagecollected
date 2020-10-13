@@ -15,5 +15,5 @@ public class EventsProvider extends CommonBase {
 		bindings.EventsProvider_free(ptr); super.finalize();
 	}
 
-	// Skipped EventsProvider_call_get_and_clear_pending_events
+	// Skipped EventsProvider_get_and_clear_pending_events
 }

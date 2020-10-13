@@ -15,8 +15,8 @@ public class FeeEstimator extends CommonBase {
 		bindings.FeeEstimator_free(ptr); super.finalize();
 	}
 
-	public int call_get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target) {
-		int ret = bindings.FeeEstimator_call_get_est_sat_per_1000_weight(this.ptr, confirmation_target);
+	public int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target) {
+		int ret = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);
 		return ret;
 	}
 

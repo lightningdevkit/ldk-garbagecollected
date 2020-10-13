@@ -15,5 +15,5 @@ public class BroadcasterInterface extends CommonBase {
 		bindings.BroadcasterInterface_free(ptr); super.finalize();
 	}
 
-	// Skipped BroadcasterInterface_call_broadcast_transaction
+	// Skipped BroadcasterInterface_broadcast_transaction
 }

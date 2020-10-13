@@ -15,7 +15,7 @@ public class Watch extends CommonBase {
 		bindings.Watch_free(ptr); super.finalize();
 	}
 
-	// Skipped Watch_call_watch_channel
-	// Skipped Watch_call_update_channel
-	// Skipped Watch_call_release_pending_monitor_events
+	// Skipped Watch_watch_channel
+	// Skipped Watch_update_channel
+	// Skipped Watch_release_pending_monitor_events
 }

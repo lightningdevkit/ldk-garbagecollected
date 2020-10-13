@@ -15,5 +15,5 @@ public class MessageSendEventsProvider extends CommonBase {
 		bindings.MessageSendEventsProvider_free(ptr); super.finalize();
 	}
 
-	// Skipped MessageSendEventsProvider_call_get_and_clear_pending_msg_events
+	// Skipped MessageSendEventsProvider_get_and_clear_pending_msg_events
 }

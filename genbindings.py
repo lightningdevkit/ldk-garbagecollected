@@ -846,7 +846,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             # For now, just disable enabling the _call_log - we don't know how to inverse-map String
             is_log = fn_line.group(2) == "log" and struct_name == "LDKLogger"
             if fn_line.group(2) != "free" and fn_line.group(2) != "clone" and fn_line.group(2) != "eq" and not is_log:
-                dummy_line = fn_line.group(1) + struct_name.replace("LDK", "") + "_call_" + fn_line.group(2) + " " + struct_name + "* this_arg" + fn_line.group(4) + "\n"
+                dummy_line = fn_line.group(1) + struct_name.replace("LDK", "") + "_" + fn_line.group(2) + " " + struct_name + "* this_arg" + fn_line.group(4) + "\n"
                 map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(this_arg_conv->" + fn_line.group(2) + ")(this_arg_conv->this_arg")
 
     out_c.write("""#include \"org_ldk_impl_bindings.h\"
