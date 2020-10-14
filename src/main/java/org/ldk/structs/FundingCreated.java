@@ -7,7 +7,8 @@ public class FundingCreated extends CommonBase {
 	FundingCreated(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.FundingCreated_free(ptr); super.finalize();
+		super.finalize();
+		bindings.FundingCreated_free(ptr);
 	}
 
 	public FundingCreated(FundingCreated orig) {

@@ -7,7 +7,8 @@ public class CommitmentUpdate extends CommonBase {
 	CommitmentUpdate(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.CommitmentUpdate_free(ptr); super.finalize();
+		super.finalize();
+		bindings.CommitmentUpdate_free(ptr);
 	}
 
 	public CommitmentUpdate(CommitmentUpdate orig) {

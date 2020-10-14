@@ -7,7 +7,8 @@ public class KeysManager extends CommonBase {
 	KeysManager(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.KeysManager_free(ptr); super.finalize();
+		super.finalize();
+		bindings.KeysManager_free(ptr);
 	}
 
 	public KeysManager(byte[] seed, LDKNetwork network, long starting_time_secs, int starting_time_nanos) {

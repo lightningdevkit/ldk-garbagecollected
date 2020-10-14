@@ -7,7 +7,8 @@ public class ErrorMessage extends CommonBase {
 	ErrorMessage(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ErrorMessage_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ErrorMessage_free(ptr);
 	}
 
 	public ErrorMessage(ErrorMessage orig) {

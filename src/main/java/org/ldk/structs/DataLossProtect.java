@@ -7,7 +7,8 @@ public class DataLossProtect extends CommonBase {
 	DataLossProtect(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.DataLossProtect_free(ptr); super.finalize();
+		super.finalize();
+		bindings.DataLossProtect_free(ptr);
 	}
 
 	public DataLossProtect(DataLossProtect orig) {

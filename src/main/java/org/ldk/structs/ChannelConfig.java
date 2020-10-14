@@ -7,7 +7,8 @@ public class ChannelConfig extends CommonBase {
 	ChannelConfig(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelConfig_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelConfig_free(ptr);
 	}
 
 	public ChannelConfig(ChannelConfig orig) {

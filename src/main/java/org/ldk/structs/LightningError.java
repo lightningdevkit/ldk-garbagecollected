@@ -7,7 +7,8 @@ public class LightningError extends CommonBase {
 	LightningError(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.LightningError_free(ptr); super.finalize();
+		super.finalize();
+		bindings.LightningError_free(ptr);
 	}
 
 	// Skipped LightningError_get_err

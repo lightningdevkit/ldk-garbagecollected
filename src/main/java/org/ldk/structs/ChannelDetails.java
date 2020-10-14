@@ -7,7 +7,8 @@ public class ChannelDetails extends CommonBase {
 	ChannelDetails(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelDetails_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelDetails_free(ptr);
 	}
 
 	public ChannelDetails(ChannelDetails orig) {

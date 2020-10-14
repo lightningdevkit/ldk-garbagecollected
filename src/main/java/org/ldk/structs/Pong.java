@@ -7,7 +7,8 @@ public class Pong extends CommonBase {
 	Pong(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.Pong_free(ptr); super.finalize();
+		super.finalize();
+		bindings.Pong_free(ptr);
 	}
 
 	public Pong(Pong orig) {

@@ -7,7 +7,8 @@ public class ChannelHandshakeConfig extends CommonBase {
 	ChannelHandshakeConfig(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelHandshakeConfig_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelHandshakeConfig_free(ptr);
 	}
 
 	public ChannelHandshakeConfig(ChannelHandshakeConfig orig) {

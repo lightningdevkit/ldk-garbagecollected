@@ -7,7 +7,8 @@ public class InMemoryChannelKeys extends CommonBase {
 	InMemoryChannelKeys(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.InMemoryChannelKeys_free(ptr); super.finalize();
+		super.finalize();
+		bindings.InMemoryChannelKeys_free(ptr);
 	}
 
 	public InMemoryChannelKeys(InMemoryChannelKeys orig) {

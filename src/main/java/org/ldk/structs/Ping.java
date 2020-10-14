@@ -7,7 +7,8 @@ public class Ping extends CommonBase {
 	Ping(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.Ping_free(ptr); super.finalize();
+		super.finalize();
+		bindings.Ping_free(ptr);
 	}
 
 	public Ping(Ping orig) {

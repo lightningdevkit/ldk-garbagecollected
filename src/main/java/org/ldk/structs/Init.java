@@ -7,7 +7,8 @@ public class Init extends CommonBase {
 	Init(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.Init_free(ptr); super.finalize();
+		super.finalize();
+		bindings.Init_free(ptr);
 	}
 
 	public Init(Init orig) {

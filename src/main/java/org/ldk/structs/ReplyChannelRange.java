@@ -7,7 +7,8 @@ public class ReplyChannelRange extends CommonBase {
 	ReplyChannelRange(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ReplyChannelRange_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ReplyChannelRange_free(ptr);
 	}
 
 	public ReplyChannelRange(ReplyChannelRange orig) {

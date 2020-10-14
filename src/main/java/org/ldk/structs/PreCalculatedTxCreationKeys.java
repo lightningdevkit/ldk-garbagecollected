@@ -7,7 +7,8 @@ public class PreCalculatedTxCreationKeys extends CommonBase {
 	PreCalculatedTxCreationKeys(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.PreCalculatedTxCreationKeys_free(ptr); super.finalize();
+		super.finalize();
+		bindings.PreCalculatedTxCreationKeys_free(ptr);
 	}
 
 	public PreCalculatedTxCreationKeys(TxCreationKeys keys) {

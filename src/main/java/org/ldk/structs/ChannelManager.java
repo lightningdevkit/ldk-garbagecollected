@@ -7,7 +7,8 @@ public class ChannelManager extends CommonBase {
 	ChannelManager(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelManager_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelManager_free(ptr);
 	}
 
 	public ChannelManager(LDKNetwork network, FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, long current_blockchain_height) {

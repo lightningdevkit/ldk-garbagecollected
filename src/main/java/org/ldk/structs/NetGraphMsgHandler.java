@@ -7,7 +7,8 @@ public class NetGraphMsgHandler extends CommonBase {
 	NetGraphMsgHandler(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.NetGraphMsgHandler_free(ptr); super.finalize();
+		super.finalize();
+		bindings.NetGraphMsgHandler_free(ptr);
 	}
 
 	public NetGraphMsgHandler(Access chain_access, Logger logger) {

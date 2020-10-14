@@ -7,7 +7,8 @@ public class Shutdown extends CommonBase {
 	Shutdown(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.Shutdown_free(ptr); super.finalize();
+		super.finalize();
+		bindings.Shutdown_free(ptr);
 	}
 
 	public Shutdown(Shutdown orig) {

@@ -7,7 +7,8 @@ public class RoutingFees extends CommonBase {
 	RoutingFees(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.RoutingFees_free(ptr); super.finalize();
+		super.finalize();
+		bindings.RoutingFees_free(ptr);
 	}
 
 	public RoutingFees(RoutingFees orig) {

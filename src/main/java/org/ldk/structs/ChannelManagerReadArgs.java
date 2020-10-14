@@ -7,7 +7,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	ChannelManagerReadArgs(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelManagerReadArgs_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelManagerReadArgs_free(ptr);
 	}
 
 	public KeysInterface get_keys_manager(ChannelManagerReadArgs this_ptr) {

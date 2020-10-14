@@ -7,7 +7,8 @@ public class PeerHandleError extends CommonBase {
 	PeerHandleError(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.PeerHandleError_free(ptr); super.finalize();
+		super.finalize();
+		bindings.PeerHandleError_free(ptr);
 	}
 
 	public boolean get_no_connection_possible(PeerHandleError this_ptr) {

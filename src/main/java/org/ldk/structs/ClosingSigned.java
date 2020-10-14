@@ -7,7 +7,8 @@ public class ClosingSigned extends CommonBase {
 	ClosingSigned(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ClosingSigned_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ClosingSigned_free(ptr);
 	}
 
 	public ClosingSigned(ClosingSigned orig) {

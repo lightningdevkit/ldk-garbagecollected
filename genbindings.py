@@ -1211,11 +1211,18 @@ class CommonBase {
                         out_java_struct.write("package org.ldk.structs;\n\n")
                         out_java_struct.write("import org.ldk.impl.bindings;\n")
                         out_java_struct.write("import org.ldk.enums.*;\n\n")
-                        out_java_struct.write("public class " + struct_name.replace("LDK","") + " extends CommonBase {\n")
+                        out_java_struct.write("public class " + struct_name.replace("LDK","") + " extends CommonBase")
+                        if struct_name.startswith("LDKLocked"):
+                            out_java_struct.write(" implements AutoCloseable")
+                        out_java_struct.write(" {\n")
                         out_java_struct.write("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); }\n")
-                        out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
-                        out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
-                        out_java_struct.write("\t\tbindings." + struct_name.replace("LDK","") + "_free(ptr); super.finalize();\n")
+                        if struct_name.startswith("LDKLocked"):
+                            out_java_struct.write("\t@Override public void close() {\n")
+                        else:
+                            out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
+                            out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
+                            out_java_struct.write("\t\tsuper.finalize();\n")
+                        out_java_struct.write("\t\tbindings." + struct_name.replace("LDK","") + "_free(ptr);\n")
                         out_java_struct.write("\t}\n\n")
                 elif result_contents is not None:
                     result_templ_structs.add(struct_name)

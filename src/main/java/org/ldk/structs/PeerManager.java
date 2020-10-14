@@ -7,7 +7,8 @@ public class PeerManager extends CommonBase {
 	PeerManager(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.PeerManager_free(ptr); super.finalize();
+		super.finalize();
+		bindings.PeerManager_free(ptr);
 	}
 
 	public PeerManager(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, byte[] our_node_secret, byte[] ephemeral_random_data, Logger logger) {

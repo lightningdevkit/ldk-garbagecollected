@@ -7,7 +7,8 @@ public class ChainMonitor extends CommonBase {
 	ChainMonitor(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChainMonitor_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChainMonitor_free(ptr);
 	}
 
 	// Skipped ChainMonitor_block_connected

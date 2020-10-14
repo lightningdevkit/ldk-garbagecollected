@@ -7,7 +7,8 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	UnsignedNodeAnnouncement(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.UnsignedNodeAnnouncement_free(ptr); super.finalize();
+		super.finalize();
+		bindings.UnsignedNodeAnnouncement_free(ptr);
 	}
 
 	public UnsignedNodeAnnouncement(UnsignedNodeAnnouncement orig) {

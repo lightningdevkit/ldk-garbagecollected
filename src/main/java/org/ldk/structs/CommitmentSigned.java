@@ -7,7 +7,8 @@ public class CommitmentSigned extends CommonBase {
 	CommitmentSigned(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.CommitmentSigned_free(ptr); super.finalize();
+		super.finalize();
+		bindings.CommitmentSigned_free(ptr);
 	}
 
 	public CommitmentSigned(CommitmentSigned orig) {

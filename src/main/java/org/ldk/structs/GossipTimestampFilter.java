@@ -7,7 +7,8 @@ public class GossipTimestampFilter extends CommonBase {
 	GossipTimestampFilter(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.GossipTimestampFilter_free(ptr); super.finalize();
+		super.finalize();
+		bindings.GossipTimestampFilter_free(ptr);
 	}
 
 	public GossipTimestampFilter(GossipTimestampFilter orig) {

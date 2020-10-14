@@ -7,7 +7,8 @@ public class ChannelReestablish extends CommonBase {
 	ChannelReestablish(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelReestablish_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelReestablish_free(ptr);
 	}
 
 	public ChannelReestablish(ChannelReestablish orig) {

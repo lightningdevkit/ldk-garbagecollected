@@ -3,11 +3,10 @@ package org.ldk.structs;
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 
-public class LockedNetworkGraph extends CommonBase {
+public class LockedNetworkGraph extends CommonBase implements AutoCloseable {
 	LockedNetworkGraph(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		bindings.LockedNetworkGraph_free(ptr); super.finalize();
+	@Override public void close() {
+		bindings.LockedNetworkGraph_free(ptr);
 	}
 
 	public NetworkGraph graph() {

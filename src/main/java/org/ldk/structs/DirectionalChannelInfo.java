@@ -7,7 +7,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	DirectionalChannelInfo(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.DirectionalChannelInfo_free(ptr); super.finalize();
+		super.finalize();
+		bindings.DirectionalChannelInfo_free(ptr);
 	}
 
 	public int get_last_update(DirectionalChannelInfo this_ptr) {

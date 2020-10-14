@@ -7,7 +7,8 @@ public class NodeInfo extends CommonBase {
 	NodeInfo(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.NodeInfo_free(ptr); super.finalize();
+		super.finalize();
+		bindings.NodeInfo_free(ptr);
 	}
 
 	// Skipped NodeInfo_set_channels

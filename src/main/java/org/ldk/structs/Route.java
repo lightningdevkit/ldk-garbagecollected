@@ -7,7 +7,8 @@ public class Route extends CommonBase {
 	Route(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.Route_free(ptr); super.finalize();
+		super.finalize();
+		bindings.Route_free(ptr);
 	}
 
 	public Route(Route orig) {

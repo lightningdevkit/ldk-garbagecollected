@@ -7,7 +7,8 @@ public class ChannelMonitorUpdate extends CommonBase {
 	ChannelMonitorUpdate(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelMonitorUpdate_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelMonitorUpdate_free(ptr);
 	}
 
 	public ChannelMonitorUpdate(ChannelMonitorUpdate orig) {

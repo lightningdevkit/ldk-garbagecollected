@@ -7,7 +7,8 @@ public class ChannelInfo extends CommonBase {
 	ChannelInfo(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelInfo_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelInfo_free(ptr);
 	}
 
 	public ChannelFeatures get_features(ChannelInfo this_ptr) {

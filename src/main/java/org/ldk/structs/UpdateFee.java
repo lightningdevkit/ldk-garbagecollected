@@ -7,7 +7,8 @@ public class UpdateFee extends CommonBase {
 	UpdateFee(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.UpdateFee_free(ptr); super.finalize();
+		super.finalize();
+		bindings.UpdateFee_free(ptr);
 	}
 
 	public UpdateFee(UpdateFee orig) {

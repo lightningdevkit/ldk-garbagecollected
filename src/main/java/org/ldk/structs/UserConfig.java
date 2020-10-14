@@ -7,7 +7,8 @@ public class UserConfig extends CommonBase {
 	UserConfig(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.UserConfig_free(ptr); super.finalize();
+		super.finalize();
+		bindings.UserConfig_free(ptr);
 	}
 
 	public UserConfig(UserConfig orig) {

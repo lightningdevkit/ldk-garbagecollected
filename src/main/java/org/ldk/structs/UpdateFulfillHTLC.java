@@ -7,7 +7,8 @@ public class UpdateFulfillHTLC extends CommonBase {
 	UpdateFulfillHTLC(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.UpdateFulfillHTLC_free(ptr); super.finalize();
+		super.finalize();
+		bindings.UpdateFulfillHTLC_free(ptr);
 	}
 
 	public UpdateFulfillHTLC(UpdateFulfillHTLC orig) {

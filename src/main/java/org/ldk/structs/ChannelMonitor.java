@@ -7,7 +7,8 @@ public class ChannelMonitor extends CommonBase {
 	ChannelMonitor(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelMonitor_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelMonitor_free(ptr);
 	}
 
 	// Skipped ChannelMonitor_update_monitor

@@ -7,7 +7,8 @@ public class UpdateFailHTLC extends CommonBase {
 	UpdateFailHTLC(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.UpdateFailHTLC_free(ptr); super.finalize();
+		super.finalize();
+		bindings.UpdateFailHTLC_free(ptr);
 	}
 
 	public UpdateFailHTLC(UpdateFailHTLC orig) {

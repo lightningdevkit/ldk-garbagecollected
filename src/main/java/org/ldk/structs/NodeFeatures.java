@@ -7,7 +7,8 @@ public class NodeFeatures extends CommonBase {
 	NodeFeatures(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.NodeFeatures_free(ptr); super.finalize();
+		super.finalize();
+		bindings.NodeFeatures_free(ptr);
 	}
 
 }

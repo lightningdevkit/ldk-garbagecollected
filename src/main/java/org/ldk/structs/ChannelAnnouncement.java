@@ -7,7 +7,8 @@ public class ChannelAnnouncement extends CommonBase {
 	ChannelAnnouncement(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelAnnouncement_free(ptr); super.finalize();
+		super.finalize();
+		bindings.ChannelAnnouncement_free(ptr);
 	}
 
 	public ChannelAnnouncement(ChannelAnnouncement orig) {

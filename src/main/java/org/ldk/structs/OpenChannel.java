@@ -7,7 +7,8 @@ public class OpenChannel extends CommonBase {
 	OpenChannel(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.OpenChannel_free(ptr); super.finalize();
+		super.finalize();
+		bindings.OpenChannel_free(ptr);
 	}
 
 	public OpenChannel(OpenChannel orig) {

@@ -7,7 +7,8 @@ public class TxCreationKeys extends CommonBase {
 	TxCreationKeys(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.TxCreationKeys_free(ptr); super.finalize();
+		super.finalize();
+		bindings.TxCreationKeys_free(ptr);
 	}
 
 	public TxCreationKeys(TxCreationKeys orig) {

@@ -7,7 +7,8 @@ public class QueryChannelRange extends CommonBase {
 	QueryChannelRange(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.QueryChannelRange_free(ptr); super.finalize();
+		super.finalize();
+		bindings.QueryChannelRange_free(ptr);
 	}
 
 	public QueryChannelRange(QueryChannelRange orig) {

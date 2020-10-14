@@ -7,7 +7,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	NodeAnnouncementInfo(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.NodeAnnouncementInfo_free(ptr); super.finalize();
+		super.finalize();
+		bindings.NodeAnnouncementInfo_free(ptr);
 	}
 
 	public NodeFeatures get_features(NodeAnnouncementInfo this_ptr) {

@@ -7,7 +7,8 @@ public class HolderCommitmentTransaction extends CommonBase {
 	HolderCommitmentTransaction(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.HolderCommitmentTransaction_free(ptr); super.finalize();
+		super.finalize();
+		bindings.HolderCommitmentTransaction_free(ptr);
 	}
 
 	public HolderCommitmentTransaction(HolderCommitmentTransaction orig) {

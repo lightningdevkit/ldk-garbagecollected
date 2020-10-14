@@ -7,7 +7,8 @@ public class AnnouncementSignatures extends CommonBase {
 	AnnouncementSignatures(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.AnnouncementSignatures_free(ptr); super.finalize();
+		super.finalize();
+		bindings.AnnouncementSignatures_free(ptr);
 	}
 
 	public AnnouncementSignatures(AnnouncementSignatures orig) {

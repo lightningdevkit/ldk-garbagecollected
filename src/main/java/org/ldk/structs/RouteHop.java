@@ -7,7 +7,8 @@ public class RouteHop extends CommonBase {
 	RouteHop(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.RouteHop_free(ptr); super.finalize();
+		super.finalize();
+		bindings.RouteHop_free(ptr);
 	}
 
 	public RouteHop(RouteHop orig) {

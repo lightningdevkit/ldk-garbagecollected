@@ -127,11 +127,12 @@ public class HumanObjectPeerTest {
         }
 
         long get_route(byte[] dest_node, long our_chans) {
-            LockedNetworkGraph netgraph = this.router.read_locked_graph();
-            //r = new WeakReference(netgraph);
-            NetworkGraph graph = netgraph.graph();
-            return bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, our_chans,
-                    bindings.LDKCVecTempl_RouteHint_new(new long[0]), 1000, 42, this.logger);
+            try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
+                //r = new WeakReference(netgraph);
+                NetworkGraph graph = netgraph.graph();
+                return bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, our_chans,
+                        bindings.LDKCVecTempl_RouteHint_new(new long[0]), 1000, 42, this.logger);
+            }
         }
     }
 
@@ -273,8 +274,6 @@ public class HumanObjectPeerTest {
         for (int i = 0; i < 32; i++) payment_preimage[i] = (byte) (i ^ 0x0f);
         byte[] payment_hash = Sha256Hash.hash(payment_preimage);
         long route = peer1.get_route(peer2.node_id, peer1_chans);
-        System.gc(); // Force the lock to release that we took in get_route - we need something better here!
-        System.runFinalization();
         bindings.CVec_ChannelDetailsZ_free(peer1_chans);
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
         long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager._test_only_get_ptr(), bindings.LDKCResult_RouteLightningErrorZ_get_inner(route), payment_hash, new byte[32]);

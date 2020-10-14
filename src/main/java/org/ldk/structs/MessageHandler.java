@@ -7,7 +7,8 @@ public class MessageHandler extends CommonBase {
 	MessageHandler(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.MessageHandler_free(ptr); super.finalize();
+		super.finalize();
+		bindings.MessageHandler_free(ptr);
 	}
 
 	public ChannelMessageHandler get_chan_handler(MessageHandler this_ptr) {

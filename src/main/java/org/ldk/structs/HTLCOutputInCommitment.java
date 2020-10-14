@@ -7,7 +7,8 @@ public class HTLCOutputInCommitment extends CommonBase {
 	HTLCOutputInCommitment(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.HTLCOutputInCommitment_free(ptr); super.finalize();
+		super.finalize();
+		bindings.HTLCOutputInCommitment_free(ptr);
 	}
 
 	public HTLCOutputInCommitment(HTLCOutputInCommitment orig) {

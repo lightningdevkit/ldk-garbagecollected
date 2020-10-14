@@ -7,7 +7,8 @@ public class FundingSigned extends CommonBase {
 	FundingSigned(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.FundingSigned_free(ptr); super.finalize();
+		super.finalize();
+		bindings.FundingSigned_free(ptr);
 	}
 
 	public FundingSigned(FundingSigned orig) {
