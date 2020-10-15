@@ -7,9 +7,10 @@ if len(sys.argv) != 6:
     sys.exit(1)
 
 class TypeInfo:
-    def __init__(self, rust_obj, java_ty, java_fn_ty_arg, c_ty, passed_as_ptr, is_ptr, var_name, arr_len, arr_access):
+    def __init__(self, rust_obj, java_ty, java_fn_ty_arg, java_hu_ty, c_ty, passed_as_ptr, is_ptr, var_name, arr_len, arr_access):
         self.rust_obj = rust_obj
         self.java_ty = java_ty
+        self.java_hu_ty = java_hu_ty
         self.java_fn_ty_arg = java_fn_ty_arg
         self.c_ty = c_ty
         self.passed_as_ptr = passed_as_ptr
@@ -19,7 +20,7 @@ class TypeInfo:
         self.arr_access = arr_access
 
 class ConvInfo:
-    def __init__(self, ty_info, arg_name, arg_conv, arg_conv_name, arg_conv_cleanup, ret_conv, ret_conv_name):
+    def __init__(self, ty_info, arg_name, arg_conv, arg_conv_name, arg_conv_cleanup, ret_conv, ret_conv_name, to_hu_conv, from_hu_conv):
         assert(ty_info.c_ty is not None)
         assert(ty_info.java_ty is not None)
         assert(arg_name is not None)
@@ -27,6 +28,7 @@ class ConvInfo:
         self.rust_obj = ty_info.rust_obj
         self.c_ty = ty_info.c_ty
         self.java_ty = ty_info.java_ty
+        self.java_hu_ty = ty_info.java_hu_ty
         self.java_fn_ty_arg = ty_info.java_fn_ty_arg
         self.arg_name = arg_name
         self.arg_conv = arg_conv
@@ -34,6 +36,8 @@ class ConvInfo:
         self.arg_conv_cleanup = arg_conv_cleanup
         self.ret_conv = ret_conv
         self.ret_conv_name = ret_conv_name
+        self.to_hu_conv = to_hu_conv
+        self.from_hu_conv = from_hu_conv
 
     def print_ty(self):
         out_c.write(self.c_ty)
@@ -74,6 +78,9 @@ def camel_to_snake(s):
     return (ret + lastchar.lower()).strip("_")
 
 unitary_enums = set()
+opaque_structs = set()
+trait_structs = set()
+
 var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([a-z0-9]*)\]")
 var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
 def java_c_types(fn_arg, ret_arr_len):
@@ -89,6 +96,7 @@ def java_c_types(fn_arg, ret_arr_len):
     take_by_ptr = False
     rust_obj = None
     arr_access = None
+    java_hu_ty = None
     if fn_arg.startswith("LDKThirtyTwoBytes"):
         fn_arg = "uint8_t (*" + fn_arg[18:] + ")[32]"
         assert var_is_arr_regex.match(fn_arg[8:])
@@ -174,6 +182,7 @@ def java_c_types(fn_arg, ret_arr_len):
             take_by_ptr = True
         else:
             java_ty = "long"
+            java_hu_ty = ma.group(1).strip().replace("LDK", "")
             c_ty = "jlong"
             fn_ty_arg = "J"
             fn_arg = ma.group(2).strip()
@@ -195,11 +204,14 @@ def java_c_types(fn_arg, ret_arr_len):
         c_ty = c_ty + "Array"
         if var_is_arr is not None:
             if var_is_arr.group(1) == "":
-                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
+                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
                     passed_as_ptr=False, is_ptr=False, var_name="arg", arr_len=var_is_arr.group(2), arr_access=arr_access)
-            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
+            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
                 passed_as_ptr=False, is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2), arr_access=arr_access)
-    return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
+
+    if java_hu_ty is None:
+        java_hu_ty = java_ty
+    return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
         is_ptr=is_ptr, var_name=fn_arg, arr_len=None, arr_access=None)
 
 fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
@@ -215,7 +227,7 @@ with open(sys.argv[1]) as in_h:
                 clone_fns.add(reg_fn.group(2))
             else:
                 rty = java_c_types(reg_fn.group(1), None)
-                if rty.rust_obj is not None and reg_fn.group(2) == rty.rust_obj.replace("LDK", "") + "_new":
+                if rty.rust_obj is not None and reg_fn.group(2) == rty.java_hu_ty + "_new":
                     constructor_fns[rty.rust_obj] = reg_fn.group(3)
             continue
         arr_fn = fn_ret_arr_regex.match(line)
@@ -226,9 +238,6 @@ with open(sys.argv[1]) as in_h:
             continue
 
 with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.argv[4], "w") as out_c:
-    opaque_structs = set()
-    trait_structs = set()
-
     def map_type(fn_arg, print_void, ret_arr_len, is_free):
         ty_info = java_c_types(fn_arg, ret_arr_len)
 
@@ -236,8 +245,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             if not print_void:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    ret_conv = None, ret_conv_name = None)
-
+                    ret_conv = None, ret_conv_name = None, to_hu_conv = None, from_hu_conv = None)
         if ty_info.c_ty.endswith("Array"):
             arr_len = ty_info.arr_len
             if arr_len is not None:
@@ -269,7 +277,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 ret_conv = (ret_conv[0] + "*", ");")
             return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                 arg_conv = arg_conv, arg_conv_name = arr_name + "_ref", arg_conv_cleanup = arg_conv_cleanup,
-                ret_conv = ret_conv, ret_conv_name = arr_name + "_arr")
+                ret_conv = ret_conv, ret_conv_name = arr_name + "_arr", to_hu_conv = None, from_hu_conv = None)
         elif ty_info.var_name != "":
             # If we have a parameter name, print it (noting that it may indicate its a pointer)
             if ty_info.rust_obj is not None:
@@ -278,10 +286,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
                 opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);"
                 if not ty_info.is_ptr and not is_free:
-                    if (ty_info.rust_obj.replace("LDK", "") + "_clone") in clone_fns:
+                    if (ty_info.java_hu_ty + "_clone") in clone_fns:
                         # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
                         opaque_arg_conv = opaque_arg_conv + "\nif (" + ty_info.var_name + "_conv.inner != NULL)\n"
-                        opaque_arg_conv = opaque_arg_conv + "\t" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
+                        opaque_arg_conv = opaque_arg_conv + "\t" + ty_info.var_name + "_conv = " + ty_info.java_hu_ty + "_clone(&" + ty_info.var_name + "_conv);"
                     elif ty_info.passed_as_ptr:
                         opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but can't clone!"
                 if not ty_info.is_ptr:
@@ -291,7 +299,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             arg_conv_name = ty_info.var_name + "_conv",
                             arg_conv_cleanup = None,
                             ret_conv = ("jclass " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_to_java(_env, ", ");"),
-                            ret_conv_name = ty_info.var_name + "_conv")
+                            ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, from_hu_conv = None)
                     if ty_info.rust_obj in opaque_structs:
                         ret_conv_suf = ";\nCHECK((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
                         ret_conv_suf = ret_conv_suf + "CHECK((((long)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
@@ -304,7 +312,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", ret_conv_suf),
-                            ret_conv_name = ty_info.var_name + "_ref")
+                            ret_conv_name = ty_info.var_name + "_ref", to_hu_conv = ("new " + ty_info.java_hu_ty + "(null, ", ")"),
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                     base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";";
                     if ty_info.rust_obj in trait_structs:
                         if not is_free:
@@ -315,34 +324,46 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                            ret_conv = ("CANT PASS TRAIT TO Java?", ""), ret_conv_name = "NO CONV POSSIBLE")
+                            ret_conv = ("CANT PASS TRAIT TO Java?", ""), ret_conv_name = "NO CONV POSSIBLE",
+                            to_hu_conv = ("DUMMY", ""), from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                     if ty_info.rust_obj != "LDKu8slice":
                         # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                         # underlying unlike Vecs, and it gives Java more freedom.
                         base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref")
+                        ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref",
+                        to_hu_conv = ("TODO 1", ""), from_hu_conv = None)
                 else:
                     assert(not is_free)
                     if ty_info.rust_obj in opaque_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                            ret_conv = None, ret_conv_name = None) # its a pointer, no conv needed
+                            ret_conv = None, ret_conv_name = None, to_hu_conv = ("TODO 2", ""),
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")")) # its a pointer, no conv needed
+                    elif ty_info.rust_obj in trait_structs:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
+                            arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                            ret_conv = None, ret_conv_name = None, to_hu_conv = ("TODO 2.5", ""),
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")")) # its a pointer, no conv needed
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                         arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = None, ret_conv_name = None) # its a pointer, no conv needed
+                        ret_conv = None, ret_conv_name = None, to_hu_conv = ("TODO 3", ""), from_hu_conv = None) # its a pointer, no conv needed
             elif ty_info.is_ptr:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None, ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None,
+                    ret_conv = None, ret_conv_name = None, to_hu_conv = ("TODO 4", ""), from_hu_conv = None)
             elif ty_info.java_ty == "String":
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    ret_conv = ("jstring " + ty_info.var_name + "_conv = (*_env)->NewStringUTF(_env, ", ");"), ret_conv_name = ty_info.var_name + "_conv")
+                    ret_conv = ("jstring " + ty_info.var_name + "_conv = (*_env)->NewStringUTF(_env, ", ");"), ret_conv_name = ty_info.var_name + "_conv",
+                    to_hu_conv = ("TODO 5", ""), from_hu_conv = None)
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None, ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None,
+                    ret_conv = None, ret_conv_name = None, to_hu_conv = ("TODO 6", ""), from_hu_conv = None)
         elif not print_void:
             # We don't have a parameter name, and want one, just call it arg
             if ty_info.rust_obj is not None:
@@ -350,11 +371,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = ty_info.rust_obj + " arg_conv = *(" + ty_info.rust_obj + "*)arg;\nFREE((void*)arg);",
                     arg_conv_name = "arg_conv", arg_conv_cleanup = None,
-                    ret_conv = None, ret_conv_name = None)
+                    ret_conv = None, ret_conv_name = None, to_hu_conv = ("TODO 7", ""), from_hu_conv = None)
             else:
                 assert(not is_free)
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = "arg", arg_conv_cleanup = None, ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = "arg", arg_conv_cleanup = None,
+                    ret_conv = None, ret_conv_name = None, to_hu_conv = ("TODO 8", ""), from_hu_conv = None)
         else:
             # We don't have a parameter name, and don't want one (cause we're returning)
             if ty_info.rust_obj is not None:
@@ -363,7 +385,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = ty_info.rust_obj + " ret = " + ty_info.rust_obj + "_from_java(_env, " + ty_info.var_name + ");",
                             arg_conv_name = "ret", arg_conv_cleanup = None,
-                            ret_conv = ("jclass ret = " + ty_info.rust_obj + "_to_java(_env, ", ");"), ret_conv_name = "ret")
+                            ret_conv = ("jclass ret = " + ty_info.rust_obj + "_to_java(_env, ", ");"), ret_conv_name = "ret",
+                            to_hu_conv = ("TODO 9", ""), from_hu_conv = None)
                     if ty_info.rust_obj in opaque_structs:
                         # If we're returning a newly-allocated struct, we don't want Rust to ever
                         # free, instead relying on the Java GC to lose the ref. We undo this in
@@ -372,19 +395,35 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             ret_conv = (ty_info.rust_obj + " ret = ", ";"),
                             ret_conv_name = "((long)ret.inner) | (ret.is_owned ? 1 : 0)",
-                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None)
+                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                            to_hu_conv = ("new " + ty_info.java_hu_ty + "(null, ", ")"), from_hu_conv = None)
+                    elif ty_info.rust_obj in trait_structs:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
+                            ret_conv_name = "(long)ret",
+                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                            to_hu_conv = ("new " + ty_info.java_hu_ty + "(null, ", ");\nret.ptrs_to.add(this)"), from_hu_conv = None)
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
                             ret_conv_name = "(long)ret",
-                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None)
+                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                            to_hu_conv = ("TODO b", ""), from_hu_conv = None)
+                elif ty_info.rust_obj in trait_structs:
+                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                        ret_conv = ("long ret = (long)", ";"), ret_conv_name = "ret",
+                        arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                        to_hu_conv = ("new " + ty_info.java_hu_ty + "(null, ", ");\nret.ptrs_to.add(this)"), from_hu_conv = None)
                 else:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         ret_conv = ("long ret = (long)", ";"), ret_conv_name = "ret",
-                        arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None)
+                        arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                        to_hu_conv = ("TODO c", ""), from_hu_conv = None)
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None, ret_conv = None, ret_conv_name = None)
+                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                    ret_conv = None, ret_conv_name = None,
+                    to_hu_conv = ("TODO d", ""), from_hu_conv = None)
 
     def map_fn(line, re_match, ret_arr_len, c_call_string):
         out_java.write("\t// " + line)
@@ -452,10 +491,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 meth_n = re_match.group(2)[len(struct_meth) + 1:]
                 if ret_info.rust_obj == "LDK" + struct_meth:
                     out_java_struct.write(struct_meth + "(")
-                elif ret_info.rust_obj in opaque_structs or ret_info.rust_obj in trait_structs:
-                    out_java_struct.write(ret_info.rust_obj.replace("LDK", "") + " " + meth_n + "(")
                 else:
-                    out_java_struct.write(ret_info.java_ty + " " + meth_n + "(")
+                    out_java_struct.write(ret_info.java_hu_ty + " " + meth_n + "(")
                 for idx, arg in enumerate(arg_names):
                     if idx != 0:
                         if not takes_self or idx > 1:
@@ -466,14 +503,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                                 if explode_idx != 0:
                                     out_java_struct.write(", ")
                                 assert explode_arg.rust_obj in opaque_structs or explode_arg.rust_obj in trait_structs
-                                out_java_struct.write(explode_arg.rust_obj.replace("LDK", "") + " " + arg.arg_name + "_" + explode_arg.arg_name)
-                        elif arg.passed_as_ptr:
-                            if arg.rust_obj in opaque_structs or arg.rust_obj in trait_structs:
-                                out_java_struct.write(arg.rust_obj.replace("LDK", "") + " " + arg.arg_name)
-                            else:
-                                out_java_struct.write(arg.rust_obj + " " + arg.arg_name)
+                                out_java_struct.write(explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
                         else:
-                            out_java_struct.write(arg.java_ty + " " + arg.arg_name)
+                            out_java_struct.write(arg.java_hu_ty + " " + arg.arg_name)
 
 
         out_java.write(");\n")
@@ -523,9 +555,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             elif ret_info.java_ty != "void" and not ret_info.passed_as_ptr:
                 out_java_struct.write(ret_info.java_ty + " ret = ")
             elif ret_info.java_ty != "void":
-                out_java_struct.write(ret_info.rust_obj.replace("LDK", "") + " ret = ")
-                if ret_info.rust_obj in opaque_structs or ret_info.rust_obj in trait_structs:
-                    out_java_struct.write("new " + ret_info.rust_obj.replace("LDK", "") + "(null, ")
+                out_java_struct.write(ret_info.java_hu_ty + " ret = ")
+                if ret_info.to_hu_conv is not None:
+                    out_java_struct.write(ret_info.to_hu_conv[0])
             out_java_struct.write("bindings." + re_match.group(2) + "(")
             for idx, info in enumerate(arg_names):
                 if idx != 0:
@@ -533,27 +565,20 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 if info.arg_name == "this_arg":
                     out_java_struct.write("this.ptr")
                 elif info.arg_name in default_constructor_args:
-                    out_java_struct.write("bindings." + info.rust_obj.replace("LDK", "") + "_new(")
+                    out_java_struct.write("bindings." + info.java_hu_ty + "_new(")
                     for explode_idx, explode_arg in enumerate(default_constructor_args[info.arg_name]):
                         if explode_idx != 0:
                             out_java_struct.write(", ")
-                        assert explode_arg.passed_as_ptr and explode_arg.rust_obj in trait_structs
                         expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
-                        out_java_struct.write(expl_arg_name + " == null ? 0 : " + expl_arg_name + ".ptr")
+                        out_java_struct.write(explode_arg.from_hu_conv[0].replace(explode_arg.arg_name, expl_arg_name))
                     out_java_struct.write(")")
-                elif info.passed_as_ptr and info.rust_obj in opaque_structs:
-                    out_java_struct.write(info.arg_name + " == null ? 0 : " + info.arg_name + ".ptr & ~1")
-                elif info.passed_as_ptr and info.rust_obj in trait_structs:
-                    out_java_struct.write(info.arg_name + " == null ? 0 : " + info.arg_name + ".ptr")
+                elif info.from_hu_conv is not None:
+                    out_java_struct.write(info.from_hu_conv[0])
                 else:
                     out_java_struct.write(info.arg_name)
             out_java_struct.write(")")
-            if ret_info.rust_obj == "LDK" + struct_meth:
-                out_java_struct.write(");\n")
-            elif ret_info.rust_obj in opaque_structs:
-                out_java_struct.write(");\n")
-            elif ret_info.rust_obj in trait_structs:
-                out_java_struct.write(");\n\t\tret.ptrs_to.add(this);\n")
+            if ret_info.to_hu_conv is not None:
+                out_java_struct.write(ret_info.to_hu_conv[1].replace("\n", "\n\t\t") + ";\n")
             else:
                 out_java_struct.write(";\n")
 
@@ -562,9 +587,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     pass
                 elif info.arg_name in default_constructor_args:
                     for explode_arg in default_constructor_args[info.arg_name]:
-                        out_java_struct.write("\t\tthis.ptrs_to.add(" + info.arg_name + "_" + explode_arg.arg_name + ");\n")
-                elif info.passed_as_ptr and (info.rust_obj in opaque_structs or info.rust_obj in trait_structs):
-                    out_java_struct.write("\t\tthis.ptrs_to.add(" + info.arg_name + ");\n")
+                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
+                        out_java_struct.write("\t\t" + explode_arg.from_hu_conv[1].replace(explode_arg.arg_name, expl_arg_name) + ";\n")
+                elif info.from_hu_conv is not None and info.from_hu_conv[1] != "":
+                    out_java_struct.write("\t\t" + info.from_hu_conv[1] + ";\n")
 
             if ret_info.java_ty != "void" and ret_info.rust_obj != "LDK" + struct_meth:
                 out_java_struct.write("\t\treturn ret;\n")
