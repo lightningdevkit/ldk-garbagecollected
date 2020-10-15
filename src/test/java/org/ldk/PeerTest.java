@@ -198,7 +198,7 @@ public class PeerTest {
         long con_res = bindings.PeerManager_new_inbound_connection(peer2.peer_manager, descriptor2);
         assert(bindings.LDKCResult_NonePeerHandleErrorZ_result_ok(con_res));
         bindings.CResult_NonePeerHandleErrorZ_free(con_res);
-        do_read_event(list, peer2.peer_manager, descriptor2, bindings.get_u8_slice_bytes(bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_inner(init_vec)));
+        do_read_event(list, peer2.peer_manager, descriptor2, bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(init_vec));
         bindings.CResult_CVec_u8ZPeerHandleErrorZ_free(init_vec);
 
         while (!list.isEmpty()) { list.poll().join(); }
@@ -280,7 +280,7 @@ public class PeerTest {
         bindings.CVec_ChannelDetailsZ_free(peer1_chans);
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
         bindings.LockedNetworkGraph_free(netgraph);
-        long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_inner(route), payment_hash, new byte[32]);
+        long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route), payment_hash, new byte[32]);
         bindings.CResult_RouteLightningErrorZ_free(route);
         assert bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(payment_res);
         bindings.CResult_NonePaymentSendFailureZ_free(payment_res);

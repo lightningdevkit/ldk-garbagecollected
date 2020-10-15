@@ -450,24 +450,30 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1usize_1_1Tra
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NoneChannelMonitorUpdateErrZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ *val = (LDKCResult_NoneChannelMonitorUpdateErrZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_NoneChannelMonitorUpdateErrZ *val = (LDKCResult_NoneChannelMonitorUpdateErrZ*)arg;
+	CHECK(!val->result_ok);
+	jclass ret = LDKChannelMonitorUpdateErr_to_java(_env, (*val->contents.err));
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NoneMonitorUpdateErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_NoneMonitorUpdateErrorZ *val = (LDKCResult_NoneMonitorUpdateErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)(val->contents.err->inner) | (val->contents.err->is_owned ? 1 : 0);
-	}
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_NoneMonitorUpdateErrorZ *val = (LDKCResult_NoneMonitorUpdateErrorZ*)arg;
+	CHECK(!val->result_ok);
+	LDKMonitorUpdateError ret = (*val->contents.err);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1OutPoint_1_1CVec_1u8Z_1new(JNIEnv *_env, jclass _b, jlong a, jlong b) {
 	LDKC2TupleTempl_OutPoint__CVec_u8Z* ret = MALLOC(sizeof(LDKC2TupleTempl_OutPoint__CVec_u8Z), "LDKC2TupleTempl_OutPoint__CVec_u8Z");
@@ -539,35 +545,47 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1Signature_1_
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *val = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	LDKC2TupleTempl_Signature__CVecTempl_Signature* ret = MALLOC(sizeof(LDKC2TupleTempl_Signature__CVecTempl_Signature), "LDKC2TupleTempl_Signature__CVecTempl_Signature");
+	*ret = (*val->contents.result);
+	return (long)ret;
+}
+JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *val = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg;
+	CHECK(!val->result_ok);
+	return *val->contents.err;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_SignatureNoneZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_SignatureNoneZ *val = (LDKCResult_SignatureNoneZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	jbyteArray arg_arr = (*_env)->NewByteArray(_env, 64);
+	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, 64, (*val->contents.result).compact_form);
+	return arg_arr;
+}
+JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_SignatureNoneZ *val = (LDKCResult_SignatureNoneZ*)arg;
+	CHECK(!val->result_ok);
+	return *val->contents.err;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_CVec_SignatureZNoneZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	LDKCVecTempl_Signature* ret = MALLOC(sizeof(LDKCVecTempl_Signature), "LDKCVecTempl_Signature");
+	*ret = (*val->contents.result);
+	return (long)ret;
+}
+JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
+	CHECK(!val->result_ok);
+	return *val->contents.err;
 }
 static jclass LDKAPIError_APIMisuseError_class = NULL;
 static jmethodID LDKAPIError_APIMisuseError_meth = NULL;
@@ -634,24 +652,31 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAPIError_1ref_1from_1ptr
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NoneAPIErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_NoneAPIErrorZ *val = (LDKCResult_NoneAPIErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_NoneAPIErrorZ *val = (LDKCResult_NoneAPIErrorZ*)arg;
+	CHECK(!val->result_ok);
+	LDKAPIError* ret = MALLOC(sizeof(LDKAPIError), "LDKAPIError");
+	*ret = (*val->contents.err);
+	return (long)ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NonePaymentSendFailureZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_NonePaymentSendFailureZ *val = (LDKCResult_NonePaymentSendFailureZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)(val->contents.err->inner) | (val->contents.err->is_owned ? 1 : 0);
-	}
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_NonePaymentSendFailureZ *val = (LDKCResult_NonePaymentSendFailureZ*)arg;
+	CHECK(!val->result_ok);
+	LDKPaymentSendFailure ret = (*val->contents.err);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3TupleTempl_1ChannelAnnouncement_1_1ChannelUpdate_1_1ChannelUpdate_1new(JNIEnv *_env, jclass _b, jlong a, jlong b, jlong c) {
 	LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate* ret = MALLOC(sizeof(LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate), "LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate");
@@ -678,13 +703,16 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3TupleTempl_1ChannelAnnou
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NonePeerHandleErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)(val->contents.err->inner) | (val->contents.err->is_owned ? 1 : 0);
-	}
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)arg;
+	CHECK(!val->result_ok);
+	LDKPeerHandleError ret = (*val->contents.err);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1HTLCOutputInCommitment_1_1Signature_1new(JNIEnv *_env, jclass _b, jlong a, jbyteArray b) {
 	LDKC2TupleTempl_HTLCOutputInCommitment__Signature* ret = MALLOC(sizeof(LDKC2TupleTempl_HTLCOutputInCommitment__Signature), "LDKC2TupleTempl_HTLCOutputInCommitment__Signature");
@@ -1562,13 +1590,18 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKLogger_1get_1obj_1from_1
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_TxOutAccessErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_TxOutAccessErrorZ *val = (LDKCResult_TxOutAccessErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	LDKTxOut* ret = MALLOC(sizeof(LDKTxOut), "LDKTxOut");
+	*ret = (*val->contents.result);
+	return (long)ret;
+}
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_TxOutAccessErrorZ *val = (LDKCResult_TxOutAccessErrorZ*)arg;
+	CHECK(!val->result_ok);
+	jclass ret = LDKAccessError_to_java(_env, (*val->contents.err));
+	return ret;
 }
 typedef struct LDKAccess_JCalls {
 	atomic_size_t refcnt;
@@ -3479,13 +3512,16 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1UpdateFailMalfo
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_boolLightningErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)(val->contents.err->inner) | (val->contents.err->is_owned ? 1 : 0);
-	}
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)arg;
+	CHECK(!val->result_ok);
+	LDKLightningError ret = (*val->contents.err);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C3TupleTempl_1ChannelAnnouncement_1_1ChannelUpdate_1_1ChannelUpdate_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate *vec = (LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate*)ptr;
@@ -3872,57 +3908,80 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1PublicKey_1ar
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)(val->contents.err->inner) | (val->contents.err->is_owned ? 1 : 0);
-	}
+	CHECK(val->result_ok);
+	LDKCVecTempl_u8 l_u8_var = (*val->contents.result);
+	jbyteArray l_u8_arr = (*_env)->NewByteArray(_env, l_u8_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, l_u8_arr, 0, l_u8_var.datalen, l_u8_var.data);
+	return l_u8_arr;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg;
+	CHECK(!val->result_ok);
+	LDKPeerHandleError ret = (*val->contents.err);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_boolPeerHandleErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)(val->contents.err->inner) | (val->contents.err->is_owned ? 1 : 0);
-	}
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)arg;
+	CHECK(!val->result_ok);
+	LDKPeerHandleError ret = (*val->contents.err);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_SecretKeySecpErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_SecretKeySecpErrorZ *val = (LDKCResult_SecretKeySecpErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	jbyteArray arg_arr = (*_env)->NewByteArray(_env, 32);
+	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, 32, (*val->contents.result).bytes);
+	return arg_arr;
+}
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_SecretKeySecpErrorZ *val = (LDKCResult_SecretKeySecpErrorZ*)arg;
+	CHECK(!val->result_ok);
+	jclass ret = LDKSecp256k1Error_to_java(_env, (*val->contents.err));
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_PublicKeySecpErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_PublicKeySecpErrorZ *val = (LDKCResult_PublicKeySecpErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)val->contents.result;
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	jbyteArray arg_arr = (*_env)->NewByteArray(_env, 33);
+	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, 33, (*val->contents.result).compressed_form);
+	return arg_arr;
+}
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_PublicKeySecpErrorZ *val = (LDKCResult_PublicKeySecpErrorZ*)arg;
+	CHECK(!val->result_ok);
+	jclass ret = LDKSecp256k1Error_to_java(_env, (*val->contents.err));
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_TxCreationKeysSecpErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_TxCreationKeysSecpErrorZ *val = (LDKCResult_TxCreationKeysSecpErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)(val->contents.result->inner) | (val->contents.result->is_owned ? 1 : 0);
-	} else {
-		return (long)val->contents.err;
-	}
+	CHECK(val->result_ok);
+	LDKTxCreationKeys ret = (*val->contents.result);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
+}
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_TxCreationKeysSecpErrorZ *val = (LDKCResult_TxCreationKeysSecpErrorZ*)arg;
+	CHECK(!val->result_ok);
+	jclass ret = LDKSecp256k1Error_to_java(_env, (*val->contents.err));
+	return ret;
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1HTLCOutputInCommitment_1_1Signature_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature *vec = (LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature*)ptr;
@@ -4003,13 +4062,17 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1CVecTempl_1Rout
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_RouteLightningErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {
 	LDKCResult_RouteLightningErrorZ *val = (LDKCResult_RouteLightningErrorZ*)arg;
-	if (val->result_ok) {
-		return (long)(val->contents.result->inner) | (val->contents.result->is_owned ? 1 : 0);
-	} else {
-		return (long)(val->contents.err->inner) | (val->contents.err->is_owned ? 1 : 0);
-	}
+	CHECK(val->result_ok);
+	LDKRoute ret = (*val->contents.result);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
+	LDKCResult_RouteLightningErrorZ *val = (LDKCResult_RouteLightningErrorZ*)arg;
+	CHECK(!val->result_ok);
+	LDKLightningError ret = (*val->contents.err);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHint_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_RouteHint *vec = (LDKCVecTempl_RouteHint*)ptr;

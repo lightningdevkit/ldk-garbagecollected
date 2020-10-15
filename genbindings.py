@@ -119,6 +119,11 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKu8slice"
         arr_access = "data"
+    if fn_arg.startswith("LDKCVecTempl_u8"):
+        fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKCVecTempl_u8"
+        arr_access = "data"
 
     if fn_arg.startswith("void"):
         java_ty = "void"
@@ -196,8 +201,6 @@ def java_c_types(fn_arg, ret_arr_len):
                 passed_as_ptr=False, is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2), arr_access=arr_access)
     return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
         is_ptr=is_ptr, var_name=fn_arg, arr_len=None, arr_access=None)
-
-
 
 fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
 fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
@@ -1341,27 +1344,36 @@ class CommonBase {
             elif line.startswith("typedef "):
                 alias_match =  struct_alias_regex.match(line)
                 if alias_match.group(1) in result_templ_structs:
+                    contents_ty = alias_match.group(1).replace("LDKCResultTempl", "LDKCResultPtr")
+                    res_ty, err_ty = result_ptr_struct_items[contents_ty]
+                    res_map = map_type(res_ty, True, None, False)
+                    err_map = map_type(err_ty, True, None, False)
+
                     out_java.write("\tpublic static native boolean " + alias_match.group(2) + "_result_ok(long arg);\n")
-                    out_java.write("\tpublic static native long " + alias_match.group(2) + "_get_inner(long arg);\n")
                     out_c.write("JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_" + alias_match.group(2).replace("_", "_1") + "_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {\n")
                     out_c.write("\treturn ((" + alias_match.group(2) + "*)arg)->result_ok;\n")
                     out_c.write("}\n")
-                    out_c.write("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_" + alias_match.group(2).replace("_", "_1") + "_1get_1inner (JNIEnv * env, jclass _a, jlong arg) {\n")
-                    contents_ty = alias_match.group(1).replace("LDKCResultTempl", "LDKCResultPtr")
-                    res_ty, err_ty = result_ptr_struct_items[contents_ty]
+
+                    out_java.write("\tpublic static native " + res_map.java_ty + " " + alias_match.group(2) + "_get_ok(long arg);\n")
+                    out_c.write("JNIEXPORT " + res_map.c_ty + " JNICALL Java_org_ldk_impl_bindings_" + alias_match.group(2).replace("_", "_1") + "_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {\n")
                     out_c.write("\t" + alias_match.group(2) + " *val = (" + alias_match.group(2) + "*)arg;\n")
-                    out_c.write("\tif (val->result_ok) {\n")
-                    if res_ty not in opaque_structs:
-                        out_c.write("\t\treturn (long)val->contents.result;\n")
+                    out_c.write("\tCHECK(val->result_ok);\n\t")
+                    if res_map.ret_conv is not None:
+                        out_c.write(res_map.ret_conv[0].replace("\n", "\n\t") + "(*val->contents.result)")
+                        out_c.write(res_map.ret_conv[1].replace("\n", "\n\t") + "\n\treturn " + res_map.ret_conv_name)
                     else:
-                        out_c.write("\t\treturn (long)(val->contents.result->inner) | (val->contents.result->is_owned ? 1 : 0);\n")
-                    out_c.write("\t} else {\n")
-                    if err_ty not in opaque_structs:
-                        out_c.write("\t\treturn (long)val->contents.err;\n")
+                        out_c.write("return *val->contents.result")
+                    out_c.write(";\n}\n")
+
+                    out_java.write("\tpublic static native " + err_map.java_ty + " " + alias_match.group(2) + "_get_err(long arg);\n")
+                    out_c.write("JNIEXPORT " + err_map.c_ty + " JNICALL Java_org_ldk_impl_bindings_" + alias_match.group(2).replace("_", "_1") + "_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {\n")
+                    out_c.write("\t" + alias_match.group(2) + " *val = (" + alias_match.group(2) + "*)arg;\n")
+                    out_c.write("\tCHECK(!val->result_ok);\n\t")
+                    if err_map.ret_conv is not None:
+                        out_c.write(err_map.ret_conv[0].replace("\n", "\n\t") + "(*val->contents.err)")
+                        out_c.write(err_map.ret_conv[1].replace("\n", "\n\t") + "\n\treturn " + err_map.ret_conv_name)
                     else:
-                        out_c.write("\t\treturn (long)(val->contents.err->inner) | (val->contents.err->is_owned ? 1 : 0);\n")
-                    out_c.write("\t}\n}\n")
-                pass
+                        out_c.write("return *val->contents.err")
             elif fn_ptr is not None:
                 map_fn(line, fn_ptr, None, None)
             elif fn_ret_arr is not None:

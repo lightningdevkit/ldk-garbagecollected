@@ -36,9 +36,11 @@ public class bindings {
 	public static native long LDKCVecTempl_u8_new(byte[] elems);
 	public static native long LDKC2TupleTempl_usize__Transaction_new(long a, long b);
 	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
-	public static native long LDKCResult_NoneChannelMonitorUpdateErrZ_get_inner(long arg);
+	public static native byte LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(long arg);
+	public static native LDKChannelMonitorUpdateErr LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(long arg);
 	public static native boolean LDKCResult_NoneMonitorUpdateErrorZ_result_ok(long arg);
-	public static native long LDKCResult_NoneMonitorUpdateErrorZ_get_inner(long arg);
+	public static native byte LDKCResult_NoneMonitorUpdateErrorZ_get_ok(long arg);
+	public static native long LDKCResult_NoneMonitorUpdateErrorZ_get_err(long arg);
 	public static native long LDKC2TupleTempl_OutPoint__CVec_u8Z_new(long a, long b);
 	public static native VecOrSliceDef LDKCVecTempl_TxOut_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_TxOut_new(long[] elems);
@@ -47,11 +49,14 @@ public class bindings {
 	public static native VecOrSliceDef LDKCVecTempl_Signature_arr_info(long vec_ptr);
 	public static native long LDKC2TupleTempl_Signature__CVecTempl_Signature_new(byte[] a, long b);
 	public static native boolean LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(long arg);
-	public static native long LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_inner(long arg);
+	public static native long LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(long arg);
+	public static native byte LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_err(long arg);
 	public static native boolean LDKCResult_SignatureNoneZ_result_ok(long arg);
-	public static native long LDKCResult_SignatureNoneZ_get_inner(long arg);
+	public static native byte[] LDKCResult_SignatureNoneZ_get_ok(long arg);
+	public static native byte LDKCResult_SignatureNoneZ_get_err(long arg);
 	public static native boolean LDKCResult_CVec_SignatureZNoneZ_result_ok(long arg);
-	public static native long LDKCResult_CVec_SignatureZNoneZ_get_inner(long arg);
+	public static native long LDKCResult_CVec_SignatureZNoneZ_get_ok(long arg);
+	public static native byte LDKCResult_CVec_SignatureZNoneZ_get_err(long arg);
 	public static class LDKAPIError {
 		private LDKAPIError() {}
 		public final static class APIMisuseError extends LDKAPIError {
@@ -78,12 +83,15 @@ public class bindings {
 	static { LDKAPIError.init(); }
 	public static native LDKAPIError LDKAPIError_ref_from_ptr(long ptr);
 	public static native boolean LDKCResult_NoneAPIErrorZ_result_ok(long arg);
-	public static native long LDKCResult_NoneAPIErrorZ_get_inner(long arg);
+	public static native byte LDKCResult_NoneAPIErrorZ_get_ok(long arg);
+	public static native long LDKCResult_NoneAPIErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_NonePaymentSendFailureZ_result_ok(long arg);
-	public static native long LDKCResult_NonePaymentSendFailureZ_get_inner(long arg);
+	public static native byte LDKCResult_NonePaymentSendFailureZ_get_ok(long arg);
+	public static native long LDKCResult_NonePaymentSendFailureZ_get_err(long arg);
 	public static native long LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate_new(long a, long b, long c);
 	public static native boolean LDKCResult_NonePeerHandleErrorZ_result_ok(long arg);
-	public static native long LDKCResult_NonePeerHandleErrorZ_get_inner(long arg);
+	public static native byte LDKCResult_NonePeerHandleErrorZ_get_ok(long arg);
+	public static native long LDKCResult_NonePeerHandleErrorZ_get_err(long arg);
 	public static native long LDKC2TupleTempl_HTLCOutputInCommitment__Signature_new(long a, byte[] b);
 	public static class LDKSpendableOutputDescriptor {
 		private LDKSpendableOutputDescriptor() {}
@@ -297,7 +305,8 @@ public class bindings {
 	public static native long LDKLogger_new(LDKLogger impl);
 	public static native LDKLogger LDKLogger_get_obj_from_jcalls(long val);
 	public static native boolean LDKCResult_TxOutAccessErrorZ_result_ok(long arg);
-	public static native long LDKCResult_TxOutAccessErrorZ_get_inner(long arg);
+	public static native long LDKCResult_TxOutAccessErrorZ_get_ok(long arg);
+	public static native LDKAccessError LDKCResult_TxOutAccessErrorZ_get_err(long arg);
 	public interface LDKAccess {
 		 long get_utxo(byte[] genesis_hash, long short_channel_id);
 	}
@@ -514,7 +523,8 @@ public class bindings {
 	public static native long[] LDKCVecTempl_UpdateFailMalformedHTLC_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_UpdateFailMalformedHTLC_new(long[] elems);
 	public static native boolean LDKCResult_boolLightningErrorZ_result_ok(long arg);
-	public static native long LDKCResult_boolLightningErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_boolLightningErrorZ_get_ok(long arg);
+	public static native long LDKCResult_boolLightningErrorZ_get_err(long arg);
 	public static native VecOrSliceDef LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate_new(long[] elems);
 	public static native long[] LDKCVecTempl_NodeAnnouncement_arr_info(long vec_ptr);
@@ -560,15 +570,20 @@ public class bindings {
 	public static native long SocketDescriptor_hash(long this_arg);
 	public static native VecOrSliceDef LDKCVecTempl_PublicKey_arr_info(long vec_ptr);
 	public static native boolean LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(long arg);
-	public static native long LDKCResult_CVec_u8ZPeerHandleErrorZ_get_inner(long arg);
+	public static native byte[] LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(long arg);
+	public static native long LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_boolPeerHandleErrorZ_result_ok(long arg);
-	public static native long LDKCResult_boolPeerHandleErrorZ_get_inner(long arg);
+	public static native boolean LDKCResult_boolPeerHandleErrorZ_get_ok(long arg);
+	public static native long LDKCResult_boolPeerHandleErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_SecretKeySecpErrorZ_result_ok(long arg);
-	public static native long LDKCResult_SecretKeySecpErrorZ_get_inner(long arg);
+	public static native byte[] LDKCResult_SecretKeySecpErrorZ_get_ok(long arg);
+	public static native LDKSecp256k1Error LDKCResult_SecretKeySecpErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_PublicKeySecpErrorZ_result_ok(long arg);
-	public static native long LDKCResult_PublicKeySecpErrorZ_get_inner(long arg);
+	public static native byte[] LDKCResult_PublicKeySecpErrorZ_get_ok(long arg);
+	public static native LDKSecp256k1Error LDKCResult_PublicKeySecpErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_TxCreationKeysSecpErrorZ_result_ok(long arg);
-	public static native long LDKCResult_TxCreationKeysSecpErrorZ_get_inner(long arg);
+	public static native long LDKCResult_TxCreationKeysSecpErrorZ_get_ok(long arg);
+	public static native LDKSecp256k1Error LDKCResult_TxCreationKeysSecpErrorZ_get_err(long arg);
 	public static native VecOrSliceDef LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C2TupleTempl_HTLCOutputInCommitment__Signature_new(long[] elems);
 	public static native long[] LDKCVecTempl_RouteHop_arr_info(long vec_ptr);
@@ -576,7 +591,8 @@ public class bindings {
 	public static native VecOrSliceDef LDKCVecTempl_CVecTempl_RouteHop_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_CVecTempl_RouteHop_new(long[] elems);
 	public static native boolean LDKCResult_RouteLightningErrorZ_result_ok(long arg);
-	public static native long LDKCResult_RouteLightningErrorZ_get_inner(long arg);
+	public static native long LDKCResult_RouteLightningErrorZ_get_ok(long arg);
+	public static native long LDKCResult_RouteLightningErrorZ_get_err(long arg);
 	public static native long[] LDKCVecTempl_RouteHint_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_RouteHint_new(long[] elems);
 	// extern const void (*C2Tuple_HTLCOutputInCommitmentSignatureZ_free)(LDKC2Tuple_HTLCOutputInCommitmentSignatureZ);
