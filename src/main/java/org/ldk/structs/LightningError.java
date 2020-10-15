@@ -12,7 +12,11 @@ public class LightningError extends CommonBase {
 	}
 
 	// Skipped LightningError_get_err
-	// Skipped LightningError_set_err
+	public void set_err(LightningError this_ptr, byte[] val) {
+		bindings.LightningError_set_err(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
 	// Skipped LightningError_get_action
 	// Skipped LightningError_set_action
 	// Skipped LightningError_new

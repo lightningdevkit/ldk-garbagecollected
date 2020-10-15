@@ -67,7 +67,12 @@ public class DirectionalChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	// Skipped DirectionalChannelInfo_write
+	public byte[] write(DirectionalChannelInfo obj) {
+		byte[] ret = bindings.DirectionalChannelInfo_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public DirectionalChannelInfo(byte[] ser) {
 		super(bindings.DirectionalChannelInfo_read(ser));
 	}

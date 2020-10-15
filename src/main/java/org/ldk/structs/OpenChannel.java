@@ -214,7 +214,12 @@ public class OpenChannel extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped OpenChannel_write
+	public byte[] write(OpenChannel obj) {
+		byte[] ret = bindings.OpenChannel_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public OpenChannel(byte[] ser) {
 		super(bindings.OpenChannel_read(ser));
 	}

@@ -44,7 +44,12 @@ public class NodeAnnouncement extends CommonBase {
 		this.ptrs_to.add(contents_arg);
 	}
 
-	// Skipped NodeAnnouncement_write
+	public byte[] write(NodeAnnouncement obj) {
+		byte[] ret = bindings.NodeAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public NodeAnnouncement(byte[] ser) {
 		super(bindings.NodeAnnouncement_read(ser));
 	}

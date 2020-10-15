@@ -44,7 +44,12 @@ public class ChannelUpdate extends CommonBase {
 		this.ptrs_to.add(contents_arg);
 	}
 
-	// Skipped ChannelUpdate_write
+	public byte[] write(ChannelUpdate obj) {
+		byte[] ret = bindings.ChannelUpdate_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ChannelUpdate(byte[] ser) {
 		super(bindings.ChannelUpdate_read(ser));
 	}

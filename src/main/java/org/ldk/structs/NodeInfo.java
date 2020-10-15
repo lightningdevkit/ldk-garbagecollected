@@ -32,7 +32,12 @@ public class NodeInfo extends CommonBase {
 
 	// Skipped NodeInfo_set_announcement_info
 	// Skipped NodeInfo_new
-	// Skipped NodeInfo_write
+	public byte[] write(NodeInfo obj) {
+		byte[] ret = bindings.NodeInfo_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public NodeInfo(byte[] ser) {
 		super(bindings.NodeInfo_read(ser));
 	}

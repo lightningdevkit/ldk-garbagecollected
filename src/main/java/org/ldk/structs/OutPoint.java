@@ -47,7 +47,12 @@ public class OutPoint extends CommonBase {
 		return ret;
 	}
 
-	// Skipped OutPoint_write
+	public byte[] write(OutPoint obj) {
+		byte[] ret = bindings.OutPoint_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public OutPoint(byte[] ser) {
 		super(bindings.OutPoint_read(ser));
 	}

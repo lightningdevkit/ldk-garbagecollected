@@ -42,7 +42,12 @@ public class FundingSigned extends CommonBase {
 		super(bindings.FundingSigned_new(channel_id_arg, signature_arg));
 	}
 
-	// Skipped FundingSigned_write
+	public byte[] write(FundingSigned obj) {
+		byte[] ret = bindings.FundingSigned_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public FundingSigned(byte[] ser) {
 		super(bindings.FundingSigned_read(ser));
 	}

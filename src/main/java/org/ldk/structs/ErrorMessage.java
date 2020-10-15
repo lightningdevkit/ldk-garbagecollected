@@ -28,9 +28,21 @@ public class ErrorMessage extends CommonBase {
 	}
 
 	// Skipped ErrorMessage_get_data
-	// Skipped ErrorMessage_set_data
-	// Skipped ErrorMessage_new
-	// Skipped ErrorMessage_write
+	public void set_data(ErrorMessage this_ptr, byte[] val) {
+		bindings.ErrorMessage_set_data(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
+		this.ptrs_to.add(this_ptr);
+	}
+
+	public ErrorMessage(byte[] channel_id_arg, byte[] data_arg) {
+		super(bindings.ErrorMessage_new(channel_id_arg, data_arg));
+	}
+
+	public byte[] write(ErrorMessage obj) {
+		byte[] ret = bindings.ErrorMessage_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ErrorMessage(byte[] ser) {
 		super(bindings.ErrorMessage_read(ser));
 	}

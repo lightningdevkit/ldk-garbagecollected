@@ -18,7 +18,12 @@ public class Route extends CommonBase {
 
 	// Skipped Route_set_paths
 	// Skipped Route_new
-	// Skipped Route_write
+	public byte[] write(Route obj) {
+		byte[] ret = bindings.Route_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public Route(byte[] ser) {
 		super(bindings.Route_read(ser));
 	}

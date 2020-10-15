@@ -53,7 +53,12 @@ public class RevokeAndACK extends CommonBase {
 		super(bindings.RevokeAndACK_new(channel_id_arg, per_commitment_secret_arg, next_per_commitment_point_arg));
 	}
 
-	// Skipped RevokeAndACK_write
+	public byte[] write(RevokeAndACK obj) {
+		byte[] ret = bindings.RevokeAndACK_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public RevokeAndACK(byte[] ser) {
 		super(bindings.RevokeAndACK_read(ser));
 	}

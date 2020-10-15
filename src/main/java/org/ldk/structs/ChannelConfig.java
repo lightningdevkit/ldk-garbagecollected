@@ -57,7 +57,12 @@ public class ChannelConfig extends CommonBase {
 		super(bindings.ChannelConfig_default());
 	}
 
-	// Skipped ChannelConfig_write
+	public byte[] write(ChannelConfig obj) {
+		byte[] ret = bindings.ChannelConfig_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ChannelConfig(byte[] ser) {
 		super(bindings.ChannelConfig_read(ser));
 	}

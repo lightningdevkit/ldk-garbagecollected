@@ -57,5 +57,10 @@ public class QueryChannelRange extends CommonBase {
 		super(bindings.QueryChannelRange_read(ser));
 	}
 
-	// Skipped QueryChannelRange_write
+	public byte[] write(QueryChannelRange obj) {
+		byte[] ret = bindings.QueryChannelRange_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 }

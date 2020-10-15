@@ -89,7 +89,12 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped UnsignedChannelAnnouncement_write
+	public byte[] write(UnsignedChannelAnnouncement obj) {
+		byte[] ret = bindings.UnsignedChannelAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public UnsignedChannelAnnouncement(byte[] ser) {
 		super(bindings.UnsignedChannelAnnouncement_read(ser));
 	}

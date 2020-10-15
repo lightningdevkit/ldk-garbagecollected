@@ -77,7 +77,12 @@ public class ChannelAnnouncement extends CommonBase {
 		this.ptrs_to.add(contents_arg);
 	}
 
-	// Skipped ChannelAnnouncement_write
+	public byte[] write(ChannelAnnouncement obj) {
+		byte[] ret = bindings.ChannelAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ChannelAnnouncement(byte[] ser) {
 		super(bindings.ChannelAnnouncement_read(ser));
 	}

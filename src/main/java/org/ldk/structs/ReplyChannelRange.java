@@ -66,5 +66,10 @@ public class ReplyChannelRange extends CommonBase {
 		super(bindings.ReplyChannelRange_read(ser));
 	}
 
-	// Skipped ReplyChannelRange_write
+	public byte[] write(ReplyChannelRange obj) {
+		byte[] ret = bindings.ReplyChannelRange_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 }

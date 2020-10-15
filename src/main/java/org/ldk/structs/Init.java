@@ -16,7 +16,12 @@ public class Init extends CommonBase {
 		this.ptrs_to.add(orig);
 	}
 
-	// Skipped Init_write
+	public byte[] write(Init obj) {
+		byte[] ret = bindings.Init_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public Init(byte[] ser) {
 		super(bindings.Init_read(ser));
 	}

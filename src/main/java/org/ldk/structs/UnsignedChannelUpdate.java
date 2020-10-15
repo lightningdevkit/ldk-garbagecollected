@@ -104,7 +104,12 @@ public class UnsignedChannelUpdate extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped UnsignedChannelUpdate_write
+	public byte[] write(UnsignedChannelUpdate obj) {
+		byte[] ret = bindings.UnsignedChannelUpdate_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public UnsignedChannelUpdate(byte[] ser) {
 		super(bindings.UnsignedChannelUpdate_read(ser));
 	}

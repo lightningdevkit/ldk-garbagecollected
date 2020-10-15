@@ -53,7 +53,12 @@ public class UpdateFulfillHTLC extends CommonBase {
 		super(bindings.UpdateFulfillHTLC_new(channel_id_arg, htlc_id_arg, payment_preimage_arg));
 	}
 
-	// Skipped UpdateFulfillHTLC_write
+	public byte[] write(UpdateFulfillHTLC obj) {
+		byte[] ret = bindings.UpdateFulfillHTLC_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public UpdateFulfillHTLC(byte[] ser) {
 		super(bindings.UpdateFulfillHTLC_read(ser));
 	}

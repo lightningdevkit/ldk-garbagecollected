@@ -65,7 +65,12 @@ public class NodeAnnouncementInfo extends CommonBase {
 	}
 
 	// Skipped NodeAnnouncementInfo_new
-	// Skipped NodeAnnouncementInfo_write
+	public byte[] write(NodeAnnouncementInfo obj) {
+		byte[] ret = bindings.NodeAnnouncementInfo_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public NodeAnnouncementInfo(byte[] ser) {
 		super(bindings.NodeAnnouncementInfo_read(ser));
 	}

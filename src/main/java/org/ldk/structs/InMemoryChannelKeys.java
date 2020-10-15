@@ -104,7 +104,12 @@ public class InMemoryChannelKeys extends CommonBase {
 		return ret;
 	}
 
-	// Skipped InMemoryChannelKeys_write
+	public byte[] write(InMemoryChannelKeys obj) {
+		byte[] ret = bindings.InMemoryChannelKeys_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public InMemoryChannelKeys(byte[] ser) {
 		super(bindings.InMemoryChannelKeys_read(ser));
 	}

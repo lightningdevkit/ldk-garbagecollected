@@ -64,7 +64,12 @@ public class AnnouncementSignatures extends CommonBase {
 		super(bindings.AnnouncementSignatures_new(channel_id_arg, short_channel_id_arg, node_signature_arg, bitcoin_signature_arg));
 	}
 
-	// Skipped AnnouncementSignatures_write
+	public byte[] write(AnnouncementSignatures obj) {
+		byte[] ret = bindings.AnnouncementSignatures_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public AnnouncementSignatures(byte[] ser) {
 		super(bindings.AnnouncementSignatures_read(ser));
 	}

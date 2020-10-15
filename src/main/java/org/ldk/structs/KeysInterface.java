@@ -20,7 +20,11 @@ public class KeysInterface extends CommonBase {
 		return ret;
 	}
 
-	// Skipped KeysInterface_get_destination_script
+	public byte[] get_destination_script() {
+		byte[] ret = bindings.KeysInterface_get_destination_script(this.ptr);
+		return ret;
+	}
+
 	public byte[] get_shutdown_pubkey() {
 		byte[] ret = bindings.KeysInterface_get_shutdown_pubkey(this.ptr);
 		return ret;

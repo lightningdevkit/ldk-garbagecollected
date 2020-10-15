@@ -49,7 +49,12 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped UpdateFailMalformedHTLC_write
+	public byte[] write(UpdateFailMalformedHTLC obj) {
+		byte[] ret = bindings.UpdateFailMalformedHTLC_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public UpdateFailMalformedHTLC(byte[] ser) {
 		super(bindings.UpdateFailMalformedHTLC_read(ser));
 	}

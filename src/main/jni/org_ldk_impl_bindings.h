@@ -162,10 +162,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdate
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    LDKC2TupleTempl_OutPoint__CVec_u8Z_new
- * Signature: (JJ)J
+ * Signature: (J[B)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1OutPoint_1_1CVec_1u8Z_1new
-  (JNIEnv *, jclass, jlong, jlong);
+  (JNIEnv *, jclass, jlong, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -914,9 +914,9 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_KeysInterface_1get_1node
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    KeysInterface_get_destination_script
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_KeysInterface_1get_1destination_1script
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_KeysInterface_1get_1destination_1script
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -1738,10 +1738,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1u8ZPeerHandleEr
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CResult_CVec_u8ZPeerHandleErrorZ_ok
- * Signature: (J)J
+ * Signature: ([B)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1u8ZPeerHandleErrorZ_1ok
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -2210,10 +2210,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1u64Z_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CVec_u8Z_free
- * Signature: (J)V
+ * Signature: ([B)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1u8Z_1free
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -2258,10 +2258,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NoneMonitorUpdateErr
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    C2Tuple_OutPointScriptZ_new
- * Signature: (JJ)J
+ * Signature: (J[B)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1new
-  (JNIEnv *, jclass, jlong, jlong);
+  (JNIEnv *, jclass, jlong, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -2762,9 +2762,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1default
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelConfig_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -2978,9 +2978,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1set_1upd
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelMonitorUpdate_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -3026,9 +3026,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1clone
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    HTLCUpdate_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -3178,9 +3178,9 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_OutPoint_1to_1channel_1i
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    OutPoint_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OutPoint_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_OutPoint_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -3370,9 +3370,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1as_1Chan
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    InMemoryChannelKeys_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -3922,18 +3922,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1get_1data
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ErrorMessage_set_data
- * Signature: (JJ)V
+ * Signature: (J[B)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1set_1data
-  (JNIEnv *, jclass, jlong, jlong);
+  (JNIEnv *, jclass, jlong, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ErrorMessage_new
- * Signature: ([BJ)J
+ * Signature: ([B[B)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1new
-  (JNIEnv *, jclass, jbyteArray, jlong);
+  (JNIEnv *, jclass, jbyteArray, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -4818,18 +4818,18 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Shutdown_1get_1scriptpub
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Shutdown_set_scriptpubkey
- * Signature: (JJ)V
+ * Signature: (J[B)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Shutdown_1set_1scriptpubkey
-  (JNIEnv *, jclass, jlong, jlong);
+  (JNIEnv *, jclass, jlong, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Shutdown_new
- * Signature: ([BJ)J
+ * Signature: ([B[B)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1new
-  (JNIEnv *, jclass, jbyteArray, jlong);
+  (JNIEnv *, jclass, jbyteArray, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -6554,10 +6554,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LightningError_1get_1err
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    LightningError_set_err
- * Signature: (JJ)V
+ * Signature: (J[B)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LightningError_1set_1err
-  (JNIEnv *, jclass, jlong, jlong);
+  (JNIEnv *, jclass, jlong, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -6578,10 +6578,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LightningError_1set_1action
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    LightningError_new
- * Signature: (JJ)J
+ * Signature: ([BJ)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LightningError_1new
-  (JNIEnv *, jclass, jlong, jlong);
+  (JNIEnv *, jclass, jbyteArray, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -6698,9 +6698,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RoutingMessageHandler_1free
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    AcceptChannel_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6714,9 +6714,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    AnnouncementSignatures_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6730,9 +6730,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelReestablish_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6746,9 +6746,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ClosingSigned_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6762,9 +6762,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    CommitmentSigned_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6778,9 +6778,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    FundingCreated_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingCreated_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingCreated_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6794,9 +6794,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingCreated_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    FundingSigned_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingSigned_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingSigned_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6810,9 +6810,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingSigned_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    FundingLocked_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingLocked_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingLocked_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6826,9 +6826,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingLocked_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Init_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Init_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Init_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6842,9 +6842,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Init_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    OpenChannel_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OpenChannel_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_OpenChannel_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6858,9 +6858,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OpenChannel_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    RevokeAndACK_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6874,9 +6874,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Shutdown_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Shutdown_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6890,9 +6890,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UpdateFailHTLC_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6906,9 +6906,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UpdateFailMalformedHTLC_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6922,9 +6922,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UpdateFee_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFee_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFee_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6938,9 +6938,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFee_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UpdateFulfillHTLC_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6954,9 +6954,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UpdateAddHTLC_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6970,9 +6970,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Ping_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Ping_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6986,9 +6986,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Pong_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Pong_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Pong_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7002,9 +7002,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Pong_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UnsignedChannelAnnouncement_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7018,9 +7018,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelAnnouncement_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7034,9 +7034,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UnsignedChannelUpdate_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7050,9 +7050,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelUpdate_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7066,9 +7066,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ErrorMessage_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7082,9 +7082,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    UnsignedNodeAnnouncement_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7098,9 +7098,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1rea
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    NodeAnnouncement_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7122,9 +7122,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    QueryShortChannelIds_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7138,9 +7138,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ReplyShortChannelIdsEnd_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7154,9 +7154,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    QueryChannelRange_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7170,9 +7170,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ReplyChannelRange_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7186,9 +7186,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_GossipTimestampFilter_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    GossipTimestampFilter_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_GossipTimestampFilter_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_GossipTimestampFilter_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7506,9 +7506,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1new
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    TxCreationKeys_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7658,9 +7658,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1new
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelPublicKeys_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7682,9 +7682,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1derive_1new
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    get_revokeable_redeemscript
- * Signature: ([BS[B)J
+ * Signature: ([BS[B)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_get_1revokeable_1redeemscript
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1revokeable_1redeemscript
   (JNIEnv *, jclass, jbyteArray, jshort, jbyteArray);
 
 /*
@@ -7770,9 +7770,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1set_1p
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    HTLCOutputInCommitment_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -7786,17 +7786,17 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    get_htlc_redeemscript
- * Signature: (JJ)J
+ * Signature: (JJ)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_get_1htlc_1redeemscript
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1htlc_1redeemscript
   (JNIEnv *, jclass, jlong, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    make_funding_redeemscript
- * Signature: ([B[B)J
+ * Signature: ([B[B)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_make_1funding_1redeemscript
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_make_1funding_1redeemscript
   (JNIEnv *, jclass, jbyteArray, jbyteArray);
 
 /*
@@ -7922,9 +7922,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    HolderCommitmentTransaction_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -8114,9 +8114,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Route_1new
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    Route_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Route_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Route_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -8394,9 +8394,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1set_1l
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    DirectionalChannelInfo_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -8514,9 +8514,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1set_1announcement
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelInfo_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -8594,9 +8594,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    RoutingFees_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_RoutingFees_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -8706,9 +8706,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1new
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    NodeAnnouncementInfo_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -8778,9 +8778,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1new
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    NodeInfo_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeInfo_1write
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -8794,9 +8794,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1read
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    NetworkGraph_write
- * Signature: (J)J
+ * Signature: (J)[B
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1write
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1write
   (JNIEnv *, jclass, jlong);
 
 /*

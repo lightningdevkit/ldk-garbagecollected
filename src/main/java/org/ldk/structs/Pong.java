@@ -31,7 +31,12 @@ public class Pong extends CommonBase {
 		super(bindings.Pong_new(byteslen_arg));
 	}
 
-	// Skipped Pong_write
+	public byte[] write(Pong obj) {
+		byte[] ret = bindings.Pong_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public Pong(byte[] ser) {
 		super(bindings.Pong_read(ser));
 	}

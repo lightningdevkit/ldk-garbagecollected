@@ -75,7 +75,12 @@ public class ChannelPublicKeys extends CommonBase {
 		super(bindings.ChannelPublicKeys_new(funding_pubkey_arg, revocation_basepoint_arg, payment_point_arg, delayed_payment_basepoint_arg, htlc_basepoint_arg));
 	}
 
-	// Skipped ChannelPublicKeys_write
+	public byte[] write(ChannelPublicKeys obj) {
+		byte[] ret = bindings.ChannelPublicKeys_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ChannelPublicKeys(byte[] ser) {
 		super(bindings.ChannelPublicKeys_read(ser));
 	}

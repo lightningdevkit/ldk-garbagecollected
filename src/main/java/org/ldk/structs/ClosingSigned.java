@@ -53,7 +53,12 @@ public class ClosingSigned extends CommonBase {
 		super(bindings.ClosingSigned_new(channel_id_arg, fee_satoshis_arg, signature_arg));
 	}
 
-	// Skipped ClosingSigned_write
+	public byte[] write(ClosingSigned obj) {
+		byte[] ret = bindings.ClosingSigned_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ClosingSigned(byte[] ser) {
 		super(bindings.ClosingSigned_read(ser));
 	}

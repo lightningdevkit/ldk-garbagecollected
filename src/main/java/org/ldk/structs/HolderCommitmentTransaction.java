@@ -58,7 +58,12 @@ public class HolderCommitmentTransaction extends CommonBase {
 	}
 
 	// Skipped HolderCommitmentTransaction_get_htlc_sigs
-	// Skipped HolderCommitmentTransaction_write
+	public byte[] write(HolderCommitmentTransaction obj) {
+		byte[] ret = bindings.HolderCommitmentTransaction_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public HolderCommitmentTransaction(byte[] ser) {
 		super(bindings.HolderCommitmentTransaction_read(ser));
 	}

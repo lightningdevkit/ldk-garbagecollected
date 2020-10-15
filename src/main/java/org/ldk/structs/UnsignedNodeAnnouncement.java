@@ -68,7 +68,12 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	}
 
 	// Skipped UnsignedNodeAnnouncement_set_addresses
-	// Skipped UnsignedNodeAnnouncement_write
+	public byte[] write(UnsignedNodeAnnouncement obj) {
+		byte[] ret = bindings.UnsignedNodeAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public UnsignedNodeAnnouncement(byte[] ser) {
 		super(bindings.UnsignedNodeAnnouncement_read(ser));
 	}

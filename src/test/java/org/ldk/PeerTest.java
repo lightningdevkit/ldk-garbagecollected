@@ -219,7 +219,7 @@ public class PeerTest {
         assert event instanceof bindings.LDKEvent.FundingGenerationReady;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).channel_value_satoshis == 10000;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).user_channel_id == 42;
-        byte[] funding_spk = bindings.get_u8_slice_bytes(((bindings.LDKEvent.FundingGenerationReady)event).output_script);
+        byte[] funding_spk = ((bindings.LDKEvent.FundingGenerationReady)event).output_script;
         assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
         byte[] chan_id = ((bindings.LDKEvent.FundingGenerationReady)event).temporary_channel_id;
         bindings.CVec_EventZ_free(events);

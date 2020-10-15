@@ -71,7 +71,12 @@ public class UpdateAddHTLC extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped UpdateAddHTLC_write
+	public byte[] write(UpdateAddHTLC obj) {
+		byte[] ret = bindings.UpdateAddHTLC_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public UpdateAddHTLC(byte[] ser) {
 		super(bindings.UpdateAddHTLC_read(ser));
 	}

@@ -66,7 +66,12 @@ public class ChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	// Skipped ChannelInfo_write
+	public byte[] write(ChannelInfo obj) {
+		byte[] ret = bindings.ChannelInfo_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ChannelInfo(byte[] ser) {
 		super(bindings.ChannelInfo_read(ser));
 	}

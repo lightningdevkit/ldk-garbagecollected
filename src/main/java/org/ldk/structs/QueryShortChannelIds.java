@@ -33,5 +33,10 @@ public class QueryShortChannelIds extends CommonBase {
 		super(bindings.QueryShortChannelIds_read(ser));
 	}
 
-	// Skipped QueryShortChannelIds_write
+	public byte[] write(QueryShortChannelIds obj) {
+		byte[] ret = bindings.QueryShortChannelIds_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 }

@@ -42,7 +42,12 @@ public class FundingLocked extends CommonBase {
 		super(bindings.FundingLocked_new(channel_id_arg, next_per_commitment_point_arg));
 	}
 
-	// Skipped FundingLocked_write
+	public byte[] write(FundingLocked obj) {
+		byte[] ret = bindings.FundingLocked_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public FundingLocked(byte[] ser) {
 		super(bindings.FundingLocked_read(ser));
 	}

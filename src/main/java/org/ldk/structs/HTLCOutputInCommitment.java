@@ -60,7 +60,12 @@ public class HTLCOutputInCommitment extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped HTLCOutputInCommitment_write
+	public byte[] write(HTLCOutputInCommitment obj) {
+		byte[] ret = bindings.HTLCOutputInCommitment_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public HTLCOutputInCommitment(byte[] ser) {
 		super(bindings.HTLCOutputInCommitment_read(ser));
 	}

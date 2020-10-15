@@ -170,7 +170,12 @@ public class AcceptChannel extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped AcceptChannel_write
+	public byte[] write(AcceptChannel obj) {
+		byte[] ret = bindings.AcceptChannel_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public AcceptChannel(byte[] ser) {
 		super(bindings.AcceptChannel_read(ser));
 	}

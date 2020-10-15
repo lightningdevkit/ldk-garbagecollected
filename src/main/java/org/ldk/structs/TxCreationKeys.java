@@ -75,7 +75,12 @@ public class TxCreationKeys extends CommonBase {
 		super(bindings.TxCreationKeys_new(per_commitment_point_arg, revocation_key_arg, broadcaster_htlc_key_arg, countersignatory_htlc_key_arg, broadcaster_delayed_payment_key_arg));
 	}
 
-	// Skipped TxCreationKeys_write
+	public byte[] write(TxCreationKeys obj) {
+		byte[] ret = bindings.TxCreationKeys_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public TxCreationKeys(byte[] ser) {
 		super(bindings.TxCreationKeys_read(ser));
 	}

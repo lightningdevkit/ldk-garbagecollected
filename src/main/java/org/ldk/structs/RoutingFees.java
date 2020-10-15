@@ -46,5 +46,10 @@ public class RoutingFees extends CommonBase {
 		super(bindings.RoutingFees_read(ser));
 	}
 
-	// Skipped RoutingFees_write
+	public byte[] write(RoutingFees obj) {
+		byte[] ret = bindings.RoutingFees_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 }

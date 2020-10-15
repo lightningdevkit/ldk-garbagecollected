@@ -64,7 +64,12 @@ public class FundingCreated extends CommonBase {
 		super(bindings.FundingCreated_new(temporary_channel_id_arg, funding_txid_arg, funding_output_index_arg, signature_arg));
 	}
 
-	// Skipped FundingCreated_write
+	public byte[] write(FundingCreated obj) {
+		byte[] ret = bindings.FundingCreated_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public FundingCreated(byte[] ser) {
 		super(bindings.FundingCreated_read(ser));
 	}

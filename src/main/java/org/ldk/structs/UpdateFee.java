@@ -42,7 +42,12 @@ public class UpdateFee extends CommonBase {
 		super(bindings.UpdateFee_new(channel_id_arg, feerate_per_kw_arg));
 	}
 
-	// Skipped UpdateFee_write
+	public byte[] write(UpdateFee obj) {
+		byte[] ret = bindings.UpdateFee_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public UpdateFee(byte[] ser) {
 		super(bindings.UpdateFee_read(ser));
 	}

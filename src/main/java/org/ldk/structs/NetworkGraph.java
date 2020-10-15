@@ -11,7 +11,12 @@ public class NetworkGraph extends CommonBase {
 		bindings.NetworkGraph_free(ptr);
 	}
 
-	// Skipped NetworkGraph_write
+	public byte[] write(NetworkGraph obj) {
+		byte[] ret = bindings.NetworkGraph_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public NetworkGraph(byte[] ser) {
 		super(bindings.NetworkGraph_read(ser));
 	}

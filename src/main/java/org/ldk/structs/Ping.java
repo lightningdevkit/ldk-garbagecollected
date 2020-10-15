@@ -42,7 +42,12 @@ public class Ping extends CommonBase {
 		super(bindings.Ping_new(ponglen_arg, byteslen_arg));
 	}
 
-	// Skipped Ping_write
+	public byte[] write(Ping obj) {
+		byte[] ret = bindings.Ping_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public Ping(byte[] ser) {
 		super(bindings.Ping_read(ser));
 	}

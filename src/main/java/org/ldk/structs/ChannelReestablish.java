@@ -49,7 +49,12 @@ public class ChannelReestablish extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped ChannelReestablish_write
+	public byte[] write(ChannelReestablish obj) {
+		byte[] ret = bindings.ChannelReestablish_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ChannelReestablish(byte[] ser) {
 		super(bindings.ChannelReestablish_read(ser));
 	}

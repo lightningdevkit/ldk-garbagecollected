@@ -27,7 +27,12 @@ public class ChannelMonitorUpdate extends CommonBase {
 		this.ptrs_to.add(this_ptr);
 	}
 
-	// Skipped ChannelMonitorUpdate_write
+	public byte[] write(ChannelMonitorUpdate obj) {
+		byte[] ret = bindings.ChannelMonitorUpdate_write(obj == null ? 0 : obj.ptr & ~1);
+		this.ptrs_to.add(obj);
+		return ret;
+	}
+
 	public ChannelMonitorUpdate(byte[] ser) {
 		super(bindings.ChannelMonitorUpdate_read(ser));
 	}
