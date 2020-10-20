@@ -210,16 +210,14 @@ public class HumanObjectPeerTest {
         peer2.peer_manager.process_events();
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long[] events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
+        Event[] events = peer1.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
-        bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events[0]);
-        assert event instanceof bindings.LDKEvent.FundingGenerationReady;
-        assert ((bindings.LDKEvent.FundingGenerationReady) event).channel_value_satoshis == 10000;
-        assert ((bindings.LDKEvent.FundingGenerationReady) event).user_channel_id == 42;
-        byte[] funding_spk = ((bindings.LDKEvent.FundingGenerationReady) event).output_script;
+        assert events[0] instanceof Event.FundingGenerationReady;
+        assert ((Event.FundingGenerationReady)events[0]).channel_value_satoshis == 10000;
+        assert ((Event.FundingGenerationReady)events[0]).user_channel_id == 42;
+        byte[] funding_spk = ((Event.FundingGenerationReady)events[0]).output_script;
         assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
-        byte[] chan_id = ((bindings.LDKEvent.FundingGenerationReady) event).temporary_channel_id;
-        bindings.CVec_EventZ_free(events);
+        byte[] chan_id = ((Event.FundingGenerationReady)events[0]).temporary_channel_id;
 
         Transaction funding = new Transaction(NetworkParameters.fromID(NetworkParameters.ID_MAINNET));
         funding.addInput(new TransactionInput(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), funding, new byte[0]));
@@ -233,11 +231,10 @@ public class HumanObjectPeerTest {
         peer2.peer_manager.process_events();
         while (!list.isEmpty()) { list.poll().join(); }
 
-        events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
+        events = peer1.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
-        event = bindings.LDKEvent_ref_from_ptr(events[0]);
-        assert event instanceof bindings.LDKEvent.FundingBroadcastSafe;
-        bindings.CVec_EventZ_free(events);
+        assert events[0] instanceof Event.FundingBroadcastSafe;
+        assert ((Event.FundingBroadcastSafe)events[0]).user_channel_id == 42;
 
         Block b = new Block(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), 2, Sha256Hash.ZERO_HASH, Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
         peer1.connect_block(b, funding, 1);

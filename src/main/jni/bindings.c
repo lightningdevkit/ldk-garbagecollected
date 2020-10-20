@@ -476,12 +476,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdate
 	LDKMonitorUpdateError err_var = (*val->contents.err);
 	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref;
-	if (err_var.is_owned) {
-		err_ref = (long)err_var.inner | 1;
-	} else {
-		err_ref = (long)&err_var;
-	}
+	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1OutPoint_1_1CVec_1u8Z_1new(JNIEnv *_env, jclass _b, jlong a, jbyteArray b) {
@@ -616,7 +611,8 @@ JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1Sign
 	for (size_t i = 0; i < res_var.datalen; i++) {
 		jbyteArray arr_conv_8_arr = (*_env)->NewByteArray(_env, 64);
 		(*_env)->SetByteArrayRegion(_env, arr_conv_8_arr, 0, 64, res_var.data[i].compact_form);
-		(*_env)->SetObjectArrayElement(_env, res_arr, i, arr_conv_8_arr);}
+		(*_env)->SetObjectArrayElement(_env, res_arr, i, arr_conv_8_arr);
+	}
 	return res_arr;
 }
 JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
@@ -725,12 +721,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFa
 	LDKPaymentSendFailure err_var = (*val->contents.err);
 	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref;
-	if (err_var.is_owned) {
-		err_ref = (long)err_var.inner | 1;
-	} else {
-		err_ref = (long)&err_var;
-	}
+	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3TupleTempl_1ChannelAnnouncement_1_1ChannelUpdate_1_1ChannelUpdate_1new(JNIEnv *_env, jclass _b, jlong a, jlong b, jlong c) {
@@ -769,12 +760,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErr
 	LDKPeerHandleError err_var = (*val->contents.err);
 	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref;
-	if (err_var.is_owned) {
-		err_ref = (long)err_var.inner | 1;
-	} else {
-		err_ref = (long)&err_var;
-	}
+	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1HTLCOutputInCommitment_1_1Signature_1new(JNIEnv *_env, jclass _b, jlong a, jbyteArray b) {
@@ -821,12 +807,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSpendableOutputDescripto
 			LDKOutPoint outpoint_var = obj->static_output.outpoint;
 			CHECK((((long)outpoint_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&outpoint_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long outpoint_ref;
-			if (outpoint_var.is_owned) {
-				outpoint_ref = (long)outpoint_var.inner | 1;
-			} else {
-				outpoint_ref = (long)&outpoint_var;
-			}
+			long outpoint_ref = (long)outpoint_var.inner & ~1;
 			long output_ref = (long)&obj->static_output.output;
 			return (*_env)->NewObject(_env, LDKSpendableOutputDescriptor_StaticOutput_class, LDKSpendableOutputDescriptor_StaticOutput_meth, outpoint_ref, output_ref);
 		}
@@ -834,12 +815,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSpendableOutputDescripto
 			LDKOutPoint outpoint_var = obj->dynamic_output_p2wsh.outpoint;
 			CHECK((((long)outpoint_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&outpoint_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long outpoint_ref;
-			if (outpoint_var.is_owned) {
-				outpoint_ref = (long)outpoint_var.inner | 1;
-			} else {
-				outpoint_ref = (long)&outpoint_var;
-			}
+			long outpoint_ref = (long)outpoint_var.inner & ~1;
 			jbyteArray per_commitment_point_arr = (*_env)->NewByteArray(_env, 33);
 			(*_env)->SetByteArrayRegion(_env, per_commitment_point_arr, 0, 33, obj->dynamic_output_p2wsh.per_commitment_point.compressed_form);
 			long output_ref = (long)&obj->dynamic_output_p2wsh.output;
@@ -852,12 +828,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSpendableOutputDescripto
 			LDKOutPoint outpoint_var = obj->static_output_counterparty_payment.outpoint;
 			CHECK((((long)outpoint_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&outpoint_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long outpoint_ref;
-			if (outpoint_var.is_owned) {
-				outpoint_ref = (long)outpoint_var.inner | 1;
-			} else {
-				outpoint_ref = (long)&outpoint_var;
-			}
+			long outpoint_ref = (long)outpoint_var.inner & ~1;
 			long output_ref = (long)&obj->static_output_counterparty_payment.output;
 			long key_derivation_params_ref = (long)&obj->static_output_counterparty_payment.key_derivation_params;
 			return (*_env)->NewObject(_env, LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class, LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth, outpoint_ref, output_ref, key_derivation_params_ref);
@@ -953,12 +924,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKEvent_1ref_1from_1ptr (J
 			LDKOutPoint funding_txo_var = obj->funding_broadcast_safe.funding_txo;
 			CHECK((((long)funding_txo_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&funding_txo_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long funding_txo_ref;
-			if (funding_txo_var.is_owned) {
-				funding_txo_ref = (long)funding_txo_var.inner | 1;
-			} else {
-				funding_txo_ref = (long)&funding_txo_var;
-			}
+			long funding_txo_ref = (long)funding_txo_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKEvent_FundingBroadcastSafe_class, LDKEvent_FundingBroadcastSafe_meth, funding_txo_ref, obj->funding_broadcast_safe.user_channel_id);
 		}
 		case LDKEvent_PaymentReceived: {
@@ -1025,12 +991,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKErrorAction_1ref_1from_1
 			LDKErrorMessage msg_var = obj->disconnect_peer.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKErrorAction_DisconnectPeer_class, LDKErrorAction_DisconnectPeer_meth, msg_ref);
 		}
 		case LDKErrorAction_IgnoreError: {
@@ -1040,12 +1001,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKErrorAction_1ref_1from_1
 			LDKErrorMessage msg_var = obj->send_error_message.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKErrorAction_SendErrorMessage_class, LDKErrorAction_SendErrorMessage_meth, msg_ref);
 		}
 		default: abort();
@@ -1081,12 +1037,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKHTLCFailChannelUpdate_1r
 			LDKChannelUpdate msg_var = obj->channel_update_message.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKHTLCFailChannelUpdate_ChannelUpdateMessage_class, LDKHTLCFailChannelUpdate_ChannelUpdateMessage_meth, msg_ref);
 		}
 		case LDKHTLCFailChannelUpdate_ChannelClosed: {
@@ -1223,12 +1174,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKAcceptChannel msg_var = obj->send_accept_channel.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendAcceptChannel_class, LDKMessageSendEvent_SendAcceptChannel_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_SendOpenChannel: {
@@ -1237,12 +1183,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKOpenChannel msg_var = obj->send_open_channel.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendOpenChannel_class, LDKMessageSendEvent_SendOpenChannel_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_SendFundingCreated: {
@@ -1251,12 +1192,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKFundingCreated msg_var = obj->send_funding_created.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendFundingCreated_class, LDKMessageSendEvent_SendFundingCreated_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_SendFundingSigned: {
@@ -1265,12 +1201,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKFundingSigned msg_var = obj->send_funding_signed.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendFundingSigned_class, LDKMessageSendEvent_SendFundingSigned_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_SendFundingLocked: {
@@ -1279,12 +1210,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKFundingLocked msg_var = obj->send_funding_locked.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendFundingLocked_class, LDKMessageSendEvent_SendFundingLocked_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_SendAnnouncementSignatures: {
@@ -1293,12 +1219,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKAnnouncementSignatures msg_var = obj->send_announcement_signatures.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendAnnouncementSignatures_class, LDKMessageSendEvent_SendAnnouncementSignatures_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_UpdateHTLCs: {
@@ -1307,12 +1228,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKCommitmentUpdate updates_var = obj->update_htl_cs.updates;
 			CHECK((((long)updates_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&updates_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long updates_ref;
-			if (updates_var.is_owned) {
-				updates_ref = (long)updates_var.inner | 1;
-			} else {
-				updates_ref = (long)&updates_var;
-			}
+			long updates_ref = (long)updates_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_UpdateHTLCs_class, LDKMessageSendEvent_UpdateHTLCs_meth, node_id_arr, updates_ref);
 		}
 		case LDKMessageSendEvent_SendRevokeAndACK: {
@@ -1321,12 +1237,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKRevokeAndACK msg_var = obj->send_revoke_and_ack.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendRevokeAndACK_class, LDKMessageSendEvent_SendRevokeAndACK_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_SendClosingSigned: {
@@ -1335,12 +1246,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKClosingSigned msg_var = obj->send_closing_signed.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendClosingSigned_class, LDKMessageSendEvent_SendClosingSigned_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_SendShutdown: {
@@ -1349,12 +1255,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKShutdown msg_var = obj->send_shutdown.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendShutdown_class, LDKMessageSendEvent_SendShutdown_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_SendChannelReestablish: {
@@ -1363,57 +1264,32 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			LDKChannelReestablish msg_var = obj->send_channel_reestablish.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_SendChannelReestablish_class, LDKMessageSendEvent_SendChannelReestablish_meth, node_id_arr, msg_ref);
 		}
 		case LDKMessageSendEvent_BroadcastChannelAnnouncement: {
 			LDKChannelAnnouncement msg_var = obj->broadcast_channel_announcement.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			LDKChannelUpdate update_msg_var = obj->broadcast_channel_announcement.update_msg;
 			CHECK((((long)update_msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&update_msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long update_msg_ref;
-			if (update_msg_var.is_owned) {
-				update_msg_ref = (long)update_msg_var.inner | 1;
-			} else {
-				update_msg_ref = (long)&update_msg_var;
-			}
+			long update_msg_ref = (long)update_msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_BroadcastChannelAnnouncement_class, LDKMessageSendEvent_BroadcastChannelAnnouncement_meth, msg_ref, update_msg_ref);
 		}
 		case LDKMessageSendEvent_BroadcastNodeAnnouncement: {
 			LDKNodeAnnouncement msg_var = obj->broadcast_node_announcement.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_BroadcastNodeAnnouncement_class, LDKMessageSendEvent_BroadcastNodeAnnouncement_meth, msg_ref);
 		}
 		case LDKMessageSendEvent_BroadcastChannelUpdate: {
 			LDKChannelUpdate msg_var = obj->broadcast_channel_update.msg;
 			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long msg_ref;
-			if (msg_var.is_owned) {
-				msg_ref = (long)msg_var.inner | 1;
-			} else {
-				msg_ref = (long)&msg_var;
-			}
+			long msg_ref = (long)msg_var.inner & ~1;
 			return (*_env)->NewObject(_env, LDKMessageSendEvent_BroadcastChannelUpdate_class, LDKMessageSendEvent_BroadcastChannelUpdate_meth, msg_ref);
 		}
 		case LDKMessageSendEvent_HandleError: {
@@ -1527,10 +1403,13 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_MessageSendEventsProvide
 	jlongArray ret_arr = (*_env)->NewLongArray(_env, ret_var.datalen);
 	jlong *ret_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, ret_arr, NULL);
 	for (size_t s = 0; s < ret_var.datalen; s++) {
-		long arr_conv_18_ref = (long)&ret_var.data[s];
+		LDKMessageSendEvent *arr_conv_18_copy = MALLOC(sizeof(LDKMessageSendEvent), "LDKMessageSendEvent");
+		*arr_conv_18_copy = MessageSendEvent_clone(&ret_var.data[s]);
+		long arr_conv_18_ref = (long)arr_conv_18_copy;
 		ret_arr_ptr[s] = arr_conv_18_ref;
 	}
 	(*_env)->ReleasePrimitiveArrayCritical(_env, ret_arr, ret_arr_ptr, 0);
+	CVec_MessageSendEventZ_free(ret_var);
 	return ret_arr;
 }
 
@@ -1632,10 +1511,13 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_EventsProvider_1get_1and
 	jlongArray ret_arr = (*_env)->NewLongArray(_env, ret_var.datalen);
 	jlong *ret_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, ret_arr, NULL);
 	for (size_t h = 0; h < ret_var.datalen; h++) {
-		long arr_conv_7_ref = (long)&ret_var.data[h];
+		LDKEvent *arr_conv_7_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
+		*arr_conv_7_copy = Event_clone(&ret_var.data[h]);
+		long arr_conv_7_ref = (long)arr_conv_7_copy;
 		ret_arr_ptr[h] = arr_conv_7_ref;
 	}
 	(*_env)->ReleasePrimitiveArrayCritical(_env, ret_arr, ret_arr_ptr, 0);
+	CVec_EventZ_free(ret_var);
 	return ret_arr;
 }
 
@@ -1880,7 +1762,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 		if (arr_conv_24_var.is_owned) {
 			arr_conv_24_ref = (long)arr_conv_24_var.inner | 1;
 		} else {
-			arr_conv_24_ref = (long)&arr_conv_24_var;
+			arr_conv_24_ref = (long)arr_conv_24_var.inner & ~1;
 		}
 		htlcs_arr_ptr[y] = arr_conv_24_ref;
 	}
@@ -2224,7 +2106,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_jcall(const void* this_arg
 	if (funding_txo_var.is_owned) {
 		funding_txo_ref = (long)funding_txo_var.inner | 1;
 	} else {
-		funding_txo_ref = (long)&funding_txo_var;
+		funding_txo_ref = (long)funding_txo_var.inner & ~1;
 	}
 	LDKChannelMonitor monitor_var = monitor;
 	CHECK((((long)monitor_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -2233,7 +2115,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_jcall(const void* this_arg
 	if (monitor_var.is_owned) {
 		monitor_ref = (long)monitor_var.inner | 1;
 	} else {
-		monitor_ref = (long)&monitor_var;
+		monitor_ref = (long)monitor_var.inner & ~1;
 	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
@@ -2253,7 +2135,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_jcall(const void* this_ar
 	if (funding_txo_var.is_owned) {
 		funding_txo_ref = (long)funding_txo_var.inner | 1;
 	} else {
-		funding_txo_ref = (long)&funding_txo_var;
+		funding_txo_ref = (long)funding_txo_var.inner & ~1;
 	}
 	LDKChannelMonitorUpdate update_var = update;
 	CHECK((((long)update_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -2262,7 +2144,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_jcall(const void* this_ar
 	if (update_var.is_owned) {
 		update_ref = (long)update_var.inner | 1;
 	} else {
-		update_ref = (long)&update_var;
+		update_ref = (long)update_var.inner & ~1;
 	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
@@ -2389,7 +2271,7 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_Watch_1release_1pending_
 		if (arr_conv_14_var.is_owned) {
 			arr_conv_14_ref = (long)arr_conv_14_var.inner | 1;
 		} else {
-			arr_conv_14_ref = (long)&arr_conv_14_var;
+			arr_conv_14_ref = (long)arr_conv_14_var.inner & ~1;
 		}
 		ret_arr_ptr[o] = arr_conv_14_ref;
 	}
@@ -2996,7 +2878,7 @@ void handle_open_channel_jcall(const void* this_arg, LDKPublicKey their_node_id,
 	if (their_features_var.is_owned) {
 		their_features_ref = (long)their_features_var.inner | 1;
 	} else {
-		their_features_ref = (long)&their_features_var;
+		their_features_ref = (long)their_features_var.inner & ~1;
 	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
@@ -3015,7 +2897,7 @@ void handle_accept_channel_jcall(const void* this_arg, LDKPublicKey their_node_i
 	if (their_features_var.is_owned) {
 		their_features_ref = (long)their_features_var.inner | 1;
 	} else {
-		their_features_ref = (long)&their_features_var;
+		their_features_ref = (long)their_features_var.inner & ~1;
 	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
@@ -3695,12 +3577,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErro
 	LDKLightningError err_var = (*val->contents.err);
 	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref;
-	if (err_var.is_owned) {
-		err_ref = (long)err_var.inner | 1;
-	} else {
-		err_ref = (long)&err_var;
-	}
+	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C3TupleTempl_1ChannelAnnouncement_1_1ChannelUpdate_1_1ChannelUpdate_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
@@ -3972,10 +3849,11 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_RoutingMessageHandler_1g
 	jlongArray ret_arr = (*_env)->NewLongArray(_env, ret_var.datalen);
 	jlong *ret_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, ret_arr, NULL);
 	for (size_t l = 0; l < ret_var.datalen; l++) {
-		long arr_conv_63_ref = (long)&ret_var.data[l];
+		/*XXX False */long arr_conv_63_ref = (long)&ret_var.data[l];
 		ret_arr_ptr[l] = arr_conv_63_ref;
 	}
 	(*_env)->ReleasePrimitiveArrayCritical(_env, ret_arr, ret_arr_ptr, 0);
+	CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_free(ret_var);
 	return ret_arr;
 }
 
@@ -3995,7 +3873,7 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_RoutingMessageHandler_1g
 		if (arr_conv_18_var.is_owned) {
 			arr_conv_18_ref = (long)arr_conv_18_var.inner | 1;
 		} else {
-			arr_conv_18_ref = (long)&arr_conv_18_var;
+			arr_conv_18_ref = (long)arr_conv_18_var.inner & ~1;
 		}
 		ret_arr_ptr[s] = arr_conv_18_ref;
 	}
@@ -4150,12 +4028,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHand
 	LDKPeerHandleError err_var = (*val->contents.err);
 	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref;
-	if (err_var.is_owned) {
-		err_ref = (long)err_var.inner | 1;
-	} else {
-		err_ref = (long)&err_var;
-	}
+	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
@@ -4172,12 +4045,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErr
 	LDKPeerHandleError err_var = (*val->contents.err);
 	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref;
-	if (err_var.is_owned) {
-		err_ref = (long)err_var.inner | 1;
-	} else {
-		err_ref = (long)&err_var;
-	}
+	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
@@ -4221,12 +4089,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSec
 	LDKTxCreationKeys res_var = (*val->contents.result);
 	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long res_ref;
-	if (res_var.is_owned) {
-		res_ref = (long)res_var.inner | 1;
-	} else {
-		res_ref = (long)&res_var;
-	}
+	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
 JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
@@ -4302,12 +4165,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErr
 	LDKRoute res_var = (*val->contents.result);
 	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long res_ref;
-	if (res_var.is_owned) {
-		res_ref = (long)res_var.inner | 1;
-	} else {
-		res_ref = (long)&res_var;
-	}
+	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
@@ -4316,12 +4174,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErr
 	LDKLightningError err_var = (*val->contents.err);
 	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref;
-	if (err_var.is_owned) {
-		err_ref = (long)err_var.inner | 1;
-	} else {
-		err_ref = (long)&err_var;
-	}
+	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1RouteHint_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
@@ -5349,10 +5202,24 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Event_1free(JNIEnv * _env, jcl
 	Event_free(this_ptr_conv);
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Event_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKEvent* orig_conv = (LDKEvent*)orig;
+	LDKEvent* ret = MALLOC(sizeof(LDKEvent), "LDKEvent");
+	*ret = Event_clone(orig_conv);
+	return (long)ret;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_MessageSendEvent_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKMessageSendEvent this_ptr_conv = *(LDKMessageSendEvent*)this_ptr;
 	FREE((void*)this_ptr);
 	MessageSendEvent_free(this_ptr_conv);
+}
+
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_MessageSendEvent_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKMessageSendEvent* orig_conv = (LDKMessageSendEvent*)orig;
+	LDKMessageSendEvent* ret = MALLOC(sizeof(LDKMessageSendEvent), "LDKMessageSendEvent");
+	*ret = MessageSendEvent_clone(orig_conv);
+	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_MessageSendEventsProvider_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -5371,6 +5238,19 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_APIError_1free(JNIEnv * _env, 
 	LDKAPIError this_ptr_conv = *(LDKAPIError*)this_ptr;
 	FREE((void*)this_ptr);
 	APIError_free(this_ptr_conv);
+}
+
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_APIError_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKAPIError* orig_conv = (LDKAPIError*)orig;
+	LDKAPIError* ret = MALLOC(sizeof(LDKAPIError), "LDKAPIError");
+	*ret = APIError_clone(orig_conv);
+	return (long)ret;
+}
+
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_Level_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKLevel* orig_conv = (LDKLevel*)orig;
+	jclass ret = LDKLevel_to_java(_env, Level_clone(orig_conv));
+	return ret;
 }
 
 JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_Level_1max(JNIEnv * _env, jclass _b) {
@@ -5818,6 +5698,12 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UserConfig_1default(JNIEnv * 
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_AccessError_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKAccessError* orig_conv = (LDKAccessError*)orig;
+	jclass ret = LDKAccessError_to_java(_env, AccessError_clone(orig_conv));
+	return ret;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Access_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKAccess this_ptr_conv = *(LDKAccess*)this_ptr;
 	FREE((void*)this_ptr);
@@ -5840,6 +5726,12 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_BroadcasterInterface_1free(JNI
 	LDKBroadcasterInterface this_ptr_conv = *(LDKBroadcasterInterface*)this_ptr;
 	FREE((void*)this_ptr);
 	BroadcasterInterface_free(this_ptr_conv);
+}
+
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_ConfirmationTarget_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKConfirmationTarget* orig_conv = (LDKConfirmationTarget*)orig;
+	jclass ret = LDKConfirmationTarget_to_java(_env, ConfirmationTarget_clone(orig_conv));
+	return ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_FeeEstimator_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -5979,6 +5871,12 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1read(JN
 	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdateErr_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKChannelMonitorUpdateErr* orig_conv = (LDKChannelMonitorUpdateErr*)orig;
+	jclass ret = LDKChannelMonitorUpdateErr_to_java(_env, ChannelMonitorUpdateErr_clone(orig_conv));
+	return ret;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_MonitorUpdateError_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKMonitorUpdateError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
@@ -6082,7 +5980,7 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1get_1and
 		if (arr_conv_14_var.is_owned) {
 			arr_conv_14_ref = (long)arr_conv_14_var.inner | 1;
 		} else {
-			arr_conv_14_ref = (long)&arr_conv_14_var;
+			arr_conv_14_ref = (long)arr_conv_14_var.inner & ~1;
 		}
 		ret_arr_ptr[o] = arr_conv_14_ref;
 	}
@@ -6099,10 +5997,13 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1get_1and
 	jlongArray ret_arr = (*_env)->NewLongArray(_env, ret_var.datalen);
 	jlong *ret_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, ret_arr, NULL);
 	for (size_t h = 0; h < ret_var.datalen; h++) {
-		long arr_conv_7_ref = (long)&ret_var.data[h];
+		LDKEvent *arr_conv_7_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
+		*arr_conv_7_copy = Event_clone(&ret_var.data[h]);
+		long arr_conv_7_ref = (long)arr_conv_7_copy;
 		ret_arr_ptr[h] = arr_conv_7_ref;
 	}
 	(*_env)->ReleasePrimitiveArrayCritical(_env, ret_arr, ret_arr_ptr, 0);
+	CVec_EventZ_free(ret_var);
 	return ret_arr;
 }
 
@@ -6119,6 +6020,7 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1get_1lat
 		ret_arr_ptr[n] = arr_conv_13_ref;
 	}
 	(*_env)->ReleasePrimitiveArrayCritical(_env, ret_arr, ret_arr_ptr, 0);
+	CVec_TransactionZ_free(ret_var);
 	return ret_arr;
 }
 
@@ -6163,10 +6065,11 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1block_1c
 	jlongArray ret_arr = (*_env)->NewLongArray(_env, ret_var.datalen);
 	jlong *ret_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, ret_arr, NULL);
 	for (size_t b = 0; b < ret_var.datalen; b++) {
-		long arr_conv_27_ref = (long)&ret_var.data[b];
+		/*XXX False */long arr_conv_27_ref = (long)&ret_var.data[b];
 		ret_arr_ptr[b] = arr_conv_27_ref;
 	}
 	(*_env)->ReleasePrimitiveArrayCritical(_env, ret_arr, ret_arr_ptr, 0);
+	CVec_C2Tuple_TxidCVec_TxOutZZZ_free(ret_var);
 	return ret_arr;
 }
 
@@ -6285,6 +6188,13 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_SpendableOutputDescriptor_1fre
 	LDKSpendableOutputDescriptor this_ptr_conv = *(LDKSpendableOutputDescriptor*)this_ptr;
 	FREE((void*)this_ptr);
 	SpendableOutputDescriptor_free(this_ptr_conv);
+}
+
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_SpendableOutputDescriptor_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKSpendableOutputDescriptor* orig_conv = (LDKSpendableOutputDescriptor*)orig;
+	LDKSpendableOutputDescriptor* ret = MALLOC(sizeof(LDKSpendableOutputDescriptor), "LDKSpendableOutputDescriptor");
+	*ret = SpendableOutputDescriptor_clone(orig_conv);
+	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -6768,7 +6678,7 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelManager_1list_1ch
 		if (arr_conv_16_var.is_owned) {
 			arr_conv_16_ref = (long)arr_conv_16_var.inner | 1;
 		} else {
-			arr_conv_16_ref = (long)&arr_conv_16_var;
+			arr_conv_16_ref = (long)arr_conv_16_var.inner & ~1;
 		}
 		ret_arr_ptr[q] = arr_conv_16_ref;
 	}
@@ -6792,7 +6702,7 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelManager_1list_1us
 		if (arr_conv_16_var.is_owned) {
 			arr_conv_16_ref = (long)arr_conv_16_var.inner | 1;
 		} else {
-			arr_conv_16_ref = (long)&arr_conv_16_var;
+			arr_conv_16_ref = (long)arr_conv_16_var.inner & ~1;
 		}
 		ret_arr_ptr[q] = arr_conv_16_ref;
 	}
@@ -9083,6 +8993,13 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NetAddress_1free(JNIEnv * _env
 	NetAddress_free(this_ptr_conv);
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetAddress_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKNetAddress* orig_conv = (LDKNetAddress*)orig;
+	LDKNetAddress* ret = MALLOC(sizeof(LDKNetAddress), "LDKNetAddress");
+	*ret = NetAddress_clone(orig_conv);
+	return (long)ret;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
@@ -10158,6 +10075,13 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ErrorAction_1free(JNIEnv * _en
 	ErrorAction_free(this_ptr_conv);
 }
 
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorAction_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKErrorAction* orig_conv = (LDKErrorAction*)orig;
+	LDKErrorAction* ret = MALLOC(sizeof(LDKErrorAction), "LDKErrorAction");
+	*ret = ErrorAction_clone(orig_conv);
+	return (long)ret;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LightningError_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKLightningError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
@@ -10456,6 +10380,13 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HTLCFailChannelUpdate_1free(JN
 	LDKHTLCFailChannelUpdate this_ptr_conv = *(LDKHTLCFailChannelUpdate*)this_ptr;
 	FREE((void*)this_ptr);
 	HTLCFailChannelUpdate_free(this_ptr_conv);
+}
+
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCFailChannelUpdate_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKHTLCFailChannelUpdate* orig_conv = (LDKHTLCFailChannelUpdate*)orig;
+	LDKHTLCFailChannelUpdate* ret = MALLOC(sizeof(LDKHTLCFailChannelUpdate), "LDKHTLCFailChannelUpdate");
+	*ret = HTLCFailChannelUpdate_clone(orig_conv);
+	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMessageHandler_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -11191,7 +11122,9 @@ JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_PeerManager_1get_1peer
 	for (size_t i = 0; i < ret_var.datalen; i++) {
 		jbyteArray arr_conv_8_arr = (*_env)->NewByteArray(_env, 33);
 		(*_env)->SetByteArrayRegion(_env, arr_conv_8_arr, 0, 33, ret_var.data[i].compressed_form);
-		(*_env)->SetObjectArrayElement(_env, ret_arr, i, arr_conv_8_arr);}
+		(*_env)->SetObjectArrayElement(_env, ret_arr, i, arr_conv_8_arr);
+	}
+	CVec_PublicKeyZ_free(ret_var);
 	return ret_arr;
 }
 

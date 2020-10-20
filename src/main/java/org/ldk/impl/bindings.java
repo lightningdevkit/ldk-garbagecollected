@@ -791,14 +791,22 @@ public class bindings {
 	public static native long C2Tuple_HTLCOutputInCommitmentSignatureZ_new(long a, byte[] b);
 	// void Event_free(LDKEvent this_ptr);
 	public static native void Event_free(long this_ptr);
+	// LDKEvent Event_clone(const LDKEvent *orig);
+	public static native long Event_clone(long orig);
 	// void MessageSendEvent_free(LDKMessageSendEvent this_ptr);
 	public static native void MessageSendEvent_free(long this_ptr);
+	// LDKMessageSendEvent MessageSendEvent_clone(const LDKMessageSendEvent *orig);
+	public static native long MessageSendEvent_clone(long orig);
 	// void MessageSendEventsProvider_free(LDKMessageSendEventsProvider this_ptr);
 	public static native void MessageSendEventsProvider_free(long this_ptr);
 	// void EventsProvider_free(LDKEventsProvider this_ptr);
 	public static native void EventsProvider_free(long this_ptr);
 	// void APIError_free(LDKAPIError this_ptr);
 	public static native void APIError_free(long this_ptr);
+	// LDKAPIError APIError_clone(const LDKAPIError *orig);
+	public static native long APIError_clone(long orig);
+	// LDKLevel Level_clone(const LDKLevel *orig);
+	public static native LDKLevel Level_clone(long orig);
 	// MUST_USE_RES LDKLevel Level_max(void);
 	public static native LDKLevel Level_max();
 	// void Logger_free(LDKLogger this_ptr);
@@ -915,6 +923,8 @@ public class bindings {
 	public static native long UserConfig_new(long own_channel_config_arg, long peer_channel_config_limits_arg, long channel_options_arg);
 	// MUST_USE_RES LDKUserConfig UserConfig_default(void);
 	public static native long UserConfig_default();
+	// LDKAccessError AccessError_clone(const LDKAccessError *orig);
+	public static native LDKAccessError AccessError_clone(long orig);
 	// void Access_free(LDKAccess this_ptr);
 	public static native void Access_free(long this_ptr);
 	// void Watch_free(LDKWatch this_ptr);
@@ -923,6 +933,8 @@ public class bindings {
 	public static native void Filter_free(long this_ptr);
 	// void BroadcasterInterface_free(LDKBroadcasterInterface this_ptr);
 	public static native void BroadcasterInterface_free(long this_ptr);
+	// LDKConfirmationTarget ConfirmationTarget_clone(const LDKConfirmationTarget *orig);
+	public static native LDKConfirmationTarget ConfirmationTarget_clone(long orig);
 	// void FeeEstimator_free(LDKFeeEstimator this_ptr);
 	public static native void FeeEstimator_free(long this_ptr);
 	// void ChainMonitor_free(LDKChainMonitor this_ptr);
@@ -949,6 +961,8 @@ public class bindings {
 	public static native byte[] ChannelMonitorUpdate_write(long obj);
 	// LDKChannelMonitorUpdate ChannelMonitorUpdate_read(LDKu8slice ser);
 	public static native long ChannelMonitorUpdate_read(byte[] ser);
+	// LDKChannelMonitorUpdateErr ChannelMonitorUpdateErr_clone(const LDKChannelMonitorUpdateErr *orig);
+	public static native LDKChannelMonitorUpdateErr ChannelMonitorUpdateErr_clone(long orig);
 	// void MonitorUpdateError_free(LDKMonitorUpdateError this_ptr);
 	public static native void MonitorUpdateError_free(long this_ptr);
 	// void MonitorEvent_free(LDKMonitorEvent this_ptr);
@@ -1001,6 +1015,8 @@ public class bindings {
 	public static native long OutPoint_read(byte[] ser);
 	// void SpendableOutputDescriptor_free(LDKSpendableOutputDescriptor this_ptr);
 	public static native void SpendableOutputDescriptor_free(long this_ptr);
+	// LDKSpendableOutputDescriptor SpendableOutputDescriptor_clone(const LDKSpendableOutputDescriptor *orig);
+	public static native long SpendableOutputDescriptor_clone(long orig);
 	// void ChannelKeys_free(LDKChannelKeys this_ptr);
 	public static native void ChannelKeys_free(long this_ptr);
 	// void KeysInterface_free(LDKKeysInterface this_ptr);
@@ -1599,6 +1615,8 @@ public class bindings {
 	public static native long AnnouncementSignatures_new(byte[] channel_id_arg, long short_channel_id_arg, byte[] node_signature_arg, byte[] bitcoin_signature_arg);
 	// void NetAddress_free(LDKNetAddress this_ptr);
 	public static native void NetAddress_free(long this_ptr);
+	// LDKNetAddress NetAddress_clone(const LDKNetAddress *orig);
+	public static native long NetAddress_clone(long orig);
 	// void UnsignedNodeAnnouncement_free(LDKUnsignedNodeAnnouncement this_ptr);
 	public static native void UnsignedNodeAnnouncement_free(long this_ptr);
 	// LDKUnsignedNodeAnnouncement UnsignedNodeAnnouncement_clone(const LDKUnsignedNodeAnnouncement *orig);
@@ -1835,6 +1853,8 @@ public class bindings {
 	public static native long GossipTimestampFilter_new(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg);
 	// void ErrorAction_free(LDKErrorAction this_ptr);
 	public static native void ErrorAction_free(long this_ptr);
+	// LDKErrorAction ErrorAction_clone(const LDKErrorAction *orig);
+	public static native long ErrorAction_clone(long orig);
 	// void LightningError_free(LDKLightningError this_ptr);
 	public static native void LightningError_free(long this_ptr);
 	// LDKStr LightningError_get_err(const LDKLightningError *this_ptr);
@@ -1871,6 +1891,8 @@ public class bindings {
 	public static native long CommitmentUpdate_new(long[] update_add_htlcs_arg, long[] update_fulfill_htlcs_arg, long[] update_fail_htlcs_arg, long[] update_fail_malformed_htlcs_arg, long update_fee_arg, long commitment_signed_arg);
 	// void HTLCFailChannelUpdate_free(LDKHTLCFailChannelUpdate this_ptr);
 	public static native void HTLCFailChannelUpdate_free(long this_ptr);
+	// LDKHTLCFailChannelUpdate HTLCFailChannelUpdate_clone(const LDKHTLCFailChannelUpdate *orig);
+	public static native long HTLCFailChannelUpdate_clone(long orig);
 	// void ChannelMessageHandler_free(LDKChannelMessageHandler this_ptr);
 	public static native void ChannelMessageHandler_free(long this_ptr);
 	// void RoutingMessageHandler_free(LDKRoutingMessageHandler this_ptr);
