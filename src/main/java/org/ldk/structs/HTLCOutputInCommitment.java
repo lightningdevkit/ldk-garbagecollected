@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class HTLCOutputInCommitment extends CommonBase {
 	HTLCOutputInCommitment(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,53 +14,47 @@ public class HTLCOutputInCommitment extends CommonBase {
 		bindings.HTLCOutputInCommitment_free(ptr);
 	}
 
-	public HTLCOutputInCommitment(HTLCOutputInCommitment orig) {
-		super(bindings.HTLCOutputInCommitment_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static HTLCOutputInCommitment constructor_clone(HTLCOutputInCommitment orig) {
+		long ret = bindings.HTLCOutputInCommitment_clone(orig == null ? 0 : orig.ptr & ~1);
+		HTLCOutputInCommitment ret_hu_conv = new HTLCOutputInCommitment(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public boolean get_offered(HTLCOutputInCommitment this_ptr) {
-		boolean ret = bindings.HTLCOutputInCommitment_get_offered(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public boolean get_offered() {
+		boolean ret = bindings.HTLCOutputInCommitment_get_offered(this.ptr);
 		return ret;
 	}
 
-	public void set_offered(HTLCOutputInCommitment this_ptr, boolean val) {
-		bindings.HTLCOutputInCommitment_set_offered(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_offered(boolean val) {
+		bindings.HTLCOutputInCommitment_set_offered(this.ptr, val);
 	}
 
-	public long get_amount_msat(HTLCOutputInCommitment this_ptr) {
-		long ret = bindings.HTLCOutputInCommitment_get_amount_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public long get_amount_msat() {
+		long ret = bindings.HTLCOutputInCommitment_get_amount_msat(this.ptr);
 		return ret;
 	}
 
-	public void set_amount_msat(HTLCOutputInCommitment this_ptr, long val) {
-		bindings.HTLCOutputInCommitment_set_amount_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_amount_msat(long val) {
+		bindings.HTLCOutputInCommitment_set_amount_msat(this.ptr, val);
 	}
 
-	public int get_cltv_expiry(HTLCOutputInCommitment this_ptr) {
-		int ret = bindings.HTLCOutputInCommitment_get_cltv_expiry(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_cltv_expiry() {
+		int ret = bindings.HTLCOutputInCommitment_get_cltv_expiry(this.ptr);
 		return ret;
 	}
 
-	public void set_cltv_expiry(HTLCOutputInCommitment this_ptr, int val) {
-		bindings.HTLCOutputInCommitment_set_cltv_expiry(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_cltv_expiry(int val) {
+		bindings.HTLCOutputInCommitment_set_cltv_expiry(this.ptr, val);
 	}
 
-	public byte[] get_payment_hash(HTLCOutputInCommitment this_ptr) {
-		byte[] ret = bindings.HTLCOutputInCommitment_get_payment_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_payment_hash() {
+		byte[] ret = bindings.HTLCOutputInCommitment_get_payment_hash(this.ptr);
 		return ret;
 	}
 
-	public void set_payment_hash(HTLCOutputInCommitment this_ptr, byte[] val) {
-		bindings.HTLCOutputInCommitment_set_payment_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_payment_hash(byte[] val) {
+		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, val);
 	}
 
 	public byte[] write(HTLCOutputInCommitment obj) {
@@ -66,8 +63,10 @@ public class HTLCOutputInCommitment extends CommonBase {
 		return ret;
 	}
 
-	public HTLCOutputInCommitment(byte[] ser) {
-		super(bindings.HTLCOutputInCommitment_read(ser));
+	public static HTLCOutputInCommitment constructor_read(byte[] ser) {
+		long ret = bindings.HTLCOutputInCommitment_read(ser);
+		HTLCOutputInCommitment ret_hu_conv = new HTLCOutputInCommitment(null, ret);
+		return ret_hu_conv;
 	}
 
 }

@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class PreCalculatedTxCreationKeys extends CommonBase {
 	PreCalculatedTxCreationKeys(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,14 +14,17 @@ public class PreCalculatedTxCreationKeys extends CommonBase {
 		bindings.PreCalculatedTxCreationKeys_free(ptr);
 	}
 
-	public PreCalculatedTxCreationKeys(TxCreationKeys keys) {
-		super(bindings.PreCalculatedTxCreationKeys_new(keys == null ? 0 : keys.ptr & ~1));
-		this.ptrs_to.add(keys);
+	public static PreCalculatedTxCreationKeys constructor_new(TxCreationKeys keys) {
+		long ret = bindings.PreCalculatedTxCreationKeys_new(keys == null ? 0 : keys.ptr & ~1);
+		PreCalculatedTxCreationKeys ret_hu_conv = new PreCalculatedTxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(keys);
+		return ret_hu_conv;
 	}
 
 	public TxCreationKeys trust_key_derivation() {
-		TxCreationKeys ret = new TxCreationKeys(null, bindings.PreCalculatedTxCreationKeys_trust_key_derivation(this.ptr));
-		return ret;
+		long ret = bindings.PreCalculatedTxCreationKeys_trust_key_derivation(this.ptr);
+		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
+		return ret_hu_conv;
 	}
 
 	public byte[] per_commitment_point() {

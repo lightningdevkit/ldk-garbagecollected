@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class NodeAnnouncementInfo extends CommonBase {
 	NodeAnnouncementInfo(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,56 +14,53 @@ public class NodeAnnouncementInfo extends CommonBase {
 		bindings.NodeAnnouncementInfo_free(ptr);
 	}
 
-	public NodeFeatures get_features(NodeAnnouncementInfo this_ptr) {
-		NodeFeatures ret = new NodeFeatures(null, bindings.NodeAnnouncementInfo_get_features(this_ptr == null ? 0 : this_ptr.ptr & ~1));
-		this.ptrs_to.add(this_ptr);
-		return ret;
+	public NodeFeatures get_features() {
+		long ret = bindings.NodeAnnouncementInfo_get_features(this.ptr);
+		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
+		return ret_hu_conv;
 	}
 
 	// Skipped NodeAnnouncementInfo_set_features
-	public int get_last_update(NodeAnnouncementInfo this_ptr) {
-		int ret = bindings.NodeAnnouncementInfo_get_last_update(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_last_update() {
+		int ret = bindings.NodeAnnouncementInfo_get_last_update(this.ptr);
 		return ret;
 	}
 
-	public void set_last_update(NodeAnnouncementInfo this_ptr, int val) {
-		bindings.NodeAnnouncementInfo_set_last_update(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_last_update(int val) {
+		bindings.NodeAnnouncementInfo_set_last_update(this.ptr, val);
 	}
 
-	public byte[] get_rgb(NodeAnnouncementInfo this_ptr) {
-		byte[] ret = bindings.NodeAnnouncementInfo_get_rgb(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_rgb() {
+		byte[] ret = bindings.NodeAnnouncementInfo_get_rgb(this.ptr);
 		return ret;
 	}
 
-	public void set_rgb(NodeAnnouncementInfo this_ptr, byte[] val) {
-		bindings.NodeAnnouncementInfo_set_rgb(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_rgb(byte[] val) {
+		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, val);
 	}
 
-	public byte[] get_alias(NodeAnnouncementInfo this_ptr) {
-		byte[] ret = bindings.NodeAnnouncementInfo_get_alias(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_alias() {
+		byte[] ret = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
 		return ret;
 	}
 
-	public void set_alias(NodeAnnouncementInfo this_ptr, byte[] val) {
-		bindings.NodeAnnouncementInfo_set_alias(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_alias(byte[] val) {
+		bindings.NodeAnnouncementInfo_set_alias(this.ptr, val);
 	}
 
-	// Skipped NodeAnnouncementInfo_set_addresses
-	public NodeAnnouncement get_announcement_message(NodeAnnouncementInfo this_ptr) {
-		NodeAnnouncement ret = new NodeAnnouncement(null, bindings.NodeAnnouncementInfo_get_announcement_message(this_ptr == null ? 0 : this_ptr.ptr & ~1));
-		this.ptrs_to.add(this_ptr);
-		return ret;
+	public void set_addresses(NetAddress[] val) {
+		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, Arrays.stream(val).mapToLong(arr_conv_12 -> arr_conv_12.conv_to_c()).toArray());
+		/* TODO 2 NetAddress  */;
 	}
 
-	public void set_announcement_message(NodeAnnouncementInfo this_ptr, NodeAnnouncement val) {
-		bindings.NodeAnnouncementInfo_set_announcement_message(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public NodeAnnouncement get_announcement_message() {
+		long ret = bindings.NodeAnnouncementInfo_get_announcement_message(this.ptr);
+		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
+		return ret_hu_conv;
+	}
+
+	public void set_announcement_message(NodeAnnouncement val) {
+		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
 	}
 
@@ -71,8 +71,10 @@ public class NodeAnnouncementInfo extends CommonBase {
 		return ret;
 	}
 
-	public NodeAnnouncementInfo(byte[] ser) {
-		super(bindings.NodeAnnouncementInfo_read(ser));
+	public static NodeAnnouncementInfo constructor_read(byte[] ser) {
+		long ret = bindings.NodeAnnouncementInfo_read(ser);
+		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
+		return ret_hu_conv;
 	}
 
 }

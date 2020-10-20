@@ -1,9 +1,11 @@
 package org.ldk.structs;
 
 import org.ldk.impl.bindings;
-
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelMessageHandler extends CommonBase {
 	ChannelMessageHandler(Object _dummy, long ptr) { super(ptr); }
 	public ChannelMessageHandler(bindings.LDKChannelMessageHandler arg, bindings.LDKMessageSendEventsProvider MessageSendEventsProvider) {

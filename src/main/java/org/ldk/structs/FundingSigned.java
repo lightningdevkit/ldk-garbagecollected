@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class FundingSigned extends CommonBase {
 	FundingSigned(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,35 +14,35 @@ public class FundingSigned extends CommonBase {
 		bindings.FundingSigned_free(ptr);
 	}
 
-	public FundingSigned(FundingSigned orig) {
-		super(bindings.FundingSigned_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static FundingSigned constructor_clone(FundingSigned orig) {
+		long ret = bindings.FundingSigned_clone(orig == null ? 0 : orig.ptr & ~1);
+		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public byte[] get_channel_id(FundingSigned this_ptr) {
-		byte[] ret = bindings.FundingSigned_get_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_channel_id() {
+		byte[] ret = bindings.FundingSigned_get_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_channel_id(FundingSigned this_ptr, byte[] val) {
-		bindings.FundingSigned_set_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_channel_id(byte[] val) {
+		bindings.FundingSigned_set_channel_id(this.ptr, val);
 	}
 
-	public byte[] get_signature(FundingSigned this_ptr) {
-		byte[] ret = bindings.FundingSigned_get_signature(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_signature() {
+		byte[] ret = bindings.FundingSigned_get_signature(this.ptr);
 		return ret;
 	}
 
-	public void set_signature(FundingSigned this_ptr, byte[] val) {
-		bindings.FundingSigned_set_signature(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_signature(byte[] val) {
+		bindings.FundingSigned_set_signature(this.ptr, val);
 	}
 
-	public FundingSigned(byte[] channel_id_arg, byte[] signature_arg) {
-		super(bindings.FundingSigned_new(channel_id_arg, signature_arg));
+	public static FundingSigned constructor_new(byte[] channel_id_arg, byte[] signature_arg) {
+		long ret = bindings.FundingSigned_new(channel_id_arg, signature_arg);
+		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
+		return ret_hu_conv;
 	}
 
 	public byte[] write(FundingSigned obj) {
@@ -48,8 +51,10 @@ public class FundingSigned extends CommonBase {
 		return ret;
 	}
 
-	public FundingSigned(byte[] ser) {
-		super(bindings.FundingSigned_read(ser));
+	public static FundingSigned constructor_read(byte[] ser) {
+		long ret = bindings.FundingSigned_read(ser);
+		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
+		return ret_hu_conv;
 	}
 
 }

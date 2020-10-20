@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UnsignedNodeAnnouncement extends CommonBase {
 	UnsignedNodeAnnouncement(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,71 +14,71 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 		bindings.UnsignedNodeAnnouncement_free(ptr);
 	}
 
-	public UnsignedNodeAnnouncement(UnsignedNodeAnnouncement orig) {
-		super(bindings.UnsignedNodeAnnouncement_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static UnsignedNodeAnnouncement constructor_clone(UnsignedNodeAnnouncement orig) {
+		long ret = bindings.UnsignedNodeAnnouncement_clone(orig == null ? 0 : orig.ptr & ~1);
+		UnsignedNodeAnnouncement ret_hu_conv = new UnsignedNodeAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public NodeFeatures get_features(UnsignedNodeAnnouncement this_ptr) {
-		NodeFeatures ret = new NodeFeatures(null, bindings.UnsignedNodeAnnouncement_get_features(this_ptr == null ? 0 : this_ptr.ptr & ~1));
-		this.ptrs_to.add(this_ptr);
-		return ret;
+	public NodeFeatures get_features() {
+		long ret = bindings.UnsignedNodeAnnouncement_get_features(this.ptr);
+		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
+		return ret_hu_conv;
 	}
 
 	// Skipped UnsignedNodeAnnouncement_set_features
-	public int get_timestamp(UnsignedNodeAnnouncement this_ptr) {
-		int ret = bindings.UnsignedNodeAnnouncement_get_timestamp(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_timestamp() {
+		int ret = bindings.UnsignedNodeAnnouncement_get_timestamp(this.ptr);
 		return ret;
 	}
 
-	public void set_timestamp(UnsignedNodeAnnouncement this_ptr, int val) {
-		bindings.UnsignedNodeAnnouncement_set_timestamp(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_timestamp(int val) {
+		bindings.UnsignedNodeAnnouncement_set_timestamp(this.ptr, val);
 	}
 
-	public byte[] get_node_id(UnsignedNodeAnnouncement this_ptr) {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_get_node_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_node_id() {
+		byte[] ret = bindings.UnsignedNodeAnnouncement_get_node_id(this.ptr);
 		return ret;
 	}
 
-	public void set_node_id(UnsignedNodeAnnouncement this_ptr, byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_node_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_node_id(byte[] val) {
+		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, val);
 	}
 
-	public byte[] get_rgb(UnsignedNodeAnnouncement this_ptr) {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_get_rgb(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_rgb() {
+		byte[] ret = bindings.UnsignedNodeAnnouncement_get_rgb(this.ptr);
 		return ret;
 	}
 
-	public void set_rgb(UnsignedNodeAnnouncement this_ptr, byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_rgb(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_rgb(byte[] val) {
+		bindings.UnsignedNodeAnnouncement_set_rgb(this.ptr, val);
 	}
 
-	public byte[] get_alias(UnsignedNodeAnnouncement this_ptr) {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_get_alias(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_alias() {
+		byte[] ret = bindings.UnsignedNodeAnnouncement_get_alias(this.ptr);
 		return ret;
 	}
 
-	public void set_alias(UnsignedNodeAnnouncement this_ptr, byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_alias(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_alias(byte[] val) {
+		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, val);
 	}
 
-	// Skipped UnsignedNodeAnnouncement_set_addresses
+	public void set_addresses(NetAddress[] val) {
+		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, Arrays.stream(val).mapToLong(arr_conv_12 -> arr_conv_12.conv_to_c()).toArray());
+		/* TODO 2 NetAddress  */;
+	}
+
 	public byte[] write(UnsignedNodeAnnouncement obj) {
 		byte[] ret = bindings.UnsignedNodeAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
 		this.ptrs_to.add(obj);
 		return ret;
 	}
 
-	public UnsignedNodeAnnouncement(byte[] ser) {
-		super(bindings.UnsignedNodeAnnouncement_read(ser));
+	public static UnsignedNodeAnnouncement constructor_read(byte[] ser) {
+		long ret = bindings.UnsignedNodeAnnouncement_read(ser);
+		UnsignedNodeAnnouncement ret_hu_conv = new UnsignedNodeAnnouncement(null, ret);
+		return ret_hu_conv;
 	}
 
 }

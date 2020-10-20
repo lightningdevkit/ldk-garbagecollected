@@ -68,14 +68,14 @@ public class PeerTest {
                 }
 
                 @Override
-                public long release_pending_monitor_events() {
+                public long[] release_pending_monitor_events() {
                     synchronized (monitors) {
                         assert monitors.size() <= 1;
                         for (Long mon : monitors.values()) {
                             return bindings.ChannelMonitor_get_and_clear_pending_monitor_events(mon);
                         }
                     }
-                    return bindings.new_empty_slice_vec();
+                    return new long[0];
                 }
             };
             this.chain_monitor = bindings.LDKWatch_new(this.watcher);
@@ -101,22 +101,22 @@ public class PeerTest {
 
         void connect_block(Block b, Transaction t, int height) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
-            long txn;
+            long[] txn;
             if (t != null)
-                txn = bindings.LDKCVecTempl_C2TupleTempl_usize__Transaction_new(
-                    new long[] {bindings.C2Tuple_usizeTransactionZ_new(1, bindings.new_txpointer_copy_data(t.bitcoinSerialize()))});
+                txn = new long[] {bindings.C2Tuple_usizeTransactionZ_new(1, bindings.new_txpointer_copy_data(t.bitcoinSerialize()))};
             else
-                txn = bindings.LDKCVecTempl_C2TupleTempl_usize__Transaction_new(new long[0]);
+                txn = new long[0];
             bindings.ChannelManager_block_connected(chan_manager, header, txn, height);
             synchronized (monitors) {
                 for (Long mon : monitors.values()) {
                     if (t != null)
-                        txn = bindings.LDKCVecTempl_C2TupleTempl_usize__Transaction_new(
-                            new long[] {bindings.C2Tuple_usizeTransactionZ_new(1, bindings.new_txpointer_copy_data(t.bitcoinSerialize()))});
+                        txn = new long[] {bindings.C2Tuple_usizeTransactionZ_new(1, bindings.new_txpointer_copy_data(t.bitcoinSerialize()))};
                     else
-                        txn = bindings.LDKCVecTempl_C2TupleTempl_usize__Transaction_new(new long[0]);
-                    long ret = bindings.ChannelMonitor_block_connected(mon, header, txn, height, tx_broadcaster, fee_estimator, logger);
-                    bindings.CVec_C2Tuple_TxidCVec_TxOutZZZ_free(ret);
+                        txn = new long[0];
+                    long[] ret = bindings.ChannelMonitor_block_connected(mon, header, txn, height, tx_broadcaster, fee_estimator, logger);
+                    for (long r : ret) {
+                        bindings.C2Tuple_TxidCVec_TxOutZZ_free(r);
+                    }
                 }
             }
         }
@@ -212,10 +212,9 @@ public class PeerTest {
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events);
-        bindings.VecOrSliceDef events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
-        assert events_arr_info.datalen == 1;
-        bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events_arr_info.dataptr);
+        long events[] = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events);
+        assert events.length == 1;
+        bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events[0]);
         assert event instanceof bindings.LDKEvent.FundingGenerationReady;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).channel_value_satoshis == 10000;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).user_channel_id == 42;
@@ -239,9 +238,8 @@ public class PeerTest {
         while (!list.isEmpty()) { list.poll().join(); }
 
         events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events);
-        events_arr_info = bindings.LDKCVecTempl_Event_arr_info(events);
-        assert events_arr_info.datalen == 1;
-        event = bindings.LDKEvent_ref_from_ptr(events_arr_info.dataptr);
+        assert events.length == 1;
+        event = bindings.LDKEvent_ref_from_ptr(events[0]);
         assert event instanceof bindings.LDKEvent.FundingBroadcastSafe;
         bindings.CVec_EventZ_free(events);
 
@@ -259,25 +257,23 @@ public class PeerTest {
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long peer1_chans = bindings.ChannelManager_list_channels(peer1.chan_manager);
-        long peer2_chans = bindings.ChannelManager_list_channels(peer2.chan_manager);
-        assert bindings.vec_slice_len(peer1_chans) == 1;
-        assert bindings.vec_slice_len(peer2_chans) == 1;
-        long[] peer_1_chan_info = bindings.LDKCVecTempl_ChannelDetails_arr_info(peer1_chans);
-        assert peer_1_chan_info.length == 1;
-        assert bindings.ChannelDetails_get_channel_value_satoshis(peer_1_chan_info[0]) == 10000;
-        assert bindings.ChannelDetails_get_is_live(peer_1_chan_info[0]);
-        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer_1_chan_info[0]), funding.getTxId().getReversedBytes());
-        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(bindings.LDKCVecTempl_ChannelDetails_arr_info(peer2_chans)[0]), funding.getTxId().getReversedBytes());
-        bindings.CVec_ChannelDetailsZ_free(peer2_chans);
+        long[] peer1_chans = bindings.ChannelManager_list_channels(peer1.chan_manager);
+        long[] peer2_chans = bindings.ChannelManager_list_channels(peer2.chan_manager);
+        assert peer1_chans.length == 1;
+        assert peer2_chans.length == 1;
+        assert bindings.ChannelDetails_get_channel_value_satoshis(peer1_chans[0]) == 10000;
+        assert bindings.ChannelDetails_get_is_live(peer1_chans[0]);
+        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer1_chans[0]), funding.getTxId().getReversedBytes());
+        assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer2_chans[0]), funding.getTxId().getReversedBytes());
+        for (long chan : peer2_chans) bindings.ChannelDetails_free(chan);
 
         byte[] payment_preimage = new byte[32];
         for (int i = 0; i < 32; i++) payment_preimage[i] = (byte) (i ^ 0x0f);
         byte[] payment_hash = Sha256Hash.hash(payment_preimage);
         long netgraph = bindings.NetGraphMsgHandler_read_locked_graph(peer1.router);
         long route = bindings.get_route(peer1.node_id, bindings.LockedNetworkGraph_graph(netgraph), peer2.node_id, peer1_chans,
-                bindings.LDKCVecTempl_RouteHint_new(new long[0]), 1000, 42, peer1.logger);
-        bindings.CVec_ChannelDetailsZ_free(peer1_chans);
+                new long[0], 1000, 42, peer1.logger);
+        for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
         bindings.LockedNetworkGraph_free(netgraph);
         long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route), payment_hash, new byte[32]);
@@ -292,18 +288,16 @@ public class PeerTest {
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events);
-        bindings.VecOrSliceDef event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer2_events);
-        assert event_arr_info.datalen == 1;
-        bindings.LDKEvent forwardable = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
+        long[] peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events);
+        assert peer2_events.length == 1;
+        bindings.LDKEvent forwardable = bindings.LDKEvent_ref_from_ptr(peer2_events[0]);
         assert forwardable instanceof bindings.LDKEvent.PendingHTLCsForwardable;
         bindings.CVec_EventZ_free(peer2_events);
         bindings.ChannelManager_process_pending_htlc_forwards(peer2.chan_manager);
 
         peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events);
-        event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer2_events);
-        assert event_arr_info.datalen == 1;
-        bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
+        assert peer2_events.length == 1;
+        bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(peer2_events[0]);
         assert payment_recvd instanceof bindings.LDKEvent.PaymentReceived;
         assert bindings.ChannelManager_claim_funds(peer2.chan_manager, payment_preimage, new byte[32], ((bindings.LDKEvent.PaymentReceived)payment_recvd).amt);
         bindings.CVec_EventZ_free(peer2_events);
@@ -313,10 +307,9 @@ public class PeerTest {
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long peer1_events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events);
-        event_arr_info = bindings.LDKCVecTempl_Event_arr_info(peer1_events);
-        assert event_arr_info.datalen == 1;
-        bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(event_arr_info.dataptr);
+        long[] peer1_events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events);
+        assert peer1_events.length == 1;
+        bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(peer1_events[0]);
         assert sent instanceof bindings.LDKEvent.PaymentSent;
         assert Arrays.equals(((bindings.LDKEvent.PaymentSent)sent).payment_preimage, payment_preimage);
         bindings.CVec_EventZ_free(peer1_events);

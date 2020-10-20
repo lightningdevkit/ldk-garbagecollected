@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UnsignedChannelUpdate extends CommonBase {
 	UnsignedChannelUpdate(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,97 +14,83 @@ public class UnsignedChannelUpdate extends CommonBase {
 		bindings.UnsignedChannelUpdate_free(ptr);
 	}
 
-	public UnsignedChannelUpdate(UnsignedChannelUpdate orig) {
-		super(bindings.UnsignedChannelUpdate_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static UnsignedChannelUpdate constructor_clone(UnsignedChannelUpdate orig) {
+		long ret = bindings.UnsignedChannelUpdate_clone(orig == null ? 0 : orig.ptr & ~1);
+		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public byte[] get_chain_hash(UnsignedChannelUpdate this_ptr) {
-		byte[] ret = bindings.UnsignedChannelUpdate_get_chain_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_chain_hash() {
+		byte[] ret = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
 		return ret;
 	}
 
-	public void set_chain_hash(UnsignedChannelUpdate this_ptr, byte[] val) {
-		bindings.UnsignedChannelUpdate_set_chain_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_chain_hash(byte[] val) {
+		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, val);
 	}
 
-	public long get_short_channel_id(UnsignedChannelUpdate this_ptr) {
-		long ret = bindings.UnsignedChannelUpdate_get_short_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public long get_short_channel_id() {
+		long ret = bindings.UnsignedChannelUpdate_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_short_channel_id(UnsignedChannelUpdate this_ptr, long val) {
-		bindings.UnsignedChannelUpdate_set_short_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_short_channel_id(long val) {
+		bindings.UnsignedChannelUpdate_set_short_channel_id(this.ptr, val);
 	}
 
-	public int get_timestamp(UnsignedChannelUpdate this_ptr) {
-		int ret = bindings.UnsignedChannelUpdate_get_timestamp(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_timestamp() {
+		int ret = bindings.UnsignedChannelUpdate_get_timestamp(this.ptr);
 		return ret;
 	}
 
-	public void set_timestamp(UnsignedChannelUpdate this_ptr, int val) {
-		bindings.UnsignedChannelUpdate_set_timestamp(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_timestamp(int val) {
+		bindings.UnsignedChannelUpdate_set_timestamp(this.ptr, val);
 	}
 
-	public byte get_flags(UnsignedChannelUpdate this_ptr) {
-		byte ret = bindings.UnsignedChannelUpdate_get_flags(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte get_flags() {
+		byte ret = bindings.UnsignedChannelUpdate_get_flags(this.ptr);
 		return ret;
 	}
 
-	public void set_flags(UnsignedChannelUpdate this_ptr, byte val) {
-		bindings.UnsignedChannelUpdate_set_flags(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_flags(byte val) {
+		bindings.UnsignedChannelUpdate_set_flags(this.ptr, val);
 	}
 
-	public short get_cltv_expiry_delta(UnsignedChannelUpdate this_ptr) {
-		short ret = bindings.UnsignedChannelUpdate_get_cltv_expiry_delta(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public short get_cltv_expiry_delta() {
+		short ret = bindings.UnsignedChannelUpdate_get_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
-	public void set_cltv_expiry_delta(UnsignedChannelUpdate this_ptr, short val) {
-		bindings.UnsignedChannelUpdate_set_cltv_expiry_delta(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_cltv_expiry_delta(short val) {
+		bindings.UnsignedChannelUpdate_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public long get_htlc_minimum_msat(UnsignedChannelUpdate this_ptr) {
-		long ret = bindings.UnsignedChannelUpdate_get_htlc_minimum_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public long get_htlc_minimum_msat() {
+		long ret = bindings.UnsignedChannelUpdate_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public void set_htlc_minimum_msat(UnsignedChannelUpdate this_ptr, long val) {
-		bindings.UnsignedChannelUpdate_set_htlc_minimum_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_htlc_minimum_msat(long val) {
+		bindings.UnsignedChannelUpdate_set_htlc_minimum_msat(this.ptr, val);
 	}
 
-	public int get_fee_base_msat(UnsignedChannelUpdate this_ptr) {
-		int ret = bindings.UnsignedChannelUpdate_get_fee_base_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_fee_base_msat() {
+		int ret = bindings.UnsignedChannelUpdate_get_fee_base_msat(this.ptr);
 		return ret;
 	}
 
-	public void set_fee_base_msat(UnsignedChannelUpdate this_ptr, int val) {
-		bindings.UnsignedChannelUpdate_set_fee_base_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_fee_base_msat(int val) {
+		bindings.UnsignedChannelUpdate_set_fee_base_msat(this.ptr, val);
 	}
 
-	public int get_fee_proportional_millionths(UnsignedChannelUpdate this_ptr) {
-		int ret = bindings.UnsignedChannelUpdate_get_fee_proportional_millionths(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_fee_proportional_millionths() {
+		int ret = bindings.UnsignedChannelUpdate_get_fee_proportional_millionths(this.ptr);
 		return ret;
 	}
 
-	public void set_fee_proportional_millionths(UnsignedChannelUpdate this_ptr, int val) {
-		bindings.UnsignedChannelUpdate_set_fee_proportional_millionths(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_fee_proportional_millionths(int val) {
+		bindings.UnsignedChannelUpdate_set_fee_proportional_millionths(this.ptr, val);
 	}
 
 	public byte[] write(UnsignedChannelUpdate obj) {
@@ -110,8 +99,10 @@ public class UnsignedChannelUpdate extends CommonBase {
 		return ret;
 	}
 
-	public UnsignedChannelUpdate(byte[] ser) {
-		super(bindings.UnsignedChannelUpdate_read(ser));
+	public static UnsignedChannelUpdate constructor_read(byte[] ser) {
+		long ret = bindings.UnsignedChannelUpdate_read(ser);
+		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
+		return ret_hu_conv;
 	}
 
 }

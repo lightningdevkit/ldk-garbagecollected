@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UpdateFailMalformedHTLC extends CommonBase {
 	UpdateFailMalformedHTLC(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,42 +14,38 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 		bindings.UpdateFailMalformedHTLC_free(ptr);
 	}
 
-	public UpdateFailMalformedHTLC(UpdateFailMalformedHTLC orig) {
-		super(bindings.UpdateFailMalformedHTLC_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static UpdateFailMalformedHTLC constructor_clone(UpdateFailMalformedHTLC orig) {
+		long ret = bindings.UpdateFailMalformedHTLC_clone(orig == null ? 0 : orig.ptr & ~1);
+		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public byte[] get_channel_id(UpdateFailMalformedHTLC this_ptr) {
-		byte[] ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_channel_id() {
+		byte[] ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_channel_id(UpdateFailMalformedHTLC this_ptr, byte[] val) {
-		bindings.UpdateFailMalformedHTLC_set_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_channel_id(byte[] val) {
+		bindings.UpdateFailMalformedHTLC_set_channel_id(this.ptr, val);
 	}
 
-	public long get_htlc_id(UpdateFailMalformedHTLC this_ptr) {
-		long ret = bindings.UpdateFailMalformedHTLC_get_htlc_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public long get_htlc_id() {
+		long ret = bindings.UpdateFailMalformedHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
-	public void set_htlc_id(UpdateFailMalformedHTLC this_ptr, long val) {
-		bindings.UpdateFailMalformedHTLC_set_htlc_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_htlc_id(long val) {
+		bindings.UpdateFailMalformedHTLC_set_htlc_id(this.ptr, val);
 	}
 
-	public short get_failure_code(UpdateFailMalformedHTLC this_ptr) {
-		short ret = bindings.UpdateFailMalformedHTLC_get_failure_code(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public short get_failure_code() {
+		short ret = bindings.UpdateFailMalformedHTLC_get_failure_code(this.ptr);
 		return ret;
 	}
 
-	public void set_failure_code(UpdateFailMalformedHTLC this_ptr, short val) {
-		bindings.UpdateFailMalformedHTLC_set_failure_code(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_failure_code(short val) {
+		bindings.UpdateFailMalformedHTLC_set_failure_code(this.ptr, val);
 	}
 
 	public byte[] write(UpdateFailMalformedHTLC obj) {
@@ -55,8 +54,10 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 		return ret;
 	}
 
-	public UpdateFailMalformedHTLC(byte[] ser) {
-		super(bindings.UpdateFailMalformedHTLC_read(ser));
+	public static UpdateFailMalformedHTLC constructor_read(byte[] ser) {
+		long ret = bindings.UpdateFailMalformedHTLC_read(ser);
+		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
+		return ret_hu_conv;
 	}
 
 }

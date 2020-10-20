@@ -1,9 +1,11 @@
 package org.ldk.structs;
 
 import org.ldk.impl.bindings;
-
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class KeysInterface extends CommonBase {
 	KeysInterface(Object _dummy, long ptr) { super(ptr); }
 	public KeysInterface(bindings.LDKKeysInterface arg) {
@@ -31,9 +33,10 @@ public class KeysInterface extends CommonBase {
 	}
 
 	public ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis) {
-		ChannelKeys ret = new ChannelKeys(null, bindings.KeysInterface_get_channel_keys(this.ptr, inbound, channel_value_satoshis));
-		ret.ptrs_to.add(this);
-		return ret;
+		long ret = bindings.KeysInterface_get_channel_keys(this.ptr, inbound, channel_value_satoshis);
+		ChannelKeys ret_hu_conv = new ChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public byte[] get_secure_random_bytes() {

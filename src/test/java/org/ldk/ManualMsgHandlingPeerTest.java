@@ -105,7 +105,7 @@ public class ManualMsgHandlingPeerTest {
             public void handle_error(byte[] their_node_id, long msg) {
 
             }
-        }, () -> 0);
+        }, () -> new long[0]);
         long route_handler = bindings.LDKRoutingMessageHandler_new(new bindings.LDKRoutingMessageHandler() {
             @Override public long handle_node_announcement(long msg) {
                 return 0;
@@ -119,11 +119,11 @@ public class ManualMsgHandlingPeerTest {
             @Override public void handle_htlc_fail_channel_update(long update) {
 
             }
-            @Override public long get_next_channel_announcements(long starting_point, byte batch_amount) {
-                return 0;
+            @Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
+                return new long[0];
             }
-            @Override public long get_next_node_announcements(byte[] starting_point, byte batch_amount) {
-                return 0;
+            @Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
+                return new long[0];
             }
             @Override public boolean should_request_full_sync(byte[] node_id) {
                 return false;

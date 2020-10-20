@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelHandshakeConfig extends CommonBase {
 	ChannelHandshakeConfig(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,50 +14,50 @@ public class ChannelHandshakeConfig extends CommonBase {
 		bindings.ChannelHandshakeConfig_free(ptr);
 	}
 
-	public ChannelHandshakeConfig(ChannelHandshakeConfig orig) {
-		super(bindings.ChannelHandshakeConfig_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static ChannelHandshakeConfig constructor_clone(ChannelHandshakeConfig orig) {
+		long ret = bindings.ChannelHandshakeConfig_clone(orig == null ? 0 : orig.ptr & ~1);
+		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public int get_minimum_depth(ChannelHandshakeConfig this_ptr) {
-		int ret = bindings.ChannelHandshakeConfig_get_minimum_depth(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_minimum_depth() {
+		int ret = bindings.ChannelHandshakeConfig_get_minimum_depth(this.ptr);
 		return ret;
 	}
 
-	public void set_minimum_depth(ChannelHandshakeConfig this_ptr, int val) {
-		bindings.ChannelHandshakeConfig_set_minimum_depth(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_minimum_depth(int val) {
+		bindings.ChannelHandshakeConfig_set_minimum_depth(this.ptr, val);
 	}
 
-	public short get_our_to_self_delay(ChannelHandshakeConfig this_ptr) {
-		short ret = bindings.ChannelHandshakeConfig_get_our_to_self_delay(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public short get_our_to_self_delay() {
+		short ret = bindings.ChannelHandshakeConfig_get_our_to_self_delay(this.ptr);
 		return ret;
 	}
 
-	public void set_our_to_self_delay(ChannelHandshakeConfig this_ptr, short val) {
-		bindings.ChannelHandshakeConfig_set_our_to_self_delay(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_our_to_self_delay(short val) {
+		bindings.ChannelHandshakeConfig_set_our_to_self_delay(this.ptr, val);
 	}
 
-	public long get_our_htlc_minimum_msat(ChannelHandshakeConfig this_ptr) {
-		long ret = bindings.ChannelHandshakeConfig_get_our_htlc_minimum_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public long get_our_htlc_minimum_msat() {
+		long ret = bindings.ChannelHandshakeConfig_get_our_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public void set_our_htlc_minimum_msat(ChannelHandshakeConfig this_ptr, long val) {
-		bindings.ChannelHandshakeConfig_set_our_htlc_minimum_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_our_htlc_minimum_msat(long val) {
+		bindings.ChannelHandshakeConfig_set_our_htlc_minimum_msat(this.ptr, val);
 	}
 
-	public ChannelHandshakeConfig(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg) {
-		super(bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg));
+	public static ChannelHandshakeConfig constructor_new(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg) {
+		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
+		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
+		return ret_hu_conv;
 	}
 
-	public ChannelHandshakeConfig() {
-		super(bindings.ChannelHandshakeConfig_default());
+	public static ChannelHandshakeConfig constructor_default() {
+		long ret = bindings.ChannelHandshakeConfig_default();
+		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
+		return ret_hu_conv;
 	}
 
 }

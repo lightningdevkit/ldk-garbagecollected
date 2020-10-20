@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Pong extends CommonBase {
 	Pong(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,24 +14,26 @@ public class Pong extends CommonBase {
 		bindings.Pong_free(ptr);
 	}
 
-	public Pong(Pong orig) {
-		super(bindings.Pong_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static Pong constructor_clone(Pong orig) {
+		long ret = bindings.Pong_clone(orig == null ? 0 : orig.ptr & ~1);
+		Pong ret_hu_conv = new Pong(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public short get_byteslen(Pong this_ptr) {
-		short ret = bindings.Pong_get_byteslen(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public short get_byteslen() {
+		short ret = bindings.Pong_get_byteslen(this.ptr);
 		return ret;
 	}
 
-	public void set_byteslen(Pong this_ptr, short val) {
-		bindings.Pong_set_byteslen(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_byteslen(short val) {
+		bindings.Pong_set_byteslen(this.ptr, val);
 	}
 
-	public Pong(short byteslen_arg) {
-		super(bindings.Pong_new(byteslen_arg));
+	public static Pong constructor_new(short byteslen_arg) {
+		long ret = bindings.Pong_new(byteslen_arg);
+		Pong ret_hu_conv = new Pong(null, ret);
+		return ret_hu_conv;
 	}
 
 	public byte[] write(Pong obj) {
@@ -37,8 +42,10 @@ public class Pong extends CommonBase {
 		return ret;
 	}
 
-	public Pong(byte[] ser) {
-		super(bindings.Pong_read(ser));
+	public static Pong constructor_read(byte[] ser) {
+		long ret = bindings.Pong_read(ser);
+		Pong ret_hu_conv = new Pong(null, ret);
+		return ret_hu_conv;
 	}
 
 }

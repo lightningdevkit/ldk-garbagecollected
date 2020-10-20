@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class QueryChannelRange extends CommonBase {
 	QueryChannelRange(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,50 +14,50 @@ public class QueryChannelRange extends CommonBase {
 		bindings.QueryChannelRange_free(ptr);
 	}
 
-	public QueryChannelRange(QueryChannelRange orig) {
-		super(bindings.QueryChannelRange_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static QueryChannelRange constructor_clone(QueryChannelRange orig) {
+		long ret = bindings.QueryChannelRange_clone(orig == null ? 0 : orig.ptr & ~1);
+		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public byte[] get_chain_hash(QueryChannelRange this_ptr) {
-		byte[] ret = bindings.QueryChannelRange_get_chain_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_chain_hash() {
+		byte[] ret = bindings.QueryChannelRange_get_chain_hash(this.ptr);
 		return ret;
 	}
 
-	public void set_chain_hash(QueryChannelRange this_ptr, byte[] val) {
-		bindings.QueryChannelRange_set_chain_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_chain_hash(byte[] val) {
+		bindings.QueryChannelRange_set_chain_hash(this.ptr, val);
 	}
 
-	public int get_first_blocknum(QueryChannelRange this_ptr) {
-		int ret = bindings.QueryChannelRange_get_first_blocknum(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_first_blocknum() {
+		int ret = bindings.QueryChannelRange_get_first_blocknum(this.ptr);
 		return ret;
 	}
 
-	public void set_first_blocknum(QueryChannelRange this_ptr, int val) {
-		bindings.QueryChannelRange_set_first_blocknum(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_first_blocknum(int val) {
+		bindings.QueryChannelRange_set_first_blocknum(this.ptr, val);
 	}
 
-	public int get_number_of_blocks(QueryChannelRange this_ptr) {
-		int ret = bindings.QueryChannelRange_get_number_of_blocks(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_number_of_blocks() {
+		int ret = bindings.QueryChannelRange_get_number_of_blocks(this.ptr);
 		return ret;
 	}
 
-	public void set_number_of_blocks(QueryChannelRange this_ptr, int val) {
-		bindings.QueryChannelRange_set_number_of_blocks(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_number_of_blocks(int val) {
+		bindings.QueryChannelRange_set_number_of_blocks(this.ptr, val);
 	}
 
-	public QueryChannelRange(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg) {
-		super(bindings.QueryChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg));
+	public static QueryChannelRange constructor_new(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg) {
+		long ret = bindings.QueryChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg);
+		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
+		return ret_hu_conv;
 	}
 
-	public QueryChannelRange(byte[] ser) {
-		super(bindings.QueryChannelRange_read(ser));
+	public static QueryChannelRange constructor_read(byte[] ser) {
+		long ret = bindings.QueryChannelRange_read(ser);
+		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
+		return ret_hu_conv;
 	}
 
 	public byte[] write(QueryChannelRange obj) {

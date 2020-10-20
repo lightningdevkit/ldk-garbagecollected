@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class NetworkGraph extends CommonBase {
 	NetworkGraph(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -17,12 +20,16 @@ public class NetworkGraph extends CommonBase {
 		return ret;
 	}
 
-	public NetworkGraph(byte[] ser) {
-		super(bindings.NetworkGraph_read(ser));
+	public static NetworkGraph constructor_read(byte[] ser) {
+		long ret = bindings.NetworkGraph_read(ser);
+		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
+		return ret_hu_conv;
 	}
 
-	public NetworkGraph() {
-		super(bindings.NetworkGraph_new());
+	public static NetworkGraph constructor_new() {
+		long ret = bindings.NetworkGraph_new();
+		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
+		return ret_hu_conv;
 	}
 
 	public void close_channel_from_update(long short_channel_id, boolean is_permanent) {

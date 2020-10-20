@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class DirectionalChannelInfo extends CommonBase {
 	DirectionalChannelInfo(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,59 +14,50 @@ public class DirectionalChannelInfo extends CommonBase {
 		bindings.DirectionalChannelInfo_free(ptr);
 	}
 
-	public int get_last_update(DirectionalChannelInfo this_ptr) {
-		int ret = bindings.DirectionalChannelInfo_get_last_update(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_last_update() {
+		int ret = bindings.DirectionalChannelInfo_get_last_update(this.ptr);
 		return ret;
 	}
 
-	public void set_last_update(DirectionalChannelInfo this_ptr, int val) {
-		bindings.DirectionalChannelInfo_set_last_update(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_last_update(int val) {
+		bindings.DirectionalChannelInfo_set_last_update(this.ptr, val);
 	}
 
-	public boolean get_enabled(DirectionalChannelInfo this_ptr) {
-		boolean ret = bindings.DirectionalChannelInfo_get_enabled(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public boolean get_enabled() {
+		boolean ret = bindings.DirectionalChannelInfo_get_enabled(this.ptr);
 		return ret;
 	}
 
-	public void set_enabled(DirectionalChannelInfo this_ptr, boolean val) {
-		bindings.DirectionalChannelInfo_set_enabled(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_enabled(boolean val) {
+		bindings.DirectionalChannelInfo_set_enabled(this.ptr, val);
 	}
 
-	public short get_cltv_expiry_delta(DirectionalChannelInfo this_ptr) {
-		short ret = bindings.DirectionalChannelInfo_get_cltv_expiry_delta(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public short get_cltv_expiry_delta() {
+		short ret = bindings.DirectionalChannelInfo_get_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
-	public void set_cltv_expiry_delta(DirectionalChannelInfo this_ptr, short val) {
-		bindings.DirectionalChannelInfo_set_cltv_expiry_delta(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_cltv_expiry_delta(short val) {
+		bindings.DirectionalChannelInfo_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public long get_htlc_minimum_msat(DirectionalChannelInfo this_ptr) {
-		long ret = bindings.DirectionalChannelInfo_get_htlc_minimum_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public long get_htlc_minimum_msat() {
+		long ret = bindings.DirectionalChannelInfo_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public void set_htlc_minimum_msat(DirectionalChannelInfo this_ptr, long val) {
-		bindings.DirectionalChannelInfo_set_htlc_minimum_msat(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_htlc_minimum_msat(long val) {
+		bindings.DirectionalChannelInfo_set_htlc_minimum_msat(this.ptr, val);
 	}
 
-	public ChannelUpdate get_last_update_message(DirectionalChannelInfo this_ptr) {
-		ChannelUpdate ret = new ChannelUpdate(null, bindings.DirectionalChannelInfo_get_last_update_message(this_ptr == null ? 0 : this_ptr.ptr & ~1));
-		this.ptrs_to.add(this_ptr);
-		return ret;
+	public ChannelUpdate get_last_update_message() {
+		long ret = bindings.DirectionalChannelInfo_get_last_update_message(this.ptr);
+		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
+		return ret_hu_conv;
 	}
 
-	public void set_last_update_message(DirectionalChannelInfo this_ptr, ChannelUpdate val) {
-		bindings.DirectionalChannelInfo_set_last_update_message(this_ptr == null ? 0 : this_ptr.ptr & ~1, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public void set_last_update_message(ChannelUpdate val) {
+		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
 	}
 
@@ -73,8 +67,10 @@ public class DirectionalChannelInfo extends CommonBase {
 		return ret;
 	}
 
-	public DirectionalChannelInfo(byte[] ser) {
-		super(bindings.DirectionalChannelInfo_read(ser));
+	public static DirectionalChannelInfo constructor_read(byte[] ser) {
+		long ret = bindings.DirectionalChannelInfo_read(ser);
+		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
+		return ret_hu_conv;
 	}
 
 }

@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Init extends CommonBase {
 	Init(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,9 +14,11 @@ public class Init extends CommonBase {
 		bindings.Init_free(ptr);
 	}
 
-	public Init(Init orig) {
-		super(bindings.Init_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static Init constructor_clone(Init orig) {
+		long ret = bindings.Init_clone(orig == null ? 0 : orig.ptr & ~1);
+		Init ret_hu_conv = new Init(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
 	public byte[] write(Init obj) {
@@ -22,8 +27,10 @@ public class Init extends CommonBase {
 		return ret;
 	}
 
-	public Init(byte[] ser) {
-		super(bindings.Init_read(ser));
+	public static Init constructor_read(byte[] ser) {
+		long ret = bindings.Init_read(ser);
+		Init ret_hu_conv = new Init(null, ret);
+		return ret_hu_conv;
 	}
 
 }

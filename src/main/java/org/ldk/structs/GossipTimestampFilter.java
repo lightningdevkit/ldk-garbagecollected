@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class GossipTimestampFilter extends CommonBase {
 	GossipTimestampFilter(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,50 +14,50 @@ public class GossipTimestampFilter extends CommonBase {
 		bindings.GossipTimestampFilter_free(ptr);
 	}
 
-	public GossipTimestampFilter(GossipTimestampFilter orig) {
-		super(bindings.GossipTimestampFilter_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static GossipTimestampFilter constructor_clone(GossipTimestampFilter orig) {
+		long ret = bindings.GossipTimestampFilter_clone(orig == null ? 0 : orig.ptr & ~1);
+		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public byte[] get_chain_hash(GossipTimestampFilter this_ptr) {
-		byte[] ret = bindings.GossipTimestampFilter_get_chain_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_chain_hash() {
+		byte[] ret = bindings.GossipTimestampFilter_get_chain_hash(this.ptr);
 		return ret;
 	}
 
-	public void set_chain_hash(GossipTimestampFilter this_ptr, byte[] val) {
-		bindings.GossipTimestampFilter_set_chain_hash(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_chain_hash(byte[] val) {
+		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, val);
 	}
 
-	public int get_first_timestamp(GossipTimestampFilter this_ptr) {
-		int ret = bindings.GossipTimestampFilter_get_first_timestamp(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_first_timestamp() {
+		int ret = bindings.GossipTimestampFilter_get_first_timestamp(this.ptr);
 		return ret;
 	}
 
-	public void set_first_timestamp(GossipTimestampFilter this_ptr, int val) {
-		bindings.GossipTimestampFilter_set_first_timestamp(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_first_timestamp(int val) {
+		bindings.GossipTimestampFilter_set_first_timestamp(this.ptr, val);
 	}
 
-	public int get_timestamp_range(GossipTimestampFilter this_ptr) {
-		int ret = bindings.GossipTimestampFilter_get_timestamp_range(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public int get_timestamp_range() {
+		int ret = bindings.GossipTimestampFilter_get_timestamp_range(this.ptr);
 		return ret;
 	}
 
-	public void set_timestamp_range(GossipTimestampFilter this_ptr, int val) {
-		bindings.GossipTimestampFilter_set_timestamp_range(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_timestamp_range(int val) {
+		bindings.GossipTimestampFilter_set_timestamp_range(this.ptr, val);
 	}
 
-	public GossipTimestampFilter(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg) {
-		super(bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg));
+	public static GossipTimestampFilter constructor_new(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg) {
+		long ret = bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg);
+		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
+		return ret_hu_conv;
 	}
 
-	public GossipTimestampFilter(byte[] ser) {
-		super(bindings.GossipTimestampFilter_read(ser));
+	public static GossipTimestampFilter constructor_read(byte[] ser) {
+		long ret = bindings.GossipTimestampFilter_read(ser);
+		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
+		return ret_hu_conv;
 	}
 
 	public byte[] write(GossipTimestampFilter obj) {

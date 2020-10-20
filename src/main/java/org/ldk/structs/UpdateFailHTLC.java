@@ -2,7 +2,10 @@ package org.ldk.structs;
 
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
 
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class UpdateFailHTLC extends CommonBase {
 	UpdateFailHTLC(Object _dummy, long ptr) { super(ptr); }
 	@Override @SuppressWarnings("deprecation")
@@ -11,31 +14,29 @@ public class UpdateFailHTLC extends CommonBase {
 		bindings.UpdateFailHTLC_free(ptr);
 	}
 
-	public UpdateFailHTLC(UpdateFailHTLC orig) {
-		super(bindings.UpdateFailHTLC_clone(orig == null ? 0 : orig.ptr & ~1));
-		this.ptrs_to.add(orig);
+	public static UpdateFailHTLC constructor_clone(UpdateFailHTLC orig) {
+		long ret = bindings.UpdateFailHTLC_clone(orig == null ? 0 : orig.ptr & ~1);
+		UpdateFailHTLC ret_hu_conv = new UpdateFailHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
 	}
 
-	public byte[] get_channel_id(UpdateFailHTLC this_ptr) {
-		byte[] ret = bindings.UpdateFailHTLC_get_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public byte[] get_channel_id() {
+		byte[] ret = bindings.UpdateFailHTLC_get_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_channel_id(UpdateFailHTLC this_ptr, byte[] val) {
-		bindings.UpdateFailHTLC_set_channel_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_channel_id(byte[] val) {
+		bindings.UpdateFailHTLC_set_channel_id(this.ptr, val);
 	}
 
-	public long get_htlc_id(UpdateFailHTLC this_ptr) {
-		long ret = bindings.UpdateFailHTLC_get_htlc_id(this_ptr == null ? 0 : this_ptr.ptr & ~1);
-		this.ptrs_to.add(this_ptr);
+	public long get_htlc_id() {
+		long ret = bindings.UpdateFailHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
-	public void set_htlc_id(UpdateFailHTLC this_ptr, long val) {
-		bindings.UpdateFailHTLC_set_htlc_id(this_ptr == null ? 0 : this_ptr.ptr & ~1, val);
-		this.ptrs_to.add(this_ptr);
+	public void set_htlc_id(long val) {
+		bindings.UpdateFailHTLC_set_htlc_id(this.ptr, val);
 	}
 
 	public byte[] write(UpdateFailHTLC obj) {
@@ -44,8 +45,10 @@ public class UpdateFailHTLC extends CommonBase {
 		return ret;
 	}
 
-	public UpdateFailHTLC(byte[] ser) {
-		super(bindings.UpdateFailHTLC_read(ser));
+	public static UpdateFailHTLC constructor_read(byte[] ser) {
+		long ret = bindings.UpdateFailHTLC_read(ser);
+		UpdateFailHTLC ret_hu_conv = new UpdateFailHTLC(null, ret);
+		return ret_hu_conv;
 	}
 
 }
