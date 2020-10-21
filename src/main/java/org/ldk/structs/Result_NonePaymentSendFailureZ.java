@@ -12,6 +12,13 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 		bindings.CResult_NonePaymentSendFailureZ_free(ptr); super.finalize();
 	}
 
+	static Result_NonePaymentSendFailureZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(ptr)) {
+			return new Result_NonePaymentSendFailureZ_OK(null, ptr);
+		} else {
+			return new Result_NonePaymentSendFailureZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_NonePaymentSendFailureZ_OK extends Result_NonePaymentSendFailureZ {
 		public byte res;
 		private Result_NonePaymentSendFailureZ_OK(Object _dummy, long ptr) {

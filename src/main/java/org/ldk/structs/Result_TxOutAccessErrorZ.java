@@ -12,6 +12,13 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 		bindings.CResult_TxOutAccessErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_TxOutAccessErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_TxOutAccessErrorZ_result_ok(ptr)) {
+			return new Result_TxOutAccessErrorZ_OK(null, ptr);
+		} else {
+			return new Result_TxOutAccessErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_TxOutAccessErrorZ_OK extends Result_TxOutAccessErrorZ {
 		public TxOut res;
 		private Result_TxOutAccessErrorZ_OK(Object _dummy, long ptr) {

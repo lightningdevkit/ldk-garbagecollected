@@ -12,6 +12,13 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 		bindings.CResult_CVec_u8ZPeerHandleErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_CVec_u8ZPeerHandleErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(ptr)) {
+			return new Result_CVec_u8ZPeerHandleErrorZ_OK(null, ptr);
+		} else {
+			return new Result_CVec_u8ZPeerHandleErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_CVec_u8ZPeerHandleErrorZ_OK extends Result_CVec_u8ZPeerHandleErrorZ {
 		public byte[] res;
 		private Result_CVec_u8ZPeerHandleErrorZ_OK(Object _dummy, long ptr) {

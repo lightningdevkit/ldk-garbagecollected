@@ -12,6 +12,13 @@ public class Result_TxCreationKeysSecpErrorZ extends CommonBase {
 		bindings.CResult_TxCreationKeysSecpErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_TxCreationKeysSecpErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_TxCreationKeysSecpErrorZ_result_ok(ptr)) {
+			return new Result_TxCreationKeysSecpErrorZ_OK(null, ptr);
+		} else {
+			return new Result_TxCreationKeysSecpErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_TxCreationKeysSecpErrorZ_OK extends Result_TxCreationKeysSecpErrorZ {
 		public TxCreationKeys res;
 		private Result_TxCreationKeysSecpErrorZ_OK(Object _dummy, long ptr) {

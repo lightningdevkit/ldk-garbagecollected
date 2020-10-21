@@ -124,11 +124,15 @@ public class HumanObjectPeerTest {
             }
         }
 
-        long get_route(byte[] dest_node, ChannelDetails[] our_chans) {
+        Route get_route(byte[] dest_node, ChannelDetails[] our_chans) {
             try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
                 NetworkGraph graph = netgraph.graph();
-                return bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, new long[] {our_chans[0]._test_only_get_ptr()},
+                long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, new long[] {our_chans[0]._test_only_get_ptr()},
                         new long[0], 1000, 42, this.logger);
+                assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
+                Route copy = Route.constructor_read(bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res)));
+                bindings.CResult_RouteLightningErrorZ_free(res);
+                return copy;
             }
         }
     }
@@ -263,12 +267,9 @@ public class HumanObjectPeerTest {
         byte[] payment_preimage = new byte[32];
         for (int i = 0; i < 32; i++) payment_preimage[i] = (byte) (i ^ 0x0f);
         byte[] payment_hash = Sha256Hash.hash(payment_preimage);
-        long route = peer1.get_route(peer2.node_id, peer1_chans);
-        assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
-        long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager._test_only_get_ptr(), bindings.LDKCResult_RouteLightningErrorZ_get_ok(route), payment_hash, new byte[32]);
-        bindings.CResult_RouteLightningErrorZ_free(route);
-        assert bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(payment_res);
-        bindings.CResult_NonePaymentSendFailureZ_free(payment_res);
+        Route route = peer1.get_route(peer2.node_id, peer1_chans);
+        Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, new byte[32]);
+        assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
 
         peer1.peer_manager.process_events();
         while (!list.isEmpty()) { list.poll().join(); }

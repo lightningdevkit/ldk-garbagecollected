@@ -95,6 +95,7 @@ unitary_enums = set()
 complex_enums = set()
 opaque_structs = set()
 trait_structs = set()
+result_types = set()
 tuple_types = {}
 
 var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([a-z0-9]*)\]")
@@ -303,7 +304,7 @@ def java_c_types(fn_arg, ret_arr_len):
             take_by_ptr = True
         else:
             java_ty = "long"
-            java_hu_ty = ma.group(1).strip().replace("LDK", "")
+            java_hu_ty = ma.group(1).strip().replace("LDKCResult", "Result").replace("LDK", "")
             c_ty = "jlong"
             fn_ty_arg = "J"
             fn_arg = ma.group(2).strip()
@@ -649,6 +650,13 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             arg_conv_name = "ret_conv", arg_conv_cleanup = None,
                             ret_conv = ("jclass ret = " + ty_info.rust_obj + "_to_java(_env, ", ");"), ret_conv_name = "ret",
                             to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
+                    if ty_info.rust_obj in complex_enums or ty_info.rust_obj in result_types:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
+                            ret_conv_name = "(long)ret",
+                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                            to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(ret);\nret_hu_conv.ptrs_to.add(this);",
+                            to_hu_conv_name = "ret_hu_conv", from_hu_conv = (ty_info.var_name + ".conv_to_c()", ""))
                     if ty_info.rust_obj in opaque_structs:
                         # If we're returning a newly-allocated struct, we don't want Rust to ever
                         # free, instead relying on the Java GC to lose the ref. We undo this in
@@ -711,7 +719,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
         arg_names = []
         default_constructor_args = {}
         takes_self = False
-        args_known = not ret_info.passed_as_ptr or ret_info.rust_obj in opaque_structs or ret_info.rust_obj in trait_structs
+        args_known = not ret_info.passed_as_ptr or ret_info.rust_obj in opaque_structs or ret_info.rust_obj in trait_structs or ret_info.rust_obj in complex_enums or ret_info.rust_obj in result_types
         for idx, arg in enumerate(re_match.group(3).split(',')):
             if idx != 0:
                 out_java.write(", ")
@@ -1706,7 +1714,8 @@ class CommonBase {
                         out_java.write("\tpublic static native " + ty_info.java_ty + " " + alias_match.group(2) + "_get_" + e + "(long ptr);\n")
                         # XXX: Write C method!
                 elif alias_match.group(1) in result_templ_structs:
-                    human_ty = alias_match.group(2).replace("LDKCResult", "Result_").replace("__", "_").replace("Templ", "")
+                    result_types.add(alias_match.group(2))
+                    human_ty = alias_match.group(2).replace("LDKCResult", "Result")
                     with open(sys.argv[3] + "/structs/" + human_ty + ".java", "w") as out_java_struct:
                         out_java_struct.write(hu_struct_file_prefix)
                         out_java_struct.write("public class " + human_ty + " extends CommonBase {\n")
@@ -1714,6 +1723,13 @@ class CommonBase {
                         out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
                         out_java_struct.write("\t\tbindings." + alias_match.group(2).replace("LDK","") + "_free(ptr); super.finalize();\n")
                         out_java_struct.write("\t}\n\n")
+                        out_java_struct.write("\tstatic " + human_ty + " constr_from_ptr(long ptr) {\n")
+                        out_java_struct.write("\t\tif (bindings." + alias_match.group(2) + "_result_ok(ptr)) {\n")
+                        out_java_struct.write("\t\t\treturn new " + human_ty + "_OK(null, ptr);\n")
+                        out_java_struct.write("\t\t} else {\n")
+                        out_java_struct.write("\t\t\treturn new " + human_ty + "_Err(null, ptr);\n")
+                        out_java_struct.write("\t\t}\n")
+                        out_java_struct.write("\t}\n")
 
                         contents_ty = alias_match.group(1).replace("LDKCResultTempl", "LDKCResultPtr")
                         res_ty, err_ty = result_ptr_struct_items[contents_ty]

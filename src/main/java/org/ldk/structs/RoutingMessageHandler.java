@@ -17,9 +17,30 @@ public class RoutingMessageHandler extends CommonBase {
 		bindings.RoutingMessageHandler_free(ptr); super.finalize();
 	}
 
-	// Skipped RoutingMessageHandler_handle_node_announcement
-	// Skipped RoutingMessageHandler_handle_channel_announcement
-	// Skipped RoutingMessageHandler_handle_channel_update
+	public Result_boolLightningErrorZ handle_node_announcement(NodeAnnouncement msg) {
+		long ret = bindings.RoutingMessageHandler_handle_node_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		this.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public Result_boolLightningErrorZ handle_channel_announcement(ChannelAnnouncement msg) {
+		long ret = bindings.RoutingMessageHandler_handle_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		this.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public Result_boolLightningErrorZ handle_channel_update(ChannelUpdate msg) {
+		long ret = bindings.RoutingMessageHandler_handle_channel_update(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		this.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
 	// Skipped RoutingMessageHandler_handle_htlc_fail_channel_update
 	public ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_channel_announcements(this.ptr, starting_point, batch_amount);

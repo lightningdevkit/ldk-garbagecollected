@@ -12,6 +12,13 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 		bindings.CResult_NonePeerHandleErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_NonePeerHandleErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_NonePeerHandleErrorZ_result_ok(ptr)) {
+			return new Result_NonePeerHandleErrorZ_OK(null, ptr);
+		} else {
+			return new Result_NonePeerHandleErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_NonePeerHandleErrorZ_OK extends Result_NonePeerHandleErrorZ {
 		public byte res;
 		private Result_NonePeerHandleErrorZ_OK(Object _dummy, long ptr) {

@@ -23,7 +23,13 @@ public class LightningError extends CommonBase {
 		bindings.LightningError_set_err(this.ptr, val);
 	}
 
-	// Skipped LightningError_get_action
+	public ErrorAction get_action() {
+		long ret = bindings.LightningError_get_action(this.ptr);
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	// Skipped LightningError_set_action
 	// Skipped LightningError_new
 }

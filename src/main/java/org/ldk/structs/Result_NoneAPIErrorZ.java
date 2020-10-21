@@ -12,6 +12,13 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 		bindings.CResult_NoneAPIErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_NoneAPIErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_NoneAPIErrorZ_result_ok(ptr)) {
+			return new Result_NoneAPIErrorZ_OK(null, ptr);
+		} else {
+			return new Result_NoneAPIErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_NoneAPIErrorZ_OK extends Result_NoneAPIErrorZ {
 		public byte res;
 		private Result_NoneAPIErrorZ_OK(Object _dummy, long ptr) {

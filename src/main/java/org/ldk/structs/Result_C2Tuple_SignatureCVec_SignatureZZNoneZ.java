@@ -12,6 +12,13 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 		bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(ptr); super.finalize();
 	}
 
+	static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(ptr)) {
+			return new Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(null, ptr);
+		} else {
+			return new Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK extends Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
 		public TwoTuple<byte[], byte[][]> res;
 		private Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(Object _dummy, long ptr) {

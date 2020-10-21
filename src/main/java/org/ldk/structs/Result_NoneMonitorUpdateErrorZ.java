@@ -12,6 +12,13 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 		bindings.CResult_NoneMonitorUpdateErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_NoneMonitorUpdateErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_NoneMonitorUpdateErrorZ_result_ok(ptr)) {
+			return new Result_NoneMonitorUpdateErrorZ_OK(null, ptr);
+		} else {
+			return new Result_NoneMonitorUpdateErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_NoneMonitorUpdateErrorZ_OK extends Result_NoneMonitorUpdateErrorZ {
 		public byte res;
 		private Result_NoneMonitorUpdateErrorZ_OK(Object _dummy, long ptr) {

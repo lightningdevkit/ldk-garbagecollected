@@ -12,6 +12,13 @@ public class Result_PublicKeySecpErrorZ extends CommonBase {
 		bindings.CResult_PublicKeySecpErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_PublicKeySecpErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_PublicKeySecpErrorZ_result_ok(ptr)) {
+			return new Result_PublicKeySecpErrorZ_OK(null, ptr);
+		} else {
+			return new Result_PublicKeySecpErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_PublicKeySecpErrorZ_OK extends Result_PublicKeySecpErrorZ {
 		public byte[] res;
 		private Result_PublicKeySecpErrorZ_OK(Object _dummy, long ptr) {

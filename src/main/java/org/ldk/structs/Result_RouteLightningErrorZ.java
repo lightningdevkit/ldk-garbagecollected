@@ -12,6 +12,13 @@ public class Result_RouteLightningErrorZ extends CommonBase {
 		bindings.CResult_RouteLightningErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_RouteLightningErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_RouteLightningErrorZ_result_ok(ptr)) {
+			return new Result_RouteLightningErrorZ_OK(null, ptr);
+		} else {
+			return new Result_RouteLightningErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_RouteLightningErrorZ_OK extends Result_RouteLightningErrorZ {
 		public Route res;
 		private Result_RouteLightningErrorZ_OK(Object _dummy, long ptr) {

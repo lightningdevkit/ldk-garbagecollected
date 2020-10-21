@@ -18,7 +18,15 @@ public class Watch extends CommonBase {
 	}
 
 	// Skipped Watch_watch_channel
-	// Skipped Watch_update_channel
+	public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
+		long ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, update == null ? 0 : update.ptr & ~1);
+		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		this.ptrs_to.add(funding_txo);
+		this.ptrs_to.add(update);
+		return ret_hu_conv;
+	}
+
 	public MonitorEvent[] release_pending_monitor_events() {
 		long[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);
 		MonitorEvent[] arr_conv_14_arr = new MonitorEvent[ret.length];

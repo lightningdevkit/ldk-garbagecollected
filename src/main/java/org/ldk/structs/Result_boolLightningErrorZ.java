@@ -12,6 +12,13 @@ public class Result_boolLightningErrorZ extends CommonBase {
 		bindings.CResult_boolLightningErrorZ_free(ptr); super.finalize();
 	}
 
+	static Result_boolLightningErrorZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_boolLightningErrorZ_result_ok(ptr)) {
+			return new Result_boolLightningErrorZ_OK(null, ptr);
+		} else {
+			return new Result_boolLightningErrorZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_boolLightningErrorZ_OK extends Result_boolLightningErrorZ {
 		public boolean res;
 		private Result_boolLightningErrorZ_OK(Object _dummy, long ptr) {

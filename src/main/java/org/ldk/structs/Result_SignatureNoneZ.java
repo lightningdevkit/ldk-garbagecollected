@@ -12,6 +12,13 @@ public class Result_SignatureNoneZ extends CommonBase {
 		bindings.CResult_SignatureNoneZ_free(ptr); super.finalize();
 	}
 
+	static Result_SignatureNoneZ constr_from_ptr(long ptr) {
+		if (bindings.LDKCResult_SignatureNoneZ_result_ok(ptr)) {
+			return new Result_SignatureNoneZ_OK(null, ptr);
+		} else {
+			return new Result_SignatureNoneZ_Err(null, ptr);
+		}
+	}
 	public static final class Result_SignatureNoneZ_OK extends Result_SignatureNoneZ {
 		public byte[] res;
 		private Result_SignatureNoneZ_OK(Object _dummy, long ptr) {

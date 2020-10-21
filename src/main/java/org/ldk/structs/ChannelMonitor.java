@@ -14,7 +14,16 @@ public class ChannelMonitor extends CommonBase {
 		bindings.ChannelMonitor_free(ptr);
 	}
 
-	// Skipped ChannelMonitor_update_monitor
+	public Result_NoneMonitorUpdateErrorZ update_monitor(ChannelMonitorUpdate updates, BroadcasterInterface broadcaster, Logger logger) {
+		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr & ~1, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr);
+		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		this.ptrs_to.add(updates);
+		this.ptrs_to.add(broadcaster);
+		this.ptrs_to.add(logger);
+		return ret_hu_conv;
+	}
+
 	public long get_latest_update_id() {
 		long ret = bindings.ChannelMonitor_get_latest_update_id(this.ptr);
 		return ret;

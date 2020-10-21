@@ -63,7 +63,13 @@ public class HolderCommitmentTransaction extends CommonBase {
 		return ret;
 	}
 
-	// Skipped HolderCommitmentTransaction_get_htlc_sigs
+	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, short counterparty_selected_contest_delay) {
+		long ret = bindings.HolderCommitmentTransaction_get_htlc_sigs(this.ptr, htlc_base_key, counterparty_selected_contest_delay);
+		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write(HolderCommitmentTransaction obj) {
 		byte[] ret = bindings.HolderCommitmentTransaction_write(obj == null ? 0 : obj.ptr & ~1);
 		this.ptrs_to.add(obj);
