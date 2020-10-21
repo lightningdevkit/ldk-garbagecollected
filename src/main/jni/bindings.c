@@ -2706,6 +2706,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_KeysInterface_1get_1dest
 	LDKCVec_u8Z arg_var = (this_arg_conv->get_destination_script)(this_arg_conv->this_arg);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -5586,6 +5587,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1write(JNI
 	LDKCVec_u8Z arg_var = ChannelConfig_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -5859,6 +5861,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1wr
 	LDKCVec_u8Z arg_var = ChannelMonitorUpdate_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -5913,6 +5916,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1write(JNIEnv
 	LDKCVec_u8Z arg_var = HTLCUpdate_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -6172,6 +6176,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_OutPoint_1write(JNIEnv *
 	LDKCVec_u8Z arg_var = OutPoint_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -6403,6 +6408,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1wri
 	LDKCVec_u8Z arg_var = InMemoryChannelKeys_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10408,6 +10414,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1write(JNI
 	LDKCVec_u8Z arg_var = AcceptChannel_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10427,6 +10434,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1
 	LDKCVec_u8Z arg_var = AnnouncementSignatures_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10446,6 +10454,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1writ
 	LDKCVec_u8Z arg_var = ChannelReestablish_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10465,6 +10474,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1write(JNI
 	LDKCVec_u8Z arg_var = ClosingSigned_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10484,6 +10494,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1write(
 	LDKCVec_u8Z arg_var = CommitmentSigned_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10503,6 +10514,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingCreated_1write(JN
 	LDKCVec_u8Z arg_var = FundingCreated_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10522,6 +10534,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingSigned_1write(JNI
 	LDKCVec_u8Z arg_var = FundingSigned_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10541,6 +10554,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingLocked_1write(JNI
 	LDKCVec_u8Z arg_var = FundingLocked_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10560,6 +10574,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Init_1write(JNIEnv * _en
 	LDKCVec_u8Z arg_var = Init_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10579,6 +10594,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_OpenChannel_1write(JNIEn
 	LDKCVec_u8Z arg_var = OpenChannel_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10598,6 +10614,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1write(JNIE
 	LDKCVec_u8Z arg_var = RevokeAndACK_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10617,6 +10634,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Shutdown_1write(JNIEnv *
 	LDKCVec_u8Z arg_var = Shutdown_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10636,6 +10654,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1write(JN
 	LDKCVec_u8Z arg_var = UpdateFailHTLC_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10655,6 +10674,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_
 	LDKCVec_u8Z arg_var = UpdateFailMalformedHTLC_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10674,6 +10694,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFee_1write(JNIEnv 
 	LDKCVec_u8Z arg_var = UpdateFee_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10693,6 +10714,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1write
 	LDKCVec_u8Z arg_var = UpdateFulfillHTLC_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10712,6 +10734,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1write(JNI
 	LDKCVec_u8Z arg_var = UpdateAddHTLC_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10731,6 +10754,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Ping_1write(JNIEnv * _en
 	LDKCVec_u8Z arg_var = Ping_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10750,6 +10774,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Pong_1write(JNIEnv * _en
 	LDKCVec_u8Z arg_var = Pong_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10769,6 +10794,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncem
 	LDKCVec_u8Z arg_var = UnsignedChannelAnnouncement_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10788,6 +10814,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1wri
 	LDKCVec_u8Z arg_var = ChannelAnnouncement_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10807,6 +10834,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1w
 	LDKCVec_u8Z arg_var = UnsignedChannelUpdate_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10826,6 +10854,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1write(JNI
 	LDKCVec_u8Z arg_var = ChannelUpdate_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10845,6 +10874,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1write(JNIE
 	LDKCVec_u8Z arg_var = ErrorMessage_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10864,6 +10894,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement
 	LDKCVec_u8Z arg_var = UnsignedNodeAnnouncement_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10883,6 +10914,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1write(
 	LDKCVec_u8Z arg_var = NodeAnnouncement_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10911,6 +10943,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1wr
 	LDKCVec_u8Z arg_var = QueryShortChannelIds_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10930,6 +10963,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_
 	LDKCVec_u8Z arg_var = ReplyShortChannelIdsEnd_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10949,6 +10983,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1write
 	LDKCVec_u8Z arg_var = QueryChannelRange_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10968,6 +11003,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1write
 	LDKCVec_u8Z arg_var = ReplyChannelRange_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -10987,6 +11023,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_GossipTimestampFilter_1w
 	LDKCVec_u8Z arg_var = GossipTimestampFilter_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -11403,6 +11440,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1write(JN
 	LDKCVec_u8Z arg_var = TxCreationKeys_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -11586,6 +11624,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1write
 	LDKCVec_u8Z arg_var = ChannelPublicKeys_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -11629,6 +11668,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1revokeable_1redeems
 	LDKCVec_u8Z arg_var = get_revokeable_redeemscript(revocation_key_ref, contest_delay, broadcaster_delayed_payment_key_ref);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -11718,6 +11758,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1
 	LDKCVec_u8Z arg_var = HTLCOutputInCommitment_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -11740,6 +11781,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1htlc_1redeemscript(
 	LDKCVec_u8Z arg_var = get_htlc_redeemscript(&htlc_conv, &keys_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -11753,6 +11795,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_make_1funding_1redeemscr
 	LDKCVec_u8Z arg_var = make_funding_redeemscript(broadcaster_ref, countersignatory_ref);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -11952,6 +11995,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransact
 	LDKCVec_u8Z arg_var = HolderCommitmentTransaction_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -12206,6 +12250,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Route_1write(JNIEnv * _e
 	LDKCVec_u8Z arg_var = Route_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -12549,6 +12594,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1
 	LDKCVec_u8Z arg_var = DirectionalChannelInfo_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -12690,6 +12736,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1write(JNIEn
 	LDKCVec_u8Z arg_var = ChannelInfo_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -12768,6 +12815,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_RoutingFees_1write(JNIEn
 	LDKCVec_u8Z arg_var = RoutingFees_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -12932,6 +12980,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1wr
 	LDKCVec_u8Z arg_var = NodeAnnouncementInfo_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -13042,6 +13091,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeInfo_1write(JNIEnv *
 	LDKCVec_u8Z arg_var = NodeInfo_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
@@ -13061,6 +13111,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1write(JNIE
 	LDKCVec_u8Z arg_var = NetworkGraph_write(&obj_conv);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	CVec_u8Z_free(arg_var);
 	return arg_arr;
 }
 
