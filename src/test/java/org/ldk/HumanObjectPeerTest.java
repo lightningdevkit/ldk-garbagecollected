@@ -130,7 +130,9 @@ public class HumanObjectPeerTest {
                 long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, new long[] {our_chans[0]._test_only_get_ptr()},
                         new long[0], 1000, 42, this.logger);
                 assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
-                Route copy = Route.constructor_read(bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res)));
+                byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
+                must_free_objs.add(new WeakReference<>(serialized_route));
+                Route copy = Route.constructor_read(serialized_route);
                 bindings.CResult_RouteLightningErrorZ_free(res);
                 return copy;
             }
@@ -205,9 +207,8 @@ public class HumanObjectPeerTest {
 
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager._test_only_get_ptr(), peer2.node_id, 10000, 1000, 42, 0);
-        assert bindings.LDKCResult_NoneAPIErrorZ_result_ok(cc_res);
-        bindings.CResult_NoneAPIErrorZ_free(cc_res);
+        Result_NoneAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 10000, 1000, 42, null);
+        assert cc_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
 
         peer1.peer_manager.process_events();
         while (!list.isEmpty()) { list.poll().join(); }
@@ -278,31 +279,25 @@ public class HumanObjectPeerTest {
         peer1.peer_manager.process_events();
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long[] peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events._test_only_get_ptr());
-        assert peer2_events.length == 1;
-        bindings.LDKEvent forwardable = bindings.LDKEvent_ref_from_ptr(peer2_events[0]);
-        assert forwardable instanceof bindings.LDKEvent.PendingHTLCsForwardable;
-        bindings.CVec_EventZ_free(peer2_events);
-        bindings.ChannelManager_process_pending_htlc_forwards(peer2.chan_manager._test_only_get_ptr());
+        events = peer2.chan_manager_events.get_and_clear_pending_events();
+        assert events.length == 1;
+        assert events[0] instanceof Event.PendingHTLCsForwardable;
+        peer2.chan_manager.process_pending_htlc_forwards();
 
-        peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events._test_only_get_ptr());
-        assert peer2_events.length == 1;
-        bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(peer2_events[0]);
-        assert payment_recvd instanceof bindings.LDKEvent.PaymentReceived;
-        peer2.chan_manager.claim_funds(payment_preimage, new byte[32], ((bindings.LDKEvent.PaymentReceived) payment_recvd).amt);
-        bindings.CVec_EventZ_free(peer2_events);
+        events = peer2.chan_manager_events.get_and_clear_pending_events();
+        assert events.length == 1;
+        assert events[0] instanceof Event.PaymentReceived;
+        peer2.chan_manager.claim_funds(payment_preimage, new byte[32], ((Event.PaymentReceived) events[0]).amt);
 
         peer2.peer_manager.process_events();
         while (!list.isEmpty()) { list.poll().join(); }
         peer1.peer_manager.process_events();
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long[] peer1_events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events._test_only_get_ptr());
-        assert peer1_events.length == 1;
-        bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(peer1_events[0]);
-        assert sent instanceof bindings.LDKEvent.PaymentSent;
-        assert Arrays.equals(((bindings.LDKEvent.PaymentSent) sent).payment_preimage, payment_preimage);
-        bindings.CVec_EventZ_free(peer1_events);
+        events = peer1.chan_manager_events.get_and_clear_pending_events();
+        assert events.length == 1;
+        assert events[0] instanceof Event.PaymentSent;
+        assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
 
         peer1.free();
         peer2.free();
