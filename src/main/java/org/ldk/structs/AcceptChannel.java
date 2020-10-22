@@ -11,7 +11,7 @@ public class AcceptChannel extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.AcceptChannel_free(ptr);
+		if (ptr != 0) { bindings.AcceptChannel_free(ptr); }
 	}
 
 	public static AcceptChannel constructor_clone(AcceptChannel orig) {

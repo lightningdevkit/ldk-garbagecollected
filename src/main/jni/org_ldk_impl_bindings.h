@@ -73,6 +73,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    txpointer_free
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_txpointer_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    vec_slice_len
  * Signature: (J)J
  */

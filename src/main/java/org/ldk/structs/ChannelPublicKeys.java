@@ -11,7 +11,7 @@ public class ChannelPublicKeys extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelPublicKeys_free(ptr);
+		if (ptr != 0) { bindings.ChannelPublicKeys_free(ptr); }
 	}
 
 	public static ChannelPublicKeys constructor_clone(ChannelPublicKeys orig) {

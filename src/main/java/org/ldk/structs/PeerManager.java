@@ -11,7 +11,7 @@ public class PeerManager extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.PeerManager_free(ptr);
+		if (ptr != 0) { bindings.PeerManager_free(ptr); }
 	}
 
 	public static PeerManager constructor_new(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, byte[] our_node_secret, byte[] ephemeral_random_data, Logger logger) {

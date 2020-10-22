@@ -11,7 +11,7 @@ public class Init extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.Init_free(ptr);
+		if (ptr != 0) { bindings.Init_free(ptr); }
 	}
 
 	public static Init constructor_clone(Init orig) {

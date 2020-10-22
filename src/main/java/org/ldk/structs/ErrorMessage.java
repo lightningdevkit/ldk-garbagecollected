@@ -11,7 +11,7 @@ public class ErrorMessage extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ErrorMessage_free(ptr);
+		if (ptr != 0) { bindings.ErrorMessage_free(ptr); }
 	}
 
 	public static ErrorMessage constructor_clone(ErrorMessage orig) {

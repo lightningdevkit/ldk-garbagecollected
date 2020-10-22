@@ -11,7 +11,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.HolderCommitmentTransaction_free(ptr);
+		if (ptr != 0) { bindings.HolderCommitmentTransaction_free(ptr); }
 	}
 
 	public static HolderCommitmentTransaction constructor_clone(HolderCommitmentTransaction orig) {
@@ -42,7 +42,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	}
 
 	public void set_per_htlc(TwoTuple<HTLCOutputInCommitment, byte[]>[] val) {
-		bindings.HolderCommitmentTransaction_set_per_htlc(this.ptr, Arrays.stream(val).mapToLong(arr_conv_42 -> /*TODO b*/0).toArray());
+		bindings.HolderCommitmentTransaction_set_per_htlc(this.ptr, Arrays.stream(val).mapToLong(arr_conv_42 -> bindings.C2Tuple_HTLCOutputInCommitmentSignatureZ_new(arr_conv_42.a == null ? 0 : arr_conv_42.a.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_42_a)*/, arr_conv_42.b)).toArray());
 		/* TODO 2 TwoTuple<HTLCOutputInCommitment, byte[]>  */;
 	}
 

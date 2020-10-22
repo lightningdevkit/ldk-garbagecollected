@@ -7,16 +7,31 @@ import java.util.Arrays;
 
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class EventsProvider extends CommonBase {
-	EventsProvider(Object _dummy, long ptr) { super(ptr); }
-	public EventsProvider(bindings.LDKEventsProvider arg) {
+	final bindings.LDKEventsProvider bindings_instance;
+	EventsProvider(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
+	private EventsProvider(bindings.LDKEventsProvider arg) {
 		super(bindings.LDKEventsProvider_new(arg));
 		this.ptrs_to.add(arg);
+		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.EventsProvider_free(ptr); super.finalize();
+		if (ptr != 0) { bindings.EventsProvider_free(ptr); } super.finalize();
 	}
 
+	public static interface EventsProviderInterface {
+		Event[] get_and_clear_pending_events();
+	}
+	public EventsProvider(EventsProviderInterface arg) {
+		this(new bindings.LDKEventsProvider() {
+			@Override public long[] get_and_clear_pending_events() {
+				Event[] ret = arg.get_and_clear_pending_events();
+				long[] result = Arrays.stream(ret).mapToLong(arr_conv_7 -> arr_conv_7.ptr).toArray();
+				/* TODO 2 Event  */
+				return result;
+			}
+		});
+	}
 	public Event[] get_and_clear_pending_events() {
 		long[] ret = bindings.EventsProvider_get_and_clear_pending_events(this.ptr);
 		Event[] arr_conv_7_arr = new Event[ret.length];

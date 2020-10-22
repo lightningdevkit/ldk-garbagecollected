@@ -11,7 +11,7 @@ public class Shutdown extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.Shutdown_free(ptr);
+		if (ptr != 0) { bindings.Shutdown_free(ptr); }
 	}
 
 	public static Shutdown constructor_clone(Shutdown orig) {

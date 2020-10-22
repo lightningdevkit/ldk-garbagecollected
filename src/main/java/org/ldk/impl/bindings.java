@@ -23,6 +23,7 @@ public class bindings {
 	public static native byte[] get_u8_slice_bytes(long slice_ptr);
 	public static native long bytes_to_u8_vec(byte[] bytes);
 	public static native long new_txpointer_copy_data(byte[] txdata);
+	public static native void txpointer_free(long ptr);
 	public static native long vec_slice_len(long vec);
 	public static native long new_empty_slice_vec();
 

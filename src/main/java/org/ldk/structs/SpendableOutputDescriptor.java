@@ -11,9 +11,8 @@ public class SpendableOutputDescriptor extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.SpendableOutputDescriptor_free(ptr);
+		if (ptr != 0) { bindings.SpendableOutputDescriptor_free(ptr); }
 	}
-	long conv_to_c() { assert false; return 0; /* Should only be called on subclasses */ }
 	static SpendableOutputDescriptor constr_from_ptr(long ptr) {
 		bindings.LDKSpendableOutputDescriptor raw_val = bindings.LDKSpendableOutputDescriptor_ref_from_ptr(ptr);
 		if (raw_val.getClass() == bindings.LDKSpendableOutputDescriptor.StaticOutput.class) {
@@ -29,8 +28,8 @@ public class SpendableOutputDescriptor extends CommonBase {
 	}
 
 	public final static class StaticOutput extends SpendableOutputDescriptor {
-		public OutPoint outpoint;
-		public TxOut output;
+		public final OutPoint outpoint;
+		public final TxOut output;
 		private StaticOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticOutput obj) {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
@@ -40,15 +39,14 @@ public class SpendableOutputDescriptor extends CommonBase {
 			TxOut output_conv = new TxOut(null, output);
 			this.output = output_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class DynamicOutputP2WSH extends SpendableOutputDescriptor {
-		public OutPoint outpoint;
-		public byte[] per_commitment_point;
-		public short to_self_delay;
-		public TxOut output;
-		public TwoTuple<Long, Long> key_derivation_params;
-		public byte[] revocation_pubkey;
+		public final OutPoint outpoint;
+		public final byte[] per_commitment_point;
+		public final short to_self_delay;
+		public final TxOut output;
+		public final TwoTuple<Long, Long> key_derivation_params;
+		public final byte[] revocation_pubkey;
 		private DynamicOutputP2WSH(long ptr, bindings.LDKSpendableOutputDescriptor.DynamicOutputP2WSH obj) {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
@@ -66,12 +64,11 @@ public class SpendableOutputDescriptor extends CommonBase {
 			this.key_derivation_params = key_derivation_params_conv;
 			this.revocation_pubkey = obj.revocation_pubkey;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class StaticOutputCounterpartyPayment extends SpendableOutputDescriptor {
-		public OutPoint outpoint;
-		public TxOut output;
-		public TwoTuple<Long, Long> key_derivation_params;
+		public final OutPoint outpoint;
+		public final TxOut output;
+		public final TwoTuple<Long, Long> key_derivation_params;
 		private StaticOutputCounterpartyPayment(long ptr, bindings.LDKSpendableOutputDescriptor.StaticOutputCounterpartyPayment obj) {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
@@ -86,6 +83,5 @@ public class SpendableOutputDescriptor extends CommonBase {
 			TwoTuple<Long, Long> key_derivation_params_conv = new TwoTuple<Long, Long>(key_derivation_params_a, key_derivation_params_b);
 			this.key_derivation_params = key_derivation_params_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 }

@@ -11,7 +11,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.UnsignedChannelAnnouncement_free(ptr);
+		if (ptr != 0) { bindings.UnsignedChannelAnnouncement_free(ptr); }
 	}
 
 	public static UnsignedChannelAnnouncement constructor_clone(UnsignedChannelAnnouncement orig) {

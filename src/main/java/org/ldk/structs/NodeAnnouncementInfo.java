@@ -11,7 +11,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.NodeAnnouncementInfo_free(ptr);
+		if (ptr != 0) { bindings.NodeAnnouncementInfo_free(ptr); }
 	}
 
 	public NodeFeatures get_features() {
@@ -49,7 +49,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	}
 
 	public void set_addresses(NetAddress[] val) {
-		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, Arrays.stream(val).mapToLong(arr_conv_12 -> arr_conv_12.conv_to_c()).toArray());
+		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, Arrays.stream(val).mapToLong(arr_conv_12 -> arr_conv_12.ptr).toArray());
 		/* TODO 2 NetAddress  */;
 	}
 

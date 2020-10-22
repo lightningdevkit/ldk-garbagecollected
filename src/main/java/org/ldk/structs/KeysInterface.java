@@ -7,16 +7,51 @@ import java.util.Arrays;
 
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class KeysInterface extends CommonBase {
-	KeysInterface(Object _dummy, long ptr) { super(ptr); }
-	public KeysInterface(bindings.LDKKeysInterface arg) {
+	final bindings.LDKKeysInterface bindings_instance;
+	KeysInterface(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
+	private KeysInterface(bindings.LDKKeysInterface arg) {
 		super(bindings.LDKKeysInterface_new(arg));
 		this.ptrs_to.add(arg);
+		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.KeysInterface_free(ptr); super.finalize();
+		if (ptr != 0) { bindings.KeysInterface_free(ptr); } super.finalize();
 	}
 
+	public static interface KeysInterfaceInterface {
+		byte[] get_node_secret();
+		byte[] get_destination_script();
+		byte[] get_shutdown_pubkey();
+		ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis);
+		byte[] get_secure_random_bytes();
+	}
+	public KeysInterface(KeysInterfaceInterface arg) {
+		this(new bindings.LDKKeysInterface() {
+			@Override public byte[] get_node_secret() {
+				byte[] ret = arg.get_node_secret();
+				return ret;
+			}
+			@Override public byte[] get_destination_script() {
+				byte[] ret = arg.get_destination_script();
+				return ret;
+			}
+			@Override public byte[] get_shutdown_pubkey() {
+				byte[] ret = arg.get_shutdown_pubkey();
+				return ret;
+			}
+			@Override public long get_channel_keys(boolean inbound, long channel_value_satoshis) {
+				ChannelKeys ret = arg.get_channel_keys(inbound, channel_value_satoshis);
+				long result = ret.ptr;
+				ret.ptr = 0;
+				return result;
+			}
+			@Override public byte[] get_secure_random_bytes() {
+				byte[] ret = arg.get_secure_random_bytes();
+				return ret;
+			}
+		});
+	}
 	public byte[] get_node_secret() {
 		byte[] ret = bindings.KeysInterface_get_node_secret(this.ptr);
 		return ret;

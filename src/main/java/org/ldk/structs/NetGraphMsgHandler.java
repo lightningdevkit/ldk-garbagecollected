@@ -11,7 +11,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.NetGraphMsgHandler_free(ptr);
+		if (ptr != 0) { bindings.NetGraphMsgHandler_free(ptr); }
 	}
 
 	public static NetGraphMsgHandler constructor_new(Access chain_access, Logger logger) {

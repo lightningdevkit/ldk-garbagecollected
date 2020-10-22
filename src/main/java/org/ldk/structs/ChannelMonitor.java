@@ -11,7 +11,7 @@ public class ChannelMonitor extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelMonitor_free(ptr);
+		if (ptr != 0) { bindings.ChannelMonitor_free(ptr); }
 	}
 
 	public Result_NoneMonitorUpdateErrorZ update_monitor(ChannelMonitorUpdate updates, BroadcasterInterface broadcaster, Logger logger) {
@@ -65,7 +65,7 @@ public class ChannelMonitor extends CommonBase {
 	}
 
 	public TwoTuple<byte[], TxOut[]>[] block_connected(byte[] header, TwoTuple<Long, Transaction>[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_29 -> /*TODO b*/0).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_29 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_29.a, arr_conv_29.b.ptr)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple<byte[], TxOut[]>[] arr_conv_27_arr = new TwoTuple[ret.length];
 		for (int b = 0; b < ret.length; b++) {
 			long arr_conv_27 = ret[b];

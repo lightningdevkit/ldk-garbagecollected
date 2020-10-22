@@ -11,7 +11,7 @@ public class GossipTimestampFilter extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.GossipTimestampFilter_free(ptr);
+		if (ptr != 0) { bindings.GossipTimestampFilter_free(ptr); }
 	}
 
 	public static GossipTimestampFilter constructor_clone(GossipTimestampFilter orig) {

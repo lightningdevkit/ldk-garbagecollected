@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class LockedNetworkGraph extends CommonBase implements AutoCloseable {
 	LockedNetworkGraph(Object _dummy, long ptr) { super(ptr); }
 	@Override public void close() {
-		bindings.LockedNetworkGraph_free(ptr);
+		if (ptr != 0) { bindings.LockedNetworkGraph_free(ptr); }
 	}
 
 	public NetworkGraph graph() {

@@ -11,7 +11,7 @@ public class ChannelDetails extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelDetails_free(ptr);
+		if (ptr != 0) { bindings.ChannelDetails_free(ptr); }
 	}
 
 	public static ChannelDetails constructor_clone(ChannelDetails orig) {

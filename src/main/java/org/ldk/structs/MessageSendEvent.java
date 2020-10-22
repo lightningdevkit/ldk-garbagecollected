@@ -11,9 +11,8 @@ public class MessageSendEvent extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.MessageSendEvent_free(ptr);
+		if (ptr != 0) { bindings.MessageSendEvent_free(ptr); }
 	}
-	long conv_to_c() { assert false; return 0; /* Should only be called on subclasses */ }
 	static MessageSendEvent constr_from_ptr(long ptr) {
 		bindings.LDKMessageSendEvent raw_val = bindings.LDKMessageSendEvent_ref_from_ptr(ptr);
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendAcceptChannel.class) {
@@ -68,8 +67,8 @@ public class MessageSendEvent extends CommonBase {
 	}
 
 	public final static class SendAcceptChannel extends MessageSendEvent {
-		public byte[] node_id;
-		public AcceptChannel msg;
+		public final byte[] node_id;
+		public final AcceptChannel msg;
 		private SendAcceptChannel(long ptr, bindings.LDKMessageSendEvent.SendAcceptChannel obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -77,11 +76,10 @@ public class MessageSendEvent extends CommonBase {
 			AcceptChannel msg_hu_conv = new AcceptChannel(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendOpenChannel extends MessageSendEvent {
-		public byte[] node_id;
-		public OpenChannel msg;
+		public final byte[] node_id;
+		public final OpenChannel msg;
 		private SendOpenChannel(long ptr, bindings.LDKMessageSendEvent.SendOpenChannel obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -89,11 +87,10 @@ public class MessageSendEvent extends CommonBase {
 			OpenChannel msg_hu_conv = new OpenChannel(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendFundingCreated extends MessageSendEvent {
-		public byte[] node_id;
-		public FundingCreated msg;
+		public final byte[] node_id;
+		public final FundingCreated msg;
 		private SendFundingCreated(long ptr, bindings.LDKMessageSendEvent.SendFundingCreated obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -101,11 +98,10 @@ public class MessageSendEvent extends CommonBase {
 			FundingCreated msg_hu_conv = new FundingCreated(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendFundingSigned extends MessageSendEvent {
-		public byte[] node_id;
-		public FundingSigned msg;
+		public final byte[] node_id;
+		public final FundingSigned msg;
 		private SendFundingSigned(long ptr, bindings.LDKMessageSendEvent.SendFundingSigned obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -113,11 +109,10 @@ public class MessageSendEvent extends CommonBase {
 			FundingSigned msg_hu_conv = new FundingSigned(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendFundingLocked extends MessageSendEvent {
-		public byte[] node_id;
-		public FundingLocked msg;
+		public final byte[] node_id;
+		public final FundingLocked msg;
 		private SendFundingLocked(long ptr, bindings.LDKMessageSendEvent.SendFundingLocked obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -125,11 +120,10 @@ public class MessageSendEvent extends CommonBase {
 			FundingLocked msg_hu_conv = new FundingLocked(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendAnnouncementSignatures extends MessageSendEvent {
-		public byte[] node_id;
-		public AnnouncementSignatures msg;
+		public final byte[] node_id;
+		public final AnnouncementSignatures msg;
 		private SendAnnouncementSignatures(long ptr, bindings.LDKMessageSendEvent.SendAnnouncementSignatures obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -137,11 +131,10 @@ public class MessageSendEvent extends CommonBase {
 			AnnouncementSignatures msg_hu_conv = new AnnouncementSignatures(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class UpdateHTLCs extends MessageSendEvent {
-		public byte[] node_id;
-		public CommitmentUpdate updates;
+		public final byte[] node_id;
+		public final CommitmentUpdate updates;
 		private UpdateHTLCs(long ptr, bindings.LDKMessageSendEvent.UpdateHTLCs obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -149,11 +142,10 @@ public class MessageSendEvent extends CommonBase {
 			CommitmentUpdate updates_hu_conv = new CommitmentUpdate(null, updates);
 			this.updates = updates_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendRevokeAndACK extends MessageSendEvent {
-		public byte[] node_id;
-		public RevokeAndACK msg;
+		public final byte[] node_id;
+		public final RevokeAndACK msg;
 		private SendRevokeAndACK(long ptr, bindings.LDKMessageSendEvent.SendRevokeAndACK obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -161,11 +153,10 @@ public class MessageSendEvent extends CommonBase {
 			RevokeAndACK msg_hu_conv = new RevokeAndACK(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendClosingSigned extends MessageSendEvent {
-		public byte[] node_id;
-		public ClosingSigned msg;
+		public final byte[] node_id;
+		public final ClosingSigned msg;
 		private SendClosingSigned(long ptr, bindings.LDKMessageSendEvent.SendClosingSigned obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -173,11 +164,10 @@ public class MessageSendEvent extends CommonBase {
 			ClosingSigned msg_hu_conv = new ClosingSigned(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendShutdown extends MessageSendEvent {
-		public byte[] node_id;
-		public Shutdown msg;
+		public final byte[] node_id;
+		public final Shutdown msg;
 		private SendShutdown(long ptr, bindings.LDKMessageSendEvent.SendShutdown obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -185,11 +175,10 @@ public class MessageSendEvent extends CommonBase {
 			Shutdown msg_hu_conv = new Shutdown(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SendChannelReestablish extends MessageSendEvent {
-		public byte[] node_id;
-		public ChannelReestablish msg;
+		public final byte[] node_id;
+		public final ChannelReestablish msg;
 		private SendChannelReestablish(long ptr, bindings.LDKMessageSendEvent.SendChannelReestablish obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -197,11 +186,10 @@ public class MessageSendEvent extends CommonBase {
 			ChannelReestablish msg_hu_conv = new ChannelReestablish(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class BroadcastChannelAnnouncement extends MessageSendEvent {
-		public ChannelAnnouncement msg;
-		public ChannelUpdate update_msg;
+		public final ChannelAnnouncement msg;
+		public final ChannelUpdate update_msg;
 		private BroadcastChannelAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelAnnouncement obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -211,31 +199,28 @@ public class MessageSendEvent extends CommonBase {
 			ChannelUpdate update_msg_hu_conv = new ChannelUpdate(null, update_msg);
 			this.update_msg = update_msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class BroadcastNodeAnnouncement extends MessageSendEvent {
-		public NodeAnnouncement msg;
+		public final NodeAnnouncement msg;
 		private BroadcastNodeAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement obj) {
 			super(null, ptr);
 			long msg = obj.msg;
 			NodeAnnouncement msg_hu_conv = new NodeAnnouncement(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class BroadcastChannelUpdate extends MessageSendEvent {
-		public ChannelUpdate msg;
+		public final ChannelUpdate msg;
 		private BroadcastChannelUpdate(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelUpdate obj) {
 			super(null, ptr);
 			long msg = obj.msg;
 			ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
 			this.msg = msg_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class HandleError extends MessageSendEvent {
-		public byte[] node_id;
-		public ErrorAction action;
+		public final byte[] node_id;
+		public final ErrorAction action;
 		private HandleError(long ptr, bindings.LDKMessageSendEvent.HandleError obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -243,16 +228,14 @@ public class MessageSendEvent extends CommonBase {
 			ErrorAction action_hu_conv = ErrorAction.constr_from_ptr(action);
 			this.action = action_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class PaymentFailureNetworkUpdate extends MessageSendEvent {
-		public HTLCFailChannelUpdate update;
+		public final HTLCFailChannelUpdate update;
 		private PaymentFailureNetworkUpdate(long ptr, bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate obj) {
 			super(null, ptr);
 			long update = obj.update;
 			HTLCFailChannelUpdate update_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(update);
 			this.update = update_hu_conv;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 }

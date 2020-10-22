@@ -11,7 +11,7 @@ public class ReplyChannelRange extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ReplyChannelRange_free(ptr);
+		if (ptr != 0) { bindings.ReplyChannelRange_free(ptr); }
 	}
 
 	public static ReplyChannelRange constructor_clone(ReplyChannelRange orig) {

@@ -11,7 +11,7 @@ public class RouteHop extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.RouteHop_free(ptr);
+		if (ptr != 0) { bindings.RouteHop_free(ptr); }
 	}
 
 	public static RouteHop constructor_clone(RouteHop orig) {

@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 	private Result_C2Tuple_SignatureCVec_SignatureZZNoneZ(Object _dummy, long ptr) { super(ptr); }
 	protected void finalize() throws Throwable {
-		bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(ptr); super.finalize();
+		if (ptr != 0) { bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(ptr); } super.finalize();
 	}
 
 	static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constr_from_ptr(long ptr) {
@@ -20,7 +20,7 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 		}
 	}
 	public static final class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK extends Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		public TwoTuple<byte[], byte[][]> res;
+		public final TwoTuple<byte[], byte[][]> res;
 		private Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(ptr);
@@ -29,13 +29,19 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 			TwoTuple<byte[], byte[][]> res_conv = new TwoTuple<byte[], byte[][]>(res_a, res_b);
 			this.res = res_conv;
 		}
-
+		public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(TwoTuple<byte[], byte[][]> res) {
+			this(null, bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(bindings.C2Tuple_SignatureCVec_SignatureZZ_new(res.a, res.b)));
+		}
 	}
+
 	public static final class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err extends Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		public byte err;
+		public final byte err;
 		private Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_err(ptr);
+		}
+		public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err() {
+			this(null, bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err());
 		}
 	}
 }

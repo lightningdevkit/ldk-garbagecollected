@@ -11,7 +11,7 @@ public class TxCreationKeys extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.TxCreationKeys_free(ptr);
+		if (ptr != 0) { bindings.TxCreationKeys_free(ptr); }
 	}
 
 	public static TxCreationKeys constructor_clone(TxCreationKeys orig) {

@@ -11,7 +11,7 @@ public class UpdateFee extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.UpdateFee_free(ptr);
+		if (ptr != 0) { bindings.UpdateFee_free(ptr); }
 	}
 
 	public static UpdateFee constructor_clone(UpdateFee orig) {

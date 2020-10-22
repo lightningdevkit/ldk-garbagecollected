@@ -11,7 +11,7 @@ public class RoutingFees extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.RoutingFees_free(ptr);
+		if (ptr != 0) { bindings.RoutingFees_free(ptr); }
 	}
 
 	public static RoutingFees constructor_clone(RoutingFees orig) {

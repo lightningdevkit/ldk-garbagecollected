@@ -7,67 +7,63 @@ import org.junit.jupiter.api.Test;
 import org.ldk.enums.LDKNetwork;
 import org.ldk.impl.bindings;
 import org.ldk.structs.*;
+import org.ldk.util.TwoTuple;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class HumanObjectPeerTest {
     class Peer {
-        final long logger;
-        final long fee_estimator;
-        final long tx_broadcaster;
+        final Logger logger;
+        final FeeEstimator fee_estimator;
+        final BroadcasterInterface tx_broadcaster;
         final KeysManager keys;
         final KeysInterface keys_interface;
         final ChannelManager chan_manager;
         final EventsProvider chan_manager_events;
         final NetGraphMsgHandler router;
         final PeerManager peer_manager;
-        HashMap<String, Long> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
+        final HashMap<String, ChannelMonitor> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
+        final LinkedList<org.ldk.structs.Transaction> broadcast_set = new LinkedList<>();
 
         Peer(byte seed) {
-            bindings.LDKLogger log_trait = (String arg) -> System.out.println(seed + ": " + arg);
-            logger = bindings.LDKLogger_new(log_trait);
-            this.fee_estimator = bindings.LDKFeeEstimator_new(confirmation_target -> 0);
-            this.tx_broadcaster = bindings.LDKBroadcasterInterface_new(tx -> {
-                // We should broadcast
+            logger = new Logger((String arg) -> System.out.println(seed + ": " + arg));
+            fee_estimator = new FeeEstimator((confirmation_target -> 253));
+            tx_broadcaster = new BroadcasterInterface(tx -> {
+                broadcast_set.add(tx);
             });
             this.monitors = new HashMap<>();
-            Watch chain_monitor = new Watch(new bindings.LDKWatch() {
-                @Override
-                public long watch_channel(long funding_txo, long monitor) {
+            Watch chain_monitor = new Watch(new Watch.WatchInterface() {
+                public Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
                     synchronized (monitors) {
-                        assert monitors.put(Arrays.toString(bindings.OutPoint_get_txid(funding_txo)), monitor) == null;
+                        assert monitors.put(Arrays.toString(funding_txo.get_txid()), monitor) == null;
                     }
-                    bindings.OutPoint_free(funding_txo);
-                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+                    return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
                 }
 
-                @Override
-                public long update_channel(long funding_txo, long update) {
+                public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
                     synchronized (monitors) {
-                        String txid = Arrays.toString(bindings.OutPoint_get_txid(funding_txo));
+                        String txid = Arrays.toString(funding_txo.get_txid());
                         assert monitors.containsKey(txid);
-                        long update_res = bindings.ChannelMonitor_update_monitor(monitors.get(txid), update, tx_broadcaster, logger);
-                        assert bindings.LDKCResult_NoneMonitorUpdateErrorZ_result_ok(update_res);
-                        bindings.CResult_NoneMonitorUpdateErrorZ_free(update_res);
+                        Result_NoneMonitorUpdateErrorZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, logger);
+                        assert update_res instanceof Result_NoneMonitorUpdateErrorZ.Result_NoneMonitorUpdateErrorZ_OK;
                     }
-                    bindings.OutPoint_free(funding_txo);
-                    bindings.ChannelMonitorUpdate_free(update);
-                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+                    return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
                 }
 
                 @Override
-                public long[] release_pending_monitor_events() {
+                public MonitorEvent[] release_pending_monitor_events() {
                     synchronized (monitors) {
                         assert monitors.size() <= 1;
-                        for (Long mon : monitors.values()) {
-                            return bindings.ChannelMonitor_get_and_clear_pending_monitor_events(mon);
+                        for (ChannelMonitor mon : monitors.values()) {
+                            return mon.get_and_clear_pending_monitor_events();
                         }
                     }
-                    return new long[0];
+                    return new MonitorEvent[0];
                 }
             });
 
@@ -77,49 +73,32 @@ public class HumanObjectPeerTest {
             }
             this.keys = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
             this.keys_interface = keys.as_KeysInterface();
-            this.chan_manager = ChannelManager.constructor_new(LDKNetwork.LDKNetwork_Bitcoin, new FeeEstimator(confirmation_target -> 0), chain_monitor,
-                    new BroadcasterInterface(tx -> {
-                    }), new Logger(log_trait), keys.as_KeysInterface(), UserConfig.constructor_default(), 1);
+            this.chan_manager = ChannelManager.constructor_new(LDKNetwork.LDKNetwork_Bitcoin, new FeeEstimator(confirmation_target -> 0), chain_monitor, tx_broadcaster, logger, keys.as_KeysInterface(), UserConfig.constructor_default(), 1);
             this.node_id = chan_manager.get_our_node_id();
             this.chan_manager_events = chan_manager.as_EventsProvider();
-            this.router = NetGraphMsgHandler.constructor_new(null, new Logger(log_trait));
+            this.router = NetGraphMsgHandler.constructor_new(null, logger);
 
             byte[] random_data = new byte[32];
             for (byte i = 0; i < 32; i++) {
                 random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
             }
-            this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, new Logger(log_trait));
+            this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
             System.gc();
         }
 
         void connect_block(Block b, Transaction t, int height) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
-            long[] txn;
-            if (t != null)
-                txn = new long[]{bindings.C2Tuple_usizeTransactionZ_new(1, bindings.new_txpointer_copy_data(t.bitcoinSerialize()))};
-            else
-                txn = new long[0];
-            bindings.ChannelManager_block_connected(chan_manager._test_only_get_ptr(), header, txn, height);
+            TwoTuple<Long, org.ldk.structs.Transaction>[] txn;
+            if (t != null) {
+                TwoTuple<Long, org.ldk.structs.Transaction> txp = new TwoTuple<>((long) 1, new org.ldk.structs.Transaction(t.bitcoinSerialize()));
+                txn = new TwoTuple[]{txp};
+            } else
+                txn = new TwoTuple[0];
+            chan_manager.block_connected(header, txn, height);
             synchronized (monitors) {
-                for (Long mon : monitors.values()) {
-                    if (t != null)
-                        txn = new long[]{bindings.C2Tuple_usizeTransactionZ_new(1, bindings.new_txpointer_copy_data(t.bitcoinSerialize()))};
-                    else
-                        txn = new long[0];
-                    long[] ret = bindings.ChannelMonitor_block_connected(mon, header, txn, height, tx_broadcaster, fee_estimator, logger);
-                    for (long r : ret) bindings.C2Tuple_TxidCVec_TxOutZZ_free(r);
-                }
-            }
-        }
-
-        void free() {
-            // Note that we can't rely on finalizer order, so don't bother trying to rely on it here
-            bindings.Logger_free(logger);
-            bindings.FeeEstimator_free(fee_estimator);
-            bindings.BroadcasterInterface_free(tx_broadcaster);
-            synchronized (monitors) {
-                for (Long mon : monitors.values()) {
-                    bindings.ChannelMonitor_free(mon);
+                for (ChannelMonitor mon : monitors.values()) {
+                    TwoTuple<byte[], TxOut[]>[] ret = mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
+                    assert ret.length == 0;
                 }
             }
         }
@@ -128,7 +107,7 @@ public class HumanObjectPeerTest {
             try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
                 NetworkGraph graph = netgraph.graph();
                 long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, new long[] {our_chans[0]._test_only_get_ptr()},
-                        new long[0], 1000, 42, this.logger);
+                        new long[0], 1000, 42, this.logger._test_only_get_ptr());
                 assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
                 byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
                 must_free_objs.add(new WeakReference<>(serialized_route));
@@ -293,14 +272,29 @@ public class HumanObjectPeerTest {
         while (!list.isEmpty()) { list.poll().join(); }
         peer1.peer_manager.process_events();
         while (!list.isEmpty()) { list.poll().join(); }
+        peer2.peer_manager.process_events();
+        while (!list.isEmpty()) { list.poll().join(); }
 
         events = peer1.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
         assert events[0] instanceof Event.PaymentSent;
         assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
 
-        peer1.free();
-        peer2.free();
+        Result_NoneAPIErrorZ close_res = peer1.chan_manager.close_channel(peer1_chans[0].get_channel_id());
+        assert close_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
+
+        peer1.peer_manager.process_events();
+        while (!list.isEmpty()) { list.poll().join(); }
+        peer2.peer_manager.process_events();
+        while (!list.isEmpty()) { list.poll().join(); }
+        peer1.peer_manager.process_events();
+        while (!list.isEmpty()) { list.poll().join(); }
+        peer2.peer_manager.process_events();
+        while (!list.isEmpty()) { list.poll().join(); }
+
+        assert peer1.broadcast_set.size() == 1;
+        assert peer2.broadcast_set.size() == 1;
+
         bindings.SocketDescriptor_free(descriptor2);
         bindings.SocketDescriptor_free(descriptor1.val);
     }

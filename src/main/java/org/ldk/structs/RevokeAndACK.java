@@ -11,7 +11,7 @@ public class RevokeAndACK extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.RevokeAndACK_free(ptr);
+		if (ptr != 0) { bindings.RevokeAndACK_free(ptr); }
 	}
 
 	public static RevokeAndACK constructor_clone(RevokeAndACK orig) {

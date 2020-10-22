@@ -11,7 +11,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.UnsignedChannelUpdate_free(ptr);
+		if (ptr != 0) { bindings.UnsignedChannelUpdate_free(ptr); }
 	}
 
 	public static UnsignedChannelUpdate constructor_clone(UnsignedChannelUpdate orig) {

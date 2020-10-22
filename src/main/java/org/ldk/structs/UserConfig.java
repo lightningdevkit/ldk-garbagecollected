@@ -11,7 +11,7 @@ public class UserConfig extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.UserConfig_free(ptr);
+		if (ptr != 0) { bindings.UserConfig_free(ptr); }
 	}
 
 	public static UserConfig constructor_clone(UserConfig orig) {

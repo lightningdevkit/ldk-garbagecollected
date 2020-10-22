@@ -11,7 +11,7 @@ public class QueryChannelRange extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.QueryChannelRange_free(ptr);
+		if (ptr != 0) { bindings.QueryChannelRange_free(ptr); }
 	}
 
 	public static QueryChannelRange constructor_clone(QueryChannelRange orig) {

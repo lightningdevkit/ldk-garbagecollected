@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 	private Result_NoneMonitorUpdateErrorZ(Object _dummy, long ptr) { super(ptr); }
 	protected void finalize() throws Throwable {
-		bindings.CResult_NoneMonitorUpdateErrorZ_free(ptr); super.finalize();
+		if (ptr != 0) { bindings.CResult_NoneMonitorUpdateErrorZ_free(ptr); } super.finalize();
 	}
 
 	static Result_NoneMonitorUpdateErrorZ constr_from_ptr(long ptr) {
@@ -20,20 +20,27 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 		}
 	}
 	public static final class Result_NoneMonitorUpdateErrorZ_OK extends Result_NoneMonitorUpdateErrorZ {
-		public byte res;
+		public final byte res;
 		private Result_NoneMonitorUpdateErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_NoneMonitorUpdateErrorZ_get_ok(ptr);
 		}
-
+		public Result_NoneMonitorUpdateErrorZ_OK() {
+			this(null, bindings.CResult_NoneMonitorUpdateErrorZ_ok());
+		}
 	}
+
 	public static final class Result_NoneMonitorUpdateErrorZ_Err extends Result_NoneMonitorUpdateErrorZ {
-		public MonitorUpdateError err;
+		public final MonitorUpdateError err;
 		private Result_NoneMonitorUpdateErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_NoneMonitorUpdateErrorZ_get_err(ptr);
 			MonitorUpdateError err_hu_conv = new MonitorUpdateError(null, err);
 			this.err = err_hu_conv;
+		}
+		public Result_NoneMonitorUpdateErrorZ_Err(MonitorUpdateError err) {
+			this(null, bindings.CResult_NoneMonitorUpdateErrorZ_err(err == null ? 0 : err.ptr & ~1));
+			this.ptrs_to.add(err);
 		}
 	}
 }

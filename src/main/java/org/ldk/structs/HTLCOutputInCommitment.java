@@ -11,7 +11,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.HTLCOutputInCommitment_free(ptr);
+		if (ptr != 0) { bindings.HTLCOutputInCommitment_free(ptr); }
 	}
 
 	public static HTLCOutputInCommitment constructor_clone(HTLCOutputInCommitment orig) {

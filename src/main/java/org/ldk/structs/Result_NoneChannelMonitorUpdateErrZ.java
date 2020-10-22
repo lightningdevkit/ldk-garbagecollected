@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 	private Result_NoneChannelMonitorUpdateErrZ(Object _dummy, long ptr) { super(ptr); }
 	protected void finalize() throws Throwable {
-		bindings.CResult_NoneChannelMonitorUpdateErrZ_free(ptr); super.finalize();
+		if (ptr != 0) { bindings.CResult_NoneChannelMonitorUpdateErrZ_free(ptr); } super.finalize();
 	}
 
 	static Result_NoneChannelMonitorUpdateErrZ constr_from_ptr(long ptr) {
@@ -20,18 +20,24 @@ public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 		}
 	}
 	public static final class Result_NoneChannelMonitorUpdateErrZ_OK extends Result_NoneChannelMonitorUpdateErrZ {
-		public byte res;
+		public final byte res;
 		private Result_NoneChannelMonitorUpdateErrZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(ptr);
 		}
-
+		public Result_NoneChannelMonitorUpdateErrZ_OK() {
+			this(null, bindings.CResult_NoneChannelMonitorUpdateErrZ_ok());
+		}
 	}
+
 	public static final class Result_NoneChannelMonitorUpdateErrZ_Err extends Result_NoneChannelMonitorUpdateErrZ {
-		public LDKChannelMonitorUpdateErr err;
+		public final LDKChannelMonitorUpdateErr err;
 		private Result_NoneChannelMonitorUpdateErrZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(ptr);
+		}
+		public Result_NoneChannelMonitorUpdateErrZ_Err(LDKChannelMonitorUpdateErr err) {
+			this(null, bindings.CResult_NoneChannelMonitorUpdateErrZ_err(err));
 		}
 	}
 }

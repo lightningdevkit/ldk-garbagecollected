@@ -11,7 +11,7 @@ public class ChannelConfig extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelConfig_free(ptr);
+		if (ptr != 0) { bindings.ChannelConfig_free(ptr); }
 	}
 
 	public static ChannelConfig constructor_clone(ChannelConfig orig) {

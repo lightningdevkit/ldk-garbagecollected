@@ -11,7 +11,7 @@ public class NodeAnnouncement extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.NodeAnnouncement_free(ptr);
+		if (ptr != 0) { bindings.NodeAnnouncement_free(ptr); }
 	}
 
 	public static NodeAnnouncement constructor_clone(NodeAnnouncement orig) {

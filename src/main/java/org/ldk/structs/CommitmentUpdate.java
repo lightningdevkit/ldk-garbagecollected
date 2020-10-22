@@ -11,7 +11,7 @@ public class CommitmentUpdate extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.CommitmentUpdate_free(ptr);
+		if (ptr != 0) { bindings.CommitmentUpdate_free(ptr); }
 	}
 
 	public static CommitmentUpdate constructor_clone(CommitmentUpdate orig) {

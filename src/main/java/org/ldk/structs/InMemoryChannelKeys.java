@@ -11,7 +11,7 @@ public class InMemoryChannelKeys extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.InMemoryChannelKeys_free(ptr);
+		if (ptr != 0) { bindings.InMemoryChannelKeys_free(ptr); }
 	}
 
 	public static InMemoryChannelKeys constructor_clone(InMemoryChannelKeys orig) {

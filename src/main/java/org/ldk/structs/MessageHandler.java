@@ -11,7 +11,7 @@ public class MessageHandler extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.MessageHandler_free(ptr);
+		if (ptr != 0) { bindings.MessageHandler_free(ptr); }
 	}
 
 	public ChannelMessageHandler get_chan_handler() {

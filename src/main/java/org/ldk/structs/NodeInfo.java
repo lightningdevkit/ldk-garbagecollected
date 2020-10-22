@@ -11,7 +11,7 @@ public class NodeInfo extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.NodeInfo_free(ptr);
+		if (ptr != 0) { bindings.NodeInfo_free(ptr); }
 	}
 
 	public void set_channels(long[] val) {

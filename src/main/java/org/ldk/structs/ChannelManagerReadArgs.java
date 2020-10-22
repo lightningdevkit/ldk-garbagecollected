@@ -11,7 +11,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelManagerReadArgs_free(ptr);
+		if (ptr != 0) { bindings.ChannelManagerReadArgs_free(ptr); }
 	}
 
 	public KeysInterface get_keys_manager() {

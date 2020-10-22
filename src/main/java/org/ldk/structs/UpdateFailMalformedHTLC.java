@@ -11,7 +11,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.UpdateFailMalformedHTLC_free(ptr);
+		if (ptr != 0) { bindings.UpdateFailMalformedHTLC_free(ptr); }
 	}
 
 	public static UpdateFailMalformedHTLC constructor_clone(UpdateFailMalformedHTLC orig) {

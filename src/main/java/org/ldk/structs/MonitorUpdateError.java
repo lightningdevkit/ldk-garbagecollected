@@ -11,7 +11,7 @@ public class MonitorUpdateError extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.MonitorUpdateError_free(ptr);
+		if (ptr != 0) { bindings.MonitorUpdateError_free(ptr); }
 	}
 
 }

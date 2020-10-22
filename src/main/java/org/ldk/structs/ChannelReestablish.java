@@ -11,7 +11,7 @@ public class ChannelReestablish extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelReestablish_free(ptr);
+		if (ptr != 0) { bindings.ChannelReestablish_free(ptr); }
 	}
 
 	public static ChannelReestablish constructor_clone(ChannelReestablish orig) {

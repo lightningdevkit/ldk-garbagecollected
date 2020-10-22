@@ -54,7 +54,13 @@ static void alloc_freed(void* ptr) {
 	allocation* p = NULL;
 	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
 	allocation* it = allocation_ll;
-	while (it->ptr != ptr) { p = it; it = it->next; }
+	while (it->ptr != ptr) {
+		p = it; it = it->next;
+		if (it == NULL) {
+			fprintf(stderr, "Tried to free unknown pointer %p!\n", ptr);
+			return; // addrsan should catch malloc-unknown and print more info than we have
+		}
+	}
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
 	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
 	DO_ASSERT(it->ptr == ptr);
@@ -145,12 +151,18 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JN
 	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
 	txdata->datalen = (*env)->GetArrayLength(env, bytes);
 	txdata->data = (uint8_t*)MALLOC(txdata->datalen, "Tx Data Bytes");
-	txdata->data_is_owned = true;
+	txdata->data_is_owned = false;
 	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
 	return (long)txdata;
 }
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_txpointer_1free (JNIEnv * env, jclass _b, jlong ptr) {
+	LDKTransaction *tx = (LDKTransaction*)ptr;
+	tx->data_is_owned = true;
+	Transaction_free(*tx);
+	FREE((void*)ptr);
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env, jclass _a, jlong ptr) {
-        // Check offsets of a few Vec types are all consistent as we're meant to be generic across types
+	// Check offsets of a few Vec types are all consistent as we're meant to be generic across types
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_SignatureZ, datalen), "Vec<*> needs to be mapped identically");
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_MessageSendEventZ, datalen), "Vec<*> needs to be mapped identically");
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_EventZ, datalen), "Vec<*> needs to be mapped identically");
@@ -159,7 +171,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env
 	return (long)vec->datalen;
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec (JNIEnv * _env, jclass _b) {
-        // Check sizes of a few Vec types are all consistent as we're meant to be generic across types
+	// Check sizes of a few Vec types are all consistent as we're meant to be generic across types
 	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_SignatureZ), "Vec<*> needs to be mapped identically");
 	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_MessageSendEventZ), "Vec<*> needs to be mapped identically");
 	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_EventZ), "Vec<*> needs to be mapped identically");
@@ -444,7 +456,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1usize_1_1Tra
 	LDKC2TupleTempl_usize__Transaction* ret = MALLOC(sizeof(LDKC2TupleTempl_usize__Transaction), "LDKC2TupleTempl_usize__Transaction");
 	ret->a = a;
 	LDKTransaction b_conv = *(LDKTransaction*)b;
-	FREE((void*)b);
 	ret->b = b_conv;
 	return (long)ret;
 }
@@ -1750,7 +1761,9 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long commitment_tx_ref = (long)&commitment_tx;
+	LDKTransaction *commitment_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
+	*commitment_tx_copy = commitment_tx;
+	long commitment_tx_ref = (long)commitment_tx_copy;
 	LDKCVec_HTLCOutputInCommitmentZ htlcs_var = htlcs;
 	jlongArray htlcs_arr = (*_env)->NewLongArray(_env, htlcs_var.datalen);
 	jlong *htlcs_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, htlcs_arr, NULL);
@@ -1801,7 +1814,9 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, L
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long justice_tx_ref = (long)&justice_tx;
+	LDKTransaction *justice_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
+	*justice_tx_copy = justice_tx;
+	long justice_tx_ref = (long)justice_tx_copy;
 	jbyteArray per_commitment_key_arr = (*_env)->NewByteArray(_env, 32);
 	(*_env)->SetByteArrayRegion(_env, per_commitment_key_arr, 0, 32, *per_commitment_key);
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
@@ -1815,7 +1830,9 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* t
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long htlc_tx_ref = (long)&htlc_tx;
+	LDKTransaction *htlc_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
+	*htlc_tx_copy = htlc_tx;
+	long htlc_tx_ref = (long)htlc_tx_copy;
 	jbyteArray per_commitment_point_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, per_commitment_point_arr, 0, 33, per_commitment_point.compressed_form);
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
@@ -1829,7 +1846,9 @@ LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, L
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long closing_tx_ref = (long)&closing_tx;
+	LDKTransaction *closing_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
+	*closing_tx_copy = closing_tx;
+	long closing_tx_ref = (long)closing_tx_copy;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_closing_transaction_meth, closing_tx_ref);
@@ -1952,7 +1971,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1key_1derivation_
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterparty_1commitment(JNIEnv * _env, jclass _b, jlong this_arg, jint feerate_per_kw, jlong commitment_tx, jlong keys, jlongArray htlcs) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction commitment_tx_conv = *(LDKTransaction*)commitment_tx;
-	FREE((void*)commitment_tx);
 	LDKPreCalculatedTxCreationKeys keys_conv;
 	keys_conv.inner = (void*)(keys & (~1));
 	keys_conv.is_owned = (keys & 1) || (keys == 0);
@@ -2001,7 +2019,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1holder_1co
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1justice_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jlong justice_tx, jlong input, jlong amount, jbyteArray per_commitment_key, jlong htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction justice_tx_conv = *(LDKTransaction*)justice_tx;
-	FREE((void*)justice_tx);
 	unsigned char per_commitment_key_arr[32];
 	CHECK((*_env)->GetArrayLength (_env, per_commitment_key) == 32);
 	(*_env)->GetByteArrayRegion (_env, per_commitment_key, 0, 32, per_commitment_key_arr);
@@ -2017,7 +2034,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1justice_1t
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterparty_1htlc_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jlong htlc_tx, jlong input, jlong amount, jbyteArray per_commitment_point, jlong htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction htlc_tx_conv = *(LDKTransaction*)htlc_tx;
-	FREE((void*)htlc_tx);
 	LDKPublicKey per_commitment_point_ref;
 	CHECK((*_env)->GetArrayLength (_env, per_commitment_point) == 33);
 	(*_env)->GetByteArrayRegion (_env, per_commitment_point, 0, 33, per_commitment_point_ref.compressed_form);
@@ -2032,7 +2048,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterpar
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1closing_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jlong closing_tx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction closing_tx_conv = *(LDKTransaction*)closing_tx;
-	FREE((void*)closing_tx);
 	LDKCResult_SignatureNoneZ* ret = MALLOC(sizeof(LDKCResult_SignatureNoneZ), "LDKCResult_SignatureNoneZ");
 	*ret = (this_arg_conv->sign_closing_transaction)(this_arg_conv->this_arg, closing_tx_conv);
 	return (long)ret;
@@ -2390,7 +2405,9 @@ void broadcast_transaction_jcall(const void* this_arg, LDKTransaction tx) {
 	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long tx_ref = (long)&tx;
+	LDKTransaction *tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
+	*tx_copy = tx;
+	long tx_ref = (long)tx_copy;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->broadcast_transaction_meth, tx_ref);
@@ -2439,7 +2456,6 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1ge
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_BroadcasterInterface_1broadcast_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jlong tx) {
 	LDKBroadcasterInterface* this_arg_conv = (LDKBroadcasterInterface*)this_arg;
 	LDKTransaction tx_conv = *(LDKTransaction*)tx;
-	FREE((void*)tx);
 	(this_arg_conv->broadcast_transaction)(this_arg_conv->this_arg, tx_conv);
 }
 
@@ -2543,7 +2559,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Transaction_1ne
 		for (size_t i = 0; i < ret->datalen; i++) {
 			jlong arr_elem = java_elems[i];
 			LDKTransaction arr_elem_conv = *(LDKTransaction*)arr_elem;
-			FREE((void*)arr_elem);
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -4903,7 +4918,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1TransactionZ_1free(JNIEn
 	for (size_t n = 0; n < arg_constr.datalen; n++) {
 		long arr_conv_13 = arg_vals[n];
 		LDKTransaction arr_conv_13_conv = *(LDKTransaction*)arr_conv_13;
-		FREE((void*)arr_conv_13);
 		arg_constr.data[n] = arr_conv_13_conv;
 	}
 	(*_env)->ReleaseLongArrayElements (_env, arg, arg_vals, 0);
@@ -5030,7 +5044,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1u8Z_1free(JNIEnv * _env,
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Transaction_1free(JNIEnv * _env, jclass _b, jlong _res) {
 	LDKTransaction _res_conv = *(LDKTransaction*)_res;
-	FREE((void*)_res);
 	Transaction_free(_res_conv);
 }
 
@@ -5042,7 +5055,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_TxOut_1free(JNIEnv * _env, jcl
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1usizeTransactionZ_1new(JNIEnv * _env, jclass _b, jlong a, jlong b) {
 	LDKTransaction b_conv = *(LDKTransaction*)b;
-	FREE((void*)b);
 	LDKC2Tuple_usizeTransactionZ* ret = MALLOC(sizeof(LDKC2Tuple_usizeTransactionZ), "LDKC2Tuple_usizeTransactionZ");
 	*ret = C2Tuple_usizeTransactionZ_new(a, b_conv);
 	return (long)ret;
@@ -6020,7 +6032,9 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1get_1lat
 	jlongArray ret_arr = (*_env)->NewLongArray(_env, ret_var.datalen);
 	jlong *ret_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, ret_arr, NULL);
 	for (size_t n = 0; n < ret_var.datalen; n++) {
-		long arr_conv_13_ref = (long)&ret_var.data[n];
+		LDKTransaction *arr_conv_13_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
+		*arr_conv_13_copy = ret_var.data[n];
+		long arr_conv_13_ref = (long)arr_conv_13_copy;
 		ret_arr_ptr[n] = arr_conv_13_ref;
 	}
 	(*_env)->ReleasePrimitiveArrayCritical(_env, ret_arr, ret_arr_ptr, 0);
@@ -11847,7 +11861,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1s
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	LDKTransaction val_conv = *(LDKTransaction*)val;
-	FREE((void*)val);
 	HolderCommitmentTransaction_set_unsigned_tx(&this_ptr_conv, val_conv);
 }
 
@@ -11908,7 +11921,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1s
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1new_1missing_1holder_1sig(JNIEnv * _env, jclass _b, jlong unsigned_tx, jbyteArray counterparty_sig, jbyteArray holder_funding_key, jbyteArray counterparty_funding_key, jlong keys, jint feerate_per_kw, jlongArray htlc_data) {
 	LDKTransaction unsigned_tx_conv = *(LDKTransaction*)unsigned_tx;
-	FREE((void*)unsigned_tx);
 	LDKSignature counterparty_sig_ref;
 	CHECK((*_env)->GetArrayLength (_env, counterparty_sig) == 64);
 	(*_env)->GetByteArrayRegion (_env, counterparty_sig, 0, 64, counterparty_sig_ref.compact_form);

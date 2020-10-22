@@ -11,7 +11,7 @@ public class ChannelInfo extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelInfo_free(ptr);
+		if (ptr != 0) { bindings.ChannelInfo_free(ptr); }
 	}
 
 	public ChannelFeatures get_features() {

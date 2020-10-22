@@ -11,7 +11,7 @@ public class QueryShortChannelIds extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.QueryShortChannelIds_free(ptr);
+		if (ptr != 0) { bindings.QueryShortChannelIds_free(ptr); }
 	}
 
 	public static QueryShortChannelIds constructor_clone(QueryShortChannelIds orig) {

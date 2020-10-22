@@ -11,7 +11,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelHandshakeLimits_free(ptr);
+		if (ptr != 0) { bindings.ChannelHandshakeLimits_free(ptr); }
 	}
 
 	public static ChannelHandshakeLimits constructor_clone(ChannelHandshakeLimits orig) {

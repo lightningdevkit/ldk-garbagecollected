@@ -98,6 +98,9 @@ trait_structs = set()
 result_types = set()
 tuple_types = {}
 
+def is_common_base_ext(struct_name):
+    return struct_name in complex_enums or struct_name in opaque_structs or struct_name in trait_structs or struct_name in result_types
+
 var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([a-z0-9]*)\]")
 var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
 java_c_types_none_allowed = True # Unset when we do the real pass that populates the above sets
@@ -562,7 +565,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             ret_conv = ("CANT PASS TRAIT TO Java?", ""), ret_conv_name = "NO CONV POSSIBLE",
                             to_hu_conv = "DUMMY", to_hu_conv_name = None,
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
-                    if ty_info.rust_obj != "LDKu8slice":
+                    if ty_info.rust_obj != "LDKu8slice" and ty_info.rust_obj != "LDKTransaction":
                         # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                         # underlying unlike Vecs, and it gives Java more freedom.
                         base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
@@ -576,38 +579,64 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = ret_conv, ret_conv_name = ty_info.var_name + "_ref",
                             to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
-                            to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + ".conv_to_c()", ""))
+                            to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
                     if ty_info.rust_obj in tuple_types:
+                        from_hu_conv = "bindings." + tuple_types[ty_info.rust_obj][1].replace("LDK", "") + "_new("
                         to_hu_conv_pfx = ""
                         to_hu_conv_sfx = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " + ty_info.java_hu_ty + "("
                         for idx, conv in enumerate(tuple_types[ty_info.rust_obj][0]):
                             if idx != 0:
                                 to_hu_conv_sfx = to_hu_conv_sfx + ", "
+                                from_hu_conv = from_hu_conv + ", "
                             conv.var_name = ty_info.var_name + "_" + chr(idx + ord("a"))
                             conv_map = map_type_with_info(conv, False, None, is_free, holds_ref)
                             to_hu_conv_pfx = to_hu_conv_pfx + conv.java_ty + " " + ty_info.var_name + "_" + chr(idx + ord("a")) + " = " + "bindings." + tuple_types[ty_info.rust_obj][1] + "_get_" + chr(idx + ord("a")) + "(" + ty_info.var_name + ");\n"
                             if conv_map.to_hu_conv is not None:
                                 to_hu_conv_pfx = to_hu_conv_pfx + conv_map.to_hu_conv + ";\n"
-                                to_hu_conv_sfx = to_hu_conv_sfx + conv_map.to_hu_conv_name;
+                                to_hu_conv_sfx = to_hu_conv_sfx + conv_map.to_hu_conv_name
                             else:
-                                to_hu_conv_sfx = to_hu_conv_sfx + ty_info.var_name + "_" + chr(idx + ord("a"));
+                                to_hu_conv_sfx = to_hu_conv_sfx + ty_info.var_name + "_" + chr(idx + ord("a"))
+                            if conv_map.from_hu_conv is not None:
+                                from_hu_conv = from_hu_conv + conv_map.from_hu_conv[0].replace(ty_info.var_name + "_" + chr(idx + ord("a")), ty_info.var_name + "." + chr(idx + ord("a")))
+                                if conv_map.from_hu_conv[1] != "":
+                                    from_hu_conv = from_hu_conv + "/*XXX: Need to call " + conv_map.from_hu_conv[1] + "*/"
+                            else:
+                                from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref",
-                            to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = ("/*TODO b*/0", ""))
+                            to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", ""))
 
                     # The manually-defined types - TxOut and Transaction
+                    assert ty_info.rust_obj == "LDKTransaction" or ty_info.rust_obj == "LDKTxOut"
+                    if ty_info.rust_obj == "LDKTransaction":
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                            ret_conv = ("LDKTransaction *" + ty_info.var_name + "_copy = MALLOC(sizeof(LDKTransaction), \"LDKTransaction\");\n*" + ty_info.var_name + "_copy = ", ";\nlong " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_copy;"),
+                            ret_conv_name = ty_info.var_name + "_ref",
+                            to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
+                            to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
-                        to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = ("/*TODO 1*/0", ""))
+                            arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                            ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref",
+                            to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
+                            to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
                 else:
                     assert(not is_free)
                     if ty_info.rust_obj in opaque_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                            ret_conv = None, ret_conv_name = None, to_hu_conv = "TODO 2", to_hu_conv_name = None,
+                            ret_conv = None, ret_conv_name = None,
+                            to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
+                            to_hu_conv_name = ty_info.var_name + "_hu_conv",
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")")) # its a pointer, no conv needed
+                    elif ty_info.rust_obj in complex_enums:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
+                            arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                            ret_conv = None, ret_conv_name = None,
+                            to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
+                            to_hu_conv_name = ty_info.var_name + "_hu_conv",
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")")) # its a pointer, no conv needed
                     elif ty_info.rust_obj in trait_structs:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -622,7 +651,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             elif ty_info.is_ptr:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None,
-                    ret_conv = None, ret_conv_name = None, to_hu_conv = "TODO 4", to_hu_conv_name = None, from_hu_conv = None)
+                    ret_conv = None, ret_conv_name = None, to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None,
@@ -656,7 +685,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             ret_conv_name = "(long)ret",
                             arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
                             to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(ret);\nret_hu_conv.ptrs_to.add(this);",
-                            to_hu_conv_name = "ret_hu_conv", from_hu_conv = (ty_info.var_name + ".conv_to_c()", ""))
+                            to_hu_conv_name = "ret_hu_conv", from_hu_conv = ("ret != null ? ret.ptr : 0", ""))
                     if ty_info.rust_obj in opaque_structs:
                         # If we're returning a newly-allocated struct, we don't want Rust to ever
                         # free, instead relying on the Java GC to lose the ref. We undo this in
@@ -674,7 +703,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             ret_conv_name = "(long)ret",
                             arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
                             to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
-                            to_hu_conv_name = "ret_hu_conv", from_hu_conv = None)
+                            to_hu_conv_name = "ret_hu_conv", from_hu_conv = ("ret.ptr", ""))
+                    elif ty_info.rust_obj in tuple_types:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
+                            ret_conv_name = "(long)ret",
+                            arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                            to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
+                            to_hu_conv_name = "ret_hu_conv", from_hu_conv = ("bindings." + ty_info.rust_obj.replace("LDK", "") + "_new(ret.a, ret.b)", ""))
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
@@ -932,9 +968,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
             out_java_enum.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
             out_java_enum.write("\tprotected void finalize() throws Throwable {\n")
             out_java_enum.write("\t\tsuper.finalize();\n")
-            out_java_enum.write("\t\tbindings." + java_hu_type + "_free(ptr);\n")
+            out_java_enum.write("\t\tif (ptr != 0) { bindings." + java_hu_type + "_free(ptr); }\n")
             out_java_enum.write("\t}\n")
-            out_java_enum.write("\tlong conv_to_c() { assert false; return 0; /* Should only be called on subclasses */ }\n")
             out_java_enum.write("\tstatic " + java_hu_type + " constr_from_ptr(long ptr) {\n")
             out_java_enum.write("\t\tbindings." + struct_name + " raw_val = bindings." + struct_name + "_ref_from_ptr(ptr);\n")
             java_hu_subclasses = ""
@@ -970,7 +1005,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             if idx != 0 and idx < len(enum_var_lines) - 2:
                                 field_ty = map_type(field.strip(' ;'), False, None, False, True)
                                 out_java.write("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
-                                java_hu_subclasses = java_hu_subclasses + "\t\tpublic " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
+                                java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
                                 if field_ty.to_hu_conv is not None:
                                     hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.java_ty + " " + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
                                     hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
@@ -989,8 +1024,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     out_java_enum.write("\t\t}\n")
                     java_hu_subclasses = java_hu_subclasses + "\t\tprivate " + var_name + "(long ptr, bindings." + struct_name + "." + var_name + " obj) {\n\t\t\tsuper(null, ptr);\n"
                     java_hu_subclasses = java_hu_subclasses + hu_conv_body
-                    java_hu_subclasses = java_hu_subclasses + "\t\t}\n\t\t@Override long conv_to_c() { return 0; /*XXX*/ }\n"
-                    java_hu_subclasses = java_hu_subclasses + "\t}\n"
+                    java_hu_subclasses = java_hu_subclasses + "\t\t}\n\t}\n"
                     init_meth_jty_strs[var_name] = init_meth_jty_str
             out_java_enum.write("\t\tassert false; return null; // Unreachable without extending the (internal) bindings interface\n\t}\n\n")
             out_java_enum.write(java_hu_subclasses)
@@ -1049,8 +1083,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
             out_java_trait.write(hu_struct_file_prefix)
             out_java_trait.write("public class " + struct_name.replace("LDK","") + " extends CommonBase {\n")
-            out_java_trait.write("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); }\n")
-            out_java_trait.write("\tpublic " + struct_name.replace("LDK", "") + "(bindings." + struct_name + " arg") # XXX: Should be priv ( but is currently used in tests
+            out_java_trait.write("\tfinal bindings." + struct_name + " bindings_instance;\n")
+            out_java_trait.write("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }\n")
+            out_java_trait.write("\tprivate " + struct_name.replace("LDK", "") + "(bindings." + struct_name + " arg")
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:
                     out_java_trait.write(", bindings." + var_line.group(1) + " " + var_line.group(2))
@@ -1061,15 +1096,21 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     out_java_trait.write(", " + var_line.group(2))
             out_java_trait.write("));\n")
             out_java_trait.write("\t\tthis.ptrs_to.add(arg);\n")
+            out_java_trait.write("\t\tthis.bindings_instance = arg;\n")
             out_java_trait.write("\t}\n")
             out_java_trait.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
             out_java_trait.write("\tprotected void finalize() throws Throwable {\n")
-            out_java_trait.write("\t\tbindings." + struct_name.replace("LDK","") + "_free(ptr); super.finalize();\n")
+            out_java_trait.write("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n")
             out_java_trait.write("\t}\n\n")
 
-            java_trait_constr = "\tpublic " + struct_name.replace("LDK", "") + "(" + struct_name.replace("LDK", "") + "Interface arg) {\n"
-            java_trait_constr = java_trait_constr + "\t\tthis(new bindings." + struct_name + "() {\n"
-            #out_java_trait.write("\tpublic static interface " + struct_name.replace("LDK", "") + "Interface {\n")
+            java_trait_constr = "\tpublic " + struct_name.replace("LDK", "") + "(" + struct_name.replace("LDK", "") + "Interface arg"
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    # Ideally we'd be able to take any instance of the interface, but our C code can only represent
+                    # Java-implemented version, so we require users pass a Java implementation here :/
+                    java_trait_constr = java_trait_constr + ", " + var_line.group(1).replace("LDK", "") + "." + var_line.group(1).replace("LDK", "") + "Interface " + var_line.group(2)
+            java_trait_constr = java_trait_constr + ") {\n\t\tthis(new bindings." + struct_name + "() {\n"
+            out_java_trait.write("\tpublic static interface " + struct_name.replace("LDK", "") + "Interface {\n")
             out_java.write("\tpublic interface " + struct_name + " {\n")
             java_meths = []
             for fn_line in trait_fn_lines:
@@ -1079,7 +1120,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
                     out_java.write("\t\t " + ret_ty_info.java_ty + " " + fn_line.group(2) + "(")
                     java_trait_constr = java_trait_constr + "\t\t\t@Override public " + ret_ty_info.java_ty + " " + fn_line.group(2) + "("
-                    #out_java_trait.write("\t\t" + ret_ty_info.java_hu_ty + " " + fn_line.group(2) + "(")
+                    out_java_trait.write("\t\t" + ret_ty_info.java_hu_ty + " " + fn_line.group(2) + "(")
                     is_const = fn_line.group(3) is not None
                     out_c.write(fn_line.group(1) + fn_line.group(2) + "_jcall(")
                     if is_const:
@@ -1094,12 +1135,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         if idx >= 2:
                             out_java.write(", ")
                             java_trait_constr = java_trait_constr + ", "
-                            #out_java_trait.write(", ")
+                            out_java_trait.write(", ")
                         out_c.write(", ")
                         arg_conv_info = map_type(arg, True, None, False, False)
                         out_c.write(arg.strip())
                         out_java.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
-                        #out_java_trait.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
+                        out_java_trait.write(arg_conv_info.java_hu_ty + " " + arg_conv_info.arg_name)
                         java_trait_constr = java_trait_constr + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
                         arg_names.append(arg_conv_info)
                         java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
@@ -1107,7 +1148,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     java_meths.append(java_meth_descr)
 
                     out_java.write(");\n")
-                    #out_java_trait.write(");\n")
+                    out_java_trait.write(");\n")
                     java_trait_constr = java_trait_constr + ") {\n"
                     out_c.write(") {\n")
                     out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
@@ -1119,6 +1160,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             out_c.write("\t" + arg_info.ret_conv[0].replace('\n', '\n\t'));
                             out_c.write(arg_info.arg_name)
                             out_c.write(arg_info.ret_conv[1].replace('\n', '\n\t') + "\n")
+                        if arg_info.to_hu_conv is not None:
+                            java_trait_constr = java_trait_constr + "\t\t\t\t" + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
 
                     out_c.write("\tjobject obj = (*_env)->NewLocalRef(_env, j_calls->o);\n\tCHECK(obj != NULL);\n")
                     if ret_ty_info.c_ty.endswith("Array"):
@@ -1128,15 +1171,21 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     else:
                         out_c.write("\t" + fn_line.group(1).strip() + "* ret = (" + fn_line.group(1).strip() + "*)(*_env)->CallLongMethod(_env, obj, j_calls->" + fn_line.group(2) + "_meth");
                     if ret_ty_info.java_ty != "void":
-                        java_trait_constr = java_trait_constr + "\t\t\t\treturn arg." + fn_line.group(2) + "("
+                        java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.java_hu_ty + " ret = arg." + fn_line.group(2) + "("
                     else:
                         java_trait_constr = java_trait_constr + "\t\t\t\targ." + fn_line.group(2) + "("
 
-                    for arg_info in arg_names:
+                    for idx, arg_info in enumerate(arg_names):
                         if arg_info.ret_conv is not None:
                             out_c.write(", " + arg_info.ret_conv_name)
                         else:
                             out_c.write(", " + arg_info.arg_name)
+                        if idx != 0:
+                            java_trait_constr = java_trait_constr + ", "
+                        if arg_info.to_hu_conv_name is not None:
+                            java_trait_constr = java_trait_constr + arg_info.to_hu_conv_name
+                        else:
+                            java_trait_constr = java_trait_constr + arg_info.arg_name
                     out_c.write(");\n");
                     if ret_ty_info.arg_conv is not None:
                         out_c.write("\t" + ret_ty_info.arg_conv.replace("\n", "\n\t").replace("arg", "ret") + "\n\treturn " + ret_ty_info.arg_conv_name.replace("arg", "ret") + ";\n")
@@ -1146,7 +1195,18 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         out_c.write("\tFREE(ret);\n")
                         out_c.write("\treturn res;\n")
                     out_c.write("}\n")
-                    java_trait_constr = java_trait_constr + ");\n\t\t\t}\n"
+                    java_trait_constr = java_trait_constr + ");\n"
+                    if ret_ty_info.java_ty != "void":
+                        if ret_ty_info.from_hu_conv is not None:
+                            java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.java_ty + " result = " + ret_ty_info.from_hu_conv[0] + ";\n"
+                            if ret_ty_info.from_hu_conv[1] != "":
+                                java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.from_hu_conv[1] + "\n"
+                            if is_common_base_ext(ret_ty_info.rust_obj):
+                                java_trait_constr = java_trait_constr + "\t\t\t\tret.ptr = 0;\n"
+                            java_trait_constr = java_trait_constr + "\t\t\t\treturn result;\n"
+                        else:
+                            java_trait_constr = java_trait_constr + "\t\t\t\treturn ret;\n"
+                    java_trait_constr = java_trait_constr + "\t\t\t}\n"
                 elif fn_line.group(2) == "free":
                     out_c.write("static void " + struct_name + "_JCalls_free(void* this_arg) {\n")
                     out_c.write("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
@@ -1156,8 +1216,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     out_c.write("\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n")
                     out_c.write("\t\tFREE(j_calls);\n")
                     out_c.write("\t}\n}\n")
-            #out_java_trait.write("\t}\n")
-            #out_java_trait.write(java_trait_constr + "\t\t});\n\t}\n")
+            java_trait_constr = java_trait_constr + "\t\t}"
+            for var_line in field_var_lines:
+                if var_line.group(1) in trait_structs:
+                    java_trait_constr = java_trait_constr + ", new " + var_line.group(2) + "(" + var_line.group(2) + ").bindings_instance"
+            out_java_trait.write("\t}\n")
+            out_java_trait.write(java_trait_constr + ");\n\t}\n")
 
             # Write out a clone function whether we need one or not, as we use them in moving to rust
             out_c.write("static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")
@@ -1302,7 +1366,13 @@ static void alloc_freed(void* ptr) {
 	allocation* p = NULL;
 	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
 	allocation* it = allocation_ll;
-	while (it->ptr != ptr) { p = it; it = it->next; }
+	while (it->ptr != ptr) {
+		p = it; it = it->next;
+		if (it == NULL) {
+			fprintf(stderr, "Tried to free unknown pointer %p!\\n", ptr);
+			return; // addrsan should catch malloc-unknown and print more info than we have
+		}
+	}
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
 	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
 	DO_ASSERT(it->ptr == ptr);
@@ -1375,6 +1445,7 @@ public class bindings {
 	public static native byte[] get_u8_slice_bytes(long slice_ptr);
 	public static native long bytes_to_u8_vec(byte[] bytes);
 	public static native long new_txpointer_copy_data(byte[] txdata);
+	public static native void txpointer_free(long ptr);
 	public static native long vec_slice_len(long vec);
 	public static native long new_empty_slice_vec();
 
@@ -1423,12 +1494,18 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JN
 	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
 	txdata->datalen = (*env)->GetArrayLength(env, bytes);
 	txdata->data = (uint8_t*)MALLOC(txdata->datalen, "Tx Data Bytes");
-	txdata->data_is_owned = true;
+	txdata->data_is_owned = false;
 	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
 	return (long)txdata;
 }
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_txpointer_1free (JNIEnv * env, jclass _b, jlong ptr) {
+	LDKTransaction *tx = (LDKTransaction*)ptr;
+	tx->data_is_owned = true;
+	Transaction_free(*tx);
+	FREE((void*)ptr);
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env, jclass _a, jlong ptr) {
-        // Check offsets of a few Vec types are all consistent as we're meant to be generic across types
+	// Check offsets of a few Vec types are all consistent as we're meant to be generic across types
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_SignatureZ, datalen), "Vec<*> needs to be mapped identically");
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_MessageSendEventZ, datalen), "Vec<*> needs to be mapped identically");
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_EventZ, datalen), "Vec<*> needs to be mapped identically");
@@ -1437,7 +1514,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env
 	return (long)vec->datalen;
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec (JNIEnv * _env, jclass _b) {
-        // Check sizes of a few Vec types are all consistent as we're meant to be generic across types
+	// Check sizes of a few Vec types are all consistent as we're meant to be generic across types
 	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_SignatureZ), "Vec<*> needs to be mapped identically");
 	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_MessageSendEventZ), "Vec<*> needs to be mapped identically");
 	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_EventZ), "Vec<*> needs to be mapped identically");
@@ -1459,7 +1536,7 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
         out_java_struct.write("""package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {
-	final long ptr;
+	long ptr;
 	LinkedList<Object> ptrs_to = new LinkedList();
 	protected CommonBase(long ptr) { this.ptr = ptr; }
 	public long _test_only_get_ptr() { return this.ptr; }
@@ -1568,7 +1645,7 @@ class CommonBase {
                             out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
                             out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
                             out_java_struct.write("\t\tsuper.finalize();\n")
-                        out_java_struct.write("\t\tbindings." + struct_name.replace("LDK","") + "_free(ptr);\n")
+                        out_java_struct.write("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); }\n")
                         out_java_struct.write("\t}\n\n")
                 elif result_contents is not None:
                     result_templ_structs.add(struct_name)
@@ -1674,6 +1751,7 @@ class CommonBase {
                         out_java_struct.write(hu_struct_file_prefix)
                         out_java_struct.write("public class TxOut extends CommonBase{\n")
                         out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
+                        out_java_struct.write("\tlong to_c_ptr() { return 0; }\n")
                         # TODO: TxOut body
                         out_java_struct.write("}")
                 elif struct_name == "LDKTransaction":
@@ -1681,6 +1759,8 @@ class CommonBase {
                         out_java_struct.write(hu_struct_file_prefix)
                         out_java_struct.write("public class Transaction extends CommonBase{\n")
                         out_java_struct.write("\tTransaction(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
+                        out_java_struct.write("\tpublic Transaction(byte[] data) { super(bindings.new_txpointer_copy_data(data)); }\n")
+                        out_java_struct.write("\t@Override public void finalize() throws Throwable { super.finalize(); bindings.txpointer_free(ptr); }\n")
                         # TODO: Transaction body
                         out_java_struct.write("}")
                 else:
@@ -1721,7 +1801,7 @@ class CommonBase {
                         out_java_struct.write("public class " + human_ty + " extends CommonBase {\n")
                         out_java_struct.write("\tprivate " + human_ty + "(Object _dummy, long ptr) { super(ptr); }\n")
                         out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
-                        out_java_struct.write("\t\tbindings." + alias_match.group(2).replace("LDK","") + "_free(ptr); super.finalize();\n")
+                        out_java_struct.write("\t\tif (ptr != 0) { bindings." + alias_match.group(2).replace("LDK","") + "_free(ptr); } super.finalize();\n")
                         out_java_struct.write("\t}\n\n")
                         out_java_struct.write("\tstatic " + human_ty + " constr_from_ptr(long ptr) {\n")
                         out_java_struct.write("\t\tif (bindings." + alias_match.group(2) + "_result_ok(ptr)) {\n")
@@ -1753,7 +1833,7 @@ class CommonBase {
                             out_c.write("return *val->contents.result")
                         out_c.write(";\n}\n")
 
-                        out_java_struct.write("\t\tpublic " + res_map.java_hu_ty + " res;\n")
+                        out_java_struct.write("\t\tpublic final " + res_map.java_hu_ty + " res;\n")
                         out_java_struct.write("\t\tprivate " + human_ty + "_OK(Object _dummy, long ptr) {\n")
                         out_java_struct.write("\t\t\tsuper(_dummy, ptr);\n")
                         if res_map.to_hu_conv is not None:
@@ -1762,13 +1842,24 @@ class CommonBase {
                             out_java_struct.write("\n\t\t\tthis.res = " + res_map.to_hu_conv_name + ";\n")
                         else:
                             out_java_struct.write("\t\t\tthis.res = bindings." + alias_match.group(2) + "_get_ok(ptr);\n")
-                        out_java_struct.write("\t\t}\n\n")
+                        out_java_struct.write("\t\t}\n")
+                        if alias_match.group(2).startswith("LDKCResult_None"):
+                            out_java_struct.write("\t\tpublic " + human_ty + "_OK() {\n\t\t\tthis(null, bindings.C" + human_ty + "_ok());\n")
+                        else:
+                            out_java_struct.write("\t\tpublic " + human_ty + "_OK(" + res_map.java_hu_ty + " res) {\n")
+                            if res_map.from_hu_conv is not None:
+                                out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_ok(" + res_map.from_hu_conv[0] + "));\n")
+                                if res_map.from_hu_conv[1] != "":
+                                    out_java_struct.write("\t\t\t" + res_map.from_hu_conv[1] + ";\n")
+                            else:
+                                out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_ok(res));\n")
+                        out_java_struct.write("\t\t}\n\t}\n\n")
 
                         out_java.write("\tpublic static native " + err_map.java_ty + " " + alias_match.group(2) + "_get_err(long arg);\n")
                         out_c.write("JNIEXPORT " + err_map.c_ty + " JNICALL Java_org_ldk_impl_bindings_" + alias_match.group(2).replace("_", "_1") + "_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {\n")
                         out_c.write("\t" + alias_match.group(2) + " *val = (" + alias_match.group(2) + "*)arg;\n")
                         out_c.write("\tCHECK(!val->result_ok);\n\t")
-                        out_java_struct.write("\t}\n\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n")
+                        out_java_struct.write("\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n")
                         if err_map.ret_conv is not None:
                             out_c.write(err_map.ret_conv[0].replace("\n", "\n\t") + "(*val->contents.err)")
                             out_c.write(err_map.ret_conv[1].replace("\n", "\n\t") + "\n\treturn " + err_map.ret_conv_name)
@@ -1776,7 +1867,7 @@ class CommonBase {
                             out_c.write("return *val->contents.err")
                         out_c.write(";\n}\n")
 
-                        out_java_struct.write("\t\tpublic " + err_map.java_hu_ty + " err;\n")
+                        out_java_struct.write("\t\tpublic final " + err_map.java_hu_ty + " err;\n")
                         out_java_struct.write("\t\tprivate " + human_ty + "_Err(Object _dummy, long ptr) {\n")
                         out_java_struct.write("\t\t\tsuper(_dummy, ptr);\n")
                         if err_map.to_hu_conv is not None:
@@ -1785,6 +1876,18 @@ class CommonBase {
                             out_java_struct.write("\n\t\t\tthis.err = " + err_map.to_hu_conv_name + ";\n")
                         else:
                             out_java_struct.write("\t\t\tthis.err = bindings." + alias_match.group(2) + "_get_err(ptr);\n")
+                        out_java_struct.write("\t\t}\n")
+
+                        if alias_match.group(2).endswith("NoneZ"):
+                            out_java_struct.write("\t\tpublic " + human_ty + "_Err() {\n\t\t\tthis(null, bindings.C" + human_ty + "_err());\n")
+                        else:
+                            out_java_struct.write("\t\tpublic " + human_ty + "_Err(" + err_map.java_hu_ty + " err) {\n")
+                            if err_map.from_hu_conv is not None:
+                                out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(" + err_map.from_hu_conv[0] + "));\n")
+                                if err_map.from_hu_conv[1] != "":
+                                    out_java_struct.write("\t\t\t" + err_map.from_hu_conv[1] + ";\n")
+                            else:
+                                out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(err));\n")
                         out_java_struct.write("\t\t}\n\t}\n}\n")
             elif fn_ptr is not None:
                 map_fn(line, fn_ptr, None, None)

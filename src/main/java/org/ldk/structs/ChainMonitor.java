@@ -11,11 +11,11 @@ public class ChainMonitor extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChainMonitor_free(ptr);
+		if (ptr != 0) { bindings.ChainMonitor_free(ptr); }
 	}
 
 	public void block_connected(byte[] header, TwoTuple<Long, Transaction>[] txdata, int height) {
-		bindings.ChainMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_29 -> /*TODO b*/0).toArray(), height);
+		bindings.ChainMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_29 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_29.a, arr_conv_29.b.ptr)).toArray(), height);
 		/* TODO 2 TwoTuple<Long, Transaction>  */;
 	}
 

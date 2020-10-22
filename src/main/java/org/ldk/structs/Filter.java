@@ -7,16 +7,33 @@ import java.util.Arrays;
 
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Filter extends CommonBase {
-	Filter(Object _dummy, long ptr) { super(ptr); }
-	public Filter(bindings.LDKFilter arg) {
+	final bindings.LDKFilter bindings_instance;
+	Filter(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
+	private Filter(bindings.LDKFilter arg) {
 		super(bindings.LDKFilter_new(arg));
 		this.ptrs_to.add(arg);
+		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.Filter_free(ptr); super.finalize();
+		if (ptr != 0) { bindings.Filter_free(ptr); } super.finalize();
 	}
 
+	public static interface FilterInterface {
+		void register_tx(byte[] txid, byte[] script_pubkey);
+		void register_output(OutPoint outpoint, byte[] script_pubkey);
+	}
+	public Filter(FilterInterface arg) {
+		this(new bindings.LDKFilter() {
+			@Override public void register_tx(byte[] txid, byte[] script_pubkey) {
+				arg.register_tx(txid, script_pubkey);
+			}
+			@Override public void register_output(long outpoint, byte[] script_pubkey) {
+				OutPoint outpoint_hu_conv = new OutPoint(null, outpoint);
+				arg.register_output(outpoint_hu_conv, script_pubkey);
+			}
+		});
+	}
 	public void register_tx(byte[] txid, byte[] script_pubkey) {
 		bindings.Filter_register_tx(this.ptr, txid, script_pubkey);
 	}

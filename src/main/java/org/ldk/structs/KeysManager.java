@@ -11,7 +11,7 @@ public class KeysManager extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.KeysManager_free(ptr);
+		if (ptr != 0) { bindings.KeysManager_free(ptr); }
 	}
 
 	public static KeysManager constructor_new(byte[] seed, LDKNetwork network, long starting_time_secs, int starting_time_nanos) {

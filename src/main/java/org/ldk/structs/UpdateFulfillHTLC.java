@@ -11,7 +11,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.UpdateFulfillHTLC_free(ptr);
+		if (ptr != 0) { bindings.UpdateFulfillHTLC_free(ptr); }
 	}
 
 	public static UpdateFulfillHTLC constructor_clone(UpdateFulfillHTLC orig) {

@@ -11,7 +11,7 @@ public class ClosingSigned extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ClosingSigned_free(ptr);
+		if (ptr != 0) { bindings.ClosingSigned_free(ptr); }
 	}
 
 	public static ClosingSigned constructor_clone(ClosingSigned orig) {

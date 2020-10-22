@@ -11,7 +11,7 @@ public class CommitmentSigned extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.CommitmentSigned_free(ptr);
+		if (ptr != 0) { bindings.CommitmentSigned_free(ptr); }
 	}
 
 	public static CommitmentSigned constructor_clone(CommitmentSigned orig) {

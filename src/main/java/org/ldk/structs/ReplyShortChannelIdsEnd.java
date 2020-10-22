@@ -11,7 +11,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ReplyShortChannelIdsEnd_free(ptr);
+		if (ptr != 0) { bindings.ReplyShortChannelIdsEnd_free(ptr); }
 	}
 
 	public static ReplyShortChannelIdsEnd constructor_clone(ReplyShortChannelIdsEnd orig) {

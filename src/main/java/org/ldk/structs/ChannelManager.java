@@ -11,7 +11,7 @@ public class ChannelManager extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelManager_free(ptr);
+		if (ptr != 0) { bindings.ChannelManager_free(ptr); }
 	}
 
 	public static ChannelManager constructor_new(LDKNetwork network, FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, long current_blockchain_height) {
@@ -85,7 +85,7 @@ public class ChannelManager extends CommonBase {
 	}
 
 	public void broadcast_node_announcement(byte[] rgb, byte[] alias, NetAddress[] addresses) {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, Arrays.stream(addresses).mapToLong(arr_conv_12 -> arr_conv_12.conv_to_c()).toArray());
+		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, Arrays.stream(addresses).mapToLong(arr_conv_12 -> arr_conv_12.ptr).toArray());
 		/* TODO 2 NetAddress  */;
 	}
 
@@ -132,7 +132,7 @@ public class ChannelManager extends CommonBase {
 	}
 
 	public void block_connected(byte[] header, TwoTuple<Long, Transaction>[] txdata, int height) {
-		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_29 -> /*TODO b*/0).toArray(), height);
+		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_29 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_29.a, arr_conv_29.b.ptr)).toArray(), height);
 		/* TODO 2 TwoTuple<Long, Transaction>  */;
 	}
 

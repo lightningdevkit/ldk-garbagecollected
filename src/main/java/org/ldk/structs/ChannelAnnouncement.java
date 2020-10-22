@@ -11,7 +11,7 @@ public class ChannelAnnouncement extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelAnnouncement_free(ptr);
+		if (ptr != 0) { bindings.ChannelAnnouncement_free(ptr); }
 	}
 
 	public static ChannelAnnouncement constructor_clone(ChannelAnnouncement orig) {

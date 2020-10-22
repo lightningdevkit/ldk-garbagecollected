@@ -11,7 +11,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelMonitorUpdate_free(ptr);
+		if (ptr != 0) { bindings.ChannelMonitorUpdate_free(ptr); }
 	}
 
 	public static ChannelMonitorUpdate constructor_clone(ChannelMonitorUpdate orig) {

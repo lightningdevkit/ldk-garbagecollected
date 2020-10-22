@@ -11,7 +11,7 @@ public class NodeFeatures extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.NodeFeatures_free(ptr);
+		if (ptr != 0) { bindings.NodeFeatures_free(ptr); }
 	}
 
 }

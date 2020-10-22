@@ -11,7 +11,7 @@ public class MonitorEvent extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.MonitorEvent_free(ptr);
+		if (ptr != 0) { bindings.MonitorEvent_free(ptr); }
 	}
 
 }

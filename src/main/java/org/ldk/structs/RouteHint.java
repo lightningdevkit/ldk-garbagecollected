@@ -11,7 +11,7 @@ public class RouteHint extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.RouteHint_free(ptr);
+		if (ptr != 0) { bindings.RouteHint_free(ptr); }
 	}
 
 	public static RouteHint constructor_clone(RouteHint orig) {

@@ -11,7 +11,7 @@ public class HTLCUpdate extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.HTLCUpdate_free(ptr);
+		if (ptr != 0) { bindings.HTLCUpdate_free(ptr); }
 	}
 
 	public static HTLCUpdate constructor_clone(HTLCUpdate orig) {

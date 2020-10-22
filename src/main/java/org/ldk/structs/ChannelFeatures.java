@@ -11,7 +11,7 @@ public class ChannelFeatures extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelFeatures_free(ptr);
+		if (ptr != 0) { bindings.ChannelFeatures_free(ptr); }
 	}
 
 }

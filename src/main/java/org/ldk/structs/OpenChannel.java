@@ -11,7 +11,7 @@ public class OpenChannel extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.OpenChannel_free(ptr);
+		if (ptr != 0) { bindings.OpenChannel_free(ptr); }
 	}
 
 	public static OpenChannel constructor_clone(OpenChannel orig) {

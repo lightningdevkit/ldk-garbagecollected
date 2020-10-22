@@ -11,7 +11,7 @@ public class DataLossProtect extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.DataLossProtect_free(ptr);
+		if (ptr != 0) { bindings.DataLossProtect_free(ptr); }
 	}
 
 	public static DataLossProtect constructor_clone(DataLossProtect orig) {

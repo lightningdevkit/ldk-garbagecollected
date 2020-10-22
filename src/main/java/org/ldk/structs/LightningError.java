@@ -11,7 +11,7 @@ public class LightningError extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.LightningError_free(ptr);
+		if (ptr != 0) { bindings.LightningError_free(ptr); }
 	}
 
 	public String get_err() {

@@ -11,7 +11,7 @@ public class Pong extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.Pong_free(ptr);
+		if (ptr != 0) { bindings.Pong_free(ptr); }
 	}
 
 	public static Pong constructor_clone(Pong orig) {

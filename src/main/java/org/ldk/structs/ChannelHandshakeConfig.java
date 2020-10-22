@@ -11,7 +11,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.ChannelHandshakeConfig_free(ptr);
+		if (ptr != 0) { bindings.ChannelHandshakeConfig_free(ptr); }
 	}
 
 	public static ChannelHandshakeConfig constructor_clone(ChannelHandshakeConfig orig) {

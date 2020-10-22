@@ -11,7 +11,7 @@ public class FundingCreated extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.FundingCreated_free(ptr);
+		if (ptr != 0) { bindings.FundingCreated_free(ptr); }
 	}
 
 	public static FundingCreated constructor_clone(FundingCreated orig) {

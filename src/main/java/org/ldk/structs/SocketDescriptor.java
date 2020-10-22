@@ -7,16 +7,43 @@ import java.util.Arrays;
 
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class SocketDescriptor extends CommonBase {
-	SocketDescriptor(Object _dummy, long ptr) { super(ptr); }
-	public SocketDescriptor(bindings.LDKSocketDescriptor arg) {
+	final bindings.LDKSocketDescriptor bindings_instance;
+	SocketDescriptor(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
+	private SocketDescriptor(bindings.LDKSocketDescriptor arg) {
 		super(bindings.LDKSocketDescriptor_new(arg));
 		this.ptrs_to.add(arg);
+		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.SocketDescriptor_free(ptr); super.finalize();
+		if (ptr != 0) { bindings.SocketDescriptor_free(ptr); } super.finalize();
 	}
 
+	public static interface SocketDescriptorInterface {
+		long send_data(byte[] data, boolean resume_read);
+		void disconnect_socket();
+		boolean eq(long other_arg);
+		long hash();
+	}
+	public SocketDescriptor(SocketDescriptorInterface arg) {
+		this(new bindings.LDKSocketDescriptor() {
+			@Override public long send_data(byte[] data, boolean resume_read) {
+				long ret = arg.send_data(data, resume_read);
+				return ret;
+			}
+			@Override public void disconnect_socket() {
+				arg.disconnect_socket();
+			}
+			@Override public boolean eq(long other_arg) {
+				boolean ret = arg.eq(other_arg);
+				return ret;
+			}
+			@Override public long hash() {
+				long ret = arg.hash();
+				return ret;
+			}
+		});
+	}
 	public long send_data(byte[] data, boolean resume_read) {
 		long ret = bindings.SocketDescriptor_send_data(this.ptr, data, resume_read);
 		return ret;

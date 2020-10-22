@@ -11,7 +11,7 @@ public class Route extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.Route_free(ptr);
+		if (ptr != 0) { bindings.Route_free(ptr); }
 	}
 
 	public static Route constructor_clone(Route orig) {

@@ -11,7 +11,7 @@ public class Ping extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.Ping_free(ptr);
+		if (ptr != 0) { bindings.Ping_free(ptr); }
 	}
 
 	public static Ping constructor_clone(Ping orig) {

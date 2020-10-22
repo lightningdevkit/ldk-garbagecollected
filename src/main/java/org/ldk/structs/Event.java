@@ -11,9 +11,8 @@ public class Event extends CommonBase {
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
-		bindings.Event_free(ptr);
+		if (ptr != 0) { bindings.Event_free(ptr); }
 	}
-	long conv_to_c() { assert false; return 0; /* Should only be called on subclasses */ }
 	static Event constr_from_ptr(long ptr) {
 		bindings.LDKEvent raw_val = bindings.LDKEvent_ref_from_ptr(ptr);
 		if (raw_val.getClass() == bindings.LDKEvent.FundingGenerationReady.class) {
@@ -41,10 +40,10 @@ public class Event extends CommonBase {
 	}
 
 	public final static class FundingGenerationReady extends Event {
-		public byte[] temporary_channel_id;
-		public long channel_value_satoshis;
-		public byte[] output_script;
-		public long user_channel_id;
+		public final byte[] temporary_channel_id;
+		public final long channel_value_satoshis;
+		public final byte[] output_script;
+		public final long user_channel_id;
 		private FundingGenerationReady(long ptr, bindings.LDKEvent.FundingGenerationReady obj) {
 			super(null, ptr);
 			this.temporary_channel_id = obj.temporary_channel_id;
@@ -52,11 +51,10 @@ public class Event extends CommonBase {
 			this.output_script = obj.output_script;
 			this.user_channel_id = obj.user_channel_id;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class FundingBroadcastSafe extends Event {
-		public OutPoint funding_txo;
-		public long user_channel_id;
+		public final OutPoint funding_txo;
+		public final long user_channel_id;
 		private FundingBroadcastSafe(long ptr, bindings.LDKEvent.FundingBroadcastSafe obj) {
 			super(null, ptr);
 			long funding_txo = obj.funding_txo;
@@ -64,48 +62,43 @@ public class Event extends CommonBase {
 			this.funding_txo = funding_txo_hu_conv;
 			this.user_channel_id = obj.user_channel_id;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class PaymentReceived extends Event {
-		public byte[] payment_hash;
-		public byte[] payment_secret;
-		public long amt;
+		public final byte[] payment_hash;
+		public final byte[] payment_secret;
+		public final long amt;
 		private PaymentReceived(long ptr, bindings.LDKEvent.PaymentReceived obj) {
 			super(null, ptr);
 			this.payment_hash = obj.payment_hash;
 			this.payment_secret = obj.payment_secret;
 			this.amt = obj.amt;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class PaymentSent extends Event {
-		public byte[] payment_preimage;
+		public final byte[] payment_preimage;
 		private PaymentSent(long ptr, bindings.LDKEvent.PaymentSent obj) {
 			super(null, ptr);
 			this.payment_preimage = obj.payment_preimage;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class PaymentFailed extends Event {
-		public byte[] payment_hash;
-		public boolean rejected_by_dest;
+		public final byte[] payment_hash;
+		public final boolean rejected_by_dest;
 		private PaymentFailed(long ptr, bindings.LDKEvent.PaymentFailed obj) {
 			super(null, ptr);
 			this.payment_hash = obj.payment_hash;
 			this.rejected_by_dest = obj.rejected_by_dest;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class PendingHTLCsForwardable extends Event {
-		public long time_forwardable;
+		public final long time_forwardable;
 		private PendingHTLCsForwardable(long ptr, bindings.LDKEvent.PendingHTLCsForwardable obj) {
 			super(null, ptr);
 			this.time_forwardable = obj.time_forwardable;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 	public final static class SpendableOutputs extends Event {
-		public SpendableOutputDescriptor[] outputs;
+		public final SpendableOutputDescriptor[] outputs;
 		private SpendableOutputs(long ptr, bindings.LDKEvent.SpendableOutputs obj) {
 			super(null, ptr);
 			long[] outputs = obj.outputs;
@@ -117,6 +110,5 @@ public class Event extends CommonBase {
 			}
 			this.outputs = arr_conv_27_arr;
 		}
-		@Override long conv_to_c() { return 0; /*XXX*/ }
 	}
 }

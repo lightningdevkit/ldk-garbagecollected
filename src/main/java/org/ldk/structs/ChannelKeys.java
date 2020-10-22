@@ -7,16 +7,110 @@ import java.util.Arrays;
 
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ChannelKeys extends CommonBase {
-	ChannelKeys(Object _dummy, long ptr) { super(ptr); }
-	public ChannelKeys(bindings.LDKChannelKeys arg) {
+	final bindings.LDKChannelKeys bindings_instance;
+	ChannelKeys(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
+	private ChannelKeys(bindings.LDKChannelKeys arg) {
 		super(bindings.LDKChannelKeys_new(arg));
 		this.ptrs_to.add(arg);
+		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		bindings.ChannelKeys_free(ptr); super.finalize();
+		if (ptr != 0) { bindings.ChannelKeys_free(ptr); } super.finalize();
 	}
 
+	public static interface ChannelKeysInterface {
+		byte[] get_per_commitment_point(long idx);
+		byte[] release_commitment_secret(long idx);
+		TwoTuple<Long, Long> key_derivation_params();
+		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(int feerate_per_kw, Transaction commitment_tx, PreCalculatedTxCreationKeys keys, HTLCOutputInCommitment[] htlcs);
+		Result_SignatureNoneZ sign_holder_commitment(HolderCommitmentTransaction holder_commitment_tx);
+		Result_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions(HolderCommitmentTransaction holder_commitment_tx);
+		Result_SignatureNoneZ sign_justice_transaction(Transaction justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc);
+		Result_SignatureNoneZ sign_counterparty_htlc_transaction(Transaction htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc);
+		Result_SignatureNoneZ sign_closing_transaction(Transaction closing_tx);
+		Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg);
+		void on_accept(ChannelPublicKeys channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
+	}
+	public ChannelKeys(ChannelKeysInterface arg) {
+		this(new bindings.LDKChannelKeys() {
+			@Override public byte[] get_per_commitment_point(long idx) {
+				byte[] ret = arg.get_per_commitment_point(idx);
+				return ret;
+			}
+			@Override public byte[] release_commitment_secret(long idx) {
+				byte[] ret = arg.release_commitment_secret(idx);
+				return ret;
+			}
+			@Override public long key_derivation_params() {
+				TwoTuple<Long, Long> ret = arg.key_derivation_params();
+				long result = bindings.C2Tuple_u64u64Z_new(ret.a, ret.b);
+				return result;
+			}
+			@Override public long sign_counterparty_commitment(int feerate_per_kw, long commitment_tx, long keys, long[] htlcs) {
+				Transaction commitment_tx_conv = new Transaction(null, commitment_tx);
+				PreCalculatedTxCreationKeys keys_hu_conv = new PreCalculatedTxCreationKeys(null, keys);
+				HTLCOutputInCommitment[] arr_conv_24_arr = new HTLCOutputInCommitment[htlcs.length];
+				for (int y = 0; y < htlcs.length; y++) {
+					long arr_conv_24 = htlcs[y];
+					HTLCOutputInCommitment arr_conv_24_hu_conv = new HTLCOutputInCommitment(null, arr_conv_24);
+					arr_conv_24_arr[y] = arr_conv_24_hu_conv;
+				}
+				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_counterparty_commitment(feerate_per_kw, commitment_tx_conv, keys_hu_conv, arr_conv_24_arr);
+				long result = ret != null ? ret.ptr : 0;
+				ret.ptr = 0;
+				return result;
+			}
+			@Override public long sign_holder_commitment(long holder_commitment_tx) {
+				HolderCommitmentTransaction holder_commitment_tx_hu_conv = new HolderCommitmentTransaction(null, holder_commitment_tx);
+				Result_SignatureNoneZ ret = arg.sign_holder_commitment(holder_commitment_tx_hu_conv);
+				long result = ret != null ? ret.ptr : 0;
+				ret.ptr = 0;
+				return result;
+			}
+			@Override public long sign_holder_commitment_htlc_transactions(long holder_commitment_tx) {
+				HolderCommitmentTransaction holder_commitment_tx_hu_conv = new HolderCommitmentTransaction(null, holder_commitment_tx);
+				Result_CVec_SignatureZNoneZ ret = arg.sign_holder_commitment_htlc_transactions(holder_commitment_tx_hu_conv);
+				long result = ret != null ? ret.ptr : 0;
+				ret.ptr = 0;
+				return result;
+			}
+			@Override public long sign_justice_transaction(long justice_tx, long input, long amount, byte[] per_commitment_key, long htlc) {
+				Transaction justice_tx_conv = new Transaction(null, justice_tx);
+				HTLCOutputInCommitment htlc_hu_conv = new HTLCOutputInCommitment(null, htlc);
+				Result_SignatureNoneZ ret = arg.sign_justice_transaction(justice_tx_conv, input, amount, per_commitment_key, htlc_hu_conv);
+				long result = ret != null ? ret.ptr : 0;
+				ret.ptr = 0;
+				return result;
+			}
+			@Override public long sign_counterparty_htlc_transaction(long htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc) {
+				Transaction htlc_tx_conv = new Transaction(null, htlc_tx);
+				HTLCOutputInCommitment htlc_hu_conv = new HTLCOutputInCommitment(null, htlc);
+				Result_SignatureNoneZ ret = arg.sign_counterparty_htlc_transaction(htlc_tx_conv, input, amount, per_commitment_point, htlc_hu_conv);
+				long result = ret != null ? ret.ptr : 0;
+				ret.ptr = 0;
+				return result;
+			}
+			@Override public long sign_closing_transaction(long closing_tx) {
+				Transaction closing_tx_conv = new Transaction(null, closing_tx);
+				Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx_conv);
+				long result = ret != null ? ret.ptr : 0;
+				ret.ptr = 0;
+				return result;
+			}
+			@Override public long sign_channel_announcement(long msg) {
+				UnsignedChannelAnnouncement msg_hu_conv = new UnsignedChannelAnnouncement(null, msg);
+				Result_SignatureNoneZ ret = arg.sign_channel_announcement(msg_hu_conv);
+				long result = ret != null ? ret.ptr : 0;
+				ret.ptr = 0;
+				return result;
+			}
+			@Override public void on_accept(long channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay) {
+				ChannelPublicKeys channel_points_hu_conv = new ChannelPublicKeys(null, channel_points);
+				arg.on_accept(channel_points_hu_conv, counterparty_selected_contest_delay, holder_selected_contest_delay);
+			}
+		});
+	}
 	public byte[] get_per_commitment_point(long idx) {
 		byte[] ret = bindings.ChannelKeys_get_per_commitment_point(this.ptr, idx);
 		return ret;
