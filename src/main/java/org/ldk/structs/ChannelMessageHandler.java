@@ -12,6 +12,7 @@ public class ChannelMessageHandler extends CommonBase {
 	private ChannelMessageHandler(bindings.LDKChannelMessageHandler arg, bindings.LDKMessageSendEventsProvider MessageSendEventsProvider) {
 		super(bindings.LDKChannelMessageHandler_new(arg, MessageSendEventsProvider));
 		this.ptrs_to.add(arg);
+		this.ptrs_to.add(MessageSendEventsProvider);
 		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")

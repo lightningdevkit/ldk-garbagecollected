@@ -345,7 +345,7 @@ public class bindings {
 		 long sign_channel_announcement(long msg);
 		 void on_accept(long channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
 	}
-	public static native long LDKChannelKeys_new(LDKChannelKeys impl);
+	public static native long LDKChannelKeys_new(LDKChannelKeys impl, long pubkeys);
 	public static native LDKChannelKeys LDKChannelKeys_get_obj_from_jcalls(long val);
 	// LDKPublicKey ChannelKeys_get_per_commitment_point LDKChannelKeys* this_arg, uint64_t idx
 	public static native byte[] ChannelKeys_get_per_commitment_point(long this_arg, long idx);
@@ -369,6 +369,8 @@ public class bindings {
 	public static native long ChannelKeys_sign_channel_announcement(long this_arg, long msg);
 	// void ChannelKeys_on_accept LDKChannelKeys* this_arg, const LDKChannelPublicKeys *channel_points, uint16_t counterparty_selected_contest_delay, uint16_t holder_selected_contest_delay
 	public static native void ChannelKeys_on_accept(long this_arg, long channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
+	// LDKChannelPublicKeys ChannelKeys_get_pubkeys LDKChannelKeys* this_arg
+	public static native long ChannelKeys_get_pubkeys(long this_arg);
 	public static native long[] LDKCVecTempl_MonitorEvent_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_MonitorEvent_new(long[] elems);
 	public interface LDKWatch {

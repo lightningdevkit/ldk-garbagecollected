@@ -30,6 +30,14 @@ public class LightningError extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped LightningError_set_action
-	// Skipped LightningError_new
+	public void set_action(ErrorAction val) {
+		bindings.LightningError_set_action(this.ptr, val.ptr);
+	}
+
+	public static LightningError constructor_new(byte[] err_arg, ErrorAction action_arg) {
+		long ret = bindings.LightningError_new(err_arg, action_arg.ptr);
+		LightningError ret_hu_conv = new LightningError(null, ret);
+		return ret_hu_conv;
+	}
+
 }

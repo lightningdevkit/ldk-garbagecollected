@@ -30,5 +30,8 @@ public class BroadcasterInterface extends CommonBase {
 			}
 		});
 	}
-	// Skipped BroadcasterInterface_broadcast_transaction
+	public void broadcast_transaction(Transaction tx) {
+		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, tx.ptr);
+	}
+
 }

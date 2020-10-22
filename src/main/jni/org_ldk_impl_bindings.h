@@ -730,10 +730,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1HTLCOutputInCom
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    LDKChannelKeys_new
- * Signature: (Lorg/ldk/impl/bindings/LDKChannelKeys;)J
+ * Signature: (Lorg/ldk/impl/bindings/LDKChannelKeys;J)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new
-  (JNIEnv *, jclass, jobject);
+  (JNIEnv *, jclass, jobject, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -830,6 +830,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1channel_1a
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1on_1accept
   (JNIEnv *, jclass, jlong, jlong, jshort, jshort);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    ChannelKeys_get_pubkeys
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1get_1pubkeys
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings

@@ -97,7 +97,11 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped RoutingMessageHandler_handle_htlc_fail_channel_update
+	public void handle_htlc_fail_channel_update(HTLCFailChannelUpdate update) {
+		bindings.RoutingMessageHandler_handle_htlc_fail_channel_update(this.ptr, update == null ? 0 : update.ptr & ~1);
+		this.ptrs_to.add(update);
+	}
+
 	public ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_channel_announcements(this.ptr, starting_point, batch_amount);
 		ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] arr_conv_63_arr = new ThreeTuple[ret.length];

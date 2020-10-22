@@ -57,7 +57,12 @@ static void alloc_freed(void* ptr) {
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
 		if (it == NULL) {
-			fprintf(stderr, "Tried to free unknown pointer %p!\n", ptr);
+			fprintf(stderr, "Tried to free unknown pointer %p at:\n", ptr);
+			void* bt[BT_MAX];
+			int bt_len = backtrace(bt, BT_MAX);
+			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
+			fprintf(stderr, "\n\n");
+			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
 			return; // addrsan should catch malloc-unknown and print more info than we have
 		}
 	}
@@ -1889,7 +1894,7 @@ static void* LDKChannelKeys_JCalls_clone(const void* this_arg) {
 	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
 	return (void*) this_arg;
 }
-static inline LDKChannelKeys LDKChannelKeys_init (JNIEnv * env, jclass _a, jobject o) {
+static inline LDKChannelKeys LDKChannelKeys_init (JNIEnv * env, jclass _a, jobject o, jlong pubkeys) {
 	jclass c = (*env)->GetObjectClass(env, o);
 	CHECK(c != NULL);
 	LDKChannelKeys_JCalls *calls = MALLOC(sizeof(LDKChannelKeys_JCalls), "LDKChannelKeys_JCalls");
@@ -1919,6 +1924,12 @@ static inline LDKChannelKeys LDKChannelKeys_init (JNIEnv * env, jclass _a, jobje
 	calls->on_accept_meth = (*env)->GetMethodID(env, c, "on_accept", "(JSS)V");
 	CHECK(calls->on_accept_meth != NULL);
 
+	LDKChannelPublicKeys pubkeys_conv;
+	pubkeys_conv.inner = (void*)(pubkeys & (~1));
+	pubkeys_conv.is_owned = (pubkeys & 1) || (pubkeys == 0);
+	if (pubkeys_conv.inner != NULL)
+		pubkeys_conv = ChannelPublicKeys_clone(&pubkeys_conv);
+
 	LDKChannelKeys ret = {
 		.this_arg = (void*) calls,
 		.get_per_commitment_point = get_per_commitment_point_jcall,
@@ -1934,12 +1945,14 @@ static inline LDKChannelKeys LDKChannelKeys_init (JNIEnv * env, jclass _a, jobje
 		.on_accept = on_accept_jcall,
 		.clone = LDKChannelKeys_JCalls_clone,
 		.free = LDKChannelKeys_JCalls_free,
+		.pubkeys = pubkeys_conv,
+		.set_pubkeys = NULL,
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new (JNIEnv * env, jclass _a, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new (JNIEnv * env, jclass _a, jobject o, jlong pubkeys) {
 	LDKChannelKeys *res_ptr = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
-	*res_ptr = LDKChannelKeys_init(env, _a, o);
+	*res_ptr = LDKChannelKeys_init(env, _a, o, pubkeys);
 	return (long)res_ptr;
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {
@@ -2069,6 +2082,17 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1on_1accept(JNIEnv
 	channel_points_conv.inner = (void*)(channel_points & (~1));
 	channel_points_conv.is_owned = (channel_points & 1) || (channel_points == 0);
 	(this_arg_conv->on_accept)(this_arg_conv->this_arg, &channel_points_conv, counterparty_selected_contest_delay, holder_selected_contest_delay);
+}
+
+LDKChannelPublicKeys LDKChannelKeys_set_get_pubkeys(LDKChannelKeys* this_arg) {
+	if (this_arg->set_pubkeys != NULL)
+		this_arg->set_pubkeys(this_arg);
+	return this_arg->pubkeys;
+}
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1get_1pubkeys(JNIEnv * _env, jclass _b, jlong this_arg) {
+	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
+	LDKChannelPublicKeys ret = LDKChannelKeys_set_get_pubkeys(this_arg_conv);
+	return ((long)ret.inner) | (ret.is_owned ? 1 : 0);
 }
 
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1MonitorEvent_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
@@ -12409,6 +12433,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_get_1route(JNIEnv * _env, jcl
 		LDKChannelDetails arr_conv_16_conv;
 		arr_conv_16_conv.inner = (void*)(arr_conv_16 & (~1));
 		arr_conv_16_conv.is_owned = (arr_conv_16 & 1) || (arr_conv_16 == 0);
+		if (arr_conv_16_conv.inner != NULL)
+			arr_conv_16_conv = ChannelDetails_clone(&arr_conv_16_conv);
 		first_hops_constr.data[q] = arr_conv_16_conv;
 	}
 	(*_env)->ReleaseLongArrayElements (_env, first_hops, first_hops_vals, 0);

@@ -75,7 +75,12 @@ public class InMemoryChannelKeys extends CommonBase {
 		bindings.InMemoryChannelKeys_set_commitment_seed(this.ptr, val);
 	}
 
-	// Skipped InMemoryChannelKeys_new
+	public static InMemoryChannelKeys constructor_new(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, TwoTuple<Long, Long> key_derivation_params) {
+		long ret = bindings.InMemoryChannelKeys_new(funding_key, revocation_base_key, payment_key, delayed_payment_base_key, htlc_base_key, commitment_seed, channel_value_satoshis, bindings.C2Tuple_u64u64Z_new(key_derivation_params.a, key_derivation_params.b));
+		InMemoryChannelKeys ret_hu_conv = new InMemoryChannelKeys(null, ret);
+		return ret_hu_conv;
+	}
+
 	public ChannelPublicKeys counterparty_pubkeys() {
 		long ret = bindings.InMemoryChannelKeys_counterparty_pubkeys(this.ptr);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
