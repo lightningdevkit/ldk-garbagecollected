@@ -226,6 +226,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long action = obj.action;
 			ErrorAction action_hu_conv = ErrorAction.constr_from_ptr(action);
+			action_hu_conv.ptrs_to.add(this);
 			this.action = action_hu_conv;
 		}
 	}
@@ -235,6 +236,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			long update = obj.update;
 			HTLCFailChannelUpdate update_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(update);
+			update_hu_conv.ptrs_to.add(this);
 			this.update = update_hu_conv;
 		}
 	}

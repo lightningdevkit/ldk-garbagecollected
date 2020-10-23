@@ -414,6 +414,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 conv_name = "arr_conv_" + str(len(ty_info.java_hu_ty))
                 idxc = chr(ord('a') + (len(ty_info.java_hu_ty) % 26))
                 ty_info.subty.var_name = conv_name
+                ty_info.subty.passed_as_ptr = False
                 subty = map_type_with_info(ty_info.subty, False, None, is_free, holds_ref)
                 if arr_name == "":
                     arr_name = "arg"
@@ -529,19 +530,22 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                 arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None,
                 ret_conv = None, ret_conv_name = None, to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
         else:
-            # If we have a parameter name, print it (noting that it may indicate its a pointer)
-            assert(ty_info.passed_as_ptr)
+            if ty_info.var_name == "":
+                ty_info.var_name = "ret"
             opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
             opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
-            opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);"
-            if not ty_info.is_ptr and not is_free and not ty_info.pass_by_ref:
+            if holds_ref:
+                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = false;"
+            else:
+                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);"
+            if not ty_info.is_ptr and not is_free and not ty_info.pass_by_ref and not holds_ref:
                 if (ty_info.java_hu_ty + "_clone") in clone_fns:
                     # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
                     opaque_arg_conv = opaque_arg_conv + "\nif (" + ty_info.var_name + "_conv.inner != NULL)\n"
                     opaque_arg_conv = opaque_arg_conv + "\t" + ty_info.var_name + "_conv = " + ty_info.java_hu_ty + "_clone(&" + ty_info.var_name + "_conv);"
                 elif ty_info.passed_as_ptr:
                     opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but can't clone!"
-            if not ty_info.is_ptr and ty_info.var_name != "":
+            if not ty_info.is_ptr:
                 if ty_info.rust_obj in unitary_enums:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_from_java(_env, " + ty_info.var_name + ");",
@@ -555,11 +559,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     if holds_ref:
                         ret_conv_suf = ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner & ~1;"
                     else:
-                        ret_conv_suf = ret_conv_suf + "long " + ty_info.var_name + "_ref;\n"
+                        ret_conv_suf = ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner;\n"
                         ret_conv_suf = ret_conv_suf + "if (" + ty_info.var_name + "_var.is_owned) {\n"
-                        ret_conv_suf = ret_conv_suf + "\t" + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner | 1;\n"
-                        ret_conv_suf = ret_conv_suf + "} else {\n"
-                        ret_conv_suf = ret_conv_suf + "\t" + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner & ~1;\n"
+                        ret_conv_suf = ret_conv_suf + "\t" + ty_info.var_name + "_ref |= 1;\n"
                         ret_conv_suf = ret_conv_suf + "}"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
@@ -578,8 +580,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("CANT PASS TRAIT TO Java?", ""), ret_conv_name = "NO CONV POSSIBLE",
-                        to_hu_conv = "DUMMY", to_hu_conv_name = None,
+                        ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
+                        ret_conv_name = "(long)ret",
+                        to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
+                        to_hu_conv_name = "ret_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                 if ty_info.rust_obj != "LDKu8slice" and ty_info.rust_obj != "LDKTransaction":
                     # Don't bother free'ing slices passed in - Rust doesn't auto-free the
@@ -587,15 +591,30 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
                 if ty_info.rust_obj in complex_enums:
                     ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";")
-                    if not ty_info.is_ptr and not holds_ref and (ty_info.java_hu_ty + "_clone") in clone_fns:
+                    if not holds_ref:
                         ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_copy = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n", "")
-                        ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = " + ty_info.java_hu_ty + "_clone(&", ");\n")
+                        if not ty_info.passed_as_ptr:
+                            # We use passed_as_ptr as a flag to detect if we're copying a Vec.
+                            if (ty_info.java_hu_ty + "_clone") in clone_fns:
+                                ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = " + ty_info.java_hu_ty + "_clone(&", ");\n")
+                            else:
+                                ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", "; // XXX: We likely need to clone here, but no _clone fn is available!\n")
+                        else:
+                            ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", ";\n")
                         ret_conv = (ret_conv[0], ret_conv[1] + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_copy;")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ret_conv, ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
+                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");\n" + ty_info.var_name + "_hu_conv.ptrs_to.add(this);",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
+                if ty_info.rust_obj in result_types:
+                    assert not ty_info.is_ptr and not holds_ref # Otherwise we shouldn't be MALLOC'ing
+                    ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
+                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                        arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                        ret_conv = ret_conv, ret_conv_name = "(long)" + ty_info.var_name + "_conv",
+                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");\n" + ty_info.var_name + "_hu_conv.ptrs_to.add(this);",
+                        to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + " != null ? " + ty_info.var_name + ".ptr : 0", ""))
                 if ty_info.rust_obj in tuple_types:
                     from_hu_conv = "bindings." + tuple_types[ty_info.rust_obj][1].replace("LDK", "") + "_new("
                     to_hu_conv_pfx = ""
@@ -619,6 +638,13 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         else:
                             from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
 
+                    if not ty_info.is_ptr and not holds_ref:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+
+                            ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";"),
+                            ret_conv_name = "(long)" + ty_info.var_name + "_ref",
+                            to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", ""))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref",
@@ -633,7 +659,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                         ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
                         to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
-                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                elif ty_info.rust_obj == "LDKTxOut":
+                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
@@ -668,53 +695,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                     arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                     ret_conv = ("long ret_" + ty_info.var_name + " = (long)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
                     to_hu_conv = "TODO 3", to_hu_conv_name = None, from_hu_conv = None) # its a pointer, no conv needed
-            # We don't have a parameter name, and don't want one (cause we're returning)
-            assert not ty_info.is_ptr
-            if ty_info.rust_obj in unitary_enums:
-                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = ty_info.rust_obj + " ret_conv = " + ty_info.rust_obj + "_from_java(_env, ret);",
-                    arg_conv_name = "ret_conv", arg_conv_cleanup = None,
-                    ret_conv = ("jclass ret = " + ty_info.rust_obj + "_to_java(_env, ", ");"), ret_conv_name = "ret",
-                    to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
-            if ty_info.rust_obj in complex_enums or ty_info.rust_obj in result_types:
-                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
-                    ret_conv_name = "(long)ret",
-                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(ret);\nret_hu_conv.ptrs_to.add(this);",
-                    to_hu_conv_name = "ret_hu_conv", from_hu_conv = ("ret != null ? ret.ptr : 0", ""))
-            if ty_info.rust_obj in opaque_structs:
-                # If we're returning a newly-allocated struct, we don't want Rust to ever
-                # free, instead relying on the Java GC to lose the ref. We undo this in
-                # any _free function.
-                # To avoid any issues, we first assert that the incoming object is non-ref.
-                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    ret_conv = (ty_info.rust_obj + " ret = ", ";"),
-                    ret_conv_name = "((long)ret.inner) | (ret.is_owned ? 1 : 0)",
-                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);",
-                    to_hu_conv_name = "ret_hu_conv", from_hu_conv = None)
-            elif ty_info.rust_obj in trait_structs:
-                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
-                    ret_conv_name = "(long)ret",
-                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
-                    to_hu_conv_name = "ret_hu_conv", from_hu_conv = ("ret.ptr", ""))
-            elif ty_info.rust_obj in tuple_types:
-                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
-                    ret_conv_name = "(long)ret",
-                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
-                    to_hu_conv_name = "ret_hu_conv", from_hu_conv = ("bindings." + ty_info.rust_obj.replace("LDK", "") + "_new(ret.a, ret.b)", ""))
-            else:
-                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
-                    ret_conv_name = "(long)ret",
-                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
-                    to_hu_conv_name = "ret_hu_conv", from_hu_conv = None)
+            assert False # We should have handled every case by now.
 
     def map_fn(line, re_match, ret_arr_len, c_call_string):
         out_java.write("\t// " + line)
@@ -1160,7 +1141,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 
                     out_c.write("\tjobject obj = (*_env)->NewLocalRef(_env, j_calls->o);\n\tCHECK(obj != NULL);\n")
                     if ret_ty_info.c_ty.endswith("Array"):
-                        out_c.write("\t" + ret_ty_info.c_ty + " ret = (*_env)->CallObjectMethod(_env, obj, j_calls->" + fn_line.group(2) + "_meth")
+                        out_c.write("\t" + ret_ty_info.c_ty + " arg = (*_env)->CallObjectMethod(_env, obj, j_calls->" + fn_line.group(2) + "_meth")
                     elif not ret_ty_info.passed_as_ptr:
                         out_c.write("\treturn (*_env)->Call" + ret_ty_info.java_ty.title() + "Method(_env, obj, j_calls->" + fn_line.group(2) + "_meth")
                     else:
@@ -1183,19 +1164,15 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
                             java_trait_constr = java_trait_constr + arg_info.arg_name
                     out_c.write(");\n");
                     if ret_ty_info.arg_conv is not None:
-                        out_c.write("\t" + ret_ty_info.arg_conv.replace("\n", "\n\t").replace("arg", "ret") + "\n\treturn " + ret_ty_info.arg_conv_name.replace("arg", "ret") + ";\n")
+                        out_c.write("\t" + ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n\treturn " + ret_ty_info.arg_conv_name + ";\n")
 
-                    if ret_ty_info.passed_as_ptr:
-                        out_c.write("\t" + fn_line.group(1).strip() + " res = *ret;\n")
-                        out_c.write("\tFREE(ret);\n")
-                        out_c.write("\treturn res;\n")
                     out_c.write("}\n")
                     java_trait_constr = java_trait_constr + ");\n"
                     if ret_ty_info.java_ty != "void":
                         if ret_ty_info.from_hu_conv is not None:
                             java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.java_ty + " result = " + ret_ty_info.from_hu_conv[0] + ";\n"
                             if ret_ty_info.from_hu_conv[1] != "":
-                                java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.from_hu_conv[1] + "\n"
+                                java_trait_constr = java_trait_constr + "\t\t\t\t//TODO: May need to call: " + ret_ty_info.from_hu_conv[1] + ";\n"
                             if is_common_base_ext(ret_ty_info.rust_obj):
                                 java_trait_constr = java_trait_constr + "\t\t\t\tret.ptr = 0;\n"
                             java_trait_constr = java_trait_constr + "\t\t\t\treturn result;\n"

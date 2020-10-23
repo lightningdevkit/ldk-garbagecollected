@@ -85,5 +85,17 @@ public class ChannelManagerReadArgs extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	// Skipped ChannelManagerReadArgs_new
+	public static ChannelManagerReadArgs constructor_new(KeysInterface keys_manager, FeeEstimator fee_estimator, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, UserConfig default_config, ChannelMonitor[] channel_monitors) {
+		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr & ~1, Arrays.stream(channel_monitors).mapToLong(arr_conv_16 -> arr_conv_16 == null ? 0 : arr_conv_16.ptr & ~1).toArray());
+		ChannelManagerReadArgs ret_hu_conv = new ChannelManagerReadArgs(null, ret);
+		ret_hu_conv.ptrs_to.add(keys_manager);
+		ret_hu_conv.ptrs_to.add(fee_estimator);
+		ret_hu_conv.ptrs_to.add(chain_monitor);
+		ret_hu_conv.ptrs_to.add(tx_broadcaster);
+		ret_hu_conv.ptrs_to.add(logger);
+		ret_hu_conv.ptrs_to.add(default_config);
+		/* TODO 2 ChannelMonitor  */;
+		return ret_hu_conv;
+	}
+
 }

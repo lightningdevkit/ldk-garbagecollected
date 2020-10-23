@@ -27,7 +27,7 @@ public class EventsProvider extends CommonBase {
 			@Override public long[] get_and_clear_pending_events() {
 				Event[] ret = arg.get_and_clear_pending_events();
 				long[] result = Arrays.stream(ret).mapToLong(arr_conv_7 -> arr_conv_7.ptr).toArray();
-				/* TODO 2 Event  */
+				//TODO: May need to call: /* TODO 2 Event  */;
 				return result;
 			}
 		});
@@ -38,6 +38,7 @@ public class EventsProvider extends CommonBase {
 		for (int h = 0; h < ret.length; h++) {
 			long arr_conv_7 = ret[h];
 			Event arr_conv_7_hu_conv = Event.constr_from_ptr(arr_conv_7);
+			arr_conv_7_hu_conv.ptrs_to.add(this);
 			arr_conv_7_arr[h] = arr_conv_7_hu_conv;
 		}
 		return arr_conv_7_arr;

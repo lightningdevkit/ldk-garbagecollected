@@ -970,6 +970,8 @@ public class bindings {
 	public static native void MonitorUpdateError_free(long this_ptr);
 	// void MonitorEvent_free(LDKMonitorEvent this_ptr);
 	public static native void MonitorEvent_free(long this_ptr);
+	// LDKMonitorEvent MonitorEvent_clone(const LDKMonitorEvent *orig);
+	public static native long MonitorEvent_clone(long orig);
 	// void HTLCUpdate_free(LDKHTLCUpdate this_ptr);
 	public static native void HTLCUpdate_free(long this_ptr);
 	// LDKHTLCUpdate HTLCUpdate_clone(const LDKHTLCUpdate *orig);

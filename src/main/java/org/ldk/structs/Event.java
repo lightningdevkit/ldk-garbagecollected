@@ -106,6 +106,7 @@ public class Event extends CommonBase {
 			for (int b = 0; b < outputs.length; b++) {
 				long arr_conv_27 = outputs[b];
 				SpendableOutputDescriptor arr_conv_27_hu_conv = SpendableOutputDescriptor.constr_from_ptr(arr_conv_27);
+				arr_conv_27_hu_conv.ptrs_to.add(this);
 				arr_conv_27_arr[b] = arr_conv_27_hu_conv;
 			}
 			this.outputs = arr_conv_27_arr;

@@ -3193,6 +3193,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_MonitorEvent_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    MonitorEvent_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_MonitorEvent_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    HTLCUpdate_free
  * Signature: (J)V
  */

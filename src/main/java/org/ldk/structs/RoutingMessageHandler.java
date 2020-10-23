@@ -58,13 +58,13 @@ public class RoutingMessageHandler extends CommonBase {
 			@Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 				ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
 				long[] result = Arrays.stream(ret).mapToLong(arr_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(arr_conv_63.a == null ? 0 : arr_conv_63.a.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_a)*/, arr_conv_63.b == null ? 0 : arr_conv_63.b.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_b)*/, arr_conv_63.c == null ? 0 : arr_conv_63.c.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_c)*/)).toArray();
-				/* TODO 2 ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>  */
+				//TODO: May need to call: /* TODO 2 ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>  */;
 				return result;
 			}
 			@Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
 				NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
 				long[] result = Arrays.stream(ret).mapToLong(arr_conv_18 -> arr_conv_18 == null ? 0 : arr_conv_18.ptr & ~1).toArray();
-				/* TODO 2 NodeAnnouncement  */
+				//TODO: May need to call: /* TODO 2 NodeAnnouncement  */;
 				return result;
 			}
 			@Override public boolean should_request_full_sync(byte[] node_id) {

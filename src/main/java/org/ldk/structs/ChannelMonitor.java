@@ -47,6 +47,7 @@ public class ChannelMonitor extends CommonBase {
 		for (int h = 0; h < ret.length; h++) {
 			long arr_conv_7 = ret[h];
 			Event arr_conv_7_hu_conv = Event.constr_from_ptr(arr_conv_7);
+			arr_conv_7_hu_conv.ptrs_to.add(this);
 			arr_conv_7_arr[h] = arr_conv_7_hu_conv;
 		}
 		return arr_conv_7_arr;

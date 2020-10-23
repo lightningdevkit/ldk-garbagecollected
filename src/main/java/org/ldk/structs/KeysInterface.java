@@ -42,7 +42,8 @@ public class KeysInterface extends CommonBase {
 			}
 			@Override public long get_channel_keys(boolean inbound, long channel_value_satoshis) {
 				ChannelKeys ret = arg.get_channel_keys(inbound, channel_value_satoshis);
-				long result = ret.ptr;
+				long result = ret == null ? 0 : ret.ptr;
+				//TODO: May need to call: this.ptrs_to.add(ret);
 				ret.ptr = 0;
 				return result;
 			}
