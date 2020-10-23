@@ -86,7 +86,7 @@ class HumanObjectPeerTestInstance {
             System.gc();
         }
 
-        void connect_block(Block b, int height) {
+        TwoTuple<byte[], TxOut[]>[] connect_block(Block b, int height) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
             TwoTuple<Long, org.ldk.structs.Transaction>[] txn;
             if (b.hasTransactions()) {
@@ -97,11 +97,12 @@ class HumanObjectPeerTestInstance {
                 txn = new TwoTuple[0];
             chan_manager.block_connected(header, txn, height);
             synchronized (monitors) {
+                assert monitors.size() == 1;
                 for (ChannelMonitor mon : monitors.values()) {
-                    TwoTuple<byte[], TxOut[]>[] ret = mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
-                    assert ret.length == 0;
+                    return mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
                 }
             }
+            return null;
         }
 
         Route get_route(byte[] dest_node, ChannelDetails[] our_chans) {
@@ -227,13 +228,13 @@ class HumanObjectPeerTestInstance {
         assert ((Event.FundingBroadcastSafe) events[0]).user_channel_id == 42;
 
         Block b = new Block(bitcoinj_net, 2, Sha256Hash.ZERO_HASH, Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
-        peer1.connect_block(b, 1);
-        peer2.connect_block(b, 1);
+        assert peer1.connect_block(b, 1).length == 0;
+        assert peer2.connect_block(b, 1).length == 0;
 
         for (int height = 2; height < 10; height++) {
             b = new Block(bitcoinj_net, 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[0]));
-            peer1.connect_block(b, height);
-            peer2.connect_block(b, height);
+            assert peer1.connect_block(b, height).length == 0;
+            assert peer2.connect_block(b, height).length == 0;
         }
 
         peer1.peer_manager.process_events();
@@ -316,8 +317,13 @@ class HumanObjectPeerTestInstance {
             assert peer1.broadcast_set.size() == 1;
             assert peer2.broadcast_set.size() == 0;
 
-            //b = new Block(bitcoinj_net, 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{new Transaction(bitcoinj_net, peer1.broadcast_set.getFirst())}));
-            //peer2.connect_block(b, 1);
+            Transaction tx = new Transaction(bitcoinj_net, peer1.broadcast_set.getFirst().get_contents());
+            b = new Block(bitcoinj_net, 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0,
+                    Arrays.asList(new Transaction[]{tx}));
+            TwoTuple<byte[], TxOut[]>[] watch_outputs =  peer2.connect_block(b, 1);
+            assert watch_outputs.length == 1;
+            assert Arrays.equals(watch_outputs[0].a, tx.getTxId().getReversedBytes());
+            assert watch_outputs[0].b.length == 1;
         }
 
         bindings.SocketDescriptor_free(descriptor2);

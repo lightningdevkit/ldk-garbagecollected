@@ -1803,7 +1803,15 @@ class CommonBase {
                     for idx, ty_info in enumerate(tuple_types[alias_match.group(1)][0]):
                         e = chr(ord('a') + idx)
                         out_java.write("\tpublic static native " + ty_info.java_ty + " " + alias_match.group(2) + "_get_" + e + "(long ptr);\n")
-                        # XXX: Write C method!
+                        out_c.write("JNIEXPORT " + ty_info.c_ty + " JNICALL Java_org_ldk_impl_bindings_" + alias_match.group(2).replace("_", "_1") + "_1get_1" + e + "(JNIEnv *_env, jclass _b, jlong ptr) {\n")
+                        out_c.write("\t" + alias_match.group(1) + " *tuple = (" + alias_match.group(1) + "*)ptr;\n")
+                        conv_info = map_type_with_info(ty_info, False, None, False, True)
+                        if conv_info.ret_conv is not None:
+                            out_c.write("\t" + conv_info.ret_conv[0].replace("\n", "\n\t") + "tuple->" + e + conv_info.ret_conv[1].replace("\n", "\n\t") + "\n")
+                            out_c.write("\treturn " + conv_info.ret_conv_name + ";\n")
+                        else:
+                            out_c.write("\treturn tuple->" + e + ";\n")
+                        out_c.write("}\n")
                 elif alias_match.group(1) in result_templ_structs:
                     result_types.add(alias_match.group(2))
                     human_ty = alias_match.group(2).replace("LDKCResult", "Result")
