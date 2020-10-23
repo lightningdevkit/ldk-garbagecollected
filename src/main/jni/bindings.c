@@ -152,6 +152,13 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec (JNIEnv * _
 	(*_env)->GetByteArrayRegion (_env, bytes, 0, vec->datalen, vec->data);
 	return (long)vec;
 }
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_txpointer_1get_1buffer (JNIEnv * env, jclass _b, jlong ptr) {
+	LDKTransaction *txdata = (LDKTransaction*)ptr;
+	LDKu8slice slice;
+	slice.data = txdata->data;
+	slice.datalen = txdata->datalen;
+	return Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes(env, _b, (long)&slice);
+}
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
 	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
 	txdata->datalen = (*env)->GetArrayLength(env, bytes);

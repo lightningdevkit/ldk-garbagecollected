@@ -10,4 +10,5 @@ public class Transaction extends CommonBase{
 	Transaction(java.lang.Object _dummy, long ptr) { super(ptr); }
 	public Transaction(byte[] data) { super(bindings.new_txpointer_copy_data(data)); }
 	@Override public void finalize() throws Throwable { super.finalize(); bindings.txpointer_free(ptr); }
+	public byte[] get_contents() { return bindings.txpointer_get_buffer(ptr); }
 }

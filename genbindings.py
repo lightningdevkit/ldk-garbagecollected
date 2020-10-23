@@ -1447,6 +1447,7 @@ public class bindings {
 	public static native long bytes_to_u8_vec(byte[] bytes);
 	public static native long new_txpointer_copy_data(byte[] txdata);
 	public static native void txpointer_free(long ptr);
+	public static native byte[] txpointer_get_buffer(long ptr);
 	public static native long vec_slice_len(long vec);
 	public static native long new_empty_slice_vec();
 
@@ -1490,6 +1491,13 @@ JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec (JNIEnv * _
 	vec->data = (uint8_t*)MALLOC(vec->datalen, "LDKCVec_u8Z Bytes");
 	(*_env)->GetByteArrayRegion (_env, bytes, 0, vec->datalen, vec->data);
 	return (long)vec;
+}
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_txpointer_1get_1buffer (JNIEnv * env, jclass _b, jlong ptr) {
+	LDKTransaction *txdata = (LDKTransaction*)ptr;
+	LDKu8slice slice;
+	slice.data = txdata->data;
+	slice.datalen = txdata->datalen;
+	return Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes(env, _b, (long)&slice);
 }
 JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
 	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
@@ -1763,6 +1771,7 @@ class CommonBase {
                         out_java_struct.write("\tTransaction(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
                         out_java_struct.write("\tpublic Transaction(byte[] data) { super(bindings.new_txpointer_copy_data(data)); }\n")
                         out_java_struct.write("\t@Override public void finalize() throws Throwable { super.finalize(); bindings.txpointer_free(ptr); }\n")
+                        out_java_struct.write("\tpublic byte[] get_contents() { return bindings.txpointer_get_buffer(ptr); }\n")
                         # TODO: Transaction body
                         out_java_struct.write("}")
                 else:
