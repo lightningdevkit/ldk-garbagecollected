@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class HumanObjectPeerTest {
+class HumanObjectPeerTestInstance {
     class Peer {
         final Logger logger;
         final FeeEstimator fee_estimator;
@@ -86,11 +86,12 @@ public class HumanObjectPeerTest {
             System.gc();
         }
 
-        void connect_block(Block b, Transaction t, int height) {
+        void connect_block(Block b, int height) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
             TwoTuple<Long, org.ldk.structs.Transaction>[] txn;
-            if (t != null) {
-                TwoTuple<Long, org.ldk.structs.Transaction> txp = new TwoTuple<>((long) 1, new org.ldk.structs.Transaction(t.bitcoinSerialize()));
+            if (b.hasTransactions()) {
+                assert b.getTransactions().size() == 1;
+                TwoTuple<Long, org.ldk.structs.Transaction> txp = new TwoTuple<>((long) 1, new org.ldk.structs.Transaction(b.getTransactions().get(0).bitcoinSerialize()));
                 txn = new TwoTuple[]{txp};
             } else
                 txn = new TwoTuple[0];
@@ -106,7 +107,7 @@ public class HumanObjectPeerTest {
         Route get_route(byte[] dest_node, ChannelDetails[] our_chans) {
             try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
                 NetworkGraph graph = netgraph.graph();
-                long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, new long[] {our_chans[0]._test_only_get_ptr()},
+                long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, new long[]{our_chans[0]._test_only_get_ptr()},
                         new long[0], 1000, 42, this.logger._test_only_get_ptr());
                 assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
                 byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
@@ -121,6 +122,7 @@ public class HumanObjectPeerTest {
     class LongHolder { long val; }
 
     java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
+
     void do_read_event(ConcurrentLinkedQueue<Thread> list, PeerManager pm, long descriptor, byte[] data) {
         Thread thread = new Thread(() -> {
             long res = bindings.PeerManager_read_event(pm._test_only_get_ptr(), descriptor, data);
@@ -134,6 +136,7 @@ public class HumanObjectPeerTest {
     }
 
     boolean gc_ran = false;
+
     class GcCheck {
         @Override
         protected void finalize() throws Throwable {
@@ -141,7 +144,8 @@ public class HumanObjectPeerTest {
             super.finalize();
         }
     }
-    void do_test_message_handler() throws InterruptedException {
+
+    void do_test_message_handler(boolean nice_close) throws InterruptedException {
         GcCheck obj = new GcCheck();
         Peer peer1 = new Peer((byte) 1);
         Peer peer2 = new Peer((byte) 2);
@@ -197,14 +201,16 @@ public class HumanObjectPeerTest {
         Event[] events = peer1.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
         assert events[0] instanceof Event.FundingGenerationReady;
-        assert ((Event.FundingGenerationReady)events[0]).channel_value_satoshis == 10000;
-        assert ((Event.FundingGenerationReady)events[0]).user_channel_id == 42;
-        byte[] funding_spk = ((Event.FundingGenerationReady)events[0]).output_script;
+        assert ((Event.FundingGenerationReady) events[0]).channel_value_satoshis == 10000;
+        assert ((Event.FundingGenerationReady) events[0]).user_channel_id == 42;
+        byte[] funding_spk = ((Event.FundingGenerationReady) events[0]).output_script;
         assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
-        byte[] chan_id = ((Event.FundingGenerationReady)events[0]).temporary_channel_id;
+        byte[] chan_id = ((Event.FundingGenerationReady) events[0]).temporary_channel_id;
 
-        Transaction funding = new Transaction(NetworkParameters.fromID(NetworkParameters.ID_MAINNET));
-        funding.addInput(new TransactionInput(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), funding, new byte[0]));
+        NetworkParameters bitcoinj_net = NetworkParameters.fromID(NetworkParameters.ID_MAINNET);
+
+        Transaction funding = new Transaction(bitcoinj_net);
+        funding.addInput(new TransactionInput(bitcoinj_net, funding, new byte[0]));
         funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
         funding.getInput(0).getWitness().setPush(0, new byte[]{0x1});
         funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
@@ -218,16 +224,16 @@ public class HumanObjectPeerTest {
         events = peer1.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
         assert events[0] instanceof Event.FundingBroadcastSafe;
-        assert ((Event.FundingBroadcastSafe)events[0]).user_channel_id == 42;
+        assert ((Event.FundingBroadcastSafe) events[0]).user_channel_id == 42;
 
-        Block b = new Block(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), 2, Sha256Hash.ZERO_HASH, Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
-        peer1.connect_block(b, funding, 1);
-        peer2.connect_block(b, funding, 1);
+        Block b = new Block(bitcoinj_net, 2, Sha256Hash.ZERO_HASH, Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
+        peer1.connect_block(b, 1);
+        peer2.connect_block(b, 1);
 
         for (int height = 2; height < 10; height++) {
-            b = new Block(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
-            peer1.connect_block(b, null, height);
-            peer2.connect_block(b, null, height);
+            b = new Block(bitcoinj_net, 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[0]));
+            peer1.connect_block(b, height);
+            peer2.connect_block(b, height);
         }
 
         peer1.peer_manager.process_events();
@@ -280,33 +286,66 @@ public class HumanObjectPeerTest {
         assert events[0] instanceof Event.PaymentSent;
         assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
 
-        Result_NoneAPIErrorZ close_res = peer1.chan_manager.close_channel(peer1_chans[0].get_channel_id());
-        assert close_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
+        if (nice_close) {
+            Result_NoneAPIErrorZ close_res = peer1.chan_manager.close_channel(peer1_chans[0].get_channel_id());
+            assert close_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
 
-        peer1.peer_manager.process_events();
-        while (!list.isEmpty()) { list.poll().join(); }
-        peer2.peer_manager.process_events();
-        while (!list.isEmpty()) { list.poll().join(); }
-        peer1.peer_manager.process_events();
-        while (!list.isEmpty()) { list.poll().join(); }
-        peer2.peer_manager.process_events();
-        while (!list.isEmpty()) { list.poll().join(); }
+            peer1.peer_manager.process_events();
+            while (!list.isEmpty()) { list.poll().join(); }
+            peer2.peer_manager.process_events();
+            while (!list.isEmpty()) { list.poll().join(); }
+            peer1.peer_manager.process_events();
+            while (!list.isEmpty()) { list.poll().join(); }
+            peer2.peer_manager.process_events();
+            while (!list.isEmpty()) { list.poll().join(); }
 
-        assert peer1.broadcast_set.size() == 1;
-        assert peer2.broadcast_set.size() == 1;
+            assert peer1.broadcast_set.size() == 1;
+            assert peer2.broadcast_set.size() == 1;
+        } else {
+            peer1.chan_manager.force_close_all_channels();
+
+            peer1.peer_manager.process_events();
+            while (!list.isEmpty()) { list.poll().join(); }
+            peer2.peer_manager.process_events();
+            while (!list.isEmpty()) { list.poll().join(); }
+            peer1.peer_manager.process_events();
+            while (!list.isEmpty()) { list.poll().join(); }
+            peer2.peer_manager.process_events();
+            while (!list.isEmpty()) { list.poll().join(); }
+
+            assert peer1.broadcast_set.size() == 1;
+            assert peer2.broadcast_set.size() == 0;
+
+            //b = new Block(bitcoinj_net, 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{new Transaction(bitcoinj_net, peer1.broadcast_set.getFirst())}));
+            //peer2.connect_block(b, 1);
+        }
 
         bindings.SocketDescriptor_free(descriptor2);
         bindings.SocketDescriptor_free(descriptor1.val);
     }
 
+}
+public class HumanObjectPeerTest {
     @Test
-    public void test_message_handler() throws InterruptedException {
-        do_test_message_handler();
-        while (!gc_ran) {
+    public void test_message_handler_force_close() throws InterruptedException {
+        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance();
+        instance.do_test_message_handler(false);
+        while (!instance.gc_ran) {
             System.gc();
             System.runFinalization();
         }
-        for (WeakReference<Object> o : must_free_objs)
+        for (WeakReference<Object> o : instance.must_free_objs)
+            assert o.get() == null;
+    }
+    @Test
+    public void test_message_handler_nice_close() throws InterruptedException {
+        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance();
+        instance.do_test_message_handler(true);
+        while (!instance.gc_ran) {
+            System.gc();
+            System.runFinalization();
+        }
+        for (WeakReference<Object> o : instance.must_free_objs)
             assert o.get() == null;
     }
 }
