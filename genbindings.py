@@ -1305,9 +1305,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java, open(sys.arg
 #include <stdatomic.h>
 """)
 
-    if sys.argv[4] == "false":
+    if sys.argv[5] == "false":
         out_c.write("#define MALLOC(a, _) malloc(a)\n")
-        out_c.write("#define FREE(p) if ((p) > 1024) { free(p); }\n")
+        out_c.write("#define FREE(p) if ((long)(p) > 1024) { free(p); }\n")
         out_c.write("#define DO_ASSERT(a) (void)(a)\n")
         out_c.write("#define CHECK(a)\n")
     else:
