@@ -112,6 +112,13 @@ void __attribute__((destructor)) check_leaks() {
 	}
 	DO_ASSERT(allocation_ll == NULL);
 }
+static jclass arr_of_arr_of_B_clz = NULL;
+static jclass arr_of_B_clz = NULL;
+JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass _b) {
+	arr_of_B_clz = (*env)->FindClass(env, "[B");
+	CHECK(arr_of_B_clz != NULL);
+	arr_of_B_clz = (*env)->NewGlobalRef(env, arr_of_B_clz);
+}
 
 static jmethodID ordinal_meth = NULL;
 static jmethodID slicedef_meth = NULL;
@@ -655,7 +662,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1SignatureCVe
 JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1SignatureCVec_1SignatureZZ_1get_1b(JNIEnv *_env, jclass _b, jlong ptr) {
 	LDKC2TupleTempl_Signature__CVecTempl_Signature *tuple = (LDKC2TupleTempl_Signature__CVecTempl_Signature*)ptr;
 	LDKCVecTempl_Signature b_var = tuple->b;
-	jobjectArray b_arr = (*_env)->NewObjectArray(_env, b_var.datalen, NULL, NULL);
+	jobjectArray b_arr = (*_env)->NewObjectArray(_env, b_var.datalen, arr_of_B_clz, NULL);
 	for (size_t i = 0; i < b_var.datalen; i++) {
 		jbyteArray arr_conv_8_arr = (*_env)->NewByteArray(_env, 64);
 		(*_env)->SetByteArrayRegion(_env, arr_conv_8_arr, 0, 64, b_var.data[i].compact_form);
@@ -699,7 +706,7 @@ JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1Sign
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
 	CHECK(val->result_ok);
 	LDKCVecTempl_Signature res_var = (*val->contents.result);
-	jobjectArray res_arr = (*_env)->NewObjectArray(_env, res_var.datalen, NULL, NULL);
+	jobjectArray res_arr = (*_env)->NewObjectArray(_env, res_var.datalen, arr_of_B_clz, NULL);
 	for (size_t i = 0; i < res_var.datalen; i++) {
 		jbyteArray arr_conv_8_arr = (*_env)->NewByteArray(_env, 64);
 		(*_env)->SetByteArrayRegion(_env, arr_conv_8_arr, 0, 64, res_var.data[i].compact_form);
@@ -12145,7 +12152,7 @@ JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_PeerManager_1get_1peer
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = (this_arg & 1) || (this_arg == 0);
 	LDKCVec_PublicKeyZ ret_var = PeerManager_get_peer_node_ids(&this_arg_conv);
-	jobjectArray ret_arr = (*_env)->NewObjectArray(_env, ret_var.datalen, NULL, NULL);
+	jobjectArray ret_arr = (*_env)->NewObjectArray(_env, ret_var.datalen, arr_of_B_clz, NULL);
 	for (size_t i = 0; i < ret_var.datalen; i++) {
 		jbyteArray arr_conv_8_arr = (*_env)->NewByteArray(_env, 33);
 		(*_env)->SetByteArrayRegion(_env, arr_conv_8_arr, 0, 33, ret_var.data[i].compressed_form);

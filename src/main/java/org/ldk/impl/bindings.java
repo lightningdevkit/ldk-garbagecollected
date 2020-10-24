@@ -13,8 +13,10 @@ public class bindings {
 	static {
 		System.loadLibrary("lightningjni");
 		init(java.lang.Enum.class, VecOrSliceDef.class);
+		init_class_cache();
 	}
 	static native void init(java.lang.Class c, java.lang.Class slicedef);
+	static native void init_class_cache();
 
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);

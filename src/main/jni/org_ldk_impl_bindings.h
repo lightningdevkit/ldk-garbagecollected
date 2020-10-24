@@ -17,6 +17,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_init
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    init_class_cache
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_init_1class_1cache
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    deref_bool
  * Signature: (J)Z
  */
