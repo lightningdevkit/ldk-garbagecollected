@@ -25,8 +25,10 @@ public class SocketDescriptor extends CommonBase {
 		boolean eq(long other_arg);
 		long hash();
 	}
-	public SocketDescriptor(SocketDescriptorInterface arg) {
-		this(new bindings.LDKSocketDescriptor() {
+	private static class LDKSocketDescriptorHolder { SocketDescriptor held; }
+	public static SocketDescriptor new_impl(SocketDescriptorInterface arg) {
+		final LDKSocketDescriptorHolder impl_holder = new LDKSocketDescriptorHolder();
+		impl_holder.held = new SocketDescriptor(new bindings.LDKSocketDescriptor() {
 			@Override public long send_data(byte[] data, boolean resume_read) {
 				long ret = arg.send_data(data, resume_read);
 				return ret;
@@ -43,6 +45,7 @@ public class SocketDescriptor extends CommonBase {
 				return ret;
 			}
 		});
+		return impl_holder.held;
 	}
 	public long send_data(byte[] data, boolean resume_read) {
 		long ret = bindings.SocketDescriptor_send_data(this.ptr, data, resume_read);

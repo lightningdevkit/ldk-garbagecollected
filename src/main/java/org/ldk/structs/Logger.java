@@ -22,11 +22,14 @@ public class Logger extends CommonBase {
 	public static interface LoggerInterface {
 		void log(String record);
 	}
-	public Logger(LoggerInterface arg) {
-		this(new bindings.LDKLogger() {
+	private static class LDKLoggerHolder { Logger held; }
+	public static Logger new_impl(LoggerInterface arg) {
+		final LDKLoggerHolder impl_holder = new LDKLoggerHolder();
+		impl_holder.held = new Logger(new bindings.LDKLogger() {
 			@Override public void log(String record) {
 				arg.log(record);
 			}
 		});
+		return impl_holder.held;
 	}
 }

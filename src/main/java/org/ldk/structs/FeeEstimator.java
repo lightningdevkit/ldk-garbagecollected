@@ -22,13 +22,16 @@ public class FeeEstimator extends CommonBase {
 	public static interface FeeEstimatorInterface {
 		int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target);
 	}
-	public FeeEstimator(FeeEstimatorInterface arg) {
-		this(new bindings.LDKFeeEstimator() {
+	private static class LDKFeeEstimatorHolder { FeeEstimator held; }
+	public static FeeEstimator new_impl(FeeEstimatorInterface arg) {
+		final LDKFeeEstimatorHolder impl_holder = new LDKFeeEstimatorHolder();
+		impl_holder.held = new FeeEstimator(new bindings.LDKFeeEstimator() {
 			@Override public int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target) {
 				int ret = arg.get_est_sat_per_1000_weight(confirmation_target);
 				return ret;
 			}
 		});
+		return impl_holder.held;
 	}
 	public int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target) {
 		int ret = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);

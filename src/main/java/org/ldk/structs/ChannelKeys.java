@@ -33,8 +33,10 @@ public class ChannelKeys extends CommonBase {
 		Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg);
 		void on_accept(ChannelPublicKeys channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
 	}
-	public ChannelKeys(ChannelKeysInterface arg, ChannelPublicKeys pubkeys) {
-		this(new bindings.LDKChannelKeys() {
+	private static class LDKChannelKeysHolder { ChannelKeys held; }
+	public static ChannelKeys new_impl(ChannelKeysInterface arg, ChannelPublicKeys pubkeys) {
+		final LDKChannelKeysHolder impl_holder = new LDKChannelKeysHolder();
+		impl_holder.held = new ChannelKeys(new bindings.LDKChannelKeys() {
 			@Override public byte[] get_per_commitment_point(long idx) {
 				byte[] ret = arg.get_per_commitment_point(idx);
 				return ret;
@@ -111,6 +113,7 @@ public class ChannelKeys extends CommonBase {
 				arg.on_accept(channel_points_hu_conv, counterparty_selected_contest_delay, holder_selected_contest_delay);
 			}
 		}, pubkeys);
+		return impl_holder.held;
 	}
 	public byte[] get_per_commitment_point(long idx) {
 		byte[] ret = bindings.ChannelKeys_get_per_commitment_point(this.ptr, idx);

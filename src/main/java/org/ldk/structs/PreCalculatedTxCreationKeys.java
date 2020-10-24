@@ -14,6 +14,13 @@ public class PreCalculatedTxCreationKeys extends CommonBase {
 		if (ptr != 0) { bindings.PreCalculatedTxCreationKeys_free(ptr); }
 	}
 
+	public static PreCalculatedTxCreationKeys constructor_clone(PreCalculatedTxCreationKeys orig) {
+		long ret = bindings.PreCalculatedTxCreationKeys_clone(orig == null ? 0 : orig.ptr & ~1);
+		PreCalculatedTxCreationKeys ret_hu_conv = new PreCalculatedTxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
+	}
+
 	public static PreCalculatedTxCreationKeys constructor_new(TxCreationKeys keys) {
 		long ret = bindings.PreCalculatedTxCreationKeys_new(keys == null ? 0 : keys.ptr & ~1);
 		PreCalculatedTxCreationKeys ret_hu_conv = new PreCalculatedTxCreationKeys(null, ret);

@@ -24,8 +24,10 @@ public class Watch extends CommonBase {
 		Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update);
 		MonitorEvent[] release_pending_monitor_events();
 	}
-	public Watch(WatchInterface arg) {
-		this(new bindings.LDKWatch() {
+	private static class LDKWatchHolder { Watch held; }
+	public static Watch new_impl(WatchInterface arg) {
+		final LDKWatchHolder impl_holder = new LDKWatchHolder();
+		impl_holder.held = new Watch(new bindings.LDKWatch() {
 			@Override public long watch_channel(long funding_txo, long monitor) {
 				OutPoint funding_txo_hu_conv = new OutPoint(null, funding_txo);
 				ChannelMonitor monitor_hu_conv = new ChannelMonitor(null, monitor);
@@ -45,10 +47,11 @@ public class Watch extends CommonBase {
 			@Override public long[] release_pending_monitor_events() {
 				MonitorEvent[] ret = arg.release_pending_monitor_events();
 				long[] result = Arrays.stream(ret).mapToLong(arr_conv_14 -> arr_conv_14 == null ? 0 : arr_conv_14.ptr & ~1).toArray();
-				//TODO: May need to call: /* TODO 2 MonitorEvent  */;
+				/* TODO 2 MonitorEvent  */;
 				return result;
 			}
 		});
+		return impl_holder.held;
 	}
 	// Skipped Watch_watch_channel
 	public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {

@@ -22,15 +22,18 @@ public class EventsProvider extends CommonBase {
 	public static interface EventsProviderInterface {
 		Event[] get_and_clear_pending_events();
 	}
-	public EventsProvider(EventsProviderInterface arg) {
-		this(new bindings.LDKEventsProvider() {
+	private static class LDKEventsProviderHolder { EventsProvider held; }
+	public static EventsProvider new_impl(EventsProviderInterface arg) {
+		final LDKEventsProviderHolder impl_holder = new LDKEventsProviderHolder();
+		impl_holder.held = new EventsProvider(new bindings.LDKEventsProvider() {
 			@Override public long[] get_and_clear_pending_events() {
 				Event[] ret = arg.get_and_clear_pending_events();
 				long[] result = Arrays.stream(ret).mapToLong(arr_conv_7 -> arr_conv_7.ptr).toArray();
-				//TODO: May need to call: /* TODO 2 Event  */;
+				/* TODO 2 Event  */;
 				return result;
 			}
 		});
+		return impl_holder.held;
 	}
 	public Event[] get_and_clear_pending_events() {
 		long[] ret = bindings.EventsProvider_get_and_clear_pending_events(this.ptr);

@@ -26,8 +26,10 @@ public class KeysInterface extends CommonBase {
 		ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis);
 		byte[] get_secure_random_bytes();
 	}
-	public KeysInterface(KeysInterfaceInterface arg) {
-		this(new bindings.LDKKeysInterface() {
+	private static class LDKKeysInterfaceHolder { KeysInterface held; }
+	public static KeysInterface new_impl(KeysInterfaceInterface arg) {
+		final LDKKeysInterfaceHolder impl_holder = new LDKKeysInterfaceHolder();
+		impl_holder.held = new KeysInterface(new bindings.LDKKeysInterface() {
 			@Override public byte[] get_node_secret() {
 				byte[] ret = arg.get_node_secret();
 				return ret;
@@ -43,7 +45,7 @@ public class KeysInterface extends CommonBase {
 			@Override public long get_channel_keys(boolean inbound, long channel_value_satoshis) {
 				ChannelKeys ret = arg.get_channel_keys(inbound, channel_value_satoshis);
 				long result = ret == null ? 0 : ret.ptr;
-				//TODO: May need to call: this.ptrs_to.add(ret);
+				impl_holder.held.ptrs_to.add(ret);
 				ret.ptr = 0;
 				return result;
 			}
@@ -52,6 +54,7 @@ public class KeysInterface extends CommonBase {
 				return ret;
 			}
 		});
+		return impl_holder.held;
 	}
 	public byte[] get_node_secret() {
 		byte[] ret = bindings.KeysInterface_get_node_secret(this.ptr);

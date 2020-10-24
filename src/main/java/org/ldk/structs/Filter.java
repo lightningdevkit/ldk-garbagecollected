@@ -23,8 +23,10 @@ public class Filter extends CommonBase {
 		void register_tx(byte[] txid, byte[] script_pubkey);
 		void register_output(OutPoint outpoint, byte[] script_pubkey);
 	}
-	public Filter(FilterInterface arg) {
-		this(new bindings.LDKFilter() {
+	private static class LDKFilterHolder { Filter held; }
+	public static Filter new_impl(FilterInterface arg) {
+		final LDKFilterHolder impl_holder = new LDKFilterHolder();
+		impl_holder.held = new Filter(new bindings.LDKFilter() {
 			@Override public void register_tx(byte[] txid, byte[] script_pubkey) {
 				arg.register_tx(txid, script_pubkey);
 			}
@@ -33,6 +35,7 @@ public class Filter extends CommonBase {
 				arg.register_output(outpoint_hu_conv, script_pubkey);
 			}
 		});
+		return impl_holder.held;
 	}
 	public void register_tx(byte[] txid, byte[] script_pubkey) {
 		bindings.Filter_register_tx(this.ptr, txid, script_pubkey);

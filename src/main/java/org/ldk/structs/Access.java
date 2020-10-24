@@ -22,8 +22,10 @@ public class Access extends CommonBase {
 	public static interface AccessInterface {
 		Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id);
 	}
-	public Access(AccessInterface arg) {
-		this(new bindings.LDKAccess() {
+	private static class LDKAccessHolder { Access held; }
+	public static Access new_impl(AccessInterface arg) {
+		final LDKAccessHolder impl_holder = new LDKAccessHolder();
+		impl_holder.held = new Access(new bindings.LDKAccess() {
 			@Override public long get_utxo(byte[] genesis_hash, long short_channel_id) {
 				Result_TxOutAccessErrorZ ret = arg.get_utxo(genesis_hash, short_channel_id);
 				long result = ret != null ? ret.ptr : 0;
@@ -31,6 +33,7 @@ public class Access extends CommonBase {
 				return result;
 			}
 		});
+		return impl_holder.held;
 	}
 	public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
 		long ret = bindings.Access_get_utxo(this.ptr, genesis_hash, short_channel_id);

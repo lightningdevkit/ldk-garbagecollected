@@ -1224,15 +1224,17 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_trait.write("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n")
             out_java_trait.write("\t}\n\n")
 
-            java_trait_constr = "\tpublic " + struct_name.replace("LDK", "") + "(" + struct_name.replace("LDK", "") + "Interface arg"
+            java_trait_constr = "\tprivate static class " + struct_name + "Holder { " + struct_name.replace("LDK", "") + " held; }\n"
+            java_trait_constr = java_trait_constr + "\tpublic static " + struct_name.replace("LDK", "") + " new_impl(" + struct_name.replace("LDK", "") + "Interface arg"
             for idx, var_line in enumerate(field_var_lines):
                 if var_line.group(1) in trait_structs:
                     # Ideally we'd be able to take any instance of the interface, but our C code can only represent
                     # Java-implemented version, so we require users pass a Java implementation here :/
-                    java_trait_constr = java_trait_constr + ", " + var_line.group(1).replace("LDK", "") + "." + var_line.group(1).replace("LDK", "") + "Interface " + var_line.group(2)
+                    java_trait_constr = java_trait_constr + ", " + var_line.group(1).replace("LDK", "") + "." + var_line.group(1).replace("LDK", "") + "Interface " + var_line.group(2) + "_impl"
                 else:
                     java_trait_constr = java_trait_constr + ", " + field_var_convs[idx].java_hu_ty + " " + var_line.group(2)
-            java_trait_constr = java_trait_constr + ") {\n\t\tthis(new bindings." + struct_name + "() {\n"
+            java_trait_constr = java_trait_constr + ") {\n\t\tfinal " + struct_name + "Holder impl_holder = new " + struct_name + "Holder();\n"
+            java_trait_constr = java_trait_constr + "\t\timpl_holder.held = new " + struct_name.replace("LDK", "") + "(new bindings." + struct_name + "() {\n"
             out_java_trait.write("\tpublic static interface " + struct_name.replace("LDK", "") + "Interface {\n")
             out_java.write("\tpublic interface " + struct_name + " {\n")
             java_meths = []
@@ -1319,7 +1321,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         if ret_ty_info.from_hu_conv is not None:
                             java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.java_ty + " result = " + ret_ty_info.from_hu_conv[0] + ";\n"
                             if ret_ty_info.from_hu_conv[1] != "":
-                                java_trait_constr = java_trait_constr + "\t\t\t\t//TODO: May need to call: " + ret_ty_info.from_hu_conv[1] + ";\n"
+                                java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held") + ";\n"
                             if is_common_base_ext(ret_ty_info.rust_obj):
                                 java_trait_constr = java_trait_constr + "\t\t\t\tret.ptr = 0;\n"
                             java_trait_constr = java_trait_constr + "\t\t\t\treturn result;\n"
@@ -1338,11 +1340,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             java_trait_constr = java_trait_constr + "\t\t}"
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:
-                    java_trait_constr = java_trait_constr + ", new " + var_line.group(2) + "(" + var_line.group(2) + ").bindings_instance"
+                    java_trait_constr = java_trait_constr + ", " + var_line.group(2) + ".new_impl(" + var_line.group(2) + "_impl).bindings_instance"
                 else:
                     java_trait_constr = java_trait_constr + ", " + var_line.group(2)
             out_java_trait.write("\t}\n")
-            out_java_trait.write(java_trait_constr + ");\n\t}\n")
+            out_java_trait.write(java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n")
 
             # Write out a clone function whether we need one or not, as we use them in moving to rust
             write_c("static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n")

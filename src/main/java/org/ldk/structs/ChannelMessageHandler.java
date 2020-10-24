@@ -41,8 +41,10 @@ public class ChannelMessageHandler extends CommonBase {
 		void handle_channel_reestablish(byte[] their_node_id, ChannelReestablish msg);
 		void handle_error(byte[] their_node_id, ErrorMessage msg);
 	}
-	public ChannelMessageHandler(ChannelMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider) {
-		this(new bindings.LDKChannelMessageHandler() {
+	private static class LDKChannelMessageHandlerHolder { ChannelMessageHandler held; }
+	public static ChannelMessageHandler new_impl(ChannelMessageHandlerInterface arg, MessageSendEventsProvider.MessageSendEventsProviderInterface MessageSendEventsProvider_impl) {
+		final LDKChannelMessageHandlerHolder impl_holder = new LDKChannelMessageHandlerHolder();
+		impl_holder.held = new ChannelMessageHandler(new bindings.LDKChannelMessageHandler() {
 			@Override public void handle_open_channel(byte[] their_node_id, long their_features, long msg) {
 				InitFeatures their_features_hu_conv = new InitFeatures(null, their_features);
 				OpenChannel msg_hu_conv = new OpenChannel(null, msg);
@@ -120,7 +122,8 @@ public class ChannelMessageHandler extends CommonBase {
 				ErrorMessage msg_hu_conv = new ErrorMessage(null, msg);
 				arg.handle_error(their_node_id, msg_hu_conv);
 			}
-		}, new MessageSendEventsProvider(MessageSendEventsProvider).bindings_instance);
+		}, MessageSendEventsProvider.new_impl(MessageSendEventsProvider_impl).bindings_instance);
+		return impl_holder.held;
 	}
 	// Skipped ChannelMessageHandler_handle_open_channel
 	// Skipped ChannelMessageHandler_handle_accept_channel

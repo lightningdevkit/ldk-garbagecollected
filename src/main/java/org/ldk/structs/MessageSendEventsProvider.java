@@ -22,15 +22,18 @@ public class MessageSendEventsProvider extends CommonBase {
 	public static interface MessageSendEventsProviderInterface {
 		MessageSendEvent[] get_and_clear_pending_msg_events();
 	}
-	public MessageSendEventsProvider(MessageSendEventsProviderInterface arg) {
-		this(new bindings.LDKMessageSendEventsProvider() {
+	private static class LDKMessageSendEventsProviderHolder { MessageSendEventsProvider held; }
+	public static MessageSendEventsProvider new_impl(MessageSendEventsProviderInterface arg) {
+		final LDKMessageSendEventsProviderHolder impl_holder = new LDKMessageSendEventsProviderHolder();
+		impl_holder.held = new MessageSendEventsProvider(new bindings.LDKMessageSendEventsProvider() {
 			@Override public long[] get_and_clear_pending_msg_events() {
 				MessageSendEvent[] ret = arg.get_and_clear_pending_msg_events();
 				long[] result = Arrays.stream(ret).mapToLong(arr_conv_18 -> arr_conv_18.ptr).toArray();
-				//TODO: May need to call: /* TODO 2 MessageSendEvent  */;
+				/* TODO 2 MessageSendEvent  */;
 				return result;
 			}
 		});
+		return impl_holder.held;
 	}
 	public MessageSendEvent[] get_and_clear_pending_msg_events() {
 		long[] ret = bindings.MessageSendEventsProvider_get_and_clear_pending_msg_events(this.ptr);
