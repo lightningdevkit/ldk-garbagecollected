@@ -112,7 +112,6 @@ void __attribute__((destructor)) check_leaks() {
 	}
 	DO_ASSERT(allocation_ll == NULL);
 }
-static jclass arr_of_arr_of_B_clz = NULL;
 static jclass arr_of_B_clz = NULL;
 JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass _b) {
 	arr_of_B_clz = (*env)->FindClass(env, "[B");
@@ -1890,7 +1889,10 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 	LDKTransaction *commitment_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
 	*commitment_tx_copy = commitment_tx;
 	long commitment_tx_ref = (long)commitment_tx_copy;
-	long ret_keys = (long)keys;
+	LDKPreCalculatedTxCreationKeys keys_var = *keys;
+	CHECK((((long)keys_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&keys_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long keys_ref = (long)keys_var.inner & ~1;
 	LDKCVec_HTLCOutputInCommitmentZ htlcs_var = htlcs;
 	jlongArray htlcs_arr = (*_env)->NewLongArray(_env, htlcs_var.datalen);
 	jlong *htlcs_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, htlcs_arr, NULL);
@@ -1908,7 +1910,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 	FREE(htlcs_var.data);
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_commitment_meth, feerate_per_kw, commitment_tx_ref, ret_keys, htlcs_arr);
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_commitment_meth, feerate_per_kw, commitment_tx_ref, keys_ref, htlcs_arr);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1917,10 +1919,13 @@ LDKCResult_SignatureNoneZ sign_holder_commitment_jcall(const void* this_arg, con
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long ret_holder_commitment_tx = (long)holder_commitment_tx;
+	LDKHolderCommitmentTransaction holder_commitment_tx_var = *holder_commitment_tx;
+	CHECK((((long)holder_commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&holder_commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long holder_commitment_tx_ref = (long)holder_commitment_tx_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_holder_commitment_meth, ret_holder_commitment_tx);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_holder_commitment_meth, holder_commitment_tx_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1929,10 +1934,13 @@ LDKCResult_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions_jcall(c
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long ret_holder_commitment_tx = (long)holder_commitment_tx;
+	LDKHolderCommitmentTransaction holder_commitment_tx_var = *holder_commitment_tx;
+	CHECK((((long)holder_commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&holder_commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long holder_commitment_tx_ref = (long)holder_commitment_tx_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_CVec_SignatureZNoneZ* ret = (LDKCResult_CVec_SignatureZNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_holder_commitment_htlc_transactions_meth, ret_holder_commitment_tx);
+	LDKCResult_CVec_SignatureZNoneZ* ret = (LDKCResult_CVec_SignatureZNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_holder_commitment_htlc_transactions_meth, holder_commitment_tx_ref);
 	LDKCResult_CVec_SignatureZNoneZ ret_conv = *(LDKCResult_CVec_SignatureZNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1946,10 +1954,13 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, L
 	long justice_tx_ref = (long)justice_tx_copy;
 	jbyteArray per_commitment_key_arr = (*_env)->NewByteArray(_env, 32);
 	(*_env)->SetByteArrayRegion(_env, per_commitment_key_arr, 0, 32, *per_commitment_key);
-	long ret_htlc = (long)htlc;
+	LDKHTLCOutputInCommitment htlc_var = *htlc;
+	CHECK((((long)htlc_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&htlc_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long htlc_ref = (long)htlc_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_justice_transaction_meth, justice_tx_ref, input, amount, per_commitment_key_arr, ret_htlc);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_justice_transaction_meth, justice_tx_ref, input, amount, per_commitment_key_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1963,10 +1974,13 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* t
 	long htlc_tx_ref = (long)htlc_tx_copy;
 	jbyteArray per_commitment_point_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, per_commitment_point_arr, 0, 33, per_commitment_point.compressed_form);
-	long ret_htlc = (long)htlc;
+	LDKHTLCOutputInCommitment htlc_var = *htlc;
+	CHECK((((long)htlc_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&htlc_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long htlc_ref = (long)htlc_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_ref, input, amount, per_commitment_point_arr, ret_htlc);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_ref, input, amount, per_commitment_point_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1989,10 +2003,13 @@ LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, 
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long ret_msg = (long)msg;
+	LDKUnsignedChannelAnnouncement msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_channel_announcement_meth, ret_msg);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_channel_announcement_meth, msg_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -2001,10 +2018,13 @@ void on_accept_jcall(void* this_arg, const LDKChannelPublicKeys *channel_points,
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long ret_channel_points = (long)channel_points;
+	LDKChannelPublicKeys channel_points_var = *channel_points;
+	CHECK((((long)channel_points_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&channel_points_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long channel_points_ref = (long)channel_points_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->on_accept_meth, ret_channel_points, counterparty_selected_contest_delay, holder_selected_contest_delay);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->on_accept_meth, channel_points_ref, counterparty_selected_contest_delay, holder_selected_contest_delay);
 }
 static void LDKChannelKeys_JCalls_free(void* this_arg) {
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
@@ -2467,13 +2487,16 @@ void register_output_jcall(const void* this_arg, const LDKOutPoint *outpoint, LD
 	LDKFilter_JCalls *j_calls = (LDKFilter_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long ret_outpoint = (long)outpoint;
+	LDKOutPoint outpoint_var = *outpoint;
+	CHECK((((long)outpoint_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&outpoint_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long outpoint_ref = (long)outpoint_var.inner & ~1;
 	LDKu8slice script_pubkey_var = script_pubkey;
 	jbyteArray script_pubkey_arr = (*_env)->NewByteArray(_env, script_pubkey_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, script_pubkey_arr, 0, script_pubkey_var.datalen, script_pubkey_var.data);
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->register_output_meth, ret_outpoint, script_pubkey_arr);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->register_output_meth, outpoint_ref, script_pubkey_arr);
 }
 static void LDKFilter_JCalls_free(void* this_arg) {
 	LDKFilter_JCalls *j_calls = (LDKFilter_JCalls*) this_arg;
@@ -3046,10 +3069,13 @@ void handle_open_channel_jcall(const void* this_arg, LDKPublicKey their_node_id,
 	if (their_features_var.is_owned) {
 		their_features_ref |= 1;
 	}
-	long ret_msg = (long)msg;
+	LDKOpenChannel msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_open_channel_meth, their_node_id_arr, their_features_ref, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_open_channel_meth, their_node_id_arr, their_features_ref, msg_ref);
 }
 void handle_accept_channel_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3064,10 +3090,13 @@ void handle_accept_channel_jcall(const void* this_arg, LDKPublicKey their_node_i
 	if (their_features_var.is_owned) {
 		their_features_ref |= 1;
 	}
-	long ret_msg = (long)msg;
+	LDKAcceptChannel msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_accept_channel_meth, their_node_id_arr, their_features_ref, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_accept_channel_meth, their_node_id_arr, their_features_ref, msg_ref);
 }
 void handle_funding_created_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingCreated *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3075,10 +3104,13 @@ void handle_funding_created_jcall(const void* this_arg, LDKPublicKey their_node_
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKFundingCreated msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_created_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_created_meth, their_node_id_arr, msg_ref);
 }
 void handle_funding_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingSigned *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3086,10 +3118,13 @@ void handle_funding_signed_jcall(const void* this_arg, LDKPublicKey their_node_i
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKFundingSigned msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_signed_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_signed_meth, their_node_id_arr, msg_ref);
 }
 void handle_funding_locked_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingLocked *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3097,10 +3132,13 @@ void handle_funding_locked_jcall(const void* this_arg, LDKPublicKey their_node_i
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKFundingLocked msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_locked_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_locked_meth, their_node_id_arr, msg_ref);
 }
 void handle_shutdown_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKShutdown *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3108,10 +3146,13 @@ void handle_shutdown_jcall(const void* this_arg, LDKPublicKey their_node_id, con
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKShutdown msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_shutdown_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_shutdown_meth, their_node_id_arr, msg_ref);
 }
 void handle_closing_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKClosingSigned *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3119,10 +3160,13 @@ void handle_closing_signed_jcall(const void* this_arg, LDKPublicKey their_node_i
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKClosingSigned msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_closing_signed_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_closing_signed_meth, their_node_id_arr, msg_ref);
 }
 void handle_update_add_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3130,10 +3174,13 @@ void handle_update_add_htlc_jcall(const void* this_arg, LDKPublicKey their_node_
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKUpdateAddHTLC msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_add_htlc_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_add_htlc_meth, their_node_id_arr, msg_ref);
 }
 void handle_update_fulfill_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3141,10 +3188,13 @@ void handle_update_fulfill_htlc_jcall(const void* this_arg, LDKPublicKey their_n
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKUpdateFulfillHTLC msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fulfill_htlc_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fulfill_htlc_meth, their_node_id_arr, msg_ref);
 }
 void handle_update_fail_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3152,10 +3202,13 @@ void handle_update_fail_htlc_jcall(const void* this_arg, LDKPublicKey their_node
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKUpdateFailHTLC msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fail_htlc_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fail_htlc_meth, their_node_id_arr, msg_ref);
 }
 void handle_update_fail_malformed_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3163,10 +3216,13 @@ void handle_update_fail_malformed_htlc_jcall(const void* this_arg, LDKPublicKey 
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKUpdateFailMalformedHTLC msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fail_malformed_htlc_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fail_malformed_htlc_meth, their_node_id_arr, msg_ref);
 }
 void handle_commitment_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKCommitmentSigned *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3174,10 +3230,13 @@ void handle_commitment_signed_jcall(const void* this_arg, LDKPublicKey their_nod
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKCommitmentSigned msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_commitment_signed_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_commitment_signed_meth, their_node_id_arr, msg_ref);
 }
 void handle_revoke_and_ack_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKRevokeAndACK *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3185,10 +3244,13 @@ void handle_revoke_and_ack_jcall(const void* this_arg, LDKPublicKey their_node_i
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKRevokeAndACK msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_revoke_and_ack_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_revoke_and_ack_meth, their_node_id_arr, msg_ref);
 }
 void handle_update_fee_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFee *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3196,10 +3258,13 @@ void handle_update_fee_jcall(const void* this_arg, LDKPublicKey their_node_id, c
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKUpdateFee msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fee_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fee_meth, their_node_id_arr, msg_ref);
 }
 void handle_announcement_signatures_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3207,10 +3272,13 @@ void handle_announcement_signatures_jcall(const void* this_arg, LDKPublicKey the
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKAnnouncementSignatures msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_announcement_signatures_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_announcement_signatures_meth, their_node_id_arr, msg_ref);
 }
 void peer_disconnected_jcall(const void* this_arg, LDKPublicKey their_node_id, bool no_connection_possible) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3228,10 +3296,13 @@ void peer_connected_jcall(const void* this_arg, LDKPublicKey their_node_id, cons
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKInit msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->peer_connected_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->peer_connected_meth, their_node_id_arr, msg_ref);
 }
 void handle_channel_reestablish_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKChannelReestablish *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3239,10 +3310,13 @@ void handle_channel_reestablish_jcall(const void* this_arg, LDKPublicKey their_n
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKChannelReestablish msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_channel_reestablish_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_channel_reestablish_meth, their_node_id_arr, msg_ref);
 }
 void handle_error_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKErrorMessage *msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3250,10 +3324,13 @@ void handle_error_jcall(const void* this_arg, LDKPublicKey their_node_id, const 
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
 	jbyteArray their_node_id_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
-	long ret_msg = (long)msg;
+	LDKErrorMessage msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_error_meth, their_node_id_arr, ret_msg);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_error_meth, their_node_id_arr, msg_ref);
 }
 static void LDKChannelMessageHandler_JCalls_free(void* this_arg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
@@ -3832,10 +3909,13 @@ LDKCResult_boolLightningErrorZ handle_node_announcement_jcall(const void* this_a
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long ret_msg = (long)msg;
+	LDKNodeAnnouncement msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_node_announcement_meth, ret_msg);
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_node_announcement_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -3844,10 +3924,13 @@ LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* thi
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long ret_msg = (long)msg;
+	LDKChannelAnnouncement msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_channel_announcement_meth, ret_msg);
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_channel_announcement_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -3856,10 +3939,13 @@ LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg,
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	long ret_msg = (long)msg;
+	LDKChannelUpdate msg_var = *msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_channel_update_meth, ret_msg);
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_channel_update_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;

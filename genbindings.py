@@ -666,19 +666,49 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         else:
             if ty_info.var_name == "":
                 ty_info.var_name = "ret"
-            opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
-            opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
-            if holds_ref:
-                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = false;"
-            else:
-                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);"
-            if not ty_info.is_ptr and not is_free and not ty_info.pass_by_ref and not holds_ref:
-                if (ty_info.java_hu_ty + "_clone") in clone_fns:
-                    # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
-                    opaque_arg_conv = opaque_arg_conv + "\nif (" + ty_info.var_name + "_conv.inner != NULL)\n"
-                    opaque_arg_conv = opaque_arg_conv + "\t" + ty_info.var_name + "_conv = " + ty_info.java_hu_ty + "_clone(&" + ty_info.var_name + "_conv);"
-                elif ty_info.passed_as_ptr:
-                    opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but can't clone!"
+
+            if ty_info.rust_obj in opaque_structs:
+                opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
+                opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
+                if holds_ref:
+                    opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = false;"
+                else:
+                    opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);"
+                if not ty_info.is_ptr and not is_free and not ty_info.pass_by_ref and not holds_ref:
+                    if (ty_info.java_hu_ty + "_clone") in clone_fns:
+                        # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
+                        opaque_arg_conv = opaque_arg_conv + "\nif (" + ty_info.var_name + "_conv.inner != NULL)\n"
+                        opaque_arg_conv = opaque_arg_conv + "\t" + ty_info.var_name + "_conv = " + ty_info.java_hu_ty + "_clone(&" + ty_info.var_name + "_conv);"
+                    elif ty_info.passed_as_ptr:
+                        opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but can't clone!"
+
+                opaque_ret_conv_suf = ";\nCHECK((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
+                opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
+                if holds_ref or ty_info.is_ptr:
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner & ~1;"
+                else:
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner;\n"
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "if (" + ty_info.var_name + "_var.is_owned) {\n"
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "\t" + ty_info.var_name + "_ref |= 1;\n"
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "}"
+
+                if ty_info.is_ptr:
+                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                        arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                        ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = *", opaque_ret_conv_suf),
+                        ret_conv_name = ty_info.var_name + "_ref",
+                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
+                        to_hu_conv_name = ty_info.var_name + "_hu_conv",
+                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
+                else:
+                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                        arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                        ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", opaque_ret_conv_suf),
+                        ret_conv_name = ty_info.var_name + "_ref",
+                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
+                        to_hu_conv_name = ty_info.var_name + "_hu_conv",
+                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
+
             if not ty_info.is_ptr:
                 if ty_info.rust_obj in unitary_enums:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -687,23 +717,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         arg_conv_cleanup = None,
                         ret_conv = ("jclass " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_to_java(_env, ", ");"),
                         ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
-                if ty_info.rust_obj in opaque_structs:
-                    ret_conv_suf = ";\nCHECK((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
-                    ret_conv_suf = ret_conv_suf + "CHECK((((long)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
-                    if holds_ref:
-                        ret_conv_suf = ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner & ~1;"
-                    else:
-                        ret_conv_suf = ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner;\n"
-                        ret_conv_suf = ret_conv_suf + "if (" + ty_info.var_name + "_var.is_owned) {\n"
-                        ret_conv_suf = ret_conv_suf + "\t" + ty_info.var_name + "_ref |= 1;\n"
-                        ret_conv_suf = ret_conv_suf + "}"
-                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", ret_conv_suf),
-                        ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
-                        to_hu_conv_name = ty_info.var_name + "_hu_conv",
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                 base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";";
                 if ty_info.rust_obj in trait_structs:
                     if not is_free:
@@ -801,14 +814,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
             elif ty_info.is_ptr:
                 assert(not is_free)
-                if ty_info.rust_obj in opaque_structs:
-                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("long ret_" + ty_info.var_name + " = (long)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
-                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
-                        to_hu_conv_name = ty_info.var_name + "_hu_conv",
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
-                elif ty_info.rust_obj in complex_enums:
+                if ty_info.rust_obj in complex_enums:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                         arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
