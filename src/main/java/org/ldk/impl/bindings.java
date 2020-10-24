@@ -2113,6 +2113,8 @@ public class bindings {
 	public static native long TxCreationKeys_read(byte[] ser);
 	// void PreCalculatedTxCreationKeys_free(LDKPreCalculatedTxCreationKeys this_ptr);
 	public static native void PreCalculatedTxCreationKeys_free(long this_ptr);
+	// LDKPreCalculatedTxCreationKeys PreCalculatedTxCreationKeys_clone(const LDKPreCalculatedTxCreationKeys *orig);
+	public static native long PreCalculatedTxCreationKeys_clone(long orig);
 	// MUST_USE_RES LDKPreCalculatedTxCreationKeys PreCalculatedTxCreationKeys_new(LDKTxCreationKeys keys);
 	public static native long PreCalculatedTxCreationKeys_new(long keys);
 	// MUST_USE_RES LDKTxCreationKeys PreCalculatedTxCreationKeys_trust_key_derivation(const LDKPreCalculatedTxCreationKeys *this_arg);

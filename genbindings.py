@@ -682,7 +682,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     elif ty_info.passed_as_ptr:
                         opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but can't clone!"
 
-                opaque_ret_conv_suf = ";\nCHECK((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
+                opaque_ret_conv_suf = ";\n"
+                if not holds_ref and ty_info.is_ptr and (ty_info.java_hu_ty + "_clone") in clone_fns: # is_ptr, not holds_ref implies passing a pointed-to value to java, which needs copied
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "if (" + ty_info.var_name + "->inner != NULL)\n"
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "\t" + ty_info.var_name + "_var = " + ty_info.java_hu_ty + "_clone(" + ty_info.var_name + ");\n"
+                elif not holds_ref and ty_info.is_ptr:
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "// Warning: we may need a move here but can't clone!\n"
+
+                opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
                 opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
                 if holds_ref or ty_info.is_ptr:
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner & ~1;"

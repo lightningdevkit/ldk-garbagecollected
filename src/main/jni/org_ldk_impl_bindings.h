@@ -7769,6 +7769,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PreCalculatedTxCreationKeys_1f
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    PreCalculatedTxCreationKeys_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PreCalculatedTxCreationKeys_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    PreCalculatedTxCreationKeys_new
  * Signature: (J)J
  */
