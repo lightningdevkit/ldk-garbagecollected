@@ -20,7 +20,6 @@ class HumanObjectPeerTestInstance {
         final Logger logger;
         final FeeEstimator fee_estimator;
         final BroadcasterInterface tx_broadcaster;
-        final KeysManager keys;
         final KeysInterface keys_interface;
         final ChannelManager chan_manager;
         final EventsProvider chan_manager_events;
@@ -31,13 +30,13 @@ class HumanObjectPeerTestInstance {
         final LinkedList<org.ldk.structs.Transaction> broadcast_set = new LinkedList<>();
 
         Peer(byte seed) {
-            logger = new Logger((String arg) -> System.out.println(seed + ": " + arg));
-            fee_estimator = new FeeEstimator((confirmation_target -> 253));
-            tx_broadcaster = new BroadcasterInterface(tx -> {
+            logger = Logger.new_impl((String arg) -> System.out.println(seed + ": " + arg));
+            fee_estimator = FeeEstimator.new_impl((confirmation_target -> 253));
+            tx_broadcaster = BroadcasterInterface.new_impl(tx -> {
                 broadcast_set.add(tx);
             });
             this.monitors = new HashMap<>();
-            Watch chain_monitor = new Watch(new Watch.WatchInterface() {
+            Watch chain_monitor = Watch.new_impl(new Watch.WatchInterface() {
                 public Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
                     synchronized (monitors) {
                         assert monitors.put(Arrays.toString(funding_txo.get_txid()), monitor) == null;
@@ -71,9 +70,9 @@ class HumanObjectPeerTestInstance {
             for (byte i = 0; i < 32; i++) {
                 key_seed[i] = (byte) (i ^ seed);
             }
-            this.keys = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
+            KeysManager keys = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
             this.keys_interface = keys.as_KeysInterface();
-            this.chan_manager = ChannelManager.constructor_new(LDKNetwork.LDKNetwork_Bitcoin, new FeeEstimator(confirmation_target -> 0), chain_monitor, tx_broadcaster, logger, keys.as_KeysInterface(), UserConfig.constructor_default(), 1);
+            this.chan_manager = ChannelManager.constructor_new(LDKNetwork.LDKNetwork_Bitcoin, FeeEstimator.new_impl(confirmation_target -> 0), chain_monitor, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), 1);
             this.node_id = chan_manager.get_our_node_id();
             this.chan_manager_events = chan_manager.as_EventsProvider();
             this.router = NetGraphMsgHandler.constructor_new(null, logger);
