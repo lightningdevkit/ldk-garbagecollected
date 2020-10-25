@@ -46,7 +46,6 @@ public class KeysInterface extends CommonBase {
 				ChannelKeys ret = arg.get_channel_keys(inbound, channel_value_satoshis);
 				long result = ret == null ? 0 : ret.ptr;
 				impl_holder.held.ptrs_to.add(ret);
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public byte[] get_secure_random_bytes() {

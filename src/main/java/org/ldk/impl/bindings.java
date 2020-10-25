@@ -1024,6 +1024,8 @@ public class bindings {
 	public static native void SpendableOutputDescriptor_free(long this_ptr);
 	// LDKSpendableOutputDescriptor SpendableOutputDescriptor_clone(const LDKSpendableOutputDescriptor *orig);
 	public static native long SpendableOutputDescriptor_clone(long orig);
+	// LDKChannelKeys ChannelKeys_clone(const LDKChannelKeys *orig);
+	public static native long ChannelKeys_clone(long orig);
 	// void ChannelKeys_free(LDKChannelKeys this_ptr);
 	public static native void ChannelKeys_free(long this_ptr);
 	// void KeysInterface_free(LDKKeysInterface this_ptr);
@@ -2040,6 +2042,8 @@ public class bindings {
 	public static native void MessageHandler_set_route_handler(long this_ptr, long val);
 	// MUST_USE_RES LDKMessageHandler MessageHandler_new(LDKChannelMessageHandler chan_handler_arg, LDKRoutingMessageHandler route_handler_arg);
 	public static native long MessageHandler_new(long chan_handler_arg, long route_handler_arg);
+	// LDKSocketDescriptor SocketDescriptor_clone(const LDKSocketDescriptor *orig);
+	public static native long SocketDescriptor_clone(long orig);
 	// void SocketDescriptor_free(LDKSocketDescriptor this_ptr);
 	public static native void SocketDescriptor_free(long this_ptr);
 	// void PeerHandleError_free(LDKPeerHandleError this_ptr);

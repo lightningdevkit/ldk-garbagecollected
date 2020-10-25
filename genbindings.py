@@ -230,9 +230,6 @@ trait_structs = set()
 result_types = set()
 tuple_types = {}
 
-def is_common_base_ext(struct_name):
-    return struct_name in complex_enums or struct_name in opaque_structs or struct_name in trait_structs or struct_name in result_types
-
 var_is_arr_regex = re.compile("\(\*([A-za-z0-9_]*)\)\[([a-z0-9]*)\]")
 var_ty_regex = re.compile("([A-za-z_0-9]*)(.*)")
 java_c_types_none_allowed = True # Unset when we do the real pass that populates the above sets
@@ -737,12 +734,19 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         arg_conv_cleanup = None,
                         ret_conv = ("jclass " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_to_java(_env, ", ");"),
                         ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
-                base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";";
+                base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";"
                 if ty_info.rust_obj in trait_structs:
                     if not is_free:
-                        base_conv = base_conv + "\nif (" + ty_info.var_name + "_conv.free == " + ty_info.rust_obj + "_JCalls_free) {\n"
-                        base_conv = base_conv + "\t// If this_arg is a JCalls struct, then we need to increment the refcnt in it.\n"
-                        base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv.this_arg);\n}"
+                        needs_full_clone = not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False
+                        if needs_full_clone and (ty_info.java_hu_ty + "_clone") in clone_fns:
+                            base_conv = base_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.java_hu_ty + "_clone(" + ty_info.var_name + ");"
+                        else:
+                            base_conv = base_conv + "\nif (" + ty_info.var_name + "_conv.free == " + ty_info.rust_obj + "_JCalls_free) {\n"
+                            base_conv = base_conv + "\t// If this_arg is a JCalls struct, then we need to increment the refcnt in it.\n"
+                            base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv.this_arg);\n}"
+                            if needs_full_clone:
+                                base_conv = base_conv + "// Warning: we may need a move here but can't do a full clone!\n"
+
                     else:
                         base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -992,7 +996,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     out_java_struct.write(info.arg_name)
             out_java_struct.write(");\n")
             if ret_info.to_hu_conv is not None:
-                out_java_struct.write("\t\t" + ret_info.to_hu_conv.replace("\n", "\n\t\t") + "\n")
+                if ret_info.rust_obj == "LDK" + struct_meth:
+                    out_java_struct.write("\t\t" + ret_info.to_hu_conv.replace("\n", "\n\t\t").replace("this", ret_info.to_hu_conv_name) + "\n")
+                else:
+                    out_java_struct.write("\t\t" + ret_info.to_hu_conv.replace("\n", "\n\t\t") + "\n")
 
             for info in arg_names:
                 if info.arg_name == "this_ptr" or info.arg_name == "this_arg":
@@ -1326,7 +1333,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                             java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.java_ty + " result = " + ret_ty_info.from_hu_conv[0] + ";\n"
                             if ret_ty_info.from_hu_conv[1] != "":
                                 java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held") + ";\n"
-                            if is_common_base_ext(ret_ty_info.rust_obj):
+                            if ret_ty_info.rust_obj in result_types:
+                                # Avoid double-free by breaking the result - we should learn to clone these and then we can be safe instead
                                 java_trait_constr = java_trait_constr + "\t\t\t\tret.ptr = 0;\n"
                             java_trait_constr = java_trait_constr + "\t\t\t\treturn result;\n"
                         else:
@@ -1395,7 +1403,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 elif fn_line.group(2) == "free":
                     write_c("\t\t.free = " + struct_name + "_JCalls_free,\n")
                 else:
-                    clone_fns.add(struct_name + "_clone")
                     write_c("\t\t.clone = " + struct_name + "_JCalls_clone,\n")
             for idx, var_line in enumerate(field_var_lines):
                 if var_line.group(1) in trait_structs:

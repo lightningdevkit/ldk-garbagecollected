@@ -17,6 +17,96 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 class HumanObjectPeerTestInstance {
     class Peer {
+        KeysInterface manual_keysif(KeysInterface underlying_if) {
+            return KeysInterface.new_impl(new KeysInterface.KeysInterfaceInterface() {
+                @Override
+                public byte[] get_node_secret() {
+                    return underlying_if.get_node_secret();
+                }
+
+                @Override
+                public byte[] get_destination_script() {
+                    return underlying_if.get_destination_script();
+                }
+
+                @Override
+                public byte[] get_shutdown_pubkey() {
+                    return underlying_if.get_shutdown_pubkey();
+                }
+
+                @Override
+                public ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis) {
+                    ChannelKeys underlying_ck = underlying_if.get_channel_keys(inbound, channel_value_satoshis);
+                    ChannelKeys.ChannelKeysInterface cki = new ChannelKeys.ChannelKeysInterface() {
+                        @Override
+                        public byte[] get_per_commitment_point(long idx) {
+                            return underlying_ck.get_per_commitment_point(idx);
+                        }
+
+                        @Override
+                        public byte[] release_commitment_secret(long idx) {
+                            return underlying_ck.release_commitment_secret(idx);
+                        }
+
+                        @Override
+                        public TwoTuple<Long, Long> key_derivation_params() {
+                            return new TwoTuple<Long, Long>((long)0, (long)1);
+                        }
+
+                        @Override
+                        public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(int feerate_per_kw, byte[] commitment_tx, PreCalculatedTxCreationKeys keys, HTLCOutputInCommitment[] htlcs) {
+                            return underlying_ck.sign_counterparty_commitment(feerate_per_kw, commitment_tx, keys, htlcs);
+                        }
+
+                        @Override
+                        public Result_SignatureNoneZ sign_holder_commitment(HolderCommitmentTransaction holder_commitment_tx) {
+                            return underlying_ck.sign_holder_commitment(holder_commitment_tx);
+                        }
+
+                        @Override
+                        public Result_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions(HolderCommitmentTransaction holder_commitment_tx) {
+                            return underlying_ck.sign_holder_commitment_htlc_transactions(holder_commitment_tx);
+                        }
+
+                        @Override
+                        public Result_SignatureNoneZ sign_justice_transaction(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
+                            return underlying_ck.sign_justice_transaction(justice_tx, input, amount, per_commitment_key, htlc);
+                        }
+
+                        @Override
+                        public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
+                            return underlying_ck.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc);
+                        }
+
+                        @Override
+                        public Result_SignatureNoneZ sign_closing_transaction(byte[] closing_tx) {
+                            return underlying_ck.sign_closing_transaction(closing_tx);
+                        }
+
+                        @Override
+                        public Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
+                            return underlying_ck.sign_channel_announcement(msg);
+                        }
+
+                        @Override
+                        public void on_accept(ChannelPublicKeys channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay) {
+                            underlying_ck.on_accept(channel_points, counterparty_selected_contest_delay, holder_selected_contest_delay);
+                        }
+                    };
+                    ChannelKeys resp = ChannelKeys.new_impl(cki, underlying_ck.get_pubkeys());
+                    must_free_objs.add(new WeakReference<>(cki));
+                    must_free_objs.add(new WeakReference<>(resp));
+                    must_free_objs.add(new WeakReference<>(underlying_ck));
+                    return resp;
+                }
+
+                @Override
+                public byte[] get_secure_random_bytes() {
+                    return underlying_if.get_secure_random_bytes();
+                }
+            });
+        }
+
         final Logger logger;
         final FeeEstimator fee_estimator;
         final BroadcasterInterface tx_broadcaster;
@@ -29,7 +119,7 @@ class HumanObjectPeerTestInstance {
         byte[] node_id;
         final LinkedList<byte[]> broadcast_set = new LinkedList<>();
 
-        Peer(byte seed) {
+        Peer(byte seed, boolean use_km_wrapper) {
             logger = Logger.new_impl((String arg) -> System.out.println(seed + ": " + arg));
             fee_estimator = FeeEstimator.new_impl((confirmation_target -> 253));
             tx_broadcaster = BroadcasterInterface.new_impl(tx -> {
@@ -70,8 +160,13 @@ class HumanObjectPeerTestInstance {
             for (byte i = 0; i < 32; i++) {
                 key_seed[i] = (byte) (i ^ seed);
             }
-            KeysManager keys = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
-            this.keys_interface = keys.as_KeysInterface();
+            if (use_km_wrapper) {
+                KeysManager underlying = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
+                this.keys_interface = manual_keysif(underlying.as_KeysInterface());
+            } else {
+                KeysManager keys = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
+                this.keys_interface = keys.as_KeysInterface();
+            }
             this.chan_manager = ChannelManager.constructor_new(LDKNetwork.LDKNetwork_Bitcoin, FeeEstimator.new_impl(confirmation_target -> 0), chain_monitor, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), 1);
             this.node_id = chan_manager.get_our_node_id();
             this.chan_manager_events = chan_manager.as_EventsProvider();
@@ -145,10 +240,10 @@ class HumanObjectPeerTestInstance {
         }
     }
 
-    void do_test_message_handler(boolean nice_close) throws InterruptedException {
+    void do_test_message_handler(boolean nice_close, boolean use_km_wrapper) throws InterruptedException {
         GcCheck obj = new GcCheck();
-        Peer peer1 = new Peer((byte) 1);
-        Peer peer2 = new Peer((byte) 2);
+        Peer peer1 = new Peer((byte) 1, use_km_wrapper);
+        Peer peer2 = new Peer((byte) 2, use_km_wrapper);
 
         ConcurrentLinkedQueue<Thread> list = new ConcurrentLinkedQueue<Thread>();
         LongHolder descriptor1 = new LongHolder();
@@ -331,10 +426,9 @@ class HumanObjectPeerTestInstance {
 
 }
 public class HumanObjectPeerTest {
-    @Test
-    public void test_message_handler_force_close() throws InterruptedException {
+    void do_test(boolean nice_close, boolean use_km_wrapper) throws InterruptedException {
         HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance();
-        instance.do_test_message_handler(false);
+        instance.do_test_message_handler(nice_close, use_km_wrapper);
         while (!instance.gc_ran) {
             System.gc();
             System.runFinalization();
@@ -343,14 +437,19 @@ public class HumanObjectPeerTest {
             assert o.get() == null;
     }
     @Test
+    public void test_message_handler_force_close() throws InterruptedException {
+        do_test(false, false);
+    }
+    @Test
     public void test_message_handler_nice_close() throws InterruptedException {
-        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance();
-        instance.do_test_message_handler(true);
-        while (!instance.gc_ran) {
-            System.gc();
-            System.runFinalization();
-        }
-        for (WeakReference<Object> o : instance.must_free_objs)
-            assert o.get() == null;
+        do_test(true, false);
+    }
+    @Test
+    public void test_message_handler_nice_close_wrapper() throws InterruptedException {
+        do_test(true, true);
+    }
+    @Test
+    public void test_message_handler_force_close_wrapper() throws InterruptedException {
+        do_test(false, true);
     }
 }

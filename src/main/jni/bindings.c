@@ -2867,10 +2867,7 @@ LDKChannelKeys get_channel_keys_jcall(const void* this_arg, bool inbound, uint64
 	CHECK(obj != NULL);
 	LDKChannelKeys* ret = (LDKChannelKeys*)(*_env)->CallLongMethod(_env, obj, j_calls->get_channel_keys_meth, inbound, channel_value_satoshis);
 	LDKChannelKeys ret_conv = *(LDKChannelKeys*)ret;
-	if (ret_conv.free == LDKChannelKeys_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKChannelKeys_JCalls_clone(ret_conv.this_arg);
-	}
+	ret_conv = ChannelKeys_clone(ret);
 	return ret_conv;
 }
 LDKThirtyTwoBytes get_secure_random_bytes_jcall(const void* this_arg) {
@@ -6798,6 +6795,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_SpendableOutputDescriptor_1cl
 	*ret_copy = SpendableOutputDescriptor_clone(orig_conv);
 	long ret_ref = (long)ret_copy;
 	return ret_ref;
+}
+
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKChannelKeys* orig_conv = (LDKChannelKeys*)orig;
+	LDKChannelKeys* ret = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
+	*ret = ChannelKeys_clone(orig_conv);
+	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -12326,6 +12330,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_MessageHandler_1new(JNIEnv * 
 		ret_ref |= 1;
 	}
 	return ret_ref;
+}
+
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_SocketDescriptor_1clone(JNIEnv * _env, jclass _b, jlong orig) {
+	LDKSocketDescriptor* orig_conv = (LDKSocketDescriptor*)orig;
+	LDKSocketDescriptor* ret = MALLOC(sizeof(LDKSocketDescriptor), "LDKSocketDescriptor");
+	*ret = SocketDescriptor_clone(orig_conv);
+	return (long)ret;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_SocketDescriptor_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {

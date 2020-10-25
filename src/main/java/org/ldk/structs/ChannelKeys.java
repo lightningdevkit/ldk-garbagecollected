@@ -189,4 +189,12 @@ public class ChannelKeys extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public static ChannelKeys constructor_clone(ChannelKeys orig) {
+		long ret = bindings.ChannelKeys_clone(orig == null ? 0 : orig.ptr);
+		ChannelKeys ret_hu_conv = new ChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(orig);
+		return ret_hu_conv;
+	}
+
 }
