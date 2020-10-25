@@ -214,30 +214,17 @@ class HumanObjectPeerTestInstance {
         }
     }
 
-    class LongHolder { long val; }
+    class DescriptorHolder { SocketDescriptor val; }
 
-    java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
-
-    void do_read_event(ConcurrentLinkedQueue<Thread> list, PeerManager pm, long descriptor, byte[] data) {
+    void do_read_event(ConcurrentLinkedQueue<Thread> list, PeerManager pm, SocketDescriptor descriptor, byte[] data) {
         Thread thread = new Thread(() -> {
-            long res = bindings.PeerManager_read_event(pm._test_only_get_ptr(), descriptor, data);
-            assert bindings.LDKCResult_boolPeerHandleErrorZ_result_ok(res);
-            //assert bindings.deref_bool(bindings.LDKCResult_boolPeerHandleErrorZ_get_inner(res));
-            bindings.CResult_boolPeerHandleErrorZ_free(res);
+            Result_boolPeerHandleErrorZ res = pm.read_event(descriptor, data);
+            assert res instanceof Result_boolPeerHandleErrorZ.Result_boolPeerHandleErrorZ_OK;
+            //assert ((Result_boolPeerHandleErrorZ.Result_boolPeerHandleErrorZ_OK) res).res;
         });
         thread.start();
         list.add(thread);
         must_free_objs.add(new WeakReference<>(data));
-    }
-
-    boolean gc_ran = false;
-
-    class GcCheck {
-        @Override
-        protected void finalize() throws Throwable {
-            gc_ran = true;
-            super.finalize();
-        }
     }
 
     void do_test_message_handler(boolean nice_close, boolean use_km_wrapper) throws InterruptedException {
@@ -246,9 +233,9 @@ class HumanObjectPeerTestInstance {
         Peer peer2 = new Peer((byte) 2, use_km_wrapper);
 
         ConcurrentLinkedQueue<Thread> list = new ConcurrentLinkedQueue<Thread>();
-        LongHolder descriptor1 = new LongHolder();
-        LongHolder descriptor1ref = descriptor1;
-        bindings.LDKSocketDescriptor sock1 = new bindings.LDKSocketDescriptor() {
+        DescriptorHolder descriptor1 = new DescriptorHolder();
+        DescriptorHolder descriptor1ref = descriptor1;
+        SocketDescriptor descriptor2 = SocketDescriptor.new_impl(new SocketDescriptor.SocketDescriptorInterface() {
             @Override
             public long send_data(byte[] data, boolean resume_read) {
                 do_read_event(list, peer1.peer_manager, descriptor1ref.val, data);
@@ -258,10 +245,9 @@ class HumanObjectPeerTestInstance {
             @Override public void disconnect_socket() { assert false; }
             @Override public boolean eq(long other_arg) { return bindings.LDKSocketDescriptor_get_obj_from_jcalls(other_arg).hash() == 2; }
             @Override public long hash() { return 2; }
-        };
-        long descriptor2 = bindings.LDKSocketDescriptor_new(sock1);
+        });
 
-        bindings.LDKSocketDescriptor sock2 = new bindings.LDKSocketDescriptor() {
+        descriptor1.val = SocketDescriptor.new_impl(new SocketDescriptor.SocketDescriptorInterface() {
             @Override
             public long send_data(byte[] data, boolean resume_read) {
                 do_read_event(list, peer2.peer_manager, descriptor2, data);
@@ -271,17 +257,14 @@ class HumanObjectPeerTestInstance {
             @Override public void disconnect_socket() { assert false; }
             @Override public boolean eq(long other_arg) { return bindings.LDKSocketDescriptor_get_obj_from_jcalls(other_arg).hash() == 1; }
             @Override public long hash() { return 1; }
-        };
-        descriptor1.val = bindings.LDKSocketDescriptor_new(sock2);
+        });
 
-        long init_vec = bindings.PeerManager_new_outbound_connection(peer1.peer_manager._test_only_get_ptr(), peer2.node_id, descriptor1.val);
-        assert (bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(init_vec));
+        Result_CVec_u8ZPeerHandleErrorZ conn_res = peer1.peer_manager.new_outbound_connection(peer2.node_id, descriptor1.val);
+        assert conn_res instanceof Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK;
 
-        long con_res = bindings.PeerManager_new_inbound_connection(peer2.peer_manager._test_only_get_ptr(), descriptor2);
-        assert (bindings.LDKCResult_NonePeerHandleErrorZ_result_ok(con_res));
-        bindings.CResult_NonePeerHandleErrorZ_free(con_res);
-        do_read_event(list, peer2.peer_manager, descriptor2, bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(init_vec));
-        bindings.CResult_CVec_u8ZPeerHandleErrorZ_free(init_vec);
+        Result_NonePeerHandleErrorZ inbound_conn_res = peer2.peer_manager.new_inbound_connection(descriptor2);
+        assert inbound_conn_res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_OK;
+        do_read_event(list, peer2.peer_manager, descriptor2, ((Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) conn_res).res);
 
         while (!list.isEmpty()) { list.poll().join(); }
 
@@ -419,11 +402,18 @@ class HumanObjectPeerTestInstance {
             assert Arrays.equals(watch_outputs[0].a, tx.getTxId().getReversedBytes());
             assert watch_outputs[0].b.length == 1;
         }
-
-        bindings.SocketDescriptor_free(descriptor2);
-        bindings.SocketDescriptor_free(descriptor1.val);
     }
 
+
+    java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
+    boolean gc_ran = false;
+    class GcCheck {
+        @Override
+        protected void finalize() throws Throwable {
+            gc_ran = true;
+            super.finalize();
+        }
+    }
 }
 public class HumanObjectPeerTest {
     void do_test(boolean nice_close, boolean use_km_wrapper) throws InterruptedException {
