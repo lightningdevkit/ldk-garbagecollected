@@ -53,20 +53,14 @@ public class ChannelMonitor extends CommonBase {
 		return arr_conv_7_arr;
 	}
 
-	public Transaction[] get_latest_holder_commitment_txn(Logger logger) {
-		long[] ret = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0 : logger.ptr);
-		Transaction[] arr_conv_13_arr = new Transaction[ret.length];
-		for (int n = 0; n < ret.length; n++) {
-			long arr_conv_13 = ret[n];
-			Transaction arr_conv_13_conv = new Transaction(null, arr_conv_13);
-			arr_conv_13_arr[n] = arr_conv_13_conv;
-		}
+	public byte[][] get_latest_holder_commitment_txn(Logger logger) {
+		byte[][] ret = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0 : logger.ptr);
 		this.ptrs_to.add(logger);
-		return arr_conv_13_arr;
+		return ret;
 	}
 
-	public TwoTuple<byte[], TxOut[]>[] block_connected(byte[] header, TwoTuple<Long, Transaction>[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_29 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_29.a, arr_conv_29.b.ptr)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+	public TwoTuple<byte[], TxOut[]>[] block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_24.a, arr_conv_24.b)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple<byte[], TxOut[]>[] arr_conv_27_arr = new TwoTuple[ret.length];
 		for (int b = 0; b < ret.length; b++) {
 			long arr_conv_27 = ret[b];
@@ -81,7 +75,7 @@ public class ChannelMonitor extends CommonBase {
 			TwoTuple<byte[], TxOut[]> arr_conv_27_conv = new TwoTuple<byte[], TxOut[]>(arr_conv_27_a, arr_conv_7_arr);
 			arr_conv_27_arr[b] = arr_conv_27_conv;
 		}
-		/* TODO 2 TwoTuple<Long, Transaction>  */;
+		/* TODO 2 TwoTuple<Long, byte[]>  */;
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);

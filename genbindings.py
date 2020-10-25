@@ -305,6 +305,11 @@ def java_c_types(fn_arg, ret_arr_len):
             rust_obj = "LDKCVec_u8Z"
             assert var_is_arr_regex.match(fn_arg[8:])
         arr_access = "data"
+    elif fn_arg.startswith("LDKTransaction"):
+        fn_arg = "uint8_t (*" + fn_arg[15:] + ")[datalen]"
+        rust_obj = "LDKTransaction"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        arr_access = "data"
     elif fn_arg.startswith("LDKCVecTempl_") or fn_arg.startswith("LDKCVec_"):
         is_ptr = False
         if "*" in fn_arg:
@@ -520,14 +525,20 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 arg_conv_cleanup = None
                 if not arr_len.isdigit():
                     arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
-                    arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = (*_env)->GetByteArrayElements (_env, " + arr_name + ", NULL);\n"
-                    arg_conv = arg_conv + arr_name + "_ref." + arr_len + " = (*_env)->GetArrayLength (_env, " + arr_name + ");"
-                    arg_conv_cleanup = "(*_env)->ReleaseByteArrayElements(_env, " + arr_name + ", (int8_t*)" + arr_name + "_ref." + ty_info.arr_access + ", 0);"
+                    arg_conv = arg_conv + arr_name + "_ref." + arr_len + " = (*_env)->GetArrayLength (_env, " + arr_name + ");\n"
+                    if (not ty_info.is_ptr or not holds_ref) and ty_info.rust_obj != "LDKu8slice":
+                        arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = MALLOC(" + arr_name + "_ref." + arr_len + ", \"" + ty_info.rust_obj + " Bytes\");\n"
+                        arg_conv = arg_conv + "(*_env)->GetByteArrayRegion(_env, " + arr_name + ", 0, " + arr_name + "_ref." + arr_len + ", " + arr_name + "_ref." + ty_info.arr_access + ");"
+                    else:
+                        arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = (*_env)->GetByteArrayElements (_env, " + arr_name + ", NULL);"
+                        arg_conv_cleanup = "(*_env)->ReleaseByteArrayElements(_env, " + arr_name + ", (int8_t*)" + arr_name + "_ref." + ty_info.arr_access + ", 0);"
+                    if ty_info.rust_obj == "LDKTransaction":
+                        arg_conv = arg_conv + "\n" + arr_name + "_ref.data_is_owned = " + str(holds_ref).lower() + ";"
                     ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
                     ret_conv = (ret_conv[0], ";\njbyteArray " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_name + "_var." + arr_len + ");\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_name + "_var." + arr_len + ", " + arr_name + "_var." + ty_info.arr_access + ");")
-                    if not holds_ref and ty_info.rust_obj == "LDKCVec_u8Z":
-                        ret_conv = (ret_conv[0], ret_conv[1] + "\nCVec_u8Z_free(" + arr_name + "_var);")
+                    if not holds_ref and ty_info.rust_obj != "LDKu8slice":
+                        ret_conv = (ret_conv[0], ret_conv[1] + "\n" + ty_info.rust_obj.replace("LDK", "") + "_free(" + arr_name + "_var);")
                 elif ty_info.rust_obj is not None:
                     arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
                     arg_conv = arg_conv + "CHECK((*_env)->GetArrayLength (_env, " + arr_name + ") == " + arr_len + ");\n"
@@ -741,7 +752,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
                         to_hu_conv_name = "ret_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
-                if ty_info.rust_obj != "LDKu8slice" and ty_info.rust_obj != "LDKTransaction":
+                if ty_info.rust_obj != "LDKu8slice":
                     # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                     # underlying unlike Vecs, and it gives Java more freedom.
                     base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
@@ -806,20 +817,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", ""))
 
                 # The manually-defined types - TxOut and Transaction
-                assert ty_info.rust_obj == "LDKTransaction" or ty_info.rust_obj == "LDKTxOut"
-                if ty_info.rust_obj == "LDKTransaction":
-                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("LDKTransaction *" + ty_info.var_name + "_copy = MALLOC(sizeof(LDKTransaction), \"LDKTransaction\");\n*" + ty_info.var_name + "_copy = ", ";\nlong " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_copy;"),
-                        ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
-                        to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
-                elif ty_info.rust_obj == "LDKTxOut":
-                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
-                        to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
+                assert ty_info.rust_obj == "LDKTxOut"
+                return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                    arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                    ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";"), ret_conv_name = ty_info.var_name + "_ref",
+                    to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
+                    to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
             elif ty_info.is_ptr:
                 assert(not is_free)
                 if ty_info.rust_obj in complex_enums:
@@ -1792,16 +1795,6 @@ class CommonBase {
                         out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
                         out_java_struct.write("\tlong to_c_ptr() { return 0; }\n")
                         # TODO: TxOut body
-                        out_java_struct.write("}")
-                elif struct_name == "LDKTransaction":
-                    with open(sys.argv[3] + "/structs/Transaction.java", "w") as out_java_struct:
-                        out_java_struct.write(hu_struct_file_prefix)
-                        out_java_struct.write("public class Transaction extends CommonBase{\n")
-                        out_java_struct.write("\tTransaction(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
-                        out_java_struct.write("\tpublic Transaction(byte[] data) { super(bindings.new_txpointer_copy_data(data)); }\n")
-                        out_java_struct.write("\t@Override public void finalize() throws Throwable { super.finalize(); bindings.txpointer_free(ptr); }\n")
-                        out_java_struct.write("\tpublic byte[] get_contents() { return bindings.txpointer_get_buffer(ptr); }\n")
-                        # TODO: Transaction body
                         out_java_struct.write("}")
                 else:
                     pass # Everything remaining is a byte[] or some form

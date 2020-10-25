@@ -20,21 +20,20 @@ public class BroadcasterInterface extends CommonBase {
 	}
 
 	public static interface BroadcasterInterfaceInterface {
-		void broadcast_transaction(Transaction tx);
+		void broadcast_transaction(byte[] tx);
 	}
 	private static class LDKBroadcasterInterfaceHolder { BroadcasterInterface held; }
 	public static BroadcasterInterface new_impl(BroadcasterInterfaceInterface arg) {
 		final LDKBroadcasterInterfaceHolder impl_holder = new LDKBroadcasterInterfaceHolder();
 		impl_holder.held = new BroadcasterInterface(new bindings.LDKBroadcasterInterface() {
-			@Override public void broadcast_transaction(long tx) {
-				Transaction tx_conv = new Transaction(null, tx);
-				arg.broadcast_transaction(tx_conv);
+			@Override public void broadcast_transaction(byte[] tx) {
+				arg.broadcast_transaction(tx);
 			}
 		});
 		return impl_holder.held;
 	}
-	public void broadcast_transaction(Transaction tx) {
-		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, tx.ptr);
+	public void broadcast_transaction(byte[] tx) {
+		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, tx);
 	}
 
 }

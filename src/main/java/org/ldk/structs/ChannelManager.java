@@ -131,9 +131,9 @@ public class ChannelManager extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public void block_connected(byte[] header, TwoTuple<Long, Transaction>[] txdata, int height) {
-		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_29 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_29.a, arr_conv_29.b.ptr)).toArray(), height);
-		/* TODO 2 TwoTuple<Long, Transaction>  */;
+	public void block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
+		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_24.a, arr_conv_24.b)).toArray(), height);
+		/* TODO 2 TwoTuple<Long, byte[]>  */;
 	}
 
 	public void block_disconnected(byte[] header) {

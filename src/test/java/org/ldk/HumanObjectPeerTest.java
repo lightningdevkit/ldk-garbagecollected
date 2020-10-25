@@ -27,7 +27,7 @@ class HumanObjectPeerTestInstance {
         final PeerManager peer_manager;
         final HashMap<String, ChannelMonitor> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
-        final LinkedList<org.ldk.structs.Transaction> broadcast_set = new LinkedList<>();
+        final LinkedList<byte[]> broadcast_set = new LinkedList<>();
 
         Peer(byte seed) {
             logger = Logger.new_impl((String arg) -> System.out.println(seed + ": " + arg));
@@ -87,10 +87,10 @@ class HumanObjectPeerTestInstance {
 
         TwoTuple<byte[], TxOut[]>[] connect_block(Block b, int height) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
-            TwoTuple<Long, org.ldk.structs.Transaction>[] txn;
+            TwoTuple<Long, byte[]>[] txn;
             if (b.hasTransactions()) {
                 assert b.getTransactions().size() == 1;
-                TwoTuple<Long, org.ldk.structs.Transaction> txp = new TwoTuple<>((long) 1, new org.ldk.structs.Transaction(b.getTransactions().get(0).bitcoinSerialize()));
+                TwoTuple<Long, byte[]> txp = new TwoTuple<>((long) 1, b.getTransactions().get(0).bitcoinSerialize());
                 txn = new TwoTuple[]{txp};
             } else
                 txn = new TwoTuple[0];
@@ -316,7 +316,7 @@ class HumanObjectPeerTestInstance {
             assert peer1.broadcast_set.size() == 1;
             assert peer2.broadcast_set.size() == 0;
 
-            Transaction tx = new Transaction(bitcoinj_net, peer1.broadcast_set.getFirst().get_contents());
+            Transaction tx = new Transaction(bitcoinj_net, peer1.broadcast_set.getFirst());
             b = new Block(bitcoinj_net, 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0,
                     Arrays.asList(new Transaction[]{tx}));
             TwoTuple<byte[], TxOut[]>[] watch_outputs =  peer2.connect_block(b, 1);

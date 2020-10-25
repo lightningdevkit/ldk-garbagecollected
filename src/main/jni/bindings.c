@@ -471,23 +471,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1u8_1new(JNIEnv 
 	}
 	return (long)ret;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1usize_1_1Transaction_1new(JNIEnv *_env, jclass _b, jlong a, jlong b) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1usize_1_1Transaction_1new(JNIEnv *_env, jclass _b, jlong a, jbyteArray b) {
 	LDKC2TupleTempl_usize__Transaction* ret = MALLOC(sizeof(LDKC2TupleTempl_usize__Transaction), "LDKC2TupleTempl_usize__Transaction");
 	ret->a = a;
-	LDKTransaction b_conv = *(LDKTransaction*)b;
-	ret->b = b_conv;
+	LDKTransaction b_ref;
+	b_ref.datalen = (*_env)->GetArrayLength (_env, b);
+	b_ref.data = MALLOC(b_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, b, 0, b_ref.datalen, b_ref.data);
+	b_ref.data_is_owned = false;
+	ret->b = b_ref;
 	return (long)ret;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1usizeTransactionZ_1get_1a(JNIEnv *_env, jclass _b, jlong ptr) {
 	LDKC2TupleTempl_usize__Transaction *tuple = (LDKC2TupleTempl_usize__Transaction*)ptr;
 	return tuple->a;
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1usizeTransactionZ_1get_1b(JNIEnv *_env, jclass _b, jlong ptr) {
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1usizeTransactionZ_1get_1b(JNIEnv *_env, jclass _b, jlong ptr) {
 	LDKC2TupleTempl_usize__Transaction *tuple = (LDKC2TupleTempl_usize__Transaction*)ptr;
-	LDKTransaction *b_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	*b_copy = tuple->b;
-	long b_ref = (long)b_copy;
-	return b_ref;
+	LDKTransaction b_var = tuple->b;
+	jbyteArray b_arr = (*_env)->NewByteArray(_env, b_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, b_arr, 0, b_var.datalen, b_var.data);
+	return b_arr;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NoneChannelMonitorUpdateErrZ*)arg)->result_ok;
@@ -529,10 +533,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2TupleTempl_1OutPoint_1_1
 		a_conv = OutPoint_clone(&a_conv);
 	ret->a = a_conv;
 	LDKCVec_u8Z b_ref;
-	b_ref.data = (*_env)->GetByteArrayElements (_env, b, NULL);
 	b_ref.datalen = (*_env)->GetArrayLength (_env, b);
+	b_ref.data = MALLOC(b_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, b, 0, b_ref.datalen, b_ref.data);
 	ret->b = b_ref;
-	//TODO: Really need to call (*_env)->ReleaseByteArrayElements(_env, b, (int8_t*)b_ref.data, 0); here
 	return (long)ret;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1OutPointScriptZ_1get_1a(JNIEnv *_env, jclass _b, jlong ptr) {
@@ -1887,9 +1891,10 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	LDKTransaction *commitment_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	*commitment_tx_copy = commitment_tx;
-	long commitment_tx_ref = (long)commitment_tx_copy;
+	LDKTransaction commitment_tx_var = commitment_tx;
+	jbyteArray commitment_tx_arr = (*_env)->NewByteArray(_env, commitment_tx_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, commitment_tx_arr, 0, commitment_tx_var.datalen, commitment_tx_var.data);
+	Transaction_free(commitment_tx_var);
 	LDKPreCalculatedTxCreationKeys keys_var = *keys;
 	if (keys->inner != NULL)
 		keys_var = PreCalculatedTxCreationKeys_clone(keys);
@@ -1913,7 +1918,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 	FREE(htlcs_var.data);
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_commitment_meth, feerate_per_kw, commitment_tx_ref, keys_ref, htlcs_arr);
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_commitment_meth, feerate_per_kw, commitment_tx_arr, keys_ref, htlcs_arr);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1956,9 +1961,10 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, L
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	LDKTransaction *justice_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	*justice_tx_copy = justice_tx;
-	long justice_tx_ref = (long)justice_tx_copy;
+	LDKTransaction justice_tx_var = justice_tx;
+	jbyteArray justice_tx_arr = (*_env)->NewByteArray(_env, justice_tx_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, justice_tx_arr, 0, justice_tx_var.datalen, justice_tx_var.data);
+	Transaction_free(justice_tx_var);
 	jbyteArray per_commitment_key_arr = (*_env)->NewByteArray(_env, 32);
 	(*_env)->SetByteArrayRegion(_env, per_commitment_key_arr, 0, 32, *per_commitment_key);
 	LDKHTLCOutputInCommitment htlc_var = *htlc;
@@ -1969,7 +1975,7 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, L
 	long htlc_ref = (long)htlc_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_justice_transaction_meth, justice_tx_ref, input, amount, per_commitment_key_arr, htlc_ref);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_justice_transaction_meth, justice_tx_arr, input, amount, per_commitment_key_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1978,9 +1984,10 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* t
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	LDKTransaction *htlc_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	*htlc_tx_copy = htlc_tx;
-	long htlc_tx_ref = (long)htlc_tx_copy;
+	LDKTransaction htlc_tx_var = htlc_tx;
+	jbyteArray htlc_tx_arr = (*_env)->NewByteArray(_env, htlc_tx_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, htlc_tx_arr, 0, htlc_tx_var.datalen, htlc_tx_var.data);
+	Transaction_free(htlc_tx_var);
 	jbyteArray per_commitment_point_arr = (*_env)->NewByteArray(_env, 33);
 	(*_env)->SetByteArrayRegion(_env, per_commitment_point_arr, 0, 33, per_commitment_point.compressed_form);
 	LDKHTLCOutputInCommitment htlc_var = *htlc;
@@ -1991,7 +1998,7 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* t
 	long htlc_ref = (long)htlc_var.inner & ~1;
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_ref, input, amount, per_commitment_point_arr, htlc_ref);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_arr, input, amount, per_commitment_point_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -2000,12 +2007,13 @@ LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, L
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	LDKTransaction *closing_tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	*closing_tx_copy = closing_tx;
-	long closing_tx_ref = (long)closing_tx_copy;
+	LDKTransaction closing_tx_var = closing_tx;
+	jbyteArray closing_tx_arr = (*_env)->NewByteArray(_env, closing_tx_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, closing_tx_arr, 0, closing_tx_var.datalen, closing_tx_var.data);
+	Transaction_free(closing_tx_var);
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_closing_transaction_meth, closing_tx_ref);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_closing_transaction_meth, closing_tx_arr);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -2068,17 +2076,17 @@ static inline LDKChannelKeys LDKChannelKeys_init (JNIEnv * env, jclass _a, jobje
 	CHECK(calls->release_commitment_secret_meth != NULL);
 	calls->key_derivation_params_meth = (*env)->GetMethodID(env, c, "key_derivation_params", "()J");
 	CHECK(calls->key_derivation_params_meth != NULL);
-	calls->sign_counterparty_commitment_meth = (*env)->GetMethodID(env, c, "sign_counterparty_commitment", "(IJJ[J)J");
+	calls->sign_counterparty_commitment_meth = (*env)->GetMethodID(env, c, "sign_counterparty_commitment", "(I[BJ[J)J");
 	CHECK(calls->sign_counterparty_commitment_meth != NULL);
 	calls->sign_holder_commitment_meth = (*env)->GetMethodID(env, c, "sign_holder_commitment", "(J)J");
 	CHECK(calls->sign_holder_commitment_meth != NULL);
 	calls->sign_holder_commitment_htlc_transactions_meth = (*env)->GetMethodID(env, c, "sign_holder_commitment_htlc_transactions", "(J)J");
 	CHECK(calls->sign_holder_commitment_htlc_transactions_meth != NULL);
-	calls->sign_justice_transaction_meth = (*env)->GetMethodID(env, c, "sign_justice_transaction", "(JJJ[BJ)J");
+	calls->sign_justice_transaction_meth = (*env)->GetMethodID(env, c, "sign_justice_transaction", "([BJJ[BJ)J");
 	CHECK(calls->sign_justice_transaction_meth != NULL);
-	calls->sign_counterparty_htlc_transaction_meth = (*env)->GetMethodID(env, c, "sign_counterparty_htlc_transaction", "(JJJ[BJ)J");
+	calls->sign_counterparty_htlc_transaction_meth = (*env)->GetMethodID(env, c, "sign_counterparty_htlc_transaction", "([BJJ[BJ)J");
 	CHECK(calls->sign_counterparty_htlc_transaction_meth != NULL);
-	calls->sign_closing_transaction_meth = (*env)->GetMethodID(env, c, "sign_closing_transaction", "(J)J");
+	calls->sign_closing_transaction_meth = (*env)->GetMethodID(env, c, "sign_closing_transaction", "([B)J");
 	CHECK(calls->sign_closing_transaction_meth != NULL);
 	calls->sign_channel_announcement_meth = (*env)->GetMethodID(env, c, "sign_channel_announcement", "(J)J");
 	CHECK(calls->sign_channel_announcement_meth != NULL);
@@ -2142,9 +2150,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1key_1derivation_
 	return (long)ret_ref;
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterparty_1commitment(JNIEnv * _env, jclass _b, jlong this_arg, jint feerate_per_kw, jlong commitment_tx, jlong keys, jlongArray htlcs) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterparty_1commitment(JNIEnv * _env, jclass _b, jlong this_arg, jint feerate_per_kw, jbyteArray commitment_tx, jlong keys, jlongArray htlcs) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
-	LDKTransaction commitment_tx_conv = *(LDKTransaction*)commitment_tx;
+	LDKTransaction commitment_tx_ref;
+	commitment_tx_ref.datalen = (*_env)->GetArrayLength (_env, commitment_tx);
+	commitment_tx_ref.data = MALLOC(commitment_tx_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, commitment_tx, 0, commitment_tx_ref.datalen, commitment_tx_ref.data);
+	commitment_tx_ref.data_is_owned = true;
 	LDKPreCalculatedTxCreationKeys keys_conv;
 	keys_conv.inner = (void*)(keys & (~1));
 	keys_conv.is_owned = false;
@@ -2166,7 +2178,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterpar
 	}
 	(*_env)->ReleaseLongArrayElements (_env, htlcs, htlcs_vals, 0);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ), "LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ");
-	*ret_conv = (this_arg_conv->sign_counterparty_commitment)(this_arg_conv->this_arg, feerate_per_kw, commitment_tx_conv, &keys_conv, htlcs_constr);
+	*ret_conv = (this_arg_conv->sign_counterparty_commitment)(this_arg_conv->this_arg, feerate_per_kw, commitment_tx_ref, &keys_conv, htlcs_constr);
 	return (long)ret_conv;
 }
 
@@ -2190,9 +2202,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1holder_1co
 	return (long)ret_conv;
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1justice_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jlong justice_tx, jlong input, jlong amount, jbyteArray per_commitment_key, jlong htlc) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1justice_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jbyteArray justice_tx, jlong input, jlong amount, jbyteArray per_commitment_key, jlong htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
-	LDKTransaction justice_tx_conv = *(LDKTransaction*)justice_tx;
+	LDKTransaction justice_tx_ref;
+	justice_tx_ref.datalen = (*_env)->GetArrayLength (_env, justice_tx);
+	justice_tx_ref.data = MALLOC(justice_tx_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, justice_tx, 0, justice_tx_ref.datalen, justice_tx_ref.data);
+	justice_tx_ref.data_is_owned = true;
 	unsigned char per_commitment_key_arr[32];
 	CHECK((*_env)->GetArrayLength (_env, per_commitment_key) == 32);
 	(*_env)->GetByteArrayRegion (_env, per_commitment_key, 0, 32, per_commitment_key_arr);
@@ -2201,13 +2217,17 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1justice_1t
 	htlc_conv.inner = (void*)(htlc & (~1));
 	htlc_conv.is_owned = false;
 	LDKCResult_SignatureNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_SignatureNoneZ), "LDKCResult_SignatureNoneZ");
-	*ret_conv = (this_arg_conv->sign_justice_transaction)(this_arg_conv->this_arg, justice_tx_conv, input, amount, per_commitment_key_ref, &htlc_conv);
+	*ret_conv = (this_arg_conv->sign_justice_transaction)(this_arg_conv->this_arg, justice_tx_ref, input, amount, per_commitment_key_ref, &htlc_conv);
 	return (long)ret_conv;
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterparty_1htlc_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jlong htlc_tx, jlong input, jlong amount, jbyteArray per_commitment_point, jlong htlc) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterparty_1htlc_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jbyteArray htlc_tx, jlong input, jlong amount, jbyteArray per_commitment_point, jlong htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
-	LDKTransaction htlc_tx_conv = *(LDKTransaction*)htlc_tx;
+	LDKTransaction htlc_tx_ref;
+	htlc_tx_ref.datalen = (*_env)->GetArrayLength (_env, htlc_tx);
+	htlc_tx_ref.data = MALLOC(htlc_tx_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, htlc_tx, 0, htlc_tx_ref.datalen, htlc_tx_ref.data);
+	htlc_tx_ref.data_is_owned = true;
 	LDKPublicKey per_commitment_point_ref;
 	CHECK((*_env)->GetArrayLength (_env, per_commitment_point) == 33);
 	(*_env)->GetByteArrayRegion (_env, per_commitment_point, 0, 33, per_commitment_point_ref.compressed_form);
@@ -2215,15 +2235,19 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1counterpar
 	htlc_conv.inner = (void*)(htlc & (~1));
 	htlc_conv.is_owned = false;
 	LDKCResult_SignatureNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_SignatureNoneZ), "LDKCResult_SignatureNoneZ");
-	*ret_conv = (this_arg_conv->sign_counterparty_htlc_transaction)(this_arg_conv->this_arg, htlc_tx_conv, input, amount, per_commitment_point_ref, &htlc_conv);
+	*ret_conv = (this_arg_conv->sign_counterparty_htlc_transaction)(this_arg_conv->this_arg, htlc_tx_ref, input, amount, per_commitment_point_ref, &htlc_conv);
 	return (long)ret_conv;
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1closing_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jlong closing_tx) {
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1sign_1closing_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jbyteArray closing_tx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
-	LDKTransaction closing_tx_conv = *(LDKTransaction*)closing_tx;
+	LDKTransaction closing_tx_ref;
+	closing_tx_ref.datalen = (*_env)->GetArrayLength (_env, closing_tx);
+	closing_tx_ref.data = MALLOC(closing_tx_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, closing_tx, 0, closing_tx_ref.datalen, closing_tx_ref.data);
+	closing_tx_ref.data_is_owned = true;
 	LDKCResult_SignatureNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_SignatureNoneZ), "LDKCResult_SignatureNoneZ");
-	*ret_conv = (this_arg_conv->sign_closing_transaction)(this_arg_conv->this_arg, closing_tx_conv);
+	*ret_conv = (this_arg_conv->sign_closing_transaction)(this_arg_conv->this_arg, closing_tx_ref);
 	return (long)ret_conv;
 }
 
@@ -2566,8 +2590,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Filter_1register_1tx(JNIEnv * 
 	(*_env)->GetByteArrayRegion (_env, txid, 0, 32, txid_arr);
 	unsigned char (*txid_ref)[32] = &txid_arr;
 	LDKu8slice script_pubkey_ref;
-	script_pubkey_ref.data = (*_env)->GetByteArrayElements (_env, script_pubkey, NULL);
 	script_pubkey_ref.datalen = (*_env)->GetArrayLength (_env, script_pubkey);
+	script_pubkey_ref.data = (*_env)->GetByteArrayElements (_env, script_pubkey, NULL);
 	(this_arg_conv->register_tx)(this_arg_conv->this_arg, txid_ref, script_pubkey_ref);
 	(*_env)->ReleaseByteArrayElements(_env, script_pubkey, (int8_t*)script_pubkey_ref.data, 0);
 }
@@ -2578,8 +2602,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Filter_1register_1output(JNIEn
 	outpoint_conv.inner = (void*)(outpoint & (~1));
 	outpoint_conv.is_owned = false;
 	LDKu8slice script_pubkey_ref;
-	script_pubkey_ref.data = (*_env)->GetByteArrayElements (_env, script_pubkey, NULL);
 	script_pubkey_ref.datalen = (*_env)->GetArrayLength (_env, script_pubkey);
+	script_pubkey_ref.data = (*_env)->GetByteArrayElements (_env, script_pubkey, NULL);
 	(this_arg_conv->register_output)(this_arg_conv->this_arg, &outpoint_conv, script_pubkey_ref);
 	(*_env)->ReleaseByteArrayElements(_env, script_pubkey, (int8_t*)script_pubkey_ref.data, 0);
 }
@@ -2594,12 +2618,13 @@ void broadcast_transaction_jcall(const void* this_arg, LDKTransaction tx) {
 	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
-	LDKTransaction *tx_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	*tx_copy = tx;
-	long tx_ref = (long)tx_copy;
+	LDKTransaction tx_var = tx;
+	jbyteArray tx_arr = (*_env)->NewByteArray(_env, tx_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, tx_arr, 0, tx_var.datalen, tx_var.data);
+	Transaction_free(tx_var);
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallVoidMethod(_env, obj, j_calls->broadcast_transaction_meth, tx_ref);
+	return (*_env)->CallVoidMethod(_env, obj, j_calls->broadcast_transaction_meth, tx_arr);
 }
 static void LDKBroadcasterInterface_JCalls_free(void* this_arg) {
 	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
@@ -2622,7 +2647,7 @@ static inline LDKBroadcasterInterface LDKBroadcasterInterface_init (JNIEnv * env
 	atomic_init(&calls->refcnt, 1);
 	DO_ASSERT((*env)->GetJavaVM(env, &calls->vm) == 0);
 	calls->o = (*env)->NewWeakGlobalRef(env, o);
-	calls->broadcast_transaction_meth = (*env)->GetMethodID(env, c, "broadcast_transaction", "(J)V");
+	calls->broadcast_transaction_meth = (*env)->GetMethodID(env, c, "broadcast_transaction", "([B)V");
 	CHECK(calls->broadcast_transaction_meth != NULL);
 
 	LDKBroadcasterInterface ret = {
@@ -2642,10 +2667,14 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1ge
 	CHECK(ret != NULL);
 	return ret;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_BroadcasterInterface_1broadcast_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jlong tx) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_BroadcasterInterface_1broadcast_1transaction(JNIEnv * _env, jclass _b, jlong this_arg, jbyteArray tx) {
 	LDKBroadcasterInterface* this_arg_conv = (LDKBroadcasterInterface*)this_arg;
-	LDKTransaction tx_conv = *(LDKTransaction*)tx;
-	(this_arg_conv->broadcast_transaction)(this_arg_conv->this_arg, tx_conv);
+	LDKTransaction tx_ref;
+	tx_ref.datalen = (*_env)->GetArrayLength (_env, tx);
+	tx_ref.data = MALLOC(tx_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, tx, 0, tx_ref.datalen, tx_ref.data);
+	tx_ref.data_is_owned = true;
+	(this_arg_conv->broadcast_transaction)(this_arg_conv->this_arg, tx_ref);
 }
 
 typedef struct LDKFeeEstimator_JCalls {
@@ -2737,23 +2766,6 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Transaction_1
 	LDKCVecTempl_Transaction *vec = (LDKCVecTempl_Transaction*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKTransaction));
 }
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1Transaction_1new(JNIEnv *env, jclass _b, jlongArray elems){
-	LDKCVecTempl_Transaction *ret = MALLOC(sizeof(LDKCVecTempl_Transaction), "LDKCVecTempl_Transaction");
-	ret->datalen = (*env)->GetArrayLength(env, elems);
-	if (ret->datalen == 0) {
-		ret->data = NULL;
-	} else {
-		ret->data = MALLOC(sizeof(LDKTransaction) * ret->datalen, "LDKCVecTempl_Transaction Data");
-		jlong *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
-		for (size_t i = 0; i < ret->datalen; i++) {
-			jlong arr_elem = java_elems[i];
-			LDKTransaction arr_elem_conv = *(LDKTransaction*)arr_elem;
-			ret->data[i] = arr_elem_conv;
-		}
-		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
-	}
-	return (long)ret;
-}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVecTempl_1C2TupleTempl_1ThirtyTwoBytes_1_1CVecTempl_1TxOut_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut *vec = (LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKC2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut));
@@ -2806,8 +2818,9 @@ LDKCVec_u8Z get_destination_script_jcall(const void* this_arg) {
 	CHECK(obj != NULL);
 	jbyteArray arg = (*_env)->CallObjectMethod(_env, obj, j_calls->get_destination_script_meth);
 	LDKCVec_u8Z arg_ref;
-	arg_ref.data = (*_env)->GetByteArrayElements (_env, arg, NULL);
 	arg_ref.datalen = (*_env)->GetArrayLength (_env, arg);
+	arg_ref.data = MALLOC(arg_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, arg, 0, arg_ref.datalen, arg_ref.data);
 	return arg_ref;
 }
 LDKPublicKey get_shutdown_pubkey_jcall(const void* this_arg) {
@@ -4319,8 +4332,8 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1get_1o
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_SocketDescriptor_1send_1data(JNIEnv * _env, jclass _b, jlong this_arg, jbyteArray data, jboolean resume_read) {
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)this_arg;
 	LDKu8slice data_ref;
-	data_ref.data = (*_env)->GetByteArrayElements (_env, data, NULL);
 	data_ref.datalen = (*_env)->GetArrayLength (_env, data);
+	data_ref.data = (*_env)->GetByteArrayElements (_env, data, NULL);
 	jlong ret_val = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
 	(*_env)->ReleaseByteArrayElements(_env, data, (int8_t*)data_ref.data, 0);
 	return ret_val;
@@ -4636,11 +4649,11 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1u8ZPeerHandleEr
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1u8ZPeerHandleErrorZ_1ok(JNIEnv * _env, jclass _b, jbyteArray arg) {
 	LDKCVec_u8Z arg_ref;
-	arg_ref.data = (*_env)->GetByteArrayElements (_env, arg, NULL);
 	arg_ref.datalen = (*_env)->GetArrayLength (_env, arg);
+	arg_ref.data = MALLOC(arg_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, arg, 0, arg_ref.datalen, arg_ref.data);
 	LDKCResult_CVec_u8ZPeerHandleErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_CVec_u8ZPeerHandleErrorZ), "LDKCResult_CVec_u8ZPeerHandleErrorZ");
 	*ret_conv = CResult_CVec_u8ZPeerHandleErrorZ_ok(arg_ref);
-	(*_env)->ReleaseByteArrayElements(_env, arg, (int8_t*)arg_ref.data, 0);
 	return (long)ret_conv;
 }
 
@@ -4925,11 +4938,11 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1C2Tuple_1usizeTransactio
 	else
 		arg_constr.data = NULL;
 	long* arg_vals = (*_env)->GetLongArrayElements (_env, arg, NULL);
-	for (size_t d = 0; d < arg_constr.datalen; d++) {
-		long arr_conv_29 = arg_vals[d];
-		LDKC2Tuple_usizeTransactionZ arr_conv_29_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_29;
-		FREE((void*)arr_conv_29);
-		arg_constr.data[d] = arr_conv_29_conv;
+	for (size_t y = 0; y < arg_constr.datalen; y++) {
+		long arr_conv_24 = arg_vals[y];
+		LDKC2Tuple_usizeTransactionZ arr_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_24;
+		FREE((void*)arr_conv_24);
+		arg_constr.data[y] = arr_conv_24_conv;
 	}
 	(*_env)->ReleaseLongArrayElements (_env, arg, arg_vals, 0);
 	CVec_C2Tuple_usizeTransactionZZ_free(arg_constr);
@@ -5221,20 +5234,22 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1SpendableOutputDescripto
 	CVec_SpendableOutputDescriptorZ_free(arg_constr);
 }
 
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1TransactionZ_1free(JNIEnv * _env, jclass _b, jlongArray arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1TransactionZ_1free(JNIEnv * _env, jclass _b, jobjectArray arg) {
 	LDKCVec_TransactionZ arg_constr;
 	arg_constr.datalen = (*_env)->GetArrayLength (_env, arg);
 	if (arg_constr.datalen > 0)
 		arg_constr.data = MALLOC(arg_constr.datalen * sizeof(LDKTransaction), "LDKCVec_TransactionZ Elements");
 	else
 		arg_constr.data = NULL;
-	long* arg_vals = (*_env)->GetLongArrayElements (_env, arg, NULL);
-	for (size_t n = 0; n < arg_constr.datalen; n++) {
-		long arr_conv_13 = arg_vals[n];
-		LDKTransaction arr_conv_13_conv = *(LDKTransaction*)arr_conv_13;
-		arg_constr.data[n] = arr_conv_13_conv;
+	for (size_t i = 0; i < arg_constr.datalen; i++) {
+		jobject arr_conv_8 = (*_env)->GetObjectArrayElement(_env, arg, i);
+		LDKTransaction arr_conv_8_ref;
+		arr_conv_8_ref.datalen = (*_env)->GetArrayLength (_env, arr_conv_8);
+		arr_conv_8_ref.data = MALLOC(arr_conv_8_ref.datalen, "LDKTransaction Bytes");
+		(*_env)->GetByteArrayRegion(_env, arr_conv_8, 0, arr_conv_8_ref.datalen, arr_conv_8_ref.data);
+		arr_conv_8_ref.data_is_owned = true;
+		arg_constr.data[i] = arr_conv_8_ref;
 	}
-	(*_env)->ReleaseLongArrayElements (_env, arg, arg_vals, 0);
 	CVec_TransactionZ_free(arg_constr);
 }
 
@@ -5350,15 +5365,19 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1u64Z_1free(JNIEnv * _env
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1u8Z_1free(JNIEnv * _env, jclass _b, jbyteArray arg) {
 	LDKCVec_u8Z arg_ref;
-	arg_ref.data = (*_env)->GetByteArrayElements (_env, arg, NULL);
 	arg_ref.datalen = (*_env)->GetArrayLength (_env, arg);
+	arg_ref.data = MALLOC(arg_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, arg, 0, arg_ref.datalen, arg_ref.data);
 	CVec_u8Z_free(arg_ref);
-	(*_env)->ReleaseByteArrayElements(_env, arg, (int8_t*)arg_ref.data, 0);
 }
 
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Transaction_1free(JNIEnv * _env, jclass _b, jlong _res) {
-	LDKTransaction _res_conv = *(LDKTransaction*)_res;
-	Transaction_free(_res_conv);
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Transaction_1free(JNIEnv * _env, jclass _b, jbyteArray _res) {
+	LDKTransaction _res_ref;
+	_res_ref.datalen = (*_env)->GetArrayLength (_env, _res);
+	_res_ref.data = MALLOC(_res_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, _res, 0, _res_ref.datalen, _res_ref.data);
+	_res_ref.data_is_owned = true;
+	Transaction_free(_res_ref);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_TxOut_1free(JNIEnv * _env, jclass _b, jlong _res) {
@@ -5367,10 +5386,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_TxOut_1free(JNIEnv * _env, jcl
 	TxOut_free(_res_conv);
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1usizeTransactionZ_1new(JNIEnv * _env, jclass _b, jlong a, jlong b) {
-	LDKTransaction b_conv = *(LDKTransaction*)b;
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1usizeTransactionZ_1new(JNIEnv * _env, jclass _b, jlong a, jbyteArray b) {
+	LDKTransaction b_ref;
+	b_ref.datalen = (*_env)->GetArrayLength (_env, b);
+	b_ref.data = MALLOC(b_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, b, 0, b_ref.datalen, b_ref.data);
+	b_ref.data_is_owned = true;
 	LDKC2Tuple_usizeTransactionZ* ret_ref = MALLOC(sizeof(LDKC2Tuple_usizeTransactionZ), "LDKC2Tuple_usizeTransactionZ");
-	*ret_ref = C2Tuple_usizeTransactionZ_new(a, b_conv);
+	*ret_ref = C2Tuple_usizeTransactionZ_new(a, b_ref);
 	return (long)ret_ref;
 }
 
@@ -5393,11 +5416,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1new
 	if (a_conv.inner != NULL)
 		a_conv = OutPoint_clone(&a_conv);
 	LDKCVec_u8Z b_ref;
-	b_ref.data = (*_env)->GetByteArrayElements (_env, b, NULL);
 	b_ref.datalen = (*_env)->GetArrayLength (_env, b);
+	b_ref.data = MALLOC(b_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, b, 0, b_ref.datalen, b_ref.data);
 	LDKC2Tuple_OutPointScriptZ* ret_ref = MALLOC(sizeof(LDKC2Tuple_OutPointScriptZ), "LDKC2Tuple_OutPointScriptZ");
 	*ret_ref = C2Tuple_OutPointScriptZ_new(a_conv, b_ref);
-	(*_env)->ReleaseByteArrayElements(_env, b, (int8_t*)b_ref.data, 0);
 	return (long)ret_ref;
 }
 
@@ -5976,8 +5999,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1write(JNI
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKChannelConfig ret_var = ChannelConfig_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6189,11 +6212,11 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChainMonitor_1block_1connected
 	else
 		txdata_constr.data = NULL;
 	long* txdata_vals = (*_env)->GetLongArrayElements (_env, txdata, NULL);
-	for (size_t d = 0; d < txdata_constr.datalen; d++) {
-		long arr_conv_29 = txdata_vals[d];
-		LDKC2Tuple_usizeTransactionZ arr_conv_29_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_29;
-		FREE((void*)arr_conv_29);
-		txdata_constr.data[d] = arr_conv_29_conv;
+	for (size_t y = 0; y < txdata_constr.datalen; y++) {
+		long arr_conv_24 = txdata_vals[y];
+		LDKC2Tuple_usizeTransactionZ arr_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_24;
+		FREE((void*)arr_conv_24);
+		txdata_constr.data[y] = arr_conv_24_conv;
 	}
 	(*_env)->ReleaseLongArrayElements (_env, txdata, txdata_vals, 0);
 	ChainMonitor_block_connected(&this_arg_conv, header_ref, txdata_constr, height);
@@ -6304,8 +6327,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1wr
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelMonitorUpdate_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKChannelMonitorUpdate ret_var = ChannelMonitorUpdate_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6385,8 +6408,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1write(JNIEnv
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCUpdate_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKHTLCUpdate ret_var = HTLCUpdate_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6478,21 +6501,20 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1get_1and
 	return ret_arr;
 }
 
-JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1get_1latest_1holder_1commitment_1txn(JNIEnv * _env, jclass _b, jlong this_arg, jlong logger) {
+JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1get_1latest_1holder_1commitment_1txn(JNIEnv * _env, jclass _b, jlong this_arg, jlong logger) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	LDKLogger* logger_conv = (LDKLogger*)logger;
 	LDKCVec_TransactionZ ret_var = ChannelMonitor_get_latest_holder_commitment_txn(&this_arg_conv, logger_conv);
-	jlongArray ret_arr = (*_env)->NewLongArray(_env, ret_var.datalen);
-	jlong *ret_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, ret_arr, NULL);
-	for (size_t n = 0; n < ret_var.datalen; n++) {
-		LDKTransaction *arr_conv_13_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-		*arr_conv_13_copy = ret_var.data[n];
-		long arr_conv_13_ref = (long)arr_conv_13_copy;
-		ret_arr_ptr[n] = arr_conv_13_ref;
+	jobjectArray ret_arr = (*_env)->NewObjectArray(_env, ret_var.datalen, arr_of_B_clz, NULL);
+	for (size_t i = 0; i < ret_var.datalen; i++) {
+		LDKTransaction arr_conv_8_var = ret_var.data[i];
+		jbyteArray arr_conv_8_arr = (*_env)->NewByteArray(_env, arr_conv_8_var.datalen);
+		(*_env)->SetByteArrayRegion(_env, arr_conv_8_arr, 0, arr_conv_8_var.datalen, arr_conv_8_var.data);
+		Transaction_free(arr_conv_8_var);
+		(*_env)->SetObjectArrayElement(_env, ret_arr, i, arr_conv_8_arr);
 	}
-	(*_env)->ReleasePrimitiveArrayCritical(_env, ret_arr, ret_arr_ptr, 0);
 	CVec_TransactionZ_free(ret_var);
 	return ret_arr;
 }
@@ -6512,11 +6534,11 @@ JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1block_1c
 	else
 		txdata_constr.data = NULL;
 	long* txdata_vals = (*_env)->GetLongArrayElements (_env, txdata, NULL);
-	for (size_t d = 0; d < txdata_constr.datalen; d++) {
-		long arr_conv_29 = txdata_vals[d];
-		LDKC2Tuple_usizeTransactionZ arr_conv_29_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_29;
-		FREE((void*)arr_conv_29);
-		txdata_constr.data[d] = arr_conv_29_conv;
+	for (size_t y = 0; y < txdata_constr.datalen; y++) {
+		long arr_conv_24 = txdata_vals[y];
+		LDKC2Tuple_usizeTransactionZ arr_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_24;
+		FREE((void*)arr_conv_24);
+		txdata_constr.data[y] = arr_conv_24_conv;
 	}
 	(*_env)->ReleaseLongArrayElements (_env, txdata, txdata_vals, 0);
 	LDKBroadcasterInterface broadcaster_conv = *(LDKBroadcasterInterface*)broadcaster;
@@ -6664,8 +6686,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_OutPoint_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OutPoint_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKOutPoint ret_var = OutPoint_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6921,8 +6943,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1wri
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InMemoryChannelKeys_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKInMemoryChannelKeys ret_var = InMemoryChannelKeys_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -7443,11 +7465,11 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1block_1connect
 	else
 		txdata_constr.data = NULL;
 	long* txdata_vals = (*_env)->GetLongArrayElements (_env, txdata, NULL);
-	for (size_t d = 0; d < txdata_constr.datalen; d++) {
-		long arr_conv_29 = txdata_vals[d];
-		LDKC2Tuple_usizeTransactionZ arr_conv_29_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_29;
-		FREE((void*)arr_conv_29);
-		txdata_constr.data[d] = arr_conv_29_conv;
+	for (size_t y = 0; y < txdata_constr.datalen; y++) {
+		long arr_conv_24 = txdata_vals[y];
+		LDKC2Tuple_usizeTransactionZ arr_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_24;
+		FREE((void*)arr_conv_24);
+		txdata_constr.data[y] = arr_conv_24_conv;
 	}
 	(*_env)->ReleaseLongArrayElements (_env, txdata, txdata_vals, 0);
 	ChannelManager_block_connected(&this_arg_conv, header_ref, txdata_constr, height);
@@ -7748,10 +7770,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1set_1data(JNIEnv
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKCVec_u8Z val_ref;
-	val_ref.data = (*_env)->GetByteArrayElements (_env, val, NULL);
 	val_ref.datalen = (*_env)->GetArrayLength (_env, val);
+	val_ref.data = MALLOC(val_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, val, 0, val_ref.datalen, val_ref.data);
 	ErrorMessage_set_data(&this_ptr_conv, val_ref);
-	(*_env)->ReleaseByteArrayElements(_env, val, (int8_t*)val_ref.data, 0);
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1new(JNIEnv * _env, jclass _b, jbyteArray channel_id_arg, jbyteArray data_arg) {
@@ -7759,8 +7781,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1new(JNIEnv * _e
 	CHECK((*_env)->GetArrayLength (_env, channel_id_arg) == 32);
 	(*_env)->GetByteArrayRegion (_env, channel_id_arg, 0, 32, channel_id_arg_ref.data);
 	LDKCVec_u8Z data_arg_ref;
-	data_arg_ref.data = (*_env)->GetByteArrayElements (_env, data_arg, NULL);
 	data_arg_ref.datalen = (*_env)->GetArrayLength (_env, data_arg);
+	data_arg_ref.data = MALLOC(data_arg_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, data_arg, 0, data_arg_ref.datalen, data_arg_ref.data);
 	LDKErrorMessage ret_var = ErrorMessage_new(channel_id_arg_ref, data_arg_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -7768,7 +7791,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1new(JNIEnv * _e
 	if (ret_var.is_owned) {
 		ret_ref |= 1;
 	}
-	(*_env)->ReleaseByteArrayElements(_env, data_arg, (int8_t*)data_arg_ref.data, 0);
 	return ret_ref;
 }
 
@@ -8783,10 +8805,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_Shutdown_1set_1scriptpubkey(JN
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKCVec_u8Z val_ref;
-	val_ref.data = (*_env)->GetByteArrayElements (_env, val, NULL);
 	val_ref.datalen = (*_env)->GetArrayLength (_env, val);
+	val_ref.data = MALLOC(val_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, val, 0, val_ref.datalen, val_ref.data);
 	Shutdown_set_scriptpubkey(&this_ptr_conv, val_ref);
-	(*_env)->ReleaseByteArrayElements(_env, val, (int8_t*)val_ref.data, 0);
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1new(JNIEnv * _env, jclass _b, jbyteArray channel_id_arg, jbyteArray scriptpubkey_arg) {
@@ -8794,8 +8816,9 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1new(JNIEnv * _env, 
 	CHECK((*_env)->GetArrayLength (_env, channel_id_arg) == 32);
 	(*_env)->GetByteArrayRegion (_env, channel_id_arg, 0, 32, channel_id_arg_ref.data);
 	LDKCVec_u8Z scriptpubkey_arg_ref;
-	scriptpubkey_arg_ref.data = (*_env)->GetByteArrayElements (_env, scriptpubkey_arg, NULL);
 	scriptpubkey_arg_ref.datalen = (*_env)->GetArrayLength (_env, scriptpubkey_arg);
+	scriptpubkey_arg_ref.data = MALLOC(scriptpubkey_arg_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, scriptpubkey_arg, 0, scriptpubkey_arg_ref.datalen, scriptpubkey_arg_ref.data);
 	LDKShutdown ret_var = Shutdown_new(channel_id_arg_ref, scriptpubkey_arg_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -8803,7 +8826,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1new(JNIEnv * _env, 
 	if (ret_var.is_owned) {
 		ret_ref |= 1;
 	}
-	(*_env)->ReleaseByteArrayElements(_env, scriptpubkey_arg, (int8_t*)scriptpubkey_arg_ref.data, 0);
 	return ret_ref;
 }
 
@@ -11019,10 +11041,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LightningError_1set_1err(JNIEn
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKCVec_u8Z val_ref;
-	val_ref.data = (*_env)->GetByteArrayElements (_env, val, NULL);
 	val_ref.datalen = (*_env)->GetArrayLength (_env, val);
+	val_ref.data = MALLOC(val_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, val, 0, val_ref.datalen, val_ref.data);
 	LightningError_set_err(&this_ptr_conv, val_ref);
-	(*_env)->ReleaseByteArrayElements(_env, val, (int8_t*)val_ref.data, 0);
 }
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LightningError_1get_1action(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -11046,8 +11068,9 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LightningError_1set_1action(JN
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LightningError_1new(JNIEnv * _env, jclass _b, jbyteArray err_arg, jlong action_arg) {
 	LDKCVec_u8Z err_arg_ref;
-	err_arg_ref.data = (*_env)->GetByteArrayElements (_env, err_arg, NULL);
 	err_arg_ref.datalen = (*_env)->GetArrayLength (_env, err_arg);
+	err_arg_ref.data = MALLOC(err_arg_ref.datalen, "LDKCVec_u8Z Bytes");
+	(*_env)->GetByteArrayRegion(_env, err_arg, 0, err_arg_ref.datalen, err_arg_ref.data);
 	LDKErrorAction action_arg_conv = *(LDKErrorAction*)action_arg;
 	FREE((void*)action_arg);
 	LDKLightningError ret_var = LightningError_new(err_arg_ref, action_arg_conv);
@@ -11057,7 +11080,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LightningError_1new(JNIEnv * 
 	if (ret_var.is_owned) {
 		ret_ref |= 1;
 	}
-	(*_env)->ReleaseByteArrayElements(_env, err_arg, (int8_t*)err_arg_ref.data, 0);
 	return ret_ref;
 }
 
@@ -11358,8 +11380,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1write(JNI
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AcceptChannel_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKAcceptChannel ret_var = AcceptChannel_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11384,8 +11406,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_AnnouncementSignatures_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKAnnouncementSignatures ret_var = AnnouncementSignatures_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11410,8 +11432,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1writ
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelReestablish_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKChannelReestablish ret_var = ChannelReestablish_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11436,8 +11458,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1write(JNI
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingSigned_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKClosingSigned ret_var = ClosingSigned_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11462,8 +11484,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1write(
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CommitmentSigned_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKCommitmentSigned ret_var = CommitmentSigned_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11488,8 +11510,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingCreated_1write(JN
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingCreated_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKFundingCreated ret_var = FundingCreated_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11514,8 +11536,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingSigned_1write(JNI
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingSigned_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKFundingSigned ret_var = FundingSigned_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11540,8 +11562,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_FundingLocked_1write(JNI
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_FundingLocked_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKFundingLocked ret_var = FundingLocked_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11566,8 +11588,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Init_1write(JNIEnv * _en
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Init_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKInit ret_var = Init_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11592,8 +11614,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_OpenChannel_1write(JNIEn
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_OpenChannel_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKOpenChannel ret_var = OpenChannel_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11618,8 +11640,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1write(JNIE
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RevokeAndACK_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKRevokeAndACK ret_var = RevokeAndACK_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11644,8 +11666,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Shutdown_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Shutdown_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKShutdown ret_var = Shutdown_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11670,8 +11692,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1write(JN
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailHTLC_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKUpdateFailHTLC ret_var = UpdateFailHTLC_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11696,8 +11718,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFailMalformedHTLC_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKUpdateFailMalformedHTLC ret_var = UpdateFailMalformedHTLC_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11722,8 +11744,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFee_1write(JNIEnv 
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFee_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKUpdateFee ret_var = UpdateFee_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11748,8 +11770,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1write
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateFulfillHTLC_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKUpdateFulfillHTLC ret_var = UpdateFulfillHTLC_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11774,8 +11796,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1write(JNI
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UpdateAddHTLC_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKUpdateAddHTLC ret_var = UpdateAddHTLC_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11800,8 +11822,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Ping_1write(JNIEnv * _en
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Ping_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKPing ret_var = Ping_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11826,8 +11848,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Pong_1write(JNIEnv * _en
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Pong_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKPong ret_var = Pong_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11852,8 +11874,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncem
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelAnnouncement_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKUnsignedChannelAnnouncement ret_var = UnsignedChannelAnnouncement_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11878,8 +11900,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1wri
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelAnnouncement_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKChannelAnnouncement ret_var = ChannelAnnouncement_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11904,8 +11926,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1w
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedChannelUpdate_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKUnsignedChannelUpdate ret_var = UnsignedChannelUpdate_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11930,8 +11952,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1write(JNI
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelUpdate_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKChannelUpdate ret_var = ChannelUpdate_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11956,8 +11978,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1write(JNIE
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKErrorMessage ret_var = ErrorMessage_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11982,8 +12004,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKUnsignedNodeAnnouncement ret_var = UnsignedNodeAnnouncement_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12008,8 +12030,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1write(
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKNodeAnnouncement ret_var = NodeAnnouncement_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12023,8 +12045,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncement_1read(JNIEnv
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKQueryShortChannelIds ret_var = QueryShortChannelIds_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12049,8 +12071,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_QueryShortChannelIds_1wr
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKReplyShortChannelIdsEnd ret_var = ReplyShortChannelIdsEnd_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12075,8 +12097,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKQueryChannelRange ret_var = QueryChannelRange_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12101,8 +12123,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1write
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKReplyChannelRange ret_var = ReplyChannelRange_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12127,8 +12149,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ReplyChannelRange_1write
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_GossipTimestampFilter_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKGossipTimestampFilter ret_var = GossipTimestampFilter_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12354,8 +12376,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_PeerManager_1read_1event(JNIE
 	this_arg_conv.is_owned = false;
 	LDKSocketDescriptor* peer_descriptor_conv = (LDKSocketDescriptor*)peer_descriptor;
 	LDKu8slice data_ref;
-	data_ref.data = (*_env)->GetByteArrayElements (_env, data, NULL);
 	data_ref.datalen = (*_env)->GetArrayLength (_env, data);
+	data_ref.data = (*_env)->GetByteArrayElements (_env, data, NULL);
 	LDKCResult_boolPeerHandleErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolPeerHandleErrorZ), "LDKCResult_boolPeerHandleErrorZ");
 	*ret_conv = PeerManager_read_event(&this_arg_conv, peer_descriptor_conv, data_ref);
 	(*_env)->ReleaseByteArrayElements(_env, data, (int8_t*)data_ref.data, 0);
@@ -12600,8 +12622,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1write(JN
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxCreationKeys_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKTxCreationKeys ret_var = TxCreationKeys_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12828,8 +12850,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1write
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelPublicKeys_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKChannelPublicKeys ret_var = ChannelPublicKeys_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12974,8 +12996,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HTLCOutputInCommitment_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKHTLCOutputInCommitment ret_var = HTLCOutputInCommitment_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -13015,7 +13037,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_make_1funding_1redeemscr
 	return arg_arr;
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_build_1htlc_1transaction(JNIEnv * _env, jclass _b, jbyteArray prev_hash, jint feerate_per_kw, jshort contest_delay, jlong htlc, jbyteArray broadcaster_delayed_payment_key, jbyteArray revocation_key) {
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_build_1htlc_1transaction(JNIEnv * _env, jclass _b, jbyteArray prev_hash, jint feerate_per_kw, jshort contest_delay, jlong htlc, jbyteArray broadcaster_delayed_payment_key, jbyteArray revocation_key) {
 	unsigned char prev_hash_arr[32];
 	CHECK((*_env)->GetArrayLength (_env, prev_hash) == 32);
 	(*_env)->GetByteArrayRegion (_env, prev_hash, 0, 32, prev_hash_arr);
@@ -13029,10 +13051,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_build_1htlc_1transaction(JNIE
 	LDKPublicKey revocation_key_ref;
 	CHECK((*_env)->GetArrayLength (_env, revocation_key) == 33);
 	(*_env)->GetByteArrayRegion (_env, revocation_key, 0, 33, revocation_key_ref.compressed_form);
-	LDKTransaction *ret_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	*ret_copy = build_htlc_transaction(prev_hash_ref, feerate_per_kw, contest_delay, &htlc_conv, broadcaster_delayed_payment_key_ref, revocation_key_ref);
-	long ret_ref = (long)ret_copy;
-	return ret_ref;
+	LDKTransaction arg_var = build_htlc_transaction(prev_hash_ref, feerate_per_kw, contest_delay, &htlc_conv, broadcaster_delayed_payment_key_ref, revocation_key_ref);
+	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	Transaction_free(arg_var);
+	return arg_arr;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1free(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -13056,22 +13079,27 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1
 	return ret_ref;
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1get_1unsigned_1tx(JNIEnv * _env, jclass _b, jlong this_ptr) {
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1get_1unsigned_1tx(JNIEnv * _env, jclass _b, jlong this_ptr) {
 	LDKHolderCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	LDKTransaction *ret_copy = MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	*ret_copy = HolderCommitmentTransaction_get_unsigned_tx(&this_ptr_conv);
-	long ret_ref = (long)ret_copy;
-	return ret_ref;
+	LDKTransaction arg_var = HolderCommitmentTransaction_get_unsigned_tx(&this_ptr_conv);
+	jbyteArray arg_arr = (*_env)->NewByteArray(_env, arg_var.datalen);
+	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, arg_var.datalen, arg_var.data);
+	Transaction_free(arg_var);
+	return arg_arr;
 }
 
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1set_1unsigned_1tx(JNIEnv * _env, jclass _b, jlong this_ptr, jlong val) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1set_1unsigned_1tx(JNIEnv * _env, jclass _b, jlong this_ptr, jbyteArray val) {
 	LDKHolderCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	LDKTransaction val_conv = *(LDKTransaction*)val;
-	HolderCommitmentTransaction_set_unsigned_tx(&this_ptr_conv, val_conv);
+	LDKTransaction val_ref;
+	val_ref.datalen = (*_env)->GetArrayLength (_env, val);
+	val_ref.data = MALLOC(val_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, val, 0, val_ref.datalen, val_ref.data);
+	val_ref.data_is_owned = true;
+	HolderCommitmentTransaction_set_unsigned_tx(&this_ptr_conv, val_ref);
 }
 
 JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1get_1counterparty_1sig(JNIEnv * _env, jclass _b, jlong this_ptr) {
@@ -13129,8 +13157,12 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1s
 	HolderCommitmentTransaction_set_per_htlc(&this_ptr_conv, val_constr);
 }
 
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1new_1missing_1holder_1sig(JNIEnv * _env, jclass _b, jlong unsigned_tx, jbyteArray counterparty_sig, jbyteArray holder_funding_key, jbyteArray counterparty_funding_key, jlong keys, jint feerate_per_kw, jlongArray htlc_data) {
-	LDKTransaction unsigned_tx_conv = *(LDKTransaction*)unsigned_tx;
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1new_1missing_1holder_1sig(JNIEnv * _env, jclass _b, jbyteArray unsigned_tx, jbyteArray counterparty_sig, jbyteArray holder_funding_key, jbyteArray counterparty_funding_key, jlong keys, jint feerate_per_kw, jlongArray htlc_data) {
+	LDKTransaction unsigned_tx_ref;
+	unsigned_tx_ref.datalen = (*_env)->GetArrayLength (_env, unsigned_tx);
+	unsigned_tx_ref.data = MALLOC(unsigned_tx_ref.datalen, "LDKTransaction Bytes");
+	(*_env)->GetByteArrayRegion(_env, unsigned_tx, 0, unsigned_tx_ref.datalen, unsigned_tx_ref.data);
+	unsigned_tx_ref.data_is_owned = true;
 	LDKSignature counterparty_sig_ref;
 	CHECK((*_env)->GetArrayLength (_env, counterparty_sig) == 64);
 	(*_env)->GetByteArrayRegion (_env, counterparty_sig, 0, 64, counterparty_sig_ref.compact_form);
@@ -13159,7 +13191,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1
 		htlc_data_constr.data[q] = arr_conv_42_conv;
 	}
 	(*_env)->ReleaseLongArrayElements (_env, htlc_data, htlc_data_vals, 0);
-	LDKHolderCommitmentTransaction ret_var = HolderCommitmentTransaction_new_missing_holder_sig(unsigned_tx_conv, counterparty_sig_ref, holder_funding_key_ref, counterparty_funding_key_ref, keys_conv, feerate_per_kw, htlc_data_constr);
+	LDKHolderCommitmentTransaction ret_var = HolderCommitmentTransaction_new_missing_holder_sig(unsigned_tx_ref, counterparty_sig_ref, holder_funding_key_ref, counterparty_funding_key_ref, keys_conv, feerate_per_kw, htlc_data_constr);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	long ret_ref = (long)ret_var.inner;
@@ -13201,8 +13233,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransact
 	(*_env)->GetByteArrayRegion (_env, funding_key, 0, 32, funding_key_arr);
 	unsigned char (*funding_key_ref)[32] = &funding_key_arr;
 	LDKu8slice funding_redeemscript_ref;
-	funding_redeemscript_ref.data = (*_env)->GetByteArrayElements (_env, funding_redeemscript, NULL);
 	funding_redeemscript_ref.datalen = (*_env)->GetArrayLength (_env, funding_redeemscript);
+	funding_redeemscript_ref.data = (*_env)->GetByteArrayElements (_env, funding_redeemscript, NULL);
 	jbyteArray arg_arr = (*_env)->NewByteArray(_env, 64);
 	(*_env)->SetByteArrayRegion(_env, arg_arr, 0, 64, HolderCommitmentTransaction_get_holder_sig(&this_arg_conv, funding_key_ref, funding_redeemscript_ref, channel_value_satoshis).compact_form);
 	(*_env)->ReleaseByteArrayElements(_env, funding_redeemscript, (int8_t*)funding_redeemscript_ref.data, 0);
@@ -13235,8 +13267,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransact
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_HolderCommitmentTransaction_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKHolderCommitmentTransaction ret_var = HolderCommitmentTransaction_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -13532,8 +13564,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_Route_1write(JNIEnv * _e
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_Route_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKRoute ret_var = Route_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -13930,8 +13962,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_DirectionalChannelInfo_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKDirectionalChannelInfo ret_var = DirectionalChannelInfo_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -14102,8 +14134,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1write(JNIEn
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelInfo_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKChannelInfo ret_var = ChannelInfo_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -14179,8 +14211,8 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1new(JNIEnv * _en
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RoutingFees_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKRoutingFees ret_var = RoutingFees_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -14388,8 +14420,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1wr
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKNodeAnnouncementInfo ret_var = NodeAnnouncementInfo_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -14523,8 +14555,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NodeInfo_1write(JNIEnv *
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeInfo_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKNodeInfo ret_var = NodeInfo_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -14549,8 +14581,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1write(JNIE
 
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1read(JNIEnv * _env, jclass _b, jbyteArray ser) {
 	LDKu8slice ser_ref;
-	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	ser_ref.datalen = (*_env)->GetArrayLength (_env, ser);
+	ser_ref.data = (*_env)->GetByteArrayElements (_env, ser, NULL);
 	LDKNetworkGraph ret_var = NetworkGraph_read(ser_ref);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.

@@ -21,9 +21,13 @@ public class HolderCommitmentTransaction extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped HolderCommitmentTransaction_get_unsigned_tx
-	public void set_unsigned_tx(Transaction val) {
-		bindings.HolderCommitmentTransaction_set_unsigned_tx(this.ptr, val.ptr);
+	public byte[] get_unsigned_tx() {
+		byte[] ret = bindings.HolderCommitmentTransaction_get_unsigned_tx(this.ptr);
+		return ret;
+	}
+
+	public void set_unsigned_tx(byte[] val) {
+		bindings.HolderCommitmentTransaction_set_unsigned_tx(this.ptr, val);
 	}
 
 	public byte[] get_counterparty_sig() {
@@ -49,8 +53,8 @@ public class HolderCommitmentTransaction extends CommonBase {
 		/* TODO 2 TwoTuple<HTLCOutputInCommitment, byte[]>  */;
 	}
 
-	public static HolderCommitmentTransaction constructor_new_missing_holder_sig(Transaction unsigned_tx, byte[] counterparty_sig, byte[] holder_funding_key, byte[] counterparty_funding_key, TxCreationKeys keys, int feerate_per_kw, TwoTuple<HTLCOutputInCommitment, byte[]>[] htlc_data) {
-		long ret = bindings.HolderCommitmentTransaction_new_missing_holder_sig(unsigned_tx.ptr, counterparty_sig, holder_funding_key, counterparty_funding_key, keys == null ? 0 : keys.ptr & ~1, feerate_per_kw, Arrays.stream(htlc_data).mapToLong(arr_conv_42 -> bindings.C2Tuple_HTLCOutputInCommitmentSignatureZ_new(arr_conv_42.a == null ? 0 : arr_conv_42.a.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_42_a)*/, arr_conv_42.b)).toArray());
+	public static HolderCommitmentTransaction constructor_new_missing_holder_sig(byte[] unsigned_tx, byte[] counterparty_sig, byte[] holder_funding_key, byte[] counterparty_funding_key, TxCreationKeys keys, int feerate_per_kw, TwoTuple<HTLCOutputInCommitment, byte[]>[] htlc_data) {
+		long ret = bindings.HolderCommitmentTransaction_new_missing_holder_sig(unsigned_tx, counterparty_sig, holder_funding_key, counterparty_funding_key, keys == null ? 0 : keys.ptr & ~1, feerate_per_kw, Arrays.stream(htlc_data).mapToLong(arr_conv_42 -> bindings.C2Tuple_HTLCOutputInCommitmentSignatureZ_new(arr_conv_42.a == null ? 0 : arr_conv_42.a.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_42_a)*/, arr_conv_42.b)).toArray());
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(keys);
 		/* TODO 2 TwoTuple<HTLCOutputInCommitment, byte[]>  */;

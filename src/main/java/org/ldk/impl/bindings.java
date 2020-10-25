@@ -38,9 +38,9 @@ public class bindings {
 	static { LDKSecp256k1Error.values(); /* Force enum statics to run */ }
 	public static native VecOrSliceDef LDKCVecTempl_u8_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_u8_new(byte[] elems);
-	public static native long LDKC2TupleTempl_usize__Transaction_new(long a, long b);
+	public static native long LDKC2TupleTempl_usize__Transaction_new(long a, byte[] b);
 	public static native long LDKC2Tuple_usizeTransactionZ_get_a(long ptr);
-	public static native long LDKC2Tuple_usizeTransactionZ_get_b(long ptr);
+	public static native byte[] LDKC2Tuple_usizeTransactionZ_get_b(long ptr);
 	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
 	public static native byte LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(long arg);
 	public static native LDKChannelMonitorUpdateErr LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(long arg);
@@ -339,12 +339,12 @@ public class bindings {
 		 byte[] get_per_commitment_point(long idx);
 		 byte[] release_commitment_secret(long idx);
 		 long key_derivation_params();
-		 long sign_counterparty_commitment(int feerate_per_kw, long commitment_tx, long keys, long[] htlcs);
+		 long sign_counterparty_commitment(int feerate_per_kw, byte[] commitment_tx, long keys, long[] htlcs);
 		 long sign_holder_commitment(long holder_commitment_tx);
 		 long sign_holder_commitment_htlc_transactions(long holder_commitment_tx);
-		 long sign_justice_transaction(long justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
-		 long sign_counterparty_htlc_transaction(long htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
-		 long sign_closing_transaction(long closing_tx);
+		 long sign_justice_transaction(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
+		 long sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
+		 long sign_closing_transaction(byte[] closing_tx);
 		 long sign_channel_announcement(long msg);
 		 void on_accept(long channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
 	}
@@ -357,17 +357,17 @@ public class bindings {
 	// LDKC2Tuple_u64u64Z ChannelKeys_key_derivation_params LDKChannelKeys* this_arg
 	public static native long ChannelKeys_key_derivation_params(long this_arg);
 	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ChannelKeys_sign_counterparty_commitment LDKChannelKeys* this_arg, uint32_t feerate_per_kw, LDKTransaction commitment_tx, const LDKPreCalculatedTxCreationKeys *keys, LDKCVec_HTLCOutputInCommitmentZ htlcs
-	public static native long ChannelKeys_sign_counterparty_commitment(long this_arg, int feerate_per_kw, long commitment_tx, long keys, long[] htlcs);
+	public static native long ChannelKeys_sign_counterparty_commitment(long this_arg, int feerate_per_kw, byte[] commitment_tx, long keys, long[] htlcs);
 	// LDKCResult_SignatureNoneZ ChannelKeys_sign_holder_commitment LDKChannelKeys* this_arg, const LDKHolderCommitmentTransaction *holder_commitment_tx
 	public static native long ChannelKeys_sign_holder_commitment(long this_arg, long holder_commitment_tx);
 	// LDKCResult_CVec_SignatureZNoneZ ChannelKeys_sign_holder_commitment_htlc_transactions LDKChannelKeys* this_arg, const LDKHolderCommitmentTransaction *holder_commitment_tx
 	public static native long ChannelKeys_sign_holder_commitment_htlc_transactions(long this_arg, long holder_commitment_tx);
 	// LDKCResult_SignatureNoneZ ChannelKeys_sign_justice_transaction LDKChannelKeys* this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const LDKHTLCOutputInCommitment *htlc
-	public static native long ChannelKeys_sign_justice_transaction(long this_arg, long justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
+	public static native long ChannelKeys_sign_justice_transaction(long this_arg, byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc);
 	// LDKCResult_SignatureNoneZ ChannelKeys_sign_counterparty_htlc_transaction LDKChannelKeys* this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment *htlc
-	public static native long ChannelKeys_sign_counterparty_htlc_transaction(long this_arg, long htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
+	public static native long ChannelKeys_sign_counterparty_htlc_transaction(long this_arg, byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc);
 	// LDKCResult_SignatureNoneZ ChannelKeys_sign_closing_transaction LDKChannelKeys* this_arg, LDKTransaction closing_tx
-	public static native long ChannelKeys_sign_closing_transaction(long this_arg, long closing_tx);
+	public static native long ChannelKeys_sign_closing_transaction(long this_arg, byte[] closing_tx);
 	// LDKCResult_SignatureNoneZ ChannelKeys_sign_channel_announcement LDKChannelKeys* this_arg, const LDKUnsignedChannelAnnouncement *msg
 	public static native long ChannelKeys_sign_channel_announcement(long this_arg, long msg);
 	// void ChannelKeys_on_accept LDKChannelKeys* this_arg, const LDKChannelPublicKeys *channel_points, uint16_t counterparty_selected_contest_delay, uint16_t holder_selected_contest_delay
@@ -400,12 +400,12 @@ public class bindings {
 	// void Filter_register_output LDKFilter* this_arg, const LDKOutPoint *outpoint, LDKu8slice script_pubkey
 	public static native void Filter_register_output(long this_arg, long outpoint, byte[] script_pubkey);
 	public interface LDKBroadcasterInterface {
-		 void broadcast_transaction(long tx);
+		 void broadcast_transaction(byte[] tx);
 	}
 	public static native long LDKBroadcasterInterface_new(LDKBroadcasterInterface impl);
 	public static native LDKBroadcasterInterface LDKBroadcasterInterface_get_obj_from_jcalls(long val);
 	// void BroadcasterInterface_broadcast_transaction LDKBroadcasterInterface* this_arg, LDKTransaction tx
-	public static native void BroadcasterInterface_broadcast_transaction(long this_arg, long tx);
+	public static native void BroadcasterInterface_broadcast_transaction(long this_arg, byte[] tx);
 	public interface LDKFeeEstimator {
 		 int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target);
 	}
@@ -416,7 +416,6 @@ public class bindings {
 	public static native VecOrSliceDef LDKCVecTempl_C2TupleTempl_usize__Transaction_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C2TupleTempl_usize__Transaction_new(long[] elems);
 	public static native VecOrSliceDef LDKCVecTempl_Transaction_arr_info(long vec_ptr);
-	public static native long LDKCVecTempl_Transaction_new(long[] elems);
 	public static native VecOrSliceDef LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut_arr_info(long vec_ptr);
 	public static native long LDKCVecTempl_C2TupleTempl_ThirtyTwoBytes__CVecTempl_TxOut_new(long[] elems);
 	public interface LDKKeysInterface {
@@ -746,7 +745,7 @@ public class bindings {
 	// extern const void (*CVec_SpendableOutputDescriptorZ_free)(LDKCVec_SpendableOutputDescriptorZ);
 	public static native void CVec_SpendableOutputDescriptorZ_free(long[] arg);
 	// extern const void (*CVec_TransactionZ_free)(LDKCVec_TransactionZ);
-	public static native void CVec_TransactionZ_free(long[] arg);
+	public static native void CVec_TransactionZ_free(byte[][] arg);
 	// extern const void (*CVec_TxOutZ_free)(LDKCVec_TxOutZ);
 	public static native void CVec_TxOutZ_free(long[] arg);
 	// extern const void (*CVec_UpdateAddHTLCZ_free)(LDKCVec_UpdateAddHTLCZ);
@@ -762,11 +761,11 @@ public class bindings {
 	// extern const void (*CVec_u8Z_free)(LDKCVec_u8Z);
 	public static native void CVec_u8Z_free(byte[] arg);
 	// void Transaction_free(LDKTransaction _res);
-	public static native void Transaction_free(long _res);
+	public static native void Transaction_free(byte[] _res);
 	// void TxOut_free(LDKTxOut _res);
 	public static native void TxOut_free(long _res);
 	// LDKC2Tuple_usizeTransactionZ C2Tuple_usizeTransactionZ_new(uintptr_t a, LDKTransaction b);
-	public static native long C2Tuple_usizeTransactionZ_new(long a, long b);
+	public static native long C2Tuple_usizeTransactionZ_new(long a, byte[] b);
 	// LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitorUpdateErrZ_ok(void);
 	public static native long CResult_NoneChannelMonitorUpdateErrZ_ok();
 	// LDKCResult_NoneMonitorUpdateErrorZ CResult_NoneMonitorUpdateErrorZ_ok(void);
@@ -996,7 +995,7 @@ public class bindings {
 	// MUST_USE_RES LDKCVec_EventZ ChannelMonitor_get_and_clear_pending_events(LDKChannelMonitor *this_arg);
 	public static native long[] ChannelMonitor_get_and_clear_pending_events(long this_arg);
 	// MUST_USE_RES LDKCVec_TransactionZ ChannelMonitor_get_latest_holder_commitment_txn(LDKChannelMonitor *this_arg, const LDKLogger *logger);
-	public static native long[] ChannelMonitor_get_latest_holder_commitment_txn(long this_arg, long logger);
+	public static native byte[][] ChannelMonitor_get_latest_holder_commitment_txn(long this_arg, long logger);
 	// MUST_USE_RES LDKCVec_C2Tuple_TxidCVec_TxOutZZZ ChannelMonitor_block_connected(LDKChannelMonitor *this_arg, const uint8_t (*header)[80], LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height, LDKBroadcasterInterface broadcaster, LDKFeeEstimator fee_estimator, LDKLogger logger);
 	public static native long[] ChannelMonitor_block_connected(long this_arg, byte[] header, long[] txdata, int height, long broadcaster, long fee_estimator, long logger);
 	// void ChannelMonitor_block_disconnected(LDKChannelMonitor *this_arg, const uint8_t (*header)[80], uint32_t height, LDKBroadcasterInterface broadcaster, LDKFeeEstimator fee_estimator, LDKLogger logger);
@@ -2184,15 +2183,15 @@ public class bindings {
 	// LDKCVec_u8Z make_funding_redeemscript(LDKPublicKey broadcaster, LDKPublicKey countersignatory);
 	public static native byte[] make_funding_redeemscript(byte[] broadcaster, byte[] countersignatory);
 	// LDKTransaction build_htlc_transaction(const uint8_t (*prev_hash)[32], uint32_t feerate_per_kw, uint16_t contest_delay, const LDKHTLCOutputInCommitment *htlc, LDKPublicKey broadcaster_delayed_payment_key, LDKPublicKey revocation_key);
-	public static native long build_htlc_transaction(byte[] prev_hash, int feerate_per_kw, short contest_delay, long htlc, byte[] broadcaster_delayed_payment_key, byte[] revocation_key);
+	public static native byte[] build_htlc_transaction(byte[] prev_hash, int feerate_per_kw, short contest_delay, long htlc, byte[] broadcaster_delayed_payment_key, byte[] revocation_key);
 	// void HolderCommitmentTransaction_free(LDKHolderCommitmentTransaction this_ptr);
 	public static native void HolderCommitmentTransaction_free(long this_ptr);
 	// LDKHolderCommitmentTransaction HolderCommitmentTransaction_clone(const LDKHolderCommitmentTransaction *orig);
 	public static native long HolderCommitmentTransaction_clone(long orig);
 	// LDKTransaction HolderCommitmentTransaction_get_unsigned_tx(const LDKHolderCommitmentTransaction *this_ptr);
-	public static native long HolderCommitmentTransaction_get_unsigned_tx(long this_ptr);
+	public static native byte[] HolderCommitmentTransaction_get_unsigned_tx(long this_ptr);
 	// void HolderCommitmentTransaction_set_unsigned_tx(LDKHolderCommitmentTransaction *this_ptr, LDKTransaction val);
-	public static native void HolderCommitmentTransaction_set_unsigned_tx(long this_ptr, long val);
+	public static native void HolderCommitmentTransaction_set_unsigned_tx(long this_ptr, byte[] val);
 	// LDKSignature HolderCommitmentTransaction_get_counterparty_sig(const LDKHolderCommitmentTransaction *this_ptr);
 	public static native byte[] HolderCommitmentTransaction_get_counterparty_sig(long this_ptr);
 	// void HolderCommitmentTransaction_set_counterparty_sig(LDKHolderCommitmentTransaction *this_ptr, LDKSignature val);
@@ -2204,7 +2203,7 @@ public class bindings {
 	// void HolderCommitmentTransaction_set_per_htlc(LDKHolderCommitmentTransaction *this_ptr, LDKCVec_C2Tuple_HTLCOutputInCommitmentSignatureZZ val);
 	public static native void HolderCommitmentTransaction_set_per_htlc(long this_ptr, long[] val);
 	// MUST_USE_RES LDKHolderCommitmentTransaction HolderCommitmentTransaction_new_missing_holder_sig(LDKTransaction unsigned_tx, LDKSignature counterparty_sig, LDKPublicKey holder_funding_key, LDKPublicKey counterparty_funding_key, LDKTxCreationKeys keys, uint32_t feerate_per_kw, LDKCVec_C2Tuple_HTLCOutputInCommitmentSignatureZZ htlc_data);
-	public static native long HolderCommitmentTransaction_new_missing_holder_sig(long unsigned_tx, byte[] counterparty_sig, byte[] holder_funding_key, byte[] counterparty_funding_key, long keys, int feerate_per_kw, long[] htlc_data);
+	public static native long HolderCommitmentTransaction_new_missing_holder_sig(byte[] unsigned_tx, byte[] counterparty_sig, byte[] holder_funding_key, byte[] counterparty_funding_key, long keys, int feerate_per_kw, long[] htlc_data);
 	// MUST_USE_RES LDKTxCreationKeys HolderCommitmentTransaction_trust_key_derivation(const LDKHolderCommitmentTransaction *this_arg);
 	public static native long HolderCommitmentTransaction_trust_key_derivation(long this_arg);
 	// MUST_USE_RES LDKThirtyTwoBytes HolderCommitmentTransaction_txid(const LDKHolderCommitmentTransaction *this_arg);

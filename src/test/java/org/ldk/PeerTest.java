@@ -102,23 +102,18 @@ public class PeerTest {
         void connect_block(Block b, Transaction t, int height) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
             long[] txn;
-            long txdata = 0;
-            if (t != null) {
-                txdata = bindings.new_txpointer_copy_data(t.bitcoinSerialize());
-                txn = new long[]{bindings.C2Tuple_usizeTransactionZ_new(1, txdata)};
-            } else
+            if (t != null)
+                txn = new long[]{bindings.C2Tuple_usizeTransactionZ_new(1, t.bitcoinSerialize())};
+            else
                 txn = new long[0];
             bindings.ChannelManager_block_connected(chan_manager, header, txn, height);
-            if (txdata != 0) bindings.txpointer_free(txdata);
             synchronized (monitors) {
                 for (Long mon : monitors.values()) {
-                    if (t != null) {
-                        txdata = bindings.new_txpointer_copy_data(t.bitcoinSerialize());
-                        txn = new long[]{bindings.C2Tuple_usizeTransactionZ_new(1, txdata)};
-                    } else
+                    if (t != null)
+                        txn = new long[]{bindings.C2Tuple_usizeTransactionZ_new(1, t.bitcoinSerialize())};
+                    else
                         txn = new long[0];
                     long[] ret = bindings.ChannelMonitor_block_connected(mon, header, txn, height, tx_broadcaster, fee_estimator, logger);
-                    if (txdata != 0) bindings.txpointer_free(txdata);
                     for (long r : ret) {
                         bindings.C2Tuple_TxidCVec_TxOutZZ_free(r);
                     }
