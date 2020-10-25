@@ -22,7 +22,7 @@ public class SocketDescriptor extends CommonBase {
 	public static interface SocketDescriptorInterface {
 		long send_data(byte[] data, boolean resume_read);
 		void disconnect_socket();
-		boolean eq(long other_arg);
+		boolean eq(SocketDescriptor other_arg);
 		long hash();
 	}
 	private static class LDKSocketDescriptorHolder { SocketDescriptor held; }
@@ -37,7 +37,9 @@ public class SocketDescriptor extends CommonBase {
 				arg.disconnect_socket();
 			}
 			@Override public boolean eq(long other_arg) {
-				boolean ret = arg.eq(other_arg);
+				SocketDescriptor ret_hu_conv = new SocketDescriptor(null, other_arg);
+				ret_hu_conv.ptrs_to.add(this);
+				boolean ret = arg.eq(ret_hu_conv);
 				return ret;
 			}
 			@Override public long hash() {

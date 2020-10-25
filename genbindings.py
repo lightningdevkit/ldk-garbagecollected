@@ -753,7 +753,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";"),
                         ret_conv_name = "(long)ret",
-                        to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
+                        to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                         to_hu_conv_name = "ret_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                 if ty_info.rust_obj != "LDKu8slice":
@@ -838,13 +838,24 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                 elif ty_info.rust_obj in trait_structs:
-                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
-                        arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("long ret_" + ty_info.var_name + " = (long)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
-                        to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, ret);\nret_hu_conv.ptrs_to.add(this);",
-                        to_hu_conv_name = "ret_hu_conv",
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
+                    if ty_info.java_hu_ty + "_clone" in clone_fns:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
+                            arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                            ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_clone = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n" +
+                                "*" + ty_info.var_name + "_clone = " + ty_info.java_hu_ty + "_clone(", ");"),
+                            ret_conv_name = "(long)" + ty_info.var_name + "_clone",
+                            to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
+                            to_hu_conv_name = "ret_hu_conv",
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
+                    else:
+                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                            arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
+                            arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                            ret_conv = ("long ret_" + ty_info.var_name + " = (long)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
+                            to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
+                            to_hu_conv_name = "ret_hu_conv",
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                     arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,

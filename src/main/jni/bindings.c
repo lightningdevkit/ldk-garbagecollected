@@ -4346,13 +4346,15 @@ void disconnect_socket_jcall(void* this_arg) {
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->disconnect_socket_meth);
 }
-bool eq_jcall(const void* this_arg, const void *other_arg) {
+bool eq_jcall(const void* this_arg, const LDKSocketDescriptor *other_arg) {
 	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
 	JNIEnv *_env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);
+	LDKSocketDescriptor *other_arg_clone = MALLOC(sizeof(LDKSocketDescriptor), "LDKSocketDescriptor");
+	*other_arg_clone = SocketDescriptor_clone(other_arg);
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
-	return (*_env)->CallBooleanMethod(_env, obj, j_calls->eq_meth, other_arg);
+	return (*_env)->CallBooleanMethod(_env, obj, j_calls->eq_meth, (long)other_arg_clone);
 }
 uint64_t hash_jcall(const void* this_arg) {
 	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;

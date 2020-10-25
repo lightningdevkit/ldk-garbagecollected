@@ -243,7 +243,7 @@ class HumanObjectPeerTestInstance {
             }
 
             @Override public void disconnect_socket() { assert false; }
-            @Override public boolean eq(long other_arg) { return bindings.LDKSocketDescriptor_get_obj_from_jcalls(other_arg).hash() == 2; }
+            @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == 2; }
             @Override public long hash() { return 2; }
         });
 
@@ -255,7 +255,7 @@ class HumanObjectPeerTestInstance {
             }
 
             @Override public void disconnect_socket() { assert false; }
-            @Override public boolean eq(long other_arg) { return bindings.LDKSocketDescriptor_get_obj_from_jcalls(other_arg).hash() == 1; }
+            @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == 1; }
             @Override public long hash() { return 1; }
         });
 

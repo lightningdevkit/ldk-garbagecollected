@@ -174,7 +174,7 @@ public class PeerTest {
             }
 
             @Override public void disconnect_socket() { assert false; }
-            @Override public boolean eq(long other_arg) { return bindings.LDKSocketDescriptor_get_obj_from_jcalls(other_arg).hash() == 2; }
+            @Override public boolean eq(long other_arg) { boolean ret = bindings.SocketDescriptor_hash(other_arg) == 2; bindings.SocketDescriptor_free(other_arg); return ret; }
             @Override public long hash() { return 2; }
         };
         long descriptor2 = bindings.LDKSocketDescriptor_new(sock1);
@@ -187,7 +187,7 @@ public class PeerTest {
             }
 
             @Override public void disconnect_socket() { assert false; }
-            @Override public boolean eq(long other_arg) { return bindings.LDKSocketDescriptor_get_obj_from_jcalls(other_arg).hash() == 1; }
+            @Override public boolean eq(long other_arg) { boolean ret = bindings.SocketDescriptor_hash(other_arg) == 1; bindings.SocketDescriptor_free(other_arg); return ret; }
             @Override public long hash() { return 1; }
         };
         descriptor1.val = bindings.LDKSocketDescriptor_new(sock2);
