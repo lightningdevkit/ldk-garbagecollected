@@ -704,7 +704,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
                 opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
                 opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
-                if holds_ref or ty_info.is_ptr:
+                if holds_ref:
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner & ~1;"
                 else:
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner;\n"

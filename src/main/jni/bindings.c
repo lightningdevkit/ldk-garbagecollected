@@ -1900,7 +1900,10 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 		keys_var = PreCalculatedTxCreationKeys_clone(keys);
 	CHECK((((long)keys_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&keys_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long keys_ref = (long)keys_var.inner & ~1;
+	long keys_ref = (long)keys_var.inner;
+	if (keys_var.is_owned) {
+		keys_ref |= 1;
+	}
 	LDKCVec_HTLCOutputInCommitmentZ htlcs_var = htlcs;
 	jlongArray htlcs_arr = (*_env)->NewLongArray(_env, htlcs_var.datalen);
 	jlong *htlcs_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, htlcs_arr, NULL);
@@ -1932,7 +1935,10 @@ LDKCResult_SignatureNoneZ sign_holder_commitment_jcall(const void* this_arg, con
 		holder_commitment_tx_var = HolderCommitmentTransaction_clone(holder_commitment_tx);
 	CHECK((((long)holder_commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&holder_commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long holder_commitment_tx_ref = (long)holder_commitment_tx_var.inner & ~1;
+	long holder_commitment_tx_ref = (long)holder_commitment_tx_var.inner;
+	if (holder_commitment_tx_var.is_owned) {
+		holder_commitment_tx_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_holder_commitment_meth, holder_commitment_tx_ref);
@@ -1949,7 +1955,10 @@ LDKCResult_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions_jcall(c
 		holder_commitment_tx_var = HolderCommitmentTransaction_clone(holder_commitment_tx);
 	CHECK((((long)holder_commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&holder_commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long holder_commitment_tx_ref = (long)holder_commitment_tx_var.inner & ~1;
+	long holder_commitment_tx_ref = (long)holder_commitment_tx_var.inner;
+	if (holder_commitment_tx_var.is_owned) {
+		holder_commitment_tx_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_CVec_SignatureZNoneZ* ret = (LDKCResult_CVec_SignatureZNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_holder_commitment_htlc_transactions_meth, holder_commitment_tx_ref);
@@ -1972,7 +1981,10 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, L
 		htlc_var = HTLCOutputInCommitment_clone(htlc);
 	CHECK((((long)htlc_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&htlc_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long htlc_ref = (long)htlc_var.inner & ~1;
+	long htlc_ref = (long)htlc_var.inner;
+	if (htlc_var.is_owned) {
+		htlc_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_justice_transaction_meth, justice_tx_arr, input, amount, per_commitment_key_arr, htlc_ref);
@@ -1995,7 +2007,10 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* t
 		htlc_var = HTLCOutputInCommitment_clone(htlc);
 	CHECK((((long)htlc_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&htlc_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long htlc_ref = (long)htlc_var.inner & ~1;
+	long htlc_ref = (long)htlc_var.inner;
+	if (htlc_var.is_owned) {
+		htlc_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_arr, input, amount, per_commitment_point_arr, htlc_ref);
@@ -2027,7 +2042,10 @@ LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, 
 		msg_var = UnsignedChannelAnnouncement_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*_env)->CallLongMethod(_env, obj, j_calls->sign_channel_announcement_meth, msg_ref);
@@ -2044,7 +2062,10 @@ void on_accept_jcall(void* this_arg, const LDKChannelPublicKeys *channel_points,
 		channel_points_var = ChannelPublicKeys_clone(channel_points);
 	CHECK((((long)channel_points_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&channel_points_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long channel_points_ref = (long)channel_points_var.inner & ~1;
+	long channel_points_ref = (long)channel_points_var.inner;
+	if (channel_points_var.is_owned) {
+		channel_points_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->on_accept_meth, channel_points_ref, counterparty_selected_contest_delay, holder_selected_contest_delay);
@@ -2531,7 +2552,10 @@ void register_output_jcall(const void* this_arg, const LDKOutPoint *outpoint, LD
 		outpoint_var = OutPoint_clone(outpoint);
 	CHECK((((long)outpoint_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&outpoint_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long outpoint_ref = (long)outpoint_var.inner & ~1;
+	long outpoint_ref = (long)outpoint_var.inner;
+	if (outpoint_var.is_owned) {
+		outpoint_ref |= 1;
+	}
 	LDKu8slice script_pubkey_var = script_pubkey;
 	jbyteArray script_pubkey_arr = (*_env)->NewByteArray(_env, script_pubkey_var.datalen);
 	(*_env)->SetByteArrayRegion(_env, script_pubkey_arr, 0, script_pubkey_var.datalen, script_pubkey_var.data);
@@ -3104,7 +3128,10 @@ void handle_open_channel_jcall(const void* this_arg, LDKPublicKey their_node_id,
 		msg_var = OpenChannel_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_open_channel_meth, their_node_id_arr, their_features_ref, msg_ref);
@@ -3127,7 +3154,10 @@ void handle_accept_channel_jcall(const void* this_arg, LDKPublicKey their_node_i
 		msg_var = AcceptChannel_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_accept_channel_meth, their_node_id_arr, their_features_ref, msg_ref);
@@ -3143,7 +3173,10 @@ void handle_funding_created_jcall(const void* this_arg, LDKPublicKey their_node_
 		msg_var = FundingCreated_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_created_meth, their_node_id_arr, msg_ref);
@@ -3159,7 +3192,10 @@ void handle_funding_signed_jcall(const void* this_arg, LDKPublicKey their_node_i
 		msg_var = FundingSigned_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_signed_meth, their_node_id_arr, msg_ref);
@@ -3175,7 +3211,10 @@ void handle_funding_locked_jcall(const void* this_arg, LDKPublicKey their_node_i
 		msg_var = FundingLocked_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_funding_locked_meth, their_node_id_arr, msg_ref);
@@ -3191,7 +3230,10 @@ void handle_shutdown_jcall(const void* this_arg, LDKPublicKey their_node_id, con
 		msg_var = Shutdown_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_shutdown_meth, their_node_id_arr, msg_ref);
@@ -3207,7 +3249,10 @@ void handle_closing_signed_jcall(const void* this_arg, LDKPublicKey their_node_i
 		msg_var = ClosingSigned_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_closing_signed_meth, their_node_id_arr, msg_ref);
@@ -3223,7 +3268,10 @@ void handle_update_add_htlc_jcall(const void* this_arg, LDKPublicKey their_node_
 		msg_var = UpdateAddHTLC_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_add_htlc_meth, their_node_id_arr, msg_ref);
@@ -3239,7 +3287,10 @@ void handle_update_fulfill_htlc_jcall(const void* this_arg, LDKPublicKey their_n
 		msg_var = UpdateFulfillHTLC_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fulfill_htlc_meth, their_node_id_arr, msg_ref);
@@ -3255,7 +3306,10 @@ void handle_update_fail_htlc_jcall(const void* this_arg, LDKPublicKey their_node
 		msg_var = UpdateFailHTLC_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fail_htlc_meth, their_node_id_arr, msg_ref);
@@ -3271,7 +3325,10 @@ void handle_update_fail_malformed_htlc_jcall(const void* this_arg, LDKPublicKey 
 		msg_var = UpdateFailMalformedHTLC_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fail_malformed_htlc_meth, their_node_id_arr, msg_ref);
@@ -3287,7 +3344,10 @@ void handle_commitment_signed_jcall(const void* this_arg, LDKPublicKey their_nod
 		msg_var = CommitmentSigned_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_commitment_signed_meth, their_node_id_arr, msg_ref);
@@ -3303,7 +3363,10 @@ void handle_revoke_and_ack_jcall(const void* this_arg, LDKPublicKey their_node_i
 		msg_var = RevokeAndACK_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_revoke_and_ack_meth, their_node_id_arr, msg_ref);
@@ -3319,7 +3382,10 @@ void handle_update_fee_jcall(const void* this_arg, LDKPublicKey their_node_id, c
 		msg_var = UpdateFee_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_update_fee_meth, their_node_id_arr, msg_ref);
@@ -3335,7 +3401,10 @@ void handle_announcement_signatures_jcall(const void* this_arg, LDKPublicKey the
 		msg_var = AnnouncementSignatures_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_announcement_signatures_meth, their_node_id_arr, msg_ref);
@@ -3361,7 +3430,10 @@ void peer_connected_jcall(const void* this_arg, LDKPublicKey their_node_id, cons
 		msg_var = Init_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->peer_connected_meth, their_node_id_arr, msg_ref);
@@ -3377,7 +3449,10 @@ void handle_channel_reestablish_jcall(const void* this_arg, LDKPublicKey their_n
 		msg_var = ChannelReestablish_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_channel_reestablish_meth, their_node_id_arr, msg_ref);
@@ -3393,7 +3468,10 @@ void handle_error_jcall(const void* this_arg, LDKPublicKey their_node_id, const 
 		msg_var = ErrorMessage_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*_env)->CallVoidMethod(_env, obj, j_calls->handle_error_meth, their_node_id_arr, msg_ref);
@@ -3980,7 +4058,10 @@ LDKCResult_boolLightningErrorZ handle_node_announcement_jcall(const void* this_a
 		msg_var = NodeAnnouncement_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_node_announcement_meth, msg_ref);
@@ -3997,7 +4078,10 @@ LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* thi
 		msg_var = ChannelAnnouncement_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_channel_announcement_meth, msg_ref);
@@ -4014,7 +4098,10 @@ LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg,
 		msg_var = ChannelUpdate_clone(msg);
 	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long msg_ref = (long)msg_var.inner & ~1;
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
 	jobject obj = (*_env)->NewLocalRef(_env, j_calls->o);
 	CHECK(obj != NULL);
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*_env)->CallLongMethod(_env, obj, j_calls->handle_channel_update_meth, msg_ref);
