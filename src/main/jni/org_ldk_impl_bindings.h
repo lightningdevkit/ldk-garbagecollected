@@ -849,6 +849,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1on_1accept
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ChannelKeys_write
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelKeys_1write
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ChannelKeys_get_pubkeys
  * Signature: (J)J
  */
@@ -3249,6 +3257,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ChannelMonitor_write
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1write
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ChannelMonitor_update_monitor
  * Signature: (JJJJ)J
  */
@@ -3957,6 +3973,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1block_1disconn
  * Signature: (J)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelManager_1as_1ChannelMessageHandler
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    ChannelManager_write
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelManager_1write
   (JNIEnv *, jclass, jlong);
 
 /*

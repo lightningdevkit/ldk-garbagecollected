@@ -51,9 +51,8 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(ReplyShortChannelIdsEnd obj) {
-		byte[] ret = bindings.ReplyShortChannelIdsEnd_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ReplyShortChannelIdsEnd_write(this.ptr);
 		return ret;
 	}
 

@@ -37,9 +37,8 @@ public class NodeInfo extends CommonBase {
 
 	// Skipped NodeInfo_set_announcement_info
 	// Skipped NodeInfo_new
-	public byte[] write(NodeInfo obj) {
-		byte[] ret = bindings.NodeInfo_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.NodeInfo_write(this.ptr);
 		return ret;
 	}
 

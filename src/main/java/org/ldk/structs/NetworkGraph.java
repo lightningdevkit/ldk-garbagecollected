@@ -14,9 +14,8 @@ public class NetworkGraph extends CommonBase {
 		if (ptr != 0) { bindings.NetworkGraph_free(ptr); }
 	}
 
-	public byte[] write(NetworkGraph obj) {
-		byte[] ret = bindings.NetworkGraph_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.NetworkGraph_write(this.ptr);
 		return ret;
 	}
 

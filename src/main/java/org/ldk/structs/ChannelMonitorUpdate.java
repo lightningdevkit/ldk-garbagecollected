@@ -30,9 +30,8 @@ public class ChannelMonitorUpdate extends CommonBase {
 		bindings.ChannelMonitorUpdate_set_update_id(this.ptr, val);
 	}
 
-	public byte[] write(ChannelMonitorUpdate obj) {
-		byte[] ret = bindings.ChannelMonitorUpdate_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ChannelMonitorUpdate_write(this.ptr);
 		return ret;
 	}
 

@@ -14,6 +14,11 @@ public class ChannelMonitor extends CommonBase {
 		if (ptr != 0) { bindings.ChannelMonitor_free(ptr); }
 	}
 
+	public byte[] write() {
+		byte[] ret = bindings.ChannelMonitor_write(this.ptr);
+		return ret;
+	}
+
 	public Result_NoneMonitorUpdateErrorZ update_monitor(ChannelMonitorUpdate updates, BroadcasterInterface broadcaster, Logger logger) {
 		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr & ~1, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr);
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);

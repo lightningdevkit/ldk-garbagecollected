@@ -21,9 +21,8 @@ public class Init extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(Init obj) {
-		byte[] ret = bindings.Init_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.Init_write(this.ptr);
 		return ret;
 	}
 

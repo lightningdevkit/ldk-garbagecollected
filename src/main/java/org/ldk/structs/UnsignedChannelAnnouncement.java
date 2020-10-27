@@ -82,9 +82,8 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, val);
 	}
 
-	public byte[] write(UnsignedChannelAnnouncement obj) {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.UnsignedChannelAnnouncement_write(this.ptr);
 		return ret;
 	}
 

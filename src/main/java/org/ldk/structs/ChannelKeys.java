@@ -32,6 +32,7 @@ public class ChannelKeys extends CommonBase {
 		Result_SignatureNoneZ sign_closing_transaction(byte[] closing_tx);
 		Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg);
 		void on_accept(ChannelPublicKeys channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay);
+		byte[] write();
 	}
 	private static class LDKChannelKeysHolder { ChannelKeys held; }
 	public static ChannelKeys new_impl(ChannelKeysInterface arg, ChannelPublicKeys pubkeys) {
@@ -108,6 +109,10 @@ public class ChannelKeys extends CommonBase {
 				ChannelPublicKeys channel_points_hu_conv = new ChannelPublicKeys(null, channel_points);
 				arg.on_accept(channel_points_hu_conv, counterparty_selected_contest_delay, holder_selected_contest_delay);
 			}
+			@Override public byte[] write() {
+				byte[] ret = arg.write();
+				return ret;
+			}
 		}, pubkeys);
 		return impl_holder.held;
 	}
@@ -181,6 +186,11 @@ public class ChannelKeys extends CommonBase {
 	public void on_accept(ChannelPublicKeys channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay) {
 		bindings.ChannelKeys_on_accept(this.ptr, channel_points == null ? 0 : channel_points.ptr & ~1, counterparty_selected_contest_delay, holder_selected_contest_delay);
 		this.ptrs_to.add(channel_points);
+	}
+
+	public byte[] write() {
+		byte[] ret = bindings.ChannelKeys_write(this.ptr);
+		return ret;
 	}
 
 	public ChannelPublicKeys get_pubkeys() {

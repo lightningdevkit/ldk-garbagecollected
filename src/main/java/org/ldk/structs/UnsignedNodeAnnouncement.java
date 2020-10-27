@@ -69,9 +69,8 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 		/* TODO 2 NetAddress  */;
 	}
 
-	public byte[] write(UnsignedNodeAnnouncement obj) {
-		byte[] ret = bindings.UnsignedNodeAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.UnsignedNodeAnnouncement_write(this.ptr);
 		return ret;
 	}
 

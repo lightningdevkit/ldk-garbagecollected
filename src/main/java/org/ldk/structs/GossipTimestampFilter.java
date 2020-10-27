@@ -60,9 +60,8 @@ public class GossipTimestampFilter extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(GossipTimestampFilter obj) {
-		byte[] ret = bindings.GossipTimestampFilter_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.GossipTimestampFilter_write(this.ptr);
 		return ret;
 	}
 

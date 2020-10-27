@@ -84,9 +84,8 @@ public class HolderCommitmentTransaction extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(HolderCommitmentTransaction obj) {
-		byte[] ret = bindings.HolderCommitmentTransaction_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.HolderCommitmentTransaction_write(this.ptr);
 		return ret;
 	}
 

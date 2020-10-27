@@ -93,9 +93,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 		bindings.UnsignedChannelUpdate_set_fee_proportional_millionths(this.ptr, val);
 	}
 
-	public byte[] write(UnsignedChannelUpdate obj) {
-		byte[] ret = bindings.UnsignedChannelUpdate_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.UnsignedChannelUpdate_write(this.ptr);
 		return ret;
 	}
 

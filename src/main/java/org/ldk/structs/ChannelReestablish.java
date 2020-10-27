@@ -48,9 +48,8 @@ public class ChannelReestablish extends CommonBase {
 		bindings.ChannelReestablish_set_next_remote_commitment_number(this.ptr, val);
 	}
 
-	public byte[] write(ChannelReestablish obj) {
-		byte[] ret = bindings.ChannelReestablish_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ChannelReestablish_write(this.ptr);
 		return ret;
 	}
 

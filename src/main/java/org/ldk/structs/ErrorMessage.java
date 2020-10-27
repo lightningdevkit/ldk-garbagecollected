@@ -45,9 +45,8 @@ public class ErrorMessage extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(ErrorMessage obj) {
-		byte[] ret = bindings.ErrorMessage_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ErrorMessage_write(this.ptr);
 		return ret;
 	}
 

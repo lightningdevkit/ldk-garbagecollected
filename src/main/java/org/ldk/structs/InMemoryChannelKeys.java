@@ -104,9 +104,8 @@ public class InMemoryChannelKeys extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(InMemoryChannelKeys obj) {
-		byte[] ret = bindings.InMemoryChannelKeys_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.InMemoryChannelKeys_write(this.ptr);
 		return ret;
 	}
 

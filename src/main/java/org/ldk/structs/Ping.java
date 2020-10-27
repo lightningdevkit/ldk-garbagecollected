@@ -45,9 +45,8 @@ public class Ping extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(Ping obj) {
-		byte[] ret = bindings.Ping_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.Ping_write(this.ptr);
 		return ret;
 	}
 

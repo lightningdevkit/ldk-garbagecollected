@@ -147,4 +147,9 @@ public class ChannelManager extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public byte[] write() {
+		byte[] ret = bindings.ChannelManager_write(this.ptr);
+		return ret;
+	}
+
 }

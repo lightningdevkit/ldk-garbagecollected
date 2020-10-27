@@ -33,9 +33,8 @@ public class Route extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(Route obj) {
-		byte[] ret = bindings.Route_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.Route_write(this.ptr);
 		return ret;
 	}
 

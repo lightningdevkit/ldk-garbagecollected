@@ -64,10 +64,17 @@ public class NodeAnnouncementInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	// Skipped NodeAnnouncementInfo_new
-	public byte[] write(NodeAnnouncementInfo obj) {
-		byte[] ret = bindings.NodeAnnouncementInfo_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public static NodeAnnouncementInfo constructor_new(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
+		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, Arrays.stream(addresses_arg).mapToLong(arr_conv_12 -> arr_conv_12.ptr).toArray(), announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(features_arg);
+		/* TODO 2 NetAddress  */;
+		ret_hu_conv.ptrs_to.add(announcement_message_arg);
+		return ret_hu_conv;
+	}
+
+	public byte[] write() {
+		byte[] ret = bindings.NodeAnnouncementInfo_write(this.ptr);
 		return ret;
 	}
 
