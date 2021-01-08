@@ -125,10 +125,32 @@ public class ManualMsgHandlingPeerTest {
             @Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
                 return new long[0];
             }
-            @Override public boolean should_request_full_sync(byte[] node_id) {
-                return false;
+
+            @Override
+            public void sync_routing_table(byte[] their_node_id, long init) {
+
             }
-        });
+
+            @Override
+            public long handle_reply_channel_range(byte[] their_node_id, long msg) {
+                return 0;
+            }
+
+            @Override
+            public long handle_reply_short_channel_ids_end(byte[] their_node_id, long msg) {
+                return 0;
+            }
+
+            @Override
+            public long handle_query_channel_range(byte[] their_node_id, long msg) {
+                return 0;
+            }
+
+            @Override
+            public long handle_query_short_channel_ids(byte[] their_node_id, long msg) {
+                return 0;
+            }
+        }, () -> new long[0]);
         long message_handler = bindings.MessageHandler_new(chan_handler, route_handler);
         byte[] our_node_secret = new byte[32];
         byte[] random_data = new byte[32];

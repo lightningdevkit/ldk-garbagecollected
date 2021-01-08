@@ -58,7 +58,7 @@ public class PeerTest {
                     synchronized (monitors) {
                         String txid = Arrays.toString(bindings.OutPoint_get_txid(funding_txo));
                         assert monitors.containsKey(txid);
-                        long update_res = bindings.ChannelMonitor_update_monitor(monitors.get(txid), update, tx_broadcaster, logger);
+                        long update_res = bindings.ChannelMonitor_update_monitor(monitors.get(txid), update, tx_broadcaster, fee_estimator, logger);
                         assert bindings.LDKCResult_NoneMonitorUpdateErrorZ_result_ok(update_res);
                         bindings.CResult_NoneMonitorUpdateErrorZ_free(update_res);
                     }
@@ -90,7 +90,7 @@ public class PeerTest {
             this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
 
             this.chan_handler = bindings.ChannelManager_as_ChannelMessageHandler(chan_manager);
-            this.router = bindings.NetGraphMsgHandler_new(0, logger);
+            this.router = bindings.NetGraphMsgHandler_new(new byte[32], 0, logger);
             this.route_handler = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(router);
             this.message_handler = bindings.MessageHandler_new(chan_handler, route_handler);
 
@@ -115,7 +115,7 @@ public class PeerTest {
                         txn = new long[0];
                     long[] ret = bindings.ChannelMonitor_block_connected(mon, header, txn, height, tx_broadcaster, fee_estimator, logger);
                     for (long r : ret) {
-                        bindings.C2Tuple_TxidCVec_TxOutZZ_free(r);
+                        bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(r);
                     }
                 }
             }

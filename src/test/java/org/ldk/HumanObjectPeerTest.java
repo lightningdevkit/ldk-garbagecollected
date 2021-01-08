@@ -18,20 +18,9 @@ class HumanObjectPeerTestInstance {
     class Peer {
         KeysInterface manual_keysif(KeysInterface underlying_if) {
             return KeysInterface.new_impl(new KeysInterface.KeysInterfaceInterface() {
-                @Override
-                public byte[] get_node_secret() {
-                    return underlying_if.get_node_secret();
-                }
-
-                @Override
-                public byte[] get_destination_script() {
-                    return underlying_if.get_destination_script();
-                }
-
-                @Override
-                public byte[] get_shutdown_pubkey() {
-                    return underlying_if.get_shutdown_pubkey();
-                }
+                @Override public byte[] get_node_secret() { return underlying_if.get_node_secret(); }
+                @Override public byte[] get_destination_script() { return underlying_if.get_destination_script(); }
+                @Override public byte[] get_shutdown_pubkey() { return underlying_if.get_shutdown_pubkey(); }
 
                 @Override
                 public ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis) {
@@ -53,8 +42,8 @@ class HumanObjectPeerTestInstance {
                         }
 
                         @Override
-                        public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(int feerate_per_kw, byte[] commitment_tx, PreCalculatedTxCreationKeys keys, HTLCOutputInCommitment[] htlcs) {
-                            return underlying_ck.sign_counterparty_commitment(feerate_per_kw, commitment_tx, keys, htlcs);
+                        public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
+                            return underlying_ck.sign_counterparty_commitment(commitment_tx);
                         }
 
                         @Override
@@ -88,8 +77,13 @@ class HumanObjectPeerTestInstance {
                         }
 
                         @Override
-                        public void on_accept(ChannelPublicKeys channel_points, short counterparty_selected_contest_delay, short holder_selected_contest_delay) {
-                            underlying_ck.on_accept(channel_points, counterparty_selected_contest_delay, holder_selected_contest_delay);
+                        public void ready_channel(ChannelTransactionParameters params) {
+                            underlying_ck.ready_channel(params);
+                        }
+
+                        @Override
+                        public byte[] write() {
+                            return underlying_ck.write();
                         }
                     };
                     ChannelKeys resp = ChannelKeys.new_impl(cki, underlying_ck.get_pubkeys());
@@ -102,6 +96,11 @@ class HumanObjectPeerTestInstance {
                 @Override
                 public byte[] get_secure_random_bytes() {
                     return underlying_if.get_secure_random_bytes();
+                }
+
+                @Override
+                public Result_ChanKeySignerDecodeErrorZ read_chan_signer(byte[] reader) {
+                    return underlying_if.read_chan_signer(reader);
                 }
             });
         }
@@ -119,7 +118,7 @@ class HumanObjectPeerTestInstance {
                     synchronized (monitors) {
                         String txid = Arrays.toString(funding_txo.get_txid());
                         assert monitors.containsKey(txid);
-                        Result_NoneMonitorUpdateErrorZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, logger);
+                        Result_NoneMonitorUpdateErrorZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
                         assert update_res instanceof Result_NoneMonitorUpdateErrorZ.Result_NoneMonitorUpdateErrorZ_OK;
                     }
                     return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
@@ -158,12 +157,23 @@ class HumanObjectPeerTestInstance {
                 broadcast_set.add(tx);
             });
             this.monitors = new HashMap<>();
+            Persist persister = Persist.new_impl(new Persist.PersistInterface() {
+                @Override
+                public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data) {
+                    return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
+                }
+
+                @Override
+                public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data) {
+                    return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
+                }
+            });
             Watch chain_watch;
             if (use_manual_watch) {
                 chain_watch = get_manual_watch();
                 chain_monitor = null;
             } else {
-                chain_monitor = ChainMonitor.constructor_new(null, tx_broadcaster, logger, fee_estimator);
+                chain_monitor = ChainMonitor.constructor_new(null, tx_broadcaster, logger, fee_estimator, persister);
                 chain_watch = chain_monitor.as_Watch();
             }
 
@@ -181,7 +191,7 @@ class HumanObjectPeerTestInstance {
             this.chan_manager = ChannelManager.constructor_new(LDKNetwork.LDKNetwork_Bitcoin, FeeEstimator.new_impl(confirmation_target -> 0), chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), 1);
             this.node_id = chan_manager.get_our_node_id();
             this.chan_manager_events = chan_manager.as_EventsProvider();
-            this.router = NetGraphMsgHandler.constructor_new(null, logger);
+            this.router = NetGraphMsgHandler.constructor_new(new byte[32], null, logger);
 
             byte[] random_data = new byte[32];
             for (byte i = 0; i < 32; i++) {
@@ -191,7 +201,7 @@ class HumanObjectPeerTestInstance {
             System.gc();
         }
 
-        TwoTuple<byte[], TxOut[]>[] connect_block(Block b, int height, long expected_monitor_update_len) {
+        TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] connect_block(Block b, int height, long expected_monitor_update_len) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
             TwoTuple<Long, byte[]>[] txn;
             if (b.hasTransactions()) {
@@ -207,7 +217,7 @@ class HumanObjectPeerTestInstance {
                 synchronized (monitors) {
                     assert monitors.size() == 1;
                     for (ChannelMonitor mon : monitors.values()) {
-                        TwoTuple<byte[], TxOut[]>[] ret = mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
+                        TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] ret = mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
                         assert ret.length == expected_monitor_update_len;
                         return ret;
                     }
@@ -224,9 +234,10 @@ class HumanObjectPeerTestInstance {
                 assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
                 byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
                 must_free_objs.add(new WeakReference<>(serialized_route));
-                Route copy = Route.constructor_read(serialized_route);
+                Result_RouteDecodeErrorZ copy = Route.constructor_read(serialized_route);
+                assert copy instanceof Result_RouteDecodeErrorZ.Result_RouteDecodeErrorZ_OK;
                 bindings.CResult_RouteLightningErrorZ_free(res);
-                return copy;
+                return ((Result_RouteDecodeErrorZ.Result_RouteDecodeErrorZ_OK) copy).res;
             }
         }
     }
@@ -390,6 +401,11 @@ class HumanObjectPeerTestInstance {
         peer1.peer_manager.process_events();
         wait_events_processed();
 
+        {
+            peer1.chan_manager.write();
+            //ChannelManager.
+        }
+
         events = peer2.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
         assert events[0] instanceof Event.PendingHTLCsForwardable;
@@ -445,11 +461,16 @@ class HumanObjectPeerTestInstance {
             Transaction tx = new Transaction(bitcoinj_net, peer1.broadcast_set.getFirst());
             b = new Block(bitcoinj_net, 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0,
                     Arrays.asList(new Transaction[]{tx}));
-            TwoTuple<byte[], TxOut[]>[] watch_outputs =  peer2.connect_block(b, 1, 1);
+            TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] watch_outputs =  peer2.connect_block(b, 1, 1);
             if (watch_outputs != null) { // We only process watch_outputs manually when we use a manually-build Watch impl
                 assert watch_outputs.length == 1;
                 assert Arrays.equals(watch_outputs[0].a, tx.getTxId().getReversedBytes());
                 assert watch_outputs[0].b.length == 1;
+            }
+
+            // This used to be buggy and double-free, so go ahead and fetch them!
+            for (ChannelMonitor mon : peer2.monitors.values()) {
+                byte[][] txn = mon.get_latest_holder_commitment_txn(peer2.logger);
             }
         }
     }
