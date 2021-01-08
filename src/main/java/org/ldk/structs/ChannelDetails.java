@@ -14,10 +14,9 @@ public class ChannelDetails extends CommonBase {
 		if (ptr != 0) { bindings.ChannelDetails_free(ptr); }
 	}
 
-	public static ChannelDetails constructor_clone(ChannelDetails orig) {
-		long ret = bindings.ChannelDetails_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ChannelDetails clone() {
+		long ret = bindings.ChannelDetails_clone(this.ptr);
 		ChannelDetails ret_hu_conv = new ChannelDetails(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -45,7 +44,11 @@ public class ChannelDetails extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped ChannelDetails_set_counterparty_features
+	public void set_counterparty_features(InitFeatures val) {
+		bindings.ChannelDetails_set_counterparty_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public long get_channel_value_satoshis() {
 		long ret = bindings.ChannelDetails_get_channel_value_satoshis(this.ptr);
 		return ret;

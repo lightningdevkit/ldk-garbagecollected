@@ -14,10 +14,9 @@ public class ChannelPublicKeys extends CommonBase {
 		if (ptr != 0) { bindings.ChannelPublicKeys_free(ptr); }
 	}
 
-	public static ChannelPublicKeys constructor_clone(ChannelPublicKeys orig) {
-		long ret = bindings.ChannelPublicKeys_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ChannelPublicKeys clone() {
+		long ret = bindings.ChannelPublicKeys_clone(this.ptr);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -72,9 +71,8 @@ public class ChannelPublicKeys extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(ChannelPublicKeys obj) {
-		byte[] ret = bindings.ChannelPublicKeys_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ChannelPublicKeys_write(this.ptr);
 		return ret;
 	}
 

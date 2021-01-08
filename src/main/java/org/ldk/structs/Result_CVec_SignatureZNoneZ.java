@@ -31,10 +31,8 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	}
 
 	public static final class Result_CVec_SignatureZNoneZ_Err extends Result_CVec_SignatureZNoneZ {
-		public final byte err;
 		private Result_CVec_SignatureZNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_CVec_SignatureZNoneZ_get_err(ptr);
 		}
 		public Result_CVec_SignatureZNoneZ_Err() {
 			this(null, bindings.CResult_CVec_SignatureZNoneZ_err());

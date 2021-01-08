@@ -14,10 +14,9 @@ public class ClosingSigned extends CommonBase {
 		if (ptr != 0) { bindings.ClosingSigned_free(ptr); }
 	}
 
-	public static ClosingSigned constructor_clone(ClosingSigned orig) {
-		long ret = bindings.ClosingSigned_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ClosingSigned clone() {
+		long ret = bindings.ClosingSigned_clone(this.ptr);
 		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -54,9 +53,8 @@ public class ClosingSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(ClosingSigned obj) {
-		byte[] ret = bindings.ClosingSigned_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ClosingSigned_write(this.ptr);
 		return ret;
 	}
 

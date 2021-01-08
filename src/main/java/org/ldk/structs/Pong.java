@@ -14,10 +14,9 @@ public class Pong extends CommonBase {
 		if (ptr != 0) { bindings.Pong_free(ptr); }
 	}
 
-	public static Pong constructor_clone(Pong orig) {
-		long ret = bindings.Pong_clone(orig == null ? 0 : orig.ptr & ~1);
+	public Pong clone() {
+		long ret = bindings.Pong_clone(this.ptr);
 		Pong ret_hu_conv = new Pong(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -41,9 +40,9 @@ public class Pong extends CommonBase {
 		return ret;
 	}
 
-	public static Pong constructor_read(byte[] ser) {
+	public static Result_PongDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.Pong_read(ser);
-		Pong ret_hu_conv = new Pong(null, ret);
+		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

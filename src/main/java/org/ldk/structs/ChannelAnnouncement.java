@@ -14,10 +14,9 @@ public class ChannelAnnouncement extends CommonBase {
 		if (ptr != 0) { bindings.ChannelAnnouncement_free(ptr); }
 	}
 
-	public static ChannelAnnouncement constructor_clone(ChannelAnnouncement orig) {
-		long ret = bindings.ChannelAnnouncement_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ChannelAnnouncement clone() {
+		long ret = bindings.ChannelAnnouncement_clone(this.ptr);
 		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -75,9 +74,8 @@ public class ChannelAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(ChannelAnnouncement obj) {
-		byte[] ret = bindings.ChannelAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ChannelAnnouncement_write(this.ptr);
 		return ret;
 	}
 

@@ -14,10 +14,9 @@ public class ErrorMessage extends CommonBase {
 		if (ptr != 0) { bindings.ErrorMessage_free(ptr); }
 	}
 
-	public static ErrorMessage constructor_clone(ErrorMessage orig) {
-		long ret = bindings.ErrorMessage_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ErrorMessage clone() {
+		long ret = bindings.ErrorMessage_clone(this.ptr);
 		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -50,9 +49,9 @@ public class ErrorMessage extends CommonBase {
 		return ret;
 	}
 
-	public static ErrorMessage constructor_read(byte[] ser) {
+	public static Result_ErrorMessageDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ErrorMessage_read(ser);
-		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
+		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

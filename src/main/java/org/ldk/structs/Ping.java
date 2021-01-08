@@ -14,10 +14,9 @@ public class Ping extends CommonBase {
 		if (ptr != 0) { bindings.Ping_free(ptr); }
 	}
 
-	public static Ping constructor_clone(Ping orig) {
-		long ret = bindings.Ping_clone(orig == null ? 0 : orig.ptr & ~1);
+	public Ping clone() {
+		long ret = bindings.Ping_clone(this.ptr);
 		Ping ret_hu_conv = new Ping(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -50,9 +49,9 @@ public class Ping extends CommonBase {
 		return ret;
 	}
 
-	public static Ping constructor_read(byte[] ser) {
+	public static Result_PingDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.Ping_read(ser);
-		Ping ret_hu_conv = new Ping(null, ret);
+		Result_PingDecodeErrorZ ret_hu_conv = Result_PingDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -14,10 +14,9 @@ public class DataLossProtect extends CommonBase {
 		if (ptr != 0) { bindings.DataLossProtect_free(ptr); }
 	}
 
-	public static DataLossProtect constructor_clone(DataLossProtect orig) {
-		long ret = bindings.DataLossProtect_clone(orig == null ? 0 : orig.ptr & ~1);
+	public DataLossProtect clone() {
+		long ret = bindings.DataLossProtect_clone(this.ptr);
 		DataLossProtect ret_hu_conv = new DataLossProtect(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 

@@ -14,10 +14,9 @@ public class RouteHop extends CommonBase {
 		if (ptr != 0) { bindings.RouteHop_free(ptr); }
 	}
 
-	public static RouteHop constructor_clone(RouteHop orig) {
-		long ret = bindings.RouteHop_clone(orig == null ? 0 : orig.ptr & ~1);
+	public RouteHop clone() {
+		long ret = bindings.RouteHop_clone(this.ptr);
 		RouteHop ret_hu_conv = new RouteHop(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -36,7 +35,11 @@ public class RouteHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped RouteHop_set_node_features
+	public void set_node_features(NodeFeatures val) {
+		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public long get_short_channel_id() {
 		long ret = bindings.RouteHop_get_short_channel_id(this.ptr);
 		return ret;
@@ -52,7 +55,11 @@ public class RouteHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped RouteHop_set_channel_features
+	public void set_channel_features(ChannelFeatures val) {
+		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public long get_fee_msat() {
 		long ret = bindings.RouteHop_get_fee_msat(this.ptr);
 		return ret;
@@ -71,5 +78,12 @@ public class RouteHop extends CommonBase {
 		bindings.RouteHop_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	// Skipped RouteHop_new
+	public static RouteHop constructor_new(byte[] pubkey_arg, NodeFeatures node_features_arg, long short_channel_id_arg, ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
+		long ret = bindings.RouteHop_new(pubkey_arg, node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
+		RouteHop ret_hu_conv = new RouteHop(null, ret);
+		ret_hu_conv.ptrs_to.add(node_features_arg);
+		ret_hu_conv.ptrs_to.add(channel_features_arg);
+		return ret_hu_conv;
+	}
+
 }

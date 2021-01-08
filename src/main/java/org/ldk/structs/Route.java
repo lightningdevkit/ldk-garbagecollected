@@ -14,10 +14,9 @@ public class Route extends CommonBase {
 		if (ptr != 0) { bindings.Route_free(ptr); }
 	}
 
-	public static Route constructor_clone(Route orig) {
-		long ret = bindings.Route_clone(orig == null ? 0 : orig.ptr & ~1);
+	public Route clone() {
+		long ret = bindings.Route_clone(this.ptr);
 		Route ret_hu_conv = new Route(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -38,9 +37,9 @@ public class Route extends CommonBase {
 		return ret;
 	}
 
-	public static Route constructor_read(byte[] ser) {
+	public static Result_RouteDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.Route_read(ser);
-		Route ret_hu_conv = new Route(null, ret);
+		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

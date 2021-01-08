@@ -14,10 +14,9 @@ public class Shutdown extends CommonBase {
 		if (ptr != 0) { bindings.Shutdown_free(ptr); }
 	}
 
-	public static Shutdown constructor_clone(Shutdown orig) {
-		long ret = bindings.Shutdown_clone(orig == null ? 0 : orig.ptr & ~1);
+	public Shutdown clone() {
+		long ret = bindings.Shutdown_clone(this.ptr);
 		Shutdown ret_hu_conv = new Shutdown(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -45,9 +44,8 @@ public class Shutdown extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(Shutdown obj) {
-		byte[] ret = bindings.Shutdown_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.Shutdown_write(this.ptr);
 		return ret;
 	}
 

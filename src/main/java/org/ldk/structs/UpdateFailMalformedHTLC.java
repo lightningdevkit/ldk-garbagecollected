@@ -14,10 +14,9 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 		if (ptr != 0) { bindings.UpdateFailMalformedHTLC_free(ptr); }
 	}
 
-	public static UpdateFailMalformedHTLC constructor_clone(UpdateFailMalformedHTLC orig) {
-		long ret = bindings.UpdateFailMalformedHTLC_clone(orig == null ? 0 : orig.ptr & ~1);
+	public UpdateFailMalformedHTLC clone() {
+		long ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
 		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -48,9 +47,8 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 		bindings.UpdateFailMalformedHTLC_set_failure_code(this.ptr, val);
 	}
 
-	public byte[] write(UpdateFailMalformedHTLC obj) {
-		byte[] ret = bindings.UpdateFailMalformedHTLC_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.UpdateFailMalformedHTLC_write(this.ptr);
 		return ret;
 	}
 

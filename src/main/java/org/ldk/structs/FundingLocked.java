@@ -14,10 +14,9 @@ public class FundingLocked extends CommonBase {
 		if (ptr != 0) { bindings.FundingLocked_free(ptr); }
 	}
 
-	public static FundingLocked constructor_clone(FundingLocked orig) {
-		long ret = bindings.FundingLocked_clone(orig == null ? 0 : orig.ptr & ~1);
+	public FundingLocked clone() {
+		long ret = bindings.FundingLocked_clone(this.ptr);
 		FundingLocked ret_hu_conv = new FundingLocked(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -45,9 +44,8 @@ public class FundingLocked extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(FundingLocked obj) {
-		byte[] ret = bindings.FundingLocked_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.FundingLocked_write(this.ptr);
 		return ret;
 	}
 

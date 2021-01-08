@@ -14,10 +14,9 @@ public class UpdateFulfillHTLC extends CommonBase {
 		if (ptr != 0) { bindings.UpdateFulfillHTLC_free(ptr); }
 	}
 
-	public static UpdateFulfillHTLC constructor_clone(UpdateFulfillHTLC orig) {
-		long ret = bindings.UpdateFulfillHTLC_clone(orig == null ? 0 : orig.ptr & ~1);
+	public UpdateFulfillHTLC clone() {
+		long ret = bindings.UpdateFulfillHTLC_clone(this.ptr);
 		UpdateFulfillHTLC ret_hu_conv = new UpdateFulfillHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -54,9 +53,8 @@ public class UpdateFulfillHTLC extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(UpdateFulfillHTLC obj) {
-		byte[] ret = bindings.UpdateFulfillHTLC_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.UpdateFulfillHTLC_write(this.ptr);
 		return ret;
 	}
 

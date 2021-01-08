@@ -14,10 +14,9 @@ public class ChannelMonitorUpdate extends CommonBase {
 		if (ptr != 0) { bindings.ChannelMonitorUpdate_free(ptr); }
 	}
 
-	public static ChannelMonitorUpdate constructor_clone(ChannelMonitorUpdate orig) {
-		long ret = bindings.ChannelMonitorUpdate_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ChannelMonitorUpdate clone() {
+		long ret = bindings.ChannelMonitorUpdate_clone(this.ptr);
 		ChannelMonitorUpdate ret_hu_conv = new ChannelMonitorUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -35,9 +34,9 @@ public class ChannelMonitorUpdate extends CommonBase {
 		return ret;
 	}
 
-	public static ChannelMonitorUpdate constructor_read(byte[] ser) {
+	public static Result_ChannelMonitorUpdateDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ChannelMonitorUpdate_read(ser);
-		ChannelMonitorUpdate ret_hu_conv = new ChannelMonitorUpdate(null, ret);
+		Result_ChannelMonitorUpdateDecodeErrorZ ret_hu_conv = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -14,10 +14,9 @@ public class InMemoryChannelKeys extends CommonBase {
 		if (ptr != 0) { bindings.InMemoryChannelKeys_free(ptr); }
 	}
 
-	public static InMemoryChannelKeys constructor_clone(InMemoryChannelKeys orig) {
-		long ret = bindings.InMemoryChannelKeys_clone(orig == null ? 0 : orig.ptr & ~1);
+	public InMemoryChannelKeys clone() {
+		long ret = bindings.InMemoryChannelKeys_clone(this.ptr);
 		InMemoryChannelKeys ret_hu_conv = new InMemoryChannelKeys(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -97,6 +96,23 @@ public class InMemoryChannelKeys extends CommonBase {
 		return ret;
 	}
 
+	public boolean is_outbound() {
+		boolean ret = bindings.InMemoryChannelKeys_is_outbound(this.ptr);
+		return ret;
+	}
+
+	public OutPoint funding_outpoint() {
+		long ret = bindings.InMemoryChannelKeys_funding_outpoint(this.ptr);
+		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		return ret_hu_conv;
+	}
+
+	public ChannelTransactionParameters get_channel_parameters() {
+		long ret = bindings.InMemoryChannelKeys_get_channel_parameters(this.ptr);
+		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
+		return ret_hu_conv;
+	}
+
 	public ChannelKeys as_ChannelKeys() {
 		long ret = bindings.InMemoryChannelKeys_as_ChannelKeys(this.ptr);
 		ChannelKeys ret_hu_conv = new ChannelKeys(null, ret);
@@ -109,9 +125,9 @@ public class InMemoryChannelKeys extends CommonBase {
 		return ret;
 	}
 
-	public static InMemoryChannelKeys constructor_read(byte[] ser) {
+	public static Result_InMemoryChannelKeysDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.InMemoryChannelKeys_read(ser);
-		InMemoryChannelKeys ret_hu_conv = new InMemoryChannelKeys(null, ret);
+		Result_InMemoryChannelKeysDecodeErrorZ ret_hu_conv = Result_InMemoryChannelKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

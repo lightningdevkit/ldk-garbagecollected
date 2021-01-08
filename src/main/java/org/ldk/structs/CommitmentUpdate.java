@@ -14,10 +14,9 @@ public class CommitmentUpdate extends CommonBase {
 		if (ptr != 0) { bindings.CommitmentUpdate_free(ptr); }
 	}
 
-	public static CommitmentUpdate constructor_clone(CommitmentUpdate orig) {
-		long ret = bindings.CommitmentUpdate_clone(orig == null ? 0 : orig.ptr & ~1);
+	public CommitmentUpdate clone() {
+		long ret = bindings.CommitmentUpdate_clone(this.ptr);
 		CommitmentUpdate ret_hu_conv = new CommitmentUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 

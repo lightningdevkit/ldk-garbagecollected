@@ -14,10 +14,9 @@ public class QueryChannelRange extends CommonBase {
 		if (ptr != 0) { bindings.QueryChannelRange_free(ptr); }
 	}
 
-	public static QueryChannelRange constructor_clone(QueryChannelRange orig) {
-		long ret = bindings.QueryChannelRange_clone(orig == null ? 0 : orig.ptr & ~1);
+	public QueryChannelRange clone() {
+		long ret = bindings.QueryChannelRange_clone(this.ptr);
 		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -54,9 +53,9 @@ public class QueryChannelRange extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static QueryChannelRange constructor_read(byte[] ser) {
+	public static Result_QueryChannelRangeDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.QueryChannelRange_read(ser);
-		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
+		Result_QueryChannelRangeDecodeErrorZ ret_hu_conv = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

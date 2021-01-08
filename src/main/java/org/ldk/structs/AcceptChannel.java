@@ -14,10 +14,9 @@ public class AcceptChannel extends CommonBase {
 		if (ptr != 0) { bindings.AcceptChannel_free(ptr); }
 	}
 
-	public static AcceptChannel constructor_clone(AcceptChannel orig) {
-		long ret = bindings.AcceptChannel_clone(orig == null ? 0 : orig.ptr & ~1);
+	public AcceptChannel clone() {
+		long ret = bindings.AcceptChannel_clone(this.ptr);
 		AcceptChannel ret_hu_conv = new AcceptChannel(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -147,9 +146,8 @@ public class AcceptChannel extends CommonBase {
 		bindings.AcceptChannel_set_first_per_commitment_point(this.ptr, val);
 	}
 
-	public byte[] write(AcceptChannel obj) {
-		byte[] ret = bindings.AcceptChannel_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.AcceptChannel_write(this.ptr);
 		return ret;
 	}
 

@@ -14,10 +14,9 @@ public class UpdateFee extends CommonBase {
 		if (ptr != 0) { bindings.UpdateFee_free(ptr); }
 	}
 
-	public static UpdateFee constructor_clone(UpdateFee orig) {
-		long ret = bindings.UpdateFee_clone(orig == null ? 0 : orig.ptr & ~1);
+	public UpdateFee clone() {
+		long ret = bindings.UpdateFee_clone(this.ptr);
 		UpdateFee ret_hu_conv = new UpdateFee(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -45,9 +44,8 @@ public class UpdateFee extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(UpdateFee obj) {
-		byte[] ret = bindings.UpdateFee_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.UpdateFee_write(this.ptr);
 		return ret;
 	}
 

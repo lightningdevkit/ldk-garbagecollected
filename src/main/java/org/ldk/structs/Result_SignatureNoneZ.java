@@ -31,10 +31,8 @@ public class Result_SignatureNoneZ extends CommonBase {
 	}
 
 	public static final class Result_SignatureNoneZ_Err extends Result_SignatureNoneZ {
-		public final byte err;
 		private Result_SignatureNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_SignatureNoneZ_get_err(ptr);
 		}
 		public Result_SignatureNoneZ_Err() {
 			this(null, bindings.CResult_SignatureNoneZ_err());

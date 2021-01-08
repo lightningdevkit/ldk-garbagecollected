@@ -20,10 +20,8 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 		}
 	}
 	public static final class Result_NonePaymentSendFailureZ_OK extends Result_NonePaymentSendFailureZ {
-		public final byte res;
 		private Result_NonePaymentSendFailureZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_NonePaymentSendFailureZ_get_ok(ptr);
 		}
 		public Result_NonePaymentSendFailureZ_OK() {
 			this(null, bindings.CResult_NonePaymentSendFailureZ_ok());

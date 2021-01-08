@@ -29,7 +29,6 @@ public class ChannelManager extends CommonBase {
 	public Result_NoneAPIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, long user_id, UserConfig override_config) {
 		long ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_id, override_config == null ? 0 : override_config.ptr & ~1);
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
 		this.ptrs_to.add(override_config);
 		return ret_hu_conv;
 	}
@@ -59,7 +58,6 @@ public class ChannelManager extends CommonBase {
 	public Result_NoneAPIErrorZ close_channel(byte[] channel_id) {
 		long ret = bindings.ChannelManager_close_channel(this.ptr, channel_id);
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -74,7 +72,6 @@ public class ChannelManager extends CommonBase {
 	public Result_NonePaymentSendFailureZ send_payment(Route route, byte[] payment_hash, byte[] payment_secret) {
 		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_hash, payment_secret);
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
 	}

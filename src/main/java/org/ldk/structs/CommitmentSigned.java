@@ -14,10 +14,9 @@ public class CommitmentSigned extends CommonBase {
 		if (ptr != 0) { bindings.CommitmentSigned_free(ptr); }
 	}
 
-	public static CommitmentSigned constructor_clone(CommitmentSigned orig) {
-		long ret = bindings.CommitmentSigned_clone(orig == null ? 0 : orig.ptr & ~1);
+	public CommitmentSigned clone() {
+		long ret = bindings.CommitmentSigned_clone(this.ptr);
 		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -49,9 +48,8 @@ public class CommitmentSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(CommitmentSigned obj) {
-		byte[] ret = bindings.CommitmentSigned_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.CommitmentSigned_write(this.ptr);
 		return ret;
 	}
 

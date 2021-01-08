@@ -14,10 +14,9 @@ public class Init extends CommonBase {
 		if (ptr != 0) { bindings.Init_free(ptr); }
 	}
 
-	public static Init constructor_clone(Init orig) {
-		long ret = bindings.Init_clone(orig == null ? 0 : orig.ptr & ~1);
+	public Init clone() {
+		long ret = bindings.Init_clone(this.ptr);
 		Init ret_hu_conv = new Init(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -26,9 +25,9 @@ public class Init extends CommonBase {
 		return ret;
 	}
 
-	public static Init constructor_read(byte[] ser) {
+	public static Result_InitDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.Init_read(ser);
-		Init ret_hu_conv = new Init(null, ret);
+		Result_InitDecodeErrorZ ret_hu_conv = Result_InitDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

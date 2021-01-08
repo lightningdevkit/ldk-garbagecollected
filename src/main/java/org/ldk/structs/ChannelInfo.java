@@ -20,7 +20,11 @@ public class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped ChannelInfo_set_features
+	public void set_features(ChannelFeatures val) {
+		bindings.ChannelInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public byte[] get_node_one() {
 		byte[] ret = bindings.ChannelInfo_get_node_one(this.ptr);
 		return ret;
@@ -36,7 +40,11 @@ public class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped ChannelInfo_set_one_to_two
+	public void set_one_to_two(DirectionalChannelInfo val) {
+		bindings.ChannelInfo_set_one_to_two(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public byte[] get_node_two() {
 		byte[] ret = bindings.ChannelInfo_get_node_two(this.ptr);
 		return ret;
@@ -52,7 +60,11 @@ public class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped ChannelInfo_set_two_to_one
+	public void set_two_to_one(DirectionalChannelInfo val) {
+		bindings.ChannelInfo_set_two_to_one(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public ChannelAnnouncement get_announcement_message() {
 		long ret = bindings.ChannelInfo_get_announcement_message(this.ptr);
 		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
@@ -64,9 +76,8 @@ public class ChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	public byte[] write(ChannelInfo obj) {
-		byte[] ret = bindings.ChannelInfo_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ChannelInfo_write(this.ptr);
 		return ret;
 	}
 

@@ -14,10 +14,9 @@ public class ChannelHandshakeConfig extends CommonBase {
 		if (ptr != 0) { bindings.ChannelHandshakeConfig_free(ptr); }
 	}
 
-	public static ChannelHandshakeConfig constructor_clone(ChannelHandshakeConfig orig) {
-		long ret = bindings.ChannelHandshakeConfig_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ChannelHandshakeConfig clone() {
+		long ret = bindings.ChannelHandshakeConfig_clone(this.ptr);
 		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 

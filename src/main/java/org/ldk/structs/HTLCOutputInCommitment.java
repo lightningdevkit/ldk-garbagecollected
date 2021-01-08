@@ -14,10 +14,9 @@ public class HTLCOutputInCommitment extends CommonBase {
 		if (ptr != 0) { bindings.HTLCOutputInCommitment_free(ptr); }
 	}
 
-	public static HTLCOutputInCommitment constructor_clone(HTLCOutputInCommitment orig) {
-		long ret = bindings.HTLCOutputInCommitment_clone(orig == null ? 0 : orig.ptr & ~1);
+	public HTLCOutputInCommitment clone() {
+		long ret = bindings.HTLCOutputInCommitment_clone(this.ptr);
 		HTLCOutputInCommitment ret_hu_conv = new HTLCOutputInCommitment(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -57,9 +56,8 @@ public class HTLCOutputInCommitment extends CommonBase {
 		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, val);
 	}
 
-	public byte[] write(HTLCOutputInCommitment obj) {
-		byte[] ret = bindings.HTLCOutputInCommitment_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.HTLCOutputInCommitment_write(this.ptr);
 		return ret;
 	}
 

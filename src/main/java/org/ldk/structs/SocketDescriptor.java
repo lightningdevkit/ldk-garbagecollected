@@ -63,11 +63,10 @@ public class SocketDescriptor extends CommonBase {
 		return ret;
 	}
 
-	public static SocketDescriptor constructor_clone(SocketDescriptor orig) {
-		long ret = bindings.SocketDescriptor_clone(orig == null ? 0 : orig.ptr);
+	public SocketDescriptor clone() {
+		long ret = bindings.SocketDescriptor_clone(this.ptr);
 		SocketDescriptor ret_hu_conv = new SocketDescriptor(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(orig);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

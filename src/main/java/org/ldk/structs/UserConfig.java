@@ -14,10 +14,9 @@ public class UserConfig extends CommonBase {
 		if (ptr != 0) { bindings.UserConfig_free(ptr); }
 	}
 
-	public static UserConfig constructor_clone(UserConfig orig) {
-		long ret = bindings.UserConfig_clone(orig == null ? 0 : orig.ptr & ~1);
+	public UserConfig clone() {
+		long ret = bindings.UserConfig_clone(this.ptr);
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 

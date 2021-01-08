@@ -14,10 +14,9 @@ public class NodeAnnouncement extends CommonBase {
 		if (ptr != 0) { bindings.NodeAnnouncement_free(ptr); }
 	}
 
-	public static NodeAnnouncement constructor_clone(NodeAnnouncement orig) {
-		long ret = bindings.NodeAnnouncement_clone(orig == null ? 0 : orig.ptr & ~1);
+	public NodeAnnouncement clone() {
+		long ret = bindings.NodeAnnouncement_clone(this.ptr);
 		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -48,9 +47,8 @@ public class NodeAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(NodeAnnouncement obj) {
-		byte[] ret = bindings.NodeAnnouncement_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.NodeAnnouncement_write(this.ptr);
 		return ret;
 	}
 

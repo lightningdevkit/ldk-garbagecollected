@@ -20,10 +20,8 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 		}
 	}
 	public static final class Result_NonePeerHandleErrorZ_OK extends Result_NonePeerHandleErrorZ {
-		public final byte res;
 		private Result_NonePeerHandleErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_NonePeerHandleErrorZ_get_ok(ptr);
 		}
 		public Result_NonePeerHandleErrorZ_OK() {
 			this(null, bindings.CResult_NonePeerHandleErrorZ_ok());

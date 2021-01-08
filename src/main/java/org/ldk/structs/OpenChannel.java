@@ -14,10 +14,9 @@ public class OpenChannel extends CommonBase {
 		if (ptr != 0) { bindings.OpenChannel_free(ptr); }
 	}
 
-	public static OpenChannel constructor_clone(OpenChannel orig) {
-		long ret = bindings.OpenChannel_clone(orig == null ? 0 : orig.ptr & ~1);
+	public OpenChannel clone() {
+		long ret = bindings.OpenChannel_clone(this.ptr);
 		OpenChannel ret_hu_conv = new OpenChannel(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -183,9 +182,8 @@ public class OpenChannel extends CommonBase {
 		bindings.OpenChannel_set_channel_flags(this.ptr, val);
 	}
 
-	public byte[] write(OpenChannel obj) {
-		byte[] ret = bindings.OpenChannel_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.OpenChannel_write(this.ptr);
 		return ret;
 	}
 

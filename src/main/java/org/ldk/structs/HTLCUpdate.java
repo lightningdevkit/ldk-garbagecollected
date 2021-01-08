@@ -14,16 +14,14 @@ public class HTLCUpdate extends CommonBase {
 		if (ptr != 0) { bindings.HTLCUpdate_free(ptr); }
 	}
 
-	public static HTLCUpdate constructor_clone(HTLCUpdate orig) {
-		long ret = bindings.HTLCUpdate_clone(orig == null ? 0 : orig.ptr & ~1);
+	public HTLCUpdate clone() {
+		long ret = bindings.HTLCUpdate_clone(this.ptr);
 		HTLCUpdate ret_hu_conv = new HTLCUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
-	public byte[] write(HTLCUpdate obj) {
-		byte[] ret = bindings.HTLCUpdate_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.HTLCUpdate_write(this.ptr);
 		return ret;
 	}
 

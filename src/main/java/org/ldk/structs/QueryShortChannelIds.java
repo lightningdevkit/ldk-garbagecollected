@@ -14,10 +14,9 @@ public class QueryShortChannelIds extends CommonBase {
 		if (ptr != 0) { bindings.QueryShortChannelIds_free(ptr); }
 	}
 
-	public static QueryShortChannelIds constructor_clone(QueryShortChannelIds orig) {
-		long ret = bindings.QueryShortChannelIds_clone(orig == null ? 0 : orig.ptr & ~1);
+	public QueryShortChannelIds clone() {
+		long ret = bindings.QueryShortChannelIds_clone(this.ptr);
 		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -40,9 +39,9 @@ public class QueryShortChannelIds extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static QueryShortChannelIds constructor_read(byte[] ser) {
+	public static Result_QueryShortChannelIdsDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.QueryShortChannelIds_read(ser);
-		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
+		Result_QueryShortChannelIdsDecodeErrorZ ret_hu_conv = Result_QueryShortChannelIdsDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

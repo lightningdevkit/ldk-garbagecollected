@@ -14,10 +14,9 @@ public class UpdateAddHTLC extends CommonBase {
 		if (ptr != 0) { bindings.UpdateAddHTLC_free(ptr); }
 	}
 
-	public static UpdateAddHTLC constructor_clone(UpdateAddHTLC orig) {
-		long ret = bindings.UpdateAddHTLC_clone(orig == null ? 0 : orig.ptr & ~1);
+	public UpdateAddHTLC clone() {
+		long ret = bindings.UpdateAddHTLC_clone(this.ptr);
 		UpdateAddHTLC ret_hu_conv = new UpdateAddHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -66,9 +65,8 @@ public class UpdateAddHTLC extends CommonBase {
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
 	}
 
-	public byte[] write(UpdateAddHTLC obj) {
-		byte[] ret = bindings.UpdateAddHTLC_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.UpdateAddHTLC_write(this.ptr);
 		return ret;
 	}
 

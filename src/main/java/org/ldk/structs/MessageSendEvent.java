@@ -63,6 +63,12 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate.class) {
 			return new PaymentFailureNetworkUpdate(ptr, (bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendChannelRangeQuery.class) {
+			return new SendChannelRangeQuery(ptr, (bindings.LDKMessageSendEvent.SendChannelRangeQuery)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendShortIdsQuery.class) {
+			return new SendShortIdsQuery(ptr, (bindings.LDKMessageSendEvent.SendShortIdsQuery)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -238,6 +244,28 @@ public class MessageSendEvent extends CommonBase {
 			HTLCFailChannelUpdate update_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(update);
 			update_hu_conv.ptrs_to.add(this);
 			this.update = update_hu_conv;
+		}
+	}
+	public final static class SendChannelRangeQuery extends MessageSendEvent {
+		public final byte[] node_id;
+		public final QueryChannelRange msg;
+		private SendChannelRangeQuery(long ptr, bindings.LDKMessageSendEvent.SendChannelRangeQuery obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			QueryChannelRange msg_hu_conv = new QueryChannelRange(null, msg);
+			this.msg = msg_hu_conv;
+		}
+	}
+	public final static class SendShortIdsQuery extends MessageSendEvent {
+		public final byte[] node_id;
+		public final QueryShortChannelIds msg;
+		private SendShortIdsQuery(long ptr, bindings.LDKMessageSendEvent.SendShortIdsQuery obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			QueryShortChannelIds msg_hu_conv = new QueryShortChannelIds(null, msg);
+			this.msg = msg_hu_conv;
 		}
 	}
 }

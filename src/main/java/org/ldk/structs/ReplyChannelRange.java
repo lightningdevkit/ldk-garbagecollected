@@ -14,10 +14,9 @@ public class ReplyChannelRange extends CommonBase {
 		if (ptr != 0) { bindings.ReplyChannelRange_free(ptr); }
 	}
 
-	public static ReplyChannelRange constructor_clone(ReplyChannelRange orig) {
-		long ret = bindings.ReplyChannelRange_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ReplyChannelRange clone() {
+		long ret = bindings.ReplyChannelRange_clone(this.ptr);
 		ReplyChannelRange ret_hu_conv = new ReplyChannelRange(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -67,9 +66,9 @@ public class ReplyChannelRange extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static ReplyChannelRange constructor_read(byte[] ser) {
+	public static Result_ReplyChannelRangeDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ReplyChannelRange_read(ser);
-		ReplyChannelRange ret_hu_conv = new ReplyChannelRange(null, ret);
+		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

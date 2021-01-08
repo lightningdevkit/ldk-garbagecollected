@@ -20,10 +20,8 @@ public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 		}
 	}
 	public static final class Result_NoneChannelMonitorUpdateErrZ_OK extends Result_NoneChannelMonitorUpdateErrZ {
-		public final byte res;
 		private Result_NoneChannelMonitorUpdateErrZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(ptr);
 		}
 		public Result_NoneChannelMonitorUpdateErrZ_OK() {
 			this(null, bindings.CResult_NoneChannelMonitorUpdateErrZ_ok());

@@ -14,20 +14,10 @@ public class HolderCommitmentTransaction extends CommonBase {
 		if (ptr != 0) { bindings.HolderCommitmentTransaction_free(ptr); }
 	}
 
-	public static HolderCommitmentTransaction constructor_clone(HolderCommitmentTransaction orig) {
-		long ret = bindings.HolderCommitmentTransaction_clone(orig == null ? 0 : orig.ptr & ~1);
+	public HolderCommitmentTransaction clone() {
+		long ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
-	}
-
-	public byte[] get_unsigned_tx() {
-		byte[] ret = bindings.HolderCommitmentTransaction_get_unsigned_tx(this.ptr);
-		return ret;
-	}
-
-	public void set_unsigned_tx(byte[] val) {
-		bindings.HolderCommitmentTransaction_set_unsigned_tx(this.ptr, val);
 	}
 
 	public byte[] get_counterparty_sig() {
@@ -39,49 +29,8 @@ public class HolderCommitmentTransaction extends CommonBase {
 		bindings.HolderCommitmentTransaction_set_counterparty_sig(this.ptr, val);
 	}
 
-	public int get_feerate_per_kw() {
-		int ret = bindings.HolderCommitmentTransaction_get_feerate_per_kw(this.ptr);
-		return ret;
-	}
-
-	public void set_feerate_per_kw(int val) {
-		bindings.HolderCommitmentTransaction_set_feerate_per_kw(this.ptr, val);
-	}
-
-	public void set_per_htlc(TwoTuple<HTLCOutputInCommitment, byte[]>[] val) {
-		bindings.HolderCommitmentTransaction_set_per_htlc(this.ptr, Arrays.stream(val).mapToLong(arr_conv_42 -> bindings.C2Tuple_HTLCOutputInCommitmentSignatureZ_new(arr_conv_42.a == null ? 0 : arr_conv_42.a.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_42_a)*/, arr_conv_42.b)).toArray());
-		/* TODO 2 TwoTuple<HTLCOutputInCommitment, byte[]>  */;
-	}
-
-	public static HolderCommitmentTransaction constructor_new_missing_holder_sig(byte[] unsigned_tx, byte[] counterparty_sig, byte[] holder_funding_key, byte[] counterparty_funding_key, TxCreationKeys keys, int feerate_per_kw, TwoTuple<HTLCOutputInCommitment, byte[]>[] htlc_data) {
-		long ret = bindings.HolderCommitmentTransaction_new_missing_holder_sig(unsigned_tx, counterparty_sig, holder_funding_key, counterparty_funding_key, keys == null ? 0 : keys.ptr & ~1, feerate_per_kw, Arrays.stream(htlc_data).mapToLong(arr_conv_42 -> bindings.C2Tuple_HTLCOutputInCommitmentSignatureZ_new(arr_conv_42.a == null ? 0 : arr_conv_42.a.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_42_a)*/, arr_conv_42.b)).toArray());
-		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(keys);
-		/* TODO 2 TwoTuple<HTLCOutputInCommitment, byte[]>  */;
-		return ret_hu_conv;
-	}
-
-	public TxCreationKeys trust_key_derivation() {
-		long ret = bindings.HolderCommitmentTransaction_trust_key_derivation(this.ptr);
-		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
-		return ret_hu_conv;
-	}
-
-	public byte[] txid() {
-		byte[] ret = bindings.HolderCommitmentTransaction_txid(this.ptr);
-		return ret;
-	}
-
-	public byte[] get_holder_sig(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.HolderCommitmentTransaction_get_holder_sig(this.ptr, funding_key, funding_redeemscript, channel_value_satoshis);
-		return ret;
-	}
-
-	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, short counterparty_selected_contest_delay) {
-		long ret = bindings.HolderCommitmentTransaction_get_htlc_sigs(this.ptr, htlc_base_key, counterparty_selected_contest_delay);
-		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
+	public void set_counterparty_htlc_sigs(byte[][] val) {
+		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, val);
 	}
 
 	public byte[] write() {
@@ -92,6 +41,13 @@ public class HolderCommitmentTransaction extends CommonBase {
 	public static HolderCommitmentTransaction constructor_read(byte[] ser) {
 		long ret = bindings.HolderCommitmentTransaction_read(ser);
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+		return ret_hu_conv;
+	}
+
+	public static HolderCommitmentTransaction constructor_new(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
+		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
+		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}
 

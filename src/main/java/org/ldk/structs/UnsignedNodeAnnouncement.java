@@ -14,10 +14,9 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 		if (ptr != 0) { bindings.UnsignedNodeAnnouncement_free(ptr); }
 	}
 
-	public static UnsignedNodeAnnouncement constructor_clone(UnsignedNodeAnnouncement orig) {
-		long ret = bindings.UnsignedNodeAnnouncement_clone(orig == null ? 0 : orig.ptr & ~1);
+	public UnsignedNodeAnnouncement clone() {
+		long ret = bindings.UnsignedNodeAnnouncement_clone(this.ptr);
 		UnsignedNodeAnnouncement ret_hu_conv = new UnsignedNodeAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -27,7 +26,11 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped UnsignedNodeAnnouncement_set_features
+	public void set_features(NodeFeatures val) {
+		bindings.UnsignedNodeAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public int get_timestamp() {
 		int ret = bindings.UnsignedNodeAnnouncement_get_timestamp(this.ptr);
 		return ret;
@@ -74,9 +77,9 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 		return ret;
 	}
 
-	public static UnsignedNodeAnnouncement constructor_read(byte[] ser) {
+	public static Result_UnsignedNodeAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.UnsignedNodeAnnouncement_read(ser);
-		UnsignedNodeAnnouncement ret_hu_conv = new UnsignedNodeAnnouncement(null, ret);
+		Result_UnsignedNodeAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

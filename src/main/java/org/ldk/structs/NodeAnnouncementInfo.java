@@ -20,7 +20,11 @@ public class NodeAnnouncementInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped NodeAnnouncementInfo_set_features
+	public void set_features(NodeFeatures val) {
+		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public int get_last_update() {
 		int ret = bindings.NodeAnnouncementInfo_get_last_update(this.ptr);
 		return ret;
@@ -78,9 +82,9 @@ public class NodeAnnouncementInfo extends CommonBase {
 		return ret;
 	}
 
-	public static NodeAnnouncementInfo constructor_read(byte[] ser) {
+	public static Result_NodeAnnouncementInfoDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.NodeAnnouncementInfo_read(ser);
-		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
+		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

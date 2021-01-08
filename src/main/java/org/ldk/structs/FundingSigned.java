@@ -14,10 +14,9 @@ public class FundingSigned extends CommonBase {
 		if (ptr != 0) { bindings.FundingSigned_free(ptr); }
 	}
 
-	public static FundingSigned constructor_clone(FundingSigned orig) {
-		long ret = bindings.FundingSigned_clone(orig == null ? 0 : orig.ptr & ~1);
+	public FundingSigned clone() {
+		long ret = bindings.FundingSigned_clone(this.ptr);
 		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -45,9 +44,8 @@ public class FundingSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(FundingSigned obj) {
-		byte[] ret = bindings.FundingSigned_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.FundingSigned_write(this.ptr);
 		return ret;
 	}
 

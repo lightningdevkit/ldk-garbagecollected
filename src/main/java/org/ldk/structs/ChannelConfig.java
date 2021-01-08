@@ -14,10 +14,9 @@ public class ChannelConfig extends CommonBase {
 		if (ptr != 0) { bindings.ChannelConfig_free(ptr); }
 	}
 
-	public static ChannelConfig constructor_clone(ChannelConfig orig) {
-		long ret = bindings.ChannelConfig_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ChannelConfig clone() {
+		long ret = bindings.ChannelConfig_clone(this.ptr);
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -60,9 +59,8 @@ public class ChannelConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(ChannelConfig obj) {
-		byte[] ret = bindings.ChannelConfig_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.ChannelConfig_write(this.ptr);
 		return ret;
 	}
 

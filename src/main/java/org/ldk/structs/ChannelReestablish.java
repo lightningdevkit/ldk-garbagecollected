@@ -14,10 +14,9 @@ public class ChannelReestablish extends CommonBase {
 		if (ptr != 0) { bindings.ChannelReestablish_free(ptr); }
 	}
 
-	public static ChannelReestablish constructor_clone(ChannelReestablish orig) {
-		long ret = bindings.ChannelReestablish_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ChannelReestablish clone() {
+		long ret = bindings.ChannelReestablish_clone(this.ptr);
 		ChannelReestablish ret_hu_conv = new ChannelReestablish(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -53,9 +52,9 @@ public class ChannelReestablish extends CommonBase {
 		return ret;
 	}
 
-	public static ChannelReestablish constructor_read(byte[] ser) {
+	public static Result_ChannelReestablishDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ChannelReestablish_read(ser);
-		ChannelReestablish ret_hu_conv = new ChannelReestablish(null, ret);
+		Result_ChannelReestablishDecodeErrorZ ret_hu_conv = Result_ChannelReestablishDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

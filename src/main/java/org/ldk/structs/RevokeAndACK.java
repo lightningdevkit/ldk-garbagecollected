@@ -14,10 +14,9 @@ public class RevokeAndACK extends CommonBase {
 		if (ptr != 0) { bindings.RevokeAndACK_free(ptr); }
 	}
 
-	public static RevokeAndACK constructor_clone(RevokeAndACK orig) {
-		long ret = bindings.RevokeAndACK_clone(orig == null ? 0 : orig.ptr & ~1);
+	public RevokeAndACK clone() {
+		long ret = bindings.RevokeAndACK_clone(this.ptr);
 		RevokeAndACK ret_hu_conv = new RevokeAndACK(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -54,9 +53,8 @@ public class RevokeAndACK extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public byte[] write(RevokeAndACK obj) {
-		byte[] ret = bindings.RevokeAndACK_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.RevokeAndACK_write(this.ptr);
 		return ret;
 	}
 

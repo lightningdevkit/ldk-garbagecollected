@@ -14,10 +14,9 @@ public class UnsignedChannelUpdate extends CommonBase {
 		if (ptr != 0) { bindings.UnsignedChannelUpdate_free(ptr); }
 	}
 
-	public static UnsignedChannelUpdate constructor_clone(UnsignedChannelUpdate orig) {
-		long ret = bindings.UnsignedChannelUpdate_clone(orig == null ? 0 : orig.ptr & ~1);
+	public UnsignedChannelUpdate clone() {
+		long ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
 		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -98,9 +97,9 @@ public class UnsignedChannelUpdate extends CommonBase {
 		return ret;
 	}
 
-	public static UnsignedChannelUpdate constructor_read(byte[] ser) {
+	public static Result_UnsignedChannelUpdateDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.UnsignedChannelUpdate_read(ser);
-		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
+		Result_UnsignedChannelUpdateDecodeErrorZ ret_hu_conv = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

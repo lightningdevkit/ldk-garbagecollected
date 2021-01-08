@@ -20,10 +20,8 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 		}
 	}
 	public static final class Result_NoneAPIErrorZ_OK extends Result_NoneAPIErrorZ {
-		public final byte res;
 		private Result_NoneAPIErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_NoneAPIErrorZ_get_ok(ptr);
 		}
 		public Result_NoneAPIErrorZ_OK() {
 			this(null, bindings.CResult_NoneAPIErrorZ_ok());

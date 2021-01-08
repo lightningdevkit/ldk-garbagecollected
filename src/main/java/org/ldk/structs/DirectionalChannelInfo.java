@@ -50,6 +50,17 @@ public class DirectionalChannelInfo extends CommonBase {
 		bindings.DirectionalChannelInfo_set_htlc_minimum_msat(this.ptr, val);
 	}
 
+	public RoutingFees get_fees() {
+		long ret = bindings.DirectionalChannelInfo_get_fees(this.ptr);
+		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
+		return ret_hu_conv;
+	}
+
+	public void set_fees(RoutingFees val) {
+		bindings.DirectionalChannelInfo_set_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public ChannelUpdate get_last_update_message() {
 		long ret = bindings.DirectionalChannelInfo_get_last_update_message(this.ptr);
 		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
@@ -61,9 +72,8 @@ public class DirectionalChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	public byte[] write(DirectionalChannelInfo obj) {
-		byte[] ret = bindings.DirectionalChannelInfo_write(obj == null ? 0 : obj.ptr & ~1);
-		this.ptrs_to.add(obj);
+	public byte[] write() {
+		byte[] ret = bindings.DirectionalChannelInfo_write(this.ptr);
 		return ret;
 	}
 

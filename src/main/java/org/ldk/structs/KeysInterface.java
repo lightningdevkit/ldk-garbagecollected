@@ -25,6 +25,7 @@ public class KeysInterface extends CommonBase {
 		byte[] get_shutdown_pubkey();
 		ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis);
 		byte[] get_secure_random_bytes();
+		Result_ChanKeySignerDecodeErrorZ read_chan_signer(byte[] reader);
 	}
 	private static class LDKKeysInterfaceHolder { KeysInterface held; }
 	public static KeysInterface new_impl(KeysInterfaceInterface arg) {
@@ -51,6 +52,12 @@ public class KeysInterface extends CommonBase {
 			@Override public byte[] get_secure_random_bytes() {
 				byte[] ret = arg.get_secure_random_bytes();
 				return ret;
+			}
+			@Override public long read_chan_signer(byte[] reader) {
+				Result_ChanKeySignerDecodeErrorZ ret = arg.read_chan_signer(reader);
+				long result = ret != null ? ret.ptr : 0;
+				ret.ptr = 0;
+				return result;
 			}
 		});
 		return impl_holder.held;
@@ -80,6 +87,12 @@ public class KeysInterface extends CommonBase {
 	public byte[] get_secure_random_bytes() {
 		byte[] ret = bindings.KeysInterface_get_secure_random_bytes(this.ptr);
 		return ret;
+	}
+
+	public Result_ChanKeySignerDecodeErrorZ read_chan_signer(byte[] reader) {
+		long ret = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
+		Result_ChanKeySignerDecodeErrorZ ret_hu_conv = Result_ChanKeySignerDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

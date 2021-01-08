@@ -14,10 +14,9 @@ public class ChannelHandshakeLimits extends CommonBase {
 		if (ptr != 0) { bindings.ChannelHandshakeLimits_free(ptr); }
 	}
 
-	public static ChannelHandshakeLimits constructor_clone(ChannelHandshakeLimits orig) {
-		long ret = bindings.ChannelHandshakeLimits_clone(orig == null ? 0 : orig.ptr & ~1);
+	public ChannelHandshakeLimits clone() {
+		long ret = bindings.ChannelHandshakeLimits_clone(this.ptr);
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 

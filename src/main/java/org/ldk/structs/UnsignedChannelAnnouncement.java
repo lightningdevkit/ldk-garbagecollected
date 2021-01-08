@@ -14,10 +14,9 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 		if (ptr != 0) { bindings.UnsignedChannelAnnouncement_free(ptr); }
 	}
 
-	public static UnsignedChannelAnnouncement constructor_clone(UnsignedChannelAnnouncement orig) {
-		long ret = bindings.UnsignedChannelAnnouncement_clone(orig == null ? 0 : orig.ptr & ~1);
+	public UnsignedChannelAnnouncement clone() {
+		long ret = bindings.UnsignedChannelAnnouncement_clone(this.ptr);
 		UnsignedChannelAnnouncement ret_hu_conv = new UnsignedChannelAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(orig);
 		return ret_hu_conv;
 	}
 
@@ -27,7 +26,11 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	// Skipped UnsignedChannelAnnouncement_set_features
+	public void set_features(ChannelFeatures val) {
+		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
 		return ret;
@@ -87,9 +90,9 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 		return ret;
 	}
 
-	public static UnsignedChannelAnnouncement constructor_read(byte[] ser) {
+	public static Result_UnsignedChannelAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.UnsignedChannelAnnouncement_read(ser);
-		UnsignedChannelAnnouncement ret_hu_conv = new UnsignedChannelAnnouncement(null, ret);
+		Result_UnsignedChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
