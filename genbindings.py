@@ -564,8 +564,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 conv_name = "arr_conv_" + str(len(ty_info.java_hu_ty))
                 idxc = chr(ord('a') + (len(ty_info.java_hu_ty) % 26))
                 ty_info.subty.var_name = conv_name
-                if ty_info.is_ptr or holds_ref:
-                    ty_info.subty.requires_clone = False
+                #XXX: We'd really prefer to only ever set to False, avoiding lots of clone, but need smarter free logic
+                #if ty_info.is_ptr or holds_ref:
+                #    ty_info.subty.requires_clone = False
+                ty_info.subty.requires_clone = not ty_info.is_ptr or not holds_ref
                 subty = map_type_with_info(ty_info.subty, False, None, is_free, holds_ref)
                 if arr_name == "":
                     arr_name = "arg"
@@ -624,8 +626,13 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     ret_conv = (ret_conv[0], ret_conv[1] + "\n\t(*_env)->SetObjectArrayElement(_env, " + arr_name + "_arr, " + idxc + ", " + subty.ret_conv_name + ");\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "}")
                 if not holds_ref:
+                    # XXX: The commented if's are a bit smarter freeing, but we need to be a nudge smarter still
                     # Note that we don't drop the full vec here - we're passing ownership to java (or have cloned) or free'd by now!
                     ret_conv = (ret_conv[0], ret_conv[1] + "\nFREE(" + arr_name + "_var." + ty_info.arr_access + ");")
+                    #if subty.rust_obj is not None and subty.rust_obj in opaque_structs:
+                    #    ret_conv = (ret_conv[0], ret_conv[1] + "\nFREE(" + arr_name + "_var." + ty_info.arr_access + ");")
+                    #else:
+                    #    ret_conv = (ret_conv[0], ret_conv[1] + "\n" + ty_info.rust_obj.replace("LDK", "") + "_free(" + arr_name + "_var);")
 
                 to_hu_conv = None
                 to_hu_conv_name = None
@@ -802,6 +809,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     from_hu_conv = "bindings." + tuple_types[ty_info.rust_obj][1].replace("LDK", "") + "_new("
                     to_hu_conv_pfx = ""
                     to_hu_conv_sfx = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " + ty_info.java_hu_ty + "("
+                    clone_ret_str = ""
                     for idx, conv in enumerate(tuple_types[ty_info.rust_obj][0]):
                         if idx != 0:
                             to_hu_conv_sfx = to_hu_conv_sfx + ", "
@@ -821,11 +829,20 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         else:
                             from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
 
+                        if conv.is_native_primitive:
+                            pass
+                        elif (conv_map.rust_obj.replace("LDK", "") + "_clone") in clone_fns:
+                            accessor = ty_info.var_name + "_ref->" + chr(idx + ord("a"))
+                            clone_ret_str = clone_ret_str + "\n" + accessor + " = " + conv_map.rust_obj.replace("LDK", "") + "_clone(&" + accessor + ");"
+                        else:
+                            clone_ret_str = clone_ret_str + "\n// XXX: We likely need to clone here, but no _clone fn is available for " + conv_map.java_hu_ty
                     if not ty_info.is_ptr and not holds_ref:
+                        ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";")
+                        if not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False:
+                            ret_conv = (ret_conv[0], ret_conv[1] + clone_ret_str)
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-
-                            ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";"),
+                            ret_conv = ret_conv,
                             ret_conv_name = "(long)" + ty_info.var_name + "_ref",
                             to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", ""))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -2008,6 +2025,11 @@ class CommonBase {
                         out_java_struct.write("public class TxOut extends CommonBase{\n")
                         out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
                         out_java_struct.write("\tlong to_c_ptr() { return 0; }\n")
+                        out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
+                        out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
+                        out_java_struct.write("\t\tsuper.finalize();\n")
+                        out_java_struct.write("\t\tif (ptr != 0) { bindings.TxOut_free(ptr); }\n")
+                        out_java_struct.write("\t}\n")
                         # TODO: TxOut body
                         out_java_struct.write("}")
                 else:
