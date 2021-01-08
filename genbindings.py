@@ -1,202 +1,33 @@
 #!/usr/bin/env python3
 import sys, re
 
-if len(sys.argv) != 6:
-    print("USAGE: /path/to/lightning.h /path/to/bindings/output.java /path/to/bindings/ /path/to/bindings/output.c debug")
+if len(sys.argv) != 7:
+    print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang")
+    sys.exit(1)
+
+if sys.argv[5] == "false":
+    DEBUG = False
+elif sys.argv[5] == "true":
+    DEBUG = True
+else:
     print("debug should be true or false and indicates whether to track allocations and ensure we don't leak")
     sys.exit(1)
 
-hu_struct_file_prefix = """package org.ldk.structs;
-
-import org.ldk.impl.bindings;
-import org.ldk.enums.*;
-import org.ldk.util.*;
-import java.util.Arrays;
-
-@SuppressWarnings("unchecked") // We correctly assign various generic arrays
-"""
-
-c_file_pfx = """#include \"org_ldk_impl_bindings.h\"
-#include <rust_types.h>
-#include <lightning.h>
-#include <string.h>
-#include <stdatomic.h>
-"""
-
-if sys.argv[5] == "false":
-    c_file_pfx = c_file_pfx + """#define MALLOC(a, _) malloc(a)
-#define FREE(p) if ((long)(p) > 1024) { free(p); }
-#define DO_ASSERT(a) (void)(a)
-#define CHECK(a)
-"""
+if sys.argv[6] == "java":
+    from java_strings import Consts
+elif sys.argv[6] == "typescript":
+    from typescript_strings import Consts
 else:
-    c_file_pfx = c_file_pfx + """#include <assert.h>
-// Always run a, then assert it is true:
-#define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
-// Assert a is true or do nothing
-#define CHECK(a) DO_ASSERT(a)
+    print("Only java or typescript can be set for lang")
+    sys.exit(1)
+consts = Consts(DEBUG)
 
-// Running a leak check across all the allocations and frees of the JDK is a mess,
-// so instead we implement our own naive leak checker here, relying on the -wrap
-// linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
-// and free'd in Rust or C across the generated bindings shared library.
-#include <threads.h>
-#include <execinfo.h>
-#include <unistd.h>
-static mtx_t allocation_mtx;
-
-void __attribute__((constructor)) init_mtx() {
-	DO_ASSERT(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);
-}
-
-#define BT_MAX 128
-typedef struct allocation {
-	struct allocation* next;
-	void* ptr;
-	const char* struct_name;
-	void* bt[BT_MAX];
-	int bt_len;
-} allocation;
-static allocation* allocation_ll = NULL;
-
-void* __real_malloc(size_t len);
-void* __real_calloc(size_t nmemb, size_t len);
-static void new_allocation(void* res, const char* struct_name) {
-	allocation* new_alloc = __real_malloc(sizeof(allocation));
-	new_alloc->ptr = res;
-	new_alloc->struct_name = struct_name;
-	new_alloc->bt_len = backtrace(new_alloc->bt, BT_MAX);
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
-	new_alloc->next = allocation_ll;
-	allocation_ll = new_alloc;
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-}
-static void* MALLOC(size_t len, const char* struct_name) {
-	void* res = __real_malloc(len);
-	new_allocation(res, struct_name);
-	return res;
-}
-void __real_free(void* ptr);
-static void alloc_freed(void* ptr) {
-	allocation* p = NULL;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
-	allocation* it = allocation_ll;
-	while (it->ptr != ptr) {
-		p = it; it = it->next;
-		if (it == NULL) {
-			fprintf(stderr, "Tried to free unknown pointer %p at:\\n", ptr);
-			void* bt[BT_MAX];
-			int bt_len = backtrace(bt, BT_MAX);
-			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
-			fprintf(stderr, "\\n\\n");
-			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-			return; // addrsan should catch malloc-unknown and print more info than we have
-		}
-	}
-	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-	DO_ASSERT(it->ptr == ptr);
-	__real_free(it);
-}
-static void FREE(void* ptr) {
-	if ((long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
-	alloc_freed(ptr);
-	__real_free(ptr);
-}
-
-void* __wrap_malloc(size_t len) {
-	void* res = __real_malloc(len);
-	new_allocation(res, "malloc call");
-	return res;
-}
-void* __wrap_calloc(size_t nmemb, size_t len) {
-	void* res = __real_calloc(nmemb, len);
-	new_allocation(res, "calloc call");
-	return res;
-}
-void __wrap_free(void* ptr) {
-	if (ptr == NULL) return;
-	alloc_freed(ptr);
-	__real_free(ptr);
-}
-
-void* __real_realloc(void* ptr, size_t newlen);
-void* __wrap_realloc(void* ptr, size_t len) {
-	if (ptr != NULL) alloc_freed(ptr);
-	void* res = __real_realloc(ptr, len);
-	new_allocation(res, "realloc call");
-	return res;
-}
-void __wrap_reallocarray(void* ptr, size_t new_sz) {
-	// Rust doesn't seem to use reallocarray currently
-	assert(false);
-}
-
-void __attribute__((destructor)) check_leaks() {
-	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		fprintf(stderr, "%s %p remains:\\n", a->struct_name, a->ptr);
-		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
-		fprintf(stderr, "\\n\\n");
-	}
-	DO_ASSERT(allocation_ll == NULL);
-}
-"""
+from bindingstypes import *
 
 c_file = ""
 def write_c(s):
     global c_file
     c_file += s
-
-class TypeInfo:
-    def __init__(self, is_native_primitive, rust_obj, java_ty, java_fn_ty_arg, java_hu_ty, c_ty, passed_as_ptr, is_ptr, var_name, arr_len, arr_access, subty=None):
-        self.is_native_primitive = is_native_primitive
-        self.rust_obj = rust_obj
-        self.java_ty = java_ty
-        self.java_hu_ty = java_hu_ty
-        self.java_fn_ty_arg = java_fn_ty_arg
-        self.c_ty = c_ty
-        self.passed_as_ptr = passed_as_ptr
-        self.is_ptr = is_ptr
-        self.var_name = var_name
-        self.arr_len = arr_len
-        self.arr_access = arr_access
-        self.subty = subty
-        self.pass_by_ref = is_ptr
-        self.requires_clone = None
-
-class ConvInfo:
-    def __init__(self, ty_info, arg_name, arg_conv, arg_conv_name, arg_conv_cleanup, ret_conv, ret_conv_name, to_hu_conv, to_hu_conv_name, from_hu_conv):
-        assert(ty_info.c_ty is not None)
-        assert(ty_info.java_ty is not None)
-        assert(arg_name is not None)
-        self.passed_as_ptr = ty_info.passed_as_ptr
-        self.rust_obj = ty_info.rust_obj
-        self.c_ty = ty_info.c_ty
-        self.java_ty = ty_info.java_ty
-        self.java_hu_ty = ty_info.java_hu_ty
-        self.java_fn_ty_arg = ty_info.java_fn_ty_arg
-        self.is_native_primitive = ty_info.is_native_primitive
-        self.arg_name = arg_name
-        self.arg_conv = arg_conv
-        self.arg_conv_name = arg_conv_name
-        self.arg_conv_cleanup = arg_conv_cleanup
-        self.ret_conv = ret_conv
-        self.ret_conv_name = ret_conv_name
-        self.to_hu_conv = to_hu_conv
-        self.to_hu_conv_name = to_hu_conv_name
-        self.from_hu_conv = from_hu_conv
-
-    def print_ty(self):
-        write_c(self.c_ty)
-        out_java.write(self.java_ty)
-
-    def print_name(self):
-        if self.arg_name != "":
-            out_java.write(" " + self.arg_name)
-            write_c(" " + self.arg_name)
-        else:
-            out_java.write(" arg")
-            write_c(" arg")
 
 def camel_to_snake(s):
     # Convert camel case to snake case, in a way that appears to match cbindgen
@@ -330,11 +161,11 @@ def java_c_types(fn_arg, ret_arr_len):
             res.pass_by_ref = True
         if res.is_native_primitive or res.passed_as_ptr:
             return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=res.java_ty + "[]", java_hu_ty=res.java_hu_ty + "[]",
-                java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=res.c_ty + "Array", passed_as_ptr=False, is_ptr=is_ptr,
+                java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=res.c_ty + "Array", passed_as_ptr=False, is_ptr=is_ptr, is_const=is_const,
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
         else:
             return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=res.java_ty + "[]", java_hu_ty=res.java_hu_ty + "[]",
-                java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty="jobjectArray", passed_as_ptr=False, is_ptr=is_ptr,
+                java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=consts.ptr_arr, passed_as_ptr=False, is_ptr=is_ptr, is_const=is_const,
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
 
     is_primitive = False
@@ -353,7 +184,7 @@ def java_c_types(fn_arg, ret_arr_len):
         is_primitive = True
     elif fn_arg.startswith("uint8_t"):
         java_ty = "byte"
-        c_ty = "jbyte"
+        c_ty = "int8_t"
         fn_ty_arg = "B"
         fn_arg = fn_arg[7:].strip()
         is_primitive = True
@@ -365,13 +196,14 @@ def java_c_types(fn_arg, ret_arr_len):
         is_primitive = True
     elif fn_arg.startswith("uint32_t"):
         java_ty = "int"
-        c_ty = "jint"
+        c_ty = "int32_t"
         fn_ty_arg = "I"
         fn_arg = fn_arg[8:].strip()
         is_primitive = True
     elif fn_arg.startswith("uint64_t") or fn_arg.startswith("uintptr_t"):
+        # TODO: uintptr_t is arch-dependent :(
         java_ty = "long"
-        c_ty = "jlong"
+        c_ty = "int64_t"
         fn_ty_arg = "J"
         if fn_arg.startswith("uint64_t"):
             fn_arg = fn_arg[8:].strip()
@@ -394,13 +226,13 @@ def java_c_types(fn_arg, ret_arr_len):
         ma = var_ty_regex.match(fn_arg)
         if ma.group(1).strip() in unitary_enums:
             java_ty = ma.group(1).strip()
-            c_ty = "jclass"
+            c_ty = consts.result_c_ty
             fn_ty_arg = "Lorg/ldk/enums/" + ma.group(1).strip() + ";"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
-            take_by_ptr = True
         elif ma.group(1).strip().startswith("LDKC2Tuple"):
-            java_ty = "long"
+            c_ty = consts.ptr_c_ty
+            java_ty = consts.ptr_native_ty
             java_hu_ty = "TwoTuple<"
             if not ma.group(1).strip() in tuple_types:
                 assert java_c_types_none_allowed
@@ -416,13 +248,13 @@ def java_c_types(fn_arg, ret_arr_len):
                 else:
                     java_hu_ty = java_hu_ty + ty_info.java_hu_ty
             java_hu_ty = java_hu_ty + ">"
-            c_ty = "jlong"
             fn_ty_arg = "J"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
             take_by_ptr = True
         elif ma.group(1).strip().startswith("LDKC3Tuple"):
-            java_ty = "long"
+            c_ty = consts.ptr_c_ty
+            java_ty = consts.ptr_native_ty
             java_hu_ty = "ThreeTuple<"
             if not ma.group(1).strip() in tuple_types:
                 assert java_c_types_none_allowed
@@ -438,15 +270,14 @@ def java_c_types(fn_arg, ret_arr_len):
                 else:
                     java_hu_ty = java_hu_ty + ty_info.java_hu_ty
             java_hu_ty = java_hu_ty + ">"
-            c_ty = "jlong"
             fn_ty_arg = "J"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
             take_by_ptr = True
         else:
-            java_ty = "long"
+            c_ty = consts.ptr_c_ty
+            java_ty = consts.ptr_native_ty
             java_hu_ty = ma.group(1).strip().replace("LDKCResult", "Result").replace("LDK", "")
-            c_ty = "jlong"
             fn_ty_arg = "J"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
@@ -455,8 +286,8 @@ def java_c_types(fn_arg, ret_arr_len):
     if fn_arg.startswith(" *") or fn_arg.startswith("*"):
         fn_arg = fn_arg.replace("*", "").strip()
         is_ptr = True
-        c_ty = "jlong"
-        java_ty = "long"
+        c_ty = consts.ptr_c_ty
+        java_ty = consts.ptr_native_ty
         fn_ty_arg = "J"
         is_primitive = False
 
@@ -468,15 +299,15 @@ def java_c_types(fn_arg, ret_arr_len):
         c_ty = c_ty + "Array"
         if var_is_arr is not None:
             if var_is_arr.group(1) == "":
-                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
+                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
                     passed_as_ptr=False, is_ptr=False, var_name="arg", arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False)
-            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty,
+            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
                 passed_as_ptr=False, is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False)
 
     if java_hu_ty is None:
         java_hu_ty = java_ty
     return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
-        is_ptr=is_ptr, var_name=fn_arg, arr_len=arr_len, arr_access=arr_access, is_native_primitive=is_primitive)
+        is_const=is_const, is_ptr=is_ptr, var_name=fn_arg, arr_len=arr_len, arr_access=arr_access, is_native_primitive=is_primitive)
 
 fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
 fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
@@ -526,35 +357,38 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             else:
                 arr_name = "ret"
                 arr_len = ret_arr_len
-            if ty_info.c_ty == "jbyteArray":
-                ret_conv = ("jbyteArray " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_len + ");\n" + "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_len + ", ", "")
+            if ty_info.c_ty == "int8_tArray":
+                (set_pfx, set_sfx) = consts.set_native_arr_contents(arr_name + "_arr", arr_len, ty_info)
+                ret_conv = ("int8_tArray " + arr_name + "_arr = " + consts.create_native_arr_call(arr_len, ty_info) + ";\n" + set_pfx, "")
                 arg_conv_cleanup = None
                 if not arr_len.isdigit():
                     arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
-                    arg_conv = arg_conv + arr_name + "_ref." + arr_len + " = (*_env)->GetArrayLength (_env, " + arr_name + ");\n"
+                    arg_conv = arg_conv + arr_name + "_ref." + arr_len + " = " +  consts.get_native_arr_len_call[0] + arr_name + consts.get_native_arr_len_call[1] + ";\n"
                     if (not ty_info.is_ptr or not holds_ref) and ty_info.rust_obj != "LDKu8slice":
                         arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = MALLOC(" + arr_name + "_ref." + arr_len + ", \"" + ty_info.rust_obj + " Bytes\");\n"
-                        arg_conv = arg_conv + "(*_env)->GetByteArrayRegion(_env, " + arr_name + ", 0, " + arr_name + "_ref." + arr_len + ", " + arr_name + "_ref." + ty_info.arr_access + ");"
+                        arg_conv = arg_conv + consts.get_native_arr_contents(arr_name, arr_name + "_ref." + ty_info.arr_access, arr_name + "_ref." + arr_len, ty_info, True) + ";"
                     else:
-                        arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = (*_env)->GetByteArrayElements (_env, " + arr_name + ", NULL);"
-                        arg_conv_cleanup = "(*_env)->ReleaseByteArrayElements(_env, " + arr_name + ", (int8_t*)" + arr_name + "_ref." + ty_info.arr_access + ", 0);"
+                        arg_conv = arg_conv + arr_name + "_ref." + ty_info.arr_access + " = " + consts.get_native_arr_contents(arr_name, "NO_DEST", arr_name + "_ref." + arr_len, ty_info, False) + ";"
+                        arg_conv_cleanup = consts.cleanup_native_arr_ref_contents(arr_name, arr_name + "_ref." + ty_info.arr_access, arr_name + "_ref." + arr_len, ty_info)
                     if ty_info.rust_obj == "LDKTransaction":
                         arg_conv = arg_conv + "\n" + arr_name + "_ref.data_is_owned = " + str(holds_ref).lower() + ";"
                     ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
-                    ret_conv = (ret_conv[0], ";\njbyteArray " + arr_name + "_arr = (*_env)->NewByteArray(_env, " + arr_name + "_var." + arr_len + ");\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + "(*_env)->SetByteArrayRegion(_env, " + arr_name + "_arr, 0, " + arr_name + "_var." + arr_len + ", " + arr_name + "_var." + ty_info.arr_access + ");")
+                    ret_conv = (ret_conv[0], ";\nint8_tArray " + arr_name + "_arr = " + consts.create_native_arr_call(arr_name + "_var." + arr_len, ty_info) + ";\n")
+                    (pfx, sfx) = consts.set_native_arr_contents(arr_name + "_arr", arr_name + "_var." + arr_len, ty_info)
+                    ret_conv = (ret_conv[0], ret_conv[1] + pfx + arr_name + "_var." + ty_info.arr_access + sfx + ";")
                     if not holds_ref and ty_info.rust_obj != "LDKu8slice":
                         ret_conv = (ret_conv[0], ret_conv[1] + "\n" + ty_info.rust_obj.replace("LDK", "") + "_free(" + arr_name + "_var);")
                 elif ty_info.rust_obj is not None:
                     arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
-                    arg_conv = arg_conv + "CHECK((*_env)->GetArrayLength (_env, " + arr_name + ") == " + arr_len + ");\n"
-                    arg_conv = arg_conv + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_ref." + ty_info.arr_access + ");"
-                    ret_conv = (ret_conv[0], "." + ty_info.arr_access + ");")
+                    arg_conv = arg_conv + "CHECK(" + consts.get_native_arr_len_call[0] + arr_name + consts.get_native_arr_len_call[1] + " == " + arr_len + ");\n"
+                    arg_conv = arg_conv + consts.get_native_arr_contents(arr_name, arr_name + "_ref." + ty_info.arr_access, arr_len, ty_info, True) + ";"
+                    ret_conv = (ret_conv[0], "." + ty_info.arr_access + set_sfx + ";")
                 else:
                     arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n"
-                    arg_conv = arg_conv + "CHECK((*_env)->GetArrayLength (_env, " + arr_name + ") == " + arr_len + ");\n"
-                    arg_conv = arg_conv + "(*_env)->GetByteArrayRegion (_env, " + arr_name + ", 0, " + arr_len + ", " + arr_name + "_arr);\n" + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
-                    ret_conv = (ret_conv[0] + "*", ");")
+                    arg_conv = arg_conv + "CHECK(" + consts.get_native_arr_len_call[0] + arr_name + consts.get_native_arr_len_call[1] + " == " + arr_len + ");\n"
+                    arg_conv = arg_conv + consts.get_native_arr_contents(arr_name, arr_name + "_arr", arr_len, ty_info, True) + ";\n"
+                    arg_conv = arg_conv + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
+                    ret_conv = (ret_conv[0] + "*", set_sfx + ";")
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arr_name + "_ref", arg_conv_cleanup = arg_conv_cleanup,
                     ret_conv = ret_conv, ret_conv_name = arr_name + "_arr", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
@@ -572,7 +406,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 if arr_name == "":
                     arr_name = "arg"
                 arg_conv = ty_info.rust_obj + " " + arr_name + "_constr;\n"
-                arg_conv = arg_conv + arr_name + "_constr." + arr_len + " = (*_env)->GetArrayLength (_env, " + arr_name + ");\n"
+                arg_conv = arg_conv + arr_name + "_constr." + arr_len + " = " + consts.get_native_arr_len_call[0] + arr_name + consts.get_native_arr_len_call[1] + ";\n"
                 arg_conv = arg_conv + "if (" + arr_name + "_constr." + arr_len + " > 0)\n"
                 if subty.rust_obj is None:
                     szof = subty.c_ty
@@ -581,19 +415,22 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 arg_conv = arg_conv + "\t" + arr_name + "_constr." + ty_info.arr_access + " = MALLOC(" + arr_name + "_constr." + arr_len + " * sizeof(" + szof + "), \"" + ty_info.rust_obj + " Elements\");\n"
                 arg_conv = arg_conv + "else\n"
                 arg_conv = arg_conv + "\t" + arr_name + "_constr." + ty_info.arr_access + " = NULL;\n"
-                if not ty_info.java_ty[:len(ty_info.java_ty) - 2].endswith("[]"):
-                    arg_conv = arg_conv + ty_info.java_ty.strip("[]") + "* " + arr_name + "_vals = (*_env)->Get" + ty_info.subty.java_ty.title() + "ArrayElements (_env, " + arr_name + ", NULL);\n"
+                get_arr = consts.get_native_arr_contents(arr_name, "NO_DEST", arr_name + "_constr." + arr_len, ty_info, False)
+                if get_arr != None:
+                    arg_conv = arg_conv + subty.c_ty + "* " + arr_name + "_vals = " + get_arr + ";\n"
                 arg_conv = arg_conv + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_constr." + arr_len + "; " + idxc + "++) {\n"
-                if not ty_info.java_ty[:len(ty_info.java_ty) - 2].endswith("[]"):
-                    arg_conv = arg_conv + "\t" + ty_info.java_ty.strip("[]") + " " + conv_name + " = " + arr_name + "_vals[" + idxc + "];"
+                if get_arr != None:
+                    arg_conv = arg_conv + "\t" + subty.c_ty + " " + conv_name + " = " + arr_name + "_vals[" + idxc + "];"
                     if subty.arg_conv is not None:
                         arg_conv = arg_conv + "\n\t" + subty.arg_conv.replace("\n", "\n\t")
                 else:
-                    arg_conv = arg_conv + "\tjobject " + conv_name + " = (*_env)->GetObjectArrayElement(_env, " + arr_name + ", " + idxc + ");\n"
+                    arg_conv = arg_conv + "\t" + subty.c_ty + " " + conv_name + " = " + consts.get_native_arr_elem(arr_name, idxc, ty_info) + ";\n"
                     arg_conv = arg_conv + "\t" + subty.arg_conv.replace("\n", "\n\t")
                 arg_conv = arg_conv + "\n\t" + arr_name + "_constr." + ty_info.arr_access + "[" + idxc + "] = " + subty.arg_conv_name + ";\n}"
-                if not ty_info.java_ty[:len(ty_info.java_ty) - 2].endswith("[]"):
-                    arg_conv = arg_conv + "\n(*_env)->Release" + ty_info.java_ty.strip("[]").title() + "ArrayElements (_env, " + arr_name + ", " + arr_name + "_vals, 0);"
+                if get_arr != None:
+                    cleanup = consts.cleanup_native_arr_ref_contents(arr_name, arr_name + "_vals", arr_name + "_constr." + arr_len, ty_info)
+                    if cleanup is not None:
+                        arg_conv = arg_conv + "\n" + cleanup + ";"
                 if ty_info.is_ptr:
                     arg_conv_name = "&" + arr_name + "_constr"
                 else:
@@ -608,22 +445,24 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 if subty.ret_conv is None:
                     ret_conv = ("DUMMY", "DUMMY")
                 elif not ty_info.java_ty[:len(ty_info.java_ty) - 2].endswith("[]"):
-                    ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = (*_env)->New" + ty_info.java_ty.strip("[]").title() + "Array(_env, " + arr_name + "_var." + arr_len + ");\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + subty.c_ty + " *" + arr_name + "_arr_ptr = (*_env)->GetPrimitiveArrayCritical(_env, " + arr_name + "_arr, NULL);\n")
+                    ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = " + consts.create_native_arr_call(arr_name + "_var." + arr_len, ty_info) + ";\n")
+                    ret_conv = (ret_conv[0], ret_conv[1] + subty.c_ty + " *" + arr_name + "_arr_ptr = " + consts.get_native_arr_ptr_call[0] + arr_name + "_arr" + consts.get_native_arr_ptr_call[1] + ";\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_var." + arr_len + "; " + idxc + "++) {\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "\t" + subty.ret_conv[0].replace("\n", "\n\t"))
                     ret_conv = (ret_conv[0], ret_conv[1] + arr_name + "_var." + ty_info.arr_access + "[" + idxc + "]" + subty.ret_conv[1].replace("\n", "\n\t"))
-                    ret_conv = (ret_conv[0], ret_conv[1] + "\n\t" + arr_name + "_arr_ptr[" + idxc + "] = " + subty.ret_conv_name + ";\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + "}\n(*_env)->ReleasePrimitiveArrayCritical(_env, " + arr_name + "_arr, " + arr_name + "_arr_ptr, 0);")
+                    ret_conv = (ret_conv[0], ret_conv[1] + "\n\t" + arr_name + "_arr_ptr[" + idxc + "] = " + subty.ret_conv_name + ";\n}")
+                    cleanup = consts.release_native_arr_ptr_call(arr_name + "_arr", arr_name + "_arr_ptr")
+                    if cleanup is not None:
+                        ret_conv = (ret_conv[0], ret_conv[1] + "\n" + cleanup + ";")
                 else:
                     assert ty_info.java_fn_ty_arg.startswith("[")
                     clz_var = ty_info.java_fn_ty_arg[1:].replace("[", "arr_of_")
                     c_array_class_caches.add(clz_var)
-                    ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = (*_env)->NewObjectArray(_env, " + arr_name + "_var." + arr_len + ", " + clz_var + "_clz, NULL);\n")
+                    ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = (*env)->NewObjectArray(env, " + arr_name + "_var." + arr_len + ", " + clz_var + "_clz, NULL);\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_var." + arr_len + "; " + idxc + "++) {\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "\t" + subty.ret_conv[0].replace("\n", "\n\t"))
                     ret_conv = (ret_conv[0], ret_conv[1] + arr_name + "_var." + ty_info.arr_access + "[" + idxc + "]" + subty.ret_conv[1].replace("\n", "\n\t"))
-                    ret_conv = (ret_conv[0], ret_conv[1] + "\n\t(*_env)->SetObjectArrayElement(_env, " + arr_name + "_arr, " + idxc + ", " + subty.ret_conv_name + ");\n")
+                    ret_conv = (ret_conv[0], ret_conv[1] + "\n\t(*env)->SetObjectArrayElement(env, " + arr_name + "_arr, " + idxc + ", " + subty.ret_conv_name + ");\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "}")
                 if not holds_ref:
                     # XXX: The commented if's are a bit smarter freeing, but we need to be a nudge smarter still
@@ -659,7 +498,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             if ty_info.arr_access is None:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    ret_conv = ("jstring " + ty_info.var_name + "_conv = (*_env)->NewStringUTF(_env, ", ");"), ret_conv_name = ty_info.var_name + "_conv",
+                    ret_conv = ("jstring " + ty_info.var_name + "_conv = (*env)->NewStringUTF(env, ", ");"), ret_conv_name = ty_info.var_name + "_conv",
                     to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -668,7 +507,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         ";\nchar* " + ty_info.var_name + "_buf = MALLOC(" + ty_info.var_name + "_str." + ty_info.arr_len + " + 1, \"str conv buf\");\n" +
                         "memcpy(" + ty_info.var_name + "_buf, " + ty_info.var_name + "_str." + ty_info.arr_access + ", " + ty_info.var_name + "_str." + ty_info.arr_len + ");\n" +
                         ty_info.var_name + "_buf[" + ty_info.var_name + "_str." + ty_info.arr_len + "] = 0;\n" +
-                        "jstring " + ty_info.var_name + "_conv = (*_env)->NewStringUTF(_env, " + ty_info.var_name + "_str." + ty_info.arr_access + ");\n" +
+                        "jstring " + ty_info.var_name + "_conv = (*env)->NewStringUTF(env, " + ty_info.var_name + "_str." + ty_info.arr_access + ");\n" +
                         "FREE(" + ty_info.var_name + "_buf);"),
                     ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
         elif ty_info.var_name == "" and not print_void:
@@ -743,11 +582,13 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
             if not ty_info.is_ptr:
                 if ty_info.rust_obj in unitary_enums:
+                    (ret_pfx, ret_sfx) = consts.c_unitary_enum_to_native_call(ty_info)
+                    (arg_pfx, arg_sfx) = consts.native_unitary_enum_to_c_call(ty_info)
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                        arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_from_java(_env, " + ty_info.var_name + ");",
+                        arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = " + arg_pfx + ty_info.var_name + arg_sfx + ";",
                         arg_conv_name = ty_info.var_name + "_conv",
                         arg_conv_cleanup = None,
-                        ret_conv = ("jclass " + ty_info.var_name + "_conv = " + ty_info.rust_obj + "_to_java(_env, ", ");"),
+                        ret_conv = (ty_info.c_ty + " " + ty_info.var_name + "_conv = " + ret_pfx, ret_sfx + ";"),
                         ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
                 base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + ";"
                 if ty_info.rust_obj in trait_structs:
@@ -900,19 +741,20 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_fn(line, re_match, ret_arr_len, c_call_string):
         out_java.write("\t// " + line)
         out_java.write("\tpublic static native ")
-        write_c("JNIEXPORT ")
+        write_c(consts.c_fn_ty_pfx)
 
         is_free = re_match.group(2).endswith("_free")
         struct_meth = re_match.group(2).split("_")[0]
 
         ret_info = map_type(re_match.group(1), True, ret_arr_len, False, False)
-        ret_info.print_ty()
+        write_c(ret_info.c_ty)
+        out_java.write(ret_info.java_ty)
 
         if ret_info.ret_conv is not None:
             ret_conv_pfx, ret_conv_sfx = ret_info.ret_conv
 
         out_java.write(" " + re_match.group(2) + "(")
-        write_c(" JNICALL Java_org_ldk_impl_bindings_" + re_match.group(2).replace('_', '_1') + "(JNIEnv * _env, jclass _b")
+        write_c(" " + consts.c_fn_name_pfx + re_match.group(2).replace('_', '_1') + "(" + consts.c_fn_args_pfx)
 
         arg_names = []
         default_constructor_args = {}
@@ -925,8 +767,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 write_c(", ")
             arg_conv_info = map_type(arg, False, None, is_free, True)
             if arg_conv_info.c_ty != "void":
-                arg_conv_info.print_ty()
-                arg_conv_info.print_name()
+                write_c(arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
+                out_java.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
             if idx == 0 and arg_conv_info.java_hu_ty == struct_meth:
                 takes_self = True
             if arg_conv_info.arg_conv is not None and "Warning" in arg_conv_info.arg_conv:
@@ -1068,63 +910,26 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
     def map_unitary_enum(struct_name, field_lines):
         with open(sys.argv[3] + "/enums/" + struct_name + ".java", "w") as out_java_enum:
-            out_java_enum.write("package org.ldk.enums;\n\n")
             unitary_enums.add(struct_name)
-            write_c("static inline " + struct_name + " " + struct_name + "_from_java(JNIEnv *env, jclass val) {\n")
-            write_c("\tswitch ((*env)->CallIntMethod(env, val, ordinal_meth)) {\n")
-            ord_v = 0
             for idx, struct_line in enumerate(field_lines):
                 if idx == 0:
-                    out_java_enum.write("public enum " + struct_name + " {\n")
+                    assert(struct_line == "typedef enum %s {" % struct_name)
                 elif idx == len(field_lines) - 3:
                     assert(struct_line.endswith("_Sentinel,"))
                 elif idx == len(field_lines) - 2:
-                    out_java_enum.write("\t; static native void init();\n")
-                    out_java_enum.write("\tstatic { init(); }\n")
-                    out_java_enum.write("}")
-                    out_java.write("\tstatic { " + struct_name + ".values(); /* Force enum statics to run */ }\n")
+                    assert(struct_line == "} %s;" % struct_name)
                 elif idx == len(field_lines) - 1:
                     assert(struct_line == "")
-                else:
-                    out_java_enum.write(struct_line + "\n")
-                    write_c("\t\tcase %d: return %s;\n" % (ord_v, struct_line.strip().strip(",")))
-                    ord_v = ord_v + 1
-            write_c("\t}\n")
-            write_c("\tabort();\n")
-            write_c("}\n")
-
-            ord_v = 0
-            write_c("static jclass " + struct_name + "_class = NULL;\n")
-            for idx, struct_line in enumerate(field_lines):
-                if idx > 0 and idx < len(field_lines) - 3:
-                    variant = struct_line.strip().strip(",")
-                    write_c("static jfieldID " + struct_name + "_" + variant + " = NULL;\n")
-            write_c("JNIEXPORT void JNICALL Java_org_ldk_enums_" + struct_name.replace("_", "_1") + "_init (JNIEnv * env, jclass clz) {\n")
-            write_c("\t" + struct_name + "_class = (*env)->NewGlobalRef(env, clz);\n")
-            write_c("\tCHECK(" + struct_name + "_class != NULL);\n")
-            for idx, struct_line in enumerate(field_lines):
-                if idx > 0 and idx < len(field_lines) - 3:
-                    variant = struct_line.strip().strip(",")
-                    write_c("\t" + struct_name + "_" + variant + " = (*env)->GetStaticFieldID(env, " + struct_name + "_class, \"" + variant + "\", \"Lorg/ldk/enums/" + struct_name + ";\");\n")
-                    write_c("\tCHECK(" + struct_name + "_" + variant + " != NULL);\n")
-            write_c("}\n")
-            write_c("static inline jclass " + struct_name + "_to_java(JNIEnv *env, " + struct_name + " val) {\n")
-            write_c("\tswitch (val) {\n")
-            for idx, struct_line in enumerate(field_lines):
-                if idx > 0 and idx < len(field_lines) - 3:
-                    variant = struct_line.strip().strip(",")
-                    write_c("\t\tcase " + variant + ":\n")
-                    write_c("\t\t\treturn (*env)->GetStaticObjectField(env, " + struct_name + "_class, " + struct_name + "_" + variant + ");\n")
-                    ord_v = ord_v + 1
-            write_c("\t\tdefault: abort();\n")
-            write_c("\t}\n")
-            write_c("}\n\n")
-
+            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name, [x.strip().strip(",") for x in field_lines[1:-3]])
+            write_c(c_out)
+            out_java_enum.write(native_file_out)
+            out_java.write(native_out)
+ 
     def map_complex_enum(struct_name, union_enum_items):
         java_hu_type = struct_name.replace("LDK", "")
         complex_enums.add(struct_name)
         with open(sys.argv[3] + "/structs/" + java_hu_type + ".java", "w") as out_java_enum:
-            out_java_enum.write(hu_struct_file_prefix)
+            out_java_enum.write(consts.hu_struct_file_prefix)
             out_java_enum.write("public class " + java_hu_type + " extends CommonBase {\n")
             out_java_enum.write("\tprivate " + java_hu_type + "(Object _dummy, long ptr) { super(ptr); }\n")
             out_java_enum.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
@@ -1140,23 +945,23 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             init_meth_jty_strs = {}
             for idx, struct_line in enumerate(tag_field_lines):
                 if idx == 0:
-                    out_java.write("\tpublic static class " + struct_name + " {\n")
-                    out_java.write("\t\tprivate " + struct_name + "() {}\n")
+                    assert(struct_line == "typedef enum %s_Tag {" % struct_name)
                 elif idx == len(tag_field_lines) - 3:
                     assert(struct_line.endswith("_Sentinel,"))
                 elif idx == len(tag_field_lines) - 2:
-                    out_java.write("\t\tstatic native void init();\n")
-                    out_java.write("\t}\n")
+                    assert(struct_line == "} %s_Tag;" % struct_name)
                 elif idx == len(tag_field_lines) - 1:
                     assert(struct_line == "")
-                else:
+
+            out_java.write("\tpublic static class " + struct_name + " {\n")
+            out_java.write("\t\tprivate " + struct_name + "() {}\n")
+            for idx, struct_line in enumerate(tag_field_lines):
+                if idx != 0 and idx < len(tag_field_lines) - 3:
                     var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
                     out_java.write("\t\tpublic final static class " + var_name + " extends " + struct_name + " {\n")
                     java_hu_subclasses = java_hu_subclasses + "\tpublic final static class " + var_name + " extends " + java_hu_type + " {\n"
                     out_java_enum.write("\t\tif (raw_val.getClass() == bindings." + struct_name + "." + var_name + ".class) {\n")
                     out_java_enum.write("\t\t\treturn new " + var_name + "(ptr, (bindings." + struct_name + "." + var_name + ")raw_val);\n")
-                    write_c("static jclass " + struct_name + "_" + var_name + "_class = NULL;\n")
-                    write_c("static jmethodID " + struct_name + "_" + var_name + "_meth = NULL;\n")
                     init_meth_jty_str = ""
                     init_meth_params = ""
                     init_meth_body = ""
@@ -1188,29 +993,23 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     java_hu_subclasses = java_hu_subclasses + hu_conv_body
                     java_hu_subclasses = java_hu_subclasses + "\t\t}\n\t}\n"
                     init_meth_jty_strs[var_name] = init_meth_jty_str
+            out_java.write("\t\tstatic native void init();\n")
+            out_java.write("\t}\n")
             out_java_enum.write("\t\tassert false; return null; // Unreachable without extending the (internal) bindings interface\n\t}\n\n")
             out_java_enum.write(java_hu_subclasses)
             out_java.write("\tstatic { " + struct_name + ".init(); }\n")
             out_java.write("\tpublic static native " + struct_name + " " + struct_name + "_ref_from_ptr(long ptr);\n");
 
-            write_c("JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024" + struct_name.replace("_", "_1") + "_init (JNIEnv * env, jclass _a) {\n")
-            for idx, struct_line in enumerate(tag_field_lines):
-                if idx != 0 and idx < len(tag_field_lines) - 3:
-                    var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
-                    write_c("\t" + struct_name + "_" + var_name + "_class =\n")
-                    write_c("\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"Lorg/ldk/impl/bindings$" + struct_name + "$" + var_name + ";\"));\n")
-                    write_c("\tCHECK(" + struct_name + "_" + var_name + "_class != NULL);\n")
-                    write_c("\t" + struct_name + "_" + var_name + "_meth = (*env)->GetMethodID(env, " + struct_name + "_" + var_name + "_class, \"<init>\", \"(" + init_meth_jty_strs[var_name] + ")V\");\n")
-                    write_c("\tCHECK(" + struct_name + "_" + var_name + "_meth != NULL);\n")
-            write_c("}\n")
-            write_c("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1ref_1from_1ptr (JNIEnv * _env, jclass _c, jlong ptr) {\n")
+            write_c(consts.c_complex_enum_pfx(struct_name, [x.strip(", ")[len(struct_name) + 1:] for x in tag_field_lines[1:-3]], init_meth_jty_strs))
+
+            write_c(consts.c_fn_ty_pfx + consts.c_complex_enum_pass_ty(struct_name) + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1ref_1from_1ptr (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " ptr) {\n")
             write_c("\t" + struct_name + " *obj = (" + struct_name + "*)ptr;\n")
             write_c("\tswitch(obj->tag) {\n")
             for idx, struct_line in enumerate(tag_field_lines):
                 if idx != 0 and idx < len(tag_field_lines) - 3:
                     var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
                     write_c("\t\tcase " + struct_name + "_" + var_name + ": {\n")
-                    c_params_text = ""
+                    c_params = []
                     if "LDK" + var_name in union_enum_items:
                         enum_var_lines = union_enum_items["LDK" + var_name]
                         for idx, field in enumerate(enum_var_lines):
@@ -1220,34 +1019,40 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                                     write_c("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
                                     write_c("obj->" + camel_to_snake(var_name) + "." + field_map.arg_name)
                                     write_c(field_map.ret_conv[1].replace("\n", "\n\t\t\t") + "\n")
-                                    c_params_text = c_params_text + ", " + field_map.ret_conv_name
+                                    c_params.append(field_map.ret_conv_name)
                                 else:
-                                    c_params_text = c_params_text + ", obj->" + camel_to_snake(var_name) + "." + field_map.arg_name
-                    write_c("\t\t\treturn (*_env)->NewObject(_env, " + struct_name + "_" + var_name + "_class, " + struct_name + "_" + var_name + "_meth" + c_params_text + ");\n")
+                                    c_params.append("obj->" + camel_to_snake(var_name) + "." + field_map.arg_name)
+                    write_c("\t\t\treturn " + consts.c_constr_native_complex_enum(struct_name, var_name, c_params) + ";\n")
                     write_c("\t\t}\n")
             write_c("\t\tdefault: abort();\n")
             write_c("\t}\n}\n")
             out_java_enum.write("}\n")
 
     def map_trait(struct_name, field_var_lines, trait_fn_lines):
-        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "w") as out_java_trait:
-            write_c("typedef struct " + struct_name + "_JCalls {\n")
-            write_c("\tatomic_size_t refcnt;\n")
-            write_c("\tJavaVM *vm;\n")
-            write_c("\tjweak o;\n")
+        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + consts.file_ext, "w") as out_java_trait:
             field_var_convs = []
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:
-                    write_c("\t" + var_line.group(1) + "_JCalls* " + var_line.group(2) + ";\n")
-                    field_var_convs.append(None)
+                    field_var_convs.append((var_line.group(1), var_line.group(2)))
                 else:
                     field_var_convs.append(map_type(var_line.group(1) + " " + var_line.group(2), False, None, False, False))
-            for fn_line in trait_fn_lines:
-                if fn_line.group(3) != "free" and fn_line.group(3) != "clone":
-                    write_c("\tjmethodID " + fn_line.group(3) + "_meth;\n")
-            write_c("} " + struct_name + "_JCalls;\n")
 
-            out_java_trait.write(hu_struct_file_prefix)
+            field_fns = []
+            for fn_line in trait_fn_lines:
+                ret_ty_info = map_type(fn_line.group(2), True, None, False, False)
+                is_const = fn_line.group(4) is not None
+
+                arg_tys = []
+                for idx, arg in enumerate(fn_line.group(5).split(',')):
+                    if arg == "":
+                        continue
+                    arg_conv_info = map_type(arg, True, None, False, False)
+                    arg_tys.append(arg_conv_info)
+                field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys))
+
+            write_c(consts.native_c_map_trait(struct_name, field_var_convs, field_fns)[1])
+
+            out_java_trait.write(consts.hu_struct_file_prefix)
             out_java_trait.write("public class " + struct_name.replace("LDK","") + " extends CommonBase {\n")
             out_java_trait.write("\tfinal bindings." + struct_name + " bindings_instance;\n")
             out_java_trait.write("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }\n")
@@ -1303,11 +1108,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     java_trait_constr = java_trait_constr + "\t\t\t@Override public " + ret_ty_info.java_ty + " " + fn_line.group(3) + "("
                     out_java_trait.write("\t\t" + ret_ty_info.java_hu_ty + " " + fn_line.group(3) + "(")
                     is_const = fn_line.group(4) is not None
-                    write_c(fn_line.group(2) + fn_line.group(3) + "_jcall(")
-                    if is_const:
-                        write_c("const void* this_arg")
-                    else:
-                        write_c("void* this_arg")
 
                     arg_names = []
                     for idx, arg in enumerate(fn_line.group(5).split(',')):
@@ -1317,9 +1117,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                             out_java.write(", ")
                             java_trait_constr = java_trait_constr + ", "
                             out_java_trait.write(", ")
-                        write_c(", ")
                         arg_conv_info = map_type(arg, True, None, False, False)
-                        write_c(arg.strip())
                         out_java.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
                         out_java_trait.write(arg_conv_info.java_hu_ty + " " + arg_conv_info.arg_name)
                         java_trait_constr = java_trait_constr + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
@@ -1331,47 +1129,24 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     out_java.write(");\n")
                     out_java_trait.write(");\n")
                     java_trait_constr = java_trait_constr + ") {\n"
-                    write_c(") {\n")
-                    write_c("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-                    write_c("\tJNIEnv *_env;\n")
-                    write_c("\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&_env, JNI_VERSION_1_8) == JNI_OK);\n")
 
                     for arg_info in arg_names:
-                        if arg_info.ret_conv is not None:
-                            write_c("\t" + arg_info.ret_conv[0].replace('\n', '\n\t'));
-                            write_c(arg_info.arg_name)
-                            write_c(arg_info.ret_conv[1].replace('\n', '\n\t') + "\n")
                         if arg_info.to_hu_conv is not None:
                             java_trait_constr = java_trait_constr + "\t\t\t\t" + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
 
-                    write_c("\tjobject obj = (*_env)->NewLocalRef(_env, j_calls->o);\n\tCHECK(obj != NULL);\n")
-                    if ret_ty_info.c_ty.endswith("Array"):
-                        write_c("\t" + ret_ty_info.c_ty + " arg = (*_env)->CallObjectMethod(_env, obj, j_calls->" + fn_line.group(3) + "_meth")
-                    elif not ret_ty_info.passed_as_ptr:
-                        write_c("\treturn (*_env)->Call" + ret_ty_info.java_ty.title() + "Method(_env, obj, j_calls->" + fn_line.group(3) + "_meth")
-                    else:
-                        write_c("\t" + fn_line.group(2).strip() + "* ret = (" + fn_line.group(2).strip() + "*)(*_env)->CallLongMethod(_env, obj, j_calls->" + fn_line.group(3) + "_meth");
                     if ret_ty_info.java_ty != "void":
                         java_trait_constr = java_trait_constr + "\t\t\t\t" + ret_ty_info.java_hu_ty + " ret = arg." + fn_line.group(3) + "("
                     else:
                         java_trait_constr = java_trait_constr + "\t\t\t\targ." + fn_line.group(3) + "("
 
                     for idx, arg_info in enumerate(arg_names):
-                        if arg_info.ret_conv is not None:
-                            write_c(", " + arg_info.ret_conv_name)
-                        else:
-                            write_c(", " + arg_info.arg_name)
                         if idx != 0:
                             java_trait_constr = java_trait_constr + ", "
                         if arg_info.to_hu_conv_name is not None:
                             java_trait_constr = java_trait_constr + arg_info.to_hu_conv_name
                         else:
                             java_trait_constr = java_trait_constr + arg_info.arg_name
-                    write_c(");\n");
-                    if ret_ty_info.arg_conv is not None:
-                        write_c("\t" + ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n\treturn " + ret_ty_info.arg_conv_name + ";\n")
 
-                    write_c("}\n")
                     java_trait_constr = java_trait_constr + ");\n"
                     if ret_ty_info.java_ty != "void":
                         if ret_ty_info.from_hu_conv is not None:
@@ -1385,15 +1160,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         else:
                             java_trait_constr = java_trait_constr + "\t\t\t\treturn ret;\n"
                     java_trait_constr = java_trait_constr + "\t\t\t}\n"
-                elif fn_line.group(3) == "free":
-                    write_c("static void " + struct_name + "_JCalls_free(void* this_arg) {\n")
-                    write_c("\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n")
-                    write_c("\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n")
-                    write_c("\t\tJNIEnv *env;\n")
-                    write_c("\t\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n")
-                    write_c("\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n")
-                    write_c("\t\tFREE(j_calls);\n")
-                    write_c("\t}\n}\n")
             java_trait_constr = java_trait_constr + "\t\t}"
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:
@@ -1416,7 +1182,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java.write("\t}\n")
 
             out_java.write("\tpublic static native long " + struct_name + "_new(" + struct_name + " impl")
-            write_c("static inline " + struct_name + " " + struct_name + "_init (JNIEnv * env, jclass _a, jobject o")
+            write_c("static inline " + struct_name + " " + struct_name + "_init (" + consts.c_fn_args_pfx + ", jobject o")
             for idx, var_line in enumerate(field_var_lines):
                 if var_line.group(1) in trait_structs:
                     out_java.write(", " + var_line.group(1) + " " + var_line.group(2))
@@ -1438,7 +1204,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     write_c("\tcalls->" + fn_line.group(3) + "_meth = (*env)->GetMethodID(env, c, \"" + fn_line.group(3) + "\", \"" + java_meth_descr + "\");\n")
                     write_c("\tCHECK(calls->" + fn_line.group(3) + "_meth != NULL);\n")
             for idx, var_line in enumerate(field_var_lines):
-                if field_var_convs[idx] is not None and field_var_convs[idx].arg_conv is not None:
+                if var_line.group(1) not in trait_structs and field_var_convs[idx].arg_conv is not None:
                     write_c("\n\t" + field_var_convs[idx].arg_conv.replace("\n", "\n\t") +"\n")
             write_c("\n\t" + struct_name + " ret = {\n")
             write_c("\t\t.this_arg = (void*) calls,\n")
@@ -1451,7 +1217,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     write_c("\t\t.clone = " + struct_name + "_JCalls_clone,\n")
             for idx, var_line in enumerate(field_var_lines):
                 if var_line.group(1) in trait_structs:
-                    write_c("\t\t." + var_line.group(2) + " = " + var_line.group(1) + "_init(env, _a, " + var_line.group(2) + "),\n")
+                    write_c("\t\t." + var_line.group(2) + " = " + var_line.group(1) + "_init(env, clz, " + var_line.group(2) + "),\n")
                 elif field_var_convs[idx].arg_conv_name is not None:
                     write_c("\t\t." + var_line.group(2) + " = " + field_var_convs[idx].arg_conv_name + ",\n")
                     write_c("\t\t.set_" + var_line.group(2) + " = NULL,\n")
@@ -1465,7 +1231,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             write_c("\treturn ret;\n")
             write_c("}\n")
 
-            write_c("JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new (JNIEnv * env, jclass _a, jobject o")
+            write_c(consts.c_fn_ty_pfx + "long " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new (" + consts.c_fn_args_pfx + ", jobject o")
             for idx, var_line in enumerate(field_var_lines):
                 if var_line.group(1) in trait_structs:
                     write_c(", jobject " + var_line.group(2))
@@ -1473,7 +1239,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     write_c(", " + field_var_convs[idx].c_ty + " " + var_line.group(2))
             write_c(") {\n")
             write_c("\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-            write_c("\t*res_ptr = " + struct_name + "_init(env, _a, o")
+            write_c("\t*res_ptr = " + struct_name + "_init(env, clz, o")
             for var_line in field_var_lines:
                 write_c(", " + var_line.group(2))
             write_c(");\n")
@@ -1481,7 +1247,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             write_c("}\n")
 
             out_java.write("\tpublic static native " + struct_name + " " + struct_name + "_get_obj_from_jcalls(long val);\n")
-            write_c("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (JNIEnv * env, jclass _a, jlong val) {\n")
+            write_c(consts.c_fn_ty_pfx + "jobject " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " val) {\n")
             write_c("\tjobject ret = (*env)->NewLocalRef(env, ((" + struct_name + "_JCalls*)val)->o);\n")
             write_c("\tCHECK(ret != NULL);\n")
             write_c("\treturn ret;\n")
@@ -1506,8 +1272,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_result(struct_name, res_ty, err_ty):
         result_types.add(struct_name)
         human_ty = struct_name.replace("LDKCResult", "Result")
-        with open(sys.argv[3] + "/structs/" + human_ty + ".java", "w") as out_java_struct:
-            out_java_struct.write(hu_struct_file_prefix)
+        with open(sys.argv[3] + "/structs/" + human_ty + consts.file_ext, "w") as out_java_struct:
+            out_java_struct.write(consts.hu_struct_file_prefix)
             out_java_struct.write("public class " + human_ty + " extends CommonBase {\n")
             out_java_struct.write("\tprivate " + human_ty + "(Object _dummy, long ptr) { super(ptr); }\n")
             out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
@@ -1530,12 +1296,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 can_clone = False
 
             out_java.write("\tpublic static native boolean " + struct_name + "_result_ok(long arg);\n")
-            write_c("JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {\n")
+            write_c(consts.c_fn_ty_pfx + "jboolean " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1result_1ok (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " arg) {\n")
             write_c("\treturn ((" + struct_name + "*)arg)->result_ok;\n")
             write_c("}\n")
 
             out_java.write("\tpublic static native " + res_map.java_ty + " " + struct_name + "_get_ok(long arg);\n")
-            write_c("JNIEXPORT " + res_map.c_ty + " JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1get_1ok (JNIEnv * _env, jclass _a, jlong arg) {\n")
+            write_c(consts.c_fn_ty_pfx + res_map.c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1ok (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " arg) {\n")
             write_c("\t" + struct_name + " *val = (" + struct_name + "*)arg;\n")
             write_c("\tCHECK(val->result_ok);\n\t")
             out_java_struct.write("\tpublic static final class " + human_ty + "_OK extends " + human_ty + " {\n")
@@ -1572,7 +1338,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write("\t\t}\n\t}\n\n")
 
             out_java.write("\tpublic static native " + err_map.java_ty + " " + struct_name + "_get_err(long arg);\n")
-            write_c("JNIEXPORT " + err_map.c_ty + " JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {\n")
+            write_c(consts.c_fn_ty_pfx + err_map.c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1err (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " arg) {\n")
             write_c("\t" + struct_name + " *val = (" + struct_name + "*)arg;\n")
             write_c("\tCHECK(!val->result_ok);\n\t")
             out_java_struct.write("\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n")
@@ -1639,7 +1405,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
     def map_tuple(struct_name, field_lines):
         out_java.write("\tpublic static native long " + struct_name + "_new(")
-        write_c("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new(JNIEnv *_env, jclass _b")
+        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new(" + consts.c_fn_args_pfx)
         ty_list = []
         for idx, line in enumerate(field_lines):
             if idx != 0 and idx < len(field_lines) - 2:
@@ -1685,7 +1451,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         for idx, ty_info in enumerate(ty_list):
             e = chr(ord('a') + idx)
             out_java.write("\tpublic static native " + ty_info.java_ty + " " + struct_name + "_get_" + e + "(long ptr);\n")
-            write_c("JNIEXPORT " + ty_info.c_ty + " JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1get_1" + e + "(JNIEnv *_env, jclass _b, jlong ptr) {\n")
+            write_c(consts.c_fn_ty_pfx + ty_info.c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1" + e + "(" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " ptr) {\n")
             write_c("\t" + struct_name + " *tuple = (" + struct_name + "*)ptr;\n")
             conv_info = map_type_with_info(ty_info, False, None, False, True)
             if conv_info.ret_conv is not None:
@@ -1728,96 +1494,8 @@ public class bindings {
 	public static native long new_empty_slice_vec();
 
 """)
-    write_c("""
-static jmethodID ordinal_meth = NULL;
-static jmethodID slicedef_meth = NULL;
-static jclass slicedef_cls = NULL;
-JNIEXPORT void Java_org_ldk_impl_bindings_init(JNIEnv * env, jclass _b, jclass enum_class, jclass slicedef_class) {
-	ordinal_meth = (*env)->GetMethodID(env, enum_class, "ordinal", "()I");
-	CHECK(ordinal_meth != NULL);
-	slicedef_meth = (*env)->GetMethodID(env, slicedef_class, "<init>", "(JJJ)V");
-	CHECK(slicedef_meth != NULL);
-	slicedef_cls = (*env)->NewGlobalRef(env, slicedef_class);
-	CHECK(slicedef_cls != NULL);
-}
 
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_deref_1bool (JNIEnv * env, jclass _a, jlong ptr) {
-	return *((bool*)ptr);
-}
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_deref_1long (JNIEnv * env, jclass _a, jlong ptr) {
-	return *((long*)ptr);
-}
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_free_1heap_1ptr (JNIEnv * env, jclass _a, jlong ptr) {
-	FREE((void*)ptr);
-}
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_read_1bytes (JNIEnv * _env, jclass _b, jlong ptr, jlong len) {
-	jbyteArray ret_arr = (*_env)->NewByteArray(_env, len);
-	(*_env)->SetByteArrayRegion(_env, ret_arr, 0, len, (unsigned char*)ptr);
-	return ret_arr;
-}
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes (JNIEnv * _env, jclass _b, jlong slice_ptr) {
-	LDKu8slice *slice = (LDKu8slice*)slice_ptr;
-	jbyteArray ret_arr = (*_env)->NewByteArray(_env, slice->datalen);
-	(*_env)->SetByteArrayRegion(_env, ret_arr, 0, slice->datalen, slice->data);
-	return ret_arr;
-}
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_bytes_1to_1u8_1vec (JNIEnv * _env, jclass _b, jbyteArray bytes) {
-	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)MALLOC(sizeof(LDKCVec_u8Z), "LDKCVec_u8");
-	vec->datalen = (*_env)->GetArrayLength(_env, bytes);
-	vec->data = (uint8_t*)MALLOC(vec->datalen, "LDKCVec_u8Z Bytes");
-	(*_env)->GetByteArrayRegion (_env, bytes, 0, vec->datalen, vec->data);
-	return (long)vec;
-}
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_txpointer_1get_1buffer (JNIEnv * env, jclass _b, jlong ptr) {
-	LDKTransaction *txdata = (LDKTransaction*)ptr;
-	LDKu8slice slice;
-	slice.data = txdata->data;
-	slice.datalen = txdata->datalen;
-	return Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes(env, _b, (long)&slice);
-}
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
-	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
-	txdata->datalen = (*env)->GetArrayLength(env, bytes);
-	txdata->data = (uint8_t*)MALLOC(txdata->datalen, "Tx Data Bytes");
-	txdata->data_is_owned = false;
-	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
-	return (long)txdata;
-}
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_txpointer_1free (JNIEnv * env, jclass _b, jlong ptr) {
-	LDKTransaction *tx = (LDKTransaction*)ptr;
-	tx->data_is_owned = true;
-	Transaction_free(*tx);
-	FREE((void*)ptr);
-}
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env, jclass _a, jlong ptr) {
-	// Check offsets of a few Vec types are all consistent as we're meant to be generic across types
-	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_SignatureZ, datalen), "Vec<*> needs to be mapped identically");
-	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_MessageSendEventZ, datalen), "Vec<*> needs to be mapped identically");
-	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_EventZ, datalen), "Vec<*> needs to be mapped identically");
-	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_C2Tuple_usizeTransactionZZ, datalen), "Vec<*> needs to be mapped identically");
-	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
-	return (long)vec->datalen;
-}
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec (JNIEnv * _env, jclass _b) {
-	// Check sizes of a few Vec types are all consistent as we're meant to be generic across types
-	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_SignatureZ), "Vec<*> needs to be mapped identically");
-	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_MessageSendEventZ), "Vec<*> needs to be mapped identically");
-	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_EventZ), "Vec<*> needs to be mapped identically");
-	_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKCVec_C2Tuple_usizeTransactionZZ), "Vec<*> needs to be mapped identically");
-	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)MALLOC(sizeof(LDKCVec_u8Z), "Empty LDKCVec");
-	vec->data = NULL;
-	vec->datalen = 0;
-	return (long)vec;
-}
-
-// We assume that CVec_u8Z and u8slice are the same size and layout (and thus pointers to the two can be mixed)
-_Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKu8slice), "Vec<u8> and [u8] need to have been mapped identically");
-_Static_assert(offsetof(LDKCVec_u8Z, data) == offsetof(LDKu8slice, data), "Vec<u8> and [u8] need to have been mapped identically");
-_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), "Vec<u8> and [u8] need to have been mapped identically");
-
-""")
-
-    with open(sys.argv[3] + "/structs/CommonBase.java", "a") as out_java_struct:
+    with open(sys.argv[3] + "/structs/CommonBase" + consts.file_ext, "a") as out_java_struct:
         out_java_struct.write("""package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {
@@ -1916,8 +1594,8 @@ class CommonBase {
 
                 if is_opaque:
                     opaque_structs.add(struct_name)
-                    with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "w") as out_java_struct:
-                        out_java_struct.write(hu_struct_file_prefix)
+                    with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + consts.file_ext, "w") as out_java_struct:
+                        out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write("public class " + struct_name.replace("LDK","") + " extends CommonBase")
                         if struct_name.startswith("LDKLocked"):
                             out_java_struct.write(" implements AutoCloseable")
@@ -1946,37 +1624,17 @@ class CommonBase {
                 elif is_tuple:
                     map_tuple(struct_name, field_lines)
                 elif vec_ty is not None:
-                    if vec_ty in opaque_structs:
-                        out_java.write("\tpublic static native long[] " + struct_name + "_arr_info(long vec_ptr);\n")
-                        write_c("JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {\n")
-                    else:
-                        out_java.write("\tpublic static native VecOrSliceDef " + struct_name + "_arr_info(long vec_ptr);\n")
-                        write_c("JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {\n")
-                    write_c("\t" + struct_name + " *vec = (" + struct_name + "*)ptr;\n")
-                    if vec_ty in opaque_structs:
-                        write_c("\tjlongArray ret = (*env)->NewLongArray(env, vec->datalen);\n")
-                        write_c("\tjlong *ret_elems = (*env)->GetPrimitiveArrayCritical(env, ret, NULL);\n")
-                        write_c("\tfor (size_t i = 0; i < vec->datalen; i++) {\n")
-                        write_c("\t\tCHECK((((long)vec->data[i].inner) & 1) == 0);\n")
-                        write_c("\t\tret_elems[i] = (long)vec->data[i].inner | (vec->data[i].is_owned ? 1 : 0);\n")
-                        write_c("\t}\n")
-                        write_c("\t(*env)->ReleasePrimitiveArrayCritical(env, ret, ret_elems, 0);\n")
-                        write_c("\treturn ret;\n")
-                    else:
-                        write_c("\treturn (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(" + vec_ty + "));\n")
-                    write_c("}\n")
-
                     ty_info = map_type(vec_ty + " arr_elem", False, None, False, False)
                     if len(ty_info.java_fn_ty_arg) == 1: # ie we're a primitive of some form
                         out_java.write("\tpublic static native long " + struct_name + "_new(" + ty_info.java_ty + "[] elems);\n")
-                        write_c("JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_" + struct_name.replace("_", "_1") + "_1new(JNIEnv *env, jclass _b, j" + ty_info.java_ty + "Array elems){\n")
+                        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new(" + consts.c_fn_args_pfx + ", " + ty_info.c_ty + "Array elems) {\n")
                         write_c("\t" + struct_name + " *ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-                        write_c("\tret->datalen = (*env)->GetArrayLength(env, elems);\n")
+                        write_c("\tret->datalen = " + consts.get_native_arr_len_call[0] + "elems" + consts.get_native_arr_len_call[1] + ";\n")
                         write_c("\tif (ret->datalen == 0) {\n")
                         write_c("\t\tret->data = NULL;\n")
                         write_c("\t} else {\n")
                         write_c("\t\tret->data = MALLOC(sizeof(" + vec_ty + ") * ret->datalen, \"" + struct_name + " Data\");\n")
-                        write_c("\t\t" + ty_info.c_ty + " *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);\n")
+                        write_c("\t\t" + ty_info.c_ty + " *java_elems = " + consts.get_native_arr_ptr_call[0] + "elems" + consts.get_native_arr_ptr_call[1] + ";\n")
                         write_c("\t\tfor (size_t i = 0; i < ret->datalen; i++) {\n")
                         if ty_info.arg_conv is not None:
                             write_c("\t\t\t" + ty_info.c_ty + " arr_elem = java_elems[i];\n")
@@ -1986,7 +1644,9 @@ class CommonBase {
                         else:
                             write_c("\t\t\tret->data[i] = java_elems[i];\n")
                         write_c("\t\t}\n")
-                        write_c("\t\t(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);\n")
+                        cleanup = consts.release_native_arr_ptr_call("elems", "java_elems")
+                        if cleanup is not None:
+                            write_c("\t\t" + cleanup + ";\n")
                         write_c("\t}\n")
                         write_c("\treturn (long)ret;\n")
                         write_c("}\n")
@@ -2020,8 +1680,8 @@ class CommonBase {
                     trait_structs.add(struct_name)
                     map_trait(struct_name, field_var_lines, trait_fn_lines)
                 elif struct_name == "LDKTxOut":
-                    with open(sys.argv[3] + "/structs/TxOut.java", "w") as out_java_struct:
-                        out_java_struct.write(hu_struct_file_prefix)
+                    with open(sys.argv[3] + "/structs/TxOut" + consts.file_ext, "w") as out_java_struct:
+                        out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write("public class TxOut extends CommonBase{\n")
                         out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
                         out_java_struct.write("\tlong to_c_ptr() { return 0; }\n")
@@ -2067,21 +1727,12 @@ class CommonBase {
 
     out_java.write("}\n")
     for struct_name in opaque_structs:
-        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "a") as out_java_struct:
+        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + consts.file_ext, "a") as out_java_struct:
             out_java_struct.write("}\n")
     for struct_name in trait_structs:
-        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + ".java", "a") as out_java_struct:
+        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + consts.file_ext, "a") as out_java_struct:
             out_java_struct.write("}\n")
 with open(sys.argv[4], "w") as out_c:
-    out_c.write(c_file_pfx)
-    for ty in c_array_class_caches:
-        if ty + "_clz" in c_file:
-            out_c.write("static jclass " + ty + "_clz = NULL;\n")
-    out_c.write("JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass _b) {\n")
-    for ty in c_array_class_caches:
-        if ty + "_clz" in c_file:
-            out_c.write("\t" + ty + "_clz = (*env)->FindClass(env, \"" + ty.replace("arr_of_", "[") + "\");\n")
-            out_c.write("\tCHECK(" + ty + "_clz != NULL);\n")
-            out_c.write("\t" + ty + "_clz = (*env)->NewGlobalRef(env, " + ty + "_clz);\n")
-    out_c.write("}\n")
+    out_c.write(consts.c_file_pfx)
+    out_c.write(consts.init_str(c_array_class_caches))
     out_c.write(c_file)
