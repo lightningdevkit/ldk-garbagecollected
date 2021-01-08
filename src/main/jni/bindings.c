@@ -119,6 +119,7 @@ JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclas
 	CHECK(arr_of_B_clz != NULL);
 	arr_of_B_clz = (*env)->NewGlobalRef(env, arr_of_B_clz);
 }
+static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struct LDKThirtyTwoBytes *orig) { struct LDKThirtyTwoBytes ret; memcpy(ret.data, orig->data, 32); return ret; }
 
 static jmethodID ordinal_meth = NULL;
 static jmethodID slicedef_meth = NULL;
@@ -471,11 +472,23 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1u8Z_1new(JNIEnv *env
 	}
 	return (long)ret;
 }
+static inline LDKCVec_u8Z CVec_u8Z_clone(const LDKCVec_u8Z *orig) {
+	LDKCVec_u8Z ret = { .data = MALLOC(sizeof(jbyte) * orig->datalen, "LDKCVec_u8Z clone bytes"), .datalen = orig->datalen };
+	memcpy(ret.data, orig->data, sizeof(jbyte) * ret.datalen);
+	return ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u64u64Z_1new(JNIEnv *_env, jclass _b, jlong a, jlong b) {
 	LDKC2Tuple_u64u64Z* ret = MALLOC(sizeof(LDKC2Tuple_u64u64Z), "LDKC2Tuple_u64u64Z");
 	ret->a = a;
 	ret->b = b;
 	return (long)ret;
+}
+static inline LDKC2Tuple_u64u64Z C2Tuple_u64u64Z_clone(const LDKC2Tuple_u64u64Z *orig) {
+	LDKC2Tuple_u64u64Z ret = {
+		.a = orig->a,
+		.b = orig->b,
+	};
+	return ret;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u64u64Z_1get_1a(JNIEnv *_env, jclass _b, jlong ptr) {
 	LDKC2Tuple_u64u64Z *tuple = (LDKC2Tuple_u64u64Z*)ptr;
@@ -565,6 +578,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1SpendableOutputDescr
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_SpendableOutputDescriptorZ CVec_SpendableOutputDescriptorZ_clone(const LDKCVec_SpendableOutputDescriptorZ *orig) {
+	LDKCVec_SpendableOutputDescriptorZ ret = { .data = MALLOC(sizeof(LDKSpendableOutputDescriptor) * orig->datalen, "LDKCVec_SpendableOutputDescriptorZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = SpendableOutputDescriptor_clone(&orig->data[i]);
+	}
+	return ret;
 }
 static jclass LDKErrorAction_DisconnectPeer_class = NULL;
 static jmethodID LDKErrorAction_DisconnectPeer_meth = NULL;
@@ -964,6 +984,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1MessageSendEventZ_1n
 	}
 	return (long)ret;
 }
+static inline LDKCVec_MessageSendEventZ CVec_MessageSendEventZ_clone(const LDKCVec_MessageSendEventZ *orig) {
+	LDKCVec_MessageSendEventZ ret = { .data = MALLOC(sizeof(LDKMessageSendEvent) * orig->datalen, "LDKCVec_MessageSendEventZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = MessageSendEvent_clone(&orig->data[i]);
+	}
+	return ret;
+}
 static jclass LDKEvent_FundingGenerationReady_class = NULL;
 static jmethodID LDKEvent_FundingGenerationReady_meth = NULL;
 static jclass LDKEvent_FundingBroadcastSafe_class = NULL;
@@ -1089,6 +1116,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1EventZ_1new(JNIEnv *
 	}
 	return (long)ret;
 }
+static inline LDKCVec_EventZ CVec_EventZ_clone(const LDKCVec_EventZ *orig) {
+	LDKCVec_EventZ ret = { .data = MALLOC(sizeof(LDKEvent) * orig->datalen, "LDKCVec_EventZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = Event_clone(&orig->data[i]);
+	}
+	return ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1usizeTransactionZ_1new(JNIEnv *_env, jclass _b, jlong a, jbyteArray b) {
 	LDKC2Tuple_usizeTransactionZ* ret = MALLOC(sizeof(LDKC2Tuple_usizeTransactionZ), "LDKC2Tuple_usizeTransactionZ");
 	ret->a = a;
@@ -1147,6 +1181,17 @@ JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonit
 	jclass err_conv = LDKChannelMonitorUpdateErr_to_java(_env, (*val->contents.err));
 	return err_conv;
 }
+static inline LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitorUpdateErrZ_clone(const LDKCResult_NoneChannelMonitorUpdateErrZ *orig) {
+	LDKCResult_NoneChannelMonitorUpdateErrZ res = { .result_ok = orig->result_ok };
+	if (orig->result_ok) {
+		res.contents.result = NULL;
+	} else {
+		LDKChannelMonitorUpdateErr* contents = MALLOC(sizeof(LDKChannelMonitorUpdateErr), "LDKChannelMonitorUpdateErr result Err clone");
+		*contents = ChannelMonitorUpdateErr_clone(orig->contents.err);
+		res.contents.err = contents;
+	}
+	return res;
+}
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVec_1MonitorEventZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_MonitorEventZ *vec = (LDKCVec_MonitorEventZ*)ptr;
 	jlongArray ret = (*env)->NewLongArray(env, vec->datalen);
@@ -1178,6 +1223,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1MonitorEventZ_1new(J
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_MonitorEventZ CVec_MonitorEventZ_clone(const LDKCVec_MonitorEventZ *orig) {
+	LDKCVec_MonitorEventZ ret = { .data = MALLOC(sizeof(LDKMonitorEvent) * orig->datalen, "LDKCVec_MonitorEventZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = MonitorEvent_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorUpdateDecodeErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)arg)->result_ok;
@@ -1232,6 +1284,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1OutPointScriptZ_1
 	ret->b = b_ref;
 	return (long)ret;
 }
+static inline LDKC2Tuple_OutPointScriptZ C2Tuple_OutPointScriptZ_clone(const LDKC2Tuple_OutPointScriptZ *orig) {
+	LDKC2Tuple_OutPointScriptZ ret = {
+		.a = OutPoint_clone(&orig->a),
+		.b = CVec_u8Z_clone(&orig->b),
+	};
+	return ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1OutPointScriptZ_1get_1a(JNIEnv *_env, jclass _b, jlong ptr) {
 	LDKC2Tuple_OutPointScriptZ *tuple = (LDKC2Tuple_OutPointScriptZ*)ptr;
 	LDKOutPoint a_var = tuple->a;
@@ -1258,6 +1317,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32TxOutZ_1new(JN
 	FREE((void*)b);
 	ret->b = b_conv;
 	return (long)ret;
+}
+static inline LDKC2Tuple_u32TxOutZ C2Tuple_u32TxOutZ_clone(const LDKC2Tuple_u32TxOutZ *orig) {
+	LDKC2Tuple_u32TxOutZ ret = {
+		.a = orig->a,
+		.b = TxOut_clone(&orig->b),
+	};
+	return ret;
 }
 JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32TxOutZ_1get_1a(JNIEnv *_env, jclass _b, jlong ptr) {
 	LDKC2Tuple_u32TxOutZ *tuple = (LDKC2Tuple_u32TxOutZ*)ptr;
@@ -1290,6 +1356,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1u32TxOutZZ_
 	}
 	return (long)ret;
 }
+static inline LDKCVec_C2Tuple_u32TxOutZZ CVec_C2Tuple_u32TxOutZZ_clone(const LDKCVec_C2Tuple_u32TxOutZZ *orig) {
+	LDKCVec_C2Tuple_u32TxOutZZ ret = { .data = MALLOC(sizeof(LDKC2Tuple_u32TxOutZ) * orig->datalen, "LDKCVec_C2Tuple_u32TxOutZZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = C2Tuple_u32TxOutZ_clone(&orig->data[i]);
+	}
+	return ret;
+}
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1new(JNIEnv *_env, jclass _b, jbyteArray a, jlongArray b) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* ret = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ), "LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ");
 	LDKThirtyTwoBytes a_ref;
@@ -1312,6 +1385,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple
 	(*_env)->ReleaseLongArrayElements (_env, b, b_vals, 0);
 	ret->b = b_constr;
 	return (long)ret;
+}
+static inline LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(const LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *orig) {
+	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ ret = {
+		.a = ThirtyTwoBytes_clone(&orig->a),
+		.b = CVec_C2Tuple_u32TxOutZZ_clone(&orig->b),
+	};
+	return ret;
 }
 JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1get_1a(JNIEnv *_env, jclass _b, jlong ptr) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *tuple = (LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)ptr;
@@ -1352,6 +1432,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1TxidCVec_1C
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_clone(const LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ *orig) {
+	LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ ret = { .data = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ) * orig->datalen, "LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVec_1SignatureZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_SignatureZ *vec = (LDKCVec_SignatureZ*)ptr;
@@ -2019,6 +2106,19 @@ JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessError
 	jclass err_conv = LDKAccessError_to_java(_env, (*val->contents.err));
 	return err_conv;
 }
+static inline LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_clone(const LDKCResult_TxOutAccessErrorZ *orig) {
+	LDKCResult_TxOutAccessErrorZ res = { .result_ok = orig->result_ok };
+	if (orig->result_ok) {
+		LDKTxOut* contents = MALLOC(sizeof(LDKTxOut), "LDKTxOut result OK clone");
+		*contents = TxOut_clone(orig->contents.result);
+		res.contents.result = contents;
+	} else {
+		LDKAccessError* contents = MALLOC(sizeof(LDKAccessError), "LDKAccessError result Err clone");
+		*contents = AccessError_clone(orig->contents.err);
+		res.contents.err = contents;
+	}
+	return res;
+}
 static jclass LDKAPIError_APIMisuseError_class = NULL;
 static jmethodID LDKAPIError_APIMisuseError_meth = NULL;
 static jclass LDKAPIError_FeeRateTooHigh_class = NULL;
@@ -2106,6 +2206,17 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1ge
 	long err_ref = (long)&(*val->contents.err);
 	return err_ref;
 }
+static inline LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_clone(const LDKCResult_NoneAPIErrorZ *orig) {
+	LDKCResult_NoneAPIErrorZ res = { .result_ok = orig->result_ok };
+	if (orig->result_ok) {
+		res.contents.result = NULL;
+	} else {
+		LDKAPIError* contents = MALLOC(sizeof(LDKAPIError), "LDKAPIError result Err clone");
+		*contents = APIError_clone(orig->contents.err);
+		res.contents.err = contents;
+	}
+	return res;
+}
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVec_1ChannelDetailsZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_ChannelDetailsZ *vec = (LDKCVec_ChannelDetailsZ*)ptr;
 	jlongArray ret = (*env)->NewLongArray(env, vec->datalen);
@@ -2137,6 +2248,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1ChannelDetailsZ_1new
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_ChannelDetailsZ CVec_ChannelDetailsZ_clone(const LDKCVec_ChannelDetailsZ *orig) {
+	LDKCVec_ChannelDetailsZ ret = { .data = MALLOC(sizeof(LDKChannelDetails) * orig->datalen, "LDKCVec_ChannelDetailsZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = ChannelDetails_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NonePaymentSendFailureZ*)arg)->result_ok;
@@ -2232,6 +2350,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1NetAddressZ_1new(JNI
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_NetAddressZ CVec_NetAddressZ_clone(const LDKCVec_NetAddressZ *orig) {
+	LDKCVec_NetAddressZ ret = { .data = MALLOC(sizeof(LDKNetAddress) * orig->datalen, "LDKCVec_NetAddressZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = NetAddress_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVec_1ChannelMonitorZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_ChannelMonitorZ *vec = (LDKCVec_ChannelMonitorZ*)ptr;
@@ -2884,6 +3009,19 @@ JNIEXPORT jbyte JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetAddressu8Z_1ge
 	CHECK(!val->result_ok);
 	return *val->contents.err;
 }
+static inline LDKCResult_NetAddressu8Z CResult_NetAddressu8Z_clone(const LDKCResult_NetAddressu8Z *orig) {
+	LDKCResult_NetAddressu8Z res = { .result_ok = orig->result_ok };
+	if (orig->result_ok) {
+		LDKNetAddress* contents = MALLOC(sizeof(LDKNetAddress), "LDKNetAddress result OK clone");
+		*contents = NetAddress_clone(orig->contents.result);
+		res.contents.result = contents;
+	} else {
+		jbyte* contents = MALLOC(sizeof(jbyte), "jbyte result Err clone");
+		*contents = *orig->contents.err;
+		res.contents.err = contents;
+	}
+	return res;
+}
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddressu8ZDecodeErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_CResult_NetAddressu8ZDecodeErrorZ*)arg)->result_ok;
 }
@@ -2892,6 +3030,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddre
 	CHECK(val->result_ok);
 	LDKCResult_NetAddressu8Z* res_conv = MALLOC(sizeof(LDKCResult_NetAddressu8Z), "LDKCResult_NetAddressu8Z");
 	*res_conv = (*val->contents.result);
+	*res_conv = CResult_NetAddressu8Z_clone(res_conv);
 	return (long)res_conv;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddressu8ZDecodeErrorZ_1get_1err (JNIEnv * _env, jclass _a, jlong arg) {
@@ -2921,6 +3060,11 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1u64Z_1new(JNIEnv *en
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_u64Z CVec_u64Z_clone(const LDKCVec_u64Z *orig) {
+	LDKCVec_u64Z ret = { .data = MALLOC(sizeof(jlong) * orig->datalen, "LDKCVec_u64Z clone bytes"), .datalen = orig->datalen };
+	memcpy(ret.data, orig->data, sizeof(jlong) * ret.datalen);
+	return ret;
 }
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVec_1UpdateAddHTLCZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_UpdateAddHTLCZ *vec = (LDKCVec_UpdateAddHTLCZ*)ptr;
@@ -2954,6 +3098,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1UpdateAddHTLCZ_1new(
 	}
 	return (long)ret;
 }
+static inline LDKCVec_UpdateAddHTLCZ CVec_UpdateAddHTLCZ_clone(const LDKCVec_UpdateAddHTLCZ *orig) {
+	LDKCVec_UpdateAddHTLCZ ret = { .data = MALLOC(sizeof(LDKUpdateAddHTLC) * orig->datalen, "LDKCVec_UpdateAddHTLCZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = UpdateAddHTLC_clone(&orig->data[i]);
+	}
+	return ret;
+}
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVec_1UpdateFulfillHTLCZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_UpdateFulfillHTLCZ *vec = (LDKCVec_UpdateFulfillHTLCZ*)ptr;
 	jlongArray ret = (*env)->NewLongArray(env, vec->datalen);
@@ -2985,6 +3136,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1UpdateFulfillHTLCZ_1
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_UpdateFulfillHTLCZ CVec_UpdateFulfillHTLCZ_clone(const LDKCVec_UpdateFulfillHTLCZ *orig) {
+	LDKCVec_UpdateFulfillHTLCZ ret = { .data = MALLOC(sizeof(LDKUpdateFulfillHTLC) * orig->datalen, "LDKCVec_UpdateFulfillHTLCZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = UpdateFulfillHTLC_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVec_1UpdateFailHTLCZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_UpdateFailHTLCZ *vec = (LDKCVec_UpdateFailHTLCZ*)ptr;
@@ -3018,6 +3176,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1UpdateFailHTLCZ_1new
 	}
 	return (long)ret;
 }
+static inline LDKCVec_UpdateFailHTLCZ CVec_UpdateFailHTLCZ_clone(const LDKCVec_UpdateFailHTLCZ *orig) {
+	LDKCVec_UpdateFailHTLCZ ret = { .data = MALLOC(sizeof(LDKUpdateFailHTLC) * orig->datalen, "LDKCVec_UpdateFailHTLCZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = UpdateFailHTLC_clone(&orig->data[i]);
+	}
+	return ret;
+}
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVec_1UpdateFailMalformedHTLCZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_UpdateFailMalformedHTLCZ *vec = (LDKCVec_UpdateFailMalformedHTLCZ*)ptr;
 	jlongArray ret = (*env)->NewLongArray(env, vec->datalen);
@@ -3049,6 +3214,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1UpdateFailMalformedH
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_UpdateFailMalformedHTLCZ CVec_UpdateFailMalformedHTLCZ_clone(const LDKCVec_UpdateFailMalformedHTLCZ *orig) {
+	LDKCVec_UpdateFailMalformedHTLCZ ret = { .data = MALLOC(sizeof(LDKUpdateFailMalformedHTLC) * orig->datalen, "LDKCVec_UpdateFailMalformedHTLCZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = UpdateFailMalformedHTLC_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_boolLightningErrorZ*)arg)->result_ok;
@@ -3088,6 +3260,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnounceme
 		c_conv = ChannelUpdate_clone(&c_conv);
 	ret->c = c_conv;
 	return (long)ret;
+}
+static inline LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(const LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *orig) {
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret = {
+		.a = ChannelAnnouncement_clone(&orig->a),
+		.b = ChannelUpdate_clone(&orig->b),
+		.c = ChannelUpdate_clone(&orig->c),
+	};
+	return ret;
 }
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1a(JNIEnv *_env, jclass _b, jlong ptr) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)ptr;
@@ -3135,6 +3315,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C3Tuple_1ChannelAnno
 	}
 	return (long)ret;
 }
+static inline LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_clone(const LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ *orig) {
+	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret = { .data = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ) * orig->datalen, "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(&orig->data[i]);
+	}
+	return ret;
+}
 JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKCVec_1NodeAnnouncementZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_NodeAnnouncementZ *vec = (LDKCVec_NodeAnnouncementZ*)ptr;
 	jlongArray ret = (*env)->NewLongArray(env, vec->datalen);
@@ -3166,6 +3353,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1NodeAnnouncementZ_1n
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_NodeAnnouncementZ CVec_NodeAnnouncementZ_clone(const LDKCVec_NodeAnnouncementZ *orig) {
+	LDKCVec_NodeAnnouncementZ ret = { .data = MALLOC(sizeof(LDKNodeAnnouncement) * orig->datalen, "LDKCVec_NodeAnnouncementZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = NodeAnnouncement_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_NoneLightningErrorZ*)arg)->result_ok;
@@ -3614,9 +3808,23 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1RouteHopZ_1new(JNIEn
 	}
 	return (long)ret;
 }
+static inline LDKCVec_RouteHopZ CVec_RouteHopZ_clone(const LDKCVec_RouteHopZ *orig) {
+	LDKCVec_RouteHopZ ret = { .data = MALLOC(sizeof(LDKRouteHop) * orig->datalen, "LDKCVec_RouteHopZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = RouteHop_clone(&orig->data[i]);
+	}
+	return ret;
+}
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCVec_1CVec_1RouteHopZZ_1arr_1info(JNIEnv *env, jclass _b, jlong ptr) {
 	LDKCVec_CVec_RouteHopZZ *vec = (LDKCVec_CVec_RouteHopZZ*)ptr;
 	return (*env)->NewObject(env, slicedef_cls, slicedef_meth, (long)vec->data, (long)vec->datalen, sizeof(LDKCVec_RouteHopZ));
+}
+static inline LDKCVec_CVec_RouteHopZZ CVec_CVec_RouteHopZZ_clone(const LDKCVec_CVec_RouteHopZZ *orig) {
+	LDKCVec_CVec_RouteHopZZ ret = { .data = MALLOC(sizeof(LDKCVec_RouteHopZ) * orig->datalen, "LDKCVec_CVec_RouteHopZZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = CVec_RouteHopZ_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteDecodeErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_RouteDecodeErrorZ*)arg)->result_ok;
@@ -3670,6 +3878,13 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1RouteHintZ_1new(JNIE
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
 	}
 	return (long)ret;
+}
+static inline LDKCVec_RouteHintZ CVec_RouteHintZ_clone(const LDKCVec_RouteHintZ *orig) {
+	LDKCVec_RouteHintZ ret = { .data = MALLOC(sizeof(LDKRouteHint) * orig->datalen, "LDKCVec_RouteHintZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = RouteHint_clone(&orig->data[i]);
+	}
+	return ret;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1result_1ok (JNIEnv * env, jclass _a, jlong arg) {
 	return ((LDKCResult_RouteLightningErrorZ*)arg)->result_ok;
