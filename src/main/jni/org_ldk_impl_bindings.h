@@ -2553,14 +2553,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_TxOut_1free
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    TxOut_clone
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxOut_1clone
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
  * Method:    CVec_SpendableOutputDescriptorZ_free
  * Signature: ([J)V
  */

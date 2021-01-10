@@ -742,8 +742,6 @@ public class bindings {
 	public static native void Transaction_free(byte[] _res);
 	// void TxOut_free(struct LDKTxOut _res);
 	public static native void TxOut_free(long _res);
-	// struct LDKTxOut TxOut_clone(const struct LDKTxOut *NONNULL_PTR orig);
-	public static native long TxOut_clone(long orig);
 	// void CVec_SpendableOutputDescriptorZ_free(struct LDKCVec_SpendableOutputDescriptorZ _res);
 	public static native void CVec_SpendableOutputDescriptorZ_free(long[] _res);
 	// void CVec_MessageSendEventZ_free(struct LDKCVec_MessageSendEventZ _res);
