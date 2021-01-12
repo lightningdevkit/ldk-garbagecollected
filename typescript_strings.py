@@ -146,7 +146,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.c_fn_ty_pfx = ""
         self.c_fn_name_pfx = ""
         self.c_fn_args_pfx = "void* ctx_TODO"
-        self.file_ext = ""
+        self.file_ext = ".ts"
         self.ptr_c_ty = "uint32_t"
         self.ptr_native_ty = "uint32_t"
         self.result_c_ty = "uint32_t"
