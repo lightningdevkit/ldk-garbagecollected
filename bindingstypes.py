@@ -71,3 +71,8 @@ class TraitMethInfo:
         self.self_is_const = self_is_const
         self.ret_ty_info = ret_ty_info
         self.args_ty = args_ty
+
+class ComplexEnumVariantInfo:
+    def __init__(self, var_name, fields):
+        self.var_name = var_name
+        self.fields = fields

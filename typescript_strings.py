@@ -228,9 +228,6 @@ import * as bindings from '../bindings' // TODO: figure out location
     def native_unitary_enum_to_c_call(self, ty_info):
         return (ty_info.rust_obj + "_from_js(", ")")
 
-    def c_complex_enum_pfx(self, struct_name, variants, init_meth_jty_strs):
-        return ""
-
     def c_complex_enum_pass_ty(self, struct_name):
         return "uint32_t"
 
@@ -243,7 +240,7 @@ import * as bindings from '../bindings' // TODO: figure out location
     def native_c_map_trait(self, struct_name, field_var_convs, field_fn_lines):
         return ("", "")
 
-    def map_complex_enum(self, struct_name, union_enum_items, map_type, camel_to_snake):
+    def map_complex_enum(self, struct_name, variant_list, camel_to_snake):
         java_hu_type = struct_name.replace("LDK", "")
 
         out_java_enum = ""
@@ -261,113 +258,61 @@ import * as bindings from '../bindings' // TODO: figure out location
         out_java_enum += (f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n")
         java_hu_subclasses = ""
 
-        tag_field_lines = union_enum_items["field_lines"]
-        init_meth_jty_strs = {}
-        for idx, struct_line in enumerate(tag_field_lines):
-            if idx == 0:
-                assert(struct_line == "typedef enum %s_Tag {" % struct_name)
-            elif idx == len(tag_field_lines) - 3:
-                assert(struct_line.endswith("_Sentinel,"))
-            elif idx == len(tag_field_lines) - 2:
-                assert(struct_line == "} %s_Tag;" % struct_name)
-            elif idx == len(tag_field_lines) - 1:
-                assert(struct_line == "")
-
         out_java +=  ("\tpublic static class " + struct_name + " {\n")
         out_java +=  ("\t\tprivate " + struct_name + "() {}\n")
-        for idx, struct_line in enumerate(tag_field_lines):
-            if idx != 0 and idx < len(tag_field_lines) - 3:
-                var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
-                out_java +=  ("\t\texport class " + var_name + " extends " + struct_name + " {\n")
-                java_hu_subclasses = java_hu_subclasses + "export class " + var_name + " extends " + java_hu_type + " {\n"
-                out_java_enum += ("\t\tif (raw_val instanceof bindings." + struct_name + "." + var_name + ") {\n")
-                out_java_enum += ("\t\t\treturn new " + var_name + "(this.ptr, raw_val);\n")
-                init_meth_jty_str = ""
-                init_meth_params = ""
-                init_meth_body = ""
-                hu_conv_body = ""
-                if "LDK" + var_name in union_enum_items:
-                    enum_var_lines = union_enum_items["LDK" + var_name]
-                    for idx, field in enumerate(enum_var_lines):
-                        if idx != 0 and idx < len(enum_var_lines) - 2:
-                            field_ty = map_type(field.strip(' ;'), False, None, False, True)
-                            out_java += ("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
-                            java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
-                            if field_ty.to_hu_conv is not None:
-                                hu_conv_body = hu_conv_body + "\t\tconst " + field_ty.arg_name + f": {field_ty.java_ty} = obj." + field_ty.arg_name + ";\n"
-                                hu_conv_body = hu_conv_body + "\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
-                                hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = " + field_ty.to_hu_conv_name + ";\n"
-                            else:
-                                hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
-                            init_meth_jty_str = init_meth_jty_str + field_ty.java_fn_ty_arg
-                            if idx > 1:
-                                init_meth_params = init_meth_params + ", "
-                            init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
-                            init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
-                    out_java +=  ("\t\t\t" + var_name + "(" + init_meth_params + ") { ")
-                    out_java +=  (init_meth_body)
-                    out_java +=  ("}\n")
-                out_java += ("\t\t}\n")
-                out_java_enum += ("\t\t}\n")
-                java_hu_subclasses = java_hu_subclasses + "\tprivate constructor(ptr: number, obj: bindings." + struct_name + "." + var_name + ") {\n\t\tsuper(null, ptr);\n"
-                java_hu_subclasses = java_hu_subclasses + hu_conv_body
-                java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
-                init_meth_jty_strs[var_name] = init_meth_jty_str
+        for var in variant_list:
+            out_java +=  ("\t\texport class " + var.var_name + " extends " + struct_name + " {\n")
+            java_hu_subclasses = java_hu_subclasses + "export class " + var.var_name + " extends " + java_hu_type + " {\n"
+            out_java_enum += ("\t\tif (raw_val instanceof bindings." + struct_name + "." + var.var_name + ") {\n")
+            out_java_enum += ("\t\t\treturn new " + var.var_name + "(this.ptr, raw_val);\n")
+            init_meth_params = ""
+            init_meth_body = ""
+            hu_conv_body = ""
+            for idx, field_ty in enumerate(var.fields):
+                out_java += ("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
+                java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
+                if field_ty.to_hu_conv is not None:
+                    hu_conv_body = hu_conv_body + "\t\tconst " + field_ty.arg_name + f": {field_ty.java_ty} = obj." + field_ty.arg_name + ";\n"
+                    hu_conv_body = hu_conv_body + "\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
+                    hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = " + field_ty.to_hu_conv_name + ";\n"
+                else:
+                    hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
+                if idx > 0:
+                    init_meth_params = init_meth_params + ", "
+                init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
+                init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
+            out_java +=  ("\t\t\t" + var.var_name + "(" + init_meth_params + ") { ")
+            out_java +=  (init_meth_body)
+            out_java +=  ("}\n")
+            out_java += ("\t\t}\n")
+            out_java_enum += ("\t\t}\n")
+            java_hu_subclasses = java_hu_subclasses + "\tprivate constructor(ptr: number, obj: bindings." + struct_name + "." + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
+            java_hu_subclasses = java_hu_subclasses + hu_conv_body
+            java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
         out_java += ("\t\tstatic native void init();\n")
         out_java += ("\t}\n")
         out_java_enum += ("\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n")
         out_java += ("\tstatic { " + struct_name + ".init(); }\n")
         out_java += ("\tpublic static native " + struct_name + " " + struct_name + "_ref_from_ptr(long ptr);\n");
 
-        out_c += (self.c_complex_enum_pfx(struct_name, [x.strip(", ")[len(struct_name) + 1:] for x in tag_field_lines[1:-3]], init_meth_jty_strs))
-
         out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + " " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1ref_1from_1ptr (" + self.c_fn_args_pfx + ", " + self.ptr_c_ty + " ptr) {\n")
         out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)ptr;\n")
         out_c += ("\tswitch(obj->tag) {\n")
-        for idx, struct_line in enumerate(tag_field_lines):
-            if idx != 0 and idx < len(tag_field_lines) - 3:
-                var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
-                out_c += ("\t\tcase " + struct_name + "_" + var_name + ": {\n")
-                c_params = []
-                if "LDK" + var_name in union_enum_items:
-                    enum_var_lines = union_enum_items["LDK" + var_name]
-                    for idx, field in enumerate(enum_var_lines):
-                        if idx != 0 and idx < len(enum_var_lines) - 2:
-                            field_map = map_type(field.strip(' ;'), False, None, False, True)
-                            if field_map.ret_conv is not None:
-                                out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
-                                out_c += ("obj->" + camel_to_snake(var_name) + "." + field_map.arg_name)
-                                out_c += (field_map.ret_conv[1].replace("\n", "\n\t\t\t") + "\n")
-                                c_params.append(field_map.ret_conv_name)
-                            else:
-                                c_params.append("obj->" + camel_to_snake(var_name) + "." + field_map.arg_name)
-                out_c += ("\t\t\treturn " + self.c_constr_native_complex_enum(struct_name, var_name, c_params) + ";\n")
-                out_c += ("\t\t}\n")
+        for var in variant_list:
+            out_c += ("\t\tcase " + struct_name + "_" + var.var_name + ": {\n")
+            c_params = []
+            for idx, field_map in enumerate(var.fields):
+                if field_map.ret_conv is not None:
+                    out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
+                    out_c += ("obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name)
+                    out_c += (field_map.ret_conv[1].replace("\n", "\n\t\t\t") + "\n")
+                    c_params.append(field_map.ret_conv_name)
+                else:
+                    c_params.append("obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name)
+            out_c += ("\t\t\treturn " + self.c_constr_native_complex_enum(struct_name, var.var_name, c_params) + ";\n")
+            out_c += ("\t\t}\n")
         out_c += ("\t\tdefault: abort();\n")
         out_c += ("\t}\n}\n")
         out_java_enum += ("}\n")
         out_java_enum += (java_hu_subclasses)
         return (out_java, out_java_enum, out_c)
-
-
-
-def camel_to_snake_case(str):
-    res = [str[0].lower()]
-    for i in range(1, len(str)):
-        current_char = str[i]
-
-        previous_char = None
-        next_char = None
-        if i > 0:
-            previous_char = str[i - 1]
-        if i < len(str) - 1:
-            next_char = str[i + 1]
-
-        if current_char.isupper() and previous_char is not None:
-            if previous_char.islower() or (next_char is not None and next_char.islower()):
-                res.append('_')
-                res.append(current_char.lower())
-                continue
-        res.append(current_char.lower())
-
-    return ''.join(res)

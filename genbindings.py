@@ -928,8 +928,36 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_complex_enum(struct_name, union_enum_items):
         java_hu_type = struct_name.replace("LDK", "")
         complex_enums.add(struct_name)
+
+        enum_variants = []
+        tag_field_lines = union_enum_items["field_lines"]
+        for idx, struct_line in enumerate(tag_field_lines):
+            if idx == 0:
+                assert(struct_line == "typedef enum %s_Tag {" % struct_name)
+            elif idx == len(tag_field_lines) - 3:
+                assert(struct_line.endswith("_Sentinel,"))
+            elif idx == len(tag_field_lines) - 2:
+                assert(struct_line == "} %s_Tag;" % struct_name)
+            elif idx == len(tag_field_lines) - 1:
+                assert(struct_line == "")
+            else:
+                variant_name = struct_line.strip(' ,')[len(struct_name) + 1:]
+                fields = []
+                if "LDK" + variant_name in union_enum_items:
+                    enum_var_lines = union_enum_items["LDK" + variant_name]
+                    for idx, field in enumerate(enum_var_lines):
+                        if idx != 0 and idx < len(enum_var_lines) - 2:
+                            fields.append(map_type(field.strip(' ;'), False, None, False, True))
+                        else:
+                            # TODO: Assert line format
+                            pass
+                else:
+                    # TODO: Assert line format
+                    pass
+                enum_variants.append(ComplexEnumVariantInfo(variant_name, fields))
+
         with open(f"{sys.argv[3]}/structs/{java_hu_type}{consts.file_ext}", "w") as out_java_enum:
-            (out_java_addendum, out_java_enum_addendum, out_c_addendum) = consts.map_complex_enum(struct_name, union_enum_items, map_type, camel_to_snake)
+            (out_java_addendum, out_java_enum_addendum, out_c_addendum) = consts.map_complex_enum(struct_name, enum_variants, camel_to_snake)
 
             out_java_enum.write(out_java_enum_addendum)
             out_java.write(out_java_addendum)
