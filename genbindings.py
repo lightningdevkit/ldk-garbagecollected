@@ -928,105 +928,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_complex_enum(struct_name, union_enum_items):
         java_hu_type = struct_name.replace("LDK", "")
         complex_enums.add(struct_name)
-        with open(sys.argv[3] + "/structs/" + java_hu_type + ".java", "w") as out_java_enum:
-            out_java_enum.write(consts.hu_struct_file_prefix)
-            out_java_enum.write("public class " + java_hu_type + " extends CommonBase {\n")
-            out_java_enum.write("\tprivate " + java_hu_type + "(Object _dummy, long ptr) { super(ptr); }\n")
-            out_java_enum.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
-            out_java_enum.write("\tprotected void finalize() throws Throwable {\n")
-            out_java_enum.write("\t\tsuper.finalize();\n")
-            out_java_enum.write("\t\tif (ptr != 0) { bindings." + java_hu_type + "_free(ptr); }\n")
-            out_java_enum.write("\t}\n")
-            out_java_enum.write("\tstatic " + java_hu_type + " constr_from_ptr(long ptr) {\n")
-            out_java_enum.write("\t\tbindings." + struct_name + " raw_val = bindings." + struct_name + "_ref_from_ptr(ptr);\n")
-            java_hu_subclasses = ""
+        with open(f"{sys.argv[3]}/structs/{java_hu_type}{consts.file_ext}", "w") as out_java_enum:
+            (out_java_addendum, out_java_enum_addendum, out_c_addendum) = consts.map_complex_enum(struct_name, union_enum_items, map_type, camel_to_snake)
 
-            tag_field_lines = union_enum_items["field_lines"]
-            init_meth_jty_strs = {}
-            for idx, struct_line in enumerate(tag_field_lines):
-                if idx == 0:
-                    assert(struct_line == "typedef enum %s_Tag {" % struct_name)
-                elif idx == len(tag_field_lines) - 3:
-                    assert(struct_line.endswith("_Sentinel,"))
-                elif idx == len(tag_field_lines) - 2:
-                    assert(struct_line == "} %s_Tag;" % struct_name)
-                elif idx == len(tag_field_lines) - 1:
-                    assert(struct_line == "")
-
-            out_java.write("\tpublic static class " + struct_name + " {\n")
-            out_java.write("\t\tprivate " + struct_name + "() {}\n")
-            for idx, struct_line in enumerate(tag_field_lines):
-                if idx != 0 and idx < len(tag_field_lines) - 3:
-                    var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
-                    out_java.write("\t\tpublic final static class " + var_name + " extends " + struct_name + " {\n")
-                    java_hu_subclasses = java_hu_subclasses + "\tpublic final static class " + var_name + " extends " + java_hu_type + " {\n"
-                    out_java_enum.write("\t\tif (raw_val.getClass() == bindings." + struct_name + "." + var_name + ".class) {\n")
-                    out_java_enum.write("\t\t\treturn new " + var_name + "(ptr, (bindings." + struct_name + "." + var_name + ")raw_val);\n")
-                    init_meth_jty_str = ""
-                    init_meth_params = ""
-                    init_meth_body = ""
-                    hu_conv_body = ""
-                    if "LDK" + var_name in union_enum_items:
-                        enum_var_lines = union_enum_items["LDK" + var_name]
-                        for idx, field in enumerate(enum_var_lines):
-                            if idx != 0 and idx < len(enum_var_lines) - 2:
-                                field_ty = map_type(field.strip(' ;'), False, None, False, True)
-                                out_java.write("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
-                                java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
-                                if field_ty.to_hu_conv is not None:
-                                    hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.java_ty + " " + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
-                                    hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
-                                    hu_conv_body = hu_conv_body + "\t\t\tthis." + field_ty.arg_name + " = " + field_ty.to_hu_conv_name + ";\n"
-                                else:
-                                    hu_conv_body = hu_conv_body + "\t\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
-                                init_meth_jty_str = init_meth_jty_str + field_ty.java_fn_ty_arg
-                                if idx > 1:
-                                    init_meth_params = init_meth_params + ", "
-                                init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
-                                init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
-                        out_java.write("\t\t\t" + var_name + "(" + init_meth_params + ") { ")
-                        out_java.write(init_meth_body)
-                        out_java.write("}\n")
-                    out_java.write("\t\t}\n")
-                    out_java_enum.write("\t\t}\n")
-                    java_hu_subclasses = java_hu_subclasses + "\t\tprivate " + var_name + "(long ptr, bindings." + struct_name + "." + var_name + " obj) {\n\t\t\tsuper(null, ptr);\n"
-                    java_hu_subclasses = java_hu_subclasses + hu_conv_body
-                    java_hu_subclasses = java_hu_subclasses + "\t\t}\n\t}\n"
-                    init_meth_jty_strs[var_name] = init_meth_jty_str
-            out_java.write("\t\tstatic native void init();\n")
-            out_java.write("\t}\n")
-            out_java_enum.write("\t\tassert false; return null; // Unreachable without extending the (internal) bindings interface\n\t}\n\n")
-            out_java_enum.write(java_hu_subclasses)
-            out_java.write("\tstatic { " + struct_name + ".init(); }\n")
-            out_java.write("\tpublic static native " + struct_name + " " + struct_name + "_ref_from_ptr(long ptr);\n");
-
-            write_c(consts.c_complex_enum_pfx(struct_name, [x.strip(", ")[len(struct_name) + 1:] for x in tag_field_lines[1:-3]], init_meth_jty_strs))
-
-            write_c(consts.c_fn_ty_pfx + consts.c_complex_enum_pass_ty(struct_name) + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1ref_1from_1ptr (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " ptr) {\n")
-            write_c("\t" + struct_name + " *obj = (" + struct_name + "*)ptr;\n")
-            write_c("\tswitch(obj->tag) {\n")
-            for idx, struct_line in enumerate(tag_field_lines):
-                if idx != 0 and idx < len(tag_field_lines) - 3:
-                    var_name = struct_line.strip(' ,')[len(struct_name) + 1:]
-                    write_c("\t\tcase " + struct_name + "_" + var_name + ": {\n")
-                    c_params = []
-                    if "LDK" + var_name in union_enum_items:
-                        enum_var_lines = union_enum_items["LDK" + var_name]
-                        for idx, field in enumerate(enum_var_lines):
-                            if idx != 0 and idx < len(enum_var_lines) - 2:
-                                field_map = map_type(field.strip(' ;'), False, None, False, True)
-                                if field_map.ret_conv is not None:
-                                    write_c("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
-                                    write_c("obj->" + camel_to_snake(var_name) + "." + field_map.arg_name)
-                                    write_c(field_map.ret_conv[1].replace("\n", "\n\t\t\t") + "\n")
-                                    c_params.append(field_map.ret_conv_name)
-                                else:
-                                    c_params.append("obj->" + camel_to_snake(var_name) + "." + field_map.arg_name)
-                    write_c("\t\t\treturn " + consts.c_constr_native_complex_enum(struct_name, var_name, c_params) + ";\n")
-                    write_c("\t\t}\n")
-            write_c("\t\tdefault: abort();\n")
-            write_c("\t}\n}\n")
-            out_java_enum.write("}\n")
+            out_java_enum.write(out_java_enum_addendum)
+            out_java.write(out_java_addendum)
+            write_c(out_c_addendum)
 
     def map_trait(struct_name, field_var_lines, trait_fn_lines):
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_trait:
