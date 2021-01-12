@@ -68,6 +68,7 @@ public class bindings {
 			DisconnectPeer(uint32_t msg) { this.msg = msg; }
 		}
 		export class IgnoreError extends LDKErrorAction {
+			IgnoreError() { }
 		}
 		export class SendErrorMessage extends LDKErrorAction {
 			public uint32_t msg;
@@ -350,6 +351,7 @@ public class bindings {
 			ChannelUnavailable(byte[] err) { this.err = err; }
 		}
 		export class MonitorUpdateFailed extends LDKAPIError {
+			MonitorUpdateFailed() { }
 		}
 		static native void init();
 	}

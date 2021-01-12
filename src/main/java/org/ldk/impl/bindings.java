@@ -74,6 +74,7 @@ public class bindings {
 			DisconnectPeer(long msg) { this.msg = msg; }
 		}
 		public final static class IgnoreError extends LDKErrorAction {
+			IgnoreError() { }
 		}
 		public final static class SendErrorMessage extends LDKErrorAction {
 			public long msg;
@@ -356,6 +357,7 @@ public class bindings {
 			ChannelUnavailable(byte[] err) { this.err = err; }
 		}
 		public final static class MonitorUpdateFailed extends LDKAPIError {
+			MonitorUpdateFailed() { }
 		}
 		static native void init();
 	}
