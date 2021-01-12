@@ -1,13 +1,7 @@
 from bindingstypes import *
 
-from language_constants import LanguageConstants
-
-class Consts(LanguageConstants):
+class Consts:
     def __init__(self, DEBUG):
-        super().__init__()
-
-        self.file_extension = 'java'
-
         self.common_base = """package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {

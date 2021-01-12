@@ -1,11 +1,5 @@
-from language_constants import LanguageConstants
-
-class Consts(LanguageConstants):
-
+class Consts:
     def __init__(self, DEBUG):
-        super().__init__()
-        self.file_extension = 'ts'
-
         self.common_base = """
             export default class CommonBase {
                 ptr: number;

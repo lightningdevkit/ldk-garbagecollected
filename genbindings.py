@@ -1,31 +1,26 @@
 #!/usr/bin/env python3
 import sys, re
 
-import config
-from config import Language
-import os
+if len(sys.argv) != 7:
+    print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang")
+    sys.exit(1)
 
-configuration = config.setup()
+if sys.argv[5] == "false":
+    DEBUG = False
+elif sys.argv[5] == "true":
+    DEBUG = True
+else:
+    print("debug should be true or false and indicates whether to track allocations and ensure we don't leak")
+    sys.exit(1)
 
-output_language = configuration.language
-if output_language == Language.Java:
+if sys.argv[6] == "java":
     from java_strings import Consts
-elif output_language == Language.TypeScript:
+elif sys.argv[6] == "typescript":
     from typescript_strings import Consts
 else:
     print("Only java or typescript can be set for lang")
     sys.exit(1)
-
-consts = Consts(configuration.debug)
-
-path_to_lightning_header = configuration.lightning_h_path
-path_to_output_blob = configuration.output_blob_path
-path_to_bindings_directory = configuration.bindings_output_directory_path
-path_to_c_file = configuration.output_c_path
-
-
-
-
+consts = Consts(DEBUG)
 
 from bindingstypes import *
 
@@ -59,14 +54,6 @@ def camel_to_snake(s):
         if char.isnumeric():
             lastund = True
     return (ret + lastchar.lower()).strip("_")
-
-
-def recursiveOpenFile(path, *args):
-    output_directory_path = os.path.dirname(path)
-    if not os.path.isdir(output_directory_path):
-        os.makedirs(output_directory_path)
-    return open(path, *args)
-
 
 unitary_enums = set()
 complex_enums = set()
@@ -328,7 +315,7 @@ reg_fn_regex = re.compile("([A-Za-z_0-9\* ]* \*?)([a-zA-Z_0-9]*)\((.*)\);$")
 clone_fns = set()
 constructor_fns = {}
 c_array_class_caches = set()
-with open(path_to_lightning_header) as in_h:
+with open(sys.argv[1]) as in_h:
     for line in in_h:
         reg_fn = reg_fn_regex.match(line)
         if reg_fn is not None:
@@ -352,7 +339,7 @@ write_c("static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struc
 
 java_c_types_none_allowed = False # C structs created by cbindgen are declared in dependency order
 
-with open(path_to_lightning_header) as in_h, open(path_to_output_blob, "w") as out_java:
+with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_type(fn_arg, print_void, ret_arr_len, is_free, holds_ref):
         ty_info = java_c_types(fn_arg, ret_arr_len)
         return map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref)
@@ -751,8 +738,6 @@ with open(path_to_lightning_header) as in_h, open(path_to_output_blob, "w") as o
                     to_hu_conv = "TODO 3", to_hu_conv_name = None, from_hu_conv = None) # its a pointer, no conv needed
             assert False # We should have handled every case by now.
 
-
-
     def map_fn(line, re_match, ret_arr_len, c_call_string):
         out_java.write("\t// " + line)
         out_java.write("\tpublic static native ")
@@ -803,7 +788,7 @@ with open(path_to_lightning_header) as in_h, open(path_to_output_blob, "w") as o
 
         out_java_struct = None
         if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free:
-            out_java_struct = open(f"{path_to_bindings_directory}/structs/{struct_meth}.{consts.file_extension}", "a")
+            out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
             if not args_known:
                 out_java_struct.write("\t// Skipped " + re_match.group(2) + "\n")
                 out_java_struct.close()
@@ -924,7 +909,7 @@ with open(path_to_lightning_header) as in_h, open(path_to_output_blob, "w") as o
             out_java_struct.close()
 
     def map_unitary_enum(struct_name, field_lines):
-        with recursiveOpenFile(f"{path_to_bindings_directory}/enums/{struct_name}.{consts.file_extension}", "w") as out_java_enum:
+        with open(f"{sys.argv[3]}/enums/{struct_name}{consts.file_ext}", "w") as out_java_enum:
             unitary_enums.add(struct_name)
             for idx, struct_line in enumerate(field_lines):
                 if idx == 0:
@@ -939,7 +924,7 @@ with open(path_to_lightning_header) as in_h, open(path_to_output_blob, "w") as o
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
-
+ 
     def map_complex_enum(struct_name, union_enum_items):
         java_hu_type = struct_name.replace("LDK", "")
         complex_enums.add(struct_name)
@@ -1044,7 +1029,7 @@ with open(path_to_lightning_header) as in_h, open(path_to_output_blob, "w") as o
             out_java_enum.write("}\n")
 
     def map_trait(struct_name, field_var_lines, trait_fn_lines):
-        with open(f"{path_to_bindings_directory}/structs/{struct_name.replace('LDK', '')}.{consts.file_extension}", "w") as out_java_trait:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_trait:
             field_var_convs = []
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:
@@ -1287,7 +1272,7 @@ with open(path_to_lightning_header) as in_h, open(path_to_output_blob, "w") as o
     def map_result(struct_name, res_ty, err_ty):
         result_types.add(struct_name)
         human_ty = struct_name.replace("LDKCResult", "Result")
-        with open(f"{path_to_bindings_directory}/structs/{human_ty}.{consts.file_extension}", "w") as out_java_struct:
+        with open(f"{sys.argv[3]}/structs/{human_ty}{consts.file_ext}", "w") as out_java_struct:
             out_java_struct.write(consts.hu_struct_file_prefix)
             out_java_struct.write("public class " + human_ty + " extends CommonBase {\n")
             out_java_struct.write("\tprivate " + human_ty + "(Object _dummy, long ptr) { super(ptr); }\n")
@@ -1510,7 +1495,7 @@ public class bindings {
 
 """)
 
-    with recursiveOpenFile(f"{path_to_bindings_directory}/structs/CommonBase.{consts.file_extension}", "w") as out_java_struct:
+    with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "a") as out_java_struct:
         out_java_struct.write(consts.common_base)
 
     in_block_comment = False
@@ -1601,7 +1586,7 @@ public class bindings {
 
                 if is_opaque:
                     opaque_structs.add(struct_name)
-                    with open(f"{path_to_bindings_directory}/structs/{struct_name.replace('LDK', '')}.{consts.file_extension}", "w") as out_java_struct:
+                    with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write("public class " + struct_name.replace("LDK","") + " extends CommonBase")
                         if struct_name.startswith("LDKLocked"):
@@ -1687,7 +1672,7 @@ public class bindings {
                     trait_structs.add(struct_name)
                     map_trait(struct_name, field_var_lines, trait_fn_lines)
                 elif struct_name == "LDKTxOut":
-                    with open(f"{path_to_bindings_directory}/structs/TxOut.{consts.file_extension}", "w") as out_java_struct:
+                    with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write("public class TxOut extends CommonBase{\n")
                         out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
@@ -1734,13 +1719,12 @@ public class bindings {
 
     out_java.write("}\n")
     for struct_name in opaque_structs:
-        with open(f"{path_to_bindings_directory}/structs/{struct_name.replace('LDK', '')}.{consts.file_extension}", "a") as out_java_struct:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
     for struct_name in trait_structs:
-        with open(f"{path_to_bindings_directory}/structs/{struct_name.replace('LDK', '')}.{consts.file_extension}", "a") as out_java_struct:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
-with open(path_to_c_file, "w") as out_c:
+with open(sys.argv[4], "w") as out_c:
     out_c.write(consts.c_file_pfx)
     out_c.write(consts.init_str(c_array_class_caches))
     out_c.write(c_file)
-
