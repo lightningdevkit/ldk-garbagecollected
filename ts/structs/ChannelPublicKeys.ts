@@ -1,0 +1,81 @@
+
+import CommonBase from './CommonBase';
+import * as bindings from '../bindings' // TODO: figure out location
+
+public class ChannelPublicKeys extends CommonBase {
+	ChannelPublicKeys(Object _dummy, long ptr) { super(ptr); }
+	@Override @SuppressWarnings("deprecation")
+	protected void finalize() throws Throwable {
+		super.finalize();
+		if (ptr != 0) { bindings.ChannelPublicKeys_free(ptr); }
+	}
+
+	public ChannelPublicKeys clone() {
+		uint32_t ret = bindings.ChannelPublicKeys_clone(this.ptr);
+		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		return ret_hu_conv;
+	}
+
+	public byte[] get_funding_pubkey() {
+		byte[] ret = bindings.ChannelPublicKeys_get_funding_pubkey(this.ptr);
+		return ret;
+	}
+
+	public void set_funding_pubkey(byte[] val) {
+		bindings.ChannelPublicKeys_set_funding_pubkey(this.ptr, val);
+	}
+
+	public byte[] get_revocation_basepoint() {
+		byte[] ret = bindings.ChannelPublicKeys_get_revocation_basepoint(this.ptr);
+		return ret;
+	}
+
+	public void set_revocation_basepoint(byte[] val) {
+		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, val);
+	}
+
+	public byte[] get_payment_point() {
+		byte[] ret = bindings.ChannelPublicKeys_get_payment_point(this.ptr);
+		return ret;
+	}
+
+	public void set_payment_point(byte[] val) {
+		bindings.ChannelPublicKeys_set_payment_point(this.ptr, val);
+	}
+
+	public byte[] get_delayed_payment_basepoint() {
+		byte[] ret = bindings.ChannelPublicKeys_get_delayed_payment_basepoint(this.ptr);
+		return ret;
+	}
+
+	public void set_delayed_payment_basepoint(byte[] val) {
+		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, val);
+	}
+
+	public byte[] get_htlc_basepoint() {
+		byte[] ret = bindings.ChannelPublicKeys_get_htlc_basepoint(this.ptr);
+		return ret;
+	}
+
+	public void set_htlc_basepoint(byte[] val) {
+		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, val);
+	}
+
+	public static ChannelPublicKeys constructor_new(byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_point_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg) {
+		uint32_t ret = bindings.ChannelPublicKeys_new(funding_pubkey_arg, revocation_basepoint_arg, payment_point_arg, delayed_payment_basepoint_arg, htlc_basepoint_arg);
+		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		return ret_hu_conv;
+	}
+
+	public byte[] write() {
+		byte[] ret = bindings.ChannelPublicKeys_write(this.ptr);
+		return ret;
+	}
+
+	public static ChannelPublicKeys constructor_read(byte[] ser) {
+		uint32_t ret = bindings.ChannelPublicKeys_read(ser);
+		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		return ret_hu_conv;
+	}
+
+}
