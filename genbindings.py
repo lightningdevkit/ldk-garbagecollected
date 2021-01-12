@@ -788,7 +788,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
         out_java_struct = None
         if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free:
-            out_java_struct = open(sys.argv[3] + "/structs/" + struct_meth + ".java", "a")
+            out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
             if not args_known:
                 out_java_struct.write("\t// Skipped " + re_match.group(2) + "\n")
                 out_java_struct.close()
@@ -909,7 +909,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.close()
 
     def map_unitary_enum(struct_name, field_lines):
-        with open(sys.argv[3] + "/enums/" + struct_name + ".java", "w") as out_java_enum:
+        with open(f"{sys.argv[3]}/enums/{struct_name}{consts.file_ext}", "w") as out_java_enum:
             unitary_enums.add(struct_name)
             for idx, struct_line in enumerate(field_lines):
                 if idx == 0:
@@ -1029,7 +1029,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_enum.write("}\n")
 
     def map_trait(struct_name, field_var_lines, trait_fn_lines):
-        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + consts.file_ext, "w") as out_java_trait:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_trait:
             field_var_convs = []
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:
@@ -1272,7 +1272,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_result(struct_name, res_ty, err_ty):
         result_types.add(struct_name)
         human_ty = struct_name.replace("LDKCResult", "Result")
-        with open(sys.argv[3] + "/structs/" + human_ty + consts.file_ext, "w") as out_java_struct:
+        with open(f"{sys.argv[3]}/structs/{human_ty}{consts.file_ext}", "w") as out_java_struct:
             out_java_struct.write(consts.hu_struct_file_prefix)
             out_java_struct.write("public class " + human_ty + " extends CommonBase {\n")
             out_java_struct.write("\tprivate " + human_ty + "(Object _dummy, long ptr) { super(ptr); }\n")
@@ -1495,16 +1495,8 @@ public class bindings {
 
 """)
 
-    with open(sys.argv[3] + "/structs/CommonBase" + consts.file_ext, "a") as out_java_struct:
-        out_java_struct.write("""package org.ldk.structs;
-import java.util.LinkedList;
-class CommonBase {
-	long ptr;
-	LinkedList<Object> ptrs_to = new LinkedList();
-	protected CommonBase(long ptr) { this.ptr = ptr; }
-	public long _test_only_get_ptr() { return this.ptr; }
-}
-""")
+    with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "a") as out_java_struct:
+        out_java_struct.write(consts.common_base)
 
     in_block_comment = False
     cur_block_obj = None
@@ -1594,7 +1586,7 @@ class CommonBase {
 
                 if is_opaque:
                     opaque_structs.add(struct_name)
-                    with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + consts.file_ext, "w") as out_java_struct:
+                    with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write("public class " + struct_name.replace("LDK","") + " extends CommonBase")
                         if struct_name.startswith("LDKLocked"):
@@ -1680,7 +1672,7 @@ class CommonBase {
                     trait_structs.add(struct_name)
                     map_trait(struct_name, field_var_lines, trait_fn_lines)
                 elif struct_name == "LDKTxOut":
-                    with open(sys.argv[3] + "/structs/TxOut" + consts.file_ext, "w") as out_java_struct:
+                    with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write("public class TxOut extends CommonBase{\n")
                         out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
@@ -1727,10 +1719,10 @@ class CommonBase {
 
     out_java.write("}\n")
     for struct_name in opaque_structs:
-        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + consts.file_ext, "a") as out_java_struct:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
     for struct_name in trait_structs:
-        with open(sys.argv[3] + "/structs/" + struct_name.replace("LDK","") + consts.file_ext, "a") as out_java_struct:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
 with open(sys.argv[4], "w") as out_c:
     out_c.write(consts.c_file_pfx)

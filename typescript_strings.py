@@ -1,5 +1,14 @@
 class Consts:
     def __init__(self, DEBUG):
+        self.common_base = """
+            export default class CommonBase {
+                ptr: number;
+                ptrs_to: object[] = new Array(); // new LinkedList(); TODO: build linked list implementation
+                protected constructor(ptr: number) { this.ptr = ptr; }
+                public _test_only_get_ptr(): number { return this.ptr; }
+            }
+        """
+
         self.c_file_pfx = """#include <rust_types.h>
 #include <stdatomic.h>
 #include <lightning.h>
@@ -129,14 +138,10 @@ typedef bool jboolean;
 
 """
 
-        self.hu_struct_file_prefix = """package org.ldk.structs;
+        self.hu_struct_file_prefix = f"""
+import CommonBase from './CommonBase';
+import * as bindings from '../bindings' // TODO: figure out location
 
-import org.ldk.impl.bindings;
-import org.ldk.enums.*;
-import org.ldk.util.*;
-import java.util.Arrays;
-
-@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 """
         self.c_fn_ty_pfx = ""
         self.c_fn_name_pfx = ""
