@@ -32,7 +32,6 @@ public class Persist extends CommonBase {
 				ChannelMonitor data_hu_conv = new ChannelMonitor(null, data);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.persist_new_channel(id_hu_conv, data_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long update_persisted_channel(long id, long update, long data) {
@@ -41,7 +40,6 @@ public class Persist extends CommonBase {
 				ChannelMonitor data_hu_conv = new ChannelMonitor(null, data);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_persisted_channel(id_hu_conv, update_hu_conv, data_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 		});

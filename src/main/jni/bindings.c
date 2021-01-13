@@ -208,15 +208,15 @@ _Static_assert(sizeof(void*) <= 8, "Pointers must fit into 64 bits");
 typedef jlongArray int64_tArray;
 typedef jbyteArray int8_tArray;
 
-static jclass arr_of_B_clz = NULL;
 static jclass arr_of_J_clz = NULL;
+static jclass arr_of_B_clz = NULL;
 JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass clz) {
-	arr_of_B_clz = (*env)->FindClass(env, "[B");
-	CHECK(arr_of_B_clz != NULL);
-	arr_of_B_clz = (*env)->NewGlobalRef(env, arr_of_B_clz);
 	arr_of_J_clz = (*env)->FindClass(env, "[J");
 	CHECK(arr_of_J_clz != NULL);
 	arr_of_J_clz = (*env)->NewGlobalRef(env, arr_of_J_clz);
+	arr_of_B_clz = (*env)->FindClass(env, "[B");
+	CHECK(arr_of_B_clz != NULL);
+	arr_of_B_clz = (*env)->NewGlobalRef(env, arr_of_B_clz);
 }
 static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struct LDKThirtyTwoBytes *orig) { struct LDKThirtyTwoBytes ret; memcpy(ret.data, orig->data, 32); return ret; }
 static inline LDKAccessError LDKAccessError_from_java(JNIEnv *env, jclass clz) {

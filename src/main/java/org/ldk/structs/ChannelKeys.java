@@ -55,48 +55,41 @@ public class ChannelKeys extends CommonBase {
 				CommitmentTransaction commitment_tx_hu_conv = new CommitmentTransaction(null, commitment_tx);
 				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long sign_holder_commitment(long commitment_tx) {
 				HolderCommitmentTransaction commitment_tx_hu_conv = new HolderCommitmentTransaction(null, commitment_tx);
 				Result_SignatureNoneZ ret = arg.sign_holder_commitment(commitment_tx_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long sign_holder_commitment_htlc_transactions(long commitment_tx) {
 				HolderCommitmentTransaction commitment_tx_hu_conv = new HolderCommitmentTransaction(null, commitment_tx);
 				Result_CVec_SignatureZNoneZ ret = arg.sign_holder_commitment_htlc_transactions(commitment_tx_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long sign_justice_transaction(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc) {
 				HTLCOutputInCommitment htlc_hu_conv = new HTLCOutputInCommitment(null, htlc);
 				Result_SignatureNoneZ ret = arg.sign_justice_transaction(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc) {
 				HTLCOutputInCommitment htlc_hu_conv = new HTLCOutputInCommitment(null, htlc);
 				Result_SignatureNoneZ ret = arg.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long sign_closing_transaction(byte[] closing_tx) {
 				Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long sign_channel_announcement(long msg) {
 				UnsignedChannelAnnouncement msg_hu_conv = new UnsignedChannelAnnouncement(null, msg);
 				Result_SignatureNoneZ ret = arg.sign_channel_announcement(msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public void ready_channel(long channel_parameters) {

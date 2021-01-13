@@ -33,7 +33,6 @@ public class Watch extends CommonBase {
 				ChannelMonitor monitor_hu_conv = new ChannelMonitor(null, monitor);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long update_channel(long funding_txo, long update) {
@@ -41,7 +40,6 @@ public class Watch extends CommonBase {
 				ChannelMonitorUpdate update_hu_conv = new ChannelMonitorUpdate(null, update);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long[] release_pending_monitor_events() {

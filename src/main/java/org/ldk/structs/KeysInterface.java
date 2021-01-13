@@ -56,7 +56,6 @@ public class KeysInterface extends CommonBase {
 			@Override public long read_chan_signer(byte[] reader) {
 				Result_ChanKeySignerDecodeErrorZ ret = arg.read_chan_signer(reader);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 		});

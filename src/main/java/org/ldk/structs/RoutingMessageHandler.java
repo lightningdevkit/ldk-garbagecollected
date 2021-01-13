@@ -41,21 +41,18 @@ public class RoutingMessageHandler extends CommonBase {
 				NodeAnnouncement msg_hu_conv = new NodeAnnouncement(null, msg);
 				Result_boolLightningErrorZ ret = arg.handle_node_announcement(msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long handle_channel_announcement(long msg) {
 				ChannelAnnouncement msg_hu_conv = new ChannelAnnouncement(null, msg);
 				Result_boolLightningErrorZ ret = arg.handle_channel_announcement(msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long handle_channel_update(long msg) {
 				ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
 				Result_boolLightningErrorZ ret = arg.handle_channel_update(msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public void handle_htlc_fail_channel_update(long update) {
@@ -82,28 +79,24 @@ public class RoutingMessageHandler extends CommonBase {
 				ReplyChannelRange msg_hu_conv = new ReplyChannelRange(null, msg);
 				Result_NoneLightningErrorZ ret = arg.handle_reply_channel_range(their_node_id, msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long handle_reply_short_channel_ids_end(byte[] their_node_id, long msg) {
 				ReplyShortChannelIdsEnd msg_hu_conv = new ReplyShortChannelIdsEnd(null, msg);
 				Result_NoneLightningErrorZ ret = arg.handle_reply_short_channel_ids_end(their_node_id, msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long handle_query_channel_range(byte[] their_node_id, long msg) {
 				QueryChannelRange msg_hu_conv = new QueryChannelRange(null, msg);
 				Result_NoneLightningErrorZ ret = arg.handle_query_channel_range(their_node_id, msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 			@Override public long handle_query_short_channel_ids(byte[] their_node_id, long msg) {
 				QueryShortChannelIds msg_hu_conv = new QueryShortChannelIds(null, msg);
 				Result_NoneLightningErrorZ ret = arg.handle_query_short_channel_ids(their_node_id, msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 		}, MessageSendEventsProvider.new_impl(MessageSendEventsProvider_impl).bindings_instance);

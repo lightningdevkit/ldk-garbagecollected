@@ -29,7 +29,6 @@ public class Access extends CommonBase {
 			@Override public long get_utxo(byte[] genesis_hash, long short_channel_id) {
 				Result_TxOutAccessErrorZ ret = arg.get_utxo(genesis_hash, short_channel_id);
 				long result = ret != null ? ret.ptr : 0;
-				ret.ptr = 0;
 				return result;
 			}
 		});
