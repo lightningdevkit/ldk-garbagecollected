@@ -650,6 +650,9 @@ const wasm = wasmInstance.exports;
 
         return (out_typescript_bindings, out_typescript_human, out_c)
 
+    def trait_struct_inc_refcnt(self, ty_info):
+        return ""
+
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake):
         java_hu_type = struct_name.replace("LDK", "")
 

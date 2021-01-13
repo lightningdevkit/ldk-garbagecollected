@@ -201,7 +201,7 @@ def java_c_types(fn_arg, ret_arr_len):
     elif fn_arg.startswith("uint16_t"):
         mapped_type = consts.c_type_map['uint16_t']
         java_ty = mapped_type[0]
-        c_ty = "jshort"
+        c_ty = "int16_t"
         fn_ty_arg = "S"
         fn_arg = fn_arg[8:].strip()
         is_primitive = True
