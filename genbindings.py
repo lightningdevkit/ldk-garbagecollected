@@ -924,7 +924,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
- 
+
     def map_complex_enum(struct_name, union_enum_items):
         java_hu_type = struct_name.replace("LDK", "")
         complex_enums.add(struct_name)
@@ -1232,7 +1232,7 @@ public class bindings {
 
 """)
 
-    with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "a") as out_java_struct:
+    with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "w") as out_java_struct:
         out_java_struct.write(consts.common_base)
 
     in_block_comment = False
