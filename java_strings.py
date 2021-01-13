@@ -373,6 +373,134 @@ import java.util.Arrays;
         return ret + ")"
 
     def native_c_map_trait(self, struct_name, field_vars, field_fns):
+        out_java_trait = ""
+        out_java = ""
+
+        # First generate most of the Java code, note that we need information about java method argument strings for C
+        out_java_trait = out_java_trait + self.hu_struct_file_prefix
+        out_java_trait = out_java_trait + "public class " + struct_name.replace("LDK","") + " extends CommonBase {\n"
+        out_java_trait = out_java_trait + "\tfinal bindings." + struct_name + " bindings_instance;\n"
+        out_java_trait = out_java_trait + "\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }\n"
+        out_java_trait = out_java_trait + "\tprivate " + struct_name.replace("LDK", "") + "(bindings." + struct_name + " arg"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                out_java_trait = out_java_trait + ", " + var.java_hu_ty + " " + var.arg_name
+            else:
+                out_java_trait = out_java_trait + ", bindings." + var[0] + " " + var[1]
+        out_java_trait = out_java_trait + ") {\n"
+        out_java_trait = out_java_trait + "\t\tsuper(bindings." + struct_name + "_new(arg"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                if var.from_hu_conv is not None:
+                    out_java_trait = out_java_trait + ", " + var.from_hu_conv[0]
+                else:
+                    out_java_trait = out_java_trait + ", " + var.arg_name
+            else:
+                out_java_trait = out_java_trait + ", " + var[1]
+        out_java_trait = out_java_trait + "));\n"
+        out_java_trait = out_java_trait + "\t\tthis.ptrs_to.add(arg);\n"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                if var.from_hu_conv is not None and var.from_hu_conv[1] != "":
+                    out_java_trait = out_java_trait + "\t\t" + var.from_hu_conv[1] + ";\n"
+            else:
+                out_java_trait = out_java_trait + "\t\tthis.ptrs_to.add(" + var[1] + ");\n"
+        out_java_trait = out_java_trait + "\t\tthis.bindings_instance = arg;\n"
+        out_java_trait = out_java_trait + "\t}\n"
+        out_java_trait = out_java_trait + "\t@Override @SuppressWarnings(\"deprecation\")\n"
+        out_java_trait = out_java_trait + "\tprotected void finalize() throws Throwable {\n"
+        out_java_trait = out_java_trait + "\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n"
+        out_java_trait = out_java_trait + "\t}\n\n"
+
+        java_trait_constr = "\tprivate static class " + struct_name + "Holder { " + struct_name.replace("LDK", "") + " held; }\n"
+        java_trait_constr = java_trait_constr + "\tpublic static " + struct_name.replace("LDK", "") + " new_impl(" + struct_name.replace("LDK", "") + "Interface arg"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                java_trait_constr = java_trait_constr + ", " + var.java_hu_ty + " " + var.arg_name
+            else:
+                # Ideally we'd be able to take any instance of the interface, but our C code can only represent
+                # Java-implemented version, so we require users pass a Java implementation here :/
+                java_trait_constr = java_trait_constr + ", " + var[0].replace("LDK", "") + "." + var[0].replace("LDK", "") + "Interface " + var[1] + "_impl"
+        java_trait_constr = java_trait_constr + ") {\n\t\tfinal " + struct_name + "Holder impl_holder = new " + struct_name + "Holder();\n"
+        java_trait_constr = java_trait_constr + "\t\timpl_holder.held = new " + struct_name.replace("LDK", "") + "(new bindings." + struct_name + "() {\n"
+        out_java_trait = out_java_trait + "\tpublic static interface " + struct_name.replace("LDK", "") + "Interface {\n"
+        out_java = out_java + "\tpublic interface " + struct_name + " {\n"
+        java_meths = []
+        for fn_line in field_fns:
+            java_meth_descr = "("
+            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+                out_java = out_java + "\t\t " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
+                java_trait_constr = java_trait_constr + "\t\t\t@Override public " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
+                out_java_trait = out_java_trait + "\t\t" + fn_line.ret_ty_info.java_hu_ty + " " + fn_line.fn_name + "("
+
+                for idx, arg_conv_info in enumerate(fn_line.args_ty):
+                    if idx >= 1:
+                        out_java = out_java + ", "
+                        java_trait_constr = java_trait_constr + ", "
+                        out_java_trait = out_java_trait + ", "
+                    out_java = out_java + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
+                    out_java_trait = out_java_trait + arg_conv_info.java_hu_ty + " " + arg_conv_info.arg_name
+                    java_trait_constr = java_trait_constr + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
+                    java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
+                java_meth_descr = java_meth_descr + ")" + fn_line.ret_ty_info.java_fn_ty_arg
+                java_meths.append((fn_line.fn_name, java_meth_descr))
+
+                out_java = out_java + ");\n"
+                out_java_trait = out_java_trait + ");\n"
+                java_trait_constr = java_trait_constr + ") {\n"
+
+                for arg_info in fn_line.args_ty:
+                    if arg_info.to_hu_conv is not None:
+                        java_trait_constr = java_trait_constr + "\t\t\t\t" + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
+
+                if fn_line.ret_ty_info.java_ty != "void":
+                    java_trait_constr = java_trait_constr + "\t\t\t\t" + fn_line.ret_ty_info.java_hu_ty + " ret = arg." + fn_line.fn_name + "("
+                else:
+                    java_trait_constr = java_trait_constr + "\t\t\t\targ." + fn_line.fn_name + "("
+
+                for idx, arg_info in enumerate(fn_line.args_ty):
+                    if idx != 0:
+                        java_trait_constr = java_trait_constr + ", "
+                    if arg_info.to_hu_conv_name is not None:
+                        java_trait_constr = java_trait_constr + arg_info.to_hu_conv_name
+                    else:
+                        java_trait_constr = java_trait_constr + arg_info.arg_name
+
+                java_trait_constr = java_trait_constr + ");\n"
+                if fn_line.ret_ty_info.java_ty != "void":
+                    if fn_line.ret_ty_info.from_hu_conv is not None:
+                        java_trait_constr = java_trait_constr + "\t\t\t\t" + fn_line.ret_ty_info.java_ty + " result = " + fn_line.ret_ty_info.from_hu_conv[0] + ";\n"
+                        if fn_line.ret_ty_info.from_hu_conv[1] != "":
+                            java_trait_constr = java_trait_constr + "\t\t\t\t" + fn_line.ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held") + ";\n"
+                        #if fn_line.ret_ty_info.rust_obj in result_types:
+                        # XXX: We need to handle this in conversion logic so that its cross-language!
+                            # Avoid double-free by breaking the result - we should learn to clone these and then we can be safe instead
+                        #    java_trait_constr = java_trait_constr + "\t\t\t\tret.ptr = 0;\n"
+                        java_trait_constr = java_trait_constr + "\t\t\t\treturn result;\n"
+                    else:
+                        java_trait_constr = java_trait_constr + "\t\t\t\treturn ret;\n"
+                java_trait_constr = java_trait_constr + "\t\t\t}\n"
+        java_trait_constr = java_trait_constr + "\t\t}"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                java_trait_constr = java_trait_constr + ", " + var.arg_name
+            else:
+                java_trait_constr = java_trait_constr + ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
+        out_java_trait = out_java_trait + "\t}\n"
+        out_java_trait = out_java_trait + java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
+
+        out_java = out_java + "\t}\n"
+
+        out_java = out_java + "\tpublic static native long " + struct_name + "_new(" + struct_name + " impl"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                out_java = out_java + ", " + var.java_ty + " " + var.arg_name
+            else:
+                out_java = out_java + ", " + var[0] + " " + var[1]
+        out_java = out_java + ");\n"
+        out_java = out_java + "\tpublic static native " + struct_name + " " + struct_name + "_get_obj_from_jcalls(long val);\n"
+
+        # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
         out_c = out_c + "\tatomic_size_t refcnt;\n"
         out_c = out_c + "\tJavaVM *vm;\n"
@@ -400,7 +528,7 @@ import java.util.Arrays;
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
-        for fn_line in field_fns:
+        for idx, fn_line in enumerate(field_fns):
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
                 assert fn_line.ret_ty_info.ty_info.get_full_rust_ty()[1] == ""
                 out_c = out_c + fn_line.ret_ty_info.ty_info.get_full_rust_ty()[0] + " " + fn_line.fn_name + "_jcall("
@@ -442,7 +570,90 @@ import java.util.Arrays;
 
                 out_c = out_c + "}\n"
 
-        return ("", out_c)
+        # Write out a clone function whether we need one or not, as we use them in moving to rust
+        out_c = out_c + "static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n"
+        out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
+        out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
+        for var in field_vars:
+            if not isinstance(var, ConvInfo):
+                out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
+        out_c = out_c + "\treturn (void*) this_arg;\n"
+        out_c = out_c + "}\n"
+
+        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", jobject o"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                out_c = out_c + ", " + var.c_ty + " " + var.arg_name
+            else:
+                out_c = out_c + ", jobject " + var[1]
+        out_c = out_c + ") {\n"
+
+        out_c = out_c + "\tjclass c = (*env)->GetObjectClass(env, o);\n"
+        out_c = out_c + "\tCHECK(c != NULL);\n"
+        out_c = out_c + "\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n"
+        out_c = out_c + "\tatomic_init(&calls->refcnt, 1);\n"
+        out_c = out_c + "\tDO_ASSERT((*env)->GetJavaVM(env, &calls->vm) == 0);\n"
+        out_c = out_c + "\tcalls->o = (*env)->NewWeakGlobalRef(env, o);\n"
+
+        for (fn_name, java_meth_descr) in java_meths:
+            if fn_name != "free" and fn_name != "clone":
+                out_c = out_c + "\tcalls->" + fn_name + "_meth = (*env)->GetMethodID(env, c, \"" + fn_name + "\", \"" + java_meth_descr + "\");\n"
+                out_c = out_c + "\tCHECK(calls->" + fn_name + "_meth != NULL);\n"
+
+        for var in field_vars:
+            if isinstance(var, ConvInfo) and var.arg_conv is not None:
+                out_c = out_c + "\n\t" + var.arg_conv.replace("\n", "\n\t") +"\n"
+        out_c = out_c + "\n\t" + struct_name + " ret = {\n"
+        out_c = out_c + "\t\t.this_arg = (void*) calls,\n"
+        for fn_line in field_fns:
+            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+                out_c = out_c + "\t\t." + fn_line.fn_name + " = " + fn_line.fn_name + "_jcall,\n"
+            elif fn_line.fn_name == "free":
+                out_c = out_c + "\t\t.free = " + struct_name + "_JCalls_free,\n"
+            else:
+                out_c = out_c + "\t\t.clone = " + struct_name + "_JCalls_clone,\n"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                if var.arg_conv_name is not None:
+                    out_c = out_c + "\t\t." + var.arg_name + " = " + var.arg_conv_name + ",\n"
+                    out_c = out_c + "\t\t.set_" + var.arg_name + " = NULL,\n"
+                else:
+                    out_c = out_c + "\t\t." + var.var_name + " = " + var.var_name + ",\n"
+                    out_c = out_c + "\t\t.set_" + var.var_name + " = NULL,\n"
+            else:
+                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(env, clz, " + var[1] + "),\n"
+        out_c = out_c + "\t};\n"
+        for var in field_vars:
+            if not isinstance(var, ConvInfo):
+                out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[1] + ".this_arg;\n"
+        out_c = out_c + "\treturn ret;\n"
+        out_c = out_c + "}\n"
+
+        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new (" + self.c_fn_args_pfx + ", jobject o"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                out_c = out_c + ", " + var.c_ty + " " + var.arg_name
+            else:
+                out_c = out_c + ", jobject " + var[1]
+        out_c = out_c + ") {\n"
+        out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
+        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(env, clz, o"
+        for var in field_vars:
+            if isinstance(var, ConvInfo):
+                out_c = out_c + ", " + var.arg_name
+            else:
+                out_c = out_c + ", " + var[1]
+        out_c = out_c + ");\n"
+        out_c = out_c + "\treturn (long)res_ptr;\n"
+        out_c = out_c + "}\n"
+
+        out_c = out_c + self.c_fn_ty_pfx + "jobject " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (" + self.c_fn_args_pfx + ", " + self.ptr_c_ty + " val) {\n"
+        out_c = out_c + "\tjobject ret = (*env)->NewLocalRef(env, ((" + struct_name + "_JCalls*)val)->o);\n"
+        out_c = out_c + "\tCHECK(ret != NULL);\n"
+        out_c = out_c + "\treturn ret;\n"
+        out_c = out_c + "}\n"
+
+        return (out_java, out_java_trait, out_c)
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake):
         java_hu_type = struct_name.replace("LDK", "")

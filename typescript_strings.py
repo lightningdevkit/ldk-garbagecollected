@@ -238,7 +238,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         return ret
 
     def native_c_map_trait(self, struct_name, field_var_convs, field_fn_lines):
-        return ("", "")
+        return ("", "", "")
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake):
         java_hu_type = struct_name.replace("LDK", "")
