@@ -10,7 +10,10 @@ class Consts:
     def __init__(self, DEBUG):
 
         self.c_type_map = dict(
-            byte = ['number', 'Uint8Array'],
+            uint8_t = ['number', 'Uint8Array'],
+            uint16_t = ['number', 'Uint16Array'],
+            uint32_t = ['number', 'Uint32Array'],
+            long = ['number'],
         )
 
         self.common_base = """

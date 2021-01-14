@@ -4,7 +4,10 @@ class Consts:
     def __init__(self, DEBUG):
 
         self.c_type_map = dict(
-            byte = ['byte'],
+            uint8_t = ['byte'],
+            uint16_t = ['short'],
+            uint32_t = ['int'],
+            long = ['long'],
         )
 
         self.common_base = """package org.ldk.structs;

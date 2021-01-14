@@ -185,27 +185,30 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_arg = fn_arg[4:].strip()
         is_primitive = True
     elif fn_arg.startswith("uint8_t"):
-        mapped_type = consts.c_type_map['byte']
+        mapped_type = consts.c_type_map['uint8_t']
         java_ty = mapped_type[0]
         c_ty = "int8_t"
         fn_ty_arg = "B"
         fn_arg = fn_arg[7:].strip()
         is_primitive = True
     elif fn_arg.startswith("uint16_t"):
-        java_ty = "short"
+        mapped_type = consts.c_type_map['uint16_t']
+        java_ty = mapped_type[0]
         c_ty = "jshort"
         fn_ty_arg = "S"
         fn_arg = fn_arg[8:].strip()
         is_primitive = True
     elif fn_arg.startswith("uint32_t"):
-        java_ty = "int"
+        mapped_type = consts.c_type_map['uint32_t']
+        java_ty = mapped_type[0]
         c_ty = "int32_t"
         fn_ty_arg = "I"
         fn_arg = fn_arg[8:].strip()
         is_primitive = True
     elif fn_arg.startswith("uint64_t") or fn_arg.startswith("uintptr_t"):
         # TODO: uintptr_t is arch-dependent :(
-        java_ty = "long"
+        mapped_type = consts.c_type_map['long']
+        java_ty = mapped_type[0]
         c_ty = "int64_t"
         fn_ty_arg = "J"
         if fn_arg.startswith("uint64_t"):
