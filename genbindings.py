@@ -170,6 +170,8 @@ def java_c_types(fn_arg, ret_arr_len):
 
     is_primitive = False
     arr_len = None
+    mapped_type = []
+    java_type_plural = None
     if fn_arg.startswith("void"):
         java_ty = "void"
         c_ty = "void"
@@ -183,7 +185,8 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_arg = fn_arg[4:].strip()
         is_primitive = True
     elif fn_arg.startswith("uint8_t"):
-        java_ty = "byte"
+        mapped_type = consts.c_type_map['byte']
+        java_ty = mapped_type[0]
         c_ty = "int8_t"
         fn_ty_arg = "B"
         fn_arg = fn_arg[7:].strip()
@@ -295,7 +298,11 @@ def java_c_types(fn_arg, ret_arr_len):
     if var_is_arr is not None or ret_arr_len is not None:
         assert(not take_by_ptr)
         assert(not is_ptr)
-        java_ty = java_ty + "[]"
+        # is there a special case for plurals?
+        if len(mapped_type) == 2:
+            java_ty = mapped_type[1]
+        else:
+            java_ty = java_ty + "[]"
         c_ty = c_ty + "Array"
         if var_is_arr is not None:
             if var_is_arr.group(1) == "":

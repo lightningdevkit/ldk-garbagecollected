@@ -8,6 +8,11 @@ def first_to_lower(string: str) -> str:
 
 class Consts:
     def __init__(self, DEBUG):
+
+        self.c_type_map = dict(
+            byte = ['number', 'Uint8Array'],
+        )
+
         self.common_base = """
             export default class CommonBase {
                 ptr: number;
@@ -274,6 +279,18 @@ import * as bindings from '../bindings' // TODO: figure out location
                 super_instantiator += ", " + first_to_lower(var[1])
                 pointer_to_adder += "this.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
 
+        # BUILD INTERFACE METHODS
+        out_java_interface = ""
+        for fn_line in field_function_lines:
+            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+                out_java_interface += fn_line.fn_name + "("
+
+                for idx, arg_conv_info in enumerate(fn_line.args_ty):
+                    if idx >= 1:
+                        out_java_interface += ", "
+                    out_java_interface += f"{arg_conv_info.arg_name}: {arg_conv_info.java_hu_ty}"
+                out_java_interface += f"): {fn_line.ret_ty_info.java_hu_ty};\n\t\t\t\t"
+
         out_java_trait = f"""
             {self.hu_struct_file_prefix}
             
@@ -300,6 +317,10 @@ import * as bindings from '../bindings' // TODO: figure out location
                     super.finalize();
                 }}
                 
+            }}
+            
+            export interface {struct_name.replace("LDK", "")}Interface {{
+                {out_java_interface}
             }}
         """
 
@@ -381,6 +402,8 @@ import * as bindings from '../bindings' // TODO: figure out location
                 java_trait_constr = java_trait_constr + ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
         out_java_trait = out_java_trait + "\t}\n"
         out_java_trait = out_java_trait + java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
+
+        print(java_trait_constr)
 
         out_java = out_java + "\t}\n"
 

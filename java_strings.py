@@ -2,6 +2,11 @@ from bindingstypes import *
 
 class Consts:
     def __init__(self, DEBUG):
+
+        self.c_type_map = dict(
+            byte = ['byte'],
+        )
+
         self.common_base = """package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {
