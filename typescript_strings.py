@@ -268,9 +268,11 @@ import * as bindings from '../bindings' // TODO: figure out location
         constructor_arguments = ""
         super_instantiator = ""
         pointer_to_adder = ""
+        impl_constructor_arguments = ""
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 constructor_arguments += f", {first_to_lower(var.arg_name)}?: {var.java_hu_ty}"
+                impl_constructor_arguments += f", {var.arg_name}: {var.java_hu_ty}"
                 if var.from_hu_conv is not None:
                     super_instantiator += ", " + var.from_hu_conv[0]
                     if var.from_hu_conv[1] != "":
@@ -281,6 +283,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                 constructor_arguments += f", {first_to_lower(var[1])}?: bindings.{var[0]}"
                 super_instantiator += ", " + first_to_lower(var[1])
                 pointer_to_adder += "this.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
+                impl_constructor_arguments += f", {first_to_lower(var[1])}_impl: {var[0].replace('LDK', '')}.{var[0].replace('LDK', '')}Interface"
 
         # BUILD INTERFACE METHODS
         out_java_interface = ""
@@ -320,27 +323,29 @@ import * as bindings from '../bindings' // TODO: figure out location
                     super.finalize();
                 }}
                 
+                static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
+                    const impl_holder: {struct_name}Holder = new {struct_name}Holder();
+                    impl_holder.held = new {struct_name.replace("LDK", "")} (new bindings.{struct_name}() {{
+                        // todo: in-line interface filling
+                    }});
+                }}
+                
             }}
             
             export interface {struct_name.replace("LDK", "")}Interface {{
                 {out_java_interface}
             }}
+            
+            class {struct_name}Holder {{
+                held: {struct_name.replace("LDK", "")};
+            }}
+            
         """
 
 
 
-        java_trait_constr = "\tprivate static class " + struct_name + "Holder { " + struct_name.replace("LDK", "") + " held; }\n"
-        java_trait_constr = java_trait_constr + "\tpublic static " + struct_name.replace("LDK", "") + " new_impl(" + struct_name.replace("LDK", "") + "Interface arg"
-        for var in field_var_conversions:
-            if isinstance(var, ConvInfo):
-                java_trait_constr = java_trait_constr + ", " + var.java_hu_ty + " " + var.arg_name
-            else:
-                # Ideally we'd be able to take any instance of the interface, but our C code can only represent
-                # Java-implemented version, so we require users pass a Java implementation here :/
-                java_trait_constr = java_trait_constr + ", " + var[0].replace("LDK", "") + "." + var[0].replace("LDK", "") + "Interface " + var[1] + "_impl"
-        java_trait_constr = java_trait_constr + ") {\n\t\tfinal " + struct_name + "Holder impl_holder = new " + struct_name + "Holder();\n"
+        java_trait_constr = ") {\n\t\tfinal " + struct_name + "Holder impl_holder = new " + struct_name + "Holder();\n"
         java_trait_constr = java_trait_constr + "\t\timpl_holder.held = new " + struct_name.replace("LDK", "") + "(new bindings." + struct_name + "() {\n"
-        out_java_trait = out_java_trait + "\tpublic static interface " + struct_name.replace("LDK", "") + "Interface {\n"
         out_java = out_java + "\tpublic interface " + struct_name + " {\n"
         java_meths = []
         for fn_line in field_function_lines:
@@ -348,22 +353,21 @@ import * as bindings from '../bindings' // TODO: figure out location
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
                 out_java = out_java + "\t\t " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
                 java_trait_constr = java_trait_constr + "\t\t\t@Override public " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
-                out_java_trait = out_java_trait + "\t\t" + fn_line.ret_ty_info.java_hu_ty + " " + fn_line.fn_name + "("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
                         out_java = out_java + ", "
                         java_trait_constr = java_trait_constr + ", "
-                        out_java_trait = out_java_trait + ", "
+                        # out_java_trait = out_java_trait + ", "
                     out_java = out_java + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
-                    out_java_trait = out_java_trait + arg_conv_info.java_hu_ty + " " + arg_conv_info.arg_name
+                    # out_java_trait = out_java_trait + arg_conv_info.java_hu_ty + " " + arg_conv_info.arg_name
                     java_trait_constr = java_trait_constr + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
                     java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
                 java_meth_descr = java_meth_descr + ")" + fn_line.ret_ty_info.java_fn_ty_arg
                 java_meths.append((fn_line.fn_name, java_meth_descr))
 
                 out_java = out_java + ");\n"
-                out_java_trait = out_java_trait + ");\n"
+                # out_java_trait = out_java_trait + ");\n"
                 java_trait_constr = java_trait_constr + ") {\n"
 
                 for arg_info in fn_line.args_ty:
@@ -403,10 +407,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                 java_trait_constr = java_trait_constr + ", " + var.arg_name
             else:
                 java_trait_constr = java_trait_constr + ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
-        out_java_trait = out_java_trait + "\t}\n"
-        out_java_trait = out_java_trait + java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
-
-        print(java_trait_constr)
+        out_java_trait += java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
 
         out_java = out_java + "\t}\n"
 
