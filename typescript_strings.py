@@ -287,15 +287,62 @@ import * as bindings from '../bindings' // TODO: figure out location
 
         # BUILD INTERFACE METHODS
         out_java_interface = ""
+        out_interface_implementation_overrides = ""
+        java_methods = []
         for fn_line in field_function_lines:
+            java_method_descriptor = ""
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
                 out_java_interface += fn_line.fn_name + "("
+                out_interface_implementation_overrides += f"{fn_line.fn_name} ("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
                         out_java_interface += ", "
+                        out_interface_implementation_overrides += ", "
                     out_java_interface += f"{arg_conv_info.arg_name}: {arg_conv_info.java_hu_ty}"
+                    out_interface_implementation_overrides += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
+                    java_method_descriptor += arg_conv_info.java_fn_ty_arg
                 out_java_interface += f"): {fn_line.ret_ty_info.java_hu_ty};\n\t\t\t\t"
+                java_method_descriptor += ")" + fn_line.ret_ty_info.java_fn_ty_arg
+                java_methods.append((fn_line.fn_name, java_method_descriptor))
+
+                out_interface_implementation_overrides += f"): {fn_line.ret_ty_info.java_ty} {{\n"
+
+                interface_method_override_inset = "\t\t\t\t\t\t"
+                interface_implementation_inset = "\t\t\t\t\t\t\t"
+                for arg_info in fn_line.args_ty:
+                    if arg_info.to_hu_conv is not None:
+                        out_interface_implementation_overrides += interface_implementation_inset + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
+
+                if fn_line.ret_ty_info.java_ty != "void":
+                    out_interface_implementation_overrides += interface_implementation_inset + fn_line.ret_ty_info.java_hu_ty + " ret = arg." + fn_line.fn_name + "("
+                else:
+                    out_interface_implementation_overrides += f"{interface_implementation_inset}arg." + fn_line.fn_name + "("
+
+                for idx, arg_info in enumerate(fn_line.args_ty):
+                    if idx != 0:
+                        out_interface_implementation_overrides += ", "
+                    if arg_info.to_hu_conv_name is not None:
+                        out_interface_implementation_overrides += arg_info.to_hu_conv_name
+                    else:
+                        out_interface_implementation_overrides += arg_info.arg_name
+
+                out_interface_implementation_overrides += ");\n"
+                if fn_line.ret_ty_info.java_ty != "void":
+                    if fn_line.ret_ty_info.from_hu_conv is not None:
+                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\t" + f"result: {fn_line.ret_ty_info.java_ty} = " + fn_line.ret_ty_info.from_hu_conv[0] + ";\n"
+                        if fn_line.ret_ty_info.from_hu_conv[1] != "":
+                            out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\t" + fn_line.ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held") + ";\n"
+                        #if fn_line.ret_ty_info.rust_obj in result_types:
+                        # XXX: We need to handle this in conversion logic so that its cross-language!
+                        # Avoid double-free by breaking the result - we should learn to clone these and then we can be safe instead
+                        #    out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\tret.ptr = 0;\n"
+                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\treturn result;\n"
+                    else:
+                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\treturn ret;\n"
+                out_interface_implementation_overrides += f"{interface_method_override_inset}}},\n\n{interface_method_override_inset}"
+
+
 
         out_java_trait = f"""
             {self.hu_struct_file_prefix}
@@ -325,9 +372,13 @@ import * as bindings from '../bindings' // TODO: figure out location
                 
                 static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
                     const impl_holder: {struct_name}Holder = new {struct_name}Holder();
-                    impl_holder.held = new {struct_name.replace("LDK", "")} (new bindings.{struct_name}() {{
+                    let structImplementation = <bindings.{struct_name}>{{
+                    
                         // todo: in-line interface filling
-                    }});
+                        
+                        {out_interface_implementation_overrides}
+                    }};
+                    impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation);
                 }}
                 
             }}
