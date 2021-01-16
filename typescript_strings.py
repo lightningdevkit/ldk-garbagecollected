@@ -22,6 +22,18 @@ class Consts:
         )
 
         self.bindings_header = """
+    
+const path = require('path').join(__dirname, 'bindings.wasm');
+const bytes = require('fs').readFileSync(path);
+let imports = {};
+// add all exports to dictionary and move down?
+// use `module.exports`?
+// imports['./bindings.js'] = require('./bindings.js');
+
+const wasmModule = new WebAssembly.Module(bytes);
+const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
+// module.exports = wasmInstance.exports;
+const wasm = wasmInstance.exports;
         
 export class VecOrSliceDef {
     public dataptr: number;
