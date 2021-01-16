@@ -10,6 +10,11 @@ class Consts:
             long = ['long'],
         )
 
+        self.to_hu_conv_templates = dict(
+            ptr = '{human_type} {var_name}_hu_conv = new {human_type}(null, {var_name});',
+            default = '{human_type} {var_name}_hu_conv = new {human_type}(null, {var_name});'
+        )
+
         self.common_base = """package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {

@@ -16,6 +16,11 @@ class Consts:
             long = ['number'],
         )
 
+        self.to_hu_conv_templates = dict(
+            ptr = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
+            default = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
+        )
+
         self.common_base = """
             export default class CommonBase {
                 ptr: number;
@@ -342,6 +347,13 @@ import * as bindings from '../bindings' // TODO: figure out location
                         out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\treturn ret;\n"
                 out_interface_implementation_overrides += f"{interface_method_override_inset}}},\n\n{interface_method_override_inset}"
 
+        trait_constructor_arguments = ""
+        for var in field_var_conversions:
+            if isinstance(var, ConvInfo):
+                trait_constructor_arguments += ", " + var.arg_name
+            else:
+                trait_constructor_arguments += ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
+
 
 
         out_java_trait = f"""
@@ -378,7 +390,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         
                         {out_interface_implementation_overrides}
                     }};
-                    impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation);
+                    impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation{trait_constructor_arguments});
                 }}
                 
             }}
@@ -395,70 +407,23 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 
 
-        java_trait_constr = ") {\n\t\tfinal " + struct_name + "Holder impl_holder = new " + struct_name + "Holder();\n"
-        java_trait_constr = java_trait_constr + "\t\timpl_holder.held = new " + struct_name.replace("LDK", "") + "(new bindings." + struct_name + "() {\n"
         out_java = out_java + "\tpublic interface " + struct_name + " {\n"
         java_meths = []
         for fn_line in field_function_lines:
             java_meth_descr = "("
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
                 out_java = out_java + "\t\t " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
-                java_trait_constr = java_trait_constr + "\t\t\t@Override public " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
                         out_java = out_java + ", "
-                        java_trait_constr = java_trait_constr + ", "
                         # out_java_trait = out_java_trait + ", "
                     out_java = out_java + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
                     # out_java_trait = out_java_trait + arg_conv_info.java_hu_ty + " " + arg_conv_info.arg_name
-                    java_trait_constr = java_trait_constr + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
-                    java_meth_descr = java_meth_descr + arg_conv_info.java_fn_ty_arg
-                java_meth_descr = java_meth_descr + ")" + fn_line.ret_ty_info.java_fn_ty_arg
-                java_meths.append((fn_line.fn_name, java_meth_descr))
 
                 out_java = out_java + ");\n"
                 # out_java_trait = out_java_trait + ");\n"
-                java_trait_constr = java_trait_constr + ") {\n"
 
-                for arg_info in fn_line.args_ty:
-                    if arg_info.to_hu_conv is not None:
-                        java_trait_constr = java_trait_constr + "\t\t\t\t" + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
-
-                if fn_line.ret_ty_info.java_ty != "void":
-                    java_trait_constr = java_trait_constr + "\t\t\t\t" + fn_line.ret_ty_info.java_hu_ty + " ret = arg." + fn_line.fn_name + "("
-                else:
-                    java_trait_constr = java_trait_constr + "\t\t\t\targ." + fn_line.fn_name + "("
-
-                for idx, arg_info in enumerate(fn_line.args_ty):
-                    if idx != 0:
-                        java_trait_constr = java_trait_constr + ", "
-                    if arg_info.to_hu_conv_name is not None:
-                        java_trait_constr = java_trait_constr + arg_info.to_hu_conv_name
-                    else:
-                        java_trait_constr = java_trait_constr + arg_info.arg_name
-
-                java_trait_constr = java_trait_constr + ");\n"
-                if fn_line.ret_ty_info.java_ty != "void":
-                    if fn_line.ret_ty_info.from_hu_conv is not None:
-                        java_trait_constr = java_trait_constr + "\t\t\t\t" + fn_line.ret_ty_info.java_ty + " result = " + fn_line.ret_ty_info.from_hu_conv[0] + ";\n"
-                        if fn_line.ret_ty_info.from_hu_conv[1] != "":
-                            java_trait_constr = java_trait_constr + "\t\t\t\t" + fn_line.ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held") + ";\n"
-                        #if fn_line.ret_ty_info.rust_obj in result_types:
-                        # XXX: We need to handle this in conversion logic so that its cross-language!
-                        # Avoid double-free by breaking the result - we should learn to clone these and then we can be safe instead
-                        #    java_trait_constr = java_trait_constr + "\t\t\t\tret.ptr = 0;\n"
-                        java_trait_constr = java_trait_constr + "\t\t\t\treturn result;\n"
-                    else:
-                        java_trait_constr = java_trait_constr + "\t\t\t\treturn ret;\n"
-                java_trait_constr = java_trait_constr + "\t\t\t}\n"
-        java_trait_constr = java_trait_constr + "\t\t}"
-        for var in field_var_conversions:
-            if isinstance(var, ConvInfo):
-                java_trait_constr = java_trait_constr + ", " + var.arg_name
-            else:
-                java_trait_constr = java_trait_constr + ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
-        out_java_trait += java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
 
         out_java = out_java + "\t}\n"
 
