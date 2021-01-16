@@ -919,20 +919,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 if is_opaque:
                     opaque_structs.add(struct_name)
                     with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_struct:
-                        out_java_struct.write(consts.hu_struct_file_prefix)
-                        out_java_struct.write("public class " + struct_name.replace("LDK","") + " extends CommonBase")
-                        if struct_name.startswith("LDKLocked"):
-                            out_java_struct.write(" implements AutoCloseable")
-                        out_java_struct.write(" {\n")
-                        out_java_struct.write("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); }\n")
-                        if struct_name.startswith("LDKLocked"):
-                            out_java_struct.write("\t@Override public void close() {\n")
-                        else:
-                            out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
-                            out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
-                            out_java_struct.write("\t\tsuper.finalize();\n")
-                        out_java_struct.write("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); }\n")
-                        out_java_struct.write("\t}\n\n")
+                        out_opaque_struct_human = consts.map_opaque_struct(struct_name)
+                        out_java_struct.write(out_opaque_struct_human)
                 elif result_contents is not None:
                     assert result_contents in result_ptr_struct_items
                     res_ty, err_ty = result_ptr_struct_items[result_contents]

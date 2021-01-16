@@ -726,3 +726,34 @@ const wasm = wasmInstance.exports;
         out_java_enum += ("}\n")
         out_java_enum += (java_hu_subclasses)
         return (out_java, out_java_enum, out_c)
+
+    def map_opaque_struct(self, struct_name):
+
+        implementations = ""
+        method_header = ""
+        if struct_name.startswith("LDKLocked"):
+            implementations += "implements AutoCloseable "
+            method_header = """
+                public close() {
+            """
+        else:
+            method_header = """
+                protected finalize() {
+                    super.finalize();
+            """
+
+        out_opaque_struct_human = f"""
+            {self.hu_struct_file_prefix}
+            
+            export default class {struct_name.replace("LDK","")} extends CommonBase {implementations}{{
+                constructor(_dummy: object, ptr: number) {{
+                    super(ptr);
+                }}
+                
+                {method_header}
+                    if (this.ptr != 0) {{
+                        bindings.{struct_name.replace("LDK","")}_free(this.ptr);
+                    }}
+                }}
+        """
+        return out_opaque_struct_human

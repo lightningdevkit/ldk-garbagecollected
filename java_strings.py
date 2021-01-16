@@ -785,3 +785,21 @@ import java.util.Arrays;
         out_c += ("\t}\n}\n")
         out_java_enum += ("}\n")
         return (out_java, out_java_enum, out_c)
+
+    def map_opaque_struct(self, struct_name):
+        out_opaque_struct_human = ""
+        out_opaque_struct_human += self.hu_struct_file_prefix
+        out_opaque_struct_human += ("public class " + struct_name.replace("LDK","") + " extends CommonBase")
+        if struct_name.startswith("LDKLocked"):
+            out_opaque_struct_human += (" implements AutoCloseable")
+        out_opaque_struct_human += (" {\n")
+        out_opaque_struct_human += ("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); }\n")
+        if struct_name.startswith("LDKLocked"):
+            out_opaque_struct_human += ("\t@Override public void close() {\n")
+        else:
+            out_opaque_struct_human += ("\t@Override @SuppressWarnings(\"deprecation\")\n")
+            out_opaque_struct_human += ("\tprotected void finalize() throws Throwable {\n")
+            out_opaque_struct_human += ("\t\tsuper.finalize();\n")
+        out_opaque_struct_human += ("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); }\n")
+        out_opaque_struct_human += ("\t}\n\n")
+        return out_opaque_struct_human
