@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys, re
 
-if len(sys.argv) != 7:
+if len(sys.argv) < 7:
     print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang")
     sys.exit(1)
 
@@ -13,14 +13,19 @@ else:
     print("debug should be true or false and indicates whether to track allocations and ensure we don't leak")
     sys.exit(1)
 
+target = None
 if sys.argv[6] == "java":
     from java_strings import Consts
 elif sys.argv[6] == "typescript":
+    import typescript_strings
     from typescript_strings import Consts
+    target = typescript_strings.Target.NODEJS
+    if len(sys.argv) == 8 and sys.argv[7] == 'browser':
+        target = typescript_strings.Target.BROWSER
 else:
     print("Only java or typescript can be set for lang")
     sys.exit(1)
-consts = Consts(DEBUG)
+consts = Consts(DEBUG, target=target)
 
 from bindingstypes import *
 

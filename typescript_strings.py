@@ -1,13 +1,17 @@
 from bindingstypes import ConvInfo
-
+from enum import Enum
 
 def first_to_lower(string: str) -> str:
     first = string[0]
     return first.lower() + string[1:]
 
 
+class Target(Enum):
+    NODEJS = 1,
+    BROWSER = 2
+
 class Consts:
-    def __init__(self, DEBUG):
+    def __init__(self, DEBUG: bool, target: Target, **kwargs):
 
         self.c_type_map = dict(
             uint8_t = ['number', 'Uint8Array'],
@@ -21,20 +25,7 @@ class Consts:
             default = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
         )
 
-        self.bindings_header = """
-    
-const path = require('path').join(__dirname, 'bindings.wasm');
-const bytes = require('fs').readFileSync(path);
-let imports = {};
-// add all exports to dictionary and move down?
-// use `module.exports`?
-// imports['./bindings.js'] = require('./bindings.js');
-
-const wasmModule = new WebAssembly.Module(bytes);
-const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
-// module.exports = wasmInstance.exports;
-const wasm = wasmInstance.exports;
-        
+        self.bindings_header = self.wasm_import_header(target) + """
 export class VecOrSliceDef {
     public dataptr: number;
     public datalen: number;
@@ -261,6 +252,24 @@ import * as bindings from '../bindings' // TODO: figure out location
             return None
         else:
             return None
+
+
+    def wasm_import_header(self, target):
+        if target == Target.NODEJS:
+            return """
+const path = require('path').join(__dirname, 'bindings.wasm');
+const bytes = require('fs').readFileSync(path);
+let imports = {};
+// add all exports to dictionary and move down?
+// use `module.exports`?
+// imports['./bindings.js'] = require('./bindings.js');
+
+const wasmModule = new WebAssembly.Module(bytes);
+const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
+// module.exports = wasmInstance.exports;
+const wasm = wasmInstance.exports;
+            """
+        return ''
 
     def init_str(self, c_array_class_caches):
         return ""

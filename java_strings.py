@@ -1,7 +1,7 @@
 from bindingstypes import *
 
 class Consts:
-    def __init__(self, DEBUG):
+    def __init__(self, DEBUG: bool, **kwargs):
 
         self.c_type_map = dict(
             uint8_t = ['byte'],
