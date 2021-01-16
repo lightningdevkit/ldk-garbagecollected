@@ -21,6 +21,45 @@ class Consts:
             default = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
         )
 
+        self.bindings_header = """
+        
+export class VecOrSliceDef {
+    public dataptr: number;
+    public datalen: number;
+    public stride: number;
+    public constructor(dataptr: number, datalen: number, stride: number) {
+        this.dataptr = dataptr; 
+        this.datalen = datalen; 
+        this.stride = stride;
+    }
+}
+
+/*
+TODO: load WASM file
+static {
+    System.loadLibrary(\"lightningjni\");
+    init(java.lang.Enum.class, VecOrSliceDef.class);
+    init_class_cache();
+}
+
+static native void init(java.lang.Class c, java.lang.Class slicedef);
+static native void init_class_cache();
+
+public static native boolean deref_bool(long ptr);
+public static native long deref_long(long ptr);
+public static native void free_heap_ptr(long ptr);
+public static native byte[] read_bytes(long ptr, long len);
+public static native byte[] get_u8_slice_bytes(long slice_ptr);
+public static native long bytes_to_u8_vec(byte[] bytes);
+public static native long new_txpointer_copy_data(byte[] txdata);
+public static native void txpointer_free(long ptr);
+public static native byte[] txpointer_get_buffer(long ptr);
+public static native long vec_slice_len(long vec);
+public static native long new_empty_slice_vec();
+*/
+
+"""
+
         self.common_base = """
             export default class CommonBase {
                 ptr: number;
@@ -262,13 +301,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         return ret
 
     def native_c_map_trait(self, struct_name, field_var_conversions, field_function_lines):
-        out_java = "out_java:native_c_map_trait"
-        out_java_trait = "out_java_trait:native_c_map_trait"
-        out_c = "out_c:native_c_map_trait"
-
-
-        out_java_trait = ""
-        out_java = ""
+        out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
 
         constructor_arguments = ""
         super_instantiator = ""
@@ -356,7 +389,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 
 
-        out_java_trait = f"""
+        out_typescript_human = f"""
             {self.hu_struct_file_prefix}
             
             export class {struct_name.replace("LDK","")} extends CommonBase {{
@@ -407,34 +440,38 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 
 
-        out_java = out_java + "\tpublic interface " + struct_name + " {\n"
+        out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
         java_meths = []
         for fn_line in field_function_lines:
-            java_meth_descr = "("
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
-                out_java = out_java + "\t\t " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
+                out_typescript_bindings += f"\t\t\t{fn_line.fn_name} ("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
-                        out_java = out_java + ", "
-                        # out_java_trait = out_java_trait + ", "
-                    out_java = out_java + arg_conv_info.java_ty + " " + arg_conv_info.arg_name
-                    # out_java_trait = out_java_trait + arg_conv_info.java_hu_ty + " " + arg_conv_info.arg_name
+                        out_typescript_bindings = out_typescript_bindings + ", "
+                    out_typescript_bindings += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
 
-                out_java = out_java + ");\n"
-                # out_java_trait = out_java_trait + ");\n"
+                out_typescript_bindings += f"): {fn_line.ret_ty_info.java_ty};\n"
 
+        out_typescript_bindings = out_typescript_bindings + "\t\t}\n\n"
 
-        out_java = out_java + "\t}\n"
-
-        out_java = out_java + "\tpublic static native long " + struct_name + "_new(" + struct_name + " impl"
+        out_typescript_bindings += f"\t\texport function {struct_name}_new(impl: {struct_name}"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
-                out_java = out_java + ", " + var.java_ty + " " + var.arg_name
+                out_typescript_bindings += f", {var.arg_name}: {var.java_ty}"
             else:
-                out_java = out_java + ", " + var[0] + " " + var[1]
-        out_java = out_java + ");\n"
-        out_java = out_java + "\tpublic static native " + struct_name + " " + struct_name + "_get_obj_from_jcalls(long val);\n"
+                out_typescript_bindings += f", {var[1]}: {var[0]}"
+
+        out_typescript_bindings += f"""): number {{
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }}
+        
+        export function {struct_name}_get_obj_from_jcalls(val: number): {struct_name} {{
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }}
+        """
+
+        out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
 
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
@@ -590,7 +627,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         out_c = out_c + "}\n"
 
 
-        return (out_java, out_java_trait, out_c)
+        return (out_typescript_bindings, out_typescript_human, out_c)
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake):
         java_hu_type = struct_name.replace("LDK", "")

@@ -15,6 +15,40 @@ class Consts:
             default = '{human_type} {var_name}_hu_conv = new {human_type}(null, {var_name});'
         )
 
+        self.bindings_header = """package org.ldk.impl;
+import org.ldk.enums.*;
+
+public class bindings {
+	public static class VecOrSliceDef {
+		public long dataptr;
+		public long datalen;
+		public long stride;
+		public VecOrSliceDef(long dataptr, long datalen, long stride) {
+			this.dataptr = dataptr; this.datalen = datalen; this.stride = stride;
+		}
+	}
+	static {
+		System.loadLibrary(\"lightningjni\");
+		init(java.lang.Enum.class, VecOrSliceDef.class);
+		init_class_cache();
+	}
+	static native void init(java.lang.Class c, java.lang.Class slicedef);
+	static native void init_class_cache();
+
+	public static native boolean deref_bool(long ptr);
+	public static native long deref_long(long ptr);
+	public static native void free_heap_ptr(long ptr);
+	public static native byte[] read_bytes(long ptr, long len);
+	public static native byte[] get_u8_slice_bytes(long slice_ptr);
+	public static native long bytes_to_u8_vec(byte[] bytes);
+	public static native long new_txpointer_copy_data(byte[] txdata);
+	public static native void txpointer_free(long ptr);
+	public static native byte[] txpointer_get_buffer(long ptr);
+	public static native long vec_slice_len(long vec);
+	public static native long new_empty_slice_vec();
+
+"""
+
         self.common_base = """package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {
