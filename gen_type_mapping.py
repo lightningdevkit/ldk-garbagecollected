@@ -17,7 +17,8 @@ class TypeMappingGenerator:
 
     def map_type(self, fn_arg, print_void, ret_arr_len, is_free, holds_ref):
         ty_info = self.java_c_types(fn_arg, ret_arr_len)
-        return self.map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref)
+        mapped_info = self.map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref)
+        return mapped_info
 
     def map_type_with_info(self, ty_info, print_void, ret_arr_len, is_free, holds_ref):
         if ty_info.c_ty == "void":
