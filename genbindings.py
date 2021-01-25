@@ -216,11 +216,12 @@ def java_c_types(fn_arg, ret_arr_len):
         # TODO: uintptr_t is arch-dependent :(
         mapped_type = consts.c_type_map['uint64_t']
         java_ty = mapped_type[0]
-        c_ty = "int64_t"
         fn_ty_arg = "J"
         if fn_arg.startswith("uint64_t"):
+            c_ty = "int64_t"
             fn_arg = fn_arg[8:].strip()
         else:
+            c_ty = "intptr_t"
             fn_arg = fn_arg[9:].strip()
         is_primitive = True
     elif is_const and fn_arg.startswith("char *"):
