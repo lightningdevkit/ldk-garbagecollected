@@ -16,12 +16,12 @@ public class Result_PublicKeySecpErrorZ extends CommonBase {
 		}
 	}
 	public static final class Result_PublicKeySecpErrorZ_OK extends Result_PublicKeySecpErrorZ {
-		public final byte[] res;
+		public final Uint8Array res;
 		private Result_PublicKeySecpErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_PublicKeySecpErrorZ_get_ok(ptr);
 		}
-		public Result_PublicKeySecpErrorZ_OK(byte[] res) {
+		public Result_PublicKeySecpErrorZ_OK(Uint8Array res) {
 			this(null, bindings.CResult_PublicKeySecpErrorZ_ok(res));
 		}
 	}

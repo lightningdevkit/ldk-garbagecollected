@@ -28,8 +28,8 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 		public final PaymentSendFailure err;
 		private Result_NonePaymentSendFailureZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_NonePaymentSendFailureZ_get_err(ptr);
-			PaymentSendFailure err_hu_conv = new PaymentSendFailure(null, err);
+			number err = bindings.LDKCResult_NonePaymentSendFailureZ_get_err(ptr);
+			const err_hu_conv: PaymentSendFailure = new PaymentSendFailure(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_NonePaymentSendFailureZ_Err(PaymentSendFailure err) {

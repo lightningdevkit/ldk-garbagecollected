@@ -1,58 +1,66 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class OutPoint extends CommonBase {
-	OutPoint(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.OutPoint_free(ptr); }
-	}
 
+
+            export default class OutPoint extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.OutPoint_free(this.ptr);
+                    }
+                }
 	public OutPoint clone() {
-		uint32_t ret = bindings.OutPoint_clone(this.ptr);
-		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		number ret = bindings.OutPoint_clone(this.ptr);
+		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] get_txid() {
-		byte[] ret = bindings.OutPoint_get_txid(this.ptr);
+	public Uint8Array get_txid() {
+		Uint8Array ret = bindings.OutPoint_get_txid(this.ptr);
 		return ret;
 	}
 
-	public void set_txid(byte[] val) {
+	public void set_txid(Uint8Array val) {
 		bindings.OutPoint_set_txid(this.ptr, val);
 	}
 
-	public short get_index() {
-		short ret = bindings.OutPoint_get_index(this.ptr);
+	public number get_index() {
+		number ret = bindings.OutPoint_get_index(this.ptr);
 		return ret;
 	}
 
-	public void set_index(short val) {
+	public void set_index(number val) {
 		bindings.OutPoint_set_index(this.ptr, val);
 	}
 
-	public static OutPoint constructor_new(byte[] txid_arg, short index_arg) {
-		uint32_t ret = bindings.OutPoint_new(txid_arg, index_arg);
-		OutPoint ret_hu_conv = new OutPoint(null, ret);
+	public static OutPoint constructor_new(Uint8Array txid_arg, number index_arg) {
+		number ret = bindings.OutPoint_new(txid_arg, index_arg);
+		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] to_channel_id() {
-		byte[] ret = bindings.OutPoint_to_channel_id(this.ptr);
+	public Uint8Array to_channel_id() {
+		Uint8Array ret = bindings.OutPoint_to_channel_id(this.ptr);
 		return ret;
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.OutPoint_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.OutPoint_write(this.ptr);
 		return ret;
 	}
 
-	public static OutPoint constructor_read(byte[] ser) {
-		uint32_t ret = bindings.OutPoint_read(ser);
-		OutPoint ret_hu_conv = new OutPoint(null, ret);
+	public static OutPoint constructor_read(Uint8Array ser) {
+		number ret = bindings.OutPoint_read(ser);
+		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		return ret_hu_conv;
 	}
 

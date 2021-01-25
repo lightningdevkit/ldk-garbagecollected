@@ -19,7 +19,7 @@ public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 		public final Result_NetAddressu8Z res;
 		private Result_CResult_NetAddressu8ZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_ok(ptr);
+			number res = bindings.LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_ok(ptr);
 			Result_NetAddressu8Z res_hu_conv = Result_NetAddressu8Z.constr_from_ptr(res);
 			this.res = res_hu_conv;
 		}
@@ -32,8 +32,8 @@ public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_CResult_NetAddressu8ZDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_CResult_NetAddressu8ZDecodeErrorZ_Err(DecodeError err) {

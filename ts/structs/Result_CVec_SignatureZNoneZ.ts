@@ -16,12 +16,12 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 		}
 	}
 	public static final class Result_CVec_SignatureZNoneZ_OK extends Result_CVec_SignatureZNoneZ {
-		public final byte[][] res;
+		public final Uint8Array[] res;
 		private Result_CVec_SignatureZNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_CVec_SignatureZNoneZ_get_ok(ptr);
 		}
-		public Result_CVec_SignatureZNoneZ_OK(byte[][] res) {
+		public Result_CVec_SignatureZNoneZ_OK(Uint8Array[] res) {
 			this(null, bindings.CResult_CVec_SignatureZNoneZ_ok(res));
 		}
 	}

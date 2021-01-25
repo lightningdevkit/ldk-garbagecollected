@@ -16,17 +16,17 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 		}
 	}
 	public static final class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK extends Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
-		public final TwoTuple<byte[], ChannelManager> res;
+		public final TwoTuple<Uint8Array, ChannelManager> res;
 		private Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(ptr);
-			byte[] res_a = bindings.LDKC2Tuple_BlockHashChannelManagerZ_get_a(res);
-			uint32_t res_b = bindings.LDKC2Tuple_BlockHashChannelManagerZ_get_b(res);
-			ChannelManager res_b_hu_conv = new ChannelManager(null, res_b);;
-			TwoTuple<byte[], ChannelManager> res_conv = new TwoTuple<byte[], ChannelManager>(res_a, res_b_hu_conv);
+			number res = bindings.LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(ptr);
+			Uint8Array res_a = bindings.LDKC2Tuple_BlockHashChannelManagerZ_get_a(res);
+			number res_b = bindings.LDKC2Tuple_BlockHashChannelManagerZ_get_b(res);
+			const res_b_hu_conv: ChannelManager = new ChannelManager(null, res_b);;
+			TwoTuple<Uint8Array, ChannelManager> res_conv = new TwoTuple<Uint8Array, ChannelManager>(res_a, res_b_hu_conv);
 			this.res = res_conv;
 		}
-		public Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK(TwoTuple<byte[], ChannelManager> res) {
+		public Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK(TwoTuple<Uint8Array, ChannelManager> res) {
 			this(null, bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(bindings.C2Tuple_BlockHashChannelManagerZ_new(res.a, res.b == null ? 0 : res.b.ptr & ~1/*XXX: this.ptrs_to.add(res_b)*/)));
 		}
 	}
@@ -35,8 +35,8 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 		public final DecodeError err;
 		private Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err(DecodeError err) {

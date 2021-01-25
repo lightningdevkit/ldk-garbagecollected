@@ -19,8 +19,8 @@ public class Result_QueryShortChannelIdsDecodeErrorZ extends CommonBase {
 		public final QueryShortChannelIds res;
 		private Result_QueryShortChannelIdsDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_ok(ptr);
-			QueryShortChannelIds res_hu_conv = new QueryShortChannelIds(null, res);
+			number res = bindings.LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_QueryShortChannelIdsDecodeErrorZ_OK(QueryShortChannelIds res) {
@@ -33,8 +33,8 @@ public class Result_QueryShortChannelIdsDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_QueryShortChannelIdsDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_QueryShortChannelIdsDecodeErrorZ_Err(DecodeError err) {

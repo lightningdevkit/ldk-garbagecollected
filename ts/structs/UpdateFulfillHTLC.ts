@@ -1,62 +1,70 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class UpdateFulfillHTLC extends CommonBase {
-	UpdateFulfillHTLC(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.UpdateFulfillHTLC_free(ptr); }
-	}
 
+
+            export default class UpdateFulfillHTLC extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.UpdateFulfillHTLC_free(this.ptr);
+                    }
+                }
 	public UpdateFulfillHTLC clone() {
-		uint32_t ret = bindings.UpdateFulfillHTLC_clone(this.ptr);
-		UpdateFulfillHTLC ret_hu_conv = new UpdateFulfillHTLC(null, ret);
+		number ret = bindings.UpdateFulfillHTLC_clone(this.ptr);
+		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] get_channel_id() {
-		byte[] ret = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
+	public Uint8Array get_channel_id() {
+		Uint8Array ret = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_channel_id(byte[] val) {
+	public void set_channel_id(Uint8Array val) {
 		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, val);
 	}
 
-	public long get_htlc_id() {
-		long ret = bindings.UpdateFulfillHTLC_get_htlc_id(this.ptr);
+	public number get_htlc_id() {
+		number ret = bindings.UpdateFulfillHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
-	public void set_htlc_id(long val) {
+	public void set_htlc_id(number val) {
 		bindings.UpdateFulfillHTLC_set_htlc_id(this.ptr, val);
 	}
 
-	public byte[] get_payment_preimage() {
-		byte[] ret = bindings.UpdateFulfillHTLC_get_payment_preimage(this.ptr);
+	public Uint8Array get_payment_preimage() {
+		Uint8Array ret = bindings.UpdateFulfillHTLC_get_payment_preimage(this.ptr);
 		return ret;
 	}
 
-	public void set_payment_preimage(byte[] val) {
+	public void set_payment_preimage(Uint8Array val) {
 		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, val);
 	}
 
-	public static UpdateFulfillHTLC constructor_new(byte[] channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg) {
-		uint32_t ret = bindings.UpdateFulfillHTLC_new(channel_id_arg, htlc_id_arg, payment_preimage_arg);
-		UpdateFulfillHTLC ret_hu_conv = new UpdateFulfillHTLC(null, ret);
+	public static UpdateFulfillHTLC constructor_new(Uint8Array channel_id_arg, number htlc_id_arg, Uint8Array payment_preimage_arg) {
+		number ret = bindings.UpdateFulfillHTLC_new(channel_id_arg, htlc_id_arg, payment_preimage_arg);
+		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.UpdateFulfillHTLC_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.UpdateFulfillHTLC_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateFulfillHTLC constructor_read(byte[] ser) {
-		uint32_t ret = bindings.UpdateFulfillHTLC_read(ser);
-		UpdateFulfillHTLC ret_hu_conv = new UpdateFulfillHTLC(null, ret);
+	public static UpdateFulfillHTLC constructor_read(Uint8Array ser) {
+		number ret = bindings.UpdateFulfillHTLC_read(ser);
+		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
 		return ret_hu_conv;
 	}
 

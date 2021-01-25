@@ -19,8 +19,8 @@ public class Result_TxCreationKeysSecpErrorZ extends CommonBase {
 		public final TxCreationKeys res;
 		private Result_TxCreationKeysSecpErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_TxCreationKeysSecpErrorZ_get_ok(ptr);
-			TxCreationKeys res_hu_conv = new TxCreationKeys(null, res);
+			number res = bindings.LDKCResult_TxCreationKeysSecpErrorZ_get_ok(ptr);
+			const res_hu_conv: TxCreationKeys = new TxCreationKeys(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_TxCreationKeysSecpErrorZ_OK(TxCreationKeys res) {

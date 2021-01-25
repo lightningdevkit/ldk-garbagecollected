@@ -1,27 +1,35 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class ChannelConfig extends CommonBase {
-	ChannelConfig(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.ChannelConfig_free(ptr); }
-	}
 
+
+            export default class ChannelConfig extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.ChannelConfig_free(this.ptr);
+                    }
+                }
 	public ChannelConfig clone() {
-		uint32_t ret = bindings.ChannelConfig_clone(this.ptr);
-		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+		number ret = bindings.ChannelConfig_clone(this.ptr);
+		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		return ret_hu_conv;
 	}
 
-	public int get_fee_proportional_millionths() {
-		int ret = bindings.ChannelConfig_get_fee_proportional_millionths(this.ptr);
+	public number get_fee_proportional_millionths() {
+		number ret = bindings.ChannelConfig_get_fee_proportional_millionths(this.ptr);
 		return ret;
 	}
 
-	public void set_fee_proportional_millionths(int val) {
+	public void set_fee_proportional_millionths(number val) {
 		bindings.ChannelConfig_set_fee_proportional_millionths(this.ptr, val);
 	}
 
@@ -43,26 +51,26 @@ public class ChannelConfig extends CommonBase {
 		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
 	}
 
-	public static ChannelConfig constructor_new(int fee_proportional_millionths_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
-		uint32_t ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
-		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+	public static ChannelConfig constructor_new(number fee_proportional_millionths_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
+		number ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		return ret_hu_conv;
 	}
 
 	public static ChannelConfig constructor_default() {
-		uint32_t ret = bindings.ChannelConfig_default();
-		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+		number ret = bindings.ChannelConfig_default();
+		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.ChannelConfig_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.ChannelConfig_write(this.ptr);
 		return ret;
 	}
 
-	public static ChannelConfig constructor_read(byte[] ser) {
-		uint32_t ret = bindings.ChannelConfig_read(ser);
-		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+	public static ChannelConfig constructor_read(Uint8Array ser) {
+		number ret = bindings.ChannelConfig_read(ser);
+		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		return ret_hu_conv;
 	}
 

@@ -1,56 +1,64 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class UpdateFailMalformedHTLC extends CommonBase {
-	UpdateFailMalformedHTLC(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.UpdateFailMalformedHTLC_free(ptr); }
-	}
 
+
+            export default class UpdateFailMalformedHTLC extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.UpdateFailMalformedHTLC_free(this.ptr);
+                    }
+                }
 	public UpdateFailMalformedHTLC clone() {
-		uint32_t ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
-		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
+		number ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
+		const ret_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] get_channel_id() {
-		byte[] ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
+	public Uint8Array get_channel_id() {
+		Uint8Array ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_channel_id(byte[] val) {
+	public void set_channel_id(Uint8Array val) {
 		bindings.UpdateFailMalformedHTLC_set_channel_id(this.ptr, val);
 	}
 
-	public long get_htlc_id() {
-		long ret = bindings.UpdateFailMalformedHTLC_get_htlc_id(this.ptr);
+	public number get_htlc_id() {
+		number ret = bindings.UpdateFailMalformedHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
-	public void set_htlc_id(long val) {
+	public void set_htlc_id(number val) {
 		bindings.UpdateFailMalformedHTLC_set_htlc_id(this.ptr, val);
 	}
 
-	public short get_failure_code() {
-		short ret = bindings.UpdateFailMalformedHTLC_get_failure_code(this.ptr);
+	public number get_failure_code() {
+		number ret = bindings.UpdateFailMalformedHTLC_get_failure_code(this.ptr);
 		return ret;
 	}
 
-	public void set_failure_code(short val) {
+	public void set_failure_code(number val) {
 		bindings.UpdateFailMalformedHTLC_set_failure_code(this.ptr, val);
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.UpdateFailMalformedHTLC_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.UpdateFailMalformedHTLC_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateFailMalformedHTLC constructor_read(byte[] ser) {
-		uint32_t ret = bindings.UpdateFailMalformedHTLC_read(ser);
-		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
+	public static UpdateFailMalformedHTLC constructor_read(Uint8Array ser) {
+		number ret = bindings.UpdateFailMalformedHTLC_read(ser);
+		const ret_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, ret);
 		return ret_hu_conv;
 	}
 

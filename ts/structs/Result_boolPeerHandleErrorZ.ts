@@ -30,8 +30,8 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 		public final PeerHandleError err;
 		private Result_boolPeerHandleErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_boolPeerHandleErrorZ_get_err(ptr);
-			PeerHandleError err_hu_conv = new PeerHandleError(null, err);
+			number err = bindings.LDKCResult_boolPeerHandleErrorZ_get_err(ptr);
+			const err_hu_conv: PeerHandleError = new PeerHandleError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_boolPeerHandleErrorZ_Err(PeerHandleError err) {

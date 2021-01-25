@@ -16,12 +16,12 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 		}
 	}
 	public static final class Result_CVec_u8ZPeerHandleErrorZ_OK extends Result_CVec_u8ZPeerHandleErrorZ {
-		public final byte[] res;
+		public final Uint8Array res;
 		private Result_CVec_u8ZPeerHandleErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(ptr);
 		}
-		public Result_CVec_u8ZPeerHandleErrorZ_OK(byte[] res) {
+		public Result_CVec_u8ZPeerHandleErrorZ_OK(Uint8Array res) {
 			this(null, bindings.CResult_CVec_u8ZPeerHandleErrorZ_ok(res));
 		}
 	}
@@ -30,8 +30,8 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 		public final PeerHandleError err;
 		private Result_CVec_u8ZPeerHandleErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(ptr);
-			PeerHandleError err_hu_conv = new PeerHandleError(null, err);
+			number err = bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(ptr);
+			const err_hu_conv: PeerHandleError = new PeerHandleError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_CVec_u8ZPeerHandleErrorZ_Err(PeerHandleError err) {

@@ -1,24 +1,32 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class UnsignedChannelAnnouncement extends CommonBase {
-	UnsignedChannelAnnouncement(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.UnsignedChannelAnnouncement_free(ptr); }
-	}
 
+
+            export default class UnsignedChannelAnnouncement extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.UnsignedChannelAnnouncement_free(this.ptr);
+                    }
+                }
 	public UnsignedChannelAnnouncement clone() {
-		uint32_t ret = bindings.UnsignedChannelAnnouncement_clone(this.ptr);
-		UnsignedChannelAnnouncement ret_hu_conv = new UnsignedChannelAnnouncement(null, ret);
+		number ret = bindings.UnsignedChannelAnnouncement_clone(this.ptr);
+		const ret_hu_conv: UnsignedChannelAnnouncement = new UnsignedChannelAnnouncement(null, ret);
 		return ret_hu_conv;
 	}
 
 	public ChannelFeatures get_features() {
-		uint32_t ret = bindings.UnsignedChannelAnnouncement_get_features(this.ptr);
-		ChannelFeatures ret_hu_conv = new ChannelFeatures(null, ret);
+		number ret = bindings.UnsignedChannelAnnouncement_get_features(this.ptr);
+		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
 		return ret_hu_conv;
 	}
 
@@ -27,67 +35,67 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	public byte[] get_chain_hash() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
+	public Uint8Array get_chain_hash() {
+		Uint8Array ret = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
 		return ret;
 	}
 
-	public void set_chain_hash(byte[] val) {
+	public void set_chain_hash(Uint8Array val) {
 		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, val);
 	}
 
-	public long get_short_channel_id() {
-		long ret = bindings.UnsignedChannelAnnouncement_get_short_channel_id(this.ptr);
+	public number get_short_channel_id() {
+		number ret = bindings.UnsignedChannelAnnouncement_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_short_channel_id(long val) {
+	public void set_short_channel_id(number val) {
 		bindings.UnsignedChannelAnnouncement_set_short_channel_id(this.ptr, val);
 	}
 
-	public byte[] get_node_id_1() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_node_id_1(this.ptr);
+	public Uint8Array get_node_id_1() {
+		Uint8Array ret = bindings.UnsignedChannelAnnouncement_get_node_id_1(this.ptr);
 		return ret;
 	}
 
-	public void set_node_id_1(byte[] val) {
+	public void set_node_id_1(Uint8Array val) {
 		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, val);
 	}
 
-	public byte[] get_node_id_2() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_node_id_2(this.ptr);
+	public Uint8Array get_node_id_2() {
+		Uint8Array ret = bindings.UnsignedChannelAnnouncement_get_node_id_2(this.ptr);
 		return ret;
 	}
 
-	public void set_node_id_2(byte[] val) {
+	public void set_node_id_2(Uint8Array val) {
 		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, val);
 	}
 
-	public byte[] get_bitcoin_key_1() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_1(this.ptr);
+	public Uint8Array get_bitcoin_key_1() {
+		Uint8Array ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_1(this.ptr);
 		return ret;
 	}
 
-	public void set_bitcoin_key_1(byte[] val) {
+	public void set_bitcoin_key_1(Uint8Array val) {
 		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, val);
 	}
 
-	public byte[] get_bitcoin_key_2() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_2(this.ptr);
+	public Uint8Array get_bitcoin_key_2() {
+		Uint8Array ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_2(this.ptr);
 		return ret;
 	}
 
-	public void set_bitcoin_key_2(byte[] val) {
+	public void set_bitcoin_key_2(Uint8Array val) {
 		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, val);
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.UnsignedChannelAnnouncement_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.UnsignedChannelAnnouncement_write(this.ptr);
 		return ret;
 	}
 
-	public static Result_UnsignedChannelAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
-		uint32_t ret = bindings.UnsignedChannelAnnouncement_read(ser);
+	public static Result_UnsignedChannelAnnouncementDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.UnsignedChannelAnnouncement_read(ser);
 		Result_UnsignedChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

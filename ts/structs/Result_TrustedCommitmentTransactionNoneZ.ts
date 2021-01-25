@@ -19,8 +19,8 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 		public final TrustedCommitmentTransaction res;
 		private Result_TrustedCommitmentTransactionNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_TrustedCommitmentTransactionNoneZ_get_ok(ptr);
-			TrustedCommitmentTransaction res_hu_conv = new TrustedCommitmentTransaction(null, res);
+			number res = bindings.LDKCResult_TrustedCommitmentTransactionNoneZ_get_ok(ptr);
+			const res_hu_conv: TrustedCommitmentTransaction = new TrustedCommitmentTransaction(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_TrustedCommitmentTransactionNoneZ_OK(TrustedCommitmentTransaction res) {

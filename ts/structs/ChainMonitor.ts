@@ -1,27 +1,35 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class ChainMonitor extends CommonBase {
-	ChainMonitor(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.ChainMonitor_free(ptr); }
+
+
+            export default class ChainMonitor extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.ChainMonitor_free(this.ptr);
+                    }
+                }
+	public void block_connected(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
+		bindings.ChainMonitor_block_connected(this.ptr, header, (number[])Arrays.stream(txdata).map(arr_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_30.a, arr_conv_30.b)).toArray(), height);
+		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
 	}
 
-	public void block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
-		bindings.ChainMonitor_block_connected(this.ptr, header, (uint32_t[])Arrays.stream(txdata).map(arr_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_24.a, arr_conv_24.b)).toArray(), height);
-		/* TODO 2 TwoTuple<Long, byte[]>  */;
-	}
-
-	public void block_disconnected(byte[] header, int disconnected_height) {
+	public void block_disconnected(Uint8Array header, number disconnected_height) {
 		bindings.ChainMonitor_block_disconnected(this.ptr, header, disconnected_height);
 	}
 
 	public static ChainMonitor constructor_new(Filter chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
-		uint32_t ret = bindings.ChainMonitor_new(chain_source == null ? 0 : chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
-		ChainMonitor ret_hu_conv = new ChainMonitor(null, ret);
+		number ret = bindings.ChainMonitor_new(chain_source == null ? 0 : chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
+		const ret_hu_conv: ChainMonitor = new ChainMonitor(null, ret);
 		ret_hu_conv.ptrs_to.add(chain_source);
 		ret_hu_conv.ptrs_to.add(broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
@@ -31,14 +39,14 @@ public class ChainMonitor extends CommonBase {
 	}
 
 	public Watch as_Watch() {
-		uint32_t ret = bindings.ChainMonitor_as_Watch(this.ptr);
+		number ret = bindings.ChainMonitor_as_Watch(this.ptr);
 		Watch ret_hu_conv = new Watch(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public EventsProvider as_EventsProvider() {
-		uint32_t ret = bindings.ChainMonitor_as_EventsProvider(this.ptr);
+		number ret = bindings.ChainMonitor_as_EventsProvider(this.ptr);
 		EventsProvider ret_hu_conv = new EventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

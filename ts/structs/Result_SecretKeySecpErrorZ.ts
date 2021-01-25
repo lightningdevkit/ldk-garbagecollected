@@ -16,12 +16,12 @@ public class Result_SecretKeySecpErrorZ extends CommonBase {
 		}
 	}
 	public static final class Result_SecretKeySecpErrorZ_OK extends Result_SecretKeySecpErrorZ {
-		public final byte[] res;
+		public final Uint8Array res;
 		private Result_SecretKeySecpErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_SecretKeySecpErrorZ_get_ok(ptr);
 		}
-		public Result_SecretKeySecpErrorZ_OK(byte[] res) {
+		public Result_SecretKeySecpErrorZ_OK(Uint8Array res) {
 			this(null, bindings.CResult_SecretKeySecpErrorZ_ok(res));
 		}
 	}

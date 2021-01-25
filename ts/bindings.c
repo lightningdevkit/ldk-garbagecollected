@@ -8,7 +8,7 @@ void *memcpy(void *dest, const void *src, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
 
 void __attribute__((noreturn)) abort(void);
-void assert(scalar expression);
+void assert(bool expression);
 
 // Always run a, then assert it is true:
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
@@ -107,7 +107,11 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
 typedef struct int64_tArray {uint32_t len;int64_t *ptr;} int64_tArray;
 typedef struct uint32_tArray {uint32_t len;int32_t *ptr;} uint32_tArray;
+typedef struct ptrArray {uint32_t len;int32_t *ptr;} ptrArray;
 typedef struct int8_tArray {uint32_t len;int8_t *ptr;} int8_tArray;
+typedef struct jstring {} jstring;
+
+jstring conv_owned_string(const char* _src) { jstring a; return a; }
 
 typedef bool jboolean;
 
@@ -229,7 +233,7 @@ uint32_t LDKCVec_1u8Z_1new(void* ctx_TODO, int8_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(uint8_t) * ret->datalen, "LDKCVec_u8Z Data");
-		int8_t *java_elems = elems.ptr;
+		int8_t *java_elems = (int8_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			ret->data[i] = java_elems[i];
 		}
@@ -305,7 +309,7 @@ uint32_t LDKCVec_1SpendableOutputDescriptorZ_1new(void* ctx_TODO, uint32_tArray 
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKSpendableOutputDescriptor) * ret->datalen, "LDKCVec_SpendableOutputDescriptorZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKSpendableOutputDescriptor arr_elem_conv = *(LDKSpendableOutputDescriptor*)arr_elem;
@@ -531,7 +535,7 @@ uint32_t LDKCVec_1MessageSendEventZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKMessageSendEvent) * ret->datalen, "LDKCVec_MessageSendEventZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKMessageSendEvent arr_elem_conv = *(LDKMessageSendEvent*)arr_elem;
@@ -589,7 +593,7 @@ uint32_t LDKEvent_1ref_1from_1ptr (void* ctx_TODO, uint32_t ptr) {
 		case LDKEvent_SpendableOutputs: {
 			LDKCVec_SpendableOutputDescriptorZ outputs_var = obj->spendable_outputs.outputs;
 			uint32_tArray outputs_arr = { .len = outputs_var.datalen, .ptr = MALLOC(outputs_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-			uint32_t *outputs_arr_ptr = outputs_arr.ptr;
+			uint32_t *outputs_arr_ptr = (uint32_t*)outputs_arr.ptr;
 			for (size_t b = 0; b < outputs_var.datalen; b++) {
 				long arr_conv_27_ref = (long)&outputs_var.data[b];
 				outputs_arr_ptr[b] = arr_conv_27_ref;
@@ -606,7 +610,7 @@ uint32_t LDKCVec_1EventZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKEvent) * ret->datalen, "LDKCVec_EventZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKEvent arr_elem_conv = *(LDKEvent*)arr_elem;
@@ -623,7 +627,7 @@ static inline LDKCVec_EventZ CVec_EventZ_clone(const LDKCVec_EventZ *orig) {
 	}
 	return ret;
 }
-uint32_t LDKC2Tuple_1usizeTransactionZ_1new(void* ctx_TODO, int64_t a, int8_tArray b) {
+uint32_t LDKC2Tuple_1usizeTransactionZ_1new(void* ctx_TODO, intptr_t a, int8_tArray b) {
 	LDKC2Tuple_usizeTransactionZ* ret = MALLOC(sizeof(LDKC2Tuple_usizeTransactionZ), "LDKC2Tuple_usizeTransactionZ");
 	ret->a = a;
 	LDKTransaction b_ref;
@@ -634,7 +638,7 @@ uint32_t LDKC2Tuple_1usizeTransactionZ_1new(void* ctx_TODO, int64_t a, int8_tArr
 	ret->b = b_ref;
 	return (long)ret;
 }
-int64_t LDKC2Tuple_1usizeTransactionZ_1get_1a(void* ctx_TODO, uint32_t ptr) {
+intptr_t LDKC2Tuple_1usizeTransactionZ_1get_1a(void* ctx_TODO, uint32_t ptr) {
 	LDKC2Tuple_usizeTransactionZ *tuple = (LDKC2Tuple_usizeTransactionZ*)ptr;
 	return tuple->a;
 }
@@ -652,7 +656,7 @@ uint32_t LDKCVec_1C2Tuple_1usizeTransactionZZ_1new(void* ctx_TODO, uint32_tArray
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKC2Tuple_usizeTransactionZ) * ret->datalen, "LDKCVec_C2Tuple_usizeTransactionZZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKC2Tuple_usizeTransactionZ arr_elem_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_elem;
@@ -694,7 +698,7 @@ uint32_t LDKCVec_1MonitorEventZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKMonitorEvent) * ret->datalen, "LDKCVec_MonitorEventZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKMonitorEvent arr_elem_conv;
@@ -813,7 +817,7 @@ uint32_t LDKCVec_1C2Tuple_1u32TxOutZZ_1new(void* ctx_TODO, uint32_tArray elems) 
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKC2Tuple_u32TxOutZ) * ret->datalen, "LDKCVec_C2Tuple_u32TxOutZZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKC2Tuple_u32TxOutZ arr_elem_conv = *(LDKC2Tuple_u32TxOutZ*)arr_elem;
@@ -836,11 +840,11 @@ uint32_t LDKC2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1new(void* ctx_TODO, int8_tA
 	else
 		b_constr.data = NULL;
 	uint32_t* b_vals = (uint32_t*) b.ptr;
-	for (size_t a = 0; a < b_constr.datalen; a++) {
-		uint32_t arr_conv_26 = b_vals[a];
-		LDKC2Tuple_u32TxOutZ arr_conv_26_conv = *(LDKC2Tuple_u32TxOutZ*)arr_conv_26;
-		FREE((void*)arr_conv_26);
-		b_constr.data[a] = arr_conv_26_conv;
+	for (size_t z = 0; z < b_constr.datalen; z++) {
+		uint32_t arr_conv_25 = b_vals[z];
+		LDKC2Tuple_u32TxOutZ arr_conv_25_conv = *(LDKC2Tuple_u32TxOutZ*)arr_conv_25;
+		FREE((void*)arr_conv_25);
+		b_constr.data[z] = arr_conv_25_conv;
 	}
 	ret->b = b_constr;
 	return (long)ret;
@@ -855,10 +859,10 @@ uint32_tArray LDKC2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1get_1b(void* ctx_TODO,
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *tuple = (LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)ptr;
 	LDKCVec_C2Tuple_u32TxOutZZ b_var = tuple->b;
 	uint32_tArray b_arr = { .len = b_var.datalen, .ptr = MALLOC(b_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *b_arr_ptr = b_arr.ptr;
-	for (size_t a = 0; a < b_var.datalen; a++) {
-		long arr_conv_26_ref = (long)&b_var.data[a];
-		b_arr_ptr[a] = arr_conv_26_ref;
+	uint32_t *b_arr_ptr = (uint32_t*)b_arr.ptr;
+	for (size_t z = 0; z < b_var.datalen; z++) {
+		long arr_conv_25_ref = (long)&b_var.data[z];
+		b_arr_ptr[z] = arr_conv_25_ref;
 	}
 	return b_arr;
 }
@@ -869,7 +873,7 @@ uint32_t LDKCVec_1C2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZZ_1new(void* ctx_TODO, 
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ) * ret->datalen, "LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ arr_elem_conv = *(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)arr_elem;
@@ -879,7 +883,7 @@ uint32_t LDKCVec_1C2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZZ_1new(void* ctx_TODO, 
 	}
 	return (long)ret;
 }
-uint32_t LDKC2Tuple_1SignatureCVec_1SignatureZZ_1new(void* ctx_TODO, int8_tArray a, uint32_tArray b) {
+uint32_t LDKC2Tuple_1SignatureCVec_1SignatureZZ_1new(void* ctx_TODO, int8_tArray a, ptrArray b) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ* ret = MALLOC(sizeof(LDKC2Tuple_SignatureCVec_SignatureZZ), "LDKC2Tuple_SignatureCVec_SignatureZZ");
 	LDKSignature a_ref;
 	CHECK(a.len == 64);
@@ -892,12 +896,12 @@ uint32_t LDKC2Tuple_1SignatureCVec_1SignatureZZ_1new(void* ctx_TODO, int8_tArray
 	else
 		b_constr.data = NULL;
 	int8_tArray* b_vals = (int8_tArray*) b.ptr;
-	for (size_t i = 0; i < b_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = b_vals[i];
-		LDKSignature arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 64);
-		memcpy(arr_conv_8_ref.compact_form, arr_conv_8.ptr, 64);
-		b_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < b_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = b_vals[m];
+		LDKSignature arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 64);
+		memcpy(arr_conv_12_ref.compact_form, arr_conv_12.ptr, 64);
+		b_constr.data[m] = arr_conv_12_ref;
 	}
 	ret->b = b_constr;
 	return (long)ret;
@@ -908,14 +912,15 @@ int8_tArray LDKC2Tuple_1SignatureCVec_1SignatureZZ_1get_1a(void* ctx_TODO, uint3
 	memcpy(a_arr.ptr, tuple->a.compact_form, 64);
 	return a_arr;
 }
-uint32_tArray LDKC2Tuple_1SignatureCVec_1SignatureZZ_1get_1b(void* ctx_TODO, uint32_t ptr) {
+ptrArray LDKC2Tuple_1SignatureCVec_1SignatureZZ_1get_1b(void* ctx_TODO, uint32_t ptr) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ *tuple = (LDKC2Tuple_SignatureCVec_SignatureZZ*)ptr;
 	LDKCVec_SignatureZ b_var = tuple->b;
-	uint32_tArray b_arr = (*env)->NewObjectArray(env, b_var.datalen, arr_of_B_clz, NULL);
-	for (size_t i = 0; i < b_var.datalen; i++) {
-		int8_tArray arr_conv_8_arr = { .len = 64, .ptr = MALLOC(64, "Native int8_tArray Bytes") };
-		memcpy(arr_conv_8_arr.ptr, b_var.data[i].compact_form, 64);
-		(*env)->SetObjectArrayElement(env, b_arr, i, arr_conv_8_arr);
+	ptrArray b_arr = { .len = b_var.datalen, .ptr = MALLOC(b_var.datalen * sizeof(int32_t), "Native Object Bytes") };
+	int8_tArray *b_arr_ptr = (int8_tArray*)b_arr.ptr;
+	for (size_t m = 0; m < b_var.datalen; m++) {
+		int8_tArray arr_conv_12_arr = { .len = 64, .ptr = MALLOC(64, "Native int8_tArray Bytes") };
+		memcpy(arr_conv_12_arr.ptr, b_var.data[m].compact_form, 64);
+		b_arr_ptr[m] = arr_conv_12_arr;
 	}
 	return b_arr;
 }
@@ -951,15 +956,16 @@ void LDKCResult_1SignatureNoneZ_1get_1err (void* ctx_TODO, uint32_t arg) {
 jboolean LDKCResult_1CVec_1SignatureZNoneZ_1result_1ok (void* ctx_TODO, uint32_t arg) {
 	return ((LDKCResult_CVec_SignatureZNoneZ*)arg)->result_ok;
 }
-uint32_tArray LDKCResult_1CVec_1SignatureZNoneZ_1get_1ok (void* ctx_TODO, uint32_t arg) {
+ptrArray LDKCResult_1CVec_1SignatureZNoneZ_1get_1ok (void* ctx_TODO, uint32_t arg) {
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
 	CHECK(val->result_ok);
 	LDKCVec_SignatureZ res_var = (*val->contents.result);
-	uint32_tArray res_arr = (*env)->NewObjectArray(env, res_var.datalen, arr_of_B_clz, NULL);
-	for (size_t i = 0; i < res_var.datalen; i++) {
-		int8_tArray arr_conv_8_arr = { .len = 64, .ptr = MALLOC(64, "Native int8_tArray Bytes") };
-		memcpy(arr_conv_8_arr.ptr, res_var.data[i].compact_form, 64);
-		(*env)->SetObjectArrayElement(env, res_arr, i, arr_conv_8_arr);
+	ptrArray res_arr = { .len = res_var.datalen, .ptr = MALLOC(res_var.datalen * sizeof(int32_t), "Native Object Bytes") };
+	int8_tArray *res_arr_ptr = (int8_tArray*)res_arr.ptr;
+	for (size_t m = 0; m < res_var.datalen; m++) {
+		int8_tArray arr_conv_12_arr = { .len = 64, .ptr = MALLOC(64, "Native int8_tArray Bytes") };
+		memcpy(arr_conv_12_arr.ptr, res_var.data[m].compact_form, 64);
+		res_arr_ptr[m] = arr_conv_12_arr;
 	}
 	return res_arr;
 }
@@ -967,6 +973,247 @@ void LDKCResult_1CVec_1SignatureZNoneZ_1get_1err (void* ctx_TODO, uint32_t arg) 
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
+}
+typedef struct LDKChannelKeys_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer get_per_commitment_point_meth;
+	// TODO: Some kind of method pointer release_commitment_secret_meth;
+	// TODO: Some kind of method pointer key_derivation_params_meth;
+	// TODO: Some kind of method pointer sign_counterparty_commitment_meth;
+	// TODO: Some kind of method pointer sign_holder_commitment_meth;
+	// TODO: Some kind of method pointer sign_holder_commitment_htlc_transactions_meth;
+	// TODO: Some kind of method pointer sign_justice_transaction_meth;
+	// TODO: Some kind of method pointer sign_counterparty_htlc_transaction_meth;
+	// TODO: Some kind of method pointer sign_closing_transaction_meth;
+	// TODO: Some kind of method pointer sign_channel_announcement_meth;
+	// TODO: Some kind of method pointer ready_channel_meth;
+	// TODO: Some kind of method pointer write_meth;
+} LDKChannelKeys_JCalls;
+static void LDKChannelKeys_JCalls_free(void* this_arg) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+LDKPublicKey get_per_commitment_point_jcall(const void* this_arg, uint64_t idx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	int8_tArray arg; // TODO: Call get_per_commitment_point on j_calls with instance obj, returning an object, idx);
+	LDKPublicKey arg_ref;
+	CHECK(arg.len == 33);
+	memcpy(arg_ref.compressed_form, arg.ptr, 33);
+	return arg_ref;
+}
+LDKThirtyTwoBytes release_commitment_secret_jcall(const void* this_arg, uint64_t idx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	int8_tArray arg; // TODO: Call release_commitment_secret on j_calls with instance obj, returning an object, idx);
+	LDKThirtyTwoBytes arg_ref;
+	CHECK(arg.len == 32);
+	memcpy(arg_ref.data, arg.ptr, 32);
+	return arg_ref;
+}
+LDKC2Tuple_u64u64Z key_derivation_params_jcall(const void* this_arg) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKC2Tuple_u64u64Z* ret; // TODO: Call key_derivation_params on j_calls with instance obj, returning a pointer);
+	LDKC2Tuple_u64u64Z ret_conv = *(LDKC2Tuple_u64u64Z*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_jcall(const void* this_arg, const LDKCommitmentTransaction * commitment_tx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKCommitmentTransaction commitment_tx_var = *commitment_tx;
+	if (commitment_tx->inner != NULL)
+		commitment_tx_var = CommitmentTransaction_clone(commitment_tx);
+	CHECK((((long)commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long commitment_tx_ref = (long)commitment_tx_var.inner;
+	if (commitment_tx_var.is_owned) {
+		commitment_tx_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret; // TODO: Call sign_counterparty_commitment on j_calls with instance obj, returning a pointer, commitment_tx_ref);
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_SignatureNoneZ sign_holder_commitment_jcall(const void* this_arg, const LDKHolderCommitmentTransaction * commitment_tx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKHolderCommitmentTransaction commitment_tx_var = *commitment_tx;
+	if (commitment_tx->inner != NULL)
+		commitment_tx_var = HolderCommitmentTransaction_clone(commitment_tx);
+	CHECK((((long)commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long commitment_tx_ref = (long)commitment_tx_var.inner;
+	if (commitment_tx_var.is_owned) {
+		commitment_tx_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_holder_commitment on j_calls with instance obj, returning a pointer, commitment_tx_ref);
+	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions_jcall(const void* this_arg, const LDKHolderCommitmentTransaction * commitment_tx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKHolderCommitmentTransaction commitment_tx_var = *commitment_tx;
+	if (commitment_tx->inner != NULL)
+		commitment_tx_var = HolderCommitmentTransaction_clone(commitment_tx);
+	CHECK((((long)commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long commitment_tx_ref = (long)commitment_tx_var.inner;
+	if (commitment_tx_var.is_owned) {
+		commitment_tx_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_CVec_SignatureZNoneZ* ret; // TODO: Call sign_holder_commitment_htlc_transactions on j_calls with instance obj, returning a pointer, commitment_tx_ref);
+	LDKCResult_CVec_SignatureZNoneZ ret_conv = *(LDKCResult_CVec_SignatureZNoneZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (* per_commitment_key)[32], const LDKHTLCOutputInCommitment * htlc) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKTransaction justice_tx_var = justice_tx;
+	int8_tArray justice_tx_arr = { .len = justice_tx_var.datalen, .ptr = MALLOC(justice_tx_var.datalen, "Native int8_tArray Bytes") };
+	memcpy(justice_tx_arr.ptr, justice_tx_var.data, justice_tx_var.datalen);
+	Transaction_free(justice_tx_var);
+	int8_tArray per_commitment_key_arr = { .len = 32, .ptr = MALLOC(32, "Native int8_tArray Bytes") };
+	memcpy(per_commitment_key_arr.ptr, *per_commitment_key, 32);
+	LDKHTLCOutputInCommitment htlc_var = *htlc;
+	if (htlc->inner != NULL)
+		htlc_var = HTLCOutputInCommitment_clone(htlc);
+	CHECK((((long)htlc_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&htlc_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long htlc_ref = (long)htlc_var.inner;
+	if (htlc_var.is_owned) {
+		htlc_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_justice_transaction on j_calls with instance obj, returning a pointer, justice_tx_arr, input, amount, per_commitment_key_arr, htlc_ref);
+	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment * htlc) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKTransaction htlc_tx_var = htlc_tx;
+	int8_tArray htlc_tx_arr = { .len = htlc_tx_var.datalen, .ptr = MALLOC(htlc_tx_var.datalen, "Native int8_tArray Bytes") };
+	memcpy(htlc_tx_arr.ptr, htlc_tx_var.data, htlc_tx_var.datalen);
+	Transaction_free(htlc_tx_var);
+	int8_tArray per_commitment_point_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(per_commitment_point_arr.ptr, per_commitment_point.compressed_form, 33);
+	LDKHTLCOutputInCommitment htlc_var = *htlc;
+	if (htlc->inner != NULL)
+		htlc_var = HTLCOutputInCommitment_clone(htlc);
+	CHECK((((long)htlc_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&htlc_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long htlc_ref = (long)htlc_var.inner;
+	if (htlc_var.is_owned) {
+		htlc_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_counterparty_htlc_transaction on j_calls with instance obj, returning a pointer, htlc_tx_arr, input, amount, per_commitment_point_arr, htlc_ref);
+	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, LDKTransaction closing_tx) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKTransaction closing_tx_var = closing_tx;
+	int8_tArray closing_tx_arr = { .len = closing_tx_var.datalen, .ptr = MALLOC(closing_tx_var.datalen, "Native int8_tArray Bytes") };
+	memcpy(closing_tx_arr.ptr, closing_tx_var.data, closing_tx_var.datalen);
+	Transaction_free(closing_tx_var);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_closing_transaction on j_calls with instance obj, returning a pointer, closing_tx_arr);
+	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, const LDKUnsignedChannelAnnouncement * msg) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKUnsignedChannelAnnouncement msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = UnsignedChannelAnnouncement_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_channel_announcement on j_calls with instance obj, returning a pointer, msg_ref);
+	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+void ready_channel_jcall(void* this_arg, const LDKChannelTransactionParameters * channel_parameters) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	LDKChannelTransactionParameters channel_parameters_var = *channel_parameters;
+	if (channel_parameters->inner != NULL)
+		channel_parameters_var = ChannelTransactionParameters_clone(channel_parameters);
+	CHECK((((long)channel_parameters_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&channel_parameters_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long channel_parameters_ref = (long)channel_parameters_var.inner;
+	if (channel_parameters_var.is_owned) {
+		channel_parameters_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call ready_channel on j_calls with instance obj, channel_parameters_ref);
+}
+LDKCVec_u8Z write_jcall(const void* this_arg) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	int8_tArray arg; // TODO: Call write on j_calls with instance obj, returning an object);
+	LDKCVec_u8Z arg_ref;
+	arg_ref.datalen = arg.len;
+	arg_ref.data = MALLOC(arg_ref.datalen, "LDKCVec_u8Z Bytes");
+	memcpy(arg_ref.data, arg.ptr, arg_ref.datalen);
+	return arg_ref;
+}
+static void* LDKChannelKeys_JCalls_clone(const void* this_arg) {
+	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKChannelKeys LDKChannelKeys_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o, uint32_t pubkeys) {
+	LDKChannelKeys_JCalls *calls = MALLOC(sizeof(LDKChannelKeys_JCalls), "LDKChannelKeys_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKChannelPublicKeys pubkeys_conv;
+	pubkeys_conv.inner = (void*)(pubkeys & (~1));
+	pubkeys_conv.is_owned = (pubkeys & 1) || (pubkeys == 0);
+	if (pubkeys_conv.inner != NULL)
+		pubkeys_conv = ChannelPublicKeys_clone(&pubkeys_conv);
+
+	LDKChannelKeys ret = {
+		.this_arg = (void*) calls,
+		.get_per_commitment_point = get_per_commitment_point_jcall,
+		.release_commitment_secret = release_commitment_secret_jcall,
+		.key_derivation_params = key_derivation_params_jcall,
+		.sign_counterparty_commitment = sign_counterparty_commitment_jcall,
+		.sign_holder_commitment = sign_holder_commitment_jcall,
+		.sign_holder_commitment_htlc_transactions = sign_holder_commitment_htlc_transactions_jcall,
+		.sign_justice_transaction = sign_justice_transaction_jcall,
+		.sign_counterparty_htlc_transaction = sign_counterparty_htlc_transaction_jcall,
+		.sign_closing_transaction = sign_closing_transaction_jcall,
+		.sign_channel_announcement = sign_channel_announcement_jcall,
+		.ready_channel = ready_channel_jcall,
+		.clone = LDKChannelKeys_JCalls_clone,
+		.write = write_jcall,
+		.free = LDKChannelKeys_JCalls_free,
+		.pubkeys = pubkeys_conv,
+		.set_pubkeys = NULL,
+	};
+	return ret;
+}
+long LDKChannelKeys_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o, uint32_t pubkeys) {
+	LDKChannelKeys *res_ptr = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
+	*res_ptr = LDKChannelKeys_init(NULL, o, pubkeys);
+	return (long)res_ptr;
 }
 int8_tArray ChannelKeys_1get_1per_1commitment_1point(void* ctx_TODO, uint32_t this_arg, int64_t idx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
@@ -1019,7 +1266,7 @@ uint32_t ChannelKeys_1sign_1holder_1commitment_1htlc_1transactions(void* ctx_TOD
 	return (long)ret_conv;
 }
 
-uint32_t ChannelKeys_1sign_1justice_1transaction(void* ctx_TODO, uint32_t this_arg, int8_tArray justice_tx, int64_t input, int64_t amount, int8_tArray per_commitment_key, uint32_t htlc) {
+uint32_t ChannelKeys_1sign_1justice_1transaction(void* ctx_TODO, uint32_t this_arg, int8_tArray justice_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_key, uint32_t htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction justice_tx_ref;
 	justice_tx_ref.datalen = justice_tx.len;
@@ -1038,7 +1285,7 @@ uint32_t ChannelKeys_1sign_1justice_1transaction(void* ctx_TODO, uint32_t this_a
 	return (long)ret_conv;
 }
 
-uint32_t ChannelKeys_1sign_1counterparty_1htlc_1transaction(void* ctx_TODO, uint32_t this_arg, int8_tArray htlc_tx, int64_t input, int64_t amount, int8_tArray per_commitment_point, uint32_t htlc) {
+uint32_t ChannelKeys_1sign_1counterparty_1htlc_1transaction(void* ctx_TODO, uint32_t this_arg, int8_tArray htlc_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_point, uint32_t htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction htlc_tx_ref;
 	htlc_tx_ref.datalen = htlc_tx.len;
@@ -1250,7 +1497,7 @@ uint32_t LDKAPIError_1ref_1from_1ptr (void* ctx_TODO, uint32_t ptr) {
 			char* err_buf = MALLOC(err_str.len + 1, "str conv buf");
 			memcpy(err_buf, err_str.chars, err_str.len);
 			err_buf[err_str.len] = 0;
-			jstring err_conv = (*env)->NewStringUTF(env, err_str.chars);
+			jstring err_conv = conv_owned_string(err_str.chars);
 			FREE(err_buf);
 			return 0 /* LDKAPIError - RouteError */; (void) err_conv;
 		}
@@ -1298,7 +1545,7 @@ uint32_t LDKCVec_1ChannelDetailsZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKChannelDetails) * ret->datalen, "LDKCVec_ChannelDetailsZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKChannelDetails arr_elem_conv;
@@ -1368,7 +1615,7 @@ uint32_t LDKCVec_1NetAddressZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKNetAddress) * ret->datalen, "LDKCVec_NetAddressZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKNetAddress arr_elem_conv = *(LDKNetAddress*)arr_elem;
@@ -1392,7 +1639,7 @@ uint32_t LDKCVec_1ChannelMonitorZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKChannelMonitor) * ret->datalen, "LDKCVec_ChannelMonitorZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKChannelMonitor arr_elem_conv;
@@ -1403,6 +1650,110 @@ uint32_t LDKCVec_1ChannelMonitorZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		}
 	}
 	return (long)ret;
+}
+typedef struct LDKWatch_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer watch_channel_meth;
+	// TODO: Some kind of method pointer update_channel_meth;
+	// TODO: Some kind of method pointer release_pending_monitor_events_meth;
+} LDKWatch_JCalls;
+static void LDKWatch_JCalls_free(void* this_arg) {
+	LDKWatch_JCalls *j_calls = (LDKWatch_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitor monitor) {
+	LDKWatch_JCalls *j_calls = (LDKWatch_JCalls*) this_arg;
+	LDKOutPoint funding_txo_var = funding_txo;
+	CHECK((((long)funding_txo_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&funding_txo_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long funding_txo_ref = (long)funding_txo_var.inner;
+	if (funding_txo_var.is_owned) {
+		funding_txo_ref |= 1;
+	}
+	LDKChannelMonitor monitor_var = monitor;
+	CHECK((((long)monitor_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&monitor_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long monitor_ref = (long)monitor_var.inner;
+	if (monitor_var.is_owned) {
+		monitor_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret; // TODO: Call watch_channel on j_calls with instance obj, returning a pointer, funding_txo_ref, monitor_ref);
+	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate update) {
+	LDKWatch_JCalls *j_calls = (LDKWatch_JCalls*) this_arg;
+	LDKOutPoint funding_txo_var = funding_txo;
+	CHECK((((long)funding_txo_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&funding_txo_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long funding_txo_ref = (long)funding_txo_var.inner;
+	if (funding_txo_var.is_owned) {
+		funding_txo_ref |= 1;
+	}
+	LDKChannelMonitorUpdate update_var = update;
+	CHECK((((long)update_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&update_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long update_ref = (long)update_var.inner;
+	if (update_var.is_owned) {
+		update_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret; // TODO: Call update_channel on j_calls with instance obj, returning a pointer, funding_txo_ref, update_ref);
+	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCVec_MonitorEventZ release_pending_monitor_events_jcall(const void* this_arg) {
+	LDKWatch_JCalls *j_calls = (LDKWatch_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	uint32_tArray arg; // TODO: Call release_pending_monitor_events on j_calls with instance obj, returning an object);
+	LDKCVec_MonitorEventZ arg_constr;
+	arg_constr.datalen = arg.len;
+	if (arg_constr.datalen > 0)
+		arg_constr.data = MALLOC(arg_constr.datalen * sizeof(LDKMonitorEvent), "LDKCVec_MonitorEventZ Elements");
+	else
+		arg_constr.data = NULL;
+	uint32_t* arg_vals = (uint32_t*) arg.ptr;
+	for (size_t o = 0; o < arg_constr.datalen; o++) {
+		uint32_t arr_conv_14 = arg_vals[o];
+		LDKMonitorEvent arr_conv_14_conv;
+		arr_conv_14_conv.inner = (void*)(arr_conv_14 & (~1));
+		arr_conv_14_conv.is_owned = (arr_conv_14 & 1) || (arr_conv_14 == 0);
+		if (arr_conv_14_conv.inner != NULL)
+			arr_conv_14_conv = MonitorEvent_clone(&arr_conv_14_conv);
+		arg_constr.data[o] = arr_conv_14_conv;
+	}
+	return arg_constr;
+}
+static void* LDKWatch_JCalls_clone(const void* this_arg) {
+	LDKWatch_JCalls *j_calls = (LDKWatch_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKWatch LDKWatch_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKWatch_JCalls *calls = MALLOC(sizeof(LDKWatch_JCalls), "LDKWatch_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKWatch ret = {
+		.this_arg = (void*) calls,
+		.watch_channel = watch_channel_jcall,
+		.update_channel = update_channel_jcall,
+		.release_pending_monitor_events = release_pending_monitor_events_jcall,
+		.free = LDKWatch_JCalls_free,
+	};
+	return ret;
+}
+long LDKWatch_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKWatch *res_ptr = MALLOC(sizeof(LDKWatch), "LDKWatch");
+	*res_ptr = LDKWatch_init(NULL, o);
+	return (long)res_ptr;
 }
 uint32_t Watch_1watch_1channel(void* ctx_TODO, uint32_t this_arg, uint32_t funding_txo, uint32_t monitor) {
 	LDKWatch* this_arg_conv = (LDKWatch*)this_arg;
@@ -1441,7 +1792,7 @@ uint32_tArray Watch_1release_1pending_1monitor_1events(void* ctx_TODO, uint32_t 
 	LDKWatch* this_arg_conv = (LDKWatch*)this_arg;
 	LDKCVec_MonitorEventZ ret_var = (this_arg_conv->release_pending_monitor_events)(this_arg_conv->this_arg);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t o = 0; o < ret_var.datalen; o++) {
 		LDKMonitorEvent arr_conv_14_var = ret_var.data[o];
 		CHECK((((long)arr_conv_14_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -1456,6 +1807,49 @@ uint32_tArray Watch_1release_1pending_1monitor_1events(void* ctx_TODO, uint32_t 
 	return ret_arr;
 }
 
+typedef struct LDKBroadcasterInterface_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer broadcast_transaction_meth;
+} LDKBroadcasterInterface_JCalls;
+static void LDKBroadcasterInterface_JCalls_free(void* this_arg) {
+	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+void broadcast_transaction_jcall(const void* this_arg, LDKTransaction tx) {
+	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
+	LDKTransaction tx_var = tx;
+	int8_tArray tx_arr = { .len = tx_var.datalen, .ptr = MALLOC(tx_var.datalen, "Native int8_tArray Bytes") };
+	memcpy(tx_arr.ptr, tx_var.data, tx_var.datalen);
+	Transaction_free(tx_var);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call broadcast_transaction on j_calls with instance obj, tx_arr);
+}
+static void* LDKBroadcasterInterface_JCalls_clone(const void* this_arg) {
+	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKBroadcasterInterface LDKBroadcasterInterface_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKBroadcasterInterface_JCalls *calls = MALLOC(sizeof(LDKBroadcasterInterface_JCalls), "LDKBroadcasterInterface_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKBroadcasterInterface ret = {
+		.this_arg = (void*) calls,
+		.broadcast_transaction = broadcast_transaction_jcall,
+		.free = LDKBroadcasterInterface_JCalls_free,
+	};
+	return ret;
+}
+long LDKBroadcasterInterface_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKBroadcasterInterface *res_ptr = MALLOC(sizeof(LDKBroadcasterInterface), "LDKBroadcasterInterface");
+	*res_ptr = LDKBroadcasterInterface_init(NULL, o);
+	return (long)res_ptr;
+}
 void BroadcasterInterface_1broadcast_1transaction(void* ctx_TODO, uint32_t this_arg, int8_tArray tx) {
 	LDKBroadcasterInterface* this_arg_conv = (LDKBroadcasterInterface*)this_arg;
 	LDKTransaction tx_ref;
@@ -1466,6 +1860,106 @@ void BroadcasterInterface_1broadcast_1transaction(void* ctx_TODO, uint32_t this_
 	(this_arg_conv->broadcast_transaction)(this_arg_conv->this_arg, tx_ref);
 }
 
+typedef struct LDKKeysInterface_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer get_node_secret_meth;
+	// TODO: Some kind of method pointer get_destination_script_meth;
+	// TODO: Some kind of method pointer get_shutdown_pubkey_meth;
+	// TODO: Some kind of method pointer get_channel_keys_meth;
+	// TODO: Some kind of method pointer get_secure_random_bytes_meth;
+	// TODO: Some kind of method pointer read_chan_signer_meth;
+} LDKKeysInterface_JCalls;
+static void LDKKeysInterface_JCalls_free(void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+LDKSecretKey get_node_secret_jcall(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	int8_tArray arg; // TODO: Call get_node_secret on j_calls with instance obj, returning an object);
+	LDKSecretKey arg_ref;
+	CHECK(arg.len == 32);
+	memcpy(arg_ref.bytes, arg.ptr, 32);
+	return arg_ref;
+}
+LDKCVec_u8Z get_destination_script_jcall(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	int8_tArray arg; // TODO: Call get_destination_script on j_calls with instance obj, returning an object);
+	LDKCVec_u8Z arg_ref;
+	arg_ref.datalen = arg.len;
+	arg_ref.data = MALLOC(arg_ref.datalen, "LDKCVec_u8Z Bytes");
+	memcpy(arg_ref.data, arg.ptr, arg_ref.datalen);
+	return arg_ref;
+}
+LDKPublicKey get_shutdown_pubkey_jcall(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	int8_tArray arg; // TODO: Call get_shutdown_pubkey on j_calls with instance obj, returning an object);
+	LDKPublicKey arg_ref;
+	CHECK(arg.len == 33);
+	memcpy(arg_ref.compressed_form, arg.ptr, 33);
+	return arg_ref;
+}
+LDKChannelKeys get_channel_keys_jcall(const void* this_arg, bool inbound, uint64_t channel_value_satoshis) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKChannelKeys* ret; // TODO: Call get_channel_keys on j_calls with instance obj, returning a pointer, inbound, channel_value_satoshis);
+	LDKChannelKeys ret_conv = *(LDKChannelKeys*)ret;
+	ret_conv = ChannelKeys_clone(ret);
+	return ret_conv;
+}
+LDKThirtyTwoBytes get_secure_random_bytes_jcall(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	int8_tArray arg; // TODO: Call get_secure_random_bytes on j_calls with instance obj, returning an object);
+	LDKThirtyTwoBytes arg_ref;
+	CHECK(arg.len == 32);
+	memcpy(arg_ref.data, arg.ptr, 32);
+	return arg_ref;
+}
+LDKCResult_ChanKeySignerDecodeErrorZ read_chan_signer_jcall(const void* this_arg, LDKu8slice reader) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	LDKu8slice reader_var = reader;
+	int8_tArray reader_arr = { .len = reader_var.datalen, .ptr = MALLOC(reader_var.datalen, "Native int8_tArray Bytes") };
+	memcpy(reader_arr.ptr, reader_var.data, reader_var.datalen);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_ChanKeySignerDecodeErrorZ* ret; // TODO: Call read_chan_signer on j_calls with instance obj, returning a pointer, reader_arr);
+	LDKCResult_ChanKeySignerDecodeErrorZ ret_conv = *(LDKCResult_ChanKeySignerDecodeErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+static void* LDKKeysInterface_JCalls_clone(const void* this_arg) {
+	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKKeysInterface LDKKeysInterface_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKKeysInterface_JCalls *calls = MALLOC(sizeof(LDKKeysInterface_JCalls), "LDKKeysInterface_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKKeysInterface ret = {
+		.this_arg = (void*) calls,
+		.get_node_secret = get_node_secret_jcall,
+		.get_destination_script = get_destination_script_jcall,
+		.get_shutdown_pubkey = get_shutdown_pubkey_jcall,
+		.get_channel_keys = get_channel_keys_jcall,
+		.get_secure_random_bytes = get_secure_random_bytes_jcall,
+		.read_chan_signer = read_chan_signer_jcall,
+		.free = LDKKeysInterface_JCalls_free,
+	};
+	return ret;
+}
+long LDKKeysInterface_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKKeysInterface *res_ptr = MALLOC(sizeof(LDKKeysInterface), "LDKKeysInterface");
+	*res_ptr = LDKKeysInterface_init(NULL, o);
+	return (long)res_ptr;
+}
 int8_tArray KeysInterface_1get_1node_1secret(void* ctx_TODO, uint32_t this_arg) {
 	LDKKeysInterface* this_arg_conv = (LDKKeysInterface*)this_arg;
 	int8_tArray arg_arr = { .len = 32, .ptr = MALLOC(32, "Native int8_tArray Bytes") };
@@ -1513,6 +2007,46 @@ uint32_t KeysInterface_1read_1chan_1signer(void* ctx_TODO, uint32_t this_arg, in
 	return (long)ret_conv;
 }
 
+typedef struct LDKFeeEstimator_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer get_est_sat_per_1000_weight_meth;
+} LDKFeeEstimator_JCalls;
+static void LDKFeeEstimator_JCalls_free(void* this_arg) {
+	LDKFeeEstimator_JCalls *j_calls = (LDKFeeEstimator_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+uint32_t get_est_sat_per_1000_weight_jcall(const void* this_arg, LDKConfirmationTarget confirmation_target) {
+	LDKFeeEstimator_JCalls *j_calls = (LDKFeeEstimator_JCalls*) this_arg;
+	uint32_t confirmation_target_conv = LDKConfirmationTarget_to_js(confirmation_target);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return 0; //TODO: Call get_est_sat_per_1000_weight on j_calls with instance obj, returning number, confirmation_target_conv);
+}
+static void* LDKFeeEstimator_JCalls_clone(const void* this_arg) {
+	LDKFeeEstimator_JCalls *j_calls = (LDKFeeEstimator_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKFeeEstimator LDKFeeEstimator_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKFeeEstimator_JCalls *calls = MALLOC(sizeof(LDKFeeEstimator_JCalls), "LDKFeeEstimator_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKFeeEstimator ret = {
+		.this_arg = (void*) calls,
+		.get_est_sat_per_1000_weight = get_est_sat_per_1000_weight_jcall,
+		.free = LDKFeeEstimator_JCalls_free,
+	};
+	return ret;
+}
+long LDKFeeEstimator_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKFeeEstimator *res_ptr = MALLOC(sizeof(LDKFeeEstimator), "LDKFeeEstimator");
+	*res_ptr = LDKFeeEstimator_init(NULL, o);
+	return (long)res_ptr;
+}
 int32_t FeeEstimator_1get_1est_1sat_1per_11000_1weight(void* ctx_TODO, uint32_t this_arg, uint32_t confirmation_target) {
 	LDKFeeEstimator* this_arg_conv = (LDKFeeEstimator*)this_arg;
 	LDKConfirmationTarget confirmation_target_conv = LDKConfirmationTarget_from_js(confirmation_target);
@@ -1520,6 +2054,46 @@ int32_t FeeEstimator_1get_1est_1sat_1per_11000_1weight(void* ctx_TODO, uint32_t 
 	return ret_val;
 }
 
+typedef struct LDKLogger_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer log_meth;
+} LDKLogger_JCalls;
+static void LDKLogger_JCalls_free(void* this_arg) {
+	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+void log_jcall(const void* this_arg, const char* record) {
+	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
+	jstring record_conv = conv_owned_string(record);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call log on j_calls with instance obj, record_conv);
+}
+static void* LDKLogger_JCalls_clone(const void* this_arg) {
+	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKLogger LDKLogger_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKLogger_JCalls *calls = MALLOC(sizeof(LDKLogger_JCalls), "LDKLogger_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKLogger ret = {
+		.this_arg = (void*) calls,
+		.log = log_jcall,
+		.free = LDKLogger_JCalls_free,
+	};
+	return ret;
+}
+long LDKLogger_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKLogger *res_ptr = MALLOC(sizeof(LDKLogger), "LDKLogger");
+	*res_ptr = LDKLogger_init(NULL, o);
+	return (long)res_ptr;
+}
 uint32_t LDKC2Tuple_1BlockHashChannelManagerZ_1new(void* ctx_TODO, int8_tArray a, uint32_t b) {
 	LDKC2Tuple_BlockHashChannelManagerZ* ret = MALLOC(sizeof(LDKC2Tuple_BlockHashChannelManagerZ), "LDKC2Tuple_BlockHashChannelManagerZ");
 	LDKThirtyTwoBytes a_ref;
@@ -1619,7 +2193,7 @@ uint32_t LDKCVec_1u64Z_1new(void* ctx_TODO, int64_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(uint64_t) * ret->datalen, "LDKCVec_u64Z Data");
-		int64_t *java_elems = elems.ptr;
+		int64_t *java_elems = (int64_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			ret->data[i] = java_elems[i];
 		}
@@ -1638,7 +2212,7 @@ uint32_t LDKCVec_1UpdateAddHTLCZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKUpdateAddHTLC) * ret->datalen, "LDKCVec_UpdateAddHTLCZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKUpdateAddHTLC arr_elem_conv;
@@ -1665,7 +2239,7 @@ uint32_t LDKCVec_1UpdateFulfillHTLCZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKUpdateFulfillHTLC) * ret->datalen, "LDKCVec_UpdateFulfillHTLCZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKUpdateFulfillHTLC arr_elem_conv;
@@ -1692,7 +2266,7 @@ uint32_t LDKCVec_1UpdateFailHTLCZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKUpdateFailHTLC) * ret->datalen, "LDKCVec_UpdateFailHTLCZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKUpdateFailHTLC arr_elem_conv;
@@ -1719,7 +2293,7 @@ uint32_t LDKCVec_1UpdateFailMalformedHTLCZ_1new(void* ctx_TODO, uint32_tArray el
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKUpdateFailMalformedHTLC) * ret->datalen, "LDKCVec_UpdateFailMalformedHTLCZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKUpdateFailMalformedHTLC arr_elem_conv;
@@ -1817,7 +2391,7 @@ uint32_t LDKCVec_1C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZZ_1new(
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ) * ret->datalen, "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ arr_elem_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)arr_elem;
@@ -1841,7 +2415,7 @@ uint32_t LDKCVec_1NodeAnnouncementZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKNodeAnnouncement) * ret->datalen, "LDKCVec_NodeAnnouncementZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKNodeAnnouncement arr_elem_conv;
@@ -2279,7 +2853,7 @@ uint32_t LDKCVec_1RouteHopZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKRouteHop) * ret->datalen, "LDKCVec_RouteHopZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKRouteHop arr_elem_conv;
@@ -2334,7 +2908,7 @@ uint32_t LDKCVec_1RouteHintZ_1new(void* ctx_TODO, uint32_tArray elems) {
 		ret->data = NULL;
 	} else {
 		ret->data = MALLOC(sizeof(LDKRouteHint) * ret->datalen, "LDKCVec_RouteHintZ Data");
-		uint32_t *java_elems = elems.ptr;
+		uint32_t *java_elems = (uint32_t*)elems.ptr;
 		for (size_t i = 0; i < ret->datalen; i++) {
 			uint32_t arr_elem = java_elems[i];
 			LDKRouteHint arr_elem_conv;
@@ -2459,11 +3033,64 @@ uint32_t LDKCResult_1NetworkGraphDecodeErrorZ_1get_1err (void* ctx_TODO, uint32_
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
+typedef struct LDKMessageSendEventsProvider_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer get_and_clear_pending_msg_events_meth;
+} LDKMessageSendEventsProvider_JCalls;
+static void LDKMessageSendEventsProvider_JCalls_free(void* this_arg) {
+	LDKMessageSendEventsProvider_JCalls *j_calls = (LDKMessageSendEventsProvider_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+LDKCVec_MessageSendEventZ get_and_clear_pending_msg_events_jcall(const void* this_arg) {
+	LDKMessageSendEventsProvider_JCalls *j_calls = (LDKMessageSendEventsProvider_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	uint32_tArray arg; // TODO: Call get_and_clear_pending_msg_events on j_calls with instance obj, returning an object);
+	LDKCVec_MessageSendEventZ arg_constr;
+	arg_constr.datalen = arg.len;
+	if (arg_constr.datalen > 0)
+		arg_constr.data = MALLOC(arg_constr.datalen * sizeof(LDKMessageSendEvent), "LDKCVec_MessageSendEventZ Elements");
+	else
+		arg_constr.data = NULL;
+	uint32_t* arg_vals = (uint32_t*) arg.ptr;
+	for (size_t s = 0; s < arg_constr.datalen; s++) {
+		uint32_t arr_conv_18 = arg_vals[s];
+		LDKMessageSendEvent arr_conv_18_conv = *(LDKMessageSendEvent*)arr_conv_18;
+		FREE((void*)arr_conv_18);
+		arg_constr.data[s] = arr_conv_18_conv;
+	}
+	return arg_constr;
+}
+static void* LDKMessageSendEventsProvider_JCalls_clone(const void* this_arg) {
+	LDKMessageSendEventsProvider_JCalls *j_calls = (LDKMessageSendEventsProvider_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKMessageSendEventsProvider LDKMessageSendEventsProvider_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKMessageSendEventsProvider_JCalls *calls = MALLOC(sizeof(LDKMessageSendEventsProvider_JCalls), "LDKMessageSendEventsProvider_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKMessageSendEventsProvider ret = {
+		.this_arg = (void*) calls,
+		.get_and_clear_pending_msg_events = get_and_clear_pending_msg_events_jcall,
+		.free = LDKMessageSendEventsProvider_JCalls_free,
+	};
+	return ret;
+}
+long LDKMessageSendEventsProvider_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKMessageSendEventsProvider *res_ptr = MALLOC(sizeof(LDKMessageSendEventsProvider), "LDKMessageSendEventsProvider");
+	*res_ptr = LDKMessageSendEventsProvider_init(NULL, o);
+	return (long)res_ptr;
+}
 uint32_tArray MessageSendEventsProvider_1get_1and_1clear_1pending_1msg_1events(void* ctx_TODO, uint32_t this_arg) {
 	LDKMessageSendEventsProvider* this_arg_conv = (LDKMessageSendEventsProvider*)this_arg;
 	LDKCVec_MessageSendEventZ ret_var = (this_arg_conv->get_and_clear_pending_msg_events)(this_arg_conv->this_arg);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t s = 0; s < ret_var.datalen; s++) {
 		LDKMessageSendEvent *arr_conv_18_copy = MALLOC(sizeof(LDKMessageSendEvent), "LDKMessageSendEvent");
 		*arr_conv_18_copy = MessageSendEvent_clone(&ret_var.data[s]);
@@ -2474,11 +3101,64 @@ uint32_tArray MessageSendEventsProvider_1get_1and_1clear_1pending_1msg_1events(v
 	return ret_arr;
 }
 
+typedef struct LDKEventsProvider_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer get_and_clear_pending_events_meth;
+} LDKEventsProvider_JCalls;
+static void LDKEventsProvider_JCalls_free(void* this_arg) {
+	LDKEventsProvider_JCalls *j_calls = (LDKEventsProvider_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+LDKCVec_EventZ get_and_clear_pending_events_jcall(const void* this_arg) {
+	LDKEventsProvider_JCalls *j_calls = (LDKEventsProvider_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	uint32_tArray arg; // TODO: Call get_and_clear_pending_events on j_calls with instance obj, returning an object);
+	LDKCVec_EventZ arg_constr;
+	arg_constr.datalen = arg.len;
+	if (arg_constr.datalen > 0)
+		arg_constr.data = MALLOC(arg_constr.datalen * sizeof(LDKEvent), "LDKCVec_EventZ Elements");
+	else
+		arg_constr.data = NULL;
+	uint32_t* arg_vals = (uint32_t*) arg.ptr;
+	for (size_t h = 0; h < arg_constr.datalen; h++) {
+		uint32_t arr_conv_7 = arg_vals[h];
+		LDKEvent arr_conv_7_conv = *(LDKEvent*)arr_conv_7;
+		FREE((void*)arr_conv_7);
+		arg_constr.data[h] = arr_conv_7_conv;
+	}
+	return arg_constr;
+}
+static void* LDKEventsProvider_JCalls_clone(const void* this_arg) {
+	LDKEventsProvider_JCalls *j_calls = (LDKEventsProvider_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKEventsProvider LDKEventsProvider_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKEventsProvider_JCalls *calls = MALLOC(sizeof(LDKEventsProvider_JCalls), "LDKEventsProvider_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKEventsProvider ret = {
+		.this_arg = (void*) calls,
+		.get_and_clear_pending_events = get_and_clear_pending_events_jcall,
+		.free = LDKEventsProvider_JCalls_free,
+	};
+	return ret;
+}
+long LDKEventsProvider_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKEventsProvider *res_ptr = MALLOC(sizeof(LDKEventsProvider), "LDKEventsProvider");
+	*res_ptr = LDKEventsProvider_init(NULL, o);
+	return (long)res_ptr;
+}
 uint32_tArray EventsProvider_1get_1and_1clear_1pending_1events(void* ctx_TODO, uint32_t this_arg) {
 	LDKEventsProvider* this_arg_conv = (LDKEventsProvider*)this_arg;
 	LDKCVec_EventZ ret_var = (this_arg_conv->get_and_clear_pending_events)(this_arg_conv->this_arg);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t h = 0; h < ret_var.datalen; h++) {
 		LDKEvent *arr_conv_7_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
 		*arr_conv_7_copy = Event_clone(&ret_var.data[h]);
@@ -2489,6 +3169,50 @@ uint32_tArray EventsProvider_1get_1and_1clear_1pending_1events(void* ctx_TODO, u
 	return ret_arr;
 }
 
+typedef struct LDKAccess_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer get_utxo_meth;
+} LDKAccess_JCalls;
+static void LDKAccess_JCalls_free(void* this_arg) {
+	LDKAccess_JCalls *j_calls = (LDKAccess_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+LDKCResult_TxOutAccessErrorZ get_utxo_jcall(const void* this_arg, const uint8_t (* genesis_hash)[32], uint64_t short_channel_id) {
+	LDKAccess_JCalls *j_calls = (LDKAccess_JCalls*) this_arg;
+	int8_tArray genesis_hash_arr = { .len = 32, .ptr = MALLOC(32, "Native int8_tArray Bytes") };
+	memcpy(genesis_hash_arr.ptr, *genesis_hash, 32);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_TxOutAccessErrorZ* ret; // TODO: Call get_utxo on j_calls with instance obj, returning a pointer, genesis_hash_arr, short_channel_id);
+	LDKCResult_TxOutAccessErrorZ ret_conv = *(LDKCResult_TxOutAccessErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+static void* LDKAccess_JCalls_clone(const void* this_arg) {
+	LDKAccess_JCalls *j_calls = (LDKAccess_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKAccess LDKAccess_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKAccess_JCalls *calls = MALLOC(sizeof(LDKAccess_JCalls), "LDKAccess_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKAccess ret = {
+		.this_arg = (void*) calls,
+		.get_utxo = get_utxo_jcall,
+		.free = LDKAccess_JCalls_free,
+	};
+	return ret;
+}
+long LDKAccess_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKAccess *res_ptr = MALLOC(sizeof(LDKAccess), "LDKAccess");
+	*res_ptr = LDKAccess_init(NULL, o);
+	return (long)res_ptr;
+}
 uint32_t Access_1get_1utxo(void* ctx_TODO, uint32_t this_arg, int8_tArray genesis_hash, int64_t short_channel_id) {
 	LDKAccess* this_arg_conv = (LDKAccess*)this_arg;
 	unsigned char genesis_hash_arr[32];
@@ -2500,6 +3224,69 @@ uint32_t Access_1get_1utxo(void* ctx_TODO, uint32_t this_arg, int8_tArray genesi
 	return (long)ret_conv;
 }
 
+typedef struct LDKFilter_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer register_tx_meth;
+	// TODO: Some kind of method pointer register_output_meth;
+} LDKFilter_JCalls;
+static void LDKFilter_JCalls_free(void* this_arg) {
+	LDKFilter_JCalls *j_calls = (LDKFilter_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+void register_tx_jcall(const void* this_arg, const uint8_t (* txid)[32], LDKu8slice script_pubkey) {
+	LDKFilter_JCalls *j_calls = (LDKFilter_JCalls*) this_arg;
+	int8_tArray txid_arr = { .len = 32, .ptr = MALLOC(32, "Native int8_tArray Bytes") };
+	memcpy(txid_arr.ptr, *txid, 32);
+	LDKu8slice script_pubkey_var = script_pubkey;
+	int8_tArray script_pubkey_arr = { .len = script_pubkey_var.datalen, .ptr = MALLOC(script_pubkey_var.datalen, "Native int8_tArray Bytes") };
+	memcpy(script_pubkey_arr.ptr, script_pubkey_var.data, script_pubkey_var.datalen);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call register_tx on j_calls with instance obj, txid_arr, script_pubkey_arr);
+}
+void register_output_jcall(const void* this_arg, const LDKOutPoint * outpoint, LDKu8slice script_pubkey) {
+	LDKFilter_JCalls *j_calls = (LDKFilter_JCalls*) this_arg;
+	LDKOutPoint outpoint_var = *outpoint;
+	if (outpoint->inner != NULL)
+		outpoint_var = OutPoint_clone(outpoint);
+	CHECK((((long)outpoint_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&outpoint_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long outpoint_ref = (long)outpoint_var.inner;
+	if (outpoint_var.is_owned) {
+		outpoint_ref |= 1;
+	}
+	LDKu8slice script_pubkey_var = script_pubkey;
+	int8_tArray script_pubkey_arr = { .len = script_pubkey_var.datalen, .ptr = MALLOC(script_pubkey_var.datalen, "Native int8_tArray Bytes") };
+	memcpy(script_pubkey_arr.ptr, script_pubkey_var.data, script_pubkey_var.datalen);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call register_output on j_calls with instance obj, outpoint_ref, script_pubkey_arr);
+}
+static void* LDKFilter_JCalls_clone(const void* this_arg) {
+	LDKFilter_JCalls *j_calls = (LDKFilter_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKFilter LDKFilter_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKFilter_JCalls *calls = MALLOC(sizeof(LDKFilter_JCalls), "LDKFilter_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKFilter ret = {
+		.this_arg = (void*) calls,
+		.register_tx = register_tx_jcall,
+		.register_output = register_output_jcall,
+		.free = LDKFilter_JCalls_free,
+	};
+	return ret;
+}
+long LDKFilter_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKFilter *res_ptr = MALLOC(sizeof(LDKFilter), "LDKFilter");
+	*res_ptr = LDKFilter_init(NULL, o);
+	return (long)res_ptr;
+}
 void Filter_1register_1tx(void* ctx_TODO, uint32_t this_arg, int8_tArray txid, int8_tArray script_pubkey) {
 	LDKFilter* this_arg_conv = (LDKFilter*)this_arg;
 	unsigned char txid_arr[32];
@@ -2523,6 +3310,97 @@ void Filter_1register_1output(void* ctx_TODO, uint32_t this_arg, uint32_t outpoi
 	(this_arg_conv->register_output)(this_arg_conv->this_arg, &outpoint_conv, script_pubkey_ref);
 }
 
+typedef struct LDKPersist_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer persist_new_channel_meth;
+	// TODO: Some kind of method pointer update_persisted_channel_meth;
+} LDKPersist_JCalls;
+static void LDKPersist_JCalls_free(void* this_arg) {
+	LDKPersist_JCalls *j_calls = (LDKPersist_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_jcall(const void* this_arg, LDKOutPoint id, const LDKChannelMonitor * data) {
+	LDKPersist_JCalls *j_calls = (LDKPersist_JCalls*) this_arg;
+	LDKOutPoint id_var = id;
+	CHECK((((long)id_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&id_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long id_ref = (long)id_var.inner;
+	if (id_var.is_owned) {
+		id_ref |= 1;
+	}
+	LDKChannelMonitor data_var = *data;
+	// Warning: we may need a move here but can't clone!
+	CHECK((((long)data_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&data_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long data_ref = (long)data_var.inner;
+	if (data_var.is_owned) {
+		data_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret; // TODO: Call persist_new_channel on j_calls with instance obj, returning a pointer, id_ref, data_ref);
+	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_jcall(const void* this_arg, LDKOutPoint id, const LDKChannelMonitorUpdate * update, const LDKChannelMonitor * data) {
+	LDKPersist_JCalls *j_calls = (LDKPersist_JCalls*) this_arg;
+	LDKOutPoint id_var = id;
+	CHECK((((long)id_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&id_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long id_ref = (long)id_var.inner;
+	if (id_var.is_owned) {
+		id_ref |= 1;
+	}
+	LDKChannelMonitorUpdate update_var = *update;
+	if (update->inner != NULL)
+		update_var = ChannelMonitorUpdate_clone(update);
+	CHECK((((long)update_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&update_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long update_ref = (long)update_var.inner;
+	if (update_var.is_owned) {
+		update_ref |= 1;
+	}
+	LDKChannelMonitor data_var = *data;
+	// Warning: we may need a move here but can't clone!
+	CHECK((((long)data_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&data_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long data_ref = (long)data_var.inner;
+	if (data_var.is_owned) {
+		data_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret; // TODO: Call update_persisted_channel on j_calls with instance obj, returning a pointer, id_ref, update_ref, data_ref);
+	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+static void* LDKPersist_JCalls_clone(const void* this_arg) {
+	LDKPersist_JCalls *j_calls = (LDKPersist_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKPersist LDKPersist_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKPersist_JCalls *calls = MALLOC(sizeof(LDKPersist_JCalls), "LDKPersist_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKPersist ret = {
+		.this_arg = (void*) calls,
+		.persist_new_channel = persist_new_channel_jcall,
+		.update_persisted_channel = update_persisted_channel_jcall,
+		.free = LDKPersist_JCalls_free,
+	};
+	return ret;
+}
+long LDKPersist_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKPersist *res_ptr = MALLOC(sizeof(LDKPersist), "LDKPersist");
+	*res_ptr = LDKPersist_init(NULL, o);
+	return (long)res_ptr;
+}
 uint32_t Persist_1persist_1new_1channel(void* ctx_TODO, uint32_t this_arg, uint32_t id, uint32_t data) {
 	LDKPersist* this_arg_conv = (LDKPersist*)this_arg;
 	LDKOutPoint id_conv;
@@ -2556,6 +3434,389 @@ uint32_t Persist_1update_1persisted_1channel(void* ctx_TODO, uint32_t this_arg, 
 	return (long)ret_conv;
 }
 
+typedef struct LDKChannelMessageHandler_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	LDKMessageSendEventsProvider_JCalls* MessageSendEventsProvider;
+	// TODO: Some kind of method pointer handle_open_channel_meth;
+	// TODO: Some kind of method pointer handle_accept_channel_meth;
+	// TODO: Some kind of method pointer handle_funding_created_meth;
+	// TODO: Some kind of method pointer handle_funding_signed_meth;
+	// TODO: Some kind of method pointer handle_funding_locked_meth;
+	// TODO: Some kind of method pointer handle_shutdown_meth;
+	// TODO: Some kind of method pointer handle_closing_signed_meth;
+	// TODO: Some kind of method pointer handle_update_add_htlc_meth;
+	// TODO: Some kind of method pointer handle_update_fulfill_htlc_meth;
+	// TODO: Some kind of method pointer handle_update_fail_htlc_meth;
+	// TODO: Some kind of method pointer handle_update_fail_malformed_htlc_meth;
+	// TODO: Some kind of method pointer handle_commitment_signed_meth;
+	// TODO: Some kind of method pointer handle_revoke_and_ack_meth;
+	// TODO: Some kind of method pointer handle_update_fee_meth;
+	// TODO: Some kind of method pointer handle_announcement_signatures_meth;
+	// TODO: Some kind of method pointer peer_disconnected_meth;
+	// TODO: Some kind of method pointer peer_connected_meth;
+	// TODO: Some kind of method pointer handle_channel_reestablish_meth;
+	// TODO: Some kind of method pointer handle_error_meth;
+} LDKChannelMessageHandler_JCalls;
+static void LDKChannelMessageHandler_JCalls_free(void* this_arg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+void handle_open_channel_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKOpenChannel * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKInitFeatures their_features_var = their_features;
+	CHECK((((long)their_features_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&their_features_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long their_features_ref = (long)their_features_var.inner;
+	if (their_features_var.is_owned) {
+		their_features_ref |= 1;
+	}
+	LDKOpenChannel msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = OpenChannel_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_open_channel on j_calls with instance obj, their_node_id_arr, their_features_ref, msg_ref);
+}
+void handle_accept_channel_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKInitFeatures their_features_var = their_features;
+	CHECK((((long)their_features_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&their_features_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long their_features_ref = (long)their_features_var.inner;
+	if (their_features_var.is_owned) {
+		their_features_ref |= 1;
+	}
+	LDKAcceptChannel msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = AcceptChannel_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_accept_channel on j_calls with instance obj, their_node_id_arr, their_features_ref, msg_ref);
+}
+void handle_funding_created_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingCreated * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKFundingCreated msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = FundingCreated_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_funding_created on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_funding_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingSigned * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKFundingSigned msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = FundingSigned_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_funding_signed on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_funding_locked_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingLocked * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKFundingLocked msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = FundingLocked_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_funding_locked on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_shutdown_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKShutdown * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKShutdown msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = Shutdown_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_shutdown on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_closing_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKClosingSigned * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKClosingSigned msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = ClosingSigned_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_closing_signed on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_update_add_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKUpdateAddHTLC msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = UpdateAddHTLC_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_update_add_htlc on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_update_fulfill_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKUpdateFulfillHTLC msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = UpdateFulfillHTLC_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_update_fulfill_htlc on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_update_fail_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKUpdateFailHTLC msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = UpdateFailHTLC_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_update_fail_htlc on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_update_fail_malformed_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKUpdateFailMalformedHTLC msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = UpdateFailMalformedHTLC_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_update_fail_malformed_htlc on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_commitment_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKCommitmentSigned * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKCommitmentSigned msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = CommitmentSigned_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_commitment_signed on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_revoke_and_ack_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKRevokeAndACK * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKRevokeAndACK msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = RevokeAndACK_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_revoke_and_ack on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_update_fee_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFee * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKUpdateFee msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = UpdateFee_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_update_fee on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_announcement_signatures_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKAnnouncementSignatures msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = AnnouncementSignatures_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_announcement_signatures on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void peer_disconnected_jcall(const void* this_arg, LDKPublicKey their_node_id, bool no_connection_possible) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call peer_disconnected on j_calls with instance obj, their_node_id_arr, no_connection_possible);
+}
+void peer_connected_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInit * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKInit msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = Init_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call peer_connected on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_channel_reestablish_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKChannelReestablish * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKChannelReestablish msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = ChannelReestablish_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_channel_reestablish on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+void handle_error_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKErrorMessage * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKErrorMessage msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = ErrorMessage_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_error on j_calls with instance obj, their_node_id_arr, msg_ref);
+}
+static void* LDKChannelMessageHandler_JCalls_clone(const void* this_arg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	atomic_fetch_add_explicit(&j_calls->MessageSendEventsProvider->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKChannelMessageHandler LDKChannelMessageHandler_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o, /*TODO: JS Object Reference */void* MessageSendEventsProvider) {
+	LDKChannelMessageHandler_JCalls *calls = MALLOC(sizeof(LDKChannelMessageHandler_JCalls), "LDKChannelMessageHandler_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKChannelMessageHandler ret = {
+		.this_arg = (void*) calls,
+		.handle_open_channel = handle_open_channel_jcall,
+		.handle_accept_channel = handle_accept_channel_jcall,
+		.handle_funding_created = handle_funding_created_jcall,
+		.handle_funding_signed = handle_funding_signed_jcall,
+		.handle_funding_locked = handle_funding_locked_jcall,
+		.handle_shutdown = handle_shutdown_jcall,
+		.handle_closing_signed = handle_closing_signed_jcall,
+		.handle_update_add_htlc = handle_update_add_htlc_jcall,
+		.handle_update_fulfill_htlc = handle_update_fulfill_htlc_jcall,
+		.handle_update_fail_htlc = handle_update_fail_htlc_jcall,
+		.handle_update_fail_malformed_htlc = handle_update_fail_malformed_htlc_jcall,
+		.handle_commitment_signed = handle_commitment_signed_jcall,
+		.handle_revoke_and_ack = handle_revoke_and_ack_jcall,
+		.handle_update_fee = handle_update_fee_jcall,
+		.handle_announcement_signatures = handle_announcement_signatures_jcall,
+		.peer_disconnected = peer_disconnected_jcall,
+		.peer_connected = peer_connected_jcall,
+		.handle_channel_reestablish = handle_channel_reestablish_jcall,
+		.handle_error = handle_error_jcall,
+		.free = LDKChannelMessageHandler_JCalls_free,
+		.MessageSendEventsProvider = LDKMessageSendEventsProvider_init(NULL, MessageSendEventsProvider),
+	};
+	calls->MessageSendEventsProvider = ret.MessageSendEventsProvider.this_arg;
+	return ret;
+}
+long LDKChannelMessageHandler_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o, /*TODO: JS Object Reference */ void* MessageSendEventsProvider) {
+	LDKChannelMessageHandler *res_ptr = MALLOC(sizeof(LDKChannelMessageHandler), "LDKChannelMessageHandler");
+	*res_ptr = LDKChannelMessageHandler_init(NULL, o, MessageSendEventsProvider);
+	return (long)res_ptr;
+}
 void ChannelMessageHandler_1handle_1open_1channel(void* ctx_TODO, uint32_t this_arg, int8_tArray their_node_id, uint32_t their_features, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
@@ -2770,6 +4031,248 @@ void ChannelMessageHandler_1handle_1error(void* ctx_TODO, uint32_t this_arg, int
 	(this_arg_conv->handle_error)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
+typedef struct LDKRoutingMessageHandler_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	LDKMessageSendEventsProvider_JCalls* MessageSendEventsProvider;
+	// TODO: Some kind of method pointer handle_node_announcement_meth;
+	// TODO: Some kind of method pointer handle_channel_announcement_meth;
+	// TODO: Some kind of method pointer handle_channel_update_meth;
+	// TODO: Some kind of method pointer handle_htlc_fail_channel_update_meth;
+	// TODO: Some kind of method pointer get_next_channel_announcements_meth;
+	// TODO: Some kind of method pointer get_next_node_announcements_meth;
+	// TODO: Some kind of method pointer sync_routing_table_meth;
+	// TODO: Some kind of method pointer handle_reply_channel_range_meth;
+	// TODO: Some kind of method pointer handle_reply_short_channel_ids_end_meth;
+	// TODO: Some kind of method pointer handle_query_channel_range_meth;
+	// TODO: Some kind of method pointer handle_query_short_channel_ids_meth;
+} LDKRoutingMessageHandler_JCalls;
+static void LDKRoutingMessageHandler_JCalls_free(void* this_arg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+LDKCResult_boolLightningErrorZ handle_node_announcement_jcall(const void* this_arg, const LDKNodeAnnouncement * msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	LDKNodeAnnouncement msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = NodeAnnouncement_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_boolLightningErrorZ* ret; // TODO: Call handle_node_announcement on j_calls with instance obj, returning a pointer, msg_ref);
+	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* this_arg, const LDKChannelAnnouncement * msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	LDKChannelAnnouncement msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = ChannelAnnouncement_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_boolLightningErrorZ* ret; // TODO: Call handle_channel_announcement on j_calls with instance obj, returning a pointer, msg_ref);
+	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg, const LDKChannelUpdate * msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	LDKChannelUpdate msg_var = *msg;
+	if (msg->inner != NULL)
+		msg_var = ChannelUpdate_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_boolLightningErrorZ* ret; // TODO: Call handle_channel_update on j_calls with instance obj, returning a pointer, msg_ref);
+	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+void handle_htlc_fail_channel_update_jcall(const void* this_arg, const LDKHTLCFailChannelUpdate * update) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	long ret_update = (long)update;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call handle_htlc_fail_channel_update on j_calls with instance obj, ret_update);
+}
+LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcements_jcall(const void* this_arg, uint64_t starting_point, uint8_t batch_amount) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	uint32_tArray arg; // TODO: Call get_next_channel_announcements on j_calls with instance obj, returning an object, starting_point, batch_amount);
+	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ arg_constr;
+	arg_constr.datalen = arg.len;
+	if (arg_constr.datalen > 0)
+		arg_constr.data = MALLOC(arg_constr.datalen * sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ Elements");
+	else
+		arg_constr.data = NULL;
+	uint32_t* arg_vals = (uint32_t*) arg.ptr;
+	for (size_t l = 0; l < arg_constr.datalen; l++) {
+		uint32_t arr_conv_63 = arg_vals[l];
+		LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ arr_conv_63_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)arr_conv_63;
+		FREE((void*)arr_conv_63);
+		arg_constr.data[l] = arr_conv_63_conv;
+	}
+	return arg_constr;
+}
+LDKCVec_NodeAnnouncementZ get_next_node_announcements_jcall(const void* this_arg, LDKPublicKey starting_point, uint8_t batch_amount) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	int8_tArray starting_point_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(starting_point_arr.ptr, starting_point.compressed_form, 33);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	uint32_tArray arg; // TODO: Call get_next_node_announcements on j_calls with instance obj, returning an object, starting_point_arr, batch_amount);
+	LDKCVec_NodeAnnouncementZ arg_constr;
+	arg_constr.datalen = arg.len;
+	if (arg_constr.datalen > 0)
+		arg_constr.data = MALLOC(arg_constr.datalen * sizeof(LDKNodeAnnouncement), "LDKCVec_NodeAnnouncementZ Elements");
+	else
+		arg_constr.data = NULL;
+	uint32_t* arg_vals = (uint32_t*) arg.ptr;
+	for (size_t s = 0; s < arg_constr.datalen; s++) {
+		uint32_t arr_conv_18 = arg_vals[s];
+		LDKNodeAnnouncement arr_conv_18_conv;
+		arr_conv_18_conv.inner = (void*)(arr_conv_18 & (~1));
+		arr_conv_18_conv.is_owned = (arr_conv_18 & 1) || (arr_conv_18 == 0);
+		if (arr_conv_18_conv.inner != NULL)
+			arr_conv_18_conv = NodeAnnouncement_clone(&arr_conv_18_conv);
+		arg_constr.data[s] = arr_conv_18_conv;
+	}
+	return arg_constr;
+}
+void sync_routing_table_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInit * init) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKInit init_var = *init;
+	if (init->inner != NULL)
+		init_var = Init_clone(init);
+	CHECK((((long)init_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&init_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long init_ref = (long)init_var.inner;
+	if (init_var.is_owned) {
+		init_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call sync_routing_table on j_calls with instance obj, their_node_id_arr, init_ref);
+}
+LDKCResult_NoneLightningErrorZ handle_reply_channel_range_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKReplyChannelRange msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKReplyChannelRange msg_var = msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_NoneLightningErrorZ* ret; // TODO: Call handle_reply_channel_range on j_calls with instance obj, returning a pointer, their_node_id_arr, msg_ref);
+	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKReplyShortChannelIdsEnd msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKReplyShortChannelIdsEnd msg_var = msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_NoneLightningErrorZ* ret; // TODO: Call handle_reply_short_channel_ids_end on j_calls with instance obj, returning a pointer, their_node_id_arr, msg_ref);
+	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_NoneLightningErrorZ handle_query_channel_range_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryChannelRange msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKQueryChannelRange msg_var = msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_NoneLightningErrorZ* ret; // TODO: Call handle_query_channel_range on j_calls with instance obj, returning a pointer, their_node_id_arr, msg_ref);
+	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryShortChannelIds msg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	int8_tArray their_node_id_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+	memcpy(their_node_id_arr.ptr, their_node_id.compressed_form, 33);
+	LDKQueryShortChannelIds msg_var = msg;
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	LDKCResult_NoneLightningErrorZ* ret; // TODO: Call handle_query_short_channel_ids on j_calls with instance obj, returning a pointer, their_node_id_arr, msg_ref);
+	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
+	FREE((void*)ret);
+	return ret_conv;
+}
+static void* LDKRoutingMessageHandler_JCalls_clone(const void* this_arg) {
+	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	atomic_fetch_add_explicit(&j_calls->MessageSendEventsProvider->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKRoutingMessageHandler LDKRoutingMessageHandler_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o, /*TODO: JS Object Reference */void* MessageSendEventsProvider) {
+	LDKRoutingMessageHandler_JCalls *calls = MALLOC(sizeof(LDKRoutingMessageHandler_JCalls), "LDKRoutingMessageHandler_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKRoutingMessageHandler ret = {
+		.this_arg = (void*) calls,
+		.handle_node_announcement = handle_node_announcement_jcall,
+		.handle_channel_announcement = handle_channel_announcement_jcall,
+		.handle_channel_update = handle_channel_update_jcall,
+		.handle_htlc_fail_channel_update = handle_htlc_fail_channel_update_jcall,
+		.get_next_channel_announcements = get_next_channel_announcements_jcall,
+		.get_next_node_announcements = get_next_node_announcements_jcall,
+		.sync_routing_table = sync_routing_table_jcall,
+		.handle_reply_channel_range = handle_reply_channel_range_jcall,
+		.handle_reply_short_channel_ids_end = handle_reply_short_channel_ids_end_jcall,
+		.handle_query_channel_range = handle_query_channel_range_jcall,
+		.handle_query_short_channel_ids = handle_query_short_channel_ids_jcall,
+		.free = LDKRoutingMessageHandler_JCalls_free,
+		.MessageSendEventsProvider = LDKMessageSendEventsProvider_init(NULL, MessageSendEventsProvider),
+	};
+	calls->MessageSendEventsProvider = ret.MessageSendEventsProvider.this_arg;
+	return ret;
+}
+long LDKRoutingMessageHandler_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o, /*TODO: JS Object Reference */ void* MessageSendEventsProvider) {
+	LDKRoutingMessageHandler *res_ptr = MALLOC(sizeof(LDKRoutingMessageHandler), "LDKRoutingMessageHandler");
+	*res_ptr = LDKRoutingMessageHandler_init(NULL, o, MessageSendEventsProvider);
+	return (long)res_ptr;
+}
 uint32_t RoutingMessageHandler_1handle_1node_1announcement(void* ctx_TODO, uint32_t this_arg, uint32_t msg) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKNodeAnnouncement msg_conv;
@@ -2810,7 +4313,7 @@ uint32_tArray RoutingMessageHandler_1get_1next_1channel_1announcements(void* ctx
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret_var = (this_arg_conv->get_next_channel_announcements)(this_arg_conv->this_arg, starting_point, batch_amount);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t l = 0; l < ret_var.datalen; l++) {
 		LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* arr_conv_63_ref = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
 		*arr_conv_63_ref = ret_var.data[l];
@@ -2830,7 +4333,7 @@ uint32_tArray RoutingMessageHandler_1get_1next_1node_1announcements(void* ctx_TO
 	memcpy(starting_point_ref.compressed_form, starting_point.ptr, 33);
 	LDKCVec_NodeAnnouncementZ ret_var = (this_arg_conv->get_next_node_announcements)(this_arg_conv->this_arg, starting_point_ref, batch_amount);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t s = 0; s < ret_var.datalen; s++) {
 		LDKNodeAnnouncement arr_conv_18_var = ret_var.data[s];
 		CHECK((((long)arr_conv_18_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -2916,12 +4419,78 @@ uint32_t RoutingMessageHandler_1handle_1query_1short_1channel_1ids(void* ctx_TOD
 	return (long)ret_conv;
 }
 
-int64_t SocketDescriptor_1send_1data(void* ctx_TODO, uint32_t this_arg, int8_tArray data, jboolean resume_read) {
+typedef struct LDKSocketDescriptor_JCalls {
+	atomic_size_t refcnt;
+	// TODO: Object pointer o;
+	// TODO: Some kind of method pointer send_data_meth;
+	// TODO: Some kind of method pointer disconnect_socket_meth;
+	// TODO: Some kind of method pointer eq_meth;
+	// TODO: Some kind of method pointer hash_meth;
+} LDKSocketDescriptor_JCalls;
+static void LDKSocketDescriptor_JCalls_free(void* this_arg) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)
+		FREE(j_calls);
+	}
+}
+uintptr_t send_data_jcall(void* this_arg, LDKu8slice data, bool resume_read) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	LDKu8slice data_var = data;
+	int8_tArray data_arr = { .len = data_var.datalen, .ptr = MALLOC(data_var.datalen, "Native int8_tArray Bytes") };
+	memcpy(data_arr.ptr, data_var.data, data_var.datalen);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return 0; //TODO: Call send_data on j_calls with instance obj, returning number, data_arr, resume_read);
+}
+void disconnect_socket_jcall(void* this_arg) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return; //TODO: Call disconnect_socket on j_calls with instance obj);
+}
+bool eq_jcall(const void* this_arg, const LDKSocketDescriptor * other_arg) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	LDKSocketDescriptor *other_arg_clone = MALLOC(sizeof(LDKSocketDescriptor), "LDKSocketDescriptor");
+	*other_arg_clone = SocketDescriptor_clone(other_arg);
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return 0; //TODO: Call eq on j_calls with instance obj, returning boolean, (long)other_arg_clone);
+}
+uint64_t hash_jcall(const void* this_arg) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	//TODO: jobject obj = get object we can call against on j_calls->o
+	return 0; //TODO: Call hash on j_calls with instance obj, returning number);
+}
+static void* LDKSocketDescriptor_JCalls_clone(const void* this_arg) {
+	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+	return (void*) this_arg;
+}
+static inline LDKSocketDescriptor LDKSocketDescriptor_init (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKSocketDescriptor_JCalls *calls = MALLOC(sizeof(LDKSocketDescriptor_JCalls), "LDKSocketDescriptor_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKSocketDescriptor ret = {
+		.this_arg = (void*) calls,
+		.send_data = send_data_jcall,
+		.disconnect_socket = disconnect_socket_jcall,
+		.eq = eq_jcall,
+		.hash = hash_jcall,
+		.clone = LDKSocketDescriptor_JCalls_clone,
+		.free = LDKSocketDescriptor_JCalls_free,
+	};
+	return ret;
+}
+long LDKSocketDescriptor_1new (void* ctx_TODO, /*TODO: JS Object Reference */void* o) {
+	LDKSocketDescriptor *res_ptr = MALLOC(sizeof(LDKSocketDescriptor), "LDKSocketDescriptor");
+	*res_ptr = LDKSocketDescriptor_init(NULL, o);
+	return (long)res_ptr;
+}
+intptr_t SocketDescriptor_1send_1data(void* ctx_TODO, uint32_t this_arg, int8_tArray data, jboolean resume_read) {
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)this_arg;
 	LDKu8slice data_ref;
 	data_ref.datalen = data.len;
 	data_ref.data = data.ptr;
-	int64_t ret_val = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
+	intptr_t ret_val = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
 	return ret_val;
 }
 
@@ -3008,7 +4577,7 @@ void C2Tuple_1usizeTransactionZ_1free(void* ctx_TODO, uint32_t _res) {
 	C2Tuple_usizeTransactionZ_free(_res_conv);
 }
 
-uint32_t C2Tuple_1usizeTransactionZ_1new(void* ctx_TODO, int64_t a, int8_tArray b) {
+uint32_t C2Tuple_1usizeTransactionZ_1new(void* ctx_TODO, intptr_t a, int8_tArray b) {
 	LDKTransaction b_ref;
 	b_ref.datalen = b.len;
 	b_ref.data = MALLOC(b_ref.datalen, "LDKTransaction Bytes");
@@ -3016,7 +4585,7 @@ uint32_t C2Tuple_1usizeTransactionZ_1new(void* ctx_TODO, int64_t a, int8_tArray 
 	b_ref.data_is_owned = true;
 	LDKC2Tuple_usizeTransactionZ* ret_ref = MALLOC(sizeof(LDKC2Tuple_usizeTransactionZ), "LDKC2Tuple_usizeTransactionZ");
 	*ret_ref = C2Tuple_usizeTransactionZ_new(a, b_ref);
-	// XXX: We likely need to clone here, but no _clone fn is available for byte[]
+	// XXX: We likely need to clone here, but no _clone fn is available for Uint8Array
 	return (long)ret_ref;
 }
 
@@ -3028,11 +4597,11 @@ void CVec_1C2Tuple_1usizeTransactionZZ_1free(void* ctx_TODO, uint32_tArray _res)
 	else
 		_res_constr.data = NULL;
 	uint32_t* _res_vals = (uint32_t*) _res.ptr;
-	for (size_t y = 0; y < _res_constr.datalen; y++) {
-		uint32_t arr_conv_24 = _res_vals[y];
-		LDKC2Tuple_usizeTransactionZ arr_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_24;
-		FREE((void*)arr_conv_24);
-		_res_constr.data[y] = arr_conv_24_conv;
+	for (size_t e = 0; e < _res_constr.datalen; e++) {
+		uint32_t arr_conv_30 = _res_vals[e];
+		LDKC2Tuple_usizeTransactionZ arr_conv_30_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_30;
+		FREE((void*)arr_conv_30);
+		_res_constr.data[e] = arr_conv_30_conv;
 	}
 	CVec_C2Tuple_usizeTransactionZZ_free(_res_constr);
 }
@@ -3146,7 +4715,7 @@ uint32_t C2Tuple_1OutPointScriptZ_1new(void* ctx_TODO, uint32_t a, int8_tArray b
 	return (long)ret_ref;
 }
 
-void CVec_1TransactionZ_1free(void* ctx_TODO, uint32_tArray _res) {
+void CVec_1TransactionZ_1free(void* ctx_TODO, ptrArray _res) {
 	LDKCVec_TransactionZ _res_constr;
 	_res_constr.datalen = _res.len;
 	if (_res_constr.datalen > 0)
@@ -3154,14 +4723,14 @@ void CVec_1TransactionZ_1free(void* ctx_TODO, uint32_tArray _res) {
 	else
 		_res_constr.data = NULL;
 	int8_tArray* _res_vals = (int8_tArray*) _res.ptr;
-	for (size_t i = 0; i < _res_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = _res_vals[i];
-		LDKTransaction arr_conv_8_ref;
-		arr_conv_8_ref.datalen = arr_conv_8.len;
-		arr_conv_8_ref.data = MALLOC(arr_conv_8_ref.datalen, "LDKTransaction Bytes");
-		memcpy(arr_conv_8_ref.data, arr_conv_8.ptr, arr_conv_8_ref.datalen);
-		arr_conv_8_ref.data_is_owned = true;
-		_res_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < _res_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = _res_vals[m];
+		LDKTransaction arr_conv_12_ref;
+		arr_conv_12_ref.datalen = arr_conv_12.len;
+		arr_conv_12_ref.data = MALLOC(arr_conv_12_ref.datalen, "LDKTransaction Bytes");
+		memcpy(arr_conv_12_ref.data, arr_conv_12.ptr, arr_conv_12_ref.datalen);
+		arr_conv_12_ref.data_is_owned = true;
+		_res_constr.data[m] = arr_conv_12_ref;
 	}
 	CVec_TransactionZ_free(_res_constr);
 }
@@ -3189,11 +4758,11 @@ void CVec_1C2Tuple_1u32TxOutZZ_1free(void* ctx_TODO, uint32_tArray _res) {
 	else
 		_res_constr.data = NULL;
 	uint32_t* _res_vals = (uint32_t*) _res.ptr;
-	for (size_t a = 0; a < _res_constr.datalen; a++) {
-		uint32_t arr_conv_26 = _res_vals[a];
-		LDKC2Tuple_u32TxOutZ arr_conv_26_conv = *(LDKC2Tuple_u32TxOutZ*)arr_conv_26;
-		FREE((void*)arr_conv_26);
-		_res_constr.data[a] = arr_conv_26_conv;
+	for (size_t z = 0; z < _res_constr.datalen; z++) {
+		uint32_t arr_conv_25 = _res_vals[z];
+		LDKC2Tuple_u32TxOutZ arr_conv_25_conv = *(LDKC2Tuple_u32TxOutZ*)arr_conv_25;
+		FREE((void*)arr_conv_25);
+		_res_constr.data[z] = arr_conv_25_conv;
 	}
 	CVec_C2Tuple_u32TxOutZZ_free(_res_constr);
 }
@@ -3215,16 +4784,16 @@ uint32_t C2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1new(void* ctx_TODO, int8_tArra
 	else
 		b_constr.data = NULL;
 	uint32_t* b_vals = (uint32_t*) b.ptr;
-	for (size_t a = 0; a < b_constr.datalen; a++) {
-		uint32_t arr_conv_26 = b_vals[a];
-		LDKC2Tuple_u32TxOutZ arr_conv_26_conv = *(LDKC2Tuple_u32TxOutZ*)arr_conv_26;
-		FREE((void*)arr_conv_26);
-		b_constr.data[a] = arr_conv_26_conv;
+	for (size_t z = 0; z < b_constr.datalen; z++) {
+		uint32_t arr_conv_25 = b_vals[z];
+		LDKC2Tuple_u32TxOutZ arr_conv_25_conv = *(LDKC2Tuple_u32TxOutZ*)arr_conv_25;
+		FREE((void*)arr_conv_25);
+		b_constr.data[z] = arr_conv_25_conv;
 	}
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* ret_ref = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ), "LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ");
 	*ret_ref = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(a_ref, b_constr);
 	ret_ref->a = ThirtyTwoBytes_clone(&ret_ref->a);
-	// XXX: We likely need to clone here, but no _clone fn is available for TwoTuple<Integer, TxOut>[]
+	// XXX: We likely need to clone here, but no _clone fn is available for TwoTuple<Number, TxOut>[]
 	return (long)ret_ref;
 }
 
@@ -3236,11 +4805,11 @@ void CVec_1C2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZZ_1free(void* ctx_TODO, uint32
 	else
 		_res_constr.data = NULL;
 	uint32_t* _res_vals = (uint32_t*) _res.ptr;
-	for (size_t u = 0; u < _res_constr.datalen; u++) {
-		uint32_t arr_conv_46 = _res_vals[u];
-		LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ arr_conv_46_conv = *(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)arr_conv_46;
-		FREE((void*)arr_conv_46);
-		_res_constr.data[u] = arr_conv_46_conv;
+	for (size_t x = 0; x < _res_constr.datalen; x++) {
+		uint32_t arr_conv_49 = _res_vals[x];
+		LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ arr_conv_49_conv = *(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)arr_conv_49;
+		FREE((void*)arr_conv_49);
+		_res_constr.data[x] = arr_conv_49_conv;
 	}
 	CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(_res_constr);
 }
@@ -3326,7 +4895,7 @@ void CResult_1SpendableOutputDescriptorDecodeErrorZ_1free(void* ctx_TODO, uint32
 	CResult_SpendableOutputDescriptorDecodeErrorZ_free(_res_conv);
 }
 
-void CVec_1SignatureZ_1free(void* ctx_TODO, uint32_tArray _res) {
+void CVec_1SignatureZ_1free(void* ctx_TODO, ptrArray _res) {
 	LDKCVec_SignatureZ _res_constr;
 	_res_constr.datalen = _res.len;
 	if (_res_constr.datalen > 0)
@@ -3334,12 +4903,12 @@ void CVec_1SignatureZ_1free(void* ctx_TODO, uint32_tArray _res) {
 	else
 		_res_constr.data = NULL;
 	int8_tArray* _res_vals = (int8_tArray*) _res.ptr;
-	for (size_t i = 0; i < _res_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = _res_vals[i];
-		LDKSignature arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 64);
-		memcpy(arr_conv_8_ref.compact_form, arr_conv_8.ptr, 64);
-		_res_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < _res_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = _res_vals[m];
+		LDKSignature arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 64);
+		memcpy(arr_conv_12_ref.compact_form, arr_conv_12.ptr, 64);
+		_res_constr.data[m] = arr_conv_12_ref;
 	}
 	CVec_SignatureZ_free(_res_constr);
 }
@@ -3350,7 +4919,7 @@ void C2Tuple_1SignatureCVec_1SignatureZZ_1free(void* ctx_TODO, uint32_t _res) {
 	C2Tuple_SignatureCVec_SignatureZZ_free(_res_conv);
 }
 
-uint32_t C2Tuple_1SignatureCVec_1SignatureZZ_1new(void* ctx_TODO, int8_tArray a, uint32_tArray b) {
+uint32_t C2Tuple_1SignatureCVec_1SignatureZZ_1new(void* ctx_TODO, int8_tArray a, ptrArray b) {
 	LDKSignature a_ref;
 	CHECK(a.len == 64);
 	memcpy(a_ref.compact_form, a.ptr, 64);
@@ -3361,17 +4930,17 @@ uint32_t C2Tuple_1SignatureCVec_1SignatureZZ_1new(void* ctx_TODO, int8_tArray a,
 	else
 		b_constr.data = NULL;
 	int8_tArray* b_vals = (int8_tArray*) b.ptr;
-	for (size_t i = 0; i < b_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = b_vals[i];
-		LDKSignature arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 64);
-		memcpy(arr_conv_8_ref.compact_form, arr_conv_8.ptr, 64);
-		b_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < b_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = b_vals[m];
+		LDKSignature arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 64);
+		memcpy(arr_conv_12_ref.compact_form, arr_conv_12.ptr, 64);
+		b_constr.data[m] = arr_conv_12_ref;
 	}
 	LDKC2Tuple_SignatureCVec_SignatureZZ* ret_ref = MALLOC(sizeof(LDKC2Tuple_SignatureCVec_SignatureZZ), "LDKC2Tuple_SignatureCVec_SignatureZZ");
 	*ret_ref = C2Tuple_SignatureCVec_SignatureZZ_new(a_ref, b_constr);
-	// XXX: We likely need to clone here, but no _clone fn is available for byte[]
-	// XXX: We likely need to clone here, but no _clone fn is available for byte[][]
+	// XXX: We likely need to clone here, but no _clone fn is available for Uint8Array
+	// XXX: We likely need to clone here, but no _clone fn is available for Uint8Array[]
 	return (long)ret_ref;
 }
 
@@ -3416,7 +4985,7 @@ void CResult_1SignatureNoneZ_1free(void* ctx_TODO, uint32_t _res) {
 	CResult_SignatureNoneZ_free(_res_conv);
 }
 
-uint32_t CResult_1CVec_1SignatureZNoneZ_1ok(void* ctx_TODO, uint32_tArray o) {
+uint32_t CResult_1CVec_1SignatureZNoneZ_1ok(void* ctx_TODO, ptrArray o) {
 	LDKCVec_SignatureZ o_constr;
 	o_constr.datalen = o.len;
 	if (o_constr.datalen > 0)
@@ -3424,12 +4993,12 @@ uint32_t CResult_1CVec_1SignatureZNoneZ_1ok(void* ctx_TODO, uint32_tArray o) {
 	else
 		o_constr.data = NULL;
 	int8_tArray* o_vals = (int8_tArray*) o.ptr;
-	for (size_t i = 0; i < o_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = o_vals[i];
-		LDKSignature arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 64);
-		memcpy(arr_conv_8_ref.compact_form, arr_conv_8.ptr, 64);
-		o_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < o_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = o_vals[m];
+		LDKSignature arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 64);
+		memcpy(arr_conv_12_ref.compact_form, arr_conv_12.ptr, 64);
+		o_constr.data[m] = arr_conv_12_ref;
 	}
 	LDKCResult_CVec_SignatureZNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_CVec_SignatureZNoneZ), "LDKCResult_CVec_SignatureZNoneZ");
 	*ret_conv = CResult_CVec_SignatureZNoneZ_ok(o_constr);
@@ -3450,10 +5019,6 @@ void CResult_1CVec_1SignatureZNoneZ_1free(void* ctx_TODO, uint32_t _res) {
 
 uint32_t CResult_1ChanKeySignerDecodeErrorZ_1ok(void* ctx_TODO, uint32_t o) {
 	LDKChannelKeys o_conv = *(LDKChannelKeys*)o;
-	if (o_conv.free == LDKChannelKeys_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKChannelKeys_JCalls_clone(o_conv.this_arg);
-	}
 	LDKCResult_ChanKeySignerDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_ChanKeySignerDecodeErrorZ), "LDKCResult_ChanKeySignerDecodeErrorZ");
 	*ret_conv = CResult_ChanKeySignerDecodeErrorZ_ok(o_conv);
 	return (long)ret_conv;
@@ -3715,9 +5280,9 @@ void CVec_1u64Z_1free(void* ctx_TODO, int64_tArray _res) {
 	else
 		_res_constr.data = NULL;
 	int64_t* _res_vals = (int64_t*) _res.ptr;
-	for (size_t g = 0; g < _res_constr.datalen; g++) {
-		int64_t arr_conv_6 = _res_vals[g];
-		_res_constr.data[g] = arr_conv_6;
+	for (size_t i = 0; i < _res_constr.datalen; i++) {
+		int64_t arr_conv_8 = _res_vals[i];
+		_res_constr.data[i] = arr_conv_8;
 	}
 	CVec_u64Z_free(_res_constr);
 }
@@ -4254,7 +5819,7 @@ void CResult_1GossipTimestampFilterDecodeErrorZ_1free(void* ctx_TODO, uint32_t _
 	CResult_GossipTimestampFilterDecodeErrorZ_free(_res_conv);
 }
 
-void CVec_1PublicKeyZ_1free(void* ctx_TODO, uint32_tArray _res) {
+void CVec_1PublicKeyZ_1free(void* ctx_TODO, ptrArray _res) {
 	LDKCVec_PublicKeyZ _res_constr;
 	_res_constr.datalen = _res.len;
 	if (_res_constr.datalen > 0)
@@ -4262,12 +5827,12 @@ void CVec_1PublicKeyZ_1free(void* ctx_TODO, uint32_tArray _res) {
 	else
 		_res_constr.data = NULL;
 	int8_tArray* _res_vals = (int8_tArray*) _res.ptr;
-	for (size_t i = 0; i < _res_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = _res_vals[i];
-		LDKPublicKey arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 33);
-		memcpy(arr_conv_8_ref.compressed_form, arr_conv_8.ptr, 33);
-		_res_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < _res_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = _res_vals[m];
+		LDKPublicKey arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 33);
+		memcpy(arr_conv_12_ref.compressed_form, arr_conv_12.ptr, 33);
+		_res_constr.data[m] = arr_conv_12_ref;
 	}
 	CVec_PublicKeyZ_free(_res_constr);
 }
@@ -4458,7 +6023,7 @@ void CVec_1RouteHopZ_1free(void* ctx_TODO, uint32_tArray _res) {
 	CVec_RouteHopZ_free(_res_constr);
 }
 
-void CVec_1CVec_1RouteHopZZ_1free(void* ctx_TODO, uint32_tArray _res) {
+void CVec_1CVec_1RouteHopZZ_1free(void* ctx_TODO, ptrArray _res) {
 	LDKCVec_CVec_RouteHopZZ _res_constr;
 	_res_constr.datalen = _res.len;
 	if (_res_constr.datalen > 0)
@@ -4780,15 +6345,15 @@ void ChannelHandshakeConfig_1set_1minimum_1depth(void* ctx_TODO, uint32_t this_p
 	ChannelHandshakeConfig_set_minimum_depth(&this_ptr_conv, val);
 }
 
-jshort ChannelHandshakeConfig_1get_1our_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr) {
+int16_t ChannelHandshakeConfig_1get_1our_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = ChannelHandshakeConfig_get_our_to_self_delay(&this_ptr_conv);
+	int16_t ret_val = ChannelHandshakeConfig_get_our_to_self_delay(&this_ptr_conv);
 	return ret_val;
 }
 
-void ChannelHandshakeConfig_1set_1our_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void ChannelHandshakeConfig_1set_1our_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -4810,7 +6375,7 @@ void ChannelHandshakeConfig_1set_1our_1htlc_1minimum_1msat(void* ctx_TODO, uint3
 	ChannelHandshakeConfig_set_our_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-uint32_t ChannelHandshakeConfig_1new(void* ctx_TODO, int32_t minimum_depth_arg, jshort our_to_self_delay_arg, int64_t our_htlc_minimum_msat_arg) {
+uint32_t ChannelHandshakeConfig_1new(void* ctx_TODO, int32_t minimum_depth_arg, int16_t our_to_self_delay_arg, int64_t our_htlc_minimum_msat_arg) {
 	LDKChannelHandshakeConfig ret_var = ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -4913,15 +6478,15 @@ void ChannelHandshakeLimits_1set_1max_1channel_1reserve_1satoshis(void* ctx_TODO
 	ChannelHandshakeLimits_set_max_channel_reserve_satoshis(&this_ptr_conv, val);
 }
 
-jshort ChannelHandshakeLimits_1get_1min_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr) {
+int16_t ChannelHandshakeLimits_1get_1min_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = ChannelHandshakeLimits_get_min_max_accepted_htlcs(&this_ptr_conv);
+	int16_t ret_val = ChannelHandshakeLimits_get_min_max_accepted_htlcs(&this_ptr_conv);
 	return ret_val;
 }
 
-void ChannelHandshakeLimits_1set_1min_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void ChannelHandshakeLimits_1set_1min_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -4988,22 +6553,22 @@ void ChannelHandshakeLimits_1set_1force_1announced_1channel_1preference(void* ct
 	ChannelHandshakeLimits_set_force_announced_channel_preference(&this_ptr_conv, val);
 }
 
-jshort ChannelHandshakeLimits_1get_1their_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr) {
+int16_t ChannelHandshakeLimits_1get_1their_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = ChannelHandshakeLimits_get_their_to_self_delay(&this_ptr_conv);
+	int16_t ret_val = ChannelHandshakeLimits_get_their_to_self_delay(&this_ptr_conv);
 	return ret_val;
 }
 
-void ChannelHandshakeLimits_1set_1their_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void ChannelHandshakeLimits_1set_1their_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_their_to_self_delay(&this_ptr_conv, val);
 }
 
-uint32_t ChannelHandshakeLimits_1new(void* ctx_TODO, int64_t min_funding_satoshis_arg, int64_t max_htlc_minimum_msat_arg, int64_t min_max_htlc_value_in_flight_msat_arg, int64_t max_channel_reserve_satoshis_arg, jshort min_max_accepted_htlcs_arg, int64_t min_dust_limit_satoshis_arg, int64_t max_dust_limit_satoshis_arg, int32_t max_minimum_depth_arg, jboolean force_announced_channel_preference_arg, jshort their_to_self_delay_arg) {
+uint32_t ChannelHandshakeLimits_1new(void* ctx_TODO, int64_t min_funding_satoshis_arg, int64_t max_htlc_minimum_msat_arg, int64_t min_max_htlc_value_in_flight_msat_arg, int64_t max_channel_reserve_satoshis_arg, int16_t min_max_accepted_htlcs_arg, int64_t min_dust_limit_satoshis_arg, int64_t max_dust_limit_satoshis_arg, int32_t max_minimum_depth_arg, jboolean force_announced_channel_preference_arg, int16_t their_to_self_delay_arg) {
 	LDKChannelHandshakeLimits ret_var = ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, min_dust_limit_satoshis_arg, max_dust_limit_satoshis_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -5338,11 +6903,11 @@ void ChainMonitor_1block_1connected(void* ctx_TODO, uint32_t this_arg, int8_tArr
 	else
 		txdata_constr.data = NULL;
 	uint32_t* txdata_vals = (uint32_t*) txdata.ptr;
-	for (size_t y = 0; y < txdata_constr.datalen; y++) {
-		uint32_t arr_conv_24 = txdata_vals[y];
-		LDKC2Tuple_usizeTransactionZ arr_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_24;
-		FREE((void*)arr_conv_24);
-		txdata_constr.data[y] = arr_conv_24_conv;
+	for (size_t e = 0; e < txdata_constr.datalen; e++) {
+		uint32_t arr_conv_30 = txdata_vals[e];
+		LDKC2Tuple_usizeTransactionZ arr_conv_30_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_30;
+		FREE((void*)arr_conv_30);
+		txdata_constr.data[e] = arr_conv_30_conv;
 	}
 	ChainMonitor_block_connected(&this_arg_conv, header_ref, txdata_constr, height);
 }
@@ -5361,25 +6926,9 @@ void ChainMonitor_1block_1disconnected(void* ctx_TODO, uint32_t this_arg, int8_t
 uint32_t ChainMonitor_1new(void* ctx_TODO, uint32_t chain_source, uint32_t broadcaster, uint32_t logger, uint32_t feeest, uint32_t persister) {
 	LDKFilter* chain_source_conv = (LDKFilter*)chain_source;
 	LDKBroadcasterInterface broadcaster_conv = *(LDKBroadcasterInterface*)broadcaster;
-	if (broadcaster_conv.free == LDKBroadcasterInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKBroadcasterInterface_JCalls_clone(broadcaster_conv.this_arg);
-	}
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	LDKFeeEstimator feeest_conv = *(LDKFeeEstimator*)feeest;
-	if (feeest_conv.free == LDKFeeEstimator_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKFeeEstimator_JCalls_clone(feeest_conv.this_arg);
-	}
 	LDKPersist persister_conv = *(LDKPersist*)persister;
-	if (persister_conv.free == LDKPersist_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKPersist_JCalls_clone(persister_conv.this_arg);
-	}
 	LDKChainMonitor ret_var = ChainMonitor_new(chain_source_conv, broadcaster_conv, logger_conv, feeest_conv, persister_conv);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -5602,7 +7151,7 @@ uint32_tArray ChannelMonitor_1get_1and_1clear_1pending_1monitor_1events(void* ct
 	this_arg_conv.is_owned = false;
 	LDKCVec_MonitorEventZ ret_var = ChannelMonitor_get_and_clear_pending_monitor_events(&this_arg_conv);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t o = 0; o < ret_var.datalen; o++) {
 		LDKMonitorEvent arr_conv_14_var = ret_var.data[o];
 		CHECK((((long)arr_conv_14_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -5623,7 +7172,7 @@ uint32_tArray ChannelMonitor_1get_1and_1clear_1pending_1events(void* ctx_TODO, u
 	this_arg_conv.is_owned = false;
 	LDKCVec_EventZ ret_var = ChannelMonitor_get_and_clear_pending_events(&this_arg_conv);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t h = 0; h < ret_var.datalen; h++) {
 		LDKEvent *arr_conv_7_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
 		*arr_conv_7_copy = Event_clone(&ret_var.data[h]);
@@ -5634,19 +7183,20 @@ uint32_tArray ChannelMonitor_1get_1and_1clear_1pending_1events(void* ctx_TODO, u
 	return ret_arr;
 }
 
-uint32_tArray ChannelMonitor_1get_1latest_1holder_1commitment_1txn(void* ctx_TODO, uint32_t this_arg, uint32_t logger) {
+ptrArray ChannelMonitor_1get_1latest_1holder_1commitment_1txn(void* ctx_TODO, uint32_t this_arg, uint32_t logger) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	LDKLogger* logger_conv = (LDKLogger*)logger;
 	LDKCVec_TransactionZ ret_var = ChannelMonitor_get_latest_holder_commitment_txn(&this_arg_conv, logger_conv);
-	uint32_tArray ret_arr = (*env)->NewObjectArray(env, ret_var.datalen, arr_of_B_clz, NULL);
-	for (size_t i = 0; i < ret_var.datalen; i++) {
-		LDKTransaction arr_conv_8_var = ret_var.data[i];
-		int8_tArray arr_conv_8_arr = { .len = arr_conv_8_var.datalen, .ptr = MALLOC(arr_conv_8_var.datalen, "Native int8_tArray Bytes") };
-		memcpy(arr_conv_8_arr.ptr, arr_conv_8_var.data, arr_conv_8_var.datalen);
-		Transaction_free(arr_conv_8_var);
-		(*env)->SetObjectArrayElement(env, ret_arr, i, arr_conv_8_arr);
+	ptrArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native Object Bytes") };
+	int8_tArray *ret_arr_ptr = (int8_tArray*)ret_arr.ptr;
+	for (size_t m = 0; m < ret_var.datalen; m++) {
+		LDKTransaction arr_conv_12_var = ret_var.data[m];
+		int8_tArray arr_conv_12_arr = { .len = arr_conv_12_var.datalen, .ptr = MALLOC(arr_conv_12_var.datalen, "Native int8_tArray Bytes") };
+		memcpy(arr_conv_12_arr.ptr, arr_conv_12_var.data, arr_conv_12_var.datalen);
+		Transaction_free(arr_conv_12_var);
+		ret_arr_ptr[m] = arr_conv_12_arr;
 	}
 	FREE(ret_var.data);
 	return ret_arr;
@@ -5667,36 +7217,24 @@ uint32_tArray ChannelMonitor_1block_1connected(void* ctx_TODO, uint32_t this_arg
 	else
 		txdata_constr.data = NULL;
 	uint32_t* txdata_vals = (uint32_t*) txdata.ptr;
-	for (size_t y = 0; y < txdata_constr.datalen; y++) {
-		uint32_t arr_conv_24 = txdata_vals[y];
-		LDKC2Tuple_usizeTransactionZ arr_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_24;
-		FREE((void*)arr_conv_24);
-		txdata_constr.data[y] = arr_conv_24_conv;
+	for (size_t e = 0; e < txdata_constr.datalen; e++) {
+		uint32_t arr_conv_30 = txdata_vals[e];
+		LDKC2Tuple_usizeTransactionZ arr_conv_30_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_30;
+		FREE((void*)arr_conv_30);
+		txdata_constr.data[e] = arr_conv_30_conv;
 	}
 	LDKBroadcasterInterface broadcaster_conv = *(LDKBroadcasterInterface*)broadcaster;
-	if (broadcaster_conv.free == LDKBroadcasterInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKBroadcasterInterface_JCalls_clone(broadcaster_conv.this_arg);
-	}
 	LDKFeeEstimator fee_estimator_conv = *(LDKFeeEstimator*)fee_estimator;
-	if (fee_estimator_conv.free == LDKFeeEstimator_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKFeeEstimator_JCalls_clone(fee_estimator_conv.this_arg);
-	}
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ ret_var = ChannelMonitor_block_connected(&this_arg_conv, header_ref, txdata_constr, height, broadcaster_conv, fee_estimator_conv, logger_conv);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
-	for (size_t u = 0; u < ret_var.datalen; u++) {
-		LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* arr_conv_46_ref = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ), "LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ");
-		*arr_conv_46_ref = ret_var.data[u];
-		arr_conv_46_ref->a = ThirtyTwoBytes_clone(&arr_conv_46_ref->a);
-		// XXX: We likely need to clone here, but no _clone fn is available for TwoTuple<Integer, TxOut>[]
-		ret_arr_ptr[u] = (long)arr_conv_46_ref;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
+	for (size_t x = 0; x < ret_var.datalen; x++) {
+		LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* arr_conv_49_ref = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ), "LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ");
+		*arr_conv_49_ref = ret_var.data[x];
+		arr_conv_49_ref->a = ThirtyTwoBytes_clone(&arr_conv_49_ref->a);
+		// XXX: We likely need to clone here, but no _clone fn is available for TwoTuple<Number, TxOut>[]
+		ret_arr_ptr[x] = (long)arr_conv_49_ref;
 	}
 	FREE(ret_var.data);
 	return ret_arr;
@@ -5711,20 +7249,8 @@ void ChannelMonitor_1block_1disconnected(void* ctx_TODO, uint32_t this_arg, int8
 	memcpy(header_arr, header.ptr, 80);
 	unsigned char (*header_ref)[80] = &header_arr;
 	LDKBroadcasterInterface broadcaster_conv = *(LDKBroadcasterInterface*)broadcaster;
-	if (broadcaster_conv.free == LDKBroadcasterInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKBroadcasterInterface_JCalls_clone(broadcaster_conv.this_arg);
-	}
 	LDKFeeEstimator fee_estimator_conv = *(LDKFeeEstimator*)fee_estimator;
-	if (fee_estimator_conv.free == LDKFeeEstimator_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKFeeEstimator_JCalls_clone(fee_estimator_conv.this_arg);
-	}
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	ChannelMonitor_block_disconnected(&this_arg_conv, header_ref, height, broadcaster_conv, fee_estimator_conv, logger_conv);
 }
 
@@ -5784,22 +7310,22 @@ void OutPoint_1set_1txid(void* ctx_TODO, uint32_t this_ptr, int8_tArray val) {
 	OutPoint_set_txid(&this_ptr_conv, val_ref);
 }
 
-jshort OutPoint_1get_1index(void* ctx_TODO, uint32_t this_ptr) {
+int16_t OutPoint_1get_1index(void* ctx_TODO, uint32_t this_ptr) {
 	LDKOutPoint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = OutPoint_get_index(&this_ptr_conv);
+	int16_t ret_val = OutPoint_get_index(&this_ptr_conv);
 	return ret_val;
 }
 
-void OutPoint_1set_1index(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void OutPoint_1set_1index(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKOutPoint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OutPoint_set_index(&this_ptr_conv, val);
 }
 
-uint32_t OutPoint_1new(void* ctx_TODO, int8_tArray txid_arg, jshort index_arg) {
+uint32_t OutPoint_1new(void* ctx_TODO, int8_tArray txid_arg, int16_t index_arg) {
 	LDKThirtyTwoBytes txid_arg_ref;
 	CHECK(txid_arg.len == 32);
 	memcpy(txid_arg_ref.data, txid_arg.ptr, 32);
@@ -6078,19 +7604,19 @@ uint32_t InMemoryChannelKeys_1counterparty_1pubkeys(void* ctx_TODO, uint32_t thi
 	return ret_ref;
 }
 
-jshort InMemoryChannelKeys_1counterparty_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_arg) {
+int16_t InMemoryChannelKeys_1counterparty_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
-	jshort ret_val = InMemoryChannelKeys_counterparty_selected_contest_delay(&this_arg_conv);
+	int16_t ret_val = InMemoryChannelKeys_counterparty_selected_contest_delay(&this_arg_conv);
 	return ret_val;
 }
 
-jshort InMemoryChannelKeys_1holder_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_arg) {
+int16_t InMemoryChannelKeys_1holder_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
-	jshort ret_val = InMemoryChannelKeys_holder_selected_contest_delay(&this_arg_conv);
+	int16_t ret_val = InMemoryChannelKeys_holder_selected_contest_delay(&this_arg_conv);
 	return ret_val;
 }
 
@@ -6378,33 +7904,13 @@ void PaymentSendFailure_1free(void* ctx_TODO, uint32_t this_ptr) {
 	PaymentSendFailure_free(this_ptr_conv);
 }
 
-uint32_t ChannelManager_1new(void* ctx_TODO, uint32_t network, uint32_t fee_est, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t keys_manager, uint32_t config, int64_t current_blockchain_height) {
+uint32_t ChannelManager_1new(void* ctx_TODO, uint32_t network, uint32_t fee_est, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t keys_manager, uint32_t config, intptr_t current_blockchain_height) {
 	LDKNetwork network_conv = LDKNetwork_from_js(network);
 	LDKFeeEstimator fee_est_conv = *(LDKFeeEstimator*)fee_est;
-	if (fee_est_conv.free == LDKFeeEstimator_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKFeeEstimator_JCalls_clone(fee_est_conv.this_arg);
-	}
 	LDKWatch chain_monitor_conv = *(LDKWatch*)chain_monitor;
-	if (chain_monitor_conv.free == LDKWatch_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKWatch_JCalls_clone(chain_monitor_conv.this_arg);
-	}
 	LDKBroadcasterInterface tx_broadcaster_conv = *(LDKBroadcasterInterface*)tx_broadcaster;
-	if (tx_broadcaster_conv.free == LDKBroadcasterInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKBroadcasterInterface_JCalls_clone(tx_broadcaster_conv.this_arg);
-	}
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	LDKKeysInterface keys_manager_conv = *(LDKKeysInterface*)keys_manager;
-	if (keys_manager_conv.free == LDKKeysInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKKeysInterface_JCalls_clone(keys_manager_conv.this_arg);
-	}
 	LDKUserConfig config_conv;
 	config_conv.inner = (void*)(config & (~1));
 	config_conv.is_owned = (config & 1) || (config == 0);
@@ -6443,7 +7949,7 @@ uint32_tArray ChannelManager_1list_1channels(void* ctx_TODO, uint32_t this_arg) 
 	this_arg_conv.is_owned = false;
 	LDKCVec_ChannelDetailsZ ret_var = ChannelManager_list_channels(&this_arg_conv);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t q = 0; q < ret_var.datalen; q++) {
 		LDKChannelDetails arr_conv_16_var = ret_var.data[q];
 		CHECK((((long)arr_conv_16_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -6464,7 +7970,7 @@ uint32_tArray ChannelManager_1list_1usable_1channels(void* ctx_TODO, uint32_t th
 	this_arg_conv.is_owned = false;
 	LDKCVec_ChannelDetailsZ ret_var = ChannelManager_list_usable_channels(&this_arg_conv);
 	uint32_tArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native uint32_tArray Bytes") };
-	uint32_t *ret_arr_ptr = ret_arr.ptr;
+	uint32_t *ret_arr_ptr = (uint32_t*)ret_arr.ptr;
 	for (size_t q = 0; q < ret_var.datalen; q++) {
 		LDKChannelDetails arr_conv_16_var = ret_var.data[q];
 		CHECK((((long)arr_conv_16_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -6665,11 +8171,11 @@ void ChannelManager_1block_1connected(void* ctx_TODO, uint32_t this_arg, int8_tA
 	else
 		txdata_constr.data = NULL;
 	uint32_t* txdata_vals = (uint32_t*) txdata.ptr;
-	for (size_t y = 0; y < txdata_constr.datalen; y++) {
-		uint32_t arr_conv_24 = txdata_vals[y];
-		LDKC2Tuple_usizeTransactionZ arr_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_24;
-		FREE((void*)arr_conv_24);
-		txdata_constr.data[y] = arr_conv_24_conv;
+	for (size_t e = 0; e < txdata_constr.datalen; e++) {
+		uint32_t arr_conv_30 = txdata_vals[e];
+		LDKC2Tuple_usizeTransactionZ arr_conv_30_conv = *(LDKC2Tuple_usizeTransactionZ*)arr_conv_30;
+		FREE((void*)arr_conv_30);
+		txdata_constr.data[e] = arr_conv_30_conv;
 	}
 	ChannelManager_block_connected(&this_arg_conv, header_ref, txdata_constr, height);
 }
@@ -6725,10 +8231,6 @@ void ChannelManagerReadArgs_1set_1keys_1manager(void* ctx_TODO, uint32_t this_pt
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKKeysInterface val_conv = *(LDKKeysInterface*)val;
-	if (val_conv.free == LDKKeysInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKKeysInterface_JCalls_clone(val_conv.this_arg);
-	}
 	ChannelManagerReadArgs_set_keys_manager(&this_ptr_conv, val_conv);
 }
 
@@ -6745,10 +8247,6 @@ void ChannelManagerReadArgs_1set_1fee_1estimator(void* ctx_TODO, uint32_t this_p
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKFeeEstimator val_conv = *(LDKFeeEstimator*)val;
-	if (val_conv.free == LDKFeeEstimator_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKFeeEstimator_JCalls_clone(val_conv.this_arg);
-	}
 	ChannelManagerReadArgs_set_fee_estimator(&this_ptr_conv, val_conv);
 }
 
@@ -6765,10 +8263,6 @@ void ChannelManagerReadArgs_1set_1chain_1monitor(void* ctx_TODO, uint32_t this_p
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKWatch val_conv = *(LDKWatch*)val;
-	if (val_conv.free == LDKWatch_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKWatch_JCalls_clone(val_conv.this_arg);
-	}
 	ChannelManagerReadArgs_set_chain_monitor(&this_ptr_conv, val_conv);
 }
 
@@ -6785,10 +8279,6 @@ void ChannelManagerReadArgs_1set_1tx_1broadcaster(void* ctx_TODO, uint32_t this_
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKBroadcasterInterface val_conv = *(LDKBroadcasterInterface*)val;
-	if (val_conv.free == LDKBroadcasterInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKBroadcasterInterface_JCalls_clone(val_conv.this_arg);
-	}
 	ChannelManagerReadArgs_set_tx_broadcaster(&this_ptr_conv, val_conv);
 }
 
@@ -6805,10 +8295,6 @@ void ChannelManagerReadArgs_1set_1logger(void* ctx_TODO, uint32_t this_ptr, uint
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKLogger val_conv = *(LDKLogger*)val;
-	if (val_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(val_conv.this_arg);
-	}
 	ChannelManagerReadArgs_set_logger(&this_ptr_conv, val_conv);
 }
 
@@ -6840,30 +8326,10 @@ void ChannelManagerReadArgs_1set_1default_1config(void* ctx_TODO, uint32_t this_
 
 uint32_t ChannelManagerReadArgs_1new(void* ctx_TODO, uint32_t keys_manager, uint32_t fee_estimator, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t default_config, uint32_tArray channel_monitors) {
 	LDKKeysInterface keys_manager_conv = *(LDKKeysInterface*)keys_manager;
-	if (keys_manager_conv.free == LDKKeysInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKKeysInterface_JCalls_clone(keys_manager_conv.this_arg);
-	}
 	LDKFeeEstimator fee_estimator_conv = *(LDKFeeEstimator*)fee_estimator;
-	if (fee_estimator_conv.free == LDKFeeEstimator_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKFeeEstimator_JCalls_clone(fee_estimator_conv.this_arg);
-	}
 	LDKWatch chain_monitor_conv = *(LDKWatch*)chain_monitor;
-	if (chain_monitor_conv.free == LDKWatch_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKWatch_JCalls_clone(chain_monitor_conv.this_arg);
-	}
 	LDKBroadcasterInterface tx_broadcaster_conv = *(LDKBroadcasterInterface*)tx_broadcaster;
-	if (tx_broadcaster_conv.free == LDKBroadcasterInterface_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKBroadcasterInterface_JCalls_clone(tx_broadcaster_conv.this_arg);
-	}
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	LDKUserConfig default_config_conv;
 	default_config_conv.inner = (void*)(default_config & (~1));
 	default_config_conv.is_owned = (default_config & 1) || (default_config == 0);
@@ -6983,7 +8449,7 @@ jstring ErrorMessage_1get_1data(void* ctx_TODO, uint32_t this_ptr) {
 	char* _buf = MALLOC(_str.len + 1, "str conv buf");
 	memcpy(_buf, _str.chars, _str.len);
 	_buf[_str.len] = 0;
-	jstring _conv = (*env)->NewStringUTF(env, _str.chars);
+	jstring _conv = conv_owned_string(_str.chars);
 	FREE(_buf);
 	return _conv;
 }
@@ -7038,37 +8504,37 @@ uint32_t Ping_1clone(void* ctx_TODO, uint32_t orig) {
 	return ret_ref;
 }
 
-jshort Ping_1get_1ponglen(void* ctx_TODO, uint32_t this_ptr) {
+int16_t Ping_1get_1ponglen(void* ctx_TODO, uint32_t this_ptr) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = Ping_get_ponglen(&this_ptr_conv);
+	int16_t ret_val = Ping_get_ponglen(&this_ptr_conv);
 	return ret_val;
 }
 
-void Ping_1set_1ponglen(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void Ping_1set_1ponglen(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	Ping_set_ponglen(&this_ptr_conv, val);
 }
 
-jshort Ping_1get_1byteslen(void* ctx_TODO, uint32_t this_ptr) {
+int16_t Ping_1get_1byteslen(void* ctx_TODO, uint32_t this_ptr) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = Ping_get_byteslen(&this_ptr_conv);
+	int16_t ret_val = Ping_get_byteslen(&this_ptr_conv);
 	return ret_val;
 }
 
-void Ping_1set_1byteslen(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void Ping_1set_1byteslen(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	Ping_set_byteslen(&this_ptr_conv, val);
 }
 
-uint32_t Ping_1new(void* ctx_TODO, jshort ponglen_arg, jshort byteslen_arg) {
+uint32_t Ping_1new(void* ctx_TODO, int16_t ponglen_arg, int16_t byteslen_arg) {
 	LDKPing ret_var = Ping_new(ponglen_arg, byteslen_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -7100,22 +8566,22 @@ uint32_t Pong_1clone(void* ctx_TODO, uint32_t orig) {
 	return ret_ref;
 }
 
-jshort Pong_1get_1byteslen(void* ctx_TODO, uint32_t this_ptr) {
+int16_t Pong_1get_1byteslen(void* ctx_TODO, uint32_t this_ptr) {
 	LDKPong this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = Pong_get_byteslen(&this_ptr_conv);
+	int16_t ret_val = Pong_get_byteslen(&this_ptr_conv);
 	return ret_val;
 }
 
-void Pong_1set_1byteslen(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void Pong_1set_1byteslen(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKPong this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	Pong_set_byteslen(&this_ptr_conv, val);
 }
 
-uint32_t Pong_1new(void* ctx_TODO, jshort byteslen_arg) {
+uint32_t Pong_1new(void* ctx_TODO, int16_t byteslen_arg) {
 	LDKPong ret_var = Pong_new(byteslen_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -7290,30 +8756,30 @@ void OpenChannel_1set_1feerate_1per_1kw(void* ctx_TODO, uint32_t this_ptr, int32
 	OpenChannel_set_feerate_per_kw(&this_ptr_conv, val);
 }
 
-jshort OpenChannel_1get_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr) {
+int16_t OpenChannel_1get_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = OpenChannel_get_to_self_delay(&this_ptr_conv);
+	int16_t ret_val = OpenChannel_get_to_self_delay(&this_ptr_conv);
 	return ret_val;
 }
 
-void OpenChannel_1set_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void OpenChannel_1set_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_to_self_delay(&this_ptr_conv, val);
 }
 
-jshort OpenChannel_1get_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr) {
+int16_t OpenChannel_1get_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = OpenChannel_get_max_accepted_htlcs(&this_ptr_conv);
+	int16_t ret_val = OpenChannel_get_max_accepted_htlcs(&this_ptr_conv);
 	return ret_val;
 }
 
-void OpenChannel_1set_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void OpenChannel_1set_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7564,30 +9030,30 @@ void AcceptChannel_1set_1minimum_1depth(void* ctx_TODO, uint32_t this_ptr, int32
 	AcceptChannel_set_minimum_depth(&this_ptr_conv, val);
 }
 
-jshort AcceptChannel_1get_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr) {
+int16_t AcceptChannel_1get_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = AcceptChannel_get_to_self_delay(&this_ptr_conv);
+	int16_t ret_val = AcceptChannel_get_to_self_delay(&this_ptr_conv);
 	return ret_val;
 }
 
-void AcceptChannel_1set_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void AcceptChannel_1set_1to_1self_1delay(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AcceptChannel_set_to_self_delay(&this_ptr_conv, val);
 }
 
-jshort AcceptChannel_1get_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr) {
+int16_t AcceptChannel_1get_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = AcceptChannel_get_max_accepted_htlcs(&this_ptr_conv);
+	int16_t ret_val = AcceptChannel_get_max_accepted_htlcs(&this_ptr_conv);
 	return ret_val;
 }
 
-void AcceptChannel_1set_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void AcceptChannel_1set_1max_1accepted_1htlcs(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7767,15 +9233,15 @@ void FundingCreated_1set_1funding_1txid(void* ctx_TODO, uint32_t this_ptr, int8_
 	FundingCreated_set_funding_txid(&this_ptr_conv, val_ref);
 }
 
-jshort FundingCreated_1get_1funding_1output_1index(void* ctx_TODO, uint32_t this_ptr) {
+int16_t FundingCreated_1get_1funding_1output_1index(void* ctx_TODO, uint32_t this_ptr) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = FundingCreated_get_funding_output_index(&this_ptr_conv);
+	int16_t ret_val = FundingCreated_get_funding_output_index(&this_ptr_conv);
 	return ret_val;
 }
 
-void FundingCreated_1set_1funding_1output_1index(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void FundingCreated_1set_1funding_1output_1index(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7801,7 +9267,7 @@ void FundingCreated_1set_1signature(void* ctx_TODO, uint32_t this_ptr, int8_tArr
 	FundingCreated_set_signature(&this_ptr_conv, val_ref);
 }
 
-uint32_t FundingCreated_1new(void* ctx_TODO, int8_tArray temporary_channel_id_arg, int8_tArray funding_txid_arg, jshort funding_output_index_arg, int8_tArray signature_arg) {
+uint32_t FundingCreated_1new(void* ctx_TODO, int8_tArray temporary_channel_id_arg, int8_tArray funding_txid_arg, int16_t funding_output_index_arg, int8_tArray signature_arg) {
 	LDKThirtyTwoBytes temporary_channel_id_arg_ref;
 	CHECK(temporary_channel_id_arg.len == 32);
 	memcpy(temporary_channel_id_arg_ref.data, temporary_channel_id_arg.ptr, 32);
@@ -8448,15 +9914,15 @@ void UpdateFailMalformedHTLC_1set_1htlc_1id(void* ctx_TODO, uint32_t this_ptr, i
 	UpdateFailMalformedHTLC_set_htlc_id(&this_ptr_conv, val);
 }
 
-jshort UpdateFailMalformedHTLC_1get_1failure_1code(void* ctx_TODO, uint32_t this_ptr) {
+int16_t UpdateFailMalformedHTLC_1get_1failure_1code(void* ctx_TODO, uint32_t this_ptr) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = UpdateFailMalformedHTLC_get_failure_code(&this_ptr_conv);
+	int16_t ret_val = UpdateFailMalformedHTLC_get_failure_code(&this_ptr_conv);
 	return ret_val;
 }
 
-void UpdateFailMalformedHTLC_1set_1failure_1code(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void UpdateFailMalformedHTLC_1set_1failure_1code(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8522,7 +9988,7 @@ void CommitmentSigned_1set_1signature(void* ctx_TODO, uint32_t this_ptr, int8_tA
 	CommitmentSigned_set_signature(&this_ptr_conv, val_ref);
 }
 
-void CommitmentSigned_1set_1htlc_1signatures(void* ctx_TODO, uint32_t this_ptr, uint32_tArray val) {
+void CommitmentSigned_1set_1htlc_1signatures(void* ctx_TODO, uint32_t this_ptr, ptrArray val) {
 	LDKCommitmentSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8533,17 +9999,17 @@ void CommitmentSigned_1set_1htlc_1signatures(void* ctx_TODO, uint32_t this_ptr, 
 	else
 		val_constr.data = NULL;
 	int8_tArray* val_vals = (int8_tArray*) val.ptr;
-	for (size_t i = 0; i < val_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = val_vals[i];
-		LDKSignature arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 64);
-		memcpy(arr_conv_8_ref.compact_form, arr_conv_8.ptr, 64);
-		val_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < val_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = val_vals[m];
+		LDKSignature arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 64);
+		memcpy(arr_conv_12_ref.compact_form, arr_conv_12.ptr, 64);
+		val_constr.data[m] = arr_conv_12_ref;
 	}
 	CommitmentSigned_set_htlc_signatures(&this_ptr_conv, val_constr);
 }
 
-uint32_t CommitmentSigned_1new(void* ctx_TODO, int8_tArray channel_id_arg, int8_tArray signature_arg, uint32_tArray htlc_signatures_arg) {
+uint32_t CommitmentSigned_1new(void* ctx_TODO, int8_tArray channel_id_arg, int8_tArray signature_arg, ptrArray htlc_signatures_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(channel_id_arg.len == 32);
 	memcpy(channel_id_arg_ref.data, channel_id_arg.ptr, 32);
@@ -8557,12 +10023,12 @@ uint32_t CommitmentSigned_1new(void* ctx_TODO, int8_tArray channel_id_arg, int8_
 	else
 		htlc_signatures_arg_constr.data = NULL;
 	int8_tArray* htlc_signatures_arg_vals = (int8_tArray*) htlc_signatures_arg.ptr;
-	for (size_t i = 0; i < htlc_signatures_arg_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = htlc_signatures_arg_vals[i];
-		LDKSignature arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 64);
-		memcpy(arr_conv_8_ref.compact_form, arr_conv_8.ptr, 64);
-		htlc_signatures_arg_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < htlc_signatures_arg_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = htlc_signatures_arg_vals[m];
+		LDKSignature arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 64);
+		memcpy(arr_conv_12_ref.compact_form, arr_conv_12.ptr, 64);
+		htlc_signatures_arg_constr.data[m] = arr_conv_12_ref;
 	}
 	LDKCommitmentSigned ret_var = CommitmentSigned_new(channel_id_arg_ref, signature_arg_ref, htlc_signatures_arg_constr);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -9647,15 +11113,15 @@ void UnsignedChannelUpdate_1set_1flags(void* ctx_TODO, uint32_t this_ptr, int8_t
 	UnsignedChannelUpdate_set_flags(&this_ptr_conv, val);
 }
 
-jshort UnsignedChannelUpdate_1get_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr) {
+int16_t UnsignedChannelUpdate_1get_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = UnsignedChannelUpdate_get_cltv_expiry_delta(&this_ptr_conv);
+	int16_t ret_val = UnsignedChannelUpdate_get_cltv_expiry_delta(&this_ptr_conv);
 	return ret_val;
 }
 
-void UnsignedChannelUpdate_1set_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void UnsignedChannelUpdate_1set_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9972,9 +11438,9 @@ void ReplyChannelRange_1set_1short_1channel_1ids(void* ctx_TODO, uint32_t this_p
 	else
 		val_constr.data = NULL;
 	int64_t* val_vals = (int64_t*) val.ptr;
-	for (size_t g = 0; g < val_constr.datalen; g++) {
-		int64_t arr_conv_6 = val_vals[g];
-		val_constr.data[g] = arr_conv_6;
+	for (size_t i = 0; i < val_constr.datalen; i++) {
+		int64_t arr_conv_8 = val_vals[i];
+		val_constr.data[i] = arr_conv_8;
 	}
 	ReplyChannelRange_set_short_channel_ids(&this_ptr_conv, val_constr);
 }
@@ -9990,9 +11456,9 @@ uint32_t ReplyChannelRange_1new(void* ctx_TODO, int8_tArray chain_hash_arg, int3
 	else
 		short_channel_ids_arg_constr.data = NULL;
 	int64_t* short_channel_ids_arg_vals = (int64_t*) short_channel_ids_arg.ptr;
-	for (size_t g = 0; g < short_channel_ids_arg_constr.datalen; g++) {
-		int64_t arr_conv_6 = short_channel_ids_arg_vals[g];
-		short_channel_ids_arg_constr.data[g] = arr_conv_6;
+	for (size_t i = 0; i < short_channel_ids_arg_constr.datalen; i++) {
+		int64_t arr_conv_8 = short_channel_ids_arg_vals[i];
+		short_channel_ids_arg_constr.data[i] = arr_conv_8;
 	}
 	LDKReplyChannelRange ret_var = ReplyChannelRange_new(chain_hash_arg_ref, first_blocknum_arg, number_of_blocks_arg, full_information_arg, short_channel_ids_arg_constr);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -10055,9 +11521,9 @@ void QueryShortChannelIds_1set_1short_1channel_1ids(void* ctx_TODO, uint32_t thi
 	else
 		val_constr.data = NULL;
 	int64_t* val_vals = (int64_t*) val.ptr;
-	for (size_t g = 0; g < val_constr.datalen; g++) {
-		int64_t arr_conv_6 = val_vals[g];
-		val_constr.data[g] = arr_conv_6;
+	for (size_t i = 0; i < val_constr.datalen; i++) {
+		int64_t arr_conv_8 = val_vals[i];
+		val_constr.data[i] = arr_conv_8;
 	}
 	QueryShortChannelIds_set_short_channel_ids(&this_ptr_conv, val_constr);
 }
@@ -10073,9 +11539,9 @@ uint32_t QueryShortChannelIds_1new(void* ctx_TODO, int8_tArray chain_hash_arg, i
 	else
 		short_channel_ids_arg_constr.data = NULL;
 	int64_t* short_channel_ids_arg_vals = (int64_t*) short_channel_ids_arg.ptr;
-	for (size_t g = 0; g < short_channel_ids_arg_constr.datalen; g++) {
-		int64_t arr_conv_6 = short_channel_ids_arg_vals[g];
-		short_channel_ids_arg_constr.data[g] = arr_conv_6;
+	for (size_t i = 0; i < short_channel_ids_arg_constr.datalen; i++) {
+		int64_t arr_conv_8 = short_channel_ids_arg_vals[i];
+		short_channel_ids_arg_constr.data[i] = arr_conv_8;
 	}
 	LDKQueryShortChannelIds ret_var = QueryShortChannelIds_new(chain_hash_arg_ref, short_channel_ids_arg_constr);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -10269,7 +11735,7 @@ jstring LightningError_1get_1err(void* ctx_TODO, uint32_t this_ptr) {
 	char* _buf = MALLOC(_str.len + 1, "str conv buf");
 	memcpy(_buf, _str.chars, _str.len);
 	_buf[_str.len] = 0;
-	jstring _conv = (*env)->NewStringUTF(env, _str.chars);
+	jstring _conv = conv_owned_string(_str.chars);
 	FREE(_buf);
 	return _conv;
 }
@@ -11327,10 +12793,6 @@ void MessageHandler_1set_1chan_1handler(void* ctx_TODO, uint32_t this_ptr, uint3
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKChannelMessageHandler val_conv = *(LDKChannelMessageHandler*)val;
-	if (val_conv.free == LDKChannelMessageHandler_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKChannelMessageHandler_JCalls_clone(val_conv.this_arg);
-	}
 	MessageHandler_set_chan_handler(&this_ptr_conv, val_conv);
 }
 
@@ -11347,24 +12809,12 @@ void MessageHandler_1set_1route_1handler(void* ctx_TODO, uint32_t this_ptr, uint
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKRoutingMessageHandler val_conv = *(LDKRoutingMessageHandler*)val;
-	if (val_conv.free == LDKRoutingMessageHandler_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKRoutingMessageHandler_JCalls_clone(val_conv.this_arg);
-	}
 	MessageHandler_set_route_handler(&this_ptr_conv, val_conv);
 }
 
 uint32_t MessageHandler_1new(void* ctx_TODO, uint32_t chan_handler_arg, uint32_t route_handler_arg) {
 	LDKChannelMessageHandler chan_handler_arg_conv = *(LDKChannelMessageHandler*)chan_handler_arg;
-	if (chan_handler_arg_conv.free == LDKChannelMessageHandler_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKChannelMessageHandler_JCalls_clone(chan_handler_arg_conv.this_arg);
-	}
 	LDKRoutingMessageHandler route_handler_arg_conv = *(LDKRoutingMessageHandler*)route_handler_arg;
-	if (route_handler_arg_conv.free == LDKRoutingMessageHandler_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKRoutingMessageHandler_JCalls_clone(route_handler_arg_conv.this_arg);
-	}
 	LDKMessageHandler ret_var = MessageHandler_new(chan_handler_arg_conv, route_handler_arg_conv);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11441,10 +12891,6 @@ uint32_t PeerManager_1new(void* ctx_TODO, uint32_t message_handler, int8_tArray 
 	memcpy(ephemeral_random_data_arr, ephemeral_random_data.ptr, 32);
 	unsigned char (*ephemeral_random_data_ref)[32] = &ephemeral_random_data_arr;
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	LDKPeerManager ret_var = PeerManager_new(message_handler_conv, our_node_secret_ref, ephemeral_random_data_ref, logger_conv);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -11455,16 +12901,17 @@ uint32_t PeerManager_1new(void* ctx_TODO, uint32_t message_handler, int8_tArray 
 	return ret_ref;
 }
 
-uint32_tArray PeerManager_1get_1peer_1node_1ids(void* ctx_TODO, uint32_t this_arg) {
+ptrArray PeerManager_1get_1peer_1node_1ids(void* ctx_TODO, uint32_t this_arg) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	LDKCVec_PublicKeyZ ret_var = PeerManager_get_peer_node_ids(&this_arg_conv);
-	uint32_tArray ret_arr = (*env)->NewObjectArray(env, ret_var.datalen, arr_of_B_clz, NULL);
-	for (size_t i = 0; i < ret_var.datalen; i++) {
-		int8_tArray arr_conv_8_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
-		memcpy(arr_conv_8_arr.ptr, ret_var.data[i].compressed_form, 33);
-		(*env)->SetObjectArrayElement(env, ret_arr, i, arr_conv_8_arr);
+	ptrArray ret_arr = { .len = ret_var.datalen, .ptr = MALLOC(ret_var.datalen * sizeof(int32_t), "Native Object Bytes") };
+	int8_tArray *ret_arr_ptr = (int8_tArray*)ret_arr.ptr;
+	for (size_t m = 0; m < ret_var.datalen; m++) {
+		int8_tArray arr_conv_12_arr = { .len = 33, .ptr = MALLOC(33, "Native int8_tArray Bytes") };
+		memcpy(arr_conv_12_arr.ptr, ret_var.data[m].compressed_form, 33);
+		ret_arr_ptr[m] = arr_conv_12_arr;
 	}
 	FREE(ret_var.data);
 	return ret_arr;
@@ -11478,10 +12925,6 @@ uint32_t PeerManager_1new_1outbound_1connection(void* ctx_TODO, uint32_t this_ar
 	CHECK(their_node_id.len == 33);
 	memcpy(their_node_id_ref.compressed_form, their_node_id.ptr, 33);
 	LDKSocketDescriptor descriptor_conv = *(LDKSocketDescriptor*)descriptor;
-	if (descriptor_conv.free == LDKSocketDescriptor_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKSocketDescriptor_JCalls_clone(descriptor_conv.this_arg);
-	}
 	LDKCResult_CVec_u8ZPeerHandleErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_CVec_u8ZPeerHandleErrorZ), "LDKCResult_CVec_u8ZPeerHandleErrorZ");
 	*ret_conv = PeerManager_new_outbound_connection(&this_arg_conv, their_node_id_ref, descriptor_conv);
 	return (long)ret_conv;
@@ -11492,10 +12935,6 @@ uint32_t PeerManager_1new_1inbound_1connection(void* ctx_TODO, uint32_t this_arg
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	LDKSocketDescriptor descriptor_conv = *(LDKSocketDescriptor*)descriptor;
-	if (descriptor_conv.free == LDKSocketDescriptor_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKSocketDescriptor_JCalls_clone(descriptor_conv.this_arg);
-	}
 	LDKCResult_NonePeerHandleErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NonePeerHandleErrorZ), "LDKCResult_NonePeerHandleErrorZ");
 	*ret_conv = PeerManager_new_inbound_connection(&this_arg_conv, descriptor_conv);
 	return (long)ret_conv;
@@ -11977,7 +13416,7 @@ uint32_t TxCreationKeys_1from_1channel_1static_1keys(void* ctx_TODO, int8_tArray
 	return (long)ret_conv;
 }
 
-int8_tArray get_1revokeable_1redeemscript(void* ctx_TODO, int8_tArray revocation_key, jshort contest_delay, int8_tArray broadcaster_delayed_payment_key) {
+int8_tArray get_1revokeable_1redeemscript(void* ctx_TODO, int8_tArray revocation_key, int16_t contest_delay, int8_tArray broadcaster_delayed_payment_key) {
 	LDKPublicKey revocation_key_ref;
 	CHECK(revocation_key.len == 33);
 	memcpy(revocation_key_ref.compressed_form, revocation_key.ptr, 33);
@@ -12129,7 +13568,7 @@ int8_tArray make_1funding_1redeemscript(void* ctx_TODO, int8_tArray broadcaster,
 	return arg_arr;
 }
 
-int8_tArray build_1htlc_1transaction(void* ctx_TODO, int8_tArray prev_hash, int32_t feerate_per_kw, jshort contest_delay, uint32_t htlc, int8_tArray broadcaster_delayed_payment_key, int8_tArray revocation_key) {
+int8_tArray build_1htlc_1transaction(void* ctx_TODO, int8_tArray prev_hash, int32_t feerate_per_kw, int16_t contest_delay, uint32_t htlc, int8_tArray broadcaster_delayed_payment_key, int8_tArray revocation_key) {
 	unsigned char prev_hash_arr[32];
 	CHECK(prev_hash.len == 32);
 	memcpy(prev_hash_arr, prev_hash.ptr, 32);
@@ -12197,15 +13636,15 @@ void ChannelTransactionParameters_1set_1holder_1pubkeys(void* ctx_TODO, uint32_t
 	ChannelTransactionParameters_set_holder_pubkeys(&this_ptr_conv, val_conv);
 }
 
-jshort ChannelTransactionParameters_1get_1holder_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_ptr) {
+int16_t ChannelTransactionParameters_1get_1holder_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_ptr) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = ChannelTransactionParameters_get_holder_selected_contest_delay(&this_ptr_conv);
+	int16_t ret_val = ChannelTransactionParameters_get_holder_selected_contest_delay(&this_ptr_conv);
 	return ret_val;
 }
 
-void ChannelTransactionParameters_1set_1holder_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void ChannelTransactionParameters_1set_1holder_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -12279,7 +13718,7 @@ void ChannelTransactionParameters_1set_1funding_1outpoint(void* ctx_TODO, uint32
 	ChannelTransactionParameters_set_funding_outpoint(&this_ptr_conv, val_conv);
 }
 
-uint32_t ChannelTransactionParameters_1new(void* ctx_TODO, uint32_t holder_pubkeys_arg, jshort holder_selected_contest_delay_arg, jboolean is_outbound_from_holder_arg, uint32_t counterparty_parameters_arg, uint32_t funding_outpoint_arg) {
+uint32_t ChannelTransactionParameters_1new(void* ctx_TODO, uint32_t holder_pubkeys_arg, int16_t holder_selected_contest_delay_arg, jboolean is_outbound_from_holder_arg, uint32_t counterparty_parameters_arg, uint32_t funding_outpoint_arg) {
 	LDKChannelPublicKeys holder_pubkeys_arg_conv;
 	holder_pubkeys_arg_conv.inner = (void*)(holder_pubkeys_arg & (~1));
 	holder_pubkeys_arg_conv.is_owned = (holder_pubkeys_arg & 1) || (holder_pubkeys_arg == 0);
@@ -12352,22 +13791,22 @@ void CounterpartyChannelTransactionParameters_1set_1pubkeys(void* ctx_TODO, uint
 	CounterpartyChannelTransactionParameters_set_pubkeys(&this_ptr_conv, val_conv);
 }
 
-jshort CounterpartyChannelTransactionParameters_1get_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_ptr) {
+int16_t CounterpartyChannelTransactionParameters_1get_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_ptr) {
 	LDKCounterpartyChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = CounterpartyChannelTransactionParameters_get_selected_contest_delay(&this_ptr_conv);
+	int16_t ret_val = CounterpartyChannelTransactionParameters_get_selected_contest_delay(&this_ptr_conv);
 	return ret_val;
 }
 
-void CounterpartyChannelTransactionParameters_1set_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void CounterpartyChannelTransactionParameters_1set_1selected_1contest_1delay(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKCounterpartyChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CounterpartyChannelTransactionParameters_set_selected_contest_delay(&this_ptr_conv, val);
 }
 
-uint32_t CounterpartyChannelTransactionParameters_1new(void* ctx_TODO, uint32_t pubkeys_arg, jshort selected_contest_delay_arg) {
+uint32_t CounterpartyChannelTransactionParameters_1new(void* ctx_TODO, uint32_t pubkeys_arg, int16_t selected_contest_delay_arg) {
 	LDKChannelPublicKeys pubkeys_arg_conv;
 	pubkeys_arg_conv.inner = (void*)(pubkeys_arg & (~1));
 	pubkeys_arg_conv.is_owned = (pubkeys_arg & 1) || (pubkeys_arg == 0);
@@ -12504,11 +13943,11 @@ uint32_t DirectedChannelTransactionParameters_1countersignatory_1pubkeys(void* c
 	return ret_ref;
 }
 
-jshort DirectedChannelTransactionParameters_1contest_1delay(void* ctx_TODO, uint32_t this_arg) {
+int16_t DirectedChannelTransactionParameters_1contest_1delay(void* ctx_TODO, uint32_t this_arg) {
 	LDKDirectedChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
-	jshort ret_val = DirectedChannelTransactionParameters_contest_delay(&this_arg_conv);
+	int16_t ret_val = DirectedChannelTransactionParameters_contest_delay(&this_arg_conv);
 	return ret_val;
 }
 
@@ -12574,7 +14013,7 @@ void HolderCommitmentTransaction_1set_1counterparty_1sig(void* ctx_TODO, uint32_
 	HolderCommitmentTransaction_set_counterparty_sig(&this_ptr_conv, val_ref);
 }
 
-void HolderCommitmentTransaction_1set_1counterparty_1htlc_1sigs(void* ctx_TODO, uint32_t this_ptr, uint32_tArray val) {
+void HolderCommitmentTransaction_1set_1counterparty_1htlc_1sigs(void* ctx_TODO, uint32_t this_ptr, ptrArray val) {
 	LDKHolderCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -12585,12 +14024,12 @@ void HolderCommitmentTransaction_1set_1counterparty_1htlc_1sigs(void* ctx_TODO, 
 	else
 		val_constr.data = NULL;
 	int8_tArray* val_vals = (int8_tArray*) val.ptr;
-	for (size_t i = 0; i < val_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = val_vals[i];
-		LDKSignature arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 64);
-		memcpy(arr_conv_8_ref.compact_form, arr_conv_8.ptr, 64);
-		val_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < val_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = val_vals[m];
+		LDKSignature arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 64);
+		memcpy(arr_conv_12_ref.compact_form, arr_conv_12.ptr, 64);
+		val_constr.data[m] = arr_conv_12_ref;
 	}
 	HolderCommitmentTransaction_set_counterparty_htlc_sigs(&this_ptr_conv, val_constr);
 }
@@ -12620,7 +14059,7 @@ uint32_t HolderCommitmentTransaction_1read(void* ctx_TODO, int8_tArray ser) {
 	return ret_ref;
 }
 
-uint32_t HolderCommitmentTransaction_1new(void* ctx_TODO, uint32_t commitment_tx, int8_tArray counterparty_sig, uint32_tArray counterparty_htlc_sigs, int8_tArray holder_funding_key, int8_tArray counterparty_funding_key) {
+uint32_t HolderCommitmentTransaction_1new(void* ctx_TODO, uint32_t commitment_tx, int8_tArray counterparty_sig, ptrArray counterparty_htlc_sigs, int8_tArray holder_funding_key, int8_tArray counterparty_funding_key) {
 	LDKCommitmentTransaction commitment_tx_conv;
 	commitment_tx_conv.inner = (void*)(commitment_tx & (~1));
 	commitment_tx_conv.is_owned = (commitment_tx & 1) || (commitment_tx == 0);
@@ -12636,12 +14075,12 @@ uint32_t HolderCommitmentTransaction_1new(void* ctx_TODO, uint32_t commitment_tx
 	else
 		counterparty_htlc_sigs_constr.data = NULL;
 	int8_tArray* counterparty_htlc_sigs_vals = (int8_tArray*) counterparty_htlc_sigs.ptr;
-	for (size_t i = 0; i < counterparty_htlc_sigs_constr.datalen; i++) {
-		int8_tArray arr_conv_8 = counterparty_htlc_sigs_vals[i];
-		LDKSignature arr_conv_8_ref;
-		CHECK(arr_conv_8.len == 64);
-		memcpy(arr_conv_8_ref.compact_form, arr_conv_8.ptr, 64);
-		counterparty_htlc_sigs_constr.data[i] = arr_conv_8_ref;
+	for (size_t m = 0; m < counterparty_htlc_sigs_constr.datalen; m++) {
+		int8_tArray arr_conv_12 = counterparty_htlc_sigs_vals[m];
+		LDKSignature arr_conv_12_ref;
+		CHECK(arr_conv_12.len == 64);
+		memcpy(arr_conv_12_ref.compact_form, arr_conv_12.ptr, 64);
+		counterparty_htlc_sigs_constr.data[m] = arr_conv_12_ref;
 	}
 	LDKPublicKey holder_funding_key_ref;
 	CHECK(holder_funding_key.len == 33);
@@ -13174,7 +14613,7 @@ uint32_t Route_1clone(void* ctx_TODO, uint32_t orig) {
 	return ret_ref;
 }
 
-void Route_1set_1paths(void* ctx_TODO, uint32_t this_ptr, uint32_tArray val) {
+void Route_1set_1paths(void* ctx_TODO, uint32_t this_ptr, ptrArray val) {
 	LDKRoute this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13208,7 +14647,7 @@ void Route_1set_1paths(void* ctx_TODO, uint32_t this_ptr, uint32_tArray val) {
 	Route_set_paths(&this_ptr_conv, val_constr);
 }
 
-uint32_t Route_1new(void* ctx_TODO, uint32_tArray paths_arg) {
+uint32_t Route_1new(void* ctx_TODO, ptrArray paths_arg) {
 	LDKCVec_CVec_RouteHopZZ paths_arg_constr;
 	paths_arg_constr.datalen = paths_arg.len;
 	if (paths_arg_constr.datalen > 0)
@@ -13347,15 +14786,15 @@ void RouteHint_1set_1fees(void* ctx_TODO, uint32_t this_ptr, uint32_t val) {
 	RouteHint_set_fees(&this_ptr_conv, val_conv);
 }
 
-jshort RouteHint_1get_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr) {
+int16_t RouteHint_1get_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = RouteHint_get_cltv_expiry_delta(&this_ptr_conv);
+	int16_t ret_val = RouteHint_get_cltv_expiry_delta(&this_ptr_conv);
 	return ret_val;
 }
 
-void RouteHint_1set_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void RouteHint_1set_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13377,7 +14816,7 @@ void RouteHint_1set_1htlc_1minimum_1msat(void* ctx_TODO, uint32_t this_ptr, int6
 	RouteHint_set_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-uint32_t RouteHint_1new(void* ctx_TODO, int8_tArray src_node_id_arg, int64_t short_channel_id_arg, uint32_t fees_arg, jshort cltv_expiry_delta_arg, int64_t htlc_minimum_msat_arg) {
+uint32_t RouteHint_1new(void* ctx_TODO, int8_tArray src_node_id_arg, int64_t short_channel_id_arg, uint32_t fees_arg, int16_t cltv_expiry_delta_arg, int64_t htlc_minimum_msat_arg) {
 	LDKPublicKey src_node_id_arg_ref;
 	CHECK(src_node_id_arg.len == 33);
 	memcpy(src_node_id_arg_ref.compressed_form, src_node_id_arg.ptr, 33);
@@ -13437,10 +14876,6 @@ uint32_t get_1route(void* ctx_TODO, int8_tArray our_node_id, uint32_t network, i
 		last_hops_constr.data[l] = arr_conv_11_conv;
 	}
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	LDKCResult_RouteLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteLightningErrorZ), "LDKCResult_RouteLightningErrorZ");
 	*ret_conv = get_route(our_node_id_ref, &network_conv, target_ref, &first_hops_constr, last_hops_constr, final_value_msat, final_cltv, logger_conv);
 	FREE(first_hops_constr.data);
@@ -13474,10 +14909,6 @@ uint32_t NetGraphMsgHandler_1new(void* ctx_TODO, int8_tArray genesis_hash, uint3
 	memcpy(genesis_hash_ref.data, genesis_hash.ptr, 32);
 	LDKAccess* chain_access_conv = (LDKAccess*)chain_access;
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	LDKNetGraphMsgHandler ret_var = NetGraphMsgHandler_new(genesis_hash_ref, chain_access_conv, logger_conv);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -13491,10 +14922,6 @@ uint32_t NetGraphMsgHandler_1new(void* ctx_TODO, int8_tArray genesis_hash, uint3
 uint32_t NetGraphMsgHandler_1from_1net_1graph(void* ctx_TODO, uint32_t chain_access, uint32_t logger, uint32_t network_graph) {
 	LDKAccess* chain_access_conv = (LDKAccess*)chain_access;
 	LDKLogger logger_conv = *(LDKLogger*)logger;
-	if (logger_conv.free == LDKLogger_JCalls_free) {
-		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
-		LDKLogger_JCalls_clone(logger_conv.this_arg);
-	}
 	LDKNetworkGraph network_graph_conv;
 	network_graph_conv.inner = (void*)(network_graph & (~1));
 	network_graph_conv.is_owned = (network_graph & 1) || (network_graph == 0);
@@ -13592,15 +15019,15 @@ void DirectionalChannelInfo_1set_1enabled(void* ctx_TODO, uint32_t this_ptr, jbo
 	DirectionalChannelInfo_set_enabled(&this_ptr_conv, val);
 }
 
-jshort DirectionalChannelInfo_1get_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr) {
+int16_t DirectionalChannelInfo_1get_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	jshort ret_val = DirectionalChannelInfo_get_cltv_expiry_delta(&this_ptr_conv);
+	int16_t ret_val = DirectionalChannelInfo_get_cltv_expiry_delta(&this_ptr_conv);
 	return ret_val;
 }
 
-void DirectionalChannelInfo_1set_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr, jshort val) {
+void DirectionalChannelInfo_1set_1cltv_1expiry_1delta(void* ctx_TODO, uint32_t this_ptr, int16_t val) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14160,9 +15587,9 @@ void NodeInfo_1set_1channels(void* ctx_TODO, uint32_t this_ptr, int64_tArray val
 	else
 		val_constr.data = NULL;
 	int64_t* val_vals = (int64_t*) val.ptr;
-	for (size_t g = 0; g < val_constr.datalen; g++) {
-		int64_t arr_conv_6 = val_vals[g];
-		val_constr.data[g] = arr_conv_6;
+	for (size_t i = 0; i < val_constr.datalen; i++) {
+		int64_t arr_conv_8 = val_vals[i];
+		val_constr.data[i] = arr_conv_8;
 	}
 	NodeInfo_set_channels(&this_ptr_conv, val_constr);
 }
@@ -14226,9 +15653,9 @@ uint32_t NodeInfo_1new(void* ctx_TODO, int64_tArray channels_arg, uint32_t lowes
 	else
 		channels_arg_constr.data = NULL;
 	int64_t* channels_arg_vals = (int64_t*) channels_arg.ptr;
-	for (size_t g = 0; g < channels_arg_constr.datalen; g++) {
-		int64_t arr_conv_6 = channels_arg_vals[g];
-		channels_arg_constr.data[g] = arr_conv_6;
+	for (size_t i = 0; i < channels_arg_constr.datalen; i++) {
+		int64_t arr_conv_8 = channels_arg_vals[i];
+		channels_arg_constr.data[i] = arr_conv_8;
 	}
 	LDKRoutingFees lowest_inbound_channel_fees_arg_conv;
 	lowest_inbound_channel_fees_arg_conv.inner = (void*)(lowest_inbound_channel_fees_arg & (~1));

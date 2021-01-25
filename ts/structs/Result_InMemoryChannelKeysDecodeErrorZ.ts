@@ -19,8 +19,8 @@ public class Result_InMemoryChannelKeysDecodeErrorZ extends CommonBase {
 		public final InMemoryChannelKeys res;
 		private Result_InMemoryChannelKeysDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_ok(ptr);
-			InMemoryChannelKeys res_hu_conv = new InMemoryChannelKeys(null, res);
+			number res = bindings.LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: InMemoryChannelKeys = new InMemoryChannelKeys(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_InMemoryChannelKeysDecodeErrorZ_OK(InMemoryChannelKeys res) {
@@ -33,8 +33,8 @@ public class Result_InMemoryChannelKeysDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_InMemoryChannelKeysDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_InMemoryChannelKeysDecodeErrorZ_Err(DecodeError err) {

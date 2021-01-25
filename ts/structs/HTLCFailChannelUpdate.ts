@@ -27,13 +27,13 @@ export class ChannelUpdateMessage extends HTLCFailChannelUpdate {
 	public msg: ChannelUpdate;
 	private constructor(ptr: number, obj: bindings.LDKHTLCFailChannelUpdate.ChannelUpdateMessage) {
 		super(null, ptr);
-		const msg: uint32_t = obj.msg;
-		ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class ChannelClosed extends HTLCFailChannelUpdate {
-	public short_channel_id: long;
+	public short_channel_id: number;
 	public is_permanent: boolean;
 	private constructor(ptr: number, obj: bindings.LDKHTLCFailChannelUpdate.ChannelClosed) {
 		super(null, ptr);
@@ -42,7 +42,7 @@ export class ChannelClosed extends HTLCFailChannelUpdate {
 	}
 }
 export class NodeFailure extends HTLCFailChannelUpdate {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public is_permanent: boolean;
 	private constructor(ptr: number, obj: bindings.LDKHTLCFailChannelUpdate.NodeFailure) {
 		super(null, ptr);

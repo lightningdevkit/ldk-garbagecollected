@@ -27,8 +27,8 @@ export default class NetAddress extends CommonBase {
 
 }
 export class IPv4 extends NetAddress {
-	public addr: byte[];
-	public port: short;
+	public addr: Uint8Array;
+	public port: number;
 	private constructor(ptr: number, obj: bindings.LDKNetAddress.IPv4) {
 		super(null, ptr);
 		this.addr = obj.addr;
@@ -36,8 +36,8 @@ export class IPv4 extends NetAddress {
 	}
 }
 export class IPv6 extends NetAddress {
-	public addr: byte[];
-	public port: short;
+	public addr: Uint8Array;
+	public port: number;
 	private constructor(ptr: number, obj: bindings.LDKNetAddress.IPv6) {
 		super(null, ptr);
 		this.addr = obj.addr;
@@ -45,8 +45,8 @@ export class IPv6 extends NetAddress {
 	}
 }
 export class OnionV2 extends NetAddress {
-	public addr: byte[];
-	public port: short;
+	public addr: Uint8Array;
+	public port: number;
 	private constructor(ptr: number, obj: bindings.LDKNetAddress.OnionV2) {
 		super(null, ptr);
 		this.addr = obj.addr;
@@ -54,10 +54,10 @@ export class OnionV2 extends NetAddress {
 	}
 }
 export class OnionV3 extends NetAddress {
-	public ed25519_pubkey: byte[];
-	public checksum: short;
-	public version: byte;
-	public port: short;
+	public ed25519_pubkey: Uint8Array;
+	public checksum: number;
+	public version: number;
+	public port: number;
 	private constructor(ptr: number, obj: bindings.LDKNetAddress.OnionV3) {
 		super(null, ptr);
 		this.ed25519_pubkey = obj.ed25519_pubkey;

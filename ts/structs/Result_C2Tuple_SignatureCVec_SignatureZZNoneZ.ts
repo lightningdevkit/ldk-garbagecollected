@@ -16,16 +16,16 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 		}
 	}
 	public static final class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK extends Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		public final TwoTuple<byte[], byte[][]> res;
+		public final TwoTuple<Uint8Array, Uint8Array[]> res;
 		private Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(ptr);
-			byte[] res_a = bindings.LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(res);
-			byte[][] res_b = bindings.LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(res);
-			TwoTuple<byte[], byte[][]> res_conv = new TwoTuple<byte[], byte[][]>(res_a, res_b);
+			number res = bindings.LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(ptr);
+			Uint8Array res_a = bindings.LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(res);
+			Uint8Array[] res_b = bindings.LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(res);
+			TwoTuple<Uint8Array, Uint8Array[]> res_conv = new TwoTuple<Uint8Array, Uint8Array[]>(res_a, res_b);
 			this.res = res_conv;
 		}
-		public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(TwoTuple<byte[], byte[][]> res) {
+		public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(TwoTuple<Uint8Array, Uint8Array[]> res) {
 			this(null, bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(bindings.C2Tuple_SignatureCVec_SignatureZZ_new(res.a, res.b)));
 		}
 	}

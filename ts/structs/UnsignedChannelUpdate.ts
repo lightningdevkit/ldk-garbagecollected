@@ -1,100 +1,108 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class UnsignedChannelUpdate extends CommonBase {
-	UnsignedChannelUpdate(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.UnsignedChannelUpdate_free(ptr); }
-	}
 
+
+            export default class UnsignedChannelUpdate extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.UnsignedChannelUpdate_free(this.ptr);
+                    }
+                }
 	public UnsignedChannelUpdate clone() {
-		uint32_t ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
-		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
+		number ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
+		const ret_hu_conv: UnsignedChannelUpdate = new UnsignedChannelUpdate(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] get_chain_hash() {
-		byte[] ret = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
+	public Uint8Array get_chain_hash() {
+		Uint8Array ret = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
 		return ret;
 	}
 
-	public void set_chain_hash(byte[] val) {
+	public void set_chain_hash(Uint8Array val) {
 		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, val);
 	}
 
-	public long get_short_channel_id() {
-		long ret = bindings.UnsignedChannelUpdate_get_short_channel_id(this.ptr);
+	public number get_short_channel_id() {
+		number ret = bindings.UnsignedChannelUpdate_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_short_channel_id(long val) {
+	public void set_short_channel_id(number val) {
 		bindings.UnsignedChannelUpdate_set_short_channel_id(this.ptr, val);
 	}
 
-	public int get_timestamp() {
-		int ret = bindings.UnsignedChannelUpdate_get_timestamp(this.ptr);
+	public number get_timestamp() {
+		number ret = bindings.UnsignedChannelUpdate_get_timestamp(this.ptr);
 		return ret;
 	}
 
-	public void set_timestamp(int val) {
+	public void set_timestamp(number val) {
 		bindings.UnsignedChannelUpdate_set_timestamp(this.ptr, val);
 	}
 
-	public byte get_flags() {
-		byte ret = bindings.UnsignedChannelUpdate_get_flags(this.ptr);
+	public number get_flags() {
+		number ret = bindings.UnsignedChannelUpdate_get_flags(this.ptr);
 		return ret;
 	}
 
-	public void set_flags(byte val) {
+	public void set_flags(number val) {
 		bindings.UnsignedChannelUpdate_set_flags(this.ptr, val);
 	}
 
-	public short get_cltv_expiry_delta() {
-		short ret = bindings.UnsignedChannelUpdate_get_cltv_expiry_delta(this.ptr);
+	public number get_cltv_expiry_delta() {
+		number ret = bindings.UnsignedChannelUpdate_get_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
-	public void set_cltv_expiry_delta(short val) {
+	public void set_cltv_expiry_delta(number val) {
 		bindings.UnsignedChannelUpdate_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public long get_htlc_minimum_msat() {
-		long ret = bindings.UnsignedChannelUpdate_get_htlc_minimum_msat(this.ptr);
+	public number get_htlc_minimum_msat() {
+		number ret = bindings.UnsignedChannelUpdate_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public void set_htlc_minimum_msat(long val) {
+	public void set_htlc_minimum_msat(number val) {
 		bindings.UnsignedChannelUpdate_set_htlc_minimum_msat(this.ptr, val);
 	}
 
-	public int get_fee_base_msat() {
-		int ret = bindings.UnsignedChannelUpdate_get_fee_base_msat(this.ptr);
+	public number get_fee_base_msat() {
+		number ret = bindings.UnsignedChannelUpdate_get_fee_base_msat(this.ptr);
 		return ret;
 	}
 
-	public void set_fee_base_msat(int val) {
+	public void set_fee_base_msat(number val) {
 		bindings.UnsignedChannelUpdate_set_fee_base_msat(this.ptr, val);
 	}
 
-	public int get_fee_proportional_millionths() {
-		int ret = bindings.UnsignedChannelUpdate_get_fee_proportional_millionths(this.ptr);
+	public number get_fee_proportional_millionths() {
+		number ret = bindings.UnsignedChannelUpdate_get_fee_proportional_millionths(this.ptr);
 		return ret;
 	}
 
-	public void set_fee_proportional_millionths(int val) {
+	public void set_fee_proportional_millionths(number val) {
 		bindings.UnsignedChannelUpdate_set_fee_proportional_millionths(this.ptr, val);
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.UnsignedChannelUpdate_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.UnsignedChannelUpdate_write(this.ptr);
 		return ret;
 	}
 
-	public static Result_UnsignedChannelUpdateDecodeErrorZ constructor_read(byte[] ser) {
-		uint32_t ret = bindings.UnsignedChannelUpdate_read(ser);
+	public static Result_UnsignedChannelUpdateDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.UnsignedChannelUpdate_read(ser);
 		Result_UnsignedChannelUpdateDecodeErrorZ ret_hu_conv = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

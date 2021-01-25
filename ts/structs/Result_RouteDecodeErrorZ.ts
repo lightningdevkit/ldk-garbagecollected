@@ -19,8 +19,8 @@ public class Result_RouteDecodeErrorZ extends CommonBase {
 		public final Route res;
 		private Result_RouteDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_RouteDecodeErrorZ_get_ok(ptr);
-			Route res_hu_conv = new Route(null, res);
+			number res = bindings.LDKCResult_RouteDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: Route = new Route(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_RouteDecodeErrorZ_OK(Route res) {
@@ -33,8 +33,8 @@ public class Result_RouteDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_RouteDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_RouteDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_RouteDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_RouteDecodeErrorZ_Err(DecodeError err) {
