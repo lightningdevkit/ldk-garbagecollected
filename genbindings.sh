@@ -8,7 +8,9 @@ usage() {
 [ "$1" = "" -o "$2" = "" ] && usage
 [ "$3" != "true" -a "$3" != "false" ] && usage
 
-COMMON_COMPILE="clang -std=c11 -Wall -Wno-nullability-completeness -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-pointer-sign"
+# TODO: Merge the two once TS builds warning-free
+COMMON_COMPILE="clang -std=c11 -Wno-nullability-completeness -Wno-pointer-sign"
+COMPILE_WARNS="-Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function"
 
 set -e
 
@@ -21,7 +23,7 @@ javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/i
 rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
 echo "Building Java bindings..."
-COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -o liblightningjni.so -shared -fPIC"
+COMPILE="$COMMON_COMPILE $COMPILE_WARNS -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -o liblightningjni.so -shared -fPIC"
 if [ "$3" = "true" ]; then
 	$COMPILE -g -fsanitize=address -shared-libasan -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/debug/libldk.a
 else

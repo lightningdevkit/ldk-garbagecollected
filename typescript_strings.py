@@ -489,8 +489,7 @@ const wasm = wasmInstance.exports;
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
         out_c = out_c + "\tatomic_size_t refcnt;\n"
-        out_c = out_c + "\tJavaVM *vm;\n"
-        out_c = out_c + "\tjweak o;\n"
+        out_c = out_c + "\t// TODO: Object pointer o;\n"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 # We're a regular ol' field
@@ -500,7 +499,7 @@ const wasm = wasmInstance.exports;
                 out_c = out_c + "\t" + var[0] + "_JCalls* " + var[1] + ";\n"
         for fn in field_function_lines:
             if fn.fn_name != "free" and fn.fn_name != "clone":
-                out_c = out_c + "\tjmethodID " + fn.fn_name + "_meth;\n"
+                out_c = out_c + "\t// TODO: Some kind of method pointer " + fn.fn_name + "_meth;\n"
         out_c = out_c + "} " + struct_name + "_JCalls;\n"
 
         for fn_line in field_function_lines:
@@ -508,9 +507,7 @@ const wasm = wasmInstance.exports;
                 out_c = out_c + "static void " + struct_name + "_JCalls_free(void* this_arg) {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
-                out_c = out_c + "\t\tJNIEnv *env;\n"
-                out_c = out_c + "\t\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n"
-                out_c = out_c + "\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n"
+                out_c = out_c + "\t\t// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -528,8 +525,6 @@ const wasm = wasmInstance.exports;
 
                 out_c = out_c + ") {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
-                out_c = out_c + "\tJNIEnv *env;\n"
-                out_c = out_c + "\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n"
 
                 for arg_info in fn_line.args_ty:
                     if arg_info.ret_conv is not None:
@@ -537,13 +532,13 @@ const wasm = wasmInstance.exports;
                         out_c = out_c + arg_info.arg_name
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
-                out_c = out_c + "\tjobject obj = (*env)->NewLocalRef(env, j_calls->o);\n\tCHECK(obj != NULL);\n"
+                out_c = out_c + "\t//TODO: jobject obj = get object we can call against on j_calls->o\n"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " arg = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " arg; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning an object"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c = out_c + "\treturn (*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\treturn 0; //TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, retruning " + fn_line.ret_ty_info.java_ty
                 else:
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret = (" + fn_line.ret_ty_info.rust_obj + "*)(*env)->CallLongMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning a pointer"
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
@@ -578,8 +573,7 @@ const wasm = wasmInstance.exports;
         out_c = out_c + "\tCHECK(c != NULL);\n"
         out_c = out_c + "\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n"
         out_c = out_c + "\tatomic_init(&calls->refcnt, 1);\n"
-        out_c = out_c + "\tDO_ASSERT((*env)->GetJavaVM(env, &calls->vm) == 0);\n"
-        out_c = out_c + "\tcalls->o = (*env)->NewWeakGlobalRef(env, o);\n"
+        out_c = out_c + "\t//TODO: Assign calls->o from o\n"
 
         for (fn_name, java_meth_descr) in java_meths:
             if fn_name != "free" and fn_name != "clone":
