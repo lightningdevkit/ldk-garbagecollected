@@ -31,8 +31,8 @@ export class VecOrSliceDef {
     public datalen: number;
     public stride: number;
     public constructor(dataptr: number, datalen: number, stride: number) {
-        this.dataptr = dataptr; 
-        this.datalen = datalen; 
+        this.dataptr = dataptr;
+        this.datalen = datalen;
         this.stride = stride;
     }
 }
@@ -73,7 +73,7 @@ public static native long new_empty_slice_vec();
                     // TODO: finalize myself
                 }
             }
-        """
+"""
 
         self.c_file_pfx = """#include <rust_types.h>
 #include <stdatomic.h>
@@ -268,7 +268,7 @@ const wasmModule = new WebAssembly.Module(bytes);
 const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
 // module.exports = wasmInstance.exports;
 const wasm = wasmInstance.exports;
-            """
+"""
         return ''
 
     def init_str(self, c_array_class_caches):
@@ -303,7 +303,7 @@ const wasm = wasmInstance.exports;
             export enum {struct_name} {{
                 {out_typescript_enum_fields}
             }}
-        """
+"""
 
         return (out_c, out_typescript_enum, "")
 
@@ -408,15 +408,13 @@ const wasm = wasmInstance.exports;
             else:
                 trait_constructor_arguments += ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
 
-
-
         out_typescript_human = f"""
             {self.hu_struct_file_prefix}
-            
+
             export class {struct_name.replace("LDK","")} extends CommonBase {{
-            
+
                 bindings_instance?: bindings.{struct_name};
-                
+
                 constructor(ptr?: number, arg?: bindings.{struct_name}{constructor_arguments}) {{
                     if (Number.isFinite(ptr)) {{
 				        super(ptr);
@@ -428,38 +426,32 @@ const wasm = wasmInstance.exports;
 				        {pointer_to_adder}
 				    }}
                 }}
-                
+
                 protected finalize() {{
-                    if (this.ptr != 0) {{ 
-                        bindings.{struct_name.replace("LDK","")}_free(this.ptr); 
-                    }} 
+                    if (this.ptr != 0) {{
+                        bindings.{struct_name.replace("LDK","")}_free(this.ptr);
+                    }}
                     super.finalize();
                 }}
-                
+
                 static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
                     const impl_holder: {struct_name}Holder = new {struct_name}Holder();
                     let structImplementation = <bindings.{struct_name}>{{
-                    
                         // todo: in-line interface filling
-                        
                         {out_interface_implementation_overrides}
                     }};
                     impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation{trait_constructor_arguments});
                 }}
-                
             }}
-            
+
             export interface {struct_name.replace("LDK", "")}Interface {{
                 {out_java_interface}
             }}
-            
+
             class {struct_name}Holder {{
                 held: {struct_name.replace("LDK", "")};
             }}
-            
-        """
-
-
+"""
 
         out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
         java_meths = []
@@ -486,11 +478,11 @@ const wasm = wasmInstance.exports;
         out_typescript_bindings += f"""): number {{
             throw new Error('unimplemented'); // TODO: bind to WASM
         }}
-        
+
         export function {struct_name}_get_obj_from_jcalls(val: number): {struct_name} {{
             throw new Error('unimplemented'); // TODO: bind to WASM
         }}
-        """
+"""
 
         out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
 
@@ -647,7 +639,6 @@ const wasm = wasmInstance.exports;
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-
         return (out_typescript_bindings, out_typescript_human, out_c)
 
     def trait_struct_inc_refcnt(self, ty_info):
@@ -731,32 +722,31 @@ const wasm = wasmInstance.exports;
         return (out_java, out_java_enum, out_c)
 
     def map_opaque_struct(self, struct_name):
-
         implementations = ""
         method_header = ""
         if struct_name.startswith("LDKLocked"):
             implementations += "implements AutoCloseable "
             method_header = """
                 public close() {
-            """
+"""
         else:
             method_header = """
                 protected finalize() {
                     super.finalize();
-            """
+"""
 
         out_opaque_struct_human = f"""
             {self.hu_struct_file_prefix}
-            
+
             export default class {struct_name.replace("LDK","")} extends CommonBase {implementations}{{
                 constructor(_dummy: object, ptr: number) {{
                     super(ptr);
                 }}
-                
+
                 {method_header}
                     if (this.ptr != 0) {{
                         bindings.{struct_name.replace("LDK","")}_free(this.ptr);
                     }}
                 }}
-        """
+"""
         return out_opaque_struct_human
