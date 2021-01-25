@@ -199,6 +199,9 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 typedef struct int64_tArray {uint32_t len;int64_t *ptr;} int64_tArray;
 typedef struct uint32_tArray {uint32_t len;int32_t *ptr;} uint32_tArray;
 typedef struct int8_tArray {uint32_t len;int8_t *ptr;} int8_tArray;
+typedef struct jstring {} jstring;
+
+jstring conv_owned_string(const char* _src) { jstring a; return a; }
 
 typedef bool jboolean;
 
@@ -216,6 +219,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.ptr_c_ty = "uint32_t"
         self.ptr_native_ty = "number" # "uint32_t"
         self.result_c_ty = "uint32_t"
+        self.owned_str_to_c_call = ("conv_owned_string(", ")")
         self.ptr_arr = "uint32_tArray"
         self.get_native_arr_len_call = ("", ".len")
         self.get_native_arr_ptr_call = ("", ".ptr")

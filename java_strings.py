@@ -297,6 +297,7 @@ import java.util.Arrays;
         self.ptr_c_ty = "int64_t"
         self.ptr_native_ty = "long"
         self.result_c_ty = "jclass"
+        self.owned_str_to_c_call = ("(*env)->NewStringUTF(env, ", ")")
         self.ptr_arr = "jobjectArray"
         self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")
         self.get_native_arr_ptr_call = ("(*env)->GetPrimitiveArrayCritical(env, ", ", NULL)")
