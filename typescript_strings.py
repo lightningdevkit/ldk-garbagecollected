@@ -17,7 +17,7 @@ class Consts:
             uint8_t = ['number', 'Uint8Array'],
             uint16_t = ['number', 'Uint16Array'],
             uint32_t = ['number', 'Uint32Array'],
-            long = ['number'],
+            uint64_t = ['number'],
         )
 
         self.to_hu_conv_templates = dict(

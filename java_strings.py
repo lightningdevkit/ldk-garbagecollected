@@ -7,7 +7,7 @@ class Consts:
             uint8_t = ['byte'],
             uint16_t = ['short'],
             uint32_t = ['int'],
-            long = ['long'],
+            uint64_t = ['long'],
         )
 
         self.to_hu_conv_templates = dict(
