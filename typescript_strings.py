@@ -478,10 +478,6 @@ const wasm = wasmInstance.exports;
         out_typescript_bindings += f"""): number {{
             throw new Error('unimplemented'); // TODO: bind to WASM
         }}
-
-        export function {struct_name}_get_obj_from_jcalls(val: number): {struct_name} {{
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }}
 """
 
         out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
@@ -535,8 +531,10 @@ const wasm = wasmInstance.exports;
                 out_c = out_c + "\t//TODO: jobject obj = get object we can call against on j_calls->o\n"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
                     out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " arg; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning an object"
+                elif fn_line.ret_ty_info.java_ty == "void":
+                    out_c = out_c + "\treturn; //TODO: Call " + fn_line.fn_name + " on j_calls with instance obj"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c = out_c + "\treturn 0; //TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, retruning " + fn_line.ret_ty_info.java_ty
+                    out_c = out_c + "\treturn 0; //TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning " + fn_line.ret_ty_info.java_ty
                 else:
                     out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning a pointer"
 
@@ -561,16 +559,14 @@ const wasm = wasmInstance.exports;
         out_c = out_c + "\treturn (void*) this_arg;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", jobject o"
+        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", /*TODO: JS Object Reference */void* o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", jobject " + var[1]
+                out_c = out_c + ", /*TODO: JS Object Reference */void* " + var[1]
         out_c = out_c + ") {\n"
 
-        out_c = out_c + "\tjclass c = (*env)->GetObjectClass(env, o);\n"
-        out_c = out_c + "\tCHECK(c != NULL);\n"
         out_c = out_c + "\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n"
         out_c = out_c + "\tatomic_init(&calls->refcnt, 1);\n"
         out_c = out_c + "\t//TODO: Assign calls->o from o\n"
@@ -601,7 +597,7 @@ const wasm = wasmInstance.exports;
                     out_c = out_c + "\t\t." + var.var_name + " = " + var.var_name + ",\n"
                     out_c = out_c + "\t\t.set_" + var.var_name + " = NULL,\n"
             else:
-                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(env, clz, " + var[1] + "),\n"
+                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(NULL, " + var[1] + "),\n"
         out_c = out_c + "\t};\n"
         for var in field_var_conversions:
             if not isinstance(var, ConvInfo):
@@ -609,15 +605,15 @@ const wasm = wasmInstance.exports;
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new (" + self.c_fn_args_pfx + ", jobject o"
+        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new (" + self.c_fn_args_pfx + ", /*TODO: JS Object Reference */void* o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", jobject " + var[1]
+                out_c = out_c + ", /*TODO: JS Object Reference */ void* " + var[1]
         out_c = out_c + ") {\n"
         out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
-        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(env, clz, o"
+        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(NULL, o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.arg_name
@@ -625,12 +621,6 @@ const wasm = wasmInstance.exports;
                 out_c = out_c + ", " + var[1]
         out_c = out_c + ");\n"
         out_c = out_c + "\treturn (long)res_ptr;\n"
-        out_c = out_c + "}\n"
-
-        out_c = out_c + self.c_fn_ty_pfx + "jobject " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (" + self.c_fn_args_pfx + ", " + self.ptr_c_ty + " val) {\n"
-        out_c = out_c + "\tjobject ret = (*env)->NewLocalRef(env, ((" + struct_name + "_JCalls*)val)->o);\n"
-        out_c = out_c + "\tCHECK(ret != NULL);\n"
-        out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
         return (out_typescript_bindings, out_typescript_human, out_c)

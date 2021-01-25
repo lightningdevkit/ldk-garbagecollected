@@ -545,7 +545,6 @@ import java.util.Arrays;
             else:
                 out_java = out_java + ", " + var[0] + " " + var[1]
         out_java = out_java + ");\n"
-        out_java = out_java + "\tpublic static native " + struct_name + " " + struct_name + "_get_obj_from_jcalls(long val);\n"
 
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
@@ -692,12 +691,6 @@ import java.util.Arrays;
                 out_c = out_c + ", " + var[1]
         out_c = out_c + ");\n"
         out_c = out_c + "\treturn (long)res_ptr;\n"
-        out_c = out_c + "}\n"
-
-        out_c = out_c + self.c_fn_ty_pfx + "jobject " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (" + self.c_fn_args_pfx + ", " + self.ptr_c_ty + " val) {\n"
-        out_c = out_c + "\tjobject ret = (*env)->NewLocalRef(env, ((" + struct_name + "_JCalls*)val)->o);\n"
-        out_c = out_c + "\tCHECK(ret != NULL);\n"
-        out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
         return (out_java, out_java_trait, out_c)
