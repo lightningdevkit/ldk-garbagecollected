@@ -85,7 +85,7 @@ void *memcpy(void *dest, const void *src, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
 
 void __attribute__((noreturn)) abort(void);
-void assert(scalar expression);
+void assert(bool expression);
 """
 
         if not DEBUG:
@@ -198,6 +198,7 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
 typedef struct int64_tArray {uint32_t len;int64_t *ptr;} int64_tArray;
 typedef struct uint32_tArray {uint32_t len;int32_t *ptr;} uint32_tArray;
+typedef struct ptrArray {uint32_t len;int32_t *ptr;} ptrArray;
 typedef struct int8_tArray {uint32_t len;int8_t *ptr;} int8_tArray;
 typedef struct jstring {} jstring;
 
@@ -220,11 +221,10 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.ptr_native_ty = "number" # "uint32_t"
         self.result_c_ty = "uint32_t"
         self.owned_str_to_c_call = ("conv_owned_string(", ")")
-        self.ptr_arr = "uint32_tArray"
+        self.ptr_arr = "ptrArray"
         self.get_native_arr_len_call = ("", ".len")
-        self.get_native_arr_ptr_call = ("", ".ptr")
 
-    def release_native_arr_ptr_call(self, arr_var, arr_ptr_var):
+    def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
@@ -233,6 +233,9 @@ import * as bindings from '../bindings' // TODO: figure out location
             return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + " * sizeof(int64_t), \"Native " + ty_info.c_ty + " Bytes\") }"
         elif ty_info.c_ty == "uint32_tArray":
             return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + " * sizeof(int32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+        elif ty_info.c_ty == "ptrArray":
+            assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
+            return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + " * sizeof(int32_t), \"Native Object Bytes\") }"
         else:
             print("Need to create arr!", ty_info.c_ty)
             return ty_info.c_ty
@@ -251,6 +254,12 @@ import * as bindings from '../bindings' // TODO: figure out location
             return "(" + ty_info.subty.c_ty + "*) " + arr_name + ".ptr"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
+    def get_native_arr_ptr_call(self, ty_info):
+        if ty_info.subty is not None:
+            return ("(" + ty_info.subty.c_ty + "*)", ".ptr")
+        return ("(" + ty_info.c_ty + "*)", ".ptr")
+    def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
+        return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
             return None
@@ -275,7 +284,7 @@ const wasm = wasmInstance.exports;
 """
         return ''
 
-    def init_str(self, c_array_class_caches):
+    def init_str(self):
         return ""
 
     def native_c_unitary_enum_map(self, struct_name, variants):

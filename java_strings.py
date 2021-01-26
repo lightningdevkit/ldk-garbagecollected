@@ -2,7 +2,7 @@ from bindingstypes import *
 
 class Consts:
     def __init__(self, DEBUG: bool, **kwargs):
-
+        self.c_array_class_caches = set()
         self.c_type_map = dict(
             uint8_t = ['byte'],
             uint16_t = ['short'],
@@ -300,13 +300,18 @@ import java.util.Arrays;
         self.owned_str_to_c_call = ("(*env)->NewStringUTF(env, ", ")")
         self.ptr_arr = "jobjectArray"
         self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")
-        self.get_native_arr_ptr_call = ("(*env)->GetPrimitiveArrayCritical(env, ", ", NULL)")
 
-    def release_native_arr_ptr_call(self, arr_var, arr_ptr_var):
-        return "(*env)->ReleasePrimitiveArrayCritical(env, " + arr_var + ", " + arr_ptr_var + ", 0)"
+    def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
+        if ty_info.subty is None or not ty_info.subty.c_ty.endswith("Array"):
+            return "(*env)->ReleasePrimitiveArrayCritical(env, " + arr_var + ", " + arr_ptr_var + ", 0)"
+        return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
             return "(*env)->NewByteArray(env, " + arr_len + ")"
+        elif ty_info.subty.c_ty.endswith("Array"):
+            clz_var = ty_info.java_fn_ty_arg[1:].replace("[", "arr_of_")
+            self.c_array_class_caches.add(clz_var)
+            return "(*env)->NewObjectArray(env, " + arr_len + ", " + clz_var + "_clz, NULL);\n"
         else:
             return "(*env)->New" + ty_info.java_ty.strip("[]").title() + "Array(env, " + arr_len + ")"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
@@ -329,18 +334,26 @@ import java.util.Arrays;
             return "(*env)->GetObjectArrayElement(env, " + arr_name + ", " + idxc + ")"
         else:
             assert False # Only called if above is None
+    def get_native_arr_ptr_call(self, ty_info):
+        if ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array"):
+            return None
+        return ("(*env)->GetPrimitiveArrayCritical(env, ", ", NULL)")
+    def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
+        if ty_info.subty is None or not ty_info.subty.c_ty.endswith("Array"):
+            return None
+        return "(*env)->SetObjectArrayElement(env, " + arr_name + ", " + idxc + ", " + entry_access + ")"
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
             return "(*env)->ReleaseByteArrayElements(env, " + arr_name + ", (int8_t*)" + dest_name + ", 0);"
         else:
             return "(*env)->Release" + ty_info.java_ty.strip("[]").title() + "ArrayElements(env, " + arr_name + ", " + dest_name + ", 0)"
 
-    def init_str(self, c_array_class_caches):
+    def init_str(self):
         res = ""
-        for ty in c_array_class_caches:
+        for ty in self.c_array_class_caches:
             res = res + "static jclass " + ty + "_clz = NULL;\n"
         res = res + "JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass clz) {\n"
-        for ty in c_array_class_caches:
+        for ty in self.c_array_class_caches:
             res = res + "\t" + ty + "_clz = (*env)->FindClass(env, \"" + ty.replace("arr_of_", "[") + "\");\n"
             res = res + "\tCHECK(" + ty + "_clz != NULL);\n"
             res = res + "\t" + ty + "_clz = (*env)->NewGlobalRef(env, " + ty + "_clz);\n"

@@ -2,11 +2,10 @@ from bindingstypes import ConvInfo
 
 class TypeMappingGenerator:
 
-    def __init__(self, java_c_types, consts, c_array_class_caches, opaque_structs, clone_fns, unitary_enums, trait_structs, complex_enums, result_types, tuple_types):
+    def __init__(self, java_c_types, consts, opaque_structs, clone_fns, unitary_enums, trait_structs, complex_enums, result_types, tuple_types):
         # trick our way around circular imports
         self.java_c_types = java_c_types
         self.consts = consts
-        self.c_array_class_caches = c_array_class_caches
         self.opaque_structs = opaque_structs
         self.clone_fns = clone_fns
         self.unitary_enums = unitary_enums
@@ -120,26 +119,21 @@ class TypeMappingGenerator:
                 ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
                 if subty.ret_conv is None:
                     ret_conv = ("DUMMY", "DUMMY")
-                elif not ty_info.java_ty[:len(ty_info.java_ty) - 2].endswith("[]"):
+                else:
                     ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_name + "_var." + arr_len, ty_info) + ";\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + subty.c_ty + " *" + arr_name + "_arr_ptr = " + self.consts.get_native_arr_ptr_call[0] + arr_name + "_arr" + self.consts.get_native_arr_ptr_call[1] + ";\n")
+                    get_ptr_call = self.consts.get_native_arr_ptr_call(ty_info)
+                    if get_ptr_call is not None:
+                        ret_conv = (ret_conv[0], ret_conv[1] + subty.c_ty + " *" + arr_name + "_arr_ptr = " + get_ptr_call[0] + arr_name + "_arr" + get_ptr_call[1] + ";\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_var." + arr_len + "; " + idxc + "++) {\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "\t" + subty.ret_conv[0].replace("\n", "\n\t"))
                     ret_conv = (ret_conv[0], ret_conv[1] + arr_name + "_var." + ty_info.arr_access + "[" + idxc + "]" + subty.ret_conv[1].replace("\n", "\n\t"))
-                    ret_conv = (ret_conv[0], ret_conv[1] + "\n\t" + arr_name + "_arr_ptr[" + idxc + "] = " + subty.ret_conv_name + ";\n}")
-                    cleanup = self.consts.release_native_arr_ptr_call(arr_name + "_arr", arr_name + "_arr_ptr")
+                    if get_ptr_call is not None:
+                        ret_conv = (ret_conv[0], ret_conv[1] + "\n\t" + arr_name + "_arr_ptr[" + idxc + "] = " + subty.ret_conv_name + ";\n}")
+                    else:
+                        ret_conv = (ret_conv[0], ret_conv[1] + "\n\t" + self.consts.get_native_arr_entry_call(ty_info, arr_name + "_arr", idxc, subty.ret_conv_name) + ";\n}")
+                    cleanup = self.consts.release_native_arr_ptr_call(ty_info, arr_name + "_arr", arr_name + "_arr_ptr")
                     if cleanup is not None:
                         ret_conv = (ret_conv[0], ret_conv[1] + "\n" + cleanup + ";")
-                else:
-                    assert ty_info.java_fn_ty_arg.startswith("[")
-                    clz_var = ty_info.java_fn_ty_arg[1:].replace("[", "arr_of_")
-                    self.c_array_class_caches.add(clz_var)
-                    ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = (*env)->NewObjectArray(env, " + arr_name + "_var." + arr_len + ", " + clz_var + "_clz, NULL);\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_var." + arr_len + "; " + idxc + "++) {\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + "\t" + subty.ret_conv[0].replace("\n", "\n\t"))
-                    ret_conv = (ret_conv[0], ret_conv[1] + arr_name + "_var." + ty_info.arr_access + "[" + idxc + "]" + subty.ret_conv[1].replace("\n", "\n\t"))
-                    ret_conv = (ret_conv[0], ret_conv[1] + "\n\t(*env)->SetObjectArrayElement(env, " + arr_name + "_arr, " + idxc + ", " + subty.ret_conv_name + ");\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + "}")
                 if not holds_ref:
                     # XXX: The commented if's are a bit smarter freeing, but we need to be a nudge smarter still
                     # Note that we don't drop the full vec here - we're passing ownership to java (or have cloned) or free'd by now!

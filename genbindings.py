@@ -332,13 +332,9 @@ fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
 reg_fn_regex = re.compile("([A-Za-z_0-9\* ]* \*?)([a-zA-Z_0-9]*)\((.*)\);$")
 clone_fns = set()
 constructor_fns = {}
-c_array_class_caches = set()
-
 
 from gen_type_mapping import TypeMappingGenerator
-type_mapping_generator = TypeMappingGenerator(java_c_types, consts, c_array_class_caches, opaque_structs, clone_fns, unitary_enums, trait_structs, complex_enums, result_types, tuple_types)
-
-
+type_mapping_generator = TypeMappingGenerator(java_c_types, consts, opaque_structs, clone_fns, unitary_enums, trait_structs, complex_enums, result_types, tuple_types)
 
 with open(sys.argv[1]) as in_h:
     for line in in_h:
@@ -947,7 +943,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         write_c("\t\tret->data = NULL;\n")
                         write_c("\t} else {\n")
                         write_c("\t\tret->data = MALLOC(sizeof(" + vec_ty + ") * ret->datalen, \"" + struct_name + " Data\");\n")
-                        write_c("\t\t" + ty_info.c_ty + " *java_elems = " + consts.get_native_arr_ptr_call[0] + "elems" + consts.get_native_arr_ptr_call[1] + ";\n")
+                        native_arr_ptr_call = consts.get_native_arr_ptr_call(ty_info.ty_info)
+                        write_c("\t\t" + ty_info.c_ty + " *java_elems = " + native_arr_ptr_call[0] + "elems" + native_arr_ptr_call[1] + ";\n")
                         write_c("\t\tfor (size_t i = 0; i < ret->datalen; i++) {\n")
                         if ty_info.arg_conv is not None:
                             write_c("\t\t\t" + ty_info.c_ty + " arr_elem = java_elems[i];\n")
@@ -957,7 +954,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         else:
                             write_c("\t\t\tret->data[i] = java_elems[i];\n")
                         write_c("\t\t}\n")
-                        cleanup = consts.release_native_arr_ptr_call("elems", "java_elems")
+                        cleanup = consts.release_native_arr_ptr_call(ty_info.ty_info, "elems", "java_elems")
                         if cleanup is not None:
                             write_c("\t\t" + cleanup + ";\n")
                         write_c("\t}\n")
@@ -1047,5 +1044,5 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write("}\n")
 with open(sys.argv[4], "w") as out_c:
     out_c.write(consts.c_file_pfx)
-    out_c.write(consts.init_str(c_array_class_caches))
+    out_c.write(consts.init_str())
     out_c.write(c_file)
