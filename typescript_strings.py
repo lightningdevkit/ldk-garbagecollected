@@ -219,7 +219,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.c_fn_args_pfx = "void* ctx_TODO"
         self.file_ext = ".ts"
         self.ptr_c_ty = "uint32_t"
-        self.ptr_native_ty = "number" # "uint32_t"
+        self.ptr_native_ty = "uint32_t"
         self.result_c_ty = "uint32_t"
         self.owned_str_to_c_call = ("conv_owned_string(", ")")
         self.ptr_arr = "ptrArray"
