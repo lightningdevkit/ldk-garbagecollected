@@ -364,175 +364,62 @@ write_c("static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struc
 java_c_types_none_allowed = False # C structs created by cbindgen are declared in dependency order
 
 with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
+
+    # Map a top-level function
     def map_fn(line, re_match, ret_arr_len, c_call_string):
-        out_java.write("\t// " + line)
-        out_java.write("\tpublic static native ")
-        write_c(consts.c_fn_ty_pfx)
 
-        is_free = re_match.group(2).endswith("_free")
-        struct_meth = re_match.group(2).split("_")[0]
+        # PARSING START
+        method_return_type = re_match.group(1)
+        method_name = re_match.group(2)
+        method_comma_separated_arguments = re_match.group(3)
+        method_arguments = method_comma_separated_arguments.split(',')
 
-        ret_info = type_mapping_generator.map_type(re_match.group(1), True, ret_arr_len, False, False)
-        write_c(ret_info.c_ty)
-        out_java.write(ret_info.java_ty)
+        is_free = method_name.endswith("_free")
+        struct_meth = method_name.split("_")[0]
 
-        if ret_info.ret_conv is not None:
-            ret_conv_pfx, ret_conv_sfx = ret_info.ret_conv
+        return_type_info = type_mapping_generator.map_type(method_return_type, True, ret_arr_len, False, False)
 
-        out_java.write(" " + re_match.group(2) + "(")
-        write_c(" " + consts.c_fn_name_pfx + re_match.group(2).replace('_', '_1') + "(" + consts.c_fn_args_pfx)
-
-        arg_names = []
+        argument_types = []
         default_constructor_args = {}
         takes_self = False
         args_known = True
-        for idx, arg in enumerate(re_match.group(3).split(',')):
-            if idx != 0:
-                out_java.write(", ")
-            if arg != "void":
-                write_c(", ")
-            arg_conv_info = type_mapping_generator.map_type(arg, False, None, is_free, True)
-            if arg_conv_info.c_ty != "void":
-                write_c(arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
-                out_java.write(arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
-            if idx == 0 and arg_conv_info.java_hu_ty == struct_meth:
+
+        for argument_index, argument in enumerate(method_arguments):
+            argument_conversion_info = type_mapping_generator.map_type(argument, False, None, is_free, True)
+            if argument_index == 0 and argument_conversion_info.java_hu_ty == struct_meth:
                 takes_self = True
-            if arg_conv_info.arg_conv is not None and "Warning" in arg_conv_info.arg_conv:
-                if arg_conv_info.rust_obj in constructor_fns:
+            if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
+                if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
-                    for explode_arg in constructor_fns[arg_conv_info.rust_obj].split(','):
+                    for explode_arg in constructor_fns[argument_conversion_info.rust_obj].split(','):
                         explode_arg_conv = type_mapping_generator.map_type(explode_arg, False, None, False, True)
                         if explode_arg_conv.c_ty == "void":
                             # We actually want to handle this case, but for now its only used in NetGraphMsgHandler::new()
                             # which ends up resulting in a redundant constructor - both without arguments for the NetworkGraph.
                             args_known = False
                             pass
-                        if not arg_conv_info.arg_name in default_constructor_args:
-                            default_constructor_args[arg_conv_info.arg_name] = []
-                        default_constructor_args[arg_conv_info.arg_name].append(explode_arg_conv)
-            arg_names.append(arg_conv_info)
+                        if not argument_conversion_info.arg_name in default_constructor_args:
+                            default_constructor_args[argument_conversion_info.arg_name] = []
+                        default_constructor_args[argument_conversion_info.arg_name].append(explode_arg_conv)
+            argument_types.append(argument_conversion_info)
 
-        out_java_struct = None
-        if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free:
+        has_out_java_struct = ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free
+        # PARSING END
+
+        out_java.write("\t// " + line)
+
+        (out_java_delta, out_c_delta, out_java_struct_delta) = consts.map_function(argument_types, c_call_string, is_free, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, has_out_java_struct, type_mapping_generator)
+
+        out_java.write(out_java_delta)
+        write_c(out_c_delta)
+
+        if has_out_java_struct:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
-            if not args_known:
-                out_java_struct.write("\t// Skipped " + re_match.group(2) + "\n")
-                out_java_struct.close()
-                out_java_struct = None
-            else:
-                meth_n = re_match.group(2)[len(struct_meth) + 1:]
-                if not takes_self:
-                    out_java_struct.write("\tpublic static " + ret_info.java_hu_ty + " constructor_" + meth_n + "(")
-                else:
-                    out_java_struct.write("\tpublic " + ret_info.java_hu_ty + " " + meth_n + "(")
-                for idx, arg in enumerate(arg_names):
-                    if idx != 0:
-                        if not takes_self or idx > 1:
-                            out_java_struct.write(", ")
-                    elif takes_self:
-                        continue
-                    if arg.java_ty != "void":
-                        if arg.arg_name in default_constructor_args:
-                            for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
-                                if explode_idx != 0:
-                                    out_java_struct.write(", ")
-                                out_java_struct.write(explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
-                        else:
-                            out_java_struct.write(arg.java_hu_ty + " " + arg.arg_name)
+            out_java_struct.write(out_java_struct_delta)
 
 
-        out_java.write(");\n")
-        write_c(") {\n")
-        if out_java_struct is not None:
-            out_java_struct.write(") {\n")
 
-        for info in arg_names:
-            if info.arg_conv is not None:
-                write_c("\t" + info.arg_conv.replace('\n', "\n\t") + "\n")
 
-        if ret_info.ret_conv is not None:
-            write_c("\t" + ret_conv_pfx.replace('\n', '\n\t'))
-        elif ret_info.c_ty != "void":
-            write_c("\t" + ret_info.c_ty + " ret_val = ")
-        else:
-            write_c("\t")
-
-        if c_call_string is None:
-            write_c(re_match.group(2) + "(")
-        else:
-            write_c(c_call_string)
-        for idx, info in enumerate(arg_names):
-            if info.arg_conv_name is not None:
-                if idx != 0:
-                    write_c(", ")
-                elif c_call_string is not None:
-                    continue
-                write_c(info.arg_conv_name)
-        write_c(")")
-        if ret_info.ret_conv is not None:
-            write_c(ret_conv_sfx.replace('\n', '\n\t'))
-        else:
-            write_c(";")
-        for info in arg_names:
-            if info.arg_conv_cleanup is not None:
-                write_c("\n\t" + info.arg_conv_cleanup.replace("\n", "\n\t"))
-        if ret_info.ret_conv is not None:
-            write_c("\n\treturn " + ret_info.ret_conv_name + ";")
-        elif ret_info.c_ty != "void":
-            write_c("\n\treturn ret_val;")
-        write_c("\n}\n\n")
-        if out_java_struct is not None:
-            out_java_struct.write("\t\t")
-            if ret_info.java_ty != "void":
-                out_java_struct.write(ret_info.java_ty + " ret = ")
-            out_java_struct.write("bindings." + re_match.group(2) + "(")
-            for idx, info in enumerate(arg_names):
-                if idx != 0:
-                    out_java_struct.write(", ")
-                if idx == 0 and takes_self:
-                    out_java_struct.write("this.ptr")
-                elif info.arg_name in default_constructor_args:
-                    out_java_struct.write("bindings." + info.java_hu_ty + "_new(")
-                    for explode_idx, explode_arg in enumerate(default_constructor_args[info.arg_name]):
-                        if explode_idx != 0:
-                            out_java_struct.write(", ")
-                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
-                        if explode_arg.from_hu_conv is not None:
-                            out_java_struct.write(explode_arg.from_hu_conv[0].replace(explode_arg.arg_name, expl_arg_name))
-                        else:
-                            out_java_struct.write(expl_arg_name)
-                    out_java_struct.write(")")
-                elif info.from_hu_conv is not None:
-                    out_java_struct.write(info.from_hu_conv[0])
-                else:
-                    out_java_struct.write(info.arg_name)
-            out_java_struct.write(");\n")
-            if ret_info.to_hu_conv is not None:
-                if not takes_self:
-                    out_java_struct.write("\t\t" + ret_info.to_hu_conv.replace("\n", "\n\t\t").replace("this", ret_info.to_hu_conv_name) + "\n")
-                else:
-                    out_java_struct.write("\t\t" + ret_info.to_hu_conv.replace("\n", "\n\t\t") + "\n")
-
-            for idx, info in enumerate(arg_names):
-                if idx == 0 and takes_self:
-                    pass
-                elif info.arg_name in default_constructor_args:
-                    for explode_arg in default_constructor_args[info.arg_name]:
-                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
-                        if explode_arg.from_hu_conv is not None and ret_info.to_hu_conv_name:
-                            out_java_struct.write("\t\t" + explode_arg.from_hu_conv[1].replace(explode_arg.arg_name, expl_arg_name).replace("this", ret_info.to_hu_conv_name) + ";\n")
-                elif info.from_hu_conv is not None and info.from_hu_conv[1] != "":
-                    if not takes_self and ret_info.to_hu_conv_name is not None:
-                        out_java_struct.write("\t\t" + info.from_hu_conv[1].replace("this", ret_info.to_hu_conv_name) + ";\n")
-                    else:
-                        out_java_struct.write("\t\t" + info.from_hu_conv[1] + ";\n")
-
-            if ret_info.to_hu_conv_name is not None:
-                out_java_struct.write("\t\treturn " + ret_info.to_hu_conv_name + ";\n")
-            elif ret_info.java_ty != "void" and ret_info.rust_obj != "LDK" + struct_meth:
-                out_java_struct.write("\t\treturn ret;\n")
-            out_java_struct.write("\t}\n\n")
-            out_java_struct.close()
 
     def map_unitary_enum(struct_name, field_lines):
         with open(f"{sys.argv[3]}/enums/{struct_name}{consts.file_ext}", "w") as out_java_enum:
@@ -1037,13 +924,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             else:
                 assert(line == "\n")
 
-    out_java.write("}\n")
+    out_java.write(consts.bindings_footer)
     for struct_name in opaque_structs:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
     for struct_name in trait_structs:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
+
 with open(sys.argv[4], "w") as out_c:
     out_c.write(consts.c_file_pfx)
     out_c.write(consts.init_str(c_array_class_caches))

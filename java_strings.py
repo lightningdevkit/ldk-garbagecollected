@@ -49,6 +49,8 @@ public class bindings {
 
 """
 
+        self.bindings_footer = "}\n"
+
         self.common_base = """package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {
@@ -803,3 +805,151 @@ import java.util.Arrays;
         out_opaque_struct_human += ("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); }\n")
         out_opaque_struct_human += ("\t}\n\n")
         return out_opaque_struct_human
+
+
+    def map_function(self, argument_types, c_call_string, is_free, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, has_out_java_struct: bool, type_mapping_generator):
+        out_java = ""
+        out_c = ""
+        out_java_struct = None
+
+        out_java += ("\tpublic static native ")
+        out_c += (self.c_fn_ty_pfx)
+        out_c += (return_type_info.c_ty)
+        out_java += (return_type_info.java_ty)
+        if return_type_info.ret_conv is not None:
+            ret_conv_pfx, ret_conv_sfx = return_type_info.ret_conv
+        out_java += (" " + method_name + "(")
+        out_c += (" " + self.c_fn_name_pfx + method_name.replace('_', '_1') + "(" + self.c_fn_args_pfx)
+
+        for idx, arg_conv_info in enumerate(argument_types):
+            if idx != 0:
+                out_java += (", ")
+            if arg_conv_info.c_ty != "void":
+                out_c += (", ")
+            if arg_conv_info.c_ty != "void":
+                out_c += (arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
+                out_java += (arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
+
+        if has_out_java_struct:
+            out_java_struct = ""
+            if not args_known:
+                out_java_struct += ("\t// Skipped " + method_name + "\n")
+                has_out_java_struct = False
+            else:
+                meth_n = method_name[len(struct_meth) + 1:]
+                if not takes_self:
+                    out_java_struct += (
+                        "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
+                else:
+                    out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
+                for idx, arg in enumerate(argument_types):
+                    if idx != 0:
+                        if not takes_self or idx > 1:
+                            out_java_struct += (", ")
+                    elif takes_self:
+                        continue
+                    if arg.java_ty != "void":
+                        if arg.arg_name in default_constructor_args:
+                            for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
+                                if explode_idx != 0:
+                                    out_java_struct += (", ")
+                                out_java_struct += (
+                                    explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
+                        else:
+                            out_java_struct += (arg.java_hu_ty + " " + arg.arg_name)
+        out_java += (");\n")
+        out_c += (") {\n")
+        if out_java_struct is not None:
+            out_java_struct += (") {\n")
+        for info in argument_types:
+            if info.arg_conv is not None:
+                out_c += ("\t" + info.arg_conv.replace('\n', "\n\t") + "\n")
+        if return_type_info.ret_conv is not None:
+            out_c += ("\t" + ret_conv_pfx.replace('\n', '\n\t'))
+        elif return_type_info.c_ty != "void":
+            out_c += ("\t" + return_type_info.c_ty + " ret_val = ")
+        else:
+            out_c += ("\t")
+        if c_call_string is None:
+            out_c += (method_name + "(")
+        else:
+            out_c += (c_call_string)
+        for idx, info in enumerate(argument_types):
+            if info.arg_conv_name is not None:
+                if idx != 0:
+                    out_c += (", ")
+                elif c_call_string is not None:
+                    continue
+                out_c += (info.arg_conv_name)
+        out_c += (")")
+        if return_type_info.ret_conv is not None:
+            out_c += (ret_conv_sfx.replace('\n', '\n\t'))
+        else:
+            out_c += (";")
+        for info in argument_types:
+            if info.arg_conv_cleanup is not None:
+                out_c += ("\n\t" + info.arg_conv_cleanup.replace("\n", "\n\t"))
+        if return_type_info.ret_conv is not None:
+            out_c += ("\n\treturn " + return_type_info.ret_conv_name + ";")
+        elif return_type_info.c_ty != "void":
+            out_c += ("\n\treturn ret_val;")
+        out_c += ("\n}\n\n")
+
+        if has_out_java_struct:
+            out_java_struct += ("\t\t")
+            if return_type_info.java_ty != "void":
+                out_java_struct += (return_type_info.java_ty + " ret = ")
+            out_java_struct += ("bindings." + method_name + "(")
+            for idx, info in enumerate(argument_types):
+                if idx != 0:
+                    out_java_struct += (", ")
+                if idx == 0 and takes_self:
+                    out_java_struct += ("this.ptr")
+                elif info.arg_name in default_constructor_args:
+                    out_java_struct += ("bindings." + info.java_hu_ty + "_new(")
+                    for explode_idx, explode_arg in enumerate(default_constructor_args[info.arg_name]):
+                        if explode_idx != 0:
+                            out_java_struct += (", ")
+                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
+                        if explode_arg.from_hu_conv is not None:
+                            out_java_struct += (
+                                explode_arg.from_hu_conv[0].replace(explode_arg.arg_name, expl_arg_name))
+                        else:
+                            out_java_struct += (expl_arg_name)
+                    out_java_struct += (")")
+                elif info.from_hu_conv is not None:
+                    out_java_struct += (info.from_hu_conv[0])
+                else:
+                    out_java_struct += (info.arg_name)
+            out_java_struct += (");\n")
+            if return_type_info.to_hu_conv is not None:
+                if not takes_self:
+                    out_java_struct += ("\t\t" + return_type_info.to_hu_conv.replace("\n", "\n\t\t").replace("this",
+                                                                                                               return_type_info.to_hu_conv_name) + "\n")
+                else:
+                    out_java_struct += ("\t\t" + return_type_info.to_hu_conv.replace("\n", "\n\t\t") + "\n")
+
+            for idx, info in enumerate(argument_types):
+                if idx == 0 and takes_self:
+                    pass
+                elif info.arg_name in default_constructor_args:
+                    for explode_arg in default_constructor_args[info.arg_name]:
+                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
+                        if explode_arg.from_hu_conv is not None and return_type_info.to_hu_conv_name:
+                            out_java_struct += ("\t\t" + explode_arg.from_hu_conv[1].replace(explode_arg.arg_name,
+                                                                                               expl_arg_name).replace(
+                                "this", return_type_info.to_hu_conv_name) + ";\n")
+                elif info.from_hu_conv is not None and info.from_hu_conv[1] != "":
+                    if not takes_self and return_type_info.to_hu_conv_name is not None:
+                        out_java_struct += (
+                            "\t\t" + info.from_hu_conv[1].replace("this", return_type_info.to_hu_conv_name) + ";\n")
+                    else:
+                        out_java_struct += ("\t\t" + info.from_hu_conv[1] + ";\n")
+
+            if return_type_info.to_hu_conv_name is not None:
+                out_java_struct += ("\t\treturn " + return_type_info.to_hu_conv_name + ";\n")
+            elif return_type_info.java_ty != "void" and return_type_info.rust_obj != "LDK" + struct_meth:
+                out_java_struct += ("\t\treturn ret;\n")
+            out_java_struct += ("\t}\n\n")
+
+        return (out_java, out_c, out_java_struct)
