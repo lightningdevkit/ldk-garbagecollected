@@ -320,33 +320,50 @@ const nextMultipleOfFour = (value: number) => {
 }
 
 const encodeArray = (inputArray) => {
-    // TODO: (matt) is this correct, or should it go back to length * 4?
-    // const cArrayPointer = wasm.wasm_malloc(inputArray.length * 4);
-    const cArrayPointer = wasm.wasm_malloc(nextMultipleOfFour(inputArray.length));
-
-    const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
-    arrayMemoryView.set(inputArray);
-    return cArrayPointer;
+	const cArrayPointer = wasm.wasm_malloc((inputArray.length + 1) * 4);
+	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer + 4, inputArray.length);
+	arrayMemoryView.set(inputArray, 1);
+    arrayMemoryView[0] = inputArray.length;
+	return cArrayPointer;
 }
 
-const decodeArray = (arrayPointer, free = true) => {
-    const arraySizeViewer = new Uint32Array(
-        memory.buffer, // value
-        arrayPointer, // offset
-        1 // one int
-    );
-    const arraySize = arraySizeViewer[0];
-    const actualArrayViewer = new Uint32Array(
-        memory.buffer, // value
-        arrayPointer, // offset
-        arraySize + 1
-    );
-    const actualArray = actualArrayViewer.slice(1, arraySize + 1);
-    if (free) {
-        // wasm.free_array(arrayPointer);
-        wasm.wasm_free(arrayPointer); // TODO: check if passing *void still captures remaining values
-    }
-    return actualArray;
+const getArrayLength = (arrayPointer) => {
+	const arraySizeViewer = new Uint32Array(
+		memory.buffer, // value
+		arrayPointer, // offset
+		1 // one int
+	);
+	return arraySizeViewer[0];
+}
+const decodeUint8Array = (arrayPointer, free = true) => {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new Uint8Array(
+		memory.buffer, // value
+		arrayPointer + 4, // offset (ignoring length bytes)
+		arraySize // uint8 count
+	);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	const actualArray = actualArrayViewer.slice(0, arraySize);
+	if (free) {
+		wasm.free(arrayPointer);
+	}
+	return actualArray;
+}
+const decodeUint32Array = (arrayPointer, free = true) => {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new Uint32Array(
+		memory.buffer, // value
+		arrayPointer + 4, // offset (ignoring length bytes)
+		arraySize // uint32 count
+	);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	const actualArray = actualArrayViewer.slice(0, arraySize);
+	if (free) {
+		wasm.free(arrayPointer);
+	}
+	return actualArray;
 }
 
 const encodeString = (string) => {
