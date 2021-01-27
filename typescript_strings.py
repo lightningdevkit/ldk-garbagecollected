@@ -71,7 +71,16 @@ public static native long new_empty_slice_vec();
 
 """
 
-        self.bindings_footer = ""
+        self.bindings_footer = """
+        export async function initializeWasm(allowDoubleInitialization: boolean = false): Promise<void> {
+            if(isWasmInitialized && !allowDoubleInitialization) {
+                return;
+            }
+            const wasmInstance = await WebAssembly.instantiate(wasmModule, imports)
+            wasm = wasmInstance.exports;
+            isWasmInitialized = true;
+        }
+        """
 
         self.common_base = """
             export default class CommonBase {
@@ -286,8 +295,8 @@ imports.env["abort"] = function () {
     console.error("ABORT");
 };
 
-const wasmInstance = await WebAssembly.instantiate(wasmModule, imports)
-const wasm = wasmInstance.exports;
+let wasm = null;
+let isWasmInitialized: boolean = false;
 
 
 // WASM CODEC
@@ -889,6 +898,9 @@ const decodeString = (stringPointer, free = true) => {
             return_value = f"{converter}(nativeResponseValue)"
 
         out_java = f"""\texport function {method_name}({method_argument_string}): {return_type_info.java_ty} {{
+            if(!isWasmInitialized){{
+                throw new Error("initializeWasm() must be awaited first!");
+            }}
             const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
             return {return_value};
         \n\t}}
