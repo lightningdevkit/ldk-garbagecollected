@@ -891,19 +891,21 @@ const decodeString = (stringPointer, free = true) => {
                 method_argument_string += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
                 native_call_argument_string += native_argument
 
+        has_return_value = return_type_info.c_ty != 'void'
         needs_decoding = return_type_info.c_ty in self.wasm_decoding_map
-        return_value = 'nativeResponseValue'
-        if needs_decoding:
+        return_statement = 'return nativeResponseValue;'
+        if not has_return_value:
+            return_statement = '// debug statements here'
+        elif needs_decoding:
             converter = self.wasm_decoding_map[return_type_info.c_ty]
-            return_value = f"{converter}(nativeResponseValue)"
+            return_statement = f"return {converter}(nativeResponseValue);"
 
         out_java = f"""\texport function {method_name}({method_argument_string}): {return_type_info.java_ty} {{
             if(!isWasmInitialized){{
                 throw new Error("initializeWasm() must be awaited first!");
             }}
             const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
-            return {return_value};
-        \n\t}}
+            {return_statement}\n\t}}
         \n"""
 
 
