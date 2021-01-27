@@ -286,11 +286,9 @@ import * as bindings from '../bindings' // TODO: figure out location
         else:
             return None
 
-
     def wasm_import_header(self, target):
         if target == Target.NODEJS:
             return """
-            
 import * as fs from 'fs';
 const source = fs.readFileSync('./ldk.wasm');
 
@@ -398,9 +396,7 @@ const decodeString = (stringPointer, free = true) => {
 
     return result;
 };
-
-
-            """
+"""
         return ''
 
     def init_str(self):
