@@ -76,6 +76,7 @@ public static native long new_empty_slice_vec();
 """
 
         self.c_file_pfx = """#include <rust_types.h>
+#include "js-wasm.h"
 #include <stdatomic.h>
 #include <lightning.h>
 
@@ -196,10 +197,10 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
-typedef struct int64_tArray {uint32_t len;int64_t *ptr;} int64_tArray;
-typedef struct uint32_tArray {uint32_t len;int32_t *ptr;} uint32_tArray;
-typedef struct ptrArray {uint32_t len;int32_t *ptr;} ptrArray;
-typedef struct int8_tArray {uint32_t len;int8_t *ptr;} int8_tArray;
+typedef struct int64_tArray { uint32_t *len; /* len + 1 is data */ } int64_tArray;
+typedef struct uint32_tArray { uint32_t *len; /* len + 1 is data */ } uint32_tArray;
+typedef struct ptrArray { uint32_t *len; /* len + 1 is data */ } ptrArray;
+typedef struct int8_tArray { uint32_t *len; /* len + 1 is data */ } int8_tArray;
 typedef struct jstring {} jstring;
 
 jstring conv_owned_string(const char* _src) { jstring a; return a; }
@@ -222,42 +223,42 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.result_c_ty = "uint32_t"
         self.owned_str_to_c_call = ("conv_owned_string(", ")")
         self.ptr_arr = "ptrArray"
-        self.get_native_arr_len_call = ("", ".len")
+        self.get_native_arr_len_call = ("*", ".len")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + ", \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "{ .len = MALLOC(" + arr_len + " + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
         elif ty_info.c_ty == "int64_tArray":
-            return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + " * sizeof(int64_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "{ .len = MALLOC(" + arr_len + " * sizeof(int64_t) + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
         elif ty_info.c_ty == "uint32_tArray":
-            return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + " * sizeof(int32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "{ .len = MALLOC(" + arr_len + " * sizeof(int32_t) + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
         elif ty_info.c_ty == "ptrArray":
             assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
-            return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + " * sizeof(int32_t), \"Native Object Bytes\") }"
+            return "{ .len = MALLOC(" + arr_len + " * sizeof(int32_t) + sizeof(uint32_t), \"Native Object Bytes\") }"
         else:
             print("Need to create arr!", ty_info.c_ty)
             return ty_info.c_ty
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return ("memcpy(" + arr_name + ".ptr, ", ", " + arr_len + ")")
+            return ("memcpy(" + arr_name + ".len + 1, ", ", " + arr_len + ")")
         else:
             assert False
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
         if ty_info.c_ty == "int8_tArray":
             if copy:
-                return "memcpy(" + dest_name + ", " + arr_name + ".ptr, " + arr_len + ")"
+                return "memcpy(" + dest_name + ", " + arr_name + ".len + 1, " + arr_len + ")"
             else:
-                return arr_name + ".ptr"
+                return "(int8_t*)(" + arr_name + ".len + 1)"
         else:
-            return "(" + ty_info.subty.c_ty + "*) " + arr_name + ".ptr"
+            return "(" + ty_info.subty.c_ty + "*)(" + arr_name + ".len + 1)"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
         if ty_info.subty is not None:
-            return ("(" + ty_info.subty.c_ty + "*)", ".ptr")
-        return ("(" + ty_info.c_ty + "*)", ".ptr")
+            return "(" + ty_info.subty.c_ty + "*)(", ".len + 1)"
+        return "(" + ty_info.c_ty + "*)(", ".len + 1)"
     def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
         return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
