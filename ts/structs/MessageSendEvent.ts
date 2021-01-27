@@ -69,123 +69,123 @@ export default class MessageSendEvent extends CommonBase {
 
 }
 export class SendAcceptChannel extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: AcceptChannel;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendAcceptChannel) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		AcceptChannel msg_hu_conv = new AcceptChannel(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: AcceptChannel = new AcceptChannel(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendOpenChannel extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: OpenChannel;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendOpenChannel) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		OpenChannel msg_hu_conv = new OpenChannel(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: OpenChannel = new OpenChannel(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendFundingCreated extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: FundingCreated;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendFundingCreated) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		FundingCreated msg_hu_conv = new FundingCreated(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: FundingCreated = new FundingCreated(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendFundingSigned extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: FundingSigned;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendFundingSigned) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		FundingSigned msg_hu_conv = new FundingSigned(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: FundingSigned = new FundingSigned(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendFundingLocked extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: FundingLocked;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendFundingLocked) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		FundingLocked msg_hu_conv = new FundingLocked(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: FundingLocked = new FundingLocked(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendAnnouncementSignatures extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: AnnouncementSignatures;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendAnnouncementSignatures) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		AnnouncementSignatures msg_hu_conv = new AnnouncementSignatures(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class UpdateHTLCs extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public updates: CommitmentUpdate;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.UpdateHTLCs) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const updates: uint32_t = obj.updates;
-		CommitmentUpdate updates_hu_conv = new CommitmentUpdate(null, updates);
+		const updates: number = obj.updates;
+		const updates_hu_conv: CommitmentUpdate = new CommitmentUpdate(null, updates);
 		this.updates = updates_hu_conv;
 	}
 }
 export class SendRevokeAndACK extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: RevokeAndACK;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendRevokeAndACK) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		RevokeAndACK msg_hu_conv = new RevokeAndACK(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: RevokeAndACK = new RevokeAndACK(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendClosingSigned extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: ClosingSigned;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendClosingSigned) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		ClosingSigned msg_hu_conv = new ClosingSigned(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: ClosingSigned = new ClosingSigned(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendShutdown extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: Shutdown;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendShutdown) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		Shutdown msg_hu_conv = new Shutdown(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: Shutdown = new Shutdown(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendChannelReestablish extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: ChannelReestablish;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendChannelReestablish) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		ChannelReestablish msg_hu_conv = new ChannelReestablish(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: ChannelReestablish = new ChannelReestablish(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -194,11 +194,11 @@ export class BroadcastChannelAnnouncement extends MessageSendEvent {
 	public update_msg: ChannelUpdate;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.BroadcastChannelAnnouncement) {
 		super(null, ptr);
-		const msg: uint32_t = obj.msg;
-		ChannelAnnouncement msg_hu_conv = new ChannelAnnouncement(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, msg);
 		this.msg = msg_hu_conv;
-		const update_msg: uint32_t = obj.update_msg;
-		ChannelUpdate update_msg_hu_conv = new ChannelUpdate(null, update_msg);
+		const update_msg: number = obj.update_msg;
+		const update_msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, update_msg);
 		this.update_msg = update_msg_hu_conv;
 	}
 }
@@ -206,8 +206,8 @@ export class BroadcastNodeAnnouncement extends MessageSendEvent {
 	public msg: NodeAnnouncement;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement) {
 		super(null, ptr);
-		const msg: uint32_t = obj.msg;
-		NodeAnnouncement msg_hu_conv = new NodeAnnouncement(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -215,18 +215,18 @@ export class BroadcastChannelUpdate extends MessageSendEvent {
 	public msg: ChannelUpdate;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.BroadcastChannelUpdate) {
 		super(null, ptr);
-		const msg: uint32_t = obj.msg;
-		ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class HandleError extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public action: ErrorAction;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.HandleError) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const action: uint32_t = obj.action;
+		const action: number = obj.action;
 		ErrorAction action_hu_conv = ErrorAction.constr_from_ptr(action);
 			action_hu_conv.ptrs_to.add(this);
 		this.action = action_hu_conv;
@@ -236,31 +236,31 @@ export class PaymentFailureNetworkUpdate extends MessageSendEvent {
 	public update: HTLCFailChannelUpdate;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate) {
 		super(null, ptr);
-		const update: uint32_t = obj.update;
+		const update: number = obj.update;
 		HTLCFailChannelUpdate update_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(update);
 			update_hu_conv.ptrs_to.add(this);
 		this.update = update_hu_conv;
 	}
 }
 export class SendChannelRangeQuery extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: QueryChannelRange;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendChannelRangeQuery) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		QueryChannelRange msg_hu_conv = new QueryChannelRange(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: QueryChannelRange = new QueryChannelRange(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
 export class SendShortIdsQuery extends MessageSendEvent {
-	public node_id: byte[];
+	public node_id: Uint8Array;
 	public msg: QueryShortChannelIds;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendShortIdsQuery) {
 		super(null, ptr);
 		this.node_id = obj.node_id;
-		const msg: uint32_t = obj.msg;
-		QueryShortChannelIds msg_hu_conv = new QueryShortChannelIds(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }

@@ -19,8 +19,8 @@ public class Result_NodeInfoDecodeErrorZ extends CommonBase {
 		public final NodeInfo res;
 		private Result_NodeInfoDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_NodeInfoDecodeErrorZ_get_ok(ptr);
-			NodeInfo res_hu_conv = new NodeInfo(null, res);
+			number res = bindings.LDKCResult_NodeInfoDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: NodeInfo = new NodeInfo(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_NodeInfoDecodeErrorZ_OK(NodeInfo res) {
@@ -33,8 +33,8 @@ public class Result_NodeInfoDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_NodeInfoDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_NodeInfoDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_NodeInfoDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_NodeInfoDecodeErrorZ_Err(DecodeError err) {

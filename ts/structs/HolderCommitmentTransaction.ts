@@ -1,48 +1,56 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class HolderCommitmentTransaction extends CommonBase {
-	HolderCommitmentTransaction(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.HolderCommitmentTransaction_free(ptr); }
-	}
 
+
+            export default class HolderCommitmentTransaction extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.HolderCommitmentTransaction_free(this.ptr);
+                    }
+                }
 	public HolderCommitmentTransaction clone() {
-		uint32_t ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
-		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+		number ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
+		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] get_counterparty_sig() {
-		byte[] ret = bindings.HolderCommitmentTransaction_get_counterparty_sig(this.ptr);
+	public Uint8Array get_counterparty_sig() {
+		Uint8Array ret = bindings.HolderCommitmentTransaction_get_counterparty_sig(this.ptr);
 		return ret;
 	}
 
-	public void set_counterparty_sig(byte[] val) {
+	public void set_counterparty_sig(Uint8Array val) {
 		bindings.HolderCommitmentTransaction_set_counterparty_sig(this.ptr, val);
 	}
 
-	public void set_counterparty_htlc_sigs(byte[][] val) {
+	public void set_counterparty_htlc_sigs(Uint8Array[] val) {
 		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, val);
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.HolderCommitmentTransaction_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.HolderCommitmentTransaction_write(this.ptr);
 		return ret;
 	}
 
-	public static HolderCommitmentTransaction constructor_read(byte[] ser) {
-		uint32_t ret = bindings.HolderCommitmentTransaction_read(ser);
-		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+	public static HolderCommitmentTransaction constructor_read(Uint8Array ser) {
+		number ret = bindings.HolderCommitmentTransaction_read(ser);
+		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
 		return ret_hu_conv;
 	}
 
-	public static HolderCommitmentTransaction constructor_new(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
-		uint32_t ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
-		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+	public static HolderCommitmentTransaction constructor_new(CommitmentTransaction commitment_tx, Uint8Array counterparty_sig, Uint8Array[] counterparty_htlc_sigs, Uint8Array holder_funding_key, Uint8Array counterparty_funding_key) {
+		number ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
+		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}

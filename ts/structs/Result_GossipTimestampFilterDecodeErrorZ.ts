@@ -19,8 +19,8 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 		public final GossipTimestampFilter res;
 		private Result_GossipTimestampFilterDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_GossipTimestampFilterDecodeErrorZ_get_ok(ptr);
-			GossipTimestampFilter res_hu_conv = new GossipTimestampFilter(null, res);
+			number res = bindings.LDKCResult_GossipTimestampFilterDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_GossipTimestampFilterDecodeErrorZ_OK(GossipTimestampFilter res) {
@@ -33,8 +33,8 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_GossipTimestampFilterDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_GossipTimestampFilterDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_GossipTimestampFilterDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_GossipTimestampFilterDecodeErrorZ_Err(DecodeError err) {

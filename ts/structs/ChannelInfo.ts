@@ -1,18 +1,26 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class ChannelInfo extends CommonBase {
-	ChannelInfo(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.ChannelInfo_free(ptr); }
-	}
 
+
+            export default class ChannelInfo extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.ChannelInfo_free(this.ptr);
+                    }
+                }
 	public ChannelFeatures get_features() {
-		uint32_t ret = bindings.ChannelInfo_get_features(this.ptr);
-		ChannelFeatures ret_hu_conv = new ChannelFeatures(null, ret);
+		number ret = bindings.ChannelInfo_get_features(this.ptr);
+		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
 		return ret_hu_conv;
 	}
 
@@ -21,18 +29,18 @@ public class ChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	public byte[] get_node_one() {
-		byte[] ret = bindings.ChannelInfo_get_node_one(this.ptr);
+	public Uint8Array get_node_one() {
+		Uint8Array ret = bindings.ChannelInfo_get_node_one(this.ptr);
 		return ret;
 	}
 
-	public void set_node_one(byte[] val) {
+	public void set_node_one(Uint8Array val) {
 		bindings.ChannelInfo_set_node_one(this.ptr, val);
 	}
 
 	public DirectionalChannelInfo get_one_to_two() {
-		uint32_t ret = bindings.ChannelInfo_get_one_to_two(this.ptr);
-		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
+		number ret = bindings.ChannelInfo_get_one_to_two(this.ptr);
+		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
 		return ret_hu_conv;
 	}
 
@@ -41,18 +49,18 @@ public class ChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	public byte[] get_node_two() {
-		byte[] ret = bindings.ChannelInfo_get_node_two(this.ptr);
+	public Uint8Array get_node_two() {
+		Uint8Array ret = bindings.ChannelInfo_get_node_two(this.ptr);
 		return ret;
 	}
 
-	public void set_node_two(byte[] val) {
+	public void set_node_two(Uint8Array val) {
 		bindings.ChannelInfo_set_node_two(this.ptr, val);
 	}
 
 	public DirectionalChannelInfo get_two_to_one() {
-		uint32_t ret = bindings.ChannelInfo_get_two_to_one(this.ptr);
-		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
+		number ret = bindings.ChannelInfo_get_two_to_one(this.ptr);
+		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
 		return ret_hu_conv;
 	}
 
@@ -62,8 +70,8 @@ public class ChannelInfo extends CommonBase {
 	}
 
 	public ChannelAnnouncement get_announcement_message() {
-		uint32_t ret = bindings.ChannelInfo_get_announcement_message(this.ptr);
-		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
+		number ret = bindings.ChannelInfo_get_announcement_message(this.ptr);
+		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
 		return ret_hu_conv;
 	}
 
@@ -72,14 +80,14 @@ public class ChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.ChannelInfo_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.ChannelInfo_write(this.ptr);
 		return ret;
 	}
 
-	public static ChannelInfo constructor_read(byte[] ser) {
-		uint32_t ret = bindings.ChannelInfo_read(ser);
-		ChannelInfo ret_hu_conv = new ChannelInfo(null, ret);
+	public static ChannelInfo constructor_read(Uint8Array ser) {
+		number ret = bindings.ChannelInfo_read(ser);
+		const ret_hu_conv: ChannelInfo = new ChannelInfo(null, ret);
 		return ret_hu_conv;
 	}
 

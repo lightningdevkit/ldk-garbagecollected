@@ -19,7 +19,7 @@ public class Result_NetAddressu8Z extends CommonBase {
 		public final NetAddress res;
 		private Result_NetAddressu8Z_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_NetAddressu8Z_get_ok(ptr);
+			number res = bindings.LDKCResult_NetAddressu8Z_get_ok(ptr);
 			NetAddress res_hu_conv = NetAddress.constr_from_ptr(res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -30,12 +30,12 @@ public class Result_NetAddressu8Z extends CommonBase {
 	}
 
 	public static final class Result_NetAddressu8Z_Err extends Result_NetAddressu8Z {
-		public final byte err;
+		public final number err;
 		private Result_NetAddressu8Z_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_NetAddressu8Z_get_err(ptr);
 		}
-		public Result_NetAddressu8Z_Err(byte err) {
+		public Result_NetAddressu8Z_Err(number err) {
 			this(null, bindings.CResult_NetAddressu8Z_err(err));
 		}
 	}

@@ -16,12 +16,12 @@ public class Result_SignatureNoneZ extends CommonBase {
 		}
 	}
 	public static final class Result_SignatureNoneZ_OK extends Result_SignatureNoneZ {
-		public final byte[] res;
+		public final Uint8Array res;
 		private Result_SignatureNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_SignatureNoneZ_get_ok(ptr);
 		}
-		public Result_SignatureNoneZ_OK(byte[] res) {
+		public Result_SignatureNoneZ_OK(Uint8Array res) {
 			this(null, bindings.CResult_SignatureNoneZ_ok(res));
 		}
 	}

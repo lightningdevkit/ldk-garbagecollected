@@ -19,7 +19,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 		public final TxOut res;
 		private Result_TxOutAccessErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_TxOutAccessErrorZ_get_ok(ptr);
+			number res = bindings.LDKCResult_TxOutAccessErrorZ_get_ok(ptr);
 			TxOut res_conv = new TxOut(null, res);
 			this.res = res_conv;
 		}

@@ -30,8 +30,8 @@ public class Result_boolLightningErrorZ extends CommonBase {
 		public final LightningError err;
 		private Result_boolLightningErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_boolLightningErrorZ_get_err(ptr);
-			LightningError err_hu_conv = new LightningError(null, err);
+			number err = bindings.LDKCResult_boolLightningErrorZ_get_err(ptr);
+			const err_hu_conv: LightningError = new LightningError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_boolLightningErrorZ_Err(LightningError err) {

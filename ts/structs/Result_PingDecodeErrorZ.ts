@@ -19,8 +19,8 @@ public class Result_PingDecodeErrorZ extends CommonBase {
 		public final Ping res;
 		private Result_PingDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_PingDecodeErrorZ_get_ok(ptr);
-			Ping res_hu_conv = new Ping(null, res);
+			number res = bindings.LDKCResult_PingDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: Ping = new Ping(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_PingDecodeErrorZ_OK(Ping res) {
@@ -33,8 +33,8 @@ public class Result_PingDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_PingDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_PingDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_PingDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_PingDecodeErrorZ_Err(DecodeError err) {

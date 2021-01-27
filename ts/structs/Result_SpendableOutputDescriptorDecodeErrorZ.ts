@@ -19,7 +19,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 		public final SpendableOutputDescriptor res;
 		private Result_SpendableOutputDescriptorDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_ok(ptr);
+			number res = bindings.LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_ok(ptr);
 			SpendableOutputDescriptor res_hu_conv = SpendableOutputDescriptor.constr_from_ptr(res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -33,8 +33,8 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_SpendableOutputDescriptorDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_SpendableOutputDescriptorDecodeErrorZ_Err(DecodeError err) {

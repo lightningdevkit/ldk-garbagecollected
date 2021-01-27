@@ -1,21 +1,29 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class DirectionalChannelInfo extends CommonBase {
-	DirectionalChannelInfo(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.DirectionalChannelInfo_free(ptr); }
-	}
 
-	public int get_last_update() {
-		int ret = bindings.DirectionalChannelInfo_get_last_update(this.ptr);
+
+            export default class DirectionalChannelInfo extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.DirectionalChannelInfo_free(this.ptr);
+                    }
+                }
+	public number get_last_update() {
+		number ret = bindings.DirectionalChannelInfo_get_last_update(this.ptr);
 		return ret;
 	}
 
-	public void set_last_update(int val) {
+	public void set_last_update(number val) {
 		bindings.DirectionalChannelInfo_set_last_update(this.ptr, val);
 	}
 
@@ -28,27 +36,27 @@ public class DirectionalChannelInfo extends CommonBase {
 		bindings.DirectionalChannelInfo_set_enabled(this.ptr, val);
 	}
 
-	public short get_cltv_expiry_delta() {
-		short ret = bindings.DirectionalChannelInfo_get_cltv_expiry_delta(this.ptr);
+	public number get_cltv_expiry_delta() {
+		number ret = bindings.DirectionalChannelInfo_get_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
-	public void set_cltv_expiry_delta(short val) {
+	public void set_cltv_expiry_delta(number val) {
 		bindings.DirectionalChannelInfo_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public long get_htlc_minimum_msat() {
-		long ret = bindings.DirectionalChannelInfo_get_htlc_minimum_msat(this.ptr);
+	public number get_htlc_minimum_msat() {
+		number ret = bindings.DirectionalChannelInfo_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public void set_htlc_minimum_msat(long val) {
+	public void set_htlc_minimum_msat(number val) {
 		bindings.DirectionalChannelInfo_set_htlc_minimum_msat(this.ptr, val);
 	}
 
 	public RoutingFees get_fees() {
-		uint32_t ret = bindings.DirectionalChannelInfo_get_fees(this.ptr);
-		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
+		number ret = bindings.DirectionalChannelInfo_get_fees(this.ptr);
+		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
 		return ret_hu_conv;
 	}
 
@@ -58,8 +66,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	}
 
 	public ChannelUpdate get_last_update_message() {
-		uint32_t ret = bindings.DirectionalChannelInfo_get_last_update_message(this.ptr);
-		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
+		number ret = bindings.DirectionalChannelInfo_get_last_update_message(this.ptr);
+		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		return ret_hu_conv;
 	}
 
@@ -68,14 +76,14 @@ public class DirectionalChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.DirectionalChannelInfo_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.DirectionalChannelInfo_write(this.ptr);
 		return ret;
 	}
 
-	public static DirectionalChannelInfo constructor_read(byte[] ser) {
-		uint32_t ret = bindings.DirectionalChannelInfo_read(ser);
-		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
+	public static DirectionalChannelInfo constructor_read(Uint8Array ser) {
+		number ret = bindings.DirectionalChannelInfo_read(ser);
+		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
 		return ret_hu_conv;
 	}
 

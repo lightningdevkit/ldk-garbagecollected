@@ -19,8 +19,8 @@ public class Result_UnsignedNodeAnnouncementDecodeErrorZ extends CommonBase {
 		public final UnsignedNodeAnnouncement res;
 		private Result_UnsignedNodeAnnouncementDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok(ptr);
-			UnsignedNodeAnnouncement res_hu_conv = new UnsignedNodeAnnouncement(null, res);
+			number res = bindings.LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: UnsignedNodeAnnouncement = new UnsignedNodeAnnouncement(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_UnsignedNodeAnnouncementDecodeErrorZ_OK(UnsignedNodeAnnouncement res) {
@@ -33,8 +33,8 @@ public class Result_UnsignedNodeAnnouncementDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_UnsignedNodeAnnouncementDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_UnsignedNodeAnnouncementDecodeErrorZ_Err(DecodeError err) {

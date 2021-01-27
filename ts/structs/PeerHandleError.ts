@@ -1,15 +1,23 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class PeerHandleError extends CommonBase {
-	PeerHandleError(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.PeerHandleError_free(ptr); }
-	}
 
+
+            export default class PeerHandleError extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.PeerHandleError_free(this.ptr);
+                    }
+                }
 	public boolean get_no_connection_possible() {
 		boolean ret = bindings.PeerHandleError_get_no_connection_possible(this.ptr);
 		return ret;
@@ -20,8 +28,8 @@ public class PeerHandleError extends CommonBase {
 	}
 
 	public static PeerHandleError constructor_new(boolean no_connection_possible_arg) {
-		uint32_t ret = bindings.PeerHandleError_new(no_connection_possible_arg);
-		PeerHandleError ret_hu_conv = new PeerHandleError(null, ret);
+		number ret = bindings.PeerHandleError_new(no_connection_possible_arg);
+		const ret_hu_conv: PeerHandleError = new PeerHandleError(null, ret);
 		return ret_hu_conv;
 	}
 

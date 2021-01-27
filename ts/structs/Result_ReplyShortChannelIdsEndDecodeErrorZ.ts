@@ -19,8 +19,8 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 		public final ReplyShortChannelIdsEnd res;
 		private Result_ReplyShortChannelIdsEndDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(ptr);
-			ReplyShortChannelIdsEnd res_hu_conv = new ReplyShortChannelIdsEnd(null, res);
+			number res = bindings.LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_ReplyShortChannelIdsEndDecodeErrorZ_OK(ReplyShortChannelIdsEnd res) {
@@ -33,8 +33,8 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_ReplyShortChannelIdsEndDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_ReplyShortChannelIdsEndDecodeErrorZ_Err(DecodeError err) {

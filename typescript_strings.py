@@ -17,7 +17,7 @@ class Consts:
             uint8_t = ['number', 'Uint8Array'],
             uint16_t = ['number', 'Uint16Array'],
             uint32_t = ['number', 'Uint32Array'],
-            long = ['number'],
+            uint64_t = ['number'],
         )
 
         self.wasm_decoding_map = dict(
@@ -39,8 +39,8 @@ export class VecOrSliceDef {
     public datalen: number;
     public stride: number;
     public constructor(dataptr: number, datalen: number, stride: number) {
-        this.dataptr = dataptr; 
-        this.datalen = datalen; 
+        this.dataptr = dataptr;
+        this.datalen = datalen;
         this.stride = stride;
     }
 }
@@ -92,9 +92,10 @@ public static native long new_empty_slice_vec();
                     // TODO: finalize myself
                 }
             }
-        """
+"""
 
         self.c_file_pfx = """#include <rust_types.h>
+#include "js-wasm.h"
 #include <stdatomic.h>
 #include <lightning.h>
 
@@ -104,7 +105,7 @@ void *memcpy(void *dest, const void *src, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
 
 void __attribute__((noreturn)) abort(void);
-void assert(scalar expression);
+void assert(bool expression);
 """
 
         if not DEBUG:
@@ -215,9 +216,13 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
-typedef struct int64_tArray {uint32_t len;int64_t *ptr;} int64_tArray;
-typedef struct uint32_tArray {uint32_t len;int32_t *ptr;} uint32_tArray;
-typedef struct int8_tArray {uint32_t len;int8_t *ptr;} int8_tArray;
+typedef struct int64_tArray { uint32_t *len; /* len + 1 is data */ } int64_tArray;
+typedef struct uint32_tArray { uint32_t *len; /* len + 1 is data */ } uint32_tArray;
+typedef struct ptrArray { uint32_t *len; /* len + 1 is data */ } ptrArray;
+typedef struct int8_tArray { uint32_t *len; /* len + 1 is data */ } int8_tArray;
+typedef struct jstring {} jstring;
+
+jstring conv_owned_string(const char* _src) { jstring a; return a; }
 
 typedef bool jboolean;
 
@@ -233,39 +238,48 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.c_fn_args_pfx = "void* ctx_TODO"
         self.file_ext = ".ts"
         self.ptr_c_ty = "uint32_t"
-        self.ptr_native_ty = "number" # "uint32_t"
+        self.ptr_native_ty = "uint32_t"
         self.result_c_ty = "uint32_t"
-        self.ptr_arr = "uint32_tArray"
-        self.get_native_arr_len_call = ("", ".len")
-        self.get_native_arr_ptr_call = ("", ".ptr")
+        self.owned_str_to_c_call = ("conv_owned_string(", ")")
+        self.ptr_arr = "ptrArray"
+        self.get_native_arr_len_call = ("*", ".len")
 
-    def release_native_arr_ptr_call(self, arr_var, arr_ptr_var):
+    def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + ", \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "{ .len = MALLOC(" + arr_len + " + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
         elif ty_info.c_ty == "int64_tArray":
-            return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + " * sizeof(int64_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "{ .len = MALLOC(" + arr_len + " * sizeof(int64_t) + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
         elif ty_info.c_ty == "uint32_tArray":
-            return "{ .len = " + arr_len + ", .ptr = MALLOC(" + arr_len + " * sizeof(int32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "{ .len = MALLOC(" + arr_len + " * sizeof(int32_t) + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+        elif ty_info.c_ty == "ptrArray":
+            assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
+            return "{ .len = MALLOC(" + arr_len + " * sizeof(int32_t) + sizeof(uint32_t), \"Native Object Bytes\") }"
         else:
             print("Need to create arr!", ty_info.c_ty)
             return ty_info.c_ty
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return ("memcpy(" + arr_name + ".ptr, ", ", " + arr_len + ")")
+            return ("memcpy(" + arr_name + ".len + 1, ", ", " + arr_len + ")")
         else:
             assert False
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
         if ty_info.c_ty == "int8_tArray":
             if copy:
-                return "memcpy(" + dest_name + ", " + arr_name + ".ptr, " + arr_len + ")"
+                return "memcpy(" + dest_name + ", " + arr_name + ".len + 1, " + arr_len + ")"
             else:
-                return arr_name + ".ptr"
+                return "(int8_t*)(" + arr_name + ".len + 1)"
         else:
-            return "(" + ty_info.subty.c_ty + "*) " + arr_name + ".ptr"
+            return "(" + ty_info.subty.c_ty + "*)(" + arr_name + ".len + 1)"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
+    def get_native_arr_ptr_call(self, ty_info):
+        if ty_info.subty is not None:
+            return "(" + ty_info.subty.c_ty + "*)(", ".len + 1)"
+        return "(" + ty_info.c_ty + "*)(", ".len + 1)"
+    def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
+        return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
             return None
@@ -372,7 +386,7 @@ const decodeString = (stringPointer, free = true) => {
             """
         return ''
 
-    def init_str(self, c_array_class_caches):
+    def init_str(self):
         return ""
 
     def native_c_unitary_enum_map(self, struct_name, variants):
@@ -404,7 +418,7 @@ const decodeString = (stringPointer, free = true) => {
             export enum {struct_name} {{
                 {out_typescript_enum_fields}
             }}
-        """
+"""
 
         return (out_c, out_typescript_enum, "")
 
@@ -509,15 +523,13 @@ const decodeString = (stringPointer, free = true) => {
             else:
                 trait_constructor_arguments += ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
 
-
-
         out_typescript_human = f"""
             {self.hu_struct_file_prefix}
-            
+
             export class {struct_name.replace("LDK","")} extends CommonBase {{
-            
+
                 bindings_instance?: bindings.{struct_name};
-                
+
                 constructor(ptr?: number, arg?: bindings.{struct_name}{constructor_arguments}) {{
                     if (Number.isFinite(ptr)) {{
 				        super(ptr);
@@ -529,38 +541,32 @@ const decodeString = (stringPointer, free = true) => {
 				        {pointer_to_adder}
 				    }}
                 }}
-                
+
                 protected finalize() {{
-                    if (this.ptr != 0) {{ 
-                        bindings.{struct_name.replace("LDK","")}_free(this.ptr); 
-                    }} 
+                    if (this.ptr != 0) {{
+                        bindings.{struct_name.replace("LDK","")}_free(this.ptr);
+                    }}
                     super.finalize();
                 }}
-                
+
                 static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
                     const impl_holder: {struct_name}Holder = new {struct_name}Holder();
                     let structImplementation = <bindings.{struct_name}>{{
-                    
                         // todo: in-line interface filling
-                        
                         {out_interface_implementation_overrides}
                     }};
                     impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation{trait_constructor_arguments});
                 }}
-                
             }}
-            
+
             export interface {struct_name.replace("LDK", "")}Interface {{
                 {out_java_interface}
             }}
-            
+
             class {struct_name}Holder {{
                 held: {struct_name.replace("LDK", "")};
             }}
-            
-        """
-
-
+"""
 
         out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
         java_meths = []
@@ -587,19 +593,14 @@ const decodeString = (stringPointer, free = true) => {
         out_typescript_bindings += f"""): number {{
             throw new Error('unimplemented'); // TODO: bind to WASM
         }}
-        
-        export function {struct_name}_get_obj_from_jcalls(val: number): {struct_name} {{
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }}
-        """
+"""
 
         out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
 
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
         out_c = out_c + "\tatomic_size_t refcnt;\n"
-        out_c = out_c + "\tJavaVM *vm;\n"
-        out_c = out_c + "\tjweak o;\n"
+        out_c = out_c + "\t// TODO: Object pointer o;\n"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 # We're a regular ol' field
@@ -609,7 +610,7 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "\t" + var[0] + "_JCalls* " + var[1] + ";\n"
         for fn in field_function_lines:
             if fn.fn_name != "free" and fn.fn_name != "clone":
-                out_c = out_c + "\tjmethodID " + fn.fn_name + "_meth;\n"
+                out_c = out_c + "\t// TODO: Some kind of method pointer " + fn.fn_name + "_meth;\n"
         out_c = out_c + "} " + struct_name + "_JCalls;\n"
 
         for fn_line in field_function_lines:
@@ -617,9 +618,7 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "static void " + struct_name + "_JCalls_free(void* this_arg) {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
-                out_c = out_c + "\t\tJNIEnv *env;\n"
-                out_c = out_c + "\t\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n"
-                out_c = out_c + "\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n"
+                out_c = out_c + "\t\t// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -637,8 +636,6 @@ const decodeString = (stringPointer, free = true) => {
 
                 out_c = out_c + ") {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
-                out_c = out_c + "\tJNIEnv *env;\n"
-                out_c = out_c + "\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n"
 
                 for arg_info in fn_line.args_ty:
                     if arg_info.ret_conv is not None:
@@ -646,13 +643,15 @@ const decodeString = (stringPointer, free = true) => {
                         out_c = out_c + arg_info.arg_name
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
-                out_c = out_c + "\tjobject obj = (*env)->NewLocalRef(env, j_calls->o);\n\tCHECK(obj != NULL);\n"
+                out_c = out_c + "\t//TODO: jobject obj = get object we can call against on j_calls->o\n"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " arg = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " arg; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning an object"
+                elif fn_line.ret_ty_info.java_ty == "void":
+                    out_c = out_c + "\treturn; //TODO: Call " + fn_line.fn_name + " on j_calls with instance obj"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c = out_c + "\treturn (*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\treturn 0; //TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning " + fn_line.ret_ty_info.java_ty
                 else:
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret = (" + fn_line.ret_ty_info.rust_obj + "*)(*env)->CallLongMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning a pointer"
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
@@ -675,20 +674,17 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\treturn (void*) this_arg;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", jobject o"
+        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", /*TODO: JS Object Reference */void* o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", jobject " + var[1]
+                out_c = out_c + ", /*TODO: JS Object Reference */void* " + var[1]
         out_c = out_c + ") {\n"
 
-        out_c = out_c + "\tjclass c = (*env)->GetObjectClass(env, o);\n"
-        out_c = out_c + "\tCHECK(c != NULL);\n"
         out_c = out_c + "\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n"
         out_c = out_c + "\tatomic_init(&calls->refcnt, 1);\n"
-        out_c = out_c + "\tDO_ASSERT((*env)->GetJavaVM(env, &calls->vm) == 0);\n"
-        out_c = out_c + "\tcalls->o = (*env)->NewWeakGlobalRef(env, o);\n"
+        out_c = out_c + "\t//TODO: Assign calls->o from o\n"
 
         for (fn_name, java_meth_descr) in java_meths:
             if fn_name != "free" and fn_name != "clone":
@@ -716,7 +712,7 @@ const decodeString = (stringPointer, free = true) => {
                     out_c = out_c + "\t\t." + var.var_name + " = " + var.var_name + ",\n"
                     out_c = out_c + "\t\t.set_" + var.var_name + " = NULL,\n"
             else:
-                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(env, clz, " + var[1] + "),\n"
+                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(NULL, " + var[1] + "),\n"
         out_c = out_c + "\t};\n"
         for var in field_var_conversions:
             if not isinstance(var, ConvInfo):
@@ -724,15 +720,15 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new (" + self.c_fn_args_pfx + ", jobject o"
+        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new (" + self.c_fn_args_pfx + ", /*TODO: JS Object Reference */void* o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", jobject " + var[1]
+                out_c = out_c + ", /*TODO: JS Object Reference */ void* " + var[1]
         out_c = out_c + ") {\n"
         out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
-        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(env, clz, o"
+        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(NULL, o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.arg_name
@@ -742,14 +738,10 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\treturn (long)res_ptr;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "jobject " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1obj_1from_1jcalls (" + self.c_fn_args_pfx + ", " + self.ptr_c_ty + " val) {\n"
-        out_c = out_c + "\tjobject ret = (*env)->NewLocalRef(env, ((" + struct_name + "_JCalls*)val)->o);\n"
-        out_c = out_c + "\tCHECK(ret != NULL);\n"
-        out_c = out_c + "\treturn ret;\n"
-        out_c = out_c + "}\n"
-
-
         return (out_typescript_bindings, out_typescript_human, out_c)
+
+    def trait_struct_inc_refcnt(self, ty_info):
+        return ""
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake):
         java_hu_type = struct_name.replace("LDK", "")
@@ -829,34 +821,33 @@ const decodeString = (stringPointer, free = true) => {
         return (out_java, out_java_enum, out_c)
 
     def map_opaque_struct(self, struct_name):
-
         implementations = ""
         method_header = ""
         if struct_name.startswith("LDKLocked"):
             implementations += "implements AutoCloseable "
             method_header = """
                 public close() {
-            """
+"""
         else:
             method_header = """
                 protected finalize() {
                     super.finalize();
-            """
+"""
 
         out_opaque_struct_human = f"""
             {self.hu_struct_file_prefix}
-            
+
             export default class {struct_name.replace("LDK","")} extends CommonBase {implementations}{{
                 constructor(_dummy: object, ptr: number) {{
                     super(ptr);
                 }}
-                
+
                 {method_header}
                     if (this.ptr != 0) {{
                         bindings.{struct_name.replace("LDK","")}_free(this.ptr);
                     }}
                 }}
-        """
+"""
         return out_opaque_struct_human
 
     def map_function(self, argument_types, c_call_string, is_free, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, has_out_java_struct: bool, type_mapping_generator):

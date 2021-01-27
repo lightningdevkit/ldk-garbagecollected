@@ -1,33 +1,41 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class NodeAnnouncement extends CommonBase {
-	NodeAnnouncement(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.NodeAnnouncement_free(ptr); }
-	}
 
+
+            export default class NodeAnnouncement extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.NodeAnnouncement_free(this.ptr);
+                    }
+                }
 	public NodeAnnouncement clone() {
-		uint32_t ret = bindings.NodeAnnouncement_clone(this.ptr);
-		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
+		number ret = bindings.NodeAnnouncement_clone(this.ptr);
+		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] get_signature() {
-		byte[] ret = bindings.NodeAnnouncement_get_signature(this.ptr);
+	public Uint8Array get_signature() {
+		Uint8Array ret = bindings.NodeAnnouncement_get_signature(this.ptr);
 		return ret;
 	}
 
-	public void set_signature(byte[] val) {
+	public void set_signature(Uint8Array val) {
 		bindings.NodeAnnouncement_set_signature(this.ptr, val);
 	}
 
 	public UnsignedNodeAnnouncement get_contents() {
-		uint32_t ret = bindings.NodeAnnouncement_get_contents(this.ptr);
-		UnsignedNodeAnnouncement ret_hu_conv = new UnsignedNodeAnnouncement(null, ret);
+		number ret = bindings.NodeAnnouncement_get_contents(this.ptr);
+		const ret_hu_conv: UnsignedNodeAnnouncement = new UnsignedNodeAnnouncement(null, ret);
 		return ret_hu_conv;
 	}
 
@@ -36,21 +44,21 @@ public class NodeAnnouncement extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
-	public static NodeAnnouncement constructor_new(byte[] signature_arg, UnsignedNodeAnnouncement contents_arg) {
-		uint32_t ret = bindings.NodeAnnouncement_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
-		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
+	public static NodeAnnouncement constructor_new(Uint8Array signature_arg, UnsignedNodeAnnouncement contents_arg) {
+		number ret = bindings.NodeAnnouncement_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
+		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.NodeAnnouncement_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.NodeAnnouncement_write(this.ptr);
 		return ret;
 	}
 
-	public static NodeAnnouncement constructor_read(byte[] ser) {
-		uint32_t ret = bindings.NodeAnnouncement_read(ser);
-		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
+	public static NodeAnnouncement constructor_read(Uint8Array ser) {
+		number ret = bindings.NodeAnnouncement_read(ser);
+		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
 		return ret_hu_conv;
 	}
 

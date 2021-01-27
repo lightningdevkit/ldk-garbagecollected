@@ -27,8 +27,8 @@ export class DisconnectPeer extends ErrorAction {
 	public msg: ErrorMessage;
 	private constructor(ptr: number, obj: bindings.LDKErrorAction.DisconnectPeer) {
 		super(null, ptr);
-		const msg: uint32_t = obj.msg;
-		ErrorMessage msg_hu_conv = new ErrorMessage(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -41,8 +41,8 @@ export class SendErrorMessage extends ErrorAction {
 	public msg: ErrorMessage;
 	private constructor(ptr: number, obj: bindings.LDKErrorAction.SendErrorMessage) {
 		super(null, ptr);
-		const msg: uint32_t = obj.msg;
-		ErrorMessage msg_hu_conv = new ErrorMessage(null, msg);
+		const msg: number = obj.msg;
+		const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
 		this.msg = msg_hu_conv;
 	}
 }

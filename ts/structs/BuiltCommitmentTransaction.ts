@@ -1,63 +1,71 @@
 
+            
 import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
-public class BuiltCommitmentTransaction extends CommonBase {
-	BuiltCommitmentTransaction(Object _dummy, long ptr) { super(ptr); }
-	@Override @SuppressWarnings("deprecation")
-	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.BuiltCommitmentTransaction_free(ptr); }
-	}
 
+
+            export default class BuiltCommitmentTransaction extends CommonBase {
+                constructor(_dummy: object, ptr: number) {
+                    super(ptr);
+                }
+
+                
+                protected finalize() {
+                    super.finalize();
+
+                    if (this.ptr != 0) {
+                        bindings.BuiltCommitmentTransaction_free(this.ptr);
+                    }
+                }
 	public BuiltCommitmentTransaction clone() {
-		uint32_t ret = bindings.BuiltCommitmentTransaction_clone(this.ptr);
-		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
+		number ret = bindings.BuiltCommitmentTransaction_clone(this.ptr);
+		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] get_transaction() {
-		byte[] ret = bindings.BuiltCommitmentTransaction_get_transaction(this.ptr);
+	public Uint8Array get_transaction() {
+		Uint8Array ret = bindings.BuiltCommitmentTransaction_get_transaction(this.ptr);
 		return ret;
 	}
 
-	public void set_transaction(byte[] val) {
+	public void set_transaction(Uint8Array val) {
 		bindings.BuiltCommitmentTransaction_set_transaction(this.ptr, val);
 	}
 
-	public byte[] get_txid() {
-		byte[] ret = bindings.BuiltCommitmentTransaction_get_txid(this.ptr);
+	public Uint8Array get_txid() {
+		Uint8Array ret = bindings.BuiltCommitmentTransaction_get_txid(this.ptr);
 		return ret;
 	}
 
-	public void set_txid(byte[] val) {
+	public void set_txid(Uint8Array val) {
 		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, val);
 	}
 
-	public static BuiltCommitmentTransaction constructor_new(byte[] transaction_arg, byte[] txid_arg) {
-		uint32_t ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, txid_arg);
-		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
+	public static BuiltCommitmentTransaction constructor_new(Uint8Array transaction_arg, Uint8Array txid_arg) {
+		number ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, txid_arg);
+		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] write() {
-		byte[] ret = bindings.BuiltCommitmentTransaction_write(this.ptr);
+	public Uint8Array write() {
+		Uint8Array ret = bindings.BuiltCommitmentTransaction_write(this.ptr);
 		return ret;
 	}
 
-	public static BuiltCommitmentTransaction constructor_read(byte[] ser) {
-		uint32_t ret = bindings.BuiltCommitmentTransaction_read(ser);
-		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
+	public static BuiltCommitmentTransaction constructor_read(Uint8Array ser) {
+		number ret = bindings.BuiltCommitmentTransaction_read(ser);
+		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
 		return ret_hu_conv;
 	}
 
-	public byte[] get_sighash_all(byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.BuiltCommitmentTransaction_get_sighash_all(this.ptr, funding_redeemscript, channel_value_satoshis);
+	public Uint8Array get_sighash_all(Uint8Array funding_redeemscript, number channel_value_satoshis) {
+		Uint8Array ret = bindings.BuiltCommitmentTransaction_get_sighash_all(this.ptr, funding_redeemscript, channel_value_satoshis);
 		return ret;
 	}
 
-	public byte[] sign(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, funding_key, funding_redeemscript, channel_value_satoshis);
+	public Uint8Array sign(Uint8Array funding_key, Uint8Array funding_redeemscript, number channel_value_satoshis) {
+		Uint8Array ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, funding_key, funding_redeemscript, channel_value_satoshis);
 		return ret;
 	}
 

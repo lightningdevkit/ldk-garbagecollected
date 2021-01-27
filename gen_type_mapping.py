@@ -2,11 +2,10 @@ from bindingstypes import ConvInfo
 
 class TypeMappingGenerator:
 
-    def __init__(self, java_c_types, consts, c_array_class_caches, opaque_structs, clone_fns, unitary_enums, trait_structs, complex_enums, result_types, tuple_types):
+    def __init__(self, java_c_types, consts, opaque_structs, clone_fns, unitary_enums, trait_structs, complex_enums, result_types, tuple_types):
         # trick our way around circular imports
         self.java_c_types = java_c_types
         self.consts = consts
-        self.c_array_class_caches = c_array_class_caches
         self.opaque_structs = opaque_structs
         self.clone_fns = clone_fns
         self.unitary_enums = unitary_enums
@@ -120,26 +119,21 @@ class TypeMappingGenerator:
                 ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
                 if subty.ret_conv is None:
                     ret_conv = ("DUMMY", "DUMMY")
-                elif not ty_info.java_ty[:len(ty_info.java_ty) - 2].endswith("[]"):
+                else:
                     ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_name + "_var." + arr_len, ty_info) + ";\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + subty.c_ty + " *" + arr_name + "_arr_ptr = " + self.consts.get_native_arr_ptr_call[0] + arr_name + "_arr" + self.consts.get_native_arr_ptr_call[1] + ";\n")
+                    get_ptr_call = self.consts.get_native_arr_ptr_call(ty_info)
+                    if get_ptr_call is not None:
+                        ret_conv = (ret_conv[0], ret_conv[1] + subty.c_ty + " *" + arr_name + "_arr_ptr = " + get_ptr_call[0] + arr_name + "_arr" + get_ptr_call[1] + ";\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_var." + arr_len + "; " + idxc + "++) {\n")
                     ret_conv = (ret_conv[0], ret_conv[1] + "\t" + subty.ret_conv[0].replace("\n", "\n\t"))
                     ret_conv = (ret_conv[0], ret_conv[1] + arr_name + "_var." + ty_info.arr_access + "[" + idxc + "]" + subty.ret_conv[1].replace("\n", "\n\t"))
-                    ret_conv = (ret_conv[0], ret_conv[1] + "\n\t" + arr_name + "_arr_ptr[" + idxc + "] = " + subty.ret_conv_name + ";\n}")
-                    cleanup = self.consts.release_native_arr_ptr_call(arr_name + "_arr", arr_name + "_arr_ptr")
+                    if get_ptr_call is not None:
+                        ret_conv = (ret_conv[0], ret_conv[1] + "\n\t" + arr_name + "_arr_ptr[" + idxc + "] = " + subty.ret_conv_name + ";\n}")
+                    else:
+                        ret_conv = (ret_conv[0], ret_conv[1] + "\n\t" + self.consts.get_native_arr_entry_call(ty_info, arr_name + "_arr", idxc, subty.ret_conv_name) + ";\n}")
+                    cleanup = self.consts.release_native_arr_ptr_call(ty_info, arr_name + "_arr", arr_name + "_arr_ptr")
                     if cleanup is not None:
                         ret_conv = (ret_conv[0], ret_conv[1] + "\n" + cleanup + ";")
-                else:
-                    assert ty_info.java_fn_ty_arg.startswith("[")
-                    clz_var = ty_info.java_fn_ty_arg[1:].replace("[", "arr_of_")
-                    self.c_array_class_caches.add(clz_var)
-                    ret_conv = (ret_conv[0], ";\n" + ty_info.c_ty + " " + arr_name + "_arr = (*env)->NewObjectArray(env, " + arr_name + "_var." + arr_len + ", " + clz_var + "_clz, NULL);\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_var." + arr_len + "; " + idxc + "++) {\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + "\t" + subty.ret_conv[0].replace("\n", "\n\t"))
-                    ret_conv = (ret_conv[0], ret_conv[1] + arr_name + "_var." + ty_info.arr_access + "[" + idxc + "]" + subty.ret_conv[1].replace("\n", "\n\t"))
-                    ret_conv = (ret_conv[0], ret_conv[1] + "\n\t(*env)->SetObjectArrayElement(env, " + arr_name + "_arr, " + idxc + ", " + subty.ret_conv_name + ");\n")
-                    ret_conv = (ret_conv[0], ret_conv[1] + "}")
                 if not holds_ref:
                     # XXX: The commented if's are a bit smarter freeing, but we need to be a nudge smarter still
                     # Note that we don't drop the full vec here - we're passing ownership to java (or have cloned) or free'd by now!
@@ -174,7 +168,7 @@ class TypeMappingGenerator:
             if ty_info.arr_access is None:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    ret_conv = ("jstring " + ty_info.var_name + "_conv = (*env)->NewStringUTF(env, ", ");"), ret_conv_name = ty_info.var_name + "_conv",
+                    ret_conv = ("jstring " + ty_info.var_name + "_conv = " + self.consts.owned_str_to_c_call[0], self.consts.owned_str_to_c_call[1] + ";"), ret_conv_name = ty_info.var_name + "_conv",
                     to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -183,7 +177,7 @@ class TypeMappingGenerator:
                         ";\nchar* " + ty_info.var_name + "_buf = MALLOC(" + ty_info.var_name + "_str." + ty_info.arr_len + " + 1, \"str conv buf\");\n" +
                         "memcpy(" + ty_info.var_name + "_buf, " + ty_info.var_name + "_str." + ty_info.arr_access + ", " + ty_info.var_name + "_str." + ty_info.arr_len + ");\n" +
                         ty_info.var_name + "_buf[" + ty_info.var_name + "_str." + ty_info.arr_len + "] = 0;\n" +
-                        "jstring " + ty_info.var_name + "_conv = (*env)->NewStringUTF(env, " + ty_info.var_name + "_str." + ty_info.arr_access + ");\n" +
+                        "jstring " + ty_info.var_name + "_conv = " + self.consts.owned_str_to_c_call[0] + ty_info.var_name + "_str." + ty_info.arr_access + self.consts.owned_str_to_c_call[1] + ";\n" +
                         "FREE(" + ty_info.var_name + "_buf);"),
                     ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
         elif ty_info.var_name == "" and not print_void:
@@ -244,7 +238,6 @@ class TypeMappingGenerator:
                         arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = *", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
-                        # to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
                         to_hu_conv = self.consts.to_hu_conv_templates['ptr'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name),
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
@@ -253,7 +246,6 @@ class TypeMappingGenerator:
                         arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
-                        # to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
                         to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name),
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
@@ -275,9 +267,7 @@ class TypeMappingGenerator:
                         if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                             base_conv = base_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + ");"
                         else:
-                            base_conv = base_conv + "\nif (" + ty_info.var_name + "_conv.free == " + ty_info.rust_obj + "_JCalls_free) {\n"
-                            base_conv = base_conv + "\t// If this_arg is a JCalls struct, then we need to increment the refcnt in it.\n"
-                            base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv.this_arg);\n}"
+                            base_conv = base_conv + self.consts.trait_struct_inc_refcnt(ty_info)
                             if needs_full_clone:
                                 base_conv = base_conv + "// Warning: we may need a move here but can't do a full clone!\n"
 

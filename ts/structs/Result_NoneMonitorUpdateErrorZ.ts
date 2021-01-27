@@ -28,8 +28,8 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 		public final MonitorUpdateError err;
 		private Result_NoneMonitorUpdateErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_NoneMonitorUpdateErrorZ_get_err(ptr);
-			MonitorUpdateError err_hu_conv = new MonitorUpdateError(null, err);
+			number err = bindings.LDKCResult_NoneMonitorUpdateErrorZ_get_err(ptr);
+			const err_hu_conv: MonitorUpdateError = new MonitorUpdateError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_NoneMonitorUpdateErrorZ_Err(MonitorUpdateError err) {

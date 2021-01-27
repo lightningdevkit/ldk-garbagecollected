@@ -36,10 +36,10 @@ export default class Event extends CommonBase {
 
 }
 export class FundingGenerationReady extends Event {
-	public temporary_channel_id: byte[];
-	public channel_value_satoshis: long;
-	public output_script: byte[];
-	public user_channel_id: long;
+	public temporary_channel_id: Uint8Array;
+	public channel_value_satoshis: number;
+	public output_script: Uint8Array;
+	public user_channel_id: number;
 	private constructor(ptr: number, obj: bindings.LDKEvent.FundingGenerationReady) {
 		super(null, ptr);
 		this.temporary_channel_id = obj.temporary_channel_id;
@@ -50,19 +50,19 @@ export class FundingGenerationReady extends Event {
 }
 export class FundingBroadcastSafe extends Event {
 	public funding_txo: OutPoint;
-	public user_channel_id: long;
+	public user_channel_id: number;
 	private constructor(ptr: number, obj: bindings.LDKEvent.FundingBroadcastSafe) {
 		super(null, ptr);
-		const funding_txo: uint32_t = obj.funding_txo;
-		OutPoint funding_txo_hu_conv = new OutPoint(null, funding_txo);
+		const funding_txo: number = obj.funding_txo;
+		const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
 		this.funding_txo = funding_txo_hu_conv;
 		this.user_channel_id = obj.user_channel_id;
 	}
 }
 export class PaymentReceived extends Event {
-	public payment_hash: byte[];
-	public payment_secret: byte[];
-	public amt: long;
+	public payment_hash: Uint8Array;
+	public payment_secret: Uint8Array;
+	public amt: number;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentReceived) {
 		super(null, ptr);
 		this.payment_hash = obj.payment_hash;
@@ -71,14 +71,14 @@ export class PaymentReceived extends Event {
 	}
 }
 export class PaymentSent extends Event {
-	public payment_preimage: byte[];
+	public payment_preimage: Uint8Array;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentSent) {
 		super(null, ptr);
 		this.payment_preimage = obj.payment_preimage;
 	}
 }
 export class PaymentFailed extends Event {
-	public payment_hash: byte[];
+	public payment_hash: Uint8Array;
 	public rejected_by_dest: boolean;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentFailed) {
 		super(null, ptr);
@@ -87,7 +87,7 @@ export class PaymentFailed extends Event {
 	}
 }
 export class PendingHTLCsForwardable extends Event {
-	public time_forwardable: long;
+	public time_forwardable: number;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PendingHTLCsForwardable) {
 		super(null, ptr);
 		this.time_forwardable = obj.time_forwardable;
@@ -97,10 +97,10 @@ export class SpendableOutputs extends Event {
 	public outputs: SpendableOutputDescriptor[];
 	private constructor(ptr: number, obj: bindings.LDKEvent.SpendableOutputs) {
 		super(null, ptr);
-		const outputs: uint32_t[] = obj.outputs;
+		const outputs: number[] = obj.outputs;
 		SpendableOutputDescriptor[] arr_conv_27_arr = new SpendableOutputDescriptor[outputs.length];
 			for (int b = 0; b < outputs.length; b++) {
-				uint32_t arr_conv_27 = outputs[b];
+				number arr_conv_27 = outputs[b];
 				SpendableOutputDescriptor arr_conv_27_hu_conv = SpendableOutputDescriptor.constr_from_ptr(arr_conv_27);
 				arr_conv_27_hu_conv.ptrs_to.add(this);
 				arr_conv_27_arr[b] = arr_conv_27_hu_conv;

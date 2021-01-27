@@ -19,8 +19,8 @@ public class Result_ChannelReestablishDecodeErrorZ extends CommonBase {
 		public final ChannelReestablish res;
 		private Result_ChannelReestablishDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t res = bindings.LDKCResult_ChannelReestablishDecodeErrorZ_get_ok(ptr);
-			ChannelReestablish res_hu_conv = new ChannelReestablish(null, res);
+			number res = bindings.LDKCResult_ChannelReestablishDecodeErrorZ_get_ok(ptr);
+			const res_hu_conv: ChannelReestablish = new ChannelReestablish(null, res);
 			this.res = res_hu_conv;
 		}
 		public Result_ChannelReestablishDecodeErrorZ_OK(ChannelReestablish res) {
@@ -33,8 +33,8 @@ public class Result_ChannelReestablishDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_ChannelReestablishDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			uint32_t err = bindings.LDKCResult_ChannelReestablishDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			number err = bindings.LDKCResult_ChannelReestablishDecodeErrorZ_get_err(ptr);
+			const err_hu_conv: DecodeError = new DecodeError(null, err);
 			this.err = err_hu_conv;
 		}
 		public Result_ChannelReestablishDecodeErrorZ_Err(DecodeError err) {
