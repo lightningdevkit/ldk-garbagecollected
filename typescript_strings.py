@@ -20,6 +20,14 @@ class Consts:
             uint64_t = ['number'],
         )
 
+        self.wasm_decoding_map = dict(
+            int8_tArray = 'decodeArray'
+        )
+
+        self.wasm_encoding_map = dict(
+            int8_tArray = 'encodeArray',
+        )
+
         self.to_hu_conv_templates = dict(
             ptr = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
             default = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
@@ -62,6 +70,8 @@ public static native long new_empty_slice_vec();
 */
 
 """
+
+        self.bindings_footer = ""
 
         self.common_base = """
             export default class CommonBase {
@@ -271,17 +281,95 @@ import * as bindings from '../bindings' // TODO: figure out location
     def wasm_import_header(self, target):
         if target == Target.NODEJS:
             return """
-const path = require('path').join(__dirname, 'bindings.wasm');
-const bytes = require('fs').readFileSync(path);
-let imports = {};
-// add all exports to dictionary and move down?
-// use `module.exports`?
-// imports['./bindings.js'] = require('./bindings.js');
+import * as fs from 'fs';
+const source = fs.readFileSync('./ldk.wasm');
 
-const wasmModule = new WebAssembly.Module(bytes);
-const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
-// module.exports = wasmInstance.exports;
+const memory = new WebAssembly.Memory({initial: 256});
+const wasmModule = new WebAssembly.Module(source);
+
+const imports: any = {};
+imports.env = {};
+
+imports.env.memoryBase = 0;
+imports.env.memory = memory;
+imports.env.tableBase = 0;
+imports.env.table = new WebAssembly.Table({initial: 4, element: 'anyfunc'});
+
+imports.env["abort"] = function () {
+    console.error("ABORT");
+};
+
+const wasmInstance = await WebAssembly.instantiate(wasmModule, imports)
 const wasm = wasmInstance.exports;
+
+// WASM CODEC
+
+const nextMultipleOfFour = (value: number) => {
+    return Math.ceil(value / 4) * 4;
+}
+
+const encodeArray = (inputArray) => {
+    // TODO: (matt) is this correct, or should it go back to length * 4?
+    // const cArrayPointer = wasm.wasm_malloc(inputArray.length * 4);
+    const cArrayPointer = wasm.wasm_malloc(nextMultipleOfFour(inputArray.length));
+
+    const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
+    arrayMemoryView.set(inputArray);
+    return cArrayPointer;
+}
+
+const decodeArray = (arrayPointer, free = true) => {
+    const arraySizeViewer = new Uint32Array(
+        memory.buffer, // value
+        arrayPointer, // offset
+        1 // one int
+    );
+    const arraySize = arraySizeViewer[0];
+    const actualArrayViewer = new Uint32Array(
+        memory.buffer, // value
+        arrayPointer, // offset
+        arraySize + 1
+    );
+    const actualArray = actualArrayViewer.slice(1, arraySize + 1);
+    if (free) {
+        // wasm.free_array(arrayPointer);
+        wasm.wasm_free(arrayPointer); // TODO: check if passing *void still captures remaining values
+    }
+    return actualArray;
+}
+
+const encodeString = (string) => {
+    // make malloc count divisible by 4
+    const memoryNeed = nextMultipleOfFour(string.length + 1);
+    const stringPointer = wasm.wasm_malloc(memoryNeed);
+    const stringMemoryView = new Uint8Array(
+        memory.buffer, // value
+        stringPointer, // offset
+        string.length + 1 // length
+    );
+    for (let i = 0; i < string.length; i++) {
+        stringMemoryView[i] = string.charCodeAt(i);
+    }
+    stringMemoryView[string.length] = 0;
+    return stringPointer;
+}
+
+const decodeString = (stringPointer, free = true) => {
+    const memoryView = new Uint8Array(memory.buffer, stringPointer);
+    let cursor = 0;
+    let result = '';
+
+    while (memoryView[cursor] !== 0) {
+        result += String.fromCharCode(memoryView[cursor]);
+        cursor++;
+    }
+
+    if (free) {
+        wasm.wasm_free(stringPointer);
+    }
+
+    return result;
+};
 """
         return ''
 
@@ -748,3 +836,173 @@ const wasm = wasmInstance.exports;
                 }}
 """
         return out_opaque_struct_human
+
+    def map_function(self, argument_types, c_call_string, is_free, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, has_out_java_struct: bool, type_mapping_generator):
+        out_java = ""
+        out_c = ""
+        out_java_struct = None
+
+        out_java += ("\tpublic static native ")
+        out_c += (self.c_fn_ty_pfx)
+        out_c += (return_type_info.c_ty)
+        out_java += (return_type_info.java_ty)
+        if return_type_info.ret_conv is not None:
+            ret_conv_pfx, ret_conv_sfx = return_type_info.ret_conv
+        out_java += (" " + method_name + "(")
+        out_c += (" " + self.c_fn_name_pfx + method_name.replace('_', '_1') + "(" + self.c_fn_args_pfx)
+
+        method_argument_string = ""
+        native_call_argument_string = ""
+        for idx, arg_conv_info in enumerate(argument_types):
+            if idx != 0:
+                method_argument_string += (", ")
+                native_call_argument_string += ', '
+            if arg_conv_info.c_ty != "void":
+                out_c += (", ")
+            if arg_conv_info.c_ty != "void":
+                out_c += (arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
+                needs_encoding = arg_conv_info.c_ty in self.wasm_encoding_map
+                native_argument = arg_conv_info.arg_name
+                if needs_encoding:
+                    converter = self.wasm_encoding_map[arg_conv_info.c_ty]
+                    native_argument = f"{converter}({arg_conv_info.arg_name})"
+                method_argument_string += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
+                native_call_argument_string += native_argument
+
+        needs_decoding = return_type_info.c_ty in self.wasm_decoding_map
+        return_value = 'nativeResponseValue'
+        if needs_decoding:
+            converter = self.wasm_decoding_map[return_type_info.c_ty]
+            return_value = f"{converter}(nativeResponseValue)"
+
+        out_java = f"""\texport function {method_name}({method_argument_string}): {return_type_info.java_ty} {{
+            const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
+            return {return_value};
+        \n\t}}
+        \n"""
+
+
+
+        if has_out_java_struct:
+            out_java_struct = ""
+            if not args_known:
+                out_java_struct += ("\t// Skipped " + method_name + "\n")
+                has_out_java_struct = False
+            else:
+                meth_n = method_name[len(struct_meth) + 1:]
+                if not takes_self:
+                    out_java_struct += (
+                            "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
+                else:
+                    out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
+                for idx, arg in enumerate(argument_types):
+                    if idx != 0:
+                        if not takes_self or idx > 1:
+                            out_java_struct += (", ")
+                    elif takes_self:
+                        continue
+                    if arg.java_ty != "void":
+                        if arg.arg_name in default_constructor_args:
+                            for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
+                                if explode_idx != 0:
+                                    out_java_struct += (", ")
+                                out_java_struct += (
+                                        explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
+                        else:
+                            out_java_struct += (arg.java_hu_ty + " " + arg.arg_name)
+
+        out_c += (") {\n")
+        if out_java_struct is not None:
+            out_java_struct += (") {\n")
+        for info in argument_types:
+            if info.arg_conv is not None:
+                out_c += ("\t" + info.arg_conv.replace('\n', "\n\t") + "\n")
+        if return_type_info.ret_conv is not None:
+            out_c += ("\t" + ret_conv_pfx.replace('\n', '\n\t'))
+        elif return_type_info.c_ty != "void":
+            out_c += ("\t" + return_type_info.c_ty + " ret_val = ")
+        else:
+            out_c += ("\t")
+        if c_call_string is None:
+            out_c += (method_name + "(")
+        else:
+            out_c += (c_call_string)
+        for idx, info in enumerate(argument_types):
+            if info.arg_conv_name is not None:
+                if idx != 0:
+                    out_c += (", ")
+                elif c_call_string is not None:
+                    continue
+                out_c += (info.arg_conv_name)
+        out_c += (")")
+        if return_type_info.ret_conv is not None:
+            out_c += (ret_conv_sfx.replace('\n', '\n\t'))
+        else:
+            out_c += (";")
+        for info in argument_types:
+            if info.arg_conv_cleanup is not None:
+                out_c += ("\n\t" + info.arg_conv_cleanup.replace("\n", "\n\t"))
+        if return_type_info.ret_conv is not None:
+            out_c += ("\n\treturn " + return_type_info.ret_conv_name + ";")
+        elif return_type_info.c_ty != "void":
+            out_c += ("\n\treturn ret_val;")
+        out_c += ("\n}\n\n")
+
+        if has_out_java_struct:
+            out_java_struct += ("\t\t")
+            if return_type_info.java_ty != "void":
+                out_java_struct += (return_type_info.java_ty + " ret = ")
+            out_java_struct += ("bindings." + method_name + "(")
+            for idx, info in enumerate(argument_types):
+                if idx != 0:
+                    out_java_struct += (", ")
+                if idx == 0 and takes_self:
+                    out_java_struct += ("this.ptr")
+                elif info.arg_name in default_constructor_args:
+                    out_java_struct += ("bindings." + info.java_hu_ty + "_new(")
+                    for explode_idx, explode_arg in enumerate(default_constructor_args[info.arg_name]):
+                        if explode_idx != 0:
+                            out_java_struct += (", ")
+                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
+                        if explode_arg.from_hu_conv is not None:
+                            out_java_struct += (
+                                explode_arg.from_hu_conv[0].replace(explode_arg.arg_name, expl_arg_name))
+                        else:
+                            out_java_struct += (expl_arg_name)
+                    out_java_struct += (")")
+                elif info.from_hu_conv is not None:
+                    out_java_struct += (info.from_hu_conv[0])
+                else:
+                    out_java_struct += (info.arg_name)
+            out_java_struct += (");\n")
+            if return_type_info.to_hu_conv is not None:
+                if not takes_self:
+                    out_java_struct += ("\t\t" + return_type_info.to_hu_conv.replace("\n", "\n\t\t").replace("this",
+                                                                                                             return_type_info.to_hu_conv_name) + "\n")
+                else:
+                    out_java_struct += ("\t\t" + return_type_info.to_hu_conv.replace("\n", "\n\t\t") + "\n")
+
+            for idx, info in enumerate(argument_types):
+                if idx == 0 and takes_self:
+                    pass
+                elif info.arg_name in default_constructor_args:
+                    for explode_arg in default_constructor_args[info.arg_name]:
+                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
+                        if explode_arg.from_hu_conv is not None and return_type_info.to_hu_conv_name:
+                            out_java_struct += ("\t\t" + explode_arg.from_hu_conv[1].replace(explode_arg.arg_name,
+                                                                                             expl_arg_name).replace(
+                                "this", return_type_info.to_hu_conv_name) + ";\n")
+                elif info.from_hu_conv is not None and info.from_hu_conv[1] != "":
+                    if not takes_self and return_type_info.to_hu_conv_name is not None:
+                        out_java_struct += (
+                                "\t\t" + info.from_hu_conv[1].replace("this", return_type_info.to_hu_conv_name) + ";\n")
+                    else:
+                        out_java_struct += ("\t\t" + info.from_hu_conv[1] + ";\n")
+
+            if return_type_info.to_hu_conv_name is not None:
+                out_java_struct += ("\t\treturn " + return_type_info.to_hu_conv_name + ";\n")
+            elif return_type_info.java_ty != "void" and return_type_info.rust_obj != "LDK" + struct_meth:
+                out_java_struct += ("\t\treturn ret;\n")
+            out_java_struct += ("\t}\n\n")
+
+        return (out_java, out_c, out_java_struct)
