@@ -238,7 +238,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.c_fn_args_pfx = "void* ctx_TODO"
         self.file_ext = ".ts"
         self.ptr_c_ty = "uint32_t"
-        self.ptr_native_ty = "uint32_t"
+        self.ptr_native_ty = "number"
         self.result_c_ty = "uint32_t"
         self.owned_str_to_c_call = ("conv_owned_string(", ")")
         self.ptr_arr = "ptrArray"
@@ -905,14 +905,13 @@ const decodeString = (stringPointer, free = true) => {
             return_statement = f"return {converter}(nativeResponseValue);"
 
         out_java = f"""\texport function {method_name}({method_argument_string}): {return_type_info.java_ty} {{
-            if(!isWasmInitialized){{
-                throw new Error("initializeWasm() must be awaited first!");
-            }}
-            const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
-            {return_statement}\n\t}}
-        \n"""
-
-
+		if(!isWasmInitialized) {{
+			throw new Error("initializeWasm() must be awaited first!");
+		}}
+		const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
+		{return_statement}
+	}}
+"""
 
         if has_out_java_struct:
             out_java_struct = ""
