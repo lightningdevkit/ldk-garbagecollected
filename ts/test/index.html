@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- add.html -->
+<html>
+<head></head>
+<body>
+<script type="module">
+	(async() => {
+		const imports = {};
+		imports.wasi_snapshot_preview1 = {
+			"fd_write" : () => {
+				console.log("ABORT");
+			},
+			"random_get" : () => {
+				console.log("ABORT");
+			},
+			"environ_sizes_get" : () => {
+				console.log("wasi_snapshot_preview1:environ_sizes_get");
+			},
+			"proc_exit" : () => {
+				console.log("wasi_snapshot_preview1:proc_exit");
+			},
+			"environ_get" : () => {
+				console.log("wasi_snapshot_preview1:environ_get");
+			},
+		};
+		imports.env = {};
+
+		const memory = new WebAssembly.Memory({initial: 256});
+		imports.env.memoryBase = 0;
+		imports.env.memory = memory;
+		imports.env.tableBase = 0;
+		imports.env.table = new WebAssembly.Table({ initial: 4, element: 'anyfunc' });
+
+		imports.env["abort"] = function() {
+			console.error("ABORT");
+		};
+		imports.env["js_free"] = function(argument) {
+			console.log('integer passed from wasm:', argument);
+		};
+		imports.env["js_invoke_function"] = function(fn, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
+			console.log('integer passed from wasm:', argument);
+		};
+
+		const stream = fetch('../../liblightningjs.wasm');
+		const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
+		const wasm = wasmInstance.exports;
+
+		const result = wasm.TS_CResult_boolLightningErrorZ_ok(true);
+		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_result_ok(result));
+		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_get_ok(result));
+		wasm.TS_CResult_boolLightningErrorZ_free(result);
+		console.assert(wasm.TS_CResult_boolLightningErrorZ_ok(false) == result); // malloc doesn't need to guarantee this, but currently does
+		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_result_ok(result));
+		console.assert(!wasm.TS_LDKCResult_boolLightningErrorZ_get_ok(result));
+		wasm.TS_CResult_boolLightningErrorZ_free(result);
+		console.log("pass");
+	})();
+</script>
+</body>
+</html>
