@@ -218,10 +218,6 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
-//typedef struct int64_tArray { uint32_t *len; /* len + 1 is data */ } int64_tArray;
-//typedef struct uint32_tArray { uint32_t *len; /* len + 1 is data */ } uint32_tArray;
-//typedef struct ptrArray { uint32_t *len; /* len + 1 is data */ } ptrArray;
-//typedef struct int8_tArray { uint32_t *len; /* len + 1 is data */ } int8_tArray;
 typedef uint32_t int64_tArray;
 typedef uint32_t int8_tArray;
 typedef uint32_t uint32_tArray;
@@ -243,6 +239,12 @@ jstring str_ref_to_ts(const char* chars, size_t len) {
 
 typedef bool jboolean;
 
+uint32_t __attribute__((visibility("default"))) TS_malloc(uint32_t size) {
+	return (uint32_t)MALLOC(size, "JS-Called malloc");
+}
+void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
+	FREE((void*)ptr);
+}
 """
 
         self.hu_struct_file_prefix = f"""
@@ -337,9 +339,18 @@ const nextMultipleOfFour = (value: number) => {
     return Math.ceil(value / 4) * 4;
 }
 
-const encodeArray = (inputArray) => {
-	const cArrayPointer = wasm.wasm_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer + 4, inputArray.length);
+const encodeUint8Array = (inputArray) => {
+	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
+	const arrayLengthView = new Uint32Array(memory.buffer, cArrayPointer, 1);
+    arrayLengthView[0] = inputArray.length;
+	const arrayMemoryView = new Uint8Array(memory.buffer, cArrayPointer + 4, inputArray.length);
+	arrayMemoryView.set(inputArray);
+	return cArrayPointer;
+}
+
+const encodeUint32Array = (inputArray) => {
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
+	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
     arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
@@ -364,7 +375,7 @@ const decodeUint8Array = (arrayPointer, free = true) => {
 	// will free the underlying memory when it becomes unreachable instead of copying here.
 	const actualArray = actualArrayViewer.slice(0, arraySize);
 	if (free) {
-		wasm.free(arrayPointer);
+		wasm.TS_free(arrayPointer);
 	}
 	return actualArray;
 }
@@ -379,7 +390,7 @@ const decodeUint32Array = (arrayPointer, free = true) => {
 	// will free the underlying memory when it becomes unreachable instead of copying here.
 	const actualArray = actualArrayViewer.slice(0, arraySize);
 	if (free) {
-		wasm.free(arrayPointer);
+		wasm.TS_free(arrayPointer);
 	}
 	return actualArray;
 }
@@ -387,7 +398,7 @@ const decodeUint32Array = (arrayPointer, free = true) => {
 const encodeString = (string) => {
     // make malloc count divisible by 4
     const memoryNeed = nextMultipleOfFour(string.length + 1);
-    const stringPointer = wasm.wasm_malloc(memoryNeed);
+    const stringPointer = wasm.TS_malloc(memoryNeed);
     const stringMemoryView = new Uint8Array(
         memory.buffer, // value
         stringPointer, // offset
