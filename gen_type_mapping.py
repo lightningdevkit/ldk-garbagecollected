@@ -330,7 +330,13 @@ class TypeMappingGenerator:
                             from_hu_conv = from_hu_conv + ", "
                         conv.var_name = ty_info.var_name + "_" + chr(idx + ord("a"))
                         conv_map = self.map_type_with_info(conv, False, None, is_free, holds_ref)
-                        to_hu_conv_pfx = to_hu_conv_pfx + conv.java_ty + " " + ty_info.var_name + "_" + chr(idx + ord("a")) + " = " + "bindings." + self.tuple_types[ty_info.rust_obj][1] + "_get_" + chr(idx + ord("a")) + "(" + ty_info.var_name + ");\n"
+                        to_hu_conv_pfx = to_hu_conv_pfx + conv.java_ty + " " + ty_info.var_name + "_" + chr(idx + ord("a")) + " = "
+                        if not conv.is_native_primitive and (conv_map.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns and conv_map.rust_obj == "LDKTxOut":
+                            to_hu_conv_pfx = to_hu_conv_pfx + "bindings." + conv_map.rust_obj.replace("LDK", "") + "_clone("
+                        to_hu_conv_pfx = to_hu_conv_pfx + "bindings." + self.tuple_types[ty_info.rust_obj][1] + "_get_" + chr(idx + ord("a")) + "(" + ty_info.var_name + ")"
+                        if not conv.is_native_primitive and (conv_map.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns and conv_map.rust_obj == "LDKTxOut": # XXX
+                            to_hu_conv_pfx = to_hu_conv_pfx + ")"
+                        to_hu_conv_pfx = to_hu_conv_pfx + ";\n"
                         if conv_map.to_hu_conv is not None:
                             to_hu_conv_pfx = to_hu_conv_pfx + conv_map.to_hu_conv + ";\n"
                             to_hu_conv_sfx = to_hu_conv_sfx + conv_map.to_hu_conv_name
