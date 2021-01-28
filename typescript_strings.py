@@ -105,7 +105,9 @@ void *memcpy(void *dest, const void *src, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
 
 void __attribute__((noreturn)) abort(void);
-void assert(bool expression);
+static inline void assert(bool expression) {
+	if (!expression) { abort(); }
+}
 """
 
         if not DEBUG:
@@ -302,7 +304,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
 
     def c_fn_name_define_pfx(self, fn_name, have_args):
-        return "TS_" + fn_name + "("
+        return " __attribute__((visibility(\"default\"))) TS_" + fn_name + "("
 
     def wasm_import_header(self, target):
         if target == Target.NODEJS:
@@ -682,7 +684,7 @@ const decodeString = (stringPointer, free = true) => {
                 elif not fn_line.ret_ty_info.passed_as_ptr:
                     out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 else:
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning a pointer"
+                    out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret = (" + fn_line.ret_ty_info.rust_obj + "*)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
@@ -751,7 +753,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "long TS_" + struct_name + "_new (/*TODO: JS Object Reference */void* o"
+        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "/*TODO: JS Object Reference */void* o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
@@ -829,7 +831,7 @@ const decodeString = (stringPointer, free = true) => {
         out_java += ("\tstatic { " + struct_name + ".init(); }\n")
         out_java += ("\tpublic static native " + struct_name + " " + struct_name + "_ref_from_ptr(long ptr);\n");
 
-        out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + " TS_" + struct_name + "_ref_from_ptr (" + self.ptr_c_ty + " ptr) {\n")
+        out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
         out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)ptr;\n")
         out_c += ("\tswitch(obj->tag) {\n")
         for var in variant_list:
@@ -893,7 +895,7 @@ const decodeString = (stringPointer, free = true) => {
         if return_type_info.ret_conv is not None:
             ret_conv_pfx, ret_conv_sfx = return_type_info.ret_conv
         out_java += (" " + method_name + "(")
-        out_c += (" TS_"  + method_name + "(")
+        out_c += (" "  + self.c_fn_name_define_pfx(method_name, True))
 
         method_argument_string = ""
         native_call_argument_string = ""

@@ -8,9 +8,7 @@ usage() {
 [ "$1" = "" -o "$2" = "" ] && usage
 [ "$3" != "true" -a "$3" != "false" ] && usage
 
-# TODO: Merge the two once TS builds warning-free
-COMMON_COMPILE="clang -std=c11 -Wno-nullability-completeness -Wno-pointer-sign"
-COMPILE_WARNS="-Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function"
+COMMON_COMPILE="clang -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign"
 
 set -e
 
@@ -23,7 +21,7 @@ javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/i
 rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
 echo "Building Java bindings..."
-COMPILE="$COMMON_COMPILE $COMPILE_WARNS -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -o liblightningjni.so -shared -fPIC"
+COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -o liblightningjni.so -shared -fPIC"
 if [ "$3" = "true" ]; then
 	$COMPILE -g -fsanitize=address -shared-libasan -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/debug/libldk.a
 else
@@ -36,11 +34,12 @@ rm -f ts/{enums,structs}/*.ts
 ./genbindings.py "$1/lightning-c-bindings/include/lightning.h" ts/bindings.ts ts ts/bindings.c $3 typescript
 
 echo "Building TS bindings..."
-COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -Wl,--export-dynamic -nostdlib --target=wasm32-unknown-unknown -o liblightningjs.wasm"
+COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -Wl,--export-dynamic -Wl,-allow-undefined -nostdlib --target=wasm32-wasi -o liblightningjs.wasm"
 # We only need malloc and assert/abort, but for now just use WASI for those:
-EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
+#EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
+EXTRA_LINK=
 if [ "$3" = "true" ]; then
-	$COMPILE -g -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-unknown-unknown/debug/libldk.a $EXTRA_LINK
+	$COMPILE -g -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
 else
-	$COMPILE -s -Os -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-unknown-unknown/release/libldk.a $EXTRA_LINK
+	$COMPILE -s -Os -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
 fi
