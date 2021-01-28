@@ -218,15 +218,15 @@ static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len
 	FREE(err_buf);
 	return err_conv;
 }
-static jclass arr_of_J_clz = NULL;
 static jclass arr_of_B_clz = NULL;
+static jclass arr_of_J_clz = NULL;
 JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass clz) {
-	arr_of_J_clz = (*env)->FindClass(env, "[J");
-	CHECK(arr_of_J_clz != NULL);
-	arr_of_J_clz = (*env)->NewGlobalRef(env, arr_of_J_clz);
 	arr_of_B_clz = (*env)->FindClass(env, "[B");
 	CHECK(arr_of_B_clz != NULL);
 	arr_of_B_clz = (*env)->NewGlobalRef(env, arr_of_B_clz);
+	arr_of_J_clz = (*env)->FindClass(env, "[J");
+	CHECK(arr_of_J_clz != NULL);
+	arr_of_J_clz = (*env)->NewGlobalRef(env, arr_of_J_clz);
 }
 static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struct LDKThirtyTwoBytes *orig) { struct LDKThirtyTwoBytes ret; memcpy(ret.data, orig->data, 32); return ret; }
 static inline LDKAccessError LDKAccessError_from_java(JNIEnv *env, jclass clz) {
@@ -414,8 +414,8 @@ static inline LDKSecp256k1Error LDKSecp256k1Error_from_java(JNIEnv *env, jclass 
 		case 4: return LDKSecp256k1Error_InvalidSecretKey;
 		case 5: return LDKSecp256k1Error_InvalidRecoveryId;
 		case 6: return LDKSecp256k1Error_InvalidTweak;
-		case 7: return LDKSecp256k1Error_NotEnoughMemory;
-		case 8: return LDKSecp256k1Error_CallbackPanicked;
+		case 7: return LDKSecp256k1Error_TweakCheckFailed;
+		case 8: return LDKSecp256k1Error_NotEnoughMemory;
 	}
 	abort();
 }
@@ -427,8 +427,8 @@ static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidSignature = NULL;
 static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidSecretKey = NULL;
 static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidRecoveryId = NULL;
 static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_InvalidTweak = NULL;
+static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_TweakCheckFailed = NULL;
 static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_NotEnoughMemory = NULL;
-static jfieldID LDKSecp256k1Error_LDKSecp256k1Error_CallbackPanicked = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_enums_LDKSecp256k1Error_init (JNIEnv *env, jclass clz) {
 	LDKSecp256k1Error_class = (*env)->NewGlobalRef(env, clz);
 	CHECK(LDKSecp256k1Error_class != NULL);
@@ -446,10 +446,10 @@ JNIEXPORT void JNICALL Java_org_ldk_enums_LDKSecp256k1Error_init (JNIEnv *env, j
 	CHECK(LDKSecp256k1Error_LDKSecp256k1Error_InvalidRecoveryId != NULL);
 	LDKSecp256k1Error_LDKSecp256k1Error_InvalidTweak = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_InvalidTweak", "Lorg/ldk/enums/LDKSecp256k1Error;");
 	CHECK(LDKSecp256k1Error_LDKSecp256k1Error_InvalidTweak != NULL);
+	LDKSecp256k1Error_LDKSecp256k1Error_TweakCheckFailed = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_TweakCheckFailed", "Lorg/ldk/enums/LDKSecp256k1Error;");
+	CHECK(LDKSecp256k1Error_LDKSecp256k1Error_TweakCheckFailed != NULL);
 	LDKSecp256k1Error_LDKSecp256k1Error_NotEnoughMemory = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_NotEnoughMemory", "Lorg/ldk/enums/LDKSecp256k1Error;");
 	CHECK(LDKSecp256k1Error_LDKSecp256k1Error_NotEnoughMemory != NULL);
-	LDKSecp256k1Error_LDKSecp256k1Error_CallbackPanicked = (*env)->GetStaticFieldID(env, LDKSecp256k1Error_class, "LDKSecp256k1Error_CallbackPanicked", "Lorg/ldk/enums/LDKSecp256k1Error;");
-	CHECK(LDKSecp256k1Error_LDKSecp256k1Error_CallbackPanicked != NULL);
 }
 static inline jclass LDKSecp256k1Error_to_java(JNIEnv *env, LDKSecp256k1Error val) {
 	switch (val) {
@@ -467,10 +467,10 @@ static inline jclass LDKSecp256k1Error_to_java(JNIEnv *env, LDKSecp256k1Error va
 			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_InvalidRecoveryId);
 		case LDKSecp256k1Error_InvalidTweak:
 			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_InvalidTweak);
+		case LDKSecp256k1Error_TweakCheckFailed:
+			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_TweakCheckFailed);
 		case LDKSecp256k1Error_NotEnoughMemory:
 			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_NotEnoughMemory);
-		case LDKSecp256k1Error_CallbackPanicked:
-			return (*env)->GetStaticObjectField(env, LDKSecp256k1Error_class, LDKSecp256k1Error_LDKSecp256k1Error_CallbackPanicked);
 		default: abort();
 	}
 }

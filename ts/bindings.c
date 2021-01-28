@@ -9,7 +9,9 @@ void *memcpy(void *dest, const void *src, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
 
 void __attribute__((noreturn)) abort(void);
-void assert(bool expression);
+static inline void assert(bool expression) {
+	if (!expression) { abort(); }
+}
 
 // Always run a, then assert it is true:
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
@@ -223,8 +225,8 @@ static inline LDKSecp256k1Error LDKSecp256k1Error_from_js(int32_t ord) {
 		case 4: return LDKSecp256k1Error_InvalidSecretKey;
 		case 5: return LDKSecp256k1Error_InvalidRecoveryId;
 		case 6: return LDKSecp256k1Error_InvalidTweak;
-		case 7: return LDKSecp256k1Error_NotEnoughMemory;
-		case 8: return LDKSecp256k1Error_CallbackPanicked;
+		case 7: return LDKSecp256k1Error_TweakCheckFailed;
+		case 8: return LDKSecp256k1Error_NotEnoughMemory;
 	}
 	abort();
 }
@@ -237,12 +239,12 @@ static inline int32_t LDKSecp256k1Error_to_js(LDKSecp256k1Error val) {
 		case LDKSecp256k1Error_InvalidSecretKey: return 4;
 		case LDKSecp256k1Error_InvalidRecoveryId: return 5;
 		case LDKSecp256k1Error_InvalidTweak: return 6;
-		case LDKSecp256k1Error_NotEnoughMemory: return 7;
-		case LDKSecp256k1Error_CallbackPanicked: return 8;
+		case LDKSecp256k1Error_TweakCheckFailed: return 7;
+		case LDKSecp256k1Error_NotEnoughMemory: return 8;
 		default: abort();
 	}
 }
-uint32_t TS_LDKCVec_u8Z_new(int8_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_u8Z_new(int8_tArray elems) {
 	LDKCVec_u8Z *ret = MALLOC(sizeof(LDKCVec_u8Z), "LDKCVec_u8Z");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -261,7 +263,7 @@ static inline LDKCVec_u8Z CVec_u8Z_clone(const LDKCVec_u8Z *orig) {
 	memcpy(ret.data, orig->data, sizeof(int8_t) * ret.datalen);
 	return ret;
 }
-uint32_t TS_LDKC2Tuple_u64u64Z_new(int64_t a, int64_t b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_u64u64Z_new(int64_t a, int64_t b) {
 	LDKC2Tuple_u64u64Z* ret = MALLOC(sizeof(LDKC2Tuple_u64u64Z), "LDKC2Tuple_u64u64Z");
 	ret->a = a;
 	ret->b = b;
@@ -274,15 +276,15 @@ static inline LDKC2Tuple_u64u64Z C2Tuple_u64u64Z_clone(const LDKC2Tuple_u64u64Z 
 	};
 	return ret;
 }
-int64_t TS_LDKC2Tuple_u64u64Z_get_a(uint32_t ptr) {
+int64_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_u64u64Z_get_a(uint32_t ptr) {
 	LDKC2Tuple_u64u64Z *tuple = (LDKC2Tuple_u64u64Z*)ptr;
 	return tuple->a;
 }
-int64_t TS_LDKC2Tuple_u64u64Z_get_b(uint32_t ptr) {
+int64_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_u64u64Z_get_b(uint32_t ptr) {
 	LDKC2Tuple_u64u64Z *tuple = (LDKC2Tuple_u64u64Z*)ptr;
 	return tuple->b;
 }
-uint32_t TS_LDKSpendableOutputDescriptor_ref_from_ptr (uint32_t ptr) {
+uint32_t __attribute__((visibility("default"))) TS_LDKSpendableOutputDescriptor_ref_from_ptr(uint32_t ptr) {
 	LDKSpendableOutputDescriptor *obj = (LDKSpendableOutputDescriptor*)ptr;
 	switch(obj->tag) {
 		case LDKSpendableOutputDescriptor_StaticOutput: {
@@ -318,7 +320,7 @@ uint32_t TS_LDKSpendableOutputDescriptor_ref_from_ptr (uint32_t ptr) {
 		default: abort();
 	}
 }
-uint32_t TS_LDKCVec_SpendableOutputDescriptorZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_SpendableOutputDescriptorZ_new(uint32_tArray elems) {
 	LDKCVec_SpendableOutputDescriptorZ *ret = MALLOC(sizeof(LDKCVec_SpendableOutputDescriptorZ), "LDKCVec_SpendableOutputDescriptorZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -342,7 +344,7 @@ static inline LDKCVec_SpendableOutputDescriptorZ CVec_SpendableOutputDescriptorZ
 	}
 	return ret;
 }
-uint32_t TS_LDKErrorAction_ref_from_ptr (uint32_t ptr) {
+uint32_t __attribute__((visibility("default"))) TS_LDKErrorAction_ref_from_ptr(uint32_t ptr) {
 	LDKErrorAction *obj = (LDKErrorAction*)ptr;
 	switch(obj->tag) {
 		case LDKErrorAction_DisconnectPeer: {
@@ -365,7 +367,7 @@ uint32_t TS_LDKErrorAction_ref_from_ptr (uint32_t ptr) {
 		default: abort();
 	}
 }
-uint32_t TS_LDKHTLCFailChannelUpdate_ref_from_ptr (uint32_t ptr) {
+uint32_t __attribute__((visibility("default"))) TS_LDKHTLCFailChannelUpdate_ref_from_ptr(uint32_t ptr) {
 	LDKHTLCFailChannelUpdate *obj = (LDKHTLCFailChannelUpdate*)ptr;
 	switch(obj->tag) {
 		case LDKHTLCFailChannelUpdate_ChannelUpdateMessage: {
@@ -386,7 +388,7 @@ uint32_t TS_LDKHTLCFailChannelUpdate_ref_from_ptr (uint32_t ptr) {
 		default: abort();
 	}
 }
-uint32_t TS_LDKMessageSendEvent_ref_from_ptr (uint32_t ptr) {
+uint32_t __attribute__((visibility("default"))) TS_LDKMessageSendEvent_ref_from_ptr(uint32_t ptr) {
 	LDKMessageSendEvent *obj = (LDKMessageSendEvent*)ptr;
 	switch(obj->tag) {
 		case LDKMessageSendEvent_SendAcceptChannel: {
@@ -544,7 +546,7 @@ uint32_t TS_LDKMessageSendEvent_ref_from_ptr (uint32_t ptr) {
 		default: abort();
 	}
 }
-uint32_t TS_LDKCVec_MessageSendEventZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_MessageSendEventZ_new(uint32_tArray elems) {
 	LDKCVec_MessageSendEventZ *ret = MALLOC(sizeof(LDKCVec_MessageSendEventZ), "LDKCVec_MessageSendEventZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -568,7 +570,7 @@ static inline LDKCVec_MessageSendEventZ CVec_MessageSendEventZ_clone(const LDKCV
 	}
 	return ret;
 }
-uint32_t TS_LDKEvent_ref_from_ptr (uint32_t ptr) {
+uint32_t __attribute__((visibility("default"))) TS_LDKEvent_ref_from_ptr(uint32_t ptr) {
 	LDKEvent *obj = (LDKEvent*)ptr;
 	switch(obj->tag) {
 		case LDKEvent_FundingGenerationReady: {
@@ -619,7 +621,7 @@ uint32_t TS_LDKEvent_ref_from_ptr (uint32_t ptr) {
 		default: abort();
 	}
 }
-uint32_t TS_LDKCVec_EventZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_EventZ_new(uint32_tArray elems) {
 	LDKCVec_EventZ *ret = MALLOC(sizeof(LDKCVec_EventZ), "LDKCVec_EventZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -643,7 +645,7 @@ static inline LDKCVec_EventZ CVec_EventZ_clone(const LDKCVec_EventZ *orig) {
 	}
 	return ret;
 }
-uint32_t TS_LDKC2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
 	LDKC2Tuple_usizeTransactionZ* ret = MALLOC(sizeof(LDKC2Tuple_usizeTransactionZ), "LDKC2Tuple_usizeTransactionZ");
 	ret->a = a;
 	LDKTransaction b_ref;
@@ -654,18 +656,18 @@ uint32_t TS_LDKC2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
 	ret->b = b_ref;
 	return (long)ret;
 }
-intptr_t TS_LDKC2Tuple_usizeTransactionZ_get_a(uint32_t ptr) {
+intptr_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_usizeTransactionZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_usizeTransactionZ *tuple = (LDKC2Tuple_usizeTransactionZ*)ptr;
 	return tuple->a;
 }
-int8_tArray TS_LDKC2Tuple_usizeTransactionZ_get_b(uint32_t ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_usizeTransactionZ_get_b(uint32_t ptr) {
 	LDKC2Tuple_usizeTransactionZ *tuple = (LDKC2Tuple_usizeTransactionZ*)ptr;
 	LDKTransaction b_var = tuple->b;
 	int8_tArray b_arr = init_arr(b_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(b_arr + 4), b_var.data, b_var.datalen);
 	return b_arr;
 }
-uint32_t TS_LDKCVec_C2Tuple_usizeTransactionZZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_C2Tuple_usizeTransactionZZ_new(uint32_tArray elems) {
 	LDKCVec_C2Tuple_usizeTransactionZZ *ret = MALLOC(sizeof(LDKCVec_C2Tuple_usizeTransactionZZ), "LDKCVec_C2Tuple_usizeTransactionZZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -682,15 +684,15 @@ uint32_t TS_LDKCVec_C2Tuple_usizeTransactionZZ_new(uint32_tArray elems) {
 	}
 	return (long)ret;
 }
-jboolean TS_LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NoneChannelMonitorUpdateErrZ*)arg)->result_ok;
 }
-void TS_LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(uint32_t arg) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ *val = (LDKCResult_NoneChannelMonitorUpdateErrZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-uint32_t TS_LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(uint32_t arg) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ *val = (LDKCResult_NoneChannelMonitorUpdateErrZ*)arg;
 	CHECK(!val->result_ok);
 	uint32_t err_conv = LDKChannelMonitorUpdateErr_to_js((*val->contents.err));
@@ -707,7 +709,7 @@ static inline LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitor
 	}
 	return res;
 }
-uint32_t TS_LDKCVec_MonitorEventZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_MonitorEventZ_new(uint32_tArray elems) {
 	LDKCVec_MonitorEventZ *ret = MALLOC(sizeof(LDKCVec_MonitorEventZ), "LDKCVec_MonitorEventZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -734,10 +736,10 @@ static inline LDKCVec_MonitorEventZ CVec_MonitorEventZ_clone(const LDKCVec_Monit
 	}
 	return ret;
 }
-jboolean TS_LDKCResult_ChannelMonitorUpdateDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_ChannelMonitorUpdateDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ *val = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKChannelMonitorUpdate res_var = (*val->contents.result);
@@ -746,7 +748,7 @@ uint32_t TS_LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ *val = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -755,15 +757,15 @@ uint32_t TS_LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_NoneMonitorUpdateErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NoneMonitorUpdateErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NoneMonitorUpdateErrorZ*)arg)->result_ok;
 }
-void TS_LDKCResult_NoneMonitorUpdateErrorZ_get_ok(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_NoneMonitorUpdateErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_NoneMonitorUpdateErrorZ *val = (LDKCResult_NoneMonitorUpdateErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-uint32_t TS_LDKCResult_NoneMonitorUpdateErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NoneMonitorUpdateErrorZ_get_err(uint32_t arg) {
 	LDKCResult_NoneMonitorUpdateErrorZ *val = (LDKCResult_NoneMonitorUpdateErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKMonitorUpdateError err_var = (*val->contents.err);
@@ -772,7 +774,7 @@ uint32_t TS_LDKCResult_NoneMonitorUpdateErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-uint32_t TS_LDKC2Tuple_OutPointScriptZ_new(uint32_t a, int8_tArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_OutPointScriptZ_new(uint32_t a, int8_tArray b) {
 	LDKC2Tuple_OutPointScriptZ* ret = MALLOC(sizeof(LDKC2Tuple_OutPointScriptZ), "LDKC2Tuple_OutPointScriptZ");
 	LDKOutPoint a_conv;
 	a_conv.inner = (void*)(a & (~1));
@@ -794,7 +796,7 @@ static inline LDKC2Tuple_OutPointScriptZ C2Tuple_OutPointScriptZ_clone(const LDK
 	};
 	return ret;
 }
-uint32_t TS_LDKC2Tuple_OutPointScriptZ_get_a(uint32_t ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_OutPointScriptZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_OutPointScriptZ *tuple = (LDKC2Tuple_OutPointScriptZ*)ptr;
 	LDKOutPoint a_var = tuple->a;
 	CHECK((((long)a_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -802,14 +804,14 @@ uint32_t TS_LDKC2Tuple_OutPointScriptZ_get_a(uint32_t ptr) {
 	long a_ref = (long)a_var.inner & ~1;
 	return a_ref;
 }
-int8_tArray TS_LDKC2Tuple_OutPointScriptZ_get_b(uint32_t ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_OutPointScriptZ_get_b(uint32_t ptr) {
 	LDKC2Tuple_OutPointScriptZ *tuple = (LDKC2Tuple_OutPointScriptZ*)ptr;
 	LDKCVec_u8Z b_var = tuple->b;
 	int8_tArray b_arr = init_arr(b_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(b_arr + 4), b_var.data, b_var.datalen);
 	return b_arr;
 }
-uint32_t TS_LDKC2Tuple_u32TxOutZ_new(int32_t a, uint32_t b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_u32TxOutZ_new(int32_t a, uint32_t b) {
 	LDKC2Tuple_u32TxOutZ* ret = MALLOC(sizeof(LDKC2Tuple_u32TxOutZ), "LDKC2Tuple_u32TxOutZ");
 	ret->a = a;
 	LDKTxOut b_conv = *(LDKTxOut*)b;
@@ -817,16 +819,16 @@ uint32_t TS_LDKC2Tuple_u32TxOutZ_new(int32_t a, uint32_t b) {
 	ret->b = b_conv;
 	return (long)ret;
 }
-int32_t TS_LDKC2Tuple_u32TxOutZ_get_a(uint32_t ptr) {
+int32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_u32TxOutZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_u32TxOutZ *tuple = (LDKC2Tuple_u32TxOutZ*)ptr;
 	return tuple->a;
 }
-uint32_t TS_LDKC2Tuple_u32TxOutZ_get_b(uint32_t ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_u32TxOutZ_get_b(uint32_t ptr) {
 	LDKC2Tuple_u32TxOutZ *tuple = (LDKC2Tuple_u32TxOutZ*)ptr;
 	long b_ref = (long)&tuple->b;
 	return (long)b_ref;
 }
-uint32_t TS_LDKCVec_C2Tuple_u32TxOutZZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_C2Tuple_u32TxOutZZ_new(uint32_tArray elems) {
 	LDKCVec_C2Tuple_u32TxOutZZ *ret = MALLOC(sizeof(LDKCVec_C2Tuple_u32TxOutZZ), "LDKCVec_C2Tuple_u32TxOutZZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -843,7 +845,7 @@ uint32_t TS_LDKCVec_C2Tuple_u32TxOutZZ_new(uint32_tArray elems) {
 	}
 	return (long)ret;
 }
-uint32_t TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(int8_tArray a, uint32_tArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(int8_tArray a, uint32_tArray b) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* ret = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ), "LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ");
 	LDKThirtyTwoBytes a_ref;
 	CHECK(*((uint32_t*)a) == 32);
@@ -865,13 +867,13 @@ uint32_t TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(int8_tArray a, uint32_tA
 	ret->b = b_constr;
 	return (long)ret;
 }
-int8_tArray TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(uint32_t ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *tuple = (LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)ptr;
 	int8_tArray a_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(a_arr + 4), tuple->a.data, 32);
 	return a_arr;
 }
-uint32_tArray TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(uint32_t ptr) {
+uint32_tArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(uint32_t ptr) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *tuple = (LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)ptr;
 	LDKCVec_C2Tuple_u32TxOutZZ b_var = tuple->b;
 	uint32_tArray b_arr = init_arr(b_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
@@ -882,7 +884,7 @@ uint32_tArray TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(uint32_t ptr) {
 	}
 	return b_arr;
 }
-uint32_t TS_LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_new(uint32_tArray elems) {
 	LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ *ret = MALLOC(sizeof(LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ), "LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -899,7 +901,7 @@ uint32_t TS_LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_new(uint32_tArray elem
 	}
 	return (long)ret;
 }
-uint32_t TS_LDKC2Tuple_SignatureCVec_SignatureZZ_new(int8_tArray a, ptrArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_SignatureCVec_SignatureZZ_new(int8_tArray a, ptrArray b) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ* ret = MALLOC(sizeof(LDKC2Tuple_SignatureCVec_SignatureZZ), "LDKC2Tuple_SignatureCVec_SignatureZZ");
 	LDKSignature a_ref;
 	CHECK(*((uint32_t*)a) == 64);
@@ -922,13 +924,13 @@ uint32_t TS_LDKC2Tuple_SignatureCVec_SignatureZZ_new(int8_tArray a, ptrArray b) 
 	ret->b = b_constr;
 	return (long)ret;
 }
-int8_tArray TS_LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(uint32_t ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ *tuple = (LDKC2Tuple_SignatureCVec_SignatureZZ*)ptr;
 	int8_tArray a_arr = init_arr(64, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(a_arr + 4), tuple->a.compact_form, 64);
 	return a_arr;
 }
-ptrArray TS_LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(uint32_t ptr) {
+ptrArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(uint32_t ptr) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ *tuple = (LDKC2Tuple_SignatureCVec_SignatureZZ*)ptr;
 	LDKCVec_SignatureZ b_var = tuple->b;
 	ptrArray b_arr = init_arr(b_var.datalen, sizeof(uint32_t), "Native ptrArray Bytes");
@@ -940,39 +942,39 @@ ptrArray TS_LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(uint32_t ptr) {
 	}
 	return b_arr;
 }
-jboolean TS_LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(uint32_t arg) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *val = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-void TS_LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_err(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_err(uint32_t arg) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *val = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
 }
-jboolean TS_LDKCResult_SignatureNoneZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_SignatureNoneZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_SignatureNoneZ*)arg)->result_ok;
 }
-int8_tArray TS_LDKCResult_SignatureNoneZ_get_ok(uint32_t arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKCResult_SignatureNoneZ_get_ok(uint32_t arg) {
 	LDKCResult_SignatureNoneZ *val = (LDKCResult_SignatureNoneZ*)arg;
 	CHECK(val->result_ok);
 	int8_tArray res_arr = init_arr(64, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(res_arr + 4), (*val->contents.result).compact_form, 64);
 	return res_arr;
 }
-void TS_LDKCResult_SignatureNoneZ_get_err(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_SignatureNoneZ_get_err(uint32_t arg) {
 	LDKCResult_SignatureNoneZ *val = (LDKCResult_SignatureNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
 }
-jboolean TS_LDKCResult_CVec_SignatureZNoneZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_CVec_SignatureZNoneZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_CVec_SignatureZNoneZ*)arg)->result_ok;
 }
-ptrArray TS_LDKCResult_CVec_SignatureZNoneZ_get_ok(uint32_t arg) {
+ptrArray  __attribute__((visibility("default"))) TS_LDKCResult_CVec_SignatureZNoneZ_get_ok(uint32_t arg) {
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
 	CHECK(val->result_ok);
 	LDKCVec_SignatureZ res_var = (*val->contents.result);
@@ -985,7 +987,7 @@ ptrArray TS_LDKCResult_CVec_SignatureZNoneZ_get_ok(uint32_t arg) {
 	}
 	return res_arr;
 }
-void TS_LDKCResult_CVec_SignatureZNoneZ_get_err(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_CVec_SignatureZNoneZ_get_err(uint32_t arg) {
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
@@ -1041,7 +1043,7 @@ LDKThirtyTwoBytes release_commitment_secret_jcall(const void* this_arg, uint64_t
 }
 LDKC2Tuple_u64u64Z key_derivation_params_jcall(const void* this_arg) {
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
-	LDKC2Tuple_u64u64Z* ret; // TODO: Call key_derivation_params on j_calls with instance obj, returning a pointer);
+	LDKC2Tuple_u64u64Z* ret = (LDKC2Tuple_u64u64Z*)js_invoke_function_0(j_calls->key_derivation_params_meth);
 	LDKC2Tuple_u64u64Z ret_conv = *(LDKC2Tuple_u64u64Z*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1057,7 +1059,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 	if (commitment_tx_var.is_owned) {
 		commitment_tx_ref |= 1;
 	}
-	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret; // TODO: Call sign_counterparty_commitment on j_calls with instance obj, returning a pointer, commitment_tx_ref);
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)js_invoke_function_1(j_calls->sign_counterparty_commitment_meth, commitment_tx_ref);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1073,7 +1075,7 @@ LDKCResult_SignatureNoneZ sign_holder_commitment_jcall(const void* this_arg, con
 	if (commitment_tx_var.is_owned) {
 		commitment_tx_ref |= 1;
 	}
-	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_holder_commitment on j_calls with instance obj, returning a pointer, commitment_tx_ref);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_1(j_calls->sign_holder_commitment_meth, commitment_tx_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1089,7 +1091,7 @@ LDKCResult_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions_jcall(c
 	if (commitment_tx_var.is_owned) {
 		commitment_tx_ref |= 1;
 	}
-	LDKCResult_CVec_SignatureZNoneZ* ret; // TODO: Call sign_holder_commitment_htlc_transactions on j_calls with instance obj, returning a pointer, commitment_tx_ref);
+	LDKCResult_CVec_SignatureZNoneZ* ret = (LDKCResult_CVec_SignatureZNoneZ*)js_invoke_function_1(j_calls->sign_holder_commitment_htlc_transactions_meth, commitment_tx_ref);
 	LDKCResult_CVec_SignatureZNoneZ ret_conv = *(LDKCResult_CVec_SignatureZNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1111,7 +1113,7 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, L
 	if (htlc_var.is_owned) {
 		htlc_ref |= 1;
 	}
-	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_justice_transaction on j_calls with instance obj, returning a pointer, justice_tx_arr, input, amount, per_commitment_key_arr, htlc_ref);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_5(j_calls->sign_justice_transaction_meth, justice_tx_arr, input, amount, per_commitment_key_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1133,7 +1135,7 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* t
 	if (htlc_var.is_owned) {
 		htlc_ref |= 1;
 	}
-	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_counterparty_htlc_transaction on j_calls with instance obj, returning a pointer, htlc_tx_arr, input, amount, per_commitment_point_arr, htlc_ref);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_5(j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_arr, input, amount, per_commitment_point_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1144,7 +1146,7 @@ LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, L
 	int8_tArray closing_tx_arr = init_arr(closing_tx_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(closing_tx_arr + 4), closing_tx_var.data, closing_tx_var.datalen);
 	Transaction_free(closing_tx_var);
-	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_closing_transaction on j_calls with instance obj, returning a pointer, closing_tx_arr);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_1(j_calls->sign_closing_transaction_meth, closing_tx_arr);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1160,7 +1162,7 @@ LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, 
 	if (msg_var.is_owned) {
 		msg_ref |= 1;
 	}
-	LDKCResult_SignatureNoneZ* ret; // TODO: Call sign_channel_announcement on j_calls with instance obj, returning a pointer, msg_ref);
+	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_1(j_calls->sign_channel_announcement_meth, msg_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1224,33 +1226,33 @@ static inline LDKChannelKeys LDKChannelKeys_init (/*TODO: JS Object Reference */
 	};
 	return ret;
 }
-long TS_LDKChannelKeys_new (/*TODO: JS Object Reference */void* o, uint32_t pubkeys) {
+long  __attribute__((visibility("default"))) TS_LDKChannelKeys_new(/*TODO: JS Object Reference */void* o, uint32_t pubkeys) {
 	LDKChannelKeys *res_ptr = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
 	*res_ptr = LDKChannelKeys_init(o, pubkeys);
 	return (long)res_ptr;
 }
-int8_tArray TS_ChannelKeys_get_per_commitment_point(uint32_t this_arg, int64_t idx) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelKeys_get_per_commitment_point(uint32_t this_arg, int64_t idx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	int8_tArray arg_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(arg_arr + 4), (this_arg_conv->get_per_commitment_point)(this_arg_conv->this_arg, idx).compressed_form, 33);
 	return arg_arr;
 }
 
-int8_tArray TS_ChannelKeys_release_commitment_secret(uint32_t this_arg, int64_t idx) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelKeys_release_commitment_secret(uint32_t this_arg, int64_t idx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	int8_tArray arg_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(arg_arr + 4), (this_arg_conv->release_commitment_secret)(this_arg_conv->this_arg, idx).data, 32);
 	return arg_arr;
 }
 
-uint32_t TS_ChannelKeys_key_derivation_params(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_key_derivation_params(uint32_t this_arg) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKC2Tuple_u64u64Z* ret_ref = MALLOC(sizeof(LDKC2Tuple_u64u64Z), "LDKC2Tuple_u64u64Z");
 	*ret_ref = (this_arg_conv->key_derivation_params)(this_arg_conv->this_arg);
 	return (long)ret_ref;
 }
 
-uint32_t TS_ChannelKeys_sign_counterparty_commitment(uint32_t this_arg, uint32_t commitment_tx) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_counterparty_commitment(uint32_t this_arg, uint32_t commitment_tx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKCommitmentTransaction commitment_tx_conv;
 	commitment_tx_conv.inner = (void*)(commitment_tx & (~1));
@@ -1260,7 +1262,7 @@ uint32_t TS_ChannelKeys_sign_counterparty_commitment(uint32_t this_arg, uint32_t
 	return (long)ret_conv;
 }
 
-uint32_t TS_ChannelKeys_sign_holder_commitment(uint32_t this_arg, uint32_t commitment_tx) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_holder_commitment(uint32_t this_arg, uint32_t commitment_tx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKHolderCommitmentTransaction commitment_tx_conv;
 	commitment_tx_conv.inner = (void*)(commitment_tx & (~1));
@@ -1270,7 +1272,7 @@ uint32_t TS_ChannelKeys_sign_holder_commitment(uint32_t this_arg, uint32_t commi
 	return (long)ret_conv;
 }
 
-uint32_t TS_ChannelKeys_sign_holder_commitment_htlc_transactions(uint32_t this_arg, uint32_t commitment_tx) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_holder_commitment_htlc_transactions(uint32_t this_arg, uint32_t commitment_tx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKHolderCommitmentTransaction commitment_tx_conv;
 	commitment_tx_conv.inner = (void*)(commitment_tx & (~1));
@@ -1280,7 +1282,7 @@ uint32_t TS_ChannelKeys_sign_holder_commitment_htlc_transactions(uint32_t this_a
 	return (long)ret_conv;
 }
 
-uint32_t TS_ChannelKeys_sign_justice_transaction(uint32_t this_arg, int8_tArray justice_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_key, uint32_t htlc) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_justice_transaction(uint32_t this_arg, int8_tArray justice_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_key, uint32_t htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction justice_tx_ref;
 	justice_tx_ref.datalen = *((uint32_t*)justice_tx);
@@ -1299,7 +1301,7 @@ uint32_t TS_ChannelKeys_sign_justice_transaction(uint32_t this_arg, int8_tArray 
 	return (long)ret_conv;
 }
 
-uint32_t TS_ChannelKeys_sign_counterparty_htlc_transaction(uint32_t this_arg, int8_tArray htlc_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_point, uint32_t htlc) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_counterparty_htlc_transaction(uint32_t this_arg, int8_tArray htlc_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_point, uint32_t htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction htlc_tx_ref;
 	htlc_tx_ref.datalen = *((uint32_t*)htlc_tx);
@@ -1317,7 +1319,7 @@ uint32_t TS_ChannelKeys_sign_counterparty_htlc_transaction(uint32_t this_arg, in
 	return (long)ret_conv;
 }
 
-uint32_t TS_ChannelKeys_sign_closing_transaction(uint32_t this_arg, int8_tArray closing_tx) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_closing_transaction(uint32_t this_arg, int8_tArray closing_tx) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction closing_tx_ref;
 	closing_tx_ref.datalen = *((uint32_t*)closing_tx);
@@ -1329,7 +1331,7 @@ uint32_t TS_ChannelKeys_sign_closing_transaction(uint32_t this_arg, int8_tArray 
 	return (long)ret_conv;
 }
 
-uint32_t TS_ChannelKeys_sign_channel_announcement(uint32_t this_arg, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_channel_announcement(uint32_t this_arg, uint32_t msg) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKUnsignedChannelAnnouncement msg_conv;
 	msg_conv.inner = (void*)(msg & (~1));
@@ -1339,7 +1341,7 @@ uint32_t TS_ChannelKeys_sign_channel_announcement(uint32_t this_arg, uint32_t ms
 	return (long)ret_conv;
 }
 
-void TS_ChannelKeys_ready_channel(uint32_t this_arg, uint32_t channel_parameters) {
+void  __attribute__((visibility("default"))) TS_ChannelKeys_ready_channel(uint32_t this_arg, uint32_t channel_parameters) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKChannelTransactionParameters channel_parameters_conv;
 	channel_parameters_conv.inner = (void*)(channel_parameters & (~1));
@@ -1347,7 +1349,7 @@ void TS_ChannelKeys_ready_channel(uint32_t this_arg, uint32_t channel_parameters
 	(this_arg_conv->ready_channel)(this_arg_conv->this_arg, &channel_parameters_conv);
 }
 
-int8_tArray TS_ChannelKeys_write(uint32_t this_arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelKeys_write(uint32_t this_arg) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKCVec_u8Z arg_var = (this_arg_conv->write)(this_arg_conv->this_arg);
 	int8_tArray arg_arr = init_arr(arg_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
@@ -1361,7 +1363,7 @@ LDKChannelPublicKeys LDKChannelKeys_set_get_pubkeys(LDKChannelKeys* this_arg) {
 		this_arg->set_pubkeys(this_arg);
 	return this_arg->pubkeys;
 }
-uint32_t TS_ChannelKeys_get_pubkeys(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_get_pubkeys(uint32_t this_arg) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKChannelPublicKeys ret_var = LDKChannelKeys_set_get_pubkeys(this_arg_conv);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -1373,7 +1375,7 @@ uint32_t TS_ChannelKeys_get_pubkeys(uint32_t this_arg) {
 	return ret_ref;
 }
 
-uint32_t TS_LDKC2Tuple_BlockHashChannelMonitorZ_new(int8_tArray a, uint32_t b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_BlockHashChannelMonitorZ_new(int8_tArray a, uint32_t b) {
 	LDKC2Tuple_BlockHashChannelMonitorZ* ret = MALLOC(sizeof(LDKC2Tuple_BlockHashChannelMonitorZ), "LDKC2Tuple_BlockHashChannelMonitorZ");
 	LDKThirtyTwoBytes a_ref;
 	CHECK(*((uint32_t*)a) == 32);
@@ -1386,13 +1388,13 @@ uint32_t TS_LDKC2Tuple_BlockHashChannelMonitorZ_new(int8_tArray a, uint32_t b) {
 	ret->b = b_conv;
 	return (long)ret;
 }
-int8_tArray TS_LDKC2Tuple_BlockHashChannelMonitorZ_get_a(uint32_t ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_BlockHashChannelMonitorZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_BlockHashChannelMonitorZ *tuple = (LDKC2Tuple_BlockHashChannelMonitorZ*)ptr;
 	int8_tArray a_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(a_arr + 4), tuple->a.data, 32);
 	return a_arr;
 }
-uint32_t TS_LDKC2Tuple_BlockHashChannelMonitorZ_get_b(uint32_t ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_BlockHashChannelMonitorZ_get_b(uint32_t ptr) {
 	LDKC2Tuple_BlockHashChannelMonitorZ *tuple = (LDKC2Tuple_BlockHashChannelMonitorZ*)ptr;
 	LDKChannelMonitor b_var = tuple->b;
 	CHECK((((long)b_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -1400,16 +1402,16 @@ uint32_t TS_LDKC2Tuple_BlockHashChannelMonitorZ_get_b(uint32_t ptr) {
 	long b_ref = (long)b_var.inner & ~1;
 	return b_ref;
 }
-jboolean TS_LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ *val = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-uint32_t TS_LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ *val = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -1418,16 +1420,16 @@ uint32_t TS_LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err(uint
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_SpendableOutputDescriptorDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_SpendableOutputDescriptorDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ *val = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-uint32_t TS_LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ *val = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -1436,17 +1438,17 @@ uint32_t TS_LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_err(uint32_t ar
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_ChanKeySignerDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_ChanKeySignerDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_ChanKeySignerDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_ChanKeySignerDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ChanKeySignerDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_ChanKeySignerDecodeErrorZ *val = (LDKCResult_ChanKeySignerDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKChannelKeys* ret = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
 	*ret = (*val->contents.result);
 	return (long)ret;
 }
-uint32_t TS_LDKCResult_ChanKeySignerDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ChanKeySignerDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_ChanKeySignerDecodeErrorZ *val = (LDKCResult_ChanKeySignerDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -1455,10 +1457,10 @@ uint32_t TS_LDKCResult_ChanKeySignerDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_InMemoryChannelKeysDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_InMemoryChannelKeysDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_InMemoryChannelKeysDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_InMemoryChannelKeysDecodeErrorZ *val = (LDKCResult_InMemoryChannelKeysDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKInMemoryChannelKeys res_var = (*val->contents.result);
@@ -1467,7 +1469,7 @@ uint32_t TS_LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_InMemoryChannelKeysDecodeErrorZ *val = (LDKCResult_InMemoryChannelKeysDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -1476,22 +1478,22 @@ uint32_t TS_LDKCResult_InMemoryChannelKeysDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_TxOutAccessErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_TxOutAccessErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_TxOutAccessErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_TxOutAccessErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_TxOutAccessErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_TxOutAccessErrorZ *val = (LDKCResult_TxOutAccessErrorZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return (long)res_ref;
 }
-uint32_t TS_LDKCResult_TxOutAccessErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_TxOutAccessErrorZ_get_err(uint32_t arg) {
 	LDKCResult_TxOutAccessErrorZ *val = (LDKCResult_TxOutAccessErrorZ*)arg;
 	CHECK(!val->result_ok);
 	uint32_t err_conv = LDKAccessError_to_js((*val->contents.err));
 	return err_conv;
 }
-uint32_t TS_LDKAPIError_ref_from_ptr (uint32_t ptr) {
+uint32_t __attribute__((visibility("default"))) TS_LDKAPIError_ref_from_ptr(uint32_t ptr) {
 	LDKAPIError *obj = (LDKAPIError*)ptr;
 	switch(obj->tag) {
 		case LDKAPIError_APIMisuseError: {
@@ -1523,15 +1525,15 @@ uint32_t TS_LDKAPIError_ref_from_ptr (uint32_t ptr) {
 		default: abort();
 	}
 }
-jboolean TS_LDKCResult_NoneAPIErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NoneAPIErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NoneAPIErrorZ*)arg)->result_ok;
 }
-void TS_LDKCResult_NoneAPIErrorZ_get_ok(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_NoneAPIErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_NoneAPIErrorZ *val = (LDKCResult_NoneAPIErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-uint32_t TS_LDKCResult_NoneAPIErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NoneAPIErrorZ_get_err(uint32_t arg) {
 	LDKCResult_NoneAPIErrorZ *val = (LDKCResult_NoneAPIErrorZ*)arg;
 	CHECK(!val->result_ok);
 	long err_ref = (long)&(*val->contents.err);
@@ -1548,7 +1550,7 @@ static inline LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_clone(const LDKCRes
 	}
 	return res;
 }
-uint32_t TS_LDKCVec_ChannelDetailsZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_ChannelDetailsZ_new(uint32_tArray elems) {
 	LDKCVec_ChannelDetailsZ *ret = MALLOC(sizeof(LDKCVec_ChannelDetailsZ), "LDKCVec_ChannelDetailsZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -1575,15 +1577,15 @@ static inline LDKCVec_ChannelDetailsZ CVec_ChannelDetailsZ_clone(const LDKCVec_C
 	}
 	return ret;
 }
-jboolean TS_LDKCResult_NonePaymentSendFailureZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NonePaymentSendFailureZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NonePaymentSendFailureZ*)arg)->result_ok;
 }
-void TS_LDKCResult_NonePaymentSendFailureZ_get_ok(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_NonePaymentSendFailureZ_get_ok(uint32_t arg) {
 	LDKCResult_NonePaymentSendFailureZ *val = (LDKCResult_NonePaymentSendFailureZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-uint32_t TS_LDKCResult_NonePaymentSendFailureZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NonePaymentSendFailureZ_get_err(uint32_t arg) {
 	LDKCResult_NonePaymentSendFailureZ *val = (LDKCResult_NonePaymentSendFailureZ*)arg;
 	CHECK(!val->result_ok);
 	LDKPaymentSendFailure err_var = (*val->contents.err);
@@ -1592,7 +1594,7 @@ uint32_t TS_LDKCResult_NonePaymentSendFailureZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-uint32_t TS_LDKNetAddress_ref_from_ptr (uint32_t ptr) {
+uint32_t __attribute__((visibility("default"))) TS_LDKNetAddress_ref_from_ptr(uint32_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)ptr;
 	switch(obj->tag) {
 		case LDKNetAddress_IPv4: {
@@ -1618,7 +1620,7 @@ uint32_t TS_LDKNetAddress_ref_from_ptr (uint32_t ptr) {
 		default: abort();
 	}
 }
-uint32_t TS_LDKCVec_NetAddressZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_NetAddressZ_new(uint32_tArray elems) {
 	LDKCVec_NetAddressZ *ret = MALLOC(sizeof(LDKCVec_NetAddressZ), "LDKCVec_NetAddressZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -1642,7 +1644,7 @@ static inline LDKCVec_NetAddressZ CVec_NetAddressZ_clone(const LDKCVec_NetAddres
 	}
 	return ret;
 }
-uint32_t TS_LDKCVec_ChannelMonitorZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_ChannelMonitorZ_new(uint32_tArray elems) {
 	LDKCVec_ChannelMonitorZ *ret = MALLOC(sizeof(LDKCVec_ChannelMonitorZ), "LDKCVec_ChannelMonitorZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -1692,7 +1694,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_jcall(const void* this_arg
 	if (monitor_var.is_owned) {
 		monitor_ref |= 1;
 	}
-	LDKCResult_NoneChannelMonitorUpdateErrZ* ret; // TODO: Call watch_channel on j_calls with instance obj, returning a pointer, funding_txo_ref, monitor_ref);
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)js_invoke_function_2(j_calls->watch_channel_meth, funding_txo_ref, monitor_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1713,7 +1715,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_jcall(const void* this_ar
 	if (update_var.is_owned) {
 		update_ref |= 1;
 	}
-	LDKCResult_NoneChannelMonitorUpdateErrZ* ret; // TODO: Call update_channel on j_calls with instance obj, returning a pointer, funding_txo_ref, update_ref);
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)js_invoke_function_2(j_calls->update_channel_meth, funding_txo_ref, update_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1758,12 +1760,12 @@ static inline LDKWatch LDKWatch_init (/*TODO: JS Object Reference */void* o) {
 	};
 	return ret;
 }
-long TS_LDKWatch_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKWatch_new(/*TODO: JS Object Reference */void* o) {
 	LDKWatch *res_ptr = MALLOC(sizeof(LDKWatch), "LDKWatch");
 	*res_ptr = LDKWatch_init(o);
 	return (long)res_ptr;
 }
-uint32_t TS_Watch_watch_channel(uint32_t this_arg, uint32_t funding_txo, uint32_t monitor) {
+uint32_t  __attribute__((visibility("default"))) TS_Watch_watch_channel(uint32_t this_arg, uint32_t funding_txo, uint32_t monitor) {
 	LDKWatch* this_arg_conv = (LDKWatch*)this_arg;
 	LDKOutPoint funding_txo_conv;
 	funding_txo_conv.inner = (void*)(funding_txo & (~1));
@@ -1779,7 +1781,7 @@ uint32_t TS_Watch_watch_channel(uint32_t this_arg, uint32_t funding_txo, uint32_
 	return (long)ret_conv;
 }
 
-uint32_t TS_Watch_update_channel(uint32_t this_arg, uint32_t funding_txo, uint32_t update) {
+uint32_t  __attribute__((visibility("default"))) TS_Watch_update_channel(uint32_t this_arg, uint32_t funding_txo, uint32_t update) {
 	LDKWatch* this_arg_conv = (LDKWatch*)this_arg;
 	LDKOutPoint funding_txo_conv;
 	funding_txo_conv.inner = (void*)(funding_txo & (~1));
@@ -1796,7 +1798,7 @@ uint32_t TS_Watch_update_channel(uint32_t this_arg, uint32_t funding_txo, uint32
 	return (long)ret_conv;
 }
 
-uint32_tArray TS_Watch_release_pending_monitor_events(uint32_t this_arg) {
+uint32_tArray  __attribute__((visibility("default"))) TS_Watch_release_pending_monitor_events(uint32_t this_arg) {
 	LDKWatch* this_arg_conv = (LDKWatch*)this_arg;
 	LDKCVec_MonitorEventZ ret_var = (this_arg_conv->release_pending_monitor_events)(this_arg_conv->this_arg);
 	uint32_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
@@ -1851,12 +1853,12 @@ static inline LDKBroadcasterInterface LDKBroadcasterInterface_init (/*TODO: JS O
 	};
 	return ret;
 }
-long TS_LDKBroadcasterInterface_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKBroadcasterInterface_new(/*TODO: JS Object Reference */void* o) {
 	LDKBroadcasterInterface *res_ptr = MALLOC(sizeof(LDKBroadcasterInterface), "LDKBroadcasterInterface");
 	*res_ptr = LDKBroadcasterInterface_init(o);
 	return (long)res_ptr;
 }
-void TS_BroadcasterInterface_broadcast_transaction(uint32_t this_arg, int8_tArray tx) {
+void  __attribute__((visibility("default"))) TS_BroadcasterInterface_broadcast_transaction(uint32_t this_arg, int8_tArray tx) {
 	LDKBroadcasterInterface* this_arg_conv = (LDKBroadcasterInterface*)this_arg;
 	LDKTransaction tx_ref;
 	tx_ref.datalen = *((uint32_t*)tx);
@@ -1914,7 +1916,7 @@ LDKPublicKey get_shutdown_pubkey_jcall(const void* this_arg) {
 }
 LDKChannelKeys get_channel_keys_jcall(const void* this_arg, bool inbound, uint64_t channel_value_satoshis) {
 	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
-	LDKChannelKeys* ret; // TODO: Call get_channel_keys on j_calls with instance obj, returning a pointer, inbound, channel_value_satoshis);
+	LDKChannelKeys* ret = (LDKChannelKeys*)js_invoke_function_2(j_calls->get_channel_keys_meth, inbound, channel_value_satoshis);
 	LDKChannelKeys ret_conv = *(LDKChannelKeys*)ret;
 	ret_conv = ChannelKeys_clone(ret);
 	return ret_conv;
@@ -1932,7 +1934,7 @@ LDKCResult_ChanKeySignerDecodeErrorZ read_chan_signer_jcall(const void* this_arg
 	LDKu8slice reader_var = reader;
 	int8_tArray reader_arr = init_arr(reader_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(reader_arr + 4), reader_var.data, reader_var.datalen);
-	LDKCResult_ChanKeySignerDecodeErrorZ* ret; // TODO: Call read_chan_signer on j_calls with instance obj, returning a pointer, reader_arr);
+	LDKCResult_ChanKeySignerDecodeErrorZ* ret = (LDKCResult_ChanKeySignerDecodeErrorZ*)js_invoke_function_1(j_calls->read_chan_signer_meth, reader_arr);
 	LDKCResult_ChanKeySignerDecodeErrorZ ret_conv = *(LDKCResult_ChanKeySignerDecodeErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -1959,19 +1961,19 @@ static inline LDKKeysInterface LDKKeysInterface_init (/*TODO: JS Object Referenc
 	};
 	return ret;
 }
-long TS_LDKKeysInterface_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKKeysInterface_new(/*TODO: JS Object Reference */void* o) {
 	LDKKeysInterface *res_ptr = MALLOC(sizeof(LDKKeysInterface), "LDKKeysInterface");
 	*res_ptr = LDKKeysInterface_init(o);
 	return (long)res_ptr;
 }
-int8_tArray TS_KeysInterface_get_node_secret(uint32_t this_arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_KeysInterface_get_node_secret(uint32_t this_arg) {
 	LDKKeysInterface* this_arg_conv = (LDKKeysInterface*)this_arg;
 	int8_tArray arg_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(arg_arr + 4), (this_arg_conv->get_node_secret)(this_arg_conv->this_arg).bytes, 32);
 	return arg_arr;
 }
 
-int8_tArray TS_KeysInterface_get_destination_script(uint32_t this_arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_KeysInterface_get_destination_script(uint32_t this_arg) {
 	LDKKeysInterface* this_arg_conv = (LDKKeysInterface*)this_arg;
 	LDKCVec_u8Z arg_var = (this_arg_conv->get_destination_script)(this_arg_conv->this_arg);
 	int8_tArray arg_arr = init_arr(arg_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
@@ -1980,28 +1982,28 @@ int8_tArray TS_KeysInterface_get_destination_script(uint32_t this_arg) {
 	return arg_arr;
 }
 
-int8_tArray TS_KeysInterface_get_shutdown_pubkey(uint32_t this_arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_KeysInterface_get_shutdown_pubkey(uint32_t this_arg) {
 	LDKKeysInterface* this_arg_conv = (LDKKeysInterface*)this_arg;
 	int8_tArray arg_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(arg_arr + 4), (this_arg_conv->get_shutdown_pubkey)(this_arg_conv->this_arg).compressed_form, 33);
 	return arg_arr;
 }
 
-uint32_t TS_KeysInterface_get_channel_keys(uint32_t this_arg, jboolean inbound, int64_t channel_value_satoshis) {
+uint32_t  __attribute__((visibility("default"))) TS_KeysInterface_get_channel_keys(uint32_t this_arg, jboolean inbound, int64_t channel_value_satoshis) {
 	LDKKeysInterface* this_arg_conv = (LDKKeysInterface*)this_arg;
 	LDKChannelKeys* ret = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
 	*ret = (this_arg_conv->get_channel_keys)(this_arg_conv->this_arg, inbound, channel_value_satoshis);
 	return (long)ret;
 }
 
-int8_tArray TS_KeysInterface_get_secure_random_bytes(uint32_t this_arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_KeysInterface_get_secure_random_bytes(uint32_t this_arg) {
 	LDKKeysInterface* this_arg_conv = (LDKKeysInterface*)this_arg;
 	int8_tArray arg_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(arg_arr + 4), (this_arg_conv->get_secure_random_bytes)(this_arg_conv->this_arg).data, 32);
 	return arg_arr;
 }
 
-uint32_t TS_KeysInterface_read_chan_signer(uint32_t this_arg, int8_tArray reader) {
+uint32_t  __attribute__((visibility("default"))) TS_KeysInterface_read_chan_signer(uint32_t this_arg, int8_tArray reader) {
 	LDKKeysInterface* this_arg_conv = (LDKKeysInterface*)this_arg;
 	LDKu8slice reader_ref;
 	reader_ref.datalen = *((uint32_t*)reader);
@@ -2044,12 +2046,12 @@ static inline LDKFeeEstimator LDKFeeEstimator_init (/*TODO: JS Object Reference 
 	};
 	return ret;
 }
-long TS_LDKFeeEstimator_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKFeeEstimator_new(/*TODO: JS Object Reference */void* o) {
 	LDKFeeEstimator *res_ptr = MALLOC(sizeof(LDKFeeEstimator), "LDKFeeEstimator");
 	*res_ptr = LDKFeeEstimator_init(o);
 	return (long)res_ptr;
 }
-int32_t TS_FeeEstimator_get_est_sat_per_1000_weight(uint32_t this_arg, uint32_t confirmation_target) {
+int32_t  __attribute__((visibility("default"))) TS_FeeEstimator_get_est_sat_per_1000_weight(uint32_t this_arg, uint32_t confirmation_target) {
 	LDKFeeEstimator* this_arg_conv = (LDKFeeEstimator*)this_arg;
 	LDKConfirmationTarget confirmation_target_conv = LDKConfirmationTarget_from_js(confirmation_target);
 	int32_t ret_val = (this_arg_conv->get_est_sat_per_1000_weight)(this_arg_conv->this_arg, confirmation_target_conv);
@@ -2090,12 +2092,12 @@ static inline LDKLogger LDKLogger_init (/*TODO: JS Object Reference */void* o) {
 	};
 	return ret;
 }
-long TS_LDKLogger_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKLogger_new(/*TODO: JS Object Reference */void* o) {
 	LDKLogger *res_ptr = MALLOC(sizeof(LDKLogger), "LDKLogger");
 	*res_ptr = LDKLogger_init(o);
 	return (long)res_ptr;
 }
-uint32_t TS_LDKC2Tuple_BlockHashChannelManagerZ_new(int8_tArray a, uint32_t b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_BlockHashChannelManagerZ_new(int8_tArray a, uint32_t b) {
 	LDKC2Tuple_BlockHashChannelManagerZ* ret = MALLOC(sizeof(LDKC2Tuple_BlockHashChannelManagerZ), "LDKC2Tuple_BlockHashChannelManagerZ");
 	LDKThirtyTwoBytes a_ref;
 	CHECK(*((uint32_t*)a) == 32);
@@ -2108,13 +2110,13 @@ uint32_t TS_LDKC2Tuple_BlockHashChannelManagerZ_new(int8_tArray a, uint32_t b) {
 	ret->b = b_conv;
 	return (long)ret;
 }
-int8_tArray TS_LDKC2Tuple_BlockHashChannelManagerZ_get_a(uint32_t ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_BlockHashChannelManagerZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_BlockHashChannelManagerZ *tuple = (LDKC2Tuple_BlockHashChannelManagerZ*)ptr;
 	int8_tArray a_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(a_arr + 4), tuple->a.data, 32);
 	return a_arr;
 }
-uint32_t TS_LDKC2Tuple_BlockHashChannelManagerZ_get_b(uint32_t ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_BlockHashChannelManagerZ_get_b(uint32_t ptr) {
 	LDKC2Tuple_BlockHashChannelManagerZ *tuple = (LDKC2Tuple_BlockHashChannelManagerZ*)ptr;
 	LDKChannelManager b_var = tuple->b;
 	CHECK((((long)b_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -2122,16 +2124,16 @@ uint32_t TS_LDKC2Tuple_BlockHashChannelManagerZ_get_b(uint32_t ptr) {
 	long b_ref = (long)b_var.inner & ~1;
 	return b_ref;
 }
-jboolean TS_LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *val = (LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-uint32_t TS_LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *val = (LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2140,16 +2142,16 @@ uint32_t TS_LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(uint
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_NetAddressu8Z_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NetAddressu8Z_result_ok(uint32_t arg) {
 	return ((LDKCResult_NetAddressu8Z*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_NetAddressu8Z_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NetAddressu8Z_get_ok(uint32_t arg) {
 	LDKCResult_NetAddressu8Z *val = (LDKCResult_NetAddressu8Z*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-int8_t TS_LDKCResult_NetAddressu8Z_get_err(uint32_t arg) {
+int8_t  __attribute__((visibility("default"))) TS_LDKCResult_NetAddressu8Z_get_err(uint32_t arg) {
 	LDKCResult_NetAddressu8Z *val = (LDKCResult_NetAddressu8Z*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
@@ -2167,10 +2169,10 @@ static inline LDKCResult_NetAddressu8Z CResult_NetAddressu8Z_clone(const LDKCRes
 	}
 	return res;
 }
-jboolean TS_LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_CResult_NetAddressu8ZDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_CResult_NetAddressu8ZDecodeErrorZ *val = (LDKCResult_CResult_NetAddressu8ZDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKCResult_NetAddressu8Z* res_conv = MALLOC(sizeof(LDKCResult_NetAddressu8Z), "LDKCResult_NetAddressu8Z");
@@ -2178,7 +2180,7 @@ uint32_t TS_LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_ok(uint32_t arg) {
 	*res_conv = CResult_NetAddressu8Z_clone(res_conv);
 	return (long)res_conv;
 }
-uint32_t TS_LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_CResult_NetAddressu8ZDecodeErrorZ *val = (LDKCResult_CResult_NetAddressu8ZDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2187,7 +2189,7 @@ uint32_t TS_LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-uint32_t TS_LDKCVec_u64Z_new(int64_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_u64Z_new(int64_tArray elems) {
 	LDKCVec_u64Z *ret = MALLOC(sizeof(LDKCVec_u64Z), "LDKCVec_u64Z");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2206,7 +2208,7 @@ static inline LDKCVec_u64Z CVec_u64Z_clone(const LDKCVec_u64Z *orig) {
 	memcpy(ret.data, orig->data, sizeof(int64_t) * ret.datalen);
 	return ret;
 }
-uint32_t TS_LDKCVec_UpdateAddHTLCZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_UpdateAddHTLCZ_new(uint32_tArray elems) {
 	LDKCVec_UpdateAddHTLCZ *ret = MALLOC(sizeof(LDKCVec_UpdateAddHTLCZ), "LDKCVec_UpdateAddHTLCZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2233,7 +2235,7 @@ static inline LDKCVec_UpdateAddHTLCZ CVec_UpdateAddHTLCZ_clone(const LDKCVec_Upd
 	}
 	return ret;
 }
-uint32_t TS_LDKCVec_UpdateFulfillHTLCZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_UpdateFulfillHTLCZ_new(uint32_tArray elems) {
 	LDKCVec_UpdateFulfillHTLCZ *ret = MALLOC(sizeof(LDKCVec_UpdateFulfillHTLCZ), "LDKCVec_UpdateFulfillHTLCZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2260,7 +2262,7 @@ static inline LDKCVec_UpdateFulfillHTLCZ CVec_UpdateFulfillHTLCZ_clone(const LDK
 	}
 	return ret;
 }
-uint32_t TS_LDKCVec_UpdateFailHTLCZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_UpdateFailHTLCZ_new(uint32_tArray elems) {
 	LDKCVec_UpdateFailHTLCZ *ret = MALLOC(sizeof(LDKCVec_UpdateFailHTLCZ), "LDKCVec_UpdateFailHTLCZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2287,7 +2289,7 @@ static inline LDKCVec_UpdateFailHTLCZ CVec_UpdateFailHTLCZ_clone(const LDKCVec_U
 	}
 	return ret;
 }
-uint32_t TS_LDKCVec_UpdateFailMalformedHTLCZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_UpdateFailMalformedHTLCZ_new(uint32_tArray elems) {
 	LDKCVec_UpdateFailMalformedHTLCZ *ret = MALLOC(sizeof(LDKCVec_UpdateFailMalformedHTLCZ), "LDKCVec_UpdateFailMalformedHTLCZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2314,15 +2316,15 @@ static inline LDKCVec_UpdateFailMalformedHTLCZ CVec_UpdateFailMalformedHTLCZ_clo
 	}
 	return ret;
 }
-jboolean TS_LDKCResult_boolLightningErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_boolLightningErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_boolLightningErrorZ*)arg)->result_ok;
 }
-jboolean TS_LDKCResult_boolLightningErrorZ_get_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_boolLightningErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-uint32_t TS_LDKCResult_boolLightningErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_boolLightningErrorZ_get_err(uint32_t arg) {
 	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKLightningError err_var = (*val->contents.err);
@@ -2331,7 +2333,7 @@ uint32_t TS_LDKCResult_boolLightningErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-uint32_t TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(uint32_t a, uint32_t b, uint32_t c) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(uint32_t a, uint32_t b, uint32_t c) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
 	LDKChannelAnnouncement a_conv;
 	a_conv.inner = (void*)(a & (~1));
@@ -2361,7 +2363,7 @@ static inline LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ C3Tuple_
 	};
 	return ret;
 }
-uint32_t TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(uint32_t ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(uint32_t ptr) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)ptr;
 	LDKChannelAnnouncement a_var = tuple->a;
 	CHECK((((long)a_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -2369,7 +2371,7 @@ uint32_t TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(uint
 	long a_ref = (long)a_var.inner & ~1;
 	return a_ref;
 }
-uint32_t TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(uint32_t ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(uint32_t ptr) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)ptr;
 	LDKChannelUpdate b_var = tuple->b;
 	CHECK((((long)b_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -2377,7 +2379,7 @@ uint32_t TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(uint
 	long b_ref = (long)b_var.inner & ~1;
 	return b_ref;
 }
-uint32_t TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(uint32_t ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(uint32_t ptr) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)ptr;
 	LDKChannelUpdate c_var = tuple->c;
 	CHECK((((long)c_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -2385,7 +2387,7 @@ uint32_t TS_LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(uint
 	long c_ref = (long)c_var.inner & ~1;
 	return c_ref;
 }
-uint32_t TS_LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_new(uint32_tArray elems) {
 	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ *ret = MALLOC(sizeof(LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ), "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2409,7 +2411,7 @@ static inline LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ CV
 	}
 	return ret;
 }
-uint32_t TS_LDKCVec_NodeAnnouncementZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_NodeAnnouncementZ_new(uint32_tArray elems) {
 	LDKCVec_NodeAnnouncementZ *ret = MALLOC(sizeof(LDKCVec_NodeAnnouncementZ), "LDKCVec_NodeAnnouncementZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2436,15 +2438,15 @@ static inline LDKCVec_NodeAnnouncementZ CVec_NodeAnnouncementZ_clone(const LDKCV
 	}
 	return ret;
 }
-jboolean TS_LDKCResult_NoneLightningErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NoneLightningErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NoneLightningErrorZ*)arg)->result_ok;
 }
-void TS_LDKCResult_NoneLightningErrorZ_get_ok(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_NoneLightningErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_NoneLightningErrorZ *val = (LDKCResult_NoneLightningErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-uint32_t TS_LDKCResult_NoneLightningErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NoneLightningErrorZ_get_err(uint32_t arg) {
 	LDKCResult_NoneLightningErrorZ *val = (LDKCResult_NoneLightningErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKLightningError err_var = (*val->contents.err);
@@ -2453,10 +2455,10 @@ uint32_t TS_LDKCResult_NoneLightningErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_ChannelReestablishDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_ChannelReestablishDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_ChannelReestablishDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_ChannelReestablishDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ChannelReestablishDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_ChannelReestablishDecodeErrorZ *val = (LDKCResult_ChannelReestablishDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKChannelReestablish res_var = (*val->contents.result);
@@ -2465,7 +2467,7 @@ uint32_t TS_LDKCResult_ChannelReestablishDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_ChannelReestablishDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ChannelReestablishDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_ChannelReestablishDecodeErrorZ *val = (LDKCResult_ChannelReestablishDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2474,10 +2476,10 @@ uint32_t TS_LDKCResult_ChannelReestablishDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_InitDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_InitDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_InitDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_InitDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_InitDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_InitDecodeErrorZ *val = (LDKCResult_InitDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKInit res_var = (*val->contents.result);
@@ -2486,7 +2488,7 @@ uint32_t TS_LDKCResult_InitDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_InitDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_InitDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_InitDecodeErrorZ *val = (LDKCResult_InitDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2495,10 +2497,10 @@ uint32_t TS_LDKCResult_InitDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_PingDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_PingDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_PingDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_PingDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PingDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_PingDecodeErrorZ *val = (LDKCResult_PingDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKPing res_var = (*val->contents.result);
@@ -2507,7 +2509,7 @@ uint32_t TS_LDKCResult_PingDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_PingDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PingDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_PingDecodeErrorZ *val = (LDKCResult_PingDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2516,10 +2518,10 @@ uint32_t TS_LDKCResult_PingDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_PongDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_PongDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_PongDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_PongDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PongDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_PongDecodeErrorZ *val = (LDKCResult_PongDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKPong res_var = (*val->contents.result);
@@ -2528,7 +2530,7 @@ uint32_t TS_LDKCResult_PongDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_PongDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PongDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_PongDecodeErrorZ *val = (LDKCResult_PongDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2537,10 +2539,10 @@ uint32_t TS_LDKCResult_PongDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ *val = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKUnsignedChannelAnnouncement res_var = (*val->contents.result);
@@ -2549,7 +2551,7 @@ uint32_t TS_LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_get_ok(uint32_t a
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ *val = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2558,10 +2560,10 @@ uint32_t TS_LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_get_err(uint32_t 
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_UnsignedChannelUpdateDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedChannelUpdateDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_UnsignedChannelUpdateDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedChannelUpdateDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ *val = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKUnsignedChannelUpdate res_var = (*val->contents.result);
@@ -2570,7 +2572,7 @@ uint32_t TS_LDKCResult_UnsignedChannelUpdateDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_UnsignedChannelUpdateDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedChannelUpdateDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ *val = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2579,10 +2581,10 @@ uint32_t TS_LDKCResult_UnsignedChannelUpdateDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_ErrorMessageDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_ErrorMessageDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_ErrorMessageDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_ErrorMessageDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ErrorMessageDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_ErrorMessageDecodeErrorZ *val = (LDKCResult_ErrorMessageDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKErrorMessage res_var = (*val->contents.result);
@@ -2591,7 +2593,7 @@ uint32_t TS_LDKCResult_ErrorMessageDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_ErrorMessageDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ErrorMessageDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_ErrorMessageDecodeErrorZ *val = (LDKCResult_ErrorMessageDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2600,10 +2602,10 @@ uint32_t TS_LDKCResult_ErrorMessageDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ *val = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKUnsignedNodeAnnouncement res_var = (*val->contents.result);
@@ -2612,7 +2614,7 @@ uint32_t TS_LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_ok(uint32_t arg)
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ *val = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2621,10 +2623,10 @@ uint32_t TS_LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ_get_err(uint32_t arg
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_QueryShortChannelIdsDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_QueryShortChannelIdsDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_QueryShortChannelIdsDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ *val = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKQueryShortChannelIds res_var = (*val->contents.result);
@@ -2633,7 +2635,7 @@ uint32_t TS_LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ *val = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2642,10 +2644,10 @@ uint32_t TS_LDKCResult_QueryShortChannelIdsDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ *val = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKReplyShortChannelIdsEnd res_var = (*val->contents.result);
@@ -2654,7 +2656,7 @@ uint32_t TS_LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(uint32_t arg) 
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ *val = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2663,10 +2665,10 @@ uint32_t TS_LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(uint32_t arg)
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_QueryChannelRangeDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_QueryChannelRangeDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_QueryChannelRangeDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_QueryChannelRangeDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_QueryChannelRangeDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ *val = (LDKCResult_QueryChannelRangeDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKQueryChannelRange res_var = (*val->contents.result);
@@ -2675,7 +2677,7 @@ uint32_t TS_LDKCResult_QueryChannelRangeDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_QueryChannelRangeDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_QueryChannelRangeDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ *val = (LDKCResult_QueryChannelRangeDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2684,10 +2686,10 @@ uint32_t TS_LDKCResult_QueryChannelRangeDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_ReplyChannelRangeDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_ReplyChannelRangeDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_ReplyChannelRangeDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_ReplyChannelRangeDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ReplyChannelRangeDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ *val = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKReplyChannelRange res_var = (*val->contents.result);
@@ -2696,7 +2698,7 @@ uint32_t TS_LDKCResult_ReplyChannelRangeDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_ReplyChannelRangeDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_ReplyChannelRangeDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ *val = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2705,10 +2707,10 @@ uint32_t TS_LDKCResult_ReplyChannelRangeDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_GossipTimestampFilterDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_GossipTimestampFilterDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_GossipTimestampFilterDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_GossipTimestampFilterDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_GossipTimestampFilterDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ *val = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKGossipTimestampFilter res_var = (*val->contents.result);
@@ -2717,7 +2719,7 @@ uint32_t TS_LDKCResult_GossipTimestampFilterDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_GossipTimestampFilterDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_GossipTimestampFilterDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ *val = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2726,10 +2728,10 @@ uint32_t TS_LDKCResult_GossipTimestampFilterDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg)->result_ok;
 }
-int8_tArray TS_LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(uint32_t arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKCVec_u8Z res_var = (*val->contents.result);
@@ -2737,7 +2739,7 @@ int8_tArray TS_LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(uint32_t arg) {
 	memcpy((uint8_t*)(res_arr + 4), res_var.data, res_var.datalen);
 	return res_arr;
 }
-uint32_t TS_LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(uint32_t arg) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKPeerHandleError err_var = (*val->contents.err);
@@ -2746,15 +2748,15 @@ uint32_t TS_LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_NonePeerHandleErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NonePeerHandleErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NonePeerHandleErrorZ*)arg)->result_ok;
 }
-void TS_LDKCResult_NonePeerHandleErrorZ_get_ok(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_NonePeerHandleErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-uint32_t TS_LDKCResult_NonePeerHandleErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NonePeerHandleErrorZ_get_err(uint32_t arg) {
 	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKPeerHandleError err_var = (*val->contents.err);
@@ -2763,15 +2765,15 @@ uint32_t TS_LDKCResult_NonePeerHandleErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_boolPeerHandleErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_boolPeerHandleErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_boolPeerHandleErrorZ*)arg)->result_ok;
 }
-jboolean TS_LDKCResult_boolPeerHandleErrorZ_get_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_boolPeerHandleErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-uint32_t TS_LDKCResult_boolPeerHandleErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_boolPeerHandleErrorZ_get_err(uint32_t arg) {
 	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKPeerHandleError err_var = (*val->contents.err);
@@ -2780,42 +2782,42 @@ uint32_t TS_LDKCResult_boolPeerHandleErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_SecretKeySecpErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_SecretKeySecpErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_SecretKeySecpErrorZ*)arg)->result_ok;
 }
-int8_tArray TS_LDKCResult_SecretKeySecpErrorZ_get_ok(uint32_t arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKCResult_SecretKeySecpErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_SecretKeySecpErrorZ *val = (LDKCResult_SecretKeySecpErrorZ*)arg;
 	CHECK(val->result_ok);
 	int8_tArray res_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(res_arr + 4), (*val->contents.result).bytes, 32);
 	return res_arr;
 }
-uint32_t TS_LDKCResult_SecretKeySecpErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_SecretKeySecpErrorZ_get_err(uint32_t arg) {
 	LDKCResult_SecretKeySecpErrorZ *val = (LDKCResult_SecretKeySecpErrorZ*)arg;
 	CHECK(!val->result_ok);
 	uint32_t err_conv = LDKSecp256k1Error_to_js((*val->contents.err));
 	return err_conv;
 }
-jboolean TS_LDKCResult_PublicKeySecpErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_PublicKeySecpErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_PublicKeySecpErrorZ*)arg)->result_ok;
 }
-int8_tArray TS_LDKCResult_PublicKeySecpErrorZ_get_ok(uint32_t arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_LDKCResult_PublicKeySecpErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_PublicKeySecpErrorZ *val = (LDKCResult_PublicKeySecpErrorZ*)arg;
 	CHECK(val->result_ok);
 	int8_tArray res_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(res_arr + 4), (*val->contents.result).compressed_form, 33);
 	return res_arr;
 }
-uint32_t TS_LDKCResult_PublicKeySecpErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PublicKeySecpErrorZ_get_err(uint32_t arg) {
 	LDKCResult_PublicKeySecpErrorZ *val = (LDKCResult_PublicKeySecpErrorZ*)arg;
 	CHECK(!val->result_ok);
 	uint32_t err_conv = LDKSecp256k1Error_to_js((*val->contents.err));
 	return err_conv;
 }
-jboolean TS_LDKCResult_TxCreationKeysSecpErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_TxCreationKeysSecpErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_TxCreationKeysSecpErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_TxCreationKeysSecpErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_TxCreationKeysSecpErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_TxCreationKeysSecpErrorZ *val = (LDKCResult_TxCreationKeysSecpErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKTxCreationKeys res_var = (*val->contents.result);
@@ -2824,16 +2826,16 @@ uint32_t TS_LDKCResult_TxCreationKeysSecpErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_TxCreationKeysSecpErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_TxCreationKeysSecpErrorZ_get_err(uint32_t arg) {
 	LDKCResult_TxCreationKeysSecpErrorZ *val = (LDKCResult_TxCreationKeysSecpErrorZ*)arg;
 	CHECK(!val->result_ok);
 	uint32_t err_conv = LDKSecp256k1Error_to_js((*val->contents.err));
 	return err_conv;
 }
-jboolean TS_LDKCResult_TrustedCommitmentTransactionNoneZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_TrustedCommitmentTransactionNoneZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_TrustedCommitmentTransactionNoneZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_TrustedCommitmentTransactionNoneZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_TrustedCommitmentTransactionNoneZ_get_ok(uint32_t arg) {
 	LDKCResult_TrustedCommitmentTransactionNoneZ *val = (LDKCResult_TrustedCommitmentTransactionNoneZ*)arg;
 	CHECK(val->result_ok);
 	LDKTrustedCommitmentTransaction res_var = (*val->contents.result);
@@ -2842,12 +2844,12 @@ uint32_t TS_LDKCResult_TrustedCommitmentTransactionNoneZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-void TS_LDKCResult_TrustedCommitmentTransactionNoneZ_get_err(uint32_t arg) {
+void  __attribute__((visibility("default"))) TS_LDKCResult_TrustedCommitmentTransactionNoneZ_get_err(uint32_t arg) {
 	LDKCResult_TrustedCommitmentTransactionNoneZ *val = (LDKCResult_TrustedCommitmentTransactionNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
 }
-uint32_t TS_LDKCVec_RouteHopZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_RouteHopZ_new(uint32_tArray elems) {
 	LDKCVec_RouteHopZ *ret = MALLOC(sizeof(LDKCVec_RouteHopZ), "LDKCVec_RouteHopZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2881,10 +2883,10 @@ static inline LDKCVec_CVec_RouteHopZZ CVec_CVec_RouteHopZZ_clone(const LDKCVec_C
 	}
 	return ret;
 }
-jboolean TS_LDKCResult_RouteDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_RouteDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_RouteDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_RouteDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_RouteDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_RouteDecodeErrorZ *val = (LDKCResult_RouteDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKRoute res_var = (*val->contents.result);
@@ -2893,7 +2895,7 @@ uint32_t TS_LDKCResult_RouteDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_RouteDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_RouteDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_RouteDecodeErrorZ *val = (LDKCResult_RouteDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2902,7 +2904,7 @@ uint32_t TS_LDKCResult_RouteDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-uint32_t TS_LDKCVec_RouteHintZ_new(uint32_tArray elems) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_RouteHintZ_new(uint32_tArray elems) {
 	LDKCVec_RouteHintZ *ret = MALLOC(sizeof(LDKCVec_RouteHintZ), "LDKCVec_RouteHintZ");
 	ret->datalen = *((uint32_t*)elems);
 	if (ret->datalen == 0) {
@@ -2929,10 +2931,10 @@ static inline LDKCVec_RouteHintZ CVec_RouteHintZ_clone(const LDKCVec_RouteHintZ 
 	}
 	return ret;
 }
-jboolean TS_LDKCResult_RouteLightningErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_RouteLightningErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_RouteLightningErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_RouteLightningErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_RouteLightningErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_RouteLightningErrorZ *val = (LDKCResult_RouteLightningErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKRoute res_var = (*val->contents.result);
@@ -2941,7 +2943,7 @@ uint32_t TS_LDKCResult_RouteLightningErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_RouteLightningErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_RouteLightningErrorZ_get_err(uint32_t arg) {
 	LDKCResult_RouteLightningErrorZ *val = (LDKCResult_RouteLightningErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKLightningError err_var = (*val->contents.err);
@@ -2950,10 +2952,10 @@ uint32_t TS_LDKCResult_RouteLightningErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_RoutingFeesDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_RoutingFeesDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_RoutingFeesDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_RoutingFeesDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_RoutingFeesDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_RoutingFeesDecodeErrorZ *val = (LDKCResult_RoutingFeesDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKRoutingFees res_var = (*val->contents.result);
@@ -2962,7 +2964,7 @@ uint32_t TS_LDKCResult_RoutingFeesDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_RoutingFeesDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_RoutingFeesDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_RoutingFeesDecodeErrorZ *val = (LDKCResult_RoutingFeesDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2971,10 +2973,10 @@ uint32_t TS_LDKCResult_RoutingFeesDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_NodeAnnouncementInfoDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NodeAnnouncementInfoDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_NodeAnnouncementInfoDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NodeAnnouncementInfoDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ *val = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKNodeAnnouncementInfo res_var = (*val->contents.result);
@@ -2983,7 +2985,7 @@ uint32_t TS_LDKCResult_NodeAnnouncementInfoDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_NodeAnnouncementInfoDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NodeAnnouncementInfoDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ *val = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2992,10 +2994,10 @@ uint32_t TS_LDKCResult_NodeAnnouncementInfoDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_NodeInfoDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NodeInfoDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NodeInfoDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_NodeInfoDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NodeInfoDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_NodeInfoDecodeErrorZ *val = (LDKCResult_NodeInfoDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKNodeInfo res_var = (*val->contents.result);
@@ -3004,7 +3006,7 @@ uint32_t TS_LDKCResult_NodeInfoDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_NodeInfoDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NodeInfoDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_NodeInfoDecodeErrorZ *val = (LDKCResult_NodeInfoDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3013,10 +3015,10 @@ uint32_t TS_LDKCResult_NodeInfoDecodeErrorZ_get_err(uint32_t arg) {
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-jboolean TS_LDKCResult_NetworkGraphDecodeErrorZ_result_ok(uint32_t arg) {
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NetworkGraphDecodeErrorZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NetworkGraphDecodeErrorZ*)arg)->result_ok;
 }
-uint32_t TS_LDKCResult_NetworkGraphDecodeErrorZ_get_ok(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NetworkGraphDecodeErrorZ_get_ok(uint32_t arg) {
 	LDKCResult_NetworkGraphDecodeErrorZ *val = (LDKCResult_NetworkGraphDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKNetworkGraph res_var = (*val->contents.result);
@@ -3025,7 +3027,7 @@ uint32_t TS_LDKCResult_NetworkGraphDecodeErrorZ_get_ok(uint32_t arg) {
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-uint32_t TS_LDKCResult_NetworkGraphDecodeErrorZ_get_err(uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NetworkGraphDecodeErrorZ_get_err(uint32_t arg) {
 	LDKCResult_NetworkGraphDecodeErrorZ *val = (LDKCResult_NetworkGraphDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3080,12 +3082,12 @@ static inline LDKMessageSendEventsProvider LDKMessageSendEventsProvider_init (/*
 	};
 	return ret;
 }
-long TS_LDKMessageSendEventsProvider_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKMessageSendEventsProvider_new(/*TODO: JS Object Reference */void* o) {
 	LDKMessageSendEventsProvider *res_ptr = MALLOC(sizeof(LDKMessageSendEventsProvider), "LDKMessageSendEventsProvider");
 	*res_ptr = LDKMessageSendEventsProvider_init(o);
 	return (long)res_ptr;
 }
-uint32_tArray TS_MessageSendEventsProvider_get_and_clear_pending_msg_events(uint32_t this_arg) {
+uint32_tArray  __attribute__((visibility("default"))) TS_MessageSendEventsProvider_get_and_clear_pending_msg_events(uint32_t this_arg) {
 	LDKMessageSendEventsProvider* this_arg_conv = (LDKMessageSendEventsProvider*)this_arg;
 	LDKCVec_MessageSendEventZ ret_var = (this_arg_conv->get_and_clear_pending_msg_events)(this_arg_conv->this_arg);
 	uint32_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
@@ -3146,12 +3148,12 @@ static inline LDKEventsProvider LDKEventsProvider_init (/*TODO: JS Object Refere
 	};
 	return ret;
 }
-long TS_LDKEventsProvider_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKEventsProvider_new(/*TODO: JS Object Reference */void* o) {
 	LDKEventsProvider *res_ptr = MALLOC(sizeof(LDKEventsProvider), "LDKEventsProvider");
 	*res_ptr = LDKEventsProvider_init(o);
 	return (long)res_ptr;
 }
-uint32_tArray TS_EventsProvider_get_and_clear_pending_events(uint32_t this_arg) {
+uint32_tArray  __attribute__((visibility("default"))) TS_EventsProvider_get_and_clear_pending_events(uint32_t this_arg) {
 	LDKEventsProvider* this_arg_conv = (LDKEventsProvider*)this_arg;
 	LDKCVec_EventZ ret_var = (this_arg_conv->get_and_clear_pending_events)(this_arg_conv->this_arg);
 	uint32_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
@@ -3181,7 +3183,7 @@ LDKCResult_TxOutAccessErrorZ get_utxo_jcall(const void* this_arg, const uint8_t 
 	LDKAccess_JCalls *j_calls = (LDKAccess_JCalls*) this_arg;
 	int8_tArray genesis_hash_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(genesis_hash_arr + 4), *genesis_hash, 32);
-	LDKCResult_TxOutAccessErrorZ* ret; // TODO: Call get_utxo on j_calls with instance obj, returning a pointer, genesis_hash_arr, short_channel_id);
+	LDKCResult_TxOutAccessErrorZ* ret = (LDKCResult_TxOutAccessErrorZ*)js_invoke_function_2(j_calls->get_utxo_meth, genesis_hash_arr, short_channel_id);
 	LDKCResult_TxOutAccessErrorZ ret_conv = *(LDKCResult_TxOutAccessErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -3203,12 +3205,12 @@ static inline LDKAccess LDKAccess_init (/*TODO: JS Object Reference */void* o) {
 	};
 	return ret;
 }
-long TS_LDKAccess_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKAccess_new(/*TODO: JS Object Reference */void* o) {
 	LDKAccess *res_ptr = MALLOC(sizeof(LDKAccess), "LDKAccess");
 	*res_ptr = LDKAccess_init(o);
 	return (long)res_ptr;
 }
-uint32_t TS_Access_get_utxo(uint32_t this_arg, int8_tArray genesis_hash, int64_t short_channel_id) {
+uint32_t  __attribute__((visibility("default"))) TS_Access_get_utxo(uint32_t this_arg, int8_tArray genesis_hash, int64_t short_channel_id) {
 	LDKAccess* this_arg_conv = (LDKAccess*)this_arg;
 	unsigned char genesis_hash_arr[32];
 	CHECK(*((uint32_t*)genesis_hash) == 32);
@@ -3275,12 +3277,12 @@ static inline LDKFilter LDKFilter_init (/*TODO: JS Object Reference */void* o) {
 	};
 	return ret;
 }
-long TS_LDKFilter_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKFilter_new(/*TODO: JS Object Reference */void* o) {
 	LDKFilter *res_ptr = MALLOC(sizeof(LDKFilter), "LDKFilter");
 	*res_ptr = LDKFilter_init(o);
 	return (long)res_ptr;
 }
-void TS_Filter_register_tx(uint32_t this_arg, int8_tArray txid, int8_tArray script_pubkey) {
+void  __attribute__((visibility("default"))) TS_Filter_register_tx(uint32_t this_arg, int8_tArray txid, int8_tArray script_pubkey) {
 	LDKFilter* this_arg_conv = (LDKFilter*)this_arg;
 	unsigned char txid_arr[32];
 	CHECK(*((uint32_t*)txid) == 32);
@@ -3292,7 +3294,7 @@ void TS_Filter_register_tx(uint32_t this_arg, int8_tArray txid, int8_tArray scri
 	(this_arg_conv->register_tx)(this_arg_conv->this_arg, txid_ref, script_pubkey_ref);
 }
 
-void TS_Filter_register_output(uint32_t this_arg, uint32_t outpoint, int8_tArray script_pubkey) {
+void  __attribute__((visibility("default"))) TS_Filter_register_output(uint32_t this_arg, uint32_t outpoint, int8_tArray script_pubkey) {
 	LDKFilter* this_arg_conv = (LDKFilter*)this_arg;
 	LDKOutPoint outpoint_conv;
 	outpoint_conv.inner = (void*)(outpoint & (~1));
@@ -3333,7 +3335,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_jcall(const void* th
 	if (data_var.is_owned) {
 		data_ref |= 1;
 	}
-	LDKCResult_NoneChannelMonitorUpdateErrZ* ret; // TODO: Call persist_new_channel on j_calls with instance obj, returning a pointer, id_ref, data_ref);
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)js_invoke_function_2(j_calls->persist_new_channel_meth, id_ref, data_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -3364,7 +3366,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_jcall(const voi
 	if (data_var.is_owned) {
 		data_ref |= 1;
 	}
-	LDKCResult_NoneChannelMonitorUpdateErrZ* ret; // TODO: Call update_persisted_channel on j_calls with instance obj, returning a pointer, id_ref, update_ref, data_ref);
+	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)js_invoke_function_3(j_calls->update_persisted_channel_meth, id_ref, update_ref, data_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -3387,12 +3389,12 @@ static inline LDKPersist LDKPersist_init (/*TODO: JS Object Reference */void* o)
 	};
 	return ret;
 }
-long TS_LDKPersist_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKPersist_new(/*TODO: JS Object Reference */void* o) {
 	LDKPersist *res_ptr = MALLOC(sizeof(LDKPersist), "LDKPersist");
 	*res_ptr = LDKPersist_init(o);
 	return (long)res_ptr;
 }
-uint32_t TS_Persist_persist_new_channel(uint32_t this_arg, uint32_t id, uint32_t data) {
+uint32_t  __attribute__((visibility("default"))) TS_Persist_persist_new_channel(uint32_t this_arg, uint32_t id, uint32_t data) {
 	LDKPersist* this_arg_conv = (LDKPersist*)this_arg;
 	LDKOutPoint id_conv;
 	id_conv.inner = (void*)(id & (~1));
@@ -3407,7 +3409,7 @@ uint32_t TS_Persist_persist_new_channel(uint32_t this_arg, uint32_t id, uint32_t
 	return (long)ret_conv;
 }
 
-uint32_t TS_Persist_update_persisted_channel(uint32_t this_arg, uint32_t id, uint32_t update, uint32_t data) {
+uint32_t  __attribute__((visibility("default"))) TS_Persist_update_persisted_channel(uint32_t this_arg, uint32_t id, uint32_t update, uint32_t data) {
 	LDKPersist* this_arg_conv = (LDKPersist*)this_arg;
 	LDKOutPoint id_conv;
 	id_conv.inner = (void*)(id & (~1));
@@ -3801,12 +3803,12 @@ static inline LDKChannelMessageHandler LDKChannelMessageHandler_init (/*TODO: JS
 	calls->MessageSendEventsProvider = ret.MessageSendEventsProvider.this_arg;
 	return ret;
 }
-long TS_LDKChannelMessageHandler_new (/*TODO: JS Object Reference */void* o, /*TODO: JS Object Reference */ void* MessageSendEventsProvider) {
+long  __attribute__((visibility("default"))) TS_LDKChannelMessageHandler_new(/*TODO: JS Object Reference */void* o, /*TODO: JS Object Reference */ void* MessageSendEventsProvider) {
 	LDKChannelMessageHandler *res_ptr = MALLOC(sizeof(LDKChannelMessageHandler), "LDKChannelMessageHandler");
 	*res_ptr = LDKChannelMessageHandler_init(o, MessageSendEventsProvider);
 	return (long)res_ptr;
 }
-void TS_ChannelMessageHandler_handle_open_channel(uint32_t this_arg, int8_tArray their_node_id, uint32_t their_features, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_open_channel(uint32_t this_arg, int8_tArray their_node_id, uint32_t their_features, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3821,7 +3823,7 @@ void TS_ChannelMessageHandler_handle_open_channel(uint32_t this_arg, int8_tArray
 	(this_arg_conv->handle_open_channel)(this_arg_conv->this_arg, their_node_id_ref, their_features_conv, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_accept_channel(uint32_t this_arg, int8_tArray their_node_id, uint32_t their_features, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_accept_channel(uint32_t this_arg, int8_tArray their_node_id, uint32_t their_features, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3836,7 +3838,7 @@ void TS_ChannelMessageHandler_handle_accept_channel(uint32_t this_arg, int8_tArr
 	(this_arg_conv->handle_accept_channel)(this_arg_conv->this_arg, their_node_id_ref, their_features_conv, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_funding_created(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_funding_created(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3847,7 +3849,7 @@ void TS_ChannelMessageHandler_handle_funding_created(uint32_t this_arg, int8_tAr
 	(this_arg_conv->handle_funding_created)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_funding_signed(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_funding_signed(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3858,7 +3860,7 @@ void TS_ChannelMessageHandler_handle_funding_signed(uint32_t this_arg, int8_tArr
 	(this_arg_conv->handle_funding_signed)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_funding_locked(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_funding_locked(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3869,7 +3871,7 @@ void TS_ChannelMessageHandler_handle_funding_locked(uint32_t this_arg, int8_tArr
 	(this_arg_conv->handle_funding_locked)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_shutdown(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_shutdown(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3880,7 +3882,7 @@ void TS_ChannelMessageHandler_handle_shutdown(uint32_t this_arg, int8_tArray the
 	(this_arg_conv->handle_shutdown)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_closing_signed(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_closing_signed(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3891,7 +3893,7 @@ void TS_ChannelMessageHandler_handle_closing_signed(uint32_t this_arg, int8_tArr
 	(this_arg_conv->handle_closing_signed)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_update_add_htlc(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_update_add_htlc(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3902,7 +3904,7 @@ void TS_ChannelMessageHandler_handle_update_add_htlc(uint32_t this_arg, int8_tAr
 	(this_arg_conv->handle_update_add_htlc)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_update_fulfill_htlc(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_update_fulfill_htlc(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3913,7 +3915,7 @@ void TS_ChannelMessageHandler_handle_update_fulfill_htlc(uint32_t this_arg, int8
 	(this_arg_conv->handle_update_fulfill_htlc)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_update_fail_htlc(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_update_fail_htlc(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3924,7 +3926,7 @@ void TS_ChannelMessageHandler_handle_update_fail_htlc(uint32_t this_arg, int8_tA
 	(this_arg_conv->handle_update_fail_htlc)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_update_fail_malformed_htlc(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_update_fail_malformed_htlc(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3935,7 +3937,7 @@ void TS_ChannelMessageHandler_handle_update_fail_malformed_htlc(uint32_t this_ar
 	(this_arg_conv->handle_update_fail_malformed_htlc)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_commitment_signed(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_commitment_signed(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3946,7 +3948,7 @@ void TS_ChannelMessageHandler_handle_commitment_signed(uint32_t this_arg, int8_t
 	(this_arg_conv->handle_commitment_signed)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_revoke_and_ack(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_revoke_and_ack(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3957,7 +3959,7 @@ void TS_ChannelMessageHandler_handle_revoke_and_ack(uint32_t this_arg, int8_tArr
 	(this_arg_conv->handle_revoke_and_ack)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_update_fee(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_update_fee(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3968,7 +3970,7 @@ void TS_ChannelMessageHandler_handle_update_fee(uint32_t this_arg, int8_tArray t
 	(this_arg_conv->handle_update_fee)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_announcement_signatures(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_announcement_signatures(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3979,7 +3981,7 @@ void TS_ChannelMessageHandler_handle_announcement_signatures(uint32_t this_arg, 
 	(this_arg_conv->handle_announcement_signatures)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_peer_disconnected(uint32_t this_arg, int8_tArray their_node_id, jboolean no_connection_possible) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_peer_disconnected(uint32_t this_arg, int8_tArray their_node_id, jboolean no_connection_possible) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3987,7 +3989,7 @@ void TS_ChannelMessageHandler_peer_disconnected(uint32_t this_arg, int8_tArray t
 	(this_arg_conv->peer_disconnected)(this_arg_conv->this_arg, their_node_id_ref, no_connection_possible);
 }
 
-void TS_ChannelMessageHandler_peer_connected(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_peer_connected(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -3998,7 +4000,7 @@ void TS_ChannelMessageHandler_peer_connected(uint32_t this_arg, int8_tArray thei
 	(this_arg_conv->peer_connected)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_channel_reestablish(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_channel_reestablish(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -4009,7 +4011,7 @@ void TS_ChannelMessageHandler_handle_channel_reestablish(uint32_t this_arg, int8
 	(this_arg_conv->handle_channel_reestablish)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
-void TS_ChannelMessageHandler_handle_error(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_handle_error(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -4063,7 +4065,7 @@ LDKCResult_boolLightningErrorZ handle_node_announcement_jcall(const void* this_a
 	if (msg_var.is_owned) {
 		msg_ref |= 1;
 	}
-	LDKCResult_boolLightningErrorZ* ret; // TODO: Call handle_node_announcement on j_calls with instance obj, returning a pointer, msg_ref);
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)js_invoke_function_1(j_calls->handle_node_announcement_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -4079,7 +4081,7 @@ LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* thi
 	if (msg_var.is_owned) {
 		msg_ref |= 1;
 	}
-	LDKCResult_boolLightningErrorZ* ret; // TODO: Call handle_channel_announcement on j_calls with instance obj, returning a pointer, msg_ref);
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)js_invoke_function_1(j_calls->handle_channel_announcement_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -4095,7 +4097,7 @@ LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg,
 	if (msg_var.is_owned) {
 		msg_ref |= 1;
 	}
-	LDKCResult_boolLightningErrorZ* ret; // TODO: Call handle_channel_update on j_calls with instance obj, returning a pointer, msg_ref);
+	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)js_invoke_function_1(j_calls->handle_channel_update_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -4172,7 +4174,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_channel_range_jcall(const void* this
 	if (msg_var.is_owned) {
 		msg_ref |= 1;
 	}
-	LDKCResult_NoneLightningErrorZ* ret; // TODO: Call handle_reply_channel_range on j_calls with instance obj, returning a pointer, their_node_id_arr, msg_ref);
+	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)js_invoke_function_2(j_calls->handle_reply_channel_range_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -4188,7 +4190,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_jcall(const vo
 	if (msg_var.is_owned) {
 		msg_ref |= 1;
 	}
-	LDKCResult_NoneLightningErrorZ* ret; // TODO: Call handle_reply_short_channel_ids_end on j_calls with instance obj, returning a pointer, their_node_id_arr, msg_ref);
+	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)js_invoke_function_2(j_calls->handle_reply_short_channel_ids_end_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -4204,7 +4206,7 @@ LDKCResult_NoneLightningErrorZ handle_query_channel_range_jcall(const void* this
 	if (msg_var.is_owned) {
 		msg_ref |= 1;
 	}
-	LDKCResult_NoneLightningErrorZ* ret; // TODO: Call handle_query_channel_range on j_calls with instance obj, returning a pointer, their_node_id_arr, msg_ref);
+	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)js_invoke_function_2(j_calls->handle_query_channel_range_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -4220,7 +4222,7 @@ LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_jcall(const void* 
 	if (msg_var.is_owned) {
 		msg_ref |= 1;
 	}
-	LDKCResult_NoneLightningErrorZ* ret; // TODO: Call handle_query_short_channel_ids on j_calls with instance obj, returning a pointer, their_node_id_arr, msg_ref);
+	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)js_invoke_function_2(j_calls->handle_query_short_channel_ids_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
 	FREE((void*)ret);
 	return ret_conv;
@@ -4255,12 +4257,12 @@ static inline LDKRoutingMessageHandler LDKRoutingMessageHandler_init (/*TODO: JS
 	calls->MessageSendEventsProvider = ret.MessageSendEventsProvider.this_arg;
 	return ret;
 }
-long TS_LDKRoutingMessageHandler_new (/*TODO: JS Object Reference */void* o, /*TODO: JS Object Reference */ void* MessageSendEventsProvider) {
+long  __attribute__((visibility("default"))) TS_LDKRoutingMessageHandler_new(/*TODO: JS Object Reference */void* o, /*TODO: JS Object Reference */ void* MessageSendEventsProvider) {
 	LDKRoutingMessageHandler *res_ptr = MALLOC(sizeof(LDKRoutingMessageHandler), "LDKRoutingMessageHandler");
 	*res_ptr = LDKRoutingMessageHandler_init(o, MessageSendEventsProvider);
 	return (long)res_ptr;
 }
-uint32_t TS_RoutingMessageHandler_handle_node_announcement(uint32_t this_arg, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingMessageHandler_handle_node_announcement(uint32_t this_arg, uint32_t msg) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKNodeAnnouncement msg_conv;
 	msg_conv.inner = (void*)(msg & (~1));
@@ -4270,7 +4272,7 @@ uint32_t TS_RoutingMessageHandler_handle_node_announcement(uint32_t this_arg, ui
 	return (long)ret_conv;
 }
 
-uint32_t TS_RoutingMessageHandler_handle_channel_announcement(uint32_t this_arg, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingMessageHandler_handle_channel_announcement(uint32_t this_arg, uint32_t msg) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKChannelAnnouncement msg_conv;
 	msg_conv.inner = (void*)(msg & (~1));
@@ -4280,7 +4282,7 @@ uint32_t TS_RoutingMessageHandler_handle_channel_announcement(uint32_t this_arg,
 	return (long)ret_conv;
 }
 
-uint32_t TS_RoutingMessageHandler_handle_channel_update(uint32_t this_arg, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingMessageHandler_handle_channel_update(uint32_t this_arg, uint32_t msg) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKChannelUpdate msg_conv;
 	msg_conv.inner = (void*)(msg & (~1));
@@ -4290,13 +4292,13 @@ uint32_t TS_RoutingMessageHandler_handle_channel_update(uint32_t this_arg, uint3
 	return (long)ret_conv;
 }
 
-void TS_RoutingMessageHandler_handle_htlc_fail_channel_update(uint32_t this_arg, uint32_t update) {
+void  __attribute__((visibility("default"))) TS_RoutingMessageHandler_handle_htlc_fail_channel_update(uint32_t this_arg, uint32_t update) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKHTLCFailChannelUpdate* update_conv = (LDKHTLCFailChannelUpdate*)update;
 	(this_arg_conv->handle_htlc_fail_channel_update)(this_arg_conv->this_arg, update_conv);
 }
 
-uint32_tArray TS_RoutingMessageHandler_get_next_channel_announcements(uint32_t this_arg, int64_t starting_point, int8_t batch_amount) {
+uint32_tArray  __attribute__((visibility("default"))) TS_RoutingMessageHandler_get_next_channel_announcements(uint32_t this_arg, int64_t starting_point, int8_t batch_amount) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret_var = (this_arg_conv->get_next_channel_announcements)(this_arg_conv->this_arg, starting_point, batch_amount);
 	uint32_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
@@ -4313,7 +4315,7 @@ uint32_tArray TS_RoutingMessageHandler_get_next_channel_announcements(uint32_t t
 	return ret_arr;
 }
 
-uint32_tArray TS_RoutingMessageHandler_get_next_node_announcements(uint32_t this_arg, int8_tArray starting_point, int8_t batch_amount) {
+uint32_tArray  __attribute__((visibility("default"))) TS_RoutingMessageHandler_get_next_node_announcements(uint32_t this_arg, int8_tArray starting_point, int8_t batch_amount) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKPublicKey starting_point_ref;
 	CHECK(*((uint32_t*)starting_point) == 33);
@@ -4335,7 +4337,7 @@ uint32_tArray TS_RoutingMessageHandler_get_next_node_announcements(uint32_t this
 	return ret_arr;
 }
 
-void TS_RoutingMessageHandler_sync_routing_table(uint32_t this_arg, int8_tArray their_node_id, uint32_t init) {
+void  __attribute__((visibility("default"))) TS_RoutingMessageHandler_sync_routing_table(uint32_t this_arg, int8_tArray their_node_id, uint32_t init) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -4346,7 +4348,7 @@ void TS_RoutingMessageHandler_sync_routing_table(uint32_t this_arg, int8_tArray 
 	(this_arg_conv->sync_routing_table)(this_arg_conv->this_arg, their_node_id_ref, &init_conv);
 }
 
-uint32_t TS_RoutingMessageHandler_handle_reply_channel_range(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingMessageHandler_handle_reply_channel_range(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -4361,7 +4363,7 @@ uint32_t TS_RoutingMessageHandler_handle_reply_channel_range(uint32_t this_arg, 
 	return (long)ret_conv;
 }
 
-uint32_t TS_RoutingMessageHandler_handle_reply_short_channel_ids_end(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingMessageHandler_handle_reply_short_channel_ids_end(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -4376,7 +4378,7 @@ uint32_t TS_RoutingMessageHandler_handle_reply_short_channel_ids_end(uint32_t th
 	return (long)ret_conv;
 }
 
-uint32_t TS_RoutingMessageHandler_handle_query_channel_range(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingMessageHandler_handle_query_channel_range(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -4391,7 +4393,7 @@ uint32_t TS_RoutingMessageHandler_handle_query_channel_range(uint32_t this_arg, 
 	return (long)ret_conv;
 }
 
-uint32_t TS_RoutingMessageHandler_handle_query_short_channel_ids(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingMessageHandler_handle_query_short_channel_ids(uint32_t this_arg, int8_tArray their_node_id, uint32_t msg) {
 	LDKRoutingMessageHandler* this_arg_conv = (LDKRoutingMessageHandler*)this_arg;
 	LDKPublicKey their_node_id_ref;
 	CHECK(*((uint32_t*)their_node_id) == 33);
@@ -4465,12 +4467,12 @@ static inline LDKSocketDescriptor LDKSocketDescriptor_init (/*TODO: JS Object Re
 	};
 	return ret;
 }
-long TS_LDKSocketDescriptor_new (/*TODO: JS Object Reference */void* o) {
+long  __attribute__((visibility("default"))) TS_LDKSocketDescriptor_new(/*TODO: JS Object Reference */void* o) {
 	LDKSocketDescriptor *res_ptr = MALLOC(sizeof(LDKSocketDescriptor), "LDKSocketDescriptor");
 	*res_ptr = LDKSocketDescriptor_init(o);
 	return (long)res_ptr;
 }
-intptr_t TS_SocketDescriptor_send_data(uint32_t this_arg, int8_tArray data, jboolean resume_read) {
+intptr_t  __attribute__((visibility("default"))) TS_SocketDescriptor_send_data(uint32_t this_arg, int8_tArray data, jboolean resume_read) {
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)this_arg;
 	LDKu8slice data_ref;
 	data_ref.datalen = *((uint32_t*)data);
@@ -4479,18 +4481,18 @@ intptr_t TS_SocketDescriptor_send_data(uint32_t this_arg, int8_tArray data, jboo
 	return ret_val;
 }
 
-void TS_SocketDescriptor_disconnect_socket(uint32_t this_arg) {
+void  __attribute__((visibility("default"))) TS_SocketDescriptor_disconnect_socket(uint32_t this_arg) {
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)this_arg;
 	(this_arg_conv->disconnect_socket)(this_arg_conv->this_arg);
 }
 
-int64_t TS_SocketDescriptor_hash(uint32_t this_arg) {
+int64_t  __attribute__((visibility("default"))) TS_SocketDescriptor_hash(uint32_t this_arg) {
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)this_arg;
 	int64_t ret_val = (this_arg_conv->hash)(this_arg_conv->this_arg);
 	return ret_val;
 }
 
-void TS_Transaction_free(int8_tArray _res) {
+void  __attribute__((visibility("default"))) TS_Transaction_free(int8_tArray _res) {
 	LDKTransaction _res_ref;
 	_res_ref.datalen = *((uint32_t*)_res);
 	_res_ref.data = MALLOC(_res_ref.datalen, "LDKTransaction Bytes");
@@ -4499,13 +4501,13 @@ void TS_Transaction_free(int8_tArray _res) {
 	Transaction_free(_res_ref);
 }
 
-void TS_TxOut_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_TxOut_free(uint32_t _res) {
 	LDKTxOut _res_conv = *(LDKTxOut*)_res;
 	FREE((void*)_res);
 	TxOut_free(_res_conv);
 }
 
-void TS_CVec_SpendableOutputDescriptorZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_SpendableOutputDescriptorZ_free(uint32_tArray _res) {
 	LDKCVec_SpendableOutputDescriptorZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4522,7 +4524,7 @@ void TS_CVec_SpendableOutputDescriptorZ_free(uint32_tArray _res) {
 	CVec_SpendableOutputDescriptorZ_free(_res_constr);
 }
 
-void TS_CVec_MessageSendEventZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_MessageSendEventZ_free(uint32_tArray _res) {
 	LDKCVec_MessageSendEventZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4539,7 +4541,7 @@ void TS_CVec_MessageSendEventZ_free(uint32_tArray _res) {
 	CVec_MessageSendEventZ_free(_res_constr);
 }
 
-void TS_CVec_EventZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_EventZ_free(uint32_tArray _res) {
 	LDKCVec_EventZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4556,13 +4558,13 @@ void TS_CVec_EventZ_free(uint32_tArray _res) {
 	CVec_EventZ_free(_res_constr);
 }
 
-void TS_C2Tuple_usizeTransactionZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C2Tuple_usizeTransactionZ_free(uint32_t _res) {
 	LDKC2Tuple_usizeTransactionZ _res_conv = *(LDKC2Tuple_usizeTransactionZ*)_res;
 	FREE((void*)_res);
 	C2Tuple_usizeTransactionZ_free(_res_conv);
 }
 
-uint32_t TS_C2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
 	LDKTransaction b_ref;
 	b_ref.datalen = *((uint32_t*)b);
 	b_ref.data = MALLOC(b_ref.datalen, "LDKTransaction Bytes");
@@ -4574,7 +4576,7 @@ uint32_t TS_C2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
 	return (long)ret_ref;
 }
 
-void TS_CVec_C2Tuple_usizeTransactionZZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_C2Tuple_usizeTransactionZZ_free(uint32_tArray _res) {
 	LDKCVec_C2Tuple_usizeTransactionZZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4591,26 +4593,26 @@ void TS_CVec_C2Tuple_usizeTransactionZZ_free(uint32_tArray _res) {
 	CVec_C2Tuple_usizeTransactionZZ_free(_res_constr);
 }
 
-uint32_t TS_CResult_NoneChannelMonitorUpdateErrZ_ok() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NoneChannelMonitorUpdateErrZ_ok() {
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneChannelMonitorUpdateErrZ), "LDKCResult_NoneChannelMonitorUpdateErrZ");
 	*ret_conv = CResult_NoneChannelMonitorUpdateErrZ_ok();
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NoneChannelMonitorUpdateErrZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NoneChannelMonitorUpdateErrZ_err(uint32_t e) {
 	LDKChannelMonitorUpdateErr e_conv = LDKChannelMonitorUpdateErr_from_js(e);
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneChannelMonitorUpdateErrZ), "LDKCResult_NoneChannelMonitorUpdateErrZ");
 	*ret_conv = CResult_NoneChannelMonitorUpdateErrZ_err(e_conv);
 	return (long)ret_conv;
 }
 
-void TS_CResult_NoneChannelMonitorUpdateErrZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NoneChannelMonitorUpdateErrZ_free(uint32_t _res) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ _res_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)_res;
 	FREE((void*)_res);
 	CResult_NoneChannelMonitorUpdateErrZ_free(_res_conv);
 }
 
-void TS_CVec_MonitorEventZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_MonitorEventZ_free(uint32_tArray _res) {
 	LDKCVec_MonitorEventZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4628,7 +4630,7 @@ void TS_CVec_MonitorEventZ_free(uint32_tArray _res) {
 	CVec_MonitorEventZ_free(_res_constr);
 }
 
-uint32_t TS_CResult_ChannelMonitorUpdateDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_ok(uint32_t o) {
 	LDKChannelMonitorUpdate o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -4639,7 +4641,7 @@ uint32_t TS_CResult_ChannelMonitorUpdateDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_ChannelMonitorUpdateDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -4649,19 +4651,19 @@ uint32_t TS_CResult_ChannelMonitorUpdateDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_ChannelMonitorUpdateDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ _res_conv = *(LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_ChannelMonitorUpdateDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_NoneMonitorUpdateErrorZ_ok() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NoneMonitorUpdateErrorZ_ok() {
 	LDKCResult_NoneMonitorUpdateErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneMonitorUpdateErrorZ), "LDKCResult_NoneMonitorUpdateErrorZ");
 	*ret_conv = CResult_NoneMonitorUpdateErrorZ_ok();
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NoneMonitorUpdateErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NoneMonitorUpdateErrorZ_err(uint32_t e) {
 	LDKMonitorUpdateError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -4671,19 +4673,19 @@ uint32_t TS_CResult_NoneMonitorUpdateErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_NoneMonitorUpdateErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NoneMonitorUpdateErrorZ_free(uint32_t _res) {
 	LDKCResult_NoneMonitorUpdateErrorZ _res_conv = *(LDKCResult_NoneMonitorUpdateErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_NoneMonitorUpdateErrorZ_free(_res_conv);
 }
 
-void TS_C2Tuple_OutPointScriptZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C2Tuple_OutPointScriptZ_free(uint32_t _res) {
 	LDKC2Tuple_OutPointScriptZ _res_conv = *(LDKC2Tuple_OutPointScriptZ*)_res;
 	FREE((void*)_res);
 	C2Tuple_OutPointScriptZ_free(_res_conv);
 }
 
-uint32_t TS_C2Tuple_OutPointScriptZ_new(uint32_t a, int8_tArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_OutPointScriptZ_new(uint32_t a, int8_tArray b) {
 	LDKOutPoint a_conv;
 	a_conv.inner = (void*)(a & (~1));
 	a_conv.is_owned = (a & 1) || (a == 0);
@@ -4700,7 +4702,7 @@ uint32_t TS_C2Tuple_OutPointScriptZ_new(uint32_t a, int8_tArray b) {
 	return (long)ret_ref;
 }
 
-void TS_CVec_TransactionZ_free(ptrArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_TransactionZ_free(ptrArray _res) {
 	LDKCVec_TransactionZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4720,13 +4722,13 @@ void TS_CVec_TransactionZ_free(ptrArray _res) {
 	CVec_TransactionZ_free(_res_constr);
 }
 
-void TS_C2Tuple_u32TxOutZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C2Tuple_u32TxOutZ_free(uint32_t _res) {
 	LDKC2Tuple_u32TxOutZ _res_conv = *(LDKC2Tuple_u32TxOutZ*)_res;
 	FREE((void*)_res);
 	C2Tuple_u32TxOutZ_free(_res_conv);
 }
 
-uint32_t TS_C2Tuple_u32TxOutZ_new(int32_t a, uint32_t b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_u32TxOutZ_new(int32_t a, uint32_t b) {
 	LDKTxOut b_conv = *(LDKTxOut*)b;
 	FREE((void*)b);
 	LDKC2Tuple_u32TxOutZ* ret_ref = MALLOC(sizeof(LDKC2Tuple_u32TxOutZ), "LDKC2Tuple_u32TxOutZ");
@@ -4735,7 +4737,7 @@ uint32_t TS_C2Tuple_u32TxOutZ_new(int32_t a, uint32_t b) {
 	return (long)ret_ref;
 }
 
-void TS_CVec_C2Tuple_u32TxOutZZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_C2Tuple_u32TxOutZZ_free(uint32_tArray _res) {
 	LDKCVec_C2Tuple_u32TxOutZZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4752,13 +4754,13 @@ void TS_CVec_C2Tuple_u32TxOutZZ_free(uint32_tArray _res) {
 	CVec_C2Tuple_u32TxOutZZ_free(_res_constr);
 }
 
-void TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(uint32_t _res) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ _res_conv = *(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)_res;
 	FREE((void*)_res);
 	C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(_res_conv);
 }
 
-uint32_t TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(int8_tArray a, uint32_tArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(int8_tArray a, uint32_tArray b) {
 	LDKThirtyTwoBytes a_ref;
 	CHECK(*((uint32_t*)a) == 32);
 	memcpy(a_ref.data, (uint8_t*)(a + 4), 32);
@@ -4782,7 +4784,7 @@ uint32_t TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(int8_tArray a, uint32_tArra
 	return (long)ret_ref;
 }
 
-void TS_CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(uint32_tArray _res) {
 	LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4799,13 +4801,13 @@ void TS_CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(uint32_tArray _res) {
 	CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(_res_constr);
 }
 
-void TS_C2Tuple_BlockHashChannelMonitorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C2Tuple_BlockHashChannelMonitorZ_free(uint32_t _res) {
 	LDKC2Tuple_BlockHashChannelMonitorZ _res_conv = *(LDKC2Tuple_BlockHashChannelMonitorZ*)_res;
 	FREE((void*)_res);
 	C2Tuple_BlockHashChannelMonitorZ_free(_res_conv);
 }
 
-uint32_t TS_C2Tuple_BlockHashChannelMonitorZ_new(int8_tArray a, uint32_t b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_BlockHashChannelMonitorZ_new(int8_tArray a, uint32_t b) {
 	LDKThirtyTwoBytes a_ref;
 	CHECK(*((uint32_t*)a) == 32);
 	memcpy(a_ref.data, (uint8_t*)(a + 4), 32);
@@ -4820,7 +4822,7 @@ uint32_t TS_C2Tuple_BlockHashChannelMonitorZ_new(int8_tArray a, uint32_t b) {
 	return (long)ret_ref;
 }
 
-uint32_t TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(uint32_t o) {
 	LDKC2Tuple_BlockHashChannelMonitorZ o_conv = *(LDKC2Tuple_BlockHashChannelMonitorZ*)o;
 	FREE((void*)o);
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ), "LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ");
@@ -4828,7 +4830,7 @@ uint32_t TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(uint32_t o) 
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -4838,25 +4840,25 @@ uint32_t TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(uint32_t e)
 	return (long)ret_conv;
 }
 
-void TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ _res_conv = *(LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(_res_conv);
 }
 
-void TS_C2Tuple_u64u64Z_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C2Tuple_u64u64Z_free(uint32_t _res) {
 	LDKC2Tuple_u64u64Z _res_conv = *(LDKC2Tuple_u64u64Z*)_res;
 	FREE((void*)_res);
 	C2Tuple_u64u64Z_free(_res_conv);
 }
 
-uint32_t TS_C2Tuple_u64u64Z_new(int64_t a, int64_t b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_u64u64Z_new(int64_t a, int64_t b) {
 	LDKC2Tuple_u64u64Z* ret_ref = MALLOC(sizeof(LDKC2Tuple_u64u64Z), "LDKC2Tuple_u64u64Z");
 	*ret_ref = C2Tuple_u64u64Z_new(a, b);
 	return (long)ret_ref;
 }
 
-uint32_t TS_CResult_SpendableOutputDescriptorDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_ok(uint32_t o) {
 	LDKSpendableOutputDescriptor o_conv = *(LDKSpendableOutputDescriptor*)o;
 	FREE((void*)o);
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_SpendableOutputDescriptorDecodeErrorZ), "LDKCResult_SpendableOutputDescriptorDecodeErrorZ");
@@ -4864,7 +4866,7 @@ uint32_t TS_CResult_SpendableOutputDescriptorDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_SpendableOutputDescriptorDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -4874,13 +4876,13 @@ uint32_t TS_CResult_SpendableOutputDescriptorDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_SpendableOutputDescriptorDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ _res_conv = *(LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_SpendableOutputDescriptorDecodeErrorZ_free(_res_conv);
 }
 
-void TS_CVec_SignatureZ_free(ptrArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_SignatureZ_free(ptrArray _res) {
 	LDKCVec_SignatureZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -4898,13 +4900,13 @@ void TS_CVec_SignatureZ_free(ptrArray _res) {
 	CVec_SignatureZ_free(_res_constr);
 }
 
-void TS_C2Tuple_SignatureCVec_SignatureZZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C2Tuple_SignatureCVec_SignatureZZ_free(uint32_t _res) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ _res_conv = *(LDKC2Tuple_SignatureCVec_SignatureZZ*)_res;
 	FREE((void*)_res);
 	C2Tuple_SignatureCVec_SignatureZZ_free(_res_conv);
 }
 
-uint32_t TS_C2Tuple_SignatureCVec_SignatureZZ_new(int8_tArray a, ptrArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_SignatureCVec_SignatureZZ_new(int8_tArray a, ptrArray b) {
 	LDKSignature a_ref;
 	CHECK(*((uint32_t*)a) == 64);
 	memcpy(a_ref.compact_form, (uint8_t*)(a + 4), 64);
@@ -4929,7 +4931,7 @@ uint32_t TS_C2Tuple_SignatureCVec_SignatureZZ_new(int8_tArray a, ptrArray b) {
 	return (long)ret_ref;
 }
 
-uint32_t TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(uint32_t o) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ o_conv = *(LDKC2Tuple_SignatureCVec_SignatureZZ*)o;
 	FREE((void*)o);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ), "LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ");
@@ -4937,19 +4939,19 @@ uint32_t TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err() {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ), "LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ");
 	*ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err();
 	return (long)ret_conv;
 }
 
-void TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(uint32_t _res) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ _res_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)_res;
 	FREE((void*)_res);
 	CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_SignatureNoneZ_ok(int8_tArray o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_SignatureNoneZ_ok(int8_tArray o) {
 	LDKSignature o_ref;
 	CHECK(*((uint32_t*)o) == 64);
 	memcpy(o_ref.compact_form, (uint8_t*)(o + 4), 64);
@@ -4958,19 +4960,19 @@ uint32_t TS_CResult_SignatureNoneZ_ok(int8_tArray o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_SignatureNoneZ_err() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_SignatureNoneZ_err() {
 	LDKCResult_SignatureNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_SignatureNoneZ), "LDKCResult_SignatureNoneZ");
 	*ret_conv = CResult_SignatureNoneZ_err();
 	return (long)ret_conv;
 }
 
-void TS_CResult_SignatureNoneZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_SignatureNoneZ_free(uint32_t _res) {
 	LDKCResult_SignatureNoneZ _res_conv = *(LDKCResult_SignatureNoneZ*)_res;
 	FREE((void*)_res);
 	CResult_SignatureNoneZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_CVec_SignatureZNoneZ_ok(ptrArray o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_CVec_SignatureZNoneZ_ok(ptrArray o) {
 	LDKCVec_SignatureZ o_constr;
 	o_constr.datalen = *((uint32_t*)o);
 	if (o_constr.datalen > 0)
@@ -4990,26 +4992,26 @@ uint32_t TS_CResult_CVec_SignatureZNoneZ_ok(ptrArray o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_CVec_SignatureZNoneZ_err() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_CVec_SignatureZNoneZ_err() {
 	LDKCResult_CVec_SignatureZNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_CVec_SignatureZNoneZ), "LDKCResult_CVec_SignatureZNoneZ");
 	*ret_conv = CResult_CVec_SignatureZNoneZ_err();
 	return (long)ret_conv;
 }
 
-void TS_CResult_CVec_SignatureZNoneZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_CVec_SignatureZNoneZ_free(uint32_t _res) {
 	LDKCResult_CVec_SignatureZNoneZ _res_conv = *(LDKCResult_CVec_SignatureZNoneZ*)_res;
 	FREE((void*)_res);
 	CResult_CVec_SignatureZNoneZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_ChanKeySignerDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ChanKeySignerDecodeErrorZ_ok(uint32_t o) {
 	LDKChannelKeys o_conv = *(LDKChannelKeys*)o;
 	LDKCResult_ChanKeySignerDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_ChanKeySignerDecodeErrorZ), "LDKCResult_ChanKeySignerDecodeErrorZ");
 	*ret_conv = CResult_ChanKeySignerDecodeErrorZ_ok(o_conv);
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_ChanKeySignerDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ChanKeySignerDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5019,13 +5021,13 @@ uint32_t TS_CResult_ChanKeySignerDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_ChanKeySignerDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_ChanKeySignerDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_ChanKeySignerDecodeErrorZ _res_conv = *(LDKCResult_ChanKeySignerDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_ChanKeySignerDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_InMemoryChannelKeysDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_InMemoryChannelKeysDecodeErrorZ_ok(uint32_t o) {
 	LDKInMemoryChannelKeys o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5036,7 +5038,7 @@ uint32_t TS_CResult_InMemoryChannelKeysDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_InMemoryChannelKeysDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_InMemoryChannelKeysDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5046,13 +5048,13 @@ uint32_t TS_CResult_InMemoryChannelKeysDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_InMemoryChannelKeysDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_InMemoryChannelKeysDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_InMemoryChannelKeysDecodeErrorZ _res_conv = *(LDKCResult_InMemoryChannelKeysDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_InMemoryChannelKeysDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_TxOutAccessErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_TxOutAccessErrorZ_ok(uint32_t o) {
 	LDKTxOut o_conv = *(LDKTxOut*)o;
 	FREE((void*)o);
 	LDKCResult_TxOutAccessErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_TxOutAccessErrorZ), "LDKCResult_TxOutAccessErrorZ");
@@ -5060,26 +5062,26 @@ uint32_t TS_CResult_TxOutAccessErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_TxOutAccessErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_TxOutAccessErrorZ_err(uint32_t e) {
 	LDKAccessError e_conv = LDKAccessError_from_js(e);
 	LDKCResult_TxOutAccessErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_TxOutAccessErrorZ), "LDKCResult_TxOutAccessErrorZ");
 	*ret_conv = CResult_TxOutAccessErrorZ_err(e_conv);
 	return (long)ret_conv;
 }
 
-void TS_CResult_TxOutAccessErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_TxOutAccessErrorZ_free(uint32_t _res) {
 	LDKCResult_TxOutAccessErrorZ _res_conv = *(LDKCResult_TxOutAccessErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_TxOutAccessErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_NoneAPIErrorZ_ok() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NoneAPIErrorZ_ok() {
 	LDKCResult_NoneAPIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
 	*ret_conv = CResult_NoneAPIErrorZ_ok();
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NoneAPIErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NoneAPIErrorZ_err(uint32_t e) {
 	LDKAPIError e_conv = *(LDKAPIError*)e;
 	FREE((void*)e);
 	LDKCResult_NoneAPIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
@@ -5087,13 +5089,13 @@ uint32_t TS_CResult_NoneAPIErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_NoneAPIErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NoneAPIErrorZ_free(uint32_t _res) {
 	LDKCResult_NoneAPIErrorZ _res_conv = *(LDKCResult_NoneAPIErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_NoneAPIErrorZ_free(_res_conv);
 }
 
-void TS_CVec_ChannelDetailsZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_ChannelDetailsZ_free(uint32_tArray _res) {
 	LDKCVec_ChannelDetailsZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5111,13 +5113,13 @@ void TS_CVec_ChannelDetailsZ_free(uint32_tArray _res) {
 	CVec_ChannelDetailsZ_free(_res_constr);
 }
 
-uint32_t TS_CResult_NonePaymentSendFailureZ_ok() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NonePaymentSendFailureZ_ok() {
 	LDKCResult_NonePaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_NonePaymentSendFailureZ), "LDKCResult_NonePaymentSendFailureZ");
 	*ret_conv = CResult_NonePaymentSendFailureZ_ok();
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NonePaymentSendFailureZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NonePaymentSendFailureZ_err(uint32_t e) {
 	LDKPaymentSendFailure e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5127,13 +5129,13 @@ uint32_t TS_CResult_NonePaymentSendFailureZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_NonePaymentSendFailureZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NonePaymentSendFailureZ_free(uint32_t _res) {
 	LDKCResult_NonePaymentSendFailureZ _res_conv = *(LDKCResult_NonePaymentSendFailureZ*)_res;
 	FREE((void*)_res);
 	CResult_NonePaymentSendFailureZ_free(_res_conv);
 }
 
-void TS_CVec_NetAddressZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_NetAddressZ_free(uint32_tArray _res) {
 	LDKCVec_NetAddressZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5150,7 +5152,7 @@ void TS_CVec_NetAddressZ_free(uint32_tArray _res) {
 	CVec_NetAddressZ_free(_res_constr);
 }
 
-void TS_CVec_ChannelMonitorZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_ChannelMonitorZ_free(uint32_tArray _res) {
 	LDKCVec_ChannelMonitorZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5168,13 +5170,13 @@ void TS_CVec_ChannelMonitorZ_free(uint32_tArray _res) {
 	CVec_ChannelMonitorZ_free(_res_constr);
 }
 
-void TS_C2Tuple_BlockHashChannelManagerZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C2Tuple_BlockHashChannelManagerZ_free(uint32_t _res) {
 	LDKC2Tuple_BlockHashChannelManagerZ _res_conv = *(LDKC2Tuple_BlockHashChannelManagerZ*)_res;
 	FREE((void*)_res);
 	C2Tuple_BlockHashChannelManagerZ_free(_res_conv);
 }
 
-uint32_t TS_C2Tuple_BlockHashChannelManagerZ_new(int8_tArray a, uint32_t b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_BlockHashChannelManagerZ_new(int8_tArray a, uint32_t b) {
 	LDKThirtyTwoBytes a_ref;
 	CHECK(*((uint32_t*)a) == 32);
 	memcpy(a_ref.data, (uint8_t*)(a + 4), 32);
@@ -5189,7 +5191,7 @@ uint32_t TS_C2Tuple_BlockHashChannelManagerZ_new(int8_tArray a, uint32_t b) {
 	return (long)ret_ref;
 }
 
-uint32_t TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(uint32_t o) {
 	LDKC2Tuple_BlockHashChannelManagerZ o_conv = *(LDKC2Tuple_BlockHashChannelManagerZ*)o;
 	FREE((void*)o);
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ), "LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ");
@@ -5197,7 +5199,7 @@ uint32_t TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(uint32_t o) 
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5207,13 +5209,13 @@ uint32_t TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(uint32_t e)
 	return (long)ret_conv;
 }
 
-void TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ _res_conv = *(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_NetAddressu8Z_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NetAddressu8Z_ok(uint32_t o) {
 	LDKNetAddress o_conv = *(LDKNetAddress*)o;
 	FREE((void*)o);
 	LDKCResult_NetAddressu8Z* ret_conv = MALLOC(sizeof(LDKCResult_NetAddressu8Z), "LDKCResult_NetAddressu8Z");
@@ -5221,19 +5223,19 @@ uint32_t TS_CResult_NetAddressu8Z_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NetAddressu8Z_err(int8_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NetAddressu8Z_err(int8_t e) {
 	LDKCResult_NetAddressu8Z* ret_conv = MALLOC(sizeof(LDKCResult_NetAddressu8Z), "LDKCResult_NetAddressu8Z");
 	*ret_conv = CResult_NetAddressu8Z_err(e);
 	return (long)ret_conv;
 }
 
-void TS_CResult_NetAddressu8Z_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NetAddressu8Z_free(uint32_t _res) {
 	LDKCResult_NetAddressu8Z _res_conv = *(LDKCResult_NetAddressu8Z*)_res;
 	FREE((void*)_res);
 	CResult_NetAddressu8Z_free(_res_conv);
 }
 
-uint32_t TS_CResult_CResult_NetAddressu8ZDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_CResult_NetAddressu8ZDecodeErrorZ_ok(uint32_t o) {
 	LDKCResult_NetAddressu8Z o_conv = *(LDKCResult_NetAddressu8Z*)o;
 	FREE((void*)o);
 	LDKCResult_CResult_NetAddressu8ZDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_CResult_NetAddressu8ZDecodeErrorZ), "LDKCResult_CResult_NetAddressu8ZDecodeErrorZ");
@@ -5241,7 +5243,7 @@ uint32_t TS_CResult_CResult_NetAddressu8ZDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_CResult_NetAddressu8ZDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_CResult_NetAddressu8ZDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5251,13 +5253,13 @@ uint32_t TS_CResult_CResult_NetAddressu8ZDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_CResult_NetAddressu8ZDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_CResult_NetAddressu8ZDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_CResult_NetAddressu8ZDecodeErrorZ _res_conv = *(LDKCResult_CResult_NetAddressu8ZDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_CResult_NetAddressu8ZDecodeErrorZ_free(_res_conv);
 }
 
-void TS_CVec_u64Z_free(int64_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_u64Z_free(int64_tArray _res) {
 	LDKCVec_u64Z _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5272,7 +5274,7 @@ void TS_CVec_u64Z_free(int64_tArray _res) {
 	CVec_u64Z_free(_res_constr);
 }
 
-void TS_CVec_UpdateAddHTLCZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_UpdateAddHTLCZ_free(uint32_tArray _res) {
 	LDKCVec_UpdateAddHTLCZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5290,7 +5292,7 @@ void TS_CVec_UpdateAddHTLCZ_free(uint32_tArray _res) {
 	CVec_UpdateAddHTLCZ_free(_res_constr);
 }
 
-void TS_CVec_UpdateFulfillHTLCZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_UpdateFulfillHTLCZ_free(uint32_tArray _res) {
 	LDKCVec_UpdateFulfillHTLCZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5308,7 +5310,7 @@ void TS_CVec_UpdateFulfillHTLCZ_free(uint32_tArray _res) {
 	CVec_UpdateFulfillHTLCZ_free(_res_constr);
 }
 
-void TS_CVec_UpdateFailHTLCZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_UpdateFailHTLCZ_free(uint32_tArray _res) {
 	LDKCVec_UpdateFailHTLCZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5326,7 +5328,7 @@ void TS_CVec_UpdateFailHTLCZ_free(uint32_tArray _res) {
 	CVec_UpdateFailHTLCZ_free(_res_constr);
 }
 
-void TS_CVec_UpdateFailMalformedHTLCZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_UpdateFailMalformedHTLCZ_free(uint32_tArray _res) {
 	LDKCVec_UpdateFailMalformedHTLCZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5344,13 +5346,13 @@ void TS_CVec_UpdateFailMalformedHTLCZ_free(uint32_tArray _res) {
 	CVec_UpdateFailMalformedHTLCZ_free(_res_constr);
 }
 
-uint32_t TS_CResult_boolLightningErrorZ_ok(jboolean o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_boolLightningErrorZ_ok(jboolean o) {
 	LDKCResult_boolLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolLightningErrorZ), "LDKCResult_boolLightningErrorZ");
 	*ret_conv = CResult_boolLightningErrorZ_ok(o);
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_boolLightningErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_boolLightningErrorZ_err(uint32_t e) {
 	LDKLightningError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5360,19 +5362,19 @@ uint32_t TS_CResult_boolLightningErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_boolLightningErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_boolLightningErrorZ_free(uint32_t _res) {
 	LDKCResult_boolLightningErrorZ _res_conv = *(LDKCResult_boolLightningErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_boolLightningErrorZ_free(_res_conv);
 }
 
-void TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(uint32_t _res) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ _res_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)_res;
 	FREE((void*)_res);
 	C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(_res_conv);
 }
 
-uint32_t TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(uint32_t a, uint32_t b, uint32_t c) {
+uint32_t  __attribute__((visibility("default"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(uint32_t a, uint32_t b, uint32_t c) {
 	LDKChannelAnnouncement a_conv;
 	a_conv.inner = (void*)(a & (~1));
 	a_conv.is_owned = (a & 1) || (a == 0);
@@ -5396,7 +5398,7 @@ uint32_t TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(uint32_t 
 	return (long)ret_ref;
 }
 
-void TS_CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_free(uint32_tArray _res) {
 	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5413,7 +5415,7 @@ void TS_CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_free(uint32
 	CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_free(_res_constr);
 }
 
-void TS_CVec_NodeAnnouncementZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_NodeAnnouncementZ_free(uint32_tArray _res) {
 	LDKCVec_NodeAnnouncementZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5431,13 +5433,13 @@ void TS_CVec_NodeAnnouncementZ_free(uint32_tArray _res) {
 	CVec_NodeAnnouncementZ_free(_res_constr);
 }
 
-uint32_t TS_CResult_NoneLightningErrorZ_ok() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NoneLightningErrorZ_ok() {
 	LDKCResult_NoneLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneLightningErrorZ), "LDKCResult_NoneLightningErrorZ");
 	*ret_conv = CResult_NoneLightningErrorZ_ok();
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NoneLightningErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NoneLightningErrorZ_err(uint32_t e) {
 	LDKLightningError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5447,13 +5449,13 @@ uint32_t TS_CResult_NoneLightningErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_NoneLightningErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NoneLightningErrorZ_free(uint32_t _res) {
 	LDKCResult_NoneLightningErrorZ _res_conv = *(LDKCResult_NoneLightningErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_NoneLightningErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_ChannelReestablishDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ChannelReestablishDecodeErrorZ_ok(uint32_t o) {
 	LDKChannelReestablish o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5464,7 +5466,7 @@ uint32_t TS_CResult_ChannelReestablishDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_ChannelReestablishDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ChannelReestablishDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5474,13 +5476,13 @@ uint32_t TS_CResult_ChannelReestablishDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_ChannelReestablishDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_ChannelReestablishDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_ChannelReestablishDecodeErrorZ _res_conv = *(LDKCResult_ChannelReestablishDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_ChannelReestablishDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_InitDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_InitDecodeErrorZ_ok(uint32_t o) {
 	LDKInit o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5491,7 +5493,7 @@ uint32_t TS_CResult_InitDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_InitDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_InitDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5501,13 +5503,13 @@ uint32_t TS_CResult_InitDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_InitDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_InitDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_InitDecodeErrorZ _res_conv = *(LDKCResult_InitDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_InitDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_PingDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PingDecodeErrorZ_ok(uint32_t o) {
 	LDKPing o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5518,7 +5520,7 @@ uint32_t TS_CResult_PingDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_PingDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PingDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5528,13 +5530,13 @@ uint32_t TS_CResult_PingDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_PingDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_PingDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_PingDecodeErrorZ _res_conv = *(LDKCResult_PingDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_PingDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_PongDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PongDecodeErrorZ_ok(uint32_t o) {
 	LDKPong o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5545,7 +5547,7 @@ uint32_t TS_CResult_PongDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_PongDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PongDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5555,13 +5557,13 @@ uint32_t TS_CResult_PongDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_PongDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_PongDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_PongDecodeErrorZ _res_conv = *(LDKCResult_PongDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_PongDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_ok(uint32_t o) {
 	LDKUnsignedChannelAnnouncement o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5572,7 +5574,7 @@ uint32_t TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5582,13 +5584,13 @@ uint32_t TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ _res_conv = *(LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_UnsignedChannelAnnouncementDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_UnsignedChannelUpdateDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_ok(uint32_t o) {
 	LDKUnsignedChannelUpdate o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5599,7 +5601,7 @@ uint32_t TS_CResult_UnsignedChannelUpdateDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_UnsignedChannelUpdateDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5609,13 +5611,13 @@ uint32_t TS_CResult_UnsignedChannelUpdateDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_UnsignedChannelUpdateDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ _res_conv = *(LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_UnsignedChannelUpdateDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_ErrorMessageDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ErrorMessageDecodeErrorZ_ok(uint32_t o) {
 	LDKErrorMessage o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5626,7 +5628,7 @@ uint32_t TS_CResult_ErrorMessageDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_ErrorMessageDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ErrorMessageDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5636,13 +5638,13 @@ uint32_t TS_CResult_ErrorMessageDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_ErrorMessageDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_ErrorMessageDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_ErrorMessageDecodeErrorZ _res_conv = *(LDKCResult_ErrorMessageDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_ErrorMessageDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_ok(uint32_t o) {
 	LDKUnsignedNodeAnnouncement o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5653,7 +5655,7 @@ uint32_t TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5663,13 +5665,13 @@ uint32_t TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ _res_conv = *(LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_UnsignedNodeAnnouncementDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_QueryShortChannelIdsDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_ok(uint32_t o) {
 	LDKQueryShortChannelIds o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5680,7 +5682,7 @@ uint32_t TS_CResult_QueryShortChannelIdsDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_QueryShortChannelIdsDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5690,13 +5692,13 @@ uint32_t TS_CResult_QueryShortChannelIdsDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_QueryShortChannelIdsDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ _res_conv = *(LDKCResult_QueryShortChannelIdsDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_QueryShortChannelIdsDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_ok(uint32_t o) {
 	LDKReplyShortChannelIdsEnd o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5707,7 +5709,7 @@ uint32_t TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5717,13 +5719,13 @@ uint32_t TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ _res_conv = *(LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_ReplyShortChannelIdsEndDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_QueryChannelRangeDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_QueryChannelRangeDecodeErrorZ_ok(uint32_t o) {
 	LDKQueryChannelRange o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5734,7 +5736,7 @@ uint32_t TS_CResult_QueryChannelRangeDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_QueryChannelRangeDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_QueryChannelRangeDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5744,13 +5746,13 @@ uint32_t TS_CResult_QueryChannelRangeDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_QueryChannelRangeDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_QueryChannelRangeDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ _res_conv = *(LDKCResult_QueryChannelRangeDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_QueryChannelRangeDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_ReplyChannelRangeDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_ok(uint32_t o) {
 	LDKReplyChannelRange o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5761,7 +5763,7 @@ uint32_t TS_CResult_ReplyChannelRangeDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_ReplyChannelRangeDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5771,13 +5773,13 @@ uint32_t TS_CResult_ReplyChannelRangeDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_ReplyChannelRangeDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ _res_conv = *(LDKCResult_ReplyChannelRangeDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_ReplyChannelRangeDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_GossipTimestampFilterDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_ok(uint32_t o) {
 	LDKGossipTimestampFilter o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5788,7 +5790,7 @@ uint32_t TS_CResult_GossipTimestampFilterDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_GossipTimestampFilterDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5798,13 +5800,13 @@ uint32_t TS_CResult_GossipTimestampFilterDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_GossipTimestampFilterDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ _res_conv = *(LDKCResult_GossipTimestampFilterDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_GossipTimestampFilterDecodeErrorZ_free(_res_conv);
 }
 
-void TS_CVec_PublicKeyZ_free(ptrArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_PublicKeyZ_free(ptrArray _res) {
 	LDKCVec_PublicKeyZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -5822,7 +5824,7 @@ void TS_CVec_PublicKeyZ_free(ptrArray _res) {
 	CVec_PublicKeyZ_free(_res_constr);
 }
 
-void TS_CVec_u8Z_free(int8_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_u8Z_free(int8_tArray _res) {
 	LDKCVec_u8Z _res_ref;
 	_res_ref.datalen = *((uint32_t*)_res);
 	_res_ref.data = MALLOC(_res_ref.datalen, "LDKCVec_u8Z Bytes");
@@ -5830,7 +5832,7 @@ void TS_CVec_u8Z_free(int8_tArray _res) {
 	CVec_u8Z_free(_res_ref);
 }
 
-uint32_t TS_CResult_CVec_u8ZPeerHandleErrorZ_ok(int8_tArray o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_ok(int8_tArray o) {
 	LDKCVec_u8Z o_ref;
 	o_ref.datalen = *((uint32_t*)o);
 	o_ref.data = MALLOC(o_ref.datalen, "LDKCVec_u8Z Bytes");
@@ -5840,7 +5842,7 @@ uint32_t TS_CResult_CVec_u8ZPeerHandleErrorZ_ok(int8_tArray o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_CVec_u8ZPeerHandleErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_err(uint32_t e) {
 	LDKPeerHandleError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5850,19 +5852,19 @@ uint32_t TS_CResult_CVec_u8ZPeerHandleErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_CVec_u8ZPeerHandleErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_free(uint32_t _res) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ _res_conv = *(LDKCResult_CVec_u8ZPeerHandleErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_CVec_u8ZPeerHandleErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_NonePeerHandleErrorZ_ok() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NonePeerHandleErrorZ_ok() {
 	LDKCResult_NonePeerHandleErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NonePeerHandleErrorZ), "LDKCResult_NonePeerHandleErrorZ");
 	*ret_conv = CResult_NonePeerHandleErrorZ_ok();
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NonePeerHandleErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NonePeerHandleErrorZ_err(uint32_t e) {
 	LDKPeerHandleError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5872,19 +5874,19 @@ uint32_t TS_CResult_NonePeerHandleErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_NonePeerHandleErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NonePeerHandleErrorZ_free(uint32_t _res) {
 	LDKCResult_NonePeerHandleErrorZ _res_conv = *(LDKCResult_NonePeerHandleErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_NonePeerHandleErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_boolPeerHandleErrorZ_ok(jboolean o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_boolPeerHandleErrorZ_ok(jboolean o) {
 	LDKCResult_boolPeerHandleErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolPeerHandleErrorZ), "LDKCResult_boolPeerHandleErrorZ");
 	*ret_conv = CResult_boolPeerHandleErrorZ_ok(o);
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_boolPeerHandleErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_boolPeerHandleErrorZ_err(uint32_t e) {
 	LDKPeerHandleError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -5894,13 +5896,13 @@ uint32_t TS_CResult_boolPeerHandleErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_boolPeerHandleErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_boolPeerHandleErrorZ_free(uint32_t _res) {
 	LDKCResult_boolPeerHandleErrorZ _res_conv = *(LDKCResult_boolPeerHandleErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_boolPeerHandleErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_SecretKeySecpErrorZ_ok(int8_tArray o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_SecretKeySecpErrorZ_ok(int8_tArray o) {
 	LDKSecretKey o_ref;
 	CHECK(*((uint32_t*)o) == 32);
 	memcpy(o_ref.bytes, (uint8_t*)(o + 4), 32);
@@ -5909,20 +5911,20 @@ uint32_t TS_CResult_SecretKeySecpErrorZ_ok(int8_tArray o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_SecretKeySecpErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_SecretKeySecpErrorZ_err(uint32_t e) {
 	LDKSecp256k1Error e_conv = LDKSecp256k1Error_from_js(e);
 	LDKCResult_SecretKeySecpErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_SecretKeySecpErrorZ), "LDKCResult_SecretKeySecpErrorZ");
 	*ret_conv = CResult_SecretKeySecpErrorZ_err(e_conv);
 	return (long)ret_conv;
 }
 
-void TS_CResult_SecretKeySecpErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_SecretKeySecpErrorZ_free(uint32_t _res) {
 	LDKCResult_SecretKeySecpErrorZ _res_conv = *(LDKCResult_SecretKeySecpErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_SecretKeySecpErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_PublicKeySecpErrorZ_ok(int8_tArray o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PublicKeySecpErrorZ_ok(int8_tArray o) {
 	LDKPublicKey o_ref;
 	CHECK(*((uint32_t*)o) == 33);
 	memcpy(o_ref.compressed_form, (uint8_t*)(o + 4), 33);
@@ -5931,20 +5933,20 @@ uint32_t TS_CResult_PublicKeySecpErrorZ_ok(int8_tArray o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_PublicKeySecpErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PublicKeySecpErrorZ_err(uint32_t e) {
 	LDKSecp256k1Error e_conv = LDKSecp256k1Error_from_js(e);
 	LDKCResult_PublicKeySecpErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_PublicKeySecpErrorZ), "LDKCResult_PublicKeySecpErrorZ");
 	*ret_conv = CResult_PublicKeySecpErrorZ_err(e_conv);
 	return (long)ret_conv;
 }
 
-void TS_CResult_PublicKeySecpErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_PublicKeySecpErrorZ_free(uint32_t _res) {
 	LDKCResult_PublicKeySecpErrorZ _res_conv = *(LDKCResult_PublicKeySecpErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_PublicKeySecpErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_TxCreationKeysSecpErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_TxCreationKeysSecpErrorZ_ok(uint32_t o) {
 	LDKTxCreationKeys o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5955,20 +5957,20 @@ uint32_t TS_CResult_TxCreationKeysSecpErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_TxCreationKeysSecpErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_TxCreationKeysSecpErrorZ_err(uint32_t e) {
 	LDKSecp256k1Error e_conv = LDKSecp256k1Error_from_js(e);
 	LDKCResult_TxCreationKeysSecpErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_TxCreationKeysSecpErrorZ), "LDKCResult_TxCreationKeysSecpErrorZ");
 	*ret_conv = CResult_TxCreationKeysSecpErrorZ_err(e_conv);
 	return (long)ret_conv;
 }
 
-void TS_CResult_TxCreationKeysSecpErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_TxCreationKeysSecpErrorZ_free(uint32_t _res) {
 	LDKCResult_TxCreationKeysSecpErrorZ _res_conv = *(LDKCResult_TxCreationKeysSecpErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_TxCreationKeysSecpErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_TrustedCommitmentTransactionNoneZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_TrustedCommitmentTransactionNoneZ_ok(uint32_t o) {
 	LDKTrustedCommitmentTransaction o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -5978,19 +5980,19 @@ uint32_t TS_CResult_TrustedCommitmentTransactionNoneZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_TrustedCommitmentTransactionNoneZ_err() {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_TrustedCommitmentTransactionNoneZ_err() {
 	LDKCResult_TrustedCommitmentTransactionNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_TrustedCommitmentTransactionNoneZ), "LDKCResult_TrustedCommitmentTransactionNoneZ");
 	*ret_conv = CResult_TrustedCommitmentTransactionNoneZ_err();
 	return (long)ret_conv;
 }
 
-void TS_CResult_TrustedCommitmentTransactionNoneZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_TrustedCommitmentTransactionNoneZ_free(uint32_t _res) {
 	LDKCResult_TrustedCommitmentTransactionNoneZ _res_conv = *(LDKCResult_TrustedCommitmentTransactionNoneZ*)_res;
 	FREE((void*)_res);
 	CResult_TrustedCommitmentTransactionNoneZ_free(_res_conv);
 }
 
-void TS_CVec_RouteHopZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_RouteHopZ_free(uint32_tArray _res) {
 	LDKCVec_RouteHopZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -6008,7 +6010,7 @@ void TS_CVec_RouteHopZ_free(uint32_tArray _res) {
 	CVec_RouteHopZ_free(_res_constr);
 }
 
-void TS_CVec_CVec_RouteHopZZ_free(ptrArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_CVec_RouteHopZZ_free(ptrArray _res) {
 	LDKCVec_CVec_RouteHopZZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -6037,7 +6039,7 @@ void TS_CVec_CVec_RouteHopZZ_free(ptrArray _res) {
 	CVec_CVec_RouteHopZZ_free(_res_constr);
 }
 
-uint32_t TS_CResult_RouteDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_RouteDecodeErrorZ_ok(uint32_t o) {
 	LDKRoute o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -6048,7 +6050,7 @@ uint32_t TS_CResult_RouteDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_RouteDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_RouteDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -6058,13 +6060,13 @@ uint32_t TS_CResult_RouteDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_RouteDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_RouteDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_RouteDecodeErrorZ _res_conv = *(LDKCResult_RouteDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_RouteDecodeErrorZ_free(_res_conv);
 }
 
-void TS_CVec_RouteHintZ_free(uint32_tArray _res) {
+void  __attribute__((visibility("default"))) TS_CVec_RouteHintZ_free(uint32_tArray _res) {
 	LDKCVec_RouteHintZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
 	if (_res_constr.datalen > 0)
@@ -6082,7 +6084,7 @@ void TS_CVec_RouteHintZ_free(uint32_tArray _res) {
 	CVec_RouteHintZ_free(_res_constr);
 }
 
-uint32_t TS_CResult_RouteLightningErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_RouteLightningErrorZ_ok(uint32_t o) {
 	LDKRoute o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -6093,7 +6095,7 @@ uint32_t TS_CResult_RouteLightningErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_RouteLightningErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_RouteLightningErrorZ_err(uint32_t e) {
 	LDKLightningError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -6103,13 +6105,13 @@ uint32_t TS_CResult_RouteLightningErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_RouteLightningErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_RouteLightningErrorZ_free(uint32_t _res) {
 	LDKCResult_RouteLightningErrorZ _res_conv = *(LDKCResult_RouteLightningErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_RouteLightningErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_RoutingFeesDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_RoutingFeesDecodeErrorZ_ok(uint32_t o) {
 	LDKRoutingFees o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -6120,7 +6122,7 @@ uint32_t TS_CResult_RoutingFeesDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_RoutingFeesDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_RoutingFeesDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -6130,13 +6132,13 @@ uint32_t TS_CResult_RoutingFeesDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_RoutingFeesDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_RoutingFeesDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_RoutingFeesDecodeErrorZ _res_conv = *(LDKCResult_RoutingFeesDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_RoutingFeesDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_NodeAnnouncementInfoDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_ok(uint32_t o) {
 	LDKNodeAnnouncementInfo o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -6146,7 +6148,7 @@ uint32_t TS_CResult_NodeAnnouncementInfoDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NodeAnnouncementInfoDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -6156,13 +6158,13 @@ uint32_t TS_CResult_NodeAnnouncementInfoDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_NodeAnnouncementInfoDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ _res_conv = *(LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_NodeAnnouncementInfoDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_NodeInfoDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NodeInfoDecodeErrorZ_ok(uint32_t o) {
 	LDKNodeInfo o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -6172,7 +6174,7 @@ uint32_t TS_CResult_NodeInfoDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NodeInfoDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NodeInfoDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -6182,13 +6184,13 @@ uint32_t TS_CResult_NodeInfoDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_NodeInfoDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NodeInfoDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_NodeInfoDecodeErrorZ _res_conv = *(LDKCResult_NodeInfoDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_NodeInfoDecodeErrorZ_free(_res_conv);
 }
 
-uint32_t TS_CResult_NetworkGraphDecodeErrorZ_ok(uint32_t o) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NetworkGraphDecodeErrorZ_ok(uint32_t o) {
 	LDKNetworkGraph o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = (o & 1) || (o == 0);
@@ -6198,7 +6200,7 @@ uint32_t TS_CResult_NetworkGraphDecodeErrorZ_ok(uint32_t o) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_CResult_NetworkGraphDecodeErrorZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NetworkGraphDecodeErrorZ_err(uint32_t e) {
 	LDKDecodeError e_conv;
 	e_conv.inner = (void*)(e & (~1));
 	e_conv.is_owned = (e & 1) || (e == 0);
@@ -6208,19 +6210,19 @@ uint32_t TS_CResult_NetworkGraphDecodeErrorZ_err(uint32_t e) {
 	return (long)ret_conv;
 }
 
-void TS_CResult_NetworkGraphDecodeErrorZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_NetworkGraphDecodeErrorZ_free(uint32_t _res) {
 	LDKCResult_NetworkGraphDecodeErrorZ _res_conv = *(LDKCResult_NetworkGraphDecodeErrorZ*)_res;
 	FREE((void*)_res);
 	CResult_NetworkGraphDecodeErrorZ_free(_res_conv);
 }
 
-void TS_Event_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Event_free(uint32_t this_ptr) {
 	LDKEvent this_ptr_conv = *(LDKEvent*)this_ptr;
 	FREE((void*)this_ptr);
 	Event_free(this_ptr_conv);
 }
 
-uint32_t TS_Event_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_Event_clone(uint32_t orig) {
 	LDKEvent* orig_conv = (LDKEvent*)orig;
 	LDKEvent *ret_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
 	*ret_copy = Event_clone(orig_conv);
@@ -6228,7 +6230,7 @@ uint32_t TS_Event_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_Event_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_Event_write(uint32_t obj) {
 	LDKEvent* obj_conv = (LDKEvent*)obj;
 	LDKCVec_u8Z arg_var = Event_write(obj_conv);
 	int8_tArray arg_arr = init_arr(arg_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
@@ -6237,13 +6239,13 @@ int8_tArray TS_Event_write(uint32_t obj) {
 	return arg_arr;
 }
 
-void TS_MessageSendEvent_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_MessageSendEvent_free(uint32_t this_ptr) {
 	LDKMessageSendEvent this_ptr_conv = *(LDKMessageSendEvent*)this_ptr;
 	FREE((void*)this_ptr);
 	MessageSendEvent_free(this_ptr_conv);
 }
 
-uint32_t TS_MessageSendEvent_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_MessageSendEvent_clone(uint32_t orig) {
 	LDKMessageSendEvent* orig_conv = (LDKMessageSendEvent*)orig;
 	LDKMessageSendEvent *ret_copy = MALLOC(sizeof(LDKMessageSendEvent), "LDKMessageSendEvent");
 	*ret_copy = MessageSendEvent_clone(orig_conv);
@@ -6251,25 +6253,25 @@ uint32_t TS_MessageSendEvent_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-void TS_MessageSendEventsProvider_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_MessageSendEventsProvider_free(uint32_t this_ptr) {
 	LDKMessageSendEventsProvider this_ptr_conv = *(LDKMessageSendEventsProvider*)this_ptr;
 	FREE((void*)this_ptr);
 	MessageSendEventsProvider_free(this_ptr_conv);
 }
 
-void TS_EventsProvider_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_EventsProvider_free(uint32_t this_ptr) {
 	LDKEventsProvider this_ptr_conv = *(LDKEventsProvider*)this_ptr;
 	FREE((void*)this_ptr);
 	EventsProvider_free(this_ptr_conv);
 }
 
-void TS_APIError_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_APIError_free(uint32_t this_ptr) {
 	LDKAPIError this_ptr_conv = *(LDKAPIError*)this_ptr;
 	FREE((void*)this_ptr);
 	APIError_free(this_ptr_conv);
 }
 
-uint32_t TS_APIError_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_APIError_clone(uint32_t orig) {
 	LDKAPIError* orig_conv = (LDKAPIError*)orig;
 	LDKAPIError *ret_copy = MALLOC(sizeof(LDKAPIError), "LDKAPIError");
 	*ret_copy = APIError_clone(orig_conv);
@@ -6277,31 +6279,31 @@ uint32_t TS_APIError_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-uint32_t TS_Level_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_Level_clone(uint32_t orig) {
 	LDKLevel* orig_conv = (LDKLevel*)orig;
 	uint32_t ret_conv = LDKLevel_to_js(Level_clone(orig_conv));
 	return ret_conv;
 }
 
-uint32_t TS_Level_max() {
+uint32_t  __attribute__((visibility("default"))) TS_Level_max() {
 	uint32_t ret_conv = LDKLevel_to_js(Level_max());
 	return ret_conv;
 }
 
-void TS_Logger_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Logger_free(uint32_t this_ptr) {
 	LDKLogger this_ptr_conv = *(LDKLogger*)this_ptr;
 	FREE((void*)this_ptr);
 	Logger_free(this_ptr_conv);
 }
 
-void TS_ChannelHandshakeConfig_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_free(uint32_t this_ptr) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelHandshakeConfig_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelHandshakeConfig_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_clone(uint32_t orig) {
 	LDKChannelHandshakeConfig orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -6315,7 +6317,7 @@ uint32_t TS_ChannelHandshakeConfig_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int32_t TS_ChannelHandshakeConfig_get_minimum_depth(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_get_minimum_depth(uint32_t this_ptr) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6323,14 +6325,14 @@ int32_t TS_ChannelHandshakeConfig_get_minimum_depth(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelHandshakeConfig_set_minimum_depth(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_set_minimum_depth(uint32_t this_ptr, int32_t val) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeConfig_set_minimum_depth(&this_ptr_conv, val);
 }
 
-int16_t TS_ChannelHandshakeConfig_get_our_to_self_delay(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_get_our_to_self_delay(uint32_t this_ptr) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6338,14 +6340,14 @@ int16_t TS_ChannelHandshakeConfig_get_our_to_self_delay(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelHandshakeConfig_set_our_to_self_delay(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_set_our_to_self_delay(uint32_t this_ptr, int16_t val) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeConfig_set_our_to_self_delay(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelHandshakeConfig_get_our_htlc_minimum_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_get_our_htlc_minimum_msat(uint32_t this_ptr) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6353,14 +6355,14 @@ int64_t TS_ChannelHandshakeConfig_get_our_htlc_minimum_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelHandshakeConfig_set_our_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_set_our_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
 	LDKChannelHandshakeConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeConfig_set_our_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-uint32_t TS_ChannelHandshakeConfig_new(int32_t minimum_depth_arg, int16_t our_to_self_delay_arg, int64_t our_htlc_minimum_msat_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_new(int32_t minimum_depth_arg, int16_t our_to_self_delay_arg, int64_t our_htlc_minimum_msat_arg) {
 	LDKChannelHandshakeConfig ret_var = ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6371,7 +6373,7 @@ uint32_t TS_ChannelHandshakeConfig_new(int32_t minimum_depth_arg, int16_t our_to
 	return ret_ref;
 }
 
-uint32_t TS_ChannelHandshakeConfig_default() {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelHandshakeConfig_default() {
 	LDKChannelHandshakeConfig ret_var = ChannelHandshakeConfig_default();
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6382,14 +6384,14 @@ uint32_t TS_ChannelHandshakeConfig_default() {
 	return ret_ref;
 }
 
-void TS_ChannelHandshakeLimits_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_free(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelHandshakeLimits_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelHandshakeLimits_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_clone(uint32_t orig) {
 	LDKChannelHandshakeLimits orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -6403,7 +6405,7 @@ uint32_t TS_ChannelHandshakeLimits_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int64_t TS_ChannelHandshakeLimits_get_min_funding_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_min_funding_satoshis(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6411,14 +6413,14 @@ int64_t TS_ChannelHandshakeLimits_get_min_funding_satoshis(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_min_funding_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_min_funding_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_min_funding_satoshis(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelHandshakeLimits_get_max_htlc_minimum_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_max_htlc_minimum_msat(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6426,14 +6428,14 @@ int64_t TS_ChannelHandshakeLimits_get_max_htlc_minimum_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_max_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_max_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_max_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6441,14 +6443,14 @@ int64_t TS_ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(uint32_t
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelHandshakeLimits_get_max_channel_reserve_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_max_channel_reserve_satoshis(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6456,14 +6458,14 @@ int64_t TS_ChannelHandshakeLimits_get_max_channel_reserve_satoshis(uint32_t this
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_max_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_max_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_max_channel_reserve_satoshis(&this_ptr_conv, val);
 }
 
-int16_t TS_ChannelHandshakeLimits_get_min_max_accepted_htlcs(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_min_max_accepted_htlcs(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6471,14 +6473,14 @@ int16_t TS_ChannelHandshakeLimits_get_min_max_accepted_htlcs(uint32_t this_ptr) 
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_min_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_min_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_min_max_accepted_htlcs(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelHandshakeLimits_get_min_dust_limit_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_min_dust_limit_satoshis(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6486,14 +6488,14 @@ int64_t TS_ChannelHandshakeLimits_get_min_dust_limit_satoshis(uint32_t this_ptr)
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_min_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_min_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_min_dust_limit_satoshis(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelHandshakeLimits_get_max_dust_limit_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_max_dust_limit_satoshis(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6501,14 +6503,14 @@ int64_t TS_ChannelHandshakeLimits_get_max_dust_limit_satoshis(uint32_t this_ptr)
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_max_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_max_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_max_dust_limit_satoshis(&this_ptr_conv, val);
 }
 
-int32_t TS_ChannelHandshakeLimits_get_max_minimum_depth(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_max_minimum_depth(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6516,14 +6518,14 @@ int32_t TS_ChannelHandshakeLimits_get_max_minimum_depth(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_max_minimum_depth(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_max_minimum_depth(uint32_t this_ptr, int32_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_max_minimum_depth(&this_ptr_conv, val);
 }
 
-jboolean TS_ChannelHandshakeLimits_get_force_announced_channel_preference(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_force_announced_channel_preference(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6531,14 +6533,14 @@ jboolean TS_ChannelHandshakeLimits_get_force_announced_channel_preference(uint32
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_force_announced_channel_preference(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_force_announced_channel_preference(uint32_t this_ptr, jboolean val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_force_announced_channel_preference(&this_ptr_conv, val);
 }
 
-int16_t TS_ChannelHandshakeLimits_get_their_to_self_delay(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_get_their_to_self_delay(uint32_t this_ptr) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6546,14 +6548,14 @@ int16_t TS_ChannelHandshakeLimits_get_their_to_self_delay(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelHandshakeLimits_set_their_to_self_delay(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_set_their_to_self_delay(uint32_t this_ptr, int16_t val) {
 	LDKChannelHandshakeLimits this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelHandshakeLimits_set_their_to_self_delay(&this_ptr_conv, val);
 }
 
-uint32_t TS_ChannelHandshakeLimits_new(int64_t min_funding_satoshis_arg, int64_t max_htlc_minimum_msat_arg, int64_t min_max_htlc_value_in_flight_msat_arg, int64_t max_channel_reserve_satoshis_arg, int16_t min_max_accepted_htlcs_arg, int64_t min_dust_limit_satoshis_arg, int64_t max_dust_limit_satoshis_arg, int32_t max_minimum_depth_arg, jboolean force_announced_channel_preference_arg, int16_t their_to_self_delay_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_new(int64_t min_funding_satoshis_arg, int64_t max_htlc_minimum_msat_arg, int64_t min_max_htlc_value_in_flight_msat_arg, int64_t max_channel_reserve_satoshis_arg, int16_t min_max_accepted_htlcs_arg, int64_t min_dust_limit_satoshis_arg, int64_t max_dust_limit_satoshis_arg, int32_t max_minimum_depth_arg, jboolean force_announced_channel_preference_arg, int16_t their_to_self_delay_arg) {
 	LDKChannelHandshakeLimits ret_var = ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, min_dust_limit_satoshis_arg, max_dust_limit_satoshis_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6564,7 +6566,7 @@ uint32_t TS_ChannelHandshakeLimits_new(int64_t min_funding_satoshis_arg, int64_t
 	return ret_ref;
 }
 
-uint32_t TS_ChannelHandshakeLimits_default() {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelHandshakeLimits_default() {
 	LDKChannelHandshakeLimits ret_var = ChannelHandshakeLimits_default();
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6575,14 +6577,14 @@ uint32_t TS_ChannelHandshakeLimits_default() {
 	return ret_ref;
 }
 
-void TS_ChannelConfig_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelConfig_free(uint32_t this_ptr) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelConfig_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelConfig_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelConfig_clone(uint32_t orig) {
 	LDKChannelConfig orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -6596,7 +6598,7 @@ uint32_t TS_ChannelConfig_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int32_t TS_ChannelConfig_get_fee_proportional_millionths(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_ChannelConfig_get_fee_proportional_millionths(uint32_t this_ptr) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6604,14 +6606,14 @@ int32_t TS_ChannelConfig_get_fee_proportional_millionths(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelConfig_set_fee_proportional_millionths(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelConfig_set_fee_proportional_millionths(uint32_t this_ptr, int32_t val) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelConfig_set_fee_proportional_millionths(&this_ptr_conv, val);
 }
 
-jboolean TS_ChannelConfig_get_announced_channel(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_ChannelConfig_get_announced_channel(uint32_t this_ptr) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6619,14 +6621,14 @@ jboolean TS_ChannelConfig_get_announced_channel(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelConfig_set_announced_channel(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_ChannelConfig_set_announced_channel(uint32_t this_ptr, jboolean val) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelConfig_set_announced_channel(&this_ptr_conv, val);
 }
 
-jboolean TS_ChannelConfig_get_commit_upfront_shutdown_pubkey(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_ChannelConfig_get_commit_upfront_shutdown_pubkey(uint32_t this_ptr) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6634,14 +6636,14 @@ jboolean TS_ChannelConfig_get_commit_upfront_shutdown_pubkey(uint32_t this_ptr) 
 	return ret_val;
 }
 
-void TS_ChannelConfig_set_commit_upfront_shutdown_pubkey(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_ChannelConfig_set_commit_upfront_shutdown_pubkey(uint32_t this_ptr, jboolean val) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelConfig_set_commit_upfront_shutdown_pubkey(&this_ptr_conv, val);
 }
 
-uint32_t TS_ChannelConfig_new(int32_t fee_proportional_millionths_arg, jboolean announced_channel_arg, jboolean commit_upfront_shutdown_pubkey_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelConfig_new(int32_t fee_proportional_millionths_arg, jboolean announced_channel_arg, jboolean commit_upfront_shutdown_pubkey_arg) {
 	LDKChannelConfig ret_var = ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6652,7 +6654,7 @@ uint32_t TS_ChannelConfig_new(int32_t fee_proportional_millionths_arg, jboolean 
 	return ret_ref;
 }
 
-uint32_t TS_ChannelConfig_default() {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelConfig_default() {
 	LDKChannelConfig ret_var = ChannelConfig_default();
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6663,7 +6665,7 @@ uint32_t TS_ChannelConfig_default() {
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelConfig_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelConfig_write(uint32_t obj) {
 	LDKChannelConfig obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -6674,7 +6676,7 @@ int8_tArray TS_ChannelConfig_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelConfig_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelConfig_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -6688,14 +6690,14 @@ uint32_t TS_ChannelConfig_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-void TS_UserConfig_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UserConfig_free(uint32_t this_ptr) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UserConfig_free(this_ptr_conv);
 }
 
-uint32_t TS_UserConfig_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UserConfig_clone(uint32_t orig) {
 	LDKUserConfig orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -6709,7 +6711,7 @@ uint32_t TS_UserConfig_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-uint32_t TS_UserConfig_get_own_channel_config(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_UserConfig_get_own_channel_config(uint32_t this_ptr) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6723,7 +6725,7 @@ uint32_t TS_UserConfig_get_own_channel_config(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_UserConfig_set_own_channel_config(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_UserConfig_set_own_channel_config(uint32_t this_ptr, uint32_t val) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6735,7 +6737,7 @@ void TS_UserConfig_set_own_channel_config(uint32_t this_ptr, uint32_t val) {
 	UserConfig_set_own_channel_config(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_UserConfig_get_peer_channel_config_limits(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_UserConfig_get_peer_channel_config_limits(uint32_t this_ptr) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6749,7 +6751,7 @@ uint32_t TS_UserConfig_get_peer_channel_config_limits(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_UserConfig_set_peer_channel_config_limits(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_UserConfig_set_peer_channel_config_limits(uint32_t this_ptr, uint32_t val) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6761,7 +6763,7 @@ void TS_UserConfig_set_peer_channel_config_limits(uint32_t this_ptr, uint32_t va
 	UserConfig_set_peer_channel_config_limits(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_UserConfig_get_channel_options(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_UserConfig_get_channel_options(uint32_t this_ptr) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6775,7 +6777,7 @@ uint32_t TS_UserConfig_get_channel_options(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_UserConfig_set_channel_options(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_UserConfig_set_channel_options(uint32_t this_ptr, uint32_t val) {
 	LDKUserConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6787,7 +6789,7 @@ void TS_UserConfig_set_channel_options(uint32_t this_ptr, uint32_t val) {
 	UserConfig_set_channel_options(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_UserConfig_new(uint32_t own_channel_config_arg, uint32_t peer_channel_config_limits_arg, uint32_t channel_options_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_UserConfig_new(uint32_t own_channel_config_arg, uint32_t peer_channel_config_limits_arg, uint32_t channel_options_arg) {
 	LDKChannelHandshakeConfig own_channel_config_arg_conv;
 	own_channel_config_arg_conv.inner = (void*)(own_channel_config_arg & (~1));
 	own_channel_config_arg_conv.is_owned = (own_channel_config_arg & 1) || (own_channel_config_arg == 0);
@@ -6813,7 +6815,7 @@ uint32_t TS_UserConfig_new(uint32_t own_channel_config_arg, uint32_t peer_channe
 	return ret_ref;
 }
 
-uint32_t TS_UserConfig_default() {
+uint32_t  __attribute__((visibility("default"))) TS_UserConfig_default() {
 	LDKUserConfig ret_var = UserConfig_default();
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -6824,56 +6826,56 @@ uint32_t TS_UserConfig_default() {
 	return ret_ref;
 }
 
-uint32_t TS_AccessError_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_AccessError_clone(uint32_t orig) {
 	LDKAccessError* orig_conv = (LDKAccessError*)orig;
 	uint32_t ret_conv = LDKAccessError_to_js(AccessError_clone(orig_conv));
 	return ret_conv;
 }
 
-void TS_Access_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Access_free(uint32_t this_ptr) {
 	LDKAccess this_ptr_conv = *(LDKAccess*)this_ptr;
 	FREE((void*)this_ptr);
 	Access_free(this_ptr_conv);
 }
 
-void TS_Watch_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Watch_free(uint32_t this_ptr) {
 	LDKWatch this_ptr_conv = *(LDKWatch*)this_ptr;
 	FREE((void*)this_ptr);
 	Watch_free(this_ptr_conv);
 }
 
-void TS_Filter_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Filter_free(uint32_t this_ptr) {
 	LDKFilter this_ptr_conv = *(LDKFilter*)this_ptr;
 	FREE((void*)this_ptr);
 	Filter_free(this_ptr_conv);
 }
 
-void TS_BroadcasterInterface_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_BroadcasterInterface_free(uint32_t this_ptr) {
 	LDKBroadcasterInterface this_ptr_conv = *(LDKBroadcasterInterface*)this_ptr;
 	FREE((void*)this_ptr);
 	BroadcasterInterface_free(this_ptr_conv);
 }
 
-uint32_t TS_ConfirmationTarget_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ConfirmationTarget_clone(uint32_t orig) {
 	LDKConfirmationTarget* orig_conv = (LDKConfirmationTarget*)orig;
 	uint32_t ret_conv = LDKConfirmationTarget_to_js(ConfirmationTarget_clone(orig_conv));
 	return ret_conv;
 }
 
-void TS_FeeEstimator_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_FeeEstimator_free(uint32_t this_ptr) {
 	LDKFeeEstimator this_ptr_conv = *(LDKFeeEstimator*)this_ptr;
 	FREE((void*)this_ptr);
 	FeeEstimator_free(this_ptr_conv);
 }
 
-void TS_ChainMonitor_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChainMonitor_free(uint32_t this_ptr) {
 	LDKChainMonitor this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChainMonitor_free(this_ptr_conv);
 }
 
-void TS_ChainMonitor_block_connected(uint32_t this_arg, int8_tArray header, uint32_tArray txdata, int32_t height) {
+void  __attribute__((visibility("default"))) TS_ChainMonitor_block_connected(uint32_t this_arg, int8_tArray header, uint32_tArray txdata, int32_t height) {
 	LDKChainMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -6897,7 +6899,7 @@ void TS_ChainMonitor_block_connected(uint32_t this_arg, int8_tArray header, uint
 	ChainMonitor_block_connected(&this_arg_conv, header_ref, txdata_constr, height);
 }
 
-void TS_ChainMonitor_block_disconnected(uint32_t this_arg, int8_tArray header, int32_t disconnected_height) {
+void  __attribute__((visibility("default"))) TS_ChainMonitor_block_disconnected(uint32_t this_arg, int8_tArray header, int32_t disconnected_height) {
 	LDKChainMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -6908,7 +6910,7 @@ void TS_ChainMonitor_block_disconnected(uint32_t this_arg, int8_tArray header, i
 	ChainMonitor_block_disconnected(&this_arg_conv, header_ref, disconnected_height);
 }
 
-uint32_t TS_ChainMonitor_new(uint32_t chain_source, uint32_t broadcaster, uint32_t logger, uint32_t feeest, uint32_t persister) {
+uint32_t  __attribute__((visibility("default"))) TS_ChainMonitor_new(uint32_t chain_source, uint32_t broadcaster, uint32_t logger, uint32_t feeest, uint32_t persister) {
 	LDKFilter* chain_source_conv = (LDKFilter*)chain_source;
 	LDKBroadcasterInterface broadcaster_conv = *(LDKBroadcasterInterface*)broadcaster;
 	LDKLogger logger_conv = *(LDKLogger*)logger;
@@ -6924,7 +6926,7 @@ uint32_t TS_ChainMonitor_new(uint32_t chain_source, uint32_t broadcaster, uint32
 	return ret_ref;
 }
 
-uint32_t TS_ChainMonitor_as_Watch(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChainMonitor_as_Watch(uint32_t this_arg) {
 	LDKChainMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -6933,7 +6935,7 @@ uint32_t TS_ChainMonitor_as_Watch(uint32_t this_arg) {
 	return (long)ret;
 }
 
-uint32_t TS_ChainMonitor_as_EventsProvider(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChainMonitor_as_EventsProvider(uint32_t this_arg) {
 	LDKChainMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -6942,14 +6944,14 @@ uint32_t TS_ChainMonitor_as_EventsProvider(uint32_t this_arg) {
 	return (long)ret;
 }
 
-void TS_ChannelMonitorUpdate_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelMonitorUpdate_free(uint32_t this_ptr) {
 	LDKChannelMonitorUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelMonitorUpdate_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelMonitorUpdate_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdate_clone(uint32_t orig) {
 	LDKChannelMonitorUpdate orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -6963,7 +6965,7 @@ uint32_t TS_ChannelMonitorUpdate_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int64_t TS_ChannelMonitorUpdate_get_update_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdate_get_update_id(uint32_t this_ptr) {
 	LDKChannelMonitorUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -6971,14 +6973,14 @@ int64_t TS_ChannelMonitorUpdate_get_update_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelMonitorUpdate_set_update_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelMonitorUpdate_set_update_id(uint32_t this_ptr, int64_t val) {
 	LDKChannelMonitorUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelMonitorUpdate_set_update_id(&this_ptr_conv, val);
 }
 
-int8_tArray TS_ChannelMonitorUpdate_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelMonitorUpdate_write(uint32_t obj) {
 	LDKChannelMonitorUpdate obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -6989,7 +6991,7 @@ int8_tArray TS_ChannelMonitorUpdate_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelMonitorUpdate_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdate_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -6998,27 +7000,27 @@ uint32_t TS_ChannelMonitorUpdate_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_ChannelMonitorUpdateErr_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdateErr_clone(uint32_t orig) {
 	LDKChannelMonitorUpdateErr* orig_conv = (LDKChannelMonitorUpdateErr*)orig;
 	uint32_t ret_conv = LDKChannelMonitorUpdateErr_to_js(ChannelMonitorUpdateErr_clone(orig_conv));
 	return ret_conv;
 }
 
-void TS_MonitorUpdateError_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_MonitorUpdateError_free(uint32_t this_ptr) {
 	LDKMonitorUpdateError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	MonitorUpdateError_free(this_ptr_conv);
 }
 
-void TS_MonitorEvent_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_MonitorEvent_free(uint32_t this_ptr) {
 	LDKMonitorEvent this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	MonitorEvent_free(this_ptr_conv);
 }
 
-uint32_t TS_MonitorEvent_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_MonitorEvent_clone(uint32_t orig) {
 	LDKMonitorEvent orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -7032,14 +7034,14 @@ uint32_t TS_MonitorEvent_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-void TS_HTLCUpdate_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_HTLCUpdate_free(uint32_t this_ptr) {
 	LDKHTLCUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	HTLCUpdate_free(this_ptr_conv);
 }
 
-uint32_t TS_HTLCUpdate_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_HTLCUpdate_clone(uint32_t orig) {
 	LDKHTLCUpdate orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -7053,7 +7055,7 @@ uint32_t TS_HTLCUpdate_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_HTLCUpdate_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_HTLCUpdate_write(uint32_t obj) {
 	LDKHTLCUpdate obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -7064,7 +7066,7 @@ int8_tArray TS_HTLCUpdate_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_HTLCUpdate_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_HTLCUpdate_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -7078,14 +7080,14 @@ uint32_t TS_HTLCUpdate_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-void TS_ChannelMonitor_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelMonitor_free(uint32_t this_ptr) {
 	LDKChannelMonitor this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelMonitor_free(this_ptr_conv);
 }
 
-int8_tArray TS_ChannelMonitor_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelMonitor_write(uint32_t obj) {
 	LDKChannelMonitor obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -7096,7 +7098,7 @@ int8_tArray TS_ChannelMonitor_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelMonitor_update_monitor(uint32_t this_arg, uint32_t updates, uint32_t broadcaster, uint32_t fee_estimator, uint32_t logger) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitor_update_monitor(uint32_t this_arg, uint32_t updates, uint32_t broadcaster, uint32_t fee_estimator, uint32_t logger) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7111,7 +7113,7 @@ uint32_t TS_ChannelMonitor_update_monitor(uint32_t this_arg, uint32_t updates, u
 	return (long)ret_conv;
 }
 
-int64_t TS_ChannelMonitor_get_latest_update_id(uint32_t this_arg) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelMonitor_get_latest_update_id(uint32_t this_arg) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7119,7 +7121,7 @@ int64_t TS_ChannelMonitor_get_latest_update_id(uint32_t this_arg) {
 	return ret_val;
 }
 
-uint32_t TS_ChannelMonitor_get_funding_txo(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitor_get_funding_txo(uint32_t this_arg) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7130,7 +7132,7 @@ uint32_t TS_ChannelMonitor_get_funding_txo(uint32_t this_arg) {
 	return (long)ret_ref;
 }
 
-uint32_tArray TS_ChannelMonitor_get_and_clear_pending_monitor_events(uint32_t this_arg) {
+uint32_tArray  __attribute__((visibility("default"))) TS_ChannelMonitor_get_and_clear_pending_monitor_events(uint32_t this_arg) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7151,7 +7153,7 @@ uint32_tArray TS_ChannelMonitor_get_and_clear_pending_monitor_events(uint32_t th
 	return ret_arr;
 }
 
-uint32_tArray TS_ChannelMonitor_get_and_clear_pending_events(uint32_t this_arg) {
+uint32_tArray  __attribute__((visibility("default"))) TS_ChannelMonitor_get_and_clear_pending_events(uint32_t this_arg) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7168,7 +7170,7 @@ uint32_tArray TS_ChannelMonitor_get_and_clear_pending_events(uint32_t this_arg) 
 	return ret_arr;
 }
 
-ptrArray TS_ChannelMonitor_get_latest_holder_commitment_txn(uint32_t this_arg, uint32_t logger) {
+ptrArray  __attribute__((visibility("default"))) TS_ChannelMonitor_get_latest_holder_commitment_txn(uint32_t this_arg, uint32_t logger) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7187,7 +7189,7 @@ ptrArray TS_ChannelMonitor_get_latest_holder_commitment_txn(uint32_t this_arg, u
 	return ret_arr;
 }
 
-uint32_tArray TS_ChannelMonitor_block_connected(uint32_t this_arg, int8_tArray header, uint32_tArray txdata, int32_t height, uint32_t broadcaster, uint32_t fee_estimator, uint32_t logger) {
+uint32_tArray  __attribute__((visibility("default"))) TS_ChannelMonitor_block_connected(uint32_t this_arg, int8_tArray header, uint32_tArray txdata, int32_t height, uint32_t broadcaster, uint32_t fee_estimator, uint32_t logger) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7225,7 +7227,7 @@ uint32_tArray TS_ChannelMonitor_block_connected(uint32_t this_arg, int8_tArray h
 	return ret_arr;
 }
 
-void TS_ChannelMonitor_block_disconnected(uint32_t this_arg, int8_tArray header, int32_t height, uint32_t broadcaster, uint32_t fee_estimator, uint32_t logger) {
+void  __attribute__((visibility("default"))) TS_ChannelMonitor_block_disconnected(uint32_t this_arg, int8_tArray header, int32_t height, uint32_t broadcaster, uint32_t fee_estimator, uint32_t logger) {
 	LDKChannelMonitor this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7239,13 +7241,13 @@ void TS_ChannelMonitor_block_disconnected(uint32_t this_arg, int8_tArray header,
 	ChannelMonitor_block_disconnected(&this_arg_conv, header_ref, height, broadcaster_conv, fee_estimator_conv, logger_conv);
 }
 
-void TS_Persist_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Persist_free(uint32_t this_ptr) {
 	LDKPersist this_ptr_conv = *(LDKPersist*)this_ptr;
 	FREE((void*)this_ptr);
 	Persist_free(this_ptr_conv);
 }
 
-uint32_t TS_C2Tuple_BlockHashChannelMonitorZ_read(int8_tArray ser, uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_BlockHashChannelMonitorZ_read(int8_tArray ser, uint32_t arg) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -7255,14 +7257,14 @@ uint32_t TS_C2Tuple_BlockHashChannelMonitorZ_read(int8_tArray ser, uint32_t arg)
 	return (long)ret_conv;
 }
 
-void TS_OutPoint_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_OutPoint_free(uint32_t this_ptr) {
 	LDKOutPoint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	OutPoint_free(this_ptr_conv);
 }
 
-uint32_t TS_OutPoint_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_OutPoint_clone(uint32_t orig) {
 	LDKOutPoint orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -7276,7 +7278,7 @@ uint32_t TS_OutPoint_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_OutPoint_get_txid(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OutPoint_get_txid(uint32_t this_ptr) {
 	LDKOutPoint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7285,7 +7287,7 @@ int8_tArray TS_OutPoint_get_txid(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_OutPoint_set_txid(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OutPoint_set_txid(uint32_t this_ptr, int8_tArray val) {
 	LDKOutPoint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7295,7 +7297,7 @@ void TS_OutPoint_set_txid(uint32_t this_ptr, int8_tArray val) {
 	OutPoint_set_txid(&this_ptr_conv, val_ref);
 }
 
-int16_t TS_OutPoint_get_index(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_OutPoint_get_index(uint32_t this_ptr) {
 	LDKOutPoint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7303,14 +7305,14 @@ int16_t TS_OutPoint_get_index(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OutPoint_set_index(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_OutPoint_set_index(uint32_t this_ptr, int16_t val) {
 	LDKOutPoint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OutPoint_set_index(&this_ptr_conv, val);
 }
 
-uint32_t TS_OutPoint_new(int8_tArray txid_arg, int16_t index_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_OutPoint_new(int8_tArray txid_arg, int16_t index_arg) {
 	LDKThirtyTwoBytes txid_arg_ref;
 	CHECK(*((uint32_t*)txid_arg) == 32);
 	memcpy(txid_arg_ref.data, (uint8_t*)(txid_arg + 4), 32);
@@ -7324,7 +7326,7 @@ uint32_t TS_OutPoint_new(int8_tArray txid_arg, int16_t index_arg) {
 	return ret_ref;
 }
 
-int8_tArray TS_OutPoint_to_channel_id(uint32_t this_arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_OutPoint_to_channel_id(uint32_t this_arg) {
 	LDKOutPoint this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7333,7 +7335,7 @@ int8_tArray TS_OutPoint_to_channel_id(uint32_t this_arg) {
 	return arg_arr;
 }
 
-int8_tArray TS_OutPoint_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_OutPoint_write(uint32_t obj) {
 	LDKOutPoint obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -7344,7 +7346,7 @@ int8_tArray TS_OutPoint_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_OutPoint_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_OutPoint_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -7358,13 +7360,13 @@ uint32_t TS_OutPoint_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-void TS_SpendableOutputDescriptor_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_SpendableOutputDescriptor_free(uint32_t this_ptr) {
 	LDKSpendableOutputDescriptor this_ptr_conv = *(LDKSpendableOutputDescriptor*)this_ptr;
 	FREE((void*)this_ptr);
 	SpendableOutputDescriptor_free(this_ptr_conv);
 }
 
-uint32_t TS_SpendableOutputDescriptor_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_SpendableOutputDescriptor_clone(uint32_t orig) {
 	LDKSpendableOutputDescriptor* orig_conv = (LDKSpendableOutputDescriptor*)orig;
 	LDKSpendableOutputDescriptor *ret_copy = MALLOC(sizeof(LDKSpendableOutputDescriptor), "LDKSpendableOutputDescriptor");
 	*ret_copy = SpendableOutputDescriptor_clone(orig_conv);
@@ -7372,7 +7374,7 @@ uint32_t TS_SpendableOutputDescriptor_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_SpendableOutputDescriptor_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_SpendableOutputDescriptor_write(uint32_t obj) {
 	LDKSpendableOutputDescriptor* obj_conv = (LDKSpendableOutputDescriptor*)obj;
 	LDKCVec_u8Z arg_var = SpendableOutputDescriptor_write(obj_conv);
 	int8_tArray arg_arr = init_arr(arg_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
@@ -7381,7 +7383,7 @@ int8_tArray TS_SpendableOutputDescriptor_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_SpendableOutputDescriptor_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_SpendableOutputDescriptor_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -7390,33 +7392,33 @@ uint32_t TS_SpendableOutputDescriptor_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_ChannelKeys_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_clone(uint32_t orig) {
 	LDKChannelKeys* orig_conv = (LDKChannelKeys*)orig;
 	LDKChannelKeys* ret = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
 	*ret = ChannelKeys_clone(orig_conv);
 	return (long)ret;
 }
 
-void TS_ChannelKeys_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelKeys_free(uint32_t this_ptr) {
 	LDKChannelKeys this_ptr_conv = *(LDKChannelKeys*)this_ptr;
 	FREE((void*)this_ptr);
 	ChannelKeys_free(this_ptr_conv);
 }
 
-void TS_KeysInterface_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_KeysInterface_free(uint32_t this_ptr) {
 	LDKKeysInterface this_ptr_conv = *(LDKKeysInterface*)this_ptr;
 	FREE((void*)this_ptr);
 	KeysInterface_free(this_ptr_conv);
 }
 
-void TS_InMemoryChannelKeys_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_free(uint32_t this_ptr) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	InMemoryChannelKeys_free(this_ptr_conv);
 }
 
-uint32_t TS_InMemoryChannelKeys_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_clone(uint32_t orig) {
 	LDKInMemoryChannelKeys orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -7430,7 +7432,7 @@ uint32_t TS_InMemoryChannelKeys_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_InMemoryChannelKeys_get_funding_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_get_funding_key(uint32_t this_ptr) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7439,7 +7441,7 @@ int8_tArray TS_InMemoryChannelKeys_get_funding_key(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_InMemoryChannelKeys_set_funding_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_set_funding_key(uint32_t this_ptr, int8_tArray val) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7449,7 +7451,7 @@ void TS_InMemoryChannelKeys_set_funding_key(uint32_t this_ptr, int8_tArray val) 
 	InMemoryChannelKeys_set_funding_key(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_InMemoryChannelKeys_get_revocation_base_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_get_revocation_base_key(uint32_t this_ptr) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7458,7 +7460,7 @@ int8_tArray TS_InMemoryChannelKeys_get_revocation_base_key(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_InMemoryChannelKeys_set_revocation_base_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_set_revocation_base_key(uint32_t this_ptr, int8_tArray val) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7468,7 +7470,7 @@ void TS_InMemoryChannelKeys_set_revocation_base_key(uint32_t this_ptr, int8_tArr
 	InMemoryChannelKeys_set_revocation_base_key(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_InMemoryChannelKeys_get_payment_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_get_payment_key(uint32_t this_ptr) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7477,7 +7479,7 @@ int8_tArray TS_InMemoryChannelKeys_get_payment_key(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_InMemoryChannelKeys_set_payment_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_set_payment_key(uint32_t this_ptr, int8_tArray val) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7487,7 +7489,7 @@ void TS_InMemoryChannelKeys_set_payment_key(uint32_t this_ptr, int8_tArray val) 
 	InMemoryChannelKeys_set_payment_key(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_InMemoryChannelKeys_get_delayed_payment_base_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_get_delayed_payment_base_key(uint32_t this_ptr) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7496,7 +7498,7 @@ int8_tArray TS_InMemoryChannelKeys_get_delayed_payment_base_key(uint32_t this_pt
 	return ret_arr;
 }
 
-void TS_InMemoryChannelKeys_set_delayed_payment_base_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_set_delayed_payment_base_key(uint32_t this_ptr, int8_tArray val) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7506,7 +7508,7 @@ void TS_InMemoryChannelKeys_set_delayed_payment_base_key(uint32_t this_ptr, int8
 	InMemoryChannelKeys_set_delayed_payment_base_key(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_InMemoryChannelKeys_get_htlc_base_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_get_htlc_base_key(uint32_t this_ptr) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7515,7 +7517,7 @@ int8_tArray TS_InMemoryChannelKeys_get_htlc_base_key(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_InMemoryChannelKeys_set_htlc_base_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_set_htlc_base_key(uint32_t this_ptr, int8_tArray val) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7525,7 +7527,7 @@ void TS_InMemoryChannelKeys_set_htlc_base_key(uint32_t this_ptr, int8_tArray val
 	InMemoryChannelKeys_set_htlc_base_key(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_InMemoryChannelKeys_get_commitment_seed(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_get_commitment_seed(uint32_t this_ptr) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7534,7 +7536,7 @@ int8_tArray TS_InMemoryChannelKeys_get_commitment_seed(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_InMemoryChannelKeys_set_commitment_seed(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_set_commitment_seed(uint32_t this_ptr, int8_tArray val) {
 	LDKInMemoryChannelKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7544,7 +7546,7 @@ void TS_InMemoryChannelKeys_set_commitment_seed(uint32_t this_ptr, int8_tArray v
 	InMemoryChannelKeys_set_commitment_seed(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_InMemoryChannelKeys_new(int8_tArray funding_key, int8_tArray revocation_base_key, int8_tArray payment_key, int8_tArray delayed_payment_base_key, int8_tArray htlc_base_key, int8_tArray commitment_seed, int64_t channel_value_satoshis, uint32_t key_derivation_params) {
+uint32_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_new(int8_tArray funding_key, int8_tArray revocation_base_key, int8_tArray payment_key, int8_tArray delayed_payment_base_key, int8_tArray htlc_base_key, int8_tArray commitment_seed, int64_t channel_value_satoshis, uint32_t key_derivation_params) {
 	LDKSecretKey funding_key_ref;
 	CHECK(*((uint32_t*)funding_key) == 32);
 	memcpy(funding_key_ref.bytes, (uint8_t*)(funding_key + 4), 32);
@@ -7575,7 +7577,7 @@ uint32_t TS_InMemoryChannelKeys_new(int8_tArray funding_key, int8_tArray revocat
 	return ret_ref;
 }
 
-uint32_t TS_InMemoryChannelKeys_counterparty_pubkeys(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_counterparty_pubkeys(uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7589,7 +7591,7 @@ uint32_t TS_InMemoryChannelKeys_counterparty_pubkeys(uint32_t this_arg) {
 	return ret_ref;
 }
 
-int16_t TS_InMemoryChannelKeys_counterparty_selected_contest_delay(uint32_t this_arg) {
+int16_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_counterparty_selected_contest_delay(uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7597,7 +7599,7 @@ int16_t TS_InMemoryChannelKeys_counterparty_selected_contest_delay(uint32_t this
 	return ret_val;
 }
 
-int16_t TS_InMemoryChannelKeys_holder_selected_contest_delay(uint32_t this_arg) {
+int16_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_holder_selected_contest_delay(uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7605,7 +7607,7 @@ int16_t TS_InMemoryChannelKeys_holder_selected_contest_delay(uint32_t this_arg) 
 	return ret_val;
 }
 
-jboolean TS_InMemoryChannelKeys_is_outbound(uint32_t this_arg) {
+jboolean  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_is_outbound(uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7613,7 +7615,7 @@ jboolean TS_InMemoryChannelKeys_is_outbound(uint32_t this_arg) {
 	return ret_val;
 }
 
-uint32_t TS_InMemoryChannelKeys_funding_outpoint(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_funding_outpoint(uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7627,7 +7629,7 @@ uint32_t TS_InMemoryChannelKeys_funding_outpoint(uint32_t this_arg) {
 	return ret_ref;
 }
 
-uint32_t TS_InMemoryChannelKeys_get_channel_parameters(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_get_channel_parameters(uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7641,7 +7643,7 @@ uint32_t TS_InMemoryChannelKeys_get_channel_parameters(uint32_t this_arg) {
 	return ret_ref;
 }
 
-uint32_t TS_InMemoryChannelKeys_as_ChannelKeys(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_as_ChannelKeys(uint32_t this_arg) {
 	LDKInMemoryChannelKeys this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7650,7 +7652,7 @@ uint32_t TS_InMemoryChannelKeys_as_ChannelKeys(uint32_t this_arg) {
 	return (long)ret;
 }
 
-int8_tArray TS_InMemoryChannelKeys_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_write(uint32_t obj) {
 	LDKInMemoryChannelKeys obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -7661,7 +7663,7 @@ int8_tArray TS_InMemoryChannelKeys_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_InMemoryChannelKeys_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_InMemoryChannelKeys_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -7670,14 +7672,14 @@ uint32_t TS_InMemoryChannelKeys_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-void TS_KeysManager_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_KeysManager_free(uint32_t this_ptr) {
 	LDKKeysManager this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	KeysManager_free(this_ptr_conv);
 }
 
-uint32_t TS_KeysManager_new(int8_tArray seed, uint32_t network, int64_t starting_time_secs, int32_t starting_time_nanos) {
+uint32_t  __attribute__((visibility("default"))) TS_KeysManager_new(int8_tArray seed, uint32_t network, int64_t starting_time_secs, int32_t starting_time_nanos) {
 	unsigned char seed_arr[32];
 	CHECK(*((uint32_t*)seed) == 32);
 	memcpy(seed_arr, (uint8_t*)(seed + 4), 32);
@@ -7693,7 +7695,7 @@ uint32_t TS_KeysManager_new(int8_tArray seed, uint32_t network, int64_t starting
 	return ret_ref;
 }
 
-uint32_t TS_KeysManager_derive_channel_keys(uint32_t this_arg, int64_t channel_value_satoshis, int64_t params_1, int64_t params_2) {
+uint32_t  __attribute__((visibility("default"))) TS_KeysManager_derive_channel_keys(uint32_t this_arg, int64_t channel_value_satoshis, int64_t params_1, int64_t params_2) {
 	LDKKeysManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7707,7 +7709,7 @@ uint32_t TS_KeysManager_derive_channel_keys(uint32_t this_arg, int64_t channel_v
 	return ret_ref;
 }
 
-uint32_t TS_KeysManager_as_KeysInterface(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_KeysManager_as_KeysInterface(uint32_t this_arg) {
 	LDKKeysManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7716,21 +7718,21 @@ uint32_t TS_KeysManager_as_KeysInterface(uint32_t this_arg) {
 	return (long)ret;
 }
 
-void TS_ChannelManager_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_free(uint32_t this_ptr) {
 	LDKChannelManager this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelManager_free(this_ptr_conv);
 }
 
-void TS_ChannelDetails_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_free(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelDetails_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelDetails_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelDetails_clone(uint32_t orig) {
 	LDKChannelDetails orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -7744,7 +7746,7 @@ uint32_t TS_ChannelDetails_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelDetails_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelDetails_get_channel_id(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7753,7 +7755,7 @@ int8_tArray TS_ChannelDetails_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_ChannelDetails_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7763,7 +7765,7 @@ void TS_ChannelDetails_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	ChannelDetails_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_ChannelDetails_get_remote_network_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelDetails_get_remote_network_id(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7772,7 +7774,7 @@ int8_tArray TS_ChannelDetails_get_remote_network_id(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelDetails_set_remote_network_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_remote_network_id(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7782,7 +7784,7 @@ void TS_ChannelDetails_set_remote_network_id(uint32_t this_ptr, int8_tArray val)
 	ChannelDetails_set_remote_network_id(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_ChannelDetails_get_counterparty_features(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelDetails_get_counterparty_features(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7796,7 +7798,7 @@ uint32_t TS_ChannelDetails_get_counterparty_features(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelDetails_set_counterparty_features(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_counterparty_features(uint32_t this_ptr, uint32_t val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7807,7 +7809,7 @@ void TS_ChannelDetails_set_counterparty_features(uint32_t this_ptr, uint32_t val
 	ChannelDetails_set_counterparty_features(&this_ptr_conv, val_conv);
 }
 
-int64_t TS_ChannelDetails_get_channel_value_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelDetails_get_channel_value_satoshis(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7815,14 +7817,14 @@ int64_t TS_ChannelDetails_get_channel_value_satoshis(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelDetails_set_channel_value_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_channel_value_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelDetails_set_channel_value_satoshis(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelDetails_get_user_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelDetails_get_user_id(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7830,14 +7832,14 @@ int64_t TS_ChannelDetails_get_user_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelDetails_set_user_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_user_id(uint32_t this_ptr, int64_t val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelDetails_set_user_id(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelDetails_get_outbound_capacity_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelDetails_get_outbound_capacity_msat(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7845,14 +7847,14 @@ int64_t TS_ChannelDetails_get_outbound_capacity_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelDetails_set_outbound_capacity_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_outbound_capacity_msat(uint32_t this_ptr, int64_t val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelDetails_set_outbound_capacity_msat(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelDetails_get_inbound_capacity_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelDetails_get_inbound_capacity_msat(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7860,14 +7862,14 @@ int64_t TS_ChannelDetails_get_inbound_capacity_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelDetails_set_inbound_capacity_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_inbound_capacity_msat(uint32_t this_ptr, int64_t val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelDetails_set_inbound_capacity_msat(&this_ptr_conv, val);
 }
 
-jboolean TS_ChannelDetails_get_is_live(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_ChannelDetails_get_is_live(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -7875,21 +7877,21 @@ jboolean TS_ChannelDetails_get_is_live(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ChannelDetails_set_is_live(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_is_live(uint32_t this_ptr, jboolean val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelDetails_set_is_live(&this_ptr_conv, val);
 }
 
-void TS_PaymentSendFailure_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_PaymentSendFailure_free(uint32_t this_ptr) {
 	LDKPaymentSendFailure this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	PaymentSendFailure_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelManager_new(uint32_t network, uint32_t fee_est, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t keys_manager, uint32_t config, intptr_t current_blockchain_height) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_new(uint32_t network, uint32_t fee_est, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t keys_manager, uint32_t config, intptr_t current_blockchain_height) {
 	LDKNetwork network_conv = LDKNetwork_from_js(network);
 	LDKFeeEstimator fee_est_conv = *(LDKFeeEstimator*)fee_est;
 	LDKWatch chain_monitor_conv = *(LDKWatch*)chain_monitor;
@@ -7911,7 +7913,7 @@ uint32_t TS_ChannelManager_new(uint32_t network, uint32_t fee_est, uint32_t chai
 	return ret_ref;
 }
 
-uint32_t TS_ChannelManager_create_channel(uint32_t this_arg, int8_tArray their_network_key, int64_t channel_value_satoshis, int64_t push_msat, int64_t user_id, uint32_t override_config) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_create_channel(uint32_t this_arg, int8_tArray their_network_key, int64_t channel_value_satoshis, int64_t push_msat, int64_t user_id, uint32_t override_config) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7928,7 +7930,7 @@ uint32_t TS_ChannelManager_create_channel(uint32_t this_arg, int8_tArray their_n
 	return (long)ret_conv;
 }
 
-uint32_tArray TS_ChannelManager_list_channels(uint32_t this_arg) {
+uint32_tArray  __attribute__((visibility("default"))) TS_ChannelManager_list_channels(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7949,7 +7951,7 @@ uint32_tArray TS_ChannelManager_list_channels(uint32_t this_arg) {
 	return ret_arr;
 }
 
-uint32_tArray TS_ChannelManager_list_usable_channels(uint32_t this_arg) {
+uint32_tArray  __attribute__((visibility("default"))) TS_ChannelManager_list_usable_channels(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7970,7 +7972,7 @@ uint32_tArray TS_ChannelManager_list_usable_channels(uint32_t this_arg) {
 	return ret_arr;
 }
 
-uint32_t TS_ChannelManager_close_channel(uint32_t this_arg, int8_tArray channel_id) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_close_channel(uint32_t this_arg, int8_tArray channel_id) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7983,7 +7985,7 @@ uint32_t TS_ChannelManager_close_channel(uint32_t this_arg, int8_tArray channel_
 	return (long)ret_conv;
 }
 
-void TS_ChannelManager_force_close_channel(uint32_t this_arg, int8_tArray channel_id) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_force_close_channel(uint32_t this_arg, int8_tArray channel_id) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -7994,14 +7996,14 @@ void TS_ChannelManager_force_close_channel(uint32_t this_arg, int8_tArray channe
 	ChannelManager_force_close_channel(&this_arg_conv, channel_id_ref);
 }
 
-void TS_ChannelManager_force_close_all_channels(uint32_t this_arg) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_force_close_all_channels(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	ChannelManager_force_close_all_channels(&this_arg_conv);
 }
 
-uint32_t TS_ChannelManager_send_payment(uint32_t this_arg, uint32_t route, int8_tArray payment_hash, int8_tArray payment_secret) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_send_payment(uint32_t this_arg, uint32_t route, int8_tArray payment_hash, int8_tArray payment_secret) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8019,7 +8021,7 @@ uint32_t TS_ChannelManager_send_payment(uint32_t this_arg, uint32_t route, int8_
 	return (long)ret_conv;
 }
 
-void TS_ChannelManager_funding_transaction_generated(uint32_t this_arg, int8_tArray temporary_channel_id, uint32_t funding_txo) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_funding_transaction_generated(uint32_t this_arg, int8_tArray temporary_channel_id, uint32_t funding_txo) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8035,7 +8037,7 @@ void TS_ChannelManager_funding_transaction_generated(uint32_t this_arg, int8_tAr
 	ChannelManager_funding_transaction_generated(&this_arg_conv, temporary_channel_id_ref, funding_txo_conv);
 }
 
-void TS_ChannelManager_broadcast_node_announcement(uint32_t this_arg, int8_tArray rgb, int8_tArray alias, uint32_tArray addresses) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_broadcast_node_announcement(uint32_t this_arg, int8_tArray rgb, int8_tArray alias, uint32_tArray addresses) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8061,21 +8063,21 @@ void TS_ChannelManager_broadcast_node_announcement(uint32_t this_arg, int8_tArra
 	ChannelManager_broadcast_node_announcement(&this_arg_conv, rgb_ref, alias_ref, addresses_constr);
 }
 
-void TS_ChannelManager_process_pending_htlc_forwards(uint32_t this_arg) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_process_pending_htlc_forwards(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	ChannelManager_process_pending_htlc_forwards(&this_arg_conv);
 }
 
-void TS_ChannelManager_timer_chan_freshness_every_min(uint32_t this_arg) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_timer_chan_freshness_every_min(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	ChannelManager_timer_chan_freshness_every_min(&this_arg_conv);
 }
 
-jboolean TS_ChannelManager_fail_htlc_backwards(uint32_t this_arg, int8_tArray payment_hash, int8_tArray payment_secret) {
+jboolean  __attribute__((visibility("default"))) TS_ChannelManager_fail_htlc_backwards(uint32_t this_arg, int8_tArray payment_hash, int8_tArray payment_secret) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8090,7 +8092,7 @@ jboolean TS_ChannelManager_fail_htlc_backwards(uint32_t this_arg, int8_tArray pa
 	return ret_val;
 }
 
-jboolean TS_ChannelManager_claim_funds(uint32_t this_arg, int8_tArray payment_preimage, int8_tArray payment_secret, int64_t expected_amount) {
+jboolean  __attribute__((visibility("default"))) TS_ChannelManager_claim_funds(uint32_t this_arg, int8_tArray payment_preimage, int8_tArray payment_secret, int64_t expected_amount) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8104,7 +8106,7 @@ jboolean TS_ChannelManager_claim_funds(uint32_t this_arg, int8_tArray payment_pr
 	return ret_val;
 }
 
-int8_tArray TS_ChannelManager_get_our_node_id(uint32_t this_arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelManager_get_our_node_id(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8113,7 +8115,7 @@ int8_tArray TS_ChannelManager_get_our_node_id(uint32_t this_arg) {
 	return arg_arr;
 }
 
-void TS_ChannelManager_channel_monitor_updated(uint32_t this_arg, uint32_t funding_txo, int64_t highest_applied_update_id) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_channel_monitor_updated(uint32_t this_arg, uint32_t funding_txo, int64_t highest_applied_update_id) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8123,7 +8125,7 @@ void TS_ChannelManager_channel_monitor_updated(uint32_t this_arg, uint32_t fundi
 	ChannelManager_channel_monitor_updated(&this_arg_conv, &funding_txo_conv, highest_applied_update_id);
 }
 
-uint32_t TS_ChannelManager_as_MessageSendEventsProvider(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_as_MessageSendEventsProvider(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8132,7 +8134,7 @@ uint32_t TS_ChannelManager_as_MessageSendEventsProvider(uint32_t this_arg) {
 	return (long)ret;
 }
 
-uint32_t TS_ChannelManager_as_EventsProvider(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_as_EventsProvider(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8141,7 +8143,7 @@ uint32_t TS_ChannelManager_as_EventsProvider(uint32_t this_arg) {
 	return (long)ret;
 }
 
-void TS_ChannelManager_block_connected(uint32_t this_arg, int8_tArray header, uint32_tArray txdata, int32_t height) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_block_connected(uint32_t this_arg, int8_tArray header, uint32_tArray txdata, int32_t height) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8165,7 +8167,7 @@ void TS_ChannelManager_block_connected(uint32_t this_arg, int8_tArray header, ui
 	ChannelManager_block_connected(&this_arg_conv, header_ref, txdata_constr, height);
 }
 
-void TS_ChannelManager_block_disconnected(uint32_t this_arg, int8_tArray header) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_block_disconnected(uint32_t this_arg, int8_tArray header) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8176,7 +8178,7 @@ void TS_ChannelManager_block_disconnected(uint32_t this_arg, int8_tArray header)
 	ChannelManager_block_disconnected(&this_arg_conv, header_ref);
 }
 
-uint32_t TS_ChannelManager_as_ChannelMessageHandler(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_as_ChannelMessageHandler(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -8185,7 +8187,7 @@ uint32_t TS_ChannelManager_as_ChannelMessageHandler(uint32_t this_arg) {
 	return (long)ret;
 }
 
-int8_tArray TS_ChannelManager_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelManager_write(uint32_t obj) {
 	LDKChannelManager obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -8196,14 +8198,14 @@ int8_tArray TS_ChannelManager_write(uint32_t obj) {
 	return arg_arr;
 }
 
-void TS_ChannelManagerReadArgs_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_free(uint32_t this_ptr) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelManagerReadArgs_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelManagerReadArgs_get_keys_manager(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_get_keys_manager(uint32_t this_ptr) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8211,7 +8213,7 @@ uint32_t TS_ChannelManagerReadArgs_get_keys_manager(uint32_t this_ptr) {
 	return ret_ret;
 }
 
-void TS_ChannelManagerReadArgs_set_keys_manager(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_set_keys_manager(uint32_t this_ptr, uint32_t val) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8219,7 +8221,7 @@ void TS_ChannelManagerReadArgs_set_keys_manager(uint32_t this_ptr, uint32_t val)
 	ChannelManagerReadArgs_set_keys_manager(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelManagerReadArgs_get_fee_estimator(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_get_fee_estimator(uint32_t this_ptr) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8227,7 +8229,7 @@ uint32_t TS_ChannelManagerReadArgs_get_fee_estimator(uint32_t this_ptr) {
 	return ret_ret;
 }
 
-void TS_ChannelManagerReadArgs_set_fee_estimator(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_set_fee_estimator(uint32_t this_ptr, uint32_t val) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8235,7 +8237,7 @@ void TS_ChannelManagerReadArgs_set_fee_estimator(uint32_t this_ptr, uint32_t val
 	ChannelManagerReadArgs_set_fee_estimator(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelManagerReadArgs_get_chain_monitor(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_get_chain_monitor(uint32_t this_ptr) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8243,7 +8245,7 @@ uint32_t TS_ChannelManagerReadArgs_get_chain_monitor(uint32_t this_ptr) {
 	return ret_ret;
 }
 
-void TS_ChannelManagerReadArgs_set_chain_monitor(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_set_chain_monitor(uint32_t this_ptr, uint32_t val) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8251,7 +8253,7 @@ void TS_ChannelManagerReadArgs_set_chain_monitor(uint32_t this_ptr, uint32_t val
 	ChannelManagerReadArgs_set_chain_monitor(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelManagerReadArgs_get_tx_broadcaster(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_get_tx_broadcaster(uint32_t this_ptr) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8259,7 +8261,7 @@ uint32_t TS_ChannelManagerReadArgs_get_tx_broadcaster(uint32_t this_ptr) {
 	return ret_ret;
 }
 
-void TS_ChannelManagerReadArgs_set_tx_broadcaster(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_set_tx_broadcaster(uint32_t this_ptr, uint32_t val) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8267,7 +8269,7 @@ void TS_ChannelManagerReadArgs_set_tx_broadcaster(uint32_t this_ptr, uint32_t va
 	ChannelManagerReadArgs_set_tx_broadcaster(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelManagerReadArgs_get_logger(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_get_logger(uint32_t this_ptr) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8275,7 +8277,7 @@ uint32_t TS_ChannelManagerReadArgs_get_logger(uint32_t this_ptr) {
 	return ret_ret;
 }
 
-void TS_ChannelManagerReadArgs_set_logger(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_set_logger(uint32_t this_ptr, uint32_t val) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8283,7 +8285,7 @@ void TS_ChannelManagerReadArgs_set_logger(uint32_t this_ptr, uint32_t val) {
 	ChannelManagerReadArgs_set_logger(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelManagerReadArgs_get_default_config(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_get_default_config(uint32_t this_ptr) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8297,7 +8299,7 @@ uint32_t TS_ChannelManagerReadArgs_get_default_config(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelManagerReadArgs_set_default_config(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_set_default_config(uint32_t this_ptr, uint32_t val) {
 	LDKChannelManagerReadArgs this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8309,7 +8311,7 @@ void TS_ChannelManagerReadArgs_set_default_config(uint32_t this_ptr, uint32_t va
 	ChannelManagerReadArgs_set_default_config(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelManagerReadArgs_new(uint32_t keys_manager, uint32_t fee_estimator, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t default_config, uint32_tArray channel_monitors) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManagerReadArgs_new(uint32_t keys_manager, uint32_t fee_estimator, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t default_config, uint32_tArray channel_monitors) {
 	LDKKeysInterface keys_manager_conv = *(LDKKeysInterface*)keys_manager;
 	LDKFeeEstimator fee_estimator_conv = *(LDKFeeEstimator*)fee_estimator;
 	LDKWatch chain_monitor_conv = *(LDKWatch*)chain_monitor;
@@ -8345,7 +8347,7 @@ uint32_t TS_ChannelManagerReadArgs_new(uint32_t keys_manager, uint32_t fee_estim
 	return ret_ref;
 }
 
-uint32_t TS_C2Tuple_BlockHashChannelManagerZ_read(int8_tArray ser, uint32_t arg) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_BlockHashChannelManagerZ_read(int8_tArray ser, uint32_t arg) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -8358,21 +8360,21 @@ uint32_t TS_C2Tuple_BlockHashChannelManagerZ_read(int8_tArray ser, uint32_t arg)
 	return (long)ret_conv;
 }
 
-void TS_DecodeError_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_DecodeError_free(uint32_t this_ptr) {
 	LDKDecodeError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	DecodeError_free(this_ptr_conv);
 }
 
-void TS_Init_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Init_free(uint32_t this_ptr) {
 	LDKInit this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	Init_free(this_ptr_conv);
 }
 
-uint32_t TS_Init_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_Init_clone(uint32_t orig) {
 	LDKInit orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -8386,14 +8388,14 @@ uint32_t TS_Init_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-void TS_ErrorMessage_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ErrorMessage_free(uint32_t this_ptr) {
 	LDKErrorMessage this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ErrorMessage_free(this_ptr_conv);
 }
 
-uint32_t TS_ErrorMessage_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ErrorMessage_clone(uint32_t orig) {
 	LDKErrorMessage orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -8407,7 +8409,7 @@ uint32_t TS_ErrorMessage_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ErrorMessage_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ErrorMessage_get_channel_id(uint32_t this_ptr) {
 	LDKErrorMessage this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8416,7 +8418,7 @@ int8_tArray TS_ErrorMessage_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_ErrorMessage_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ErrorMessage_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKErrorMessage this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8426,7 +8428,7 @@ void TS_ErrorMessage_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	ErrorMessage_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-jstring TS_ErrorMessage_get_data(uint32_t this_ptr) {
+jstring  __attribute__((visibility("default"))) TS_ErrorMessage_get_data(uint32_t this_ptr) {
 	LDKErrorMessage this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8435,7 +8437,7 @@ jstring TS_ErrorMessage_get_data(uint32_t this_ptr) {
 	return _conv;
 }
 
-void TS_ErrorMessage_set_data(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ErrorMessage_set_data(uint32_t this_ptr, int8_tArray val) {
 	LDKErrorMessage this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8446,7 +8448,7 @@ void TS_ErrorMessage_set_data(uint32_t this_ptr, int8_tArray val) {
 	ErrorMessage_set_data(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_ErrorMessage_new(int8_tArray channel_id_arg, int8_tArray data_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ErrorMessage_new(int8_tArray channel_id_arg, int8_tArray data_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -8464,14 +8466,14 @@ uint32_t TS_ErrorMessage_new(int8_tArray channel_id_arg, int8_tArray data_arg) {
 	return ret_ref;
 }
 
-void TS_Ping_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Ping_free(uint32_t this_ptr) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	Ping_free(this_ptr_conv);
 }
 
-uint32_t TS_Ping_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_Ping_clone(uint32_t orig) {
 	LDKPing orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -8485,7 +8487,7 @@ uint32_t TS_Ping_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int16_t TS_Ping_get_ponglen(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_Ping_get_ponglen(uint32_t this_ptr) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8493,14 +8495,14 @@ int16_t TS_Ping_get_ponglen(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_Ping_set_ponglen(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_Ping_set_ponglen(uint32_t this_ptr, int16_t val) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	Ping_set_ponglen(&this_ptr_conv, val);
 }
 
-int16_t TS_Ping_get_byteslen(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_Ping_get_byteslen(uint32_t this_ptr) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8508,14 +8510,14 @@ int16_t TS_Ping_get_byteslen(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_Ping_set_byteslen(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_Ping_set_byteslen(uint32_t this_ptr, int16_t val) {
 	LDKPing this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	Ping_set_byteslen(&this_ptr_conv, val);
 }
 
-uint32_t TS_Ping_new(int16_t ponglen_arg, int16_t byteslen_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_Ping_new(int16_t ponglen_arg, int16_t byteslen_arg) {
 	LDKPing ret_var = Ping_new(ponglen_arg, byteslen_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -8526,14 +8528,14 @@ uint32_t TS_Ping_new(int16_t ponglen_arg, int16_t byteslen_arg) {
 	return ret_ref;
 }
 
-void TS_Pong_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Pong_free(uint32_t this_ptr) {
 	LDKPong this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	Pong_free(this_ptr_conv);
 }
 
-uint32_t TS_Pong_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_Pong_clone(uint32_t orig) {
 	LDKPong orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -8547,7 +8549,7 @@ uint32_t TS_Pong_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int16_t TS_Pong_get_byteslen(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_Pong_get_byteslen(uint32_t this_ptr) {
 	LDKPong this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8555,14 +8557,14 @@ int16_t TS_Pong_get_byteslen(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_Pong_set_byteslen(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_Pong_set_byteslen(uint32_t this_ptr, int16_t val) {
 	LDKPong this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	Pong_set_byteslen(&this_ptr_conv, val);
 }
 
-uint32_t TS_Pong_new(int16_t byteslen_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_Pong_new(int16_t byteslen_arg) {
 	LDKPong ret_var = Pong_new(byteslen_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -8573,14 +8575,14 @@ uint32_t TS_Pong_new(int16_t byteslen_arg) {
 	return ret_ref;
 }
 
-void TS_OpenChannel_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_free(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	OpenChannel_free(this_ptr_conv);
 }
 
-uint32_t TS_OpenChannel_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_OpenChannel_clone(uint32_t orig) {
 	LDKOpenChannel orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -8594,7 +8596,7 @@ uint32_t TS_OpenChannel_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_OpenChannel_get_chain_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_get_chain_hash(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8603,7 +8605,7 @@ int8_tArray TS_OpenChannel_get_chain_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_OpenChannel_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8613,7 +8615,7 @@ void TS_OpenChannel_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	OpenChannel_set_chain_hash(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_OpenChannel_get_temporary_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_get_temporary_channel_id(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8622,7 +8624,7 @@ int8_tArray TS_OpenChannel_get_temporary_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_OpenChannel_set_temporary_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_temporary_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8632,7 +8634,7 @@ void TS_OpenChannel_set_temporary_channel_id(uint32_t this_ptr, int8_tArray val)
 	OpenChannel_set_temporary_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_OpenChannel_get_funding_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_OpenChannel_get_funding_satoshis(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8640,14 +8642,14 @@ int64_t TS_OpenChannel_get_funding_satoshis(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_funding_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_funding_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_funding_satoshis(&this_ptr_conv, val);
 }
 
-int64_t TS_OpenChannel_get_push_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_OpenChannel_get_push_msat(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8655,14 +8657,14 @@ int64_t TS_OpenChannel_get_push_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_push_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_push_msat(uint32_t this_ptr, int64_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_push_msat(&this_ptr_conv, val);
 }
 
-int64_t TS_OpenChannel_get_dust_limit_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_OpenChannel_get_dust_limit_satoshis(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8670,14 +8672,14 @@ int64_t TS_OpenChannel_get_dust_limit_satoshis(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_dust_limit_satoshis(&this_ptr_conv, val);
 }
 
-int64_t TS_OpenChannel_get_max_htlc_value_in_flight_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_OpenChannel_get_max_htlc_value_in_flight_msat(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8685,14 +8687,14 @@ int64_t TS_OpenChannel_get_max_htlc_value_in_flight_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_max_htlc_value_in_flight_msat(&this_ptr_conv, val);
 }
 
-int64_t TS_OpenChannel_get_channel_reserve_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_OpenChannel_get_channel_reserve_satoshis(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8700,14 +8702,14 @@ int64_t TS_OpenChannel_get_channel_reserve_satoshis(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_channel_reserve_satoshis(&this_ptr_conv, val);
 }
 
-int64_t TS_OpenChannel_get_htlc_minimum_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_OpenChannel_get_htlc_minimum_msat(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8715,14 +8717,14 @@ int64_t TS_OpenChannel_get_htlc_minimum_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-int32_t TS_OpenChannel_get_feerate_per_kw(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_OpenChannel_get_feerate_per_kw(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8730,14 +8732,14 @@ int32_t TS_OpenChannel_get_feerate_per_kw(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_feerate_per_kw(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_feerate_per_kw(uint32_t this_ptr, int32_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_feerate_per_kw(&this_ptr_conv, val);
 }
 
-int16_t TS_OpenChannel_get_to_self_delay(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_OpenChannel_get_to_self_delay(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8745,14 +8747,14 @@ int16_t TS_OpenChannel_get_to_self_delay(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_to_self_delay(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_to_self_delay(uint32_t this_ptr, int16_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_to_self_delay(&this_ptr_conv, val);
 }
 
-int16_t TS_OpenChannel_get_max_accepted_htlcs(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_OpenChannel_get_max_accepted_htlcs(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8760,14 +8762,14 @@ int16_t TS_OpenChannel_get_max_accepted_htlcs(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_max_accepted_htlcs(&this_ptr_conv, val);
 }
 
-int8_tArray TS_OpenChannel_get_funding_pubkey(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_get_funding_pubkey(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8776,7 +8778,7 @@ int8_tArray TS_OpenChannel_get_funding_pubkey(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_OpenChannel_set_funding_pubkey(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_funding_pubkey(uint32_t this_ptr, int8_tArray val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8786,7 +8788,7 @@ void TS_OpenChannel_set_funding_pubkey(uint32_t this_ptr, int8_tArray val) {
 	OpenChannel_set_funding_pubkey(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_OpenChannel_get_revocation_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_get_revocation_basepoint(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8795,7 +8797,7 @@ int8_tArray TS_OpenChannel_get_revocation_basepoint(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_OpenChannel_set_revocation_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_revocation_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8805,7 +8807,7 @@ void TS_OpenChannel_set_revocation_basepoint(uint32_t this_ptr, int8_tArray val)
 	OpenChannel_set_revocation_basepoint(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_OpenChannel_get_payment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_get_payment_point(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8814,7 +8816,7 @@ int8_tArray TS_OpenChannel_get_payment_point(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_OpenChannel_set_payment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_payment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8824,7 +8826,7 @@ void TS_OpenChannel_set_payment_point(uint32_t this_ptr, int8_tArray val) {
 	OpenChannel_set_payment_point(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_OpenChannel_get_delayed_payment_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_get_delayed_payment_basepoint(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8833,7 +8835,7 @@ int8_tArray TS_OpenChannel_get_delayed_payment_basepoint(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_OpenChannel_set_delayed_payment_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_delayed_payment_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8843,7 +8845,7 @@ void TS_OpenChannel_set_delayed_payment_basepoint(uint32_t this_ptr, int8_tArray
 	OpenChannel_set_delayed_payment_basepoint(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_OpenChannel_get_htlc_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_get_htlc_basepoint(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8852,7 +8854,7 @@ int8_tArray TS_OpenChannel_get_htlc_basepoint(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_OpenChannel_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8862,7 +8864,7 @@ void TS_OpenChannel_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val) {
 	OpenChannel_set_htlc_basepoint(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_OpenChannel_get_first_per_commitment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_get_first_per_commitment_point(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8871,7 +8873,7 @@ int8_tArray TS_OpenChannel_get_first_per_commitment_point(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_OpenChannel_set_first_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_first_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8881,7 +8883,7 @@ void TS_OpenChannel_set_first_per_commitment_point(uint32_t this_ptr, int8_tArra
 	OpenChannel_set_first_per_commitment_point(&this_ptr_conv, val_ref);
 }
 
-int8_t TS_OpenChannel_get_channel_flags(uint32_t this_ptr) {
+int8_t  __attribute__((visibility("default"))) TS_OpenChannel_get_channel_flags(uint32_t this_ptr) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8889,21 +8891,21 @@ int8_t TS_OpenChannel_get_channel_flags(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_OpenChannel_set_channel_flags(uint32_t this_ptr, int8_t val) {
+void  __attribute__((visibility("default"))) TS_OpenChannel_set_channel_flags(uint32_t this_ptr, int8_t val) {
 	LDKOpenChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	OpenChannel_set_channel_flags(&this_ptr_conv, val);
 }
 
-void TS_AcceptChannel_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_free(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	AcceptChannel_free(this_ptr_conv);
 }
 
-uint32_t TS_AcceptChannel_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_AcceptChannel_clone(uint32_t orig) {
 	LDKAcceptChannel orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -8917,7 +8919,7 @@ uint32_t TS_AcceptChannel_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_AcceptChannel_get_temporary_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AcceptChannel_get_temporary_channel_id(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8926,7 +8928,7 @@ int8_tArray TS_AcceptChannel_get_temporary_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_AcceptChannel_set_temporary_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_temporary_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8936,7 +8938,7 @@ void TS_AcceptChannel_set_temporary_channel_id(uint32_t this_ptr, int8_tArray va
 	AcceptChannel_set_temporary_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_AcceptChannel_get_dust_limit_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_AcceptChannel_get_dust_limit_satoshis(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8944,14 +8946,14 @@ int64_t TS_AcceptChannel_get_dust_limit_satoshis(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_AcceptChannel_set_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_dust_limit_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AcceptChannel_set_dust_limit_satoshis(&this_ptr_conv, val);
 }
 
-int64_t TS_AcceptChannel_get_max_htlc_value_in_flight_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_AcceptChannel_get_max_htlc_value_in_flight_msat(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8959,14 +8961,14 @@ int64_t TS_AcceptChannel_get_max_htlc_value_in_flight_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_AcceptChannel_set_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_max_htlc_value_in_flight_msat(uint32_t this_ptr, int64_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AcceptChannel_set_max_htlc_value_in_flight_msat(&this_ptr_conv, val);
 }
 
-int64_t TS_AcceptChannel_get_channel_reserve_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_AcceptChannel_get_channel_reserve_satoshis(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8974,14 +8976,14 @@ int64_t TS_AcceptChannel_get_channel_reserve_satoshis(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_AcceptChannel_set_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_channel_reserve_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AcceptChannel_set_channel_reserve_satoshis(&this_ptr_conv, val);
 }
 
-int64_t TS_AcceptChannel_get_htlc_minimum_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_AcceptChannel_get_htlc_minimum_msat(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -8989,14 +8991,14 @@ int64_t TS_AcceptChannel_get_htlc_minimum_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_AcceptChannel_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AcceptChannel_set_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-int32_t TS_AcceptChannel_get_minimum_depth(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_AcceptChannel_get_minimum_depth(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9004,14 +9006,14 @@ int32_t TS_AcceptChannel_get_minimum_depth(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_AcceptChannel_set_minimum_depth(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_minimum_depth(uint32_t this_ptr, int32_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AcceptChannel_set_minimum_depth(&this_ptr_conv, val);
 }
 
-int16_t TS_AcceptChannel_get_to_self_delay(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_AcceptChannel_get_to_self_delay(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9019,14 +9021,14 @@ int16_t TS_AcceptChannel_get_to_self_delay(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_AcceptChannel_set_to_self_delay(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_to_self_delay(uint32_t this_ptr, int16_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AcceptChannel_set_to_self_delay(&this_ptr_conv, val);
 }
 
-int16_t TS_AcceptChannel_get_max_accepted_htlcs(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_AcceptChannel_get_max_accepted_htlcs(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9034,14 +9036,14 @@ int16_t TS_AcceptChannel_get_max_accepted_htlcs(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_AcceptChannel_set_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_max_accepted_htlcs(uint32_t this_ptr, int16_t val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AcceptChannel_set_max_accepted_htlcs(&this_ptr_conv, val);
 }
 
-int8_tArray TS_AcceptChannel_get_funding_pubkey(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AcceptChannel_get_funding_pubkey(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9050,7 +9052,7 @@ int8_tArray TS_AcceptChannel_get_funding_pubkey(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_AcceptChannel_set_funding_pubkey(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_funding_pubkey(uint32_t this_ptr, int8_tArray val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9060,7 +9062,7 @@ void TS_AcceptChannel_set_funding_pubkey(uint32_t this_ptr, int8_tArray val) {
 	AcceptChannel_set_funding_pubkey(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_AcceptChannel_get_revocation_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AcceptChannel_get_revocation_basepoint(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9069,7 +9071,7 @@ int8_tArray TS_AcceptChannel_get_revocation_basepoint(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_AcceptChannel_set_revocation_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_revocation_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9079,7 +9081,7 @@ void TS_AcceptChannel_set_revocation_basepoint(uint32_t this_ptr, int8_tArray va
 	AcceptChannel_set_revocation_basepoint(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_AcceptChannel_get_payment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AcceptChannel_get_payment_point(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9088,7 +9090,7 @@ int8_tArray TS_AcceptChannel_get_payment_point(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_AcceptChannel_set_payment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_payment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9098,7 +9100,7 @@ void TS_AcceptChannel_set_payment_point(uint32_t this_ptr, int8_tArray val) {
 	AcceptChannel_set_payment_point(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_AcceptChannel_get_delayed_payment_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AcceptChannel_get_delayed_payment_basepoint(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9107,7 +9109,7 @@ int8_tArray TS_AcceptChannel_get_delayed_payment_basepoint(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_AcceptChannel_set_delayed_payment_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_delayed_payment_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9117,7 +9119,7 @@ void TS_AcceptChannel_set_delayed_payment_basepoint(uint32_t this_ptr, int8_tArr
 	AcceptChannel_set_delayed_payment_basepoint(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_AcceptChannel_get_htlc_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AcceptChannel_get_htlc_basepoint(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9126,7 +9128,7 @@ int8_tArray TS_AcceptChannel_get_htlc_basepoint(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_AcceptChannel_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9136,7 +9138,7 @@ void TS_AcceptChannel_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val) {
 	AcceptChannel_set_htlc_basepoint(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_AcceptChannel_get_first_per_commitment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AcceptChannel_get_first_per_commitment_point(uint32_t this_ptr) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9145,7 +9147,7 @@ int8_tArray TS_AcceptChannel_get_first_per_commitment_point(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_AcceptChannel_set_first_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AcceptChannel_set_first_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKAcceptChannel this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9155,14 +9157,14 @@ void TS_AcceptChannel_set_first_per_commitment_point(uint32_t this_ptr, int8_tAr
 	AcceptChannel_set_first_per_commitment_point(&this_ptr_conv, val_ref);
 }
 
-void TS_FundingCreated_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_FundingCreated_free(uint32_t this_ptr) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	FundingCreated_free(this_ptr_conv);
 }
 
-uint32_t TS_FundingCreated_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingCreated_clone(uint32_t orig) {
 	LDKFundingCreated orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9176,7 +9178,7 @@ uint32_t TS_FundingCreated_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_FundingCreated_get_temporary_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingCreated_get_temporary_channel_id(uint32_t this_ptr) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9185,7 +9187,7 @@ int8_tArray TS_FundingCreated_get_temporary_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_FundingCreated_set_temporary_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_FundingCreated_set_temporary_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9195,7 +9197,7 @@ void TS_FundingCreated_set_temporary_channel_id(uint32_t this_ptr, int8_tArray v
 	FundingCreated_set_temporary_channel_id(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_FundingCreated_get_funding_txid(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingCreated_get_funding_txid(uint32_t this_ptr) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9204,7 +9206,7 @@ int8_tArray TS_FundingCreated_get_funding_txid(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_FundingCreated_set_funding_txid(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_FundingCreated_set_funding_txid(uint32_t this_ptr, int8_tArray val) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9214,7 +9216,7 @@ void TS_FundingCreated_set_funding_txid(uint32_t this_ptr, int8_tArray val) {
 	FundingCreated_set_funding_txid(&this_ptr_conv, val_ref);
 }
 
-int16_t TS_FundingCreated_get_funding_output_index(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_FundingCreated_get_funding_output_index(uint32_t this_ptr) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9222,14 +9224,14 @@ int16_t TS_FundingCreated_get_funding_output_index(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_FundingCreated_set_funding_output_index(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_FundingCreated_set_funding_output_index(uint32_t this_ptr, int16_t val) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	FundingCreated_set_funding_output_index(&this_ptr_conv, val);
 }
 
-int8_tArray TS_FundingCreated_get_signature(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingCreated_get_signature(uint32_t this_ptr) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9238,7 +9240,7 @@ int8_tArray TS_FundingCreated_get_signature(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_FundingCreated_set_signature(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_FundingCreated_set_signature(uint32_t this_ptr, int8_tArray val) {
 	LDKFundingCreated this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9248,7 +9250,7 @@ void TS_FundingCreated_set_signature(uint32_t this_ptr, int8_tArray val) {
 	FundingCreated_set_signature(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_FundingCreated_new(int8_tArray temporary_channel_id_arg, int8_tArray funding_txid_arg, int16_t funding_output_index_arg, int8_tArray signature_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingCreated_new(int8_tArray temporary_channel_id_arg, int8_tArray funding_txid_arg, int16_t funding_output_index_arg, int8_tArray signature_arg) {
 	LDKThirtyTwoBytes temporary_channel_id_arg_ref;
 	CHECK(*((uint32_t*)temporary_channel_id_arg) == 32);
 	memcpy(temporary_channel_id_arg_ref.data, (uint8_t*)(temporary_channel_id_arg + 4), 32);
@@ -9268,14 +9270,14 @@ uint32_t TS_FundingCreated_new(int8_tArray temporary_channel_id_arg, int8_tArray
 	return ret_ref;
 }
 
-void TS_FundingSigned_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_FundingSigned_free(uint32_t this_ptr) {
 	LDKFundingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	FundingSigned_free(this_ptr_conv);
 }
 
-uint32_t TS_FundingSigned_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingSigned_clone(uint32_t orig) {
 	LDKFundingSigned orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9289,7 +9291,7 @@ uint32_t TS_FundingSigned_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_FundingSigned_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingSigned_get_channel_id(uint32_t this_ptr) {
 	LDKFundingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9298,7 +9300,7 @@ int8_tArray TS_FundingSigned_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_FundingSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_FundingSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKFundingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9308,7 +9310,7 @@ void TS_FundingSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	FundingSigned_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_FundingSigned_get_signature(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingSigned_get_signature(uint32_t this_ptr) {
 	LDKFundingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9317,7 +9319,7 @@ int8_tArray TS_FundingSigned_get_signature(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_FundingSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_FundingSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
 	LDKFundingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9327,7 +9329,7 @@ void TS_FundingSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
 	FundingSigned_set_signature(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_FundingSigned_new(int8_tArray channel_id_arg, int8_tArray signature_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingSigned_new(int8_tArray channel_id_arg, int8_tArray signature_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -9344,14 +9346,14 @@ uint32_t TS_FundingSigned_new(int8_tArray channel_id_arg, int8_tArray signature_
 	return ret_ref;
 }
 
-void TS_FundingLocked_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_FundingLocked_free(uint32_t this_ptr) {
 	LDKFundingLocked this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	FundingLocked_free(this_ptr_conv);
 }
 
-uint32_t TS_FundingLocked_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingLocked_clone(uint32_t orig) {
 	LDKFundingLocked orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9365,7 +9367,7 @@ uint32_t TS_FundingLocked_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_FundingLocked_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingLocked_get_channel_id(uint32_t this_ptr) {
 	LDKFundingLocked this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9374,7 +9376,7 @@ int8_tArray TS_FundingLocked_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_FundingLocked_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_FundingLocked_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKFundingLocked this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9384,7 +9386,7 @@ void TS_FundingLocked_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	FundingLocked_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_FundingLocked_get_next_per_commitment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingLocked_get_next_per_commitment_point(uint32_t this_ptr) {
 	LDKFundingLocked this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9393,7 +9395,7 @@ int8_tArray TS_FundingLocked_get_next_per_commitment_point(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_FundingLocked_set_next_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_FundingLocked_set_next_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKFundingLocked this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9403,7 +9405,7 @@ void TS_FundingLocked_set_next_per_commitment_point(uint32_t this_ptr, int8_tArr
 	FundingLocked_set_next_per_commitment_point(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_FundingLocked_new(int8_tArray channel_id_arg, int8_tArray next_per_commitment_point_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingLocked_new(int8_tArray channel_id_arg, int8_tArray next_per_commitment_point_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -9420,14 +9422,14 @@ uint32_t TS_FundingLocked_new(int8_tArray channel_id_arg, int8_tArray next_per_c
 	return ret_ref;
 }
 
-void TS_Shutdown_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Shutdown_free(uint32_t this_ptr) {
 	LDKShutdown this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	Shutdown_free(this_ptr_conv);
 }
 
-uint32_t TS_Shutdown_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_Shutdown_clone(uint32_t orig) {
 	LDKShutdown orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9441,7 +9443,7 @@ uint32_t TS_Shutdown_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_Shutdown_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_Shutdown_get_channel_id(uint32_t this_ptr) {
 	LDKShutdown this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9450,7 +9452,7 @@ int8_tArray TS_Shutdown_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_Shutdown_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_Shutdown_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKShutdown this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9460,7 +9462,7 @@ void TS_Shutdown_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	Shutdown_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_Shutdown_get_scriptpubkey(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_Shutdown_get_scriptpubkey(uint32_t this_ptr) {
 	LDKShutdown this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9470,7 +9472,7 @@ int8_tArray TS_Shutdown_get_scriptpubkey(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_Shutdown_set_scriptpubkey(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_Shutdown_set_scriptpubkey(uint32_t this_ptr, int8_tArray val) {
 	LDKShutdown this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9481,7 +9483,7 @@ void TS_Shutdown_set_scriptpubkey(uint32_t this_ptr, int8_tArray val) {
 	Shutdown_set_scriptpubkey(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_Shutdown_new(int8_tArray channel_id_arg, int8_tArray scriptpubkey_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_Shutdown_new(int8_tArray channel_id_arg, int8_tArray scriptpubkey_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -9499,14 +9501,14 @@ uint32_t TS_Shutdown_new(int8_tArray channel_id_arg, int8_tArray scriptpubkey_ar
 	return ret_ref;
 }
 
-void TS_ClosingSigned_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ClosingSigned_free(uint32_t this_ptr) {
 	LDKClosingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ClosingSigned_free(this_ptr_conv);
 }
 
-uint32_t TS_ClosingSigned_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ClosingSigned_clone(uint32_t orig) {
 	LDKClosingSigned orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9520,7 +9522,7 @@ uint32_t TS_ClosingSigned_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ClosingSigned_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ClosingSigned_get_channel_id(uint32_t this_ptr) {
 	LDKClosingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9529,7 +9531,7 @@ int8_tArray TS_ClosingSigned_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_ClosingSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ClosingSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKClosingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9539,7 +9541,7 @@ void TS_ClosingSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	ClosingSigned_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_ClosingSigned_get_fee_satoshis(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ClosingSigned_get_fee_satoshis(uint32_t this_ptr) {
 	LDKClosingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9547,14 +9549,14 @@ int64_t TS_ClosingSigned_get_fee_satoshis(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ClosingSigned_set_fee_satoshis(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ClosingSigned_set_fee_satoshis(uint32_t this_ptr, int64_t val) {
 	LDKClosingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ClosingSigned_set_fee_satoshis(&this_ptr_conv, val);
 }
 
-int8_tArray TS_ClosingSigned_get_signature(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ClosingSigned_get_signature(uint32_t this_ptr) {
 	LDKClosingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9563,7 +9565,7 @@ int8_tArray TS_ClosingSigned_get_signature(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ClosingSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ClosingSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
 	LDKClosingSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9573,7 +9575,7 @@ void TS_ClosingSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
 	ClosingSigned_set_signature(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_ClosingSigned_new(int8_tArray channel_id_arg, int64_t fee_satoshis_arg, int8_tArray signature_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ClosingSigned_new(int8_tArray channel_id_arg, int64_t fee_satoshis_arg, int8_tArray signature_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -9590,14 +9592,14 @@ uint32_t TS_ClosingSigned_new(int8_tArray channel_id_arg, int64_t fee_satoshis_a
 	return ret_ref;
 }
 
-void TS_UpdateAddHTLC_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UpdateAddHTLC_free(uint32_t this_ptr) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UpdateAddHTLC_free(this_ptr_conv);
 }
 
-uint32_t TS_UpdateAddHTLC_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateAddHTLC_clone(uint32_t orig) {
 	LDKUpdateAddHTLC orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9611,7 +9613,7 @@ uint32_t TS_UpdateAddHTLC_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateAddHTLC_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateAddHTLC_get_channel_id(uint32_t this_ptr) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9620,7 +9622,7 @@ int8_tArray TS_UpdateAddHTLC_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UpdateAddHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UpdateAddHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9630,7 +9632,7 @@ void TS_UpdateAddHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	UpdateAddHTLC_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_UpdateAddHTLC_get_htlc_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_UpdateAddHTLC_get_htlc_id(uint32_t this_ptr) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9638,14 +9640,14 @@ int64_t TS_UpdateAddHTLC_get_htlc_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UpdateAddHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_UpdateAddHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UpdateAddHTLC_set_htlc_id(&this_ptr_conv, val);
 }
 
-int64_t TS_UpdateAddHTLC_get_amount_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_UpdateAddHTLC_get_amount_msat(uint32_t this_ptr) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9653,14 +9655,14 @@ int64_t TS_UpdateAddHTLC_get_amount_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UpdateAddHTLC_set_amount_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_UpdateAddHTLC_set_amount_msat(uint32_t this_ptr, int64_t val) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UpdateAddHTLC_set_amount_msat(&this_ptr_conv, val);
 }
 
-int8_tArray TS_UpdateAddHTLC_get_payment_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateAddHTLC_get_payment_hash(uint32_t this_ptr) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9669,7 +9671,7 @@ int8_tArray TS_UpdateAddHTLC_get_payment_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UpdateAddHTLC_set_payment_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UpdateAddHTLC_set_payment_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9679,7 +9681,7 @@ void TS_UpdateAddHTLC_set_payment_hash(uint32_t this_ptr, int8_tArray val) {
 	UpdateAddHTLC_set_payment_hash(&this_ptr_conv, val_ref);
 }
 
-int32_t TS_UpdateAddHTLC_get_cltv_expiry(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_UpdateAddHTLC_get_cltv_expiry(uint32_t this_ptr) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9687,21 +9689,21 @@ int32_t TS_UpdateAddHTLC_get_cltv_expiry(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UpdateAddHTLC_set_cltv_expiry(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_UpdateAddHTLC_set_cltv_expiry(uint32_t this_ptr, int32_t val) {
 	LDKUpdateAddHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UpdateAddHTLC_set_cltv_expiry(&this_ptr_conv, val);
 }
 
-void TS_UpdateFulfillHTLC_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_free(uint32_t this_ptr) {
 	LDKUpdateFulfillHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UpdateFulfillHTLC_free(this_ptr_conv);
 }
 
-uint32_t TS_UpdateFulfillHTLC_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_clone(uint32_t orig) {
 	LDKUpdateFulfillHTLC orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9715,7 +9717,7 @@ uint32_t TS_UpdateFulfillHTLC_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateFulfillHTLC_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_get_channel_id(uint32_t this_ptr) {
 	LDKUpdateFulfillHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9724,7 +9726,7 @@ int8_tArray TS_UpdateFulfillHTLC_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UpdateFulfillHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKUpdateFulfillHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9734,7 +9736,7 @@ void TS_UpdateFulfillHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	UpdateFulfillHTLC_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_UpdateFulfillHTLC_get_htlc_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_get_htlc_id(uint32_t this_ptr) {
 	LDKUpdateFulfillHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9742,14 +9744,14 @@ int64_t TS_UpdateFulfillHTLC_get_htlc_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UpdateFulfillHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
 	LDKUpdateFulfillHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UpdateFulfillHTLC_set_htlc_id(&this_ptr_conv, val);
 }
 
-int8_tArray TS_UpdateFulfillHTLC_get_payment_preimage(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_get_payment_preimage(uint32_t this_ptr) {
 	LDKUpdateFulfillHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9758,7 +9760,7 @@ int8_tArray TS_UpdateFulfillHTLC_get_payment_preimage(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UpdateFulfillHTLC_set_payment_preimage(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_set_payment_preimage(uint32_t this_ptr, int8_tArray val) {
 	LDKUpdateFulfillHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9768,7 +9770,7 @@ void TS_UpdateFulfillHTLC_set_payment_preimage(uint32_t this_ptr, int8_tArray va
 	UpdateFulfillHTLC_set_payment_preimage(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_UpdateFulfillHTLC_new(int8_tArray channel_id_arg, int64_t htlc_id_arg, int8_tArray payment_preimage_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_new(int8_tArray channel_id_arg, int64_t htlc_id_arg, int8_tArray payment_preimage_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -9785,14 +9787,14 @@ uint32_t TS_UpdateFulfillHTLC_new(int8_tArray channel_id_arg, int64_t htlc_id_ar
 	return ret_ref;
 }
 
-void TS_UpdateFailHTLC_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UpdateFailHTLC_free(uint32_t this_ptr) {
 	LDKUpdateFailHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UpdateFailHTLC_free(this_ptr_conv);
 }
 
-uint32_t TS_UpdateFailHTLC_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFailHTLC_clone(uint32_t orig) {
 	LDKUpdateFailHTLC orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9806,7 +9808,7 @@ uint32_t TS_UpdateFailHTLC_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateFailHTLC_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFailHTLC_get_channel_id(uint32_t this_ptr) {
 	LDKUpdateFailHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9815,7 +9817,7 @@ int8_tArray TS_UpdateFailHTLC_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UpdateFailHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UpdateFailHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKUpdateFailHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9825,7 +9827,7 @@ void TS_UpdateFailHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	UpdateFailHTLC_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_UpdateFailHTLC_get_htlc_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_UpdateFailHTLC_get_htlc_id(uint32_t this_ptr) {
 	LDKUpdateFailHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9833,21 +9835,21 @@ int64_t TS_UpdateFailHTLC_get_htlc_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UpdateFailHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_UpdateFailHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
 	LDKUpdateFailHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UpdateFailHTLC_set_htlc_id(&this_ptr_conv, val);
 }
 
-void TS_UpdateFailMalformedHTLC_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_free(uint32_t this_ptr) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UpdateFailMalformedHTLC_free(this_ptr_conv);
 }
 
-uint32_t TS_UpdateFailMalformedHTLC_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_clone(uint32_t orig) {
 	LDKUpdateFailMalformedHTLC orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9861,7 +9863,7 @@ uint32_t TS_UpdateFailMalformedHTLC_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateFailMalformedHTLC_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_get_channel_id(uint32_t this_ptr) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9870,7 +9872,7 @@ int8_tArray TS_UpdateFailMalformedHTLC_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UpdateFailMalformedHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9880,7 +9882,7 @@ void TS_UpdateFailMalformedHTLC_set_channel_id(uint32_t this_ptr, int8_tArray va
 	UpdateFailMalformedHTLC_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_UpdateFailMalformedHTLC_get_htlc_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_get_htlc_id(uint32_t this_ptr) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9888,14 +9890,14 @@ int64_t TS_UpdateFailMalformedHTLC_get_htlc_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UpdateFailMalformedHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_set_htlc_id(uint32_t this_ptr, int64_t val) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UpdateFailMalformedHTLC_set_htlc_id(&this_ptr_conv, val);
 }
 
-int16_t TS_UpdateFailMalformedHTLC_get_failure_code(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_get_failure_code(uint32_t this_ptr) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9903,21 +9905,21 @@ int16_t TS_UpdateFailMalformedHTLC_get_failure_code(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UpdateFailMalformedHTLC_set_failure_code(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_set_failure_code(uint32_t this_ptr, int16_t val) {
 	LDKUpdateFailMalformedHTLC this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UpdateFailMalformedHTLC_set_failure_code(&this_ptr_conv, val);
 }
 
-void TS_CommitmentSigned_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_CommitmentSigned_free(uint32_t this_ptr) {
 	LDKCommitmentSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	CommitmentSigned_free(this_ptr_conv);
 }
 
-uint32_t TS_CommitmentSigned_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentSigned_clone(uint32_t orig) {
 	LDKCommitmentSigned orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -9931,7 +9933,7 @@ uint32_t TS_CommitmentSigned_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_CommitmentSigned_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_CommitmentSigned_get_channel_id(uint32_t this_ptr) {
 	LDKCommitmentSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9940,7 +9942,7 @@ int8_tArray TS_CommitmentSigned_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_CommitmentSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_CommitmentSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKCommitmentSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9950,7 +9952,7 @@ void TS_CommitmentSigned_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	CommitmentSigned_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_CommitmentSigned_get_signature(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_CommitmentSigned_get_signature(uint32_t this_ptr) {
 	LDKCommitmentSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9959,7 +9961,7 @@ int8_tArray TS_CommitmentSigned_get_signature(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_CommitmentSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_CommitmentSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
 	LDKCommitmentSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9969,7 +9971,7 @@ void TS_CommitmentSigned_set_signature(uint32_t this_ptr, int8_tArray val) {
 	CommitmentSigned_set_signature(&this_ptr_conv, val_ref);
 }
 
-void TS_CommitmentSigned_set_htlc_signatures(uint32_t this_ptr, ptrArray val) {
+void  __attribute__((visibility("default"))) TS_CommitmentSigned_set_htlc_signatures(uint32_t this_ptr, ptrArray val) {
 	LDKCommitmentSigned this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -9990,7 +9992,7 @@ void TS_CommitmentSigned_set_htlc_signatures(uint32_t this_ptr, ptrArray val) {
 	CommitmentSigned_set_htlc_signatures(&this_ptr_conv, val_constr);
 }
 
-uint32_t TS_CommitmentSigned_new(int8_tArray channel_id_arg, int8_tArray signature_arg, ptrArray htlc_signatures_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentSigned_new(int8_tArray channel_id_arg, int8_tArray signature_arg, ptrArray htlc_signatures_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -10021,14 +10023,14 @@ uint32_t TS_CommitmentSigned_new(int8_tArray channel_id_arg, int8_tArray signatu
 	return ret_ref;
 }
 
-void TS_RevokeAndACK_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_RevokeAndACK_free(uint32_t this_ptr) {
 	LDKRevokeAndACK this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	RevokeAndACK_free(this_ptr_conv);
 }
 
-uint32_t TS_RevokeAndACK_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_RevokeAndACK_clone(uint32_t orig) {
 	LDKRevokeAndACK orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10042,7 +10044,7 @@ uint32_t TS_RevokeAndACK_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_RevokeAndACK_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_RevokeAndACK_get_channel_id(uint32_t this_ptr) {
 	LDKRevokeAndACK this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10051,7 +10053,7 @@ int8_tArray TS_RevokeAndACK_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_RevokeAndACK_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_RevokeAndACK_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKRevokeAndACK this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10061,7 +10063,7 @@ void TS_RevokeAndACK_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	RevokeAndACK_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_RevokeAndACK_get_per_commitment_secret(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_RevokeAndACK_get_per_commitment_secret(uint32_t this_ptr) {
 	LDKRevokeAndACK this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10070,7 +10072,7 @@ int8_tArray TS_RevokeAndACK_get_per_commitment_secret(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_RevokeAndACK_set_per_commitment_secret(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_RevokeAndACK_set_per_commitment_secret(uint32_t this_ptr, int8_tArray val) {
 	LDKRevokeAndACK this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10080,7 +10082,7 @@ void TS_RevokeAndACK_set_per_commitment_secret(uint32_t this_ptr, int8_tArray va
 	RevokeAndACK_set_per_commitment_secret(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_RevokeAndACK_get_next_per_commitment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_RevokeAndACK_get_next_per_commitment_point(uint32_t this_ptr) {
 	LDKRevokeAndACK this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10089,7 +10091,7 @@ int8_tArray TS_RevokeAndACK_get_next_per_commitment_point(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_RevokeAndACK_set_next_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_RevokeAndACK_set_next_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKRevokeAndACK this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10099,7 +10101,7 @@ void TS_RevokeAndACK_set_next_per_commitment_point(uint32_t this_ptr, int8_tArra
 	RevokeAndACK_set_next_per_commitment_point(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_RevokeAndACK_new(int8_tArray channel_id_arg, int8_tArray per_commitment_secret_arg, int8_tArray next_per_commitment_point_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_RevokeAndACK_new(int8_tArray channel_id_arg, int8_tArray per_commitment_secret_arg, int8_tArray next_per_commitment_point_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -10119,14 +10121,14 @@ uint32_t TS_RevokeAndACK_new(int8_tArray channel_id_arg, int8_tArray per_commitm
 	return ret_ref;
 }
 
-void TS_UpdateFee_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UpdateFee_free(uint32_t this_ptr) {
 	LDKUpdateFee this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UpdateFee_free(this_ptr_conv);
 }
 
-uint32_t TS_UpdateFee_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFee_clone(uint32_t orig) {
 	LDKUpdateFee orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10140,7 +10142,7 @@ uint32_t TS_UpdateFee_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateFee_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFee_get_channel_id(uint32_t this_ptr) {
 	LDKUpdateFee this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10149,7 +10151,7 @@ int8_tArray TS_UpdateFee_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UpdateFee_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UpdateFee_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKUpdateFee this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10159,7 +10161,7 @@ void TS_UpdateFee_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	UpdateFee_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int32_t TS_UpdateFee_get_feerate_per_kw(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_UpdateFee_get_feerate_per_kw(uint32_t this_ptr) {
 	LDKUpdateFee this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10167,14 +10169,14 @@ int32_t TS_UpdateFee_get_feerate_per_kw(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UpdateFee_set_feerate_per_kw(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_UpdateFee_set_feerate_per_kw(uint32_t this_ptr, int32_t val) {
 	LDKUpdateFee this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UpdateFee_set_feerate_per_kw(&this_ptr_conv, val);
 }
 
-uint32_t TS_UpdateFee_new(int8_tArray channel_id_arg, int32_t feerate_per_kw_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFee_new(int8_tArray channel_id_arg, int32_t feerate_per_kw_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -10188,14 +10190,14 @@ uint32_t TS_UpdateFee_new(int8_tArray channel_id_arg, int32_t feerate_per_kw_arg
 	return ret_ref;
 }
 
-void TS_DataLossProtect_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_DataLossProtect_free(uint32_t this_ptr) {
 	LDKDataLossProtect this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	DataLossProtect_free(this_ptr_conv);
 }
 
-uint32_t TS_DataLossProtect_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_DataLossProtect_clone(uint32_t orig) {
 	LDKDataLossProtect orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10209,7 +10211,7 @@ uint32_t TS_DataLossProtect_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_DataLossProtect_get_your_last_per_commitment_secret(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_DataLossProtect_get_your_last_per_commitment_secret(uint32_t this_ptr) {
 	LDKDataLossProtect this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10218,7 +10220,7 @@ int8_tArray TS_DataLossProtect_get_your_last_per_commitment_secret(uint32_t this
 	return ret_arr;
 }
 
-void TS_DataLossProtect_set_your_last_per_commitment_secret(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_DataLossProtect_set_your_last_per_commitment_secret(uint32_t this_ptr, int8_tArray val) {
 	LDKDataLossProtect this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10228,7 +10230,7 @@ void TS_DataLossProtect_set_your_last_per_commitment_secret(uint32_t this_ptr, i
 	DataLossProtect_set_your_last_per_commitment_secret(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_DataLossProtect_get_my_current_per_commitment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_DataLossProtect_get_my_current_per_commitment_point(uint32_t this_ptr) {
 	LDKDataLossProtect this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10237,7 +10239,7 @@ int8_tArray TS_DataLossProtect_get_my_current_per_commitment_point(uint32_t this
 	return arg_arr;
 }
 
-void TS_DataLossProtect_set_my_current_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_DataLossProtect_set_my_current_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKDataLossProtect this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10247,7 +10249,7 @@ void TS_DataLossProtect_set_my_current_per_commitment_point(uint32_t this_ptr, i
 	DataLossProtect_set_my_current_per_commitment_point(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_DataLossProtect_new(int8_tArray your_last_per_commitment_secret_arg, int8_tArray my_current_per_commitment_point_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_DataLossProtect_new(int8_tArray your_last_per_commitment_secret_arg, int8_tArray my_current_per_commitment_point_arg) {
 	LDKThirtyTwoBytes your_last_per_commitment_secret_arg_ref;
 	CHECK(*((uint32_t*)your_last_per_commitment_secret_arg) == 32);
 	memcpy(your_last_per_commitment_secret_arg_ref.data, (uint8_t*)(your_last_per_commitment_secret_arg + 4), 32);
@@ -10264,14 +10266,14 @@ uint32_t TS_DataLossProtect_new(int8_tArray your_last_per_commitment_secret_arg,
 	return ret_ref;
 }
 
-void TS_ChannelReestablish_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelReestablish_free(uint32_t this_ptr) {
 	LDKChannelReestablish this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelReestablish_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelReestablish_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelReestablish_clone(uint32_t orig) {
 	LDKChannelReestablish orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10285,7 +10287,7 @@ uint32_t TS_ChannelReestablish_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelReestablish_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelReestablish_get_channel_id(uint32_t this_ptr) {
 	LDKChannelReestablish this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10294,7 +10296,7 @@ int8_tArray TS_ChannelReestablish_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_ChannelReestablish_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelReestablish_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelReestablish this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10304,7 +10306,7 @@ void TS_ChannelReestablish_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	ChannelReestablish_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_ChannelReestablish_get_next_local_commitment_number(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelReestablish_get_next_local_commitment_number(uint32_t this_ptr) {
 	LDKChannelReestablish this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10312,14 +10314,14 @@ int64_t TS_ChannelReestablish_get_next_local_commitment_number(uint32_t this_ptr
 	return ret_val;
 }
 
-void TS_ChannelReestablish_set_next_local_commitment_number(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelReestablish_set_next_local_commitment_number(uint32_t this_ptr, int64_t val) {
 	LDKChannelReestablish this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelReestablish_set_next_local_commitment_number(&this_ptr_conv, val);
 }
 
-int64_t TS_ChannelReestablish_get_next_remote_commitment_number(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelReestablish_get_next_remote_commitment_number(uint32_t this_ptr) {
 	LDKChannelReestablish this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10327,21 +10329,21 @@ int64_t TS_ChannelReestablish_get_next_remote_commitment_number(uint32_t this_pt
 	return ret_val;
 }
 
-void TS_ChannelReestablish_set_next_remote_commitment_number(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelReestablish_set_next_remote_commitment_number(uint32_t this_ptr, int64_t val) {
 	LDKChannelReestablish this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelReestablish_set_next_remote_commitment_number(&this_ptr_conv, val);
 }
 
-void TS_AnnouncementSignatures_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_AnnouncementSignatures_free(uint32_t this_ptr) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	AnnouncementSignatures_free(this_ptr_conv);
 }
 
-uint32_t TS_AnnouncementSignatures_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_AnnouncementSignatures_clone(uint32_t orig) {
 	LDKAnnouncementSignatures orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10355,7 +10357,7 @@ uint32_t TS_AnnouncementSignatures_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_AnnouncementSignatures_get_channel_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AnnouncementSignatures_get_channel_id(uint32_t this_ptr) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10364,7 +10366,7 @@ int8_tArray TS_AnnouncementSignatures_get_channel_id(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_AnnouncementSignatures_set_channel_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AnnouncementSignatures_set_channel_id(uint32_t this_ptr, int8_tArray val) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10374,7 +10376,7 @@ void TS_AnnouncementSignatures_set_channel_id(uint32_t this_ptr, int8_tArray val
 	AnnouncementSignatures_set_channel_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_AnnouncementSignatures_get_short_channel_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_AnnouncementSignatures_get_short_channel_id(uint32_t this_ptr) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10382,14 +10384,14 @@ int64_t TS_AnnouncementSignatures_get_short_channel_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_AnnouncementSignatures_set_short_channel_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_AnnouncementSignatures_set_short_channel_id(uint32_t this_ptr, int64_t val) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	AnnouncementSignatures_set_short_channel_id(&this_ptr_conv, val);
 }
 
-int8_tArray TS_AnnouncementSignatures_get_node_signature(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AnnouncementSignatures_get_node_signature(uint32_t this_ptr) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10398,7 +10400,7 @@ int8_tArray TS_AnnouncementSignatures_get_node_signature(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_AnnouncementSignatures_set_node_signature(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AnnouncementSignatures_set_node_signature(uint32_t this_ptr, int8_tArray val) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10408,7 +10410,7 @@ void TS_AnnouncementSignatures_set_node_signature(uint32_t this_ptr, int8_tArray
 	AnnouncementSignatures_set_node_signature(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_AnnouncementSignatures_get_bitcoin_signature(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_AnnouncementSignatures_get_bitcoin_signature(uint32_t this_ptr) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10417,7 +10419,7 @@ int8_tArray TS_AnnouncementSignatures_get_bitcoin_signature(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_AnnouncementSignatures_set_bitcoin_signature(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_AnnouncementSignatures_set_bitcoin_signature(uint32_t this_ptr, int8_tArray val) {
 	LDKAnnouncementSignatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10427,7 +10429,7 @@ void TS_AnnouncementSignatures_set_bitcoin_signature(uint32_t this_ptr, int8_tAr
 	AnnouncementSignatures_set_bitcoin_signature(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_AnnouncementSignatures_new(int8_tArray channel_id_arg, int64_t short_channel_id_arg, int8_tArray node_signature_arg, int8_tArray bitcoin_signature_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_AnnouncementSignatures_new(int8_tArray channel_id_arg, int64_t short_channel_id_arg, int8_tArray node_signature_arg, int8_tArray bitcoin_signature_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -10447,13 +10449,13 @@ uint32_t TS_AnnouncementSignatures_new(int8_tArray channel_id_arg, int64_t short
 	return ret_ref;
 }
 
-void TS_NetAddress_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_NetAddress_free(uint32_t this_ptr) {
 	LDKNetAddress this_ptr_conv = *(LDKNetAddress*)this_ptr;
 	FREE((void*)this_ptr);
 	NetAddress_free(this_ptr_conv);
 }
 
-uint32_t TS_NetAddress_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_NetAddress_clone(uint32_t orig) {
 	LDKNetAddress* orig_conv = (LDKNetAddress*)orig;
 	LDKNetAddress *ret_copy = MALLOC(sizeof(LDKNetAddress), "LDKNetAddress");
 	*ret_copy = NetAddress_clone(orig_conv);
@@ -10461,7 +10463,7 @@ uint32_t TS_NetAddress_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_NetAddress_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_NetAddress_write(uint32_t obj) {
 	LDKNetAddress* obj_conv = (LDKNetAddress*)obj;
 	LDKCVec_u8Z arg_var = NetAddress_write(obj_conv);
 	int8_tArray arg_arr = init_arr(arg_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
@@ -10470,7 +10472,7 @@ int8_tArray TS_NetAddress_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_Result_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_Result_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -10479,14 +10481,14 @@ uint32_t TS_Result_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-void TS_UnsignedNodeAnnouncement_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_free(uint32_t this_ptr) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UnsignedNodeAnnouncement_free(this_ptr_conv);
 }
 
-uint32_t TS_UnsignedNodeAnnouncement_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_clone(uint32_t orig) {
 	LDKUnsignedNodeAnnouncement orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10500,7 +10502,7 @@ uint32_t TS_UnsignedNodeAnnouncement_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-uint32_t TS_UnsignedNodeAnnouncement_get_features(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_get_features(uint32_t this_ptr) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10514,7 +10516,7 @@ uint32_t TS_UnsignedNodeAnnouncement_get_features(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_UnsignedNodeAnnouncement_set_features(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_set_features(uint32_t this_ptr, uint32_t val) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10525,7 +10527,7 @@ void TS_UnsignedNodeAnnouncement_set_features(uint32_t this_ptr, uint32_t val) {
 	UnsignedNodeAnnouncement_set_features(&this_ptr_conv, val_conv);
 }
 
-int32_t TS_UnsignedNodeAnnouncement_get_timestamp(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_get_timestamp(uint32_t this_ptr) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10533,14 +10535,14 @@ int32_t TS_UnsignedNodeAnnouncement_get_timestamp(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UnsignedNodeAnnouncement_set_timestamp(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_set_timestamp(uint32_t this_ptr, int32_t val) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedNodeAnnouncement_set_timestamp(&this_ptr_conv, val);
 }
 
-int8_tArray TS_UnsignedNodeAnnouncement_get_node_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_get_node_id(uint32_t this_ptr) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10549,7 +10551,7 @@ int8_tArray TS_UnsignedNodeAnnouncement_get_node_id(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_UnsignedNodeAnnouncement_set_node_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_set_node_id(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10559,7 +10561,7 @@ void TS_UnsignedNodeAnnouncement_set_node_id(uint32_t this_ptr, int8_tArray val)
 	UnsignedNodeAnnouncement_set_node_id(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_UnsignedNodeAnnouncement_get_rgb(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_get_rgb(uint32_t this_ptr) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10568,7 +10570,7 @@ int8_tArray TS_UnsignedNodeAnnouncement_get_rgb(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UnsignedNodeAnnouncement_set_rgb(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_set_rgb(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10578,7 +10580,7 @@ void TS_UnsignedNodeAnnouncement_set_rgb(uint32_t this_ptr, int8_tArray val) {
 	UnsignedNodeAnnouncement_set_rgb(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_UnsignedNodeAnnouncement_get_alias(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_get_alias(uint32_t this_ptr) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10587,7 +10589,7 @@ int8_tArray TS_UnsignedNodeAnnouncement_get_alias(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UnsignedNodeAnnouncement_set_alias(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_set_alias(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10597,7 +10599,7 @@ void TS_UnsignedNodeAnnouncement_set_alias(uint32_t this_ptr, int8_tArray val) {
 	UnsignedNodeAnnouncement_set_alias(&this_ptr_conv, val_ref);
 }
 
-void TS_UnsignedNodeAnnouncement_set_addresses(uint32_t this_ptr, uint32_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_set_addresses(uint32_t this_ptr, uint32_tArray val) {
 	LDKUnsignedNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10617,14 +10619,14 @@ void TS_UnsignedNodeAnnouncement_set_addresses(uint32_t this_ptr, uint32_tArray 
 	UnsignedNodeAnnouncement_set_addresses(&this_ptr_conv, val_constr);
 }
 
-void TS_NodeAnnouncement_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncement_free(uint32_t this_ptr) {
 	LDKNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	NodeAnnouncement_free(this_ptr_conv);
 }
 
-uint32_t TS_NodeAnnouncement_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeAnnouncement_clone(uint32_t orig) {
 	LDKNodeAnnouncement orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10638,7 +10640,7 @@ uint32_t TS_NodeAnnouncement_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_NodeAnnouncement_get_signature(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_NodeAnnouncement_get_signature(uint32_t this_ptr) {
 	LDKNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10647,7 +10649,7 @@ int8_tArray TS_NodeAnnouncement_get_signature(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_NodeAnnouncement_set_signature(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncement_set_signature(uint32_t this_ptr, int8_tArray val) {
 	LDKNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10657,7 +10659,7 @@ void TS_NodeAnnouncement_set_signature(uint32_t this_ptr, int8_tArray val) {
 	NodeAnnouncement_set_signature(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_NodeAnnouncement_get_contents(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeAnnouncement_get_contents(uint32_t this_ptr) {
 	LDKNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10671,7 +10673,7 @@ uint32_t TS_NodeAnnouncement_get_contents(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_NodeAnnouncement_set_contents(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncement_set_contents(uint32_t this_ptr, uint32_t val) {
 	LDKNodeAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10683,7 +10685,7 @@ void TS_NodeAnnouncement_set_contents(uint32_t this_ptr, uint32_t val) {
 	NodeAnnouncement_set_contents(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_NodeAnnouncement_new(int8_tArray signature_arg, uint32_t contents_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeAnnouncement_new(int8_tArray signature_arg, uint32_t contents_arg) {
 	LDKSignature signature_arg_ref;
 	CHECK(*((uint32_t*)signature_arg) == 64);
 	memcpy(signature_arg_ref.compact_form, (uint8_t*)(signature_arg + 4), 64);
@@ -10702,14 +10704,14 @@ uint32_t TS_NodeAnnouncement_new(int8_tArray signature_arg, uint32_t contents_ar
 	return ret_ref;
 }
 
-void TS_UnsignedChannelAnnouncement_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_free(uint32_t this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UnsignedChannelAnnouncement_free(this_ptr_conv);
 }
 
-uint32_t TS_UnsignedChannelAnnouncement_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_clone(uint32_t orig) {
 	LDKUnsignedChannelAnnouncement orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10723,7 +10725,7 @@ uint32_t TS_UnsignedChannelAnnouncement_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-uint32_t TS_UnsignedChannelAnnouncement_get_features(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_get_features(uint32_t this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10737,7 +10739,7 @@ uint32_t TS_UnsignedChannelAnnouncement_get_features(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_UnsignedChannelAnnouncement_set_features(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_set_features(uint32_t this_ptr, uint32_t val) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10748,7 +10750,7 @@ void TS_UnsignedChannelAnnouncement_set_features(uint32_t this_ptr, uint32_t val
 	UnsignedChannelAnnouncement_set_features(&this_ptr_conv, val_conv);
 }
 
-int8_tArray TS_UnsignedChannelAnnouncement_get_chain_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_get_chain_hash(uint32_t this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10757,7 +10759,7 @@ int8_tArray TS_UnsignedChannelAnnouncement_get_chain_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UnsignedChannelAnnouncement_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10767,7 +10769,7 @@ void TS_UnsignedChannelAnnouncement_set_chain_hash(uint32_t this_ptr, int8_tArra
 	UnsignedChannelAnnouncement_set_chain_hash(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_UnsignedChannelAnnouncement_get_short_channel_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_get_short_channel_id(uint32_t this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10775,14 +10777,14 @@ int64_t TS_UnsignedChannelAnnouncement_get_short_channel_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UnsignedChannelAnnouncement_set_short_channel_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_set_short_channel_id(uint32_t this_ptr, int64_t val) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedChannelAnnouncement_set_short_channel_id(&this_ptr_conv, val);
 }
 
-int8_tArray TS_UnsignedChannelAnnouncement_get_node_id_1(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_get_node_id_1(uint32_t this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10791,7 +10793,7 @@ int8_tArray TS_UnsignedChannelAnnouncement_get_node_id_1(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_UnsignedChannelAnnouncement_set_node_id_1(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_set_node_id_1(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10801,7 +10803,7 @@ void TS_UnsignedChannelAnnouncement_set_node_id_1(uint32_t this_ptr, int8_tArray
 	UnsignedChannelAnnouncement_set_node_id_1(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_UnsignedChannelAnnouncement_get_node_id_2(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_get_node_id_2(uint32_t this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10810,7 +10812,7 @@ int8_tArray TS_UnsignedChannelAnnouncement_get_node_id_2(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_UnsignedChannelAnnouncement_set_node_id_2(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_set_node_id_2(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10820,7 +10822,7 @@ void TS_UnsignedChannelAnnouncement_set_node_id_2(uint32_t this_ptr, int8_tArray
 	UnsignedChannelAnnouncement_set_node_id_2(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_UnsignedChannelAnnouncement_get_bitcoin_key_1(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_get_bitcoin_key_1(uint32_t this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10829,7 +10831,7 @@ int8_tArray TS_UnsignedChannelAnnouncement_get_bitcoin_key_1(uint32_t this_ptr) 
 	return arg_arr;
 }
 
-void TS_UnsignedChannelAnnouncement_set_bitcoin_key_1(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_set_bitcoin_key_1(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10839,7 +10841,7 @@ void TS_UnsignedChannelAnnouncement_set_bitcoin_key_1(uint32_t this_ptr, int8_tA
 	UnsignedChannelAnnouncement_set_bitcoin_key_1(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_UnsignedChannelAnnouncement_get_bitcoin_key_2(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_get_bitcoin_key_2(uint32_t this_ptr) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10848,7 +10850,7 @@ int8_tArray TS_UnsignedChannelAnnouncement_get_bitcoin_key_2(uint32_t this_ptr) 
 	return arg_arr;
 }
 
-void TS_UnsignedChannelAnnouncement_set_bitcoin_key_2(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_set_bitcoin_key_2(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10858,14 +10860,14 @@ void TS_UnsignedChannelAnnouncement_set_bitcoin_key_2(uint32_t this_ptr, int8_tA
 	UnsignedChannelAnnouncement_set_bitcoin_key_2(&this_ptr_conv, val_ref);
 }
 
-void TS_ChannelAnnouncement_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelAnnouncement_free(uint32_t this_ptr) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelAnnouncement_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelAnnouncement_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelAnnouncement_clone(uint32_t orig) {
 	LDKChannelAnnouncement orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -10879,7 +10881,7 @@ uint32_t TS_ChannelAnnouncement_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelAnnouncement_get_node_signature_1(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelAnnouncement_get_node_signature_1(uint32_t this_ptr) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10888,7 +10890,7 @@ int8_tArray TS_ChannelAnnouncement_get_node_signature_1(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelAnnouncement_set_node_signature_1(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelAnnouncement_set_node_signature_1(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10898,7 +10900,7 @@ void TS_ChannelAnnouncement_set_node_signature_1(uint32_t this_ptr, int8_tArray 
 	ChannelAnnouncement_set_node_signature_1(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_ChannelAnnouncement_get_node_signature_2(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelAnnouncement_get_node_signature_2(uint32_t this_ptr) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10907,7 +10909,7 @@ int8_tArray TS_ChannelAnnouncement_get_node_signature_2(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelAnnouncement_set_node_signature_2(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelAnnouncement_set_node_signature_2(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10917,7 +10919,7 @@ void TS_ChannelAnnouncement_set_node_signature_2(uint32_t this_ptr, int8_tArray 
 	ChannelAnnouncement_set_node_signature_2(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_ChannelAnnouncement_get_bitcoin_signature_1(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelAnnouncement_get_bitcoin_signature_1(uint32_t this_ptr) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10926,7 +10928,7 @@ int8_tArray TS_ChannelAnnouncement_get_bitcoin_signature_1(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelAnnouncement_set_bitcoin_signature_1(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelAnnouncement_set_bitcoin_signature_1(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10936,7 +10938,7 @@ void TS_ChannelAnnouncement_set_bitcoin_signature_1(uint32_t this_ptr, int8_tArr
 	ChannelAnnouncement_set_bitcoin_signature_1(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_ChannelAnnouncement_get_bitcoin_signature_2(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelAnnouncement_get_bitcoin_signature_2(uint32_t this_ptr) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10945,7 +10947,7 @@ int8_tArray TS_ChannelAnnouncement_get_bitcoin_signature_2(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelAnnouncement_set_bitcoin_signature_2(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelAnnouncement_set_bitcoin_signature_2(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10955,7 +10957,7 @@ void TS_ChannelAnnouncement_set_bitcoin_signature_2(uint32_t this_ptr, int8_tArr
 	ChannelAnnouncement_set_bitcoin_signature_2(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_ChannelAnnouncement_get_contents(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelAnnouncement_get_contents(uint32_t this_ptr) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10969,7 +10971,7 @@ uint32_t TS_ChannelAnnouncement_get_contents(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelAnnouncement_set_contents(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelAnnouncement_set_contents(uint32_t this_ptr, uint32_t val) {
 	LDKChannelAnnouncement this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -10981,7 +10983,7 @@ void TS_ChannelAnnouncement_set_contents(uint32_t this_ptr, uint32_t val) {
 	ChannelAnnouncement_set_contents(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelAnnouncement_new(int8_tArray node_signature_1_arg, int8_tArray node_signature_2_arg, int8_tArray bitcoin_signature_1_arg, int8_tArray bitcoin_signature_2_arg, uint32_t contents_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelAnnouncement_new(int8_tArray node_signature_1_arg, int8_tArray node_signature_2_arg, int8_tArray bitcoin_signature_1_arg, int8_tArray bitcoin_signature_2_arg, uint32_t contents_arg) {
 	LDKSignature node_signature_1_arg_ref;
 	CHECK(*((uint32_t*)node_signature_1_arg) == 64);
 	memcpy(node_signature_1_arg_ref.compact_form, (uint8_t*)(node_signature_1_arg + 4), 64);
@@ -11009,14 +11011,14 @@ uint32_t TS_ChannelAnnouncement_new(int8_tArray node_signature_1_arg, int8_tArra
 	return ret_ref;
 }
 
-void TS_UnsignedChannelUpdate_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_free(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	UnsignedChannelUpdate_free(this_ptr_conv);
 }
 
-uint32_t TS_UnsignedChannelUpdate_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_clone(uint32_t orig) {
 	LDKUnsignedChannelUpdate orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -11030,7 +11032,7 @@ uint32_t TS_UnsignedChannelUpdate_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_UnsignedChannelUpdate_get_chain_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_get_chain_hash(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11039,7 +11041,7 @@ int8_tArray TS_UnsignedChannelUpdate_get_chain_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_UnsignedChannelUpdate_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11049,7 +11051,7 @@ void TS_UnsignedChannelUpdate_set_chain_hash(uint32_t this_ptr, int8_tArray val)
 	UnsignedChannelUpdate_set_chain_hash(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_UnsignedChannelUpdate_get_short_channel_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_get_short_channel_id(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11057,14 +11059,14 @@ int64_t TS_UnsignedChannelUpdate_get_short_channel_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UnsignedChannelUpdate_set_short_channel_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_set_short_channel_id(uint32_t this_ptr, int64_t val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedChannelUpdate_set_short_channel_id(&this_ptr_conv, val);
 }
 
-int32_t TS_UnsignedChannelUpdate_get_timestamp(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_get_timestamp(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11072,14 +11074,14 @@ int32_t TS_UnsignedChannelUpdate_get_timestamp(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UnsignedChannelUpdate_set_timestamp(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_set_timestamp(uint32_t this_ptr, int32_t val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedChannelUpdate_set_timestamp(&this_ptr_conv, val);
 }
 
-int8_t TS_UnsignedChannelUpdate_get_flags(uint32_t this_ptr) {
+int8_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_get_flags(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11087,14 +11089,14 @@ int8_t TS_UnsignedChannelUpdate_get_flags(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UnsignedChannelUpdate_set_flags(uint32_t this_ptr, int8_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_set_flags(uint32_t this_ptr, int8_t val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedChannelUpdate_set_flags(&this_ptr_conv, val);
 }
 
-int16_t TS_UnsignedChannelUpdate_get_cltv_expiry_delta(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_get_cltv_expiry_delta(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11102,14 +11104,14 @@ int16_t TS_UnsignedChannelUpdate_get_cltv_expiry_delta(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UnsignedChannelUpdate_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedChannelUpdate_set_cltv_expiry_delta(&this_ptr_conv, val);
 }
 
-int64_t TS_UnsignedChannelUpdate_get_htlc_minimum_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_get_htlc_minimum_msat(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11117,14 +11119,14 @@ int64_t TS_UnsignedChannelUpdate_get_htlc_minimum_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UnsignedChannelUpdate_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedChannelUpdate_set_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-int32_t TS_UnsignedChannelUpdate_get_fee_base_msat(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_get_fee_base_msat(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11132,14 +11134,14 @@ int32_t TS_UnsignedChannelUpdate_get_fee_base_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_UnsignedChannelUpdate_set_fee_base_msat(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_set_fee_base_msat(uint32_t this_ptr, int32_t val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedChannelUpdate_set_fee_base_msat(&this_ptr_conv, val);
 }
 
-int32_t TS_UnsignedChannelUpdate_get_fee_proportional_millionths(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_get_fee_proportional_millionths(uint32_t this_ptr) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11147,21 +11149,21 @@ int32_t TS_UnsignedChannelUpdate_get_fee_proportional_millionths(uint32_t this_p
 	return ret_val;
 }
 
-void TS_UnsignedChannelUpdate_set_fee_proportional_millionths(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_set_fee_proportional_millionths(uint32_t this_ptr, int32_t val) {
 	LDKUnsignedChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	UnsignedChannelUpdate_set_fee_proportional_millionths(&this_ptr_conv, val);
 }
 
-void TS_ChannelUpdate_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelUpdate_free(uint32_t this_ptr) {
 	LDKChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelUpdate_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelUpdate_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelUpdate_clone(uint32_t orig) {
 	LDKChannelUpdate orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -11175,7 +11177,7 @@ uint32_t TS_ChannelUpdate_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelUpdate_get_signature(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelUpdate_get_signature(uint32_t this_ptr) {
 	LDKChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11184,7 +11186,7 @@ int8_tArray TS_ChannelUpdate_get_signature(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelUpdate_set_signature(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelUpdate_set_signature(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11194,7 +11196,7 @@ void TS_ChannelUpdate_set_signature(uint32_t this_ptr, int8_tArray val) {
 	ChannelUpdate_set_signature(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_ChannelUpdate_get_contents(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelUpdate_get_contents(uint32_t this_ptr) {
 	LDKChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11208,7 +11210,7 @@ uint32_t TS_ChannelUpdate_get_contents(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelUpdate_set_contents(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelUpdate_set_contents(uint32_t this_ptr, uint32_t val) {
 	LDKChannelUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11220,7 +11222,7 @@ void TS_ChannelUpdate_set_contents(uint32_t this_ptr, uint32_t val) {
 	ChannelUpdate_set_contents(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelUpdate_new(int8_tArray signature_arg, uint32_t contents_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelUpdate_new(int8_tArray signature_arg, uint32_t contents_arg) {
 	LDKSignature signature_arg_ref;
 	CHECK(*((uint32_t*)signature_arg) == 64);
 	memcpy(signature_arg_ref.compact_form, (uint8_t*)(signature_arg + 4), 64);
@@ -11239,14 +11241,14 @@ uint32_t TS_ChannelUpdate_new(int8_tArray signature_arg, uint32_t contents_arg) 
 	return ret_ref;
 }
 
-void TS_QueryChannelRange_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_QueryChannelRange_free(uint32_t this_ptr) {
 	LDKQueryChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	QueryChannelRange_free(this_ptr_conv);
 }
 
-uint32_t TS_QueryChannelRange_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_QueryChannelRange_clone(uint32_t orig) {
 	LDKQueryChannelRange orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -11260,7 +11262,7 @@ uint32_t TS_QueryChannelRange_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_QueryChannelRange_get_chain_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_QueryChannelRange_get_chain_hash(uint32_t this_ptr) {
 	LDKQueryChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11269,7 +11271,7 @@ int8_tArray TS_QueryChannelRange_get_chain_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_QueryChannelRange_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_QueryChannelRange_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKQueryChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11279,7 +11281,7 @@ void TS_QueryChannelRange_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	QueryChannelRange_set_chain_hash(&this_ptr_conv, val_ref);
 }
 
-int32_t TS_QueryChannelRange_get_first_blocknum(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_QueryChannelRange_get_first_blocknum(uint32_t this_ptr) {
 	LDKQueryChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11287,14 +11289,14 @@ int32_t TS_QueryChannelRange_get_first_blocknum(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_QueryChannelRange_set_first_blocknum(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_QueryChannelRange_set_first_blocknum(uint32_t this_ptr, int32_t val) {
 	LDKQueryChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	QueryChannelRange_set_first_blocknum(&this_ptr_conv, val);
 }
 
-int32_t TS_QueryChannelRange_get_number_of_blocks(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_QueryChannelRange_get_number_of_blocks(uint32_t this_ptr) {
 	LDKQueryChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11302,14 +11304,14 @@ int32_t TS_QueryChannelRange_get_number_of_blocks(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_QueryChannelRange_set_number_of_blocks(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_QueryChannelRange_set_number_of_blocks(uint32_t this_ptr, int32_t val) {
 	LDKQueryChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	QueryChannelRange_set_number_of_blocks(&this_ptr_conv, val);
 }
 
-uint32_t TS_QueryChannelRange_new(int8_tArray chain_hash_arg, int32_t first_blocknum_arg, int32_t number_of_blocks_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_QueryChannelRange_new(int8_tArray chain_hash_arg, int32_t first_blocknum_arg, int32_t number_of_blocks_arg) {
 	LDKThirtyTwoBytes chain_hash_arg_ref;
 	CHECK(*((uint32_t*)chain_hash_arg) == 32);
 	memcpy(chain_hash_arg_ref.data, (uint8_t*)(chain_hash_arg + 4), 32);
@@ -11323,14 +11325,14 @@ uint32_t TS_QueryChannelRange_new(int8_tArray chain_hash_arg, int32_t first_bloc
 	return ret_ref;
 }
 
-void TS_ReplyChannelRange_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ReplyChannelRange_free(uint32_t this_ptr) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ReplyChannelRange_free(this_ptr_conv);
 }
 
-uint32_t TS_ReplyChannelRange_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ReplyChannelRange_clone(uint32_t orig) {
 	LDKReplyChannelRange orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -11344,7 +11346,7 @@ uint32_t TS_ReplyChannelRange_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ReplyChannelRange_get_chain_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ReplyChannelRange_get_chain_hash(uint32_t this_ptr) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11353,7 +11355,7 @@ int8_tArray TS_ReplyChannelRange_get_chain_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_ReplyChannelRange_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ReplyChannelRange_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11363,7 +11365,7 @@ void TS_ReplyChannelRange_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	ReplyChannelRange_set_chain_hash(&this_ptr_conv, val_ref);
 }
 
-int32_t TS_ReplyChannelRange_get_first_blocknum(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_ReplyChannelRange_get_first_blocknum(uint32_t this_ptr) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11371,14 +11373,14 @@ int32_t TS_ReplyChannelRange_get_first_blocknum(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ReplyChannelRange_set_first_blocknum(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_ReplyChannelRange_set_first_blocknum(uint32_t this_ptr, int32_t val) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ReplyChannelRange_set_first_blocknum(&this_ptr_conv, val);
 }
 
-int32_t TS_ReplyChannelRange_get_number_of_blocks(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_ReplyChannelRange_get_number_of_blocks(uint32_t this_ptr) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11386,14 +11388,14 @@ int32_t TS_ReplyChannelRange_get_number_of_blocks(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ReplyChannelRange_set_number_of_blocks(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_ReplyChannelRange_set_number_of_blocks(uint32_t this_ptr, int32_t val) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ReplyChannelRange_set_number_of_blocks(&this_ptr_conv, val);
 }
 
-jboolean TS_ReplyChannelRange_get_full_information(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_ReplyChannelRange_get_full_information(uint32_t this_ptr) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11401,14 +11403,14 @@ jboolean TS_ReplyChannelRange_get_full_information(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ReplyChannelRange_set_full_information(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_ReplyChannelRange_set_full_information(uint32_t this_ptr, jboolean val) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ReplyChannelRange_set_full_information(&this_ptr_conv, val);
 }
 
-void TS_ReplyChannelRange_set_short_channel_ids(uint32_t this_ptr, int64_tArray val) {
+void  __attribute__((visibility("default"))) TS_ReplyChannelRange_set_short_channel_ids(uint32_t this_ptr, int64_tArray val) {
 	LDKReplyChannelRange this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11426,7 +11428,7 @@ void TS_ReplyChannelRange_set_short_channel_ids(uint32_t this_ptr, int64_tArray 
 	ReplyChannelRange_set_short_channel_ids(&this_ptr_conv, val_constr);
 }
 
-uint32_t TS_ReplyChannelRange_new(int8_tArray chain_hash_arg, int32_t first_blocknum_arg, int32_t number_of_blocks_arg, jboolean full_information_arg, int64_tArray short_channel_ids_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ReplyChannelRange_new(int8_tArray chain_hash_arg, int32_t first_blocknum_arg, int32_t number_of_blocks_arg, jboolean full_information_arg, int64_tArray short_channel_ids_arg) {
 	LDKThirtyTwoBytes chain_hash_arg_ref;
 	CHECK(*((uint32_t*)chain_hash_arg) == 32);
 	memcpy(chain_hash_arg_ref.data, (uint8_t*)(chain_hash_arg + 4), 32);
@@ -11451,14 +11453,14 @@ uint32_t TS_ReplyChannelRange_new(int8_tArray chain_hash_arg, int32_t first_bloc
 	return ret_ref;
 }
 
-void TS_QueryShortChannelIds_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_QueryShortChannelIds_free(uint32_t this_ptr) {
 	LDKQueryShortChannelIds this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	QueryShortChannelIds_free(this_ptr_conv);
 }
 
-uint32_t TS_QueryShortChannelIds_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_QueryShortChannelIds_clone(uint32_t orig) {
 	LDKQueryShortChannelIds orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -11472,7 +11474,7 @@ uint32_t TS_QueryShortChannelIds_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_QueryShortChannelIds_get_chain_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_QueryShortChannelIds_get_chain_hash(uint32_t this_ptr) {
 	LDKQueryShortChannelIds this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11481,7 +11483,7 @@ int8_tArray TS_QueryShortChannelIds_get_chain_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_QueryShortChannelIds_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_QueryShortChannelIds_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKQueryShortChannelIds this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11491,7 +11493,7 @@ void TS_QueryShortChannelIds_set_chain_hash(uint32_t this_ptr, int8_tArray val) 
 	QueryShortChannelIds_set_chain_hash(&this_ptr_conv, val_ref);
 }
 
-void TS_QueryShortChannelIds_set_short_channel_ids(uint32_t this_ptr, int64_tArray val) {
+void  __attribute__((visibility("default"))) TS_QueryShortChannelIds_set_short_channel_ids(uint32_t this_ptr, int64_tArray val) {
 	LDKQueryShortChannelIds this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11509,7 +11511,7 @@ void TS_QueryShortChannelIds_set_short_channel_ids(uint32_t this_ptr, int64_tArr
 	QueryShortChannelIds_set_short_channel_ids(&this_ptr_conv, val_constr);
 }
 
-uint32_t TS_QueryShortChannelIds_new(int8_tArray chain_hash_arg, int64_tArray short_channel_ids_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_QueryShortChannelIds_new(int8_tArray chain_hash_arg, int64_tArray short_channel_ids_arg) {
 	LDKThirtyTwoBytes chain_hash_arg_ref;
 	CHECK(*((uint32_t*)chain_hash_arg) == 32);
 	memcpy(chain_hash_arg_ref.data, (uint8_t*)(chain_hash_arg + 4), 32);
@@ -11534,14 +11536,14 @@ uint32_t TS_QueryShortChannelIds_new(int8_tArray chain_hash_arg, int64_tArray sh
 	return ret_ref;
 }
 
-void TS_ReplyShortChannelIdsEnd_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_free(uint32_t this_ptr) {
 	LDKReplyShortChannelIdsEnd this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ReplyShortChannelIdsEnd_free(this_ptr_conv);
 }
 
-uint32_t TS_ReplyShortChannelIdsEnd_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_clone(uint32_t orig) {
 	LDKReplyShortChannelIdsEnd orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -11555,7 +11557,7 @@ uint32_t TS_ReplyShortChannelIdsEnd_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ReplyShortChannelIdsEnd_get_chain_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_get_chain_hash(uint32_t this_ptr) {
 	LDKReplyShortChannelIdsEnd this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11564,7 +11566,7 @@ int8_tArray TS_ReplyShortChannelIdsEnd_get_chain_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_ReplyShortChannelIdsEnd_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKReplyShortChannelIdsEnd this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11574,7 +11576,7 @@ void TS_ReplyShortChannelIdsEnd_set_chain_hash(uint32_t this_ptr, int8_tArray va
 	ReplyShortChannelIdsEnd_set_chain_hash(&this_ptr_conv, val_ref);
 }
 
-jboolean TS_ReplyShortChannelIdsEnd_get_full_information(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_get_full_information(uint32_t this_ptr) {
 	LDKReplyShortChannelIdsEnd this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11582,14 +11584,14 @@ jboolean TS_ReplyShortChannelIdsEnd_get_full_information(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_ReplyShortChannelIdsEnd_set_full_information(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_set_full_information(uint32_t this_ptr, jboolean val) {
 	LDKReplyShortChannelIdsEnd this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ReplyShortChannelIdsEnd_set_full_information(&this_ptr_conv, val);
 }
 
-uint32_t TS_ReplyShortChannelIdsEnd_new(int8_tArray chain_hash_arg, jboolean full_information_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_new(int8_tArray chain_hash_arg, jboolean full_information_arg) {
 	LDKThirtyTwoBytes chain_hash_arg_ref;
 	CHECK(*((uint32_t*)chain_hash_arg) == 32);
 	memcpy(chain_hash_arg_ref.data, (uint8_t*)(chain_hash_arg + 4), 32);
@@ -11603,14 +11605,14 @@ uint32_t TS_ReplyShortChannelIdsEnd_new(int8_tArray chain_hash_arg, jboolean ful
 	return ret_ref;
 }
 
-void TS_GossipTimestampFilter_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_GossipTimestampFilter_free(uint32_t this_ptr) {
 	LDKGossipTimestampFilter this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	GossipTimestampFilter_free(this_ptr_conv);
 }
 
-uint32_t TS_GossipTimestampFilter_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_GossipTimestampFilter_clone(uint32_t orig) {
 	LDKGossipTimestampFilter orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -11624,7 +11626,7 @@ uint32_t TS_GossipTimestampFilter_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_GossipTimestampFilter_get_chain_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_GossipTimestampFilter_get_chain_hash(uint32_t this_ptr) {
 	LDKGossipTimestampFilter this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11633,7 +11635,7 @@ int8_tArray TS_GossipTimestampFilter_get_chain_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_GossipTimestampFilter_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_GossipTimestampFilter_set_chain_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKGossipTimestampFilter this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11643,7 +11645,7 @@ void TS_GossipTimestampFilter_set_chain_hash(uint32_t this_ptr, int8_tArray val)
 	GossipTimestampFilter_set_chain_hash(&this_ptr_conv, val_ref);
 }
 
-int32_t TS_GossipTimestampFilter_get_first_timestamp(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_GossipTimestampFilter_get_first_timestamp(uint32_t this_ptr) {
 	LDKGossipTimestampFilter this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11651,14 +11653,14 @@ int32_t TS_GossipTimestampFilter_get_first_timestamp(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_GossipTimestampFilter_set_first_timestamp(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_GossipTimestampFilter_set_first_timestamp(uint32_t this_ptr, int32_t val) {
 	LDKGossipTimestampFilter this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	GossipTimestampFilter_set_first_timestamp(&this_ptr_conv, val);
 }
 
-int32_t TS_GossipTimestampFilter_get_timestamp_range(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_GossipTimestampFilter_get_timestamp_range(uint32_t this_ptr) {
 	LDKGossipTimestampFilter this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11666,14 +11668,14 @@ int32_t TS_GossipTimestampFilter_get_timestamp_range(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_GossipTimestampFilter_set_timestamp_range(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_GossipTimestampFilter_set_timestamp_range(uint32_t this_ptr, int32_t val) {
 	LDKGossipTimestampFilter this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	GossipTimestampFilter_set_timestamp_range(&this_ptr_conv, val);
 }
 
-uint32_t TS_GossipTimestampFilter_new(int8_tArray chain_hash_arg, int32_t first_timestamp_arg, int32_t timestamp_range_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_GossipTimestampFilter_new(int8_tArray chain_hash_arg, int32_t first_timestamp_arg, int32_t timestamp_range_arg) {
 	LDKThirtyTwoBytes chain_hash_arg_ref;
 	CHECK(*((uint32_t*)chain_hash_arg) == 32);
 	memcpy(chain_hash_arg_ref.data, (uint8_t*)(chain_hash_arg + 4), 32);
@@ -11687,13 +11689,13 @@ uint32_t TS_GossipTimestampFilter_new(int8_tArray chain_hash_arg, int32_t first_
 	return ret_ref;
 }
 
-void TS_ErrorAction_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ErrorAction_free(uint32_t this_ptr) {
 	LDKErrorAction this_ptr_conv = *(LDKErrorAction*)this_ptr;
 	FREE((void*)this_ptr);
 	ErrorAction_free(this_ptr_conv);
 }
 
-uint32_t TS_ErrorAction_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ErrorAction_clone(uint32_t orig) {
 	LDKErrorAction* orig_conv = (LDKErrorAction*)orig;
 	LDKErrorAction *ret_copy = MALLOC(sizeof(LDKErrorAction), "LDKErrorAction");
 	*ret_copy = ErrorAction_clone(orig_conv);
@@ -11701,14 +11703,14 @@ uint32_t TS_ErrorAction_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-void TS_LightningError_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_LightningError_free(uint32_t this_ptr) {
 	LDKLightningError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	LightningError_free(this_ptr_conv);
 }
 
-jstring TS_LightningError_get_err(uint32_t this_ptr) {
+jstring  __attribute__((visibility("default"))) TS_LightningError_get_err(uint32_t this_ptr) {
 	LDKLightningError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11717,7 +11719,7 @@ jstring TS_LightningError_get_err(uint32_t this_ptr) {
 	return _conv;
 }
 
-void TS_LightningError_set_err(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_LightningError_set_err(uint32_t this_ptr, int8_tArray val) {
 	LDKLightningError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11728,7 +11730,7 @@ void TS_LightningError_set_err(uint32_t this_ptr, int8_tArray val) {
 	LightningError_set_err(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_LightningError_get_action(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_LightningError_get_action(uint32_t this_ptr) {
 	LDKLightningError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11738,7 +11740,7 @@ uint32_t TS_LightningError_get_action(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_LightningError_set_action(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_LightningError_set_action(uint32_t this_ptr, uint32_t val) {
 	LDKLightningError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11747,7 +11749,7 @@ void TS_LightningError_set_action(uint32_t this_ptr, uint32_t val) {
 	LightningError_set_action(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_LightningError_new(int8_tArray err_arg, uint32_t action_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LightningError_new(int8_tArray err_arg, uint32_t action_arg) {
 	LDKCVec_u8Z err_arg_ref;
 	err_arg_ref.datalen = *((uint32_t*)err_arg);
 	err_arg_ref.data = MALLOC(err_arg_ref.datalen, "LDKCVec_u8Z Bytes");
@@ -11764,14 +11766,14 @@ uint32_t TS_LightningError_new(int8_tArray err_arg, uint32_t action_arg) {
 	return ret_ref;
 }
 
-void TS_CommitmentUpdate_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_CommitmentUpdate_free(uint32_t this_ptr) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	CommitmentUpdate_free(this_ptr_conv);
 }
 
-uint32_t TS_CommitmentUpdate_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentUpdate_clone(uint32_t orig) {
 	LDKCommitmentUpdate orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -11785,7 +11787,7 @@ uint32_t TS_CommitmentUpdate_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-void TS_CommitmentUpdate_set_update_add_htlcs(uint32_t this_ptr, uint32_tArray val) {
+void  __attribute__((visibility("default"))) TS_CommitmentUpdate_set_update_add_htlcs(uint32_t this_ptr, uint32_tArray val) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11808,7 +11810,7 @@ void TS_CommitmentUpdate_set_update_add_htlcs(uint32_t this_ptr, uint32_tArray v
 	CommitmentUpdate_set_update_add_htlcs(&this_ptr_conv, val_constr);
 }
 
-void TS_CommitmentUpdate_set_update_fulfill_htlcs(uint32_t this_ptr, uint32_tArray val) {
+void  __attribute__((visibility("default"))) TS_CommitmentUpdate_set_update_fulfill_htlcs(uint32_t this_ptr, uint32_tArray val) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11831,7 +11833,7 @@ void TS_CommitmentUpdate_set_update_fulfill_htlcs(uint32_t this_ptr, uint32_tArr
 	CommitmentUpdate_set_update_fulfill_htlcs(&this_ptr_conv, val_constr);
 }
 
-void TS_CommitmentUpdate_set_update_fail_htlcs(uint32_t this_ptr, uint32_tArray val) {
+void  __attribute__((visibility("default"))) TS_CommitmentUpdate_set_update_fail_htlcs(uint32_t this_ptr, uint32_tArray val) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11854,7 +11856,7 @@ void TS_CommitmentUpdate_set_update_fail_htlcs(uint32_t this_ptr, uint32_tArray 
 	CommitmentUpdate_set_update_fail_htlcs(&this_ptr_conv, val_constr);
 }
 
-void TS_CommitmentUpdate_set_update_fail_malformed_htlcs(uint32_t this_ptr, uint32_tArray val) {
+void  __attribute__((visibility("default"))) TS_CommitmentUpdate_set_update_fail_malformed_htlcs(uint32_t this_ptr, uint32_tArray val) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11877,7 +11879,7 @@ void TS_CommitmentUpdate_set_update_fail_malformed_htlcs(uint32_t this_ptr, uint
 	CommitmentUpdate_set_update_fail_malformed_htlcs(&this_ptr_conv, val_constr);
 }
 
-uint32_t TS_CommitmentUpdate_get_update_fee(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentUpdate_get_update_fee(uint32_t this_ptr) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11891,7 +11893,7 @@ uint32_t TS_CommitmentUpdate_get_update_fee(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_CommitmentUpdate_set_update_fee(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_CommitmentUpdate_set_update_fee(uint32_t this_ptr, uint32_t val) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11903,7 +11905,7 @@ void TS_CommitmentUpdate_set_update_fee(uint32_t this_ptr, uint32_t val) {
 	CommitmentUpdate_set_update_fee(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_CommitmentUpdate_get_commitment_signed(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentUpdate_get_commitment_signed(uint32_t this_ptr) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11917,7 +11919,7 @@ uint32_t TS_CommitmentUpdate_get_commitment_signed(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_CommitmentUpdate_set_commitment_signed(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_CommitmentUpdate_set_commitment_signed(uint32_t this_ptr, uint32_t val) {
 	LDKCommitmentUpdate this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -11929,7 +11931,7 @@ void TS_CommitmentUpdate_set_commitment_signed(uint32_t this_ptr, uint32_t val) 
 	CommitmentUpdate_set_commitment_signed(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_CommitmentUpdate_new(uint32_tArray update_add_htlcs_arg, uint32_tArray update_fulfill_htlcs_arg, uint32_tArray update_fail_htlcs_arg, uint32_tArray update_fail_malformed_htlcs_arg, uint32_t update_fee_arg, uint32_t commitment_signed_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentUpdate_new(uint32_tArray update_add_htlcs_arg, uint32_tArray update_fulfill_htlcs_arg, uint32_tArray update_fail_htlcs_arg, uint32_tArray update_fail_malformed_htlcs_arg, uint32_t update_fee_arg, uint32_t commitment_signed_arg) {
 	LDKCVec_UpdateAddHTLCZ update_add_htlcs_arg_constr;
 	update_add_htlcs_arg_constr.datalen = *((uint32_t*)update_add_htlcs_arg);
 	if (update_add_htlcs_arg_constr.datalen > 0)
@@ -12014,13 +12016,13 @@ uint32_t TS_CommitmentUpdate_new(uint32_tArray update_add_htlcs_arg, uint32_tArr
 	return ret_ref;
 }
 
-void TS_HTLCFailChannelUpdate_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_HTLCFailChannelUpdate_free(uint32_t this_ptr) {
 	LDKHTLCFailChannelUpdate this_ptr_conv = *(LDKHTLCFailChannelUpdate*)this_ptr;
 	FREE((void*)this_ptr);
 	HTLCFailChannelUpdate_free(this_ptr_conv);
 }
 
-uint32_t TS_HTLCFailChannelUpdate_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_HTLCFailChannelUpdate_clone(uint32_t orig) {
 	LDKHTLCFailChannelUpdate* orig_conv = (LDKHTLCFailChannelUpdate*)orig;
 	LDKHTLCFailChannelUpdate *ret_copy = MALLOC(sizeof(LDKHTLCFailChannelUpdate), "LDKHTLCFailChannelUpdate");
 	*ret_copy = HTLCFailChannelUpdate_clone(orig_conv);
@@ -12028,19 +12030,19 @@ uint32_t TS_HTLCFailChannelUpdate_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-void TS_ChannelMessageHandler_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelMessageHandler_free(uint32_t this_ptr) {
 	LDKChannelMessageHandler this_ptr_conv = *(LDKChannelMessageHandler*)this_ptr;
 	FREE((void*)this_ptr);
 	ChannelMessageHandler_free(this_ptr_conv);
 }
 
-void TS_RoutingMessageHandler_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_RoutingMessageHandler_free(uint32_t this_ptr) {
 	LDKRoutingMessageHandler this_ptr_conv = *(LDKRoutingMessageHandler*)this_ptr;
 	FREE((void*)this_ptr);
 	RoutingMessageHandler_free(this_ptr_conv);
 }
 
-int8_tArray TS_AcceptChannel_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_AcceptChannel_write(uint32_t obj) {
 	LDKAcceptChannel obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12051,7 +12053,7 @@ int8_tArray TS_AcceptChannel_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_AcceptChannel_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_AcceptChannel_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12065,7 +12067,7 @@ uint32_t TS_AcceptChannel_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_AnnouncementSignatures_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_AnnouncementSignatures_write(uint32_t obj) {
 	LDKAnnouncementSignatures obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12076,7 +12078,7 @@ int8_tArray TS_AnnouncementSignatures_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_AnnouncementSignatures_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_AnnouncementSignatures_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12090,7 +12092,7 @@ uint32_t TS_AnnouncementSignatures_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelReestablish_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelReestablish_write(uint32_t obj) {
 	LDKChannelReestablish obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12101,7 +12103,7 @@ int8_tArray TS_ChannelReestablish_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelReestablish_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelReestablish_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12110,7 +12112,7 @@ uint32_t TS_ChannelReestablish_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_ClosingSigned_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ClosingSigned_write(uint32_t obj) {
 	LDKClosingSigned obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12121,7 +12123,7 @@ int8_tArray TS_ClosingSigned_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ClosingSigned_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ClosingSigned_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12135,7 +12137,7 @@ uint32_t TS_ClosingSigned_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_CommitmentSigned_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_CommitmentSigned_write(uint32_t obj) {
 	LDKCommitmentSigned obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12146,7 +12148,7 @@ int8_tArray TS_CommitmentSigned_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_CommitmentSigned_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentSigned_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12160,7 +12162,7 @@ uint32_t TS_CommitmentSigned_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_FundingCreated_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingCreated_write(uint32_t obj) {
 	LDKFundingCreated obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12171,7 +12173,7 @@ int8_tArray TS_FundingCreated_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_FundingCreated_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingCreated_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12185,7 +12187,7 @@ uint32_t TS_FundingCreated_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_FundingSigned_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingSigned_write(uint32_t obj) {
 	LDKFundingSigned obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12196,7 +12198,7 @@ int8_tArray TS_FundingSigned_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_FundingSigned_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingSigned_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12210,7 +12212,7 @@ uint32_t TS_FundingSigned_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_FundingLocked_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_FundingLocked_write(uint32_t obj) {
 	LDKFundingLocked obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12221,7 +12223,7 @@ int8_tArray TS_FundingLocked_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_FundingLocked_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_FundingLocked_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12235,7 +12237,7 @@ uint32_t TS_FundingLocked_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_Init_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_Init_write(uint32_t obj) {
 	LDKInit obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12246,7 +12248,7 @@ int8_tArray TS_Init_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_Init_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_Init_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12255,7 +12257,7 @@ uint32_t TS_Init_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_OpenChannel_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_OpenChannel_write(uint32_t obj) {
 	LDKOpenChannel obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12266,7 +12268,7 @@ int8_tArray TS_OpenChannel_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_OpenChannel_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_OpenChannel_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12280,7 +12282,7 @@ uint32_t TS_OpenChannel_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_RevokeAndACK_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_RevokeAndACK_write(uint32_t obj) {
 	LDKRevokeAndACK obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12291,7 +12293,7 @@ int8_tArray TS_RevokeAndACK_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_RevokeAndACK_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_RevokeAndACK_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12305,7 +12307,7 @@ uint32_t TS_RevokeAndACK_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_Shutdown_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_Shutdown_write(uint32_t obj) {
 	LDKShutdown obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12316,7 +12318,7 @@ int8_tArray TS_Shutdown_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_Shutdown_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_Shutdown_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12330,7 +12332,7 @@ uint32_t TS_Shutdown_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateFailHTLC_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFailHTLC_write(uint32_t obj) {
 	LDKUpdateFailHTLC obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12341,7 +12343,7 @@ int8_tArray TS_UpdateFailHTLC_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_UpdateFailHTLC_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFailHTLC_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12355,7 +12357,7 @@ uint32_t TS_UpdateFailHTLC_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateFailMalformedHTLC_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_write(uint32_t obj) {
 	LDKUpdateFailMalformedHTLC obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12366,7 +12368,7 @@ int8_tArray TS_UpdateFailMalformedHTLC_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_UpdateFailMalformedHTLC_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFailMalformedHTLC_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12380,7 +12382,7 @@ uint32_t TS_UpdateFailMalformedHTLC_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateFee_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFee_write(uint32_t obj) {
 	LDKUpdateFee obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12391,7 +12393,7 @@ int8_tArray TS_UpdateFee_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_UpdateFee_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFee_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12405,7 +12407,7 @@ uint32_t TS_UpdateFee_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateFulfillHTLC_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_write(uint32_t obj) {
 	LDKUpdateFulfillHTLC obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12416,7 +12418,7 @@ int8_tArray TS_UpdateFulfillHTLC_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_UpdateFulfillHTLC_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateFulfillHTLC_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12430,7 +12432,7 @@ uint32_t TS_UpdateFulfillHTLC_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_UpdateAddHTLC_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_UpdateAddHTLC_write(uint32_t obj) {
 	LDKUpdateAddHTLC obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12441,7 +12443,7 @@ int8_tArray TS_UpdateAddHTLC_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_UpdateAddHTLC_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_UpdateAddHTLC_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12455,7 +12457,7 @@ uint32_t TS_UpdateAddHTLC_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_Ping_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_Ping_write(uint32_t obj) {
 	LDKPing obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12466,7 +12468,7 @@ int8_tArray TS_Ping_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_Ping_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_Ping_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12475,7 +12477,7 @@ uint32_t TS_Ping_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_Pong_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_Pong_write(uint32_t obj) {
 	LDKPong obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12486,7 +12488,7 @@ int8_tArray TS_Pong_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_Pong_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_Pong_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12495,7 +12497,7 @@ uint32_t TS_Pong_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_UnsignedChannelAnnouncement_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_write(uint32_t obj) {
 	LDKUnsignedChannelAnnouncement obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12506,7 +12508,7 @@ int8_tArray TS_UnsignedChannelAnnouncement_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_UnsignedChannelAnnouncement_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_UnsignedChannelAnnouncement_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12515,7 +12517,7 @@ uint32_t TS_UnsignedChannelAnnouncement_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_ChannelAnnouncement_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelAnnouncement_write(uint32_t obj) {
 	LDKChannelAnnouncement obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12526,7 +12528,7 @@ int8_tArray TS_ChannelAnnouncement_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelAnnouncement_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelAnnouncement_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12540,7 +12542,7 @@ uint32_t TS_ChannelAnnouncement_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_UnsignedChannelUpdate_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_write(uint32_t obj) {
 	LDKUnsignedChannelUpdate obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12551,7 +12553,7 @@ int8_tArray TS_UnsignedChannelUpdate_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_UnsignedChannelUpdate_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_UnsignedChannelUpdate_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12560,7 +12562,7 @@ uint32_t TS_UnsignedChannelUpdate_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_ChannelUpdate_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelUpdate_write(uint32_t obj) {
 	LDKChannelUpdate obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12571,7 +12573,7 @@ int8_tArray TS_ChannelUpdate_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelUpdate_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelUpdate_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12585,7 +12587,7 @@ uint32_t TS_ChannelUpdate_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_ErrorMessage_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ErrorMessage_write(uint32_t obj) {
 	LDKErrorMessage obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12596,7 +12598,7 @@ int8_tArray TS_ErrorMessage_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ErrorMessage_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ErrorMessage_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12605,7 +12607,7 @@ uint32_t TS_ErrorMessage_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_UnsignedNodeAnnouncement_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_write(uint32_t obj) {
 	LDKUnsignedNodeAnnouncement obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12616,7 +12618,7 @@ int8_tArray TS_UnsignedNodeAnnouncement_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_UnsignedNodeAnnouncement_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_UnsignedNodeAnnouncement_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12625,7 +12627,7 @@ uint32_t TS_UnsignedNodeAnnouncement_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_NodeAnnouncement_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_NodeAnnouncement_write(uint32_t obj) {
 	LDKNodeAnnouncement obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12636,7 +12638,7 @@ int8_tArray TS_NodeAnnouncement_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_NodeAnnouncement_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeAnnouncement_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12650,7 +12652,7 @@ uint32_t TS_NodeAnnouncement_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-uint32_t TS_QueryShortChannelIds_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_QueryShortChannelIds_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12659,7 +12661,7 @@ uint32_t TS_QueryShortChannelIds_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_QueryShortChannelIds_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_QueryShortChannelIds_write(uint32_t obj) {
 	LDKQueryShortChannelIds obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12670,7 +12672,7 @@ int8_tArray TS_QueryShortChannelIds_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ReplyShortChannelIdsEnd_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12679,7 +12681,7 @@ uint32_t TS_ReplyShortChannelIdsEnd_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_ReplyShortChannelIdsEnd_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ReplyShortChannelIdsEnd_write(uint32_t obj) {
 	LDKReplyShortChannelIdsEnd obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12690,7 +12692,7 @@ int8_tArray TS_ReplyShortChannelIdsEnd_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_QueryChannelRange_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_QueryChannelRange_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12699,7 +12701,7 @@ uint32_t TS_QueryChannelRange_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_QueryChannelRange_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_QueryChannelRange_write(uint32_t obj) {
 	LDKQueryChannelRange obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12710,7 +12712,7 @@ int8_tArray TS_QueryChannelRange_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ReplyChannelRange_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ReplyChannelRange_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12719,7 +12721,7 @@ uint32_t TS_ReplyChannelRange_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_ReplyChannelRange_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ReplyChannelRange_write(uint32_t obj) {
 	LDKReplyChannelRange obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12730,7 +12732,7 @@ int8_tArray TS_ReplyChannelRange_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_GossipTimestampFilter_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_GossipTimestampFilter_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -12739,7 +12741,7 @@ uint32_t TS_GossipTimestampFilter_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_GossipTimestampFilter_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_GossipTimestampFilter_write(uint32_t obj) {
 	LDKGossipTimestampFilter obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -12750,14 +12752,14 @@ int8_tArray TS_GossipTimestampFilter_write(uint32_t obj) {
 	return arg_arr;
 }
 
-void TS_MessageHandler_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_MessageHandler_free(uint32_t this_ptr) {
 	LDKMessageHandler this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	MessageHandler_free(this_ptr_conv);
 }
 
-uint32_t TS_MessageHandler_get_chan_handler(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_MessageHandler_get_chan_handler(uint32_t this_ptr) {
 	LDKMessageHandler this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -12765,7 +12767,7 @@ uint32_t TS_MessageHandler_get_chan_handler(uint32_t this_ptr) {
 	return ret_ret;
 }
 
-void TS_MessageHandler_set_chan_handler(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_MessageHandler_set_chan_handler(uint32_t this_ptr, uint32_t val) {
 	LDKMessageHandler this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -12773,7 +12775,7 @@ void TS_MessageHandler_set_chan_handler(uint32_t this_ptr, uint32_t val) {
 	MessageHandler_set_chan_handler(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_MessageHandler_get_route_handler(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_MessageHandler_get_route_handler(uint32_t this_ptr) {
 	LDKMessageHandler this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -12781,7 +12783,7 @@ uint32_t TS_MessageHandler_get_route_handler(uint32_t this_ptr) {
 	return ret_ret;
 }
 
-void TS_MessageHandler_set_route_handler(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_MessageHandler_set_route_handler(uint32_t this_ptr, uint32_t val) {
 	LDKMessageHandler this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -12789,7 +12791,7 @@ void TS_MessageHandler_set_route_handler(uint32_t this_ptr, uint32_t val) {
 	MessageHandler_set_route_handler(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_MessageHandler_new(uint32_t chan_handler_arg, uint32_t route_handler_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_MessageHandler_new(uint32_t chan_handler_arg, uint32_t route_handler_arg) {
 	LDKChannelMessageHandler chan_handler_arg_conv = *(LDKChannelMessageHandler*)chan_handler_arg;
 	LDKRoutingMessageHandler route_handler_arg_conv = *(LDKRoutingMessageHandler*)route_handler_arg;
 	LDKMessageHandler ret_var = MessageHandler_new(chan_handler_arg_conv, route_handler_arg_conv);
@@ -12802,27 +12804,27 @@ uint32_t TS_MessageHandler_new(uint32_t chan_handler_arg, uint32_t route_handler
 	return ret_ref;
 }
 
-uint32_t TS_SocketDescriptor_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_SocketDescriptor_clone(uint32_t orig) {
 	LDKSocketDescriptor* orig_conv = (LDKSocketDescriptor*)orig;
 	LDKSocketDescriptor* ret = MALLOC(sizeof(LDKSocketDescriptor), "LDKSocketDescriptor");
 	*ret = SocketDescriptor_clone(orig_conv);
 	return (long)ret;
 }
 
-void TS_SocketDescriptor_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_SocketDescriptor_free(uint32_t this_ptr) {
 	LDKSocketDescriptor this_ptr_conv = *(LDKSocketDescriptor*)this_ptr;
 	FREE((void*)this_ptr);
 	SocketDescriptor_free(this_ptr_conv);
 }
 
-void TS_PeerHandleError_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_PeerHandleError_free(uint32_t this_ptr) {
 	LDKPeerHandleError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	PeerHandleError_free(this_ptr_conv);
 }
 
-jboolean TS_PeerHandleError_get_no_connection_possible(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_PeerHandleError_get_no_connection_possible(uint32_t this_ptr) {
 	LDKPeerHandleError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -12830,14 +12832,14 @@ jboolean TS_PeerHandleError_get_no_connection_possible(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_PeerHandleError_set_no_connection_possible(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_PeerHandleError_set_no_connection_possible(uint32_t this_ptr, jboolean val) {
 	LDKPeerHandleError this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	PeerHandleError_set_no_connection_possible(&this_ptr_conv, val);
 }
 
-uint32_t TS_PeerHandleError_new(jboolean no_connection_possible_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_PeerHandleError_new(jboolean no_connection_possible_arg) {
 	LDKPeerHandleError ret_var = PeerHandleError_new(no_connection_possible_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -12848,14 +12850,14 @@ uint32_t TS_PeerHandleError_new(jboolean no_connection_possible_arg) {
 	return ret_ref;
 }
 
-void TS_PeerManager_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_PeerManager_free(uint32_t this_ptr) {
 	LDKPeerManager this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	PeerManager_free(this_ptr_conv);
 }
 
-uint32_t TS_PeerManager_new(uint32_t message_handler, int8_tArray our_node_secret, int8_tArray ephemeral_random_data, uint32_t logger) {
+uint32_t  __attribute__((visibility("default"))) TS_PeerManager_new(uint32_t message_handler, int8_tArray our_node_secret, int8_tArray ephemeral_random_data, uint32_t logger) {
 	LDKMessageHandler message_handler_conv;
 	message_handler_conv.inner = (void*)(message_handler & (~1));
 	message_handler_conv.is_owned = (message_handler & 1) || (message_handler == 0);
@@ -12878,7 +12880,7 @@ uint32_t TS_PeerManager_new(uint32_t message_handler, int8_tArray our_node_secre
 	return ret_ref;
 }
 
-ptrArray TS_PeerManager_get_peer_node_ids(uint32_t this_arg) {
+ptrArray  __attribute__((visibility("default"))) TS_PeerManager_get_peer_node_ids(uint32_t this_arg) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -12894,7 +12896,7 @@ ptrArray TS_PeerManager_get_peer_node_ids(uint32_t this_arg) {
 	return ret_arr;
 }
 
-uint32_t TS_PeerManager_new_outbound_connection(uint32_t this_arg, int8_tArray their_node_id, uint32_t descriptor) {
+uint32_t  __attribute__((visibility("default"))) TS_PeerManager_new_outbound_connection(uint32_t this_arg, int8_tArray their_node_id, uint32_t descriptor) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -12907,7 +12909,7 @@ uint32_t TS_PeerManager_new_outbound_connection(uint32_t this_arg, int8_tArray t
 	return (long)ret_conv;
 }
 
-uint32_t TS_PeerManager_new_inbound_connection(uint32_t this_arg, uint32_t descriptor) {
+uint32_t  __attribute__((visibility("default"))) TS_PeerManager_new_inbound_connection(uint32_t this_arg, uint32_t descriptor) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -12917,7 +12919,7 @@ uint32_t TS_PeerManager_new_inbound_connection(uint32_t this_arg, uint32_t descr
 	return (long)ret_conv;
 }
 
-uint32_t TS_PeerManager_write_buffer_space_avail(uint32_t this_arg, uint32_t descriptor) {
+uint32_t  __attribute__((visibility("default"))) TS_PeerManager_write_buffer_space_avail(uint32_t this_arg, uint32_t descriptor) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -12927,7 +12929,7 @@ uint32_t TS_PeerManager_write_buffer_space_avail(uint32_t this_arg, uint32_t des
 	return (long)ret_conv;
 }
 
-uint32_t TS_PeerManager_read_event(uint32_t this_arg, uint32_t peer_descriptor, int8_tArray data) {
+uint32_t  __attribute__((visibility("default"))) TS_PeerManager_read_event(uint32_t this_arg, uint32_t peer_descriptor, int8_tArray data) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -12940,14 +12942,14 @@ uint32_t TS_PeerManager_read_event(uint32_t this_arg, uint32_t peer_descriptor, 
 	return (long)ret_conv;
 }
 
-void TS_PeerManager_process_events(uint32_t this_arg) {
+void  __attribute__((visibility("default"))) TS_PeerManager_process_events(uint32_t this_arg) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	PeerManager_process_events(&this_arg_conv);
 }
 
-void TS_PeerManager_socket_disconnected(uint32_t this_arg, uint32_t descriptor) {
+void  __attribute__((visibility("default"))) TS_PeerManager_socket_disconnected(uint32_t this_arg, uint32_t descriptor) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -12955,14 +12957,14 @@ void TS_PeerManager_socket_disconnected(uint32_t this_arg, uint32_t descriptor) 
 	PeerManager_socket_disconnected(&this_arg_conv, descriptor_conv);
 }
 
-void TS_PeerManager_timer_tick_occured(uint32_t this_arg) {
+void  __attribute__((visibility("default"))) TS_PeerManager_timer_tick_occured(uint32_t this_arg) {
 	LDKPeerManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	PeerManager_timer_tick_occured(&this_arg_conv);
 }
 
-int8_tArray TS_build_commitment_secret(int8_tArray commitment_seed, int64_t idx) {
+int8_tArray  __attribute__((visibility("default"))) TS_build_commitment_secret(int8_tArray commitment_seed, int64_t idx) {
 	unsigned char commitment_seed_arr[32];
 	CHECK(*((uint32_t*)commitment_seed) == 32);
 	memcpy(commitment_seed_arr, (uint8_t*)(commitment_seed + 4), 32);
@@ -12972,7 +12974,7 @@ int8_tArray TS_build_commitment_secret(int8_tArray commitment_seed, int64_t idx)
 	return arg_arr;
 }
 
-uint32_t TS_derive_private_key(int8_tArray per_commitment_point, int8_tArray base_secret) {
+uint32_t  __attribute__((visibility("default"))) TS_derive_private_key(int8_tArray per_commitment_point, int8_tArray base_secret) {
 	LDKPublicKey per_commitment_point_ref;
 	CHECK(*((uint32_t*)per_commitment_point) == 33);
 	memcpy(per_commitment_point_ref.compressed_form, (uint8_t*)(per_commitment_point + 4), 33);
@@ -12985,7 +12987,7 @@ uint32_t TS_derive_private_key(int8_tArray per_commitment_point, int8_tArray bas
 	return (long)ret_conv;
 }
 
-uint32_t TS_derive_public_key(int8_tArray per_commitment_point, int8_tArray base_point) {
+uint32_t  __attribute__((visibility("default"))) TS_derive_public_key(int8_tArray per_commitment_point, int8_tArray base_point) {
 	LDKPublicKey per_commitment_point_ref;
 	CHECK(*((uint32_t*)per_commitment_point) == 33);
 	memcpy(per_commitment_point_ref.compressed_form, (uint8_t*)(per_commitment_point + 4), 33);
@@ -12997,7 +12999,7 @@ uint32_t TS_derive_public_key(int8_tArray per_commitment_point, int8_tArray base
 	return (long)ret_conv;
 }
 
-uint32_t TS_derive_private_revocation_key(int8_tArray per_commitment_secret, int8_tArray countersignatory_revocation_base_secret) {
+uint32_t  __attribute__((visibility("default"))) TS_derive_private_revocation_key(int8_tArray per_commitment_secret, int8_tArray countersignatory_revocation_base_secret) {
 	unsigned char per_commitment_secret_arr[32];
 	CHECK(*((uint32_t*)per_commitment_secret) == 32);
 	memcpy(per_commitment_secret_arr, (uint8_t*)(per_commitment_secret + 4), 32);
@@ -13011,7 +13013,7 @@ uint32_t TS_derive_private_revocation_key(int8_tArray per_commitment_secret, int
 	return (long)ret_conv;
 }
 
-uint32_t TS_derive_public_revocation_key(int8_tArray per_commitment_point, int8_tArray countersignatory_revocation_base_point) {
+uint32_t  __attribute__((visibility("default"))) TS_derive_public_revocation_key(int8_tArray per_commitment_point, int8_tArray countersignatory_revocation_base_point) {
 	LDKPublicKey per_commitment_point_ref;
 	CHECK(*((uint32_t*)per_commitment_point) == 33);
 	memcpy(per_commitment_point_ref.compressed_form, (uint8_t*)(per_commitment_point + 4), 33);
@@ -13023,14 +13025,14 @@ uint32_t TS_derive_public_revocation_key(int8_tArray per_commitment_point, int8_
 	return (long)ret_conv;
 }
 
-void TS_TxCreationKeys_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_TxCreationKeys_free(uint32_t this_ptr) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	TxCreationKeys_free(this_ptr_conv);
 }
 
-uint32_t TS_TxCreationKeys_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_TxCreationKeys_clone(uint32_t orig) {
 	LDKTxCreationKeys orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -13044,7 +13046,7 @@ uint32_t TS_TxCreationKeys_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_TxCreationKeys_get_per_commitment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_TxCreationKeys_get_per_commitment_point(uint32_t this_ptr) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13053,7 +13055,7 @@ int8_tArray TS_TxCreationKeys_get_per_commitment_point(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_TxCreationKeys_set_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_TxCreationKeys_set_per_commitment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13063,7 +13065,7 @@ void TS_TxCreationKeys_set_per_commitment_point(uint32_t this_ptr, int8_tArray v
 	TxCreationKeys_set_per_commitment_point(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_TxCreationKeys_get_revocation_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_TxCreationKeys_get_revocation_key(uint32_t this_ptr) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13072,7 +13074,7 @@ int8_tArray TS_TxCreationKeys_get_revocation_key(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_TxCreationKeys_set_revocation_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_TxCreationKeys_set_revocation_key(uint32_t this_ptr, int8_tArray val) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13082,7 +13084,7 @@ void TS_TxCreationKeys_set_revocation_key(uint32_t this_ptr, int8_tArray val) {
 	TxCreationKeys_set_revocation_key(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_TxCreationKeys_get_broadcaster_htlc_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_TxCreationKeys_get_broadcaster_htlc_key(uint32_t this_ptr) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13091,7 +13093,7 @@ int8_tArray TS_TxCreationKeys_get_broadcaster_htlc_key(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_TxCreationKeys_set_broadcaster_htlc_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_TxCreationKeys_set_broadcaster_htlc_key(uint32_t this_ptr, int8_tArray val) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13101,7 +13103,7 @@ void TS_TxCreationKeys_set_broadcaster_htlc_key(uint32_t this_ptr, int8_tArray v
 	TxCreationKeys_set_broadcaster_htlc_key(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_TxCreationKeys_get_countersignatory_htlc_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_TxCreationKeys_get_countersignatory_htlc_key(uint32_t this_ptr) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13110,7 +13112,7 @@ int8_tArray TS_TxCreationKeys_get_countersignatory_htlc_key(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_TxCreationKeys_set_countersignatory_htlc_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_TxCreationKeys_set_countersignatory_htlc_key(uint32_t this_ptr, int8_tArray val) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13120,7 +13122,7 @@ void TS_TxCreationKeys_set_countersignatory_htlc_key(uint32_t this_ptr, int8_tAr
 	TxCreationKeys_set_countersignatory_htlc_key(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_TxCreationKeys_get_broadcaster_delayed_payment_key(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_TxCreationKeys_get_broadcaster_delayed_payment_key(uint32_t this_ptr) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13129,7 +13131,7 @@ int8_tArray TS_TxCreationKeys_get_broadcaster_delayed_payment_key(uint32_t this_
 	return arg_arr;
 }
 
-void TS_TxCreationKeys_set_broadcaster_delayed_payment_key(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_TxCreationKeys_set_broadcaster_delayed_payment_key(uint32_t this_ptr, int8_tArray val) {
 	LDKTxCreationKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13139,7 +13141,7 @@ void TS_TxCreationKeys_set_broadcaster_delayed_payment_key(uint32_t this_ptr, in
 	TxCreationKeys_set_broadcaster_delayed_payment_key(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_TxCreationKeys_new(int8_tArray per_commitment_point_arg, int8_tArray revocation_key_arg, int8_tArray broadcaster_htlc_key_arg, int8_tArray countersignatory_htlc_key_arg, int8_tArray broadcaster_delayed_payment_key_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_TxCreationKeys_new(int8_tArray per_commitment_point_arg, int8_tArray revocation_key_arg, int8_tArray broadcaster_htlc_key_arg, int8_tArray countersignatory_htlc_key_arg, int8_tArray broadcaster_delayed_payment_key_arg) {
 	LDKPublicKey per_commitment_point_arg_ref;
 	CHECK(*((uint32_t*)per_commitment_point_arg) == 33);
 	memcpy(per_commitment_point_arg_ref.compressed_form, (uint8_t*)(per_commitment_point_arg + 4), 33);
@@ -13165,7 +13167,7 @@ uint32_t TS_TxCreationKeys_new(int8_tArray per_commitment_point_arg, int8_tArray
 	return ret_ref;
 }
 
-int8_tArray TS_TxCreationKeys_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_TxCreationKeys_write(uint32_t obj) {
 	LDKTxCreationKeys obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -13176,7 +13178,7 @@ int8_tArray TS_TxCreationKeys_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_TxCreationKeys_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_TxCreationKeys_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -13190,14 +13192,14 @@ uint32_t TS_TxCreationKeys_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-void TS_ChannelPublicKeys_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelPublicKeys_free(uint32_t this_ptr) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelPublicKeys_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelPublicKeys_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelPublicKeys_clone(uint32_t orig) {
 	LDKChannelPublicKeys orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -13211,7 +13213,7 @@ uint32_t TS_ChannelPublicKeys_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelPublicKeys_get_funding_pubkey(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelPublicKeys_get_funding_pubkey(uint32_t this_ptr) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13220,7 +13222,7 @@ int8_tArray TS_ChannelPublicKeys_get_funding_pubkey(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelPublicKeys_set_funding_pubkey(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelPublicKeys_set_funding_pubkey(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13230,7 +13232,7 @@ void TS_ChannelPublicKeys_set_funding_pubkey(uint32_t this_ptr, int8_tArray val)
 	ChannelPublicKeys_set_funding_pubkey(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_ChannelPublicKeys_get_revocation_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelPublicKeys_get_revocation_basepoint(uint32_t this_ptr) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13239,7 +13241,7 @@ int8_tArray TS_ChannelPublicKeys_get_revocation_basepoint(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelPublicKeys_set_revocation_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelPublicKeys_set_revocation_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13249,7 +13251,7 @@ void TS_ChannelPublicKeys_set_revocation_basepoint(uint32_t this_ptr, int8_tArra
 	ChannelPublicKeys_set_revocation_basepoint(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_ChannelPublicKeys_get_payment_point(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelPublicKeys_get_payment_point(uint32_t this_ptr) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13258,7 +13260,7 @@ int8_tArray TS_ChannelPublicKeys_get_payment_point(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelPublicKeys_set_payment_point(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelPublicKeys_set_payment_point(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13268,7 +13270,7 @@ void TS_ChannelPublicKeys_set_payment_point(uint32_t this_ptr, int8_tArray val) 
 	ChannelPublicKeys_set_payment_point(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_ChannelPublicKeys_get_delayed_payment_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelPublicKeys_get_delayed_payment_basepoint(uint32_t this_ptr) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13277,7 +13279,7 @@ int8_tArray TS_ChannelPublicKeys_get_delayed_payment_basepoint(uint32_t this_ptr
 	return arg_arr;
 }
 
-void TS_ChannelPublicKeys_set_delayed_payment_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelPublicKeys_set_delayed_payment_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13287,7 +13289,7 @@ void TS_ChannelPublicKeys_set_delayed_payment_basepoint(uint32_t this_ptr, int8_
 	ChannelPublicKeys_set_delayed_payment_basepoint(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_ChannelPublicKeys_get_htlc_basepoint(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelPublicKeys_get_htlc_basepoint(uint32_t this_ptr) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13296,7 +13298,7 @@ int8_tArray TS_ChannelPublicKeys_get_htlc_basepoint(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelPublicKeys_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelPublicKeys_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelPublicKeys this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13306,7 +13308,7 @@ void TS_ChannelPublicKeys_set_htlc_basepoint(uint32_t this_ptr, int8_tArray val)
 	ChannelPublicKeys_set_htlc_basepoint(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_ChannelPublicKeys_new(int8_tArray funding_pubkey_arg, int8_tArray revocation_basepoint_arg, int8_tArray payment_point_arg, int8_tArray delayed_payment_basepoint_arg, int8_tArray htlc_basepoint_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelPublicKeys_new(int8_tArray funding_pubkey_arg, int8_tArray revocation_basepoint_arg, int8_tArray payment_point_arg, int8_tArray delayed_payment_basepoint_arg, int8_tArray htlc_basepoint_arg) {
 	LDKPublicKey funding_pubkey_arg_ref;
 	CHECK(*((uint32_t*)funding_pubkey_arg) == 33);
 	memcpy(funding_pubkey_arg_ref.compressed_form, (uint8_t*)(funding_pubkey_arg + 4), 33);
@@ -13332,7 +13334,7 @@ uint32_t TS_ChannelPublicKeys_new(int8_tArray funding_pubkey_arg, int8_tArray re
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelPublicKeys_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelPublicKeys_write(uint32_t obj) {
 	LDKChannelPublicKeys obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -13343,7 +13345,7 @@ int8_tArray TS_ChannelPublicKeys_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelPublicKeys_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelPublicKeys_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -13357,7 +13359,7 @@ uint32_t TS_ChannelPublicKeys_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-uint32_t TS_TxCreationKeys_derive_new(int8_tArray per_commitment_point, int8_tArray broadcaster_delayed_payment_base, int8_tArray broadcaster_htlc_base, int8_tArray countersignatory_revocation_base, int8_tArray countersignatory_htlc_base) {
+uint32_t  __attribute__((visibility("default"))) TS_TxCreationKeys_derive_new(int8_tArray per_commitment_point, int8_tArray broadcaster_delayed_payment_base, int8_tArray broadcaster_htlc_base, int8_tArray countersignatory_revocation_base, int8_tArray countersignatory_htlc_base) {
 	LDKPublicKey per_commitment_point_ref;
 	CHECK(*((uint32_t*)per_commitment_point) == 33);
 	memcpy(per_commitment_point_ref.compressed_form, (uint8_t*)(per_commitment_point + 4), 33);
@@ -13378,7 +13380,7 @@ uint32_t TS_TxCreationKeys_derive_new(int8_tArray per_commitment_point, int8_tAr
 	return (long)ret_conv;
 }
 
-uint32_t TS_TxCreationKeys_from_channel_static_keys(int8_tArray per_commitment_point, uint32_t broadcaster_keys, uint32_t countersignatory_keys) {
+uint32_t  __attribute__((visibility("default"))) TS_TxCreationKeys_from_channel_static_keys(int8_tArray per_commitment_point, uint32_t broadcaster_keys, uint32_t countersignatory_keys) {
 	LDKPublicKey per_commitment_point_ref;
 	CHECK(*((uint32_t*)per_commitment_point) == 33);
 	memcpy(per_commitment_point_ref.compressed_form, (uint8_t*)(per_commitment_point + 4), 33);
@@ -13393,7 +13395,7 @@ uint32_t TS_TxCreationKeys_from_channel_static_keys(int8_tArray per_commitment_p
 	return (long)ret_conv;
 }
 
-int8_tArray TS_get_revokeable_redeemscript(int8_tArray revocation_key, int16_t contest_delay, int8_tArray broadcaster_delayed_payment_key) {
+int8_tArray  __attribute__((visibility("default"))) TS_get_revokeable_redeemscript(int8_tArray revocation_key, int16_t contest_delay, int8_tArray broadcaster_delayed_payment_key) {
 	LDKPublicKey revocation_key_ref;
 	CHECK(*((uint32_t*)revocation_key) == 33);
 	memcpy(revocation_key_ref.compressed_form, (uint8_t*)(revocation_key + 4), 33);
@@ -13407,14 +13409,14 @@ int8_tArray TS_get_revokeable_redeemscript(int8_tArray revocation_key, int16_t c
 	return arg_arr;
 }
 
-void TS_HTLCOutputInCommitment_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_free(uint32_t this_ptr) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	HTLCOutputInCommitment_free(this_ptr_conv);
 }
 
-uint32_t TS_HTLCOutputInCommitment_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_clone(uint32_t orig) {
 	LDKHTLCOutputInCommitment orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -13428,7 +13430,7 @@ uint32_t TS_HTLCOutputInCommitment_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-jboolean TS_HTLCOutputInCommitment_get_offered(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_get_offered(uint32_t this_ptr) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13436,14 +13438,14 @@ jboolean TS_HTLCOutputInCommitment_get_offered(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_HTLCOutputInCommitment_set_offered(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_set_offered(uint32_t this_ptr, jboolean val) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	HTLCOutputInCommitment_set_offered(&this_ptr_conv, val);
 }
 
-int64_t TS_HTLCOutputInCommitment_get_amount_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_get_amount_msat(uint32_t this_ptr) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13451,14 +13453,14 @@ int64_t TS_HTLCOutputInCommitment_get_amount_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_HTLCOutputInCommitment_set_amount_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_set_amount_msat(uint32_t this_ptr, int64_t val) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	HTLCOutputInCommitment_set_amount_msat(&this_ptr_conv, val);
 }
 
-int32_t TS_HTLCOutputInCommitment_get_cltv_expiry(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_get_cltv_expiry(uint32_t this_ptr) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13466,14 +13468,14 @@ int32_t TS_HTLCOutputInCommitment_get_cltv_expiry(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_HTLCOutputInCommitment_set_cltv_expiry(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_set_cltv_expiry(uint32_t this_ptr, int32_t val) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	HTLCOutputInCommitment_set_cltv_expiry(&this_ptr_conv, val);
 }
 
-int8_tArray TS_HTLCOutputInCommitment_get_payment_hash(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_get_payment_hash(uint32_t this_ptr) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13482,7 +13484,7 @@ int8_tArray TS_HTLCOutputInCommitment_get_payment_hash(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_HTLCOutputInCommitment_set_payment_hash(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_set_payment_hash(uint32_t this_ptr, int8_tArray val) {
 	LDKHTLCOutputInCommitment this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13492,7 +13494,7 @@ void TS_HTLCOutputInCommitment_set_payment_hash(uint32_t this_ptr, int8_tArray v
 	HTLCOutputInCommitment_set_payment_hash(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_HTLCOutputInCommitment_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_write(uint32_t obj) {
 	LDKHTLCOutputInCommitment obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -13503,7 +13505,7 @@ int8_tArray TS_HTLCOutputInCommitment_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_HTLCOutputInCommitment_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_HTLCOutputInCommitment_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -13517,7 +13519,7 @@ uint32_t TS_HTLCOutputInCommitment_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_get_htlc_redeemscript(uint32_t htlc, uint32_t keys) {
+int8_tArray  __attribute__((visibility("default"))) TS_get_htlc_redeemscript(uint32_t htlc, uint32_t keys) {
 	LDKHTLCOutputInCommitment htlc_conv;
 	htlc_conv.inner = (void*)(htlc & (~1));
 	htlc_conv.is_owned = false;
@@ -13531,7 +13533,7 @@ int8_tArray TS_get_htlc_redeemscript(uint32_t htlc, uint32_t keys) {
 	return arg_arr;
 }
 
-int8_tArray TS_make_funding_redeemscript(int8_tArray broadcaster, int8_tArray countersignatory) {
+int8_tArray  __attribute__((visibility("default"))) TS_make_funding_redeemscript(int8_tArray broadcaster, int8_tArray countersignatory) {
 	LDKPublicKey broadcaster_ref;
 	CHECK(*((uint32_t*)broadcaster) == 33);
 	memcpy(broadcaster_ref.compressed_form, (uint8_t*)(broadcaster + 4), 33);
@@ -13545,7 +13547,7 @@ int8_tArray TS_make_funding_redeemscript(int8_tArray broadcaster, int8_tArray co
 	return arg_arr;
 }
 
-int8_tArray TS_build_htlc_transaction(int8_tArray prev_hash, int32_t feerate_per_kw, int16_t contest_delay, uint32_t htlc, int8_tArray broadcaster_delayed_payment_key, int8_tArray revocation_key) {
+int8_tArray  __attribute__((visibility("default"))) TS_build_htlc_transaction(int8_tArray prev_hash, int32_t feerate_per_kw, int16_t contest_delay, uint32_t htlc, int8_tArray broadcaster_delayed_payment_key, int8_tArray revocation_key) {
 	unsigned char prev_hash_arr[32];
 	CHECK(*((uint32_t*)prev_hash) == 32);
 	memcpy(prev_hash_arr, (uint8_t*)(prev_hash + 4), 32);
@@ -13566,14 +13568,14 @@ int8_tArray TS_build_htlc_transaction(int8_tArray prev_hash, int32_t feerate_per
 	return arg_arr;
 }
 
-void TS_ChannelTransactionParameters_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_free(uint32_t this_ptr) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelTransactionParameters_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelTransactionParameters_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_clone(uint32_t orig) {
 	LDKChannelTransactionParameters orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -13587,7 +13589,7 @@ uint32_t TS_ChannelTransactionParameters_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-uint32_t TS_ChannelTransactionParameters_get_holder_pubkeys(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_get_holder_pubkeys(uint32_t this_ptr) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13601,7 +13603,7 @@ uint32_t TS_ChannelTransactionParameters_get_holder_pubkeys(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelTransactionParameters_set_holder_pubkeys(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_set_holder_pubkeys(uint32_t this_ptr, uint32_t val) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13613,7 +13615,7 @@ void TS_ChannelTransactionParameters_set_holder_pubkeys(uint32_t this_ptr, uint3
 	ChannelTransactionParameters_set_holder_pubkeys(&this_ptr_conv, val_conv);
 }
 
-int16_t TS_ChannelTransactionParameters_get_holder_selected_contest_delay(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_get_holder_selected_contest_delay(uint32_t this_ptr) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13621,14 +13623,14 @@ int16_t TS_ChannelTransactionParameters_get_holder_selected_contest_delay(uint32
 	return ret_val;
 }
 
-void TS_ChannelTransactionParameters_set_holder_selected_contest_delay(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_set_holder_selected_contest_delay(uint32_t this_ptr, int16_t val) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelTransactionParameters_set_holder_selected_contest_delay(&this_ptr_conv, val);
 }
 
-jboolean TS_ChannelTransactionParameters_get_is_outbound_from_holder(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_get_is_outbound_from_holder(uint32_t this_ptr) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13636,14 +13638,14 @@ jboolean TS_ChannelTransactionParameters_get_is_outbound_from_holder(uint32_t th
 	return ret_val;
 }
 
-void TS_ChannelTransactionParameters_set_is_outbound_from_holder(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_set_is_outbound_from_holder(uint32_t this_ptr, jboolean val) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	ChannelTransactionParameters_set_is_outbound_from_holder(&this_ptr_conv, val);
 }
 
-uint32_t TS_ChannelTransactionParameters_get_counterparty_parameters(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_get_counterparty_parameters(uint32_t this_ptr) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13657,7 +13659,7 @@ uint32_t TS_ChannelTransactionParameters_get_counterparty_parameters(uint32_t th
 	return ret_ref;
 }
 
-void TS_ChannelTransactionParameters_set_counterparty_parameters(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_set_counterparty_parameters(uint32_t this_ptr, uint32_t val) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13669,7 +13671,7 @@ void TS_ChannelTransactionParameters_set_counterparty_parameters(uint32_t this_p
 	ChannelTransactionParameters_set_counterparty_parameters(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelTransactionParameters_get_funding_outpoint(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_get_funding_outpoint(uint32_t this_ptr) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13683,7 +13685,7 @@ uint32_t TS_ChannelTransactionParameters_get_funding_outpoint(uint32_t this_ptr)
 	return ret_ref;
 }
 
-void TS_ChannelTransactionParameters_set_funding_outpoint(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_set_funding_outpoint(uint32_t this_ptr, uint32_t val) {
 	LDKChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13695,7 +13697,7 @@ void TS_ChannelTransactionParameters_set_funding_outpoint(uint32_t this_ptr, uin
 	ChannelTransactionParameters_set_funding_outpoint(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelTransactionParameters_new(uint32_t holder_pubkeys_arg, int16_t holder_selected_contest_delay_arg, jboolean is_outbound_from_holder_arg, uint32_t counterparty_parameters_arg, uint32_t funding_outpoint_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_new(uint32_t holder_pubkeys_arg, int16_t holder_selected_contest_delay_arg, jboolean is_outbound_from_holder_arg, uint32_t counterparty_parameters_arg, uint32_t funding_outpoint_arg) {
 	LDKChannelPublicKeys holder_pubkeys_arg_conv;
 	holder_pubkeys_arg_conv.inner = (void*)(holder_pubkeys_arg & (~1));
 	holder_pubkeys_arg_conv.is_owned = (holder_pubkeys_arg & 1) || (holder_pubkeys_arg == 0);
@@ -13721,14 +13723,14 @@ uint32_t TS_ChannelTransactionParameters_new(uint32_t holder_pubkeys_arg, int16_
 	return ret_ref;
 }
 
-void TS_CounterpartyChannelTransactionParameters_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_free(uint32_t this_ptr) {
 	LDKCounterpartyChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	CounterpartyChannelTransactionParameters_free(this_ptr_conv);
 }
 
-uint32_t TS_CounterpartyChannelTransactionParameters_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_clone(uint32_t orig) {
 	LDKCounterpartyChannelTransactionParameters orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -13742,7 +13744,7 @@ uint32_t TS_CounterpartyChannelTransactionParameters_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-uint32_t TS_CounterpartyChannelTransactionParameters_get_pubkeys(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_get_pubkeys(uint32_t this_ptr) {
 	LDKCounterpartyChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13756,7 +13758,7 @@ uint32_t TS_CounterpartyChannelTransactionParameters_get_pubkeys(uint32_t this_p
 	return ret_ref;
 }
 
-void TS_CounterpartyChannelTransactionParameters_set_pubkeys(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_set_pubkeys(uint32_t this_ptr, uint32_t val) {
 	LDKCounterpartyChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13768,7 +13770,7 @@ void TS_CounterpartyChannelTransactionParameters_set_pubkeys(uint32_t this_ptr, 
 	CounterpartyChannelTransactionParameters_set_pubkeys(&this_ptr_conv, val_conv);
 }
 
-int16_t TS_CounterpartyChannelTransactionParameters_get_selected_contest_delay(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_get_selected_contest_delay(uint32_t this_ptr) {
 	LDKCounterpartyChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13776,14 +13778,14 @@ int16_t TS_CounterpartyChannelTransactionParameters_get_selected_contest_delay(u
 	return ret_val;
 }
 
-void TS_CounterpartyChannelTransactionParameters_set_selected_contest_delay(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_set_selected_contest_delay(uint32_t this_ptr, int16_t val) {
 	LDKCounterpartyChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CounterpartyChannelTransactionParameters_set_selected_contest_delay(&this_ptr_conv, val);
 }
 
-uint32_t TS_CounterpartyChannelTransactionParameters_new(uint32_t pubkeys_arg, int16_t selected_contest_delay_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_new(uint32_t pubkeys_arg, int16_t selected_contest_delay_arg) {
 	LDKChannelPublicKeys pubkeys_arg_conv;
 	pubkeys_arg_conv.inner = (void*)(pubkeys_arg & (~1));
 	pubkeys_arg_conv.is_owned = (pubkeys_arg & 1) || (pubkeys_arg == 0);
@@ -13799,7 +13801,7 @@ uint32_t TS_CounterpartyChannelTransactionParameters_new(uint32_t pubkeys_arg, i
 	return ret_ref;
 }
 
-jboolean TS_ChannelTransactionParameters_is_populated(uint32_t this_arg) {
+jboolean  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_is_populated(uint32_t this_arg) {
 	LDKChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -13807,7 +13809,7 @@ jboolean TS_ChannelTransactionParameters_is_populated(uint32_t this_arg) {
 	return ret_val;
 }
 
-uint32_t TS_ChannelTransactionParameters_as_holder_broadcastable(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_as_holder_broadcastable(uint32_t this_arg) {
 	LDKChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -13821,7 +13823,7 @@ uint32_t TS_ChannelTransactionParameters_as_holder_broadcastable(uint32_t this_a
 	return ret_ref;
 }
 
-uint32_t TS_ChannelTransactionParameters_as_counterparty_broadcastable(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_as_counterparty_broadcastable(uint32_t this_arg) {
 	LDKChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -13835,7 +13837,7 @@ uint32_t TS_ChannelTransactionParameters_as_counterparty_broadcastable(uint32_t 
 	return ret_ref;
 }
 
-int8_tArray TS_CounterpartyChannelTransactionParameters_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_write(uint32_t obj) {
 	LDKCounterpartyChannelTransactionParameters obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -13846,7 +13848,7 @@ int8_tArray TS_CounterpartyChannelTransactionParameters_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_CounterpartyChannelTransactionParameters_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_CounterpartyChannelTransactionParameters_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -13860,7 +13862,7 @@ uint32_t TS_CounterpartyChannelTransactionParameters_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_ChannelTransactionParameters_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_write(uint32_t obj) {
 	LDKChannelTransactionParameters obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -13871,7 +13873,7 @@ int8_tArray TS_ChannelTransactionParameters_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelTransactionParameters_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelTransactionParameters_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -13885,14 +13887,14 @@ uint32_t TS_ChannelTransactionParameters_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-void TS_DirectedChannelTransactionParameters_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_DirectedChannelTransactionParameters_free(uint32_t this_ptr) {
 	LDKDirectedChannelTransactionParameters this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	DirectedChannelTransactionParameters_free(this_ptr_conv);
 }
 
-uint32_t TS_DirectedChannelTransactionParameters_broadcaster_pubkeys(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_DirectedChannelTransactionParameters_broadcaster_pubkeys(uint32_t this_arg) {
 	LDKDirectedChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -13906,7 +13908,7 @@ uint32_t TS_DirectedChannelTransactionParameters_broadcaster_pubkeys(uint32_t th
 	return ret_ref;
 }
 
-uint32_t TS_DirectedChannelTransactionParameters_countersignatory_pubkeys(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_DirectedChannelTransactionParameters_countersignatory_pubkeys(uint32_t this_arg) {
 	LDKDirectedChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -13920,7 +13922,7 @@ uint32_t TS_DirectedChannelTransactionParameters_countersignatory_pubkeys(uint32
 	return ret_ref;
 }
 
-int16_t TS_DirectedChannelTransactionParameters_contest_delay(uint32_t this_arg) {
+int16_t  __attribute__((visibility("default"))) TS_DirectedChannelTransactionParameters_contest_delay(uint32_t this_arg) {
 	LDKDirectedChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -13928,7 +13930,7 @@ int16_t TS_DirectedChannelTransactionParameters_contest_delay(uint32_t this_arg)
 	return ret_val;
 }
 
-jboolean TS_DirectedChannelTransactionParameters_is_outbound(uint32_t this_arg) {
+jboolean  __attribute__((visibility("default"))) TS_DirectedChannelTransactionParameters_is_outbound(uint32_t this_arg) {
 	LDKDirectedChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -13936,7 +13938,7 @@ jboolean TS_DirectedChannelTransactionParameters_is_outbound(uint32_t this_arg) 
 	return ret_val;
 }
 
-uint32_t TS_DirectedChannelTransactionParameters_funding_outpoint(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_DirectedChannelTransactionParameters_funding_outpoint(uint32_t this_arg) {
 	LDKDirectedChannelTransactionParameters this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -13950,14 +13952,14 @@ uint32_t TS_DirectedChannelTransactionParameters_funding_outpoint(uint32_t this_
 	return ret_ref;
 }
 
-void TS_HolderCommitmentTransaction_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_HolderCommitmentTransaction_free(uint32_t this_ptr) {
 	LDKHolderCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	HolderCommitmentTransaction_free(this_ptr_conv);
 }
 
-uint32_t TS_HolderCommitmentTransaction_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_HolderCommitmentTransaction_clone(uint32_t orig) {
 	LDKHolderCommitmentTransaction orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -13971,7 +13973,7 @@ uint32_t TS_HolderCommitmentTransaction_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_HolderCommitmentTransaction_get_counterparty_sig(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_HolderCommitmentTransaction_get_counterparty_sig(uint32_t this_ptr) {
 	LDKHolderCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13980,7 +13982,7 @@ int8_tArray TS_HolderCommitmentTransaction_get_counterparty_sig(uint32_t this_pt
 	return arg_arr;
 }
 
-void TS_HolderCommitmentTransaction_set_counterparty_sig(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_HolderCommitmentTransaction_set_counterparty_sig(uint32_t this_ptr, int8_tArray val) {
 	LDKHolderCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -13990,7 +13992,7 @@ void TS_HolderCommitmentTransaction_set_counterparty_sig(uint32_t this_ptr, int8
 	HolderCommitmentTransaction_set_counterparty_sig(&this_ptr_conv, val_ref);
 }
 
-void TS_HolderCommitmentTransaction_set_counterparty_htlc_sigs(uint32_t this_ptr, ptrArray val) {
+void  __attribute__((visibility("default"))) TS_HolderCommitmentTransaction_set_counterparty_htlc_sigs(uint32_t this_ptr, ptrArray val) {
 	LDKHolderCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14011,7 +14013,7 @@ void TS_HolderCommitmentTransaction_set_counterparty_htlc_sigs(uint32_t this_ptr
 	HolderCommitmentTransaction_set_counterparty_htlc_sigs(&this_ptr_conv, val_constr);
 }
 
-int8_tArray TS_HolderCommitmentTransaction_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_HolderCommitmentTransaction_write(uint32_t obj) {
 	LDKHolderCommitmentTransaction obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -14022,7 +14024,7 @@ int8_tArray TS_HolderCommitmentTransaction_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_HolderCommitmentTransaction_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_HolderCommitmentTransaction_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -14036,7 +14038,7 @@ uint32_t TS_HolderCommitmentTransaction_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-uint32_t TS_HolderCommitmentTransaction_new(uint32_t commitment_tx, int8_tArray counterparty_sig, ptrArray counterparty_htlc_sigs, int8_tArray holder_funding_key, int8_tArray counterparty_funding_key) {
+uint32_t  __attribute__((visibility("default"))) TS_HolderCommitmentTransaction_new(uint32_t commitment_tx, int8_tArray counterparty_sig, ptrArray counterparty_htlc_sigs, int8_tArray holder_funding_key, int8_tArray counterparty_funding_key) {
 	LDKCommitmentTransaction commitment_tx_conv;
 	commitment_tx_conv.inner = (void*)(commitment_tx & (~1));
 	commitment_tx_conv.is_owned = (commitment_tx & 1) || (commitment_tx == 0);
@@ -14075,14 +14077,14 @@ uint32_t TS_HolderCommitmentTransaction_new(uint32_t commitment_tx, int8_tArray 
 	return ret_ref;
 }
 
-void TS_BuiltCommitmentTransaction_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_free(uint32_t this_ptr) {
 	LDKBuiltCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	BuiltCommitmentTransaction_free(this_ptr_conv);
 }
 
-uint32_t TS_BuiltCommitmentTransaction_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_clone(uint32_t orig) {
 	LDKBuiltCommitmentTransaction orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -14096,7 +14098,7 @@ uint32_t TS_BuiltCommitmentTransaction_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_BuiltCommitmentTransaction_get_transaction(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_get_transaction(uint32_t this_ptr) {
 	LDKBuiltCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14107,7 +14109,7 @@ int8_tArray TS_BuiltCommitmentTransaction_get_transaction(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_BuiltCommitmentTransaction_set_transaction(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_set_transaction(uint32_t this_ptr, int8_tArray val) {
 	LDKBuiltCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14119,7 +14121,7 @@ void TS_BuiltCommitmentTransaction_set_transaction(uint32_t this_ptr, int8_tArra
 	BuiltCommitmentTransaction_set_transaction(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_BuiltCommitmentTransaction_get_txid(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_get_txid(uint32_t this_ptr) {
 	LDKBuiltCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14128,7 +14130,7 @@ int8_tArray TS_BuiltCommitmentTransaction_get_txid(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_BuiltCommitmentTransaction_set_txid(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_set_txid(uint32_t this_ptr, int8_tArray val) {
 	LDKBuiltCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14138,7 +14140,7 @@ void TS_BuiltCommitmentTransaction_set_txid(uint32_t this_ptr, int8_tArray val) 
 	BuiltCommitmentTransaction_set_txid(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_BuiltCommitmentTransaction_new(int8_tArray transaction_arg, int8_tArray txid_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_new(int8_tArray transaction_arg, int8_tArray txid_arg) {
 	LDKTransaction transaction_arg_ref;
 	transaction_arg_ref.datalen = *((uint32_t*)transaction_arg);
 	transaction_arg_ref.data = MALLOC(transaction_arg_ref.datalen, "LDKTransaction Bytes");
@@ -14157,7 +14159,7 @@ uint32_t TS_BuiltCommitmentTransaction_new(int8_tArray transaction_arg, int8_tAr
 	return ret_ref;
 }
 
-int8_tArray TS_BuiltCommitmentTransaction_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_write(uint32_t obj) {
 	LDKBuiltCommitmentTransaction obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -14168,7 +14170,7 @@ int8_tArray TS_BuiltCommitmentTransaction_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_BuiltCommitmentTransaction_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -14182,7 +14184,7 @@ uint32_t TS_BuiltCommitmentTransaction_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int8_tArray TS_BuiltCommitmentTransaction_get_sighash_all(uint32_t this_arg, int8_tArray funding_redeemscript, int64_t channel_value_satoshis) {
+int8_tArray  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_get_sighash_all(uint32_t this_arg, int8_tArray funding_redeemscript, int64_t channel_value_satoshis) {
 	LDKBuiltCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14194,7 +14196,7 @@ int8_tArray TS_BuiltCommitmentTransaction_get_sighash_all(uint32_t this_arg, int
 	return arg_arr;
 }
 
-int8_tArray TS_BuiltCommitmentTransaction_sign(uint32_t this_arg, int8_tArray funding_key, int8_tArray funding_redeemscript, int64_t channel_value_satoshis) {
+int8_tArray  __attribute__((visibility("default"))) TS_BuiltCommitmentTransaction_sign(uint32_t this_arg, int8_tArray funding_key, int8_tArray funding_redeemscript, int64_t channel_value_satoshis) {
 	LDKBuiltCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14210,14 +14212,14 @@ int8_tArray TS_BuiltCommitmentTransaction_sign(uint32_t this_arg, int8_tArray fu
 	return arg_arr;
 }
 
-void TS_CommitmentTransaction_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_CommitmentTransaction_free(uint32_t this_ptr) {
 	LDKCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	CommitmentTransaction_free(this_ptr_conv);
 }
 
-uint32_t TS_CommitmentTransaction_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentTransaction_clone(uint32_t orig) {
 	LDKCommitmentTransaction orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -14231,7 +14233,7 @@ uint32_t TS_CommitmentTransaction_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_CommitmentTransaction_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_CommitmentTransaction_write(uint32_t obj) {
 	LDKCommitmentTransaction obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -14242,7 +14244,7 @@ int8_tArray TS_CommitmentTransaction_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_CommitmentTransaction_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentTransaction_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -14256,7 +14258,7 @@ uint32_t TS_CommitmentTransaction_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-int64_t TS_CommitmentTransaction_commitment_number(uint32_t this_arg) {
+int64_t  __attribute__((visibility("default"))) TS_CommitmentTransaction_commitment_number(uint32_t this_arg) {
 	LDKCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14264,7 +14266,7 @@ int64_t TS_CommitmentTransaction_commitment_number(uint32_t this_arg) {
 	return ret_val;
 }
 
-int64_t TS_CommitmentTransaction_to_broadcaster_value_sat(uint32_t this_arg) {
+int64_t  __attribute__((visibility("default"))) TS_CommitmentTransaction_to_broadcaster_value_sat(uint32_t this_arg) {
 	LDKCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14272,7 +14274,7 @@ int64_t TS_CommitmentTransaction_to_broadcaster_value_sat(uint32_t this_arg) {
 	return ret_val;
 }
 
-int64_t TS_CommitmentTransaction_to_countersignatory_value_sat(uint32_t this_arg) {
+int64_t  __attribute__((visibility("default"))) TS_CommitmentTransaction_to_countersignatory_value_sat(uint32_t this_arg) {
 	LDKCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14280,7 +14282,7 @@ int64_t TS_CommitmentTransaction_to_countersignatory_value_sat(uint32_t this_arg
 	return ret_val;
 }
 
-int32_t TS_CommitmentTransaction_feerate_per_kw(uint32_t this_arg) {
+int32_t  __attribute__((visibility("default"))) TS_CommitmentTransaction_feerate_per_kw(uint32_t this_arg) {
 	LDKCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14288,7 +14290,7 @@ int32_t TS_CommitmentTransaction_feerate_per_kw(uint32_t this_arg) {
 	return ret_val;
 }
 
-uint32_t TS_CommitmentTransaction_trust(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentTransaction_trust(uint32_t this_arg) {
 	LDKCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14302,7 +14304,7 @@ uint32_t TS_CommitmentTransaction_trust(uint32_t this_arg) {
 	return ret_ref;
 }
 
-uint32_t TS_CommitmentTransaction_verify(uint32_t this_arg, uint32_t channel_parameters, uint32_t broadcaster_keys, uint32_t countersignatory_keys) {
+uint32_t  __attribute__((visibility("default"))) TS_CommitmentTransaction_verify(uint32_t this_arg, uint32_t channel_parameters, uint32_t broadcaster_keys, uint32_t countersignatory_keys) {
 	LDKCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14320,14 +14322,14 @@ uint32_t TS_CommitmentTransaction_verify(uint32_t this_arg, uint32_t channel_par
 	return (long)ret_conv;
 }
 
-void TS_TrustedCommitmentTransaction_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_TrustedCommitmentTransaction_free(uint32_t this_ptr) {
 	LDKTrustedCommitmentTransaction this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	TrustedCommitmentTransaction_free(this_ptr_conv);
 }
 
-int8_tArray TS_TrustedCommitmentTransaction_txid(uint32_t this_arg) {
+int8_tArray  __attribute__((visibility("default"))) TS_TrustedCommitmentTransaction_txid(uint32_t this_arg) {
 	LDKTrustedCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14336,7 +14338,7 @@ int8_tArray TS_TrustedCommitmentTransaction_txid(uint32_t this_arg) {
 	return arg_arr;
 }
 
-uint32_t TS_TrustedCommitmentTransaction_built_transaction(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_TrustedCommitmentTransaction_built_transaction(uint32_t this_arg) {
 	LDKTrustedCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14350,7 +14352,7 @@ uint32_t TS_TrustedCommitmentTransaction_built_transaction(uint32_t this_arg) {
 	return ret_ref;
 }
 
-uint32_t TS_TrustedCommitmentTransaction_keys(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_TrustedCommitmentTransaction_keys(uint32_t this_arg) {
 	LDKTrustedCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14364,7 +14366,7 @@ uint32_t TS_TrustedCommitmentTransaction_keys(uint32_t this_arg) {
 	return ret_ref;
 }
 
-uint32_t TS_TrustedCommitmentTransaction_get_htlc_sigs(uint32_t this_arg, int8_tArray htlc_base_key, uint32_t channel_parameters) {
+uint32_t  __attribute__((visibility("default"))) TS_TrustedCommitmentTransaction_get_htlc_sigs(uint32_t this_arg, int8_tArray htlc_base_key, uint32_t channel_parameters) {
 	LDKTrustedCommitmentTransaction this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14380,7 +14382,7 @@ uint32_t TS_TrustedCommitmentTransaction_get_htlc_sigs(uint32_t this_arg, int8_t
 	return (long)ret_conv;
 }
 
-int64_t TS_get_commitment_transaction_number_obscure_factor(int8_tArray broadcaster_payment_basepoint, int8_tArray countersignatory_payment_basepoint, jboolean outbound_from_broadcaster) {
+int64_t  __attribute__((visibility("default"))) TS_get_commitment_transaction_number_obscure_factor(int8_tArray broadcaster_payment_basepoint, int8_tArray countersignatory_payment_basepoint, jboolean outbound_from_broadcaster) {
 	LDKPublicKey broadcaster_payment_basepoint_ref;
 	CHECK(*((uint32_t*)broadcaster_payment_basepoint) == 33);
 	memcpy(broadcaster_payment_basepoint_ref.compressed_form, (uint8_t*)(broadcaster_payment_basepoint + 4), 33);
@@ -14391,35 +14393,35 @@ int64_t TS_get_commitment_transaction_number_obscure_factor(int8_tArray broadcas
 	return ret_val;
 }
 
-void TS_InitFeatures_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_InitFeatures_free(uint32_t this_ptr) {
 	LDKInitFeatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	InitFeatures_free(this_ptr_conv);
 }
 
-void TS_NodeFeatures_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_NodeFeatures_free(uint32_t this_ptr) {
 	LDKNodeFeatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	NodeFeatures_free(this_ptr_conv);
 }
 
-void TS_ChannelFeatures_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelFeatures_free(uint32_t this_ptr) {
 	LDKChannelFeatures this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelFeatures_free(this_ptr_conv);
 }
 
-void TS_RouteHop_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_RouteHop_free(uint32_t this_ptr) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	RouteHop_free(this_ptr_conv);
 }
 
-uint32_t TS_RouteHop_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_clone(uint32_t orig) {
 	LDKRouteHop orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -14433,7 +14435,7 @@ uint32_t TS_RouteHop_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_RouteHop_get_pubkey(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_RouteHop_get_pubkey(uint32_t this_ptr) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14442,7 +14444,7 @@ int8_tArray TS_RouteHop_get_pubkey(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_RouteHop_set_pubkey(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_RouteHop_set_pubkey(uint32_t this_ptr, int8_tArray val) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14452,7 +14454,7 @@ void TS_RouteHop_set_pubkey(uint32_t this_ptr, int8_tArray val) {
 	RouteHop_set_pubkey(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_RouteHop_get_node_features(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_get_node_features(uint32_t this_ptr) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14466,7 +14468,7 @@ uint32_t TS_RouteHop_get_node_features(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_RouteHop_set_node_features(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHop_set_node_features(uint32_t this_ptr, uint32_t val) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14477,7 +14479,7 @@ void TS_RouteHop_set_node_features(uint32_t this_ptr, uint32_t val) {
 	RouteHop_set_node_features(&this_ptr_conv, val_conv);
 }
 
-int64_t TS_RouteHop_get_short_channel_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_RouteHop_get_short_channel_id(uint32_t this_ptr) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14485,14 +14487,14 @@ int64_t TS_RouteHop_get_short_channel_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_RouteHop_set_short_channel_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHop_set_short_channel_id(uint32_t this_ptr, int64_t val) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	RouteHop_set_short_channel_id(&this_ptr_conv, val);
 }
 
-uint32_t TS_RouteHop_get_channel_features(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_get_channel_features(uint32_t this_ptr) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14506,7 +14508,7 @@ uint32_t TS_RouteHop_get_channel_features(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_RouteHop_set_channel_features(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHop_set_channel_features(uint32_t this_ptr, uint32_t val) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14517,7 +14519,7 @@ void TS_RouteHop_set_channel_features(uint32_t this_ptr, uint32_t val) {
 	RouteHop_set_channel_features(&this_ptr_conv, val_conv);
 }
 
-int64_t TS_RouteHop_get_fee_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_RouteHop_get_fee_msat(uint32_t this_ptr) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14525,14 +14527,14 @@ int64_t TS_RouteHop_get_fee_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_RouteHop_set_fee_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHop_set_fee_msat(uint32_t this_ptr, int64_t val) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	RouteHop_set_fee_msat(&this_ptr_conv, val);
 }
 
-int32_t TS_RouteHop_get_cltv_expiry_delta(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_RouteHop_get_cltv_expiry_delta(uint32_t this_ptr) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14540,14 +14542,14 @@ int32_t TS_RouteHop_get_cltv_expiry_delta(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_RouteHop_set_cltv_expiry_delta(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHop_set_cltv_expiry_delta(uint32_t this_ptr, int32_t val) {
 	LDKRouteHop this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	RouteHop_set_cltv_expiry_delta(&this_ptr_conv, val);
 }
 
-uint32_t TS_RouteHop_new(int8_tArray pubkey_arg, uint32_t node_features_arg, int64_t short_channel_id_arg, uint32_t channel_features_arg, int64_t fee_msat_arg, int32_t cltv_expiry_delta_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_new(int8_tArray pubkey_arg, uint32_t node_features_arg, int64_t short_channel_id_arg, uint32_t channel_features_arg, int64_t fee_msat_arg, int32_t cltv_expiry_delta_arg) {
 	LDKPublicKey pubkey_arg_ref;
 	CHECK(*((uint32_t*)pubkey_arg) == 33);
 	memcpy(pubkey_arg_ref.compressed_form, (uint8_t*)(pubkey_arg + 4), 33);
@@ -14569,14 +14571,14 @@ uint32_t TS_RouteHop_new(int8_tArray pubkey_arg, uint32_t node_features_arg, int
 	return ret_ref;
 }
 
-void TS_Route_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_Route_free(uint32_t this_ptr) {
 	LDKRoute this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	Route_free(this_ptr_conv);
 }
 
-uint32_t TS_Route_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_Route_clone(uint32_t orig) {
 	LDKRoute orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -14590,7 +14592,7 @@ uint32_t TS_Route_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-void TS_Route_set_paths(uint32_t this_ptr, ptrArray val) {
+void  __attribute__((visibility("default"))) TS_Route_set_paths(uint32_t this_ptr, ptrArray val) {
 	LDKRoute this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14624,7 +14626,7 @@ void TS_Route_set_paths(uint32_t this_ptr, ptrArray val) {
 	Route_set_paths(&this_ptr_conv, val_constr);
 }
 
-uint32_t TS_Route_new(ptrArray paths_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_Route_new(ptrArray paths_arg) {
 	LDKCVec_CVec_RouteHopZZ paths_arg_constr;
 	paths_arg_constr.datalen = *((uint32_t*)paths_arg);
 	if (paths_arg_constr.datalen > 0)
@@ -14662,7 +14664,7 @@ uint32_t TS_Route_new(ptrArray paths_arg) {
 	return ret_ref;
 }
 
-int8_tArray TS_Route_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_Route_write(uint32_t obj) {
 	LDKRoute obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -14673,7 +14675,7 @@ int8_tArray TS_Route_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_Route_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_Route_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -14682,14 +14684,14 @@ uint32_t TS_Route_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-void TS_RouteHint_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_RouteHint_free(uint32_t this_ptr) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	RouteHint_free(this_ptr_conv);
 }
 
-uint32_t TS_RouteHint_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_RouteHint_clone(uint32_t orig) {
 	LDKRouteHint orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -14703,7 +14705,7 @@ uint32_t TS_RouteHint_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int8_tArray TS_RouteHint_get_src_node_id(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_RouteHint_get_src_node_id(uint32_t this_ptr) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14712,7 +14714,7 @@ int8_tArray TS_RouteHint_get_src_node_id(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_RouteHint_set_src_node_id(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_RouteHint_set_src_node_id(uint32_t this_ptr, int8_tArray val) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14722,7 +14724,7 @@ void TS_RouteHint_set_src_node_id(uint32_t this_ptr, int8_tArray val) {
 	RouteHint_set_src_node_id(&this_ptr_conv, val_ref);
 }
 
-int64_t TS_RouteHint_get_short_channel_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_RouteHint_get_short_channel_id(uint32_t this_ptr) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14730,14 +14732,14 @@ int64_t TS_RouteHint_get_short_channel_id(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_RouteHint_set_short_channel_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHint_set_short_channel_id(uint32_t this_ptr, int64_t val) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	RouteHint_set_short_channel_id(&this_ptr_conv, val);
 }
 
-uint32_t TS_RouteHint_get_fees(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_RouteHint_get_fees(uint32_t this_ptr) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14751,7 +14753,7 @@ uint32_t TS_RouteHint_get_fees(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_RouteHint_set_fees(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHint_set_fees(uint32_t this_ptr, uint32_t val) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14763,7 +14765,7 @@ void TS_RouteHint_set_fees(uint32_t this_ptr, uint32_t val) {
 	RouteHint_set_fees(&this_ptr_conv, val_conv);
 }
 
-int16_t TS_RouteHint_get_cltv_expiry_delta(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_RouteHint_get_cltv_expiry_delta(uint32_t this_ptr) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14771,14 +14773,14 @@ int16_t TS_RouteHint_get_cltv_expiry_delta(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_RouteHint_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHint_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	RouteHint_set_cltv_expiry_delta(&this_ptr_conv, val);
 }
 
-int64_t TS_RouteHint_get_htlc_minimum_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_RouteHint_get_htlc_minimum_msat(uint32_t this_ptr) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14786,14 +14788,14 @@ int64_t TS_RouteHint_get_htlc_minimum_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_RouteHint_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_RouteHint_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
 	LDKRouteHint this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	RouteHint_set_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-uint32_t TS_RouteHint_new(int8_tArray src_node_id_arg, int64_t short_channel_id_arg, uint32_t fees_arg, int16_t cltv_expiry_delta_arg, int64_t htlc_minimum_msat_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_RouteHint_new(int8_tArray src_node_id_arg, int64_t short_channel_id_arg, uint32_t fees_arg, int16_t cltv_expiry_delta_arg, int64_t htlc_minimum_msat_arg) {
 	LDKPublicKey src_node_id_arg_ref;
 	CHECK(*((uint32_t*)src_node_id_arg) == 33);
 	memcpy(src_node_id_arg_ref.compressed_form, (uint8_t*)(src_node_id_arg + 4), 33);
@@ -14812,7 +14814,7 @@ uint32_t TS_RouteHint_new(int8_tArray src_node_id_arg, int64_t short_channel_id_
 	return ret_ref;
 }
 
-uint32_t TS_get_route(int8_tArray our_node_id, uint32_t network, int8_tArray target, uint32_tArray first_hops, uint32_tArray last_hops, int64_t final_value_msat, int32_t final_cltv, uint32_t logger) {
+uint32_t  __attribute__((visibility("default"))) TS_get_route(int8_tArray our_node_id, uint32_t network, int8_tArray target, uint32_tArray first_hops, uint32_tArray last_hops, int64_t final_value_msat, int32_t final_cltv, uint32_t logger) {
 	LDKPublicKey our_node_id_ref;
 	CHECK(*((uint32_t*)our_node_id) == 33);
 	memcpy(our_node_id_ref.compressed_form, (uint8_t*)(our_node_id + 4), 33);
@@ -14859,28 +14861,28 @@ uint32_t TS_get_route(int8_tArray our_node_id, uint32_t network, int8_tArray tar
 	return (long)ret_conv;
 }
 
-void TS_NetworkGraph_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_NetworkGraph_free(uint32_t this_ptr) {
 	LDKNetworkGraph this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	NetworkGraph_free(this_ptr_conv);
 }
 
-void TS_LockedNetworkGraph_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_LockedNetworkGraph_free(uint32_t this_ptr) {
 	LDKLockedNetworkGraph this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	LockedNetworkGraph_free(this_ptr_conv);
 }
 
-void TS_NetGraphMsgHandler_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_NetGraphMsgHandler_free(uint32_t this_ptr) {
 	LDKNetGraphMsgHandler this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	NetGraphMsgHandler_free(this_ptr_conv);
 }
 
-uint32_t TS_NetGraphMsgHandler_new(int8_tArray genesis_hash, uint32_t chain_access, uint32_t logger) {
+uint32_t  __attribute__((visibility("default"))) TS_NetGraphMsgHandler_new(int8_tArray genesis_hash, uint32_t chain_access, uint32_t logger) {
 	LDKThirtyTwoBytes genesis_hash_ref;
 	CHECK(*((uint32_t*)genesis_hash) == 32);
 	memcpy(genesis_hash_ref.data, (uint8_t*)(genesis_hash + 4), 32);
@@ -14896,7 +14898,7 @@ uint32_t TS_NetGraphMsgHandler_new(int8_tArray genesis_hash, uint32_t chain_acce
 	return ret_ref;
 }
 
-uint32_t TS_NetGraphMsgHandler_from_net_graph(uint32_t chain_access, uint32_t logger, uint32_t network_graph) {
+uint32_t  __attribute__((visibility("default"))) TS_NetGraphMsgHandler_from_net_graph(uint32_t chain_access, uint32_t logger, uint32_t network_graph) {
 	LDKAccess* chain_access_conv = (LDKAccess*)chain_access;
 	LDKLogger logger_conv = *(LDKLogger*)logger;
 	LDKNetworkGraph network_graph_conv;
@@ -14913,7 +14915,7 @@ uint32_t TS_NetGraphMsgHandler_from_net_graph(uint32_t chain_access, uint32_t lo
 	return ret_ref;
 }
 
-uint32_t TS_NetGraphMsgHandler_read_locked_graph(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_NetGraphMsgHandler_read_locked_graph(uint32_t this_arg) {
 	LDKNetGraphMsgHandler this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14927,7 +14929,7 @@ uint32_t TS_NetGraphMsgHandler_read_locked_graph(uint32_t this_arg) {
 	return ret_ref;
 }
 
-uint32_t TS_LockedNetworkGraph_graph(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_LockedNetworkGraph_graph(uint32_t this_arg) {
 	LDKLockedNetworkGraph this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14941,7 +14943,7 @@ uint32_t TS_LockedNetworkGraph_graph(uint32_t this_arg) {
 	return ret_ref;
 }
 
-uint32_t TS_NetGraphMsgHandler_as_RoutingMessageHandler(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_NetGraphMsgHandler_as_RoutingMessageHandler(uint32_t this_arg) {
 	LDKNetGraphMsgHandler this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14950,7 +14952,7 @@ uint32_t TS_NetGraphMsgHandler_as_RoutingMessageHandler(uint32_t this_arg) {
 	return (long)ret;
 }
 
-uint32_t TS_NetGraphMsgHandler_as_MessageSendEventsProvider(uint32_t this_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_NetGraphMsgHandler_as_MessageSendEventsProvider(uint32_t this_arg) {
 	LDKNetGraphMsgHandler this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -14959,14 +14961,14 @@ uint32_t TS_NetGraphMsgHandler_as_MessageSendEventsProvider(uint32_t this_arg) {
 	return (long)ret;
 }
 
-void TS_DirectionalChannelInfo_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_free(uint32_t this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	DirectionalChannelInfo_free(this_ptr_conv);
 }
 
-int32_t TS_DirectionalChannelInfo_get_last_update(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_get_last_update(uint32_t this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14974,14 +14976,14 @@ int32_t TS_DirectionalChannelInfo_get_last_update(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_DirectionalChannelInfo_set_last_update(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_set_last_update(uint32_t this_ptr, int32_t val) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	DirectionalChannelInfo_set_last_update(&this_ptr_conv, val);
 }
 
-jboolean TS_DirectionalChannelInfo_get_enabled(uint32_t this_ptr) {
+jboolean  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_get_enabled(uint32_t this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -14989,14 +14991,14 @@ jboolean TS_DirectionalChannelInfo_get_enabled(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_DirectionalChannelInfo_set_enabled(uint32_t this_ptr, jboolean val) {
+void  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_set_enabled(uint32_t this_ptr, jboolean val) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	DirectionalChannelInfo_set_enabled(&this_ptr_conv, val);
 }
 
-int16_t TS_DirectionalChannelInfo_get_cltv_expiry_delta(uint32_t this_ptr) {
+int16_t  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_get_cltv_expiry_delta(uint32_t this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15004,14 +15006,14 @@ int16_t TS_DirectionalChannelInfo_get_cltv_expiry_delta(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_DirectionalChannelInfo_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
+void  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	DirectionalChannelInfo_set_cltv_expiry_delta(&this_ptr_conv, val);
 }
 
-int64_t TS_DirectionalChannelInfo_get_htlc_minimum_msat(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_get_htlc_minimum_msat(uint32_t this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15019,14 +15021,14 @@ int64_t TS_DirectionalChannelInfo_get_htlc_minimum_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_DirectionalChannelInfo_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_set_htlc_minimum_msat(uint32_t this_ptr, int64_t val) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	DirectionalChannelInfo_set_htlc_minimum_msat(&this_ptr_conv, val);
 }
 
-uint32_t TS_DirectionalChannelInfo_get_fees(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_get_fees(uint32_t this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15040,7 +15042,7 @@ uint32_t TS_DirectionalChannelInfo_get_fees(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_DirectionalChannelInfo_set_fees(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_set_fees(uint32_t this_ptr, uint32_t val) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15052,7 +15054,7 @@ void TS_DirectionalChannelInfo_set_fees(uint32_t this_ptr, uint32_t val) {
 	DirectionalChannelInfo_set_fees(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_DirectionalChannelInfo_get_last_update_message(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_get_last_update_message(uint32_t this_ptr) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15066,7 +15068,7 @@ uint32_t TS_DirectionalChannelInfo_get_last_update_message(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_DirectionalChannelInfo_set_last_update_message(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_set_last_update_message(uint32_t this_ptr, uint32_t val) {
 	LDKDirectionalChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15078,7 +15080,7 @@ void TS_DirectionalChannelInfo_set_last_update_message(uint32_t this_ptr, uint32
 	DirectionalChannelInfo_set_last_update_message(&this_ptr_conv, val_conv);
 }
 
-int8_tArray TS_DirectionalChannelInfo_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_write(uint32_t obj) {
 	LDKDirectionalChannelInfo obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -15089,7 +15091,7 @@ int8_tArray TS_DirectionalChannelInfo_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_DirectionalChannelInfo_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_DirectionalChannelInfo_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -15103,14 +15105,14 @@ uint32_t TS_DirectionalChannelInfo_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-void TS_ChannelInfo_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_free(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	ChannelInfo_free(this_ptr_conv);
 }
 
-uint32_t TS_ChannelInfo_get_features(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_get_features(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15124,7 +15126,7 @@ uint32_t TS_ChannelInfo_get_features(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelInfo_set_features(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_set_features(uint32_t this_ptr, uint32_t val) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15135,7 +15137,7 @@ void TS_ChannelInfo_set_features(uint32_t this_ptr, uint32_t val) {
 	ChannelInfo_set_features(&this_ptr_conv, val_conv);
 }
 
-int8_tArray TS_ChannelInfo_get_node_one(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelInfo_get_node_one(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15144,7 +15146,7 @@ int8_tArray TS_ChannelInfo_get_node_one(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelInfo_set_node_one(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_set_node_one(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15154,7 +15156,7 @@ void TS_ChannelInfo_set_node_one(uint32_t this_ptr, int8_tArray val) {
 	ChannelInfo_set_node_one(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_ChannelInfo_get_one_to_two(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_get_one_to_two(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15168,7 +15170,7 @@ uint32_t TS_ChannelInfo_get_one_to_two(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelInfo_set_one_to_two(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_set_one_to_two(uint32_t this_ptr, uint32_t val) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15179,7 +15181,7 @@ void TS_ChannelInfo_set_one_to_two(uint32_t this_ptr, uint32_t val) {
 	ChannelInfo_set_one_to_two(&this_ptr_conv, val_conv);
 }
 
-int8_tArray TS_ChannelInfo_get_node_two(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelInfo_get_node_two(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15188,7 +15190,7 @@ int8_tArray TS_ChannelInfo_get_node_two(uint32_t this_ptr) {
 	return arg_arr;
 }
 
-void TS_ChannelInfo_set_node_two(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_set_node_two(uint32_t this_ptr, int8_tArray val) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15198,7 +15200,7 @@ void TS_ChannelInfo_set_node_two(uint32_t this_ptr, int8_tArray val) {
 	ChannelInfo_set_node_two(&this_ptr_conv, val_ref);
 }
 
-uint32_t TS_ChannelInfo_get_two_to_one(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_get_two_to_one(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15212,7 +15214,7 @@ uint32_t TS_ChannelInfo_get_two_to_one(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelInfo_set_two_to_one(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_set_two_to_one(uint32_t this_ptr, uint32_t val) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15223,7 +15225,7 @@ void TS_ChannelInfo_set_two_to_one(uint32_t this_ptr, uint32_t val) {
 	ChannelInfo_set_two_to_one(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_ChannelInfo_get_announcement_message(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_get_announcement_message(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15237,7 +15239,7 @@ uint32_t TS_ChannelInfo_get_announcement_message(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_ChannelInfo_set_announcement_message(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_set_announcement_message(uint32_t this_ptr, uint32_t val) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15249,7 +15251,7 @@ void TS_ChannelInfo_set_announcement_message(uint32_t this_ptr, uint32_t val) {
 	ChannelInfo_set_announcement_message(&this_ptr_conv, val_conv);
 }
 
-int8_tArray TS_ChannelInfo_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_ChannelInfo_write(uint32_t obj) {
 	LDKChannelInfo obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -15260,7 +15262,7 @@ int8_tArray TS_ChannelInfo_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_ChannelInfo_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -15274,14 +15276,14 @@ uint32_t TS_ChannelInfo_read(int8_tArray ser) {
 	return ret_ref;
 }
 
-void TS_RoutingFees_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_RoutingFees_free(uint32_t this_ptr) {
 	LDKRoutingFees this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	RoutingFees_free(this_ptr_conv);
 }
 
-uint32_t TS_RoutingFees_clone(uint32_t orig) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingFees_clone(uint32_t orig) {
 	LDKRoutingFees orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
 	orig_conv.is_owned = false;
@@ -15295,7 +15297,7 @@ uint32_t TS_RoutingFees_clone(uint32_t orig) {
 	return ret_ref;
 }
 
-int32_t TS_RoutingFees_get_base_msat(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_RoutingFees_get_base_msat(uint32_t this_ptr) {
 	LDKRoutingFees this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15303,14 +15305,14 @@ int32_t TS_RoutingFees_get_base_msat(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_RoutingFees_set_base_msat(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_RoutingFees_set_base_msat(uint32_t this_ptr, int32_t val) {
 	LDKRoutingFees this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	RoutingFees_set_base_msat(&this_ptr_conv, val);
 }
 
-int32_t TS_RoutingFees_get_proportional_millionths(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_RoutingFees_get_proportional_millionths(uint32_t this_ptr) {
 	LDKRoutingFees this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15318,14 +15320,14 @@ int32_t TS_RoutingFees_get_proportional_millionths(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_RoutingFees_set_proportional_millionths(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_RoutingFees_set_proportional_millionths(uint32_t this_ptr, int32_t val) {
 	LDKRoutingFees this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	RoutingFees_set_proportional_millionths(&this_ptr_conv, val);
 }
 
-uint32_t TS_RoutingFees_new(int32_t base_msat_arg, int32_t proportional_millionths_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingFees_new(int32_t base_msat_arg, int32_t proportional_millionths_arg) {
 	LDKRoutingFees ret_var = RoutingFees_new(base_msat_arg, proportional_millionths_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -15336,7 +15338,7 @@ uint32_t TS_RoutingFees_new(int32_t base_msat_arg, int32_t proportional_milliont
 	return ret_ref;
 }
 
-uint32_t TS_RoutingFees_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_RoutingFees_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -15345,7 +15347,7 @@ uint32_t TS_RoutingFees_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_RoutingFees_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_RoutingFees_write(uint32_t obj) {
 	LDKRoutingFees obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -15356,14 +15358,14 @@ int8_tArray TS_RoutingFees_write(uint32_t obj) {
 	return arg_arr;
 }
 
-void TS_NodeAnnouncementInfo_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_free(uint32_t this_ptr) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	NodeAnnouncementInfo_free(this_ptr_conv);
 }
 
-uint32_t TS_NodeAnnouncementInfo_get_features(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_get_features(uint32_t this_ptr) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15377,7 +15379,7 @@ uint32_t TS_NodeAnnouncementInfo_get_features(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_NodeAnnouncementInfo_set_features(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_set_features(uint32_t this_ptr, uint32_t val) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15388,7 +15390,7 @@ void TS_NodeAnnouncementInfo_set_features(uint32_t this_ptr, uint32_t val) {
 	NodeAnnouncementInfo_set_features(&this_ptr_conv, val_conv);
 }
 
-int32_t TS_NodeAnnouncementInfo_get_last_update(uint32_t this_ptr) {
+int32_t  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_get_last_update(uint32_t this_ptr) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15396,14 +15398,14 @@ int32_t TS_NodeAnnouncementInfo_get_last_update(uint32_t this_ptr) {
 	return ret_val;
 }
 
-void TS_NodeAnnouncementInfo_set_last_update(uint32_t this_ptr, int32_t val) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_set_last_update(uint32_t this_ptr, int32_t val) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	NodeAnnouncementInfo_set_last_update(&this_ptr_conv, val);
 }
 
-int8_tArray TS_NodeAnnouncementInfo_get_rgb(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_get_rgb(uint32_t this_ptr) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15412,7 +15414,7 @@ int8_tArray TS_NodeAnnouncementInfo_get_rgb(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_NodeAnnouncementInfo_set_rgb(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_set_rgb(uint32_t this_ptr, int8_tArray val) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15422,7 +15424,7 @@ void TS_NodeAnnouncementInfo_set_rgb(uint32_t this_ptr, int8_tArray val) {
 	NodeAnnouncementInfo_set_rgb(&this_ptr_conv, val_ref);
 }
 
-int8_tArray TS_NodeAnnouncementInfo_get_alias(uint32_t this_ptr) {
+int8_tArray  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_get_alias(uint32_t this_ptr) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15431,7 +15433,7 @@ int8_tArray TS_NodeAnnouncementInfo_get_alias(uint32_t this_ptr) {
 	return ret_arr;
 }
 
-void TS_NodeAnnouncementInfo_set_alias(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_set_alias(uint32_t this_ptr, int8_tArray val) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15441,7 +15443,7 @@ void TS_NodeAnnouncementInfo_set_alias(uint32_t this_ptr, int8_tArray val) {
 	NodeAnnouncementInfo_set_alias(&this_ptr_conv, val_ref);
 }
 
-void TS_NodeAnnouncementInfo_set_addresses(uint32_t this_ptr, uint32_tArray val) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_set_addresses(uint32_t this_ptr, uint32_tArray val) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15461,7 +15463,7 @@ void TS_NodeAnnouncementInfo_set_addresses(uint32_t this_ptr, uint32_tArray val)
 	NodeAnnouncementInfo_set_addresses(&this_ptr_conv, val_constr);
 }
 
-uint32_t TS_NodeAnnouncementInfo_get_announcement_message(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_get_announcement_message(uint32_t this_ptr) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15475,7 +15477,7 @@ uint32_t TS_NodeAnnouncementInfo_get_announcement_message(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_NodeAnnouncementInfo_set_announcement_message(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_set_announcement_message(uint32_t this_ptr, uint32_t val) {
 	LDKNodeAnnouncementInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15487,7 +15489,7 @@ void TS_NodeAnnouncementInfo_set_announcement_message(uint32_t this_ptr, uint32_
 	NodeAnnouncementInfo_set_announcement_message(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_NodeAnnouncementInfo_new(uint32_t features_arg, int32_t last_update_arg, int8_tArray rgb_arg, int8_tArray alias_arg, uint32_tArray addresses_arg, uint32_t announcement_message_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_new(uint32_t features_arg, int32_t last_update_arg, int8_tArray rgb_arg, int8_tArray alias_arg, uint32_tArray addresses_arg, uint32_t announcement_message_arg) {
 	LDKNodeFeatures features_arg_conv;
 	features_arg_conv.inner = (void*)(features_arg & (~1));
 	features_arg_conv.is_owned = (features_arg & 1) || (features_arg == 0);
@@ -15526,7 +15528,7 @@ uint32_t TS_NodeAnnouncementInfo_new(uint32_t features_arg, int32_t last_update_
 	return ret_ref;
 }
 
-int8_tArray TS_NodeAnnouncementInfo_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_write(uint32_t obj) {
 	LDKNodeAnnouncementInfo obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -15537,7 +15539,7 @@ int8_tArray TS_NodeAnnouncementInfo_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_NodeAnnouncementInfo_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeAnnouncementInfo_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -15546,14 +15548,14 @@ uint32_t TS_NodeAnnouncementInfo_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-void TS_NodeInfo_free(uint32_t this_ptr) {
+void  __attribute__((visibility("default"))) TS_NodeInfo_free(uint32_t this_ptr) {
 	LDKNodeInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
 	NodeInfo_free(this_ptr_conv);
 }
 
-void TS_NodeInfo_set_channels(uint32_t this_ptr, int64_tArray val) {
+void  __attribute__((visibility("default"))) TS_NodeInfo_set_channels(uint32_t this_ptr, int64_tArray val) {
 	LDKNodeInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15571,7 +15573,7 @@ void TS_NodeInfo_set_channels(uint32_t this_ptr, int64_tArray val) {
 	NodeInfo_set_channels(&this_ptr_conv, val_constr);
 }
 
-uint32_t TS_NodeInfo_get_lowest_inbound_channel_fees(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeInfo_get_lowest_inbound_channel_fees(uint32_t this_ptr) {
 	LDKNodeInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15585,7 +15587,7 @@ uint32_t TS_NodeInfo_get_lowest_inbound_channel_fees(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_NodeInfo_set_lowest_inbound_channel_fees(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_NodeInfo_set_lowest_inbound_channel_fees(uint32_t this_ptr, uint32_t val) {
 	LDKNodeInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15597,7 +15599,7 @@ void TS_NodeInfo_set_lowest_inbound_channel_fees(uint32_t this_ptr, uint32_t val
 	NodeInfo_set_lowest_inbound_channel_fees(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_NodeInfo_get_announcement_info(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeInfo_get_announcement_info(uint32_t this_ptr) {
 	LDKNodeInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15611,7 +15613,7 @@ uint32_t TS_NodeInfo_get_announcement_info(uint32_t this_ptr) {
 	return ret_ref;
 }
 
-void TS_NodeInfo_set_announcement_info(uint32_t this_ptr, uint32_t val) {
+void  __attribute__((visibility("default"))) TS_NodeInfo_set_announcement_info(uint32_t this_ptr, uint32_t val) {
 	LDKNodeInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -15622,7 +15624,7 @@ void TS_NodeInfo_set_announcement_info(uint32_t this_ptr, uint32_t val) {
 	NodeInfo_set_announcement_info(&this_ptr_conv, val_conv);
 }
 
-uint32_t TS_NodeInfo_new(int64_tArray channels_arg, uint32_t lowest_inbound_channel_fees_arg, uint32_t announcement_info_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeInfo_new(int64_tArray channels_arg, uint32_t lowest_inbound_channel_fees_arg, uint32_t announcement_info_arg) {
 	LDKCVec_u64Z channels_arg_constr;
 	channels_arg_constr.datalen = *((uint32_t*)channels_arg);
 	if (channels_arg_constr.datalen > 0)
@@ -15653,7 +15655,7 @@ uint32_t TS_NodeInfo_new(int64_tArray channels_arg, uint32_t lowest_inbound_chan
 	return ret_ref;
 }
 
-int8_tArray TS_NodeInfo_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_NodeInfo_write(uint32_t obj) {
 	LDKNodeInfo obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -15664,7 +15666,7 @@ int8_tArray TS_NodeInfo_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_NodeInfo_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeInfo_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -15673,7 +15675,7 @@ uint32_t TS_NodeInfo_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-int8_tArray TS_NetworkGraph_write(uint32_t obj) {
+int8_tArray  __attribute__((visibility("default"))) TS_NetworkGraph_write(uint32_t obj) {
 	LDKNetworkGraph obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
@@ -15684,7 +15686,7 @@ int8_tArray TS_NetworkGraph_write(uint32_t obj) {
 	return arg_arr;
 }
 
-uint32_t TS_NetworkGraph_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
@@ -15693,7 +15695,7 @@ uint32_t TS_NetworkGraph_read(int8_tArray ser) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_NetworkGraph_new(int8_tArray genesis_hash) {
+uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_new(int8_tArray genesis_hash) {
 	LDKThirtyTwoBytes genesis_hash_ref;
 	CHECK(*((uint32_t*)genesis_hash) == 32);
 	memcpy(genesis_hash_ref.data, (uint8_t*)(genesis_hash + 4), 32);
@@ -15707,7 +15709,7 @@ uint32_t TS_NetworkGraph_new(int8_tArray genesis_hash) {
 	return ret_ref;
 }
 
-uint32_t TS_NetworkGraph_update_node_from_announcement(uint32_t this_arg, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_update_node_from_announcement(uint32_t this_arg, uint32_t msg) {
 	LDKNetworkGraph this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -15719,7 +15721,7 @@ uint32_t TS_NetworkGraph_update_node_from_announcement(uint32_t this_arg, uint32
 	return (long)ret_conv;
 }
 
-uint32_t TS_NetworkGraph_update_node_from_unsigned_announcement(uint32_t this_arg, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_update_node_from_unsigned_announcement(uint32_t this_arg, uint32_t msg) {
 	LDKNetworkGraph this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -15731,7 +15733,7 @@ uint32_t TS_NetworkGraph_update_node_from_unsigned_announcement(uint32_t this_ar
 	return (long)ret_conv;
 }
 
-uint32_t TS_NetworkGraph_update_channel_from_announcement(uint32_t this_arg, uint32_t msg, uint32_t chain_access) {
+uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_update_channel_from_announcement(uint32_t this_arg, uint32_t msg, uint32_t chain_access) {
 	LDKNetworkGraph this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -15744,7 +15746,7 @@ uint32_t TS_NetworkGraph_update_channel_from_announcement(uint32_t this_arg, uin
 	return (long)ret_conv;
 }
 
-uint32_t TS_NetworkGraph_update_channel_from_unsigned_announcement(uint32_t this_arg, uint32_t msg, uint32_t chain_access) {
+uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_update_channel_from_unsigned_announcement(uint32_t this_arg, uint32_t msg, uint32_t chain_access) {
 	LDKNetworkGraph this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -15757,14 +15759,14 @@ uint32_t TS_NetworkGraph_update_channel_from_unsigned_announcement(uint32_t this
 	return (long)ret_conv;
 }
 
-void TS_NetworkGraph_close_channel_from_update(uint32_t this_arg, int64_t short_channel_id, jboolean is_permanent) {
+void  __attribute__((visibility("default"))) TS_NetworkGraph_close_channel_from_update(uint32_t this_arg, int64_t short_channel_id, jboolean is_permanent) {
 	LDKNetworkGraph this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
 	NetworkGraph_close_channel_from_update(&this_arg_conv, short_channel_id, is_permanent);
 }
 
-uint32_t TS_NetworkGraph_update_channel(uint32_t this_arg, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_update_channel(uint32_t this_arg, uint32_t msg) {
 	LDKNetworkGraph this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -15776,7 +15778,7 @@ uint32_t TS_NetworkGraph_update_channel(uint32_t this_arg, uint32_t msg) {
 	return (long)ret_conv;
 }
 
-uint32_t TS_NetworkGraph_update_channel_unsigned(uint32_t this_arg, uint32_t msg) {
+uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_update_channel_unsigned(uint32_t this_arg, uint32_t msg) {
 	LDKNetworkGraph this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
