@@ -2249,6 +2249,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_TxOut_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    TxOut_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_TxOut_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    CVec_SpendableOutputDescriptorZ_free
  * Signature: ([J)V
  */
@@ -2577,6 +2585,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1SignatureCVe
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    CResult_SignatureNoneZ_ok
  * Signature: ([B)J
  */
@@ -2601,6 +2617,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1SignatureNoneZ_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    CResult_SignatureNoneZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1SignatureNoneZ_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    CResult_CVec_SignatureZNoneZ_ok
  * Signature: ([[B)J
  */
@@ -2621,6 +2645,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1SignatureZNone
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1SignatureZNoneZ_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    CResult_CVec_SignatureZNoneZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1SignatureZNoneZ_1clone
   (JNIEnv *, jclass, jlong);
 
 /*

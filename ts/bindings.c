@@ -108,10 +108,6 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
-//typedef struct int64_tArray { uint32_t *len; /* len + 1 is data */ } int64_tArray;
-//typedef struct uint32_tArray { uint32_t *len; /* len + 1 is data */ } uint32_tArray;
-//typedef struct ptrArray { uint32_t *len; /* len + 1 is data */ } ptrArray;
-//typedef struct int8_tArray { uint32_t *len; /* len + 1 is data */ } int8_tArray;
 typedef uint32_t int64_tArray;
 typedef uint32_t int8_tArray;
 typedef uint32_t uint32_tArray;
@@ -133,6 +129,12 @@ jstring str_ref_to_ts(const char* chars, size_t len) {
 
 typedef bool jboolean;
 
+uint32_t __attribute__((visibility("default"))) TS_malloc(uint32_t size) {
+	return (uint32_t)MALLOC(size, "JS-Called malloc");
+}
+void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
+	FREE((void*)ptr);
+}
 static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struct LDKThirtyTwoBytes *orig) { struct LDKThirtyTwoBytes ret; memcpy(ret.data, orig->data, 32); return ret; }
 static inline LDKAccessError LDKAccessError_from_js(int32_t ord) {
 	switch (ord) {
@@ -819,6 +821,13 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_u32TxOutZ_new(int
 	ret->b = b_conv;
 	return (long)ret;
 }
+static inline LDKC2Tuple_u32TxOutZ C2Tuple_u32TxOutZ_clone(const LDKC2Tuple_u32TxOutZ *orig) {
+	LDKC2Tuple_u32TxOutZ ret = {
+		.a = orig->a,
+		.b = TxOut_clone(&orig->b),
+	};
+	return ret;
+}
 int32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_u32TxOutZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_u32TxOutZ *tuple = (LDKC2Tuple_u32TxOutZ*)ptr;
 	return tuple->a;
@@ -845,6 +854,13 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_C2Tuple_u32TxOutZZ_n
 	}
 	return (long)ret;
 }
+static inline LDKCVec_C2Tuple_u32TxOutZZ CVec_C2Tuple_u32TxOutZZ_clone(const LDKCVec_C2Tuple_u32TxOutZZ *orig) {
+	LDKCVec_C2Tuple_u32TxOutZZ ret = { .data = MALLOC(sizeof(LDKC2Tuple_u32TxOutZ) * orig->datalen, "LDKCVec_C2Tuple_u32TxOutZZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = C2Tuple_u32TxOutZ_clone(&orig->data[i]);
+	}
+	return ret;
+}
 uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(int8_tArray a, uint32_tArray b) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* ret = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ), "LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ");
 	LDKThirtyTwoBytes a_ref;
@@ -866,6 +882,13 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_TxidCVec_C2Tuple_
 	}
 	ret->b = b_constr;
 	return (long)ret;
+}
+static inline LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(const LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *orig) {
+	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ ret = {
+		.a = ThirtyTwoBytes_clone(&orig->a),
+		.b = CVec_C2Tuple_u32TxOutZZ_clone(&orig->b),
+	};
+	return ret;
 }
 int8_tArray  __attribute__((visibility("default"))) TS_LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *tuple = (LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)ptr;
@@ -900,6 +923,13 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_C2Tuple_TxidCVec_C2T
 		}
 	}
 	return (long)ret;
+}
+static inline LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_clone(const LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ *orig) {
+	LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ ret = { .data = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ) * orig->datalen, "LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(&orig->data[i]);
+	}
+	return ret;
 }
 uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_SignatureCVec_SignatureZZ_new(int8_tArray a, ptrArray b) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ* ret = MALLOC(sizeof(LDKC2Tuple_SignatureCVec_SignatureZZ), "LDKC2Tuple_SignatureCVec_SignatureZZ");
@@ -1045,7 +1075,7 @@ LDKC2Tuple_u64u64Z key_derivation_params_jcall(const void* this_arg) {
 	LDKChannelKeys_JCalls *j_calls = (LDKChannelKeys_JCalls*) this_arg;
 	LDKC2Tuple_u64u64Z* ret = (LDKC2Tuple_u64u64Z*)js_invoke_function_0(j_calls->key_derivation_params_meth);
 	LDKC2Tuple_u64u64Z ret_conv = *(LDKC2Tuple_u64u64Z*)ret;
-	FREE((void*)ret);
+	ret_conv = C2Tuple_u64u64Z_clone((LDKC2Tuple_u64u64Z*)ret);
 	return ret_conv;
 }
 LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_jcall(const void* this_arg, const LDKCommitmentTransaction * commitment_tx) {
@@ -1061,7 +1091,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 	}
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)js_invoke_function_1(j_calls->sign_counterparty_commitment_meth, commitment_tx_ref);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret);
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_holder_commitment_jcall(const void* this_arg, const LDKHolderCommitmentTransaction * commitment_tx) {
@@ -1077,7 +1107,7 @@ LDKCResult_SignatureNoneZ sign_holder_commitment_jcall(const void* this_arg, con
 	}
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_1(j_calls->sign_holder_commitment_meth, commitment_tx_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
 LDKCResult_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions_jcall(const void* this_arg, const LDKHolderCommitmentTransaction * commitment_tx) {
@@ -1093,7 +1123,7 @@ LDKCResult_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions_jcall(c
 	}
 	LDKCResult_CVec_SignatureZNoneZ* ret = (LDKCResult_CVec_SignatureZNoneZ*)js_invoke_function_1(j_calls->sign_holder_commitment_htlc_transactions_meth, commitment_tx_ref);
 	LDKCResult_CVec_SignatureZNoneZ ret_conv = *(LDKCResult_CVec_SignatureZNoneZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_CVec_SignatureZNoneZ_clone((LDKCResult_CVec_SignatureZNoneZ*)ret);
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (* per_commitment_key)[32], const LDKHTLCOutputInCommitment * htlc) {
@@ -1115,7 +1145,7 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, L
 	}
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_5(j_calls->sign_justice_transaction_meth, justice_tx_arr, input, amount, per_commitment_key_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment * htlc) {
@@ -1137,7 +1167,7 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* t
 	}
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_5(j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_arr, input, amount, per_commitment_point_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, LDKTransaction closing_tx) {
@@ -1148,7 +1178,7 @@ LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, L
 	Transaction_free(closing_tx_var);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_1(j_calls->sign_closing_transaction_meth, closing_tx_arr);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, const LDKUnsignedChannelAnnouncement * msg) {
@@ -1164,7 +1194,7 @@ LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, 
 	}
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)js_invoke_function_1(j_calls->sign_channel_announcement_meth, msg_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
 void ready_channel_jcall(void* this_arg, const LDKChannelTransactionParameters * channel_parameters) {
@@ -1493,6 +1523,19 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_TxOutAccessErrorZ
 	uint32_t err_conv = LDKAccessError_to_js((*val->contents.err));
 	return err_conv;
 }
+static inline LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_clone(const LDKCResult_TxOutAccessErrorZ *orig) {
+	LDKCResult_TxOutAccessErrorZ res = { .result_ok = orig->result_ok };
+	if (orig->result_ok) {
+		LDKTxOut* contents = MALLOC(sizeof(LDKTxOut), "LDKTxOut result OK clone");
+		*contents = TxOut_clone(orig->contents.result);
+		res.contents.result = contents;
+	} else {
+		LDKAccessError* contents = MALLOC(sizeof(LDKAccessError), "LDKAccessError result Err clone");
+		*contents = AccessError_clone(orig->contents.err);
+		res.contents.err = contents;
+	}
+	return res;
+}
 uint32_t __attribute__((visibility("default"))) TS_LDKAPIError_ref_from_ptr(uint32_t ptr) {
 	LDKAPIError *obj = (LDKAPIError*)ptr;
 	switch(obj->tag) {
@@ -1696,7 +1739,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_jcall(const void* this_arg
 	}
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)js_invoke_function_2(j_calls->watch_channel_meth, funding_txo_ref, monitor_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
 	return ret_conv;
 }
 LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate update) {
@@ -1717,7 +1760,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_jcall(const void* this_ar
 	}
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)js_invoke_function_2(j_calls->update_channel_meth, funding_txo_ref, update_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
 	return ret_conv;
 }
 LDKCVec_MonitorEventZ release_pending_monitor_events_jcall(const void* this_arg) {
@@ -1936,7 +1979,7 @@ LDKCResult_ChanKeySignerDecodeErrorZ read_chan_signer_jcall(const void* this_arg
 	memcpy((uint8_t*)(reader_arr + 4), reader_var.data, reader_var.datalen);
 	LDKCResult_ChanKeySignerDecodeErrorZ* ret = (LDKCResult_ChanKeySignerDecodeErrorZ*)js_invoke_function_1(j_calls->read_chan_signer_meth, reader_arr);
 	LDKCResult_ChanKeySignerDecodeErrorZ ret_conv = *(LDKCResult_ChanKeySignerDecodeErrorZ*)ret;
-	FREE((void*)ret);
+	// Warning: we may need a move here but can't do a full clone!
 	return ret_conv;
 }
 static void* LDKKeysInterface_JCalls_clone(const void* this_arg) {
@@ -3185,7 +3228,7 @@ LDKCResult_TxOutAccessErrorZ get_utxo_jcall(const void* this_arg, const uint8_t 
 	memcpy((uint8_t*)(genesis_hash_arr + 4), *genesis_hash, 32);
 	LDKCResult_TxOutAccessErrorZ* ret = (LDKCResult_TxOutAccessErrorZ*)js_invoke_function_2(j_calls->get_utxo_meth, genesis_hash_arr, short_channel_id);
 	LDKCResult_TxOutAccessErrorZ ret_conv = *(LDKCResult_TxOutAccessErrorZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_TxOutAccessErrorZ_clone((LDKCResult_TxOutAccessErrorZ*)ret);
 	return ret_conv;
 }
 static void* LDKAccess_JCalls_clone(const void* this_arg) {
@@ -3337,7 +3380,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_jcall(const void* th
 	}
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)js_invoke_function_2(j_calls->persist_new_channel_meth, id_ref, data_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
 	return ret_conv;
 }
 LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_jcall(const void* this_arg, LDKOutPoint id, const LDKChannelMonitorUpdate * update, const LDKChannelMonitor * data) {
@@ -3368,7 +3411,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_jcall(const voi
 	}
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)js_invoke_function_3(j_calls->update_persisted_channel_meth, id_ref, update_ref, data_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)ret;
-	FREE((void*)ret);
+	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
 	return ret_conv;
 }
 static void* LDKPersist_JCalls_clone(const void* this_arg) {
@@ -4067,7 +4110,7 @@ LDKCResult_boolLightningErrorZ handle_node_announcement_jcall(const void* this_a
 	}
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)js_invoke_function_1(j_calls->handle_node_announcement_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
-	FREE((void*)ret);
+	// Warning: we may need a move here but can't do a full clone!
 	return ret_conv;
 }
 LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* this_arg, const LDKChannelAnnouncement * msg) {
@@ -4083,7 +4126,7 @@ LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* thi
 	}
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)js_invoke_function_1(j_calls->handle_channel_announcement_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
-	FREE((void*)ret);
+	// Warning: we may need a move here but can't do a full clone!
 	return ret_conv;
 }
 LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg, const LDKChannelUpdate * msg) {
@@ -4099,7 +4142,7 @@ LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg,
 	}
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)js_invoke_function_1(j_calls->handle_channel_update_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)ret;
-	FREE((void*)ret);
+	// Warning: we may need a move here but can't do a full clone!
 	return ret_conv;
 }
 void handle_htlc_fail_channel_update_jcall(const void* this_arg, const LDKHTLCFailChannelUpdate * update) {
@@ -4176,7 +4219,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_channel_range_jcall(const void* this
 	}
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)js_invoke_function_2(j_calls->handle_reply_channel_range_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
-	FREE((void*)ret);
+	// Warning: we may need a move here but can't do a full clone!
 	return ret_conv;
 }
 LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKReplyShortChannelIdsEnd msg) {
@@ -4192,7 +4235,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_jcall(const vo
 	}
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)js_invoke_function_2(j_calls->handle_reply_short_channel_ids_end_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
-	FREE((void*)ret);
+	// Warning: we may need a move here but can't do a full clone!
 	return ret_conv;
 }
 LDKCResult_NoneLightningErrorZ handle_query_channel_range_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryChannelRange msg) {
@@ -4208,7 +4251,7 @@ LDKCResult_NoneLightningErrorZ handle_query_channel_range_jcall(const void* this
 	}
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)js_invoke_function_2(j_calls->handle_query_channel_range_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
-	FREE((void*)ret);
+	// Warning: we may need a move here but can't do a full clone!
 	return ret_conv;
 }
 LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryShortChannelIds msg) {
@@ -4224,7 +4267,7 @@ LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_jcall(const void* 
 	}
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)js_invoke_function_2(j_calls->handle_query_short_channel_ids_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)ret;
-	FREE((void*)ret);
+	// Warning: we may need a move here but can't do a full clone!
 	return ret_conv;
 }
 static void* LDKRoutingMessageHandler_JCalls_clone(const void* this_arg) {
@@ -4507,6 +4550,13 @@ void  __attribute__((visibility("default"))) TS_TxOut_free(uint32_t _res) {
 	TxOut_free(_res_conv);
 }
 
+uint32_t  __attribute__((visibility("default"))) TS_TxOut_clone(uint32_t orig) {
+	LDKTxOut* orig_conv = (LDKTxOut*)orig;
+	LDKTxOut* ret_ref = MALLOC(sizeof(LDKTxOut), "LDKTxOut");
+	*ret_ref = TxOut_clone(orig_conv);
+	return (long)ret_ref;
+}
+
 void  __attribute__((visibility("default"))) TS_CVec_SpendableOutputDescriptorZ_free(uint32_tArray _res) {
 	LDKCVec_SpendableOutputDescriptorZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
@@ -4733,7 +4783,7 @@ uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_u32TxOutZ_new(int32_
 	FREE((void*)b);
 	LDKC2Tuple_u32TxOutZ* ret_ref = MALLOC(sizeof(LDKC2Tuple_u32TxOutZ), "LDKC2Tuple_u32TxOutZ");
 	*ret_ref = C2Tuple_u32TxOutZ_new(a, b_conv);
-	// XXX: We likely need to clone here, but no _clone fn is available for TxOut
+	ret_ref->b = TxOut_clone(&ret_ref->b);
 	return (long)ret_ref;
 }
 
@@ -4780,7 +4830,7 @@ uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_TxidCVec_C2Tuple_u32
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* ret_ref = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ), "LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ");
 	*ret_ref = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(a_ref, b_constr);
 	ret_ref->a = ThirtyTwoBytes_clone(&ret_ref->a);
-	// XXX: We likely need to clone here, but no _clone fn is available for TwoTuple<Number, TxOut>[]
+	ret_ref->b = CVec_C2Tuple_u32TxOutZZ_clone(&ret_ref->b);
 	return (long)ret_ref;
 }
 
@@ -4951,6 +5001,13 @@ void  __attribute__((visibility("default"))) TS_CResult_C2Tuple_SignatureCVec_Si
 	CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(_res_conv);
 }
 
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(uint32_t orig) {
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* orig_conv = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)orig;
+	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ), "LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ");
+	*ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(orig_conv);
+	return (long)ret_conv;
+}
+
 uint32_t  __attribute__((visibility("default"))) TS_CResult_SignatureNoneZ_ok(int8_tArray o) {
 	LDKSignature o_ref;
 	CHECK(*((uint32_t*)o) == 64);
@@ -4970,6 +5027,13 @@ void  __attribute__((visibility("default"))) TS_CResult_SignatureNoneZ_free(uint
 	LDKCResult_SignatureNoneZ _res_conv = *(LDKCResult_SignatureNoneZ*)_res;
 	FREE((void*)_res);
 	CResult_SignatureNoneZ_free(_res_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_SignatureNoneZ_clone(uint32_t orig) {
+	LDKCResult_SignatureNoneZ* orig_conv = (LDKCResult_SignatureNoneZ*)orig;
+	LDKCResult_SignatureNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_SignatureNoneZ), "LDKCResult_SignatureNoneZ");
+	*ret_conv = CResult_SignatureNoneZ_clone(orig_conv);
+	return (long)ret_conv;
 }
 
 uint32_t  __attribute__((visibility("default"))) TS_CResult_CVec_SignatureZNoneZ_ok(ptrArray o) {
@@ -5002,6 +5066,13 @@ void  __attribute__((visibility("default"))) TS_CResult_CVec_SignatureZNoneZ_fre
 	LDKCResult_CVec_SignatureZNoneZ _res_conv = *(LDKCResult_CVec_SignatureZNoneZ*)_res;
 	FREE((void*)_res);
 	CResult_CVec_SignatureZNoneZ_free(_res_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_CVec_SignatureZNoneZ_clone(uint32_t orig) {
+	LDKCResult_CVec_SignatureZNoneZ* orig_conv = (LDKCResult_CVec_SignatureZNoneZ*)orig;
+	LDKCResult_CVec_SignatureZNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_CVec_SignatureZNoneZ), "LDKCResult_CVec_SignatureZNoneZ");
+	*ret_conv = CResult_CVec_SignatureZNoneZ_clone(orig_conv);
+	return (long)ret_conv;
 }
 
 uint32_t  __attribute__((visibility("default"))) TS_CResult_ChanKeySignerDecodeErrorZ_ok(uint32_t o) {
@@ -7220,7 +7291,7 @@ uint32_tArray  __attribute__((visibility("default"))) TS_ChannelMonitor_block_co
 		LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* arr_conv_49_ref = MALLOC(sizeof(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ), "LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ");
 		*arr_conv_49_ref = ret_var.data[x];
 		arr_conv_49_ref->a = ThirtyTwoBytes_clone(&arr_conv_49_ref->a);
-		// XXX: We likely need to clone here, but no _clone fn is available for TwoTuple<Number, TxOut>[]
+		arr_conv_49_ref->b = CVec_C2Tuple_u32TxOutZZ_clone(&arr_conv_49_ref->b);
 		ret_arr_ptr[x] = (long)arr_conv_49_ref;
 	}
 	FREE(ret_var.data);

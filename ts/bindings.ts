@@ -27,9 +27,18 @@ const nextMultipleOfFour = (value: number) => {
     return Math.ceil(value / 4) * 4;
 }
 
-const encodeArray = (inputArray) => {
-	const cArrayPointer = wasm.wasm_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer + 4, inputArray.length);
+const encodeUint8Array = (inputArray) => {
+	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
+	const arrayLengthView = new Uint32Array(memory.buffer, cArrayPointer, 1);
+    arrayLengthView[0] = inputArray.length;
+	const arrayMemoryView = new Uint8Array(memory.buffer, cArrayPointer + 4, inputArray.length);
+	arrayMemoryView.set(inputArray);
+	return cArrayPointer;
+}
+
+const encodeUint32Array = (inputArray) => {
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
+	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
     arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
@@ -54,7 +63,7 @@ const decodeUint8Array = (arrayPointer, free = true) => {
 	// will free the underlying memory when it becomes unreachable instead of copying here.
 	const actualArray = actualArrayViewer.slice(0, arraySize);
 	if (free) {
-		wasm.free(arrayPointer);
+		wasm.TS_free(arrayPointer);
 	}
 	return actualArray;
 }
@@ -69,7 +78,7 @@ const decodeUint32Array = (arrayPointer, free = true) => {
 	// will free the underlying memory when it becomes unreachable instead of copying here.
 	const actualArray = actualArrayViewer.slice(0, arraySize);
 	if (free) {
-		wasm.free(arrayPointer);
+		wasm.TS_free(arrayPointer);
 	}
 	return actualArray;
 }
@@ -77,7 +86,7 @@ const decodeUint32Array = (arrayPointer, free = true) => {
 const encodeString = (string) => {
     // make malloc count divisible by 4
     const memoryNeed = nextMultipleOfFour(string.length + 1);
-    const stringPointer = wasm.wasm_malloc(memoryNeed);
+    const stringPointer = wasm.TS_malloc(memoryNeed);
     const stringMemoryView = new Uint8Array(
         memory.buffer, // value
         stringPointer, // offset
@@ -1376,6 +1385,14 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.TxOut_free(_res);
 		// debug statements here
 	}
+	// struct LDKTxOut TxOut_clone(const struct LDKTxOut *NONNULL_PTR orig);
+	export function TxOut_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.TxOut_clone(orig);
+		return nativeResponseValue;
+	}
 	// void CVec_SpendableOutputDescriptorZ_free(struct LDKCVec_SpendableOutputDescriptorZ _res);
 	export function CVec_SpendableOutputDescriptorZ_free(_res: number[]): void {
 		if(!isWasmInitialized) {
@@ -1704,6 +1721,14 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(_res);
 		// debug statements here
 	}
+	// struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(const struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *NONNULL_PTR orig);
+	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
 	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_ok(struct LDKSignature o);
 	export function CResult_SignatureNoneZ_ok(o: Uint8Array): number {
 		if(!isWasmInitialized) {
@@ -1728,6 +1753,14 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.CResult_SignatureNoneZ_free(_res);
 		// debug statements here
 	}
+	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_clone(const struct LDKCResult_SignatureNoneZ *NONNULL_PTR orig);
+	export function CResult_SignatureNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignatureNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
 	// struct LDKCResult_CVec_SignatureZNoneZ CResult_CVec_SignatureZNoneZ_ok(struct LDKCVec_SignatureZ o);
 	export function CResult_CVec_SignatureZNoneZ_ok(o: Uint8Array[]): number {
 		if(!isWasmInitialized) {
@@ -1751,6 +1784,14 @@ public static native long new_empty_slice_vec();
 		}
 		const nativeResponseValue = wasm.CResult_CVec_SignatureZNoneZ_free(_res);
 		// debug statements here
+	}
+	// struct LDKCResult_CVec_SignatureZNoneZ CResult_CVec_SignatureZNoneZ_clone(const struct LDKCResult_CVec_SignatureZNoneZ *NONNULL_PTR orig);
+	export function CResult_CVec_SignatureZNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_CVec_SignatureZNoneZ_clone(orig);
+		return nativeResponseValue;
 	}
 	// struct LDKCResult_ChanKeySignerDecodeErrorZ CResult_ChanKeySignerDecodeErrorZ_ok(struct LDKChannelKeys o);
 	export function CResult_ChanKeySignerDecodeErrorZ_ok(o: number): number {

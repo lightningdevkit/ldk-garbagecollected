@@ -83,7 +83,7 @@ public class ChannelMonitor extends CommonBase {
 			for (int a = 0; a < arr_conv_46_b.length; a++) {
 				long arr_conv_26 = arr_conv_46_b[a];
 				int arr_conv_26_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(arr_conv_26);
-				long arr_conv_26_b = bindings.LDKC2Tuple_u32TxOutZ_get_b(arr_conv_26);
+				long arr_conv_26_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(arr_conv_26));
 				TxOut arr_conv_26_b_conv = new TxOut(null, arr_conv_26_b);;
 				TwoTuple<Integer, TxOut> arr_conv_26_conv = new TwoTuple<Integer, TxOut>(arr_conv_26_a, arr_conv_26_b_conv);
 				arr_conv_26_arr[a] = arr_conv_26_conv;

@@ -87,7 +87,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 			for (int z = 0; z < arr_conv_49_b.length; z++) {
 				number arr_conv_25 = arr_conv_49_b[z];
 				number arr_conv_25_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(arr_conv_25);
-				number arr_conv_25_b = bindings.LDKC2Tuple_u32TxOutZ_get_b(arr_conv_25);
+				number arr_conv_25_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(arr_conv_25));
 				TxOut arr_conv_25_b_conv = new TxOut(null, arr_conv_25_b);;
 				TwoTuple<Number, TxOut> arr_conv_25_conv = new TwoTuple<Number, TxOut>(arr_conv_25_a, arr_conv_25_b_conv);
 				arr_conv_25_arr[z] = arr_conv_25_conv;
