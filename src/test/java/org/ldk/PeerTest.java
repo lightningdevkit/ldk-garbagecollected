@@ -5,7 +5,9 @@ import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.structs.Result_NoneChannelMonitorUpdateErrZ;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -32,6 +34,7 @@ public class PeerTest {
         bindings.LDKBroadcasterInterface broad_trait;
         bindings.LDKLogger log_trait;
         bindings.LDKWatch watcher;
+        ArrayList<Long> results_to_free;
 
         Peer(byte seed) {
             this.log_trait = (String arg)-> System.out.println(seed + ": " + arg);
@@ -41,6 +44,7 @@ public class PeerTest {
             this.broad_trait = tx -> {
                 // We should broadcast
             };
+            this.results_to_free = new ArrayList<>();
             this.tx_broadcaster = bindings.LDKBroadcasterInterface_new(this.broad_trait);
             this.monitors = new HashMap<>();
             this.watcher = new bindings.LDKWatch() {
@@ -50,7 +54,9 @@ public class PeerTest {
                         assert monitors.put(Arrays.toString(bindings.OutPoint_get_txid(funding_txo)), monitor) == null;
                     }
                     bindings.OutPoint_free(funding_txo);
-                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+                    long res = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+                    results_to_free.add(res);
+                    return res;
                 }
 
                 @Override
@@ -64,7 +70,9 @@ public class PeerTest {
                     }
                     bindings.OutPoint_free(funding_txo);
                     bindings.ChannelMonitorUpdate_free(update);
-                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+                    long res = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+                    results_to_free.add(res);
+                    return res;
                 }
 
                 @Override
@@ -141,6 +149,9 @@ public class PeerTest {
                 for (Long mon : monitors.values()) {
                     bindings.ChannelMonitor_free(mon);
                 }
+            }
+            for (Long res : results_to_free) {
+                bindings.CResult_NoneChannelMonitorUpdateErrZ_free(res);
             }
         }
     }
