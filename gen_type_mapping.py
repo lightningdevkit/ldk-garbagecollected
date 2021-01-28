@@ -268,7 +268,6 @@ class TypeMappingGenerator:
                             base_conv = base_conv + self.consts.trait_struct_inc_refcnt(ty_info)
                             if needs_full_clone:
                                 base_conv = base_conv + "// Warning: we may need a move here but can't do a full clone!\n"
-
                     else:
                         base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -278,10 +277,18 @@ class TypeMappingGenerator:
                         to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                         to_hu_conv_name = "ret_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
-                if ty_info.rust_obj != "LDKu8slice":
+                needs_full_clone = not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False
+                if needs_full_clone:
+                    if not ty_info.var_name.startswith("ret") or "res" in ty_info.var_name: # XXX: This is a stupid hack
+                        needs_full_clone = False
+                    if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
+                        base_conv = base_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone((" + ty_info.rust_obj + "*)" + ty_info.var_name + ");"
+                    elif needs_full_clone:
+                        base_conv = base_conv + "\n// Warning: we may need a move here but can't do a full clone!"
+                if not needs_full_clone and ty_info.rust_obj != "LDKu8slice":
                     # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                     # underlying unlike Vecs, and it gives Java more freedom.
-                    base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");";
+                    base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");"
                 if ty_info.rust_obj in self.complex_enums:
                     ret_conv = ("long " + ty_info.var_name + "_ref = (long)&", ";")
                     if not holds_ref:

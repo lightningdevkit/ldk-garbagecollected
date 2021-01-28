@@ -54,7 +54,7 @@ public class bindings {
         self.common_base = """package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {
-	long ptr;
+	final long ptr;
 	LinkedList<Object> ptrs_to = new LinkedList();
 	protected CommonBase(long ptr) { this.ptr = ptr; }
 	public long _test_only_get_ptr() { return this.ptr; }
@@ -552,9 +552,6 @@ import java.util.Arrays;
                         if fn_line.ret_ty_info.from_hu_conv[1] != "":
                             java_trait_constr = java_trait_constr + "\t\t\t\t" + fn_line.ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held") + ";\n"
                         #if fn_line.ret_ty_info.rust_obj in result_types:
-                        # XXX: We need to handle this in conversion logic so that its cross-language!
-                            # Avoid double-free by breaking the result - we should learn to clone these and then we can be safe instead
-                        #    java_trait_constr = java_trait_constr + "\t\t\t\tret.ptr = 0;\n"
                         java_trait_constr = java_trait_constr + "\t\t\t\treturn result;\n"
                     else:
                         java_trait_constr = java_trait_constr + "\t\t\t\treturn ret;\n"
