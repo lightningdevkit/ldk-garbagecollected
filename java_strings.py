@@ -67,6 +67,7 @@ class CommonBase {
 #include <string.h>
 #include <stdatomic.h>
 #include <stdlib.h>
+
 """
 
         if not DEBUG:
@@ -281,6 +282,15 @@ _Static_assert(sizeof(void*) <= 8, "Pointers must fit into 64 bits");
 typedef jlongArray int64_tArray;
 typedef jbyteArray int8_tArray;
 
+static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len) {
+	// Sadly we need to create a temporary because Java can't accept a char* without a 0-terminator
+	char* err_buf = MALLOC(len + 1, "str conv buf");
+	memcpy(err_buf, chars, len);
+	err_buf[len] = 0;
+	jstring err_conv = (*env)->NewStringUTF(env, chars);
+	FREE(err_buf);
+	return err_conv;
+}
 """
 
         self.hu_struct_file_prefix = """package org.ldk.structs;
@@ -299,7 +309,6 @@ import java.util.Arrays;
         self.ptr_c_ty = "int64_t"
         self.ptr_native_ty = "long"
         self.result_c_ty = "jclass"
-        self.owned_str_to_c_call = ("(*env)->NewStringUTF(env, ", ")")
         self.ptr_arr = "jobjectArray"
         self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")
 
@@ -349,6 +358,9 @@ import java.util.Arrays;
             return "(*env)->ReleaseByteArrayElements(env, " + arr_name + ", (int8_t*)" + dest_name + ", 0);"
         else:
             return "(*env)->Release" + ty_info.java_ty.strip("[]").title() + "ArrayElements(env, " + arr_name + ", " + dest_name + ", 0)"
+
+    def str_ref_to_c_call(self, var_name, str_len):
+        return "str_ref_to_java(env, " + var_name + ", " + str_len + ")"
 
     def init_str(self):
         res = ""

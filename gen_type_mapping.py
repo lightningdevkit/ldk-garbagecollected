@@ -168,17 +168,15 @@ class TypeMappingGenerator:
             if ty_info.arr_access is None:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
-                    ret_conv = ("jstring " + ty_info.var_name + "_conv = " + self.consts.owned_str_to_c_call[0], self.consts.owned_str_to_c_call[1] + ";"), ret_conv_name = ty_info.var_name + "_conv",
+                    ret_conv = ("const char* " + ty_info.var_name + "_str = ",
+                        ";\njstring " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_c_call(ty_info.var_name + "_str", "strlen(" + ty_info.var_name + "_str)") + ";"),
+                    ret_conv_name = ty_info.var_name + "_conv",
                     to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
                     ret_conv = ("LDKStr " + ty_info.var_name + "_str = ",
-                        ";\nchar* " + ty_info.var_name + "_buf = MALLOC(" + ty_info.var_name + "_str." + ty_info.arr_len + " + 1, \"str conv buf\");\n" +
-                        "memcpy(" + ty_info.var_name + "_buf, " + ty_info.var_name + "_str." + ty_info.arr_access + ", " + ty_info.var_name + "_str." + ty_info.arr_len + ");\n" +
-                        ty_info.var_name + "_buf[" + ty_info.var_name + "_str." + ty_info.arr_len + "] = 0;\n" +
-                        "jstring " + ty_info.var_name + "_conv = " + self.consts.owned_str_to_c_call[0] + ty_info.var_name + "_str." + ty_info.arr_access + self.consts.owned_str_to_c_call[1] + ";\n" +
-                        "FREE(" + ty_info.var_name + "_buf);"),
+                        ";\njstring " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_c_call(ty_info.var_name + "_str." + ty_info.arr_access, ty_info.var_name + "_str." + ty_info.arr_len) + ";"),
                     ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
         elif ty_info.var_name == "" and not print_void:
             # We don't have a parameter name, and want one, just call it arg

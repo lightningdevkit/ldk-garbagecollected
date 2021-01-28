@@ -216,13 +216,28 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
-typedef struct int64_tArray { uint32_t *len; /* len + 1 is data */ } int64_tArray;
-typedef struct uint32_tArray { uint32_t *len; /* len + 1 is data */ } uint32_tArray;
-typedef struct ptrArray { uint32_t *len; /* len + 1 is data */ } ptrArray;
-typedef struct int8_tArray { uint32_t *len; /* len + 1 is data */ } int8_tArray;
-typedef struct jstring {} jstring;
+//typedef struct int64_tArray { uint32_t *len; /* len + 1 is data */ } int64_tArray;
+//typedef struct uint32_tArray { uint32_t *len; /* len + 1 is data */ } uint32_tArray;
+//typedef struct ptrArray { uint32_t *len; /* len + 1 is data */ } ptrArray;
+//typedef struct int8_tArray { uint32_t *len; /* len + 1 is data */ } int8_tArray;
+typedef uint32_t int64_tArray;
+typedef uint32_t int8_tArray;
+typedef uint32_t uint32_tArray;
+typedef uint32_t ptrArray;
+typedef uint32_t jstring;
 
-jstring conv_owned_string(const char* _src) { jstring a; return a; }
+static inline uint32_t init_arr(size_t arr_len, size_t elem_size, const char *type_desc) {
+	uint32_t *elems = (uint32_t*)MALLOC(arr_len * elem_size + 4, type_desc);
+	elems[0] = arr_len;
+	return (uint32_t)elems;
+}
+
+jstring str_ref_to_ts(const char* chars, size_t len) {
+	char* err_buf = MALLOC(len + 4, "str conv buf");
+	*((uint32_t*)err_buf) = len;
+	memcpy(err_buf + 4, chars, len);
+	return (uint32_t) err_buf;
+}
 
 typedef bool jboolean;
 
@@ -240,44 +255,43 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.ptr_c_ty = "uint32_t"
         self.ptr_native_ty = "number"
         self.result_c_ty = "uint32_t"
-        self.owned_str_to_c_call = ("conv_owned_string(", ")")
         self.ptr_arr = "ptrArray"
-        self.get_native_arr_len_call = ("*", ".len")
+        self.get_native_arr_len_call = ("*((uint32_t*)", ")")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return "{ .len = MALLOC(" + arr_len + " + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "init_arr(" + arr_len + ", sizeof(uint8_t), \"Native int8_tArray Bytes\")"
         elif ty_info.c_ty == "int64_tArray":
-            return "{ .len = MALLOC(" + arr_len + " * sizeof(int64_t) + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "init_arr(" + arr_len + ", sizeof(uint64_t), \"Native int64_tArray Bytes\")"
         elif ty_info.c_ty == "uint32_tArray":
-            return "{ .len = MALLOC(" + arr_len + " * sizeof(int32_t) + sizeof(uint32_t), \"Native " + ty_info.c_ty + " Bytes\") }"
+            return "init_arr(" + arr_len + ", sizeof(uint32_t), \"Native uint32_tArray Bytes\")"
         elif ty_info.c_ty == "ptrArray":
             assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
-            return "{ .len = MALLOC(" + arr_len + " * sizeof(int32_t) + sizeof(uint32_t), \"Native Object Bytes\") }"
+            return "init_arr(" + arr_len + ", sizeof(uint32_t), \"Native ptrArray Bytes\")"
         else:
             print("Need to create arr!", ty_info.c_ty)
             return ty_info.c_ty
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return ("memcpy(" + arr_name + ".len + 1, ", ", " + arr_len + ")")
+            return ("memcpy((uint8_t*)(" + arr_name + " + 4), ", ", " + arr_len + ")")
         else:
             assert False
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
         if ty_info.c_ty == "int8_tArray":
             if copy:
-                return "memcpy(" + dest_name + ", " + arr_name + ".len + 1, " + arr_len + ")"
+                return "memcpy(" + dest_name + ", (uint8_t*)(" + arr_name + " + 4), " + arr_len + ")"
             else:
-                return "(int8_t*)(" + arr_name + ".len + 1)"
+                return "(int8_t*)(" + arr_name + " + 4)"
         else:
-            return "(" + ty_info.subty.c_ty + "*)(" + arr_name + ".len + 1)"
+            return "(" + ty_info.subty.c_ty + "*)(" + arr_name + " + 4)"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
         if ty_info.subty is not None:
-            return "(" + ty_info.subty.c_ty + "*)(", ".len + 1)"
-        return "(" + ty_info.c_ty + "*)(", ".len + 1)"
+            return "(" + ty_info.subty.c_ty + "*)(", " + 4)"
+        return "(" + ty_info.c_ty + "*)(", " + 4)"
     def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
         return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
@@ -285,6 +299,9 @@ import * as bindings from '../bindings' // TODO: figure out location
             return None
         else:
             return None
+
+    def str_ref_to_c_call(self, var_name, str_len):
+        return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
 
     def wasm_import_header(self, target):
         if target == Target.NODEJS:
@@ -613,7 +630,6 @@ const decodeString = (stringPointer, free = true) => {
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
         out_c = out_c + "\tatomic_size_t refcnt;\n"
-        out_c = out_c + "\t// TODO: Object pointer o;\n"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 # We're a regular ol' field
@@ -623,7 +639,7 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "\t" + var[0] + "_JCalls* " + var[1] + ";\n"
         for fn in field_function_lines:
             if fn.fn_name != "free" and fn.fn_name != "clone":
-                out_c = out_c + "\t// TODO: Some kind of method pointer " + fn.fn_name + "_meth;\n"
+                out_c = out_c + "\tuint32_t " + fn.fn_name + "_meth;\n"
         out_c = out_c + "} " + struct_name + "_JCalls;\n"
 
         for fn_line in field_function_lines:
@@ -631,7 +647,9 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "static void " + struct_name + "_JCalls_free(void* this_arg) {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
-                out_c = out_c + "\t\t// TODO: do any release required for j_calls->o (refcnt-- in java, but may be redundant)\n"
+                for fn in field_function_lines:
+                    if fn.fn_name != "free" and fn.fn_name != "clone":
+                        out_c = out_c + "\t\tjs_free(j_calls->" + fn.fn_name + "_meth);\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -656,13 +674,12 @@ const decodeString = (stringPointer, free = true) => {
                         out_c = out_c + arg_info.arg_name
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
-                out_c = out_c + "\t//TODO: jobject obj = get object we can call against on j_calls->o\n"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " arg; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning an object"
+                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " arg = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.java_ty == "void":
-                    out_c = out_c + "\treturn; //TODO: Call " + fn_line.fn_name + " on j_calls with instance obj"
+                    out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c = out_c + "\treturn 0; //TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning " + fn_line.ret_ty_info.java_ty
+                    out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 else:
                     out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret; // TODO: Call " + fn_line.fn_name + " on j_calls with instance obj, returning a pointer"
 
