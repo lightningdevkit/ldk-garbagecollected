@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdatomic.h>
 #include <stdlib.h>
+
 #include <assert.h>
 // Always run a, then assert it is true:
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
@@ -208,6 +209,15 @@ _Static_assert(sizeof(void*) <= 8, "Pointers must fit into 64 bits");
 typedef jlongArray int64_tArray;
 typedef jbyteArray int8_tArray;
 
+static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len) {
+	// Sadly we need to create a temporary because Java can't accept a char* without a 0-terminator
+	char* err_buf = MALLOC(len + 1, "str conv buf");
+	memcpy(err_buf, chars, len);
+	err_buf[len] = 0;
+	jstring err_conv = (*env)->NewStringUTF(env, chars);
+	FREE(err_buf);
+	return err_conv;
+}
 static jclass arr_of_J_clz = NULL;
 static jclass arr_of_B_clz = NULL;
 JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass clz) {
@@ -529,7 +539,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKSpendableOutputDescrip
 	LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth = (*env)->GetMethodID(env, LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_class, "<init>", "(JJJ)V");
 	CHECK(LDKSpendableOutputDescriptor_StaticOutputCounterpartyPayment_meth != NULL);
 }
-JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSpendableOutputDescriptor_1ref_1from_1ptr (JNIEnv *env, jclass clz, int64_t ptr) {
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKSpendableOutputDescriptor_1ref_1from_1ptr(JNIEnv *env, jclass clz, int64_t ptr) {
 	LDKSpendableOutputDescriptor *obj = (LDKSpendableOutputDescriptor*)ptr;
 	switch(obj->tag) {
 		case LDKSpendableOutputDescriptor_StaticOutput: {
@@ -613,7 +623,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKErrorAction_init (JNIE
 	LDKErrorAction_SendErrorMessage_meth = (*env)->GetMethodID(env, LDKErrorAction_SendErrorMessage_class, "<init>", "(J)V");
 	CHECK(LDKErrorAction_SendErrorMessage_meth != NULL);
 }
-JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKErrorAction_1ref_1from_1ptr (JNIEnv *env, jclass clz, int64_t ptr) {
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKErrorAction_1ref_1from_1ptr(JNIEnv *env, jclass clz, int64_t ptr) {
 	LDKErrorAction *obj = (LDKErrorAction*)ptr;
 	switch(obj->tag) {
 		case LDKErrorAction_DisconnectPeer: {
@@ -659,7 +669,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKHTLCFailChannelUpdate_
 	LDKHTLCFailChannelUpdate_NodeFailure_meth = (*env)->GetMethodID(env, LDKHTLCFailChannelUpdate_NodeFailure_class, "<init>", "([BZ)V");
 	CHECK(LDKHTLCFailChannelUpdate_NodeFailure_meth != NULL);
 }
-JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKHTLCFailChannelUpdate_1ref_1from_1ptr (JNIEnv *env, jclass clz, int64_t ptr) {
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKHTLCFailChannelUpdate_1ref_1from_1ptr(JNIEnv *env, jclass clz, int64_t ptr) {
 	LDKHTLCFailChannelUpdate *obj = (LDKHTLCFailChannelUpdate*)ptr;
 	switch(obj->tag) {
 		case LDKHTLCFailChannelUpdate_ChannelUpdateMessage: {
@@ -808,7 +818,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKMessageSendEvent_init 
 	LDKMessageSendEvent_SendShortIdsQuery_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendShortIdsQuery_class, "<init>", "([BJ)V");
 	CHECK(LDKMessageSendEvent_SendShortIdsQuery_meth != NULL);
 }
-JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1from_1ptr (JNIEnv *env, jclass clz, int64_t ptr) {
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1from_1ptr(JNIEnv *env, jclass clz, int64_t ptr) {
 	LDKMessageSendEvent *obj = (LDKMessageSendEvent*)ptr;
 	switch(obj->tag) {
 		case LDKMessageSendEvent_SendAcceptChannel: {
@@ -1042,7 +1052,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKEvent_init (JNIEnv *en
 	LDKEvent_SpendableOutputs_meth = (*env)->GetMethodID(env, LDKEvent_SpendableOutputs_class, "<init>", "([J)V");
 	CHECK(LDKEvent_SpendableOutputs_meth != NULL);
 }
-JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKEvent_1ref_1from_1ptr (JNIEnv *env, jclass clz, int64_t ptr) {
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKEvent_1ref_1from_1ptr(JNIEnv *env, jclass clz, int64_t ptr) {
 	LDKEvent *obj = (LDKEvent*)ptr;
 	switch(obj->tag) {
 		case LDKEvent_FundingGenerationReady: {
@@ -1159,15 +1169,15 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1usizeTran
 	}
 	return (long)ret;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NoneChannelMonitorUpdateErrZ*)arg)->result_ok;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ *val = (LDKCResult_NoneChannelMonitorUpdateErrZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneChannelMonitorUpdateErrZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ *val = (LDKCResult_NoneChannelMonitorUpdateErrZ*)arg;
 	CHECK(!val->result_ok);
 	jclass err_conv = LDKChannelMonitorUpdateErr_to_java(env, (*val->contents.err));
@@ -1212,10 +1222,10 @@ static inline LDKCVec_MonitorEventZ CVec_MonitorEventZ_clone(const LDKCVec_Monit
 	}
 	return ret;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorUpdateDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorUpdateDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorUpdateDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorUpdateDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ *val = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKChannelMonitorUpdate res_var = (*val->contents.result);
@@ -1224,7 +1234,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorU
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorUpdateDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorUpdateDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ *val = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -1233,15 +1243,15 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelMonitorU
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NoneMonitorUpdateErrorZ*)arg)->result_ok;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NoneMonitorUpdateErrorZ *val = (LDKCResult_NoneMonitorUpdateErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdateErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NoneMonitorUpdateErrorZ *val = (LDKCResult_NoneMonitorUpdateErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKMonitorUpdateError err_var = (*val->contents.err);
@@ -1421,39 +1431,39 @@ JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1SignatureC
 	}
 	return b_arr;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *val = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1SignatureCVec_1SignatureZZNoneZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *val = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_SignatureNoneZ*)arg)->result_ok;
 }
-JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_SignatureNoneZ *val = (LDKCResult_SignatureNoneZ*)arg;
 	CHECK(val->result_ok);
 	int8_tArray res_arr = (*env)->NewByteArray(env, 64);
 	(*env)->SetByteArrayRegion(env, res_arr, 0, 64, (*val->contents.result).compact_form);
 	return res_arr;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignatureNoneZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_SignatureNoneZ *val = (LDKCResult_SignatureNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_CVec_SignatureZNoneZ*)arg)->result_ok;
 }
-JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
 	CHECK(val->result_ok);
 	LDKCVec_SignatureZ res_var = (*val->contents.result);
@@ -1466,7 +1476,7 @@ JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1Sign
 	}
 	return res_arr;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNoneZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
@@ -1773,7 +1783,7 @@ static inline LDKChannelKeys LDKChannelKeys_init (JNIEnv *env, jclass clz, jobje
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new (JNIEnv *env, jclass clz, jobject o, int64_t pubkeys) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelKeys_1new(JNIEnv *env, jclass clz, jobject o, int64_t pubkeys) {
 	LDKChannelKeys *res_ptr = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
 	*res_ptr = LDKChannelKeys_init(env, clz, o, pubkeys);
 	return (long)res_ptr;
@@ -1949,16 +1959,16 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChanne
 	long b_ref = (long)b_var.inner & ~1;
 	return b_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelMonitorZDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelMonitorZDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelMonitorZDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelMonitorZDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ *val = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelMonitorZDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelMonitorZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ *val = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -1967,16 +1977,16 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockH
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SpendableOutputDescriptorDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SpendableOutputDescriptorDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SpendableOutputDescriptorDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SpendableOutputDescriptorDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ *val = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SpendableOutputDescriptorDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SpendableOutputDescriptorDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ *val = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -1985,17 +1995,17 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SpendableOutput
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChanKeySignerDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChanKeySignerDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_ChanKeySignerDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChanKeySignerDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChanKeySignerDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ChanKeySignerDecodeErrorZ *val = (LDKCResult_ChanKeySignerDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKChannelKeys* ret = MALLOC(sizeof(LDKChannelKeys), "LDKChannelKeys");
 	*ret = (*val->contents.result);
 	return (long)ret;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChanKeySignerDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChanKeySignerDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ChanKeySignerDecodeErrorZ *val = (LDKCResult_ChanKeySignerDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2004,10 +2014,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChanKeySignerDe
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InMemoryChannelKeysDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InMemoryChannelKeysDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_InMemoryChannelKeysDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InMemoryChannelKeysDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InMemoryChannelKeysDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_InMemoryChannelKeysDecodeErrorZ *val = (LDKCResult_InMemoryChannelKeysDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKInMemoryChannelKeys res_var = (*val->contents.result);
@@ -2016,7 +2026,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InMemoryChannel
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InMemoryChannelKeysDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InMemoryChannelKeysDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_InMemoryChannelKeysDecodeErrorZ *val = (LDKCResult_InMemoryChannelKeysDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2025,16 +2035,16 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InMemoryChannel
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_TxOutAccessErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_TxOutAccessErrorZ *val = (LDKCResult_TxOutAccessErrorZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return (long)res_ref;
 }
-JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_TxOutAccessErrorZ *val = (LDKCResult_TxOutAccessErrorZ*)arg;
 	CHECK(!val->result_ok);
 	jclass err_conv = LDKAccessError_to_java(env, (*val->contents.err));
@@ -2077,7 +2087,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKAPIError_init (JNIEnv 
 	LDKAPIError_MonitorUpdateFailed_meth = (*env)->GetMethodID(env, LDKAPIError_MonitorUpdateFailed_class, "<init>", "()V");
 	CHECK(LDKAPIError_MonitorUpdateFailed_meth != NULL);
 }
-JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAPIError_1ref_1from_1ptr (JNIEnv *env, jclass clz, int64_t ptr) {
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAPIError_1ref_1from_1ptr(JNIEnv *env, jclass clz, int64_t ptr) {
 	LDKAPIError *obj = (LDKAPIError*)ptr;
 	switch(obj->tag) {
 		case LDKAPIError_APIMisuseError: {
@@ -2094,11 +2104,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAPIError_1ref_1from_1ptr
 		}
 		case LDKAPIError_RouteError: {
 			LDKStr err_str = obj->route_error.err;
-			char* err_buf = MALLOC(err_str.len + 1, "str conv buf");
-			memcpy(err_buf, err_str.chars, err_str.len);
-			err_buf[err_str.len] = 0;
-			jstring err_conv = (*env)->NewStringUTF(env, err_str.chars);
-			FREE(err_buf);
+			jstring err_conv = str_ref_to_java(env, err_str.chars, err_str.len);
 			return (*env)->NewObject(env, LDKAPIError_RouteError_class, LDKAPIError_RouteError_meth, err_conv);
 		}
 		case LDKAPIError_ChannelUnavailable: {
@@ -2113,15 +2119,15 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKAPIError_1ref_1from_1ptr
 		default: abort();
 	}
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NoneAPIErrorZ*)arg)->result_ok;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NoneAPIErrorZ *val = (LDKCResult_NoneAPIErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneAPIErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NoneAPIErrorZ *val = (LDKCResult_NoneAPIErrorZ*)arg;
 	CHECK(!val->result_ok);
 	long err_ref = (long)&(*val->contents.err);
@@ -2166,15 +2172,15 @@ static inline LDKCVec_ChannelDetailsZ CVec_ChannelDetailsZ_clone(const LDKCVec_C
 	}
 	return ret;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NonePaymentSendFailureZ*)arg)->result_ok;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NonePaymentSendFailureZ *val = (LDKCResult_NonePaymentSendFailureZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFailureZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NonePaymentSendFailureZ *val = (LDKCResult_NonePaymentSendFailureZ*)arg;
 	CHECK(!val->result_ok);
 	LDKPaymentSendFailure err_var = (*val->contents.err);
@@ -2213,7 +2219,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKNetAddress_init (JNIEn
 	LDKNetAddress_OnionV3_meth = (*env)->GetMethodID(env, LDKNetAddress_OnionV3_class, "<init>", "([BSBS)V");
 	CHECK(LDKNetAddress_OnionV3_meth != NULL);
 }
-JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKNetAddress_1ref_1from_1ptr (JNIEnv *env, jclass clz, int64_t ptr) {
+JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKNetAddress_1ref_1from_1ptr(JNIEnv *env, jclass clz, int64_t ptr) {
 	LDKNetAddress *obj = (LDKNetAddress*)ptr;
 	switch(obj->tag) {
 		case LDKNetAddress_IPv4: {
@@ -2405,7 +2411,7 @@ static inline LDKWatch LDKWatch_init (JNIEnv *env, jclass clz, jobject o) {
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKWatch_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKWatch_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKWatch *res_ptr = MALLOC(sizeof(LDKWatch), "LDKWatch");
 	*res_ptr = LDKWatch_init(env, clz, o);
 	return (long)res_ptr;
@@ -2512,7 +2518,7 @@ static inline LDKBroadcasterInterface LDKBroadcasterInterface_init (JNIEnv *env,
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKBroadcasterInterface_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKBroadcasterInterface *res_ptr = MALLOC(sizeof(LDKBroadcasterInterface), "LDKBroadcasterInterface");
 	*res_ptr = LDKBroadcasterInterface_init(env, clz, o);
 	return (long)res_ptr;
@@ -2658,7 +2664,7 @@ static inline LDKKeysInterface LDKKeysInterface_init (JNIEnv *env, jclass clz, j
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKKeysInterface_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKKeysInterface *res_ptr = MALLOC(sizeof(LDKKeysInterface), "LDKKeysInterface");
 	*res_ptr = LDKKeysInterface_init(env, clz, o);
 	return (long)res_ptr;
@@ -2757,7 +2763,7 @@ static inline LDKFeeEstimator LDKFeeEstimator_init (JNIEnv *env, jclass clz, job
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKFeeEstimator_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKFeeEstimator *res_ptr = MALLOC(sizeof(LDKFeeEstimator), "LDKFeeEstimator");
 	*res_ptr = LDKFeeEstimator_init(env, clz, o);
 	return (long)res_ptr;
@@ -2788,7 +2794,8 @@ void log_jcall(const void* this_arg, const char* record) {
 	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);
-	jstring record_conv = (*env)->NewStringUTF(env, record);
+	const char* record_str = record;
+	jstring record_conv = str_ref_to_java(env, record_str, strlen(record_str));
 	jobject obj = (*env)->NewLocalRef(env, j_calls->o);
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->log_meth, record_conv);
@@ -2815,7 +2822,7 @@ static inline LDKLogger LDKLogger_init (JNIEnv *env, jclass clz, jobject o) {
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKLogger *res_ptr = MALLOC(sizeof(LDKLogger), "LDKLogger");
 	*res_ptr = LDKLogger_init(env, clz, o);
 	return (long)res_ptr;
@@ -2847,16 +2854,16 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChanne
 	long b_ref = (long)b_var.inner & ~1;
 	return b_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelManagerZDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelManagerZDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelManagerZDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelManagerZDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *val = (LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelManagerZDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockHashChannelManagerZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *val = (LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -2865,16 +2872,16 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1C2Tuple_1BlockH
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetAddressu8Z_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetAddressu8Z_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NetAddressu8Z*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetAddressu8Z_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetAddressu8Z_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NetAddressu8Z *val = (LDKCResult_NetAddressu8Z*)arg;
 	CHECK(val->result_ok);
 	long res_ref = (long)&(*val->contents.result);
 	return res_ref;
 }
-JNIEXPORT int8_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetAddressu8Z_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int8_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetAddressu8Z_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NetAddressu8Z *val = (LDKCResult_NetAddressu8Z*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
@@ -2892,10 +2899,10 @@ static inline LDKCResult_NetAddressu8Z CResult_NetAddressu8Z_clone(const LDKCRes
 	}
 	return res;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddressu8ZDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddressu8ZDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_CResult_NetAddressu8ZDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddressu8ZDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddressu8ZDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_CResult_NetAddressu8ZDecodeErrorZ *val = (LDKCResult_CResult_NetAddressu8ZDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKCResult_NetAddressu8Z* res_conv = MALLOC(sizeof(LDKCResult_NetAddressu8Z), "LDKCResult_NetAddressu8Z");
@@ -2903,7 +2910,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAdd
 	*res_conv = CResult_NetAddressu8Z_clone(res_conv);
 	return (long)res_conv;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddressu8ZDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CResult_1NetAddressu8ZDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_CResult_NetAddressu8ZDecodeErrorZ *val = (LDKCResult_CResult_NetAddressu8ZDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3044,15 +3051,15 @@ static inline LDKCVec_UpdateFailMalformedHTLCZ CVec_UpdateFailMalformedHTLCZ_clo
 	}
 	return ret;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_boolLightningErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKLightningError err_var = (*val->contents.err);
@@ -3168,15 +3175,15 @@ static inline LDKCVec_NodeAnnouncementZ CVec_NodeAnnouncementZ_clone(const LDKCV
 	}
 	return ret;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NoneLightningErrorZ*)arg)->result_ok;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NoneLightningErrorZ *val = (LDKCResult_NoneLightningErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NoneLightningErrorZ *val = (LDKCResult_NoneLightningErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKLightningError err_var = (*val->contents.err);
@@ -3185,10 +3192,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningEr
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelReestablishDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelReestablishDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_ChannelReestablishDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelReestablishDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelReestablishDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ChannelReestablishDecodeErrorZ *val = (LDKCResult_ChannelReestablishDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKChannelReestablish res_var = (*val->contents.result);
@@ -3197,7 +3204,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelReestabl
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelReestablishDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelReestablishDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ChannelReestablishDecodeErrorZ *val = (LDKCResult_ChannelReestablishDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3206,10 +3213,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelReestabl
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_InitDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_InitDecodeErrorZ *val = (LDKCResult_InitDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKInit res_var = (*val->contents.result);
@@ -3218,7 +3225,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitDecodeError
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_InitDecodeErrorZ *val = (LDKCResult_InitDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3227,10 +3234,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitDecodeError
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PingDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PingDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_PingDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PingDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PingDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_PingDecodeErrorZ *val = (LDKCResult_PingDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKPing res_var = (*val->contents.result);
@@ -3239,7 +3246,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PingDecodeError
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PingDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PingDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_PingDecodeErrorZ *val = (LDKCResult_PingDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3248,10 +3255,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PingDecodeError
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PongDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PongDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_PongDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PongDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PongDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_PongDecodeErrorZ *val = (LDKCResult_PongDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKPong res_var = (*val->contents.result);
@@ -3260,7 +3267,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PongDecodeError
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PongDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PongDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_PongDecodeErrorZ *val = (LDKCResult_PongDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3269,10 +3276,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PongDecodeError
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelAnnouncementDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelAnnouncementDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelAnnouncementDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelAnnouncementDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ *val = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKUnsignedChannelAnnouncement res_var = (*val->contents.result);
@@ -3281,7 +3288,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannel
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelAnnouncementDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelAnnouncementDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ *val = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3290,10 +3297,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannel
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelUpdateDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelUpdateDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelUpdateDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelUpdateDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ *val = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKUnsignedChannelUpdate res_var = (*val->contents.result);
@@ -3302,7 +3309,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannel
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelUpdateDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannelUpdateDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ *val = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3311,10 +3318,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedChannel
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ErrorMessageDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ErrorMessageDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_ErrorMessageDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ErrorMessageDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ErrorMessageDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ErrorMessageDecodeErrorZ *val = (LDKCResult_ErrorMessageDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKErrorMessage res_var = (*val->contents.result);
@@ -3323,7 +3330,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ErrorMessageDec
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ErrorMessageDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ErrorMessageDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ErrorMessageDecodeErrorZ *val = (LDKCResult_ErrorMessageDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3332,10 +3339,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ErrorMessageDec
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedNodeAnnouncementDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedNodeAnnouncementDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedNodeAnnouncementDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedNodeAnnouncementDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ *val = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKUnsignedNodeAnnouncement res_var = (*val->contents.result);
@@ -3344,7 +3351,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedNodeAnn
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedNodeAnnouncementDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedNodeAnnouncementDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ *val = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3353,10 +3360,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1UnsignedNodeAnn
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryShortChannelIdsDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryShortChannelIdsDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_QueryShortChannelIdsDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryShortChannelIdsDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryShortChannelIdsDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ *val = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKQueryShortChannelIds res_var = (*val->contents.result);
@@ -3365,7 +3372,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryShortChann
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryShortChannelIdsDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryShortChannelIdsDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ *val = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3374,10 +3381,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryShortChann
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyShortChannelIdsEndDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyShortChannelIdsEndDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyShortChannelIdsEndDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyShortChannelIdsEndDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ *val = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKReplyShortChannelIdsEnd res_var = (*val->contents.result);
@@ -3386,7 +3393,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyShortChann
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyShortChannelIdsEndDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyShortChannelIdsEndDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ *val = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3395,10 +3402,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyShortChann
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryChannelRangeDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryChannelRangeDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_QueryChannelRangeDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryChannelRangeDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryChannelRangeDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ *val = (LDKCResult_QueryChannelRangeDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKQueryChannelRange res_var = (*val->contents.result);
@@ -3407,7 +3414,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryChannelRan
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryChannelRangeDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryChannelRangeDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ *val = (LDKCResult_QueryChannelRangeDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3416,10 +3423,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1QueryChannelRan
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyChannelRangeDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyChannelRangeDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_ReplyChannelRangeDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyChannelRangeDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyChannelRangeDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ *val = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKReplyChannelRange res_var = (*val->contents.result);
@@ -3428,7 +3435,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyChannelRan
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyChannelRangeDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyChannelRangeDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ *val = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3437,10 +3444,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ReplyChannelRan
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1GossipTimestampFilterDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1GossipTimestampFilterDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_GossipTimestampFilterDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1GossipTimestampFilterDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1GossipTimestampFilterDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ *val = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKGossipTimestampFilter res_var = (*val->contents.result);
@@ -3449,7 +3456,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1GossipTimestamp
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1GossipTimestampFilterDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1GossipTimestampFilterDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ *val = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3458,10 +3465,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1GossipTimestamp
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKCVec_u8Z res_var = (*val->contents.result);
@@ -3469,7 +3476,7 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPe
 	(*env)->SetByteArrayRegion(env, res_arr, 0, res_var.datalen, res_var.data);
 	return res_arr;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKPeerHandleError err_var = (*val->contents.err);
@@ -3478,15 +3485,15 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHa
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NonePeerHandleErrorZ*)arg)->result_ok;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKPeerHandleError err_var = (*val->contents.err);
@@ -3495,15 +3502,15 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleE
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_boolPeerHandleErrorZ*)arg)->result_ok;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)arg;
 	CHECK(val->result_ok);
 	return *val->contents.result;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKPeerHandleError err_var = (*val->contents.err);
@@ -3512,42 +3519,42 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleE
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_SecretKeySecpErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_SecretKeySecpErrorZ *val = (LDKCResult_SecretKeySecpErrorZ*)arg;
 	CHECK(val->result_ok);
 	int8_tArray res_arr = (*env)->NewByteArray(env, 32);
 	(*env)->SetByteArrayRegion(env, res_arr, 0, 32, (*val->contents.result).bytes);
 	return res_arr;
 }
-JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SecretKeySecpErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_SecretKeySecpErrorZ *val = (LDKCResult_SecretKeySecpErrorZ*)arg;
 	CHECK(!val->result_ok);
 	jclass err_conv = LDKSecp256k1Error_to_java(env, (*val->contents.err));
 	return err_conv;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_PublicKeySecpErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_PublicKeySecpErrorZ *val = (LDKCResult_PublicKeySecpErrorZ*)arg;
 	CHECK(val->result_ok);
 	int8_tArray res_arr = (*env)->NewByteArray(env, 33);
 	(*env)->SetByteArrayRegion(env, res_arr, 0, 33, (*val->contents.result).compressed_form);
 	return res_arr;
 }
-JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1PublicKeySecpErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_PublicKeySecpErrorZ *val = (LDKCResult_PublicKeySecpErrorZ*)arg;
 	CHECK(!val->result_ok);
 	jclass err_conv = LDKSecp256k1Error_to_java(env, (*val->contents.err));
 	return err_conv;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_TxCreationKeysSecpErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_TxCreationKeysSecpErrorZ *val = (LDKCResult_TxCreationKeysSecpErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKTxCreationKeys res_var = (*val->contents.result);
@@ -3556,16 +3563,16 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysS
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxCreationKeysSecpErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_TxCreationKeysSecpErrorZ *val = (LDKCResult_TxCreationKeysSecpErrorZ*)arg;
 	CHECK(!val->result_ok);
 	jclass err_conv = LDKSecp256k1Error_to_java(env, (*val->contents.err));
 	return err_conv;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TrustedCommitmentTransactionNoneZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TrustedCommitmentTransactionNoneZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_TrustedCommitmentTransactionNoneZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TrustedCommitmentTransactionNoneZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TrustedCommitmentTransactionNoneZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_TrustedCommitmentTransactionNoneZ *val = (LDKCResult_TrustedCommitmentTransactionNoneZ*)arg;
 	CHECK(val->result_ok);
 	LDKTrustedCommitmentTransaction res_var = (*val->contents.result);
@@ -3574,7 +3581,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TrustedCommitme
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TrustedCommitmentTransactionNoneZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TrustedCommitmentTransactionNoneZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_TrustedCommitmentTransactionNoneZ *val = (LDKCResult_TrustedCommitmentTransactionNoneZ*)arg;
 	CHECK(!val->result_ok);
 	return *val->contents.err;
@@ -3614,10 +3621,10 @@ static inline LDKCVec_CVec_RouteHopZZ CVec_CVec_RouteHopZZ_clone(const LDKCVec_C
 	}
 	return ret;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_RouteDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_RouteDecodeErrorZ *val = (LDKCResult_RouteDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKRoute res_var = (*val->contents.result);
@@ -3626,7 +3633,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteDecodeErro
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_RouteDecodeErrorZ *val = (LDKCResult_RouteDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3663,10 +3670,10 @@ static inline LDKCVec_RouteHintZ CVec_RouteHintZ_clone(const LDKCVec_RouteHintZ 
 	}
 	return ret;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_RouteLightningErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_RouteLightningErrorZ *val = (LDKCResult_RouteLightningErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKRoute res_var = (*val->contents.result);
@@ -3675,7 +3682,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningE
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_RouteLightningErrorZ *val = (LDKCResult_RouteLightningErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKLightningError err_var = (*val->contents.err);
@@ -3684,10 +3691,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RouteLightningE
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RoutingFeesDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RoutingFeesDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_RoutingFeesDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RoutingFeesDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RoutingFeesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_RoutingFeesDecodeErrorZ *val = (LDKCResult_RoutingFeesDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKRoutingFees res_var = (*val->contents.result);
@@ -3696,7 +3703,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RoutingFeesDeco
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RoutingFeesDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RoutingFeesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_RoutingFeesDecodeErrorZ *val = (LDKCResult_RoutingFeesDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3705,10 +3712,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1RoutingFeesDeco
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeAnnouncementInfoDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeAnnouncementInfoDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeAnnouncementInfoDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeAnnouncementInfoDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ *val = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKNodeAnnouncementInfo res_var = (*val->contents.result);
@@ -3717,7 +3724,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeAnnouncemen
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeAnnouncementInfoDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeAnnouncementInfoDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ *val = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3726,10 +3733,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeAnnouncemen
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeInfoDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeInfoDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NodeInfoDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeInfoDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeInfoDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NodeInfoDecodeErrorZ *val = (LDKCResult_NodeInfoDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKNodeInfo res_var = (*val->contents.result);
@@ -3738,7 +3745,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeInfoDecodeE
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeInfoDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeInfoDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NodeInfoDecodeErrorZ *val = (LDKCResult_NodeInfoDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3747,10 +3754,10 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeInfoDecodeE
 	long err_ref = (long)err_var.inner & ~1;
 	return err_ref;
 }
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetworkGraphDecodeErrorZ_1result_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetworkGraphDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_NetworkGraphDecodeErrorZ*)arg)->result_ok;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetworkGraphDecodeErrorZ_1get_1ok (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetworkGraphDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NetworkGraphDecodeErrorZ *val = (LDKCResult_NetworkGraphDecodeErrorZ*)arg;
 	CHECK(val->result_ok);
 	LDKNetworkGraph res_var = (*val->contents.result);
@@ -3759,7 +3766,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetworkGraphDec
 	long res_ref = (long)res_var.inner & ~1;
 	return res_ref;
 }
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetworkGraphDecodeErrorZ_1get_1err (JNIEnv *env, jclass clz, int64_t arg) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NetworkGraphDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
 	LDKCResult_NetworkGraphDecodeErrorZ *val = (LDKCResult_NetworkGraphDecodeErrorZ*)arg;
 	CHECK(!val->result_ok);
 	LDKDecodeError err_var = (*val->contents.err);
@@ -3828,7 +3835,7 @@ static inline LDKMessageSendEventsProvider LDKMessageSendEventsProvider_init (JN
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEventsProvider_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKMessageSendEventsProvider *res_ptr = MALLOC(sizeof(LDKMessageSendEventsProvider), "LDKMessageSendEventsProvider");
 	*res_ptr = LDKMessageSendEventsProvider_init(env, clz, o);
 	return (long)res_ptr;
@@ -3909,7 +3916,7 @@ static inline LDKEventsProvider LDKEventsProvider_init (JNIEnv *env, jclass clz,
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKEventsProvider_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKEventsProvider_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKEventsProvider *res_ptr = MALLOC(sizeof(LDKEventsProvider), "LDKEventsProvider");
 	*res_ptr = LDKEventsProvider_init(env, clz, o);
 	return (long)res_ptr;
@@ -3980,7 +3987,7 @@ static inline LDKAccess LDKAccess_init (JNIEnv *env, jclass clz, jobject o) {
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKAccess_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKAccess_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKAccess *res_ptr = MALLOC(sizeof(LDKAccess), "LDKAccess");
 	*res_ptr = LDKAccess_init(env, clz, o);
 	return (long)res_ptr;
@@ -4070,7 +4077,7 @@ static inline LDKFilter LDKFilter_init (JNIEnv *env, jclass clz, jobject o) {
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKFilter_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKFilter_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKFilter *res_ptr = MALLOC(sizeof(LDKFilter), "LDKFilter");
 	*res_ptr = LDKFilter_init(env, clz, o);
 	return (long)res_ptr;
@@ -4202,7 +4209,7 @@ static inline LDKPersist LDKPersist_init (JNIEnv *env, jclass clz, jobject o) {
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKPersist_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKPersist_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKPersist *res_ptr = MALLOC(sizeof(LDKPersist), "LDKPersist");
 	*res_ptr = LDKPersist_init(env, clz, o);
 	return (long)res_ptr;
@@ -4719,7 +4726,7 @@ static inline LDKChannelMessageHandler LDKChannelMessageHandler_init (JNIEnv *en
 	calls->MessageSendEventsProvider = ret.MessageSendEventsProvider.this_arg;
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1new (JNIEnv *env, jclass clz, jobject o, jobject MessageSendEventsProvider) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKChannelMessageHandler_1new(JNIEnv *env, jclass clz, jobject o, jobject MessageSendEventsProvider) {
 	LDKChannelMessageHandler *res_ptr = MALLOC(sizeof(LDKChannelMessageHandler), "LDKChannelMessageHandler");
 	*res_ptr = LDKChannelMessageHandler_init(env, clz, o, MessageSendEventsProvider);
 	return (long)res_ptr;
@@ -5238,7 +5245,7 @@ static inline LDKRoutingMessageHandler LDKRoutingMessageHandler_init (JNIEnv *en
 	calls->MessageSendEventsProvider = ret.MessageSendEventsProvider.this_arg;
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1new (JNIEnv *env, jclass clz, jobject o, jobject MessageSendEventsProvider) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKRoutingMessageHandler_1new(JNIEnv *env, jclass clz, jobject o, jobject MessageSendEventsProvider) {
 	LDKRoutingMessageHandler *res_ptr = MALLOC(sizeof(LDKRoutingMessageHandler), "LDKRoutingMessageHandler");
 	*res_ptr = LDKRoutingMessageHandler_init(env, clz, o, MessageSendEventsProvider);
 	return (long)res_ptr;
@@ -5478,7 +5485,7 @@ static inline LDKSocketDescriptor LDKSocketDescriptor_init (JNIEnv *env, jclass 
 	};
 	return ret;
 }
-JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1new (JNIEnv *env, jclass clz, jobject o) {
+JNIEXPORT long JNICALL Java_org_ldk_impl_bindings_LDKSocketDescriptor_1new(JNIEnv *env, jclass clz, jobject o) {
 	LDKSocketDescriptor *res_ptr = MALLOC(sizeof(LDKSocketDescriptor), "LDKSocketDescriptor");
 	*res_ptr = LDKSocketDescriptor_init(env, clz, o);
 	return (long)res_ptr;
@@ -9582,11 +9589,7 @@ JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_ErrorMessage_1get_1data(JNI
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKStr _str = ErrorMessage_get_data(&this_ptr_conv);
-	char* _buf = MALLOC(_str.len + 1, "str conv buf");
-	memcpy(_buf, _str.chars, _str.len);
-	_buf[_str.len] = 0;
-	jstring _conv = (*env)->NewStringUTF(env, _str.chars);
-	FREE(_buf);
+	jstring _conv = str_ref_to_java(env, _str.chars, _str.len);
 	return _conv;
 }
 
@@ -12872,11 +12875,7 @@ JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_LightningError_1get_1err(JN
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	LDKStr _str = LightningError_get_err(&this_ptr_conv);
-	char* _buf = MALLOC(_str.len + 1, "str conv buf");
-	memcpy(_buf, _str.chars, _str.len);
-	_buf[_str.len] = 0;
-	jstring _conv = (*env)->NewStringUTF(env, _str.chars);
-	FREE(_buf);
+	jstring _conv = str_ref_to_java(env, _str.chars, _str.len);
 	return _conv;
 }
 
