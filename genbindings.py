@@ -544,12 +544,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 can_clone = False
 
             out_java.write("\tpublic static native boolean " + struct_name + "_result_ok(long arg);\n")
-            write_c(consts.c_fn_ty_pfx + "jboolean " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1result_1ok (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " arg) {\n")
+            write_c(consts.c_fn_ty_pfx + "jboolean " + consts.c_fn_name_define_pfx(struct_name + "_result_ok", True) + consts.ptr_c_ty + " arg) {\n")
             write_c("\treturn ((" + struct_name + "*)arg)->result_ok;\n")
             write_c("}\n")
 
             out_java.write("\tpublic static native " + res_map.java_ty + " " + struct_name + "_get_ok(long arg);\n")
-            write_c(consts.c_fn_ty_pfx + res_map.c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1ok (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " arg) {\n")
+            write_c(consts.c_fn_ty_pfx + res_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_ok", True) + consts.ptr_c_ty + " arg) {\n")
             write_c("\t" + struct_name + " *val = (" + struct_name + "*)arg;\n")
             write_c("\tCHECK(val->result_ok);\n\t")
             out_java_struct.write("\tpublic static final class " + human_ty + "_OK extends " + human_ty + " {\n")
@@ -586,7 +586,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write("\t\t}\n\t}\n\n")
 
             out_java.write("\tpublic static native " + err_map.java_ty + " " + struct_name + "_get_err(long arg);\n")
-            write_c(consts.c_fn_ty_pfx + err_map.c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1err (" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " arg) {\n")
+            write_c(consts.c_fn_ty_pfx + err_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_err", True) + consts.ptr_c_ty + " arg) {\n")
             write_c("\t" + struct_name + " *val = (" + struct_name + "*)arg;\n")
             write_c("\tCHECK(!val->result_ok);\n\t")
             out_java_struct.write("\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n")
@@ -653,16 +653,17 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
     def map_tuple(struct_name, field_lines):
         out_java.write("\tpublic static native long " + struct_name + "_new(")
-        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new(" + consts.c_fn_args_pfx)
+        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_new", len(field_lines) > 3))
         ty_list = []
         for idx, line in enumerate(field_lines):
             if idx != 0 and idx < len(field_lines) - 2:
                 ty_info = java_c_types(line.strip(';'), None)
                 if idx != 1:
                     out_java.write(", ")
+                    write_c(", ")
                 e = chr(ord('a') + idx - 1)
                 out_java.write(ty_info.java_ty + " " + e)
-                write_c(", " + ty_info.c_ty + " " + e)
+                write_c(ty_info.c_ty + " " + e)
                 ty_list.append(ty_info)
         tuple_types[struct_name] = (ty_list, struct_name)
         out_java.write(");\n")
@@ -699,7 +700,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         for idx, ty_info in enumerate(ty_list):
             e = chr(ord('a') + idx)
             out_java.write("\tpublic static native " + ty_info.java_ty + " " + struct_name + "_get_" + e + "(long ptr);\n")
-            write_c(consts.c_fn_ty_pfx + ty_info.c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1get_1" + e + "(" + consts.c_fn_args_pfx + ", " + consts.ptr_c_ty + " ptr) {\n")
+            write_c(consts.c_fn_ty_pfx + ty_info.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_" + e, True) + consts.ptr_c_ty + " ptr) {\n")
             write_c("\t" + struct_name + " *tuple = (" + struct_name + "*)ptr;\n")
             conv_info = type_mapping_generator.map_type_with_info(ty_info, False, None, False, True)
             if conv_info.ret_conv is not None:
@@ -823,7 +824,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     ty_info = type_mapping_generator.map_type(vec_ty + " arr_elem", False, None, False, False)
                     if len(ty_info.java_fn_ty_arg) == 1: # ie we're a primitive of some form
                         out_java.write("\tpublic static native long " + struct_name + "_new(" + ty_info.java_ty + "[] elems);\n")
-                        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new(" + consts.c_fn_args_pfx + ", " + ty_info.c_ty + "Array elems) {\n")
+                        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_new", True) + ty_info.c_ty + "Array elems) {\n")
                         write_c("\t" + struct_name + " *ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
                         write_c("\tret->datalen = " + consts.get_native_arr_len_call[0] + "elems" + consts.get_native_arr_len_call[1] + ";\n")
                         write_c("\tif (ret->datalen == 0) {\n")

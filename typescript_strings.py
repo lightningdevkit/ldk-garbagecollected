@@ -249,8 +249,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 """
         self.c_fn_ty_pfx = ""
-        self.c_fn_name_pfx = ""
-        self.c_fn_args_pfx = "void* ctx_TODO"
         self.file_ext = ".ts"
         self.ptr_c_ty = "uint32_t"
         self.ptr_native_ty = "number"
@@ -302,6 +300,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 
     def str_ref_to_c_call(self, var_name, str_len):
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
+
+    def c_fn_name_define_pfx(self, fn_name, have_args):
+        return "TS_" + fn_name + "("
 
     def wasm_import_header(self, target):
         if target == Target.NODEJS:
@@ -704,7 +705,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\treturn (void*) this_arg;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", /*TODO: JS Object Reference */void* o"
+        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (/*TODO: JS Object Reference */void* o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
@@ -742,7 +743,7 @@ const decodeString = (stringPointer, free = true) => {
                     out_c = out_c + "\t\t." + var.var_name + " = " + var.var_name + ",\n"
                     out_c = out_c + "\t\t.set_" + var.var_name + " = NULL,\n"
             else:
-                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(NULL, " + var[1] + "),\n"
+                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(" + var[1] + "),\n"
         out_c = out_c + "\t};\n"
         for var in field_var_conversions:
             if not isinstance(var, ConvInfo):
@@ -750,7 +751,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new (" + self.c_fn_args_pfx + ", /*TODO: JS Object Reference */void* o"
+        out_c = out_c + self.c_fn_ty_pfx + "long TS_" + struct_name + "_new (/*TODO: JS Object Reference */void* o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
@@ -758,7 +759,7 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + ", /*TODO: JS Object Reference */ void* " + var[1]
         out_c = out_c + ") {\n"
         out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
-        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(NULL, o"
+        out_c = out_c + "\t*res_ptr = " + struct_name + "_init(o"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.arg_name
@@ -828,7 +829,7 @@ const decodeString = (stringPointer, free = true) => {
         out_java += ("\tstatic { " + struct_name + ".init(); }\n")
         out_java += ("\tpublic static native " + struct_name + " " + struct_name + "_ref_from_ptr(long ptr);\n");
 
-        out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + " " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1ref_1from_1ptr (" + self.c_fn_args_pfx + ", " + self.ptr_c_ty + " ptr) {\n")
+        out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + " TS_" + struct_name + "_ref_from_ptr (" + self.ptr_c_ty + " ptr) {\n")
         out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)ptr;\n")
         out_c += ("\tswitch(obj->tag) {\n")
         for var in variant_list:
@@ -892,7 +893,7 @@ const decodeString = (stringPointer, free = true) => {
         if return_type_info.ret_conv is not None:
             ret_conv_pfx, ret_conv_sfx = return_type_info.ret_conv
         out_java += (" " + method_name + "(")
-        out_c += (" " + self.c_fn_name_pfx + method_name.replace('_', '_1') + "(" + self.c_fn_args_pfx)
+        out_c += (" TS_"  + method_name + "(")
 
         method_argument_string = ""
         native_call_argument_string = ""
@@ -900,7 +901,6 @@ const decodeString = (stringPointer, free = true) => {
             if idx != 0:
                 method_argument_string += (", ")
                 native_call_argument_string += ', '
-            if arg_conv_info.c_ty != "void":
                 out_c += (", ")
             if arg_conv_info.c_ty != "void":
                 out_c += (arg_conv_info.c_ty + " " + arg_conv_info.arg_name)

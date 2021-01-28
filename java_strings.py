@@ -303,7 +303,6 @@ import java.util.Arrays;
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 """
         self.c_fn_ty_pfx = "JNIEXPORT "
-        self.c_fn_name_pfx = "JNICALL Java_org_ldk_impl_bindings_"
         self.c_fn_args_pfx = "JNIEnv *env, jclass clz"
         self.file_ext = ".java"
         self.ptr_c_ty = "int64_t"
@@ -361,6 +360,11 @@ import java.util.Arrays;
 
     def str_ref_to_c_call(self, var_name, str_len):
         return "str_ref_to_java(env, " + var_name + ", " + str_len + ")"
+
+    def c_fn_name_define_pfx(self, fn_name, has_args):
+        if has_args:
+            return "JNICALL Java_org_ldk_impl_bindings_" + fn_name.replace("_", "_1") + "(JNIEnv *env, jclass clz, "
+        return "JNICALL Java_org_ldk_impl_bindings_" + fn_name.replace("_", "_1") + "(JNIEnv *env, jclass clz"
 
     def init_str(self):
         res = ""
@@ -703,7 +707,7 @@ import java.util.Arrays;
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1new (" + self.c_fn_args_pfx + ", jobject o"
+        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "jobject o"
         for var in field_vars:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
@@ -792,7 +796,7 @@ import java.util.Arrays;
 
         out_c += (self.c_complex_enum_pfx(struct_name, [x.var_name for x in variant_list], init_meth_jty_strs))
 
-        out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + " " + self.c_fn_name_pfx + struct_name.replace("_", "_1") + "_1ref_1from_1ptr (" + self.c_fn_args_pfx + ", " + self.ptr_c_ty + " ptr) {\n")
+        out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + " " + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
         out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)ptr;\n")
         out_c += ("\tswitch(obj->tag) {\n")
         for var in variant_list:
@@ -844,12 +848,12 @@ import java.util.Arrays;
         if return_type_info.ret_conv is not None:
             ret_conv_pfx, ret_conv_sfx = return_type_info.ret_conv
         out_java += (" " + method_name + "(")
-        out_c += (" " + self.c_fn_name_pfx + method_name.replace('_', '_1') + "(" + self.c_fn_args_pfx)
+        have_args = len(argument_types) > 1 or (len(argument_types) > 0 and argument_types[0].c_ty != "void")
+        out_c += (" " + self.c_fn_name_define_pfx(method_name, have_args))
 
         for idx, arg_conv_info in enumerate(argument_types):
             if idx != 0:
                 out_java += (", ")
-            if arg_conv_info.c_ty != "void":
                 out_c += (", ")
             if arg_conv_info.c_ty != "void":
                 out_c += (arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
