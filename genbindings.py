@@ -623,34 +623,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(err));\n")
             out_java_struct.write("\t\t}\n\t}\n}\n")
 
-            if can_clone:
-                clone_fns.add(struct_name.replace("LDK", "") + "_clone")
-                write_c("static inline " + struct_name + " " + struct_name.replace("LDK", "") + "_clone(const " + struct_name + " *orig) {\n")
-                write_c("\t" + struct_name + " res = { .result_ok = orig->result_ok };\n")
-                write_c("\tif (orig->result_ok) {\n")
-                if res_map.c_ty == "void":
-                    write_c("\t\tres.contents.result = NULL;\n")
-                else:
-                    if res_map.is_native_primitive:
-                        write_c("\t\t" + res_map.c_ty + "* contents = MALLOC(sizeof(" + res_map.c_ty + "), \"" + res_map.c_ty + " result OK clone\");\n")
-                        write_c("\t\t*contents = *orig->contents.result;\n")
-                    else:
-                        write_c("\t\t" + res_map.rust_obj + "* contents = MALLOC(sizeof(" + res_map.rust_obj + "), \"" + res_map.rust_obj + " result OK clone\");\n")
-                        write_c("\t\t*contents = " + res_map.rust_obj.replace("LDK", "") + "_clone(orig->contents.result);\n")
-                    write_c("\t\tres.contents.result = contents;\n")
-                write_c("\t} else {\n")
-                if err_map.c_ty == "void":
-                    write_c("\t\tres.contents.err = NULL;\n")
-                else:
-                    if err_map.is_native_primitive:
-                        write_c("\t\t" + err_map.c_ty + "* contents = MALLOC(sizeof(" + err_map.c_ty + "), \"" + err_map.c_ty + " result Err clone\");\n")
-                        write_c("\t\t*contents = *orig->contents.err;\n")
-                    else:
-                        write_c("\t\t" + err_map.rust_obj + "* contents = MALLOC(sizeof(" + err_map.rust_obj + "), \"" + err_map.rust_obj + " result Err clone\");\n")
-                        write_c("\t\t*contents = " + err_map.rust_obj.replace("LDK", "") + "_clone(orig->contents.err);\n")
-                    write_c("\t\tres.contents.err = contents;\n")
-                write_c("\t}\n\treturn res;\n}\n")
-
     def map_tuple(struct_name, field_lines):
         out_java.write("\tpublic static native long " + struct_name + "_new(")
         write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_new", len(field_lines) > 3))
@@ -669,9 +641,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         out_java.write(");\n")
         write_c(") {\n")
         write_c("\t" + struct_name + "* ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-        can_clone = True
-        clone_str = "static inline " + struct_name + " " + struct_name.replace("LDK", "") + "_clone(const " + struct_name + " *orig) {\n"
-        clone_str = clone_str + "\t" + struct_name + " ret = {\n"
         for idx, line in enumerate(field_lines):
             if idx != 0 and idx < len(field_lines) - 2:
                 ty_info = type_mapping_generator.map_type(line.strip(';'), False, None, False, False)
@@ -683,19 +652,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     write_c("\tret->" + e + " = " + e + ";\n")
                 if ty_info.arg_conv_cleanup is not None:
                     write_c("\t//TODO: Really need to call " + ty_info.arg_conv_cleanup + " here\n")
-                if not ty_info.is_native_primitive and (ty_info.rust_obj.replace("LDK", "") + "_clone") not in clone_fns:
-                    can_clone = False
-                elif can_clone and ty_info.is_native_primitive:
-                    clone_str = clone_str + "\t\t." + chr(ord('a') + idx - 1) + " = orig->" + chr(ord('a') + idx - 1) + ",\n"
-                elif can_clone:
-                    clone_str = clone_str + "\t\t." + chr(ord('a') + idx - 1) + " = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&orig->" + chr(ord('a') + idx - 1) + "),\n"
         write_c("\treturn (long)ret;\n")
         write_c("}\n")
-
-        if can_clone:
-            clone_fns.add(struct_name.replace("LDK", "") + "_clone")
-            write_c(clone_str)
-            write_c("\t};\n\treturn ret;\n}\n")
 
         for idx, ty_info in enumerate(ty_list):
             e = chr(ord('a') + idx)
