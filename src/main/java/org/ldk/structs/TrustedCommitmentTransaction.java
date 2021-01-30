@@ -22,12 +22,14 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	public BuiltCommitmentTransaction built_transaction() {
 		long ret = bindings.TrustedCommitmentTransaction_built_transaction(this.ptr);
 		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public TxCreationKeys keys() {
 		long ret = bindings.TrustedCommitmentTransaction_keys(this.ptr);
 		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

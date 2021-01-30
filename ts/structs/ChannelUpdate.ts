@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ChannelUpdate clone() {
 		number ret = bindings.ChannelUpdate_clone(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -36,6 +37,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public UnsignedChannelUpdate get_contents() {
 		number ret = bindings.ChannelUpdate_get_contents(this.ptr);
 		const ret_hu_conv: UnsignedChannelUpdate = new UnsignedChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -47,6 +49,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelUpdate constructor_new(Uint8Array signature_arg, UnsignedChannelUpdate contents_arg) {
 		number ret = bindings.ChannelUpdate_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
@@ -59,6 +62,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelUpdate constructor_read(Uint8Array ser) {
 		number ret = bindings.ChannelUpdate_read(ser);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

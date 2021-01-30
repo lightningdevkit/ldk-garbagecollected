@@ -17,6 +17,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	public ChannelHandshakeLimits clone() {
 		long ret = bindings.ChannelHandshakeLimits_clone(this.ptr);
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -113,12 +114,14 @@ public class ChannelHandshakeLimits extends CommonBase {
 	public static ChannelHandshakeLimits constructor_new(long min_funding_satoshis_arg, long max_htlc_minimum_msat_arg, long min_max_htlc_value_in_flight_msat_arg, long max_channel_reserve_satoshis_arg, short min_max_accepted_htlcs_arg, long min_dust_limit_satoshis_arg, long max_dust_limit_satoshis_arg, int max_minimum_depth_arg, boolean force_announced_channel_preference_arg, short their_to_self_delay_arg) {
 		long ret = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, min_dust_limit_satoshis_arg, max_dust_limit_satoshis_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static ChannelHandshakeLimits constructor_default() {
 		long ret = bindings.ChannelHandshakeLimits_default();
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

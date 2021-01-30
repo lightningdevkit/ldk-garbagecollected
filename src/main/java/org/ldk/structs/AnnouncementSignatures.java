@@ -17,6 +17,7 @@ public class AnnouncementSignatures extends CommonBase {
 	public AnnouncementSignatures clone() {
 		long ret = bindings.AnnouncementSignatures_clone(this.ptr);
 		AnnouncementSignatures ret_hu_conv = new AnnouncementSignatures(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -59,6 +60,7 @@ public class AnnouncementSignatures extends CommonBase {
 	public static AnnouncementSignatures constructor_new(byte[] channel_id_arg, long short_channel_id_arg, byte[] node_signature_arg, byte[] bitcoin_signature_arg) {
 		long ret = bindings.AnnouncementSignatures_new(channel_id_arg, short_channel_id_arg, node_signature_arg, bitcoin_signature_arg);
 		AnnouncementSignatures ret_hu_conv = new AnnouncementSignatures(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -70,6 +72,7 @@ public class AnnouncementSignatures extends CommonBase {
 	public static AnnouncementSignatures constructor_read(byte[] ser) {
 		long ret = bindings.AnnouncementSignatures_read(ser);
 		AnnouncementSignatures ret_hu_conv = new AnnouncementSignatures(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

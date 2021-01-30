@@ -76,6 +76,7 @@ export class SendAcceptChannel extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: AcceptChannel = new AcceptChannel(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -87,6 +88,7 @@ export class SendOpenChannel extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: OpenChannel = new OpenChannel(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -98,6 +100,7 @@ export class SendFundingCreated extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: FundingCreated = new FundingCreated(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -109,6 +112,7 @@ export class SendFundingSigned extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: FundingSigned = new FundingSigned(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -120,6 +124,7 @@ export class SendFundingLocked extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: FundingLocked = new FundingLocked(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -131,6 +136,7 @@ export class SendAnnouncementSignatures extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -142,6 +148,7 @@ export class UpdateHTLCs extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const updates: number = obj.updates;
 		const updates_hu_conv: CommitmentUpdate = new CommitmentUpdate(null, updates);
+			updates_hu_conv.ptrs_to.add(this);
 		this.updates = updates_hu_conv;
 	}
 }
@@ -153,6 +160,7 @@ export class SendRevokeAndACK extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: RevokeAndACK = new RevokeAndACK(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -164,6 +172,7 @@ export class SendClosingSigned extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: ClosingSigned = new ClosingSigned(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -175,6 +184,7 @@ export class SendShutdown extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: Shutdown = new Shutdown(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -186,6 +196,7 @@ export class SendChannelReestablish extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: ChannelReestablish = new ChannelReestablish(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -196,9 +207,11 @@ export class BroadcastChannelAnnouncement extends MessageSendEvent {
 		super(null, ptr);
 		const msg: number = obj.msg;
 		const msg_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 		const update_msg: number = obj.update_msg;
 		const update_msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, update_msg);
+			update_msg_hu_conv.ptrs_to.add(this);
 		this.update_msg = update_msg_hu_conv;
 	}
 }
@@ -208,6 +221,7 @@ export class BroadcastNodeAnnouncement extends MessageSendEvent {
 		super(null, ptr);
 		const msg: number = obj.msg;
 		const msg_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -217,6 +231,7 @@ export class BroadcastChannelUpdate extends MessageSendEvent {
 		super(null, ptr);
 		const msg: number = obj.msg;
 		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -250,6 +265,7 @@ export class SendChannelRangeQuery extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: QueryChannelRange = new QueryChannelRange(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -261,6 +277,7 @@ export class SendShortIdsQuery extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }

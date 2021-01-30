@@ -29,6 +29,7 @@ export class DisconnectPeer extends ErrorAction {
 		super(null, ptr);
 		const msg: number = obj.msg;
 		const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }
@@ -43,6 +44,7 @@ export class SendErrorMessage extends ErrorAction {
 		super(null, ptr);
 		const msg: number = obj.msg;
 		const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}
 }

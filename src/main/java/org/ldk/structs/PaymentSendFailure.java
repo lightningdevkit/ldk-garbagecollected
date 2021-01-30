@@ -14,4 +14,11 @@ public class PaymentSendFailure extends CommonBase {
 		if (ptr != 0) { bindings.PaymentSendFailure_free(ptr); }
 	}
 
+	public PaymentSendFailure clone() {
+		long ret = bindings.PaymentSendFailure_clone(this.ptr);
+		PaymentSendFailure ret_hu_conv = new PaymentSendFailure(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

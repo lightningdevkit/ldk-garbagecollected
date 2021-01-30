@@ -17,6 +17,7 @@ public class TxCreationKeys extends CommonBase {
 	public TxCreationKeys clone() {
 		long ret = bindings.TxCreationKeys_clone(this.ptr);
 		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -68,6 +69,7 @@ public class TxCreationKeys extends CommonBase {
 	public static TxCreationKeys constructor_new(byte[] per_commitment_point_arg, byte[] revocation_key_arg, byte[] broadcaster_htlc_key_arg, byte[] countersignatory_htlc_key_arg, byte[] broadcaster_delayed_payment_key_arg) {
 		long ret = bindings.TxCreationKeys_new(per_commitment_point_arg, revocation_key_arg, broadcaster_htlc_key_arg, countersignatory_htlc_key_arg, broadcaster_delayed_payment_key_arg);
 		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -79,6 +81,7 @@ public class TxCreationKeys extends CommonBase {
 	public static TxCreationKeys constructor_read(byte[] ser) {
 		long ret = bindings.TxCreationKeys_read(ser);
 		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

@@ -20,6 +20,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public NetworkGraph graph() {
 		number ret = bindings.LockedNetworkGraph_graph(this.ptr);
 		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

@@ -26,6 +26,7 @@ public class ChainMonitor extends CommonBase {
 	public static ChainMonitor constructor_new(Filter chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
 		long ret = bindings.ChainMonitor_new(chain_source == null ? 0 : chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
 		ChainMonitor ret_hu_conv = new ChainMonitor(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(chain_source);
 		ret_hu_conv.ptrs_to.add(broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);

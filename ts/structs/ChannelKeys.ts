@@ -56,16 +56,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return result;
 						},
 
-						sign_holder_commitment (commitment_tx: number): number {
+						sign_holder_commitment_and_htlcs (commitment_tx: number): number {
 							const commitment_tx_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, commitment_tx);
-							Result_SignatureNoneZ ret = arg.sign_holder_commitment(commitment_tx_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
-				return result;
-						},
-
-						sign_holder_commitment_htlc_transactions (commitment_tx: number): number {
-							const commitment_tx_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, commitment_tx);
-							Result_CVec_SignatureZNoneZ ret = arg.sign_holder_commitment_htlc_transactions(commitment_tx_hu_conv);
+							Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
 						},
@@ -118,8 +111,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				release_commitment_secret(idx: number): Uint8Array;
 				key_derivation_params(): TwoTuple<Number, Number>;
 				sign_counterparty_commitment(commitment_tx: CommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
-				sign_holder_commitment(commitment_tx: HolderCommitmentTransaction): Result_SignatureNoneZ;
-				sign_holder_commitment_htlc_transactions(commitment_tx: HolderCommitmentTransaction): Result_CVec_SignatureZNoneZ;
+				sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
 				sign_justice_transaction(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
 				sign_counterparty_htlc_transaction(htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
 				sign_closing_transaction(closing_tx: Uint8Array): Result_SignatureNoneZ;
@@ -157,16 +149,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public Result_SignatureNoneZ sign_holder_commitment(HolderCommitmentTransaction commitment_tx) {
-		number ret = bindings.ChannelKeys_sign_holder_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(commitment_tx);
-		return ret_hu_conv;
-	}
-
-	public Result_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions(HolderCommitmentTransaction commitment_tx) {
-		number ret = bindings.ChannelKeys_sign_holder_commitment_htlc_transactions(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
-		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
+	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
+		number ret = bindings.ChannelKeys_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
+		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}
@@ -211,6 +196,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ChannelPublicKeys get_pubkeys() {
 		number ret = bindings.ChannelKeys_get_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

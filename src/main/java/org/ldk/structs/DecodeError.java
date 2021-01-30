@@ -14,4 +14,11 @@ public class DecodeError extends CommonBase {
 		if (ptr != 0) { bindings.DecodeError_free(ptr); }
 	}
 
+	public DecodeError clone() {
+		long ret = bindings.DecodeError_clone(this.ptr);
+		DecodeError ret_hu_conv = new DecodeError(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public HolderCommitmentTransaction clone() {
 		number ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
 		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -45,12 +46,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static HolderCommitmentTransaction constructor_read(Uint8Array ser) {
 		number ret = bindings.HolderCommitmentTransaction_read(ser);
 		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static HolderCommitmentTransaction constructor_new(CommitmentTransaction commitment_tx, Uint8Array counterparty_sig, Uint8Array[] counterparty_htlc_sigs, Uint8Array holder_funding_key, Uint8Array counterparty_funding_key) {
 		number ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
 		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}

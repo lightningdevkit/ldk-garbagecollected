@@ -14,6 +14,13 @@ public class PeerHandleError extends CommonBase {
 		if (ptr != 0) { bindings.PeerHandleError_free(ptr); }
 	}
 
+	public PeerHandleError clone() {
+		long ret = bindings.PeerHandleError_clone(this.ptr);
+		PeerHandleError ret_hu_conv = new PeerHandleError(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public boolean get_no_connection_possible() {
 		boolean ret = bindings.PeerHandleError_get_no_connection_possible(this.ptr);
 		return ret;
@@ -26,6 +33,7 @@ public class PeerHandleError extends CommonBase {
 	public static PeerHandleError constructor_new(boolean no_connection_possible_arg) {
 		long ret = bindings.PeerHandleError_new(no_connection_possible_arg);
 		PeerHandleError ret_hu_conv = new PeerHandleError(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

@@ -17,6 +17,7 @@ public class GossipTimestampFilter extends CommonBase {
 	public GossipTimestampFilter clone() {
 		long ret = bindings.GossipTimestampFilter_clone(this.ptr);
 		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -50,6 +51,7 @@ public class GossipTimestampFilter extends CommonBase {
 	public static GossipTimestampFilter constructor_new(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg) {
 		long ret = bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg);
 		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

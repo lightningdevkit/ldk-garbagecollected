@@ -17,6 +17,7 @@ public class ChannelUpdate extends CommonBase {
 	public ChannelUpdate clone() {
 		long ret = bindings.ChannelUpdate_clone(this.ptr);
 		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -32,6 +33,7 @@ public class ChannelUpdate extends CommonBase {
 	public UnsignedChannelUpdate get_contents() {
 		long ret = bindings.ChannelUpdate_get_contents(this.ptr);
 		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -43,6 +45,7 @@ public class ChannelUpdate extends CommonBase {
 	public static ChannelUpdate constructor_new(byte[] signature_arg, UnsignedChannelUpdate contents_arg) {
 		long ret = bindings.ChannelUpdate_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
@@ -55,6 +58,7 @@ public class ChannelUpdate extends CommonBase {
 	public static ChannelUpdate constructor_read(byte[] ser) {
 		long ret = bindings.ChannelUpdate_read(ser);
 		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

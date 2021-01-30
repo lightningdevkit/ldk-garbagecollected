@@ -17,6 +17,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	public UnsignedChannelUpdate clone() {
 		long ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
 		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelManager constructor_new(LDKNetwork network, FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, number current_blockchain_height) {
 		number ret = bindings.ChannelManager_new(network, fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, current_blockchain_height);
 		const ret_hu_conv: ChannelManager = new ChannelManager(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fee_est);
 		ret_hu_conv.ptrs_to.add(chain_monitor);
 		ret_hu_conv.ptrs_to.add(tx_broadcaster);
@@ -43,6 +44,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		for (int q = 0; q < ret.length; q++) {
 			number arr_conv_16 = ret[q];
 			const arr_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, arr_conv_16);
+			arr_conv_16_hu_conv.ptrs_to.add(this);
 			arr_conv_16_arr[q] = arr_conv_16_hu_conv;
 		}
 		return arr_conv_16_arr;
@@ -54,6 +56,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		for (int q = 0; q < ret.length; q++) {
 			number arr_conv_16 = ret[q];
 			const arr_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, arr_conv_16);
+			arr_conv_16_hu_conv.ptrs_to.add(this);
 			arr_conv_16_arr[q] = arr_conv_16_hu_conv;
 		}
 		return arr_conv_16_arr;
@@ -65,8 +68,10 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public void force_close_channel(Uint8Array channel_id) {
-		bindings.ChannelManager_force_close_channel(this.ptr, channel_id);
+	public Result_NoneAPIErrorZ force_close_channel(Uint8Array channel_id) {
+		number ret = bindings.ChannelManager_force_close_channel(this.ptr, channel_id);
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	public void force_close_all_channels() {

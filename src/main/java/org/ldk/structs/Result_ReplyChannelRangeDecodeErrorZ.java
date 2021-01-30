@@ -25,6 +25,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_ReplyChannelRangeDecodeErrorZ_get_ok(ptr);
 			ReplyChannelRange res_hu_conv = new ReplyChannelRange(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_ReplyChannelRangeDecodeErrorZ_OK(ReplyChannelRange res) {
@@ -39,6 +40,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_ReplyChannelRangeDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_ReplyChannelRangeDecodeErrorZ_Err(DecodeError err) {

@@ -17,6 +17,7 @@ public class RevokeAndACK extends CommonBase {
 	public RevokeAndACK clone() {
 		long ret = bindings.RevokeAndACK_clone(this.ptr);
 		RevokeAndACK ret_hu_conv = new RevokeAndACK(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -50,6 +51,7 @@ public class RevokeAndACK extends CommonBase {
 	public static RevokeAndACK constructor_new(byte[] channel_id_arg, byte[] per_commitment_secret_arg, byte[] next_per_commitment_point_arg) {
 		long ret = bindings.RevokeAndACK_new(channel_id_arg, per_commitment_secret_arg, next_per_commitment_point_arg);
 		RevokeAndACK ret_hu_conv = new RevokeAndACK(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -61,6 +63,7 @@ public class RevokeAndACK extends CommonBase {
 	public static RevokeAndACK constructor_read(byte[] ser) {
 		long ret = bindings.RevokeAndACK_read(ser);
 		RevokeAndACK ret_hu_conv = new RevokeAndACK(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

@@ -30,14 +30,18 @@ public class Watch extends CommonBase {
 		impl_holder.held = new Watch(new bindings.LDKWatch() {
 			@Override public long watch_channel(long funding_txo, long monitor) {
 				OutPoint funding_txo_hu_conv = new OutPoint(null, funding_txo);
+				funding_txo_hu_conv.ptrs_to.add(this);
 				ChannelMonitor monitor_hu_conv = new ChannelMonitor(null, monitor);
+				monitor_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
 			@Override public long update_channel(long funding_txo, long update) {
 				OutPoint funding_txo_hu_conv = new OutPoint(null, funding_txo);
+				funding_txo_hu_conv.ptrs_to.add(this);
 				ChannelMonitorUpdate update_hu_conv = new ChannelMonitorUpdate(null, update);
+				update_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
@@ -73,6 +77,7 @@ public class Watch extends CommonBase {
 		for (int o = 0; o < ret.length; o++) {
 			long arr_conv_14 = ret[o];
 			MonitorEvent arr_conv_14_hu_conv = new MonitorEvent(null, arr_conv_14);
+			arr_conv_14_hu_conv.ptrs_to.add(this);
 			arr_conv_14_arr[o] = arr_conv_14_hu_conv;
 		}
 		return arr_conv_14_arr;

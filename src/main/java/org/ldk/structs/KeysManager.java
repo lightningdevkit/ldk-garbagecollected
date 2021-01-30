@@ -17,12 +17,14 @@ public class KeysManager extends CommonBase {
 	public static KeysManager constructor_new(byte[] seed, LDKNetwork network, long starting_time_secs, int starting_time_nanos) {
 		long ret = bindings.KeysManager_new(seed, network, starting_time_secs, starting_time_nanos);
 		KeysManager ret_hu_conv = new KeysManager(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public InMemoryChannelKeys derive_channel_keys(long channel_value_satoshis, long params_1, long params_2) {
 		long ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, params_1, params_2);
 		InMemoryChannelKeys ret_hu_conv = new InMemoryChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

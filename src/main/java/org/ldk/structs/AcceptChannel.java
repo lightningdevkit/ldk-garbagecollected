@@ -17,6 +17,7 @@ public class AcceptChannel extends CommonBase {
 	public AcceptChannel clone() {
 		long ret = bindings.AcceptChannel_clone(this.ptr);
 		AcceptChannel ret_hu_conv = new AcceptChannel(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -154,6 +155,7 @@ public class AcceptChannel extends CommonBase {
 	public static AcceptChannel constructor_read(byte[] ser) {
 		long ret = bindings.AcceptChannel_read(ser);
 		AcceptChannel ret_hu_conv = new AcceptChannel(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

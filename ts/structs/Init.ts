@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Init clone() {
 		number ret = bindings.Init_clone(this.ptr);
 		const ret_hu_conv: Init = new Init(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

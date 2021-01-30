@@ -17,6 +17,7 @@ public class FundingSigned extends CommonBase {
 	public FundingSigned clone() {
 		long ret = bindings.FundingSigned_clone(this.ptr);
 		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class FundingSigned extends CommonBase {
 	public static FundingSigned constructor_new(byte[] channel_id_arg, byte[] signature_arg) {
 		long ret = bindings.FundingSigned_new(channel_id_arg, signature_arg);
 		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -52,6 +54,7 @@ public class FundingSigned extends CommonBase {
 	public static FundingSigned constructor_read(byte[] ser) {
 		long ret = bindings.FundingSigned_read(ser);
 		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

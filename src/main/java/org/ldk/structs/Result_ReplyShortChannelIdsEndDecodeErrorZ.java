@@ -25,6 +25,7 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_ok(ptr);
 			ReplyShortChannelIdsEnd res_hu_conv = new ReplyShortChannelIdsEnd(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_ReplyShortChannelIdsEndDecodeErrorZ_OK(ReplyShortChannelIdsEnd res) {
@@ -39,6 +40,7 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_ReplyShortChannelIdsEndDecodeErrorZ_Err(DecodeError err) {

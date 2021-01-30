@@ -17,6 +17,7 @@ public class FundingLocked extends CommonBase {
 	public FundingLocked clone() {
 		long ret = bindings.FundingLocked_clone(this.ptr);
 		FundingLocked ret_hu_conv = new FundingLocked(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class FundingLocked extends CommonBase {
 	public static FundingLocked constructor_new(byte[] channel_id_arg, byte[] next_per_commitment_point_arg) {
 		long ret = bindings.FundingLocked_new(channel_id_arg, next_per_commitment_point_arg);
 		FundingLocked ret_hu_conv = new FundingLocked(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -52,6 +54,7 @@ public class FundingLocked extends CommonBase {
 	public static FundingLocked constructor_read(byte[] ser) {
 		long ret = bindings.FundingLocked_read(ser);
 		FundingLocked ret_hu_conv = new FundingLocked(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

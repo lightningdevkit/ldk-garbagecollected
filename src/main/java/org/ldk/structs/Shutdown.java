@@ -17,6 +17,7 @@ public class Shutdown extends CommonBase {
 	public Shutdown clone() {
 		long ret = bindings.Shutdown_clone(this.ptr);
 		Shutdown ret_hu_conv = new Shutdown(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class Shutdown extends CommonBase {
 	public static Shutdown constructor_new(byte[] channel_id_arg, byte[] scriptpubkey_arg) {
 		long ret = bindings.Shutdown_new(channel_id_arg, scriptpubkey_arg);
 		Shutdown ret_hu_conv = new Shutdown(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -52,6 +54,7 @@ public class Shutdown extends CommonBase {
 	public static Shutdown constructor_read(byte[] ser) {
 		long ret = bindings.Shutdown_read(ser);
 		Shutdown ret_hu_conv = new Shutdown(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

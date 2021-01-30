@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public GossipTimestampFilter clone() {
 		number ret = bindings.GossipTimestampFilter_clone(this.ptr);
 		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -54,6 +55,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static GossipTimestampFilter constructor_new(Uint8Array chain_hash_arg, number first_timestamp_arg, number timestamp_range_arg) {
 		number ret = bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg);
 		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

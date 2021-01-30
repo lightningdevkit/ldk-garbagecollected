@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ReplyShortChannelIdsEnd clone() {
 		number ret = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
 		const ret_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -45,6 +46,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ReplyShortChannelIdsEnd constructor_new(Uint8Array chain_hash_arg, boolean full_information_arg) {
 		number ret = bindings.ReplyShortChannelIdsEnd_new(chain_hash_arg, full_information_arg);
 		const ret_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

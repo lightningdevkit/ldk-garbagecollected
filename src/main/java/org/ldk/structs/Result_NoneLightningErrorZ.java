@@ -34,6 +34,7 @@ public class Result_NoneLightningErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_NoneLightningErrorZ_get_err(ptr);
 			LightningError err_hu_conv = new LightningError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_NoneLightningErrorZ_Err(LightningError err) {

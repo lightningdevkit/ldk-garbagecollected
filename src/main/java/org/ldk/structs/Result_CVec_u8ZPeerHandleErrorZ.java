@@ -36,6 +36,7 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(ptr);
 			PeerHandleError err_hu_conv = new PeerHandleError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_CVec_u8ZPeerHandleErrorZ_Err(PeerHandleError err) {

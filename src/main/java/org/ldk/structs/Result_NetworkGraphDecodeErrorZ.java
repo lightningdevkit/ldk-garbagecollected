@@ -25,11 +25,20 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_NetworkGraphDecodeErrorZ_get_ok(ptr);
 			NetworkGraph res_hu_conv = new NetworkGraph(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_NetworkGraphDecodeErrorZ_OK(NetworkGraph res) {
 			this(null, bindings.CResult_NetworkGraphDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
 			this.ptrs_to.add(res);
+			// Due to rust's strict-ownership memory model, in some cases we need to "move"
+			// an object to pass exclusive ownership to the function being called.
+			// In most cases, we avoid this being visible in GC'd languages by cloning the object
+			// at the FFI layer, creating a new object which Rust can claim ownership of
+			// However, in some cases (eg here), there is no way to clone an object, and thus
+			// we actually have to pass full ownership to Rust.
+			// Thus, after this call, res is reset to null and is now a dummy object.
+			res.ptr = 0;
 		}
 	}
 
@@ -39,6 +48,7 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_NetworkGraphDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_NetworkGraphDecodeErrorZ_Err(DecodeError err) {

@@ -17,6 +17,7 @@ public class OpenChannel extends CommonBase {
 	public OpenChannel clone() {
 		long ret = bindings.OpenChannel_clone(this.ptr);
 		OpenChannel ret_hu_conv = new OpenChannel(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -190,6 +191,7 @@ public class OpenChannel extends CommonBase {
 	public static OpenChannel constructor_read(byte[] ser) {
 		long ret = bindings.OpenChannel_read(ser);
 		OpenChannel ret_hu_conv = new OpenChannel(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public QueryShortChannelIds clone() {
 		number ret = bindings.QueryShortChannelIds_clone(this.ptr);
 		const ret_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -40,6 +41,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static QueryShortChannelIds constructor_new(Uint8Array chain_hash_arg, number[] short_channel_ids_arg) {
 		number ret = bindings.QueryShortChannelIds_new(chain_hash_arg, short_channel_ids_arg);
 		const ret_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

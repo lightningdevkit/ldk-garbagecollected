@@ -21,6 +21,7 @@ public class Result_ChannelReestablishDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number res = bindings.LDKCResult_ChannelReestablishDecodeErrorZ_get_ok(ptr);
 			const res_hu_conv: ChannelReestablish = new ChannelReestablish(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_ChannelReestablishDecodeErrorZ_OK(ChannelReestablish res) {
@@ -35,6 +36,7 @@ public class Result_ChannelReestablishDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number err = bindings.LDKCResult_ChannelReestablishDecodeErrorZ_get_err(ptr);
 			const err_hu_conv: DecodeError = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_ChannelReestablishDecodeErrorZ_Err(DecodeError err) {

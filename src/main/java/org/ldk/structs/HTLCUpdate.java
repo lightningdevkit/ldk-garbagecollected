@@ -17,6 +17,7 @@ public class HTLCUpdate extends CommonBase {
 	public HTLCUpdate clone() {
 		long ret = bindings.HTLCUpdate_clone(this.ptr);
 		HTLCUpdate ret_hu_conv = new HTLCUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -28,6 +29,7 @@ public class HTLCUpdate extends CommonBase {
 	public static HTLCUpdate constructor_read(byte[] ser) {
 		long ret = bindings.HTLCUpdate_read(ser);
 		HTLCUpdate ret_hu_conv = new HTLCUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

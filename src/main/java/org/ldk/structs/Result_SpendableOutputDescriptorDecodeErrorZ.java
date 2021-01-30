@@ -39,6 +39,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_SpendableOutputDescriptorDecodeErrorZ_Err(DecodeError err) {

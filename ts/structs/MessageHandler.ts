@@ -45,6 +45,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static MessageHandler constructor_new(ChannelMessageHandler chan_handler_arg, RoutingMessageHandler route_handler_arg) {
 		number ret = bindings.MessageHandler_new(chan_handler_arg == null ? 0 : chan_handler_arg.ptr, route_handler_arg == null ? 0 : route_handler_arg.ptr);
 		const ret_hu_conv: MessageHandler = new MessageHandler(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(chan_handler_arg);
 		ret_hu_conv.ptrs_to.add(route_handler_arg);
 		return ret_hu_conv;

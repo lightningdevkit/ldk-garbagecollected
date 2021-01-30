@@ -55,6 +55,7 @@ export class FundingBroadcastSafe extends Event {
 		super(null, ptr);
 		const funding_txo: number = obj.funding_txo;
 		const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
+			funding_txo_hu_conv.ptrs_to.add(this);
 		this.funding_txo = funding_txo_hu_conv;
 		this.user_channel_id = obj.user_channel_id;
 	}

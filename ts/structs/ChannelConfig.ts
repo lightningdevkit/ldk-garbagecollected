@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ChannelConfig clone() {
 		number ret = bindings.ChannelConfig_clone(this.ptr);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -54,12 +55,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelConfig constructor_new(number fee_proportional_millionths_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
 		number ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static ChannelConfig constructor_default() {
 		number ret = bindings.ChannelConfig_default();
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -71,6 +74,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelConfig constructor_read(Uint8Array ser) {
 		number ret = bindings.ChannelConfig_read(ser);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

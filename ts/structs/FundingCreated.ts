@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public FundingCreated clone() {
 		number ret = bindings.FundingCreated_clone(this.ptr);
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -63,6 +64,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static FundingCreated constructor_new(Uint8Array temporary_channel_id_arg, Uint8Array funding_txid_arg, number funding_output_index_arg, Uint8Array signature_arg) {
 		number ret = bindings.FundingCreated_new(temporary_channel_id_arg, funding_txid_arg, funding_output_index_arg, signature_arg);
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -74,6 +76,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static FundingCreated constructor_read(Uint8Array ser) {
 		number ret = bindings.FundingCreated_read(ser);
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

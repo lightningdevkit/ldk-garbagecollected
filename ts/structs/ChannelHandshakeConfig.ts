@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ChannelHandshakeConfig clone() {
 		number ret = bindings.ChannelHandshakeConfig_clone(this.ptr);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -54,12 +55,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelHandshakeConfig constructor_new(number minimum_depth_arg, number our_to_self_delay_arg, number our_htlc_minimum_msat_arg) {
 		number ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static ChannelHandshakeConfig constructor_default() {
 		number ret = bindings.ChannelHandshakeConfig_default();
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

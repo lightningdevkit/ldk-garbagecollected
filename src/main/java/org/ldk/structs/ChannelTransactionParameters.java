@@ -17,12 +17,14 @@ public class ChannelTransactionParameters extends CommonBase {
 	public ChannelTransactionParameters clone() {
 		long ret = bindings.ChannelTransactionParameters_clone(this.ptr);
 		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public ChannelPublicKeys get_holder_pubkeys() {
 		long ret = bindings.ChannelTransactionParameters_get_holder_pubkeys(this.ptr);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -52,6 +54,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	public CounterpartyChannelTransactionParameters get_counterparty_parameters() {
 		long ret = bindings.ChannelTransactionParameters_get_counterparty_parameters(this.ptr);
 		CounterpartyChannelTransactionParameters ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -63,6 +66,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	public OutPoint get_funding_outpoint() {
 		long ret = bindings.ChannelTransactionParameters_get_funding_outpoint(this.ptr);
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -74,6 +78,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	public static ChannelTransactionParameters constructor_new(ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg) {
 		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr & ~1, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr & ~1);
 		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(holder_pubkeys_arg);
 		ret_hu_conv.ptrs_to.add(counterparty_parameters_arg);
 		ret_hu_conv.ptrs_to.add(funding_outpoint_arg);
@@ -88,12 +93,14 @@ public class ChannelTransactionParameters extends CommonBase {
 	public DirectedChannelTransactionParameters as_holder_broadcastable() {
 		long ret = bindings.ChannelTransactionParameters_as_holder_broadcastable(this.ptr);
 		DirectedChannelTransactionParameters ret_hu_conv = new DirectedChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public DirectedChannelTransactionParameters as_counterparty_broadcastable() {
 		long ret = bindings.ChannelTransactionParameters_as_counterparty_broadcastable(this.ptr);
 		DirectedChannelTransactionParameters ret_hu_conv = new DirectedChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -105,6 +112,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	public static ChannelTransactionParameters constructor_read(byte[] ser) {
 		long ret = bindings.ChannelTransactionParameters_read(ser);
 		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

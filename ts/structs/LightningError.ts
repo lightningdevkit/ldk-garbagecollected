@@ -18,6 +18,13 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.LightningError_free(this.ptr);
                     }
                 }
+	public LightningError clone() {
+		number ret = bindings.LightningError_clone(this.ptr);
+		const ret_hu_conv: LightningError = new LightningError(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public String get_err() {
 		String ret = bindings.LightningError_get_err(this.ptr);
 		return ret;
@@ -41,6 +48,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static LightningError constructor_new(Uint8Array err_arg, ErrorAction action_arg) {
 		number ret = bindings.LightningError_new(err_arg, action_arg.ptr);
 		const ret_hu_conv: LightningError = new LightningError(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

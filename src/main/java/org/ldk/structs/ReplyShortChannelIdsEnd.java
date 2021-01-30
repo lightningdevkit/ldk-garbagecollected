@@ -17,6 +17,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	public ReplyShortChannelIdsEnd clone() {
 		long ret = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
 		ReplyShortChannelIdsEnd ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	public static ReplyShortChannelIdsEnd constructor_new(byte[] chain_hash_arg, boolean full_information_arg) {
 		long ret = bindings.ReplyShortChannelIdsEnd_new(chain_hash_arg, full_information_arg);
 		ReplyShortChannelIdsEnd ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

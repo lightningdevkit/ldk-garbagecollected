@@ -17,6 +17,7 @@ public class InMemoryChannelKeys extends CommonBase {
 	public InMemoryChannelKeys clone() {
 		long ret = bindings.InMemoryChannelKeys_clone(this.ptr);
 		InMemoryChannelKeys ret_hu_conv = new InMemoryChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -77,12 +78,14 @@ public class InMemoryChannelKeys extends CommonBase {
 	public static InMemoryChannelKeys constructor_new(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, TwoTuple<Long, Long> key_derivation_params) {
 		long ret = bindings.InMemoryChannelKeys_new(funding_key, revocation_base_key, payment_key, delayed_payment_base_key, htlc_base_key, commitment_seed, channel_value_satoshis, bindings.C2Tuple_u64u64Z_new(key_derivation_params.a, key_derivation_params.b));
 		InMemoryChannelKeys ret_hu_conv = new InMemoryChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public ChannelPublicKeys counterparty_pubkeys() {
 		long ret = bindings.InMemoryChannelKeys_counterparty_pubkeys(this.ptr);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -104,12 +107,14 @@ public class InMemoryChannelKeys extends CommonBase {
 	public OutPoint funding_outpoint() {
 		long ret = bindings.InMemoryChannelKeys_funding_outpoint(this.ptr);
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public ChannelTransactionParameters get_channel_parameters() {
 		long ret = bindings.InMemoryChannelKeys_get_channel_parameters(this.ptr);
 		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

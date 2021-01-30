@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public MonitorEvent clone() {
 		number ret = bindings.MonitorEvent_clone(this.ptr);
 		const ret_hu_conv: MonitorEvent = new MonitorEvent(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

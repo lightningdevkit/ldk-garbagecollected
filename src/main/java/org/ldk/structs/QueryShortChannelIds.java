@@ -17,6 +17,7 @@ public class QueryShortChannelIds extends CommonBase {
 	public QueryShortChannelIds clone() {
 		long ret = bindings.QueryShortChannelIds_clone(this.ptr);
 		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -36,6 +37,7 @@ public class QueryShortChannelIds extends CommonBase {
 	public static QueryShortChannelIds constructor_new(byte[] chain_hash_arg, long[] short_channel_ids_arg) {
 		long ret = bindings.QueryShortChannelIds_new(chain_hash_arg, short_channel_ids_arg);
 		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

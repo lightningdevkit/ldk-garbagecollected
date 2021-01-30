@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ChannelAnnouncement clone() {
 		number ret = bindings.ChannelAnnouncement_clone(this.ptr);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -63,6 +64,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public UnsignedChannelAnnouncement get_contents() {
 		number ret = bindings.ChannelAnnouncement_get_contents(this.ptr);
 		const ret_hu_conv: UnsignedChannelAnnouncement = new UnsignedChannelAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -74,6 +76,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelAnnouncement constructor_new(Uint8Array node_signature_1_arg, Uint8Array node_signature_2_arg, Uint8Array bitcoin_signature_1_arg, Uint8Array bitcoin_signature_2_arg, UnsignedChannelAnnouncement contents_arg) {
 		number ret = bindings.ChannelAnnouncement_new(node_signature_1_arg, node_signature_2_arg, bitcoin_signature_1_arg, bitcoin_signature_2_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
@@ -86,6 +89,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelAnnouncement constructor_read(Uint8Array ser) {
 		number ret = bindings.ChannelAnnouncement_read(ser);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

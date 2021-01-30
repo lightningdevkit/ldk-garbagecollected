@@ -17,6 +17,7 @@ public class ClosingSigned extends CommonBase {
 	public ClosingSigned clone() {
 		long ret = bindings.ClosingSigned_clone(this.ptr);
 		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -50,6 +51,7 @@ public class ClosingSigned extends CommonBase {
 	public static ClosingSigned constructor_new(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg) {
 		long ret = bindings.ClosingSigned_new(channel_id_arg, fee_satoshis_arg, signature_arg);
 		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -61,6 +63,7 @@ public class ClosingSigned extends CommonBase {
 	public static ClosingSigned constructor_read(byte[] ser) {
 		long ret = bindings.ClosingSigned_read(ser);
 		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

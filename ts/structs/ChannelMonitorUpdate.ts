@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ChannelMonitorUpdate clone() {
 		number ret = bindings.ChannelMonitorUpdate_clone(this.ptr);
 		const ret_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

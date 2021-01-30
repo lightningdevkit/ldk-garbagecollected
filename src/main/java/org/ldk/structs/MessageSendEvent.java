@@ -80,6 +80,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			AcceptChannel msg_hu_conv = new AcceptChannel(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -91,6 +92,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			OpenChannel msg_hu_conv = new OpenChannel(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -102,6 +104,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			FundingCreated msg_hu_conv = new FundingCreated(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -113,6 +116,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			FundingSigned msg_hu_conv = new FundingSigned(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -124,6 +128,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			FundingLocked msg_hu_conv = new FundingLocked(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -135,6 +140,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			AnnouncementSignatures msg_hu_conv = new AnnouncementSignatures(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -146,6 +152,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long updates = obj.updates;
 			CommitmentUpdate updates_hu_conv = new CommitmentUpdate(null, updates);
+			updates_hu_conv.ptrs_to.add(this);
 			this.updates = updates_hu_conv;
 		}
 	}
@@ -157,6 +164,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			RevokeAndACK msg_hu_conv = new RevokeAndACK(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -168,6 +176,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			ClosingSigned msg_hu_conv = new ClosingSigned(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -179,6 +188,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			Shutdown msg_hu_conv = new Shutdown(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -190,6 +200,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			ChannelReestablish msg_hu_conv = new ChannelReestablish(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -200,9 +211,11 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			ChannelAnnouncement msg_hu_conv = new ChannelAnnouncement(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 			long update_msg = obj.update_msg;
 			ChannelUpdate update_msg_hu_conv = new ChannelUpdate(null, update_msg);
+			update_msg_hu_conv.ptrs_to.add(this);
 			this.update_msg = update_msg_hu_conv;
 		}
 	}
@@ -212,6 +225,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			NodeAnnouncement msg_hu_conv = new NodeAnnouncement(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -221,6 +235,7 @@ public class MessageSendEvent extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -254,6 +269,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			QueryChannelRange msg_hu_conv = new QueryChannelRange(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -265,6 +281,7 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			QueryShortChannelIds msg_hu_conv = new QueryShortChannelIds(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}

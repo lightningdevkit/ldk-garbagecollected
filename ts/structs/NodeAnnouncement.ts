@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public NodeAnnouncement clone() {
 		number ret = bindings.NodeAnnouncement_clone(this.ptr);
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -36,6 +37,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public UnsignedNodeAnnouncement get_contents() {
 		number ret = bindings.NodeAnnouncement_get_contents(this.ptr);
 		const ret_hu_conv: UnsignedNodeAnnouncement = new UnsignedNodeAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -47,6 +49,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static NodeAnnouncement constructor_new(Uint8Array signature_arg, UnsignedNodeAnnouncement contents_arg) {
 		number ret = bindings.NodeAnnouncement_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
@@ -59,6 +62,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static NodeAnnouncement constructor_read(Uint8Array ser) {
 		number ret = bindings.NodeAnnouncement_read(ser);
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

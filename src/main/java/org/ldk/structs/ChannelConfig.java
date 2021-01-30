@@ -17,6 +17,7 @@ public class ChannelConfig extends CommonBase {
 	public ChannelConfig clone() {
 		long ret = bindings.ChannelConfig_clone(this.ptr);
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -50,12 +51,14 @@ public class ChannelConfig extends CommonBase {
 	public static ChannelConfig constructor_new(int fee_proportional_millionths_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
 		long ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static ChannelConfig constructor_default() {
 		long ret = bindings.ChannelConfig_default();
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -67,6 +70,7 @@ public class ChannelConfig extends CommonBase {
 	public static ChannelConfig constructor_read(byte[] ser) {
 		long ret = bindings.ChannelConfig_read(ser);
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

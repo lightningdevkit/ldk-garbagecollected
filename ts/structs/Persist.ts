@@ -34,6 +34,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         persist_new_channel (id: number, data: number): number {
 							const id_hu_conv: OutPoint = new OutPoint(null, id);
+				id_hu_conv.ptrs_to.add(this);
 							const data_hu_conv: ChannelMonitor = new ChannelMonitor(null, data);
 							Result_NoneChannelMonitorUpdateErrZ ret = arg.persist_new_channel(id_hu_conv, data_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
@@ -42,6 +43,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						update_persisted_channel (id: number, update: number, data: number): number {
 							const id_hu_conv: OutPoint = new OutPoint(null, id);
+				id_hu_conv.ptrs_to.add(this);
 							const update_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, update);
 							const data_hu_conv: ChannelMonitor = new ChannelMonitor(null, data);
 							Result_NoneChannelMonitorUpdateErrZ ret = arg.update_persisted_channel(id_hu_conv, update_hu_conv, data_hu_conv);

@@ -18,4 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.DecodeError_free(this.ptr);
                     }
                 }
+	public DecodeError clone() {
+		number ret = bindings.DecodeError_clone(this.ptr);
+		const ret_hu_conv: DecodeError = new DecodeError(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

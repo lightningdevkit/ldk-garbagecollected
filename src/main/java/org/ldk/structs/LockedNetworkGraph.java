@@ -15,6 +15,7 @@ public class LockedNetworkGraph extends CommonBase implements AutoCloseable {
 	public NetworkGraph graph() {
 		long ret = bindings.LockedNetworkGraph_graph(this.ptr);
 		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

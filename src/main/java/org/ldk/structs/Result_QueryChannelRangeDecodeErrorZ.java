@@ -25,6 +25,7 @@ public class Result_QueryChannelRangeDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_QueryChannelRangeDecodeErrorZ_get_ok(ptr);
 			QueryChannelRange res_hu_conv = new QueryChannelRange(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_QueryChannelRangeDecodeErrorZ_OK(QueryChannelRange res) {
@@ -39,6 +40,7 @@ public class Result_QueryChannelRangeDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_QueryChannelRangeDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_QueryChannelRangeDecodeErrorZ_Err(DecodeError err) {

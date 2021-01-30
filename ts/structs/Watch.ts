@@ -34,7 +34,9 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         watch_channel (funding_txo: number, monitor: number): number {
 							const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
+				funding_txo_hu_conv.ptrs_to.add(this);
 							const monitor_hu_conv: ChannelMonitor = new ChannelMonitor(null, monitor);
+				monitor_hu_conv.ptrs_to.add(this);
 							Result_NoneChannelMonitorUpdateErrZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
@@ -42,7 +44,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						update_channel (funding_txo: number, update: number): number {
 							const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
+				funding_txo_hu_conv.ptrs_to.add(this);
 							const update_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, update);
+				update_hu_conv.ptrs_to.add(this);
 							Result_NoneChannelMonitorUpdateErrZ ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
@@ -93,6 +97,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		for (int o = 0; o < ret.length; o++) {
 			number arr_conv_14 = ret[o];
 			const arr_conv_14_hu_conv: MonitorEvent = new MonitorEvent(null, arr_conv_14);
+			arr_conv_14_hu_conv.ptrs_to.add(this);
 			arr_conv_14_arr[o] = arr_conv_14_hu_conv;
 		}
 		return arr_conv_14_arr;

@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public AcceptChannel clone() {
 		number ret = bindings.AcceptChannel_clone(this.ptr);
 		const ret_hu_conv: AcceptChannel = new AcceptChannel(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -158,6 +159,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static AcceptChannel constructor_read(Uint8Array ser) {
 		number ret = bindings.AcceptChannel_read(ser);
 		const ret_hu_conv: AcceptChannel = new AcceptChannel(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

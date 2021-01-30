@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public HTLCUpdate clone() {
 		number ret = bindings.HTLCUpdate_clone(this.ptr);
 		const ret_hu_conv: HTLCUpdate = new HTLCUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -32,6 +33,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static HTLCUpdate constructor_read(Uint8Array ser) {
 		number ret = bindings.HTLCUpdate_read(ser);
 		const ret_hu_conv: HTLCUpdate = new HTLCUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

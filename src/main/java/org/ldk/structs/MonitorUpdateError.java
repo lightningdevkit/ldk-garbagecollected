@@ -14,4 +14,11 @@ public class MonitorUpdateError extends CommonBase {
 		if (ptr != 0) { bindings.MonitorUpdateError_free(ptr); }
 	}
 
+	public MonitorUpdateError clone() {
+		long ret = bindings.MonitorUpdateError_clone(this.ptr);
+		MonitorUpdateError ret_hu_conv = new MonitorUpdateError(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

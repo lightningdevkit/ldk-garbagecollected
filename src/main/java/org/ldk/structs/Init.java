@@ -17,6 +17,7 @@ public class Init extends CommonBase {
 	public Init clone() {
 		long ret = bindings.Init_clone(this.ptr);
 		Init ret_hu_conv = new Init(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

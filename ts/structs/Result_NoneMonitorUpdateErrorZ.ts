@@ -30,6 +30,7 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number err = bindings.LDKCResult_NoneMonitorUpdateErrorZ_get_err(ptr);
 			const err_hu_conv: MonitorUpdateError = new MonitorUpdateError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_NoneMonitorUpdateErrorZ_Err(MonitorUpdateError err) {

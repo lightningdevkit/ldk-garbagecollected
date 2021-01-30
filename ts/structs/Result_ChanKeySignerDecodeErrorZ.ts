@@ -36,6 +36,7 @@ public class Result_ChanKeySignerDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number err = bindings.LDKCResult_ChanKeySignerDecodeErrorZ_get_err(ptr);
 			const err_hu_conv: DecodeError = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_ChanKeySignerDecodeErrorZ_Err(DecodeError err) {

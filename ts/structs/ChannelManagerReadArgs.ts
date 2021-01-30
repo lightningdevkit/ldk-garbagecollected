@@ -81,6 +81,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public UserConfig get_default_config() {
 		number ret = bindings.ChannelManagerReadArgs_get_default_config(this.ptr);
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -92,6 +93,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelManagerReadArgs constructor_new(KeysInterface keys_manager, FeeEstimator fee_estimator, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, UserConfig default_config, ChannelMonitor[] channel_monitors) {
 		number ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr & ~1, (number[])Arrays.stream(channel_monitors).map(arr_conv_16 -> arr_conv_16 == null ? 0 : arr_conv_16.ptr & ~1).toArray());
 		const ret_hu_conv: ChannelManagerReadArgs = new ChannelManagerReadArgs(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(keys_manager);
 		ret_hu_conv.ptrs_to.add(fee_estimator);
 		ret_hu_conv.ptrs_to.add(chain_monitor);

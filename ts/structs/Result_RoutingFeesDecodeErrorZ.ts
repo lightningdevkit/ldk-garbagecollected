@@ -21,6 +21,7 @@ public class Result_RoutingFeesDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number res = bindings.LDKCResult_RoutingFeesDecodeErrorZ_get_ok(ptr);
 			const res_hu_conv: RoutingFees = new RoutingFees(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_RoutingFeesDecodeErrorZ_OK(RoutingFees res) {
@@ -35,6 +36,7 @@ public class Result_RoutingFeesDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number err = bindings.LDKCResult_RoutingFeesDecodeErrorZ_get_err(ptr);
 			const err_hu_conv: DecodeError = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_RoutingFeesDecodeErrorZ_Err(DecodeError err) {

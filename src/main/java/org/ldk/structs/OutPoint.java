@@ -17,6 +17,7 @@ public class OutPoint extends CommonBase {
 	public OutPoint clone() {
 		long ret = bindings.OutPoint_clone(this.ptr);
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class OutPoint extends CommonBase {
 	public static OutPoint constructor_new(byte[] txid_arg, short index_arg) {
 		long ret = bindings.OutPoint_new(txid_arg, index_arg);
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -57,6 +59,7 @@ public class OutPoint extends CommonBase {
 	public static OutPoint constructor_read(byte[] ser) {
 		long ret = bindings.OutPoint_read(ser);
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

@@ -17,6 +17,7 @@ public class RouteHint extends CommonBase {
 	public RouteHint clone() {
 		long ret = bindings.RouteHint_clone(this.ptr);
 		RouteHint ret_hu_conv = new RouteHint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class RouteHint extends CommonBase {
 	public RoutingFees get_fees() {
 		long ret = bindings.RouteHint_get_fees(this.ptr);
 		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -70,6 +72,7 @@ public class RouteHint extends CommonBase {
 	public static RouteHint constructor_new(byte[] src_node_id_arg, long short_channel_id_arg, RoutingFees fees_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg) {
 		long ret = bindings.RouteHint_new(src_node_id_arg, short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg);
 		RouteHint ret_hu_conv = new RouteHint(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fees_arg);
 		return ret_hu_conv;
 	}

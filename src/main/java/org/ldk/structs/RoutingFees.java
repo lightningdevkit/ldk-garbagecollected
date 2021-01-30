@@ -17,6 +17,7 @@ public class RoutingFees extends CommonBase {
 	public RoutingFees clone() {
 		long ret = bindings.RoutingFees_clone(this.ptr);
 		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class RoutingFees extends CommonBase {
 	public static RoutingFees constructor_new(int base_msat_arg, int proportional_millionths_arg) {
 		long ret = bindings.RoutingFees_new(base_msat_arg, proportional_millionths_arg);
 		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

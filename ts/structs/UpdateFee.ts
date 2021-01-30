@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public UpdateFee clone() {
 		number ret = bindings.UpdateFee_clone(this.ptr);
 		const ret_hu_conv: UpdateFee = new UpdateFee(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -45,6 +46,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static UpdateFee constructor_new(Uint8Array channel_id_arg, number feerate_per_kw_arg) {
 		number ret = bindings.UpdateFee_new(channel_id_arg, feerate_per_kw_arg);
 		const ret_hu_conv: UpdateFee = new UpdateFee(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -56,6 +58,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static UpdateFee constructor_read(Uint8Array ser) {
 		number ret = bindings.UpdateFee_read(ser);
 		const ret_hu_conv: UpdateFee = new UpdateFee(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

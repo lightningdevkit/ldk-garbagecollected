@@ -18,15 +18,31 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.NodeAnnouncementInfo_free(this.ptr);
                     }
                 }
+	public NodeAnnouncementInfo clone() {
+		number ret = bindings.NodeAnnouncementInfo_clone(this.ptr);
+		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public NodeFeatures get_features() {
 		number ret = bindings.NodeAnnouncementInfo_get_features(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public void set_features(NodeFeatures val) {
 		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
+		// Due to rust's strict-ownership memory model, in some cases we need to "move"
+		// an object to pass exclusive ownership to the function being called.
+		// In most cases, we avoid this being visible in GC'd languages by cloning the object
+		// at the FFI layer, creating a new object which Rust can claim ownership of
+		// However, in some cases (eg here), there is no way to clone an object, and thus
+		// we actually have to pass full ownership to Rust.
+		// Thus, after this call, val is reset to null and is now a dummy object.
+		val.ptr = 0;
 	}
 
 	public number get_last_update() {
@@ -64,6 +80,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public NodeAnnouncement get_announcement_message() {
 		number ret = bindings.NodeAnnouncementInfo_get_announcement_message(this.ptr);
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -75,7 +92,16 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static NodeAnnouncementInfo constructor_new(NodeFeatures features_arg, number last_update_arg, Uint8Array rgb_arg, Uint8Array alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
 		number ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, (number[])Arrays.stream(addresses_arg).map(arr_conv_12 -> arr_conv_12.ptr).toArray(), announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(features_arg);
+		// Due to rust's strict-ownership memory model, in some cases we need to "move"
+		// an object to pass exclusive ownership to the function being called.
+		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
+		// at the FFI layer, creating a new object which Rust can claim ownership of
+		// However, in some cases (eg here), there is no way to clone an object, and thus
+		// we actually have to pass full ownership to Rust.
+		// Thus, after ret_hu_conv call, features_arg is reset to null and is now a dummy object.
+		features_arg.ptr = 0;
 		/* TODO 2 NetAddress  */;
 		ret_hu_conv.ptrs_to.add(announcement_message_arg);
 		return ret_hu_conv;

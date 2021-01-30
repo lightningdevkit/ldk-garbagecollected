@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public InMemoryChannelKeys clone() {
 		number ret = bindings.InMemoryChannelKeys_clone(this.ptr);
 		const ret_hu_conv: InMemoryChannelKeys = new InMemoryChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -81,12 +82,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static InMemoryChannelKeys constructor_new(Uint8Array funding_key, Uint8Array revocation_base_key, Uint8Array payment_key, Uint8Array delayed_payment_base_key, Uint8Array htlc_base_key, Uint8Array commitment_seed, number channel_value_satoshis, TwoTuple<Number, Number> key_derivation_params) {
 		number ret = bindings.InMemoryChannelKeys_new(funding_key, revocation_base_key, payment_key, delayed_payment_base_key, htlc_base_key, commitment_seed, channel_value_satoshis, bindings.C2Tuple_u64u64Z_new(key_derivation_params.a, key_derivation_params.b));
 		const ret_hu_conv: InMemoryChannelKeys = new InMemoryChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public ChannelPublicKeys counterparty_pubkeys() {
 		number ret = bindings.InMemoryChannelKeys_counterparty_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -108,12 +111,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public OutPoint funding_outpoint() {
 		number ret = bindings.InMemoryChannelKeys_funding_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public ChannelTransactionParameters get_channel_parameters() {
 		number ret = bindings.InMemoryChannelKeys_get_channel_parameters(this.ptr);
 		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

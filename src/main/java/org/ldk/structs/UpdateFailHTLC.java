@@ -17,6 +17,7 @@ public class UpdateFailHTLC extends CommonBase {
 	public UpdateFailHTLC clone() {
 		long ret = bindings.UpdateFailHTLC_clone(this.ptr);
 		UpdateFailHTLC ret_hu_conv = new UpdateFailHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -46,6 +47,7 @@ public class UpdateFailHTLC extends CommonBase {
 	public static UpdateFailHTLC constructor_read(byte[] ser) {
 		long ret = bindings.UpdateFailHTLC_read(ser);
 		UpdateFailHTLC ret_hu_conv = new UpdateFailHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

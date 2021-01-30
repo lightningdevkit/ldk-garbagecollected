@@ -14,6 +14,13 @@ public class ChannelMonitor extends CommonBase {
 		if (ptr != 0) { bindings.ChannelMonitor_free(ptr); }
 	}
 
+	public ChannelMonitor clone() {
+		long ret = bindings.ChannelMonitor_clone(this.ptr);
+		ChannelMonitor ret_hu_conv = new ChannelMonitor(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.ChannelMonitor_write(this.ptr);
 		return ret;
@@ -37,7 +44,8 @@ public class ChannelMonitor extends CommonBase {
 	public TwoTuple<OutPoint, byte[]> get_funding_txo() {
 		long ret = bindings.ChannelMonitor_get_funding_txo(this.ptr);
 		long ret_a = bindings.LDKC2Tuple_OutPointScriptZ_get_a(ret);
-		OutPoint ret_a_hu_conv = new OutPoint(null, ret_a);;
+		OutPoint ret_a_hu_conv = new OutPoint(null, ret_a);
+		ret_a_hu_conv.ptrs_to.add(this);;
 		byte[] ret_b = bindings.LDKC2Tuple_OutPointScriptZ_get_b(ret);
 		TwoTuple<OutPoint, byte[]> ret_conv = new TwoTuple<OutPoint, byte[]>(ret_a_hu_conv, ret_b);
 		return ret_conv;
@@ -49,6 +57,7 @@ public class ChannelMonitor extends CommonBase {
 		for (int o = 0; o < ret.length; o++) {
 			long arr_conv_14 = ret[o];
 			MonitorEvent arr_conv_14_hu_conv = new MonitorEvent(null, arr_conv_14);
+			arr_conv_14_hu_conv.ptrs_to.add(this);
 			arr_conv_14_arr[o] = arr_conv_14_hu_conv;
 		}
 		return arr_conv_14_arr;

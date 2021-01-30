@@ -17,6 +17,7 @@ public class Route extends CommonBase {
 	public Route clone() {
 		long ret = bindings.Route_clone(this.ptr);
 		Route ret_hu_conv = new Route(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -28,6 +29,7 @@ public class Route extends CommonBase {
 	public static Route constructor_new(RouteHop[][] paths_arg) {
 		long ret = bindings.Route_new((long[][])Arrays.stream(paths_arg).map(arr_conv_12 -> Arrays.stream(arr_conv_12).mapToLong(arr_conv_10 -> arr_conv_10 == null ? 0 : arr_conv_10.ptr & ~1).toArray()).toArray());
 		Route ret_hu_conv = new Route(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		/* TODO 2 RouteHop[]  */;
 		return ret_hu_conv;
 	}

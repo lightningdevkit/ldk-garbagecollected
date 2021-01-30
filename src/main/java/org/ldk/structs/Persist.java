@@ -29,6 +29,7 @@ public class Persist extends CommonBase {
 		impl_holder.held = new Persist(new bindings.LDKPersist() {
 			@Override public long persist_new_channel(long id, long data) {
 				OutPoint id_hu_conv = new OutPoint(null, id);
+				id_hu_conv.ptrs_to.add(this);
 				ChannelMonitor data_hu_conv = new ChannelMonitor(null, data);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.persist_new_channel(id_hu_conv, data_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
@@ -36,6 +37,7 @@ public class Persist extends CommonBase {
 			}
 			@Override public long update_persisted_channel(long id, long update, long data) {
 				OutPoint id_hu_conv = new OutPoint(null, id);
+				id_hu_conv.ptrs_to.add(this);
 				ChannelMonitorUpdate update_hu_conv = new ChannelMonitorUpdate(null, update);
 				ChannelMonitor data_hu_conv = new ChannelMonitor(null, data);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_persisted_channel(id_hu_conv, update_hu_conv, data_hu_conv);

@@ -17,6 +17,7 @@ public class ChannelPublicKeys extends CommonBase {
 	public ChannelPublicKeys clone() {
 		long ret = bindings.ChannelPublicKeys_clone(this.ptr);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -68,6 +69,7 @@ public class ChannelPublicKeys extends CommonBase {
 	public static ChannelPublicKeys constructor_new(byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_point_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg) {
 		long ret = bindings.ChannelPublicKeys_new(funding_pubkey_arg, revocation_basepoint_arg, payment_point_arg, delayed_payment_basepoint_arg, htlc_basepoint_arg);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -79,6 +81,7 @@ public class ChannelPublicKeys extends CommonBase {
 	public static ChannelPublicKeys constructor_read(byte[] ser) {
 		long ret = bindings.ChannelPublicKeys_read(ser);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

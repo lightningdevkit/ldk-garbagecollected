@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ChannelPublicKeys clone() {
 		number ret = bindings.ChannelPublicKeys_clone(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -72,6 +73,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelPublicKeys constructor_new(Uint8Array funding_pubkey_arg, Uint8Array revocation_basepoint_arg, Uint8Array payment_point_arg, Uint8Array delayed_payment_basepoint_arg, Uint8Array htlc_basepoint_arg) {
 		number ret = bindings.ChannelPublicKeys_new(funding_pubkey_arg, revocation_basepoint_arg, payment_point_arg, delayed_payment_basepoint_arg, htlc_basepoint_arg);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -83,6 +85,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ChannelPublicKeys constructor_read(Uint8Array ser) {
 		number ret = bindings.ChannelPublicKeys_read(ser);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

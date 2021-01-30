@@ -32,6 +32,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static NetworkGraph constructor_new(Uint8Array genesis_hash) {
 		number ret = bindings.NetworkGraph_new(genesis_hash);
 		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

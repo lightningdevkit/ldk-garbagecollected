@@ -25,6 +25,7 @@ public class Result_ErrorMessageDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_ErrorMessageDecodeErrorZ_get_ok(ptr);
 			ErrorMessage res_hu_conv = new ErrorMessage(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_ErrorMessageDecodeErrorZ_OK(ErrorMessage res) {
@@ -39,6 +40,7 @@ public class Result_ErrorMessageDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_ErrorMessageDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_ErrorMessageDecodeErrorZ_Err(DecodeError err) {

@@ -21,12 +21,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public CounterpartyChannelTransactionParameters clone() {
 		number ret = bindings.CounterpartyChannelTransactionParameters_clone(this.ptr);
 		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public ChannelPublicKeys get_pubkeys() {
 		number ret = bindings.CounterpartyChannelTransactionParameters_get_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -47,6 +49,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static CounterpartyChannelTransactionParameters constructor_new(ChannelPublicKeys pubkeys_arg, number selected_contest_delay_arg) {
 		number ret = bindings.CounterpartyChannelTransactionParameters_new(pubkeys_arg == null ? 0 : pubkeys_arg.ptr & ~1, selected_contest_delay_arg);
 		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(pubkeys_arg);
 		return ret_hu_conv;
 	}
@@ -59,6 +62,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static CounterpartyChannelTransactionParameters constructor_read(Uint8Array ser) {
 		number ret = bindings.CounterpartyChannelTransactionParameters_read(ser);
 		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

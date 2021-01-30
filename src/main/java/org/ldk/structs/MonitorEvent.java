@@ -17,6 +17,7 @@ public class MonitorEvent extends CommonBase {
 	public MonitorEvent clone() {
 		long ret = bindings.MonitorEvent_clone(this.ptr);
 		MonitorEvent ret_hu_conv = new MonitorEvent(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

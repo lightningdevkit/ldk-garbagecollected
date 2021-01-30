@@ -17,6 +17,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	public HolderCommitmentTransaction clone() {
 		long ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,12 +42,14 @@ public class HolderCommitmentTransaction extends CommonBase {
 	public static HolderCommitmentTransaction constructor_read(byte[] ser) {
 		long ret = bindings.HolderCommitmentTransaction_read(ser);
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static HolderCommitmentTransaction constructor_new(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
 		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}

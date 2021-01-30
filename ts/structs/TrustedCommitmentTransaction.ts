@@ -26,12 +26,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public BuiltCommitmentTransaction built_transaction() {
 		number ret = bindings.TrustedCommitmentTransaction_built_transaction(this.ptr);
 		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public TxCreationKeys keys() {
 		number ret = bindings.TrustedCommitmentTransaction_keys(this.ptr);
 		const ret_hu_conv: TxCreationKeys = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

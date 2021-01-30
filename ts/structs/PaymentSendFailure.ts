@@ -18,4 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.PaymentSendFailure_free(this.ptr);
                     }
                 }
+	public PaymentSendFailure clone() {
+		number ret = bindings.PaymentSendFailure_clone(this.ptr);
+		const ret_hu_conv: PaymentSendFailure = new PaymentSendFailure(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ReplyChannelRange clone() {
 		number ret = bindings.ReplyChannelRange_clone(this.ptr);
 		const ret_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -67,6 +68,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static ReplyChannelRange constructor_new(Uint8Array chain_hash_arg, number first_blocknum_arg, number number_of_blocks_arg, boolean full_information_arg, number[] short_channel_ids_arg) {
 		number ret = bindings.ReplyChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg, full_information_arg, short_channel_ids_arg);
 		const ret_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

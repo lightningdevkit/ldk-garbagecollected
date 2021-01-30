@@ -18,4 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.MonitorUpdateError_free(this.ptr);
                     }
                 }
+	public MonitorUpdateError clone() {
+		number ret = bindings.MonitorUpdateError_clone(this.ptr);
+		const ret_hu_conv: MonitorUpdateError = new MonitorUpdateError(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

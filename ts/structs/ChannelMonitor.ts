@@ -18,6 +18,13 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelMonitor_free(this.ptr);
                     }
                 }
+	public ChannelMonitor clone() {
+		number ret = bindings.ChannelMonitor_clone(this.ptr);
+		const ret_hu_conv: ChannelMonitor = new ChannelMonitor(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.ChannelMonitor_write(this.ptr);
 		return ret;
@@ -41,7 +48,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public TwoTuple<OutPoint, Uint8Array> get_funding_txo() {
 		number ret = bindings.ChannelMonitor_get_funding_txo(this.ptr);
 		number ret_a = bindings.LDKC2Tuple_OutPointScriptZ_get_a(ret);
-		const ret_a_hu_conv: OutPoint = new OutPoint(null, ret_a);;
+		const ret_a_hu_conv: OutPoint = new OutPoint(null, ret_a);
+		ret_a_hu_conv.ptrs_to.add(this);;
 		Uint8Array ret_b = bindings.LDKC2Tuple_OutPointScriptZ_get_b(ret);
 		TwoTuple<OutPoint, Uint8Array> ret_conv = new TwoTuple<OutPoint, Uint8Array>(ret_a_hu_conv, ret_b);
 		return ret_conv;
@@ -53,6 +61,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		for (int o = 0; o < ret.length; o++) {
 			number arr_conv_14 = ret[o];
 			const arr_conv_14_hu_conv: MonitorEvent = new MonitorEvent(null, arr_conv_14);
+			arr_conv_14_hu_conv.ptrs_to.add(this);
 			arr_conv_14_arr[o] = arr_conv_14_hu_conv;
 		}
 		return arr_conv_14_arr;

@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public CommitmentTransaction clone() {
 		number ret = bindings.CommitmentTransaction_clone(this.ptr);
 		const ret_hu_conv: CommitmentTransaction = new CommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -32,6 +33,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static CommitmentTransaction constructor_read(Uint8Array ser) {
 		number ret = bindings.CommitmentTransaction_read(ser);
 		const ret_hu_conv: CommitmentTransaction = new CommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -58,6 +60,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public TrustedCommitmentTransaction trust() {
 		number ret = bindings.CommitmentTransaction_trust(this.ptr);
 		const ret_hu_conv: TrustedCommitmentTransaction = new TrustedCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

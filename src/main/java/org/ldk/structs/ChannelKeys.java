@@ -25,8 +25,7 @@ public class ChannelKeys extends CommonBase {
 		byte[] release_commitment_secret(long idx);
 		TwoTuple<Long, Long> key_derivation_params();
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx);
-		Result_SignatureNoneZ sign_holder_commitment(HolderCommitmentTransaction commitment_tx);
-		Result_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions(HolderCommitmentTransaction commitment_tx);
+		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx);
 		Result_SignatureNoneZ sign_justice_transaction(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc);
 		Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc);
 		Result_SignatureNoneZ sign_closing_transaction(byte[] closing_tx);
@@ -57,15 +56,9 @@ public class ChannelKeys extends CommonBase {
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
-			@Override public long sign_holder_commitment(long commitment_tx) {
+			@Override public long sign_holder_commitment_and_htlcs(long commitment_tx) {
 				HolderCommitmentTransaction commitment_tx_hu_conv = new HolderCommitmentTransaction(null, commitment_tx);
-				Result_SignatureNoneZ ret = arg.sign_holder_commitment(commitment_tx_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
-				return result;
-			}
-			@Override public long sign_holder_commitment_htlc_transactions(long commitment_tx) {
-				HolderCommitmentTransaction commitment_tx_hu_conv = new HolderCommitmentTransaction(null, commitment_tx);
-				Result_CVec_SignatureZNoneZ ret = arg.sign_holder_commitment_htlc_transactions(commitment_tx_hu_conv);
+				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
@@ -128,16 +121,9 @@ public class ChannelKeys extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public Result_SignatureNoneZ sign_holder_commitment(HolderCommitmentTransaction commitment_tx) {
-		long ret = bindings.ChannelKeys_sign_holder_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(commitment_tx);
-		return ret_hu_conv;
-	}
-
-	public Result_CVec_SignatureZNoneZ sign_holder_commitment_htlc_transactions(HolderCommitmentTransaction commitment_tx) {
-		long ret = bindings.ChannelKeys_sign_holder_commitment_htlc_transactions(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
-		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
+	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
+		long ret = bindings.ChannelKeys_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
+		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}
@@ -182,6 +168,7 @@ public class ChannelKeys extends CommonBase {
 	public ChannelPublicKeys get_pubkeys() {
 		long ret = bindings.ChannelKeys_get_pubkeys(this.ptr);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

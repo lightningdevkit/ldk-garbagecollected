@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Ping clone() {
 		number ret = bindings.Ping_clone(this.ptr);
 		const ret_hu_conv: Ping = new Ping(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -45,6 +46,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static Ping constructor_new(number ponglen_arg, number byteslen_arg) {
 		number ret = bindings.Ping_new(ponglen_arg, byteslen_arg);
 		const ret_hu_conv: Ping = new Ping(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

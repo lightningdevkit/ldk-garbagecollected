@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public AnnouncementSignatures clone() {
 		number ret = bindings.AnnouncementSignatures_clone(this.ptr);
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -63,6 +64,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static AnnouncementSignatures constructor_new(Uint8Array channel_id_arg, number short_channel_id_arg, Uint8Array node_signature_arg, Uint8Array bitcoin_signature_arg) {
 		number ret = bindings.AnnouncementSignatures_new(channel_id_arg, short_channel_id_arg, node_signature_arg, bitcoin_signature_arg);
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -74,6 +76,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static AnnouncementSignatures constructor_read(Uint8Array ser) {
 		number ret = bindings.AnnouncementSignatures_read(ser);
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

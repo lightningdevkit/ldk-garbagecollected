@@ -18,6 +18,13 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.PeerHandleError_free(this.ptr);
                     }
                 }
+	public PeerHandleError clone() {
+		number ret = bindings.PeerHandleError_clone(this.ptr);
+		const ret_hu_conv: PeerHandleError = new PeerHandleError(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public boolean get_no_connection_possible() {
 		boolean ret = bindings.PeerHandleError_get_no_connection_possible(this.ptr);
 		return ret;
@@ -30,6 +37,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static PeerHandleError constructor_new(boolean no_connection_possible_arg) {
 		number ret = bindings.PeerHandleError_new(no_connection_possible_arg);
 		const ret_hu_conv: PeerHandleError = new PeerHandleError(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

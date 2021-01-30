@@ -17,6 +17,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	public HTLCOutputInCommitment clone() {
 		long ret = bindings.HTLCOutputInCommitment_clone(this.ptr);
 		HTLCOutputInCommitment ret_hu_conv = new HTLCOutputInCommitment(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -64,6 +65,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	public static HTLCOutputInCommitment constructor_read(byte[] ser) {
 		long ret = bindings.HTLCOutputInCommitment_read(ser);
 		HTLCOutputInCommitment ret_hu_conv = new HTLCOutputInCommitment(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

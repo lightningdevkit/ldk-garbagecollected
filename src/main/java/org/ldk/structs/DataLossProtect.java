@@ -17,6 +17,7 @@ public class DataLossProtect extends CommonBase {
 	public DataLossProtect clone() {
 		long ret = bindings.DataLossProtect_clone(this.ptr);
 		DataLossProtect ret_hu_conv = new DataLossProtect(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class DataLossProtect extends CommonBase {
 	public static DataLossProtect constructor_new(byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg) {
 		long ret = bindings.DataLossProtect_new(your_last_per_commitment_secret_arg, my_current_per_commitment_point_arg);
 		DataLossProtect ret_hu_conv = new DataLossProtect(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

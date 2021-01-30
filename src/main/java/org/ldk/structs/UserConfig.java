@@ -17,12 +17,14 @@ public class UserConfig extends CommonBase {
 	public UserConfig clone() {
 		long ret = bindings.UserConfig_clone(this.ptr);
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	public ChannelHandshakeConfig get_own_channel_config() {
 		long ret = bindings.UserConfig_get_own_channel_config(this.ptr);
 		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -34,6 +36,7 @@ public class UserConfig extends CommonBase {
 	public ChannelHandshakeLimits get_peer_channel_config_limits() {
 		long ret = bindings.UserConfig_get_peer_channel_config_limits(this.ptr);
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -45,6 +48,7 @@ public class UserConfig extends CommonBase {
 	public ChannelConfig get_channel_options() {
 		long ret = bindings.UserConfig_get_channel_options(this.ptr);
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -56,6 +60,7 @@ public class UserConfig extends CommonBase {
 	public static UserConfig constructor_new(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg) {
 		long ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1);
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(own_channel_config_arg);
 		ret_hu_conv.ptrs_to.add(peer_channel_config_limits_arg);
 		ret_hu_conv.ptrs_to.add(channel_options_arg);
@@ -65,6 +70,7 @@ public class UserConfig extends CommonBase {
 	public static UserConfig constructor_default() {
 		long ret = bindings.UserConfig_default();
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

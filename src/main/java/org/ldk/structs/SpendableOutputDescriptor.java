@@ -34,6 +34,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
 			OutPoint outpoint_hu_conv = new OutPoint(null, outpoint);
+			outpoint_hu_conv.ptrs_to.add(this);
 			this.outpoint = outpoint_hu_conv;
 			long output = obj.output;
 			TxOut output_conv = new TxOut(null, output);
@@ -51,6 +52,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
 			OutPoint outpoint_hu_conv = new OutPoint(null, outpoint);
+			outpoint_hu_conv.ptrs_to.add(this);
 			this.outpoint = outpoint_hu_conv;
 			this.per_commitment_point = obj.per_commitment_point;
 			this.to_self_delay = obj.to_self_delay;
@@ -73,6 +75,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
 			OutPoint outpoint_hu_conv = new OutPoint(null, outpoint);
+			outpoint_hu_conv.ptrs_to.add(this);
 			this.outpoint = outpoint_hu_conv;
 			long output = obj.output;
 			TxOut output_conv = new TxOut(null, output);

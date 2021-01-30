@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public RoutingFees clone() {
 		number ret = bindings.RoutingFees_clone(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -45,6 +46,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static RoutingFees constructor_new(number base_msat_arg, number proportional_millionths_arg) {
 		number ret = bindings.RoutingFees_new(base_msat_arg, proportional_millionths_arg);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

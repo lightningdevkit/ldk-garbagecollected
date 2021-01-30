@@ -21,6 +21,7 @@ public class Result_TxCreationKeysSecpErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number res = bindings.LDKCResult_TxCreationKeysSecpErrorZ_get_ok(ptr);
 			const res_hu_conv: TxCreationKeys = new TxCreationKeys(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_TxCreationKeysSecpErrorZ_OK(TxCreationKeys res) {

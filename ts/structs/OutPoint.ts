@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public OutPoint clone() {
 		number ret = bindings.OutPoint_clone(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -45,6 +46,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static OutPoint constructor_new(Uint8Array txid_arg, number index_arg) {
 		number ret = bindings.OutPoint_new(txid_arg, index_arg);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -61,6 +63,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static OutPoint constructor_read(Uint8Array ser) {
 		number ret = bindings.OutPoint_read(ser);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

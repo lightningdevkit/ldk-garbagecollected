@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public UnsignedChannelUpdate clone() {
 		number ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
 		const ret_hu_conv: UnsignedChannelUpdate = new UnsignedChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

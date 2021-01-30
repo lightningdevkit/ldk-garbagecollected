@@ -25,6 +25,7 @@ public class Result_UnsignedChannelAnnouncementDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_get_ok(ptr);
 			UnsignedChannelAnnouncement res_hu_conv = new UnsignedChannelAnnouncement(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_UnsignedChannelAnnouncementDecodeErrorZ_OK(UnsignedChannelAnnouncement res) {
@@ -39,6 +40,7 @@ public class Result_UnsignedChannelAnnouncementDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_UnsignedChannelAnnouncementDecodeErrorZ_Err(DecodeError err) {

@@ -17,6 +17,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	public ChannelMonitorUpdate clone() {
 		long ret = bindings.ChannelMonitorUpdate_clone(this.ptr);
 		ChannelMonitorUpdate ret_hu_conv = new ChannelMonitorUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

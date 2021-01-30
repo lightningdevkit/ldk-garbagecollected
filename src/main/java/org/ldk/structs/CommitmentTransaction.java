@@ -17,6 +17,7 @@ public class CommitmentTransaction extends CommonBase {
 	public CommitmentTransaction clone() {
 		long ret = bindings.CommitmentTransaction_clone(this.ptr);
 		CommitmentTransaction ret_hu_conv = new CommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -28,6 +29,7 @@ public class CommitmentTransaction extends CommonBase {
 	public static CommitmentTransaction constructor_read(byte[] ser) {
 		long ret = bindings.CommitmentTransaction_read(ser);
 		CommitmentTransaction ret_hu_conv = new CommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -54,6 +56,7 @@ public class CommitmentTransaction extends CommonBase {
 	public TrustedCommitmentTransaction trust() {
 		long ret = bindings.CommitmentTransaction_trust(this.ptr);
 		TrustedCommitmentTransaction ret_hu_conv = new TrustedCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

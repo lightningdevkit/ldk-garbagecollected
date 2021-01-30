@@ -17,6 +17,7 @@ public class ErrorMessage extends CommonBase {
 	public ErrorMessage clone() {
 		long ret = bindings.ErrorMessage_clone(this.ptr);
 		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -41,6 +42,7 @@ public class ErrorMessage extends CommonBase {
 	public static ErrorMessage constructor_new(byte[] channel_id_arg, byte[] data_arg) {
 		long ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
 		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

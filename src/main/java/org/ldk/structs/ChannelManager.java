@@ -17,6 +17,7 @@ public class ChannelManager extends CommonBase {
 	public static ChannelManager constructor_new(LDKNetwork network, FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, long current_blockchain_height) {
 		long ret = bindings.ChannelManager_new(network, fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, current_blockchain_height);
 		ChannelManager ret_hu_conv = new ChannelManager(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fee_est);
 		ret_hu_conv.ptrs_to.add(chain_monitor);
 		ret_hu_conv.ptrs_to.add(tx_broadcaster);
@@ -39,6 +40,7 @@ public class ChannelManager extends CommonBase {
 		for (int q = 0; q < ret.length; q++) {
 			long arr_conv_16 = ret[q];
 			ChannelDetails arr_conv_16_hu_conv = new ChannelDetails(null, arr_conv_16);
+			arr_conv_16_hu_conv.ptrs_to.add(this);
 			arr_conv_16_arr[q] = arr_conv_16_hu_conv;
 		}
 		return arr_conv_16_arr;
@@ -50,6 +52,7 @@ public class ChannelManager extends CommonBase {
 		for (int q = 0; q < ret.length; q++) {
 			long arr_conv_16 = ret[q];
 			ChannelDetails arr_conv_16_hu_conv = new ChannelDetails(null, arr_conv_16);
+			arr_conv_16_hu_conv.ptrs_to.add(this);
 			arr_conv_16_arr[q] = arr_conv_16_hu_conv;
 		}
 		return arr_conv_16_arr;
@@ -61,8 +64,10 @@ public class ChannelManager extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public void force_close_channel(byte[] channel_id) {
-		bindings.ChannelManager_force_close_channel(this.ptr, channel_id);
+	public Result_NoneAPIErrorZ force_close_channel(byte[] channel_id) {
+		long ret = bindings.ChannelManager_force_close_channel(this.ptr, channel_id);
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	public void force_close_all_channels() {

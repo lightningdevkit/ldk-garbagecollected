@@ -33,6 +33,7 @@ public class ErrorAction extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			ErrorMessage msg_hu_conv = new ErrorMessage(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}
@@ -47,6 +48,7 @@ public class ErrorAction extends CommonBase {
 			super(null, ptr);
 			long msg = obj.msg;
 			ErrorMessage msg_hu_conv = new ErrorMessage(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
 	}

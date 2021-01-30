@@ -17,6 +17,7 @@ public class CommitmentSigned extends CommonBase {
 	public CommitmentSigned clone() {
 		long ret = bindings.CommitmentSigned_clone(this.ptr);
 		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -45,6 +46,7 @@ public class CommitmentSigned extends CommonBase {
 	public static CommitmentSigned constructor_new(byte[] channel_id_arg, byte[] signature_arg, byte[][] htlc_signatures_arg) {
 		long ret = bindings.CommitmentSigned_new(channel_id_arg, signature_arg, htlc_signatures_arg);
 		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -56,6 +58,7 @@ public class CommitmentSigned extends CommonBase {
 	public static CommitmentSigned constructor_read(byte[] ser) {
 		long ret = bindings.CommitmentSigned_read(ser);
 		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

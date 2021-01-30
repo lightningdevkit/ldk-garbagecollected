@@ -61,7 +61,7 @@ public class RoutingMessageHandler extends CommonBase {
 			}
 			@Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 				ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
-				long[] result = Arrays.stream(ret).mapToLong(arr_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(arr_conv_63.a == null ? 0 : arr_conv_63.a.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_a)*/, arr_conv_63.b == null ? 0 : arr_conv_63.b.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_b)*/, arr_conv_63.c == null ? 0 : arr_conv_63.c.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_c)*/)).toArray();
+				long[] result = Arrays.stream(ret).mapToLong(arr_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(arr_conv_63.a == null ? 0 : arr_conv_63.a.ptr & ~1, arr_conv_63.b == null ? 0 : arr_conv_63.b.ptr & ~1, arr_conv_63.c == null ? 0 : arr_conv_63.c.ptr & ~1)).toArray();
 				/* TODO 2 ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>  */;
 				return result;
 			}
@@ -77,24 +77,28 @@ public class RoutingMessageHandler extends CommonBase {
 			}
 			@Override public long handle_reply_channel_range(byte[] their_node_id, long msg) {
 				ReplyChannelRange msg_hu_conv = new ReplyChannelRange(null, msg);
+				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_reply_channel_range(their_node_id, msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
 			@Override public long handle_reply_short_channel_ids_end(byte[] their_node_id, long msg) {
 				ReplyShortChannelIdsEnd msg_hu_conv = new ReplyShortChannelIdsEnd(null, msg);
+				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_reply_short_channel_ids_end(their_node_id, msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
 			@Override public long handle_query_channel_range(byte[] their_node_id, long msg) {
 				QueryChannelRange msg_hu_conv = new QueryChannelRange(null, msg);
+				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_query_channel_range(their_node_id, msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
 			@Override public long handle_query_short_channel_ids(byte[] their_node_id, long msg) {
 				QueryShortChannelIds msg_hu_conv = new QueryShortChannelIds(null, msg);
+				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_query_short_channel_ids(their_node_id, msg_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
@@ -134,11 +138,14 @@ public class RoutingMessageHandler extends CommonBase {
 		for (int l = 0; l < ret.length; l++) {
 			long arr_conv_63 = ret[l];
 			long arr_conv_63_a = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(arr_conv_63);
-			ChannelAnnouncement arr_conv_63_a_hu_conv = new ChannelAnnouncement(null, arr_conv_63_a);;
+			ChannelAnnouncement arr_conv_63_a_hu_conv = new ChannelAnnouncement(null, arr_conv_63_a);
+			arr_conv_63_a_hu_conv.ptrs_to.add(this);;
 			long arr_conv_63_b = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(arr_conv_63);
-			ChannelUpdate arr_conv_63_b_hu_conv = new ChannelUpdate(null, arr_conv_63_b);;
+			ChannelUpdate arr_conv_63_b_hu_conv = new ChannelUpdate(null, arr_conv_63_b);
+			arr_conv_63_b_hu_conv.ptrs_to.add(this);;
 			long arr_conv_63_c = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(arr_conv_63);
-			ChannelUpdate arr_conv_63_c_hu_conv = new ChannelUpdate(null, arr_conv_63_c);;
+			ChannelUpdate arr_conv_63_c_hu_conv = new ChannelUpdate(null, arr_conv_63_c);
+			arr_conv_63_c_hu_conv.ptrs_to.add(this);;
 			ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> arr_conv_63_conv = new ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>(arr_conv_63_a_hu_conv, arr_conv_63_b_hu_conv, arr_conv_63_c_hu_conv);
 			arr_conv_63_arr[l] = arr_conv_63_conv;
 		}
@@ -151,6 +158,7 @@ public class RoutingMessageHandler extends CommonBase {
 		for (int s = 0; s < ret.length; s++) {
 			long arr_conv_18 = ret[s];
 			NodeAnnouncement arr_conv_18_hu_conv = new NodeAnnouncement(null, arr_conv_18);
+			arr_conv_18_hu_conv.ptrs_to.add(this);
 			arr_conv_18_arr[s] = arr_conv_18_hu_conv;
 		}
 		return arr_conv_18_arr;

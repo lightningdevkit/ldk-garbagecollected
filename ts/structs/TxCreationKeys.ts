@@ -21,6 +21,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public TxCreationKeys clone() {
 		number ret = bindings.TxCreationKeys_clone(this.ptr);
 		const ret_hu_conv: TxCreationKeys = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -72,6 +73,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static TxCreationKeys constructor_new(Uint8Array per_commitment_point_arg, Uint8Array revocation_key_arg, Uint8Array broadcaster_htlc_key_arg, Uint8Array countersignatory_htlc_key_arg, Uint8Array broadcaster_delayed_payment_key_arg) {
 		number ret = bindings.TxCreationKeys_new(per_commitment_point_arg, revocation_key_arg, broadcaster_htlc_key_arg, countersignatory_htlc_key_arg, broadcaster_delayed_payment_key_arg);
 		const ret_hu_conv: TxCreationKeys = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -83,6 +85,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static TxCreationKeys constructor_read(Uint8Array ser) {
 		number ret = bindings.TxCreationKeys_read(ser);
 		const ret_hu_conv: TxCreationKeys = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

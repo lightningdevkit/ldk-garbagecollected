@@ -21,6 +21,7 @@ public class Result_ChannelMonitorUpdateDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number res = bindings.LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(ptr);
 			const res_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, res);
+			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
 		public Result_ChannelMonitorUpdateDecodeErrorZ_OK(ChannelMonitorUpdate res) {
@@ -35,6 +36,7 @@ public class Result_ChannelMonitorUpdateDecodeErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			number err = bindings.LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_err(ptr);
 			const err_hu_conv: DecodeError = new DecodeError(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_ChannelMonitorUpdateDecodeErrorZ_Err(DecodeError err) {

@@ -17,6 +17,7 @@ public class ChannelReestablish extends CommonBase {
 	public ChannelReestablish clone() {
 		long ret = bindings.ChannelReestablish_clone(this.ptr);
 		ChannelReestablish ret_hu_conv = new ChannelReestablish(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

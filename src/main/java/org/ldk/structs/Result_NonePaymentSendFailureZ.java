@@ -34,6 +34,7 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_NonePaymentSendFailureZ_get_err(ptr);
 			PaymentSendFailure err_hu_conv = new PaymentSendFailure(null, err);
+			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_NonePaymentSendFailureZ_Err(PaymentSendFailure err) {

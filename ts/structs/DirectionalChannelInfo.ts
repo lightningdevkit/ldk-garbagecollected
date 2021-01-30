@@ -18,6 +18,13 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.DirectionalChannelInfo_free(this.ptr);
                     }
                 }
+	public DirectionalChannelInfo clone() {
+		number ret = bindings.DirectionalChannelInfo_clone(this.ptr);
+		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public number get_last_update() {
 		number ret = bindings.DirectionalChannelInfo_get_last_update(this.ptr);
 		return ret;
@@ -57,6 +64,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public RoutingFees get_fees() {
 		number ret = bindings.DirectionalChannelInfo_get_fees(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -68,6 +76,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public ChannelUpdate get_last_update_message() {
 		number ret = bindings.DirectionalChannelInfo_get_last_update_message(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -84,6 +93,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static DirectionalChannelInfo constructor_read(Uint8Array ser) {
 		number ret = bindings.DirectionalChannelInfo_read(ser);
 		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

@@ -61,7 +61,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						get_next_channel_announcements (starting_point: number, batch_amount: number): number[] {
 							ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
-				result: number[] = (number[])Arrays.stream(ret).map(arr_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(arr_conv_63.a == null ? 0 : arr_conv_63.a.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_a)*/, arr_conv_63.b == null ? 0 : arr_conv_63.b.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_b)*/, arr_conv_63.c == null ? 0 : arr_conv_63.c.ptr & ~1/*XXX: this.ptrs_to.add(arr_conv_63_c)*/)).toArray();
+				result: number[] = (number[])Arrays.stream(ret).map(arr_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(arr_conv_63.a == null ? 0 : arr_conv_63.a.ptr & ~1, arr_conv_63.b == null ? 0 : arr_conv_63.b.ptr & ~1, arr_conv_63.c == null ? 0 : arr_conv_63.c.ptr & ~1)).toArray();
 				/* TODO 2 ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>  */;
 				return result;
 						},
@@ -80,6 +80,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						handle_reply_channel_range (their_node_id: Uint8Array, msg: number): number {
 							const msg_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, msg);
+				msg_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_reply_channel_range(their_node_id, msg_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
@@ -87,6 +88,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						handle_reply_short_channel_ids_end (their_node_id: Uint8Array, msg: number): number {
 							const msg_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, msg);
+				msg_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_reply_short_channel_ids_end(their_node_id, msg_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
@@ -94,6 +96,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						handle_query_channel_range (their_node_id: Uint8Array, msg: number): number {
 							const msg_hu_conv: QueryChannelRange = new QueryChannelRange(null, msg);
+				msg_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_query_channel_range(their_node_id, msg_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
@@ -101,6 +104,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						handle_query_short_channel_ids (their_node_id: Uint8Array, msg: number): number {
 							const msg_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, msg);
+				msg_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_query_short_channel_ids(their_node_id, msg_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
@@ -162,11 +166,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 		for (int l = 0; l < ret.length; l++) {
 			number arr_conv_63 = ret[l];
 			number arr_conv_63_a = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(arr_conv_63);
-			const arr_conv_63_a_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, arr_conv_63_a);;
+			const arr_conv_63_a_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, arr_conv_63_a);
+			arr_conv_63_a_hu_conv.ptrs_to.add(this);;
 			number arr_conv_63_b = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(arr_conv_63);
-			const arr_conv_63_b_hu_conv: ChannelUpdate = new ChannelUpdate(null, arr_conv_63_b);;
+			const arr_conv_63_b_hu_conv: ChannelUpdate = new ChannelUpdate(null, arr_conv_63_b);
+			arr_conv_63_b_hu_conv.ptrs_to.add(this);;
 			number arr_conv_63_c = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(arr_conv_63);
-			const arr_conv_63_c_hu_conv: ChannelUpdate = new ChannelUpdate(null, arr_conv_63_c);;
+			const arr_conv_63_c_hu_conv: ChannelUpdate = new ChannelUpdate(null, arr_conv_63_c);
+			arr_conv_63_c_hu_conv.ptrs_to.add(this);;
 			ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> arr_conv_63_conv = new ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>(arr_conv_63_a_hu_conv, arr_conv_63_b_hu_conv, arr_conv_63_c_hu_conv);
 			arr_conv_63_arr[l] = arr_conv_63_conv;
 		}
@@ -179,6 +186,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		for (int s = 0; s < ret.length; s++) {
 			number arr_conv_18 = ret[s];
 			const arr_conv_18_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, arr_conv_18);
+			arr_conv_18_hu_conv.ptrs_to.add(this);
 			arr_conv_18_arr[s] = arr_conv_18_hu_conv;
 		}
 		return arr_conv_18_arr;

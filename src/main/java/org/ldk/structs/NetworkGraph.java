@@ -28,6 +28,7 @@ public class NetworkGraph extends CommonBase {
 	public static NetworkGraph constructor_new(byte[] genesis_hash) {
 		long ret = bindings.NetworkGraph_new(genesis_hash);
 		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
