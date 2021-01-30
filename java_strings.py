@@ -51,6 +51,13 @@ public class bindings {
 
         self.bindings_footer = "}\n"
 
+        self.util_fn_pfx = """package org.ldk.structs;
+import org.ldk.impl.bindings;
+import java.util.Arrays;
+
+public class UtilMethods {
+"""
+        self.util_fn_sfx = "}"
         self.common_base = """package org.ldk.structs;
 import java.util.LinkedList;
 class CommonBase {

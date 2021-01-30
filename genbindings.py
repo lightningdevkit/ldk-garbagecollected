@@ -426,8 +426,13 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         else:
             write_c(out_c_delta)
 
+        out_java_struct = None
         if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
+        elif method_name.startswith("C2Tuple_") and method_name.endswith("_read"):
+            struct_meth = method_name.rsplit("_", 1)[0]
+            out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
+        if out_java_struct is not None:
             out_java_struct.write(out_java_struct_delta)
 
     def map_unitary_enum(struct_name, field_lines):
@@ -905,3 +910,5 @@ with open(sys.argv[4], "w") as out_c:
     out_c.write(consts.c_file_pfx)
     out_c.write(consts.init_str())
     out_c.write(c_file)
+with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:
+    util.write(consts.util_fn_sfx)

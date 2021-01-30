@@ -82,6 +82,9 @@ public static native long new_empty_slice_vec();
         }
         """
 
+        self.util_fn_pfx = ""
+        self.util_fn_sfx = ""
+
         self.common_base = """
             export default class CommonBase {
                 ptr: number;
