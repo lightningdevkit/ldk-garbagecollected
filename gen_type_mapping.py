@@ -212,14 +212,14 @@ class TypeMappingGenerator:
                         opaque_arg_conv = opaque_arg_conv + "\nif (" + ty_info.var_name + "_conv.inner != NULL)\n"
                         opaque_arg_conv = opaque_arg_conv + "\t" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
                     elif ty_info.passed_as_ptr:
-                        opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but can't clone!"
+                        opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj
 
                 opaque_ret_conv_suf = ";\n"
                 if not holds_ref and ty_info.is_ptr and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns: # is_ptr, not holds_ref implies passing a pointed-to value to java, which needs copied
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "if (" + ty_info.var_name + "->inner != NULL)\n"
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "\t" + ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + ");\n"
                 elif not holds_ref and ty_info.is_ptr:
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "// Warning: we may need a move here but can't clone!\n"
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
 
                 opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
                 opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
@@ -265,7 +265,7 @@ class TypeMappingGenerator:
                         if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                             ret_conv = (ret_conv[0] + ty_info.rust_obj.replace("LDK", "") + "_clone(&", ");")
                         else:
-                            ret_conv = (ret_conv[0], "; // XXX: We likely need to clone here, but no _clone fn is available!")
+                            ret_conv = (ret_conv[0], "; // Warning: We likely need to clone here, but no clone is available for " + ty_info.rust_obj)
                     if not is_free:
                         needs_full_clone = not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False
                         if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
@@ -273,7 +273,7 @@ class TypeMappingGenerator:
                         else:
                             base_conv = base_conv + self.consts.trait_struct_inc_refcnt(ty_info)
                             if needs_full_clone:
-                                base_conv = base_conv + "// Warning: we may need a move here but can't do a full clone!\n"
+                                base_conv = base_conv + "// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
                     else:
                         base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
@@ -289,7 +289,7 @@ class TypeMappingGenerator:
                     if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                         base_conv = base_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone((" + ty_info.rust_obj + "*)" + ty_info.var_name + ");"
                     elif needs_full_clone:
-                        base_conv = base_conv + "\n// Warning: we may need a move here but can't do a full clone!"
+                        base_conv = base_conv + "\n// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj
                 if not needs_full_clone and ty_info.rust_obj != "LDKu8slice":
                     # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                     # underlying unlike Vecs, and it gives Java more freedom.
@@ -302,7 +302,7 @@ class TypeMappingGenerator:
                             if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                                 ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&", ");\n")
                             else:
-                                ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", "; // XXX: We likely need to clone here, but no _clone fn is available!\n")
+                                ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", "; // Warning: We likely need to clone here, but no clone is available for " + ty_inf.rust_obj + "\n")
                         else:
                             ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", ";\n")
                         ret_conv = (ret_conv[0], ret_conv[1] + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_copy;")
@@ -360,7 +360,7 @@ class TypeMappingGenerator:
                             accessor = ty_info.var_name + "_ref->" + chr(idx + ord("a"))
                             clone_ret_str = clone_ret_str + "\n" + accessor + " = " + conv_map.rust_obj.replace("LDK", "") + "_clone(&" + accessor + ");"
                         else:
-                            clone_ret_str = clone_ret_str + "\n// XXX: We likely need to clone here, but no _clone fn is available for " + conv_map.java_hu_ty
+                            clone_ret_str = clone_ret_str + "\n// Warning: We likely need to clone here, but no _clone fn is available for " + conv_map.java_hu_ty
                     if not ty_info.is_ptr and not holds_ref:
                         ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";")
                         if not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False:
