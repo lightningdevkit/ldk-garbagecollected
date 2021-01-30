@@ -180,11 +180,14 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 }
 
 void __attribute__((destructor)) check_leaks() {
+	size_t alloc_count = 0;
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
 		fprintf(stderr, "%s %p remains:\\n", a->struct_name, a->ptr);
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
 		fprintf(stderr, "\\n\\n");
+		alloc_count++;
 	}
+	fprintf(stderr, "%lu allocations remained.\\n", alloc_count);
 	DO_ASSERT(allocation_ll == NULL);
 }
 """
@@ -833,7 +836,7 @@ import java.util.Arrays;
         return out_opaque_struct_human
 
 
-    def map_function(self, argument_types, c_call_string, is_free, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, has_out_java_struct: bool, type_mapping_generator):
+    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator):
         out_java = ""
         out_c = ""
         out_java_struct = None
@@ -856,33 +859,31 @@ import java.util.Arrays;
                 out_c += (arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
                 out_java += (arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
 
-        if has_out_java_struct:
-            out_java_struct = ""
-            if not args_known:
-                out_java_struct += ("\t// Skipped " + method_name + "\n")
-                has_out_java_struct = False
+        out_java_struct = ""
+        if not args_known:
+            out_java_struct += ("\t// Skipped " + method_name + "\n")
+        else:
+            meth_n = method_name[len(struct_meth) + 1:]
+            if not takes_self:
+                out_java_struct += (
+                    "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
             else:
-                meth_n = method_name[len(struct_meth) + 1:]
-                if not takes_self:
-                    out_java_struct += (
-                        "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
-                else:
-                    out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
-                for idx, arg in enumerate(argument_types):
-                    if idx != 0:
-                        if not takes_self or idx > 1:
-                            out_java_struct += (", ")
-                    elif takes_self:
-                        continue
-                    if arg.java_ty != "void":
-                        if arg.arg_name in default_constructor_args:
-                            for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
-                                if explode_idx != 0:
-                                    out_java_struct += (", ")
-                                out_java_struct += (
-                                    explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
-                        else:
-                            out_java_struct += (arg.java_hu_ty + " " + arg.arg_name)
+                out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
+            for idx, arg in enumerate(argument_types):
+                if idx != 0:
+                    if not takes_self or idx > 1:
+                        out_java_struct += (", ")
+                elif takes_self:
+                    continue
+                if arg.java_ty != "void":
+                    if arg.arg_name in default_constructor_args:
+                        for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
+                            if explode_idx != 0:
+                                out_java_struct += (", ")
+                            out_java_struct += (
+                                explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
+                    else:
+                        out_java_struct += (arg.java_hu_ty + " " + arg.arg_name)
         out_java += (");\n")
         out_c += (") {\n")
         if out_java_struct is not None:
@@ -921,7 +922,7 @@ import java.util.Arrays;
             out_c += ("\n\treturn ret_val;")
         out_c += ("\n}\n\n")
 
-        if has_out_java_struct:
+        if args_known:
             out_java_struct += ("\t\t")
             if return_type_info.java_ty != "void":
                 out_java_struct += (return_type_info.java_ty + " ret = ")

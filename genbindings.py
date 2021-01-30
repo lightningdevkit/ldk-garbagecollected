@@ -360,12 +360,12 @@ write_c("static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struc
 
 java_c_types_none_allowed = False # C structs created by cbindgen are declared in dependency order
 
-with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
+with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:
+    util.write(consts.util_fn_pfx)
 
+with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     # Map a top-level function
     def map_fn(line, re_match, ret_arr_len, c_call_string):
-
-        # PARSING START
         method_return_type = re_match.group(1)
         method_name = re_match.group(2)
         method_comma_separated_arguments = re_match.group(3)
@@ -400,23 +400,35 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         default_constructor_args[argument_conversion_info.arg_name].append(explode_arg_conv)
             argument_types.append(argument_conversion_info)
 
-        has_out_java_struct = ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free
-        # PARSING END
-
         out_java.write("\t// " + line)
-
-        (out_java_delta, out_c_delta, out_java_struct_delta) = consts.map_function(argument_types, c_call_string, is_free, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, has_out_java_struct, type_mapping_generator)
-
+        (out_java_delta, out_c_delta, out_java_struct_delta) = consts.map_function(argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator)
         out_java.write(out_java_delta)
-        write_c(out_c_delta)
 
-        if has_out_java_struct:
+        if is_free:
+            assert len(argument_types) == 1
+            assert return_type_info.c_ty == "void"
+            write_c(consts.c_fn_ty_pfx + "void " + consts.c_fn_name_define_pfx(method_name, True) + argument_types[0].c_ty + " " + argument_types[0].ty_info.var_name + ") {\n")
+            if argument_types[0].ty_info.passed_as_ptr and not argument_types[0].ty_info.rust_obj in opaque_structs:
+                write_c("\tif ((" + argument_types[0].ty_info.var_name + " & 1) != 0) return;\n")
+
+            for info in argument_types:
+                if info.arg_conv is not None:
+                    write_c("\t" + info.arg_conv.replace('\n', "\n\t") + "\n")
+            assert c_call_string is None
+            write_c("\t" + method_name + "(")
+            if argument_types[0].arg_conv_name is not None:
+                write_c(argument_types[0].arg_conv_name)
+            write_c(");")
+            for info in argument_types:
+                if info.arg_conv_cleanup is not None:
+                    write_c("\n\t" + info.arg_conv_cleanup.replace("\n", "\n\t"))
+            write_c("\n}\n\n")
+        else:
+            write_c(out_c_delta)
+
+        if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
             out_java_struct.write(out_java_struct_delta)
-
-
-
-
 
     def map_unitary_enum(struct_name, field_lines):
         with open(f"{sys.argv[3]}/enums/{struct_name}{consts.file_ext}", "w") as out_java_enum:
@@ -550,7 +562,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
             out_java.write("\tpublic static native " + res_map.java_ty + " " + struct_name + "_get_ok(long arg);\n")
             write_c(consts.c_fn_ty_pfx + res_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_ok", True) + consts.ptr_c_ty + " arg) {\n")
-            write_c("\t" + struct_name + " *val = (" + struct_name + "*)arg;\n")
+            write_c("\t" + struct_name + " *val = (" + struct_name + "*)(arg & ~1);\n")
             write_c("\tCHECK(val->result_ok);\n\t")
             out_java_struct.write("\tpublic static final class " + human_ty + "_OK extends " + human_ty + " {\n")
             if res_map.ret_conv is not None:
@@ -587,7 +599,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
             out_java.write("\tpublic static native " + err_map.java_ty + " " + struct_name + "_get_err(long arg);\n")
             write_c(consts.c_fn_ty_pfx + err_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_err", True) + consts.ptr_c_ty + " arg) {\n")
-            write_c("\t" + struct_name + " *val = (" + struct_name + "*)arg;\n")
+            write_c("\t" + struct_name + " *val = (" + struct_name + "*)(arg & ~1);\n")
             write_c("\tCHECK(!val->result_ok);\n\t")
             out_java_struct.write("\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n")
             if err_map.ret_conv is not None:
@@ -659,7 +671,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             e = chr(ord('a') + idx)
             out_java.write("\tpublic static native " + ty_info.java_ty + " " + struct_name + "_get_" + e + "(long ptr);\n")
             write_c(consts.c_fn_ty_pfx + ty_info.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_" + e, True) + consts.ptr_c_ty + " ptr) {\n")
-            write_c("\t" + struct_name + " *tuple = (" + struct_name + "*)ptr;\n")
+            write_c("\t" + struct_name + " *tuple = (" + struct_name + "*)(ptr & ~1);\n")
             conv_info = type_mapping_generator.map_type_with_info(ty_info, False, None, False, True)
             if conv_info.ret_conv is not None:
                 write_c("\t" + conv_info.ret_conv[0].replace("\n", "\n\t") + "tuple->" + e + conv_info.ret_conv[1].replace("\n", "\n\t") + "\n")
