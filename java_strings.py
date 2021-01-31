@@ -110,16 +110,18 @@ typedef struct allocation {
 	const char* struct_name;
 	void* bt[BT_MAX];
 	int bt_len;
+	size_t alloc_len;
 } allocation;
 static allocation* allocation_ll = NULL;
 
 void* __real_malloc(size_t len);
 void* __real_calloc(size_t nmemb, size_t len);
-static void new_allocation(void* res, const char* struct_name) {
+static void new_allocation(void* res, const char* struct_name, size_t len) {
 	allocation* new_alloc = __real_malloc(sizeof(allocation));
 	new_alloc->ptr = res;
 	new_alloc->struct_name = struct_name;
 	new_alloc->bt_len = backtrace(new_alloc->bt, BT_MAX);
+	new_alloc->alloc_len = len;
 	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
 	new_alloc->next = allocation_ll;
 	allocation_ll = new_alloc;
@@ -127,7 +129,7 @@ static void new_allocation(void* res, const char* struct_name) {
 }
 static void* MALLOC(size_t len, const char* struct_name) {
 	void* res = __real_malloc(len);
-	new_allocation(res, struct_name);
+	new_allocation(res, struct_name, len);
 	return res;
 }
 void __real_free(void* ptr);
@@ -160,12 +162,12 @@ static void FREE(void* ptr) {
 
 void* __wrap_malloc(size_t len) {
 	void* res = __real_malloc(len);
-	new_allocation(res, "malloc call");
+	new_allocation(res, "malloc call", len);
 	return res;
 }
 void* __wrap_calloc(size_t nmemb, size_t len) {
 	void* res = __real_calloc(nmemb, len);
-	new_allocation(res, "calloc call");
+	new_allocation(res, "calloc call", len);
 	return res;
 }
 void __wrap_free(void* ptr) {
@@ -178,7 +180,7 @@ void* __real_realloc(void* ptr, size_t newlen);
 void* __wrap_realloc(void* ptr, size_t len) {
 	if (ptr != NULL) alloc_freed(ptr);
 	void* res = __real_realloc(ptr, len);
-	new_allocation(res, "realloc call");
+	new_allocation(res, "realloc call", len);
 	return res;
 }
 void __wrap_reallocarray(void* ptr, size_t new_sz) {
@@ -188,13 +190,15 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 
 void __attribute__((destructor)) check_leaks() {
 	size_t alloc_count = 0;
+	size_t alloc_size = 0;
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
 		fprintf(stderr, "%s %p remains:\\n", a->struct_name, a->ptr);
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
 		fprintf(stderr, "\\n\\n");
 		alloc_count++;
+		alloc_size += a->alloc_len;
 	}
-	fprintf(stderr, "%lu allocations remained.\\n", alloc_count);
+	fprintf(stderr, "%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
 	DO_ASSERT(allocation_ll == NULL);
 }
 """
