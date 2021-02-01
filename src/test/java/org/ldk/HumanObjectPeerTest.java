@@ -113,7 +113,7 @@ class HumanObjectPeerTestInstance {
                 }
 
                 @Override
-                public Result_ChanKeySignerDecodeErrorZ read_chan_signer(byte[] reader) {
+                public Result_ChannelKeysDecodeErrorZ read_chan_signer(byte[] reader) {
                     return underlying_if.read_chan_signer(reader);
                 }
             });
@@ -530,6 +530,15 @@ class HumanObjectPeerTestInstance {
         Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, new byte[32]);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
         wait_events_processed(peer1, peer2);
+
+        RouteHop[][] hops = new RouteHop[1][1];
+        byte[] hop_pubkey = new byte[33];
+        hop_pubkey[0] = 3;
+        hop_pubkey[1] = 42;
+        hops[0][0] = RouteHop.constructor_new(hop_pubkey, NodeFeatures.constructor_known(), 42, ChannelFeatures.constructor_known(), 100, 0);
+        Route r2 = Route.constructor_new(hops);
+        payment_res = peer1.chan_manager.send_payment(r2, payment_hash, new byte[32]);
+        assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
 
         assert peer1.get_monitor_events().length == 0;
         assert peer2.get_monitor_events().length == 0;
