@@ -243,13 +243,14 @@ class HumanObjectPeerTestInstance {
             this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
             System.gc();
         }
+        Object ptr_to;
         Peer(Peer orig) {
             this(null, orig.seed);
             ChannelMonitor[] monitors = new ChannelMonitor[1];
             synchronized (monitors) {
                 assert orig.monitors.size() == 1;
                 monitors[0] = orig.monitors.values().stream().iterator().next();
-                if (break_cross_peer_refs && use_manual_watch) {
+                if (break_cross_peer_refs) {
                     Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.constructor_BlockHashChannelMonitorZ_read(monitors[0].write(), keys_interface);
                     assert res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
                     monitors[0] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.b;
@@ -258,7 +259,7 @@ class HumanObjectPeerTestInstance {
             byte[] serialized = orig.chan_manager.write();
             Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
                     UtilMethods.constructor_BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.constructor_default(), monitors);
-            if (!break_cross_peer_refs && use_manual_watch) {
+            if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
                 // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
                 // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
                 // shouldn't bother waiting for the original to be freed later on.
@@ -269,6 +270,17 @@ class HumanObjectPeerTestInstance {
             this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
             this.node_id = chan_manager.get_our_node_id();
             this.chan_manager_events = chan_manager.as_EventsProvider();
+
+            if (cross_reload_ref_pollution) {
+                // This really, really needs to be handled at the bindings layer, but its rather complicated -
+                // ChannelSigners can be cloned and passed around without java being involved, resulting in them being
+                // owned by both one or more ChannelMonitors and a ChannelManager, with only one having proper pointers
+                // to the ChannelSigner. Ideally, the ChannelSigner would have a global reference to the Java
+                // implementation class, but that results in circular references. Instead, we need some ability to,
+                // while cloning ChannelSigners, add new references in the calling Java struct (ie ChannelMonitor) to
+                // the ChannelSigner.
+                this.ptr_to = orig.chan_manager;
+            }
 
             byte[] random_data = new byte[32];
             for (byte i = 0; i < 32; i++) {
