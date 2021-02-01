@@ -206,6 +206,7 @@ class TypeMappingGenerator:
                 ty_info.var_name = "ret"
 
             if ty_info.rust_obj in self.opaque_structs:
+                from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")")
                 opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
                 opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
                 if ty_info.is_ptr and holds_ref:
@@ -217,7 +218,16 @@ class TypeMappingGenerator:
                         # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
                         opaque_arg_conv = opaque_arg_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
                     elif ty_info.passed_as_ptr:
-                        opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj
+                        opaque_arg_conv = opaque_arg_conv + "\n// Warning: we need a move here but no clone is available for " + ty_info.rust_obj
+                        # TODO: Once we support features cloning (which just isn't in C yet), we can make this a compile error instead!
+                        from_hu_conv = (from_hu_conv[0], from_hu_conv[1] + ";\n" +
+                            "// Due to rust's strict-ownership memory model, in some cases we need to \"move\"\n" +
+                            "// an object to pass exclusive ownership to the function being called.\n" +
+                            "// In most cases, we avoid this being visible in GC'd languages by cloning the object\n" +
+                            "// at the FFI layer, creating a new object which Rust can claim ownership of\n" +
+                            "// However, in some cases (eg here), there is no way to clone an object, and thus\n" +
+                            "// we actually have to pass full ownership to Rust.\n" +
+                            "// Thus, after this call, " + ty_info.var_name + " is reset to null and is now a dummy object.\n" + ty_info.var_name + ".ptr = 0")
 
                 opaque_ret_conv_suf = ";\n"
                 if not holds_ref and ty_info.is_ptr and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns: # is_ptr, not holds_ref implies passing a pointed-to value to java, which needs copied
@@ -242,7 +252,7 @@ class TypeMappingGenerator:
                         ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = self.consts.to_hu_conv_templates['ptr'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name),
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
+                        from_hu_conv = from_hu_conv)
                 else:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
@@ -250,7 +260,7 @@ class TypeMappingGenerator:
                         ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name),
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
+                        from_hu_conv = from_hu_conv)
 
             if not ty_info.is_ptr:
                 if ty_info.rust_obj in self.unitary_enums:
