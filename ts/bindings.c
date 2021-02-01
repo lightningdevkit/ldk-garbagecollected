@@ -13,93 +13,13 @@ static inline void assert(bool expression) {
 	if (!expression) { abort(); }
 }
 
-// Always run a, then assert it is true:
-#define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
-// Assert a is true or do nothing
-#define CHECK(a) DO_ASSERT(a)
+void *malloc(size_t size);
+void free(void *ptr);
 
-// Running a leak check across all the allocations and frees of the JDK is a mess,
-// so instead we implement our own naive leak checker here, relying on the -wrap
-// linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
-// and free'd in Rust or C across the generated bindings shared library.
-
-#define BT_MAX 128
-typedef struct allocation {
-	struct allocation* next;
-	void* ptr;
-	const char* struct_name;
-} allocation;
-static allocation* allocation_ll = NULL;
-
-void* __real_malloc(size_t len);
-void* __real_calloc(size_t nmemb, size_t len);
-static void new_allocation(void* res, const char* struct_name) {
-	allocation* new_alloc = __real_malloc(sizeof(allocation));
-	new_alloc->ptr = res;
-	new_alloc->struct_name = struct_name;
-	new_alloc->next = allocation_ll;
-	allocation_ll = new_alloc;
-}
-static void* MALLOC(size_t len, const char* struct_name) {
-	void* res = __real_malloc(len);
-	new_allocation(res, struct_name);
-	return res;
-}
-void __real_free(void* ptr);
-static void alloc_freed(void* ptr) {
-	allocation* p = NULL;
-	allocation* it = allocation_ll;
-	while (it->ptr != ptr) {
-		p = it; it = it->next;
-		if (it == NULL) {
-			//XXX: fprintf(stderr, "Tried to free unknown pointer %p\n", ptr);
-			return; // addrsan should catch malloc-unknown and print more info than we have
-		}
-	}
-	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
-	DO_ASSERT(it->ptr == ptr);
-	__real_free(it);
-}
-static void FREE(void* ptr) {
-	if ((long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
-	alloc_freed(ptr);
-	__real_free(ptr);
-}
-
-void* __wrap_malloc(size_t len) {
-	void* res = __real_malloc(len);
-	new_allocation(res, "malloc call");
-	return res;
-}
-void* __wrap_calloc(size_t nmemb, size_t len) {
-	void* res = __real_calloc(nmemb, len);
-	new_allocation(res, "calloc call");
-	return res;
-}
-void __wrap_free(void* ptr) {
-	if (ptr == NULL) return;
-	alloc_freed(ptr);
-	__real_free(ptr);
-}
-
-void* __real_realloc(void* ptr, size_t newlen);
-void* __wrap_realloc(void* ptr, size_t len) {
-	if (ptr != NULL) alloc_freed(ptr);
-	void* res = __real_realloc(ptr, len);
-	new_allocation(res, "realloc call");
-	return res;
-}
-void __wrap_reallocarray(void* ptr, size_t new_sz) {
-	// Rust doesn't seem to use reallocarray currently
-	DO_ASSERT(false);
-}
-
-void __attribute__((destructor)) check_leaks() {
-	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		//XXX: fprintf(stderr, "%s %p remains\n", a->struct_name, a->ptr);
-	}
-	DO_ASSERT(allocation_ll == NULL);
-}
+#define MALLOC(a, _) malloc(a)
+#define FREE(p) if ((long)(p) > 1024) { free(p); }
+#define DO_ASSERT(a) (void)(a)
+#define CHECK(a)
 
 // We assume that CVec_u8Z and u8slice are the same size and layout (and thus pointers to the two can be mixed)
 _Static_assert(sizeof(LDKCVec_u8Z) == sizeof(LDKu8slice), "Vec<u8> and [u8] need to have been mapped identically");
@@ -13056,6 +12976,16 @@ void  __attribute__((visibility("default"))) TS_PeerManager_socket_disconnected(
 	this_arg_conv.is_owned = false;
 	LDKSocketDescriptor* descriptor_conv = (LDKSocketDescriptor*)descriptor;
 	PeerManager_socket_disconnected(&this_arg_conv, descriptor_conv);
+}
+
+void  __attribute__((visibility("default"))) TS_PeerManager_disconnect_by_node_id(uint32_t this_arg, int8_tArray node_id, jboolean no_connection_possible) {
+	LDKPeerManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKPublicKey node_id_ref;
+	CHECK(*((uint32_t*)node_id) == 33);
+	memcpy(node_id_ref.compressed_form, (uint8_t*)(node_id + 4), 33);
+	PeerManager_disconnect_by_node_id(&this_arg_conv, node_id_ref, no_connection_possible);
 }
 
 void  __attribute__((visibility("default"))) TS_PeerManager_timer_tick_occured(uint32_t this_arg) {

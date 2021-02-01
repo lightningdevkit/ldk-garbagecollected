@@ -2409,6 +2409,8 @@ public class bindings {
 	public static native void PeerManager_process_events(long this_arg);
 	// void PeerManager_socket_disconnected(const struct LDKPeerManager *NONNULL_PTR this_arg, const struct LDKSocketDescriptor *NONNULL_PTR descriptor);
 	public static native void PeerManager_socket_disconnected(long this_arg, long descriptor);
+	// void PeerManager_disconnect_by_node_id(const struct LDKPeerManager *NONNULL_PTR this_arg, struct LDKPublicKey node_id, bool no_connection_possible);
+	public static native void PeerManager_disconnect_by_node_id(long this_arg, byte[] node_id, boolean no_connection_possible);
 	// void PeerManager_timer_tick_occured(const struct LDKPeerManager *NONNULL_PTR this_arg);
 	public static native void PeerManager_timer_tick_occured(long this_arg);
 	// struct LDKThirtyTwoBytes build_commitment_secret(const uint8_t (*commitment_seed)[32], uint64_t idx);

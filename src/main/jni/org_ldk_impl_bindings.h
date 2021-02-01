@@ -9065,6 +9065,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1socket_1disconnec
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    PeerManager_disconnect_by_node_id
+ * Signature: (J[BZ)V
+ */
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1disconnect_1by_1node_1id
+  (JNIEnv *, jclass, jlong, jbyteArray, jboolean);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    PeerManager_timer_tick_occured
  * Signature: (J)V
  */

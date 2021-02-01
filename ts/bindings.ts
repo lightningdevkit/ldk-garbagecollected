@@ -8200,6 +8200,14 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.PeerManager_socket_disconnected(this_arg, descriptor);
 		// debug statements here
 	}
+	// void PeerManager_disconnect_by_node_id(const struct LDKPeerManager *NONNULL_PTR this_arg, struct LDKPublicKey node_id, bool no_connection_possible);
+	export function PeerManager_disconnect_by_node_id(this_arg: number, node_id: Uint8Array, no_connection_possible: boolean): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PeerManager_disconnect_by_node_id(this_arg, encodeArray(node_id), no_connection_possible);
+		// debug statements here
+	}
 	// void PeerManager_timer_tick_occured(const struct LDKPeerManager *NONNULL_PTR this_arg);
 	export function PeerManager_timer_tick_occured(this_arg: number): void {
 		if(!isWasmInitialized) {

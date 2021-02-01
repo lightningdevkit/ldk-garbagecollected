@@ -66,6 +66,10 @@ public class PeerManager extends CommonBase {
 		this.ptrs_to.add(descriptor);
 	}
 
+	public void disconnect_by_node_id(byte[] node_id, boolean no_connection_possible) {
+		bindings.PeerManager_disconnect_by_node_id(this.ptr, node_id, no_connection_possible);
+	}
+
 	public void timer_tick_occured() {
 		bindings.PeerManager_timer_tick_occured(this.ptr);
 	}

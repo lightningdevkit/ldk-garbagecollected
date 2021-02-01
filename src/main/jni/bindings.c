@@ -5,123 +5,10 @@
 #include <stdatomic.h>
 #include <stdlib.h>
 
-#include <assert.h>
-// Always run a, then assert it is true:
-#define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
-// Assert a is true or do nothing
-#define CHECK(a) DO_ASSERT(a)
-
-// Running a leak check across all the allocations and frees of the JDK is a mess,
-// so instead we implement our own naive leak checker here, relying on the -wrap
-// linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
-// and free'd in Rust or C across the generated bindings shared library.
-#include <threads.h>
-#include <execinfo.h>
-#include <unistd.h>
-static mtx_t allocation_mtx;
-
-void __attribute__((constructor)) init_mtx() {
-	DO_ASSERT(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);
-}
-
-#define BT_MAX 128
-typedef struct allocation {
-	struct allocation* next;
-	void* ptr;
-	const char* struct_name;
-	void* bt[BT_MAX];
-	int bt_len;
-	size_t alloc_len;
-} allocation;
-static allocation* allocation_ll = NULL;
-
-void* __real_malloc(size_t len);
-void* __real_calloc(size_t nmemb, size_t len);
-static void new_allocation(void* res, const char* struct_name, size_t len) {
-	allocation* new_alloc = __real_malloc(sizeof(allocation));
-	new_alloc->ptr = res;
-	new_alloc->struct_name = struct_name;
-	new_alloc->bt_len = backtrace(new_alloc->bt, BT_MAX);
-	new_alloc->alloc_len = len;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
-	new_alloc->next = allocation_ll;
-	allocation_ll = new_alloc;
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-}
-static void* MALLOC(size_t len, const char* struct_name) {
-	void* res = __real_malloc(len);
-	new_allocation(res, struct_name, len);
-	return res;
-}
-void __real_free(void* ptr);
-static void alloc_freed(void* ptr) {
-	allocation* p = NULL;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
-	allocation* it = allocation_ll;
-	while (it->ptr != ptr) {
-		p = it; it = it->next;
-		if (it == NULL) {
-			fprintf(stderr, "Tried to free unknown pointer %p at:\n", ptr);
-			void* bt[BT_MAX];
-			int bt_len = backtrace(bt, BT_MAX);
-			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
-			fprintf(stderr, "\n\n");
-			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-			return; // addrsan should catch malloc-unknown and print more info than we have
-		}
-	}
-	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-	DO_ASSERT(it->ptr == ptr);
-	__real_free(it);
-}
-static void FREE(void* ptr) {
-	if ((long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
-	alloc_freed(ptr);
-	__real_free(ptr);
-}
-
-void* __wrap_malloc(size_t len) {
-	void* res = __real_malloc(len);
-	new_allocation(res, "malloc call", len);
-	return res;
-}
-void* __wrap_calloc(size_t nmemb, size_t len) {
-	void* res = __real_calloc(nmemb, len);
-	new_allocation(res, "calloc call", len);
-	return res;
-}
-void __wrap_free(void* ptr) {
-	if (ptr == NULL) return;
-	alloc_freed(ptr);
-	__real_free(ptr);
-}
-
-void* __real_realloc(void* ptr, size_t newlen);
-void* __wrap_realloc(void* ptr, size_t len) {
-	if (ptr != NULL) alloc_freed(ptr);
-	void* res = __real_realloc(ptr, len);
-	new_allocation(res, "realloc call", len);
-	return res;
-}
-void __wrap_reallocarray(void* ptr, size_t new_sz) {
-	// Rust doesn't seem to use reallocarray currently
-	DO_ASSERT(false);
-}
-
-void __attribute__((destructor)) check_leaks() {
-	size_t alloc_count = 0;
-	size_t alloc_size = 0;
-	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		fprintf(stderr, "%s %p remains:\n", a->struct_name, a->ptr);
-		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
-		fprintf(stderr, "\n\n");
-		alloc_count++;
-		alloc_size += a->alloc_len;
-	}
-	fprintf(stderr, "%lu allocations remained for %lu bytes.\n", alloc_count, alloc_size);
-	DO_ASSERT(allocation_ll == NULL);
-}
+#define MALLOC(a, _) malloc(a)
+#define FREE(p) if ((long)(p) > 1024) { free(p); }
+#define DO_ASSERT(a) (void)(a)
+#define CHECK(a)
 
 static jmethodID ordinal_meth = NULL;
 static jmethodID slicedef_meth = NULL;
@@ -225,15 +112,15 @@ static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len
 	FREE(err_buf);
 	return err_conv;
 }
-static jclass arr_of_B_clz = NULL;
 static jclass arr_of_J_clz = NULL;
+static jclass arr_of_B_clz = NULL;
 JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass clz) {
-	arr_of_B_clz = (*env)->FindClass(env, "[B");
-	CHECK(arr_of_B_clz != NULL);
-	arr_of_B_clz = (*env)->NewGlobalRef(env, arr_of_B_clz);
 	arr_of_J_clz = (*env)->FindClass(env, "[J");
 	CHECK(arr_of_J_clz != NULL);
 	arr_of_J_clz = (*env)->NewGlobalRef(env, arr_of_J_clz);
+	arr_of_B_clz = (*env)->FindClass(env, "[B");
+	CHECK(arr_of_B_clz != NULL);
+	arr_of_B_clz = (*env)->NewGlobalRef(env, arr_of_B_clz);
 }
 static inline struct LDKThirtyTwoBytes ThirtyTwoBytes_clone(const struct LDKThirtyTwoBytes *orig) { struct LDKThirtyTwoBytes ret; memcpy(ret.data, orig->data, 32); return ret; }
 static inline LDKAccessError LDKAccessError_from_java(JNIEnv *env, jclass clz) {
@@ -14284,6 +14171,16 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1socket_1disconnec
 	this_arg_conv.is_owned = false;
 	LDKSocketDescriptor* descriptor_conv = (LDKSocketDescriptor*)descriptor;
 	PeerManager_socket_disconnected(&this_arg_conv, descriptor_conv);
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1disconnect_1by_1node_1id(JNIEnv *env, jclass clz, int64_t this_arg, int8_tArray node_id, jboolean no_connection_possible) {
+	LDKPeerManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKPublicKey node_id_ref;
+	CHECK((*env)->GetArrayLength(env, node_id) == 33);
+	(*env)->GetByteArrayRegion(env, node_id, 0, 33, node_id_ref.compressed_form);
+	PeerManager_disconnect_by_node_id(&this_arg_conv, node_id_ref, no_connection_possible);
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1timer_1tick_1occured(JNIEnv *env, jclass clz, int64_t this_arg) {
