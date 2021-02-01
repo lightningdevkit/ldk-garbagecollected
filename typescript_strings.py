@@ -1056,9 +1056,9 @@ const decodeString = (stringPointer, free = true) => {
                 elif info.from_hu_conv is not None and info.from_hu_conv[1] != "":
                     if not takes_self and return_type_info.to_hu_conv_name is not None:
                         out_java_struct += (
-                                "\t\t" + info.from_hu_conv[1].replace("this", return_type_info.to_hu_conv_name) + ";\n")
+                                "\t\t" + info.from_hu_conv[1].replace("this", return_type_info.to_hu_conv_name).replace("\n", "\n\t\t") + ";\n")
                     else:
-                        out_java_struct += ("\t\t" + info.from_hu_conv[1] + ";\n")
+                        out_java_struct += ("\t\t" + info.from_hu_conv[1].replace("\n", "\n\t\t") + ";\n")
 
             if return_type_info.to_hu_conv_name is not None:
                 out_java_struct += ("\t\treturn " + return_type_info.to_hu_conv_name + ";\n")

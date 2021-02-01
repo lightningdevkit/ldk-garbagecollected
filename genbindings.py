@@ -597,7 +597,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 if res_map.from_hu_conv is not None:
                     out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_ok(" + res_map.from_hu_conv[0] + "));\n")
                     if res_map.from_hu_conv[1] != "":
-                        out_java_struct.write("\t\t\t" + res_map.from_hu_conv[1] + ";\n")
+                        out_java_struct.write("\t\t\t" + res_map.from_hu_conv[1].replace("\n", "\n\t\t\t") + ";\n")
                 else:
                     out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_ok(res));\n")
             out_java_struct.write("\t\t}\n\t}\n\n")
@@ -635,7 +635,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 if err_map.from_hu_conv is not None:
                     out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(" + err_map.from_hu_conv[0] + "));\n")
                     if err_map.from_hu_conv[1] != "":
-                        out_java_struct.write("\t\t\t" + err_map.from_hu_conv[1] + ";\n")
+                        out_java_struct.write("\t\t\t" + err_map.from_hu_conv[1].replace("\n", "\n\t\t\t") + ";\n")
                 else:
                     out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(err));\n")
             out_java_struct.write("\t\t}\n\t}\n}\n")

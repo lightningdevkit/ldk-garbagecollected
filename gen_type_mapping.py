@@ -77,6 +77,12 @@ class TypeMappingGenerator:
                 #if ty_info.is_ptr or holds_ref:
                 #    ty_info.subty.requires_clone = False
                 ty_info.subty.requires_clone = not ty_info.is_ptr or not holds_ref
+                if ty_info.subty.rust_obj is not None and ty_info.subty.rust_obj == "LDKChannelMonitor":
+                    # We take a Vec of references to ChannelMonitors as input to ChannelManagerReadArgs, if we clone them,
+                    # we end up freeing the clones after creating the ChannelManagerReadArgs before calling the read
+                    # function itself, resulting in a segfault. Thus, we manually check and ensure we don't clone for
+                    # ChannelMonitors inside of vecs.
+                    ty_info.subty.requires_clone = False
                 subty = self.map_type_with_info(ty_info.subty, False, None, is_free, holds_ref)
                 if arr_name == "":
                     arr_name = "arg"
@@ -209,15 +215,13 @@ class TypeMappingGenerator:
                 if not is_free and (not ty_info.is_ptr or not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False:
                     if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                         # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
-                        opaque_arg_conv = opaque_arg_conv + "\nif (" + ty_info.var_name + "_conv.inner != NULL)\n"
-                        opaque_arg_conv = opaque_arg_conv + "\t" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
+                        opaque_arg_conv = opaque_arg_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
                     elif ty_info.passed_as_ptr:
                         opaque_arg_conv = opaque_arg_conv + "\n// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj
 
                 opaque_ret_conv_suf = ";\n"
                 if not holds_ref and ty_info.is_ptr and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns: # is_ptr, not holds_ref implies passing a pointed-to value to java, which needs copied
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "if (" + ty_info.var_name + "->inner != NULL)\n"
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "\t" + ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + ");\n"
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + ");\n"
                 elif not holds_ref and ty_info.is_ptr:
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
 
@@ -325,6 +329,7 @@ class TypeMappingGenerator:
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + " != null ? " + ty_info.var_name + ".ptr : 0", ""))
                 if ty_info.rust_obj in self.tuple_types:
+                    from_hu_conv_sfx = ""
                     from_hu_conv = "bindings." + self.tuple_types[ty_info.rust_obj][1].replace("LDK", "") + "_new("
                     to_hu_conv_pfx = ""
                     to_hu_conv_sfx = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " + ty_info.java_hu_ty + "("
@@ -350,7 +355,7 @@ class TypeMappingGenerator:
                         if conv_map.from_hu_conv is not None:
                             from_hu_conv = from_hu_conv + conv_map.from_hu_conv[0].replace(ty_info.var_name + "_" + chr(idx + ord("a")), ty_info.var_name + "." + chr(idx + ord("a")))
                             if conv_map.from_hu_conv[1] != "":
-                                from_hu_conv = from_hu_conv + "/*XXX: " + conv_map.from_hu_conv[1] + "*/"
+                                from_hu_conv_sfx = from_hu_conv_sfx + conv_map.from_hu_conv[1].replace(conv.var_name, ty_info.var_name + "." + chr(idx + ord("a")))
                         else:
                             from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
 
@@ -369,11 +374,11 @@ class TypeMappingGenerator:
                             arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = ret_conv,
                             ret_conv_name = "(long)" + ty_info.var_name + "_ref",
-                            to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", ""))
+                            to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ("long " + ty_info.var_name + "_ref = (long)(&", ") | 1;"), ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", ""))
+                        to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
 
                 # The manually-defined types - TxOut and Transaction
                 assert ty_info.rust_obj == "LDKTxOut"
