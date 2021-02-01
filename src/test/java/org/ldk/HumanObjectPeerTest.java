@@ -4,12 +4,15 @@ import org.bitcoinj.core.*;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
+import org.ldk.batteries.NioPeerHandler;
 import org.ldk.enums.LDKNetwork;
 import org.ldk.impl.bindings;
 import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,13 +23,15 @@ class HumanObjectPeerTestInstance {
     private final boolean use_manual_watch;
     private final boolean reload_peers;
     private final boolean break_cross_peer_refs;
+    private final boolean use_nio_peer_handler;
 
-    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs) {
+    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler) {
         this.nice_close = nice_close;
         this.use_km_wrapper = use_km_wrapper;
         this.use_manual_watch = use_manual_watch;
         this.reload_peers = reload_peers;
         this.break_cross_peer_refs = break_cross_peer_refs;
+        this.use_nio_peer_handler = use_nio_peer_handler;
     }
 
     class Peer {
@@ -150,6 +155,8 @@ class HumanObjectPeerTestInstance {
             return watch;
         }
 
+        NioPeerHandler nio_peer_handler;
+        short nio_port;
         final byte seed;
         final Logger logger;
         final FeeEstimator fee_estimator;
@@ -221,14 +228,24 @@ class HumanObjectPeerTestInstance {
             for (byte i = 0; i < 32; i++) {
                 key_seed[i] = (byte) (i ^ seed);
             }
+            KeysManager keys = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000));
             if (use_km_wrapper) {
-                KeysManager underlying = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
-                this.keys_interface = manual_keysif(underlying.as_KeysInterface());
+                this.keys_interface = manual_keysif(keys.as_KeysInterface());
             } else {
-                KeysManager keys = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000) & 0xffffffff);
                 this.keys_interface = keys.as_KeysInterface();
             }
             this.router = NetGraphMsgHandler.constructor_new(new byte[32], null, logger);
+        }
+        private void bind_nio() {
+            if (!use_nio_peer_handler) return;
+            try { this.nio_peer_handler = new NioPeerHandler(peer_manager); } catch (IOException e) { assert false; }
+            for (short i = 10_000; true; i++) {
+                try {
+                    nio_peer_handler.bind_listener(new InetSocketAddress("127.0.0.1", i));
+                    nio_port = i;
+                    break;
+                } catch (IOException e) { assert i < 10_500; }
+            }
         }
         Peer(byte seed) {
             this(null, seed);
@@ -241,6 +258,7 @@ class HumanObjectPeerTestInstance {
                 random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
             }
             this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+            bind_nio();
             System.gc();
         }
         Object ptr_to;
@@ -287,6 +305,7 @@ class HumanObjectPeerTestInstance {
                 random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
             }
             this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+            bind_nio();
         }
 
         TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] connect_block(Block b, int height, long expected_monitor_update_len) {
@@ -357,20 +376,26 @@ class HumanObjectPeerTestInstance {
             }
     });
     void wait_events_processed(Peer peer1, Peer peer2) {
-        synchronized (runqueue) {
-            ran = false;
-        }
-        while (true) {
-            peer1.peer_manager.process_events();
-            peer2.peer_manager.process_events();
+        if (use_nio_peer_handler) {
+            peer1.nio_peer_handler.check_events();
+            peer2.nio_peer_handler.check_events();
+            try { Thread.sleep(500); } catch (InterruptedException e) { assert false; }
+        } else {
             synchronized (runqueue) {
-                if (runqueue.isEmpty() && !running) {
-                    if (ran) {
-                        ran = false;
-                        continue;
-                    } else { break; }
+                ran = false;
+            }
+            while (true) {
+                peer1.peer_manager.process_events();
+                peer2.peer_manager.process_events();
+                synchronized (runqueue) {
+                    if (runqueue.isEmpty() && !running) {
+                        if (ran) {
+                            ran = false;
+                            continue;
+                        } else { break; }
+                    }
+                    try { runqueue.wait(); } catch (InterruptedException e) { assert false; }
                 }
-                try { runqueue.wait(); } catch (InterruptedException e) { assert false; }
             }
         }
     }
@@ -388,38 +413,44 @@ class HumanObjectPeerTestInstance {
     }
 
     void connect_peers(final Peer peer1, final Peer peer2) {
-        DescriptorHolder descriptor1 = new DescriptorHolder();
-        DescriptorHolder descriptor1ref = descriptor1;
-        SocketDescriptor descriptor2 = SocketDescriptor.new_impl(new SocketDescriptor.SocketDescriptorInterface() {
-            @Override
-            public long send_data(byte[] data, boolean resume_read) {
-                do_read_event(peer1.peer_manager, descriptor1ref.val, data);
-                return data.length;
-            }
+        if (use_nio_peer_handler) {
+            try {
+                peer1.nio_peer_handler.connect(peer2.chan_manager.get_our_node_id(), new InetSocketAddress("127.0.0.1", peer2.nio_port));
+            } catch (IOException e) { assert false; }
+        } else {
+            DescriptorHolder descriptor1 = new DescriptorHolder();
+            DescriptorHolder descriptor1ref = descriptor1;
+            SocketDescriptor descriptor2 = SocketDescriptor.new_impl(new SocketDescriptor.SocketDescriptorInterface() {
+                @Override
+                public long send_data(byte[] data, boolean resume_read) {
+                    do_read_event(peer1.peer_manager, descriptor1ref.val, data);
+                    return data.length;
+                }
 
-            @Override public void disconnect_socket() { assert false; }
-            @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == 2; }
-            @Override public long hash() { return 2; }
-        });
+                @Override public void disconnect_socket() { assert false; }
+                @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == 2; }
+                @Override public long hash() { return 2; }
+            });
 
-        descriptor1.val = SocketDescriptor.new_impl(new SocketDescriptor.SocketDescriptorInterface() {
-            @Override
-            public long send_data(byte[] data, boolean resume_read) {
-                do_read_event(peer2.peer_manager, descriptor2, data);
-                return data.length;
-            }
+            descriptor1.val = SocketDescriptor.new_impl(new SocketDescriptor.SocketDescriptorInterface() {
+                @Override
+                public long send_data(byte[] data, boolean resume_read) {
+                    do_read_event(peer2.peer_manager, descriptor2, data);
+                    return data.length;
+                }
 
-            @Override public void disconnect_socket() { assert false; }
-            @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == 1; }
-            @Override public long hash() { return 1; }
-        });
+                @Override public void disconnect_socket() { assert false; }
+                @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == 1; }
+                @Override public long hash() { return 1; }
+            });
 
-        Result_CVec_u8ZPeerHandleErrorZ conn_res = peer1.peer_manager.new_outbound_connection(peer2.node_id, descriptor1.val);
-        assert conn_res instanceof Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK;
+            Result_CVec_u8ZPeerHandleErrorZ conn_res = peer1.peer_manager.new_outbound_connection(peer2.node_id, descriptor1.val);
+            assert conn_res instanceof Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK;
 
-        Result_NonePeerHandleErrorZ inbound_conn_res = peer2.peer_manager.new_inbound_connection(descriptor2);
-        assert inbound_conn_res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_OK;
-        do_read_event(peer2.peer_manager, descriptor2, ((Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) conn_res).res);
+            Result_NonePeerHandleErrorZ inbound_conn_res = peer2.peer_manager.new_inbound_connection(descriptor2);
+            assert inbound_conn_res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_OK;
+            do_read_event(peer2.peer_manager, descriptor2, ((Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) conn_res).res);
+        }
     }
 
     TestState do_test_message_handler() throws InterruptedException {
@@ -487,6 +518,10 @@ class HumanObjectPeerTestInstance {
         wait_events_processed(peer1, peer2);
 
         if (reload_peers) {
+            if (use_nio_peer_handler) {
+                peer1.nio_peer_handler.interrupt();
+                peer2.nio_peer_handler.interrupt();
+            }
             WeakReference<Peer> op1 = new WeakReference<Peer>(peer1);
             peer1 = new Peer(peer1);
             peer2 = new Peer(peer2);
@@ -573,6 +608,11 @@ class HumanObjectPeerTestInstance {
                 byte[][] txn = mon.get_latest_holder_commitment_txn(state.peer2.logger);
             }
         }
+
+        if (use_nio_peer_handler) {
+            state.peer1.nio_peer_handler.interrupt();
+            state.peer2.nio_peer_handler.interrupt();
+        }
     }
 
     java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
@@ -586,14 +626,14 @@ class HumanObjectPeerTestInstance {
     }
 }
 public class HumanObjectPeerTest {
-    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs) throws InterruptedException {
-        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs);
+    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler) throws InterruptedException {
+        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler);
         HumanObjectPeerTestInstance.TestState state = instance.do_test_message_handler();
         instance.do_test_message_handler_b(state);
         return instance;
     }
-    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs) throws InterruptedException {
-        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs);
+    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler) throws InterruptedException {
+        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler);
         while (!instance.gc_ran) {
             System.gc();
             System.runFinalization();
@@ -603,18 +643,19 @@ public class HumanObjectPeerTest {
     }
     @Test
     public void test_message_handler() throws InterruptedException {
-        for (int i = 0; i < (1 << 5) - 1; i++) {
+        for (int i = 0; i < (1 << 6) - 1; i++) {
             boolean nice_close =       (i & (1 << 0)) != 0;
             boolean use_km_wrapper =   (i & (1 << 1)) != 0;
             boolean use_manual_watch = (i & (1 << 2)) != 0;
             boolean reload_peers =     (i & (1 << 3)) != 0;
             boolean break_cross_refs = (i & (1 << 4)) != 0;
+            boolean nio_peer_handler = (i & (1 << 5)) != 0;
             if (break_cross_refs && !reload_peers) {
                 // There are no cross refs to break without reloading peers.
                 continue;
             }
             System.err.println("Running test with flags " + i);
-            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs);
+            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler);
         }
     }
 }
