@@ -258,7 +258,7 @@ class TypeMappingGenerator:
                         arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name),
+                        to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name) + "\n" + ty_info.var_name + "_hu_conv.ptrs_to.add(this);",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = from_hu_conv)
 
@@ -343,7 +343,6 @@ class TypeMappingGenerator:
                     from_hu_conv = "bindings." + self.tuple_types[ty_info.rust_obj][1].replace("LDK", "") + "_new("
                     to_hu_conv_pfx = ""
                     to_hu_conv_sfx = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " + ty_info.java_hu_ty + "("
-                    clone_ret_str = ""
                     for idx, conv in enumerate(self.tuple_types[ty_info.rust_obj][0]):
                         if idx != 0:
                             to_hu_conv_sfx = to_hu_conv_sfx + ", "
@@ -369,17 +368,8 @@ class TypeMappingGenerator:
                         else:
                             from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
 
-                        if conv.is_native_primitive:
-                            pass
-                        elif (conv_map.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
-                            accessor = ty_info.var_name + "_ref->" + chr(idx + ord("a"))
-                            clone_ret_str = clone_ret_str + "\n" + accessor + " = " + conv_map.rust_obj.replace("LDK", "") + "_clone(&" + accessor + ");"
-                        else:
-                            clone_ret_str = clone_ret_str + "\n// Warning: We likely need to clone here, but no _clone fn is available for " + conv_map.java_hu_ty
                     if not ty_info.is_ptr and not holds_ref:
                         ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";")
-                        if not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False:
-                            ret_conv = (ret_conv[0], ret_conv[1] + clone_ret_str)
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = ret_conv,
