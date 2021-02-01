@@ -23,7 +23,7 @@ rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.clas
 echo "Building Java bindings..."
 COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -o liblightningjni.so -shared -fPIC"
 if [ "$3" = "true" ]; then
-	$COMPILE -g -fsanitize=address -shared-libasan -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/debug/libldk.a
+	$COMPILE -g -fsanitize=address -shared-libasan -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/debug/libldk.a -lm
 else
 	$COMPILE -Wl,--version-script=libcode.version -flto -fuse-ld=lld -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/release/libldk.a
 fi
