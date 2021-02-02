@@ -147,8 +147,8 @@ static inline LDKSecp256k1Error LDKSecp256k1Error_from_js(int32_t ord) {
 		case 4: return LDKSecp256k1Error_InvalidSecretKey;
 		case 5: return LDKSecp256k1Error_InvalidRecoveryId;
 		case 6: return LDKSecp256k1Error_InvalidTweak;
-		case 7: return LDKSecp256k1Error_TweakCheckFailed;
-		case 8: return LDKSecp256k1Error_NotEnoughMemory;
+		case 7: return LDKSecp256k1Error_NotEnoughMemory;
+		case 8: return LDKSecp256k1Error_CallbackPanicked;
 	}
 	abort();
 }
@@ -161,8 +161,8 @@ static inline int32_t LDKSecp256k1Error_to_js(LDKSecp256k1Error val) {
 		case LDKSecp256k1Error_InvalidSecretKey: return 4;
 		case LDKSecp256k1Error_InvalidRecoveryId: return 5;
 		case LDKSecp256k1Error_InvalidTweak: return 6;
-		case LDKSecp256k1Error_TweakCheckFailed: return 7;
-		case LDKSecp256k1Error_NotEnoughMemory: return 8;
+		case LDKSecp256k1Error_NotEnoughMemory: return 7;
+		case LDKSecp256k1Error_CallbackPanicked: return 8;
 		default: abort();
 	}
 }
@@ -560,7 +560,7 @@ static inline LDKCVec_EventZ CVec_EventZ_clone(const LDKCVec_EventZ *orig) {
 	}
 	return ret;
 }
-uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_usizeTransactionZ_new(int64_t a, int8_tArray b) {
 	LDKC2Tuple_usizeTransactionZ* ret = MALLOC(sizeof(LDKC2Tuple_usizeTransactionZ), "LDKC2Tuple_usizeTransactionZ");
 	ret->a = a;
 	LDKTransaction b_ref;
@@ -571,7 +571,7 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_usizeTransactionZ
 	ret->b = b_ref;
 	return (long)ret;
 }
-intptr_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_usizeTransactionZ_get_a(uint32_t ptr) {
+int64_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_usizeTransactionZ_get_a(uint32_t ptr) {
 	LDKC2Tuple_usizeTransactionZ *tuple = (LDKC2Tuple_usizeTransactionZ*)(ptr & ~1);
 	return tuple->a;
 }
@@ -1127,7 +1127,7 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_holder_comm
 	return (long)ret_conv;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_justice_transaction(uint32_t this_arg, int8_tArray justice_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_key, uint32_t htlc) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_justice_transaction(uint32_t this_arg, int8_tArray justice_tx, int64_t input, int64_t amount, int8_tArray per_commitment_key, uint32_t htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction justice_tx_ref;
 	justice_tx_ref.datalen = *((uint32_t*)justice_tx);
@@ -1146,7 +1146,7 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_justice_tra
 	return (long)ret_conv;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_counterparty_htlc_transaction(uint32_t this_arg, int8_tArray htlc_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_point, uint32_t htlc) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelKeys_sign_counterparty_htlc_transaction(uint32_t this_arg, int8_tArray htlc_tx, int64_t input, int64_t amount, int8_tArray per_commitment_point, uint32_t htlc) {
 	LDKChannelKeys* this_arg_conv = (LDKChannelKeys*)this_arg;
 	LDKTransaction htlc_tx_ref;
 	htlc_tx_ref.datalen = *((uint32_t*)htlc_tx);
@@ -4257,12 +4257,12 @@ long  __attribute__((visibility("default"))) TS_LDKSocketDescriptor_new(/*TODO: 
 	*res_ptr = LDKSocketDescriptor_init(o);
 	return (long)res_ptr;
 }
-intptr_t  __attribute__((visibility("default"))) TS_SocketDescriptor_send_data(uint32_t this_arg, int8_tArray data, jboolean resume_read) {
+int64_t  __attribute__((visibility("default"))) TS_SocketDescriptor_send_data(uint32_t this_arg, int8_tArray data, jboolean resume_read) {
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)this_arg;
 	LDKu8slice data_ref;
 	data_ref.datalen = *((uint32_t*)data);
 	data_ref.data = (int8_t*)(data + 4);
-	intptr_t ret_val = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
+	int64_t ret_val = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
 	return ret_val;
 }
 
@@ -4358,7 +4358,7 @@ void  __attribute__((visibility("default"))) TS_C2Tuple_usizeTransactionZ_free(u
 	C2Tuple_usizeTransactionZ_free(_res_conv);
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_usizeTransactionZ_new(int64_t a, int8_tArray b) {
 	LDKTransaction b_ref;
 	b_ref.datalen = *((uint32_t*)b);
 	b_ref.data = MALLOC(b_ref.datalen, "LDKTransaction Bytes");
@@ -7886,7 +7886,7 @@ uint32_t  __attribute__((visibility("default"))) TS_PaymentSendFailure_clone(uin
 	return ret_ref;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_new(uint32_t network, uint32_t fee_est, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t keys_manager, uint32_t config, intptr_t current_blockchain_height) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_new(uint32_t network, uint32_t fee_est, uint32_t chain_monitor, uint32_t tx_broadcaster, uint32_t logger, uint32_t keys_manager, uint32_t config, int64_t current_blockchain_height) {
 	LDKNetwork network_conv = LDKNetwork_from_js(network);
 	LDKFeeEstimator fee_est_conv = *(LDKFeeEstimator*)(((uint64_t)fee_est) & ~1);
 	LDKWatch chain_monitor_conv = *(LDKWatch*)(((uint64_t)chain_monitor) & ~1);

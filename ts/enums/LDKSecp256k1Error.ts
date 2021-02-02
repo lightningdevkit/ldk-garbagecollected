@@ -7,7 +7,7 @@
 				LDKSecp256k1Error_InvalidSecretKey,
 				LDKSecp256k1Error_InvalidRecoveryId,
 				LDKSecp256k1Error_InvalidTweak,
-				LDKSecp256k1Error_TweakCheckFailed,
 				LDKSecp256k1Error_NotEnoughMemory,
+				LDKSecp256k1Error_CallbackPanicked,
 				
             }
