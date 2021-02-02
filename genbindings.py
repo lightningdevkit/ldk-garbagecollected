@@ -14,8 +14,12 @@ else:
     sys.exit(1)
 
 target = None
-if sys.argv[6] == "java":
+if sys.argv[6] == "java" or sys.argv[6] == "android":
+    import java_strings
     from java_strings import Consts
+    target = java_strings.Target.JAVA
+    if sys.argv[6] == "android":
+        target = java_strings.Target.ANDROID
 elif sys.argv[6] == "typescript":
     import typescript_strings
     from typescript_strings import Consts

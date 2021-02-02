@@ -1,7 +1,13 @@
 from bindingstypes import *
+from enum import Enum
+
+class Target(Enum):
+    JAVA = 1,
+    ANDROID = 2
 
 class Consts:
-    def __init__(self, DEBUG: bool, **kwargs):
+    def __init__(self, DEBUG: bool, target: Target, **kwargs):
+        self.target = target
         self.c_array_class_caches = set()
         self.c_type_map = dict(
             uint8_t = ['byte'],
@@ -449,7 +455,10 @@ import java.util.Arrays;
         out_c = out_c + self.c_fn_ty_pfx + "void JNICALL Java_org_ldk_impl_bindings_00024" + struct_name.replace("_", "_1") + "_init (" + self.c_fn_args_pfx + ") {\n"
         for var_name in variants:
             out_c = out_c + "\t" + struct_name + "_" + var_name + "_class =\n"
-            out_c = out_c + "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"Lorg/ldk/impl/bindings$" + struct_name + "$" + var_name + ";\"));\n"
+            if self.target == Target.ANDROID:
+                out_c = out_c + "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"org/ldk/impl/bindings$" + struct_name + "$" + var_name + "\"));\n"
+            else:
+                out_c = out_c + "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"Lorg/ldk/impl/bindings$" + struct_name + "$" + var_name + ";\"));\n"
             out_c = out_c + "\tCHECK(" + struct_name + "_" + var_name + "_class != NULL);\n"
             out_c = out_c + "\t" + struct_name + "_" + var_name + "_meth = (*env)->GetMethodID(env, " + struct_name + "_" + var_name + "_class, \"<init>\", \"(" + init_meth_jty_strs[var_name] + ")V\");\n"
             out_c = out_c + "\tCHECK(" + struct_name + "_" + var_name + "_meth != NULL);\n"
@@ -612,7 +621,7 @@ import java.util.Arrays;
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
                 out_c = out_c + "\t\tJNIEnv *env;\n"
-                out_c = out_c + "\t\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n"
+                out_c = out_c + "\t\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);\n"
                 out_c = out_c + "\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
@@ -632,7 +641,7 @@ import java.util.Arrays;
                 out_c = out_c + ") {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tJNIEnv *env;\n"
-                out_c = out_c + "\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_8) == JNI_OK);\n"
+                out_c = out_c + "\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);\n"
 
                 for arg_info in fn_line.args_ty:
                     if arg_info.ret_conv is not None:
