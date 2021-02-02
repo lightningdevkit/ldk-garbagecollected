@@ -11,6 +11,10 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
+/**
+ * A NioPeerHandler maps LDK's PeerHandler to Java's NIO I/O interface. It spawns a single background thread which
+ * processes socket events and provides the data to LDK for decryption and processing.
+ */
 public class NioPeerHandler {
     private static class Peer {
         SocketDescriptor descriptor;
@@ -39,11 +43,13 @@ public class NioPeerHandler {
             public long send_data(byte[] data, boolean resume_read) {
                 if (resume_read) {
                     peer.key.interestOps(peer.key.interestOps() | SelectionKey.OP_READ);
+                    selector.wakeup();
                 }
                 try {
                     long written = chan.write(ByteBuffer.wrap(data));
                     if (written != data.length) {
                         peer.key.interestOps(peer.key.interestOps() | SelectionKey.OP_WRITE);
+                        selector.wakeup();
                     }
                     return written;
                 } catch (IOException e) {
@@ -88,7 +94,6 @@ public class NioPeerHandler {
      * @throws IOException If an internal java.nio error occurs.
      */
     public NioPeerHandler(PeerManager manager) throws IOException {
-long id = manager._test_only_get_ptr();
         this.peer_manager = manager;
         this.selector = Selector.open();
         io_thread = new Thread(() -> {

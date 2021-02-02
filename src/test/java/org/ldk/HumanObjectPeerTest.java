@@ -379,7 +379,7 @@ class HumanObjectPeerTestInstance {
         if (use_nio_peer_handler) {
             peer1.nio_peer_handler.check_events();
             peer2.nio_peer_handler.check_events();
-            try { Thread.sleep(500); } catch (InterruptedException e) { assert false; }
+            try { Thread.sleep(400); } catch (InterruptedException e) { assert false; }
         } else {
             synchronized (runqueue) {
                 ran = false;
@@ -610,6 +610,10 @@ class HumanObjectPeerTestInstance {
         }
 
         if (use_nio_peer_handler) {
+            state.peer1.peer_manager.disconnect_by_node_id(state.peer2.chan_manager.get_our_node_id(), false);
+            wait_events_processed(state.peer1, state.peer2);
+            assert state.peer1.peer_manager.get_peer_node_ids().length == 0;
+            assert state.peer2.peer_manager.get_peer_node_ids().length == 0;
             state.peer1.nio_peer_handler.interrupt();
             state.peer2.nio_peer_handler.interrupt();
         }
