@@ -24,7 +24,10 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 			number res_b = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_b(res);
 			const res_b_hu_conv: ChannelMonitor = new ChannelMonitor(null, res_b);
 			res_b_hu_conv.ptrs_to.add(this);;
-			TwoTuple<Uint8Array, ChannelMonitor> res_conv = new TwoTuple<Uint8Array, ChannelMonitor>(res_a, res_b_hu_conv);
+			TwoTuple<Uint8Array, ChannelMonitor> res_conv = new TwoTuple<Uint8Array, ChannelMonitor>(res_a, res_b_hu_conv, () -> {
+				bindings.C2Tuple_BlockHashChannelMonitorZ_free(res);
+			});
+			res_b_hu_conv.ptrs_to.add(res_conv);
 			this.res = res_conv;
 		}
 		public Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK(TwoTuple<Uint8Array, ChannelMonitor> res) {

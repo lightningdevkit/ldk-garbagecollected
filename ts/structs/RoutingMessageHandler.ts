@@ -174,7 +174,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 			number arr_conv_63_c = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(arr_conv_63);
 			const arr_conv_63_c_hu_conv: ChannelUpdate = new ChannelUpdate(null, arr_conv_63_c);
 			arr_conv_63_c_hu_conv.ptrs_to.add(this);;
-			ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> arr_conv_63_conv = new ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>(arr_conv_63_a_hu_conv, arr_conv_63_b_hu_conv, arr_conv_63_c_hu_conv);
+			ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> arr_conv_63_conv = new ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>(arr_conv_63_a_hu_conv, arr_conv_63_b_hu_conv, arr_conv_63_c_hu_conv, () -> {
+				bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(arr_conv_63);
+			});
+			arr_conv_63_a_hu_conv.ptrs_to.add(arr_conv_63_conv);
+			arr_conv_63_b_hu_conv.ptrs_to.add(arr_conv_63_conv);
+			arr_conv_63_c_hu_conv.ptrs_to.add(arr_conv_63_conv);
 			arr_conv_63_arr[l] = arr_conv_63_conv;
 		}
 		return arr_conv_63_arr;

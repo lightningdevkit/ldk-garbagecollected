@@ -28,7 +28,10 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 			long res_b = bindings.LDKC2Tuple_BlockHashChannelManagerZ_get_b(res);
 			ChannelManager res_b_hu_conv = new ChannelManager(null, res_b);
 			res_b_hu_conv.ptrs_to.add(this);;
-			TwoTuple<byte[], ChannelManager> res_conv = new TwoTuple<byte[], ChannelManager>(res_a, res_b_hu_conv);
+			TwoTuple<byte[], ChannelManager> res_conv = new TwoTuple<byte[], ChannelManager>(res_a, res_b_hu_conv, () -> {
+				bindings.C2Tuple_BlockHashChannelManagerZ_free(res);
+			});
+			res_b_hu_conv.ptrs_to.add(res_conv);
 			this.res = res_conv;
 		}
 		public Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK(TwoTuple<byte[], ChannelManager> res) {

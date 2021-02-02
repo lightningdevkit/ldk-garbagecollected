@@ -110,7 +110,9 @@ public class ChannelKeys extends CommonBase {
 		long ret = bindings.ChannelKeys_key_derivation_params(this.ptr);
 		long ret_a = bindings.LDKC2Tuple_u64u64Z_get_a(ret);
 		long ret_b = bindings.LDKC2Tuple_u64u64Z_get_b(ret);
-		TwoTuple<Long, Long> ret_conv = new TwoTuple<Long, Long>(ret_a, ret_b);
+		TwoTuple<Long, Long> ret_conv = new TwoTuple<Long, Long>(ret_a, ret_b, () -> {
+			bindings.C2Tuple_u64u64Z_free(ret);
+		});
 		return ret_conv;
 	}
 

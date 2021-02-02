@@ -62,7 +62,9 @@ public class SpendableOutputDescriptor extends CommonBase {
 			long key_derivation_params = obj.key_derivation_params;
 			long key_derivation_params_a = bindings.LDKC2Tuple_u64u64Z_get_a(key_derivation_params);
 			long key_derivation_params_b = bindings.LDKC2Tuple_u64u64Z_get_b(key_derivation_params);
-			TwoTuple<Long, Long> key_derivation_params_conv = new TwoTuple<Long, Long>(key_derivation_params_a, key_derivation_params_b);
+			TwoTuple<Long, Long> key_derivation_params_conv = new TwoTuple<Long, Long>(key_derivation_params_a, key_derivation_params_b, () -> {
+				bindings.C2Tuple_u64u64Z_free(key_derivation_params);
+			});
 			this.key_derivation_params = key_derivation_params_conv;
 			this.revocation_pubkey = obj.revocation_pubkey;
 		}
@@ -83,7 +85,9 @@ public class SpendableOutputDescriptor extends CommonBase {
 			long key_derivation_params = obj.key_derivation_params;
 			long key_derivation_params_a = bindings.LDKC2Tuple_u64u64Z_get_a(key_derivation_params);
 			long key_derivation_params_b = bindings.LDKC2Tuple_u64u64Z_get_b(key_derivation_params);
-			TwoTuple<Long, Long> key_derivation_params_conv = new TwoTuple<Long, Long>(key_derivation_params_a, key_derivation_params_b);
+			TwoTuple<Long, Long> key_derivation_params_conv = new TwoTuple<Long, Long>(key_derivation_params_a, key_derivation_params_b, () -> {
+				bindings.C2Tuple_u64u64Z_free(key_derivation_params);
+			});
 			this.key_derivation_params = key_derivation_params_conv;
 		}
 	}

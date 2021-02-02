@@ -22,7 +22,9 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 			number res = bindings.LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(ptr);
 			Uint8Array res_a = bindings.LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(res);
 			Uint8Array[] res_b = bindings.LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(res);
-			TwoTuple<Uint8Array, Uint8Array[]> res_conv = new TwoTuple<Uint8Array, Uint8Array[]>(res_a, res_b);
+			TwoTuple<Uint8Array, Uint8Array[]> res_conv = new TwoTuple<Uint8Array, Uint8Array[]>(res_a, res_b, () -> {
+				bindings.C2Tuple_SignatureCVec_SignatureZZ_free(res);
+			});
 			this.res = res_conv;
 		}
 		public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(TwoTuple<Uint8Array, Uint8Array[]> res) {

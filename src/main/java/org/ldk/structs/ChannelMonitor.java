@@ -47,7 +47,10 @@ public class ChannelMonitor extends CommonBase {
 		OutPoint ret_a_hu_conv = new OutPoint(null, ret_a);
 		ret_a_hu_conv.ptrs_to.add(this);;
 		byte[] ret_b = bindings.LDKC2Tuple_OutPointScriptZ_get_b(ret);
-		TwoTuple<OutPoint, byte[]> ret_conv = new TwoTuple<OutPoint, byte[]>(ret_a_hu_conv, ret_b);
+		TwoTuple<OutPoint, byte[]> ret_conv = new TwoTuple<OutPoint, byte[]>(ret_a_hu_conv, ret_b, () -> {
+			bindings.C2Tuple_OutPointScriptZ_free(ret);
+		});
+		ret_a_hu_conv.ptrs_to.add(ret_conv);
 		return ret_conv;
 	}
 
@@ -94,10 +97,14 @@ public class ChannelMonitor extends CommonBase {
 				int arr_conv_26_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(arr_conv_26);
 				long arr_conv_26_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(arr_conv_26));
 				TxOut arr_conv_26_b_conv = new TxOut(null, arr_conv_26_b);;
-				TwoTuple<Integer, TxOut> arr_conv_26_conv = new TwoTuple<Integer, TxOut>(arr_conv_26_a, arr_conv_26_b_conv);
+				TwoTuple<Integer, TxOut> arr_conv_26_conv = new TwoTuple<Integer, TxOut>(arr_conv_26_a, arr_conv_26_b_conv, () -> {
+					bindings.C2Tuple_u32TxOutZ_free(arr_conv_26);
+				});
+				arr_conv_26_b_conv.ptrs_to.add(arr_conv_26_conv);
 				arr_conv_26_arr[a] = arr_conv_26_conv;
 			};
 			TwoTuple<byte[], TwoTuple<Integer, TxOut>[]> arr_conv_46_conv = new TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>(arr_conv_46_a, arr_conv_26_arr);
+			// Warning: We may not free the C tuple object!
 			arr_conv_46_arr[u] = arr_conv_46_conv;
 		}
 		/* TODO 2 TwoTuple<Long, byte[]>  */;

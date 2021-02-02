@@ -58,7 +58,9 @@ export class DynamicOutputP2WSH extends SpendableOutputDescriptor {
 		const key_derivation_params: number = obj.key_derivation_params;
 		number key_derivation_params_a = bindings.LDKC2Tuple_u64u64Z_get_a(key_derivation_params);
 			number key_derivation_params_b = bindings.LDKC2Tuple_u64u64Z_get_b(key_derivation_params);
-			TwoTuple<Number, Number> key_derivation_params_conv = new TwoTuple<Number, Number>(key_derivation_params_a, key_derivation_params_b);
+			TwoTuple<Number, Number> key_derivation_params_conv = new TwoTuple<Number, Number>(key_derivation_params_a, key_derivation_params_b, () -> {
+				bindings.C2Tuple_u64u64Z_free(key_derivation_params);
+			});
 		this.key_derivation_params = key_derivation_params_conv;
 		this.revocation_pubkey = obj.revocation_pubkey;
 	}
@@ -79,7 +81,9 @@ export class StaticOutputCounterpartyPayment extends SpendableOutputDescriptor {
 		const key_derivation_params: number = obj.key_derivation_params;
 		number key_derivation_params_a = bindings.LDKC2Tuple_u64u64Z_get_a(key_derivation_params);
 			number key_derivation_params_b = bindings.LDKC2Tuple_u64u64Z_get_b(key_derivation_params);
-			TwoTuple<Number, Number> key_derivation_params_conv = new TwoTuple<Number, Number>(key_derivation_params_a, key_derivation_params_b);
+			TwoTuple<Number, Number> key_derivation_params_conv = new TwoTuple<Number, Number>(key_derivation_params_a, key_derivation_params_b, () -> {
+				bindings.C2Tuple_u64u64Z_free(key_derivation_params);
+			});
 		this.key_derivation_params = key_derivation_params_conv;
 	}
 }

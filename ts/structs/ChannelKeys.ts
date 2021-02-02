@@ -138,7 +138,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.ChannelKeys_key_derivation_params(this.ptr);
 		number ret_a = bindings.LDKC2Tuple_u64u64Z_get_a(ret);
 		number ret_b = bindings.LDKC2Tuple_u64u64Z_get_b(ret);
-		TwoTuple<Number, Number> ret_conv = new TwoTuple<Number, Number>(ret_a, ret_b);
+		TwoTuple<Number, Number> ret_conv = new TwoTuple<Number, Number>(ret_a, ret_b, () -> {
+			bindings.C2Tuple_u64u64Z_free(ret);
+		});
 		return ret_conv;
 	}
 
