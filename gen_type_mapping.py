@@ -343,6 +343,7 @@ class TypeMappingGenerator:
                     from_hu_conv = "bindings." + self.tuple_types[ty_info.rust_obj][1].replace("LDK", "") + "_new("
                     to_hu_conv_pfx = ""
                     to_hu_conv_sfx = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " + ty_info.java_hu_ty + "("
+                    to_hu_conv_refs = ""
                     for idx, conv in enumerate(self.tuple_types[ty_info.rust_obj][0]):
                         if idx != 0:
                             to_hu_conv_sfx = to_hu_conv_sfx + ", "
@@ -359,6 +360,11 @@ class TypeMappingGenerator:
                         if conv_map.to_hu_conv is not None:
                             to_hu_conv_pfx = to_hu_conv_pfx + conv_map.to_hu_conv + ";\n"
                             to_hu_conv_sfx = to_hu_conv_sfx + conv_map.to_hu_conv_name
+                            if to_hu_conv_refs is not None:
+                                if conv_map.c_ty.endswith("Array"):
+                                    to_hu_conv_refs = None
+                                else:
+                                    to_hu_conv_refs = to_hu_conv_refs + "\n" + conv_map.to_hu_conv_name + ".ptrs_to.add(" + ty_info.var_name + "_conv);"
                         else:
                             to_hu_conv_sfx = to_hu_conv_sfx + ty_info.var_name + "_" + chr(idx + ord("a"))
                         if conv_map.from_hu_conv is not None:
@@ -368,17 +374,23 @@ class TypeMappingGenerator:
                         else:
                             from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
 
+                    if to_hu_conv_refs is None:
+                        to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");\n// Warning: We may not free the C tuple object!"
+                    else:
+                        to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ", () -> {\n"
+                        to_hu_conv = to_hu_conv + "\tbindings." + ty_info.rust_obj.replace("LDK", "") + "_free(" + ty_info.var_name + ");\n"
+                        to_hu_conv = to_hu_conv + "});" + to_hu_conv_refs
                     if not ty_info.is_ptr and not holds_ref:
                         ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";")
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = ret_conv,
                             ret_conv_name = "(long)" + ty_info.var_name + "_ref",
-                            to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
+                            to_hu_conv = to_hu_conv, to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ("long " + ty_info.var_name + "_ref = (long)(&", ") | 1;"), ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");", to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
+                        to_hu_conv = to_hu_conv, to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
 
                 # The manually-defined types - TxOut and Transaction
                 assert ty_info.rust_obj == "LDKTxOut"
