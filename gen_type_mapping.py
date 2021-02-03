@@ -77,7 +77,7 @@ class TypeMappingGenerator:
                 #if ty_info.is_ptr or holds_ref:
                 #    ty_info.subty.requires_clone = False
                 ty_info.subty.requires_clone = not ty_info.is_ptr or not holds_ref
-                if ty_info.subty.rust_obj is not None and ty_info.subty.rust_obj == "LDKChannelMonitor":
+                if not ty_info.subty.is_native_primitive and ty_info.subty.rust_obj == "LDKChannelMonitor":
                     # We take a Vec of references to ChannelMonitors as input to ChannelManagerReadArgs, if we clone them,
                     # we end up freeing the clones after creating the ChannelManagerReadArgs before calling the read
                     # function itself, resulting in a segfault. Thus, we manually check and ensure we don't clone for
@@ -89,7 +89,7 @@ class TypeMappingGenerator:
                 arg_conv = ty_info.rust_obj + " " + arr_name + "_constr;\n"
                 arg_conv = arg_conv + arr_name + "_constr." + arr_len + " = " + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + ";\n"
                 arg_conv = arg_conv + "if (" + arr_name + "_constr." + arr_len + " > 0)\n"
-                if subty.rust_obj is None:
+                if subty.is_native_primitive:
                     szof = subty.c_ty
                 else:
                     szof = subty.rust_obj
@@ -186,7 +186,7 @@ class TypeMappingGenerator:
                     ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
         elif ty_info.var_name == "" and not print_void:
             # We don't have a parameter name, and want one, just call it arg
-            if ty_info.rust_obj is not None:
+            if not ty_info.is_native_primitive:
                 assert(not is_free or ty_info.rust_obj not in self.opaque_structs)
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = ty_info.rust_obj + " arg_conv = *(" + ty_info.rust_obj + "*)arg;\nFREE((void*)arg);",
@@ -197,7 +197,7 @@ class TypeMappingGenerator:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = None, arg_conv_name = "arg", arg_conv_cleanup = None,
                     ret_conv = None, ret_conv_name = None, to_hu_conv = "TODO 8", to_hu_conv_name = None, from_hu_conv = None)
-        elif ty_info.rust_obj is None:
+        elif ty_info.is_native_primitive:
             return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                 arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None,
                 ret_conv = None, ret_conv_name = None, to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)

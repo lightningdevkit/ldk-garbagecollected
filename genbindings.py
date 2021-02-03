@@ -225,7 +225,8 @@ def java_c_types(fn_arg, ret_arr_len):
             c_ty = "int64_t"
             fn_arg = fn_arg[8:].strip()
         else:
-            c_ty = "intptr_t"
+            c_ty = "int64_t"
+            rust_obj = "uintptr_t"
             fn_arg = fn_arg[9:].strip()
         is_primitive = True
     elif is_const and fn_arg.startswith("char *"):
@@ -307,7 +308,6 @@ def java_c_types(fn_arg, ret_arr_len):
         c_ty = consts.ptr_c_ty
         java_ty = consts.ptr_native_ty
         fn_ty_arg = "J"
-        is_primitive = False
 
     var_is_arr = var_is_arr_regex.match(fn_arg)
     if var_is_arr is not None or ret_arr_len is not None:
@@ -348,7 +348,7 @@ with open(sys.argv[1]) as in_h:
                 clone_fns.add(reg_fn.group(2))
             else:
                 rty = java_c_types(reg_fn.group(1), None)
-                if rty is not None and rty.rust_obj is not None and reg_fn.group(2) == rty.java_hu_ty + "_new":
+                if rty is not None and not rty.is_native_primitive and reg_fn.group(2) == rty.java_hu_ty + "_new":
                     constructor_fns[rty.rust_obj] = reg_fn.group(3)
             continue
         arr_fn = fn_ret_arr_regex.match(line)
