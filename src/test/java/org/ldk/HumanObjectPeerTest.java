@@ -333,6 +333,20 @@ class HumanObjectPeerTestInstance {
             return null;
         }
 
+        Event[] get_monitor_events() {
+            if (chain_monitor != null) {
+                return chain_monitor.as_EventsProvider().get_and_clear_pending_events();
+            } else {
+                synchronized (monitors) {
+                    assert monitors.size() == 1;
+                    for (ChannelMonitor mon : monitors.values()) {
+                        return mon.get_and_clear_pending_events();
+                    }
+                    return null;
+                }
+            }
+        }
+
         Route get_route(byte[] dest_node, ChannelDetails[] our_chans) {
             try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
                 NetworkGraph graph = netgraph.graph();
@@ -517,6 +531,9 @@ class HumanObjectPeerTestInstance {
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
         wait_events_processed(peer1, peer2);
 
+        assert peer1.get_monitor_events().length == 0;
+        assert peer2.get_monitor_events().length == 0;
+
         if (reload_peers) {
             if (use_nio_peer_handler) {
                 peer1.nio_peer_handler.interrupt();
@@ -617,6 +634,9 @@ class HumanObjectPeerTestInstance {
             state.peer1.nio_peer_handler.interrupt();
             state.peer2.nio_peer_handler.interrupt();
         }
+
+        assert state.peer1.get_monitor_events().length == 0;
+        assert state.peer2.get_monitor_events().length == 0;
     }
 
     java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
