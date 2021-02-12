@@ -18,4 +18,36 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.InitFeatures_free(this.ptr);
                     }
                 }
+	public InitFeatures clone() {
+		number ret = bindings.InitFeatures_clone(this.ptr);
+		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public static InitFeatures constructor_empty() {
+		number ret = bindings.InitFeatures_empty();
+		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static InitFeatures constructor_known() {
+		number ret = bindings.InitFeatures_known();
+		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public Uint8Array write() {
+		Uint8Array ret = bindings.InitFeatures_write(this.ptr);
+		return ret;
+	}
+
+	public static Result_InitFeaturesDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.InitFeatures_read(ser);
+		Result_InitFeaturesDecodeErrorZ ret_hu_conv = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

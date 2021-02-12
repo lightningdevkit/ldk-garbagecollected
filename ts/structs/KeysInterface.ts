@@ -60,7 +60,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 						},
 
 						read_chan_signer (reader: Uint8Array): number {
-							Result_ChanKeySignerDecodeErrorZ ret = arg.read_chan_signer(reader);
+							Result_ChannelKeysDecodeErrorZ ret = arg.read_chan_signer(reader);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
 						},
@@ -77,7 +77,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				get_shutdown_pubkey(): Uint8Array;
 				get_channel_keys(inbound: boolean, channel_value_satoshis: number): ChannelKeys;
 				get_secure_random_bytes(): Uint8Array;
-				read_chan_signer(reader: Uint8Array): Result_ChanKeySignerDecodeErrorZ;
+				read_chan_signer(reader: Uint8Array): Result_ChannelKeysDecodeErrorZ;
 				
             }
 
@@ -111,9 +111,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public Result_ChanKeySignerDecodeErrorZ read_chan_signer(Uint8Array reader) {
+	public Result_ChannelKeysDecodeErrorZ read_chan_signer(Uint8Array reader) {
 		number ret = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
-		Result_ChanKeySignerDecodeErrorZ ret_hu_conv = Result_ChanKeySignerDecodeErrorZ.constr_from_ptr(ret);
+		Result_ChannelKeysDecodeErrorZ ret_hu_conv = Result_ChannelKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

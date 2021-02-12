@@ -14,13 +14,6 @@ public class ReplyChannelRange extends CommonBase {
 		if (ptr != 0) { bindings.ReplyChannelRange_free(ptr); }
 	}
 
-	public ReplyChannelRange clone() {
-		long ret = bindings.ReplyChannelRange_clone(this.ptr);
-		ReplyChannelRange ret_hu_conv = new ReplyChannelRange(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.ReplyChannelRange_get_chain_hash(this.ptr);
 		return ret;
@@ -48,23 +41,30 @@ public class ReplyChannelRange extends CommonBase {
 		bindings.ReplyChannelRange_set_number_of_blocks(this.ptr, val);
 	}
 
-	public boolean get_full_information() {
-		boolean ret = bindings.ReplyChannelRange_get_full_information(this.ptr);
+	public boolean get_sync_complete() {
+		boolean ret = bindings.ReplyChannelRange_get_sync_complete(this.ptr);
 		return ret;
 	}
 
-	public void set_full_information(boolean val) {
-		bindings.ReplyChannelRange_set_full_information(this.ptr, val);
+	public void set_sync_complete(boolean val) {
+		bindings.ReplyChannelRange_set_sync_complete(this.ptr, val);
 	}
 
 	public void set_short_channel_ids(long[] val) {
 		bindings.ReplyChannelRange_set_short_channel_ids(this.ptr, val);
 	}
 
-	public static ReplyChannelRange constructor_new(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg, boolean full_information_arg, long[] short_channel_ids_arg) {
-		long ret = bindings.ReplyChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg, full_information_arg, short_channel_ids_arg);
+	public static ReplyChannelRange constructor_new(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg, boolean sync_complete_arg, long[] short_channel_ids_arg) {
+		long ret = bindings.ReplyChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, short_channel_ids_arg);
 		ReplyChannelRange ret_hu_conv = new ReplyChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public ReplyChannelRange clone() {
+		long ret = bindings.ReplyChannelRange_clone(this.ptr);
+		ReplyChannelRange ret_hu_conv = new ReplyChannelRange(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

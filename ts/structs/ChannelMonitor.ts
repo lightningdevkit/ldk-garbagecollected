@@ -89,7 +89,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] block_connected(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		number[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, (number[])Arrays.stream(txdata).map(arr_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_30.a, arr_conv_30.b)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		number[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).map(arr_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_30.a, arr_conv_30.b)).toArray(number[]::new), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] arr_conv_49_arr = new TwoTuple[ret.length];
 		for (int x = 0; x < ret.length; x++) {
 			number arr_conv_49 = ret[x];

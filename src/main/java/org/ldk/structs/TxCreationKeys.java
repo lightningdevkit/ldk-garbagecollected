@@ -14,13 +14,6 @@ public class TxCreationKeys extends CommonBase {
 		if (ptr != 0) { bindings.TxCreationKeys_free(ptr); }
 	}
 
-	public TxCreationKeys clone() {
-		long ret = bindings.TxCreationKeys_clone(this.ptr);
-		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_per_commitment_point() {
 		byte[] ret = bindings.TxCreationKeys_get_per_commitment_point(this.ptr);
 		return ret;
@@ -73,27 +66,33 @@ public class TxCreationKeys extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public TxCreationKeys clone() {
+		long ret = bindings.TxCreationKeys_clone(this.ptr);
+		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.TxCreationKeys_write(this.ptr);
 		return ret;
 	}
 
-	public static TxCreationKeys constructor_read(byte[] ser) {
+	public static Result_TxCreationKeysDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.TxCreationKeys_read(ser);
-		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_TxCreationKeysDecodeErrorZ ret_hu_conv = Result_TxCreationKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_TxCreationKeysSecpErrorZ constructor_derive_new(byte[] per_commitment_point, byte[] broadcaster_delayed_payment_base, byte[] broadcaster_htlc_base, byte[] countersignatory_revocation_base, byte[] countersignatory_htlc_base) {
+	public static Result_TxCreationKeysErrorZ constructor_derive_new(byte[] per_commitment_point, byte[] broadcaster_delayed_payment_base, byte[] broadcaster_htlc_base, byte[] countersignatory_revocation_base, byte[] countersignatory_htlc_base) {
 		long ret = bindings.TxCreationKeys_derive_new(per_commitment_point, broadcaster_delayed_payment_base, broadcaster_htlc_base, countersignatory_revocation_base, countersignatory_htlc_base);
-		Result_TxCreationKeysSecpErrorZ ret_hu_conv = Result_TxCreationKeysSecpErrorZ.constr_from_ptr(ret);
+		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_TxCreationKeysSecpErrorZ constructor_from_channel_static_keys(byte[] per_commitment_point, ChannelPublicKeys broadcaster_keys, ChannelPublicKeys countersignatory_keys) {
+	public static Result_TxCreationKeysErrorZ constructor_from_channel_static_keys(byte[] per_commitment_point, ChannelPublicKeys broadcaster_keys, ChannelPublicKeys countersignatory_keys) {
 		long ret = bindings.TxCreationKeys_from_channel_static_keys(per_commitment_point, broadcaster_keys == null ? 0 : broadcaster_keys.ptr & ~1, countersignatory_keys == null ? 0 : countersignatory_keys.ptr & ~1);
-		Result_TxCreationKeysSecpErrorZ ret_hu_conv = Result_TxCreationKeysSecpErrorZ.constr_from_ptr(ret);
+		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(broadcaster_keys);
 		ret_hu_conv.ptrs_to.add(countersignatory_keys);
 		return ret_hu_conv;

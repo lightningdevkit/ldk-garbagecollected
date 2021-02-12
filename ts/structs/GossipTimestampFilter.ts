@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.GossipTimestampFilter_free(this.ptr);
                     }
                 }
-	public GossipTimestampFilter clone() {
-		number ret = bindings.GossipTimestampFilter_clone(this.ptr);
-		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_chain_hash() {
 		Uint8Array ret = bindings.GossipTimestampFilter_get_chain_hash(this.ptr);
 		return ret;
@@ -56,6 +49,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg);
 		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public GossipTimestampFilter clone() {
+		number ret = bindings.GossipTimestampFilter_clone(this.ptr);
+		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

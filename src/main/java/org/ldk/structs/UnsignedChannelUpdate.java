@@ -14,13 +14,6 @@ public class UnsignedChannelUpdate extends CommonBase {
 		if (ptr != 0) { bindings.UnsignedChannelUpdate_free(ptr); }
 	}
 
-	public UnsignedChannelUpdate clone() {
-		long ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
-		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
 		return ret;
@@ -91,6 +84,13 @@ public class UnsignedChannelUpdate extends CommonBase {
 
 	public void set_fee_proportional_millionths(int val) {
 		bindings.UnsignedChannelUpdate_set_fee_proportional_millionths(this.ptr, val);
+	}
+
+	public UnsignedChannelUpdate clone() {
+		long ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
+		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public byte[] write() {

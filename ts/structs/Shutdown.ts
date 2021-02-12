@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.Shutdown_free(this.ptr);
                     }
                 }
-	public Shutdown clone() {
-		number ret = bindings.Shutdown_clone(this.ptr);
-		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_channel_id() {
 		Uint8Array ret = bindings.Shutdown_get_channel_id(this.ptr);
 		return ret;
@@ -50,15 +43,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public Shutdown clone() {
+		number ret = bindings.Shutdown_clone(this.ptr);
+		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.Shutdown_write(this.ptr);
 		return ret;
 	}
 
-	public static Shutdown constructor_read(Uint8Array ser) {
+	public static Result_ShutdownDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.Shutdown_read(ser);
-		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

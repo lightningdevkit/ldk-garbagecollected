@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.RouteHop_free(this.ptr);
                     }
                 }
-	public RouteHop clone() {
-		number ret = bindings.RouteHop_clone(this.ptr);
-		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_pubkey() {
 		Uint8Array ret = bindings.RouteHop_get_pubkey(this.ptr);
 		return ret;
@@ -44,14 +37,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public void set_node_features(NodeFeatures val) {
 		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid this being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after this call, val is reset to null and is now a dummy object.
-		val.ptr = 0;
 	}
 
 	public number get_short_channel_id() {
@@ -73,14 +58,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public void set_channel_features(ChannelFeatures val) {
 		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid this being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after this call, val is reset to null and is now a dummy object.
-		val.ptr = 0;
 	}
 
 	public number get_fee_msat() {
@@ -106,23 +83,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(node_features_arg);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after ret_hu_conv call, node_features_arg is reset to null and is now a dummy object.
-		node_features_arg.ptr = 0;
 		ret_hu_conv.ptrs_to.add(channel_features_arg);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after ret_hu_conv call, channel_features_arg is reset to null and is now a dummy object.
-		channel_features_arg.ptr = 0;
+		return ret_hu_conv;
+	}
+
+	public RouteHop clone() {
+		number ret = bindings.RouteHop_clone(this.ptr);
+		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

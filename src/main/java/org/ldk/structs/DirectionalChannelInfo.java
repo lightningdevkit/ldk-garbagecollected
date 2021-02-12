@@ -14,13 +14,6 @@ public class DirectionalChannelInfo extends CommonBase {
 		if (ptr != 0) { bindings.DirectionalChannelInfo_free(ptr); }
 	}
 
-	public DirectionalChannelInfo clone() {
-		long ret = bindings.DirectionalChannelInfo_clone(this.ptr);
-		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public int get_last_update() {
 		int ret = bindings.DirectionalChannelInfo_get_last_update(this.ptr);
 		return ret;
@@ -81,15 +74,21 @@ public class DirectionalChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
+	public DirectionalChannelInfo clone() {
+		long ret = bindings.DirectionalChannelInfo_clone(this.ptr);
+		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.DirectionalChannelInfo_write(this.ptr);
 		return ret;
 	}
 
-	public static DirectionalChannelInfo constructor_read(byte[] ser) {
+	public static Result_DirectionalChannelInfoDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.DirectionalChannelInfo_read(ser);
-		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_DirectionalChannelInfoDecodeErrorZ ret_hu_conv = Result_DirectionalChannelInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

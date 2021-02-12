@@ -19,7 +19,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                     }
                 }
 	public void block_connected(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
-		bindings.ChainMonitor_block_connected(this.ptr, header, (number[])Arrays.stream(txdata).map(arr_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_30.a, arr_conv_30.b)).toArray(), height);
+		bindings.ChainMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).map(arr_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_30.a, arr_conv_30.b)).toArray(number[]::new), height);
 		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
 	}
 

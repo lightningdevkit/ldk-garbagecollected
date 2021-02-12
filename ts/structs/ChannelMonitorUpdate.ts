@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelMonitorUpdate_free(this.ptr);
                     }
                 }
-	public ChannelMonitorUpdate clone() {
-		number ret = bindings.ChannelMonitorUpdate_clone(this.ptr);
-		const ret_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public number get_update_id() {
 		number ret = bindings.ChannelMonitorUpdate_get_update_id(this.ptr);
 		return ret;
@@ -32,6 +25,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_update_id(number val) {
 		bindings.ChannelMonitorUpdate_set_update_id(this.ptr, val);
+	}
+
+	public ChannelMonitorUpdate clone() {
+		number ret = bindings.ChannelMonitorUpdate_clone(this.ptr);
+		const ret_hu_conv: ChannelMonitorUpdate = new ChannelMonitorUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public Uint8Array write() {

@@ -30,10 +30,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public static HTLCUpdate constructor_read(Uint8Array ser) {
+	public static Result_HTLCUpdateDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.HTLCUpdate_read(ser);
-		const ret_hu_conv: HTLCUpdate = new HTLCUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

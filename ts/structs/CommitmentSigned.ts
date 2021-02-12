@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.CommitmentSigned_free(this.ptr);
                     }
                 }
-	public CommitmentSigned clone() {
-		number ret = bindings.CommitmentSigned_clone(this.ptr);
-		const ret_hu_conv: CommitmentSigned = new CommitmentSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_channel_id() {
 		Uint8Array ret = bindings.CommitmentSigned_get_channel_id(this.ptr);
 		return ret;
@@ -54,15 +47,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public CommitmentSigned clone() {
+		number ret = bindings.CommitmentSigned_clone(this.ptr);
+		const ret_hu_conv: CommitmentSigned = new CommitmentSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.CommitmentSigned_write(this.ptr);
 		return ret;
 	}
 
-	public static CommitmentSigned constructor_read(Uint8Array ser) {
+	public static Result_CommitmentSignedDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.CommitmentSigned_read(ser);
-		const ret_hu_conv: CommitmentSigned = new CommitmentSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_CommitmentSignedDecodeErrorZ ret_hu_conv = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -14,13 +14,6 @@ public class GossipTimestampFilter extends CommonBase {
 		if (ptr != 0) { bindings.GossipTimestampFilter_free(ptr); }
 	}
 
-	public GossipTimestampFilter clone() {
-		long ret = bindings.GossipTimestampFilter_clone(this.ptr);
-		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.GossipTimestampFilter_get_chain_hash(this.ptr);
 		return ret;
@@ -52,6 +45,13 @@ public class GossipTimestampFilter extends CommonBase {
 		long ret = bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg);
 		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public GossipTimestampFilter clone() {
+		long ret = bindings.GossipTimestampFilter_clone(this.ptr);
+		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

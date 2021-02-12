@@ -91,7 +91,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void broadcast_node_announcement(Uint8Array rgb, Uint8Array alias, NetAddress[] addresses) {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, (number[])Arrays.stream(addresses).map(arr_conv_12 -> arr_conv_12.ptr).toArray());
+		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, Arrays.stream(addresses).map(arr_conv_12 -> arr_conv_12.ptr).toArray(number[]::new));
 		/* TODO 2 NetAddress  */;
 	}
 
@@ -138,7 +138,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void block_connected(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
-		bindings.ChannelManager_block_connected(this.ptr, header, (number[])Arrays.stream(txdata).map(arr_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_30.a, arr_conv_30.b)).toArray(), height);
+		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).map(arr_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_30.a, arr_conv_30.b)).toArray(number[]::new), height);
 		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
 	}
 

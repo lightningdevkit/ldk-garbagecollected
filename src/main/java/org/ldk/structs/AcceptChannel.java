@@ -14,13 +14,6 @@ public class AcceptChannel extends CommonBase {
 		if (ptr != 0) { bindings.AcceptChannel_free(ptr); }
 	}
 
-	public AcceptChannel clone() {
-		long ret = bindings.AcceptChannel_clone(this.ptr);
-		AcceptChannel ret_hu_conv = new AcceptChannel(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_temporary_channel_id() {
 		byte[] ret = bindings.AcceptChannel_get_temporary_channel_id(this.ptr);
 		return ret;
@@ -147,15 +140,21 @@ public class AcceptChannel extends CommonBase {
 		bindings.AcceptChannel_set_first_per_commitment_point(this.ptr, val);
 	}
 
+	public AcceptChannel clone() {
+		long ret = bindings.AcceptChannel_clone(this.ptr);
+		AcceptChannel ret_hu_conv = new AcceptChannel(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.AcceptChannel_write(this.ptr);
 		return ret;
 	}
 
-	public static AcceptChannel constructor_read(byte[] ser) {
+	public static Result_AcceptChannelDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.AcceptChannel_read(ser);
-		AcceptChannel ret_hu_conv = new AcceptChannel(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_AcceptChannelDecodeErrorZ ret_hu_conv = Result_AcceptChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -14,13 +14,6 @@ public class UpdateFulfillHTLC extends CommonBase {
 		if (ptr != 0) { bindings.UpdateFulfillHTLC_free(ptr); }
 	}
 
-	public UpdateFulfillHTLC clone() {
-		long ret = bindings.UpdateFulfillHTLC_clone(this.ptr);
-		UpdateFulfillHTLC ret_hu_conv = new UpdateFulfillHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
 		return ret;
@@ -55,15 +48,21 @@ public class UpdateFulfillHTLC extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public UpdateFulfillHTLC clone() {
+		long ret = bindings.UpdateFulfillHTLC_clone(this.ptr);
+		UpdateFulfillHTLC ret_hu_conv = new UpdateFulfillHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.UpdateFulfillHTLC_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateFulfillHTLC constructor_read(byte[] ser) {
+	public static Result_UpdateFulfillHTLCDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.UpdateFulfillHTLC_read(ser);
-		UpdateFulfillHTLC ret_hu_conv = new UpdateFulfillHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_UpdateFulfillHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFulfillHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

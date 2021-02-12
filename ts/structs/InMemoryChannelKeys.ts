@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.InMemoryChannelKeys_free(this.ptr);
                     }
                 }
-	public InMemoryChannelKeys clone() {
-		number ret = bindings.InMemoryChannelKeys_clone(this.ptr);
-		const ret_hu_conv: InMemoryChannelKeys = new InMemoryChannelKeys(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_funding_key() {
 		Uint8Array ret = bindings.InMemoryChannelKeys_get_funding_key(this.ptr);
 		return ret;
@@ -77,6 +70,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_commitment_seed(Uint8Array val) {
 		bindings.InMemoryChannelKeys_set_commitment_seed(this.ptr, val);
+	}
+
+	public InMemoryChannelKeys clone() {
+		number ret = bindings.InMemoryChannelKeys_clone(this.ptr);
+		const ret_hu_conv: InMemoryChannelKeys = new InMemoryChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public static InMemoryChannelKeys constructor_new(Uint8Array funding_key, Uint8Array revocation_base_key, Uint8Array payment_key, Uint8Array delayed_payment_base_key, Uint8Array htlc_base_key, Uint8Array commitment_seed, number channel_value_satoshis, TwoTuple<Number, Number> key_derivation_params) {

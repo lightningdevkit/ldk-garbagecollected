@@ -14,13 +14,6 @@ public class CommitmentUpdate extends CommonBase {
 		if (ptr != 0) { bindings.CommitmentUpdate_free(ptr); }
 	}
 
-	public CommitmentUpdate clone() {
-		long ret = bindings.CommitmentUpdate_clone(this.ptr);
-		CommitmentUpdate ret_hu_conv = new CommitmentUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public void set_update_add_htlcs(UpdateAddHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, Arrays.stream(val).mapToLong(arr_conv_15 -> arr_conv_15 == null ? 0 : arr_conv_15.ptr & ~1).toArray());
 		/* TODO 2 UpdateAddHTLC  */;
@@ -75,6 +68,13 @@ public class CommitmentUpdate extends CommonBase {
 		/* TODO 2 UpdateFailMalformedHTLC  */;
 		ret_hu_conv.ptrs_to.add(update_fee_arg);
 		ret_hu_conv.ptrs_to.add(commitment_signed_arg);
+		return ret_hu_conv;
+	}
+
+	public CommitmentUpdate clone() {
+		long ret = bindings.CommitmentUpdate_clone(this.ptr);
+		CommitmentUpdate ret_hu_conv = new CommitmentUpdate(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

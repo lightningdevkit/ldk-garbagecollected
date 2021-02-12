@@ -14,13 +14,6 @@ public class Ping extends CommonBase {
 		if (ptr != 0) { bindings.Ping_free(ptr); }
 	}
 
-	public Ping clone() {
-		long ret = bindings.Ping_clone(this.ptr);
-		Ping ret_hu_conv = new Ping(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public short get_ponglen() {
 		short ret = bindings.Ping_get_ponglen(this.ptr);
 		return ret;
@@ -43,6 +36,13 @@ public class Ping extends CommonBase {
 		long ret = bindings.Ping_new(ponglen_arg, byteslen_arg);
 		Ping ret_hu_conv = new Ping(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public Ping clone() {
+		long ret = bindings.Ping_clone(this.ptr);
+		Ping ret_hu_conv = new Ping(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

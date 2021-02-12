@@ -30,10 +30,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public static CommitmentTransaction constructor_read(Uint8Array ser) {
+	public static Result_CommitmentTransactionDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.CommitmentTransaction_read(ser);
-		const ret_hu_conv: CommitmentTransaction = new CommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_CommitmentTransactionDecodeErrorZ ret_hu_conv = Result_CommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

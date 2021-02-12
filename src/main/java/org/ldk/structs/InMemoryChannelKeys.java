@@ -14,13 +14,6 @@ public class InMemoryChannelKeys extends CommonBase {
 		if (ptr != 0) { bindings.InMemoryChannelKeys_free(ptr); }
 	}
 
-	public InMemoryChannelKeys clone() {
-		long ret = bindings.InMemoryChannelKeys_clone(this.ptr);
-		InMemoryChannelKeys ret_hu_conv = new InMemoryChannelKeys(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_funding_key() {
 		byte[] ret = bindings.InMemoryChannelKeys_get_funding_key(this.ptr);
 		return ret;
@@ -73,6 +66,13 @@ public class InMemoryChannelKeys extends CommonBase {
 
 	public void set_commitment_seed(byte[] val) {
 		bindings.InMemoryChannelKeys_set_commitment_seed(this.ptr, val);
+	}
+
+	public InMemoryChannelKeys clone() {
+		long ret = bindings.InMemoryChannelKeys_clone(this.ptr);
+		InMemoryChannelKeys ret_hu_conv = new InMemoryChannelKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public static InMemoryChannelKeys constructor_new(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, TwoTuple<Long, Long> key_derivation_params) {

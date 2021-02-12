@@ -130,28 +130,12 @@ public class ChannelMessageHandler extends CommonBase {
 	public void handle_open_channel(byte[] their_node_id, InitFeatures their_features, OpenChannel msg) {
 		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(their_features);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid this being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after this call, their_features is reset to null and is now a dummy object.
-		their_features.ptr = 0;
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_accept_channel(byte[] their_node_id, InitFeatures their_features, AcceptChannel msg) {
 		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(their_features);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid this being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after this call, their_features is reset to null and is now a dummy object.
-		their_features.ptr = 0;
 		this.ptrs_to.add(msg);
 	}
 

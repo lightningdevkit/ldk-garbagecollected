@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelConfig_free(this.ptr);
                     }
                 }
-	public ChannelConfig clone() {
-		number ret = bindings.ChannelConfig_clone(this.ptr);
-		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public number get_fee_proportional_millionths() {
 		number ret = bindings.ChannelConfig_get_fee_proportional_millionths(this.ptr);
 		return ret;
@@ -59,6 +52,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public ChannelConfig clone() {
+		number ret = bindings.ChannelConfig_clone(this.ptr);
+		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public static ChannelConfig constructor_default() {
 		number ret = bindings.ChannelConfig_default();
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
@@ -71,10 +71,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public static ChannelConfig constructor_read(Uint8Array ser) {
+	public static Result_ChannelConfigDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.ChannelConfig_read(ser);
-		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ChannelConfigDecodeErrorZ ret_hu_conv = Result_ChannelConfigDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

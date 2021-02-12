@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.QueryShortChannelIds_free(this.ptr);
                     }
                 }
-	public QueryShortChannelIds clone() {
-		number ret = bindings.QueryShortChannelIds_clone(this.ptr);
-		const ret_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_chain_hash() {
 		Uint8Array ret = bindings.QueryShortChannelIds_get_chain_hash(this.ptr);
 		return ret;
@@ -42,6 +35,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.QueryShortChannelIds_new(chain_hash_arg, short_channel_ids_arg);
 		const ret_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public QueryShortChannelIds clone() {
+		number ret = bindings.QueryShortChannelIds_clone(this.ptr);
+		const ret_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

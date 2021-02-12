@@ -54,7 +54,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						release_pending_monitor_events (): number[] {
 							MonitorEvent[] ret = arg.release_pending_monitor_events();
-				result: number[] = (number[])Arrays.stream(ret).map(arr_conv_14 -> arr_conv_14 == null ? 0 : arr_conv_14.ptr & ~1).toArray();
+				result: number[] = Arrays.stream(ret).map(arr_conv_14 -> arr_conv_14 == null ? 0 : arr_conv_14.ptr & ~1).toArray(number[]::new);
 				/* TODO 2 MonitorEvent  */;
 				return result;
 						},

@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelHandshakeConfig_free(this.ptr);
                     }
                 }
-	public ChannelHandshakeConfig clone() {
-		number ret = bindings.ChannelHandshakeConfig_clone(this.ptr);
-		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public number get_minimum_depth() {
 		number ret = bindings.ChannelHandshakeConfig_get_minimum_depth(this.ptr);
 		return ret;
@@ -56,6 +49,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public ChannelHandshakeConfig clone() {
+		number ret = bindings.ChannelHandshakeConfig_clone(this.ptr);
+		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

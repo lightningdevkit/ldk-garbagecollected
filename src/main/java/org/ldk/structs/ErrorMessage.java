@@ -14,13 +14,6 @@ public class ErrorMessage extends CommonBase {
 		if (ptr != 0) { bindings.ErrorMessage_free(ptr); }
 	}
 
-	public ErrorMessage clone() {
-		long ret = bindings.ErrorMessage_clone(this.ptr);
-		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.ErrorMessage_get_channel_id(this.ptr);
 		return ret;
@@ -43,6 +36,13 @@ public class ErrorMessage extends CommonBase {
 		long ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
 		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public ErrorMessage clone() {
+		long ret = bindings.ErrorMessage_clone(this.ptr);
+		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

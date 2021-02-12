@@ -14,13 +14,6 @@ public class RouteHint extends CommonBase {
 		if (ptr != 0) { bindings.RouteHint_free(ptr); }
 	}
 
-	public RouteHint clone() {
-		long ret = bindings.RouteHint_clone(this.ptr);
-		RouteHint ret_hu_conv = new RouteHint(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_src_node_id() {
 		byte[] ret = bindings.RouteHint_get_src_node_id(this.ptr);
 		return ret;
@@ -74,6 +67,13 @@ public class RouteHint extends CommonBase {
 		RouteHint ret_hu_conv = new RouteHint(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fees_arg);
+		return ret_hu_conv;
+	}
+
+	public RouteHint clone() {
+		long ret = bindings.RouteHint_clone(this.ptr);
+		RouteHint ret_hu_conv = new RouteHint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

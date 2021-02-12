@@ -14,13 +14,6 @@ public class NodeAnnouncement extends CommonBase {
 		if (ptr != 0) { bindings.NodeAnnouncement_free(ptr); }
 	}
 
-	public NodeAnnouncement clone() {
-		long ret = bindings.NodeAnnouncement_clone(this.ptr);
-		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_signature() {
 		byte[] ret = bindings.NodeAnnouncement_get_signature(this.ptr);
 		return ret;
@@ -50,15 +43,21 @@ public class NodeAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public NodeAnnouncement clone() {
+		long ret = bindings.NodeAnnouncement_clone(this.ptr);
+		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.NodeAnnouncement_write(this.ptr);
 		return ret;
 	}
 
-	public static NodeAnnouncement constructor_read(byte[] ser) {
+	public static Result_NodeAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.NodeAnnouncement_read(ser);
-		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_NodeAnnouncementDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.RoutingFees_free(this.ptr);
                     }
                 }
-	public RoutingFees clone() {
-		number ret = bindings.RoutingFees_clone(this.ptr);
-		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public number get_base_msat() {
 		number ret = bindings.RoutingFees_get_base_msat(this.ptr);
 		return ret;
@@ -47,6 +40,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.RoutingFees_new(base_msat_arg, proportional_millionths_arg);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public RoutingFees clone() {
+		number ret = bindings.RoutingFees_clone(this.ptr);
+		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

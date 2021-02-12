@@ -14,13 +14,6 @@ public class LightningError extends CommonBase {
 		if (ptr != 0) { bindings.LightningError_free(ptr); }
 	}
 
-	public LightningError clone() {
-		long ret = bindings.LightningError_clone(this.ptr);
-		LightningError ret_hu_conv = new LightningError(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public String get_err() {
 		String ret = bindings.LightningError_get_err(this.ptr);
 		return ret;
@@ -45,6 +38,13 @@ public class LightningError extends CommonBase {
 		long ret = bindings.LightningError_new(err_arg, action_arg.ptr);
 		LightningError ret_hu_conv = new LightningError(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public LightningError clone() {
+		long ret = bindings.LightningError_clone(this.ptr);
+		LightningError ret_hu_conv = new LightningError(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

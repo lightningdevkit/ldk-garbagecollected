@@ -14,13 +14,6 @@ public class ChannelAnnouncement extends CommonBase {
 		if (ptr != 0) { bindings.ChannelAnnouncement_free(ptr); }
 	}
 
-	public ChannelAnnouncement clone() {
-		long ret = bindings.ChannelAnnouncement_clone(this.ptr);
-		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_node_signature_1() {
 		byte[] ret = bindings.ChannelAnnouncement_get_node_signature_1(this.ptr);
 		return ret;
@@ -77,15 +70,21 @@ public class ChannelAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public ChannelAnnouncement clone() {
+		long ret = bindings.ChannelAnnouncement_clone(this.ptr);
+		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.ChannelAnnouncement_write(this.ptr);
 		return ret;
 	}
 
-	public static ChannelAnnouncement constructor_read(byte[] ser) {
+	public static Result_ChannelAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ChannelAnnouncement_read(ser);
-		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -14,13 +14,6 @@ public class ChannelHandshakeConfig extends CommonBase {
 		if (ptr != 0) { bindings.ChannelHandshakeConfig_free(ptr); }
 	}
 
-	public ChannelHandshakeConfig clone() {
-		long ret = bindings.ChannelHandshakeConfig_clone(this.ptr);
-		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public int get_minimum_depth() {
 		int ret = bindings.ChannelHandshakeConfig_get_minimum_depth(this.ptr);
 		return ret;
@@ -52,6 +45,13 @@ public class ChannelHandshakeConfig extends CommonBase {
 		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
 		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public ChannelHandshakeConfig clone() {
+		long ret = bindings.ChannelHandshakeConfig_clone(this.ptr);
+		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelAnnouncement_free(this.ptr);
                     }
                 }
-	public ChannelAnnouncement clone() {
-		number ret = bindings.ChannelAnnouncement_clone(this.ptr);
-		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_node_signature_1() {
 		Uint8Array ret = bindings.ChannelAnnouncement_get_node_signature_1(this.ptr);
 		return ret;
@@ -81,15 +74,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public ChannelAnnouncement clone() {
+		number ret = bindings.ChannelAnnouncement_clone(this.ptr);
+		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.ChannelAnnouncement_write(this.ptr);
 		return ret;
 	}
 
-	public static ChannelAnnouncement constructor_read(Uint8Array ser) {
+	public static Result_ChannelAnnouncementDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.ChannelAnnouncement_read(ser);
-		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

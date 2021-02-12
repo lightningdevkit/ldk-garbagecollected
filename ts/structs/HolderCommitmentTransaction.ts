@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.HolderCommitmentTransaction_free(this.ptr);
                     }
                 }
-	public HolderCommitmentTransaction clone() {
-		number ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
-		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_counterparty_sig() {
 		Uint8Array ret = bindings.HolderCommitmentTransaction_get_counterparty_sig(this.ptr);
 		return ret;
@@ -38,15 +31,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, val);
 	}
 
+	public HolderCommitmentTransaction clone() {
+		number ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
+		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.HolderCommitmentTransaction_write(this.ptr);
 		return ret;
 	}
 
-	public static HolderCommitmentTransaction constructor_read(Uint8Array ser) {
+	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.HolderCommitmentTransaction_read(ser);
-		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

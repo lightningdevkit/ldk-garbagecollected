@@ -14,13 +14,6 @@ public class HolderCommitmentTransaction extends CommonBase {
 		if (ptr != 0) { bindings.HolderCommitmentTransaction_free(ptr); }
 	}
 
-	public HolderCommitmentTransaction clone() {
-		long ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
-		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_counterparty_sig() {
 		byte[] ret = bindings.HolderCommitmentTransaction_get_counterparty_sig(this.ptr);
 		return ret;
@@ -34,15 +27,21 @@ public class HolderCommitmentTransaction extends CommonBase {
 		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, val);
 	}
 
+	public HolderCommitmentTransaction clone() {
+		long ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
+		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.HolderCommitmentTransaction_write(this.ptr);
 		return ret;
 	}
 
-	public static HolderCommitmentTransaction constructor_read(byte[] ser) {
+	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.HolderCommitmentTransaction_read(ser);
-		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

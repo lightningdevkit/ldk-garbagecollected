@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.NodeInfo_free(this.ptr);
                     }
                 }
-	public NodeInfo clone() {
-		number ret = bindings.NodeInfo_clone(this.ptr);
-		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public void set_channels(number[] val) {
 		bindings.NodeInfo_set_channels(this.ptr, val);
 	}
@@ -59,6 +52,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(lowest_inbound_channel_fees_arg);
 		ret_hu_conv.ptrs_to.add(announcement_info_arg);
+		return ret_hu_conv;
+	}
+
+	public NodeInfo clone() {
+		number ret = bindings.NodeInfo_clone(this.ptr);
+		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

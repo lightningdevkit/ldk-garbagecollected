@@ -28,14 +28,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public void set_features(ChannelFeatures val) {
 		bindings.ChannelInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid this being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after this call, val is reset to null and is now a dummy object.
-		val.ptr = 0;
 	}
 
 	public Uint8Array get_node_one() {
@@ -97,10 +89,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public static ChannelInfo constructor_read(Uint8Array ser) {
+	public static Result_ChannelInfoDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.ChannelInfo_read(ser);
-		const ret_hu_conv: ChannelInfo = new ChannelInfo(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ChannelInfoDecodeErrorZ ret_hu_conv = Result_ChannelInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

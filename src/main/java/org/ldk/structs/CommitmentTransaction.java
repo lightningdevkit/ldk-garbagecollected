@@ -26,10 +26,9 @@ public class CommitmentTransaction extends CommonBase {
 		return ret;
 	}
 
-	public static CommitmentTransaction constructor_read(byte[] ser) {
+	public static Result_CommitmentTransactionDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.CommitmentTransaction_read(ser);
-		CommitmentTransaction ret_hu_conv = new CommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_CommitmentTransactionDecodeErrorZ ret_hu_conv = Result_CommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

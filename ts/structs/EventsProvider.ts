@@ -34,7 +34,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         get_and_clear_pending_events (): number[] {
 							Event[] ret = arg.get_and_clear_pending_events();
-				result: number[] = (number[])Arrays.stream(ret).map(arr_conv_7 -> arr_conv_7.ptr).toArray();
+				result: number[] = Arrays.stream(ret).map(arr_conv_7 -> arr_conv_7.ptr).toArray(number[]::new);
 				/* TODO 2 Event  */;
 				return result;
 						},

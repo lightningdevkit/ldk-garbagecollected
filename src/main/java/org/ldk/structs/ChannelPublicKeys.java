@@ -14,13 +14,6 @@ public class ChannelPublicKeys extends CommonBase {
 		if (ptr != 0) { bindings.ChannelPublicKeys_free(ptr); }
 	}
 
-	public ChannelPublicKeys clone() {
-		long ret = bindings.ChannelPublicKeys_clone(this.ptr);
-		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_funding_pubkey() {
 		byte[] ret = bindings.ChannelPublicKeys_get_funding_pubkey(this.ptr);
 		return ret;
@@ -73,15 +66,21 @@ public class ChannelPublicKeys extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public ChannelPublicKeys clone() {
+		long ret = bindings.ChannelPublicKeys_clone(this.ptr);
+		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.ChannelPublicKeys_write(this.ptr);
 		return ret;
 	}
 
-	public static ChannelPublicKeys constructor_read(byte[] ser) {
+	public static Result_ChannelPublicKeysDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ChannelPublicKeys_read(ser);
-		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ChannelPublicKeysDecodeErrorZ ret_hu_conv = Result_ChannelPublicKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

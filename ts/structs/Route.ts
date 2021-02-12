@@ -18,23 +18,23 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.Route_free(this.ptr);
                     }
                 }
-	public Route clone() {
-		number ret = bindings.Route_clone(this.ptr);
-		const ret_hu_conv: Route = new Route(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public void set_paths(RouteHop[][] val) {
-		bindings.Route_set_paths(this.ptr, (number[][])Arrays.stream(val).map(arr_conv_12 -> (number[])Arrays.stream(arr_conv_12).map(arr_conv_10 -> arr_conv_10 == null ? 0 : arr_conv_10.ptr & ~1).toArray()).toArray());
+		bindings.Route_set_paths(this.ptr, Arrays.stream(val).map(arr_conv_12 -> Arrays.stream(arr_conv_12).map(arr_conv_10 -> arr_conv_10 == null ? 0 : arr_conv_10.ptr & ~1).toArray(number[]::new)).toArray(number[][]::new));
 		/* TODO 2 RouteHop[]  */;
 	}
 
 	public static Route constructor_new(RouteHop[][] paths_arg) {
-		number ret = bindings.Route_new((number[][])Arrays.stream(paths_arg).map(arr_conv_12 -> (number[])Arrays.stream(arr_conv_12).map(arr_conv_10 -> arr_conv_10 == null ? 0 : arr_conv_10.ptr & ~1).toArray()).toArray());
+		number ret = bindings.Route_new(Arrays.stream(paths_arg).map(arr_conv_12 -> Arrays.stream(arr_conv_12).map(arr_conv_10 -> arr_conv_10 == null ? 0 : arr_conv_10.ptr & ~1).toArray(number[]::new)).toArray(number[][]::new));
 		const ret_hu_conv: Route = new Route(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		/* TODO 2 RouteHop[]  */;
+		return ret_hu_conv;
+	}
+
+	public Route clone() {
+		number ret = bindings.Route_clone(this.ptr);
+		const ret_hu_conv: Route = new Route(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

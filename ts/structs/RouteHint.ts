@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.RouteHint_free(this.ptr);
                     }
                 }
-	public RouteHint clone() {
-		number ret = bindings.RouteHint_clone(this.ptr);
-		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_src_node_id() {
 		Uint8Array ret = bindings.RouteHint_get_src_node_id(this.ptr);
 		return ret;
@@ -78,6 +71,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fees_arg);
+		return ret_hu_conv;
+	}
+
+	public RouteHint clone() {
+		number ret = bindings.RouteHint_clone(this.ptr);
+		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

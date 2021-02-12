@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.UserConfig_free(this.ptr);
                     }
                 }
-	public UserConfig clone() {
-		number ret = bindings.UserConfig_clone(this.ptr);
-		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public ChannelHandshakeConfig get_own_channel_config() {
 		number ret = bindings.UserConfig_get_own_channel_config(this.ptr);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
@@ -68,6 +61,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		ret_hu_conv.ptrs_to.add(own_channel_config_arg);
 		ret_hu_conv.ptrs_to.add(peer_channel_config_limits_arg);
 		ret_hu_conv.ptrs_to.add(channel_options_arg);
+		return ret_hu_conv;
+	}
+
+	public UserConfig clone() {
+		number ret = bindings.UserConfig_clone(this.ptr);
+		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ErrorMessage_free(this.ptr);
                     }
                 }
-	public ErrorMessage clone() {
-		number ret = bindings.ErrorMessage_clone(this.ptr);
-		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_channel_id() {
 		Uint8Array ret = bindings.ErrorMessage_get_channel_id(this.ptr);
 		return ret;
@@ -47,6 +40,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
 		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public ErrorMessage clone() {
+		number ret = bindings.ErrorMessage_clone(this.ptr);
+		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
