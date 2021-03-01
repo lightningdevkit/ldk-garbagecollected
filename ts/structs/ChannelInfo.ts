@@ -84,6 +84,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(val);
 	}
 
+	public ChannelInfo clone() {
+		number ret = bindings.ChannelInfo_clone(this.ptr);
+		const ret_hu_conv: ChannelInfo = new ChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.ChannelInfo_write(this.ptr);
 		return ret;

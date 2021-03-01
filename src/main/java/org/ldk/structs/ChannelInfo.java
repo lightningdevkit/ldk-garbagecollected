@@ -80,6 +80,13 @@ public class ChannelInfo extends CommonBase {
 		this.ptrs_to.add(val);
 	}
 
+	public ChannelInfo clone() {
+		long ret = bindings.ChannelInfo_clone(this.ptr);
+		ChannelInfo ret_hu_conv = new ChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.ChannelInfo_write(this.ptr);
 		return ret;

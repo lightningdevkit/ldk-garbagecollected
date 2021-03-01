@@ -56,26 +56,26 @@ public class ChannelMonitor extends CommonBase {
 
 	public MonitorEvent[] get_and_clear_pending_monitor_events() {
 		long[] ret = bindings.ChannelMonitor_get_and_clear_pending_monitor_events(this.ptr);
-		MonitorEvent[] arr_conv_14_arr = new MonitorEvent[ret.length];
+		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret.length];
 		for (int o = 0; o < ret.length; o++) {
-			long arr_conv_14 = ret[o];
-			MonitorEvent arr_conv_14_hu_conv = new MonitorEvent(null, arr_conv_14);
-			arr_conv_14_hu_conv.ptrs_to.add(this);
-			arr_conv_14_arr[o] = arr_conv_14_hu_conv;
+			long ret_conv_14 = ret[o];
+			MonitorEvent ret_conv_14_hu_conv = MonitorEvent.constr_from_ptr(ret_conv_14);
+			ret_conv_14_hu_conv.ptrs_to.add(this);
+			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
-		return arr_conv_14_arr;
+		return ret_conv_14_arr;
 	}
 
 	public Event[] get_and_clear_pending_events() {
 		long[] ret = bindings.ChannelMonitor_get_and_clear_pending_events(this.ptr);
-		Event[] arr_conv_7_arr = new Event[ret.length];
+		Event[] ret_conv_7_arr = new Event[ret.length];
 		for (int h = 0; h < ret.length; h++) {
-			long arr_conv_7 = ret[h];
-			Event arr_conv_7_hu_conv = Event.constr_from_ptr(arr_conv_7);
-			arr_conv_7_hu_conv.ptrs_to.add(this);
-			arr_conv_7_arr[h] = arr_conv_7_hu_conv;
+			long ret_conv_7 = ret[h];
+			Event ret_conv_7_hu_conv = Event.constr_from_ptr(ret_conv_7);
+			ret_conv_7_hu_conv.ptrs_to.add(this);
+			ret_conv_7_arr[h] = ret_conv_7_hu_conv;
 		}
-		return arr_conv_7_arr;
+		return ret_conv_7_arr;
 	}
 
 	public byte[][] get_latest_holder_commitment_txn(Logger logger) {
@@ -85,33 +85,33 @@ public class ChannelMonitor extends CommonBase {
 	}
 
 	public TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_24.a, arr_conv_24.b)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
-		TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] arr_conv_46_arr = new TwoTuple[ret.length];
+		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] ret_conv_46_arr = new TwoTuple[ret.length];
 		for (int u = 0; u < ret.length; u++) {
-			long arr_conv_46 = ret[u];
-			byte[] arr_conv_46_a = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(arr_conv_46);
-			long[] arr_conv_46_b = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(arr_conv_46);
-			TwoTuple<Integer, TxOut>[] arr_conv_26_arr = new TwoTuple[arr_conv_46_b.length];
-			for (int a = 0; a < arr_conv_46_b.length; a++) {
-				long arr_conv_26 = arr_conv_46_b[a];
-				int arr_conv_26_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(arr_conv_26);
-				long arr_conv_26_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(arr_conv_26));
-				TxOut arr_conv_26_b_conv = new TxOut(null, arr_conv_26_b);;
-				TwoTuple<Integer, TxOut> arr_conv_26_conv = new TwoTuple<Integer, TxOut>(arr_conv_26_a, arr_conv_26_b_conv, () -> {
-					bindings.C2Tuple_u32TxOutZ_free(arr_conv_26);
+			long ret_conv_46 = ret[u];
+			byte[] ret_conv_46_a = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(ret_conv_46);
+			long[] ret_conv_46_b = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(ret_conv_46);
+			TwoTuple<Integer, TxOut>[] ret_conv_46_b_conv_26_arr = new TwoTuple[ret_conv_46_b.length];
+			for (int a = 0; a < ret_conv_46_b.length; a++) {
+				long ret_conv_46_b_conv_26 = ret_conv_46_b[a];
+				int ret_conv_46_b_conv_26_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(ret_conv_46_b_conv_26);
+				long ret_conv_46_b_conv_26_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(ret_conv_46_b_conv_26));
+				TxOut ret_conv_46_b_conv_26_b_conv = new TxOut(null, ret_conv_46_b_conv_26_b);;
+				TwoTuple<Integer, TxOut> ret_conv_46_b_conv_26_conv = new TwoTuple<Integer, TxOut>(ret_conv_46_b_conv_26_a, ret_conv_46_b_conv_26_b_conv, () -> {
+					bindings.C2Tuple_u32TxOutZ_free(ret_conv_46_b_conv_26);
 				});
-				arr_conv_26_b_conv.ptrs_to.add(arr_conv_26_conv);
-				arr_conv_26_arr[a] = arr_conv_26_conv;
+				ret_conv_46_b_conv_26_b_conv.ptrs_to.add(ret_conv_46_b_conv_26_conv);
+				ret_conv_46_b_conv_26_arr[a] = ret_conv_46_b_conv_26_conv;
 			};
-			TwoTuple<byte[], TwoTuple<Integer, TxOut>[]> arr_conv_46_conv = new TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>(arr_conv_46_a, arr_conv_26_arr);
+			TwoTuple<byte[], TwoTuple<Integer, TxOut>[]> ret_conv_46_conv = new TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>(ret_conv_46_a, ret_conv_46_b_conv_26_arr);
 			// Warning: We may not free the C tuple object!
-			arr_conv_46_arr[u] = arr_conv_46_conv;
+			ret_conv_46_arr[u] = ret_conv_46_conv;
 		}
 		/* TODO 2 TwoTuple<Long, byte[]>  */;
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
-		return arr_conv_46_arr;
+		return ret_conv_46_arr;
 	}
 
 	public void block_disconnected(byte[] header, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {

@@ -103,14 +103,14 @@ public class Event extends CommonBase {
 		private SpendableOutputs(long ptr, bindings.LDKEvent.SpendableOutputs obj) {
 			super(null, ptr);
 			long[] outputs = obj.outputs;
-			SpendableOutputDescriptor[] arr_conv_27_arr = new SpendableOutputDescriptor[outputs.length];
+			SpendableOutputDescriptor[] outputs_conv_27_arr = new SpendableOutputDescriptor[outputs.length];
 			for (int b = 0; b < outputs.length; b++) {
-				long arr_conv_27 = outputs[b];
-				SpendableOutputDescriptor arr_conv_27_hu_conv = SpendableOutputDescriptor.constr_from_ptr(arr_conv_27);
-				arr_conv_27_hu_conv.ptrs_to.add(this);
-				arr_conv_27_arr[b] = arr_conv_27_hu_conv;
+				long outputs_conv_27 = outputs[b];
+				SpendableOutputDescriptor outputs_conv_27_hu_conv = SpendableOutputDescriptor.constr_from_ptr(outputs_conv_27);
+				outputs_conv_27_hu_conv.ptrs_to.add(this);
+				outputs_conv_27_arr[b] = outputs_conv_27_hu_conv;
 			}
-			this.outputs = arr_conv_27_arr;
+			this.outputs = outputs_conv_27_arr;
 		}
 	}
 }

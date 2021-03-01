@@ -26,7 +26,7 @@ public class ChannelMessageHandler extends CommonBase {
 		void handle_funding_created(byte[] their_node_id, FundingCreated msg);
 		void handle_funding_signed(byte[] their_node_id, FundingSigned msg);
 		void handle_funding_locked(byte[] their_node_id, FundingLocked msg);
-		void handle_shutdown(byte[] their_node_id, Shutdown msg);
+		void handle_shutdown(byte[] their_node_id, InitFeatures their_features, Shutdown msg);
 		void handle_closing_signed(byte[] their_node_id, ClosingSigned msg);
 		void handle_update_add_htlc(byte[] their_node_id, UpdateAddHTLC msg);
 		void handle_update_fulfill_htlc(byte[] their_node_id, UpdateFulfillHTLC msg);
@@ -69,9 +69,10 @@ public class ChannelMessageHandler extends CommonBase {
 				FundingLocked msg_hu_conv = new FundingLocked(null, msg);
 				arg.handle_funding_locked(their_node_id, msg_hu_conv);
 			}
-			@Override public void handle_shutdown(byte[] their_node_id, long msg) {
+			@Override public void handle_shutdown(byte[] their_node_id, long their_features, long msg) {
+				InitFeatures their_features_hu_conv = new InitFeatures(null, their_features);
 				Shutdown msg_hu_conv = new Shutdown(null, msg);
-				arg.handle_shutdown(their_node_id, msg_hu_conv);
+				arg.handle_shutdown(their_node_id, their_features_hu_conv, msg_hu_conv);
 			}
 			@Override public void handle_closing_signed(byte[] their_node_id, long msg) {
 				ClosingSigned msg_hu_conv = new ClosingSigned(null, msg);
@@ -154,8 +155,9 @@ public class ChannelMessageHandler extends CommonBase {
 		this.ptrs_to.add(msg);
 	}
 
-	public void handle_shutdown(byte[] their_node_id, Shutdown msg) {
-		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+	public void handle_shutdown(byte[] their_node_id, InitFeatures their_features, Shutdown msg) {
+		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
+		this.ptrs_to.add(their_features);
 		this.ptrs_to.add(msg);
 	}
 

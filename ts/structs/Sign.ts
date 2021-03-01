@@ -5,17 +5,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 
 
-            export class ChannelKeys extends CommonBase {
+            export class Sign extends CommonBase {
 
-                bindings_instance?: bindings.LDKChannelKeys;
+                bindings_instance?: bindings.LDKSign;
 
-                constructor(ptr?: number, arg?: bindings.LDKChannelKeys, pubkeys?: ChannelPublicKeys) {
+                constructor(ptr?: number, arg?: bindings.LDKSign, pubkeys?: ChannelPublicKeys) {
                     if (Number.isFinite(ptr)) {
 				        super(ptr);
 				        this.bindings_instance = null;
 				    } else {
 				        // TODO: private constructor instantiation
-				        super(bindings.LDKChannelKeys_new(arg, pubkeys == null ? 0 : pubkeys.ptr & ~1));
+				        super(bindings.LDKSign_new(arg, pubkeys == null ? 0 : pubkeys.ptr & ~1));
 				        this.ptrs_to.push(arg);
 				        this.ptrs_to.add(pubkeys);
 
@@ -24,14 +24,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 
                 protected finalize() {
                     if (this.ptr != 0) {
-                        bindings.ChannelKeys_free(this.ptr);
+                        bindings.Sign_free(this.ptr);
                     }
                     super.finalize();
                 }
 
-                static new_impl(arg: ChannelKeysInterface, pubkeys: ChannelPublicKeys): ChannelKeys {
-                    const impl_holder: LDKChannelKeysHolder = new LDKChannelKeysHolder();
-                    let structImplementation = <bindings.LDKChannelKeys>{
+                static new_impl(arg: SignInterface, pubkeys: ChannelPublicKeys): Sign {
+                    const impl_holder: LDKSignHolder = new LDKSignHolder();
+                    let structImplementation = <bindings.LDKSign>{
                         // todo: in-line interface filling
                         get_per_commitment_point (idx: number): Uint8Array {
 							Uint8Array ret = arg.get_per_commitment_point(idx);
@@ -43,10 +43,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return ret;
 						},
 
-						key_derivation_params (): number {
-							TwoTuple<Number, Number> ret = arg.key_derivation_params();
-				result: number = bindings.C2Tuple_u64u64Z_new(ret.a, ret.b);
-				return result;
+						channel_keys_id (): Uint8Array {
+							Uint8Array ret = arg.channel_keys_id();
+				return ret;
 						},
 
 						sign_counterparty_commitment (commitment_tx: number): number {
@@ -102,14 +101,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						
                     };
-                    impl_holder.held = new ChannelKeys (null, structImplementation, pubkeys);
+                    impl_holder.held = new Sign (null, structImplementation, pubkeys);
                 }
             }
 
-            export interface ChannelKeysInterface {
+            export interface SignInterface {
                 get_per_commitment_point(idx: number): Uint8Array;
 				release_commitment_secret(idx: number): Uint8Array;
-				key_derivation_params(): TwoTuple<Number, Number>;
+				channel_keys_id(): Uint8Array;
 				sign_counterparty_commitment(commitment_tx: CommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
 				sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
 				sign_justice_transaction(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
@@ -121,90 +120,85 @@ import * as bindings from '../bindings' // TODO: figure out location
 				
             }
 
-            class LDKChannelKeysHolder {
-                held: ChannelKeys;
+            class LDKSignHolder {
+                held: Sign;
             }
 	public Uint8Array get_per_commitment_point(number idx) {
-		Uint8Array ret = bindings.ChannelKeys_get_per_commitment_point(this.ptr, idx);
+		Uint8Array ret = bindings.Sign_get_per_commitment_point(this.ptr, idx);
 		return ret;
 	}
 
 	public Uint8Array release_commitment_secret(number idx) {
-		Uint8Array ret = bindings.ChannelKeys_release_commitment_secret(this.ptr, idx);
+		Uint8Array ret = bindings.Sign_release_commitment_secret(this.ptr, idx);
 		return ret;
 	}
 
-	public TwoTuple<Number, Number> key_derivation_params() {
-		number ret = bindings.ChannelKeys_key_derivation_params(this.ptr);
-		number ret_a = bindings.LDKC2Tuple_u64u64Z_get_a(ret);
-		number ret_b = bindings.LDKC2Tuple_u64u64Z_get_b(ret);
-		TwoTuple<Number, Number> ret_conv = new TwoTuple<Number, Number>(ret_a, ret_b, () -> {
-			bindings.C2Tuple_u64u64Z_free(ret);
-		});
-		return ret_conv;
+	public Uint8Array channel_keys_id() {
+		Uint8Array ret = bindings.Sign_channel_keys_id(this.ptr);
+		return ret;
 	}
 
 	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
-		number ret = bindings.ChannelKeys_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
+		number ret = bindings.Sign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}
 
 	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
-		number ret = bindings.ChannelKeys_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
+		number ret = bindings.Sign_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}
 
 	public Result_SignatureNoneZ sign_justice_transaction(Uint8Array justice_tx, number input, number amount, Uint8Array per_commitment_key, HTLCOutputInCommitment htlc) {
-		number ret = bindings.ChannelKeys_sign_justice_transaction(this.ptr, justice_tx, input, amount, per_commitment_key, htlc == null ? 0 : htlc.ptr & ~1);
+		number ret = bindings.Sign_sign_justice_transaction(this.ptr, justice_tx, input, amount, per_commitment_key, htlc == null ? 0 : htlc.ptr & ~1);
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(htlc);
 		return ret_hu_conv;
 	}
 
 	public Result_SignatureNoneZ sign_counterparty_htlc_transaction(Uint8Array htlc_tx, number input, number amount, Uint8Array per_commitment_point, HTLCOutputInCommitment htlc) {
-		number ret = bindings.ChannelKeys_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, per_commitment_point, htlc == null ? 0 : htlc.ptr & ~1);
+		number ret = bindings.Sign_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, per_commitment_point, htlc == null ? 0 : htlc.ptr & ~1);
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(htlc);
 		return ret_hu_conv;
 	}
 
 	public Result_SignatureNoneZ sign_closing_transaction(Uint8Array closing_tx) {
-		number ret = bindings.ChannelKeys_sign_closing_transaction(this.ptr, closing_tx);
+		number ret = bindings.Sign_sign_closing_transaction(this.ptr, closing_tx);
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
-		number ret = bindings.ChannelKeys_sign_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		number ret = bindings.Sign_sign_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
 	public void ready_channel(ChannelTransactionParameters channel_parameters) {
-		bindings.ChannelKeys_ready_channel(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
+		bindings.Sign_ready_channel(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
 		this.ptrs_to.add(channel_parameters);
 	}
 
 	public Uint8Array write() {
-		Uint8Array ret = bindings.ChannelKeys_write(this.ptr);
+		Uint8Array ret = bindings.Sign_write(this.ptr);
 		return ret;
 	}
 
 	public ChannelPublicKeys get_pubkeys() {
-		number ret = bindings.ChannelKeys_get_pubkeys(this.ptr);
+		number ret = bindings.Sign_get_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
-	public ChannelKeys clone() {
-		number ret = bindings.ChannelKeys_clone(this.ptr);
-		ChannelKeys ret_hu_conv = new ChannelKeys(null, ret);
+	public Sign clone() {
+		number ret = bindings.Sign_clone(this.ptr);
+		Sign ret_hu_conv = new Sign(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

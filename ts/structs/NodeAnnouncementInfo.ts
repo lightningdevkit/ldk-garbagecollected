@@ -58,7 +58,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_addresses(NetAddress[] val) {
-		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, Arrays.stream(val).map(arr_conv_12 -> arr_conv_12.ptr).toArray(number[]::new));
+		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, Arrays.stream(val).map(val_conv_12 -> val_conv_12.ptr).toArray(number[]::new));
 		/* TODO 2 NetAddress  */;
 	}
 
@@ -75,7 +75,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static NodeAnnouncementInfo constructor_new(NodeFeatures features_arg, number last_update_arg, Uint8Array rgb_arg, Uint8Array alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
-		number ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, Arrays.stream(addresses_arg).map(arr_conv_12 -> arr_conv_12.ptr).toArray(number[]::new), announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+		number ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, Arrays.stream(addresses_arg).map(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray(number[]::new), announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(features_arg);

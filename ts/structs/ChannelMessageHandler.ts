@@ -62,9 +62,10 @@ import * as bindings from '../bindings' // TODO: figure out location
 							arg.handle_funding_locked(their_node_id, msg_hu_conv);
 						},
 
-						handle_shutdown (their_node_id: Uint8Array, msg: number): void {
+						handle_shutdown (their_node_id: Uint8Array, their_features: number, msg: number): void {
+							const their_features_hu_conv: InitFeatures = new InitFeatures(null, their_features);
 							const msg_hu_conv: Shutdown = new Shutdown(null, msg);
-							arg.handle_shutdown(their_node_id, msg_hu_conv);
+							arg.handle_shutdown(their_node_id, their_features_hu_conv, msg_hu_conv);
 						},
 
 						handle_closing_signed (their_node_id: Uint8Array, msg: number): void {
@@ -143,7 +144,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				handle_funding_created(their_node_id: Uint8Array, msg: FundingCreated): void;
 				handle_funding_signed(their_node_id: Uint8Array, msg: FundingSigned): void;
 				handle_funding_locked(their_node_id: Uint8Array, msg: FundingLocked): void;
-				handle_shutdown(their_node_id: Uint8Array, msg: Shutdown): void;
+				handle_shutdown(their_node_id: Uint8Array, their_features: InitFeatures, msg: Shutdown): void;
 				handle_closing_signed(their_node_id: Uint8Array, msg: ClosingSigned): void;
 				handle_update_add_htlc(their_node_id: Uint8Array, msg: UpdateAddHTLC): void;
 				handle_update_fulfill_htlc(their_node_id: Uint8Array, msg: UpdateFulfillHTLC): void;
@@ -190,8 +191,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(msg);
 	}
 
-	public void handle_shutdown(Uint8Array their_node_id, Shutdown msg) {
-		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+	public void handle_shutdown(Uint8Array their_node_id, InitFeatures their_features, Shutdown msg) {
+		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
+		this.ptrs_to.add(their_features);
 		this.ptrs_to.add(msg);
 	}
 

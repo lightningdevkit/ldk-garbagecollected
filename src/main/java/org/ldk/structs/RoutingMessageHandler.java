@@ -61,13 +61,13 @@ public class RoutingMessageHandler extends CommonBase {
 			}
 			@Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 				ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
-				long[] result = Arrays.stream(ret).mapToLong(arr_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(arr_conv_63.a == null ? 0 : arr_conv_63.a.ptr & ~1, arr_conv_63.b == null ? 0 : arr_conv_63.b.ptr & ~1, arr_conv_63.c == null ? 0 : arr_conv_63.c.ptr & ~1)).toArray();
+				long[] result = Arrays.stream(ret).mapToLong(ret_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(ret_conv_63.a == null ? 0 : ret_conv_63.a.ptr & ~1, ret_conv_63.b == null ? 0 : ret_conv_63.b.ptr & ~1, ret_conv_63.c == null ? 0 : ret_conv_63.c.ptr & ~1)).toArray();
 				/* TODO 2 ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>  */;
 				return result;
 			}
 			@Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
 				NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
-				long[] result = Arrays.stream(ret).mapToLong(arr_conv_18 -> arr_conv_18 == null ? 0 : arr_conv_18.ptr & ~1).toArray();
+				long[] result = Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.ptr & ~1).toArray();
 				/* TODO 2 NodeAnnouncement  */;
 				return result;
 			}
@@ -134,39 +134,39 @@ public class RoutingMessageHandler extends CommonBase {
 
 	public ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_channel_announcements(this.ptr, starting_point, batch_amount);
-		ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] arr_conv_63_arr = new ThreeTuple[ret.length];
+		ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret_conv_63_arr = new ThreeTuple[ret.length];
 		for (int l = 0; l < ret.length; l++) {
-			long arr_conv_63 = ret[l];
-			long arr_conv_63_a = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(arr_conv_63);
-			ChannelAnnouncement arr_conv_63_a_hu_conv = new ChannelAnnouncement(null, arr_conv_63_a);
-			arr_conv_63_a_hu_conv.ptrs_to.add(this);;
-			long arr_conv_63_b = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(arr_conv_63);
-			ChannelUpdate arr_conv_63_b_hu_conv = new ChannelUpdate(null, arr_conv_63_b);
-			arr_conv_63_b_hu_conv.ptrs_to.add(this);;
-			long arr_conv_63_c = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(arr_conv_63);
-			ChannelUpdate arr_conv_63_c_hu_conv = new ChannelUpdate(null, arr_conv_63_c);
-			arr_conv_63_c_hu_conv.ptrs_to.add(this);;
-			ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> arr_conv_63_conv = new ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>(arr_conv_63_a_hu_conv, arr_conv_63_b_hu_conv, arr_conv_63_c_hu_conv, () -> {
-				bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(arr_conv_63);
+			long ret_conv_63 = ret[l];
+			long ret_conv_63_a = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(ret_conv_63);
+			ChannelAnnouncement ret_conv_63_a_hu_conv = new ChannelAnnouncement(null, ret_conv_63_a);
+			ret_conv_63_a_hu_conv.ptrs_to.add(this);;
+			long ret_conv_63_b = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(ret_conv_63);
+			ChannelUpdate ret_conv_63_b_hu_conv = new ChannelUpdate(null, ret_conv_63_b);
+			ret_conv_63_b_hu_conv.ptrs_to.add(this);;
+			long ret_conv_63_c = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(ret_conv_63);
+			ChannelUpdate ret_conv_63_c_hu_conv = new ChannelUpdate(null, ret_conv_63_c);
+			ret_conv_63_c_hu_conv.ptrs_to.add(this);;
+			ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> ret_conv_63_conv = new ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>(ret_conv_63_a_hu_conv, ret_conv_63_b_hu_conv, ret_conv_63_c_hu_conv, () -> {
+				bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(ret_conv_63);
 			});
-			arr_conv_63_a_hu_conv.ptrs_to.add(arr_conv_63_conv);
-			arr_conv_63_b_hu_conv.ptrs_to.add(arr_conv_63_conv);
-			arr_conv_63_c_hu_conv.ptrs_to.add(arr_conv_63_conv);
-			arr_conv_63_arr[l] = arr_conv_63_conv;
+			ret_conv_63_a_hu_conv.ptrs_to.add(ret_conv_63_conv);
+			ret_conv_63_b_hu_conv.ptrs_to.add(ret_conv_63_conv);
+			ret_conv_63_c_hu_conv.ptrs_to.add(ret_conv_63_conv);
+			ret_conv_63_arr[l] = ret_conv_63_conv;
 		}
-		return arr_conv_63_arr;
+		return ret_conv_63_arr;
 	}
 
 	public NodeAnnouncement[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, starting_point, batch_amount);
-		NodeAnnouncement[] arr_conv_18_arr = new NodeAnnouncement[ret.length];
+		NodeAnnouncement[] ret_conv_18_arr = new NodeAnnouncement[ret.length];
 		for (int s = 0; s < ret.length; s++) {
-			long arr_conv_18 = ret[s];
-			NodeAnnouncement arr_conv_18_hu_conv = new NodeAnnouncement(null, arr_conv_18);
-			arr_conv_18_hu_conv.ptrs_to.add(this);
-			arr_conv_18_arr[s] = arr_conv_18_hu_conv;
+			long ret_conv_18 = ret[s];
+			NodeAnnouncement ret_conv_18_hu_conv = new NodeAnnouncement(null, ret_conv_18);
+			ret_conv_18_hu_conv.ptrs_to.add(this);
+			ret_conv_18_arr[s] = ret_conv_18_hu_conv;
 		}
-		return arr_conv_18_arr;
+		return ret_conv_18_arr;
 	}
 
 	public void sync_routing_table(byte[] their_node_id, Init init) {

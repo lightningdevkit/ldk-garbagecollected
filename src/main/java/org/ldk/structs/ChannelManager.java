@@ -36,26 +36,26 @@ public class ChannelManager extends CommonBase {
 
 	public ChannelDetails[] list_channels() {
 		long[] ret = bindings.ChannelManager_list_channels(this.ptr);
-		ChannelDetails[] arr_conv_16_arr = new ChannelDetails[ret.length];
+		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
 		for (int q = 0; q < ret.length; q++) {
-			long arr_conv_16 = ret[q];
-			ChannelDetails arr_conv_16_hu_conv = new ChannelDetails(null, arr_conv_16);
-			arr_conv_16_hu_conv.ptrs_to.add(this);
-			arr_conv_16_arr[q] = arr_conv_16_hu_conv;
+			long ret_conv_16 = ret[q];
+			ChannelDetails ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16);
+			ret_conv_16_hu_conv.ptrs_to.add(this);
+			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
-		return arr_conv_16_arr;
+		return ret_conv_16_arr;
 	}
 
 	public ChannelDetails[] list_usable_channels() {
 		long[] ret = bindings.ChannelManager_list_usable_channels(this.ptr);
-		ChannelDetails[] arr_conv_16_arr = new ChannelDetails[ret.length];
+		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
 		for (int q = 0; q < ret.length; q++) {
-			long arr_conv_16 = ret[q];
-			ChannelDetails arr_conv_16_hu_conv = new ChannelDetails(null, arr_conv_16);
-			arr_conv_16_hu_conv.ptrs_to.add(this);
-			arr_conv_16_arr[q] = arr_conv_16_hu_conv;
+			long ret_conv_16 = ret[q];
+			ChannelDetails ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16);
+			ret_conv_16_hu_conv.ptrs_to.add(this);
+			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
-		return arr_conv_16_arr;
+		return ret_conv_16_arr;
 	}
 
 	public Result_NoneAPIErrorZ close_channel(byte[] channel_id) {
@@ -87,7 +87,7 @@ public class ChannelManager extends CommonBase {
 	}
 
 	public void broadcast_node_announcement(byte[] rgb, byte[] alias, NetAddress[] addresses) {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, Arrays.stream(addresses).mapToLong(arr_conv_12 -> arr_conv_12.ptr).toArray());
+		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, Arrays.stream(addresses).mapToLong(addresses_conv_12 -> addresses_conv_12.ptr).toArray());
 		/* TODO 2 NetAddress  */;
 	}
 
@@ -133,13 +133,24 @@ public class ChannelManager extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public Listen as_Listen() {
+		long ret = bindings.ChannelManager_as_Listen(this.ptr);
+		Listen ret_hu_conv = new Listen(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public void block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
-		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_24.a, arr_conv_24.b)).toArray(), height);
+		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height);
 		/* TODO 2 TwoTuple<Long, byte[]>  */;
 	}
 
 	public void block_disconnected(byte[] header) {
 		bindings.ChannelManager_block_disconnected(this.ptr, header);
+	}
+
+	public void await_persistable_update() {
+		bindings.ChannelManager_await_persistable_update(this.ptr);
 	}
 
 	public ChannelMessageHandler as_ChannelMessageHandler() {

@@ -67,7 +67,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_addresses(NetAddress[] val) {
-		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, Arrays.stream(val).map(arr_conv_12 -> arr_conv_12.ptr).toArray(number[]::new));
+		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, Arrays.stream(val).map(val_conv_12 -> val_conv_12.ptr).toArray(number[]::new));
 		/* TODO 2 NetAddress  */;
 	}
 

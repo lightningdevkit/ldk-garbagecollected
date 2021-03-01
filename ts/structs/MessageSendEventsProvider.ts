@@ -34,7 +34,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         get_and_clear_pending_msg_events (): number[] {
 							MessageSendEvent[] ret = arg.get_and_clear_pending_msg_events();
-				result: number[] = Arrays.stream(ret).map(arr_conv_18 -> arr_conv_18.ptr).toArray(number[]::new);
+				result: number[] = Arrays.stream(ret).map(ret_conv_18 -> ret_conv_18.ptr).toArray(number[]::new);
 				/* TODO 2 MessageSendEvent  */;
 				return result;
 						},
@@ -55,14 +55,14 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 	public MessageSendEvent[] get_and_clear_pending_msg_events() {
 		number[] ret = bindings.MessageSendEventsProvider_get_and_clear_pending_msg_events(this.ptr);
-		MessageSendEvent[] arr_conv_18_arr = new MessageSendEvent[ret.length];
+		MessageSendEvent[] ret_conv_18_arr = new MessageSendEvent[ret.length];
 		for (int s = 0; s < ret.length; s++) {
-			number arr_conv_18 = ret[s];
-			MessageSendEvent arr_conv_18_hu_conv = MessageSendEvent.constr_from_ptr(arr_conv_18);
-			arr_conv_18_hu_conv.ptrs_to.add(this);
-			arr_conv_18_arr[s] = arr_conv_18_hu_conv;
+			number ret_conv_18 = ret[s];
+			MessageSendEvent ret_conv_18_hu_conv = MessageSendEvent.constr_from_ptr(ret_conv_18);
+			ret_conv_18_hu_conv.ptrs_to.add(this);
+			ret_conv_18_arr[s] = ret_conv_18_hu_conv;
 		}
-		return arr_conv_18_arr;
+		return ret_conv_18_arr;
 	}
 
 }

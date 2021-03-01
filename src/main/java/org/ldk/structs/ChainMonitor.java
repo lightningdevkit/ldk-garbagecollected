@@ -15,7 +15,7 @@ public class ChainMonitor extends CommonBase {
 	}
 
 	public void block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
-		bindings.ChainMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(arr_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_24.a, arr_conv_24.b)).toArray(), height);
+		bindings.ChainMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height);
 		/* TODO 2 TwoTuple<Long, byte[]>  */;
 	}
 

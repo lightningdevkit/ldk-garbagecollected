@@ -63,7 +63,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	}
 
 	public void set_addresses(NetAddress[] val) {
-		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, Arrays.stream(val).mapToLong(arr_conv_12 -> arr_conv_12.ptr).toArray());
+		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray());
 		/* TODO 2 NetAddress  */;
 	}
 

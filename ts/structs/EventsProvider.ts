@@ -34,7 +34,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         get_and_clear_pending_events (): number[] {
 							Event[] ret = arg.get_and_clear_pending_events();
-				result: number[] = Arrays.stream(ret).map(arr_conv_7 -> arr_conv_7.ptr).toArray(number[]::new);
+				result: number[] = Arrays.stream(ret).map(ret_conv_7 -> ret_conv_7.ptr).toArray(number[]::new);
 				/* TODO 2 Event  */;
 				return result;
 						},
@@ -55,14 +55,14 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 	public Event[] get_and_clear_pending_events() {
 		number[] ret = bindings.EventsProvider_get_and_clear_pending_events(this.ptr);
-		Event[] arr_conv_7_arr = new Event[ret.length];
+		Event[] ret_conv_7_arr = new Event[ret.length];
 		for (int h = 0; h < ret.length; h++) {
-			number arr_conv_7 = ret[h];
-			Event arr_conv_7_hu_conv = Event.constr_from_ptr(arr_conv_7);
-			arr_conv_7_hu_conv.ptrs_to.add(this);
-			arr_conv_7_arr[h] = arr_conv_7_hu_conv;
+			number ret_conv_7 = ret[h];
+			Event ret_conv_7_hu_conv = Event.constr_from_ptr(ret_conv_7);
+			ret_conv_7_hu_conv.ptrs_to.add(this);
+			ret_conv_7_arr[h] = ret_conv_7_hu_conv;
 		}
-		return arr_conv_7_arr;
+		return ret_conv_7_arr;
 	}
 
 }

@@ -15,12 +15,12 @@ public class Route extends CommonBase {
 	}
 
 	public void set_paths(RouteHop[][] val) {
-		bindings.Route_set_paths(this.ptr, Arrays.stream(val).map(arr_conv_12 -> Arrays.stream(arr_conv_12).mapToLong(arr_conv_10 -> arr_conv_10 == null ? 0 : arr_conv_10.ptr & ~1).toArray()).toArray(long[][]::new));
+		bindings.Route_set_paths(this.ptr, Arrays.stream(val).map(val_conv_12 -> Arrays.stream(val_conv_12).mapToLong(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr & ~1).toArray()).toArray(long[][]::new));
 		/* TODO 2 RouteHop[]  */;
 	}
 
 	public static Route constructor_new(RouteHop[][] paths_arg) {
-		long ret = bindings.Route_new(Arrays.stream(paths_arg).map(arr_conv_12 -> Arrays.stream(arr_conv_12).mapToLong(arr_conv_10 -> arr_conv_10 == null ? 0 : arr_conv_10.ptr & ~1).toArray()).toArray(long[][]::new));
+		long ret = bindings.Route_new(Arrays.stream(paths_arg).map(paths_arg_conv_12 -> Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray()).toArray(long[][]::new));
 		Route ret_hu_conv = new Route(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		/* TODO 2 RouteHop[]  */;

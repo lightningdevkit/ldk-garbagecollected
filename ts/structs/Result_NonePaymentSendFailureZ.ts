@@ -29,13 +29,12 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 		private Result_NonePaymentSendFailureZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			number err = bindings.LDKCResult_NonePaymentSendFailureZ_get_err(ptr);
-			const err_hu_conv: PaymentSendFailure = new PaymentSendFailure(null, err);
+			PaymentSendFailure err_hu_conv = PaymentSendFailure.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
 		public Result_NonePaymentSendFailureZ_Err(PaymentSendFailure err) {
-			this(null, bindings.CResult_NonePaymentSendFailureZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
+			this(null, bindings.CResult_NonePaymentSendFailureZ_err(err.ptr));
 		}
 	}
 }

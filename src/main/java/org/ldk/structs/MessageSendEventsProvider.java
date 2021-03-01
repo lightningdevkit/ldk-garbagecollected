@@ -28,7 +28,7 @@ public class MessageSendEventsProvider extends CommonBase {
 		impl_holder.held = new MessageSendEventsProvider(new bindings.LDKMessageSendEventsProvider() {
 			@Override public long[] get_and_clear_pending_msg_events() {
 				MessageSendEvent[] ret = arg.get_and_clear_pending_msg_events();
-				long[] result = Arrays.stream(ret).mapToLong(arr_conv_18 -> arr_conv_18.ptr).toArray();
+				long[] result = Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18.ptr).toArray();
 				/* TODO 2 MessageSendEvent  */;
 				return result;
 			}
@@ -37,14 +37,14 @@ public class MessageSendEventsProvider extends CommonBase {
 	}
 	public MessageSendEvent[] get_and_clear_pending_msg_events() {
 		long[] ret = bindings.MessageSendEventsProvider_get_and_clear_pending_msg_events(this.ptr);
-		MessageSendEvent[] arr_conv_18_arr = new MessageSendEvent[ret.length];
+		MessageSendEvent[] ret_conv_18_arr = new MessageSendEvent[ret.length];
 		for (int s = 0; s < ret.length; s++) {
-			long arr_conv_18 = ret[s];
-			MessageSendEvent arr_conv_18_hu_conv = MessageSendEvent.constr_from_ptr(arr_conv_18);
-			arr_conv_18_hu_conv.ptrs_to.add(this);
-			arr_conv_18_arr[s] = arr_conv_18_hu_conv;
+			long ret_conv_18 = ret[s];
+			MessageSendEvent ret_conv_18_hu_conv = MessageSendEvent.constr_from_ptr(ret_conv_18);
+			ret_conv_18_hu_conv.ptrs_to.add(this);
+			ret_conv_18_arr[s] = ret_conv_18_hu_conv;
 		}
-		return arr_conv_18_arr;
+		return ret_conv_18_arr;
 	}
 
 }

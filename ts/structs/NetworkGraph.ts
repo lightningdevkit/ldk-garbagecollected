@@ -18,6 +18,13 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.NetworkGraph_free(this.ptr);
                     }
                 }
+	public NetworkGraph clone() {
+		number ret = bindings.NetworkGraph_clone(this.ptr);
+		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.NetworkGraph_write(this.ptr);
 		return ret;

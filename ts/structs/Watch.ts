@@ -54,7 +54,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						release_pending_monitor_events (): number[] {
 							MonitorEvent[] ret = arg.release_pending_monitor_events();
-				result: number[] = Arrays.stream(ret).map(arr_conv_14 -> arr_conv_14 == null ? 0 : arr_conv_14.ptr & ~1).toArray(number[]::new);
+				result: number[] = Arrays.stream(ret).map(ret_conv_14 -> ret_conv_14.ptr).toArray(number[]::new);
 				/* TODO 2 MonitorEvent  */;
 				return result;
 						},
@@ -93,14 +93,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public MonitorEvent[] release_pending_monitor_events() {
 		number[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);
-		MonitorEvent[] arr_conv_14_arr = new MonitorEvent[ret.length];
+		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret.length];
 		for (int o = 0; o < ret.length; o++) {
-			number arr_conv_14 = ret[o];
-			const arr_conv_14_hu_conv: MonitorEvent = new MonitorEvent(null, arr_conv_14);
-			arr_conv_14_hu_conv.ptrs_to.add(this);
-			arr_conv_14_arr[o] = arr_conv_14_hu_conv;
+			number ret_conv_14 = ret[o];
+			MonitorEvent ret_conv_14_hu_conv = MonitorEvent.constr_from_ptr(ret_conv_14);
+			ret_conv_14_hu_conv.ptrs_to.add(this);
+			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
-		return arr_conv_14_arr;
+		return ret_conv_14_arr;
 	}
 
 }
