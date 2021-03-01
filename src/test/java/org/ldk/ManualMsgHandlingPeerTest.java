@@ -37,7 +37,7 @@ public class ManualMsgHandlingPeerTest {
             }
 
             @Override
-            public void handle_shutdown(byte[] their_node_id, long msg) {
+            public void handle_shutdown(byte[] their_node_id, long their_features, long msg) {
 
             }
 

@@ -42,9 +42,9 @@ class HumanObjectPeerTestInstance {
                 @Override public byte[] get_shutdown_pubkey() { return underlying_if.get_shutdown_pubkey(); }
 
                 @Override
-                public ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis) {
-                    ChannelKeys underlying_ck = underlying_if.get_channel_keys(inbound, channel_value_satoshis);
-                    ChannelKeys.ChannelKeysInterface cki = new ChannelKeys.ChannelKeysInterface() {
+                public Sign get_channel_signer(boolean inbound, long channel_value_satoshis) {
+                    Sign underlying_ck = underlying_if.get_channel_signer(inbound, channel_value_satoshis);
+                    Sign.SignInterface si = new Sign.SignInterface() {
                         @Override
                         public byte[] get_per_commitment_point(long idx) {
                             return underlying_ck.get_per_commitment_point(idx);
@@ -56,8 +56,8 @@ class HumanObjectPeerTestInstance {
                         }
 
                         @Override
-                        public TwoTuple<Long, Long> key_derivation_params() {
-                            return new TwoTuple<Long, Long>((long)0, (long)1);
+                        public byte[] channel_keys_id() {
+                            return new byte[32];
                         }
 
                         @Override
@@ -100,8 +100,8 @@ class HumanObjectPeerTestInstance {
                             return underlying_ck.write();
                         }
                     };
-                    ChannelKeys resp = ChannelKeys.new_impl(cki, underlying_ck.get_pubkeys());
-                    must_free_objs.add(new WeakReference<>(cki));
+                    Sign resp = Sign.new_impl(si, underlying_ck.get_pubkeys());
+                    must_free_objs.add(new WeakReference<>(si));
                     must_free_objs.add(new WeakReference<>(resp));
                     must_free_objs.add(new WeakReference<>(underlying_ck));
                     return resp;
@@ -113,7 +113,7 @@ class HumanObjectPeerTestInstance {
                 }
 
                 @Override
-                public Result_ChannelKeysDecodeErrorZ read_chan_signer(byte[] reader) {
+                public Result_SignDecodeErrorZ read_chan_signer(byte[] reader) {
                     return underlying_if.read_chan_signer(reader);
                 }
             });
@@ -228,7 +228,7 @@ class HumanObjectPeerTestInstance {
             for (byte i = 0; i < 32; i++) {
                 key_seed[i] = (byte) (i ^ seed);
             }
-            KeysManager keys = KeysManager.constructor_new(key_seed, LDKNetwork.LDKNetwork_Bitcoin, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000));
+            KeysManager keys = KeysManager.constructor_new(key_seed, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000));
             if (use_km_wrapper) {
                 this.keys_interface = manual_keysif(keys.as_KeysInterface());
             } else {
