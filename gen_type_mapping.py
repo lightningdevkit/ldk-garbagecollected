@@ -32,6 +32,8 @@ class TypeMappingGenerator:
             else:
                 arr_name = "ret"
                 arr_len = ret_arr_len
+            if arr_name == "arg":
+                arr_name = "ret"
             if ty_info.c_ty == "int8_tArray":
                 (set_pfx, set_sfx) = self.consts.set_native_arr_contents(arr_name + "_arr", arr_len, ty_info)
                 ret_conv = ("int8_tArray " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_len, ty_info) + ";\n" + set_pfx, "")
@@ -70,7 +72,9 @@ class TypeMappingGenerator:
             else:
                 assert not arr_len.isdigit() # fixed length arrays not implemented
                 assert ty_info.java_ty[len(ty_info.java_ty) - 2:] == "[]"
-                conv_name = "arr_conv_" + str(len(ty_info.java_hu_ty))
+                if arr_name == "":
+                    arr_name = "ret"
+                conv_name = arr_name + "_conv_" + str(len(ty_info.java_hu_ty))
                 idxc = chr(ord('a') + (len(ty_info.java_hu_ty) % 26))
                 ty_info.subty.var_name = conv_name
                 #XXX: We'd really prefer to only ever set to False, avoiding lots of clone, but need smarter free logic
@@ -84,8 +88,6 @@ class TypeMappingGenerator:
                     # ChannelMonitors inside of vecs.
                     ty_info.subty.requires_clone = False
                 subty = self.map_type_with_info(ty_info.subty, False, None, is_free, holds_ref)
-                if arr_name == "":
-                    arr_name = "arg"
                 arg_conv = ty_info.rust_obj + " " + arr_name + "_constr;\n"
                 arg_conv = arg_conv + arr_name + "_constr." + arr_len + " = " + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + ";\n"
                 arg_conv = arg_conv + "if (" + arr_name + "_constr." + arr_len + " > 0)\n"
@@ -120,8 +122,6 @@ class TypeMappingGenerator:
                 if ty_info.is_ptr:
                     arg_conv_cleanup = "FREE(" + arr_name + "_constr." + ty_info.arr_access + ");"
 
-                if arr_name == "arg":
-                    arr_name = "ret"
                 ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
                 if subty.ret_conv is None:
                     ret_conv = ("DUMMY", "DUMMY")
