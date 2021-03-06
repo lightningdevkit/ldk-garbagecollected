@@ -93,7 +93,8 @@ public class PeerTest {
             this.keys = bindings.KeysManager_new(key_seed, System.currentTimeMillis() / 1000, (int)(System.currentTimeMillis() * 1000) & 0xffffffff);
             this.keys_interface = bindings.KeysManager_as_KeysInterface(keys);
             this.config = bindings.UserConfig_default();
-            this.chan_manager = bindings.ChannelManager_new(LDKNetwork.LDKNetwork_Bitcoin, fee_estimator, chain_monitor, tx_broadcaster, logger, keys_interface, config, 1);
+            long params = bindings.ChainParameters_new(LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 1);
+            this.chan_manager = bindings.ChannelManager_new(fee_estimator, chain_monitor, tx_broadcaster, logger, keys_interface, config, params);
             this.node_id = bindings.ChannelManager_get_our_node_id(chan_manager);
             this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
 

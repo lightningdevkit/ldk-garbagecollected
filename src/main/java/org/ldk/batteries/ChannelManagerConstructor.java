@@ -71,8 +71,7 @@ public class ChannelManagerConstructor {
         channel_monitors = new TwoTuple[0];
         channel_manager_latest_block_hash = null;
         this.chain_watch = chain_watch;
-        // Note that current_blockchain_tip_hash will be required in a future version but is currently unused.
-        channel_manager = ChannelManager.constructor_new(network, fee_estimator, chain_watch, tx_broadcaster, logger, keys_interface, config, current_blockchain_tip_height);
+        channel_manager = ChannelManager.constructor_new(fee_estimator, chain_watch, tx_broadcaster, logger, keys_interface, config, network, current_blockchain_tip_hash, current_blockchain_tip_height);
     }
 
     /**
