@@ -5,123 +5,10 @@
 #include <stdatomic.h>
 #include <stdlib.h>
 
-#include <assert.h>
-// Always run a, then assert it is true:
-#define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
-// Assert a is true or do nothing
-#define CHECK(a) DO_ASSERT(a)
-
-// Running a leak check across all the allocations and frees of the JDK is a mess,
-// so instead we implement our own naive leak checker here, relying on the -wrap
-// linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
-// and free'd in Rust or C across the generated bindings shared library.
-#include <threads.h>
-#include <execinfo.h>
-#include <unistd.h>
-static mtx_t allocation_mtx;
-
-void __attribute__((constructor)) init_mtx() {
-	DO_ASSERT(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);
-}
-
-#define BT_MAX 128
-typedef struct allocation {
-	struct allocation* next;
-	void* ptr;
-	const char* struct_name;
-	void* bt[BT_MAX];
-	int bt_len;
-	size_t alloc_len;
-} allocation;
-static allocation* allocation_ll = NULL;
-
-void* __real_malloc(size_t len);
-void* __real_calloc(size_t nmemb, size_t len);
-static void new_allocation(void* res, const char* struct_name, size_t len) {
-	allocation* new_alloc = __real_malloc(sizeof(allocation));
-	new_alloc->ptr = res;
-	new_alloc->struct_name = struct_name;
-	new_alloc->bt_len = backtrace(new_alloc->bt, BT_MAX);
-	new_alloc->alloc_len = len;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
-	new_alloc->next = allocation_ll;
-	allocation_ll = new_alloc;
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-}
-static void* MALLOC(size_t len, const char* struct_name) {
-	void* res = __real_malloc(len);
-	new_allocation(res, struct_name, len);
-	return res;
-}
-void __real_free(void* ptr);
-static void alloc_freed(void* ptr) {
-	allocation* p = NULL;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
-	allocation* it = allocation_ll;
-	while (it->ptr != ptr) {
-		p = it; it = it->next;
-		if (it == NULL) {
-			fprintf(stderr, "Tried to free unknown pointer %p at:\n", ptr);
-			void* bt[BT_MAX];
-			int bt_len = backtrace(bt, BT_MAX);
-			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
-			fprintf(stderr, "\n\n");
-			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-			return; // addrsan should catch malloc-unknown and print more info than we have
-		}
-	}
-	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
-	DO_ASSERT(it->ptr == ptr);
-	__real_free(it);
-}
-static void FREE(void* ptr) {
-	if ((long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
-	alloc_freed(ptr);
-	__real_free(ptr);
-}
-
-void* __wrap_malloc(size_t len) {
-	void* res = __real_malloc(len);
-	new_allocation(res, "malloc call", len);
-	return res;
-}
-void* __wrap_calloc(size_t nmemb, size_t len) {
-	void* res = __real_calloc(nmemb, len);
-	new_allocation(res, "calloc call", len);
-	return res;
-}
-void __wrap_free(void* ptr) {
-	if (ptr == NULL) return;
-	alloc_freed(ptr);
-	__real_free(ptr);
-}
-
-void* __real_realloc(void* ptr, size_t newlen);
-void* __wrap_realloc(void* ptr, size_t len) {
-	if (ptr != NULL) alloc_freed(ptr);
-	void* res = __real_realloc(ptr, len);
-	new_allocation(res, "realloc call", len);
-	return res;
-}
-void __wrap_reallocarray(void* ptr, size_t new_sz) {
-	// Rust doesn't seem to use reallocarray currently
-	DO_ASSERT(false);
-}
-
-void __attribute__((destructor)) check_leaks() {
-	size_t alloc_count = 0;
-	size_t alloc_size = 0;
-	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		fprintf(stderr, "%s %p (%lu bytes) remains:\n", a->struct_name, a->ptr, a->alloc_len);
-		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
-		fprintf(stderr, "\n\n");
-		alloc_count++;
-		alloc_size += a->alloc_len;
-	}
-	fprintf(stderr, "%lu allocations remained for %lu bytes.\n", alloc_count, alloc_size);
-	DO_ASSERT(allocation_ll == NULL);
-}
+#define MALLOC(a, _) malloc(a)
+#define FREE(p) if ((long)(p) > 1024) { free(p); }
+#define DO_ASSERT(a) (void)(a)
+#define CHECK(a)
 
 static jmethodID ordinal_meth = NULL;
 static jmethodID slicedef_meth = NULL;
@@ -383,6 +270,7 @@ static inline LDKNetwork LDKNetwork_from_java(JNIEnv *env, jclass clz) {
 		case 0: return LDKNetwork_Bitcoin;
 		case 1: return LDKNetwork_Testnet;
 		case 2: return LDKNetwork_Regtest;
+		case 3: return LDKNetwork_Signet;
 	}
 	abort();
 }
@@ -390,6 +278,7 @@ static jclass LDKNetwork_class = NULL;
 static jfieldID LDKNetwork_LDKNetwork_Bitcoin = NULL;
 static jfieldID LDKNetwork_LDKNetwork_Testnet = NULL;
 static jfieldID LDKNetwork_LDKNetwork_Regtest = NULL;
+static jfieldID LDKNetwork_LDKNetwork_Signet = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_enums_LDKNetwork_init (JNIEnv *env, jclass clz) {
 	LDKNetwork_class = (*env)->NewGlobalRef(env, clz);
 	CHECK(LDKNetwork_class != NULL);
@@ -399,6 +288,8 @@ JNIEXPORT void JNICALL Java_org_ldk_enums_LDKNetwork_init (JNIEnv *env, jclass c
 	CHECK(LDKNetwork_LDKNetwork_Testnet != NULL);
 	LDKNetwork_LDKNetwork_Regtest = (*env)->GetStaticFieldID(env, LDKNetwork_class, "LDKNetwork_Regtest", "Lorg/ldk/enums/LDKNetwork;");
 	CHECK(LDKNetwork_LDKNetwork_Regtest != NULL);
+	LDKNetwork_LDKNetwork_Signet = (*env)->GetStaticFieldID(env, LDKNetwork_class, "LDKNetwork_Signet", "Lorg/ldk/enums/LDKNetwork;");
+	CHECK(LDKNetwork_LDKNetwork_Signet != NULL);
 }
 static inline jclass LDKNetwork_to_java(JNIEnv *env, LDKNetwork val) {
 	switch (val) {
@@ -408,6 +299,8 @@ static inline jclass LDKNetwork_to_java(JNIEnv *env, LDKNetwork val) {
 			return (*env)->GetStaticObjectField(env, LDKNetwork_class, LDKNetwork_LDKNetwork_Testnet);
 		case LDKNetwork_Regtest:
 			return (*env)->GetStaticObjectField(env, LDKNetwork_class, LDKNetwork_LDKNetwork_Regtest);
+		case LDKNetwork_Signet:
+			return (*env)->GetStaticObjectField(env, LDKNetwork_class, LDKNetwork_LDKNetwork_Signet);
 		default: abort();
 	}
 }
@@ -757,273 +650,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1SignatureZNo
 	LDKCResult_CVec_SignatureZNoneZ *val = (LDKCResult_CVec_SignatureZNoneZ*)(arg & ~1);
 	CHECK(!val->result_ok);
 	return *val->contents.err;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg)->result_ok;
-}
-JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	LDKCVec_u8Z res_var = (*val->contents.result);
-	int8_tArray res_arr = (*env)->NewByteArray(env, res_var.datalen);
-	(*env)->SetByteArrayRegion(env, res_arr, 0, res_var.datalen, res_var.data);
-	return res_arr;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKPeerHandleError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_NonePeerHandleErrorZ*)arg)->result_ok;
-}
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	return *val->contents.result;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKPeerHandleError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_boolPeerHandleErrorZ*)arg)->result_ok;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	return *val->contents.result;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKPeerHandleError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitFeaturesDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_InitFeaturesDecodeErrorZ*)arg)->result_ok;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_InitFeaturesDecodeErrorZ *val = (LDKCResult_InitFeaturesDecodeErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	LDKInitFeatures res_var = (*val->contents.result);
-	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long res_ref = (long)res_var.inner & ~1;
-	return res_ref;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_InitFeaturesDecodeErrorZ *val = (LDKCResult_InitFeaturesDecodeErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKDecodeError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeFeaturesDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_NodeFeaturesDecodeErrorZ*)arg)->result_ok;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_NodeFeaturesDecodeErrorZ *val = (LDKCResult_NodeFeaturesDecodeErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	LDKNodeFeatures res_var = (*val->contents.result);
-	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long res_ref = (long)res_var.inner & ~1;
-	return res_ref;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_NodeFeaturesDecodeErrorZ *val = (LDKCResult_NodeFeaturesDecodeErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKDecodeError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelFeaturesDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_ChannelFeaturesDecodeErrorZ*)arg)->result_ok;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_ChannelFeaturesDecodeErrorZ *val = (LDKCResult_ChannelFeaturesDecodeErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	LDKChannelFeatures res_var = (*val->contents.result);
-	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long res_ref = (long)res_var.inner & ~1;
-	return res_ref;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_ChannelFeaturesDecodeErrorZ *val = (LDKCResult_ChannelFeaturesDecodeErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKDecodeError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelConfigDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_ChannelConfigDecodeErrorZ*)arg)->result_ok;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelConfigDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_ChannelConfigDecodeErrorZ *val = (LDKCResult_ChannelConfigDecodeErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	LDKChannelConfig res_var = (*val->contents.result);
-	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long res_ref = (long)res_var.inner & ~1;
-	return res_ref;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelConfigDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_ChannelConfigDecodeErrorZ *val = (LDKCResult_ChannelConfigDecodeErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKDecodeError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_boolLightningErrorZ*)arg)->result_ok;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	return *val->contents.result;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKLightningError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1new(JNIEnv *env, jclass clz, int64_t a, int64_t b, int64_t c) {
-	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
-	LDKChannelAnnouncement a_conv;
-	a_conv.inner = (void*)(a & (~1));
-	a_conv.is_owned = (a & 1) || (a == 0);
-	a_conv = ChannelAnnouncement_clone(&a_conv);
-	ret->a = a_conv;
-	LDKChannelUpdate b_conv;
-	b_conv.inner = (void*)(b & (~1));
-	b_conv.is_owned = (b & 1) || (b == 0);
-	b_conv = ChannelUpdate_clone(&b_conv);
-	ret->b = b_conv;
-	LDKChannelUpdate c_conv;
-	c_conv.inner = (void*)(c & (~1));
-	c_conv.is_owned = (c & 1) || (c == 0);
-	c_conv = ChannelUpdate_clone(&c_conv);
-	ret->c = c_conv;
-	return (long)ret;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1a(JNIEnv *env, jclass clz, int64_t ptr) {
-	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(ptr & ~1);
-	LDKChannelAnnouncement a_var = tuple->a;
-	CHECK((((long)a_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&a_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long a_ref = (long)a_var.inner & ~1;
-	return a_ref;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1b(JNIEnv *env, jclass clz, int64_t ptr) {
-	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(ptr & ~1);
-	LDKChannelUpdate b_var = tuple->b;
-	CHECK((((long)b_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&b_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long b_ref = (long)b_var.inner & ~1;
-	return b_ref;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1c(JNIEnv *env, jclass clz, int64_t ptr) {
-	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(ptr & ~1);
-	LDKChannelUpdate c_var = tuple->c;
-	CHECK((((long)c_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&c_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long c_ref = (long)c_var.inner & ~1;
-	return c_ref;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZZ_1new(JNIEnv *env, jclass clz, int64_tArray elems) {
-	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ *ret = MALLOC(sizeof(LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ), "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ");
-	ret->datalen = (*env)->GetArrayLength(env, elems);
-	if (ret->datalen == 0) {
-		ret->data = NULL;
-	} else {
-		ret->data = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ) * ret->datalen, "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ Data");
-		int64_t *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
-		for (size_t i = 0; i < ret->datalen; i++) {
-			int64_t arr_elem = java_elems[i];
-			LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ arr_elem_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
-			ret->data[i] = arr_elem_conv;
-		}
-		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
-	}
-	return (long)ret;
-}
-static inline LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_clone(const LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ *orig) {
-	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret = { .data = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ) * orig->datalen, "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ clone bytes"), .datalen = orig->datalen };
-	for (size_t i = 0; i < ret.datalen; i++) {
-		ret.data[i] = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(&orig->data[i]);
-	}
-	return ret;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1NodeAnnouncementZ_1new(JNIEnv *env, jclass clz, int64_tArray elems) {
-	LDKCVec_NodeAnnouncementZ *ret = MALLOC(sizeof(LDKCVec_NodeAnnouncementZ), "LDKCVec_NodeAnnouncementZ");
-	ret->datalen = (*env)->GetArrayLength(env, elems);
-	if (ret->datalen == 0) {
-		ret->data = NULL;
-	} else {
-		ret->data = MALLOC(sizeof(LDKNodeAnnouncement) * ret->datalen, "LDKCVec_NodeAnnouncementZ Data");
-		int64_t *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
-		for (size_t i = 0; i < ret->datalen; i++) {
-			int64_t arr_elem = java_elems[i];
-			LDKNodeAnnouncement arr_elem_conv;
-			arr_elem_conv.inner = (void*)(arr_elem & (~1));
-			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
-			arr_elem_conv = NodeAnnouncement_clone(&arr_elem_conv);
-			ret->data[i] = arr_elem_conv;
-		}
-		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
-	}
-	return (long)ret;
-}
-static inline LDKCVec_NodeAnnouncementZ CVec_NodeAnnouncementZ_clone(const LDKCVec_NodeAnnouncementZ *orig) {
-	LDKCVec_NodeAnnouncementZ ret = { .data = MALLOC(sizeof(LDKNodeAnnouncement) * orig->datalen, "LDKCVec_NodeAnnouncementZ clone bytes"), .datalen = orig->datalen };
-	for (size_t i = 0; i < ret.datalen; i++) {
-		ret.data[i] = NodeAnnouncement_clone(&orig->data[i]);
-	}
-	return ret;
-}
-JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	return ((LDKCResult_NoneLightningErrorZ*)arg)->result_ok;
-}
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_NoneLightningErrorZ *val = (LDKCResult_NoneLightningErrorZ*)(arg & ~1);
-	CHECK(val->result_ok);
-	return *val->contents.result;
-}
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
-	LDKCResult_NoneLightningErrorZ *val = (LDKCResult_NoneLightningErrorZ*)(arg & ~1);
-	CHECK(!val->result_ok);
-	LDKLightningError err_var = (*val->contents.err);
-	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long err_ref = (long)err_var.inner & ~1;
-	return err_ref;
 }
 static jclass LDKErrorAction_DisconnectPeer_class = NULL;
 static jmethodID LDKErrorAction_DisconnectPeer_meth = NULL;
@@ -1425,6 +1051,273 @@ static inline LDKCVec_MessageSendEventZ CVec_MessageSendEventZ_clone(const LDKCV
 		ret.data[i] = MessageSendEvent_clone(&orig->data[i]);
 	}
 	return ret;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_boolLightningErrorZ*)arg)->result_ok;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_boolLightningErrorZ *val = (LDKCResult_boolLightningErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKLightningError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1new(JNIEnv *env, jclass clz, int64_t a, int64_t b, int64_t c) {
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
+	LDKChannelAnnouncement a_conv;
+	a_conv.inner = (void*)(a & (~1));
+	a_conv.is_owned = (a & 1) || (a == 0);
+	a_conv = ChannelAnnouncement_clone(&a_conv);
+	ret->a = a_conv;
+	LDKChannelUpdate b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = (b & 1) || (b == 0);
+	b_conv = ChannelUpdate_clone(&b_conv);
+	ret->b = b_conv;
+	LDKChannelUpdate c_conv;
+	c_conv.inner = (void*)(c & (~1));
+	c_conv.is_owned = (c & 1) || (c == 0);
+	c_conv = ChannelUpdate_clone(&c_conv);
+	ret->c = c_conv;
+	return (long)ret;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1a(JNIEnv *env, jclass clz, int64_t ptr) {
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(ptr & ~1);
+	LDKChannelAnnouncement a_var = tuple->a;
+	CHECK((((long)a_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&a_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long a_ref = (long)a_var.inner & ~1;
+	return a_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1b(JNIEnv *env, jclass clz, int64_t ptr) {
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(ptr & ~1);
+	LDKChannelUpdate b_var = tuple->b;
+	CHECK((((long)b_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&b_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long b_ref = (long)b_var.inner & ~1;
+	return b_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1c(JNIEnv *env, jclass clz, int64_t ptr) {
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *tuple = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(ptr & ~1);
+	LDKChannelUpdate c_var = tuple->c;
+	CHECK((((long)c_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&c_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long c_ref = (long)c_var.inner & ~1;
+	return c_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZZ_1new(JNIEnv *env, jclass clz, int64_tArray elems) {
+	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ *ret = MALLOC(sizeof(LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ), "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ) * ret->datalen, "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ Data");
+		int64_t *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			int64_t arr_elem = java_elems[i];
+			LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ arr_elem_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)arr_elem) & ~1);
+			FREE((void*)arr_elem);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
+static inline LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_clone(const LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ *orig) {
+	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret = { .data = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ) * orig->datalen, "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(&orig->data[i]);
+	}
+	return ret;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1NodeAnnouncementZ_1new(JNIEnv *env, jclass clz, int64_tArray elems) {
+	LDKCVec_NodeAnnouncementZ *ret = MALLOC(sizeof(LDKCVec_NodeAnnouncementZ), "LDKCVec_NodeAnnouncementZ");
+	ret->datalen = (*env)->GetArrayLength(env, elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = MALLOC(sizeof(LDKNodeAnnouncement) * ret->datalen, "LDKCVec_NodeAnnouncementZ Data");
+		int64_t *java_elems = (*env)->GetPrimitiveArrayCritical(env, elems, NULL);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			int64_t arr_elem = java_elems[i];
+			LDKNodeAnnouncement arr_elem_conv;
+			arr_elem_conv.inner = (void*)(arr_elem & (~1));
+			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			arr_elem_conv = NodeAnnouncement_clone(&arr_elem_conv);
+			ret->data[i] = arr_elem_conv;
+		}
+		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
+	}
+	return (long)ret;
+}
+static inline LDKCVec_NodeAnnouncementZ CVec_NodeAnnouncementZ_clone(const LDKCVec_NodeAnnouncementZ *orig) {
+	LDKCVec_NodeAnnouncementZ ret = { .data = MALLOC(sizeof(LDKNodeAnnouncement) * orig->datalen, "LDKCVec_NodeAnnouncementZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = NodeAnnouncement_clone(&orig->data[i]);
+	}
+	return ret;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_NoneLightningErrorZ*)arg)->result_ok;
+}
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_NoneLightningErrorZ *val = (LDKCResult_NoneLightningErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_NoneLightningErrorZ *val = (LDKCResult_NoneLightningErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKLightningError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_CVec_u8ZPeerHandleErrorZ*)arg)->result_ok;
+}
+JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKCVec_u8Z res_var = (*val->contents.result);
+	int8_tArray res_arr = (*env)->NewByteArray(env, res_var.datalen);
+	(*env)->SetByteArrayRegion(env, res_arr, 0, res_var.datalen, res_var.data);
+	return res_arr;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1CVec_1u8ZPeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_CVec_u8ZPeerHandleErrorZ *val = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKPeerHandleError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_NonePeerHandleErrorZ*)arg)->result_ok;
+}
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_NonePeerHandleErrorZ *val = (LDKCResult_NonePeerHandleErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKPeerHandleError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_boolPeerHandleErrorZ*)arg)->result_ok;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	return *val->contents.result;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolPeerHandleErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_boolPeerHandleErrorZ *val = (LDKCResult_boolPeerHandleErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKPeerHandleError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitFeaturesDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_InitFeaturesDecodeErrorZ*)arg)->result_ok;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_InitFeaturesDecodeErrorZ *val = (LDKCResult_InitFeaturesDecodeErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKInitFeatures res_var = (*val->contents.result);
+	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long res_ref = (long)res_var.inner & ~1;
+	return res_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InitFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_InitFeaturesDecodeErrorZ *val = (LDKCResult_InitFeaturesDecodeErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKDecodeError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeFeaturesDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_NodeFeaturesDecodeErrorZ*)arg)->result_ok;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_NodeFeaturesDecodeErrorZ *val = (LDKCResult_NodeFeaturesDecodeErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKNodeFeatures res_var = (*val->contents.result);
+	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long res_ref = (long)res_var.inner & ~1;
+	return res_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NodeFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_NodeFeaturesDecodeErrorZ *val = (LDKCResult_NodeFeaturesDecodeErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKDecodeError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelFeaturesDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_ChannelFeaturesDecodeErrorZ*)arg)->result_ok;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelFeaturesDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_ChannelFeaturesDecodeErrorZ *val = (LDKCResult_ChannelFeaturesDecodeErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKChannelFeatures res_var = (*val->contents.result);
+	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long res_ref = (long)res_var.inner & ~1;
+	return res_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelFeaturesDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_ChannelFeaturesDecodeErrorZ *val = (LDKCResult_ChannelFeaturesDecodeErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKDecodeError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
+}
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelConfigDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	return ((LDKCResult_ChannelConfigDecodeErrorZ*)arg)->result_ok;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelConfigDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_ChannelConfigDecodeErrorZ *val = (LDKCResult_ChannelConfigDecodeErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKChannelConfig res_var = (*val->contents.result);
+	CHECK((((long)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long res_ref = (long)res_var.inner & ~1;
+	return res_ref;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelConfigDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKCResult_ChannelConfigDecodeErrorZ *val = (LDKCResult_ChannelConfigDecodeErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKDecodeError err_var = (*val->contents.err);
+	CHECK((((long)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long err_ref = (long)err_var.inner & ~1;
+	return err_ref;
 }
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1DirectionalChannelInfoDecodeErrorZ_1result_1ok(JNIEnv *env, jclass clz, int64_t arg) {
 	return ((LDKCResult_DirectionalChannelInfoDecodeErrorZ*)arg)->result_ok;
@@ -6793,6 +6686,153 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1SignatureZNo
 	return (long)ret_conv;
 }
 
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1MessageSendEventZ_1free(JNIEnv *env, jclass clz, int64_tArray _res) {
+	LDKCVec_MessageSendEventZ _res_constr;
+	_res_constr.datalen = (*env)->GetArrayLength(env, _res);
+	if (_res_constr.datalen > 0)
+		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKMessageSendEvent), "LDKCVec_MessageSendEventZ Elements");
+	else
+		_res_constr.data = NULL;
+	int64_t* _res_vals = (*env)->GetLongArrayElements (env, _res, NULL);
+	for (size_t s = 0; s < _res_constr.datalen; s++) {
+		int64_t _res_conv_18 = _res_vals[s];
+		LDKMessageSendEvent _res_conv_18_conv = *(LDKMessageSendEvent*)(((uint64_t)_res_conv_18) & ~1);
+		FREE((void*)_res_conv_18);
+		_res_constr.data[s] = _res_conv_18_conv;
+	}
+	(*env)->ReleaseLongArrayElements(env, _res, _res_vals, 0);
+	CVec_MessageSendEventZ_free(_res_constr);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1ok(JNIEnv *env, jclass clz, jboolean o) {
+	LDKCResult_boolLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolLightningErrorZ), "LDKCResult_boolLightningErrorZ");
+	*ret_conv = CResult_boolLightningErrorZ_ok(o);
+	return (long)ret_conv;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1err(JNIEnv *env, jclass clz, int64_t e) {
+	LDKLightningError e_conv;
+	e_conv.inner = (void*)(e & (~1));
+	e_conv.is_owned = (e & 1) || (e == 0);
+	e_conv = LightningError_clone(&e_conv);
+	LDKCResult_boolLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolLightningErrorZ), "LDKCResult_boolLightningErrorZ");
+	*ret_conv = CResult_boolLightningErrorZ_err(e_conv);
+	return (long)ret_conv;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1free(JNIEnv *env, jclass clz, int64_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKCResult_boolLightningErrorZ _res_conv = *(LDKCResult_boolLightningErrorZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	CResult_boolLightningErrorZ_free(_res_conv);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1clone(JNIEnv *env, jclass clz, int64_t orig) {
+	LDKCResult_boolLightningErrorZ* orig_conv = (LDKCResult_boolLightningErrorZ*)(orig & ~1);
+	LDKCResult_boolLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolLightningErrorZ), "LDKCResult_boolLightningErrorZ");
+	*ret_conv = CResult_boolLightningErrorZ_clone(orig_conv);
+	return (long)ret_conv;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1clone(JNIEnv *env, jclass clz, int64_t orig) {
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* orig_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(orig & ~1);
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret_ref = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
+	*ret_ref = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(orig_conv);
+	return (long)ret_ref;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1new(JNIEnv *env, jclass clz, int64_t a, int64_t b, int64_t c) {
+	LDKChannelAnnouncement a_conv;
+	a_conv.inner = (void*)(a & (~1));
+	a_conv.is_owned = (a & 1) || (a == 0);
+	a_conv = ChannelAnnouncement_clone(&a_conv);
+	LDKChannelUpdate b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = (b & 1) || (b == 0);
+	b_conv = ChannelUpdate_clone(&b_conv);
+	LDKChannelUpdate c_conv;
+	c_conv.inner = (void*)(c & (~1));
+	c_conv.is_owned = (c & 1) || (c == 0);
+	c_conv = ChannelUpdate_clone(&c_conv);
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret_ref = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
+	*ret_ref = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a_conv, b_conv, c_conv);
+	return (long)ret_ref;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1free(JNIEnv *env, jclass clz, int64_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ _res_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(_res_conv);
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZZ_1free(JNIEnv *env, jclass clz, int64_tArray _res) {
+	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ _res_constr;
+	_res_constr.datalen = (*env)->GetArrayLength(env, _res);
+	if (_res_constr.datalen > 0)
+		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ Elements");
+	else
+		_res_constr.data = NULL;
+	int64_t* _res_vals = (*env)->GetLongArrayElements (env, _res, NULL);
+	for (size_t l = 0; l < _res_constr.datalen; l++) {
+		int64_t _res_conv_63 = _res_vals[l];
+		LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ _res_conv_63_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)_res_conv_63) & ~1);
+		FREE((void*)_res_conv_63);
+		_res_constr.data[l] = _res_conv_63_conv;
+	}
+	(*env)->ReleaseLongArrayElements(env, _res, _res_vals, 0);
+	CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_free(_res_constr);
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1NodeAnnouncementZ_1free(JNIEnv *env, jclass clz, int64_tArray _res) {
+	LDKCVec_NodeAnnouncementZ _res_constr;
+	_res_constr.datalen = (*env)->GetArrayLength(env, _res);
+	if (_res_constr.datalen > 0)
+		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKNodeAnnouncement), "LDKCVec_NodeAnnouncementZ Elements");
+	else
+		_res_constr.data = NULL;
+	int64_t* _res_vals = (*env)->GetLongArrayElements (env, _res, NULL);
+	for (size_t s = 0; s < _res_constr.datalen; s++) {
+		int64_t _res_conv_18 = _res_vals[s];
+		LDKNodeAnnouncement _res_conv_18_conv;
+		_res_conv_18_conv.inner = (void*)(_res_conv_18 & (~1));
+		_res_conv_18_conv.is_owned = (_res_conv_18 & 1) || (_res_conv_18 == 0);
+		_res_constr.data[s] = _res_conv_18_conv;
+	}
+	(*env)->ReleaseLongArrayElements(env, _res, _res_vals, 0);
+	CVec_NodeAnnouncementZ_free(_res_constr);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1ok(JNIEnv *env, jclass clz) {
+	LDKCResult_NoneLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneLightningErrorZ), "LDKCResult_NoneLightningErrorZ");
+	*ret_conv = CResult_NoneLightningErrorZ_ok();
+	return (long)ret_conv;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1err(JNIEnv *env, jclass clz, int64_t e) {
+	LDKLightningError e_conv;
+	e_conv.inner = (void*)(e & (~1));
+	e_conv.is_owned = (e & 1) || (e == 0);
+	e_conv = LightningError_clone(&e_conv);
+	LDKCResult_NoneLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneLightningErrorZ), "LDKCResult_NoneLightningErrorZ");
+	*ret_conv = CResult_NoneLightningErrorZ_err(e_conv);
+	return (long)ret_conv;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1free(JNIEnv *env, jclass clz, int64_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKCResult_NoneLightningErrorZ _res_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	CResult_NoneLightningErrorZ_free(_res_conv);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1clone(JNIEnv *env, jclass clz, int64_t orig) {
+	LDKCResult_NoneLightningErrorZ* orig_conv = (LDKCResult_NoneLightningErrorZ*)(orig & ~1);
+	LDKCResult_NoneLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneLightningErrorZ), "LDKCResult_NoneLightningErrorZ");
+	*ret_conv = CResult_NoneLightningErrorZ_clone(orig_conv);
+	return (long)ret_conv;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1PublicKeyZ_1free(JNIEnv *env, jclass clz, jobjectArray _res) {
 	LDKCVec_PublicKeyZ _res_constr;
 	_res_constr.datalen = (*env)->GetArrayLength(env, _res);
@@ -7025,153 +7065,6 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelConfigDecod
 	LDKCResult_ChannelConfigDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_ChannelConfigDecodeErrorZ), "LDKCResult_ChannelConfigDecodeErrorZ");
 	*ret_conv = CResult_ChannelConfigDecodeErrorZ_clone(orig_conv);
 	return (long)ret_conv;
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1ok(JNIEnv *env, jclass clz, jboolean o) {
-	LDKCResult_boolLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolLightningErrorZ), "LDKCResult_boolLightningErrorZ");
-	*ret_conv = CResult_boolLightningErrorZ_ok(o);
-	return (long)ret_conv;
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1err(JNIEnv *env, jclass clz, int64_t e) {
-	LDKLightningError e_conv;
-	e_conv.inner = (void*)(e & (~1));
-	e_conv.is_owned = (e & 1) || (e == 0);
-	e_conv = LightningError_clone(&e_conv);
-	LDKCResult_boolLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolLightningErrorZ), "LDKCResult_boolLightningErrorZ");
-	*ret_conv = CResult_boolLightningErrorZ_err(e_conv);
-	return (long)ret_conv;
-}
-
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1free(JNIEnv *env, jclass clz, int64_t _res) {
-	if ((_res & 1) != 0) return;
-	LDKCResult_boolLightningErrorZ _res_conv = *(LDKCResult_boolLightningErrorZ*)(((uint64_t)_res) & ~1);
-	FREE((void*)_res);
-	CResult_boolLightningErrorZ_free(_res_conv);
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1boolLightningErrorZ_1clone(JNIEnv *env, jclass clz, int64_t orig) {
-	LDKCResult_boolLightningErrorZ* orig_conv = (LDKCResult_boolLightningErrorZ*)(orig & ~1);
-	LDKCResult_boolLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_boolLightningErrorZ), "LDKCResult_boolLightningErrorZ");
-	*ret_conv = CResult_boolLightningErrorZ_clone(orig_conv);
-	return (long)ret_conv;
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1clone(JNIEnv *env, jclass clz, int64_t orig) {
-	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* orig_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(orig & ~1);
-	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret_ref = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
-	*ret_ref = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(orig_conv);
-	return (long)ret_ref;
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1new(JNIEnv *env, jclass clz, int64_t a, int64_t b, int64_t c) {
-	LDKChannelAnnouncement a_conv;
-	a_conv.inner = (void*)(a & (~1));
-	a_conv.is_owned = (a & 1) || (a == 0);
-	a_conv = ChannelAnnouncement_clone(&a_conv);
-	LDKChannelUpdate b_conv;
-	b_conv.inner = (void*)(b & (~1));
-	b_conv.is_owned = (b & 1) || (b == 0);
-	b_conv = ChannelUpdate_clone(&b_conv);
-	LDKChannelUpdate c_conv;
-	c_conv.inner = (void*)(c & (~1));
-	c_conv.is_owned = (c & 1) || (c == 0);
-	c_conv = ChannelUpdate_clone(&c_conv);
-	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* ret_ref = MALLOC(sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ");
-	*ret_ref = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a_conv, b_conv, c_conv);
-	return (long)ret_ref;
-}
-
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1free(JNIEnv *env, jclass clz, int64_t _res) {
-	if ((_res & 1) != 0) return;
-	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ _res_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)_res) & ~1);
-	FREE((void*)_res);
-	C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(_res_conv);
-}
-
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZZ_1free(JNIEnv *env, jclass clz, int64_tArray _res) {
-	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ _res_constr;
-	_res_constr.datalen = (*env)->GetArrayLength(env, _res);
-	if (_res_constr.datalen > 0)
-		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ), "LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ Elements");
-	else
-		_res_constr.data = NULL;
-	int64_t* _res_vals = (*env)->GetLongArrayElements (env, _res, NULL);
-	for (size_t l = 0; l < _res_constr.datalen; l++) {
-		int64_t _res_conv_63 = _res_vals[l];
-		LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ _res_conv_63_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)_res_conv_63) & ~1);
-		FREE((void*)_res_conv_63);
-		_res_constr.data[l] = _res_conv_63_conv;
-	}
-	(*env)->ReleaseLongArrayElements(env, _res, _res_vals, 0);
-	CVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_free(_res_constr);
-}
-
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1NodeAnnouncementZ_1free(JNIEnv *env, jclass clz, int64_tArray _res) {
-	LDKCVec_NodeAnnouncementZ _res_constr;
-	_res_constr.datalen = (*env)->GetArrayLength(env, _res);
-	if (_res_constr.datalen > 0)
-		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKNodeAnnouncement), "LDKCVec_NodeAnnouncementZ Elements");
-	else
-		_res_constr.data = NULL;
-	int64_t* _res_vals = (*env)->GetLongArrayElements (env, _res, NULL);
-	for (size_t s = 0; s < _res_constr.datalen; s++) {
-		int64_t _res_conv_18 = _res_vals[s];
-		LDKNodeAnnouncement _res_conv_18_conv;
-		_res_conv_18_conv.inner = (void*)(_res_conv_18 & (~1));
-		_res_conv_18_conv.is_owned = (_res_conv_18 & 1) || (_res_conv_18 == 0);
-		_res_constr.data[s] = _res_conv_18_conv;
-	}
-	(*env)->ReleaseLongArrayElements(env, _res, _res_vals, 0);
-	CVec_NodeAnnouncementZ_free(_res_constr);
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1ok(JNIEnv *env, jclass clz) {
-	LDKCResult_NoneLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneLightningErrorZ), "LDKCResult_NoneLightningErrorZ");
-	*ret_conv = CResult_NoneLightningErrorZ_ok();
-	return (long)ret_conv;
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1err(JNIEnv *env, jclass clz, int64_t e) {
-	LDKLightningError e_conv;
-	e_conv.inner = (void*)(e & (~1));
-	e_conv.is_owned = (e & 1) || (e == 0);
-	e_conv = LightningError_clone(&e_conv);
-	LDKCResult_NoneLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneLightningErrorZ), "LDKCResult_NoneLightningErrorZ");
-	*ret_conv = CResult_NoneLightningErrorZ_err(e_conv);
-	return (long)ret_conv;
-}
-
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1free(JNIEnv *env, jclass clz, int64_t _res) {
-	if ((_res & 1) != 0) return;
-	LDKCResult_NoneLightningErrorZ _res_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)_res) & ~1);
-	FREE((void*)_res);
-	CResult_NoneLightningErrorZ_free(_res_conv);
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1NoneLightningErrorZ_1clone(JNIEnv *env, jclass clz, int64_t orig) {
-	LDKCResult_NoneLightningErrorZ* orig_conv = (LDKCResult_NoneLightningErrorZ*)(orig & ~1);
-	LDKCResult_NoneLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneLightningErrorZ), "LDKCResult_NoneLightningErrorZ");
-	*ret_conv = CResult_NoneLightningErrorZ_clone(orig_conv);
-	return (long)ret_conv;
-}
-
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CVec_1MessageSendEventZ_1free(JNIEnv *env, jclass clz, int64_tArray _res) {
-	LDKCVec_MessageSendEventZ _res_constr;
-	_res_constr.datalen = (*env)->GetArrayLength(env, _res);
-	if (_res_constr.datalen > 0)
-		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKMessageSendEvent), "LDKCVec_MessageSendEventZ Elements");
-	else
-		_res_constr.data = NULL;
-	int64_t* _res_vals = (*env)->GetLongArrayElements (env, _res, NULL);
-	for (size_t s = 0; s < _res_constr.datalen; s++) {
-		int64_t _res_conv_18 = _res_vals[s];
-		LDKMessageSendEvent _res_conv_18_conv = *(LDKMessageSendEvent*)(((uint64_t)_res_conv_18) & ~1);
-		FREE((void*)_res_conv_18);
-		_res_constr.data[s] = _res_conv_18_conv;
-	}
-	(*env)->ReleaseLongArrayElements(env, _res, _res_vals, 0);
-	CVec_MessageSendEventZ_free(_res_constr);
 }
 
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1DirectionalChannelInfoDecodeErrorZ_1ok(JNIEnv *env, jclass clz, int64_t o) {
@@ -11596,6 +11489,78 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1free(JNIEnv *e
 	ChannelManager_free(this_ptr_conv);
 }
 
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChainParameters_1free(JNIEnv *env, jclass clz, int64_t this_ptr) {
+	LDKChainParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
+	ChainParameters_free(this_ptr_conv);
+}
+
+JNIEXPORT jclass JNICALL Java_org_ldk_impl_bindings_ChainParameters_1get_1network(JNIEnv *env, jclass clz, int64_t this_ptr) {
+	LDKChainParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	jclass ret_conv = LDKNetwork_to_java(env, ChainParameters_get_network(&this_ptr_conv));
+	return ret_conv;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChainParameters_1set_1network(JNIEnv *env, jclass clz, int64_t this_ptr, jclass val) {
+	LDKChainParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKNetwork val_conv = LDKNetwork_from_java(env, val);
+	ChainParameters_set_network(&this_ptr_conv, val_conv);
+}
+
+JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_ChainParameters_1get_1latest_1hash(JNIEnv *env, jclass clz, int64_t this_ptr) {
+	LDKChainParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int8_tArray ret_arr = (*env)->NewByteArray(env, 32);
+	(*env)->SetByteArrayRegion(env, ret_arr, 0, 32, *ChainParameters_get_latest_hash(&this_ptr_conv));
+	return ret_arr;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChainParameters_1set_1latest_1hash(JNIEnv *env, jclass clz, int64_t this_ptr, int8_tArray val) {
+	LDKChainParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKThirtyTwoBytes val_ref;
+	CHECK((*env)->GetArrayLength(env, val) == 32);
+	(*env)->GetByteArrayRegion(env, val, 0, 32, val_ref.data);
+	ChainParameters_set_latest_hash(&this_ptr_conv, val_ref);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ChainParameters_1get_1latest_1height(JNIEnv *env, jclass clz, int64_t this_ptr) {
+	LDKChainParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int64_t ret_val = ChainParameters_get_latest_height(&this_ptr_conv);
+	return ret_val;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChainParameters_1set_1latest_1height(JNIEnv *env, jclass clz, int64_t this_ptr, int64_t val) {
+	LDKChainParameters this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	ChainParameters_set_latest_height(&this_ptr_conv, val);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ChainParameters_1new(JNIEnv *env, jclass clz, jclass network_arg, int8_tArray latest_hash_arg, int64_t latest_height_arg) {
+	LDKNetwork network_arg_conv = LDKNetwork_from_java(env, network_arg);
+	LDKThirtyTwoBytes latest_hash_arg_ref;
+	CHECK((*env)->GetArrayLength(env, latest_hash_arg) == 32);
+	(*env)->GetByteArrayRegion(env, latest_hash_arg, 0, 32, latest_hash_arg_ref.data);
+	LDKChainParameters ret_var = ChainParameters_new(network_arg_conv, latest_hash_arg_ref, latest_height_arg);
+	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long ret_ref = (long)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelDetails_1free(JNIEnv *env, jclass clz, int64_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
@@ -11770,8 +11735,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_PaymentSendFailure_1clone(J
 	return ret_ref;
 }
 
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new(JNIEnv *env, jclass clz, jclass network, int64_t fee_est, int64_t chain_monitor, int64_t tx_broadcaster, int64_t logger, int64_t keys_manager, int64_t config, int64_t current_blockchain_height) {
-	LDKNetwork network_conv = LDKNetwork_from_java(env, network);
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new(JNIEnv *env, jclass clz, int64_t fee_est, int64_t chain_monitor, int64_t tx_broadcaster, int64_t logger, int64_t keys_manager, int64_t config, int64_t params) {
 	LDKFeeEstimator fee_est_conv = *(LDKFeeEstimator*)(((uint64_t)fee_est) & ~1);
 	if (fee_est_conv.free == LDKFeeEstimator_JCalls_free) {
 		// If this_arg is a JCalls struct, then we need to increment the refcnt in it.
@@ -11801,7 +11765,11 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ChannelManager_1new(JNIEnv 
 	config_conv.inner = (void*)(config & (~1));
 	config_conv.is_owned = (config & 1) || (config == 0);
 	config_conv = UserConfig_clone(&config_conv);
-	LDKChannelManager ret_var = ChannelManager_new(network_conv, fee_est_conv, chain_monitor_conv, tx_broadcaster_conv, logger_conv, keys_manager_conv, config_conv, current_blockchain_height);
+	LDKChainParameters params_conv;
+	params_conv.inner = (void*)(params & (~1));
+	params_conv.is_owned = (params & 1) || (params == 0);
+	// Warning: we need a move here but no clone is available for LDKChainParameters
+	LDKChannelManager ret_var = ChannelManager_new(fee_est_conv, chain_monitor_conv, tx_broadcaster_conv, logger_conv, keys_manager_conv, config_conv, params_conv);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	long ret_ref = (long)ret_var.inner;
@@ -16717,6 +16685,78 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_GossipTimestampFilter_1
 	return ret_arr;
 }
 
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_IgnoringMessageHandler_1free(JNIEnv *env, jclass clz, int64_t this_ptr) {
+	LDKIgnoringMessageHandler this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
+	IgnoringMessageHandler_free(this_ptr_conv);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_IgnoringMessageHandler_1new(JNIEnv *env, jclass clz) {
+	LDKIgnoringMessageHandler ret_var = IgnoringMessageHandler_new();
+	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long ret_ref = (long)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_IgnoringMessageHandler_1as_1MessageSendEventsProvider(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKIgnoringMessageHandler this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKMessageSendEventsProvider* ret = MALLOC(sizeof(LDKMessageSendEventsProvider), "LDKMessageSendEventsProvider");
+	*ret = IgnoringMessageHandler_as_MessageSendEventsProvider(&this_arg_conv);
+	return (long)ret;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_IgnoringMessageHandler_1as_1RoutingMessageHandler(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKIgnoringMessageHandler this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKRoutingMessageHandler* ret = MALLOC(sizeof(LDKRoutingMessageHandler), "LDKRoutingMessageHandler");
+	*ret = IgnoringMessageHandler_as_RoutingMessageHandler(&this_arg_conv);
+	return (long)ret;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ErroringMessageHandler_1free(JNIEnv *env, jclass clz, int64_t this_ptr) {
+	LDKErroringMessageHandler this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = (this_ptr & 1) || (this_ptr == 0);
+	ErroringMessageHandler_free(this_ptr_conv);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ErroringMessageHandler_1new(JNIEnv *env, jclass clz) {
+	LDKErroringMessageHandler ret_var = ErroringMessageHandler_new();
+	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long ret_ref = (long)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ErroringMessageHandler_1as_1MessageSendEventsProvider(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKErroringMessageHandler this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKMessageSendEventsProvider* ret = MALLOC(sizeof(LDKMessageSendEventsProvider), "LDKMessageSendEventsProvider");
+	*ret = ErroringMessageHandler_as_MessageSendEventsProvider(&this_arg_conv);
+	return (long)ret;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ErroringMessageHandler_1as_1ChannelMessageHandler(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKErroringMessageHandler this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKChannelMessageHandler* ret = MALLOC(sizeof(LDKChannelMessageHandler), "LDKChannelMessageHandler");
+	*ret = ErroringMessageHandler_as_ChannelMessageHandler(&this_arg_conv);
+	return (long)ret;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_MessageHandler_1free(JNIEnv *env, jclass clz, int64_t this_ptr) {
 	LDKMessageHandler this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
@@ -18913,39 +18953,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RouteHint_1set_1cltv_1expiry_1
 	RouteHint_set_cltv_expiry_delta(&this_ptr_conv, val);
 }
 
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_RouteHint_1get_1htlc_1minimum_1msat(JNIEnv *env, jclass clz, int64_t this_ptr) {
-	LDKRouteHint this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	int64_t ret_val = RouteHint_get_htlc_minimum_msat(&this_ptr_conv);
-	return ret_val;
-}
-
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_RouteHint_1set_1htlc_1minimum_1msat(JNIEnv *env, jclass clz, int64_t this_ptr, int64_t val) {
-	LDKRouteHint this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	RouteHint_set_htlc_minimum_msat(&this_ptr_conv, val);
-}
-
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_RouteHint_1new(JNIEnv *env, jclass clz, int8_tArray src_node_id_arg, int64_t short_channel_id_arg, int64_t fees_arg, int16_t cltv_expiry_delta_arg, int64_t htlc_minimum_msat_arg) {
-	LDKPublicKey src_node_id_arg_ref;
-	CHECK((*env)->GetArrayLength(env, src_node_id_arg) == 33);
-	(*env)->GetByteArrayRegion(env, src_node_id_arg, 0, 33, src_node_id_arg_ref.compressed_form);
-	LDKRoutingFees fees_arg_conv;
-	fees_arg_conv.inner = (void*)(fees_arg & (~1));
-	fees_arg_conv.is_owned = (fees_arg & 1) || (fees_arg == 0);
-	fees_arg_conv = RoutingFees_clone(&fees_arg_conv);
-	LDKRouteHint ret_var = RouteHint_new(src_node_id_arg_ref, short_channel_id_arg, fees_arg_conv, cltv_expiry_delta_arg, htlc_minimum_msat_arg);
-	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	long ret_ref = (long)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_RouteHint_1clone(JNIEnv *env, jclass clz, int64_t orig) {
 	LDKRouteHint orig_conv;
 	orig_conv.inner = (void*)(orig & (~1));
@@ -18960,16 +18967,16 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_RouteHint_1clone(JNIEnv *en
 	return ret_ref;
 }
 
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_get_1route(JNIEnv *env, jclass clz, int8_tArray our_node_id, int64_t network, int8_tArray target, int64_tArray first_hops, int64_tArray last_hops, int64_t final_value_msat, int32_t final_cltv, int64_t logger) {
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_get_1route(JNIEnv *env, jclass clz, int8_tArray our_node_id, int64_t network, int8_tArray payee, int64_tArray first_hops, int64_tArray last_hops, int64_t final_value_msat, int32_t final_cltv, int64_t logger) {
 	LDKPublicKey our_node_id_ref;
 	CHECK((*env)->GetArrayLength(env, our_node_id) == 33);
 	(*env)->GetByteArrayRegion(env, our_node_id, 0, 33, our_node_id_ref.compressed_form);
 	LDKNetworkGraph network_conv;
 	network_conv.inner = (void*)(network & (~1));
 	network_conv.is_owned = false;
-	LDKPublicKey target_ref;
-	CHECK((*env)->GetArrayLength(env, target) == 33);
-	(*env)->GetByteArrayRegion(env, target, 0, 33, target_ref.compressed_form);
+	LDKPublicKey payee_ref;
+	CHECK((*env)->GetArrayLength(env, payee) == 33);
+	(*env)->GetByteArrayRegion(env, payee, 0, 33, payee_ref.compressed_form);
 	LDKCVec_ChannelDetailsZ first_hops_constr;
 	first_hops_constr.datalen = (*env)->GetArrayLength(env, first_hops);
 	if (first_hops_constr.datalen > 0)
@@ -19007,7 +19014,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_get_1route(JNIEnv *env, jcl
 		LDKLogger_JCalls_clone(logger_conv.this_arg);
 	}
 	LDKCResult_RouteLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteLightningErrorZ), "LDKCResult_RouteLightningErrorZ");
-	*ret_conv = get_route(our_node_id_ref, &network_conv, target_ref, &first_hops_constr, last_hops_constr, final_value_msat, final_cltv, logger_conv);
+	*ret_conv = get_route(our_node_id_ref, &network_conv, payee_ref, &first_hops_constr, last_hops_constr, final_value_msat, final_cltv, logger_conv);
 	FREE(first_hops_constr.data);
 	return (long)ret_conv;
 }
@@ -19086,6 +19093,14 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_NetGraphMsgHandler_1from_1n
 		ret_ref |= 1;
 	}
 	return ret_ref;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NetGraphMsgHandler_1add_1chain_1access(JNIEnv *env, jclass clz, int64_t this_arg, int64_t chain_access) {
+	LDKNetGraphMsgHandler this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKAccess* chain_access_conv = (LDKAccess*)chain_access;
+	NetGraphMsgHandler_add_chain_access(&this_arg_conv, chain_access_conv);
 }
 
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_NetGraphMsgHandler_1read_1locked_1graph(JNIEnv *env, jclass clz, int64_t this_arg) {

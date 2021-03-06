@@ -37,6 +37,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public void add_chain_access(Access chain_access) {
+		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access == null ? 0 : chain_access.ptr);
+		this.ptrs_to.add(chain_access);
+	}
+
 	public LockedNetworkGraph read_locked_graph() {
 		number ret = bindings.NetGraphMsgHandler_read_locked_graph(this.ptr);
 		const ret_hu_conv: LockedNetworkGraph = new LockedNetworkGraph(null, ret);

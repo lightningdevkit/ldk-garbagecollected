@@ -57,23 +57,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.RouteHint_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public number get_htlc_minimum_msat() {
-		number ret = bindings.RouteHint_get_htlc_minimum_msat(this.ptr);
-		return ret;
-	}
-
-	public void set_htlc_minimum_msat(number val) {
-		bindings.RouteHint_set_htlc_minimum_msat(this.ptr, val);
-	}
-
-	public static RouteHint constructor_new(Uint8Array src_node_id_arg, number short_channel_id_arg, RoutingFees fees_arg, number cltv_expiry_delta_arg, number htlc_minimum_msat_arg) {
-		number ret = bindings.RouteHint_new(src_node_id_arg, short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg);
-		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(fees_arg);
-		return ret_hu_conv;
-	}
-
 	public RouteHint clone() {
 		number ret = bindings.RouteHint_clone(this.ptr);
 		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
