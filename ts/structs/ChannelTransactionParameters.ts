@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelTransactionParameters_free(this.ptr);
                     }
                 }
-	public ChannelTransactionParameters clone() {
-		number ret = bindings.ChannelTransactionParameters_clone(this.ptr);
-		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public ChannelPublicKeys get_holder_pubkeys() {
 		number ret = bindings.ChannelTransactionParameters_get_holder_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
@@ -89,6 +82,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public ChannelTransactionParameters clone() {
+		number ret = bindings.ChannelTransactionParameters_clone(this.ptr);
+		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public boolean is_populated() {
 		boolean ret = bindings.ChannelTransactionParameters_is_populated(this.ptr);
 		return ret;
@@ -113,10 +113,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public static ChannelTransactionParameters constructor_read(Uint8Array ser) {
+	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.ChannelTransactionParameters_read(ser);
-		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -23,13 +23,19 @@ public class NetGraphMsgHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static NetGraphMsgHandler constructor_from_net_graph(Access chain_access, Logger logger, byte[] network_graph_genesis_hash) {
-		long ret = bindings.NetGraphMsgHandler_from_net_graph(chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr, bindings.NetworkGraph_new(network_graph_genesis_hash));
+	public static NetGraphMsgHandler constructor_from_net_graph(Access chain_access, Logger logger, NetworkGraph network_graph) {
+		long ret = bindings.NetGraphMsgHandler_from_net_graph(chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr, network_graph == null ? 0 : network_graph.ptr & ~1);
 		NetGraphMsgHandler ret_hu_conv = new NetGraphMsgHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(chain_access);
 		ret_hu_conv.ptrs_to.add(logger);
+		ret_hu_conv.ptrs_to.add(network_graph);
 		return ret_hu_conv;
+	}
+
+	public void add_chain_access(Access chain_access) {
+		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access == null ? 0 : chain_access.ptr);
+		this.ptrs_to.add(chain_access);
 	}
 
 	public LockedNetworkGraph read_locked_graph() {

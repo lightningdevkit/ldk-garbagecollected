@@ -14,13 +14,6 @@ public class ChannelTransactionParameters extends CommonBase {
 		if (ptr != 0) { bindings.ChannelTransactionParameters_free(ptr); }
 	}
 
-	public ChannelTransactionParameters clone() {
-		long ret = bindings.ChannelTransactionParameters_clone(this.ptr);
-		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public ChannelPublicKeys get_holder_pubkeys() {
 		long ret = bindings.ChannelTransactionParameters_get_holder_pubkeys(this.ptr);
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
@@ -85,6 +78,13 @@ public class ChannelTransactionParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public ChannelTransactionParameters clone() {
+		long ret = bindings.ChannelTransactionParameters_clone(this.ptr);
+		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public boolean is_populated() {
 		boolean ret = bindings.ChannelTransactionParameters_is_populated(this.ptr);
 		return ret;
@@ -109,10 +109,9 @@ public class ChannelTransactionParameters extends CommonBase {
 		return ret;
 	}
 
-	public static ChannelTransactionParameters constructor_read(byte[] ser) {
+	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ChannelTransactionParameters_read(ser);
-		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

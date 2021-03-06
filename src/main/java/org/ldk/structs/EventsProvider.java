@@ -28,7 +28,7 @@ public class EventsProvider extends CommonBase {
 		impl_holder.held = new EventsProvider(new bindings.LDKEventsProvider() {
 			@Override public long[] get_and_clear_pending_events() {
 				Event[] ret = arg.get_and_clear_pending_events();
-				long[] result = Arrays.stream(ret).mapToLong(arr_conv_7 -> arr_conv_7.ptr).toArray();
+				long[] result = Arrays.stream(ret).mapToLong(ret_conv_7 -> ret_conv_7.ptr).toArray();
 				/* TODO 2 Event  */;
 				return result;
 			}
@@ -37,14 +37,14 @@ public class EventsProvider extends CommonBase {
 	}
 	public Event[] get_and_clear_pending_events() {
 		long[] ret = bindings.EventsProvider_get_and_clear_pending_events(this.ptr);
-		Event[] arr_conv_7_arr = new Event[ret.length];
+		Event[] ret_conv_7_arr = new Event[ret.length];
 		for (int h = 0; h < ret.length; h++) {
-			long arr_conv_7 = ret[h];
-			Event arr_conv_7_hu_conv = Event.constr_from_ptr(arr_conv_7);
-			arr_conv_7_hu_conv.ptrs_to.add(this);
-			arr_conv_7_arr[h] = arr_conv_7_hu_conv;
+			long ret_conv_7 = ret[h];
+			Event ret_conv_7_hu_conv = Event.constr_from_ptr(ret_conv_7);
+			ret_conv_7_hu_conv.ptrs_to.add(this);
+			ret_conv_7_arr[h] = ret_conv_7_hu_conv;
 		}
-		return arr_conv_7_arr;
+		return ret_conv_7_arr;
 	}
 
 }

@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.DataLossProtect_free(this.ptr);
                     }
                 }
-	public DataLossProtect clone() {
-		number ret = bindings.DataLossProtect_clone(this.ptr);
-		const ret_hu_conv: DataLossProtect = new DataLossProtect(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_your_last_per_commitment_secret() {
 		Uint8Array ret = bindings.DataLossProtect_get_your_last_per_commitment_secret(this.ptr);
 		return ret;
@@ -47,6 +40,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.DataLossProtect_new(your_last_per_commitment_secret_arg, my_current_per_commitment_point_arg);
 		const ret_hu_conv: DataLossProtect = new DataLossProtect(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public DataLossProtect clone() {
+		number ret = bindings.DataLossProtect_clone(this.ptr);
+		const ret_hu_conv: DataLossProtect = new DataLossProtect(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

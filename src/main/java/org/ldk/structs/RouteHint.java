@@ -14,13 +14,6 @@ public class RouteHint extends CommonBase {
 		if (ptr != 0) { bindings.RouteHint_free(ptr); }
 	}
 
-	public RouteHint clone() {
-		long ret = bindings.RouteHint_clone(this.ptr);
-		RouteHint ret_hu_conv = new RouteHint(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_src_node_id() {
 		byte[] ret = bindings.RouteHint_get_src_node_id(this.ptr);
 		return ret;
@@ -60,20 +53,10 @@ public class RouteHint extends CommonBase {
 		bindings.RouteHint_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public long get_htlc_minimum_msat() {
-		long ret = bindings.RouteHint_get_htlc_minimum_msat(this.ptr);
-		return ret;
-	}
-
-	public void set_htlc_minimum_msat(long val) {
-		bindings.RouteHint_set_htlc_minimum_msat(this.ptr, val);
-	}
-
-	public static RouteHint constructor_new(byte[] src_node_id_arg, long short_channel_id_arg, RoutingFees fees_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg) {
-		long ret = bindings.RouteHint_new(src_node_id_arg, short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg);
+	public RouteHint clone() {
+		long ret = bindings.RouteHint_clone(this.ptr);
 		RouteHint ret_hu_conv = new RouteHint(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(fees_arg);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

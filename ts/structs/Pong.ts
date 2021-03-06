@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.Pong_free(this.ptr);
                     }
                 }
-	public Pong clone() {
-		number ret = bindings.Pong_clone(this.ptr);
-		const ret_hu_conv: Pong = new Pong(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public number get_byteslen() {
 		number ret = bindings.Pong_get_byteslen(this.ptr);
 		return ret;
@@ -38,6 +31,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.Pong_new(byteslen_arg);
 		const ret_hu_conv: Pong = new Pong(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public Pong clone() {
+		number ret = bindings.Pong_clone(this.ptr);
+		const ret_hu_conv: Pong = new Pong(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

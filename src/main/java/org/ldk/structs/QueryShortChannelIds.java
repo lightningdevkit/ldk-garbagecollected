@@ -14,13 +14,6 @@ public class QueryShortChannelIds extends CommonBase {
 		if (ptr != 0) { bindings.QueryShortChannelIds_free(ptr); }
 	}
 
-	public QueryShortChannelIds clone() {
-		long ret = bindings.QueryShortChannelIds_clone(this.ptr);
-		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.QueryShortChannelIds_get_chain_hash(this.ptr);
 		return ret;
@@ -38,6 +31,13 @@ public class QueryShortChannelIds extends CommonBase {
 		long ret = bindings.QueryShortChannelIds_new(chain_hash_arg, short_channel_ids_arg);
 		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public QueryShortChannelIds clone() {
+		long ret = bindings.QueryShortChannelIds_clone(this.ptr);
+		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

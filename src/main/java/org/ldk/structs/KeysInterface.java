@@ -23,9 +23,9 @@ public class KeysInterface extends CommonBase {
 		byte[] get_node_secret();
 		byte[] get_destination_script();
 		byte[] get_shutdown_pubkey();
-		ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis);
+		Sign get_channel_signer(boolean inbound, long channel_value_satoshis);
 		byte[] get_secure_random_bytes();
-		Result_ChanKeySignerDecodeErrorZ read_chan_signer(byte[] reader);
+		Result_SignDecodeErrorZ read_chan_signer(byte[] reader);
 	}
 	private static class LDKKeysInterfaceHolder { KeysInterface held; }
 	public static KeysInterface new_impl(KeysInterfaceInterface arg) {
@@ -43,8 +43,8 @@ public class KeysInterface extends CommonBase {
 				byte[] ret = arg.get_shutdown_pubkey();
 				return ret;
 			}
-			@Override public long get_channel_keys(boolean inbound, long channel_value_satoshis) {
-				ChannelKeys ret = arg.get_channel_keys(inbound, channel_value_satoshis);
+			@Override public long get_channel_signer(boolean inbound, long channel_value_satoshis) {
+				Sign ret = arg.get_channel_signer(inbound, channel_value_satoshis);
 				long result = ret == null ? 0 : ret.ptr;
 				impl_holder.held.ptrs_to.add(ret);
 				return result;
@@ -54,7 +54,7 @@ public class KeysInterface extends CommonBase {
 				return ret;
 			}
 			@Override public long read_chan_signer(byte[] reader) {
-				Result_ChanKeySignerDecodeErrorZ ret = arg.read_chan_signer(reader);
+				Result_SignDecodeErrorZ ret = arg.read_chan_signer(reader);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
@@ -76,9 +76,9 @@ public class KeysInterface extends CommonBase {
 		return ret;
 	}
 
-	public ChannelKeys get_channel_keys(boolean inbound, long channel_value_satoshis) {
-		long ret = bindings.KeysInterface_get_channel_keys(this.ptr, inbound, channel_value_satoshis);
-		ChannelKeys ret_hu_conv = new ChannelKeys(null, ret);
+	public Sign get_channel_signer(boolean inbound, long channel_value_satoshis) {
+		long ret = bindings.KeysInterface_get_channel_signer(this.ptr, inbound, channel_value_satoshis);
+		Sign ret_hu_conv = new Sign(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -88,9 +88,9 @@ public class KeysInterface extends CommonBase {
 		return ret;
 	}
 
-	public Result_ChanKeySignerDecodeErrorZ read_chan_signer(byte[] reader) {
+	public Result_SignDecodeErrorZ read_chan_signer(byte[] reader) {
 		long ret = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
-		Result_ChanKeySignerDecodeErrorZ ret_hu_conv = Result_ChanKeySignerDecodeErrorZ.constr_from_ptr(ret);
+		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

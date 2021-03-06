@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.OpenChannel_free(this.ptr);
                     }
                 }
-	public OpenChannel clone() {
-		number ret = bindings.OpenChannel_clone(this.ptr);
-		const ret_hu_conv: OpenChannel = new OpenChannel(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_chain_hash() {
 		Uint8Array ret = bindings.OpenChannel_get_chain_hash(this.ptr);
 		return ret;
@@ -187,15 +180,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.OpenChannel_set_channel_flags(this.ptr, val);
 	}
 
+	public OpenChannel clone() {
+		number ret = bindings.OpenChannel_clone(this.ptr);
+		const ret_hu_conv: OpenChannel = new OpenChannel(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.OpenChannel_write(this.ptr);
 		return ret;
 	}
 
-	public static OpenChannel constructor_read(Uint8Array ser) {
+	public static Result_OpenChannelDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.OpenChannel_read(ser);
-		const ret_hu_conv: OpenChannel = new OpenChannel(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_OpenChannelDecodeErrorZ ret_hu_conv = Result_OpenChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

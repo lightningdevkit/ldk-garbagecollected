@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.FundingSigned_free(this.ptr);
                     }
                 }
-	public FundingSigned clone() {
-		number ret = bindings.FundingSigned_clone(this.ptr);
-		const ret_hu_conv: FundingSigned = new FundingSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_channel_id() {
 		Uint8Array ret = bindings.FundingSigned_get_channel_id(this.ptr);
 		return ret;
@@ -50,15 +43,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public FundingSigned clone() {
+		number ret = bindings.FundingSigned_clone(this.ptr);
+		const ret_hu_conv: FundingSigned = new FundingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.FundingSigned_write(this.ptr);
 		return ret;
 	}
 
-	public static FundingSigned constructor_read(Uint8Array ser) {
+	public static Result_FundingSignedDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.FundingSigned_read(ser);
-		const ret_hu_conv: FundingSigned = new FundingSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_FundingSignedDecodeErrorZ ret_hu_conv = Result_FundingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

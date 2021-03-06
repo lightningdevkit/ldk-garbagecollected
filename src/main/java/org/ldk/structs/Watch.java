@@ -48,7 +48,7 @@ public class Watch extends CommonBase {
 			}
 			@Override public long[] release_pending_monitor_events() {
 				MonitorEvent[] ret = arg.release_pending_monitor_events();
-				long[] result = Arrays.stream(ret).mapToLong(arr_conv_14 -> arr_conv_14 == null ? 0 : arr_conv_14.ptr & ~1).toArray();
+				long[] result = Arrays.stream(ret).mapToLong(ret_conv_14 -> ret_conv_14.ptr).toArray();
 				/* TODO 2 MonitorEvent  */;
 				return result;
 			}
@@ -73,14 +73,14 @@ public class Watch extends CommonBase {
 
 	public MonitorEvent[] release_pending_monitor_events() {
 		long[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);
-		MonitorEvent[] arr_conv_14_arr = new MonitorEvent[ret.length];
+		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret.length];
 		for (int o = 0; o < ret.length; o++) {
-			long arr_conv_14 = ret[o];
-			MonitorEvent arr_conv_14_hu_conv = new MonitorEvent(null, arr_conv_14);
-			arr_conv_14_hu_conv.ptrs_to.add(this);
-			arr_conv_14_arr[o] = arr_conv_14_hu_conv;
+			long ret_conv_14 = ret[o];
+			MonitorEvent ret_conv_14_hu_conv = MonitorEvent.constr_from_ptr(ret_conv_14);
+			ret_conv_14_hu_conv.ptrs_to.add(this);
+			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
-		return arr_conv_14_arr;
+		return ret_conv_14_arr;
 	}
 
 }

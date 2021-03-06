@@ -18,11 +18,11 @@ public class SpendableOutputDescriptor extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKSpendableOutputDescriptor.StaticOutput.class) {
 			return new StaticOutput(ptr, (bindings.LDKSpendableOutputDescriptor.StaticOutput)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKSpendableOutputDescriptor.DynamicOutputP2WSH.class) {
-			return new DynamicOutputP2WSH(ptr, (bindings.LDKSpendableOutputDescriptor.DynamicOutputP2WSH)raw_val);
+		if (raw_val.getClass() == bindings.LDKSpendableOutputDescriptor.DelayedPaymentOutput.class) {
+			return new DelayedPaymentOutput(ptr, (bindings.LDKSpendableOutputDescriptor.DelayedPaymentOutput)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKSpendableOutputDescriptor.StaticOutputCounterpartyPayment.class) {
-			return new StaticOutputCounterpartyPayment(ptr, (bindings.LDKSpendableOutputDescriptor.StaticOutputCounterpartyPayment)raw_val);
+		if (raw_val.getClass() == bindings.LDKSpendableOutputDescriptor.StaticPaymentOutput.class) {
+			return new StaticPaymentOutput(ptr, (bindings.LDKSpendableOutputDescriptor.StaticPaymentOutput)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
@@ -41,54 +41,14 @@ public class SpendableOutputDescriptor extends CommonBase {
 			this.output = output_conv;
 		}
 	}
-	public final static class DynamicOutputP2WSH extends SpendableOutputDescriptor {
-		public final OutPoint outpoint;
-		public final byte[] per_commitment_point;
-		public final short to_self_delay;
-		public final TxOut output;
-		public final TwoTuple<Long, Long> key_derivation_params;
-		public final byte[] revocation_pubkey;
-		private DynamicOutputP2WSH(long ptr, bindings.LDKSpendableOutputDescriptor.DynamicOutputP2WSH obj) {
+	public final static class DelayedPaymentOutput extends SpendableOutputDescriptor {
+		private DelayedPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.DelayedPaymentOutput obj) {
 			super(null, ptr);
-			long outpoint = obj.outpoint;
-			OutPoint outpoint_hu_conv = new OutPoint(null, outpoint);
-			outpoint_hu_conv.ptrs_to.add(this);
-			this.outpoint = outpoint_hu_conv;
-			this.per_commitment_point = obj.per_commitment_point;
-			this.to_self_delay = obj.to_self_delay;
-			long output = obj.output;
-			TxOut output_conv = new TxOut(null, output);
-			this.output = output_conv;
-			long key_derivation_params = obj.key_derivation_params;
-			long key_derivation_params_a = bindings.LDKC2Tuple_u64u64Z_get_a(key_derivation_params);
-			long key_derivation_params_b = bindings.LDKC2Tuple_u64u64Z_get_b(key_derivation_params);
-			TwoTuple<Long, Long> key_derivation_params_conv = new TwoTuple<Long, Long>(key_derivation_params_a, key_derivation_params_b, () -> {
-				bindings.C2Tuple_u64u64Z_free(key_derivation_params);
-			});
-			this.key_derivation_params = key_derivation_params_conv;
-			this.revocation_pubkey = obj.revocation_pubkey;
 		}
 	}
-	public final static class StaticOutputCounterpartyPayment extends SpendableOutputDescriptor {
-		public final OutPoint outpoint;
-		public final TxOut output;
-		public final TwoTuple<Long, Long> key_derivation_params;
-		private StaticOutputCounterpartyPayment(long ptr, bindings.LDKSpendableOutputDescriptor.StaticOutputCounterpartyPayment obj) {
+	public final static class StaticPaymentOutput extends SpendableOutputDescriptor {
+		private StaticPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticPaymentOutput obj) {
 			super(null, ptr);
-			long outpoint = obj.outpoint;
-			OutPoint outpoint_hu_conv = new OutPoint(null, outpoint);
-			outpoint_hu_conv.ptrs_to.add(this);
-			this.outpoint = outpoint_hu_conv;
-			long output = obj.output;
-			TxOut output_conv = new TxOut(null, output);
-			this.output = output_conv;
-			long key_derivation_params = obj.key_derivation_params;
-			long key_derivation_params_a = bindings.LDKC2Tuple_u64u64Z_get_a(key_derivation_params);
-			long key_derivation_params_b = bindings.LDKC2Tuple_u64u64Z_get_b(key_derivation_params);
-			TwoTuple<Long, Long> key_derivation_params_conv = new TwoTuple<Long, Long>(key_derivation_params_a, key_derivation_params_b, () -> {
-				bindings.C2Tuple_u64u64Z_free(key_derivation_params);
-			});
-			this.key_derivation_params = key_derivation_params_conv;
 		}
 	}
 }

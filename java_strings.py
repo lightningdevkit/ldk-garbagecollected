@@ -198,7 +198,7 @@ void __attribute__((destructor)) check_leaks() {
 	size_t alloc_count = 0;
 	size_t alloc_size = 0;
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		fprintf(stderr, "%s %p remains:\\n", a->struct_name, a->ptr);
+		fprintf(stderr, "%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
 		fprintf(stderr, "\\n\\n");
 		alloc_count++;
@@ -651,7 +651,7 @@ import java.util.Arrays;
 
                 out_c = out_c + "\tjobject obj = (*env)->NewLocalRef(env, j_calls->o);\n\tCHECK(obj != NULL);\n"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " arg = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
                     out_c = out_c + "\treturn (*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 else:

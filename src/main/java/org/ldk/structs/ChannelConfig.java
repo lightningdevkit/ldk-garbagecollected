@@ -14,13 +14,6 @@ public class ChannelConfig extends CommonBase {
 		if (ptr != 0) { bindings.ChannelConfig_free(ptr); }
 	}
 
-	public ChannelConfig clone() {
-		long ret = bindings.ChannelConfig_clone(this.ptr);
-		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public int get_fee_proportional_millionths() {
 		int ret = bindings.ChannelConfig_get_fee_proportional_millionths(this.ptr);
 		return ret;
@@ -55,6 +48,13 @@ public class ChannelConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public ChannelConfig clone() {
+		long ret = bindings.ChannelConfig_clone(this.ptr);
+		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public static ChannelConfig constructor_default() {
 		long ret = bindings.ChannelConfig_default();
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
@@ -67,10 +67,9 @@ public class ChannelConfig extends CommonBase {
 		return ret;
 	}
 
-	public static ChannelConfig constructor_read(byte[] ser) {
+	public static Result_ChannelConfigDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ChannelConfig_read(ser);
-		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ChannelConfigDecodeErrorZ ret_hu_conv = Result_ChannelConfigDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

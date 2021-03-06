@@ -47,8 +47,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return ret;
 						},
 
-						get_channel_keys (inbound: boolean, channel_value_satoshis: number): number {
-							ChannelKeys ret = arg.get_channel_keys(inbound, channel_value_satoshis);
+						get_channel_signer (inbound: boolean, channel_value_satoshis: number): number {
+							Sign ret = arg.get_channel_signer(inbound, channel_value_satoshis);
 				result: number = ret == null ? 0 : ret.ptr;
 				impl_holder.held.ptrs_to.add(ret);
 				return result;
@@ -60,7 +60,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 						},
 
 						read_chan_signer (reader: Uint8Array): number {
-							Result_ChanKeySignerDecodeErrorZ ret = arg.read_chan_signer(reader);
+							Result_SignDecodeErrorZ ret = arg.read_chan_signer(reader);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
 						},
@@ -75,9 +75,9 @@ import * as bindings from '../bindings' // TODO: figure out location
                 get_node_secret(): Uint8Array;
 				get_destination_script(): Uint8Array;
 				get_shutdown_pubkey(): Uint8Array;
-				get_channel_keys(inbound: boolean, channel_value_satoshis: number): ChannelKeys;
+				get_channel_signer(inbound: boolean, channel_value_satoshis: number): Sign;
 				get_secure_random_bytes(): Uint8Array;
-				read_chan_signer(reader: Uint8Array): Result_ChanKeySignerDecodeErrorZ;
+				read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ;
 				
             }
 
@@ -99,9 +99,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public ChannelKeys get_channel_keys(boolean inbound, number channel_value_satoshis) {
-		number ret = bindings.KeysInterface_get_channel_keys(this.ptr, inbound, channel_value_satoshis);
-		ChannelKeys ret_hu_conv = new ChannelKeys(null, ret);
+	public Sign get_channel_signer(boolean inbound, number channel_value_satoshis) {
+		number ret = bindings.KeysInterface_get_channel_signer(this.ptr, inbound, channel_value_satoshis);
+		Sign ret_hu_conv = new Sign(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -111,9 +111,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public Result_ChanKeySignerDecodeErrorZ read_chan_signer(Uint8Array reader) {
+	public Result_SignDecodeErrorZ read_chan_signer(Uint8Array reader) {
 		number ret = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
-		Result_ChanKeySignerDecodeErrorZ ret_hu_conv = Result_ChanKeySignerDecodeErrorZ.constr_from_ptr(ret);
+		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.CounterpartyChannelTransactionParameters_free(this.ptr);
                     }
                 }
-	public CounterpartyChannelTransactionParameters clone() {
-		number ret = bindings.CounterpartyChannelTransactionParameters_clone(this.ptr);
-		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public ChannelPublicKeys get_pubkeys() {
 		number ret = bindings.CounterpartyChannelTransactionParameters_get_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
@@ -54,15 +47,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public CounterpartyChannelTransactionParameters clone() {
+		number ret = bindings.CounterpartyChannelTransactionParameters_clone(this.ptr);
+		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.CounterpartyChannelTransactionParameters_write(this.ptr);
 		return ret;
 	}
 
-	public static CounterpartyChannelTransactionParameters constructor_read(Uint8Array ser) {
+	public static Result_CounterpartyChannelTransactionParametersDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.CounterpartyChannelTransactionParameters_read(ser);
-		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_CounterpartyChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_CounterpartyChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

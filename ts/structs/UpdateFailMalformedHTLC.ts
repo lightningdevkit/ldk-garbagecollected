@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.UpdateFailMalformedHTLC_free(this.ptr);
                     }
                 }
-	public UpdateFailMalformedHTLC clone() {
-		number ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
-		const ret_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_channel_id() {
 		Uint8Array ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
 		return ret;
@@ -52,15 +45,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.UpdateFailMalformedHTLC_set_failure_code(this.ptr, val);
 	}
 
+	public UpdateFailMalformedHTLC clone() {
+		number ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
+		const ret_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.UpdateFailMalformedHTLC_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateFailMalformedHTLC constructor_read(Uint8Array ser) {
+	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.UpdateFailMalformedHTLC_read(ser);
-		const ret_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

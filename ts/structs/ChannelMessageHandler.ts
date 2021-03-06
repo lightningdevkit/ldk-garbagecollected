@@ -62,9 +62,10 @@ import * as bindings from '../bindings' // TODO: figure out location
 							arg.handle_funding_locked(their_node_id, msg_hu_conv);
 						},
 
-						handle_shutdown (their_node_id: Uint8Array, msg: number): void {
+						handle_shutdown (their_node_id: Uint8Array, their_features: number, msg: number): void {
+							const their_features_hu_conv: InitFeatures = new InitFeatures(null, their_features);
 							const msg_hu_conv: Shutdown = new Shutdown(null, msg);
-							arg.handle_shutdown(their_node_id, msg_hu_conv);
+							arg.handle_shutdown(their_node_id, their_features_hu_conv, msg_hu_conv);
 						},
 
 						handle_closing_signed (their_node_id: Uint8Array, msg: number): void {
@@ -143,7 +144,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				handle_funding_created(their_node_id: Uint8Array, msg: FundingCreated): void;
 				handle_funding_signed(their_node_id: Uint8Array, msg: FundingSigned): void;
 				handle_funding_locked(their_node_id: Uint8Array, msg: FundingLocked): void;
-				handle_shutdown(their_node_id: Uint8Array, msg: Shutdown): void;
+				handle_shutdown(their_node_id: Uint8Array, their_features: InitFeatures, msg: Shutdown): void;
 				handle_closing_signed(their_node_id: Uint8Array, msg: ClosingSigned): void;
 				handle_update_add_htlc(their_node_id: Uint8Array, msg: UpdateAddHTLC): void;
 				handle_update_fulfill_htlc(their_node_id: Uint8Array, msg: UpdateFulfillHTLC): void;
@@ -166,28 +167,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public void handle_open_channel(Uint8Array their_node_id, InitFeatures their_features, OpenChannel msg) {
 		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(their_features);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid this being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after this call, their_features is reset to null and is now a dummy object.
-		their_features.ptr = 0;
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_accept_channel(Uint8Array their_node_id, InitFeatures their_features, AcceptChannel msg) {
 		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(their_features);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid this being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after this call, their_features is reset to null and is now a dummy object.
-		their_features.ptr = 0;
 		this.ptrs_to.add(msg);
 	}
 
@@ -206,8 +191,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(msg);
 	}
 
-	public void handle_shutdown(Uint8Array their_node_id, Shutdown msg) {
-		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+	public void handle_shutdown(Uint8Array their_node_id, InitFeatures their_features, Shutdown msg) {
+		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
+		this.ptrs_to.add(their_features);
 		this.ptrs_to.add(msg);
 	}
 

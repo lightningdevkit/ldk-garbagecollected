@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.HTLCOutputInCommitment_free(this.ptr);
                     }
                 }
-	public HTLCOutputInCommitment clone() {
-		number ret = bindings.HTLCOutputInCommitment_clone(this.ptr);
-		const ret_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public boolean get_offered() {
 		boolean ret = bindings.HTLCOutputInCommitment_get_offered(this.ptr);
 		return ret;
@@ -61,15 +54,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, val);
 	}
 
+	public HTLCOutputInCommitment clone() {
+		number ret = bindings.HTLCOutputInCommitment_clone(this.ptr);
+		const ret_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.HTLCOutputInCommitment_write(this.ptr);
 		return ret;
 	}
 
-	public static HTLCOutputInCommitment constructor_read(Uint8Array ser) {
+	public static Result_HTLCOutputInCommitmentDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.HTLCOutputInCommitment_read(ser);
-		const ret_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

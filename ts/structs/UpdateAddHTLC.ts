@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.UpdateAddHTLC_free(this.ptr);
                     }
                 }
-	public UpdateAddHTLC clone() {
-		number ret = bindings.UpdateAddHTLC_clone(this.ptr);
-		const ret_hu_conv: UpdateAddHTLC = new UpdateAddHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_channel_id() {
 		Uint8Array ret = bindings.UpdateAddHTLC_get_channel_id(this.ptr);
 		return ret;
@@ -70,15 +63,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
 	}
 
+	public UpdateAddHTLC clone() {
+		number ret = bindings.UpdateAddHTLC_clone(this.ptr);
+		const ret_hu_conv: UpdateAddHTLC = new UpdateAddHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.UpdateAddHTLC_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateAddHTLC constructor_read(Uint8Array ser) {
+	public static Result_UpdateAddHTLCDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.UpdateAddHTLC_read(ser);
-		const ret_hu_conv: UpdateAddHTLC = new UpdateAddHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

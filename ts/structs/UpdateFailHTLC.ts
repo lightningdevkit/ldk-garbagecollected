@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.UpdateFailHTLC_free(this.ptr);
                     }
                 }
-	public UpdateFailHTLC clone() {
-		number ret = bindings.UpdateFailHTLC_clone(this.ptr);
-		const ret_hu_conv: UpdateFailHTLC = new UpdateFailHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_channel_id() {
 		Uint8Array ret = bindings.UpdateFailHTLC_get_channel_id(this.ptr);
 		return ret;
@@ -43,15 +36,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.UpdateFailHTLC_set_htlc_id(this.ptr, val);
 	}
 
+	public UpdateFailHTLC clone() {
+		number ret = bindings.UpdateFailHTLC_clone(this.ptr);
+		const ret_hu_conv: UpdateFailHTLC = new UpdateFailHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.UpdateFailHTLC_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateFailHTLC constructor_read(Uint8Array ser) {
+	public static Result_UpdateFailHTLCDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.UpdateFailHTLC_read(ser);
-		const ret_hu_conv: UpdateFailHTLC = new UpdateFailHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

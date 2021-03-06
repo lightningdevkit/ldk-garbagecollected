@@ -14,13 +14,6 @@ public class UserConfig extends CommonBase {
 		if (ptr != 0) { bindings.UserConfig_free(ptr); }
 	}
 
-	public UserConfig clone() {
-		long ret = bindings.UserConfig_clone(this.ptr);
-		UserConfig ret_hu_conv = new UserConfig(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public ChannelHandshakeConfig get_own_channel_config() {
 		long ret = bindings.UserConfig_get_own_channel_config(this.ptr);
 		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
@@ -64,6 +57,13 @@ public class UserConfig extends CommonBase {
 		ret_hu_conv.ptrs_to.add(own_channel_config_arg);
 		ret_hu_conv.ptrs_to.add(peer_channel_config_limits_arg);
 		ret_hu_conv.ptrs_to.add(channel_options_arg);
+		return ret_hu_conv;
+	}
+
+	public UserConfig clone() {
+		long ret = bindings.UserConfig_clone(this.ptr);
+		UserConfig ret_hu_conv = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

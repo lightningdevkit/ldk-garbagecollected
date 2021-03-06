@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.FundingCreated_free(this.ptr);
                     }
                 }
-	public FundingCreated clone() {
-		number ret = bindings.FundingCreated_clone(this.ptr);
-		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_temporary_channel_id() {
 		Uint8Array ret = bindings.FundingCreated_get_temporary_channel_id(this.ptr);
 		return ret;
@@ -68,15 +61,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public FundingCreated clone() {
+		number ret = bindings.FundingCreated_clone(this.ptr);
+		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.FundingCreated_write(this.ptr);
 		return ret;
 	}
 
-	public static FundingCreated constructor_read(Uint8Array ser) {
+	public static Result_FundingCreatedDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.FundingCreated_read(ser);
-		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

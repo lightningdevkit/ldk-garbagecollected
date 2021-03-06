@@ -14,6 +14,13 @@ public class NetworkGraph extends CommonBase {
 		if (ptr != 0) { bindings.NetworkGraph_free(ptr); }
 	}
 
+	public NetworkGraph clone() {
+		long ret = bindings.NetworkGraph_clone(this.ptr);
+		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.NetworkGraph_write(this.ptr);
 		return ret;

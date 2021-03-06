@@ -14,13 +14,6 @@ public class ChannelHandshakeLimits extends CommonBase {
 		if (ptr != 0) { bindings.ChannelHandshakeLimits_free(ptr); }
 	}
 
-	public ChannelHandshakeLimits clone() {
-		long ret = bindings.ChannelHandshakeLimits_clone(this.ptr);
-		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public long get_min_funding_satoshis() {
 		long ret = bindings.ChannelHandshakeLimits_get_min_funding_satoshis(this.ptr);
 		return ret;
@@ -115,6 +108,13 @@ public class ChannelHandshakeLimits extends CommonBase {
 		long ret = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, min_dust_limit_satoshis_arg, max_dust_limit_satoshis_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public ChannelHandshakeLimits clone() {
+		long ret = bindings.ChannelHandshakeLimits_clone(this.ptr);
+		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

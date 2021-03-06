@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelReestablish_free(this.ptr);
                     }
                 }
-	public ChannelReestablish clone() {
-		number ret = bindings.ChannelReestablish_clone(this.ptr);
-		const ret_hu_conv: ChannelReestablish = new ChannelReestablish(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_channel_id() {
 		Uint8Array ret = bindings.ChannelReestablish_get_channel_id(this.ptr);
 		return ret;
@@ -50,6 +43,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_next_remote_commitment_number(number val) {
 		bindings.ChannelReestablish_set_next_remote_commitment_number(this.ptr, val);
+	}
+
+	public ChannelReestablish clone() {
+		number ret = bindings.ChannelReestablish_clone(this.ptr);
+		const ret_hu_conv: ChannelReestablish = new ChannelReestablish(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public Uint8Array write() {

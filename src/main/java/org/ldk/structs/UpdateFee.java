@@ -14,13 +14,6 @@ public class UpdateFee extends CommonBase {
 		if (ptr != 0) { bindings.UpdateFee_free(ptr); }
 	}
 
-	public UpdateFee clone() {
-		long ret = bindings.UpdateFee_clone(this.ptr);
-		UpdateFee ret_hu_conv = new UpdateFee(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.UpdateFee_get_channel_id(this.ptr);
 		return ret;
@@ -46,15 +39,21 @@ public class UpdateFee extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public UpdateFee clone() {
+		long ret = bindings.UpdateFee_clone(this.ptr);
+		UpdateFee ret_hu_conv = new UpdateFee(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.UpdateFee_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateFee constructor_read(byte[] ser) {
+	public static Result_UpdateFeeDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.UpdateFee_read(ser);
-		UpdateFee ret_hu_conv = new UpdateFee(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

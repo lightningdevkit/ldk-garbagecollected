@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.DirectionalChannelInfo_free(this.ptr);
                     }
                 }
-	public DirectionalChannelInfo clone() {
-		number ret = bindings.DirectionalChannelInfo_clone(this.ptr);
-		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public number get_last_update() {
 		number ret = bindings.DirectionalChannelInfo_get_last_update(this.ptr);
 		return ret;
@@ -85,15 +78,21 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(val);
 	}
 
+	public DirectionalChannelInfo clone() {
+		number ret = bindings.DirectionalChannelInfo_clone(this.ptr);
+		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.DirectionalChannelInfo_write(this.ptr);
 		return ret;
 	}
 
-	public static DirectionalChannelInfo constructor_read(Uint8Array ser) {
+	public static Result_DirectionalChannelInfoDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.DirectionalChannelInfo_read(ser);
-		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_DirectionalChannelInfoDecodeErrorZ ret_hu_conv = Result_DirectionalChannelInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -14,13 +14,6 @@ public class AnnouncementSignatures extends CommonBase {
 		if (ptr != 0) { bindings.AnnouncementSignatures_free(ptr); }
 	}
 
-	public AnnouncementSignatures clone() {
-		long ret = bindings.AnnouncementSignatures_clone(this.ptr);
-		AnnouncementSignatures ret_hu_conv = new AnnouncementSignatures(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.AnnouncementSignatures_get_channel_id(this.ptr);
 		return ret;
@@ -64,15 +57,21 @@ public class AnnouncementSignatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public AnnouncementSignatures clone() {
+		long ret = bindings.AnnouncementSignatures_clone(this.ptr);
+		AnnouncementSignatures ret_hu_conv = new AnnouncementSignatures(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.AnnouncementSignatures_write(this.ptr);
 		return ret;
 	}
 
-	public static AnnouncementSignatures constructor_read(byte[] ser) {
+	public static Result_AnnouncementSignaturesDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.AnnouncementSignatures_read(ser);
-		AnnouncementSignatures ret_hu_conv = new AnnouncementSignatures(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

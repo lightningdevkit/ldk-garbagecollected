@@ -14,13 +14,6 @@ public class ChannelReestablish extends CommonBase {
 		if (ptr != 0) { bindings.ChannelReestablish_free(ptr); }
 	}
 
-	public ChannelReestablish clone() {
-		long ret = bindings.ChannelReestablish_clone(this.ptr);
-		ChannelReestablish ret_hu_conv = new ChannelReestablish(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.ChannelReestablish_get_channel_id(this.ptr);
 		return ret;
@@ -46,6 +39,13 @@ public class ChannelReestablish extends CommonBase {
 
 	public void set_next_remote_commitment_number(long val) {
 		bindings.ChannelReestablish_set_next_remote_commitment_number(this.ptr, val);
+	}
+
+	public ChannelReestablish clone() {
+		long ret = bindings.ChannelReestablish_clone(this.ptr);
+		ChannelReestablish ret_hu_conv = new ChannelReestablish(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public byte[] write() {

@@ -14,13 +14,6 @@ public class CommitmentSigned extends CommonBase {
 		if (ptr != 0) { bindings.CommitmentSigned_free(ptr); }
 	}
 
-	public CommitmentSigned clone() {
-		long ret = bindings.CommitmentSigned_clone(this.ptr);
-		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.CommitmentSigned_get_channel_id(this.ptr);
 		return ret;
@@ -50,15 +43,21 @@ public class CommitmentSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public CommitmentSigned clone() {
+		long ret = bindings.CommitmentSigned_clone(this.ptr);
+		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.CommitmentSigned_write(this.ptr);
 		return ret;
 	}
 
-	public static CommitmentSigned constructor_read(byte[] ser) {
+	public static Result_CommitmentSignedDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.CommitmentSigned_read(ser);
-		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_CommitmentSignedDecodeErrorZ ret_hu_conv = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -14,13 +14,6 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 		if (ptr != 0) { bindings.UpdateFailMalformedHTLC_free(ptr); }
 	}
 
-	public UpdateFailMalformedHTLC clone() {
-		long ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
-		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
 		return ret;
@@ -48,15 +41,21 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 		bindings.UpdateFailMalformedHTLC_set_failure_code(this.ptr, val);
 	}
 
+	public UpdateFailMalformedHTLC clone() {
+		long ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
+		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.UpdateFailMalformedHTLC_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateFailMalformedHTLC constructor_read(byte[] ser) {
+	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.UpdateFailMalformedHTLC_read(ser);
-		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

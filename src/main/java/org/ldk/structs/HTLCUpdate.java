@@ -26,10 +26,9 @@ public class HTLCUpdate extends CommonBase {
 		return ret;
 	}
 
-	public static HTLCUpdate constructor_read(byte[] ser) {
+	public static Result_HTLCUpdateDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.HTLCUpdate_read(ser);
-		HTLCUpdate ret_hu_conv = new HTLCUpdate(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

@@ -14,13 +14,6 @@ public class NodeInfo extends CommonBase {
 		if (ptr != 0) { bindings.NodeInfo_free(ptr); }
 	}
 
-	public NodeInfo clone() {
-		long ret = bindings.NodeInfo_clone(this.ptr);
-		NodeInfo ret_hu_conv = new NodeInfo(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public void set_channels(long[] val) {
 		bindings.NodeInfo_set_channels(this.ptr, val);
 	}
@@ -55,6 +48,13 @@ public class NodeInfo extends CommonBase {
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(lowest_inbound_channel_fees_arg);
 		ret_hu_conv.ptrs_to.add(announcement_info_arg);
+		return ret_hu_conv;
+	}
+
+	public NodeInfo clone() {
+		long ret = bindings.NodeInfo_clone(this.ptr);
+		NodeInfo ret_hu_conv = new NodeInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

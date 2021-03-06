@@ -18,13 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ReplyChannelRange_free(this.ptr);
                     }
                 }
-	public ReplyChannelRange clone() {
-		number ret = bindings.ReplyChannelRange_clone(this.ptr);
-		const ret_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public Uint8Array get_chain_hash() {
 		Uint8Array ret = bindings.ReplyChannelRange_get_chain_hash(this.ptr);
 		return ret;
@@ -52,23 +45,30 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ReplyChannelRange_set_number_of_blocks(this.ptr, val);
 	}
 
-	public boolean get_full_information() {
-		boolean ret = bindings.ReplyChannelRange_get_full_information(this.ptr);
+	public boolean get_sync_complete() {
+		boolean ret = bindings.ReplyChannelRange_get_sync_complete(this.ptr);
 		return ret;
 	}
 
-	public void set_full_information(boolean val) {
-		bindings.ReplyChannelRange_set_full_information(this.ptr, val);
+	public void set_sync_complete(boolean val) {
+		bindings.ReplyChannelRange_set_sync_complete(this.ptr, val);
 	}
 
 	public void set_short_channel_ids(number[] val) {
 		bindings.ReplyChannelRange_set_short_channel_ids(this.ptr, val);
 	}
 
-	public static ReplyChannelRange constructor_new(Uint8Array chain_hash_arg, number first_blocknum_arg, number number_of_blocks_arg, boolean full_information_arg, number[] short_channel_ids_arg) {
-		number ret = bindings.ReplyChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg, full_information_arg, short_channel_ids_arg);
+	public static ReplyChannelRange constructor_new(Uint8Array chain_hash_arg, number first_blocknum_arg, number number_of_blocks_arg, boolean sync_complete_arg, number[] short_channel_ids_arg) {
+		number ret = bindings.ReplyChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, short_channel_ids_arg);
 		const ret_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public ReplyChannelRange clone() {
+		number ret = bindings.ReplyChannelRange_clone(this.ptr);
+		const ret_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

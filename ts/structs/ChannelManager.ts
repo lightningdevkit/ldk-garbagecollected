@@ -18,8 +18,8 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelManager_free(this.ptr);
                     }
                 }
-	public static ChannelManager constructor_new(LDKNetwork network, FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, number current_blockchain_height) {
-		number ret = bindings.ChannelManager_new(network, fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, current_blockchain_height);
+	public static ChannelManager constructor_new(FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, LDKNetwork params_network_arg, Uint8Array params_latest_hash_arg, number params_latest_height_arg) {
+		number ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, bindings.ChainParameters_new(params_network_arg, params_latest_hash_arg, params_latest_height_arg));
 		const ret_hu_conv: ChannelManager = new ChannelManager(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fee_est);
@@ -40,26 +40,26 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public ChannelDetails[] list_channels() {
 		number[] ret = bindings.ChannelManager_list_channels(this.ptr);
-		ChannelDetails[] arr_conv_16_arr = new ChannelDetails[ret.length];
+		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
 		for (int q = 0; q < ret.length; q++) {
-			number arr_conv_16 = ret[q];
-			const arr_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, arr_conv_16);
-			arr_conv_16_hu_conv.ptrs_to.add(this);
-			arr_conv_16_arr[q] = arr_conv_16_hu_conv;
+			number ret_conv_16 = ret[q];
+			const ret_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, ret_conv_16);
+			ret_conv_16_hu_conv.ptrs_to.add(this);
+			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
-		return arr_conv_16_arr;
+		return ret_conv_16_arr;
 	}
 
 	public ChannelDetails[] list_usable_channels() {
 		number[] ret = bindings.ChannelManager_list_usable_channels(this.ptr);
-		ChannelDetails[] arr_conv_16_arr = new ChannelDetails[ret.length];
+		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
 		for (int q = 0; q < ret.length; q++) {
-			number arr_conv_16 = ret[q];
-			const arr_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, arr_conv_16);
-			arr_conv_16_hu_conv.ptrs_to.add(this);
-			arr_conv_16_arr[q] = arr_conv_16_hu_conv;
+			number ret_conv_16 = ret[q];
+			const ret_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, ret_conv_16);
+			ret_conv_16_hu_conv.ptrs_to.add(this);
+			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
-		return arr_conv_16_arr;
+		return ret_conv_16_arr;
 	}
 
 	public Result_NoneAPIErrorZ close_channel(Uint8Array channel_id) {
@@ -91,7 +91,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void broadcast_node_announcement(Uint8Array rgb, Uint8Array alias, NetAddress[] addresses) {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, (number[])Arrays.stream(addresses).map(arr_conv_12 -> arr_conv_12.ptr).toArray());
+		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, Arrays.stream(addresses).map(addresses_conv_12 -> addresses_conv_12.ptr).toArray(number[]::new));
 		/* TODO 2 NetAddress  */;
 	}
 
@@ -137,13 +137,24 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public Listen as_Listen() {
+		number ret = bindings.ChannelManager_as_Listen(this.ptr);
+		Listen ret_hu_conv = new Listen(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public void block_connected(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
-		bindings.ChannelManager_block_connected(this.ptr, header, (number[])Arrays.stream(txdata).map(arr_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(arr_conv_30.a, arr_conv_30.b)).toArray(), height);
+		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new), height);
 		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
 	}
 
 	public void block_disconnected(Uint8Array header) {
 		bindings.ChannelManager_block_disconnected(this.ptr, header);
+	}
+
+	public void await_persistable_update() {
+		bindings.ChannelManager_await_persistable_update(this.ptr);
 	}
 
 	public ChannelMessageHandler as_ChannelMessageHandler() {

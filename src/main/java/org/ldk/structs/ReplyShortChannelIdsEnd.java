@@ -14,13 +14,6 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 		if (ptr != 0) { bindings.ReplyShortChannelIdsEnd_free(ptr); }
 	}
 
-	public ReplyShortChannelIdsEnd clone() {
-		long ret = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
-		ReplyShortChannelIdsEnd ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.ReplyShortChannelIdsEnd_get_chain_hash(this.ptr);
 		return ret;
@@ -43,6 +36,13 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 		long ret = bindings.ReplyShortChannelIdsEnd_new(chain_hash_arg, full_information_arg);
 		ReplyShortChannelIdsEnd ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public ReplyShortChannelIdsEnd clone() {
+		long ret = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
+		ReplyShortChannelIdsEnd ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

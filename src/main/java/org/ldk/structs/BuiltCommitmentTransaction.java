@@ -14,13 +14,6 @@ public class BuiltCommitmentTransaction extends CommonBase {
 		if (ptr != 0) { bindings.BuiltCommitmentTransaction_free(ptr); }
 	}
 
-	public BuiltCommitmentTransaction clone() {
-		long ret = bindings.BuiltCommitmentTransaction_clone(this.ptr);
-		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_transaction() {
 		byte[] ret = bindings.BuiltCommitmentTransaction_get_transaction(this.ptr);
 		return ret;
@@ -46,15 +39,21 @@ public class BuiltCommitmentTransaction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public BuiltCommitmentTransaction clone() {
+		long ret = bindings.BuiltCommitmentTransaction_clone(this.ptr);
+		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.BuiltCommitmentTransaction_write(this.ptr);
 		return ret;
 	}
 
-	public static BuiltCommitmentTransaction constructor_read(byte[] ser) {
+	public static Result_BuiltCommitmentTransactionDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.BuiltCommitmentTransaction_read(ser);
-		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_BuiltCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

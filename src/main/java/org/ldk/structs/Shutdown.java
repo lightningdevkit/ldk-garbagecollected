@@ -14,13 +14,6 @@ public class Shutdown extends CommonBase {
 		if (ptr != 0) { bindings.Shutdown_free(ptr); }
 	}
 
-	public Shutdown clone() {
-		long ret = bindings.Shutdown_clone(this.ptr);
-		Shutdown ret_hu_conv = new Shutdown(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.Shutdown_get_channel_id(this.ptr);
 		return ret;
@@ -46,15 +39,21 @@ public class Shutdown extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public Shutdown clone() {
+		long ret = bindings.Shutdown_clone(this.ptr);
+		Shutdown ret_hu_conv = new Shutdown(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.Shutdown_write(this.ptr);
 		return ret;
 	}
 
-	public static Shutdown constructor_read(byte[] ser) {
+	public static Result_ShutdownDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.Shutdown_read(ser);
-		Shutdown ret_hu_conv = new Shutdown(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

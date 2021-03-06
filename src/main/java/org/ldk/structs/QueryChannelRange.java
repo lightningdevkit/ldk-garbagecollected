@@ -14,13 +14,6 @@ public class QueryChannelRange extends CommonBase {
 		if (ptr != 0) { bindings.QueryChannelRange_free(ptr); }
 	}
 
-	public QueryChannelRange clone() {
-		long ret = bindings.QueryChannelRange_clone(this.ptr);
-		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.QueryChannelRange_get_chain_hash(this.ptr);
 		return ret;
@@ -52,6 +45,13 @@ public class QueryChannelRange extends CommonBase {
 		long ret = bindings.QueryChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg);
 		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public QueryChannelRange clone() {
+		long ret = bindings.QueryChannelRange_clone(this.ptr);
+		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

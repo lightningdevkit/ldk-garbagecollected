@@ -14,13 +14,6 @@ public class ClosingSigned extends CommonBase {
 		if (ptr != 0) { bindings.ClosingSigned_free(ptr); }
 	}
 
-	public ClosingSigned clone() {
-		long ret = bindings.ClosingSigned_clone(this.ptr);
-		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.ClosingSigned_get_channel_id(this.ptr);
 		return ret;
@@ -55,15 +48,21 @@ public class ClosingSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public ClosingSigned clone() {
+		long ret = bindings.ClosingSigned_clone(this.ptr);
+		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.ClosingSigned_write(this.ptr);
 		return ret;
 	}
 
-	public static ClosingSigned constructor_read(byte[] ser) {
+	public static Result_ClosingSignedDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.ClosingSigned_read(ser);
-		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

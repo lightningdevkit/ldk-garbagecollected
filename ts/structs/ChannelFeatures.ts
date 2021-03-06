@@ -18,4 +18,36 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelFeatures_free(this.ptr);
                     }
                 }
+	public ChannelFeatures clone() {
+		number ret = bindings.ChannelFeatures_clone(this.ptr);
+		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public static ChannelFeatures constructor_empty() {
+		number ret = bindings.ChannelFeatures_empty();
+		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static ChannelFeatures constructor_known() {
+		number ret = bindings.ChannelFeatures_known();
+		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public Uint8Array write() {
+		Uint8Array ret = bindings.ChannelFeatures_write(this.ptr);
+		return ret;
+	}
+
+	public static Result_ChannelFeaturesDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.ChannelFeatures_read(ser);
+		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

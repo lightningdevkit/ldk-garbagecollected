@@ -14,13 +14,6 @@ public class UpdateAddHTLC extends CommonBase {
 		if (ptr != 0) { bindings.UpdateAddHTLC_free(ptr); }
 	}
 
-	public UpdateAddHTLC clone() {
-		long ret = bindings.UpdateAddHTLC_clone(this.ptr);
-		UpdateAddHTLC ret_hu_conv = new UpdateAddHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.UpdateAddHTLC_get_channel_id(this.ptr);
 		return ret;
@@ -66,15 +59,21 @@ public class UpdateAddHTLC extends CommonBase {
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
 	}
 
+	public UpdateAddHTLC clone() {
+		long ret = bindings.UpdateAddHTLC_clone(this.ptr);
+		UpdateAddHTLC ret_hu_conv = new UpdateAddHTLC(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] write() {
 		byte[] ret = bindings.UpdateAddHTLC_write(this.ptr);
 		return ret;
 	}
 
-	public static UpdateAddHTLC constructor_read(byte[] ser) {
+	public static Result_UpdateAddHTLCDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.UpdateAddHTLC_read(ser);
-		UpdateAddHTLC ret_hu_conv = new UpdateAddHTLC(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

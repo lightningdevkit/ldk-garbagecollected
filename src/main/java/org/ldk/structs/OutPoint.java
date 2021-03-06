@@ -14,13 +14,6 @@ public class OutPoint extends CommonBase {
 		if (ptr != 0) { bindings.OutPoint_free(ptr); }
 	}
 
-	public OutPoint clone() {
-		long ret = bindings.OutPoint_clone(this.ptr);
-		OutPoint ret_hu_conv = new OutPoint(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
 	public byte[] get_txid() {
 		byte[] ret = bindings.OutPoint_get_txid(this.ptr);
 		return ret;
@@ -46,6 +39,13 @@ public class OutPoint extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public OutPoint clone() {
+		long ret = bindings.OutPoint_clone(this.ptr);
+		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public byte[] to_channel_id() {
 		byte[] ret = bindings.OutPoint_to_channel_id(this.ptr);
 		return ret;
@@ -56,10 +56,9 @@ public class OutPoint extends CommonBase {
 		return ret;
 	}
 
-	public static OutPoint constructor_read(byte[] ser) {
+	public static Result_OutPointDecodeErrorZ constructor_read(byte[] ser) {
 		long ret = bindings.OutPoint_read(ser);
-		OutPoint ret_hu_conv = new OutPoint(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		Result_OutPointDecodeErrorZ ret_hu_conv = Result_OutPointDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
