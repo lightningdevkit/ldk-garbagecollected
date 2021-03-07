@@ -66,11 +66,12 @@ class ConvInfo:
         self.from_hu_conv = from_hu_conv
 
 class TraitMethInfo:
-    def __init__(self, fn_name, self_is_const, ret_ty_info, args_ty):
+    def __init__(self, fn_name, self_is_const, ret_ty_info, args_ty, docs):
         self.fn_name = fn_name
         self.self_is_const = self_is_const
         self.ret_ty_info = ret_ty_info
         self.args_ty = args_ty
+        self.docs = docs
 
 class ComplexEnumVariantInfo:
     def __init__(self, var_name, fields):
