@@ -58,6 +58,35 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_conv;
 	}
 
+	public TwoTuple<Uint8Array, TwoTuple<Number, Uint8Array>[]>[] get_outputs_to_watch() {
+		number[] ret = bindings.ChannelMonitor_get_outputs_to_watch(this.ptr);
+		TwoTuple<Uint8Array, TwoTuple<Number, Uint8Array>[]>[] ret_conv_54_arr = new TwoTuple[ret.length];
+		for (int c = 0; c < ret.length; c++) {
+			number ret_conv_54 = ret[c];
+			Uint8Array ret_conv_54_a = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(ret_conv_54);
+			number[] ret_conv_54_b = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(ret_conv_54);
+			TwoTuple<Number, Uint8Array>[] ret_conv_54_b_conv_30_arr = new TwoTuple[ret_conv_54_b.length];
+			for (int e = 0; e < ret_conv_54_b.length; e++) {
+				number ret_conv_54_b_conv_30 = ret_conv_54_b[e];
+				number ret_conv_54_b_conv_30_a = bindings.LDKC2Tuple_u32ScriptZ_get_a(ret_conv_54_b_conv_30);
+				Uint8Array ret_conv_54_b_conv_30_b = bindings.LDKC2Tuple_u32ScriptZ_get_b(ret_conv_54_b_conv_30);
+				TwoTuple<Number, Uint8Array> ret_conv_54_b_conv_30_conv = new TwoTuple<Number, Uint8Array>(ret_conv_54_b_conv_30_a, ret_conv_54_b_conv_30_b, () -> {
+					bindings.C2Tuple_u32ScriptZ_free(ret_conv_54_b_conv_30);
+				});
+				ret_conv_54_b_conv_30_arr[e] = ret_conv_54_b_conv_30_conv;
+			};
+			TwoTuple<Uint8Array, TwoTuple<Number, Uint8Array>[]> ret_conv_54_conv = new TwoTuple<Uint8Array, TwoTuple<Number, Uint8Array>[]>(ret_conv_54_a, ret_conv_54_b_conv_30_arr);
+			// Warning: We may not free the C tuple object!
+			ret_conv_54_arr[c] = ret_conv_54_conv;
+		}
+		return ret_conv_54_arr;
+	}
+
+	public void load_outputs_to_watch(Filter filter) {
+		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter == null ? 0 : filter.ptr);
+		this.ptrs_to.add(filter);
+	}
+
 	public MonitorEvent[] get_and_clear_pending_monitor_events() {
 		number[] ret = bindings.ChannelMonitor_get_and_clear_pending_monitor_events(this.ptr);
 		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret.length];

@@ -5,6 +5,11 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * Indicates an error on the client's part (usually some variant of attempting to use too-low or
+ * too-high values)
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class APIError extends CommonBase {
 	private APIError(Object _dummy, long ptr) { super(ptr); }

@@ -5,6 +5,9 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+/**
+ * An interface to send a transaction to the Bitcoin network.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class BroadcasterInterface extends CommonBase {
 	final bindings.LDKBroadcasterInterface bindings_instance;
@@ -20,6 +23,9 @@ public class BroadcasterInterface extends CommonBase {
 	}
 
 	public static interface BroadcasterInterfaceInterface {
+		/**
+		 * Sends a transaction out to (hopefully) be mined.
+		 */
 		void broadcast_transaction(byte[] tx);
 	}
 	private static class LDKBroadcasterInterfaceHolder { BroadcasterInterface held; }
@@ -32,6 +38,9 @@ public class BroadcasterInterface extends CommonBase {
 		});
 		return impl_holder.held;
 	}
+	/**
+	 * Sends a transaction out to (hopefully) be mined.
+	 */
 	public void broadcast_transaction(byte[] tx) {
 		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, tx);
 	}

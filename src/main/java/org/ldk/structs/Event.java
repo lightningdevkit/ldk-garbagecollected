@@ -5,6 +5,14 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * An Event which you should probably take some action in response to.
+ * 
+ * Note that while Writeable and Readable are implemented for Event, you probably shouldn't use
+ * them directly as they don't round-trip exactly (for example FundingGenerationReady is never
+ * written as it makes no sense to respond to it after reconnecting to peers).
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Event extends CommonBase {
 	private Event(Object _dummy, long ptr) { super(ptr); }

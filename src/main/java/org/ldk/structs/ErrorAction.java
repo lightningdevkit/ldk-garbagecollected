@@ -5,6 +5,10 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * Used to put an error message in a LightningError
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ErrorAction extends CommonBase {
 	private ErrorAction(Object _dummy, long ptr) { super(ptr); }

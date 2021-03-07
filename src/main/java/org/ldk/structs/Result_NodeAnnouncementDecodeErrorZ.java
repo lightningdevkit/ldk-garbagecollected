@@ -5,7 +5,6 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
-@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Result_NodeAnnouncementDecodeErrorZ extends CommonBase {
 	private Result_NodeAnnouncementDecodeErrorZ(Object _dummy, long ptr) { super(ptr); }
 	protected void finalize() throws Throwable {

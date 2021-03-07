@@ -5,6 +5,12 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * The information we received from a peer along the route of a payment we originated. This is
+ * returned by ChannelMessageHandler::handle_update_fail_htlc to be passed into
+ * RoutingMessageHandler::handle_htlc_fail_channel_update to update our network map.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class HTLCFailChannelUpdate extends CommonBase {
 	private HTLCFailChannelUpdate(Object _dummy, long ptr) { super(ptr); }

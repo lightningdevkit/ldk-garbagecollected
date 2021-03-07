@@ -5,6 +5,9 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+/**
+ * A trait encapsulating the operations required of a logger
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Logger extends CommonBase {
 	final bindings.LDKLogger bindings_instance;
@@ -20,6 +23,9 @@ public class Logger extends CommonBase {
 	}
 
 	public static interface LoggerInterface {
+		/**
+		 * Logs the `Record`
+		 */
 		void log(String record);
 	}
 	private static class LDKLoggerHolder { Logger held; }

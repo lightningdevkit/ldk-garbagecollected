@@ -5,6 +5,12 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * If a payment fails to send, it can be in one of several states. This enum is returned as the
+ * Err() type describing which state the payment is in, see the description of individual enum
+ * states for more.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class PaymentSendFailure extends CommonBase {
 	private PaymentSendFailure(Object _dummy, long ptr) { super(ptr); }

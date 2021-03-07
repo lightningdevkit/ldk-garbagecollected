@@ -5,6 +5,10 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+/**
+ * The `Access` trait defines behavior for accessing chain data and state, such as blocks and
+ * UTXOs.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Access extends CommonBase {
 	final bindings.LDKAccess bindings_instance;
@@ -20,6 +24,13 @@ public class Access extends CommonBase {
 	}
 
 	public static interface AccessInterface {
+		/**
+		 * Returns the transaction output of a funding transaction encoded by [`short_channel_id`].
+		 * Returns an error if `genesis_hash` is for a different chain or if such a transaction output
+		 * is unknown.
+		 * 
+		 * [`short_channel_id`]: https://github.com/lightningnetwork/lightning-rfc/blob/master/07-routing-gossip.md#definition-of-short_channel_id
+		 */
 		Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id);
 	}
 	private static class LDKAccessHolder { Access held; }
@@ -34,6 +45,13 @@ public class Access extends CommonBase {
 		});
 		return impl_holder.held;
 	}
+	/**
+	 * Returns the transaction output of a funding transaction encoded by [`short_channel_id`].
+	 * Returns an error if `genesis_hash` is for a different chain or if such a transaction output
+	 * is unknown.
+	 * 
+	 * [`short_channel_id`]: https://github.com/lightningnetwork/lightning-rfc/blob/master/07-routing-gossip.md#definition-of-short_channel_id
+	 */
 	public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
 		long ret = bindings.Access_get_utxo(this.ptr, genesis_hash, short_channel_id);
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
