@@ -320,7 +320,6 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
-@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 """
         self.c_fn_ty_pfx = "JNIEXPORT "
         self.c_fn_args_pfx = "JNIEnv *env, jclass clz"
@@ -398,14 +397,16 @@ import java.util.Arrays;
         res = res + "}\n"
         return res
 
-    def native_c_unitary_enum_map(self, struct_name, variants):
+    def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_java_enum = "package org.ldk.enums;\n\n"
         out_java = ""
         out_c = ""
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
         out_c = out_c + "\tswitch ((*env)->CallIntMethod(env, clz, ordinal_meth)) {\n"
 
-        out_java_enum = out_java_enum + "public enum " + struct_name + " {\n"
+        if enum_doc_comment is not None:
+            out_java_enum += "/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
+        out_java_enum += "public enum " + struct_name + " {\n"
         ord_v = 0
         for var in variants:
             out_java_enum = out_java_enum + "\t" + var + ",\n"
@@ -474,12 +475,15 @@ import java.util.Arrays;
             ret = ret + ", " + param
         return ret + ")"
 
-    def native_c_map_trait(self, struct_name, field_vars, field_fns):
+    def native_c_map_trait(self, struct_name, field_vars, field_fns, trait_doc_comment):
         out_java_trait = ""
         out_java = ""
 
         # First generate most of the Java code, note that we need information about java method argument strings for C
         out_java_trait = out_java_trait + self.hu_struct_file_prefix
+        if trait_doc_comment is not None:
+            out_java_trait += "/**\n * " + trait_doc_comment.replace("\n", "\n * ") + "\n */\n"
+        out_java_trait += "@SuppressWarnings(\"unchecked\") // We correctly assign various generic arrays\n"
         out_java_trait = out_java_trait + "public class " + struct_name.replace("LDK","") + " extends CommonBase {\n"
         out_java_trait = out_java_trait + "\tfinal bindings." + struct_name + " bindings_instance;\n"
         out_java_trait = out_java_trait + "\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }\n"
@@ -533,6 +537,7 @@ import java.util.Arrays;
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
                 out_java = out_java + "\t\t " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
                 java_trait_constr = java_trait_constr + "\t\t\t@Override public " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
+                out_java_trait += "\t\t/**\n\t\t * " + fn_line.docs.replace("\n", "\n\t\t * ") + "\n\t\t */\n"
                 out_java_trait = out_java_trait + "\t\t" + fn_line.ret_ty_info.java_hu_ty + " " + fn_line.fn_name + "("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
@@ -753,13 +758,15 @@ import java.util.Arrays;
         base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv.this_arg);\n}"
         return base_conv
 
-    def map_complex_enum(self, struct_name, variant_list, camel_to_snake):
+    def map_complex_enum(self, struct_name, variant_list, camel_to_snake, enum_doc_comment):
         java_hu_type = struct_name.replace("LDK", "")
         out_java_enum = ""
         out_java = ""
         out_c = ""
 
         out_java_enum += (self.hu_struct_file_prefix)
+        out_java_enum += "\n/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
+        out_java_enum += "@SuppressWarnings(\"unchecked\") // We correctly assign various generic arrays\n"
         out_java_enum += ("public class " + java_hu_type + " extends CommonBase {\n")
         out_java_enum += ("\tprivate " + java_hu_type + "(Object _dummy, long ptr) { super(ptr); }\n")
         out_java_enum += ("\t@Override @SuppressWarnings(\"deprecation\")\n")
@@ -837,9 +844,11 @@ import java.util.Arrays;
         out_java_enum += ("}\n")
         return (out_java, out_java_enum, out_c)
 
-    def map_opaque_struct(self, struct_name):
+    def map_opaque_struct(self, struct_name, struct_doc_comment):
         out_opaque_struct_human = ""
         out_opaque_struct_human += self.hu_struct_file_prefix
+        out_opaque_struct_human += "\n/**\n * " + struct_doc_comment.replace("\n", "\n * ") + "\n */\n"
+        out_opaque_struct_human += "@SuppressWarnings(\"unchecked\") // We correctly assign various generic arrays\n"
         out_opaque_struct_human += ("public class " + struct_name.replace("LDK","") + " extends CommonBase")
         if struct_name.startswith("LDKLocked"):
             out_opaque_struct_human += (" implements AutoCloseable")
@@ -856,7 +865,7 @@ import java.util.Arrays;
         return out_opaque_struct_human
 
 
-    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator):
+    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None
@@ -884,6 +893,8 @@ import java.util.Arrays;
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
             meth_n = method_name[len(struct_meth) + 1:]
+            if doc_comment is not None:
+                out_java_struct += "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
             if not takes_self:
                 out_java_struct += (
                     "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")

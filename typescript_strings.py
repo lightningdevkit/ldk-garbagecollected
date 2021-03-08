@@ -436,7 +436,7 @@ const decodeString = (stringPointer, free = true) => {
     def init_str(self):
         return ""
 
-    def native_c_unitary_enum_map(self, struct_name, variants):
+    def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_c = "static inline " + struct_name + " " + struct_name + "_from_js(int32_t ord) {\n"
         out_c = out_c + "\tswitch (ord) {\n"
         ord_v = 0
@@ -483,7 +483,7 @@ const decodeString = (stringPointer, free = true) => {
             ret = ret + "; (void) " + param
         return ret
 
-    def native_c_map_trait(self, struct_name, field_var_conversions, field_function_lines):
+    def native_c_map_trait(self, struct_name, field_var_conversions, field_function_lines, trait_doc_comment):
         out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
 
         constructor_arguments = ""
@@ -790,7 +790,7 @@ const decodeString = (stringPointer, free = true) => {
     def trait_struct_inc_refcnt(self, ty_info):
         return ""
 
-    def map_complex_enum(self, struct_name, variant_list, camel_to_snake):
+    def map_complex_enum(self, struct_name, variant_list, camel_to_snake, enum_doc_comment):
         java_hu_type = struct_name.replace("LDK", "")
 
         out_java_enum = ""
@@ -867,7 +867,7 @@ const decodeString = (stringPointer, free = true) => {
         out_java_enum += (java_hu_subclasses)
         return (out_java, out_java_enum, out_c)
 
-    def map_opaque_struct(self, struct_name):
+    def map_opaque_struct(self, struct_name, struct_doc_comment):
         implementations = ""
         method_header = ""
         if struct_name.startswith("LDKLocked"):
@@ -897,7 +897,7 @@ const decodeString = (stringPointer, free = true) => {
 """
         return out_opaque_struct_human
 
-    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator):
+    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None

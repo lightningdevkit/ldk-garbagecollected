@@ -5,6 +5,15 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+/**
+ * A trait to describe an object which can receive routing messages.
+ * 
+ * # Implementor DoS Warnings
+ * 
+ * For `gossip_queries` messages there are potential DoS vectors when handling
+ * inbound queries. Implementors using an on-disk network graph should be aware of
+ * repeated disk I/O for queries accessing different parts of the network graph.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class RoutingMessageHandler extends CommonBase {
 	final bindings.LDKRoutingMessageHandler bindings_instance;
@@ -21,16 +30,66 @@ public class RoutingMessageHandler extends CommonBase {
 	}
 
 	public static interface RoutingMessageHandlerInterface {
+		/**
+		 * Handle an incoming node_announcement message, returning true if it should be forwarded on,
+		 * false or returning an Err otherwise.
+		 */
 		Result_boolLightningErrorZ handle_node_announcement(NodeAnnouncement msg);
+		/**
+		 * Handle a channel_announcement message, returning true if it should be forwarded on, false
+		 * or returning an Err otherwise.
+		 */
 		Result_boolLightningErrorZ handle_channel_announcement(ChannelAnnouncement msg);
+		/**
+		 * Handle an incoming channel_update message, returning true if it should be forwarded on,
+		 * false or returning an Err otherwise.
+		 */
 		Result_boolLightningErrorZ handle_channel_update(ChannelUpdate msg);
+		/**
+		 * Handle some updates to the route graph that we learned due to an outbound failed payment.
+		 */
 		void handle_htlc_fail_channel_update(HTLCFailChannelUpdate update);
+		/**
+		 * Gets a subset of the channel announcements and updates required to dump our routing table
+		 * to a remote node, starting at the short_channel_id indicated by starting_point and
+		 * including the batch_amount entries immediately higher in numerical value than starting_point.
+		 */
 		ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] get_next_channel_announcements(long starting_point, byte batch_amount);
+		/**
+		 * Gets a subset of the node announcements required to dump our routing table to a remote node,
+		 * starting at the node *after* the provided publickey and including batch_amount entries
+		 * immediately higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
+		 * If None is provided for starting_point, we start at the first node.
+		 */
 		NodeAnnouncement[] get_next_node_announcements(byte[] starting_point, byte batch_amount);
+		/**
+		 * Called when a connection is established with a peer. This can be used to
+		 * perform routing table synchronization using a strategy defined by the
+		 * implementor.
+		 */
 		void sync_routing_table(byte[] their_node_id, Init init);
+		/**
+		 * Handles the reply of a query we initiated to learn about channels
+		 * for a given range of blocks. We can expect to receive one or more
+		 * replies to a single query.
+		 */
 		Result_NoneLightningErrorZ handle_reply_channel_range(byte[] their_node_id, ReplyChannelRange msg);
+		/**
+		 * Handles the reply of a query we initiated asking for routing gossip
+		 * messages for a list of channels. We should receive this message when
+		 * a node has completed its best effort to send us the pertaining routing
+		 * gossip messages.
+		 */
 		Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(byte[] their_node_id, ReplyShortChannelIdsEnd msg);
+		/**
+		 * Handles when a peer asks us to send a list of short_channel_ids
+		 * for the requested range of blocks.
+		 */
 		Result_NoneLightningErrorZ handle_query_channel_range(byte[] their_node_id, QueryChannelRange msg);
+		/**
+		 * Handles when a peer asks us to send routing gossip messages for a
+		 * list of short_channel_ids.
+		 */
 		Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] their_node_id, QueryShortChannelIds msg);
 	}
 	private static class LDKRoutingMessageHandlerHolder { RoutingMessageHandler held; }
@@ -106,6 +165,10 @@ public class RoutingMessageHandler extends CommonBase {
 		}, MessageSendEventsProvider.new_impl(MessageSendEventsProvider_impl).bindings_instance);
 		return impl_holder.held;
 	}
+	/**
+	 * Handle an incoming node_announcement message, returning true if it should be forwarded on,
+	 * false or returning an Err otherwise.
+	 */
 	public Result_boolLightningErrorZ handle_node_announcement(NodeAnnouncement msg) {
 		long ret = bindings.RoutingMessageHandler_handle_node_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
@@ -113,6 +176,10 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Handle a channel_announcement message, returning true if it should be forwarded on, false
+	 * or returning an Err otherwise.
+	 */
 	public Result_boolLightningErrorZ handle_channel_announcement(ChannelAnnouncement msg) {
 		long ret = bindings.RoutingMessageHandler_handle_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
@@ -120,6 +187,10 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Handle an incoming channel_update message, returning true if it should be forwarded on,
+	 * false or returning an Err otherwise.
+	 */
 	public Result_boolLightningErrorZ handle_channel_update(ChannelUpdate msg) {
 		long ret = bindings.RoutingMessageHandler_handle_channel_update(this.ptr, msg == null ? 0 : msg.ptr & ~1);
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
@@ -127,11 +198,19 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Handle some updates to the route graph that we learned due to an outbound failed payment.
+	 */
 	public void handle_htlc_fail_channel_update(HTLCFailChannelUpdate update) {
 		bindings.RoutingMessageHandler_handle_htlc_fail_channel_update(this.ptr, update == null ? 0 : update.ptr & ~1);
 		this.ptrs_to.add(update);
 	}
 
+	/**
+	 * Gets a subset of the channel announcements and updates required to dump our routing table
+	 * to a remote node, starting at the short_channel_id indicated by starting_point and
+	 * including the batch_amount entries immediately higher in numerical value than starting_point.
+	 */
 	public ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_channel_announcements(this.ptr, starting_point, batch_amount);
 		ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret_conv_63_arr = new ThreeTuple[ret.length];
@@ -157,6 +236,12 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_conv_63_arr;
 	}
 
+	/**
+	 * Gets a subset of the node announcements required to dump our routing table to a remote node,
+	 * starting at the node *after* the provided publickey and including batch_amount entries
+	 * immediately higher (as defined by <PublicKey as Ord>::cmp) than starting_point.
+	 * If None is provided for starting_point, we start at the first node.
+	 */
 	public NodeAnnouncement[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, starting_point, batch_amount);
 		NodeAnnouncement[] ret_conv_18_arr = new NodeAnnouncement[ret.length];
@@ -169,11 +254,21 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_conv_18_arr;
 	}
 
+	/**
+	 * Called when a connection is established with a peer. This can be used to
+	 * perform routing table synchronization using a strategy defined by the
+	 * implementor.
+	 */
 	public void sync_routing_table(byte[] their_node_id, Init init) {
 		bindings.RoutingMessageHandler_sync_routing_table(this.ptr, their_node_id, init == null ? 0 : init.ptr & ~1);
 		this.ptrs_to.add(init);
 	}
 
+	/**
+	 * Handles the reply of a query we initiated to learn about channels
+	 * for a given range of blocks. We can expect to receive one or more
+	 * replies to a single query.
+	 */
 	public Result_NoneLightningErrorZ handle_reply_channel_range(byte[] their_node_id, ReplyChannelRange msg) {
 		long ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
@@ -181,6 +276,12 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Handles the reply of a query we initiated asking for routing gossip
+	 * messages for a list of channels. We should receive this message when
+	 * a node has completed its best effort to send us the pertaining routing
+	 * gossip messages.
+	 */
 	public Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(byte[] their_node_id, ReplyShortChannelIdsEnd msg) {
 		long ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
@@ -188,6 +289,10 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Handles when a peer asks us to send a list of short_channel_ids
+	 * for the requested range of blocks.
+	 */
 	public Result_NoneLightningErrorZ handle_query_channel_range(byte[] their_node_id, QueryChannelRange msg) {
 		long ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
@@ -195,6 +300,10 @@ public class RoutingMessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Handles when a peer asks us to send routing gossip messages for a
+	 * list of short_channel_ids.
+	 */
 	public Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] their_node_id, QueryShortChannelIds msg) {
 		long ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);

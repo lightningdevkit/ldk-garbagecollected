@@ -5,6 +5,10 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * An error in decoding a message or struct.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class DecodeError extends CommonBase {
 	DecodeError(Object _dummy, long ptr) { super(ptr); }
@@ -14,6 +18,9 @@ public class DecodeError extends CommonBase {
 		if (ptr != 0) { bindings.DecodeError_free(ptr); }
 	}
 
+	/**
+	 * Creates a copy of the DecodeError
+	 */
 	public DecodeError clone() {
 		long ret = bindings.DecodeError_clone(this.ptr);
 		DecodeError ret_hu_conv = new DecodeError(null, ret);

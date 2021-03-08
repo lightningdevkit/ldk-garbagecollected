@@ -5,6 +5,10 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * An address which can be used to connect to a remote peer
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class NetAddress extends CommonBase {
 	private NetAddress(Object _dummy, long ptr) { super(ptr); }

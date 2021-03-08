@@ -5,6 +5,10 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * An event to be processed by the ChannelManager.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class MonitorEvent extends CommonBase {
 	private MonitorEvent(Object _dummy, long ptr) { super(ptr); }

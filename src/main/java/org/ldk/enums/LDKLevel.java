@@ -1,5 +1,8 @@
 package org.ldk.enums;
 
+/**
+ * An enum representing the available verbosity levels of the logger.
+ */
 public enum LDKLevel {
 	LDKLevel_Off,
 	LDKLevel_Error,

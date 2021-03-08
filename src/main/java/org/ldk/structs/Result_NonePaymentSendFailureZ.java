@@ -5,7 +5,6 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
-@SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Result_NonePaymentSendFailureZ extends CommonBase {
 	private Result_NonePaymentSendFailureZ(Object _dummy, long ptr) { super(ptr); }
 	protected void finalize() throws Throwable {

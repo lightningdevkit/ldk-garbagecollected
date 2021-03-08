@@ -5,6 +5,14 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * When on-chain outputs are created by rust-lightning (which our counterparty is not able to
+ * claim at any point in the future) an event is generated which you must track and be able to
+ * spend on-chain. The information needed to do this is provided in this enum, including the
+ * outpoint describing which txid and output index is available, the full output which exists at
+ * that txid/index, and any keys or other information required to sign.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class SpendableOutputDescriptor extends CommonBase {
 	private SpendableOutputDescriptor(Object _dummy, long ptr) { super(ptr); }

@@ -88,6 +88,7 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_arg = fn_arg[7:]
     if fn_arg.startswith("enum "):
         fn_arg = fn_arg[5:]
+    nonnull_ptr = "NONNULL_PTR" in fn_arg
     fn_arg = fn_arg.replace("NONNULL_PTR", "")
 
     is_ptr = False
@@ -172,11 +173,13 @@ def java_c_types(fn_arg, ret_arr_len):
             res.pass_by_ref = True
         if res.is_native_primitive or res.passed_as_ptr:
             return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=res.java_ty + "[]", java_hu_ty=res.java_hu_ty + "[]",
-                java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=res.c_ty + "Array", passed_as_ptr=False, is_ptr=is_ptr, is_const=is_const,
+                java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=res.c_ty + "Array", passed_as_ptr=False, is_ptr=is_ptr,
+                nonnull_ptr=nonnull_ptr, is_const=is_const,
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
         else:
             return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=res.java_ty + "[]", java_hu_ty=res.java_hu_ty + "[]",
-                java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=consts.ptr_arr, passed_as_ptr=False, is_ptr=is_ptr, is_const=is_const,
+                java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=consts.ptr_arr, passed_as_ptr=False, is_ptr=is_ptr,
+                nonnull_ptr=nonnull_ptr, is_const=is_const,
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
 
     is_primitive = False
@@ -322,14 +325,16 @@ def java_c_types(fn_arg, ret_arr_len):
         if var_is_arr is not None:
             if var_is_arr.group(1) == "":
                 return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
-                    passed_as_ptr=False, is_ptr=False, var_name="arg", arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False)
+                    passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name="arg",
+                    arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False)
             return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
-                passed_as_ptr=False, is_ptr=False, var_name=var_is_arr.group(1), arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False)
+                passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name=var_is_arr.group(1),
+                arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False)
 
     if java_hu_ty is None:
         java_hu_ty = java_ty
     return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
-        is_const=is_const, is_ptr=is_ptr, var_name=fn_arg, arr_len=arr_len, arr_access=arr_access, is_native_primitive=is_primitive)
+        is_const=is_const, is_ptr=is_ptr, nonnull_ptr=nonnull_ptr, var_name=fn_arg, arr_len=arr_len, arr_access=arr_access, is_native_primitive=is_primitive)
 
 fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
 fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
@@ -369,7 +374,7 @@ with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:
 
 with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     # Map a top-level function
-    def map_fn(line, re_match, ret_arr_len, c_call_string):
+    def map_fn(line, re_match, ret_arr_len, c_call_string, doc_comment):
         method_return_type = re_match.group(1)
         method_name = re_match.group(2)
         method_comma_separated_arguments = re_match.group(3)
@@ -405,7 +410,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             argument_types.append(argument_conversion_info)
 
         out_java.write("\t// " + line)
-        (out_java_delta, out_c_delta, out_java_struct_delta) = consts.map_function(argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator)
+        (out_java_delta, out_c_delta, out_java_struct_delta) = \
+            consts.map_function(argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator, doc_comment)
         out_java.write(out_java_delta)
 
         if is_free:
@@ -439,7 +445,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         if out_java_struct is not None:
             out_java_struct.write(out_java_struct_delta)
 
-    def map_unitary_enum(struct_name, field_lines):
+    def map_unitary_enum(struct_name, field_lines, enum_doc_comment):
         with open(f"{sys.argv[3]}/enums/{struct_name}{consts.file_ext}", "w") as out_java_enum:
             unitary_enums.add(struct_name)
             for idx, struct_line in enumerate(field_lines):
@@ -451,12 +457,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     assert(struct_line == "} %s;" % struct_name)
                 elif idx == len(field_lines) - 1:
                     assert(struct_line == "")
-            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name, [x.strip().strip(",") for x in field_lines[1:-3]])
+            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name, [x.strip().strip(",") for x in field_lines[1:-3]], enum_doc_comment)
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
 
-    def map_complex_enum(struct_name, union_enum_items):
+    def map_complex_enum(struct_name, union_enum_items, enum_doc_comment):
         java_hu_type = struct_name.replace("LDK", "")
         complex_enums.add(struct_name)
 
@@ -488,13 +494,13 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 enum_variants.append(ComplexEnumVariantInfo(variant_name, fields))
 
         with open(f"{sys.argv[3]}/structs/{java_hu_type}{consts.file_ext}", "w") as out_java_enum:
-            (out_java_addendum, out_java_enum_addendum, out_c_addendum) = consts.map_complex_enum(struct_name, enum_variants, camel_to_snake)
+            (out_java_addendum, out_java_enum_addendum, out_c_addendum) = consts.map_complex_enum(struct_name, enum_variants, camel_to_snake, enum_doc_comment)
 
             out_java_enum.write(out_java_enum_addendum)
             out_java.write(out_java_addendum)
             write_c(out_c_addendum)
 
-    def map_trait(struct_name, field_var_lines, trait_fn_lines):
+    def map_trait(struct_name, field_var_lines, trait_fn_lines, trait_doc_comment):
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_trait:
             field_var_convs = []
             for var_line in field_var_lines:
@@ -505,7 +511,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         type_mapping_generator.map_type(var_line.group(1) + " " + var_line.group(2), False, None, False, False))
 
             field_fns = []
-            for fn_line in trait_fn_lines:
+            for fn_docs, fn_line in trait_fn_lines:
                 ret_ty_info = type_mapping_generator.map_type(fn_line.group(2), True, None, False, False)
                 is_const = fn_line.group(4) is not None
 
@@ -515,19 +521,19 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         continue
                     arg_conv_info = type_mapping_generator.map_type(arg, True, None, False, False)
                     arg_tys.append(arg_conv_info)
-                field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys))
+                field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys, fn_docs))
 
-            (out_java_addendum, out_java_trait_addendum, out_c_addendum) = consts.native_c_map_trait(struct_name, field_var_convs, field_fns)
+            (out_java_addendum, out_java_trait_addendum, out_c_addendum) = consts.native_c_map_trait(struct_name, field_var_convs, field_fns, trait_doc_comment)
             write_c(out_c_addendum)
             out_java_trait.write(out_java_trait_addendum)
             out_java.write(out_java_addendum)
 
-        for fn_line in trait_fn_lines:
+        for fn_docs, fn_line in trait_fn_lines:
             # For now, just disable enabling the _call_log - we don't know how to inverse-map String
             is_log = fn_line.group(3) == "log" and struct_name == "LDKLogger"
             if fn_line.group(3) != "free" and fn_line.group(3) != "clone" and fn_line.group(3) != "eq" and not is_log:
-                dummy_line = fn_line.group(2) + struct_name.replace("LDK", "") + "_" + fn_line.group(3) + " " + struct_name + "* this_arg" + fn_line.group(5) + "\n"
-                map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(this_arg_conv->" + fn_line.group(3) + ")(this_arg_conv->this_arg")
+                dummy_line = fn_line.group(2) + struct_name.replace("LDK", "") + "_" + fn_line.group(3) + " " + struct_name + " *NONNULL_PTR this_arg" + fn_line.group(5) + "\n"
+                map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(this_arg_conv->" + fn_line.group(3) + ")(this_arg_conv->this_arg", fn_docs)
         for idx, var_line in enumerate(field_var_lines):
             if var_line.group(1) not in trait_structs:
                 write_c(var_line.group(1) + " " + struct_name + "_set_get_" + var_line.group(2) + "(" + struct_name + "* this_arg) {\n")
@@ -535,8 +541,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 write_c("\t\tthis_arg->set_" + var_line.group(2) + "(this_arg);\n")
                 write_c("\treturn this_arg->" + var_line.group(2) + ";\n")
                 write_c("}\n")
-                dummy_line = var_line.group(1) + " " + struct_name.replace("LDK", "") + "_get_" + var_line.group(2) + " " + struct_name + "* this_arg" + fn_line.group(5) + "\n"
-                map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, struct_name + "_set_get_" + var_line.group(2) + "(this_arg_conv")
+                dummy_line = var_line.group(1) + " " + struct_name.replace("LDK", "") + "_get_" + var_line.group(2) + " " + struct_name + " *NONNULL_PTR this_arg" + fn_line.group(5) + "\n"
+                map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, struct_name + "_set_get_" + var_line.group(2) + "(this_arg_conv", fn_docs)
 
     def map_result(struct_name, res_ty, err_ty):
         result_types.add(struct_name)
@@ -694,7 +700,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "w") as out_java_struct:
         out_java_struct.write(consts.common_base)
 
-    in_block_comment = False
+    block_comment = None
+    last_block_comment = None
     cur_block_obj = None
 
     const_val_regex = re.compile("^extern const ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
@@ -717,9 +724,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     union_enum_items = {}
     result_ptr_struct_items = {}
     for line in in_h:
-        if in_block_comment:
+        if block_comment is not None:
             if line.endswith("*/\n"):
-                in_block_comment = False
+                last_block_comment = block_comment.strip("\n")
+                block_comment = None
+            else:
+                block_comment = block_comment + line.strip(" /*")
         elif cur_block_obj is not None:
             cur_block_obj  = cur_block_obj + line
             if line.startswith("} "):
@@ -738,10 +748,13 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
                 for idx, struct_line in enumerate(obj_lines):
                     if struct_line.strip().startswith("/*"):
-                        in_block_comment = True
-                    if in_block_comment:
+                        block_comment = struct_line.strip(" /*")
+                    if block_comment is not None:
                         if struct_line.endswith("*/"):
-                            in_block_comment = False
+                            last_struct_block_comment = block_comment.strip("\n")
+                            block_comment = None
+                        else:
+                            block_comment = block_comment + "\n" + struct_line.strip(" /*")
                     else:
                         struct_name_match = struct_name_regex.match(struct_line)
                         if struct_name_match is not None:
@@ -765,7 +778,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                             is_tuple = True
                         trait_fn_match = line_indicates_trait_regex.match(struct_line)
                         if trait_fn_match is not None:
-                            trait_fn_lines.append(trait_fn_match)
+                            trait_fn_lines.append((last_struct_block_comment, trait_fn_match))
                         field_var_match = line_field_var_regex.match(struct_line)
                         if field_var_match is not None:
                             field_var_lines.append(field_var_match)
@@ -783,7 +796,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 if is_opaque:
                     opaque_structs.add(struct_name)
                     with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_struct:
-                        out_opaque_struct_human = consts.map_opaque_struct(struct_name)
+                        out_opaque_struct_human = consts.map_opaque_struct(struct_name, last_block_comment)
+                        last_block_comment = None
                         out_java_struct.write(out_opaque_struct_human)
                 elif result_contents is not None:
                     assert result_contents in result_ptr_struct_items
@@ -850,12 +864,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     enum_var_name = struct_name.split("_")
                     union_enum_items[enum_var_name[0]][enum_var_name[1]] = field_lines
                 elif struct_name in union_enum_items:
-                    map_complex_enum(struct_name, union_enum_items[struct_name])
+                    map_complex_enum(struct_name, union_enum_items[struct_name], last_block_comment)
+                    last_block_comment = None
                 elif is_unitary_enum:
-                    map_unitary_enum(struct_name, field_lines)
+                    map_unitary_enum(struct_name, field_lines, last_block_comment)
+                    last_block_comment = None
                 elif len(trait_fn_lines) > 0:
                     trait_structs.add(struct_name)
-                    map_trait(struct_name, field_var_lines, trait_fn_lines)
+                    map_trait(struct_name, field_var_lines, trait_fn_lines, last_block_comment)
                 elif struct_name == "LDKTxOut":
                     with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
@@ -881,9 +897,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             if line.startswith("#include <"):
                 pass
             elif line.startswith("/*"):
-                #out_java.write("\t" + line)
                 if not line.endswith("*/\n"):
-                    in_block_comment = True
+                    block_comment = line.strip(" /*")
             elif line.startswith("typedef enum "):
                 cur_block_obj = line
             elif line.startswith("typedef struct "):
@@ -891,11 +906,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             elif line.startswith("typedef union "):
                 cur_block_obj = line
             elif fn_ptr is not None:
-                map_fn(line, fn_ptr, None, None)
+                map_fn(line, fn_ptr, None, None, last_block_comment)
+                last_block_comment = None
             elif fn_ret_arr is not None:
-                map_fn(line, fn_ret_arr, fn_ret_arr.group(4), None)
+                map_fn(line, fn_ret_arr, fn_ret_arr.group(4), None, last_block_comment)
+                last_block_comment = None
             elif reg_fn is not None:
-                map_fn(line, reg_fn, None, None)
+                map_fn(line, reg_fn, None, None, last_block_comment)
+                last_block_comment = None
             elif const_val_regex is not None:
                 # TODO Map const variables
                 pass

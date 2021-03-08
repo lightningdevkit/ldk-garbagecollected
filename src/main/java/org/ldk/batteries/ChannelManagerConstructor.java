@@ -1,5 +1,6 @@
 package org.ldk.batteries;
 
+import org.jetbrains.annotations.Nullable;
 import org.ldk.enums.LDKNetwork;
 import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;
@@ -37,9 +38,11 @@ public class ChannelManagerConstructor {
 
     /**
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
+     *
+     * @param filter If provided, the outputs which were previously registered to be monitored for will be loaded into the filter.
      */
     public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized,
-                                     KeysInterface keys_interface, FeeEstimator fee_estimator, Watch chain_watch,
+                                     KeysInterface keys_interface, FeeEstimator fee_estimator, Watch chain_watch, @Nullable Filter filter,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
         this.channel_monitors = new TwoTuple[monitors.length];
@@ -60,6 +63,11 @@ public class ChannelManagerConstructor {
         this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.b;
         this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.a;
         this.chain_watch = chain_watch;
+        if (filter != null) {
+            for (ChannelMonitor monitor : monitors) {
+                monitor.load_outputs_to_watch(filter);
+            }
+        }
     }
 
     /**

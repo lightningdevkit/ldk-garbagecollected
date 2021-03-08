@@ -414,10 +414,24 @@ class TypeMappingGenerator:
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                 elif ty_info.rust_obj in self.trait_structs:
+                    if ty_info.nonnull_ptr:
+                        arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)(((uint64_t)" + ty_info.var_name + ") & ~1);"
+                        arg_conv_name = ty_info.var_name + "_conv"
+                    else:
+                        # We map Option<Trait> as *mut Trait, which we can differentiate from &Trait by the NONNULL_PTR annotation.
+                        # We handle the Option<Trait> case here.
+                        arg_conv = ty_info.rust_obj + " *" + ty_info.var_name + "_conv_ptr = NULL;\n"
+                        arg_conv += "if (" + ty_info.var_name + " != 0) {\n"
+                        arg_conv += "\t" + ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
+                        arg_conv += "\t" + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)(((uint64_t)" + ty_info.var_name + ") & ~1);"
+                        arg_conv += self.consts.trait_struct_inc_refcnt(ty_info).replace("\n", "\n\t")
+                        arg_conv += "\n\t" + ty_info.var_name + "_conv_ptr = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n"
+                        arg_conv += "\t*" + ty_info.var_name + "_conv_ptr = " + ty_info.var_name + "_conv;\n"
+                        arg_conv += "}"
+                        arg_conv_name = ty_info.var_name + "_conv_ptr"
                     if ty_info.rust_obj.replace("LDK", "") + "_clone" in self.clone_fns:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
-                            arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                            arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
                             ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_clone = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n" +
                                 "*" + ty_info.var_name + "_clone = " + ty_info.rust_obj.replace("LDK", "") + "_clone(", ");"),
                             ret_conv_name = "(long)" + ty_info.var_name + "_clone",
@@ -426,8 +440,7 @@ class TypeMappingGenerator:
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
-                            arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
+                            arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
                             ret_conv = ("long ret_" + ty_info.var_name + " = (long)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
                             to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                             to_hu_conv_name = "ret_hu_conv",

@@ -5,6 +5,12 @@ import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
 
+
+/**
+ * A simple newtype for RwLockReadGuard<'a, NetworkGraph>.
+ * This exists only to make accessing a RwLock<NetworkGraph> possible from
+ * the C bindings, as it can be done directly in Rust code.
+ */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class LockedNetworkGraph extends CommonBase implements AutoCloseable {
 	LockedNetworkGraph(Object _dummy, long ptr) { super(ptr); }
@@ -12,6 +18,9 @@ public class LockedNetworkGraph extends CommonBase implements AutoCloseable {
 		if (ptr != 0) { bindings.LockedNetworkGraph_free(ptr); }
 	}
 
+	/**
+	 * Get a reference to the NetworkGraph which this read-lock contains.
+	 */
 	public NetworkGraph graph() {
 		long ret = bindings.LockedNetworkGraph_graph(this.ptr);
 		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);

@@ -1,5 +1,5 @@
 class TypeInfo:
-    def __init__(self, is_native_primitive, rust_obj, java_ty, java_fn_ty_arg, java_hu_ty, c_ty, is_const, passed_as_ptr, is_ptr, var_name, arr_len, arr_access, subty=None):
+    def __init__(self, is_native_primitive, rust_obj, java_ty, java_fn_ty_arg, java_hu_ty, c_ty, is_const, passed_as_ptr, is_ptr, nonnull_ptr, var_name, arr_len, arr_access, subty=None):
         self.is_native_primitive = is_native_primitive
         self.rust_obj = rust_obj
         self.java_ty = java_ty
@@ -9,6 +9,7 @@ class TypeInfo:
         self.is_const = is_const
         self.passed_as_ptr = passed_as_ptr
         self.is_ptr = is_ptr
+        self.nonnull_ptr = nonnull_ptr
         self.var_name = var_name
         self.arr_len = arr_len
         self.arr_access = arr_access
@@ -66,11 +67,12 @@ class ConvInfo:
         self.from_hu_conv = from_hu_conv
 
 class TraitMethInfo:
-    def __init__(self, fn_name, self_is_const, ret_ty_info, args_ty):
+    def __init__(self, fn_name, self_is_const, ret_ty_info, args_ty, docs):
         self.fn_name = fn_name
         self.self_is_const = self_is_const
         self.ret_ty_info = ret_ty_info
         self.args_ty = args_ty
+        self.docs = docs
 
 class ComplexEnumVariantInfo:
     def __init__(self, var_name, fields):

@@ -1,5 +1,9 @@
 package org.ldk.enums;
 
+/**
+ * An enum that represents the speed at which we want a transaction to confirm used for feerate
+ * estimation.
+ */
 public enum LDKConfirmationTarget {
 	LDKConfirmationTarget_Background,
 	LDKConfirmationTarget_Normal,
