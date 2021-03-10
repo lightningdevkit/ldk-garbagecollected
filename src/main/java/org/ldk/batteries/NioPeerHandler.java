@@ -189,10 +189,20 @@ public class NioPeerHandler {
      * @param their_node_id A valid 33-byte public key representing the peer's Lightning Node ID. If this is invalid,
      *                      undefined behavior (read: Segfault, etc) may occur.
      * @param remote The socket address to connect to.
+     * @param timeout_ms The amount of time, in milliseconds, up to which we will wait for connection to complete.
      * @throws IOException If connecting to the remote endpoint fails or internal java.nio errors occur.
      */
-    public void connect(byte[] their_node_id, SocketAddress remote) throws IOException {
-        SocketChannel chan = SocketChannel.open(remote);
+    public void connect(byte[] their_node_id, SocketAddress remote, int timeout_ms) throws IOException {
+        SocketChannel chan = SocketChannel.open();
+        chan.configureBlocking(false);
+        Selector open_selector = Selector.open();
+        chan.register(open_selector, SelectionKey.OP_CONNECT);
+        if (!chan.connect(remote)) {
+            open_selector.select(timeout_ms);
+        }
+        if (!chan.finishConnect()) { // Note that this may throw its own IOException if we failed for another reason
+            throw new IOException("Timed out");
+        }
         Peer peer = setup_socket(chan);
         Result_CVec_u8ZPeerHandleErrorZ res = this.peer_manager.new_outbound_connection(their_node_id, peer.descriptor);
         if (res instanceof  Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) {
