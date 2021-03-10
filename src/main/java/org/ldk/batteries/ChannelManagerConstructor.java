@@ -40,6 +40,8 @@ public class ChannelManagerConstructor {
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
      *
      * @param filter If provided, the outputs which were previously registered to be monitored for will be loaded into the filter.
+     *               Note that if the provided Watch is a ChainWatch and has an associated filter, the previously registered
+     *               outputs will be loaded when chain_sync_completed is called.
      */
     public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized,
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, Watch chain_watch, @Nullable Filter filter,
