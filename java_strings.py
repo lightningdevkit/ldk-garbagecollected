@@ -197,6 +197,9 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 void __attribute__((destructor)) check_leaks() {
 	size_t alloc_count = 0;
 	size_t alloc_size = 0;
+	fprintf(stderr, "The following LDK-allocated blocks still remain.\\n");
+	fprintf(stderr, "Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
 		fprintf(stderr, "%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
@@ -205,7 +208,8 @@ void __attribute__((destructor)) check_leaks() {
 		alloc_size += a->alloc_len;
 	}
 	fprintf(stderr, "%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
-	DO_ASSERT(allocation_ll == NULL);
+	fprintf(stderr, "Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
 }
 """
         self.c_file_pfx = self.c_file_pfx + """
