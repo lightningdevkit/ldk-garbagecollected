@@ -463,7 +463,7 @@ class HumanObjectPeerTestInstance {
     void connect_peers(final Peer peer1, final Peer peer2) {
         if (use_nio_peer_handler) {
             try {
-                peer1.nio_peer_handler.connect(peer2.chan_manager.get_our_node_id(), new InetSocketAddress("127.0.0.1", peer2.nio_port));
+                peer1.nio_peer_handler.connect(peer2.chan_manager.get_our_node_id(), new InetSocketAddress("127.0.0.1", peer2.nio_port), 100);
             } catch (IOException e) { assert false; }
         } else {
             DescriptorHolder descriptor1 = new DescriptorHolder();

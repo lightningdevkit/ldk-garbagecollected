@@ -1,6 +1,6 @@
 #!/bin/bash
 usage() {
-	echo "USAGE: path/to/rust-lightning \"JNI_CFLAGS\" debug android"
+	echo "USAGE: path/to/ldk-c-bindings \"JNI_CFLAGS\" debug android"
 	echo "For JNI_CFLAGS you probably want -I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/"
 	echo "debug should either be true or false"
 	echo "android should either be true or false"
