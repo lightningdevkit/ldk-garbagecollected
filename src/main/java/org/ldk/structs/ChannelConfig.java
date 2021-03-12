@@ -133,7 +133,7 @@ public class ChannelConfig extends CommonBase {
 	}
 
 	/**
-	 * Creates a "default" ChannelConfig. See other documentaiton for details on what this implies.
+	 * Creates a "default" ChannelConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static ChannelConfig constructor_default() {
 		long ret = bindings.ChannelConfig_default();

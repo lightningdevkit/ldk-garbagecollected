@@ -128,7 +128,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 	}
 
 	/**
-	 * Creates a "default" ChannelHandshakeConfig. See other documentaiton for details on what this implies.
+	 * Creates a "default" ChannelHandshakeConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static ChannelHandshakeConfig constructor_default() {
 		long ret = bindings.ChannelHandshakeConfig_default();

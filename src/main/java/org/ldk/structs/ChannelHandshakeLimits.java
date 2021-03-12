@@ -243,8 +243,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 * Not checking this value would be a security issue, as our peer would be able to set it to
 	 * max relative lock-time (a year) and we would \"lose\" money as it would be locked for a long time.
 	 * 
-	 * Default value: MAX_LOCAL_BREAKDOWN_TIMEOUT (1008), which we also enforce as a maximum value
-	 * so you can tweak config to reduce the loss of having useless locked funds (if your peer accepts)
+	 * Default value: 2016, which we also enforce as a maximum value so you can tweak config to
+	 * reduce the loss of having useless locked funds (if your peer accepts)
 	 */
 	public short get_their_to_self_delay() {
 		short ret = bindings.ChannelHandshakeLimits_get_their_to_self_delay(this.ptr);
@@ -257,8 +257,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 * Not checking this value would be a security issue, as our peer would be able to set it to
 	 * max relative lock-time (a year) and we would \"lose\" money as it would be locked for a long time.
 	 * 
-	 * Default value: MAX_LOCAL_BREAKDOWN_TIMEOUT (1008), which we also enforce as a maximum value
-	 * so you can tweak config to reduce the loss of having useless locked funds (if your peer accepts)
+	 * Default value: 2016, which we also enforce as a maximum value so you can tweak config to
+	 * reduce the loss of having useless locked funds (if your peer accepts)
 	 */
 	public void set_their_to_self_delay(short val) {
 		bindings.ChannelHandshakeLimits_set_their_to_self_delay(this.ptr, val);
@@ -285,7 +285,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	}
 
 	/**
-	 * Creates a "default" ChannelHandshakeLimits. See other documentaiton for details on what this implies.
+	 * Creates a "default" ChannelHandshakeLimits. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static ChannelHandshakeLimits constructor_default() {
 		long ret = bindings.ChannelHandshakeLimits_default();

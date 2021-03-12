@@ -705,6 +705,30 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1ChannelFeaturesDe
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    LDKCResult_InvoiceFeaturesDecodeErrorZ_result_ok
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InvoiceFeaturesDecodeErrorZ_1result_1ok
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCResult_InvoiceFeaturesDecodeErrorZ_get_ok
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InvoiceFeaturesDecodeErrorZ_1get_1ok
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    LDKCResult_InvoiceFeaturesDecodeErrorZ_get_err
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1InvoiceFeaturesDecodeErrorZ_1get_1err
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    LDKCResult_ChannelConfigDecodeErrorZ_result_ok
  * Signature: (J)Z
  */
@@ -3901,6 +3925,30 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelFeaturesDecod
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1ChannelFeaturesDecodeErrorZ_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    CResult_InvoiceFeaturesDecodeErrorZ_ok
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceFeaturesDecodeErrorZ_1ok
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    CResult_InvoiceFeaturesDecodeErrorZ_err
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceFeaturesDecodeErrorZ_1err
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    CResult_InvoiceFeaturesDecodeErrorZ_free
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1InvoiceFeaturesDecodeErrorZ_1free
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -11833,10 +11881,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1disconnect_1by_1n
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    PeerManager_timer_tick_occured
+ * Method:    PeerManager_timer_tick_occurred
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1timer_1tick_1occured
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_PeerManager_1timer_1tick_1occurred
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -12833,6 +12881,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelFeatures_1clone
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    InvoiceFeatures_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InvoiceFeatures_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    InitFeatures_free
  * Signature: (J)V
  */
@@ -12853,6 +12909,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1free
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelFeatures_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    InvoiceFeatures_free
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InvoiceFeatures_1free
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -12905,6 +12969,22 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelFeatures_1known
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    InvoiceFeatures_empty
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InvoiceFeatures_1empty
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    InvoiceFeatures_known
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InvoiceFeatures_1known
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    InitFeatures_write
  * Signature: (J)[B
  */
@@ -12929,6 +13009,14 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ChannelFeatures_1write
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    InvoiceFeatures_write
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_InvoiceFeatures_1write
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    InitFeatures_read
  * Signature: ([B)J
  */
@@ -12949,6 +13037,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NodeFeatures_1read
  * Signature: ([B)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelFeatures_1read
+  (JNIEnv *, jclass, jbyteArray);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    InvoiceFeatures_read
+ * Signature: ([B)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InvoiceFeatures_1read
   (JNIEnv *, jclass, jbyteArray);
 
 /*
@@ -13202,10 +13298,10 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_RouteHint_1clone
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    get_route
- * Signature: ([BJ[B[J[JJIJ)J
+ * Signature: ([BJ[BJ[J[JJIJ)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_get_1route
-  (JNIEnv *, jclass, jbyteArray, jlong, jbyteArray, jlongArray, jlongArray, jlong, jint, jlong);
+  (JNIEnv *, jclass, jbyteArray, jlong, jbyteArray, jlong, jlongArray, jlongArray, jlong, jint, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings

@@ -99,7 +99,7 @@ public class UserConfig extends CommonBase {
 	}
 
 	/**
-	 * Creates a "default" UserConfig. See other documentaiton for details on what this implies.
+	 * Creates a "default" UserConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
 	public static UserConfig constructor_default() {
 		long ret = bindings.UserConfig_default();
