@@ -173,7 +173,7 @@ public class NioPeerHandler {
                     }
                 }
                 if (lastTimerTick < System.currentTimeMillis() - 30 * 1000) {
-                    peer_manager.timer_tick_occured();
+                    peer_manager.timer_tick_occurred();
                     lastTimerTick = System.currentTimeMillis();
                 }
                 peer_manager.process_events();

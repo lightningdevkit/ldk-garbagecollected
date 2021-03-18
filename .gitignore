@@ -1,2 +1,5 @@
 liblightningjni.so
 target
+.idea
+*.iml
+__pycache__
