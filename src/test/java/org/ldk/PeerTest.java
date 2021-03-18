@@ -283,7 +283,7 @@ public class PeerTest {
         for (int i = 0; i < 32; i++) payment_preimage[i] = (byte) (i ^ 0x0f);
         byte[] payment_hash = Sha256Hash.hash(payment_preimage);
         long netgraph = bindings.NetGraphMsgHandler_read_locked_graph(peer1.router);
-        long route = bindings.get_route(peer1.node_id, bindings.LockedNetworkGraph_graph(netgraph), peer2.node_id, peer1_chans,
+        long route = bindings.get_route(peer1.node_id, bindings.LockedNetworkGraph_graph(netgraph), peer2.node_id, 0L, peer1_chans,
                 new long[0], 1000, 42, peer1.logger);
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);

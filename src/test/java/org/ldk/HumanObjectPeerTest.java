@@ -384,7 +384,7 @@ class HumanObjectPeerTestInstance {
         Route get_route(byte[] dest_node, ChannelDetails[] our_chans) {
             try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
                 NetworkGraph graph = netgraph.graph();
-                long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, new long[]{our_chans[0]._test_only_get_ptr()},
+                long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, 0L, new long[]{our_chans[0]._test_only_get_ptr()},
                         new long[0], 1000, 42, this.logger._test_only_get_ptr());
                 assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
                 byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
