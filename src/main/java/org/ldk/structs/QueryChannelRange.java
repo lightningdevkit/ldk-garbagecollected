@@ -87,6 +87,14 @@ public class QueryChannelRange extends CommonBase {
 	}
 
 	/**
+	 * \n\t * Calculates the overflow safe ending block height for the query.\n\t * Overflow returns `0xffffffff`, otherwise returns `first_blocknum + number_of_blocks`\n\t
+	 */
+	public int end_blocknum() {
+		int ret = bindings.QueryChannelRange_end_blocknum(this.ptr);
+		return ret;
+	}
+
+	/**
 	 * Read a QueryChannelRange from a byte array, created by QueryChannelRange_write
 	 */
 	public static Result_QueryChannelRangeDecodeErrorZ constructor_read(byte[] ser) {

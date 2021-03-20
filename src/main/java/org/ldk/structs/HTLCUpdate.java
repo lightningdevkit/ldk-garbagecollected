@@ -10,8 +10,6 @@ import java.util.Arrays;
  * Simple structure sent back by `chain::Watch` when an HTLC from a forward channel is detected on
  * chain. Used to update the corresponding HTLC in the backward channel. Failing to pass the
  * preimage claim backward will lead to loss of funds.
- * 
- * [`chain::Watch`]: ../trait.Watch.html
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class HTLCUpdate extends CommonBase {

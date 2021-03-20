@@ -3081,6 +3081,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMessageHandler_1handle_
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ChannelMessageHandler_handle_channel_update
+ * Signature: (J[BJ)V
+ */
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMessageHandler_1handle_1channel_1update
+  (JNIEnv *, jclass, jlong, jbyteArray, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ChannelMessageHandler_handle_error
  * Signature: (J[BJ)V
  */
@@ -6577,6 +6585,22 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1set_1fee_1propo
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ChannelConfig_get_cltv_expiry_delta
+ * Signature: (J)S
+ */
+JNIEXPORT jshort JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1get_1cltv_1expiry_1delta
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    ChannelConfig_set_cltv_expiry_delta
+ * Signature: (JS)V
+ */
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1set_1cltv_1expiry_1delta
+  (JNIEnv *, jclass, jlong, jshort);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ChannelConfig_get_announced_channel
  * Signature: (J)Z
  */
@@ -6610,10 +6634,10 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1set_1commit_1up
 /*
  * Class:     org_ldk_impl_bindings
  * Method:    ChannelConfig_new
- * Signature: (IZZ)J
+ * Signature: (ISZZ)J
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1new
-  (JNIEnv *, jclass, jint, jboolean, jboolean);
+  (JNIEnv *, jclass, jint, jshort, jboolean, jboolean);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -11581,6 +11605,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_1read
  * Signature: (J)[B
  */
 JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd_1write
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    QueryChannelRange_end_blocknum
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1end_1blocknum
   (JNIEnv *, jclass, jlong);
 
 /*

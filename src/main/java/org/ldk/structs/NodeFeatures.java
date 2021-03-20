@@ -39,9 +39,7 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
-	 * Creates features known by the implementation as defined by [`T::KNOWN_FEATURE_FLAGS`].
-	 * 
-	 * [`T::KNOWN_FEATURE_FLAGS`]: sealed/trait.Context.html#associatedconstant.KNOWN_FEATURE_FLAGS
+	 * Creates a Features with the bits set which are known by the implementation
 	 */
 	public static NodeFeatures constructor_known() {
 		long ret = bindings.NodeFeatures_known();

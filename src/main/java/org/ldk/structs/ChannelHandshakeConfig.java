@@ -44,18 +44,21 @@ public class ChannelHandshakeConfig extends CommonBase {
 	}
 
 	/**
-	 * Set to the amount of time we require our counterparty to wait to claim their money.
+	 * Set to the number of blocks we require our counterparty to wait to claim their money (ie
+	 * the number of blocks we have to punish our counterparty if they broadcast a revoked
+	 * transaction).
 	 * 
-	 * It's one of the main parameter of our security model. We (or one of our watchtowers) MUST
-	 * be online to check for peer having broadcast a revoked transaction to steal our funds
-	 * at least once every our_to_self_delay blocks.
+	 * This is one of the main parameters of our security model. We (or one of our watchtowers) MUST
+	 * be online to check for revoked transactions on-chain at least once every our_to_self_delay
+	 * blocks (minus some margin to allow us enough time to broadcast and confirm a transaction,
+	 * possibly with time in between to RBF the spending transaction).
 	 * 
 	 * Meanwhile, asking for a too high delay, we bother peer to freeze funds for nothing in
 	 * case of an honest unilateral channel close, which implicitly decrease the economic value of
 	 * our channel.
 	 * 
-	 * Default value: BREAKDOWN_TIMEOUT (currently 144), we enforce it as a minimum at channel
-	 * opening so you can tweak config to ask for more security, not less.
+	 * Default value: [`BREAKDOWN_TIMEOUT`], we enforce it as a minimum at channel opening so you
+	 * can tweak config to ask for more security, not less.
 	 */
 	public short get_our_to_self_delay() {
 		short ret = bindings.ChannelHandshakeConfig_get_our_to_self_delay(this.ptr);
@@ -63,18 +66,21 @@ public class ChannelHandshakeConfig extends CommonBase {
 	}
 
 	/**
-	 * Set to the amount of time we require our counterparty to wait to claim their money.
+	 * Set to the number of blocks we require our counterparty to wait to claim their money (ie
+	 * the number of blocks we have to punish our counterparty if they broadcast a revoked
+	 * transaction).
 	 * 
-	 * It's one of the main parameter of our security model. We (or one of our watchtowers) MUST
-	 * be online to check for peer having broadcast a revoked transaction to steal our funds
-	 * at least once every our_to_self_delay blocks.
+	 * This is one of the main parameters of our security model. We (or one of our watchtowers) MUST
+	 * be online to check for revoked transactions on-chain at least once every our_to_self_delay
+	 * blocks (minus some margin to allow us enough time to broadcast and confirm a transaction,
+	 * possibly with time in between to RBF the spending transaction).
 	 * 
 	 * Meanwhile, asking for a too high delay, we bother peer to freeze funds for nothing in
 	 * case of an honest unilateral channel close, which implicitly decrease the economic value of
 	 * our channel.
 	 * 
-	 * Default value: BREAKDOWN_TIMEOUT (currently 144), we enforce it as a minimum at channel
-	 * opening so you can tweak config to ask for more security, not less.
+	 * Default value: [`BREAKDOWN_TIMEOUT`], we enforce it as a minimum at channel opening so you
+	 * can tweak config to ask for more security, not less.
 	 */
 	public void set_our_to_self_delay(short val) {
 		bindings.ChannelHandshakeConfig_set_our_to_self_delay(this.ptr, val);

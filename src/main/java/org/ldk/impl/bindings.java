@@ -202,6 +202,11 @@ public class bindings {
 			public long msg;
 			SendShortIdsQuery(byte[] node_id, long msg) { this.node_id = node_id; this.msg = msg; }
 		}
+		public final static class SendReplyChannelRange extends LDKMessageSendEvent {
+			public byte[] node_id;
+			public long msg;
+			SendReplyChannelRange(byte[] node_id, long msg) { this.node_id = node_id; this.msg = msg; }
+		}
 		static native void init();
 	}
 	static { LDKMessageSendEvent.init(); }
@@ -758,6 +763,7 @@ public class bindings {
 		 void peer_disconnected(byte[] their_node_id, boolean no_connection_possible);
 		 void peer_connected(byte[] their_node_id, long msg);
 		 void handle_channel_reestablish(byte[] their_node_id, long msg);
+		 void handle_channel_update(byte[] their_node_id, long msg);
 		 void handle_error(byte[] their_node_id, long msg);
 	}
 	public static native long LDKChannelMessageHandler_new(LDKChannelMessageHandler impl, LDKMessageSendEventsProvider MessageSendEventsProvider);
@@ -797,6 +803,8 @@ public class bindings {
 	public static native void ChannelMessageHandler_peer_connected(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_channel_reestablish LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKChannelReestablish *NONNULL_PTR msg
 	public static native void ChannelMessageHandler_handle_channel_reestablish(long this_arg, byte[] their_node_id, long msg);
+	// void ChannelMessageHandler_handle_channel_update LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKChannelUpdate *NONNULL_PTR msg
+	public static native void ChannelMessageHandler_handle_channel_update(long this_arg, byte[] their_node_id, long msg);
 	// void ChannelMessageHandler_handle_error LDKChannelMessageHandler *NONNULL_PTR this_arg, struct LDKPublicKey their_node_id, const struct LDKErrorMessage *NONNULL_PTR msg
 	public static native void ChannelMessageHandler_handle_error(long this_arg, byte[] their_node_id, long msg);
 	public interface LDKRoutingMessageHandler {
@@ -1688,6 +1696,10 @@ public class bindings {
 	public static native int ChannelConfig_get_fee_proportional_millionths(long this_ptr);
 	// void ChannelConfig_set_fee_proportional_millionths(struct LDKChannelConfig *NONNULL_PTR this_ptr, uint32_t val);
 	public static native void ChannelConfig_set_fee_proportional_millionths(long this_ptr, int val);
+	// uint16_t ChannelConfig_get_cltv_expiry_delta(const struct LDKChannelConfig *NONNULL_PTR this_ptr);
+	public static native short ChannelConfig_get_cltv_expiry_delta(long this_ptr);
+	// void ChannelConfig_set_cltv_expiry_delta(struct LDKChannelConfig *NONNULL_PTR this_ptr, uint16_t val);
+	public static native void ChannelConfig_set_cltv_expiry_delta(long this_ptr, short val);
 	// bool ChannelConfig_get_announced_channel(const struct LDKChannelConfig *NONNULL_PTR this_ptr);
 	public static native boolean ChannelConfig_get_announced_channel(long this_ptr);
 	// void ChannelConfig_set_announced_channel(struct LDKChannelConfig *NONNULL_PTR this_ptr, bool val);
@@ -1696,8 +1708,8 @@ public class bindings {
 	public static native boolean ChannelConfig_get_commit_upfront_shutdown_pubkey(long this_ptr);
 	// void ChannelConfig_set_commit_upfront_shutdown_pubkey(struct LDKChannelConfig *NONNULL_PTR this_ptr, bool val);
 	public static native void ChannelConfig_set_commit_upfront_shutdown_pubkey(long this_ptr, boolean val);
-	// MUST_USE_RES struct LDKChannelConfig ChannelConfig_new(uint32_t fee_proportional_millionths_arg, bool announced_channel_arg, bool commit_upfront_shutdown_pubkey_arg);
-	public static native long ChannelConfig_new(int fee_proportional_millionths_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg);
+	// MUST_USE_RES struct LDKChannelConfig ChannelConfig_new(uint32_t fee_proportional_millionths_arg, uint16_t cltv_expiry_delta_arg, bool announced_channel_arg, bool commit_upfront_shutdown_pubkey_arg);
+	public static native long ChannelConfig_new(int fee_proportional_millionths_arg, short cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg);
 	// struct LDKChannelConfig ChannelConfig_clone(const struct LDKChannelConfig *NONNULL_PTR orig);
 	public static native long ChannelConfig_clone(long orig);
 	// MUST_USE_RES struct LDKChannelConfig ChannelConfig_default(void);
@@ -2940,6 +2952,8 @@ public class bindings {
 	public static native long ReplyShortChannelIdsEnd_read(byte[] ser);
 	// struct LDKCVec_u8Z ReplyShortChannelIdsEnd_write(const struct LDKReplyShortChannelIdsEnd *NONNULL_PTR obj);
 	public static native byte[] ReplyShortChannelIdsEnd_write(long obj);
+	// MUST_USE_RES uint32_t QueryChannelRange_end_blocknum(const struct LDKQueryChannelRange *NONNULL_PTR this_arg);
+	public static native int QueryChannelRange_end_blocknum(long this_arg);
 	// struct LDKCResult_QueryChannelRangeDecodeErrorZ QueryChannelRange_read(struct LDKu8slice ser);
 	public static native long QueryChannelRange_read(byte[] ser);
 	// struct LDKCVec_u8Z QueryChannelRange_write(const struct LDKQueryChannelRange *NONNULL_PTR obj);

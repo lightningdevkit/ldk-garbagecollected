@@ -24,9 +24,9 @@ import java.util.Arrays;
  * funds in the channel. See [`ChannelMonitorUpdateErr`] for more details about how to handle
  * multiple instances.
  * 
- * [`ChannelMonitor`]: channelmonitor/struct.ChannelMonitor.html
- * [`ChannelMonitorUpdateErr`]: channelmonitor/enum.ChannelMonitorUpdateErr.html
- * [`PermanentFailure`]: channelmonitor/enum.ChannelMonitorUpdateErr.html#variant.PermanentFailure
+ * [`ChannelMonitor`]: channelmonitor::ChannelMonitor
+ * [`ChannelMonitorUpdateErr`]: channelmonitor::ChannelMonitorUpdateErr
+ * [`PermanentFailure`]: channelmonitor::ChannelMonitorUpdateErr::PermanentFailure
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Watch extends CommonBase {
@@ -50,9 +50,9 @@ public class Watch extends CommonBase {
 		 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 		 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 		 * 
-		 * [`get_outputs_to_watch`]: channelmonitor/struct.ChannelMonitor.html#method.get_outputs_to_watch
-		 * [`block_connected`]: channelmonitor/struct.ChannelMonitor.html#method.block_connected
-		 * [`block_disconnected`]: channelmonitor/struct.ChannelMonitor.html#method.block_disconnected
+		 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
+		 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
+		 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 		 */
 		Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor);
 		/**
@@ -61,8 +61,8 @@ public class Watch extends CommonBase {
 		 * Implementations must call [`update_monitor`] with the given update. See
 		 * [`ChannelMonitorUpdateErr`] for invariants around returning an error.
 		 * 
-		 * [`update_monitor`]: channelmonitor/struct.ChannelMonitor.html#method.update_monitor
-		 * [`ChannelMonitorUpdateErr`]: channelmonitor/enum.ChannelMonitorUpdateErr.html
+		 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
+		 * [`ChannelMonitorUpdateErr`]: channelmonitor::ChannelMonitorUpdateErr
 		 */
 		Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update);
 		/**
@@ -109,9 +109,9 @@ public class Watch extends CommonBase {
 	 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 	 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 	 * 
-	 * [`get_outputs_to_watch`]: channelmonitor/struct.ChannelMonitor.html#method.get_outputs_to_watch
-	 * [`block_connected`]: channelmonitor/struct.ChannelMonitor.html#method.block_connected
-	 * [`block_disconnected`]: channelmonitor/struct.ChannelMonitor.html#method.block_disconnected
+	 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
+	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
+	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
 		long ret = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, monitor == null ? 0 : monitor.ptr & ~1);
@@ -127,8 +127,8 @@ public class Watch extends CommonBase {
 	 * Implementations must call [`update_monitor`] with the given update. See
 	 * [`ChannelMonitorUpdateErr`] for invariants around returning an error.
 	 * 
-	 * [`update_monitor`]: channelmonitor/struct.ChannelMonitor.html#method.update_monitor
-	 * [`ChannelMonitorUpdateErr`]: channelmonitor/enum.ChannelMonitorUpdateErr.html
+	 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
+	 * [`ChannelMonitorUpdateErr`]: channelmonitor::ChannelMonitorUpdateErr
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
 		long ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, update == null ? 0 : update.ptr & ~1);

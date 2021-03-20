@@ -59,6 +59,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number end_blocknum() {
+		number ret = bindings.QueryChannelRange_end_blocknum(this.ptr);
+		return ret;
+	}
+
 	public static Result_QueryChannelRangeDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.QueryChannelRange_read(ser);
 		Result_QueryChannelRangeDecodeErrorZ ret_hu_conv = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);

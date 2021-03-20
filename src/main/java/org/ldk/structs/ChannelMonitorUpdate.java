@@ -31,8 +31,6 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 * The only instance where update_id values are not strictly increasing is the case where we
 	 * allow post-force-close updates with a special update ID of [`CLOSED_CHANNEL_UPDATE_ID`]. See
 	 * its docs for more details.
-	 * 
-	 * [`CLOSED_CHANNEL_UPDATE_ID`]: constant.CLOSED_CHANNEL_UPDATE_ID.html
 	 */
 	public long get_update_id() {
 		long ret = bindings.ChannelMonitorUpdate_get_update_id(this.ptr);
@@ -51,8 +49,6 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 * The only instance where update_id values are not strictly increasing is the case where we
 	 * allow post-force-close updates with a special update ID of [`CLOSED_CHANNEL_UPDATE_ID`]. See
 	 * its docs for more details.
-	 * 
-	 * [`CLOSED_CHANNEL_UPDATE_ID`]: constant.CLOSED_CHANNEL_UPDATE_ID.html
 	 */
 	public void set_update_id(long val) {
 		bindings.ChannelMonitorUpdate_set_update_id(this.ptr, val);

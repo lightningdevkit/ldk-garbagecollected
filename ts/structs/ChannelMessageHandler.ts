@@ -127,6 +127,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 							arg.handle_channel_reestablish(their_node_id, msg_hu_conv);
 						},
 
+						handle_channel_update (their_node_id: Uint8Array, msg: number): void {
+							const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
+							arg.handle_channel_update(their_node_id, msg_hu_conv);
+						},
+
 						handle_error (their_node_id: Uint8Array, msg: number): void {
 							const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
 							arg.handle_error(their_node_id, msg_hu_conv);
@@ -157,6 +162,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean): void;
 				peer_connected(their_node_id: Uint8Array, msg: Init): void;
 				handle_channel_reestablish(their_node_id: Uint8Array, msg: ChannelReestablish): void;
+				handle_channel_update(their_node_id: Uint8Array, msg: ChannelUpdate): void;
 				handle_error(their_node_id: Uint8Array, msg: ErrorMessage): void;
 				
             }
@@ -253,6 +259,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void handle_channel_reestablish(Uint8Array their_node_id, ChannelReestablish msg) {
 		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		this.ptrs_to.add(msg);
+	}
+
+	public void handle_channel_update(Uint8Array their_node_id, ChannelUpdate msg) {
+		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 

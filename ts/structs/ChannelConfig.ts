@@ -27,6 +27,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelConfig_set_fee_proportional_millionths(this.ptr, val);
 	}
 
+	public number get_cltv_expiry_delta() {
+		number ret = bindings.ChannelConfig_get_cltv_expiry_delta(this.ptr);
+		return ret;
+	}
+
+	public void set_cltv_expiry_delta(number val) {
+		bindings.ChannelConfig_set_cltv_expiry_delta(this.ptr, val);
+	}
+
 	public boolean get_announced_channel() {
 		boolean ret = bindings.ChannelConfig_get_announced_channel(this.ptr);
 		return ret;
@@ -45,8 +54,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
 	}
 
-	public static ChannelConfig constructor_new(number fee_proportional_millionths_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
-		number ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+	public static ChannelConfig constructor_new(number fee_proportional_millionths_arg, number cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
+		number ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
