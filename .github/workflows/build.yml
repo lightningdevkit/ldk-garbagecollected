@@ -1,0 +1,51 @@
+name: Continuous Integration Checks
+
+on: [push, pull_request]
+
+jobs:
+  check_bindings:
+    runs-on: ubuntu-latest
+    # Ubuntu's version of rustc uses its own LLVM instead of being a real native package.
+    # This leaves us with an incompatible LLVM version when linking. Instead, use a real OS.
+    container: debian:bullseye
+    env:
+      TOOLCHAIN: stable
+    steps:
+      - name: Install native Rust toolchain, Valgrind, and build utilitis
+        run: |
+          apt-get update
+          apt-get -y dist-upgrade
+          apt-get -y install cargo libstd-rust-dev-wasm32 valgrind lld git g++ clang openjdk-11-jdk maven
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Install cbindgen
+        run: cargo install --force cbindgen
+      - name: Checkout Rust-Lightning and LDK-C-Bindings git
+        run: |
+          git clone https://github.com/rust-bitcoin/rust-lightning
+          cd rust-lightning
+          git remote add matt https://git.bitcoin.ninja/rust-lightning
+          git fetch matt
+          git merge matt/2021-03-java-bindings-base
+          cd ..
+          git clone https://github.com/lightningdevkit/ldk-c-bindings
+      - name: Rebuild C bindings, and check the sample app builds + links
+        run: cd ldk-c-bindings && ./genbindings.sh ../rust-lightning && cd ..
+      - name: Build Java/TS Debug Bindings
+        run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" true false
+      - name: Run Java Tests against Debug Bindings
+        run: |
+          rm liblightningjni.so
+          ln -s liblightningjni_debug.so liblightningjni.so
+          export LD_LIBRARY_PATH=.
+          export LD_PRELOAD=/usr/lib/llvm-11/lib/clang/11.0.1/lib/linux/libclang_rt.asan-x86_64.so
+          export ASAN_OPTIONS=detect_leaks=0
+          mvn test
+          git checkout liblightningjni.so
+      - name: Build Java/TS Release Bindings
+        run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
+      - name: Check latest headers are in git
+        run: |
+          git checkout liblightningjni_debug.so
+          git checkout liblightningjni_release.so
+          git diff --exit-code
