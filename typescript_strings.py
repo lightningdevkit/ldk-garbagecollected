@@ -673,7 +673,7 @@ const decodeString = (stringPointer, free = true) => {
         for idx, fn_line in enumerate(field_function_lines):
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
                 assert fn_line.ret_ty_info.ty_info.get_full_rust_ty()[1] == ""
-                out_c = out_c + fn_line.ret_ty_info.ty_info.get_full_rust_ty()[0] + " " + fn_line.fn_name + "_jcall("
+                out_c = out_c + fn_line.ret_ty_info.ty_info.get_full_rust_ty()[0] + " " + fn_line.fn_name + "_" + struct_name + "_jcall("
                 if fn_line.self_is_const:
                     out_c = out_c + "const void* this_arg"
                 else:
@@ -745,7 +745,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\t\t.this_arg = (void*) calls,\n"
         for fn_line in field_function_lines:
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
-                out_c = out_c + "\t\t." + fn_line.fn_name + " = " + fn_line.fn_name + "_jcall,\n"
+                out_c = out_c + "\t\t." + fn_line.fn_name + " = " + fn_line.fn_name + "_" + struct_name + "_jcall,\n"
             elif fn_line.fn_name == "free":
                 out_c = out_c + "\t\t.free = " + struct_name + "_JCalls_free,\n"
             else:
