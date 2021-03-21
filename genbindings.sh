@@ -6,7 +6,7 @@ usage() {
 	echo "android should either be true or false"
 	exit 1
 }
-[ "$1" = "" -o "$2" = "" ] && usage
+[ "$1" = "" ] && usage
 [ "$3" != "true" -a "$3" != "false" ] && usage
 [ "$4" != "true" -a "$4" != "false" ] && usage
 
