@@ -267,7 +267,7 @@ class HumanObjectPeerTestInstance {
         }
         Peer(byte seed) {
             this(null, seed);
-            this.chan_manager = ChannelManager.constructor_new(FeeEstimator.new_impl(confirmation_target -> 0), chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 1);
+            this.chan_manager = ChannelManager.constructor_new(FeeEstimator.new_impl(confirmation_target -> 0), chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 0);
             this.node_id = chan_manager.get_our_node_id();
             this.chan_manager_events = chan_manager.as_EventsProvider();
 
@@ -351,7 +351,7 @@ class HumanObjectPeerTestInstance {
                 txn = new TwoTuple[]{txp};
             } else
                 txn = new TwoTuple[0];
-            chan_manager.block_connected(header, txn, height);
+            chan_manager.as_Listen().block_connected(b.bitcoinSerialize(), height);
             if (chain_monitor != null) {
                 chain_monitor.block_connected(header, txn, height);
             } else {
@@ -656,7 +656,7 @@ class HumanObjectPeerTestInstance {
             Transaction tx = new Transaction(bitcoinj_net, state.peer1.broadcast_set.getFirst());
             Block b = new Block(bitcoinj_net, 2, state.best_blockhash, Sha256Hash.ZERO_HASH, 42, 0, 0,
                     Arrays.asList(new Transaction[]{tx}));
-            TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] watch_outputs = state.peer2.connect_block(b, 1, 1);
+            TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] watch_outputs = state.peer2.connect_block(b, 10, 1);
             if (watch_outputs != null) { // We only process watch_outputs manually when we use a manually-build Watch impl
                 assert watch_outputs.length == 1;
                 assert Arrays.equals(watch_outputs[0].a, tx.getTxId().getReversedBytes());
