@@ -238,20 +238,12 @@ public class PeerTest {
         funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
         funding.getInput(0).getWitness().setPush(0, new byte[] {0x1});
         funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
-        long funding_txo = bindings.OutPoint_new(funding.getTxId().getReversedBytes(), (short) 0);
-        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, funding_txo);
-        bindings.OutPoint_free(funding_txo);
+        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, funding.bitcoinSerialize(), (short)0);
 
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
-
-        events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events);
-        assert events.length == 1;
-        event = bindings.LDKEvent_ref_from_ptr(events[0]);
-        assert event instanceof bindings.LDKEvent.FundingBroadcastSafe;
-        bindings.CVec_EventZ_free(events);
 
         Block b = new Block(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), 2, Sha256Hash.ZERO_HASH, Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
         peer1.connect_block(b, funding, 1);
