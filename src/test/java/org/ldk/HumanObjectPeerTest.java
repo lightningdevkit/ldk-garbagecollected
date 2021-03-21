@@ -616,8 +616,8 @@ class HumanObjectPeerTestInstance {
                 System.runFinalization();
             }
             connect_peers(state.peer1, state.peer2);
-            wait_events_processed(state.peer1, state.peer2);
         }
+        wait_events_processed(state.peer1, state.peer2);
 
         Event[] events = state.peer2.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
