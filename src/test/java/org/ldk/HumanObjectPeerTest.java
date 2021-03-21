@@ -174,6 +174,7 @@ class HumanObjectPeerTestInstance {
         final HashMap<String, ChannelMonitor> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
         final LinkedList<byte[]> broadcast_set = new LinkedList<>();
+        GcCheck obj = new GcCheck();
 
         private TwoTuple<OutPoint, byte[]> test_mon_roundtrip(ChannelMonitor mon) {
             // Because get_funding_txo() returns an OutPoint in a tuple that is a reference to an OutPoint inside the
@@ -683,11 +684,13 @@ class HumanObjectPeerTestInstance {
     }
 
     java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
-    boolean gc_ran = false;
+    int gc_count = 0;
+    int gc_exp_count = 0;
     class GcCheck {
+        GcCheck() { gc_exp_count += 1; }
         @Override
         protected void finalize() throws Throwable {
-            gc_ran = true;
+            gc_count += 1;
             super.finalize();
         }
     }
@@ -701,7 +704,7 @@ public class HumanObjectPeerTest {
     }
     void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler) throws InterruptedException {
         HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler);
-        while (!instance.gc_ran) {
+        while (instance.gc_count != instance.gc_exp_count) {
             System.gc();
             System.runFinalization();
         }
