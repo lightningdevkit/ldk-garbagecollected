@@ -391,10 +391,10 @@ import java.util.Arrays;
 
     def init_str(self):
         res = ""
-        for ty in self.c_array_class_caches:
+        for ty in sorted(self.c_array_class_caches):
             res = res + "static jclass " + ty + "_clz = NULL;\n"
         res = res + "JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass clz) {\n"
-        for ty in self.c_array_class_caches:
+        for ty in sorted(self.c_array_class_caches):
             res = res + "\t" + ty + "_clz = (*env)->FindClass(env, \"" + ty.replace("arr_of_", "[") + "\");\n"
             res = res + "\tCHECK(" + ty + "_clz != NULL);\n"
             res = res + "\t" + ty + "_clz = (*env)->NewGlobalRef(env, " + ty + "_clz);\n"
