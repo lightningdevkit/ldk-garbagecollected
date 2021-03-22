@@ -391,10 +391,10 @@ import java.util.Arrays;
 
     def init_str(self):
         res = ""
-        for ty in self.c_array_class_caches:
+        for ty in sorted(self.c_array_class_caches):
             res = res + "static jclass " + ty + "_clz = NULL;\n"
         res = res + "JNIEXPORT void Java_org_ldk_impl_bindings_init_1class_1cache(JNIEnv * env, jclass clz) {\n"
-        for ty in self.c_array_class_caches:
+        for ty in sorted(self.c_array_class_caches):
             res = res + "\t" + ty + "_clz = (*env)->FindClass(env, \"" + ty.replace("arr_of_", "[") + "\");\n"
             res = res + "\tCHECK(" + ty + "_clz != NULL);\n"
             res = res + "\t" + ty + "_clz = (*env)->NewGlobalRef(env, " + ty + "_clz);\n"
@@ -638,7 +638,7 @@ import java.util.Arrays;
         for idx, fn_line in enumerate(field_fns):
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
                 assert fn_line.ret_ty_info.ty_info.get_full_rust_ty()[1] == ""
-                out_c = out_c + fn_line.ret_ty_info.ty_info.get_full_rust_ty()[0] + " " + fn_line.fn_name + "_jcall("
+                out_c = out_c + fn_line.ret_ty_info.ty_info.get_full_rust_ty()[0] + " " + fn_line.fn_name + "_" + struct_name + "_jcall("
                 if fn_line.self_is_const:
                     out_c = out_c + "const void* this_arg"
                 else:
@@ -714,7 +714,7 @@ import java.util.Arrays;
         out_c = out_c + "\t\t.this_arg = (void*) calls,\n"
         for fn_line in field_fns:
             if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
-                out_c = out_c + "\t\t." + fn_line.fn_name + " = " + fn_line.fn_name + "_jcall,\n"
+                out_c = out_c + "\t\t." + fn_line.fn_name + " = " + fn_line.fn_name + "_" + struct_name + "_jcall,\n"
             elif fn_line.fn_name == "free":
                 out_c = out_c + "\t\t.free = " + struct_name + "_JCalls_free,\n"
             else:

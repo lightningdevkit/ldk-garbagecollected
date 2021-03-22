@@ -75,6 +75,9 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendShortIdsQuery.class) {
 			return new SendShortIdsQuery(ptr, (bindings.LDKMessageSendEvent.SendShortIdsQuery)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendReplyChannelRange.class) {
+			return new SendReplyChannelRange(ptr, (bindings.LDKMessageSendEvent.SendReplyChannelRange)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -287,6 +290,18 @@ public class MessageSendEvent extends CommonBase {
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			QueryShortChannelIds msg_hu_conv = new QueryShortChannelIds(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
+			this.msg = msg_hu_conv;
+		}
+	}
+	public final static class SendReplyChannelRange extends MessageSendEvent {
+		public final byte[] node_id;
+		public final ReplyChannelRange msg;
+		private SendReplyChannelRange(long ptr, bindings.LDKMessageSendEvent.SendReplyChannelRange obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			ReplyChannelRange msg_hu_conv = new ReplyChannelRange(null, msg);
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}

@@ -40,11 +40,8 @@ public class Persist extends CommonBase {
 		 * stored channel data). Note that you **must** persist every new monitor to
 		 * disk. See the `Persist` trait documentation for more details.
 		 * 
-		 * See [`ChannelMonitor::serialize_for_disk`] for writing out a `ChannelMonitor`,
+		 * See [`ChannelMonitor::write`] for writing out a `ChannelMonitor`,
 		 * and [`ChannelMonitorUpdateErr`] for requirements when returning errors.
-		 * 
-		 * [`ChannelMonitor::serialize_for_disk`]: struct.ChannelMonitor.html#method.serialize_for_disk
-		 * [`ChannelMonitorUpdateErr`]: enum.ChannelMonitorUpdateErr.html
 		 */
 		Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data);
 		/**
@@ -67,14 +64,9 @@ public class Persist extends CommonBase {
 		 * them in batches. The size of each monitor grows `O(number of state updates)`
 		 * whereas updates are small and `O(1)`.
 		 * 
-		 * See [`ChannelMonitor::serialize_for_disk`] for writing out a `ChannelMonitor`,
+		 * See [`ChannelMonitor::write`] for writing out a `ChannelMonitor`,
 		 * [`ChannelMonitorUpdate::write`] for writing out an update, and
 		 * [`ChannelMonitorUpdateErr`] for requirements when returning errors.
-		 * 
-		 * [`ChannelMonitor::update_monitor`]: struct.ChannelMonitor.html#impl-1
-		 * [`ChannelMonitor::serialize_for_disk`]: struct.ChannelMonitor.html#method.serialize_for_disk
-		 * [`ChannelMonitorUpdate::write`]: struct.ChannelMonitorUpdate.html#method.write
-		 * [`ChannelMonitorUpdateErr`]: enum.ChannelMonitorUpdateErr.html
 		 */
 		Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data);
 	}
@@ -109,11 +101,8 @@ public class Persist extends CommonBase {
 	 * stored channel data). Note that you **must** persist every new monitor to
 	 * disk. See the `Persist` trait documentation for more details.
 	 * 
-	 * See [`ChannelMonitor::serialize_for_disk`] for writing out a `ChannelMonitor`,
+	 * See [`ChannelMonitor::write`] for writing out a `ChannelMonitor`,
 	 * and [`ChannelMonitorUpdateErr`] for requirements when returning errors.
-	 * 
-	 * [`ChannelMonitor::serialize_for_disk`]: struct.ChannelMonitor.html#method.serialize_for_disk
-	 * [`ChannelMonitorUpdateErr`]: enum.ChannelMonitorUpdateErr.html
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data) {
 		long ret = bindings.Persist_persist_new_channel(this.ptr, id == null ? 0 : id.ptr & ~1, data == null ? 0 : data.ptr & ~1);
@@ -143,14 +132,9 @@ public class Persist extends CommonBase {
 	 * them in batches. The size of each monitor grows `O(number of state updates)`
 	 * whereas updates are small and `O(1)`.
 	 * 
-	 * See [`ChannelMonitor::serialize_for_disk`] for writing out a `ChannelMonitor`,
+	 * See [`ChannelMonitor::write`] for writing out a `ChannelMonitor`,
 	 * [`ChannelMonitorUpdate::write`] for writing out an update, and
 	 * [`ChannelMonitorUpdateErr`] for requirements when returning errors.
-	 * 
-	 * [`ChannelMonitor::update_monitor`]: struct.ChannelMonitor.html#impl-1
-	 * [`ChannelMonitor::serialize_for_disk`]: struct.ChannelMonitor.html#method.serialize_for_disk
-	 * [`ChannelMonitorUpdate::write`]: struct.ChannelMonitorUpdate.html#method.write
-	 * [`ChannelMonitorUpdateErr`]: enum.ChannelMonitorUpdateErr.html
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data) {
 		long ret = bindings.Persist_update_persisted_channel(this.ptr, id == null ? 0 : id.ptr & ~1, update == null ? 0 : update.ptr & ~1, data == null ? 0 : data.ptr & ~1);

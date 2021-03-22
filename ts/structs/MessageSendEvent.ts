@@ -64,6 +64,9 @@ export default class MessageSendEvent extends CommonBase {
 		if (raw_val instanceof bindings.LDKMessageSendEvent.SendShortIdsQuery) {
 			return new SendShortIdsQuery(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKMessageSendEvent.SendReplyChannelRange) {
+			return new SendReplyChannelRange(this.ptr, raw_val);
+		}
 		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -277,6 +280,18 @@ export class SendShortIdsQuery extends MessageSendEvent {
 		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
+		this.msg = msg_hu_conv;
+	}
+}
+export class SendReplyChannelRange extends MessageSendEvent {
+	public node_id: Uint8Array;
+	public msg: ReplyChannelRange;
+	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendReplyChannelRange) {
+		super(null, ptr);
+		this.node_id = obj.node_id;
+		const msg: number = obj.msg;
+		const msg_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, msg);
 			msg_hu_conv.ptrs_to.add(this);
 		this.msg = msg_hu_conv;
 	}

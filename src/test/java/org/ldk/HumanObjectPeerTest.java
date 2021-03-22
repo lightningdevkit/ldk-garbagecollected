@@ -174,6 +174,7 @@ class HumanObjectPeerTestInstance {
         final HashMap<String, ChannelMonitor> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
         final LinkedList<byte[]> broadcast_set = new LinkedList<>();
+        GcCheck obj = new GcCheck();
 
         private TwoTuple<OutPoint, byte[]> test_mon_roundtrip(ChannelMonitor mon) {
             // Because get_funding_txo() returns an OutPoint in a tuple that is a reference to an OutPoint inside the
@@ -267,7 +268,7 @@ class HumanObjectPeerTestInstance {
         }
         Peer(byte seed) {
             this(null, seed);
-            this.chan_manager = ChannelManager.constructor_new(FeeEstimator.new_impl(confirmation_target -> 0), chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 1);
+            this.chan_manager = ChannelManager.constructor_new(FeeEstimator.new_impl(confirmation_target -> 0), chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 0);
             this.node_id = chan_manager.get_our_node_id();
             this.chan_manager_events = chan_manager.as_EventsProvider();
 
@@ -351,7 +352,7 @@ class HumanObjectPeerTestInstance {
                 txn = new TwoTuple[]{txp};
             } else
                 txn = new TwoTuple[0];
-            chan_manager.block_connected(header, txn, height);
+            chan_manager.as_Listen().block_connected(b.bitcoinSerialize(), height);
             if (chain_monitor != null) {
                 chain_monitor.block_connected(header, txn, height);
             } else {
@@ -616,8 +617,8 @@ class HumanObjectPeerTestInstance {
                 System.runFinalization();
             }
             connect_peers(state.peer1, state.peer2);
-            wait_events_processed(state.peer1, state.peer2);
         }
+        wait_events_processed(state.peer1, state.peer2);
 
         Event[] events = state.peer2.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
@@ -656,7 +657,7 @@ class HumanObjectPeerTestInstance {
             Transaction tx = new Transaction(bitcoinj_net, state.peer1.broadcast_set.getFirst());
             Block b = new Block(bitcoinj_net, 2, state.best_blockhash, Sha256Hash.ZERO_HASH, 42, 0, 0,
                     Arrays.asList(new Transaction[]{tx}));
-            TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] watch_outputs = state.peer2.connect_block(b, 1, 1);
+            TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] watch_outputs = state.peer2.connect_block(b, 10, 1);
             if (watch_outputs != null) { // We only process watch_outputs manually when we use a manually-build Watch impl
                 assert watch_outputs.length == 1;
                 assert Arrays.equals(watch_outputs[0].a, tx.getTxId().getReversedBytes());
@@ -683,11 +684,13 @@ class HumanObjectPeerTestInstance {
     }
 
     java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
-    boolean gc_ran = false;
+    int gc_count = 0;
+    int gc_exp_count = 0;
     class GcCheck {
+        GcCheck() { gc_exp_count += 1; }
         @Override
         protected void finalize() throws Throwable {
-            gc_ran = true;
+            gc_count += 1;
             super.finalize();
         }
     }
@@ -701,7 +704,7 @@ public class HumanObjectPeerTest {
     }
     void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler) throws InterruptedException {
         HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler);
-        while (!instance.gc_ran) {
+        while (instance.gc_count != instance.gc_exp_count) {
             System.gc();
             System.runFinalization();
         }

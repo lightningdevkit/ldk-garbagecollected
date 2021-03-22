@@ -43,6 +43,57 @@ public class ChannelConfig extends CommonBase {
 	}
 
 	/**
+	 * The difference in the CLTV value between incoming HTLCs and an outbound HTLC forwarded over
+	 * the channel this config applies to.
+	 * 
+	 * This is analogous to [`ChannelHandshakeConfig::our_to_self_delay`] but applies to in-flight
+	 * HTLC balance when a channel appears on-chain whereas
+	 * [`ChannelHandshakeConfig::our_to_self_delay`] applies to the remaining
+	 * (non-HTLC-encumbered) balance.
+	 * 
+	 * Thus, for HTLC-encumbered balances to be enforced on-chain when a channel is force-closed,
+	 * we (or one of our watchtowers) MUST be online to check for broadcast of the current
+	 * commitment transaction at least once per this many blocks (minus some margin to allow us
+	 * enough time to broadcast and confirm a transaction, possibly with time in between to RBF
+	 * the spending transaction).
+	 * 
+	 * Default value: 72 (12 hours at an average of 6 blocks/hour).
+	 * Minimum value: [`MIN_CLTV_EXPIRY_DELTA`], any values less than this will be treated as
+	 * [`MIN_CLTV_EXPIRY_DELTA`] instead.
+	 * 
+	 * [`MIN_CLTV_EXPIRY_DELTA`]: crate::ln::channelmanager::MIN_CLTV_EXPIRY_DELTA
+	 */
+	public short get_cltv_expiry_delta() {
+		short ret = bindings.ChannelConfig_get_cltv_expiry_delta(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * The difference in the CLTV value between incoming HTLCs and an outbound HTLC forwarded over
+	 * the channel this config applies to.
+	 * 
+	 * This is analogous to [`ChannelHandshakeConfig::our_to_self_delay`] but applies to in-flight
+	 * HTLC balance when a channel appears on-chain whereas
+	 * [`ChannelHandshakeConfig::our_to_self_delay`] applies to the remaining
+	 * (non-HTLC-encumbered) balance.
+	 * 
+	 * Thus, for HTLC-encumbered balances to be enforced on-chain when a channel is force-closed,
+	 * we (or one of our watchtowers) MUST be online to check for broadcast of the current
+	 * commitment transaction at least once per this many blocks (minus some margin to allow us
+	 * enough time to broadcast and confirm a transaction, possibly with time in between to RBF
+	 * the spending transaction).
+	 * 
+	 * Default value: 72 (12 hours at an average of 6 blocks/hour).
+	 * Minimum value: [`MIN_CLTV_EXPIRY_DELTA`], any values less than this will be treated as
+	 * [`MIN_CLTV_EXPIRY_DELTA`] instead.
+	 * 
+	 * [`MIN_CLTV_EXPIRY_DELTA`]: crate::ln::channelmanager::MIN_CLTV_EXPIRY_DELTA
+	 */
+	public void set_cltv_expiry_delta(short val) {
+		bindings.ChannelConfig_set_cltv_expiry_delta(this.ptr, val);
+	}
+
+	/**
 	 * Set to announce the channel publicly and notify all nodes that they can route via this
 	 * channel.
 	 * 
@@ -115,8 +166,8 @@ public class ChannelConfig extends CommonBase {
 	/**
 	 * Constructs a new ChannelConfig given each field
 	 */
-	public static ChannelConfig constructor_new(int fee_proportional_millionths_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
-		long ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+	public static ChannelConfig constructor_new(int fee_proportional_millionths_arg, short cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
+		long ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

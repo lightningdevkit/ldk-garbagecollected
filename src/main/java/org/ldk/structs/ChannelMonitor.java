@@ -133,8 +133,6 @@ public class ChannelMonitor extends CommonBase {
 	/**
 	 * Get the list of HTLCs who's status has been updated on chain. This should be called by
 	 * ChannelManager via [`chain::Watch::release_pending_monitor_events`].
-	 * 
-	 * [`chain::Watch::release_pending_monitor_events`]: ../trait.Watch.html#tymethod.release_pending_monitor_events
 	 */
 	public MonitorEvent[] get_and_clear_pending_monitor_events() {
 		long[] ret = bindings.ChannelMonitor_get_and_clear_pending_monitor_events(this.ptr);

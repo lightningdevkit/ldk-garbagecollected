@@ -93,7 +93,7 @@ public class PeerTest {
             this.keys = bindings.KeysManager_new(key_seed, System.currentTimeMillis() / 1000, (int)(System.currentTimeMillis() * 1000) & 0xffffffff);
             this.keys_interface = bindings.KeysManager_as_KeysInterface(keys);
             this.config = bindings.UserConfig_default();
-            long params = bindings.ChainParameters_new(LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 1);
+            long params = bindings.ChainParameters_new(LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 0);
             this.chan_manager = bindings.ChannelManager_new(fee_estimator, chain_monitor, tx_broadcaster, logger, keys_interface, config, params);
             this.node_id = bindings.ChannelManager_get_our_node_id(chan_manager);
             this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
@@ -109,19 +109,17 @@ public class PeerTest {
         }
 
         void connect_block(Block b, Transaction t, int height) {
-            byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
-            long[] txn;
-            if (t != null)
-                txn = new long[]{bindings.C2Tuple_usizeTransactionZ_new(1, t.bitcoinSerialize())};
-            else
-                txn = new long[0];
-            bindings.ChannelManager_block_connected(chan_manager, header, txn, height);
+            long listen = bindings.ChannelManager_as_Listen(chan_manager);
+            bindings.Listen_block_connected(listen, b.bitcoinSerialize(), height);
+            bindings.Listen_free(listen);
             synchronized (monitors) {
                 for (Long mon : monitors.values()) {
+                    long[] txn;
                     if (t != null)
                         txn = new long[]{bindings.C2Tuple_usizeTransactionZ_new(1, t.bitcoinSerialize())};
                     else
                         txn = new long[0];
+                    byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
                     long[] ret = bindings.ChannelMonitor_block_connected(mon, header, txn, height, tx_broadcaster, fee_estimator, logger);
                     for (long r : ret) {
                         bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(r);
@@ -260,7 +258,7 @@ public class PeerTest {
         peer2.connect_block(b, funding, 1);
 
         for (int height = 2; height < 10; height++) {
-            b = new Block(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
+            b = new Block(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[0]));
             peer1.connect_block(b, null, height);
             peer2.connect_block(b, null, height);
         }

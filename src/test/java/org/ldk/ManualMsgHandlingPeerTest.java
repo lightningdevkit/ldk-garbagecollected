@@ -102,6 +102,11 @@ public class ManualMsgHandlingPeerTest {
             }
 
             @Override
+            public void handle_channel_update(byte[] their_node_id, long msg) {
+
+            }
+
+            @Override
             public void handle_error(byte[] their_node_id, long msg) {
 
             }

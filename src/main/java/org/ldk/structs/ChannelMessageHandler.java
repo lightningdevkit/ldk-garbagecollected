@@ -103,6 +103,10 @@ public class ChannelMessageHandler extends CommonBase {
 		 */
 		void handle_channel_reestablish(byte[] their_node_id, ChannelReestablish msg);
 		/**
+		 * Handle an incoming channel update from the given peer.
+		 */
+		void handle_channel_update(byte[] their_node_id, ChannelUpdate msg);
+		/**
 		 * Handle an incoming error message from the given peer.
 		 */
 		void handle_error(byte[] their_node_id, ErrorMessage msg);
@@ -186,6 +190,10 @@ public class ChannelMessageHandler extends CommonBase {
 			@Override public void handle_channel_reestablish(byte[] their_node_id, long msg) {
 				ChannelReestablish msg_hu_conv = new ChannelReestablish(null, msg);
 				arg.handle_channel_reestablish(their_node_id, msg_hu_conv);
+			}
+			@Override public void handle_channel_update(byte[] their_node_id, long msg) {
+				ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
+				arg.handle_channel_update(their_node_id, msg_hu_conv);
 			}
 			@Override public void handle_error(byte[] their_node_id, long msg) {
 				ErrorMessage msg_hu_conv = new ErrorMessage(null, msg);
@@ -340,6 +348,14 @@ public class ChannelMessageHandler extends CommonBase {
 	 */
 	public void handle_channel_reestablish(byte[] their_node_id, ChannelReestablish msg) {
 		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		this.ptrs_to.add(msg);
+	}
+
+	/**
+	 * Handle an incoming channel update from the given peer.
+	 */
+	public void handle_channel_update(byte[] their_node_id, ChannelUpdate msg) {
+		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 

@@ -1,5 +1,6 @@
 package org.ldk.batteries;
 
+import org.ldk.impl.bindings;
 import org.ldk.structs.*;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.Callable;
 
 /**
  * A NioPeerHandler maps LDK's PeerHandler to Java's NIO I/O interface. It spawns a single background thread which
@@ -24,6 +26,31 @@ public class NioPeerHandler {
         // before with the Peer monitor lock held) and false when we can return.
         boolean block_disconnect_socket = false;
         SelectionKey key;
+    }
+
+    // Android's java.nio implementation has a big lock inside the selector, preventing any concurrent access to it.
+    // This appears to largely defeat the entire purpose of java.nio, but we work around it here by explicitly checking
+    // for an Android environment and passing any selector access on any thread other than our internal one through
+    // do_selector_action, which wakes up the selector before accessing it.
+    private static boolean IS_ANDROID;
+    static {
+        IS_ANDROID = System.getProperty("java.vendor").toLowerCase().contains("android");
+    }
+    private boolean wakeup_selector = false;
+    private interface SelectorCall {
+        void meth() throws IOException;
+    }
+    private void do_selector_action(SelectorCall meth) throws IOException {
+        if (IS_ANDROID) {
+            wakeup_selector = true;
+            this.selector.wakeup();
+            synchronized (this.selector) {
+                meth.meth();
+                wakeup_selector = false;
+            }
+        } else {
+            meth.meth();
+        }
     }
 
     private Peer setup_socket(SocketChannel chan) throws IOException {
@@ -41,15 +68,13 @@ public class NioPeerHandler {
         SocketDescriptor descriptor = SocketDescriptor.new_impl(new SocketDescriptor.SocketDescriptorInterface() {
             @Override
             public long send_data(byte[] data, boolean resume_read) {
-                if (resume_read) {
-                    peer.key.interestOps(peer.key.interestOps() | SelectionKey.OP_READ);
-                    selector.wakeup();
-                }
                 try {
+                    if (resume_read) {
+                        do_selector_action(() -> peer.key.interestOps(peer.key.interestOps() | SelectionKey.OP_READ));
+                    }
                     long written = chan.write(ByteBuffer.wrap(data));
                     if (written != data.length) {
-                        peer.key.interestOps(peer.key.interestOps() | SelectionKey.OP_WRITE);
-                        selector.wakeup();
+                        do_selector_action(() -> peer.key.interestOps(peer.key.interestOps() | SelectionKey.OP_WRITE));
                     }
                     return written;
                 } catch (IOException e) {
@@ -61,9 +86,10 @@ public class NioPeerHandler {
             @Override
             public void disconnect_socket() {
                 try {
-                    peer.key.cancel();
-                    peer.key.channel().close();
-                    selector.wakeup();
+                    do_selector_action(() -> {
+                        peer.key.cancel();
+                        peer.key.channel().close();
+                    });
                 } catch (IOException ignored) { }
                 synchronized (peer) {
                     while (peer.block_disconnect_socket) {
@@ -82,7 +108,7 @@ public class NioPeerHandler {
 
     PeerManager peer_manager;
     Thread io_thread;
-    Selector selector;
+    final Selector selector;
     long socket_id;
     volatile boolean shutdown = false;
 
@@ -101,7 +127,18 @@ public class NioPeerHandler {
             long lastTimerTick = System.currentTimeMillis();
             while (true) {
                 try {
-                    this.selector.select(1000);
+                    if (IS_ANDROID) {
+                        while (true) {
+                            synchronized (this.selector) {
+                                if (!wakeup_selector) {
+                                    this.selector.select(1000);
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        this.selector.select(1000);
+                    }
                 } catch (IOException ignored) {
                     System.err.println("java.nio threw an unexpected IOException. Stopping PeerHandler thread!");
                     return;
@@ -210,8 +247,7 @@ public class NioPeerHandler {
             if (chan.write(ByteBuffer.wrap(initial_bytes)) != initial_bytes.length) {
                 throw new IOException("We assume TCP socket buffer is at least a single packet in length");
             }
-            peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer);
-            this.selector.wakeup();
+            do_selector_action(() -> peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer));
         } else {
             throw new IOException("LDK rejected outbound connection. This likely shouldn't ever happen.");
         }
@@ -228,8 +264,7 @@ public class NioPeerHandler {
         ServerSocketChannel listen_channel = ServerSocketChannel.open();
         listen_channel.bind(socket_address);
         listen_channel.configureBlocking(false);
-        listen_channel.register(this.selector, SelectionKey.OP_ACCEPT);
-        this.selector.wakeup();
+        do_selector_action(() -> listen_channel.register(this.selector, SelectionKey.OP_ACCEPT));
     }
 
     /**

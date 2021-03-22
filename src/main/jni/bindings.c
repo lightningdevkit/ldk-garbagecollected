@@ -777,6 +777,8 @@ static jclass LDKMessageSendEvent_SendChannelRangeQuery_class = NULL;
 static jmethodID LDKMessageSendEvent_SendChannelRangeQuery_meth = NULL;
 static jclass LDKMessageSendEvent_SendShortIdsQuery_class = NULL;
 static jmethodID LDKMessageSendEvent_SendShortIdsQuery_meth = NULL;
+static jclass LDKMessageSendEvent_SendReplyChannelRange_class = NULL;
+static jmethodID LDKMessageSendEvent_SendReplyChannelRange_meth = NULL;
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKMessageSendEvent_init (JNIEnv *env, jclass clz) {
 	LDKMessageSendEvent_SendAcceptChannel_class =
 		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendAcceptChannel;"));
@@ -868,6 +870,11 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_00024LDKMessageSendEvent_init 
 	CHECK(LDKMessageSendEvent_SendShortIdsQuery_class != NULL);
 	LDKMessageSendEvent_SendShortIdsQuery_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendShortIdsQuery_class, "<init>", "([BJ)V");
 	CHECK(LDKMessageSendEvent_SendShortIdsQuery_meth != NULL);
+	LDKMessageSendEvent_SendReplyChannelRange_class =
+		(*env)->NewGlobalRef(env, (*env)->FindClass(env, "Lorg/ldk/impl/bindings$LDKMessageSendEvent$SendReplyChannelRange;"));
+	CHECK(LDKMessageSendEvent_SendReplyChannelRange_class != NULL);
+	LDKMessageSendEvent_SendReplyChannelRange_meth = (*env)->GetMethodID(env, LDKMessageSendEvent_SendReplyChannelRange_class, "<init>", "([BJ)V");
+	CHECK(LDKMessageSendEvent_SendReplyChannelRange_meth != NULL);
 }
 JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1from_1ptr(JNIEnv *env, jclass clz, int64_t ptr) {
 	LDKMessageSendEvent *obj = (LDKMessageSendEvent*)ptr;
@@ -1023,6 +1030,15 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKMessageSendEvent_1ref_1f
 			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 			long msg_ref = (long)msg_var.inner & ~1;
 			return (*env)->NewObject(env, LDKMessageSendEvent_SendShortIdsQuery_class, LDKMessageSendEvent_SendShortIdsQuery_meth, node_id_arr, msg_ref);
+		}
+		case LDKMessageSendEvent_SendReplyChannelRange: {
+			int8_tArray node_id_arr = (*env)->NewByteArray(env, 33);
+			(*env)->SetByteArrayRegion(env, node_id_arr, 0, 33, obj->send_reply_channel_range.node_id.compressed_form);
+			LDKReplyChannelRange msg_var = obj->send_reply_channel_range.msg;
+			CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+			CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+			long msg_ref = (long)msg_var.inner & ~1;
+			return (*env)->NewObject(env, LDKMessageSendEvent_SendReplyChannelRange_class, LDKMessageSendEvent_SendReplyChannelRange_meth, node_id_arr, msg_ref);
 		}
 		default: abort();
 	}
@@ -2279,7 +2295,7 @@ static void LDKSign_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-LDKPublicKey get_per_commitment_point_jcall(const void* this_arg, uint64_t idx) {
+LDKPublicKey get_per_commitment_point_LDKSign_jcall(const void* this_arg, uint64_t idx) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2291,7 +2307,7 @@ LDKPublicKey get_per_commitment_point_jcall(const void* this_arg, uint64_t idx) 
 	(*env)->GetByteArrayRegion(env, ret, 0, 33, ret_ref.compressed_form);
 	return ret_ref;
 }
-LDKThirtyTwoBytes release_commitment_secret_jcall(const void* this_arg, uint64_t idx) {
+LDKThirtyTwoBytes release_commitment_secret_LDKSign_jcall(const void* this_arg, uint64_t idx) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2303,7 +2319,7 @@ LDKThirtyTwoBytes release_commitment_secret_jcall(const void* this_arg, uint64_t
 	(*env)->GetByteArrayRegion(env, ret, 0, 32, ret_ref.data);
 	return ret_ref;
 }
-LDKThirtyTwoBytes channel_keys_id_jcall(const void* this_arg) {
+LDKThirtyTwoBytes channel_keys_id_LDKSign_jcall(const void* this_arg) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2315,7 +2331,7 @@ LDKThirtyTwoBytes channel_keys_id_jcall(const void* this_arg) {
 	(*env)->GetByteArrayRegion(env, ret, 0, 32, ret_ref.data);
 	return ret_ref;
 }
-LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_jcall(const void* this_arg, const LDKCommitmentTransaction * commitment_tx) {
+LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_LDKSign_jcall(const void* this_arg, const LDKCommitmentTransaction * commitment_tx) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2334,7 +2350,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_j
 	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret);
 	return ret_conv;
 }
-LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs_jcall(const void* this_arg, const LDKHolderCommitmentTransaction * commitment_tx) {
+LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs_LDKSign_jcall(const void* this_arg, const LDKHolderCommitmentTransaction * commitment_tx) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2353,7 +2369,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htl
 	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret);
 	return ret_conv;
 }
-LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (* per_commitment_key)[32], const LDKHTLCOutputInCommitment * htlc) {
+LDKCResult_SignatureNoneZ sign_justice_transaction_LDKSign_jcall(const void* this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (* per_commitment_key)[32], const LDKHTLCOutputInCommitment * htlc) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2378,7 +2394,7 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_jcall(const void* this_arg, L
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
-LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment * htlc) {
+LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_LDKSign_jcall(const void* this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment * htlc) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2403,7 +2419,7 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_jcall(const void* t
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
-LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, LDKTransaction closing_tx) {
+LDKCResult_SignatureNoneZ sign_closing_transaction_LDKSign_jcall(const void* this_arg, LDKTransaction closing_tx) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2418,7 +2434,7 @@ LDKCResult_SignatureNoneZ sign_closing_transaction_jcall(const void* this_arg, L
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
-LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, const LDKUnsignedChannelAnnouncement * msg) {
+LDKCResult_SignatureNoneZ sign_channel_announcement_LDKSign_jcall(const void* this_arg, const LDKUnsignedChannelAnnouncement * msg) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2437,7 +2453,7 @@ LDKCResult_SignatureNoneZ sign_channel_announcement_jcall(const void* this_arg, 
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
 	return ret_conv;
 }
-void ready_channel_jcall(void* this_arg, const LDKChannelTransactionParameters * channel_parameters) {
+void ready_channel_LDKSign_jcall(void* this_arg, const LDKChannelTransactionParameters * channel_parameters) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2453,7 +2469,7 @@ void ready_channel_jcall(void* this_arg, const LDKChannelTransactionParameters *
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->ready_channel_meth, channel_parameters_ref);
 }
-LDKCVec_u8Z write_jcall(const void* this_arg) {
+LDKCVec_u8Z write_LDKSign_jcall(const void* this_arg) {
 	LDKSign_JCalls *j_calls = (LDKSign_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -2508,18 +2524,18 @@ static inline LDKSign LDKSign_init (JNIEnv *env, jclass clz, jobject o, int64_t 
 
 	LDKSign ret = {
 		.this_arg = (void*) calls,
-		.get_per_commitment_point = get_per_commitment_point_jcall,
-		.release_commitment_secret = release_commitment_secret_jcall,
-		.channel_keys_id = channel_keys_id_jcall,
-		.sign_counterparty_commitment = sign_counterparty_commitment_jcall,
-		.sign_holder_commitment_and_htlcs = sign_holder_commitment_and_htlcs_jcall,
-		.sign_justice_transaction = sign_justice_transaction_jcall,
-		.sign_counterparty_htlc_transaction = sign_counterparty_htlc_transaction_jcall,
-		.sign_closing_transaction = sign_closing_transaction_jcall,
-		.sign_channel_announcement = sign_channel_announcement_jcall,
-		.ready_channel = ready_channel_jcall,
+		.get_per_commitment_point = get_per_commitment_point_LDKSign_jcall,
+		.release_commitment_secret = release_commitment_secret_LDKSign_jcall,
+		.channel_keys_id = channel_keys_id_LDKSign_jcall,
+		.sign_counterparty_commitment = sign_counterparty_commitment_LDKSign_jcall,
+		.sign_holder_commitment_and_htlcs = sign_holder_commitment_and_htlcs_LDKSign_jcall,
+		.sign_justice_transaction = sign_justice_transaction_LDKSign_jcall,
+		.sign_counterparty_htlc_transaction = sign_counterparty_htlc_transaction_LDKSign_jcall,
+		.sign_closing_transaction = sign_closing_transaction_LDKSign_jcall,
+		.sign_channel_announcement = sign_channel_announcement_LDKSign_jcall,
+		.ready_channel = ready_channel_LDKSign_jcall,
 		.clone = LDKSign_JCalls_clone,
-		.write = write_jcall,
+		.write = write_LDKSign_jcall,
 		.free = LDKSign_JCalls_free,
 		.pubkeys = pubkeys_conv,
 		.set_pubkeys = NULL,
@@ -2991,7 +3007,7 @@ static void LDKWatch_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitor monitor) {
+LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_LDKWatch_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitor monitor) {
 	LDKWatch_JCalls *j_calls = (LDKWatch_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3016,7 +3032,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_jcall(const void* this_arg
 	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
 	return ret_conv;
 }
-LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate update) {
+LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_LDKWatch_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate update) {
 	LDKWatch_JCalls *j_calls = (LDKWatch_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3041,7 +3057,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_jcall(const void* this_ar
 	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
 	return ret_conv;
 }
-LDKCVec_MonitorEventZ release_pending_monitor_events_jcall(const void* this_arg) {
+LDKCVec_MonitorEventZ release_pending_monitor_events_LDKWatch_jcall(const void* this_arg) {
 	LDKWatch_JCalls *j_calls = (LDKWatch_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3085,9 +3101,9 @@ static inline LDKWatch LDKWatch_init (JNIEnv *env, jclass clz, jobject o) {
 
 	LDKWatch ret = {
 		.this_arg = (void*) calls,
-		.watch_channel = watch_channel_jcall,
-		.update_channel = update_channel_jcall,
-		.release_pending_monitor_events = release_pending_monitor_events_jcall,
+		.watch_channel = watch_channel_LDKWatch_jcall,
+		.update_channel = update_channel_LDKWatch_jcall,
+		.release_pending_monitor_events = release_pending_monitor_events_LDKWatch_jcall,
 		.free = LDKWatch_JCalls_free,
 	};
 	return ret;
@@ -3158,7 +3174,7 @@ static void LDKBroadcasterInterface_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-void broadcast_transaction_jcall(const void* this_arg, LDKTransaction tx) {
+void broadcast_transaction_LDKBroadcasterInterface_jcall(const void* this_arg, LDKTransaction tx) {
 	LDKBroadcasterInterface_JCalls *j_calls = (LDKBroadcasterInterface_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3187,7 +3203,7 @@ static inline LDKBroadcasterInterface LDKBroadcasterInterface_init (JNIEnv *env,
 
 	LDKBroadcasterInterface ret = {
 		.this_arg = (void*) calls,
-		.broadcast_transaction = broadcast_transaction_jcall,
+		.broadcast_transaction = broadcast_transaction_LDKBroadcasterInterface_jcall,
 		.free = LDKBroadcasterInterface_JCalls_free,
 	};
 	return ret;
@@ -3246,7 +3262,7 @@ static void LDKKeysInterface_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-LDKSecretKey get_node_secret_jcall(const void* this_arg) {
+LDKSecretKey get_node_secret_LDKKeysInterface_jcall(const void* this_arg) {
 	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3258,7 +3274,7 @@ LDKSecretKey get_node_secret_jcall(const void* this_arg) {
 	(*env)->GetByteArrayRegion(env, ret, 0, 32, ret_ref.bytes);
 	return ret_ref;
 }
-LDKCVec_u8Z get_destination_script_jcall(const void* this_arg) {
+LDKCVec_u8Z get_destination_script_LDKKeysInterface_jcall(const void* this_arg) {
 	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3271,7 +3287,7 @@ LDKCVec_u8Z get_destination_script_jcall(const void* this_arg) {
 	(*env)->GetByteArrayRegion(env, ret, 0, ret_ref.datalen, ret_ref.data);
 	return ret_ref;
 }
-LDKPublicKey get_shutdown_pubkey_jcall(const void* this_arg) {
+LDKPublicKey get_shutdown_pubkey_LDKKeysInterface_jcall(const void* this_arg) {
 	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3283,7 +3299,7 @@ LDKPublicKey get_shutdown_pubkey_jcall(const void* this_arg) {
 	(*env)->GetByteArrayRegion(env, ret, 0, 33, ret_ref.compressed_form);
 	return ret_ref;
 }
-LDKSign get_channel_signer_jcall(const void* this_arg, bool inbound, uint64_t channel_value_satoshis) {
+LDKSign get_channel_signer_LDKKeysInterface_jcall(const void* this_arg, bool inbound, uint64_t channel_value_satoshis) {
 	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3294,7 +3310,7 @@ LDKSign get_channel_signer_jcall(const void* this_arg, bool inbound, uint64_t ch
 	ret_conv = Sign_clone(ret);
 	return ret_conv;
 }
-LDKThirtyTwoBytes get_secure_random_bytes_jcall(const void* this_arg) {
+LDKThirtyTwoBytes get_secure_random_bytes_LDKKeysInterface_jcall(const void* this_arg) {
 	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3306,7 +3322,7 @@ LDKThirtyTwoBytes get_secure_random_bytes_jcall(const void* this_arg) {
 	(*env)->GetByteArrayRegion(env, ret, 0, 32, ret_ref.data);
 	return ret_ref;
 }
-LDKCResult_SignDecodeErrorZ read_chan_signer_jcall(const void* this_arg, LDKu8slice reader) {
+LDKCResult_SignDecodeErrorZ read_chan_signer_LDKKeysInterface_jcall(const void* this_arg, LDKu8slice reader) {
 	LDKKeysInterface_JCalls *j_calls = (LDKKeysInterface_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3347,12 +3363,12 @@ static inline LDKKeysInterface LDKKeysInterface_init (JNIEnv *env, jclass clz, j
 
 	LDKKeysInterface ret = {
 		.this_arg = (void*) calls,
-		.get_node_secret = get_node_secret_jcall,
-		.get_destination_script = get_destination_script_jcall,
-		.get_shutdown_pubkey = get_shutdown_pubkey_jcall,
-		.get_channel_signer = get_channel_signer_jcall,
-		.get_secure_random_bytes = get_secure_random_bytes_jcall,
-		.read_chan_signer = read_chan_signer_jcall,
+		.get_node_secret = get_node_secret_LDKKeysInterface_jcall,
+		.get_destination_script = get_destination_script_LDKKeysInterface_jcall,
+		.get_shutdown_pubkey = get_shutdown_pubkey_LDKKeysInterface_jcall,
+		.get_channel_signer = get_channel_signer_LDKKeysInterface_jcall,
+		.get_secure_random_bytes = get_secure_random_bytes_LDKKeysInterface_jcall,
+		.read_chan_signer = read_chan_signer_LDKKeysInterface_jcall,
 		.free = LDKKeysInterface_JCalls_free,
 	};
 	return ret;
@@ -3425,7 +3441,7 @@ static void LDKFeeEstimator_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-uint32_t get_est_sat_per_1000_weight_jcall(const void* this_arg, LDKConfirmationTarget confirmation_target) {
+uint32_t get_est_sat_per_1000_weight_LDKFeeEstimator_jcall(const void* this_arg, LDKConfirmationTarget confirmation_target) {
 	LDKFeeEstimator_JCalls *j_calls = (LDKFeeEstimator_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3451,7 +3467,7 @@ static inline LDKFeeEstimator LDKFeeEstimator_init (JNIEnv *env, jclass clz, job
 
 	LDKFeeEstimator ret = {
 		.this_arg = (void*) calls,
-		.get_est_sat_per_1000_weight = get_est_sat_per_1000_weight_jcall,
+		.get_est_sat_per_1000_weight = get_est_sat_per_1000_weight_LDKFeeEstimator_jcall,
 		.free = LDKFeeEstimator_JCalls_free,
 	};
 	return ret;
@@ -3483,7 +3499,7 @@ static void LDKLogger_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-void log_jcall(const void* this_arg, const char* record) {
+void log_LDKLogger_jcall(const void* this_arg, const char* record) {
 	LDKLogger_JCalls *j_calls = (LDKLogger_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -3510,7 +3526,7 @@ static inline LDKLogger LDKLogger_init (JNIEnv *env, jclass clz, jobject o) {
 
 	LDKLogger ret = {
 		.this_arg = (void*) calls,
-		.log = log_jcall,
+		.log = log_LDKLogger_jcall,
 		.free = LDKLogger_JCalls_free,
 	};
 	return ret;
@@ -4585,7 +4601,7 @@ static void LDKMessageSendEventsProvider_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-LDKCVec_MessageSendEventZ get_and_clear_pending_msg_events_jcall(const void* this_arg) {
+LDKCVec_MessageSendEventZ get_and_clear_pending_msg_events_LDKMessageSendEventsProvider_jcall(const void* this_arg) {
 	LDKMessageSendEventsProvider_JCalls *j_calls = (LDKMessageSendEventsProvider_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -4625,7 +4641,7 @@ static inline LDKMessageSendEventsProvider LDKMessageSendEventsProvider_init (JN
 
 	LDKMessageSendEventsProvider ret = {
 		.this_arg = (void*) calls,
-		.get_and_clear_pending_msg_events = get_and_clear_pending_msg_events_jcall,
+		.get_and_clear_pending_msg_events = get_and_clear_pending_msg_events_LDKMessageSendEventsProvider_jcall,
 		.free = LDKMessageSendEventsProvider_JCalls_free,
 	};
 	return ret;
@@ -4666,7 +4682,7 @@ static void LDKEventsProvider_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-LDKCVec_EventZ get_and_clear_pending_events_jcall(const void* this_arg) {
+LDKCVec_EventZ get_and_clear_pending_events_LDKEventsProvider_jcall(const void* this_arg) {
 	LDKEventsProvider_JCalls *j_calls = (LDKEventsProvider_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -4706,7 +4722,7 @@ static inline LDKEventsProvider LDKEventsProvider_init (JNIEnv *env, jclass clz,
 
 	LDKEventsProvider ret = {
 		.this_arg = (void*) calls,
-		.get_and_clear_pending_events = get_and_clear_pending_events_jcall,
+		.get_and_clear_pending_events = get_and_clear_pending_events_LDKEventsProvider_jcall,
 		.free = LDKEventsProvider_JCalls_free,
 	};
 	return ret;
@@ -4747,7 +4763,7 @@ static void LDKAccess_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-LDKCResult_TxOutAccessErrorZ get_utxo_jcall(const void* this_arg, const uint8_t (* genesis_hash)[32], uint64_t short_channel_id) {
+LDKCResult_TxOutAccessErrorZ get_utxo_LDKAccess_jcall(const void* this_arg, const uint8_t (* genesis_hash)[32], uint64_t short_channel_id) {
 	LDKAccess_JCalls *j_calls = (LDKAccess_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -4777,7 +4793,7 @@ static inline LDKAccess LDKAccess_init (JNIEnv *env, jclass clz, jobject o) {
 
 	LDKAccess ret = {
 		.this_arg = (void*) calls,
-		.get_utxo = get_utxo_jcall,
+		.get_utxo = get_utxo_LDKAccess_jcall,
 		.free = LDKAccess_JCalls_free,
 	};
 	return ret;
@@ -4814,7 +4830,7 @@ static void LDKListen_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-void block_connected_jcall(const void* this_arg, LDKu8slice block, uint32_t height) {
+void block_connected_LDKListen_jcall(const void* this_arg, LDKu8slice block, uint32_t height) {
 	LDKListen_JCalls *j_calls = (LDKListen_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -4825,7 +4841,7 @@ void block_connected_jcall(const void* this_arg, LDKu8slice block, uint32_t heig
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->block_connected_meth, block_arr, height);
 }
-void block_disconnected_jcall(const void* this_arg, const uint8_t (* header)[80], uint32_t height) {
+void block_disconnected_LDKListen_jcall(const void* this_arg, const uint8_t (* header)[80], uint32_t height) {
 	LDKListen_JCalls *j_calls = (LDKListen_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -4854,8 +4870,8 @@ static inline LDKListen LDKListen_init (JNIEnv *env, jclass clz, jobject o) {
 
 	LDKListen ret = {
 		.this_arg = (void*) calls,
-		.block_connected = block_connected_jcall,
-		.block_disconnected = block_disconnected_jcall,
+		.block_connected = block_connected_LDKListen_jcall,
+		.block_disconnected = block_disconnected_LDKListen_jcall,
 		.free = LDKListen_JCalls_free,
 	};
 	return ret;
@@ -4899,7 +4915,7 @@ static void LDKFilter_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-void register_tx_jcall(const void* this_arg, const uint8_t (* txid)[32], LDKu8slice script_pubkey) {
+void register_tx_LDKFilter_jcall(const void* this_arg, const uint8_t (* txid)[32], LDKu8slice script_pubkey) {
 	LDKFilter_JCalls *j_calls = (LDKFilter_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -4912,7 +4928,7 @@ void register_tx_jcall(const void* this_arg, const uint8_t (* txid)[32], LDKu8sl
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->register_tx_meth, txid_arr, script_pubkey_arr);
 }
-void register_output_jcall(const void* this_arg, const LDKOutPoint * outpoint, LDKu8slice script_pubkey) {
+void register_output_LDKFilter_jcall(const void* this_arg, const LDKOutPoint * outpoint, LDKu8slice script_pubkey) {
 	LDKFilter_JCalls *j_calls = (LDKFilter_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -4950,8 +4966,8 @@ static inline LDKFilter LDKFilter_init (JNIEnv *env, jclass clz, jobject o) {
 
 	LDKFilter ret = {
 		.this_arg = (void*) calls,
-		.register_tx = register_tx_jcall,
-		.register_output = register_output_jcall,
+		.register_tx = register_tx_LDKFilter_jcall,
+		.register_output = register_output_LDKFilter_jcall,
 		.free = LDKFilter_JCalls_free,
 	};
 	return ret;
@@ -5002,7 +5018,7 @@ static void LDKPersist_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_jcall(const void* this_arg, LDKOutPoint id, const LDKChannelMonitor * data) {
+LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_LDKPersist_jcall(const void* this_arg, LDKOutPoint id, const LDKChannelMonitor * data) {
 	LDKPersist_JCalls *j_calls = (LDKPersist_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5028,7 +5044,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_jcall(const void* th
 	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
 	return ret_conv;
 }
-LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_jcall(const void* this_arg, LDKOutPoint id, const LDKChannelMonitorUpdate * update, const LDKChannelMonitor * data) {
+LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_LDKPersist_jcall(const void* this_arg, LDKOutPoint id, const LDKChannelMonitorUpdate * update, const LDKChannelMonitor * data) {
 	LDKPersist_JCalls *j_calls = (LDKPersist_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5081,8 +5097,8 @@ static inline LDKPersist LDKPersist_init (JNIEnv *env, jclass clz, jobject o) {
 
 	LDKPersist ret = {
 		.this_arg = (void*) calls,
-		.persist_new_channel = persist_new_channel_jcall,
-		.update_persisted_channel = update_persisted_channel_jcall,
+		.persist_new_channel = persist_new_channel_LDKPersist_jcall,
+		.update_persisted_channel = update_persisted_channel_LDKPersist_jcall,
 		.free = LDKPersist_JCalls_free,
 	};
 	return ret;
@@ -5146,6 +5162,7 @@ typedef struct LDKChannelMessageHandler_JCalls {
 	jmethodID peer_disconnected_meth;
 	jmethodID peer_connected_meth;
 	jmethodID handle_channel_reestablish_meth;
+	jmethodID handle_channel_update_meth;
 	jmethodID handle_error_meth;
 } LDKChannelMessageHandler_JCalls;
 static void LDKChannelMessageHandler_JCalls_free(void* this_arg) {
@@ -5157,7 +5174,7 @@ static void LDKChannelMessageHandler_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-void handle_open_channel_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKOpenChannel * msg) {
+void handle_open_channel_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKOpenChannel * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5182,7 +5199,7 @@ void handle_open_channel_jcall(const void* this_arg, LDKPublicKey their_node_id,
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_open_channel_meth, their_node_id_arr, their_features_ref, msg_ref);
 }
-void handle_accept_channel_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel * msg) {
+void handle_accept_channel_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5207,7 +5224,7 @@ void handle_accept_channel_jcall(const void* this_arg, LDKPublicKey their_node_i
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_accept_channel_meth, their_node_id_arr, their_features_ref, msg_ref);
 }
-void handle_funding_created_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingCreated * msg) {
+void handle_funding_created_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingCreated * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5225,7 +5242,7 @@ void handle_funding_created_jcall(const void* this_arg, LDKPublicKey their_node_
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_funding_created_meth, their_node_id_arr, msg_ref);
 }
-void handle_funding_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingSigned * msg) {
+void handle_funding_signed_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingSigned * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5243,7 +5260,7 @@ void handle_funding_signed_jcall(const void* this_arg, LDKPublicKey their_node_i
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_funding_signed_meth, their_node_id_arr, msg_ref);
 }
-void handle_funding_locked_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingLocked * msg) {
+void handle_funding_locked_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKFundingLocked * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5261,7 +5278,7 @@ void handle_funding_locked_jcall(const void* this_arg, LDKPublicKey their_node_i
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_funding_locked_meth, their_node_id_arr, msg_ref);
 }
-void handle_shutdown_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInitFeatures * their_features, const LDKShutdown * msg) {
+void handle_shutdown_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInitFeatures * their_features, const LDKShutdown * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5287,7 +5304,7 @@ void handle_shutdown_jcall(const void* this_arg, LDKPublicKey their_node_id, con
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_shutdown_meth, their_node_id_arr, their_features_ref, msg_ref);
 }
-void handle_closing_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKClosingSigned * msg) {
+void handle_closing_signed_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKClosingSigned * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5305,7 +5322,7 @@ void handle_closing_signed_jcall(const void* this_arg, LDKPublicKey their_node_i
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_closing_signed_meth, their_node_id_arr, msg_ref);
 }
-void handle_update_add_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC * msg) {
+void handle_update_add_htlc_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5323,7 +5340,7 @@ void handle_update_add_htlc_jcall(const void* this_arg, LDKPublicKey their_node_
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_update_add_htlc_meth, their_node_id_arr, msg_ref);
 }
-void handle_update_fulfill_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC * msg) {
+void handle_update_fulfill_htlc_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5341,7 +5358,7 @@ void handle_update_fulfill_htlc_jcall(const void* this_arg, LDKPublicKey their_n
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_update_fulfill_htlc_meth, their_node_id_arr, msg_ref);
 }
-void handle_update_fail_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC * msg) {
+void handle_update_fail_htlc_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5359,7 +5376,7 @@ void handle_update_fail_htlc_jcall(const void* this_arg, LDKPublicKey their_node
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_update_fail_htlc_meth, their_node_id_arr, msg_ref);
 }
-void handle_update_fail_malformed_htlc_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC * msg) {
+void handle_update_fail_malformed_htlc_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5377,7 +5394,7 @@ void handle_update_fail_malformed_htlc_jcall(const void* this_arg, LDKPublicKey 
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_update_fail_malformed_htlc_meth, their_node_id_arr, msg_ref);
 }
-void handle_commitment_signed_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKCommitmentSigned * msg) {
+void handle_commitment_signed_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKCommitmentSigned * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5395,7 +5412,7 @@ void handle_commitment_signed_jcall(const void* this_arg, LDKPublicKey their_nod
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_commitment_signed_meth, their_node_id_arr, msg_ref);
 }
-void handle_revoke_and_ack_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKRevokeAndACK * msg) {
+void handle_revoke_and_ack_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKRevokeAndACK * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5413,7 +5430,7 @@ void handle_revoke_and_ack_jcall(const void* this_arg, LDKPublicKey their_node_i
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_revoke_and_ack_meth, their_node_id_arr, msg_ref);
 }
-void handle_update_fee_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFee * msg) {
+void handle_update_fee_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKUpdateFee * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5431,7 +5448,7 @@ void handle_update_fee_jcall(const void* this_arg, LDKPublicKey their_node_id, c
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_update_fee_meth, their_node_id_arr, msg_ref);
 }
-void handle_announcement_signatures_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures * msg) {
+void handle_announcement_signatures_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5449,7 +5466,7 @@ void handle_announcement_signatures_jcall(const void* this_arg, LDKPublicKey the
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_announcement_signatures_meth, their_node_id_arr, msg_ref);
 }
-void peer_disconnected_jcall(const void* this_arg, LDKPublicKey their_node_id, bool no_connection_possible) {
+void peer_disconnected_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, bool no_connection_possible) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5459,7 +5476,7 @@ void peer_disconnected_jcall(const void* this_arg, LDKPublicKey their_node_id, b
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->peer_disconnected_meth, their_node_id_arr, no_connection_possible);
 }
-void peer_connected_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInit * msg) {
+void peer_connected_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInit * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5477,7 +5494,7 @@ void peer_connected_jcall(const void* this_arg, LDKPublicKey their_node_id, cons
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->peer_connected_meth, their_node_id_arr, msg_ref);
 }
-void handle_channel_reestablish_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKChannelReestablish * msg) {
+void handle_channel_reestablish_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKChannelReestablish * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5495,7 +5512,25 @@ void handle_channel_reestablish_jcall(const void* this_arg, LDKPublicKey their_n
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_channel_reestablish_meth, their_node_id_arr, msg_ref);
 }
-void handle_error_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKErrorMessage * msg) {
+void handle_channel_update_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKChannelUpdate * msg) {
+	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
+	JNIEnv *env;
+	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
+	int8_tArray their_node_id_arr = (*env)->NewByteArray(env, 33);
+	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
+	LDKChannelUpdate msg_var = *msg;
+	msg_var = ChannelUpdate_clone(msg);
+	CHECK((((long)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long msg_ref = (long)msg_var.inner;
+	if (msg_var.is_owned) {
+		msg_ref |= 1;
+	}
+	jobject obj = (*env)->NewLocalRef(env, j_calls->o);
+	CHECK(obj != NULL);
+	return (*env)->CallVoidMethod(env, obj, j_calls->handle_channel_update_meth, their_node_id_arr, msg_ref);
+}
+void handle_error_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKErrorMessage * msg) {
 	LDKChannelMessageHandler_JCalls *j_calls = (LDKChannelMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5562,30 +5597,33 @@ static inline LDKChannelMessageHandler LDKChannelMessageHandler_init (JNIEnv *en
 	CHECK(calls->peer_connected_meth != NULL);
 	calls->handle_channel_reestablish_meth = (*env)->GetMethodID(env, c, "handle_channel_reestablish", "([BJ)V");
 	CHECK(calls->handle_channel_reestablish_meth != NULL);
+	calls->handle_channel_update_meth = (*env)->GetMethodID(env, c, "handle_channel_update", "([BJ)V");
+	CHECK(calls->handle_channel_update_meth != NULL);
 	calls->handle_error_meth = (*env)->GetMethodID(env, c, "handle_error", "([BJ)V");
 	CHECK(calls->handle_error_meth != NULL);
 
 	LDKChannelMessageHandler ret = {
 		.this_arg = (void*) calls,
-		.handle_open_channel = handle_open_channel_jcall,
-		.handle_accept_channel = handle_accept_channel_jcall,
-		.handle_funding_created = handle_funding_created_jcall,
-		.handle_funding_signed = handle_funding_signed_jcall,
-		.handle_funding_locked = handle_funding_locked_jcall,
-		.handle_shutdown = handle_shutdown_jcall,
-		.handle_closing_signed = handle_closing_signed_jcall,
-		.handle_update_add_htlc = handle_update_add_htlc_jcall,
-		.handle_update_fulfill_htlc = handle_update_fulfill_htlc_jcall,
-		.handle_update_fail_htlc = handle_update_fail_htlc_jcall,
-		.handle_update_fail_malformed_htlc = handle_update_fail_malformed_htlc_jcall,
-		.handle_commitment_signed = handle_commitment_signed_jcall,
-		.handle_revoke_and_ack = handle_revoke_and_ack_jcall,
-		.handle_update_fee = handle_update_fee_jcall,
-		.handle_announcement_signatures = handle_announcement_signatures_jcall,
-		.peer_disconnected = peer_disconnected_jcall,
-		.peer_connected = peer_connected_jcall,
-		.handle_channel_reestablish = handle_channel_reestablish_jcall,
-		.handle_error = handle_error_jcall,
+		.handle_open_channel = handle_open_channel_LDKChannelMessageHandler_jcall,
+		.handle_accept_channel = handle_accept_channel_LDKChannelMessageHandler_jcall,
+		.handle_funding_created = handle_funding_created_LDKChannelMessageHandler_jcall,
+		.handle_funding_signed = handle_funding_signed_LDKChannelMessageHandler_jcall,
+		.handle_funding_locked = handle_funding_locked_LDKChannelMessageHandler_jcall,
+		.handle_shutdown = handle_shutdown_LDKChannelMessageHandler_jcall,
+		.handle_closing_signed = handle_closing_signed_LDKChannelMessageHandler_jcall,
+		.handle_update_add_htlc = handle_update_add_htlc_LDKChannelMessageHandler_jcall,
+		.handle_update_fulfill_htlc = handle_update_fulfill_htlc_LDKChannelMessageHandler_jcall,
+		.handle_update_fail_htlc = handle_update_fail_htlc_LDKChannelMessageHandler_jcall,
+		.handle_update_fail_malformed_htlc = handle_update_fail_malformed_htlc_LDKChannelMessageHandler_jcall,
+		.handle_commitment_signed = handle_commitment_signed_LDKChannelMessageHandler_jcall,
+		.handle_revoke_and_ack = handle_revoke_and_ack_LDKChannelMessageHandler_jcall,
+		.handle_update_fee = handle_update_fee_LDKChannelMessageHandler_jcall,
+		.handle_announcement_signatures = handle_announcement_signatures_LDKChannelMessageHandler_jcall,
+		.peer_disconnected = peer_disconnected_LDKChannelMessageHandler_jcall,
+		.peer_connected = peer_connected_LDKChannelMessageHandler_jcall,
+		.handle_channel_reestablish = handle_channel_reestablish_LDKChannelMessageHandler_jcall,
+		.handle_channel_update = handle_channel_update_LDKChannelMessageHandler_jcall,
+		.handle_error = handle_error_LDKChannelMessageHandler_jcall,
 		.free = LDKChannelMessageHandler_JCalls_free,
 		.MessageSendEventsProvider = LDKMessageSendEventsProvider_init(env, clz, MessageSendEventsProvider),
 	};
@@ -5803,6 +5841,17 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMessageHandler_1handle_
 	(this_arg_conv->handle_channel_reestablish)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
 }
 
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMessageHandler_1handle_1channel_1update(JNIEnv *env, jclass clz, int64_t this_arg, int8_tArray their_node_id, int64_t msg) {
+	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)(((uint64_t)this_arg) & ~1);
+	LDKPublicKey their_node_id_ref;
+	CHECK((*env)->GetArrayLength(env, their_node_id) == 33);
+	(*env)->GetByteArrayRegion(env, their_node_id, 0, 33, their_node_id_ref.compressed_form);
+	LDKChannelUpdate msg_conv;
+	msg_conv.inner = (void*)(msg & (~1));
+	msg_conv.is_owned = false;
+	(this_arg_conv->handle_channel_update)(this_arg_conv->this_arg, their_node_id_ref, &msg_conv);
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelMessageHandler_1handle_1error(JNIEnv *env, jclass clz, int64_t this_arg, int8_tArray their_node_id, int64_t msg) {
 	LDKChannelMessageHandler* this_arg_conv = (LDKChannelMessageHandler*)(((uint64_t)this_arg) & ~1);
 	LDKPublicKey their_node_id_ref;
@@ -5840,7 +5889,7 @@ static void LDKRoutingMessageHandler_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-LDKCResult_boolLightningErrorZ handle_node_announcement_jcall(const void* this_arg, const LDKNodeAnnouncement * msg) {
+LDKCResult_boolLightningErrorZ handle_node_announcement_LDKRoutingMessageHandler_jcall(const void* this_arg, const LDKNodeAnnouncement * msg) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5859,7 +5908,7 @@ LDKCResult_boolLightningErrorZ handle_node_announcement_jcall(const void* this_a
 	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)ret);
 	return ret_conv;
 }
-LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* this_arg, const LDKChannelAnnouncement * msg) {
+LDKCResult_boolLightningErrorZ handle_channel_announcement_LDKRoutingMessageHandler_jcall(const void* this_arg, const LDKChannelAnnouncement * msg) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5878,7 +5927,7 @@ LDKCResult_boolLightningErrorZ handle_channel_announcement_jcall(const void* thi
 	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)ret);
 	return ret_conv;
 }
-LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg, const LDKChannelUpdate * msg) {
+LDKCResult_boolLightningErrorZ handle_channel_update_LDKRoutingMessageHandler_jcall(const void* this_arg, const LDKChannelUpdate * msg) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5897,7 +5946,7 @@ LDKCResult_boolLightningErrorZ handle_channel_update_jcall(const void* this_arg,
 	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)ret);
 	return ret_conv;
 }
-void handle_htlc_fail_channel_update_jcall(const void* this_arg, const LDKHTLCFailChannelUpdate * update) {
+void handle_htlc_fail_channel_update_LDKRoutingMessageHandler_jcall(const void* this_arg, const LDKHTLCFailChannelUpdate * update) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5906,7 +5955,7 @@ void handle_htlc_fail_channel_update_jcall(const void* this_arg, const LDKHTLCFa
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->handle_htlc_fail_channel_update_meth, ret_update);
 }
-LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcements_jcall(const void* this_arg, uint64_t starting_point, uint8_t batch_amount) {
+LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel_announcements_LDKRoutingMessageHandler_jcall(const void* this_arg, uint64_t starting_point, uint8_t batch_amount) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5929,7 +5978,7 @@ LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel
 	(*env)->ReleaseLongArrayElements(env, ret, ret_vals, 0);
 	return ret_constr;
 }
-LDKCVec_NodeAnnouncementZ get_next_node_announcements_jcall(const void* this_arg, LDKPublicKey starting_point, uint8_t batch_amount) {
+LDKCVec_NodeAnnouncementZ get_next_node_announcements_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey starting_point, uint8_t batch_amount) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5956,7 +6005,7 @@ LDKCVec_NodeAnnouncementZ get_next_node_announcements_jcall(const void* this_arg
 	(*env)->ReleaseLongArrayElements(env, ret, ret_vals, 0);
 	return ret_constr;
 }
-void sync_routing_table_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInit * init) {
+void sync_routing_table_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, const LDKInit * init) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5974,7 +6023,7 @@ void sync_routing_table_jcall(const void* this_arg, LDKPublicKey their_node_id, 
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->sync_routing_table_meth, their_node_id_arr, init_ref);
 }
-LDKCResult_NoneLightningErrorZ handle_reply_channel_range_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKReplyChannelRange msg) {
+LDKCResult_NoneLightningErrorZ handle_reply_channel_range_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKReplyChannelRange msg) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -5994,7 +6043,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_channel_range_jcall(const void* this
 	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)ret);
 	return ret_conv;
 }
-LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKReplyShortChannelIdsEnd msg) {
+LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKReplyShortChannelIdsEnd msg) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -6014,7 +6063,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_jcall(const vo
 	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)ret);
 	return ret_conv;
 }
-LDKCResult_NoneLightningErrorZ handle_query_channel_range_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryChannelRange msg) {
+LDKCResult_NoneLightningErrorZ handle_query_channel_range_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryChannelRange msg) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -6034,7 +6083,7 @@ LDKCResult_NoneLightningErrorZ handle_query_channel_range_jcall(const void* this
 	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)ret);
 	return ret_conv;
 }
-LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryShortChannelIds msg) {
+LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryShortChannelIds msg) {
 	LDKRoutingMessageHandler_JCalls *j_calls = (LDKRoutingMessageHandler_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -6092,17 +6141,17 @@ static inline LDKRoutingMessageHandler LDKRoutingMessageHandler_init (JNIEnv *en
 
 	LDKRoutingMessageHandler ret = {
 		.this_arg = (void*) calls,
-		.handle_node_announcement = handle_node_announcement_jcall,
-		.handle_channel_announcement = handle_channel_announcement_jcall,
-		.handle_channel_update = handle_channel_update_jcall,
-		.handle_htlc_fail_channel_update = handle_htlc_fail_channel_update_jcall,
-		.get_next_channel_announcements = get_next_channel_announcements_jcall,
-		.get_next_node_announcements = get_next_node_announcements_jcall,
-		.sync_routing_table = sync_routing_table_jcall,
-		.handle_reply_channel_range = handle_reply_channel_range_jcall,
-		.handle_reply_short_channel_ids_end = handle_reply_short_channel_ids_end_jcall,
-		.handle_query_channel_range = handle_query_channel_range_jcall,
-		.handle_query_short_channel_ids = handle_query_short_channel_ids_jcall,
+		.handle_node_announcement = handle_node_announcement_LDKRoutingMessageHandler_jcall,
+		.handle_channel_announcement = handle_channel_announcement_LDKRoutingMessageHandler_jcall,
+		.handle_channel_update = handle_channel_update_LDKRoutingMessageHandler_jcall,
+		.handle_htlc_fail_channel_update = handle_htlc_fail_channel_update_LDKRoutingMessageHandler_jcall,
+		.get_next_channel_announcements = get_next_channel_announcements_LDKRoutingMessageHandler_jcall,
+		.get_next_node_announcements = get_next_node_announcements_LDKRoutingMessageHandler_jcall,
+		.sync_routing_table = sync_routing_table_LDKRoutingMessageHandler_jcall,
+		.handle_reply_channel_range = handle_reply_channel_range_LDKRoutingMessageHandler_jcall,
+		.handle_reply_short_channel_ids_end = handle_reply_short_channel_ids_end_LDKRoutingMessageHandler_jcall,
+		.handle_query_channel_range = handle_query_channel_range_LDKRoutingMessageHandler_jcall,
+		.handle_query_short_channel_ids = handle_query_short_channel_ids_LDKRoutingMessageHandler_jcall,
 		.free = LDKRoutingMessageHandler_JCalls_free,
 		.MessageSendEventsProvider = LDKMessageSendEventsProvider_init(env, clz, MessageSendEventsProvider),
 	};
@@ -6273,7 +6322,7 @@ static void LDKSocketDescriptor_JCalls_free(void* this_arg) {
 		FREE(j_calls);
 	}
 }
-uintptr_t send_data_jcall(void* this_arg, LDKu8slice data, bool resume_read) {
+uintptr_t send_data_LDKSocketDescriptor_jcall(void* this_arg, LDKu8slice data, bool resume_read) {
 	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -6284,7 +6333,7 @@ uintptr_t send_data_jcall(void* this_arg, LDKu8slice data, bool resume_read) {
 	CHECK(obj != NULL);
 	return (*env)->CallLongMethod(env, obj, j_calls->send_data_meth, data_arr, resume_read);
 }
-void disconnect_socket_jcall(void* this_arg) {
+void disconnect_socket_LDKSocketDescriptor_jcall(void* this_arg) {
 	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -6292,7 +6341,7 @@ void disconnect_socket_jcall(void* this_arg) {
 	CHECK(obj != NULL);
 	return (*env)->CallVoidMethod(env, obj, j_calls->disconnect_socket_meth);
 }
-bool eq_jcall(const void* this_arg, const LDKSocketDescriptor * other_arg) {
+bool eq_LDKSocketDescriptor_jcall(const void* this_arg, const LDKSocketDescriptor * other_arg) {
 	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -6302,7 +6351,7 @@ bool eq_jcall(const void* this_arg, const LDKSocketDescriptor * other_arg) {
 	CHECK(obj != NULL);
 	return (*env)->CallBooleanMethod(env, obj, j_calls->eq_meth, (long)other_arg_clone);
 }
-uint64_t hash_jcall(const void* this_arg) {
+uint64_t hash_LDKSocketDescriptor_jcall(const void* this_arg) {
 	LDKSocketDescriptor_JCalls *j_calls = (LDKSocketDescriptor_JCalls*) this_arg;
 	JNIEnv *env;
 	DO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);
@@ -6333,10 +6382,10 @@ static inline LDKSocketDescriptor LDKSocketDescriptor_init (JNIEnv *env, jclass 
 
 	LDKSocketDescriptor ret = {
 		.this_arg = (void*) calls,
-		.send_data = send_data_jcall,
-		.disconnect_socket = disconnect_socket_jcall,
-		.eq = eq_jcall,
-		.hash = hash_jcall,
+		.send_data = send_data_LDKSocketDescriptor_jcall,
+		.disconnect_socket = disconnect_socket_LDKSocketDescriptor_jcall,
+		.eq = eq_LDKSocketDescriptor_jcall,
+		.hash = hash_LDKSocketDescriptor_jcall,
 		.clone = LDKSocketDescriptor_JCalls_clone,
 		.free = LDKSocketDescriptor_JCalls_free,
 	};
@@ -10189,6 +10238,21 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1set_1fee_1propo
 	ChannelConfig_set_fee_proportional_millionths(&this_ptr_conv, val);
 }
 
+JNIEXPORT int16_t JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1get_1cltv_1expiry_1delta(JNIEnv *env, jclass clz, int64_t this_ptr) {
+	LDKChannelConfig this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int16_t ret_val = ChannelConfig_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_val;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1set_1cltv_1expiry_1delta(JNIEnv *env, jclass clz, int64_t this_ptr, int16_t val) {
+	LDKChannelConfig this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	ChannelConfig_set_cltv_expiry_delta(&this_ptr_conv, val);
+}
+
 JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1get_1announced_1channel(JNIEnv *env, jclass clz, int64_t this_ptr) {
 	LDKChannelConfig this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
@@ -10219,8 +10283,8 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1set_1commit_1up
 	ChannelConfig_set_commit_upfront_shutdown_pubkey(&this_ptr_conv, val);
 }
 
-JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1new(JNIEnv *env, jclass clz, int32_t fee_proportional_millionths_arg, jboolean announced_channel_arg, jboolean commit_upfront_shutdown_pubkey_arg) {
-	LDKChannelConfig ret_var = ChannelConfig_new(fee_proportional_millionths_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ChannelConfig_1new(JNIEnv *env, jclass clz, int32_t fee_proportional_millionths_arg, int16_t cltv_expiry_delta_arg, jboolean announced_channel_arg, jboolean commit_upfront_shutdown_pubkey_arg) {
+	LDKChannelConfig ret_var = ChannelConfig_new(fee_proportional_millionths_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	long ret_ref = (long)ret_var.inner;
@@ -16898,6 +16962,14 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_ReplyShortChannelIdsEnd
 	(*env)->SetByteArrayRegion(env, ret_arr, 0, ret_var.datalen, ret_var.data);
 	CVec_u8Z_free(ret_var);
 	return ret_arr;
+}
+
+JNIEXPORT int32_t JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1end_1blocknum(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKQueryChannelRange this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	int32_t ret_val = QueryChannelRange_end_blocknum(&this_arg_conv);
+	return ret_val;
 }
 
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_QueryChannelRange_1read(JNIEnv *env, jclass clz, int8_tArray ser) {
