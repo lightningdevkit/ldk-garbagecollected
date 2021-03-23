@@ -101,6 +101,11 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
         arr_access = "data"
+    elif fn_arg.startswith("LDKTxid"):
+        fn_arg = "uint8_t (*" + fn_arg[8:] + ")[32]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKThirtyTwoBytes"
+        arr_access = "data"
     elif fn_arg.startswith("LDKPublicKey"):
         fn_arg = "uint8_t (*" + fn_arg[13:] + ")[33]"
         assert var_is_arr_regex.match(fn_arg[8:])
