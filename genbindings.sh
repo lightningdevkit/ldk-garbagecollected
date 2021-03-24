@@ -44,12 +44,12 @@ rm -f ts/{enums,structs}/*.ts
 ./genbindings.py "$1/lightning-c-bindings/include/lightning.h" ts/bindings.ts ts ts/bindings.c $3 typescript
 
 echo "Building TS bindings..."
-COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -Wl,--export-dynamic -Wl,-allow-undefined -nostdlib --target=wasm32-wasi -o liblightningjs.wasm"
+COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -Wl,--export-dynamic -Wl,-allow-undefined -nostdlib --target=wasm32-wasi"
 # We only need malloc and assert/abort, but for now just use WASI for those:
 #EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 EXTRA_LINK=
 if [ "$3" = "true" ]; then
-	$COMPILE -g -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
+	$COMPILE -o liblightningjs_debug.wasm -g -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
 else
-	$COMPILE -s -Os -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
+	$COMPILE -o liblightningjs_release.wasm -s -Os -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
 fi
