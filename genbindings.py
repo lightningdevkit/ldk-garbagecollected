@@ -381,7 +381,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         method_arguments = method_comma_separated_arguments.split(',')
 
         is_free = method_name.endswith("_free")
-        if method_name.startswith("COption"):
+        if method_name.startswith("COption") or method_name.startswith("CResult"):
             struct_meth = method_name.rsplit("Z", 1)[0][1:] + "Z"
         else:
             struct_meth = method_name.split("_")[0]
@@ -441,7 +441,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
         out_java_struct = None
         if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs
-                or "LDK" + struct_meth in complex_enums or "LDKC" + struct_meth in complex_enums) and not is_free:
+                or "LDK" + struct_meth in complex_enums or "LDKC" + struct_meth in complex_enums
+                or "LDKC" + struct_meth in result_types) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
         elif method_name.startswith("C2Tuple_") and method_name.endswith("_read"):
             struct_meth = method_name.rsplit("_", 1)[0]
@@ -604,17 +605,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             else:
                 out_java_struct.write("\t\t\tthis.res = bindings." + struct_name + "_get_ok(ptr);\n")
             out_java_struct.write("\t\t}\n")
-            if struct_name.startswith("LDKCResult_None"):
-                out_java_struct.write("\t\tpublic " + human_ty + "_OK() {\n\t\t\tthis(null, bindings.C" + human_ty + "_ok());\n")
-            else:
-                out_java_struct.write("\t\tpublic " + human_ty + "_OK(" + res_map.java_hu_ty + " res) {\n")
-                if res_map.from_hu_conv is not None:
-                    out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_ok(" + res_map.from_hu_conv[0] + "));\n")
-                    if res_map.from_hu_conv[1] != "":
-                        out_java_struct.write("\t\t\t" + res_map.from_hu_conv[1].replace("\n", "\n\t\t\t") + ";\n")
-                else:
-                    out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_ok(res));\n")
-            out_java_struct.write("\t\t}\n\t}\n\n")
+            out_java_struct.write("\t}\n\n")
 
             out_java.write("\tpublic static native " + err_map.java_ty + " " + struct_name + "_get_err(long arg);\n")
             write_c(consts.c_fn_ty_pfx + err_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_err", True) + consts.ptr_c_ty + " arg) {\n")
@@ -642,17 +633,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 out_java_struct.write("\t\t\tthis.err = bindings." + struct_name + "_get_err(ptr);\n")
             out_java_struct.write("\t\t}\n")
 
-            if struct_name.endswith("NoneZ"):
-                out_java_struct.write("\t\tpublic " + human_ty + "_Err() {\n\t\t\tthis(null, bindings.C" + human_ty + "_err());\n")
-            else:
-                out_java_struct.write("\t\tpublic " + human_ty + "_Err(" + err_map.java_hu_ty + " err) {\n")
-                if err_map.from_hu_conv is not None:
-                    out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(" + err_map.from_hu_conv[0] + "));\n")
-                    if err_map.from_hu_conv[1] != "":
-                        out_java_struct.write("\t\t\t" + err_map.from_hu_conv[1].replace("\n", "\n\t\t\t") + ";\n")
-                else:
-                    out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(err));\n")
-            out_java_struct.write("\t\t}\n\t}\n}\n")
+            out_java_struct.write("\t}\n\n")
 
     def map_tuple(struct_name, field_lines):
         out_java.write("\tpublic static native long " + struct_name + "_new(")
@@ -933,6 +914,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write("}\n")
     for struct_name in complex_enums:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '').replace('COption', 'Option')}{consts.file_ext}", "a") as out_java_struct:
+            out_java_struct.write("}\n")
+    for struct_name in result_types:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDKCResult', 'Result')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
 
 with open(sys.argv[4], "w") as out_c:
