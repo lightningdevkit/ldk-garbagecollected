@@ -299,7 +299,7 @@ def java_c_types(fn_arg, ret_arr_len):
         else:
             c_ty = consts.ptr_c_ty
             java_ty = consts.ptr_native_ty
-            java_hu_ty = ma.group(1).strip().replace("LDKCResult", "Result").replace("LDK", "")
+            java_hu_ty = ma.group(1).strip().replace("LDKCOption", "Option").replace("LDKCResult", "Result").replace("LDK", "")
             fn_ty_arg = "J"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
@@ -381,7 +381,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         method_arguments = method_comma_separated_arguments.split(',')
 
         is_free = method_name.endswith("_free")
-        struct_meth = method_name.split("_")[0]
+        if method_name.startswith("COption"):
+            struct_meth = method_name.rsplit("Z", 1)[0][1:] + "Z"
+        else:
+            struct_meth = method_name.split("_")[0]
 
         return_type_info = type_mapping_generator.map_type(method_return_type, True, ret_arr_len, False, False)
 
@@ -437,7 +440,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             write_c(out_c_delta)
 
         out_java_struct = None
-        if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free:
+        if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs
+                or "LDK" + struct_meth in complex_enums or "LDKC" + struct_meth in complex_enums) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
         elif method_name.startswith("C2Tuple_") and method_name.endswith("_read"):
             struct_meth = method_name.rsplit("_", 1)[0]
@@ -463,7 +467,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java.write(native_out)
 
     def map_complex_enum(struct_name, union_enum_items, enum_doc_comment):
-        java_hu_type = struct_name.replace("LDK", "")
+        java_hu_type = struct_name.replace("LDK", "").replace("COption", "Option")
         complex_enums.add(struct_name)
 
         enum_variants = []
@@ -926,6 +930,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write("}\n")
     for struct_name in trait_structs:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
+            out_java_struct.write("}\n")
+    for struct_name in complex_enums:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '').replace('COption', 'Option')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
 
 with open(sys.argv[4], "w") as out_c:
