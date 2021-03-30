@@ -467,7 +467,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
 
-    def map_complex_enum(struct_name, union_enum_items, enum_doc_comment):
+    def map_complex_enum(struct_name, union_enum_items, inline_enum_variants, enum_doc_comment):
         java_hu_type = struct_name.replace("LDK", "").replace("COption", "Option")
         complex_enums.add(struct_name)
 
@@ -490,13 +490,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     for idx, field in enumerate(enum_var_lines):
                         if idx != 0 and idx < len(enum_var_lines) - 2:
                             fields.append(type_mapping_generator.map_type(field.strip(' ;'), False, None, False, True))
-                        else:
-                            # TODO: Assert line format
-                            pass
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, False))
+                elif camel_to_snake(variant_name) in inline_enum_variants:
+                    fields.append(type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
                 else:
-                    # TODO: Assert line format
-                    pass
-                enum_variants.append(ComplexEnumVariantInfo(variant_name, fields))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
 
         with open(f"{sys.argv[3]}/structs/{java_hu_type}{consts.file_ext}", "w") as out_java_enum:
             (out_java_addendum, out_java_enum_addendum, out_c_addendum) = consts.map_complex_enum(struct_name, enum_variants, camel_to_snake, enum_doc_comment)
@@ -849,7 +848,25 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     enum_var_name = struct_name.split("_")
                     union_enum_items[enum_var_name[0]][enum_var_name[1]] = field_lines
                 elif struct_name in union_enum_items:
-                    map_complex_enum(struct_name, union_enum_items[struct_name], last_block_comment)
+                    tuple_variants = {}
+                    elem_items = -1
+                    for line in field_lines:
+                        if line == "      struct {":
+                            elem_items = 0
+                        elif line == "      };":
+                            elem_items = -1
+                        elif elem_items > -1:
+                            line = line.strip()
+                            if line.startswith("struct "):
+                                line = line[7:]
+                            split = line.split(" ")
+                            assert len(split) == 2
+                            tuple_variants[split[1].strip(";")] = split[0]
+                            elem_items += 1
+                            if elem_items > 1:
+                                # We don't currently support tuple variant with more than one element
+                                assert False
+                    map_complex_enum(struct_name, union_enum_items[struct_name], tuple_variants, last_block_comment)
                     last_block_comment = None
                 elif is_unitary_enum:
                     map_unitary_enum(struct_name, field_lines, last_block_comment)
