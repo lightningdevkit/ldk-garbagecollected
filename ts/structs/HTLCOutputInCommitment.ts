@@ -54,6 +54,24 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, val);
 	}
 
+	public Option_u32Z get_transaction_output_index() {
+		number ret = bindings.HTLCOutputInCommitment_get_transaction_output_index(this.ptr);
+		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public void set_transaction_output_index(Option_u32Z val) {
+		bindings.HTLCOutputInCommitment_set_transaction_output_index(this.ptr, val.ptr);
+	}
+
+	public static HTLCOutputInCommitment constructor_new(boolean offered_arg, number amount_msat_arg, number cltv_expiry_arg, Uint8Array payment_hash_arg, Option_u32Z transaction_output_index_arg) {
+		number ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, payment_hash_arg, transaction_output_index_arg.ptr);
+		const ret_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	public HTLCOutputInCommitment clone() {
 		number ret = bindings.HTLCOutputInCommitment_clone(this.ptr);
 		const ret_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, ret);

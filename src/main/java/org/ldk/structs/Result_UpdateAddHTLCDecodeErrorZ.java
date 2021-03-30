@@ -27,10 +27,6 @@ public class Result_UpdateAddHTLCDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_UpdateAddHTLCDecodeErrorZ_OK(UpdateAddHTLC res) {
-			this(null, bindings.CResult_UpdateAddHTLCDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_UpdateAddHTLCDecodeErrorZ_Err extends Result_UpdateAddHTLCDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_UpdateAddHTLCDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_UpdateAddHTLCDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_UpdateAddHTLCDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_UpdateAddHTLCDecodeErrorZ in the success state.
+	 */
+	public static Result_UpdateAddHTLCDecodeErrorZ constructor_ok(UpdateAddHTLC o) {
+		long ret = bindings.CResult_UpdateAddHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_UpdateAddHTLCDecodeErrorZ in the error state.
+	 */
+	public static Result_UpdateAddHTLCDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_UpdateAddHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_UpdateAddHTLCDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_UpdateAddHTLCDecodeErrorZ clone() {
+		long ret = bindings.CResult_UpdateAddHTLCDecodeErrorZ_clone(this.ptr);
+		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

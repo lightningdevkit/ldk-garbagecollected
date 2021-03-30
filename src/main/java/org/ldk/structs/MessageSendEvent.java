@@ -306,4 +306,14 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Creates a copy of the MessageSendEvent
+	 */
+	public MessageSendEvent clone() {
+		long ret = bindings.MessageSendEvent_clone(this.ptr);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

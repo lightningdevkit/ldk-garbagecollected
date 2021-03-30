@@ -26,9 +26,6 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 			TxOut res_conv = new TxOut(null, res);
 			this.res = res_conv;
 		}
-		public Result_TxOutAccessErrorZ_OK(TxOut res) {
-			this(null, bindings.CResult_TxOutAccessErrorZ_ok(res.ptr));
-		}
 	}
 
 	public static final class Result_TxOutAccessErrorZ_Err extends Result_TxOutAccessErrorZ {
@@ -37,8 +34,34 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_TxOutAccessErrorZ_get_err(ptr);
 		}
-		public Result_TxOutAccessErrorZ_Err(LDKAccessError err) {
-			this(null, bindings.CResult_TxOutAccessErrorZ_err(err));
-		}
 	}
+
+	/**
+	 * Creates a new CResult_TxOutAccessErrorZ in the success state.
+	 */
+	public static Result_TxOutAccessErrorZ constructor_ok(TxOut o) {
+		long ret = bindings.CResult_TxOutAccessErrorZ_ok(o.ptr);
+		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_TxOutAccessErrorZ in the error state.
+	 */
+	public static Result_TxOutAccessErrorZ constructor_err(LDKAccessError e) {
+		long ret = bindings.CResult_TxOutAccessErrorZ_err(e);
+		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_TxOutAccessErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_TxOutAccessErrorZ clone() {
+		long ret = bindings.CResult_TxOutAccessErrorZ_clone(this.ptr);
+		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

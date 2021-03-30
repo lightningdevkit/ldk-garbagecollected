@@ -19,9 +19,6 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 		private Result_NonePeerHandleErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_NonePeerHandleErrorZ_OK() {
-			this(null, bindings.CResult_NonePeerHandleErrorZ_ok());
-		}
 	}
 
 	public static final class Result_NonePeerHandleErrorZ_Err extends Result_NonePeerHandleErrorZ {
@@ -33,9 +30,25 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_NonePeerHandleErrorZ_Err(PeerHandleError err) {
-			this(null, bindings.CResult_NonePeerHandleErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	public static Result_NonePeerHandleErrorZ constructor__ok() {
+		number ret = bindings.CResult_NonePeerHandleErrorZ_ok();
+		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public static Result_NonePeerHandleErrorZ constructor__err(PeerHandleError e) {
+		number ret = bindings.CResult_NonePeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	public Result_NonePeerHandleErrorZ _clone() {
+		number ret = bindings.CResult_NonePeerHandleErrorZ_clone(this.ptr);
+		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

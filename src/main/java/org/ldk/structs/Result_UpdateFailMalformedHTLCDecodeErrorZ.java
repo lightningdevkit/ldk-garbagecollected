@@ -27,10 +27,6 @@ public class Result_UpdateFailMalformedHTLCDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_UpdateFailMalformedHTLCDecodeErrorZ_OK(UpdateFailMalformedHTLC res) {
-			this(null, bindings.CResult_UpdateFailMalformedHTLCDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_UpdateFailMalformedHTLCDecodeErrorZ_Err extends Result_UpdateFailMalformedHTLCDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_UpdateFailMalformedHTLCDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_UpdateFailMalformedHTLCDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_UpdateFailMalformedHTLCDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_UpdateFailMalformedHTLCDecodeErrorZ in the success state.
+	 */
+	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor_ok(UpdateFailMalformedHTLC o) {
+		long ret = bindings.CResult_UpdateFailMalformedHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_UpdateFailMalformedHTLCDecodeErrorZ in the error state.
+	 */
+	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_UpdateFailMalformedHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_UpdateFailMalformedHTLCDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_UpdateFailMalformedHTLCDecodeErrorZ clone() {
+		long ret = bindings.CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone(this.ptr);
+		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

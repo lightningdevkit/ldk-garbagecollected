@@ -22,9 +22,6 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 		private Result_NoneMonitorUpdateErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_NoneMonitorUpdateErrorZ_OK() {
-			this(null, bindings.CResult_NoneMonitorUpdateErrorZ_ok());
-		}
 	}
 
 	public static final class Result_NoneMonitorUpdateErrorZ_Err extends Result_NoneMonitorUpdateErrorZ {
@@ -36,9 +33,35 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_NoneMonitorUpdateErrorZ_Err(MonitorUpdateError err) {
-			this(null, bindings.CResult_NoneMonitorUpdateErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_NoneMonitorUpdateErrorZ in the success state.
+	 */
+	public static Result_NoneMonitorUpdateErrorZ constructor_ok() {
+		long ret = bindings.CResult_NoneMonitorUpdateErrorZ_ok();
+		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NoneMonitorUpdateErrorZ in the error state.
+	 */
+	public static Result_NoneMonitorUpdateErrorZ constructor_err(MonitorUpdateError e) {
+		long ret = bindings.CResult_NoneMonitorUpdateErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NoneMonitorUpdateErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_NoneMonitorUpdateErrorZ clone() {
+		long ret = bindings.CResult_NoneMonitorUpdateErrorZ_clone(this.ptr);
+		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

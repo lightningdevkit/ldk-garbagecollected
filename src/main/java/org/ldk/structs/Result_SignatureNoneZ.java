@@ -24,17 +24,40 @@ public class Result_SignatureNoneZ extends CommonBase {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_SignatureNoneZ_get_ok(ptr);
 		}
-		public Result_SignatureNoneZ_OK(byte[] res) {
-			this(null, bindings.CResult_SignatureNoneZ_ok(res));
-		}
 	}
 
 	public static final class Result_SignatureNoneZ_Err extends Result_SignatureNoneZ {
 		private Result_SignatureNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_SignatureNoneZ_Err() {
-			this(null, bindings.CResult_SignatureNoneZ_err());
-		}
 	}
+
+	/**
+	 * Creates a new CResult_SignatureNoneZ in the success state.
+	 */
+	public static Result_SignatureNoneZ constructor_ok(byte[] o) {
+		long ret = bindings.CResult_SignatureNoneZ_ok(o);
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_SignatureNoneZ in the error state.
+	 */
+	public static Result_SignatureNoneZ constructor_err() {
+		long ret = bindings.CResult_SignatureNoneZ_err();
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_SignatureNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_SignatureNoneZ clone() {
+		long ret = bindings.CResult_SignatureNoneZ_clone(this.ptr);
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

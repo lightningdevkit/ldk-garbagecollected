@@ -1,5 +1,8 @@
 package org.ldk.enums;
 
+/**
+ * An enum representing the possible Bitcoin or test networks which we can run on
+ */
 public enum LDKNetwork {
 	LDKNetwork_Bitcoin,
 	LDKNetwork_Testnet,

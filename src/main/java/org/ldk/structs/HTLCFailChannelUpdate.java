@@ -61,4 +61,14 @@ public class HTLCFailChannelUpdate extends CommonBase {
 			this.is_permanent = obj.is_permanent;
 		}
 	}
+	/**
+	 * Creates a copy of the HTLCFailChannelUpdate
+	 */
+	public HTLCFailChannelUpdate clone() {
+		long ret = bindings.HTLCFailChannelUpdate_clone(this.ptr);
+		HTLCFailChannelUpdate ret_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

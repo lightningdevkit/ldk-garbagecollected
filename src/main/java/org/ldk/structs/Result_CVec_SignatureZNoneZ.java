@@ -24,17 +24,40 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_CVec_SignatureZNoneZ_get_ok(ptr);
 		}
-		public Result_CVec_SignatureZNoneZ_OK(byte[][] res) {
-			this(null, bindings.CResult_CVec_SignatureZNoneZ_ok(res));
-		}
 	}
 
 	public static final class Result_CVec_SignatureZNoneZ_Err extends Result_CVec_SignatureZNoneZ {
 		private Result_CVec_SignatureZNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_CVec_SignatureZNoneZ_Err() {
-			this(null, bindings.CResult_CVec_SignatureZNoneZ_err());
-		}
 	}
+
+	/**
+	 * Creates a new CResult_CVec_SignatureZNoneZ in the success state.
+	 */
+	public static Result_CVec_SignatureZNoneZ constructor_ok(byte[][] o) {
+		long ret = bindings.CResult_CVec_SignatureZNoneZ_ok(o);
+		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_CVec_SignatureZNoneZ in the error state.
+	 */
+	public static Result_CVec_SignatureZNoneZ constructor_err() {
+		long ret = bindings.CResult_CVec_SignatureZNoneZ_err();
+		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_CVec_SignatureZNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_CVec_SignatureZNoneZ clone() {
+		long ret = bindings.CResult_CVec_SignatureZNoneZ_clone(this.ptr);
+		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

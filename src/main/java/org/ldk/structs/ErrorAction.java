@@ -56,4 +56,14 @@ public class ErrorAction extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Creates a copy of the ErrorAction
+	 */
+	public ErrorAction clone() {
+		long ret = bindings.ErrorAction_clone(this.ptr);
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

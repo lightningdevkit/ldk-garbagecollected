@@ -27,6 +27,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelDetails_set_channel_id(this.ptr, val);
 	}
 
+	public Option_u64Z get_short_channel_id() {
+		number ret = bindings.ChannelDetails_get_short_channel_id(this.ptr);
+		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public void set_short_channel_id(Option_u64Z val) {
+		bindings.ChannelDetails_set_short_channel_id(this.ptr, val.ptr);
+	}
+
 	public Uint8Array get_remote_network_id() {
 		Uint8Array ret = bindings.ChannelDetails_get_remote_network_id(this.ptr);
 		return ret;

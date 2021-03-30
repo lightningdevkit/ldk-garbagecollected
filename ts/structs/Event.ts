@@ -109,3 +109,16 @@ export class SpendableOutputs extends Event {
 		this.outputs = outputs_conv_27_arr;
 	}
 }
+	public Event clone() {
+		number ret = bindings.Event_clone(this.ptr);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public Uint8Array write() {
+		Uint8Array ret = bindings.Event_write(this.ptr);
+		return ret;
+	}
+
+}

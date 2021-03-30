@@ -66,3 +66,16 @@ export class OnionV3 extends NetAddress {
 		this.port = obj.port;
 	}
 }
+	public NetAddress clone() {
+		number ret = bindings.NetAddress_clone(this.ptr);
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public Uint8Array write() {
+		Uint8Array ret = bindings.NetAddress_write(this.ptr);
+		return ret;
+	}
+
+}

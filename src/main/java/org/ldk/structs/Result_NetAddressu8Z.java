@@ -27,9 +27,6 @@ public class Result_NetAddressu8Z extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_NetAddressu8Z_OK(NetAddress res) {
-			this(null, bindings.CResult_NetAddressu8Z_ok(res.ptr));
-		}
 	}
 
 	public static final class Result_NetAddressu8Z_Err extends Result_NetAddressu8Z {
@@ -38,8 +35,34 @@ public class Result_NetAddressu8Z extends CommonBase {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_NetAddressu8Z_get_err(ptr);
 		}
-		public Result_NetAddressu8Z_Err(byte err) {
-			this(null, bindings.CResult_NetAddressu8Z_err(err));
-		}
 	}
+
+	/**
+	 * Creates a new CResult_NetAddressu8Z in the success state.
+	 */
+	public static Result_NetAddressu8Z constructor_ok(NetAddress o) {
+		long ret = bindings.CResult_NetAddressu8Z_ok(o.ptr);
+		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NetAddressu8Z in the error state.
+	 */
+	public static Result_NetAddressu8Z constructor_err(byte e) {
+		long ret = bindings.CResult_NetAddressu8Z_err(e);
+		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NetAddressu8Z which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_NetAddressu8Z clone() {
+		long ret = bindings.CResult_NetAddressu8Z_clone(this.ptr);
+		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

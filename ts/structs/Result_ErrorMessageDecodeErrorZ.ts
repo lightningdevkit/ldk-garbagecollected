@@ -24,10 +24,6 @@ public class Result_ErrorMessageDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_ErrorMessageDecodeErrorZ_OK(ErrorMessage res) {
-			this(null, bindings.CResult_ErrorMessageDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_ErrorMessageDecodeErrorZ_Err extends Result_ErrorMessageDecodeErrorZ {
@@ -39,9 +35,26 @@ public class Result_ErrorMessageDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_ErrorMessageDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_ErrorMessageDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	public static Result_ErrorMessageDecodeErrorZ constructor__ok(ErrorMessage o) {
+		number ret = bindings.CResult_ErrorMessageDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	public static Result_ErrorMessageDecodeErrorZ constructor__err(DecodeError e) {
+		number ret = bindings.CResult_ErrorMessageDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	public Result_ErrorMessageDecodeErrorZ _clone() {
+		number ret = bindings.CResult_ErrorMessageDecodeErrorZ_clone(this.ptr);
+		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

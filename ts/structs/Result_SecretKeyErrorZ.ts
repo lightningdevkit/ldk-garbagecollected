@@ -21,9 +21,6 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_SecretKeyErrorZ_get_ok(ptr);
 		}
-		public Result_SecretKeyErrorZ_OK(Uint8Array res) {
-			this(null, bindings.CResult_SecretKeyErrorZ_ok(res));
-		}
 	}
 
 	public static final class Result_SecretKeyErrorZ_Err extends Result_SecretKeyErrorZ {
@@ -32,8 +29,18 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_SecretKeyErrorZ_get_err(ptr);
 		}
-		public Result_SecretKeyErrorZ_Err(LDKSecp256k1Error err) {
-			this(null, bindings.CResult_SecretKeyErrorZ_err(err));
-		}
 	}
+
+	public static Result_SecretKeyErrorZ constructor__ok(Uint8Array o) {
+		number ret = bindings.CResult_SecretKeyErrorZ_ok(o);
+		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public static Result_SecretKeyErrorZ constructor__err(LDKSecp256k1Error e) {
+		number ret = bindings.CResult_SecretKeyErrorZ_err(e);
+		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

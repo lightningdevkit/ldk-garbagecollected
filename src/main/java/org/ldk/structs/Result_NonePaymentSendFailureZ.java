@@ -22,9 +22,6 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 		private Result_NonePaymentSendFailureZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_NonePaymentSendFailureZ_OK() {
-			this(null, bindings.CResult_NonePaymentSendFailureZ_ok());
-		}
 	}
 
 	public static final class Result_NonePaymentSendFailureZ_Err extends Result_NonePaymentSendFailureZ {
@@ -36,8 +33,34 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_NonePaymentSendFailureZ_Err(PaymentSendFailure err) {
-			this(null, bindings.CResult_NonePaymentSendFailureZ_err(err.ptr));
-		}
 	}
+
+	/**
+	 * Creates a new CResult_NonePaymentSendFailureZ in the success state.
+	 */
+	public static Result_NonePaymentSendFailureZ constructor_ok() {
+		long ret = bindings.CResult_NonePaymentSendFailureZ_ok();
+		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NonePaymentSendFailureZ in the error state.
+	 */
+	public static Result_NonePaymentSendFailureZ constructor_err(PaymentSendFailure e) {
+		long ret = bindings.CResult_NonePaymentSendFailureZ_err(e.ptr);
+		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NonePaymentSendFailureZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_NonePaymentSendFailureZ clone() {
+		long ret = bindings.CResult_NonePaymentSendFailureZ_clone(this.ptr);
+		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -87,6 +87,37 @@ public class HTLCOutputInCommitment extends CommonBase {
 	}
 
 	/**
+	 * The position within the commitment transactions' outputs. This may be None if the value is
+	 * below the dust limit (in which case no output appears in the commitment transaction and the
+	 * value is spent to additional transaction fees).
+	 */
+	public Option_u32Z get_transaction_output_index() {
+		long ret = bindings.HTLCOutputInCommitment_get_transaction_output_index(this.ptr);
+		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The position within the commitment transactions' outputs. This may be None if the value is
+	 * below the dust limit (in which case no output appears in the commitment transaction and the
+	 * value is spent to additional transaction fees).
+	 */
+	public void set_transaction_output_index(Option_u32Z val) {
+		bindings.HTLCOutputInCommitment_set_transaction_output_index(this.ptr, val.ptr);
+	}
+
+	/**
+	 * Constructs a new HTLCOutputInCommitment given each field
+	 */
+	public static HTLCOutputInCommitment constructor_new(boolean offered_arg, long amount_msat_arg, int cltv_expiry_arg, byte[] payment_hash_arg, Option_u32Z transaction_output_index_arg) {
+		long ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, payment_hash_arg, transaction_output_index_arg.ptr);
+		HTLCOutputInCommitment ret_hu_conv = new HTLCOutputInCommitment(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Creates a copy of the HTLCOutputInCommitment
 	 */
 	public HTLCOutputInCommitment clone() {

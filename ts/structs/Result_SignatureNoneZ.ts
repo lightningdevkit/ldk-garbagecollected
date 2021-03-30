@@ -21,17 +21,30 @@ public class Result_SignatureNoneZ extends CommonBase {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_SignatureNoneZ_get_ok(ptr);
 		}
-		public Result_SignatureNoneZ_OK(Uint8Array res) {
-			this(null, bindings.CResult_SignatureNoneZ_ok(res));
-		}
 	}
 
 	public static final class Result_SignatureNoneZ_Err extends Result_SignatureNoneZ {
 		private Result_SignatureNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_SignatureNoneZ_Err() {
-			this(null, bindings.CResult_SignatureNoneZ_err());
-		}
 	}
+
+	public static Result_SignatureNoneZ constructor__ok(Uint8Array o) {
+		number ret = bindings.CResult_SignatureNoneZ_ok(o);
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public static Result_SignatureNoneZ constructor__err() {
+		number ret = bindings.CResult_SignatureNoneZ_err();
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_SignatureNoneZ _clone() {
+		number ret = bindings.CResult_SignatureNoneZ_clone(this.ptr);
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

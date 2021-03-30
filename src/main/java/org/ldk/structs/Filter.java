@@ -48,10 +48,17 @@ public class Filter extends CommonBase {
 		 */
 		void register_tx(byte[] txid, byte[] script_pubkey);
 		/**
-		 * Registers interest in spends of a transaction output identified by `outpoint` having
-		 * `script_pubkey` as the spending condition.
+		 * Registers interest in spends of a transaction output.
+		 * 
+		 * Optionally, when `output.block_hash` is set, should return any transaction spending the
+		 * output that is found in the corresponding block along with its index.
+		 * 
+		 * This return value is useful for Electrum clients in order to supply in-block descendant
+		 * transactions which otherwise were not included. This is not necessary for other clients if
+		 * such descendant transactions were already included (e.g., when a BIP 157 client provides the
+		 * full block).
 		 */
-		void register_output(OutPoint outpoint, byte[] script_pubkey);
+		Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output);
 	}
 	private static class LDKFilterHolder { Filter held; }
 	public static Filter new_impl(FilterInterface arg) {
@@ -60,9 +67,12 @@ public class Filter extends CommonBase {
 			@Override public void register_tx(byte[] txid, byte[] script_pubkey) {
 				arg.register_tx(txid, script_pubkey);
 			}
-			@Override public void register_output(long outpoint, byte[] script_pubkey) {
-				OutPoint outpoint_hu_conv = new OutPoint(null, outpoint);
-				arg.register_output(outpoint_hu_conv, script_pubkey);
+			@Override public long register_output(long output) {
+				WatchedOutput output_hu_conv = new WatchedOutput(null, output);
+				output_hu_conv.ptrs_to.add(this);
+				Option_C2Tuple_usizeTransactionZZ ret = arg.register_output(output_hu_conv);
+				long result = ret.ptr;
+				return result;
 			}
 		});
 		return impl_holder.held;
@@ -76,12 +86,22 @@ public class Filter extends CommonBase {
 	}
 
 	/**
-	 * Registers interest in spends of a transaction output identified by `outpoint` having
-	 * `script_pubkey` as the spending condition.
+	 * Registers interest in spends of a transaction output.
+	 * 
+	 * Optionally, when `output.block_hash` is set, should return any transaction spending the
+	 * output that is found in the corresponding block along with its index.
+	 * 
+	 * This return value is useful for Electrum clients in order to supply in-block descendant
+	 * transactions which otherwise were not included. This is not necessary for other clients if
+	 * such descendant transactions were already included (e.g., when a BIP 157 client provides the
+	 * full block).
 	 */
-	public void register_output(OutPoint outpoint, byte[] script_pubkey) {
-		bindings.Filter_register_output(this.ptr, outpoint == null ? 0 : outpoint.ptr & ~1, script_pubkey);
-		this.ptrs_to.add(outpoint);
+	public Option_C2Tuple_usizeTransactionZZ register_output(byte[] output_block_hash_arg, OutPoint output_outpoint_arg, byte[] output_script_pubkey_arg) {
+		long ret = bindings.Filter_register_output(this.ptr, bindings.WatchedOutput_new(output_block_hash_arg, output_outpoint_arg == null ? 0 : output_outpoint_arg.ptr & ~1, output_script_pubkey_arg));
+		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		ret_hu_conv.ptrs_to.add(output_outpoint_arg);
+		return ret_hu_conv;
 	}
 
 }

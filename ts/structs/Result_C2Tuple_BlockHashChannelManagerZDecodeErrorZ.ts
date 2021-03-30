@@ -30,18 +30,6 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 			res_b_hu_conv.ptrs_to.add(res_conv);
 			this.res = res_conv;
 		}
-		public Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK(TwoTuple<Uint8Array, ChannelManager> res) {
-			this(null, bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(bindings.C2Tuple_BlockHashChannelManagerZ_new(res.a, res.b == null ? 0 : res.b.ptr & ~1)));
-			this.ptrs_to.add(res.b);
-			// Due to rust's strict-ownership memory model, in some cases we need to "move"
-			// an object to pass exclusive ownership to the function being called.
-			// In most cases, we avoid this being visible in GC'd languages by cloning the object
-			// at the FFI layer, creating a new object which Rust can claim ownership of
-			// However, in some cases (eg here), there is no way to clone an object, and thus
-			// we actually have to pass full ownership to Rust.
-			// Thus, after this call, res.b is reset to null and is now a dummy object.
-			res.b.ptr = 0;
-		}
 	}
 
 	public static final class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err extends Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
@@ -53,9 +41,28 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ constructor__ok(TwoTuple<Uint8Array, ChannelManager> o) {
+		number ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(bindings.C2Tuple_BlockHashChannelManagerZ_new(o.a, o.b == null ? 0 : o.b.ptr & ~1));
+		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o.b);
+		// Due to rust's strict-ownership memory model, in some cases we need to "move"
+		// an object to pass exclusive ownership to the function being called.
+		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
+		// at the FFI layer, creating a new object which Rust can claim ownership of
+		// However, in some cases (eg here), there is no way to clone an object, and thus
+		// we actually have to pass full ownership to Rust.
+		// Thus, after ret_hu_conv call, o.b is reset to null and is now a dummy object.
+		o.b.ptr = 0;
+		return ret_hu_conv;
+	}
+
+	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ constructor__err(DecodeError e) {
+		number ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
 }

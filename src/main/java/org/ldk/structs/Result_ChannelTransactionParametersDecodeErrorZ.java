@@ -27,10 +27,6 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_ChannelTransactionParametersDecodeErrorZ_OK(ChannelTransactionParameters res) {
-			this(null, bindings.CResult_ChannelTransactionParametersDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_ChannelTransactionParametersDecodeErrorZ_Err extends Result_ChannelTransactionParametersDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_ChannelTransactionParametersDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_ChannelTransactionParametersDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_ChannelTransactionParametersDecodeErrorZ in the success state.
+	 */
+	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_ok(ChannelTransactionParameters o) {
+		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_ChannelTransactionParametersDecodeErrorZ in the error state.
+	 */
+	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_ChannelTransactionParametersDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_ChannelTransactionParametersDecodeErrorZ clone() {
+		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_clone(this.ptr);
+		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

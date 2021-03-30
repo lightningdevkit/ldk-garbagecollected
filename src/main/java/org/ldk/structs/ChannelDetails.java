@@ -40,6 +40,25 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
+	 * The position of the funding transaction in the chain. None if the funding transaction has
+	 * not yet been confirmed and the channel fully opened.
+	 */
+	public Option_u64Z get_short_channel_id() {
+		long ret = bindings.ChannelDetails_get_short_channel_id(this.ptr);
+		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The position of the funding transaction in the chain. None if the funding transaction has
+	 * not yet been confirmed and the channel fully opened.
+	 */
+	public void set_short_channel_id(Option_u64Z val) {
+		bindings.ChannelDetails_set_short_channel_id(this.ptr, val.ptr);
+	}
+
+	/**
 	 * The node_id of our counterparty
 	 */
 	public byte[] get_remote_network_id() {

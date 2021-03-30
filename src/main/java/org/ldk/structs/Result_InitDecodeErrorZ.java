@@ -27,10 +27,6 @@ public class Result_InitDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_InitDecodeErrorZ_OK(Init res) {
-			this(null, bindings.CResult_InitDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_InitDecodeErrorZ_Err extends Result_InitDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_InitDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_InitDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_InitDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_InitDecodeErrorZ in the success state.
+	 */
+	public static Result_InitDecodeErrorZ constructor_ok(Init o) {
+		long ret = bindings.CResult_InitDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_InitDecodeErrorZ ret_hu_conv = Result_InitDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_InitDecodeErrorZ in the error state.
+	 */
+	public static Result_InitDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_InitDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_InitDecodeErrorZ ret_hu_conv = Result_InitDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_InitDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_InitDecodeErrorZ clone() {
+		long ret = bindings.CResult_InitDecodeErrorZ_clone(this.ptr);
+		Result_InitDecodeErrorZ ret_hu_conv = Result_InitDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

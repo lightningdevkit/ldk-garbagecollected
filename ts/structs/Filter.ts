@@ -36,9 +36,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 							arg.register_tx(txid, script_pubkey);
 						},
 
-						register_output (outpoint: number, script_pubkey: Uint8Array): void {
-							const outpoint_hu_conv: OutPoint = new OutPoint(null, outpoint);
-							arg.register_output(outpoint_hu_conv, script_pubkey);
+						register_output (output: number): number {
+							const output_hu_conv: WatchedOutput = new WatchedOutput(null, output);
+				output_hu_conv.ptrs_to.add(this);
+							Option_C2Tuple_usizeTransactionZZ ret = arg.register_output(output_hu_conv);
+				result: number = ret.ptr;
+				return result;
 						},
 
 						
@@ -49,7 +52,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
             export interface FilterInterface {
                 register_tx(txid: Uint8Array, script_pubkey: Uint8Array): void;
-				register_output(outpoint: OutPoint, script_pubkey: Uint8Array): void;
+				register_output(output: WatchedOutput): Option_C2Tuple_usizeTransactionZZ;
 				
             }
 
@@ -60,9 +63,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.Filter_register_tx(this.ptr, txid, script_pubkey);
 	}
 
-	public void register_output(OutPoint outpoint, Uint8Array script_pubkey) {
-		bindings.Filter_register_output(this.ptr, outpoint == null ? 0 : outpoint.ptr & ~1, script_pubkey);
-		this.ptrs_to.add(outpoint);
+	public Option_C2Tuple_usizeTransactionZZ register_output(Uint8Array output_block_hash_arg, OutPoint output_outpoint_arg, Uint8Array output_script_pubkey_arg) {
+		number ret = bindings.Filter_register_output(this.ptr, bindings.WatchedOutput_new(output_block_hash_arg, output_outpoint_arg == null ? 0 : output_outpoint_arg.ptr & ~1, output_script_pubkey_arg));
+		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		ret_hu_conv.ptrs_to.add(output_outpoint_arg);
+		return ret_hu_conv;
 	}
 
 }
