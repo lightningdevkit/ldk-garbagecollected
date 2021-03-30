@@ -440,9 +440,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             write_c(out_c_delta)
 
         out_java_struct = None
-        if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs
-                or "LDK" + struct_meth in complex_enums or "LDKC" + struct_meth in complex_enums
-                or "LDKC" + struct_meth in result_types) and not is_free:
+        expected_struct = "LDK" + struct_meth
+        expected_cstruct = "LDKC" + struct_meth
+        if (expected_struct in opaque_structs or expected_struct in trait_structs
+                or expected_struct in complex_enums or expected_cstruct in complex_enums
+                or expected_cstruct in result_types) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
         elif method_name.startswith("C2Tuple_") and method_name.endswith("_read"):
             struct_meth = method_name.rsplit("_", 1)[0]
