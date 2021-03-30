@@ -19,9 +19,6 @@ public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 		private Result_NoneChannelMonitorUpdateErrZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_NoneChannelMonitorUpdateErrZ_OK() {
-			this(null, bindings.CResult_NoneChannelMonitorUpdateErrZ_ok());
-		}
 	}
 
 	public static final class Result_NoneChannelMonitorUpdateErrZ_Err extends Result_NoneChannelMonitorUpdateErrZ {
@@ -30,8 +27,24 @@ public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(ptr);
 		}
-		public Result_NoneChannelMonitorUpdateErrZ_Err(LDKChannelMonitorUpdateErr err) {
-			this(null, bindings.CResult_NoneChannelMonitorUpdateErrZ_err(err));
-		}
 	}
+
+	public static Result_NoneChannelMonitorUpdateErrZ constructor__ok() {
+		number ret = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
+		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public static Result_NoneChannelMonitorUpdateErrZ constructor__err(LDKChannelMonitorUpdateErr e) {
+		number ret = bindings.CResult_NoneChannelMonitorUpdateErrZ_err(e);
+		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_NoneChannelMonitorUpdateErrZ _clone() {
+		number ret = bindings.CResult_NoneChannelMonitorUpdateErrZ_clone(this.ptr);
+		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

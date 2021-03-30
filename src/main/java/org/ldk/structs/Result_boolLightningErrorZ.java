@@ -24,9 +24,6 @@ public class Result_boolLightningErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_boolLightningErrorZ_get_ok(ptr);
 		}
-		public Result_boolLightningErrorZ_OK(boolean res) {
-			this(null, bindings.CResult_boolLightningErrorZ_ok(res));
-		}
 	}
 
 	public static final class Result_boolLightningErrorZ_Err extends Result_boolLightningErrorZ {
@@ -38,9 +35,35 @@ public class Result_boolLightningErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_boolLightningErrorZ_Err(LightningError err) {
-			this(null, bindings.CResult_boolLightningErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_boolLightningErrorZ in the success state.
+	 */
+	public static Result_boolLightningErrorZ constructor_ok(boolean o) {
+		long ret = bindings.CResult_boolLightningErrorZ_ok(o);
+		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_boolLightningErrorZ in the error state.
+	 */
+	public static Result_boolLightningErrorZ constructor_err(LightningError e) {
+		long ret = bindings.CResult_boolLightningErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_boolLightningErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_boolLightningErrorZ clone() {
+		long ret = bindings.CResult_boolLightningErrorZ_clone(this.ptr);
+		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -24,26 +24,33 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_TrustedCommitmentTransactionNoneZ_OK(TrustedCommitmentTransaction res) {
-			this(null, bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-			// Due to rust's strict-ownership memory model, in some cases we need to "move"
-			// an object to pass exclusive ownership to the function being called.
-			// In most cases, we avoid this being visible in GC'd languages by cloning the object
-			// at the FFI layer, creating a new object which Rust can claim ownership of
-			// However, in some cases (eg here), there is no way to clone an object, and thus
-			// we actually have to pass full ownership to Rust.
-			// Thus, after this call, res is reset to null and is now a dummy object.
-			res.ptr = 0;
-		}
 	}
 
 	public static final class Result_TrustedCommitmentTransactionNoneZ_Err extends Result_TrustedCommitmentTransactionNoneZ {
 		private Result_TrustedCommitmentTransactionNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_TrustedCommitmentTransactionNoneZ_Err() {
-			this(null, bindings.CResult_TrustedCommitmentTransactionNoneZ_err());
-		}
 	}
+
+	public static Result_TrustedCommitmentTransactionNoneZ constructor__ok(TrustedCommitmentTransaction o) {
+		number ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		// Due to rust's strict-ownership memory model, in some cases we need to "move"
+		// an object to pass exclusive ownership to the function being called.
+		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
+		// at the FFI layer, creating a new object which Rust can claim ownership of
+		// However, in some cases (eg here), there is no way to clone an object, and thus
+		// we actually have to pass full ownership to Rust.
+		// Thus, after ret_hu_conv call, o is reset to null and is now a dummy object.
+		o.ptr = 0;
+		return ret_hu_conv;
+	}
+
+	public static Result_TrustedCommitmentTransactionNoneZ constructor__err() {
+		number ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_err();
+		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

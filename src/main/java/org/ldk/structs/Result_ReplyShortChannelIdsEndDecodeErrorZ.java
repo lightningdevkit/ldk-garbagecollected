@@ -27,10 +27,6 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_ReplyShortChannelIdsEndDecodeErrorZ_OK(ReplyShortChannelIdsEnd res) {
-			this(null, bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_ReplyShortChannelIdsEndDecodeErrorZ_Err extends Result_ReplyShortChannelIdsEndDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_ReplyShortChannelIdsEndDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_ReplyShortChannelIdsEndDecodeErrorZ in the success state.
+	 */
+	public static Result_ReplyShortChannelIdsEndDecodeErrorZ constructor_ok(ReplyShortChannelIdsEnd o) {
+		long ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_ReplyShortChannelIdsEndDecodeErrorZ in the error state.
+	 */
+	public static Result_ReplyShortChannelIdsEndDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_ReplyShortChannelIdsEndDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_ReplyShortChannelIdsEndDecodeErrorZ clone() {
+		long ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone(this.ptr);
+		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

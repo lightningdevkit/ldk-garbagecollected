@@ -19,9 +19,6 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 		private Result_NoneAPIErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_NoneAPIErrorZ_OK() {
-			this(null, bindings.CResult_NoneAPIErrorZ_ok());
-		}
 	}
 
 	public static final class Result_NoneAPIErrorZ_Err extends Result_NoneAPIErrorZ {
@@ -33,8 +30,24 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_NoneAPIErrorZ_Err(APIError err) {
-			this(null, bindings.CResult_NoneAPIErrorZ_err(err.ptr));
-		}
 	}
+
+	public static Result_NoneAPIErrorZ constructor__ok() {
+		number ret = bindings.CResult_NoneAPIErrorZ_ok();
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public static Result_NoneAPIErrorZ constructor__err(APIError e) {
+		number ret = bindings.CResult_NoneAPIErrorZ_err(e.ptr);
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_NoneAPIErrorZ _clone() {
+		number ret = bindings.CResult_NoneAPIErrorZ_clone(this.ptr);
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -27,10 +27,6 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_ClosingSignedDecodeErrorZ_OK(ClosingSigned res) {
-			this(null, bindings.CResult_ClosingSignedDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_ClosingSignedDecodeErrorZ_Err extends Result_ClosingSignedDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_ClosingSignedDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_ClosingSignedDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_ClosingSignedDecodeErrorZ in the success state.
+	 */
+	public static Result_ClosingSignedDecodeErrorZ constructor_ok(ClosingSigned o) {
+		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_ClosingSignedDecodeErrorZ in the error state.
+	 */
+	public static Result_ClosingSignedDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_ClosingSignedDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_ClosingSignedDecodeErrorZ clone() {
+		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_clone(this.ptr);
+		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

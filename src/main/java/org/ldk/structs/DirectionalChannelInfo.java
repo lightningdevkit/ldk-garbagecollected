@@ -82,6 +82,23 @@ public class DirectionalChannelInfo extends CommonBase {
 	}
 
 	/**
+	 * The maximum value which may be relayed to the next hop via the channel.
+	 */
+	public Option_u64Z get_htlc_maximum_msat() {
+		long ret = bindings.DirectionalChannelInfo_get_htlc_maximum_msat(this.ptr);
+		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The maximum value which may be relayed to the next hop via the channel.
+	 */
+	public void set_htlc_maximum_msat(Option_u64Z val) {
+		bindings.DirectionalChannelInfo_set_htlc_maximum_msat(this.ptr, val.ptr);
+	}
+
+	/**
 	 * Fees charged when the channel is used for routing
 	 */
 	public RoutingFees get_fees() {
@@ -121,6 +138,18 @@ public class DirectionalChannelInfo extends CommonBase {
 	public void set_last_update_message(ChannelUpdate val) {
 		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
+	}
+
+	/**
+	 * Constructs a new DirectionalChannelInfo given each field
+	 */
+	public static DirectionalChannelInfo constructor_new(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
+		long ret = bindings.DirectionalChannelInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg.ptr, fees_arg == null ? 0 : fees_arg.ptr & ~1, last_update_message_arg == null ? 0 : last_update_message_arg.ptr & ~1);
+		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(fees_arg);
+		ret_hu_conv.ptrs_to.add(last_update_message_arg);
+		return ret_hu_conv;
 	}
 
 	/**

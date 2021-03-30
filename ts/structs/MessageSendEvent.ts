@@ -296,3 +296,11 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		this.msg = msg_hu_conv;
 	}
 }
+	public MessageSendEvent clone() {
+		number ret = bindings.MessageSendEvent_clone(this.ptr);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+}

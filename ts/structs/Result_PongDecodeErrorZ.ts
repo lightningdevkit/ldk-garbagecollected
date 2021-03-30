@@ -24,10 +24,6 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_PongDecodeErrorZ_OK(Pong res) {
-			this(null, bindings.CResult_PongDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_PongDecodeErrorZ_Err extends Result_PongDecodeErrorZ {
@@ -39,9 +35,26 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_PongDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_PongDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	public static Result_PongDecodeErrorZ constructor__ok(Pong o) {
+		number ret = bindings.CResult_PongDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	public static Result_PongDecodeErrorZ constructor__err(DecodeError e) {
+		number ret = bindings.CResult_PongDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	public Result_PongDecodeErrorZ _clone() {
+		number ret = bindings.CResult_PongDecodeErrorZ_clone(this.ptr);
+		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

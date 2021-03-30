@@ -299,7 +299,7 @@ def java_c_types(fn_arg, ret_arr_len):
         else:
             c_ty = consts.ptr_c_ty
             java_ty = consts.ptr_native_ty
-            java_hu_ty = ma.group(1).strip().replace("LDKCResult", "Result").replace("LDK", "")
+            java_hu_ty = ma.group(1).strip().replace("LDKCOption", "Option").replace("LDKCResult", "Result").replace("LDK", "")
             fn_ty_arg = "J"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
@@ -381,7 +381,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         method_arguments = method_comma_separated_arguments.split(',')
 
         is_free = method_name.endswith("_free")
-        struct_meth = method_name.split("_")[0]
+        if method_name.startswith("COption") or method_name.startswith("CResult"):
+            struct_meth = method_name.rsplit("Z", 1)[0][1:] + "Z"
+        else:
+            struct_meth = method_name.split("_")[0]
 
         return_type_info = type_mapping_generator.map_type(method_return_type, True, ret_arr_len, False, False)
 
@@ -437,7 +440,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             write_c(out_c_delta)
 
         out_java_struct = None
-        if ("LDK" + struct_meth in opaque_structs or "LDK" + struct_meth in trait_structs) and not is_free:
+        expected_struct = "LDK" + struct_meth
+        expected_cstruct = "LDKC" + struct_meth
+        if (expected_struct in opaque_structs or expected_struct in trait_structs
+                or expected_struct in complex_enums or expected_cstruct in complex_enums
+                or expected_cstruct in result_types) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
         elif method_name.startswith("C2Tuple_") and method_name.endswith("_read"):
             struct_meth = method_name.rsplit("_", 1)[0]
@@ -462,8 +469,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
 
-    def map_complex_enum(struct_name, union_enum_items, enum_doc_comment):
-        java_hu_type = struct_name.replace("LDK", "")
+    def map_complex_enum(struct_name, union_enum_items, inline_enum_variants, enum_doc_comment):
+        java_hu_type = struct_name.replace("LDK", "").replace("COption", "Option")
         complex_enums.add(struct_name)
 
         enum_variants = []
@@ -485,13 +492,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     for idx, field in enumerate(enum_var_lines):
                         if idx != 0 and idx < len(enum_var_lines) - 2:
                             fields.append(type_mapping_generator.map_type(field.strip(' ;'), False, None, False, True))
-                        else:
-                            # TODO: Assert line format
-                            pass
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, False))
+                elif camel_to_snake(variant_name) in inline_enum_variants:
+                    fields.append(type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
                 else:
-                    # TODO: Assert line format
-                    pass
-                enum_variants.append(ComplexEnumVariantInfo(variant_name, fields))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
 
         with open(f"{sys.argv[3]}/structs/{java_hu_type}{consts.file_ext}", "w") as out_java_enum:
             (out_java_addendum, out_java_enum_addendum, out_c_addendum) = consts.map_complex_enum(struct_name, enum_variants, camel_to_snake, enum_doc_comment)
@@ -600,17 +606,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             else:
                 out_java_struct.write("\t\t\tthis.res = bindings." + struct_name + "_get_ok(ptr);\n")
             out_java_struct.write("\t\t}\n")
-            if struct_name.startswith("LDKCResult_None"):
-                out_java_struct.write("\t\tpublic " + human_ty + "_OK() {\n\t\t\tthis(null, bindings.C" + human_ty + "_ok());\n")
-            else:
-                out_java_struct.write("\t\tpublic " + human_ty + "_OK(" + res_map.java_hu_ty + " res) {\n")
-                if res_map.from_hu_conv is not None:
-                    out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_ok(" + res_map.from_hu_conv[0] + "));\n")
-                    if res_map.from_hu_conv[1] != "":
-                        out_java_struct.write("\t\t\t" + res_map.from_hu_conv[1].replace("\n", "\n\t\t\t") + ";\n")
-                else:
-                    out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_ok(res));\n")
-            out_java_struct.write("\t\t}\n\t}\n\n")
+            out_java_struct.write("\t}\n\n")
 
             out_java.write("\tpublic static native " + err_map.java_ty + " " + struct_name + "_get_err(long arg);\n")
             write_c(consts.c_fn_ty_pfx + err_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_err", True) + consts.ptr_c_ty + " arg) {\n")
@@ -638,17 +634,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 out_java_struct.write("\t\t\tthis.err = bindings." + struct_name + "_get_err(ptr);\n")
             out_java_struct.write("\t\t}\n")
 
-            if struct_name.endswith("NoneZ"):
-                out_java_struct.write("\t\tpublic " + human_ty + "_Err() {\n\t\t\tthis(null, bindings.C" + human_ty + "_err());\n")
-            else:
-                out_java_struct.write("\t\tpublic " + human_ty + "_Err(" + err_map.java_hu_ty + " err) {\n")
-                if err_map.from_hu_conv is not None:
-                    out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(" + err_map.from_hu_conv[0] + "));\n")
-                    if err_map.from_hu_conv[1] != "":
-                        out_java_struct.write("\t\t\t" + err_map.from_hu_conv[1].replace("\n", "\n\t\t\t") + ";\n")
-                else:
-                    out_java_struct.write("\t\t\tthis(null, bindings.C" + human_ty + "_err(err));\n")
-            out_java_struct.write("\t\t}\n\t}\n}\n")
+            out_java_struct.write("\t}\n\n")
 
     def map_tuple(struct_name, field_lines):
         out_java.write("\tpublic static native long " + struct_name + "_new(")
@@ -864,7 +850,25 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     enum_var_name = struct_name.split("_")
                     union_enum_items[enum_var_name[0]][enum_var_name[1]] = field_lines
                 elif struct_name in union_enum_items:
-                    map_complex_enum(struct_name, union_enum_items[struct_name], last_block_comment)
+                    tuple_variants = {}
+                    elem_items = -1
+                    for line in field_lines:
+                        if line == "      struct {":
+                            elem_items = 0
+                        elif line == "      };":
+                            elem_items = -1
+                        elif elem_items > -1:
+                            line = line.strip()
+                            if line.startswith("struct "):
+                                line = line[7:]
+                            split = line.split(" ")
+                            assert len(split) == 2
+                            tuple_variants[split[1].strip(";")] = split[0]
+                            elem_items += 1
+                            if elem_items > 1:
+                                # We don't currently support tuple variant with more than one element
+                                assert False
+                    map_complex_enum(struct_name, union_enum_items[struct_name], tuple_variants, last_block_comment)
                     last_block_comment = None
                 elif is_unitary_enum:
                     map_unitary_enum(struct_name, field_lines, last_block_comment)
@@ -926,6 +930,12 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write("}\n")
     for struct_name in trait_structs:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "a") as out_java_struct:
+            out_java_struct.write("}\n")
+    for struct_name in complex_enums:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '').replace('COption', 'Option')}{consts.file_ext}", "a") as out_java_struct:
+            out_java_struct.write("}\n")
+    for struct_name in result_types:
+        with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDKCResult', 'Result')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
 
 with open(sys.argv[4], "w") as out_c:

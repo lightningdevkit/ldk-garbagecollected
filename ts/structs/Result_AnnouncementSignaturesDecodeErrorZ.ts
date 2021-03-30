@@ -24,10 +24,6 @@ public class Result_AnnouncementSignaturesDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_AnnouncementSignaturesDecodeErrorZ_OK(AnnouncementSignatures res) {
-			this(null, bindings.CResult_AnnouncementSignaturesDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_AnnouncementSignaturesDecodeErrorZ_Err extends Result_AnnouncementSignaturesDecodeErrorZ {
@@ -39,9 +35,26 @@ public class Result_AnnouncementSignaturesDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_AnnouncementSignaturesDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_AnnouncementSignaturesDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	public static Result_AnnouncementSignaturesDecodeErrorZ constructor__ok(AnnouncementSignatures o) {
+		number ret = bindings.CResult_AnnouncementSignaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	public static Result_AnnouncementSignaturesDecodeErrorZ constructor__err(DecodeError e) {
+		number ret = bindings.CResult_AnnouncementSignaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	public Result_AnnouncementSignaturesDecodeErrorZ _clone() {
+		number ret = bindings.CResult_AnnouncementSignaturesDecodeErrorZ_clone(this.ptr);
+		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -104,6 +104,23 @@ public class ChannelInfo extends CommonBase {
 	}
 
 	/**
+	 * The channel capacity as seen on-chain, if chain lookup is available.
+	 */
+	public Option_u64Z get_capacity_sats() {
+		long ret = bindings.ChannelInfo_get_capacity_sats(this.ptr);
+		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The channel capacity as seen on-chain, if chain lookup is available.
+	 */
+	public void set_capacity_sats(Option_u64Z val) {
+		bindings.ChannelInfo_set_capacity_sats(this.ptr, val.ptr);
+	}
+
+	/**
 	 * An initial announcement of the channel
 	 * Mostly redundant with the data we store in fields explicitly.
 	 * Everything else is useful only for sending out for initial routing sync.
@@ -125,6 +142,20 @@ public class ChannelInfo extends CommonBase {
 	public void set_announcement_message(ChannelAnnouncement val) {
 		bindings.ChannelInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
+	}
+
+	/**
+	 * Constructs a new ChannelInfo given each field
+	 */
+	public static ChannelInfo constructor_new(ChannelFeatures features_arg, byte[] node_one_arg, DirectionalChannelInfo one_to_two_arg, byte[] node_two_arg, DirectionalChannelInfo two_to_one_arg, Option_u64Z capacity_sats_arg, ChannelAnnouncement announcement_message_arg) {
+		long ret = bindings.ChannelInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, node_one_arg, one_to_two_arg == null ? 0 : one_to_two_arg.ptr & ~1, node_two_arg, two_to_one_arg == null ? 0 : two_to_one_arg.ptr & ~1, capacity_sats_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+		ChannelInfo ret_hu_conv = new ChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(features_arg);
+		ret_hu_conv.ptrs_to.add(one_to_two_arg);
+		ret_hu_conv.ptrs_to.add(two_to_one_arg);
+		ret_hu_conv.ptrs_to.add(announcement_message_arg);
+		return ret_hu_conv;
 	}
 
 	/**

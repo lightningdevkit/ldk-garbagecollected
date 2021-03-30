@@ -24,10 +24,6 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_TxCreationKeysErrorZ_OK(TxCreationKeys res) {
-			this(null, bindings.CResult_TxCreationKeysErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_TxCreationKeysErrorZ_Err extends Result_TxCreationKeysErrorZ {
@@ -36,8 +32,19 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_TxCreationKeysErrorZ_get_err(ptr);
 		}
-		public Result_TxCreationKeysErrorZ_Err(LDKSecp256k1Error err) {
-			this(null, bindings.CResult_TxCreationKeysErrorZ_err(err));
-		}
 	}
+
+	public static Result_TxCreationKeysErrorZ constructor__ok(TxCreationKeys o) {
+		number ret = bindings.CResult_TxCreationKeysErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	public static Result_TxCreationKeysErrorZ constructor__err(LDKSecp256k1Error e) {
+		number ret = bindings.CResult_TxCreationKeysErrorZ_err(e);
+		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

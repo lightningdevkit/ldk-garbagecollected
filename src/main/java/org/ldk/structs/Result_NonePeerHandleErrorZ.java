@@ -22,9 +22,6 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 		private Result_NonePeerHandleErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_NonePeerHandleErrorZ_OK() {
-			this(null, bindings.CResult_NonePeerHandleErrorZ_ok());
-		}
 	}
 
 	public static final class Result_NonePeerHandleErrorZ_Err extends Result_NonePeerHandleErrorZ {
@@ -36,9 +33,35 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_NonePeerHandleErrorZ_Err(PeerHandleError err) {
-			this(null, bindings.CResult_NonePeerHandleErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_NonePeerHandleErrorZ in the success state.
+	 */
+	public static Result_NonePeerHandleErrorZ constructor_ok() {
+		long ret = bindings.CResult_NonePeerHandleErrorZ_ok();
+		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NonePeerHandleErrorZ in the error state.
+	 */
+	public static Result_NonePeerHandleErrorZ constructor_err(PeerHandleError e) {
+		long ret = bindings.CResult_NonePeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NonePeerHandleErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_NonePeerHandleErrorZ clone() {
+		long ret = bindings.CResult_NonePeerHandleErrorZ_clone(this.ptr);
+		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -27,10 +27,6 @@ public class Result_NodeAnnouncementInfoDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_NodeAnnouncementInfoDecodeErrorZ_OK(NodeAnnouncementInfo res) {
-			this(null, bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_NodeAnnouncementInfoDecodeErrorZ_Err extends Result_NodeAnnouncementInfoDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_NodeAnnouncementInfoDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_NodeAnnouncementInfoDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_NodeAnnouncementInfoDecodeErrorZ in the success state.
+	 */
+	public static Result_NodeAnnouncementInfoDecodeErrorZ constructor_ok(NodeAnnouncementInfo o) {
+		long ret = bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NodeAnnouncementInfoDecodeErrorZ in the error state.
+	 */
+	public static Result_NodeAnnouncementInfoDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NodeAnnouncementInfoDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_NodeAnnouncementInfoDecodeErrorZ clone() {
+		long ret = bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_clone(this.ptr);
+		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

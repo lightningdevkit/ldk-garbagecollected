@@ -763,7 +763,7 @@ import java.util.Arrays;
         return base_conv
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake, enum_doc_comment):
-        java_hu_type = struct_name.replace("LDK", "")
+        java_hu_type = struct_name.replace("LDK", "").replace("COption", "Option")
         out_java_enum = ""
         out_java = ""
         out_c = ""
@@ -776,7 +776,7 @@ import java.util.Arrays;
         out_java_enum += ("\t@Override @SuppressWarnings(\"deprecation\")\n")
         out_java_enum += ("\tprotected void finalize() throws Throwable {\n")
         out_java_enum += ("\t\tsuper.finalize();\n")
-        out_java_enum += ("\t\tif (ptr != 0) { bindings." + java_hu_type + "_free(ptr); }\n")
+        out_java_enum += ("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK", "") + "_free(ptr); }\n")
         out_java_enum += ("\t}\n")
         out_java_enum += ("\tstatic " + java_hu_type + " constr_from_ptr(long ptr) {\n")
         out_java_enum += ("\t\tbindings." + struct_name + " raw_val = bindings." + struct_name + "_ref_from_ptr(ptr);\n")
@@ -828,7 +828,7 @@ import java.util.Arrays;
         out_c += (self.c_complex_enum_pfx(struct_name, [x.var_name for x in variant_list], init_meth_jty_strs))
 
         out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + " " + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
-        out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)ptr;\n")
+        out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n")
         out_c += ("\tswitch(obj->tag) {\n")
         for var in variant_list:
             out_c += ("\t\tcase " + struct_name + "_" + var.var_name + ": {\n")
@@ -836,16 +836,21 @@ import java.util.Arrays;
             for idx, field_map in enumerate(var.fields):
                 if field_map.ret_conv is not None:
                     out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
-                    out_c += ("obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name)
+                    if var.tuple_variant:
+                        out_c += "obj->" + camel_to_snake(var.var_name)
+                    else:
+                        out_c += "obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name
                     out_c += (field_map.ret_conv[1].replace("\n", "\n\t\t\t") + "\n")
                     c_params.append(field_map.ret_conv_name)
                 else:
-                    c_params.append("obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name)
+                    if var.tuple_variant:
+                        c_params.append("obj->" + camel_to_snake(var.var_name))
+                    else:
+                        c_params.append("obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name)
             out_c += ("\t\t\treturn " + self.c_constr_native_complex_enum(struct_name, var.var_name, c_params) + ";\n")
             out_c += ("\t\t}\n")
         out_c += ("\t\tdefault: abort();\n")
         out_c += ("\t}\n}\n")
-        out_java_enum += ("}\n")
         return (out_java, out_java_enum, out_c)
 
     def map_opaque_struct(self, struct_name, struct_doc_comment):
@@ -896,7 +901,7 @@ import java.util.Arrays;
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
-            meth_n = method_name[len(struct_meth) + 1:]
+            meth_n = method_name[len(struct_meth) + 1:].strip("_")
             if doc_comment is not None:
                 out_java_struct += "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
             if not takes_self:

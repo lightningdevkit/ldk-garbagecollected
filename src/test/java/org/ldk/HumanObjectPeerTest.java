@@ -126,7 +126,7 @@ class HumanObjectPeerTestInstance {
                     synchronized (monitors) {
                         assert monitors.put(Arrays.toString(funding_txo.get_txid()), monitor) == null;
                     }
-                    return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
+                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
                 }
 
                 public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
@@ -136,7 +136,7 @@ class HumanObjectPeerTestInstance {
                         Result_NoneMonitorUpdateErrorZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
                         assert update_res instanceof Result_NoneMonitorUpdateErrorZ.Result_NoneMonitorUpdateErrorZ_OK;
                     }
-                    return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
+                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
                 }
 
                 @Override
@@ -205,7 +205,7 @@ class HumanObjectPeerTestInstance {
                         assert Arrays.equals(res.a.get_txid(), id.get_txid());
                         assert res.a.get_index() == id.get_index();
                     }
-                    return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
+                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
                 }
 
                 @Override
@@ -217,7 +217,7 @@ class HumanObjectPeerTestInstance {
                         assert Arrays.equals(res.a.get_txid(), id.get_txid());
                         assert res.a.get_index() == id.get_index();
                     }
-                    return new Result_NoneChannelMonitorUpdateErrZ.Result_NoneChannelMonitorUpdateErrZ_OK();
+                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
                 }
             });
 
@@ -227,8 +227,9 @@ class HumanObjectPeerTestInstance {
                     @Override public void register_tx(byte[] txid, byte[] script_pubkey) {
                         filter_additions.add(Arrays.toString(txid));
                     }
-                    @Override public void register_output(OutPoint outpoint, byte[] script_pubkey) {
-                        filter_additions.add(Arrays.toString(outpoint.get_txid()) + ":" + outpoint.get_index());
+                    @Override public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
+                        filter_additions.add(Arrays.toString(output.get_outpoint().get_txid()) + ":" + output.get_outpoint().get_index());
+                        return Option_C2Tuple_usizeTransactionZZ.constructor_none();
                     }
                 });
             } else {
@@ -549,12 +550,15 @@ class HumanObjectPeerTestInstance {
         wait_events_processed(peer1, peer2);
 
         peer1.chan_manager.list_channels();
-        ChannelDetails[] peer1_chans = peer1.chan_manager.list_channels();
-        ChannelDetails[] peer2_chans = peer2.chan_manager.list_channels();
+        ChannelDetails[] peer1_chans = peer1.chan_manager.list_usable_channels();
+        ChannelDetails[] peer2_chans = peer2.chan_manager.list_usable_channels();
         assert peer1_chans.length == 1;
         assert peer2_chans.length == 1;
         assert peer1_chans[0].get_channel_value_satoshis() == 10000;
         assert peer1_chans[0].get_is_live();
+        Option_u64Z short_chan_id = peer1_chans[0].get_short_channel_id();
+        assert short_chan_id instanceof Option_u64Z.Some;
+        assert ((Option_u64Z.Some)short_chan_id).some == (1L << 40); // 0th output in the 0th transaction in the 1st block
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 

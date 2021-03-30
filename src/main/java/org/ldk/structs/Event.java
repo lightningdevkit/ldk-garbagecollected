@@ -121,4 +121,22 @@ public class Event extends CommonBase {
 			this.outputs = outputs_conv_27_arr;
 		}
 	}
+	/**
+	 * Creates a copy of the Event
+	 */
+	public Event clone() {
+		long ret = bindings.Event_clone(this.ptr);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the Event object into a byte array which can be read by Event_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.Event_write(this.ptr);
+		return ret;
+	}
+
 }

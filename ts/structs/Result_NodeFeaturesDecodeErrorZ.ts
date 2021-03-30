@@ -24,10 +24,6 @@ public class Result_NodeFeaturesDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_NodeFeaturesDecodeErrorZ_OK(NodeFeatures res) {
-			this(null, bindings.CResult_NodeFeaturesDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_NodeFeaturesDecodeErrorZ_Err extends Result_NodeFeaturesDecodeErrorZ {
@@ -39,9 +35,20 @@ public class Result_NodeFeaturesDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_NodeFeaturesDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_NodeFeaturesDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	public static Result_NodeFeaturesDecodeErrorZ constructor__ok(NodeFeatures o) {
+		number ret = bindings.CResult_NodeFeaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_NodeFeaturesDecodeErrorZ ret_hu_conv = Result_NodeFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	public static Result_NodeFeaturesDecodeErrorZ constructor__err(DecodeError e) {
+		number ret = bindings.CResult_NodeFeaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_NodeFeaturesDecodeErrorZ ret_hu_conv = Result_NodeFeaturesDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
 }

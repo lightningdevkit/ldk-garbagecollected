@@ -54,6 +54,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.DirectionalChannelInfo_set_htlc_minimum_msat(this.ptr, val);
 	}
 
+	public Option_u64Z get_htlc_maximum_msat() {
+		number ret = bindings.DirectionalChannelInfo_get_htlc_maximum_msat(this.ptr);
+		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public void set_htlc_maximum_msat(Option_u64Z val) {
+		bindings.DirectionalChannelInfo_set_htlc_maximum_msat(this.ptr, val.ptr);
+	}
+
 	public RoutingFees get_fees() {
 		number ret = bindings.DirectionalChannelInfo_get_fees(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
@@ -76,6 +87,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public void set_last_update_message(ChannelUpdate val) {
 		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
+	}
+
+	public static DirectionalChannelInfo constructor_new(number last_update_arg, boolean enabled_arg, number cltv_expiry_delta_arg, number htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
+		number ret = bindings.DirectionalChannelInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg.ptr, fees_arg == null ? 0 : fees_arg.ptr & ~1, last_update_message_arg == null ? 0 : last_update_message_arg.ptr & ~1);
+		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(fees_arg);
+		ret_hu_conv.ptrs_to.add(last_update_message_arg);
+		return ret_hu_conv;
 	}
 
 	public DirectionalChannelInfo clone() {

@@ -82,6 +82,51 @@ public class RouteHint extends CommonBase {
 	}
 
 	/**
+	 * The minimum value, in msat, which must be relayed to the next hop.
+	 */
+	public Option_u64Z get_htlc_minimum_msat() {
+		long ret = bindings.RouteHint_get_htlc_minimum_msat(this.ptr);
+		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The minimum value, in msat, which must be relayed to the next hop.
+	 */
+	public void set_htlc_minimum_msat(Option_u64Z val) {
+		bindings.RouteHint_set_htlc_minimum_msat(this.ptr, val.ptr);
+	}
+
+	/**
+	 * The maximum value in msat available for routing with a single HTLC.
+	 */
+	public Option_u64Z get_htlc_maximum_msat() {
+		long ret = bindings.RouteHint_get_htlc_maximum_msat(this.ptr);
+		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The maximum value in msat available for routing with a single HTLC.
+	 */
+	public void set_htlc_maximum_msat(Option_u64Z val) {
+		bindings.RouteHint_set_htlc_maximum_msat(this.ptr, val.ptr);
+	}
+
+	/**
+	 * Constructs a new RouteHint given each field
+	 */
+	public static RouteHint constructor_new(byte[] src_node_id_arg, long short_channel_id_arg, RoutingFees fees_arg, short cltv_expiry_delta_arg, Option_u64Z htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg) {
+		long ret = bindings.RouteHint_new(src_node_id_arg, short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
+		RouteHint ret_hu_conv = new RouteHint(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(fees_arg);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Creates a copy of the RouteHint
 	 */
 	public RouteHint clone() {

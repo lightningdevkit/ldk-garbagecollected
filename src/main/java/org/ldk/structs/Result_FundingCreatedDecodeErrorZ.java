@@ -27,10 +27,6 @@ public class Result_FundingCreatedDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_FundingCreatedDecodeErrorZ_OK(FundingCreated res) {
-			this(null, bindings.CResult_FundingCreatedDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_FundingCreatedDecodeErrorZ_Err extends Result_FundingCreatedDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_FundingCreatedDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_FundingCreatedDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_FundingCreatedDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_FundingCreatedDecodeErrorZ in the success state.
+	 */
+	public static Result_FundingCreatedDecodeErrorZ constructor_ok(FundingCreated o) {
+		long ret = bindings.CResult_FundingCreatedDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_FundingCreatedDecodeErrorZ in the error state.
+	 */
+	public static Result_FundingCreatedDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_FundingCreatedDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_FundingCreatedDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_FundingCreatedDecodeErrorZ clone() {
+		long ret = bindings.CResult_FundingCreatedDecodeErrorZ_clone(this.ptr);
+		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

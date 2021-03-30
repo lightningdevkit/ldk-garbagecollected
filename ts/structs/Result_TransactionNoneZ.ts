@@ -21,17 +21,24 @@ public class Result_TransactionNoneZ extends CommonBase {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_TransactionNoneZ_get_ok(ptr);
 		}
-		public Result_TransactionNoneZ_OK(Uint8Array res) {
-			this(null, bindings.CResult_TransactionNoneZ_ok(res));
-		}
 	}
 
 	public static final class Result_TransactionNoneZ_Err extends Result_TransactionNoneZ {
 		private Result_TransactionNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_TransactionNoneZ_Err() {
-			this(null, bindings.CResult_TransactionNoneZ_err());
-		}
 	}
+
+	public static Result_TransactionNoneZ constructor__ok(Uint8Array o) {
+		number ret = bindings.CResult_TransactionNoneZ_ok(o);
+		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public static Result_TransactionNoneZ constructor__err() {
+		number ret = bindings.CResult_TransactionNoneZ_err();
+		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

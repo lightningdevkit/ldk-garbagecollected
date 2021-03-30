@@ -1,5 +1,8 @@
 package org.ldk.enums;
 
+/**
+ * Represents an error returned from libsecp256k1 during validation of some secp256k1 data
+ */
 public enum LDKSecp256k1Error {
 	LDKSecp256k1Error_IncorrectSignature,
 	LDKSecp256k1Error_InvalidMessage,

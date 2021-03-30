@@ -24,10 +24,6 @@ public class Result_OpenChannelDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_OpenChannelDecodeErrorZ_OK(OpenChannel res) {
-			this(null, bindings.CResult_OpenChannelDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_OpenChannelDecodeErrorZ_Err extends Result_OpenChannelDecodeErrorZ {
@@ -39,9 +35,26 @@ public class Result_OpenChannelDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_OpenChannelDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_OpenChannelDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	public static Result_OpenChannelDecodeErrorZ constructor__ok(OpenChannel o) {
+		number ret = bindings.CResult_OpenChannelDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_OpenChannelDecodeErrorZ ret_hu_conv = Result_OpenChannelDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	public static Result_OpenChannelDecodeErrorZ constructor__err(DecodeError e) {
+		number ret = bindings.CResult_OpenChannelDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_OpenChannelDecodeErrorZ ret_hu_conv = Result_OpenChannelDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	public Result_OpenChannelDecodeErrorZ _clone() {
+		number ret = bindings.CResult_OpenChannelDecodeErrorZ_clone(this.ptr);
+		Result_OpenChannelDecodeErrorZ ret_hu_conv = Result_OpenChannelDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

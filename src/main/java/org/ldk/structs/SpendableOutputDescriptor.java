@@ -50,13 +50,50 @@ public class SpendableOutputDescriptor extends CommonBase {
 		}
 	}
 	public final static class DelayedPaymentOutput extends SpendableOutputDescriptor {
+		public final DelayedPaymentOutputDescriptor delayed_payment_output;
 		private DelayedPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.DelayedPaymentOutput obj) {
 			super(null, ptr);
+			long delayed_payment_output = obj.delayed_payment_output;
+			DelayedPaymentOutputDescriptor delayed_payment_output_hu_conv = new DelayedPaymentOutputDescriptor(null, delayed_payment_output);
+			delayed_payment_output_hu_conv.ptrs_to.add(this);
+			this.delayed_payment_output = delayed_payment_output_hu_conv;
 		}
 	}
 	public final static class StaticPaymentOutput extends SpendableOutputDescriptor {
+		public final StaticPaymentOutputDescriptor static_payment_output;
 		private StaticPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticPaymentOutput obj) {
 			super(null, ptr);
+			long static_payment_output = obj.static_payment_output;
+			StaticPaymentOutputDescriptor static_payment_output_hu_conv = new StaticPaymentOutputDescriptor(null, static_payment_output);
+			static_payment_output_hu_conv.ptrs_to.add(this);
+			this.static_payment_output = static_payment_output_hu_conv;
 		}
 	}
+	/**
+	 * Creates a copy of the SpendableOutputDescriptor
+	 */
+	public SpendableOutputDescriptor clone() {
+		long ret = bindings.SpendableOutputDescriptor_clone(this.ptr);
+		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the SpendableOutputDescriptor object into a byte array which can be read by SpendableOutputDescriptor_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.SpendableOutputDescriptor_write(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Read a SpendableOutputDescriptor from a byte array, created by SpendableOutputDescriptor_write
+	 */
+	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor_read(byte[] ser) {
+		long ret = bindings.SpendableOutputDescriptor_read(ser);
+		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

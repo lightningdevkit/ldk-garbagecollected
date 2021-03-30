@@ -38,12 +38,41 @@ export class StaticOutput extends SpendableOutputDescriptor {
 	}
 }
 export class DelayedPaymentOutput extends SpendableOutputDescriptor {
+	public delayed_payment_output: DelayedPaymentOutputDescriptor;
 	private constructor(ptr: number, obj: bindings.LDKSpendableOutputDescriptor.DelayedPaymentOutput) {
 		super(null, ptr);
+		const delayed_payment_output: number = obj.delayed_payment_output;
+		const delayed_payment_output_hu_conv: DelayedPaymentOutputDescriptor = new DelayedPaymentOutputDescriptor(null, delayed_payment_output);
+			delayed_payment_output_hu_conv.ptrs_to.add(this);
+		this.delayed_payment_output = delayed_payment_output_hu_conv;
 	}
 }
 export class StaticPaymentOutput extends SpendableOutputDescriptor {
+	public static_payment_output: StaticPaymentOutputDescriptor;
 	private constructor(ptr: number, obj: bindings.LDKSpendableOutputDescriptor.StaticPaymentOutput) {
 		super(null, ptr);
+		const static_payment_output: number = obj.static_payment_output;
+		const static_payment_output_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, static_payment_output);
+			static_payment_output_hu_conv.ptrs_to.add(this);
+		this.static_payment_output = static_payment_output_hu_conv;
 	}
+}
+	public SpendableOutputDescriptor clone() {
+		number ret = bindings.SpendableOutputDescriptor_clone(this.ptr);
+		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public Uint8Array write() {
+		Uint8Array ret = bindings.SpendableOutputDescriptor_write(this.ptr);
+		return ret;
+	}
+
+	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.SpendableOutputDescriptor_read(ser);
+		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

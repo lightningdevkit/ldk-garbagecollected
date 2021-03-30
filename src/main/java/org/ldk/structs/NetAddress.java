@@ -74,4 +74,22 @@ public class NetAddress extends CommonBase {
 			this.port = obj.port;
 		}
 	}
+	/**
+	 * Creates a copy of the NetAddress
+	 */
+	public NetAddress clone() {
+		long ret = bindings.NetAddress_clone(this.ptr);
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the NetAddress object into a byte array which can be read by NetAddress_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.NetAddress_write(this.ptr);
+		return ret;
+	}
+
 }

@@ -27,10 +27,6 @@ public class Result_RouteDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_RouteDecodeErrorZ_OK(Route res) {
-			this(null, bindings.CResult_RouteDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_RouteDecodeErrorZ_Err extends Result_RouteDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_RouteDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_RouteDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_RouteDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_RouteDecodeErrorZ in the success state.
+	 */
+	public static Result_RouteDecodeErrorZ constructor_ok(Route o) {
+		long ret = bindings.CResult_RouteDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_RouteDecodeErrorZ in the error state.
+	 */
+	public static Result_RouteDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_RouteDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_RouteDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_RouteDecodeErrorZ clone() {
+		long ret = bindings.CResult_RouteDecodeErrorZ_clone(this.ptr);
+		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -24,9 +24,6 @@ public class Result_NetAddressu8Z extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_NetAddressu8Z_OK(NetAddress res) {
-			this(null, bindings.CResult_NetAddressu8Z_ok(res.ptr));
-		}
 	}
 
 	public static final class Result_NetAddressu8Z_Err extends Result_NetAddressu8Z {
@@ -35,8 +32,24 @@ public class Result_NetAddressu8Z extends CommonBase {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_NetAddressu8Z_get_err(ptr);
 		}
-		public Result_NetAddressu8Z_Err(number err) {
-			this(null, bindings.CResult_NetAddressu8Z_err(err));
-		}
 	}
+
+	public static Result_NetAddressu8Z constructor__ok(NetAddress o) {
+		number ret = bindings.CResult_NetAddressu8Z_ok(o.ptr);
+		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public static Result_NetAddressu8Z constructor__err(number e) {
+		number ret = bindings.CResult_NetAddressu8Z_err(e);
+		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_NetAddressu8Z _clone() {
+		number ret = bindings.CResult_NetAddressu8Z_clone(this.ptr);
+		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

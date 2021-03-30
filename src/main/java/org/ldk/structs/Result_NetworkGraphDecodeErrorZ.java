@@ -27,10 +27,6 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_NetworkGraphDecodeErrorZ_OK(NetworkGraph res) {
-			this(null, bindings.CResult_NetworkGraphDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_NetworkGraphDecodeErrorZ_Err extends Result_NetworkGraphDecodeErrorZ {
@@ -42,9 +38,36 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_NetworkGraphDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_NetworkGraphDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_NetworkGraphDecodeErrorZ in the success state.
+	 */
+	public static Result_NetworkGraphDecodeErrorZ constructor_ok(NetworkGraph o) {
+		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NetworkGraphDecodeErrorZ in the error state.
+	 */
+	public static Result_NetworkGraphDecodeErrorZ constructor_err(DecodeError e) {
+		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NetworkGraphDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_NetworkGraphDecodeErrorZ clone() {
+		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_clone(this.ptr);
+		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

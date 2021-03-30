@@ -24,10 +24,6 @@ public class Result_InMemorySignerDecodeErrorZ extends CommonBase {
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
-		public Result_InMemorySignerDecodeErrorZ_OK(InMemorySigner res) {
-			this(null, bindings.CResult_InMemorySignerDecodeErrorZ_ok(res == null ? 0 : res.ptr & ~1));
-			this.ptrs_to.add(res);
-		}
 	}
 
 	public static final class Result_InMemorySignerDecodeErrorZ_Err extends Result_InMemorySignerDecodeErrorZ {
@@ -39,9 +35,26 @@ public class Result_InMemorySignerDecodeErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_InMemorySignerDecodeErrorZ_Err(DecodeError err) {
-			this(null, bindings.CResult_InMemorySignerDecodeErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	public static Result_InMemorySignerDecodeErrorZ constructor__ok(InMemorySigner o) {
+		number ret = bindings.CResult_InMemorySignerDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
+		return ret_hu_conv;
+	}
+
+	public static Result_InMemorySignerDecodeErrorZ constructor__err(DecodeError e) {
+		number ret = bindings.CResult_InMemorySignerDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	public Result_InMemorySignerDecodeErrorZ _clone() {
+		number ret = bindings.CResult_InMemorySignerDecodeErrorZ_clone(this.ptr);
+		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

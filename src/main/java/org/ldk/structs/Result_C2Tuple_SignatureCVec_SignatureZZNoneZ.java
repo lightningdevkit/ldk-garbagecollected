@@ -30,17 +30,40 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 			});
 			this.res = res_conv;
 		}
-		public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(TwoTuple<byte[], byte[][]> res) {
-			this(null, bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(bindings.C2Tuple_SignatureCVec_SignatureZZ_new(res.a, res.b)));
-		}
 	}
 
 	public static final class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err extends Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
 		private Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 		}
-		public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err() {
-			this(null, bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err());
-		}
 	}
+
+	/**
+	 * Creates a new CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ in the success state.
+	 */
+	public static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constructor_ok(TwoTuple<byte[], byte[][]> o) {
+		long ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(bindings.C2Tuple_SignatureCVec_SignatureZZ_new(o.a, o.b));
+		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ in the error state.
+	 */
+	public static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constructor_err() {
+		long ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err();
+		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ clone() {
+		long ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(this.ptr);
+		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

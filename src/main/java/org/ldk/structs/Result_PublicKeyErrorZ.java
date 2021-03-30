@@ -24,9 +24,6 @@ public class Result_PublicKeyErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_PublicKeyErrorZ_get_ok(ptr);
 		}
-		public Result_PublicKeyErrorZ_OK(byte[] res) {
-			this(null, bindings.CResult_PublicKeyErrorZ_ok(res));
-		}
 	}
 
 	public static final class Result_PublicKeyErrorZ_Err extends Result_PublicKeyErrorZ {
@@ -35,8 +32,24 @@ public class Result_PublicKeyErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_PublicKeyErrorZ_get_err(ptr);
 		}
-		public Result_PublicKeyErrorZ_Err(LDKSecp256k1Error err) {
-			this(null, bindings.CResult_PublicKeyErrorZ_err(err));
-		}
 	}
+
+	/**
+	 * Creates a new CResult_PublicKeyErrorZ in the success state.
+	 */
+	public static Result_PublicKeyErrorZ constructor_ok(byte[] o) {
+		long ret = bindings.CResult_PublicKeyErrorZ_ok(o);
+		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_PublicKeyErrorZ in the error state.
+	 */
+	public static Result_PublicKeyErrorZ constructor_err(LDKSecp256k1Error e) {
+		long ret = bindings.CResult_PublicKeyErrorZ_err(e);
+		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

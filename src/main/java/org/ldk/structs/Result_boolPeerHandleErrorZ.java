@@ -24,9 +24,6 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 			super(_dummy, ptr);
 			this.res = bindings.LDKCResult_boolPeerHandleErrorZ_get_ok(ptr);
 		}
-		public Result_boolPeerHandleErrorZ_OK(boolean res) {
-			this(null, bindings.CResult_boolPeerHandleErrorZ_ok(res));
-		}
 	}
 
 	public static final class Result_boolPeerHandleErrorZ_Err extends Result_boolPeerHandleErrorZ {
@@ -38,9 +35,35 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
-		public Result_boolPeerHandleErrorZ_Err(PeerHandleError err) {
-			this(null, bindings.CResult_boolPeerHandleErrorZ_err(err == null ? 0 : err.ptr & ~1));
-			this.ptrs_to.add(err);
-		}
 	}
+
+	/**
+	 * Creates a new CResult_boolPeerHandleErrorZ in the success state.
+	 */
+	public static Result_boolPeerHandleErrorZ constructor_ok(boolean o) {
+		long ret = bindings.CResult_boolPeerHandleErrorZ_ok(o);
+		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_boolPeerHandleErrorZ in the error state.
+	 */
+	public static Result_boolPeerHandleErrorZ constructor_err(PeerHandleError e) {
+		long ret = bindings.CResult_boolPeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_boolPeerHandleErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_boolPeerHandleErrorZ clone() {
+		long ret = bindings.CResult_boolPeerHandleErrorZ_clone(this.ptr);
+		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

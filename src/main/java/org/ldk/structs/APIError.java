@@ -73,4 +73,14 @@ public class APIError extends CommonBase {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * Creates a copy of the APIError
+	 */
+	public APIError clone() {
+		long ret = bindings.APIError_clone(this.ptr);
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }
