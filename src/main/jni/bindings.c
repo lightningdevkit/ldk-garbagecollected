@@ -1082,7 +1082,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1MessageSendEventZ_
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKMessageSendEvent arr_elem_conv = *(LDKMessageSendEvent*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = MessageSendEvent_clone((LDKMessageSendEvent*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -1167,7 +1167,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C3Tuple_1ChannelAn
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ arr_elem_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone((LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -1542,7 +1542,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1NetAddressZ_1new(J
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKNetAddress arr_elem_conv = *(LDKNetAddress*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = NetAddress_clone((LDKNetAddress*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -1672,7 +1672,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1usizeTran
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKC2Tuple_usizeTransactionZ arr_elem_conv = *(LDKC2Tuple_usizeTransactionZ*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			// Warning: we may need a move here but no clone is available for LDKC2Tuple_usizeTransactionZ
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -1740,7 +1740,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1MonitorEventZ_1new
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKMonitorEvent arr_elem_conv = *(LDKMonitorEvent*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = MonitorEvent_clone((LDKMonitorEvent*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -1816,7 +1816,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1SpendableOutputDes
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKSpendableOutputDescriptor arr_elem_conv = *(LDKSpendableOutputDescriptor*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = SpendableOutputDescriptor_clone((LDKSpendableOutputDescriptor*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -1944,7 +1944,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1EventZ_1new(JNIEnv
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKEvent arr_elem_conv = *(LDKEvent*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = Event_clone((LDKEvent*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -2099,7 +2099,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1u32Script
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKC2Tuple_u32ScriptZ arr_elem_conv = *(LDKC2Tuple_u32ScriptZ*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = C2Tuple_u32ScriptZ_clone((LDKC2Tuple_u32ScriptZ*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -2129,7 +2129,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tup
 	for (size_t b = 0; b < b_constr.datalen; b++) {
 		int64_t b_conv_27 = b_vals[b];
 		LDKC2Tuple_u32ScriptZ b_conv_27_conv = *(LDKC2Tuple_u32ScriptZ*)(((uint64_t)b_conv_27) & ~1);
-		FREE((void*)b_conv_27);
+		b_conv_27_conv = C2Tuple_u32ScriptZ_clone((LDKC2Tuple_u32ScriptZ*)(((uint64_t)b_conv_27) & ~1));
 		b_constr.data[b] = b_conv_27_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, b, b_vals, 0);
@@ -2165,7 +2165,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1TxidCVec_
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ arr_elem_conv = *(LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			// Warning: we may need a move here but no clone is available for LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -2176,7 +2176,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32TxOutZ_1new(
 	LDKC2Tuple_u32TxOutZ* ret = MALLOC(sizeof(LDKC2Tuple_u32TxOutZ), "LDKC2Tuple_u32TxOutZ");
 	ret->a = a;
 	LDKTxOut b_conv = *(LDKTxOut*)(((uint64_t)b) & ~1);
-	FREE((void*)b);
+	b_conv = TxOut_clone((LDKTxOut*)(((uint64_t)b) & ~1));
 	ret->b = b_conv;
 	return (long)ret;
 }
@@ -2200,7 +2200,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1u32TxOutZ
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKC2Tuple_u32TxOutZ arr_elem_conv = *(LDKC2Tuple_u32TxOutZ*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = C2Tuple_u32TxOutZ_clone((LDKC2Tuple_u32TxOutZ*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -2230,7 +2230,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tup
 	for (size_t a = 0; a < b_constr.datalen; a++) {
 		int64_t b_conv_26 = b_vals[a];
 		LDKC2Tuple_u32TxOutZ b_conv_26_conv = *(LDKC2Tuple_u32TxOutZ*)(((uint64_t)b_conv_26) & ~1);
-		FREE((void*)b_conv_26);
+		b_conv_26_conv = C2Tuple_u32TxOutZ_clone((LDKC2Tuple_u32TxOutZ*)(((uint64_t)b_conv_26) & ~1));
 		b_constr.data[a] = b_conv_26_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, b, b_vals, 0);
@@ -2266,7 +2266,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1TxidCVec_
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ arr_elem_conv = *(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			// Warning: we may need a move here but no clone is available for LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -2419,7 +2419,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_L
 	CHECK(obj != NULL);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_counterparty_commitment_meth, commitment_tx_ref);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret);
+	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs_LDKSign_jcall(const void* this_arg, const LDKHolderCommitmentTransaction * commitment_tx) {
@@ -2438,7 +2438,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htl
 	CHECK(obj != NULL);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_holder_commitment_and_htlcs_meth, commitment_tx_ref);
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)ret);
+	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_justice_transaction_LDKSign_jcall(const void* this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (* per_commitment_key)[32], const LDKHTLCOutputInCommitment * htlc) {
@@ -2463,7 +2463,7 @@ LDKCResult_SignatureNoneZ sign_justice_transaction_LDKSign_jcall(const void* thi
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_justice_transaction_meth, justice_tx_arr, input, amount, per_commitment_key_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_LDKSign_jcall(const void* this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment * htlc) {
@@ -2488,7 +2488,7 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_LDKSign_jcall(const
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_arr, input, amount, per_commitment_point_arr, htlc_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_closing_transaction_LDKSign_jcall(const void* this_arg, LDKTransaction closing_tx) {
@@ -2503,7 +2503,7 @@ LDKCResult_SignatureNoneZ sign_closing_transaction_LDKSign_jcall(const void* thi
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_closing_transaction_meth, closing_tx_arr);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_SignatureNoneZ sign_channel_announcement_LDKSign_jcall(const void* this_arg, const LDKUnsignedChannelAnnouncement * msg) {
@@ -2522,7 +2522,7 @@ LDKCResult_SignatureNoneZ sign_channel_announcement_LDKSign_jcall(const void* th
 	CHECK(obj != NULL);
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_channel_announcement_meth, msg_ref);
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)ret);
+	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 void ready_channel_LDKSign_jcall(void* this_arg, const LDKChannelTransactionParameters * channel_parameters) {
@@ -2936,7 +2936,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1CResult_1NoneAPIEr
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKCResult_NoneAPIErrorZ arr_elem_conv = *(LDKCResult_NoneAPIErrorZ*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = CResult_NoneAPIErrorZ_clone((LDKCResult_NoneAPIErrorZ*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -2961,7 +2961,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1APIErrorZ_1new(JNI
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKAPIError arr_elem_conv = *(LDKAPIError*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = APIError_clone((LDKAPIError*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -3159,7 +3159,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_LDKWatch_jcall(const void*
 	CHECK(obj != NULL);
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*env)->CallLongMethod(env, obj, j_calls->watch_channel_meth, funding_txo_ref, monitor_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
+	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_LDKWatch_jcall(const void* this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate update) {
@@ -3184,7 +3184,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_LDKWatch_jcall(const void
 	CHECK(obj != NULL);
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*env)->CallLongMethod(env, obj, j_calls->update_channel_meth, funding_txo_ref, update_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
+	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCVec_MonitorEventZ release_pending_monitor_events_LDKWatch_jcall(const void* this_arg) {
@@ -3204,7 +3204,7 @@ LDKCVec_MonitorEventZ release_pending_monitor_events_LDKWatch_jcall(const void* 
 	for (size_t o = 0; o < ret_constr.datalen; o++) {
 		int64_t ret_conv_14 = ret_vals[o];
 		LDKMonitorEvent ret_conv_14_conv = *(LDKMonitorEvent*)(((uint64_t)ret_conv_14) & ~1);
-		ret_conv_14_conv = MonitorEvent_clone((LDKMonitorEvent*)ret_conv_14);
+		ret_conv_14_conv = MonitorEvent_clone((LDKMonitorEvent*)(((uint64_t)ret_conv_14) & ~1));
 		ret_constr.data[o] = ret_conv_14_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, ret, ret_vals, 0);
@@ -3463,7 +3463,7 @@ LDKCResult_SignDecodeErrorZ read_chan_signer_LDKKeysInterface_jcall(const void* 
 	CHECK(obj != NULL);
 	LDKCResult_SignDecodeErrorZ* ret = (LDKCResult_SignDecodeErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->read_chan_signer_meth, reader_arr);
 	LDKCResult_SignDecodeErrorZ ret_conv = *(LDKCResult_SignDecodeErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_SignDecodeErrorZ_clone((LDKCResult_SignDecodeErrorZ*)ret);
+	ret_conv = CResult_SignDecodeErrorZ_clone((LDKCResult_SignDecodeErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 static void* LDKKeysInterface_JCalls_clone(const void* this_arg) {
@@ -3790,7 +3790,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_LDKCVec_1TxOutZ_1new(JNIEnv
 		for (size_t i = 0; i < ret->datalen; i++) {
 			int64_t arr_elem = java_elems[i];
 			LDKTxOut arr_elem_conv = *(LDKTxOut*)(((uint64_t)arr_elem) & ~1);
-			FREE((void*)arr_elem);
+			arr_elem_conv = TxOut_clone((LDKTxOut*)(((uint64_t)arr_elem) & ~1));
 			ret->data[i] = arr_elem_conv;
 		}
 		(*env)->ReleasePrimitiveArrayCritical(env, elems, java_elems, 0);
@@ -4748,7 +4748,7 @@ LDKCVec_MessageSendEventZ get_and_clear_pending_msg_events_LDKMessageSendEventsP
 	for (size_t s = 0; s < ret_constr.datalen; s++) {
 		int64_t ret_conv_18 = ret_vals[s];
 		LDKMessageSendEvent ret_conv_18_conv = *(LDKMessageSendEvent*)(((uint64_t)ret_conv_18) & ~1);
-		ret_conv_18_conv = MessageSendEvent_clone((LDKMessageSendEvent*)ret_conv_18);
+		ret_conv_18_conv = MessageSendEvent_clone((LDKMessageSendEvent*)(((uint64_t)ret_conv_18) & ~1));
 		ret_constr.data[s] = ret_conv_18_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, ret, ret_vals, 0);
@@ -4829,7 +4829,7 @@ LDKCVec_EventZ get_and_clear_pending_events_LDKEventsProvider_jcall(const void* 
 	for (size_t h = 0; h < ret_constr.datalen; h++) {
 		int64_t ret_conv_7 = ret_vals[h];
 		LDKEvent ret_conv_7_conv = *(LDKEvent*)(((uint64_t)ret_conv_7) & ~1);
-		ret_conv_7_conv = Event_clone((LDKEvent*)ret_conv_7);
+		ret_conv_7_conv = Event_clone((LDKEvent*)(((uint64_t)ret_conv_7) & ~1));
 		ret_constr.data[h] = ret_conv_7_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, ret, ret_vals, 0);
@@ -4903,7 +4903,7 @@ LDKCResult_TxOutAccessErrorZ get_utxo_LDKAccess_jcall(const void* this_arg, cons
 	CHECK(obj != NULL);
 	LDKCResult_TxOutAccessErrorZ* ret = (LDKCResult_TxOutAccessErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->get_utxo_meth, genesis_hash_arr, short_channel_id);
 	LDKCResult_TxOutAccessErrorZ ret_conv = *(LDKCResult_TxOutAccessErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_TxOutAccessErrorZ_clone((LDKCResult_TxOutAccessErrorZ*)ret);
+	ret_conv = CResult_TxOutAccessErrorZ_clone((LDKCResult_TxOutAccessErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 static void* LDKAccess_JCalls_clone(const void* this_arg) {
@@ -5170,7 +5170,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_LDKPersist_jcall(con
 	CHECK(obj != NULL);
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*env)->CallLongMethod(env, obj, j_calls->persist_new_channel_meth, id_ref, data_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
+	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_LDKPersist_jcall(const void* this_arg, LDKOutPoint id, const LDKChannelMonitorUpdate * update, const LDKChannelMonitor * data) {
@@ -5204,7 +5204,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_LDKPersist_jcal
 	CHECK(obj != NULL);
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*env)->CallLongMethod(env, obj, j_calls->update_persisted_channel_meth, id_ref, update_ref, data_ref);
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)ret);
+	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 static void* LDKPersist_JCalls_clone(const void* this_arg) {
@@ -6034,7 +6034,7 @@ LDKCResult_boolLightningErrorZ handle_node_announcement_LDKRoutingMessageHandler
 	CHECK(obj != NULL);
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_node_announcement_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)ret);
+	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_boolLightningErrorZ handle_channel_announcement_LDKRoutingMessageHandler_jcall(const void* this_arg, const LDKChannelAnnouncement * msg) {
@@ -6053,7 +6053,7 @@ LDKCResult_boolLightningErrorZ handle_channel_announcement_LDKRoutingMessageHand
 	CHECK(obj != NULL);
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_channel_announcement_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)ret);
+	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_boolLightningErrorZ handle_channel_update_LDKRoutingMessageHandler_jcall(const void* this_arg, const LDKChannelUpdate * msg) {
@@ -6072,7 +6072,7 @@ LDKCResult_boolLightningErrorZ handle_channel_update_LDKRoutingMessageHandler_jc
 	CHECK(obj != NULL);
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_channel_update_meth, msg_ref);
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)ret);
+	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 void handle_htlc_fail_channel_update_LDKRoutingMessageHandler_jcall(const void* this_arg, const LDKHTLCFailChannelUpdate * update) {
@@ -6101,7 +6101,7 @@ LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel
 	for (size_t l = 0; l < ret_constr.datalen; l++) {
 		int64_t ret_conv_63 = ret_vals[l];
 		LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret_conv_63_conv = *(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)ret_conv_63) & ~1);
-		ret_conv_63_conv = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone((LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)ret_conv_63);
+		ret_conv_63_conv = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone((LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(((uint64_t)ret_conv_63) & ~1));
 		ret_constr.data[l] = ret_conv_63_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, ret, ret_vals, 0);
@@ -6169,7 +6169,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_channel_range_LDKRoutingMessageHandl
 	CHECK(obj != NULL);
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_reply_channel_range_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)ret);
+	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKReplyShortChannelIdsEnd msg) {
@@ -6189,7 +6189,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_LDKRoutingMess
 	CHECK(obj != NULL);
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_reply_short_channel_ids_end_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)ret);
+	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_NoneLightningErrorZ handle_query_channel_range_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryChannelRange msg) {
@@ -6209,7 +6209,7 @@ LDKCResult_NoneLightningErrorZ handle_query_channel_range_LDKRoutingMessageHandl
 	CHECK(obj != NULL);
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_query_channel_range_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)ret);
+	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_LDKRoutingMessageHandler_jcall(const void* this_arg, LDKPublicKey their_node_id, LDKQueryShortChannelIds msg) {
@@ -6229,7 +6229,7 @@ LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_LDKRoutingMessageH
 	CHECK(obj != NULL);
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_query_short_channel_ids_meth, their_node_id_arr, msg_ref);
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1);
-	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)ret);
+	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1));
 	return ret_conv;
 }
 static void* LDKRoutingMessageHandler_JCalls_clone(const void* this_arg) {
@@ -8009,7 +8009,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1TxidCVec_1C2Tuple_
 	for (size_t b = 0; b < b_constr.datalen; b++) {
 		int64_t b_conv_27 = b_vals[b];
 		LDKC2Tuple_u32ScriptZ b_conv_27_conv = *(LDKC2Tuple_u32ScriptZ*)(((uint64_t)b_conv_27) & ~1);
-		FREE((void*)b_conv_27);
+		b_conv_27_conv = C2Tuple_u32ScriptZ_clone((LDKC2Tuple_u32ScriptZ*)(((uint64_t)b_conv_27) & ~1));
 		b_constr.data[b] = b_conv_27_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, b, b_vals, 0);
@@ -8116,7 +8116,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1TxidCVec_1C2Tuple_
 	for (size_t a = 0; a < b_constr.datalen; a++) {
 		int64_t b_conv_26 = b_vals[a];
 		LDKC2Tuple_u32TxOutZ b_conv_26_conv = *(LDKC2Tuple_u32TxOutZ*)(((uint64_t)b_conv_26) & ~1);
-		FREE((void*)b_conv_26);
+		b_conv_26_conv = C2Tuple_u32TxOutZ_clone((LDKC2Tuple_u32TxOutZ*)(((uint64_t)b_conv_26) & ~1));
 		b_constr.data[a] = b_conv_26_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, b, b_vals, 0);
@@ -10853,7 +10853,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChainMonitor_1block_1connected
 	for (size_t y = 0; y < txdata_constr.datalen; y++) {
 		int64_t txdata_conv_24 = txdata_vals[y];
 		LDKC2Tuple_usizeTransactionZ txdata_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)(((uint64_t)txdata_conv_24) & ~1);
-		FREE((void*)txdata_conv_24);
+		// Warning: we may need a move here but no clone is available for LDKC2Tuple_usizeTransactionZ
 		txdata_constr.data[y] = txdata_conv_24_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, txdata, txdata_vals, 0);
@@ -11234,7 +11234,7 @@ JNIEXPORT int64_tArray JNICALL Java_org_ldk_impl_bindings_ChannelMonitor_1block_
 	for (size_t y = 0; y < txdata_constr.datalen; y++) {
 		int64_t txdata_conv_24 = txdata_vals[y];
 		LDKC2Tuple_usizeTransactionZ txdata_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)(((uint64_t)txdata_conv_24) & ~1);
-		FREE((void*)txdata_conv_24);
+		// Warning: we may need a move here but no clone is available for LDKC2Tuple_usizeTransactionZ
 		txdata_constr.data[y] = txdata_conv_24_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, txdata, txdata_vals, 0);
@@ -12092,7 +12092,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_KeysManager_1spend_1spendab
 	for (size_t b = 0; b < descriptors_constr.datalen; b++) {
 		int64_t descriptors_conv_27 = descriptors_vals[b];
 		LDKSpendableOutputDescriptor descriptors_conv_27_conv = *(LDKSpendableOutputDescriptor*)(((uint64_t)descriptors_conv_27) & ~1);
-		FREE((void*)descriptors_conv_27);
+		descriptors_conv_27_conv = SpendableOutputDescriptor_clone((LDKSpendableOutputDescriptor*)(((uint64_t)descriptors_conv_27) & ~1));
 		descriptors_constr.data[b] = descriptors_conv_27_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, descriptors, descriptors_vals, 0);
@@ -12106,7 +12106,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_KeysManager_1spend_1spendab
 	for (size_t h = 0; h < outputs_constr.datalen; h++) {
 		int64_t outputs_conv_7 = outputs_vals[h];
 		LDKTxOut outputs_conv_7_conv = *(LDKTxOut*)(((uint64_t)outputs_conv_7) & ~1);
-		FREE((void*)outputs_conv_7);
+		outputs_conv_7_conv = TxOut_clone((LDKTxOut*)(((uint64_t)outputs_conv_7) & ~1));
 		outputs_constr.data[h] = outputs_conv_7_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, outputs, outputs_vals, 0);
@@ -12704,7 +12704,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1block_1connect
 	for (size_t y = 0; y < txdata_constr.datalen; y++) {
 		int64_t txdata_conv_24 = txdata_vals[y];
 		LDKC2Tuple_usizeTransactionZ txdata_conv_24_conv = *(LDKC2Tuple_usizeTransactionZ*)(((uint64_t)txdata_conv_24) & ~1);
-		FREE((void*)txdata_conv_24);
+		// Warning: we may need a move here but no clone is available for LDKC2Tuple_usizeTransactionZ
 		txdata_constr.data[y] = txdata_conv_24_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, txdata, txdata_vals, 0);
@@ -15243,7 +15243,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_UnsignedNodeAnnouncement_1set_
 	for (size_t m = 0; m < val_constr.datalen; m++) {
 		int64_t val_conv_12 = val_vals[m];
 		LDKNetAddress val_conv_12_conv = *(LDKNetAddress*)(((uint64_t)val_conv_12) & ~1);
-		FREE((void*)val_conv_12);
+		val_conv_12_conv = NetAddress_clone((LDKNetAddress*)(((uint64_t)val_conv_12) & ~1));
 		val_constr.data[m] = val_conv_12_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, val, val_vals, 0);
@@ -20623,7 +20623,7 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NodeAnnouncementInfo_1set_1add
 	for (size_t m = 0; m < val_constr.datalen; m++) {
 		int64_t val_conv_12 = val_vals[m];
 		LDKNetAddress val_conv_12_conv = *(LDKNetAddress*)(((uint64_t)val_conv_12) & ~1);
-		FREE((void*)val_conv_12);
+		val_conv_12_conv = NetAddress_clone((LDKNetAddress*)(((uint64_t)val_conv_12) & ~1));
 		val_constr.data[m] = val_conv_12_conv;
 	}
 	(*env)->ReleaseLongArrayElements(env, val, val_vals, 0);
