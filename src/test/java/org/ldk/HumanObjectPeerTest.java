@@ -162,6 +162,7 @@ class HumanObjectPeerTestInstance {
         final Logger logger;
         final FeeEstimator fee_estimator;
         final BroadcasterInterface tx_broadcaster;
+        final KeysManager explicit_keys_manager;
         final KeysInterface keys_interface;
         final ChainMonitor chain_monitor;
         final NetGraphMsgHandler router;
@@ -251,8 +252,10 @@ class HumanObjectPeerTestInstance {
             KeysManager keys = KeysManager.constructor_new(key_seed, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000));
             if (use_km_wrapper) {
                 this.keys_interface = manual_keysif(keys.as_KeysInterface());
+                this.explicit_keys_manager = null;
             } else {
                 this.keys_interface = keys.as_KeysInterface();
+                this.explicit_keys_manager = keys;
             }
             this.router = NetGraphMsgHandler.constructor_new(new byte[32], null, logger);
         }
@@ -349,7 +352,7 @@ class HumanObjectPeerTestInstance {
             TwoTuple<Long, byte[]>[] txn;
             if (b.hasTransactions()) {
                 assert b.getTransactions().size() == 1;
-                TwoTuple<Long, byte[]> txp = new TwoTuple<>((long) 1, b.getTransactions().get(0).bitcoinSerialize());
+                TwoTuple<Long, byte[]> txp = new TwoTuple<>((long) 0, b.getTransactions().get(0).bitcoinSerialize());
                 txn = new TwoTuple[]{txp};
             } else
                 txn = new TwoTuple[0];
@@ -387,7 +390,7 @@ class HumanObjectPeerTestInstance {
             try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
                 NetworkGraph graph = netgraph.graph();
                 long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, 0L, new long[]{our_chans[0]._test_only_get_ptr()},
-                        new long[0], 1000, 42, this.logger._test_only_get_ptr());
+                        new long[0], 1000000, 42, this.logger._test_only_get_ptr());
                 assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
                 byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
                 must_free_objs.add(new WeakReference<>(serialized_route));
@@ -665,12 +668,35 @@ class HumanObjectPeerTestInstance {
             if (watch_outputs != null) { // We only process watch_outputs manually when we use a manually-build Watch impl
                 assert watch_outputs.length == 1;
                 assert Arrays.equals(watch_outputs[0].a, tx.getTxId().getReversedBytes());
-                assert watch_outputs[0].b.length == 1;
+                assert watch_outputs[0].b.length == 2;
+                assert watch_outputs[0].b[0].a == 0;
+                assert watch_outputs[0].b[1].a == 1;
             }
 
+            for (int i = 11; i < 21; i++) {
+                b = new Block(bitcoinj_net, 2, b.getHash(), Sha256Hash.ZERO_HASH, 42, 0, 0, new ArrayList<>());
+                state.peer2.connect_block(b, i, 0);
+            }
+
+            Event[] broadcastable_event = null;
+            if (state.peer2.chain_monitor != null) {
+                broadcastable_event = state.peer2.chain_monitor.as_EventsProvider().get_and_clear_pending_events();
+            }
             // This used to be buggy and double-free, so go ahead and fetch them!
             for (ChannelMonitor mon : state.peer2.monitors.values()) {
                 byte[][] txn = mon.get_latest_holder_commitment_txn(state.peer2.logger);
+                if (state.peer2.chain_monitor == null) {
+                    broadcastable_event = mon.get_and_clear_pending_events();
+                }
+            }
+            assert broadcastable_event.length == 1;
+            assert broadcastable_event[0] instanceof Event.SpendableOutputs;
+            if (state.peer2.explicit_keys_manager != null) {
+                Result_TransactionNoneZ tx_res = state.peer2.explicit_keys_manager.spend_spendable_outputs(((Event.SpendableOutputs) broadcastable_event[0]).outputs, new TxOut[0], new byte[] {0x00}, 253);
+                assert tx_res instanceof Result_TransactionNoneZ.Result_TransactionNoneZ_OK;
+                Transaction built_tx = new Transaction(bitcoinj_net, ((Result_TransactionNoneZ.Result_TransactionNoneZ_OK) tx_res).res);
+                assert built_tx.getOutputs().size() == 1;
+                assert Arrays.equals(built_tx.getOutput(0).getScriptBytes(), new byte[]{0x00});
             }
         }
 
