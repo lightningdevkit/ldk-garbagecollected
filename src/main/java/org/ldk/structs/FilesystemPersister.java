@@ -1,0 +1,83 @@
+package org.ldk.structs;
+
+import org.ldk.impl.bindings;
+import org.ldk.enums.*;
+import org.ldk.util.*;
+import java.util.Arrays;
+
+
+/**
+ * FilesystemPersister persists channel data on disk, where each channel's
+ * data is stored in a file named after its funding outpoint.
+ * 
+ * Warning: this module does the best it can with calls to persist data, but it
+ * can only guarantee that the data is passed to the drive. It is up to the
+ * drive manufacturers to do the actual persistence properly, which they often
+ * don't (especially on consumer-grade hardware). Therefore, it is up to the
+ * user to validate their entire storage stack, to ensure the writes are
+ * persistent.
+ * Corollary: especially when dealing with larger amounts of money, it is best
+ * practice to have multiple channel data backups and not rely only on one
+ * FilesystemPersister.
+ */
+@SuppressWarnings("unchecked") // We correctly assign various generic arrays
+public class FilesystemPersister extends CommonBase {
+	FilesystemPersister(Object _dummy, long ptr) { super(ptr); }
+	@Override @SuppressWarnings("deprecation")
+	protected void finalize() throws Throwable {
+		super.finalize();
+		if (ptr != 0) { bindings.FilesystemPersister_free(ptr); }
+	}
+
+	/**
+	 * Initialize a new FilesystemPersister and set the path to the individual channels'
+	 * files.
+	 */
+	public static FilesystemPersister constructor_new(byte[] path_to_channel_data) {
+		long ret = bindings.FilesystemPersister_new(path_to_channel_data);
+		FilesystemPersister ret_hu_conv = new FilesystemPersister(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Get the directory which was provided when this persister was initialized.
+	 */
+	public byte[] get_data_dir() {
+		byte[] ret = bindings.FilesystemPersister_get_data_dir(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Writes the provided `ChannelManager` to the path provided at `FilesystemPersister`
+	 * initialization, within a file called \"manager\".
+	 */
+	public static Result_NoneErrorZ constructor_persist_manager(byte[] data_dir, ChannelManager manager) {
+		long ret = bindings.FilesystemPersister_persist_manager(data_dir, manager == null ? 0 : manager.ptr & ~1);
+		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(manager);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Read `ChannelMonitor`s from disk.
+	 */
+	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(KeysInterface keys_manager) {
+		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, keys_manager == null ? 0 : keys_manager.ptr);
+		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
+		this.ptrs_to.add(keys_manager);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new Persist which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned Persist must be freed before this_arg is
+	 */
+	public Persist as_Persist() {
+		long ret = bindings.FilesystemPersister_as_Persist(this.ptr);
+		Persist ret_hu_conv = new Persist(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+}

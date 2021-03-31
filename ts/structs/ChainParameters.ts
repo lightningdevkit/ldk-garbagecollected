@@ -27,28 +27,23 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChainParameters_set_network(this.ptr, val);
 	}
 
-	public Uint8Array get_latest_hash() {
-		Uint8Array ret = bindings.ChainParameters_get_latest_hash(this.ptr);
-		return ret;
+	public BestBlock get_best_block() {
+		number ret = bindings.ChainParameters_get_best_block(this.ptr);
+		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
-	public void set_latest_hash(Uint8Array val) {
-		bindings.ChainParameters_set_latest_hash(this.ptr, val);
+	public void set_best_block(BestBlock val) {
+		bindings.ChainParameters_set_best_block(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
 	}
 
-	public number get_latest_height() {
-		number ret = bindings.ChainParameters_get_latest_height(this.ptr);
-		return ret;
-	}
-
-	public void set_latest_height(number val) {
-		bindings.ChainParameters_set_latest_height(this.ptr, val);
-	}
-
-	public static ChainParameters constructor_new(LDKNetwork network_arg, Uint8Array latest_hash_arg, number latest_height_arg) {
-		number ret = bindings.ChainParameters_new(network_arg, latest_hash_arg, latest_height_arg);
+	public static ChainParameters constructor_new(LDKNetwork network_arg, BestBlock best_block_arg) {
+		number ret = bindings.ChainParameters_new(network_arg, best_block_arg == null ? 0 : best_block_arg.ptr & ~1);
 		const ret_hu_conv: ChainParameters = new ChainParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(best_block_arg);
 		return ret_hu_conv;
 	}
 

@@ -38,46 +38,35 @@ public class ChainParameters extends CommonBase {
 	}
 
 	/**
-	 * The hash of the latest block successfully connected.
-	 */
-	public byte[] get_latest_hash() {
-		byte[] ret = bindings.ChainParameters_get_latest_hash(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * The hash of the latest block successfully connected.
-	 */
-	public void set_latest_hash(byte[] val) {
-		bindings.ChainParameters_set_latest_hash(this.ptr, val);
-	}
-
-	/**
-	 * The height of the latest block successfully connected.
+	 * The hash and height of the latest block successfully connected.
 	 * 
 	 * Used to track on-chain channel funding outputs and send payments with reliable timelocks.
 	 */
-	public long get_latest_height() {
-		long ret = bindings.ChainParameters_get_latest_height(this.ptr);
-		return ret;
+	public BestBlock get_best_block() {
+		long ret = bindings.ChainParameters_get_best_block(this.ptr);
+		BestBlock ret_hu_conv = new BestBlock(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	/**
-	 * The height of the latest block successfully connected.
+	 * The hash and height of the latest block successfully connected.
 	 * 
 	 * Used to track on-chain channel funding outputs and send payments with reliable timelocks.
 	 */
-	public void set_latest_height(long val) {
-		bindings.ChainParameters_set_latest_height(this.ptr, val);
+	public void set_best_block(BestBlock val) {
+		bindings.ChainParameters_set_best_block(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
 	}
 
 	/**
 	 * Constructs a new ChainParameters given each field
 	 */
-	public static ChainParameters constructor_new(LDKNetwork network_arg, byte[] latest_hash_arg, long latest_height_arg) {
-		long ret = bindings.ChainParameters_new(network_arg, latest_hash_arg, latest_height_arg);
+	public static ChainParameters constructor_new(LDKNetwork network_arg, BestBlock best_block_arg) {
+		long ret = bindings.ChainParameters_new(network_arg, best_block_arg == null ? 0 : best_block_arg.ptr & ~1);
 		ChainParameters ret_hu_conv = new ChainParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(best_block_arg);
 		return ret_hu_conv;
 	}
 

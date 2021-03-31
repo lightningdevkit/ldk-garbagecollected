@@ -154,4 +154,75 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(logger);
 	}
 
+	public TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] transactions_confirmed(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+		number[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, header, Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] ret_conv_49_arr = new TwoTuple[ret.length];
+		for (int x = 0; x < ret.length; x++) {
+			number ret_conv_49 = ret[x];
+			Uint8Array ret_conv_49_a = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(ret_conv_49);
+			number[] ret_conv_49_b = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(ret_conv_49);
+			TwoTuple<Number, TxOut>[] ret_conv_49_b_conv_25_arr = new TwoTuple[ret_conv_49_b.length];
+			for (int z = 0; z < ret_conv_49_b.length; z++) {
+				number ret_conv_49_b_conv_25 = ret_conv_49_b[z];
+				number ret_conv_49_b_conv_25_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(ret_conv_49_b_conv_25);
+				number ret_conv_49_b_conv_25_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(ret_conv_49_b_conv_25));
+				TxOut ret_conv_49_b_conv_25_b_conv = new TxOut(null, ret_conv_49_b_conv_25_b);;
+				TwoTuple<Number, TxOut> ret_conv_49_b_conv_25_conv = new TwoTuple<Number, TxOut>(ret_conv_49_b_conv_25_a, ret_conv_49_b_conv_25_b_conv, () -> {
+					bindings.C2Tuple_u32TxOutZ_free(ret_conv_49_b_conv_25);
+				});
+				ret_conv_49_b_conv_25_b_conv.ptrs_to.add(ret_conv_49_b_conv_25_conv);
+				ret_conv_49_b_conv_25_arr[z] = ret_conv_49_b_conv_25_conv;
+			};
+			TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]> ret_conv_49_conv = new TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>(ret_conv_49_a, ret_conv_49_b_conv_25_arr);
+			// Warning: We may not free the C tuple object!
+			ret_conv_49_arr[x] = ret_conv_49_conv;
+		}
+		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
+		this.ptrs_to.add(broadcaster);
+		this.ptrs_to.add(fee_estimator);
+		this.ptrs_to.add(logger);
+		return ret_conv_49_arr;
+	}
+
+	public void transaction_unconfirmed(Uint8Array txid, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, txid, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		this.ptrs_to.add(broadcaster);
+		this.ptrs_to.add(fee_estimator);
+		this.ptrs_to.add(logger);
+	}
+
+	public TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] update_best_block(Uint8Array header, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+		number[] ret = bindings.ChannelMonitor_update_best_block(this.ptr, header, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] ret_conv_49_arr = new TwoTuple[ret.length];
+		for (int x = 0; x < ret.length; x++) {
+			number ret_conv_49 = ret[x];
+			Uint8Array ret_conv_49_a = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(ret_conv_49);
+			number[] ret_conv_49_b = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(ret_conv_49);
+			TwoTuple<Number, TxOut>[] ret_conv_49_b_conv_25_arr = new TwoTuple[ret_conv_49_b.length];
+			for (int z = 0; z < ret_conv_49_b.length; z++) {
+				number ret_conv_49_b_conv_25 = ret_conv_49_b[z];
+				number ret_conv_49_b_conv_25_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(ret_conv_49_b_conv_25);
+				number ret_conv_49_b_conv_25_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(ret_conv_49_b_conv_25));
+				TxOut ret_conv_49_b_conv_25_b_conv = new TxOut(null, ret_conv_49_b_conv_25_b);;
+				TwoTuple<Number, TxOut> ret_conv_49_b_conv_25_conv = new TwoTuple<Number, TxOut>(ret_conv_49_b_conv_25_a, ret_conv_49_b_conv_25_b_conv, () -> {
+					bindings.C2Tuple_u32TxOutZ_free(ret_conv_49_b_conv_25);
+				});
+				ret_conv_49_b_conv_25_b_conv.ptrs_to.add(ret_conv_49_b_conv_25_conv);
+				ret_conv_49_b_conv_25_arr[z] = ret_conv_49_b_conv_25_conv;
+			};
+			TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]> ret_conv_49_conv = new TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>(ret_conv_49_a, ret_conv_49_b_conv_25_arr);
+			// Warning: We may not free the C tuple object!
+			ret_conv_49_arr[x] = ret_conv_49_conv;
+		}
+		this.ptrs_to.add(broadcaster);
+		this.ptrs_to.add(fee_estimator);
+		this.ptrs_to.add(logger);
+		return ret_conv_49_arr;
+	}
+
+	public Uint8Array[] get_relevant_txids() {
+		Uint8Array[] ret = bindings.ChannelMonitor_get_relevant_txids(this.ptr);
+		return ret;
+	}
+
 }

@@ -227,6 +227,17 @@ public class InMemorySigner extends CommonBase {
 	}
 
 	/**
+	 * Constructs a new BaseSign which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned BaseSign must be freed before this_arg is
+	 */
+	public BaseSign as_BaseSign() {
+		long ret = bindings.InMemorySigner_as_BaseSign(this.ptr);
+		BaseSign ret_hu_conv = new BaseSign(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Constructs a new Sign which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned Sign must be freed before this_arg is
 	 */

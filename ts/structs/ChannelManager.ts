@@ -18,8 +18,8 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelManager_free(this.ptr);
                     }
                 }
-	public static ChannelManager constructor_new(FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, LDKNetwork params_network_arg, Uint8Array params_latest_hash_arg, number params_latest_height_arg) {
-		number ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, bindings.ChainParameters_new(params_network_arg, params_latest_hash_arg, params_latest_height_arg));
+	public static ChannelManager constructor_new(FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, LDKNetwork params_network_arg, BestBlock params_best_block_arg) {
+		number ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, bindings.ChainParameters_new(params_network_arg, params_best_block_arg == null ? 0 : params_best_block_arg.ptr & ~1));
 		const ret_hu_conv: ChannelManager = new ChannelManager(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fee_est);
@@ -28,6 +28,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(keys_manager);
 		ret_hu_conv.ptrs_to.add(config);
+		ret_hu_conv.ptrs_to.add(params_best_block_arg);
+		return ret_hu_conv;
+	}
+
+	public UserConfig get_current_default_configuration() {
+		number ret = bindings.ChannelManager_get_current_default_configuration(this.ptr);
+		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -85,9 +93,10 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public void funding_transaction_generated(Uint8Array temporary_channel_id, OutPoint funding_txo) {
-		bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_txo == null ? 0 : funding_txo.ptr & ~1);
-		this.ptrs_to.add(funding_txo);
+	public Result_NoneAPIErrorZ funding_transaction_generated(Uint8Array temporary_channel_id, Uint8Array funding_transaction) {
+		number ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_transaction);
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	public void broadcast_node_announcement(Uint8Array rgb, Uint8Array alias, NetAddress[] addresses) {
@@ -99,8 +108,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelManager_process_pending_htlc_forwards(this.ptr);
 	}
 
-	public void timer_chan_freshness_every_min() {
-		bindings.ChannelManager_timer_chan_freshness_every_min(this.ptr);
+	public void timer_tick_occurred() {
+		bindings.ChannelManager_timer_tick_occurred(this.ptr);
 	}
 
 	public boolean fail_htlc_backwards(Uint8Array payment_hash, Uint8Array payment_secret) {
@@ -144,13 +153,22 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public void block_connected(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
-		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new), height);
+	public void transactions_confirmed(Uint8Array header, number height, TwoTuple<Number, Uint8Array>[] txdata) {
+		bindings.ChannelManager_transactions_confirmed(this.ptr, header, height, Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new));
 		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
 	}
 
-	public void block_disconnected(Uint8Array header) {
-		bindings.ChannelManager_block_disconnected(this.ptr, header);
+	public void update_best_block(Uint8Array header, number height) {
+		bindings.ChannelManager_update_best_block(this.ptr, header, height);
+	}
+
+	public Uint8Array[] get_relevant_txids() {
+		Uint8Array[] ret = bindings.ChannelManager_get_relevant_txids(this.ptr);
+		return ret;
+	}
+
+	public void transaction_unconfirmed(Uint8Array txid) {
+		bindings.ChannelManager_transaction_unconfirmed(this.ptr, txid);
 	}
 
 	public boolean await_persistable_update_timeout(number max_wait) {

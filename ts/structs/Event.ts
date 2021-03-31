@@ -13,9 +13,6 @@ export default class Event extends CommonBase {
 		if (raw_val instanceof bindings.LDKEvent.FundingGenerationReady) {
 			return new FundingGenerationReady(this.ptr, raw_val);
 		}
-		if (raw_val instanceof bindings.LDKEvent.FundingBroadcastSafe) {
-			return new FundingBroadcastSafe(this.ptr, raw_val);
-		}
 		if (raw_val instanceof bindings.LDKEvent.PaymentReceived) {
 			return new PaymentReceived(this.ptr, raw_val);
 		}
@@ -45,18 +42,6 @@ export class FundingGenerationReady extends Event {
 		this.temporary_channel_id = obj.temporary_channel_id;
 		this.channel_value_satoshis = obj.channel_value_satoshis;
 		this.output_script = obj.output_script;
-		this.user_channel_id = obj.user_channel_id;
-	}
-}
-export class FundingBroadcastSafe extends Event {
-	public funding_txo: OutPoint;
-	public user_channel_id: number;
-	private constructor(ptr: number, obj: bindings.LDKEvent.FundingBroadcastSafe) {
-		super(null, ptr);
-		const funding_txo: number = obj.funding_txo;
-		const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
-			funding_txo_hu_conv.ptrs_to.add(this);
-		this.funding_txo = funding_txo_hu_conv;
 		this.user_channel_id = obj.user_channel_id;
 	}
 }
