@@ -488,11 +488,6 @@ public static native long new_empty_slice_vec();
 			public number user_channel_id;
 			FundingGenerationReady(Uint8Array temporary_channel_id, number channel_value_satoshis, Uint8Array output_script, number user_channel_id) { this.temporary_channel_id = temporary_channel_id; this.channel_value_satoshis = channel_value_satoshis; this.output_script = output_script; this.user_channel_id = user_channel_id; }
 		}
-		export class FundingBroadcastSafe extends LDKEvent {
-			public number funding_txo;
-			public number user_channel_id;
-			FundingBroadcastSafe(number funding_txo, number user_channel_id) { this.funding_txo = funding_txo; this.user_channel_id = user_channel_id; }
-		}
 		export class PaymentReceived extends LDKEvent {
 			public Uint8Array payment_hash;
 			public Uint8Array payment_secret;
@@ -3169,6 +3164,14 @@ public static native long new_empty_slice_vec();
 		}
 		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_clone(orig);
 		return nativeResponseValue;
+	}
+	// void CVec_TxidZ_free(struct LDKCVec_TxidZ _res);
+	export function CVec_TxidZ_free(_res: Uint8Array[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_TxidZ_free(_res);
+		// debug statements here
 	}
 	// void CVec_ChannelMonitorZ_free(struct LDKCVec_ChannelMonitorZ _res);
 	export function CVec_ChannelMonitorZ_free(_res: number[]): void {
@@ -6474,6 +6477,14 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelManager_new(fee_est, chain_monitor, tx_broadcaster, logger, keys_manager, config, params);
 		return nativeResponseValue;
 	}
+	// MUST_USE_RES struct LDKUserConfig ChannelManager_get_current_default_configuration(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	export function ChannelManager_get_current_default_configuration(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelManager_get_current_default_configuration(this_arg);
+		return nativeResponseValue;
+	}
 	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_create_channel(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKPublicKey their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, uint64_t user_id, struct LDKUserConfig override_config);
 	export function ChannelManager_create_channel(this_arg: number, their_network_key: Uint8Array, channel_value_satoshis: number, push_msat: number, user_id: number, override_config: number): number {
 		if(!isWasmInitialized) {
@@ -6530,13 +6541,13 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelManager_send_payment(this_arg, route, encodeArray(payment_hash), encodeArray(payment_secret));
 		return nativeResponseValue;
 	}
-	// void ChannelManager_funding_transaction_generated(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*temporary_channel_id)[32], struct LDKOutPoint funding_txo);
-	export function ChannelManager_funding_transaction_generated(this_arg: number, temporary_channel_id: Uint8Array, funding_txo: number): void {
+	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_funding_transaction_generated(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*temporary_channel_id)[32], struct LDKTransaction funding_transaction, uint16_t output_index);
+	export function ChannelManager_funding_transaction_generated(this_arg: number, temporary_channel_id: Uint8Array, funding_transaction: Uint8Array, output_index: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelManager_funding_transaction_generated(this_arg, encodeArray(temporary_channel_id), funding_txo);
-		// debug statements here
+		const nativeResponseValue = wasm.ChannelManager_funding_transaction_generated(this_arg, encodeArray(temporary_channel_id), encodeArray(funding_transaction), output_index);
+		return nativeResponseValue;
 	}
 	// void ChannelManager_broadcast_node_announcement(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThreeBytes rgb, struct LDKThirtyTwoBytes alias, struct LDKCVec_NetAddressZ addresses);
 	export function ChannelManager_broadcast_node_announcement(this_arg: number, rgb: Uint8Array, alias: Uint8Array, addresses: number[]): void {
@@ -6618,20 +6629,36 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelManager_as_Listen(this_arg);
 		return nativeResponseValue;
 	}
-	// void ChannelManager_block_connected(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height);
-	export function ChannelManager_block_connected(this_arg: number, header: Uint8Array, txdata: number[], height: number): void {
+	// void ChannelManager_transactions_confirmed(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKCVec_C2Tuple_usizeTransactionZZ txdata);
+	export function ChannelManager_transactions_confirmed(this_arg: number, header: Uint8Array, height: number, txdata: number[]): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelManager_block_connected(this_arg, encodeArray(header), txdata, height);
+		const nativeResponseValue = wasm.ChannelManager_transactions_confirmed(this_arg, encodeArray(header), height, txdata);
 		// debug statements here
 	}
-	// void ChannelManager_block_disconnected(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80]);
-	export function ChannelManager_block_disconnected(this_arg: number, header: Uint8Array): void {
+	// void ChannelManager_update_best_block(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height);
+	export function ChannelManager_update_best_block(this_arg: number, header: Uint8Array, height: number): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelManager_block_disconnected(this_arg, encodeArray(header));
+		const nativeResponseValue = wasm.ChannelManager_update_best_block(this_arg, encodeArray(header), height);
+		// debug statements here
+	}
+	// MUST_USE_RES struct LDKCVec_TxidZ ChannelManager_get_relevant_txids(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	export function ChannelManager_get_relevant_txids(this_arg: number): Uint8Array[] {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelManager_get_relevant_txids(this_arg);
+		return nativeResponseValue;
+	}
+	// void ChannelManager_transaction_unconfirmed(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*txid)[32]);
+	export function ChannelManager_transaction_unconfirmed(this_arg: number, txid: Uint8Array): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelManager_transaction_unconfirmed(this_arg, encodeArray(txid));
 		// debug statements here
 	}
 	// MUST_USE_RES bool ChannelManager_await_persistable_update_timeout(const struct LDKChannelManager *NONNULL_PTR this_arg, uint64_t max_wait);

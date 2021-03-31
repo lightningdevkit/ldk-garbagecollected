@@ -81,6 +81,16 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Gets the current configuration applied to all new channels,  as
+	 */
+	public UserConfig get_current_default_configuration() {
+		long ret = bindings.ChannelManager_get_current_default_configuration(this.ptr);
+		UserConfig ret_hu_conv = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Creates a new outbound channel to the given remote node and with the given value.
 	 * 
 	 * user_id will be provided back as user_channel_id in FundingGenerationReady and
@@ -221,14 +231,18 @@ public class ChannelManager extends CommonBase {
 	 * Note that ALL inputs in the transaction pointed to by funding_txo MUST spend SegWit outputs
 	 * or your counterparty can steal your funds!
 	 * 
+	 * Returns an [`APIError::APIMisuseError`] if the funding_transaction spent non-SegWit outputs
+	 * or the output didn't match the parameters in [`Event::FundingGenerationReady`].
+	 * 
 	 * Panics if a funding transaction has already been provided for this channel.
 	 * 
 	 * May panic if the funding_txo is duplicative with some other channel (note that this should
 	 * be trivially prevented by using unique funding transaction keys per-channel).
 	 */
-	public void funding_transaction_generated(byte[] temporary_channel_id, OutPoint funding_txo) {
-		bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_txo == null ? 0 : funding_txo.ptr & ~1);
-		this.ptrs_to.add(funding_txo);
+	public Result_NoneAPIErrorZ funding_transaction_generated(byte[] temporary_channel_id, byte[] funding_transaction, short output_index) {
+		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_transaction, output_index);
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -377,21 +391,58 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Updates channel state based on transactions seen in a connected block.
+	 * Updates channel state to take note of transactions which were confirmed in the given block
+	 * at the given height.
+	 * 
+	 * Note that you must still call update_best_block with the block information which is
+	 * included here.
+	 * 
+	 * This method may be called before or after update_best_block for a given block's transaction
+	 * data and may be called multiple times with additional transaction data for a given block.
+	 * 
+	 * This method may be called for a previous block after an update_best_block() call has been
+	 * made for a later block, however it must *not* be called with transaction data from a block
+	 * which is no longer in the best chain (ie where update_best_block() has already been
+	 * informed about a blockchain reorganization which no longer includes the block which
+	 * corresponds to `header`).
 	 */
-	public void block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
-		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height);
+	public void transactions_confirmed(byte[] header, int height, TwoTuple<Long, byte[]>[] txdata) {
+		bindings.ChannelManager_transactions_confirmed(this.ptr, header, height, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray());
 		/* TODO 2 TwoTuple<Long, byte[]>  */;
 	}
 
 	/**
-	 * Updates channel state based on a disconnected block.
+	 * Updates channel state with the current best blockchain tip. You should attempt to call this
+	 * quickly after a new block becomes available, however if multiple new blocks become
+	 * available at the same time, only a single `update_best_block()` call needs to be made.
 	 * 
-	 * If necessary, the channel may be force-closed without letting the counterparty participate
-	 * in the shutdown.
+	 * This method should also be called immediately after any block disconnections, once at the
+	 * reorganization fork point, and once with the new chain tip. Calling this method at the
+	 * blockchain reorganization fork point ensures we learn when a funding transaction which was
+	 * previously confirmed is reorganized out of the blockchain, ensuring we do not continue to
+	 * accept payments which cannot be enforced on-chain.
+	 * 
+	 * In both the block-connection and block-disconnection case, this method may be called either
+	 * once per block connected or disconnected, or simply at the fork point and new tip(s),
+	 * skipping any intermediary blocks.
 	 */
-	public void block_disconnected(byte[] header) {
-		bindings.ChannelManager_block_disconnected(this.ptr, header);
+	public void update_best_block(byte[] header, int height) {
+		bindings.ChannelManager_update_best_block(this.ptr, header, height);
+	}
+
+	/**
+	 * Gets the set of txids which should be monitored for their confirmation state. XXX: Docs
+	 */
+	public byte[][] get_relevant_txids() {
+		byte[][] ret = bindings.ChannelManager_get_relevant_txids(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Marks a transaction as having been reorganized out of the blockchain XXX: Docs
+	 */
+	public void transaction_unconfirmed(byte[] txid) {
+		bindings.ChannelManager_transaction_unconfirmed(this.ptr, txid);
 	}
 
 	/**

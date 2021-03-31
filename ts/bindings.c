@@ -1343,13 +1343,6 @@ uint32_t __attribute__((visibility("default"))) TS_LDKEvent_ref_from_ptr(uint32_
 			memcpy((uint8_t*)(output_script_arr + 4), output_script_var.data, output_script_var.datalen);
 			return 0 /* LDKEvent - FundingGenerationReady */; (void) temporary_channel_id_arr; (void) obj->funding_generation_ready.channel_value_satoshis; (void) output_script_arr; (void) obj->funding_generation_ready.user_channel_id;
 		}
-		case LDKEvent_FundingBroadcastSafe: {
-			LDKOutPoint funding_txo_var = obj->funding_broadcast_safe.funding_txo;
-			CHECK((((long)funding_txo_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-			CHECK((((long)&funding_txo_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			long funding_txo_ref = (long)funding_txo_var.inner & ~1;
-			return 0 /* LDKEvent - FundingBroadcastSafe */; (void) funding_txo_ref; (void) obj->funding_broadcast_safe.user_channel_id;
-		}
 		case LDKEvent_PaymentReceived: {
 			int8_tArray payment_hash_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 			memcpy((uint8_t*)(payment_hash_arr + 4), obj->payment_received.payment_hash.data, 32);
@@ -2382,6 +2375,13 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NonePaymentSendFa
 	CHECK(!val->result_ok);
 	long err_ref = ((long)&(*val->contents.err)) | 1;
 	return err_ref;
+}
+static inline LDKCVec_TxidZ CVec_ThirtyTwoBytesZ_clone(const LDKCVec_TxidZ *orig) {
+	LDKCVec_TxidZ ret = { .data = MALLOC(sizeof(LDKThirtyTwoBytes) * orig->datalen, "LDKCVec_TxidZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = ThirtyTwoBytes_clone(&orig->data[i]);
+	}
+	return ret;
 }
 uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_ChannelMonitorZ_new(uint32_tArray elems) {
 	LDKCVec_ChannelMonitorZ *ret = MALLOC(sizeof(LDKCVec_ChannelMonitorZ), "LDKCVec_ChannelMonitorZ");
@@ -7238,6 +7238,24 @@ uint32_t  __attribute__((visibility("default"))) TS_CResult_NonePaymentSendFailu
 	return (long)ret_conv;
 }
 
+void  __attribute__((visibility("default"))) TS_CVec_TxidZ_free(ptrArray _res) {
+	LDKCVec_TxidZ _res_constr;
+	_res_constr.datalen = *((uint32_t*)_res);
+	if (_res_constr.datalen > 0)
+		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKThirtyTwoBytes), "LDKCVec_TxidZ Elements");
+	else
+		_res_constr.data = NULL;
+	int8_tArray* _res_vals = (int8_tArray*)(_res + 4);
+	for (size_t m = 0; m < _res_constr.datalen; m++) {
+		int8_tArray _res_conv_12 = _res_vals[m];
+		LDKThirtyTwoBytes _res_conv_12_ref;
+		CHECK(*((uint32_t*)_res_conv_12) == 32);
+		memcpy(_res_conv_12_ref.data, (uint8_t*)(_res_conv_12 + 4), 32);
+		_res_constr.data[m] = _res_conv_12_ref;
+	}
+	CVec_TxidZ_free(_res_constr);
+}
+
 void  __attribute__((visibility("default"))) TS_CVec_ChannelMonitorZ_free(uint32_tArray _res) {
 	LDKCVec_ChannelMonitorZ _res_constr;
 	_res_constr.datalen = *((uint32_t*)_res);
@@ -11218,6 +11236,20 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_new(uint32_t 
 	return ret_ref;
 }
 
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_get_current_default_configuration(uint32_t this_arg) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKUserConfig ret_var = ChannelManager_get_current_default_configuration(&this_arg_conv);
+	CHECK((((long)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((long)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	long ret_ref = (long)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
 uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_create_channel(uint32_t this_arg, int8_tArray their_network_key, int64_t channel_value_satoshis, int64_t push_msat, int64_t user_id, uint32_t override_config) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
@@ -11327,7 +11359,7 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_send_payment(
 	return (long)ret_conv;
 }
 
-void  __attribute__((visibility("default"))) TS_ChannelManager_funding_transaction_generated(uint32_t this_arg, int8_tArray temporary_channel_id, uint32_t funding_txo) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_funding_transaction_generated(uint32_t this_arg, int8_tArray temporary_channel_id, int8_tArray funding_transaction, int16_t output_index) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -11335,11 +11367,14 @@ void  __attribute__((visibility("default"))) TS_ChannelManager_funding_transacti
 	CHECK(*((uint32_t*)temporary_channel_id) == 32);
 	memcpy(temporary_channel_id_arr, (uint8_t*)(temporary_channel_id + 4), 32);
 	unsigned char (*temporary_channel_id_ref)[32] = &temporary_channel_id_arr;
-	LDKOutPoint funding_txo_conv;
-	funding_txo_conv.inner = (void*)(funding_txo & (~1));
-	funding_txo_conv.is_owned = (funding_txo & 1) || (funding_txo == 0);
-	funding_txo_conv = OutPoint_clone(&funding_txo_conv);
-	ChannelManager_funding_transaction_generated(&this_arg_conv, temporary_channel_id_ref, funding_txo_conv);
+	LDKTransaction funding_transaction_ref;
+	funding_transaction_ref.datalen = *((uint32_t*)funding_transaction);
+	funding_transaction_ref.data = MALLOC(funding_transaction_ref.datalen, "LDKTransaction Bytes");
+	memcpy(funding_transaction_ref.data, (uint8_t*)(funding_transaction + 4), funding_transaction_ref.datalen);
+	funding_transaction_ref.data_is_owned = true;
+	LDKCResult_NoneAPIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
+	*ret_conv = ChannelManager_funding_transaction_generated(&this_arg_conv, temporary_channel_id_ref, funding_transaction_ref, output_index);
+	return (long)ret_conv;
 }
 
 void  __attribute__((visibility("default"))) TS_ChannelManager_broadcast_node_announcement(uint32_t this_arg, int8_tArray rgb, int8_tArray alias, uint32_tArray addresses) {
@@ -11457,7 +11492,7 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_as_Listen(uin
 	return (long)ret;
 }
 
-void  __attribute__((visibility("default"))) TS_ChannelManager_block_connected(uint32_t this_arg, int8_tArray header, uint32_tArray txdata, int32_t height) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_transactions_confirmed(uint32_t this_arg, int8_tArray header, int32_t height, uint32_tArray txdata) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -11478,10 +11513,10 @@ void  __attribute__((visibility("default"))) TS_ChannelManager_block_connected(u
 		// Warning: we may need a move here but no clone is available for LDKC2Tuple_usizeTransactionZ
 		txdata_constr.data[e] = txdata_conv_30_conv;
 	}
-	ChannelManager_block_connected(&this_arg_conv, header_ref, txdata_constr, height);
+	ChannelManager_transactions_confirmed(&this_arg_conv, header_ref, height, txdata_constr);
 }
 
-void  __attribute__((visibility("default"))) TS_ChannelManager_block_disconnected(uint32_t this_arg, int8_tArray header) {
+void  __attribute__((visibility("default"))) TS_ChannelManager_update_best_block(uint32_t this_arg, int8_tArray header, int32_t height) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -11489,7 +11524,34 @@ void  __attribute__((visibility("default"))) TS_ChannelManager_block_disconnecte
 	CHECK(*((uint32_t*)header) == 80);
 	memcpy(header_arr, (uint8_t*)(header + 4), 80);
 	unsigned char (*header_ref)[80] = &header_arr;
-	ChannelManager_block_disconnected(&this_arg_conv, header_ref);
+	ChannelManager_update_best_block(&this_arg_conv, header_ref, height);
+}
+
+ptrArray  __attribute__((visibility("default"))) TS_ChannelManager_get_relevant_txids(uint32_t this_arg) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKCVec_TxidZ ret_var = ChannelManager_get_relevant_txids(&this_arg_conv);
+	ptrArray ret_arr = init_arr(ret_var.datalen, sizeof(uint32_t), "Native ptrArray Bytes");
+	int8_tArray *ret_arr_ptr = (int8_tArray*)(ret_arr + 4);
+	for (size_t m = 0; m < ret_var.datalen; m++) {
+		int8_tArray ret_conv_12_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
+		memcpy((uint8_t*)(ret_conv_12_arr + 4), ret_var.data[m].data, 32);
+		ret_arr_ptr[m] = ret_conv_12_arr;
+	}
+	FREE(ret_var.data);
+	return ret_arr;
+}
+
+void  __attribute__((visibility("default"))) TS_ChannelManager_transaction_unconfirmed(uint32_t this_arg, int8_tArray txid) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	unsigned char txid_arr[32];
+	CHECK(*((uint32_t*)txid) == 32);
+	memcpy(txid_arr, (uint8_t*)(txid + 4), 32);
+	unsigned char (*txid_ref)[32] = &txid_arr;
+	ChannelManager_transaction_unconfirmed(&this_arg_conv, txid_ref);
 }
 
 jboolean  __attribute__((visibility("default"))) TS_ChannelManager_await_persistable_update_timeout(uint32_t this_arg, int64_t max_wait) {

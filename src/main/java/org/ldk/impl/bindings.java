@@ -373,11 +373,6 @@ public class bindings {
 			public long user_channel_id;
 			FundingGenerationReady(byte[] temporary_channel_id, long channel_value_satoshis, byte[] output_script, long user_channel_id) { this.temporary_channel_id = temporary_channel_id; this.channel_value_satoshis = channel_value_satoshis; this.output_script = output_script; this.user_channel_id = user_channel_id; }
 		}
-		public final static class FundingBroadcastSafe extends LDKEvent {
-			public long funding_txo;
-			public long user_channel_id;
-			FundingBroadcastSafe(long funding_txo, long user_channel_id) { this.funding_txo = funding_txo; this.user_channel_id = user_channel_id; }
-		}
 		public final static class PaymentReceived extends LDKEvent {
 			public byte[] payment_hash;
 			public byte[] payment_secret;
@@ -1297,6 +1292,8 @@ public class bindings {
 	public static native void CResult_NonePaymentSendFailureZ_free(long _res);
 	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_clone(const struct LDKCResult_NonePaymentSendFailureZ *NONNULL_PTR orig);
 	public static native long CResult_NonePaymentSendFailureZ_clone(long orig);
+	// void CVec_TxidZ_free(struct LDKCVec_TxidZ _res);
+	public static native void CVec_TxidZ_free(byte[][] _res);
 	// void CVec_ChannelMonitorZ_free(struct LDKCVec_ChannelMonitorZ _res);
 	public static native void CVec_ChannelMonitorZ_free(long[] _res);
 	// struct LDKC2Tuple_BlockHashChannelManagerZ C2Tuple_BlockHashChannelManagerZ_new(struct LDKThirtyTwoBytes a, struct LDKChannelManager b);
@@ -2123,6 +2120,8 @@ public class bindings {
 	public static native long PaymentSendFailure_clone(long orig);
 	// MUST_USE_RES struct LDKChannelManager ChannelManager_new(struct LDKFeeEstimator fee_est, struct LDKWatch chain_monitor, struct LDKBroadcasterInterface tx_broadcaster, struct LDKLogger logger, struct LDKKeysInterface keys_manager, struct LDKUserConfig config, struct LDKChainParameters params);
 	public static native long ChannelManager_new(long fee_est, long chain_monitor, long tx_broadcaster, long logger, long keys_manager, long config, long params);
+	// MUST_USE_RES struct LDKUserConfig ChannelManager_get_current_default_configuration(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	public static native long ChannelManager_get_current_default_configuration(long this_arg);
 	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_create_channel(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKPublicKey their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, uint64_t user_id, struct LDKUserConfig override_config);
 	public static native long ChannelManager_create_channel(long this_arg, byte[] their_network_key, long channel_value_satoshis, long push_msat, long user_id, long override_config);
 	// MUST_USE_RES struct LDKCVec_ChannelDetailsZ ChannelManager_list_channels(const struct LDKChannelManager *NONNULL_PTR this_arg);
@@ -2137,8 +2136,8 @@ public class bindings {
 	public static native void ChannelManager_force_close_all_channels(long this_arg);
 	// MUST_USE_RES struct LDKCResult_NonePaymentSendFailureZ ChannelManager_send_payment(const struct LDKChannelManager *NONNULL_PTR this_arg, const struct LDKRoute *NONNULL_PTR route, struct LDKThirtyTwoBytes payment_hash, struct LDKThirtyTwoBytes payment_secret);
 	public static native long ChannelManager_send_payment(long this_arg, long route, byte[] payment_hash, byte[] payment_secret);
-	// void ChannelManager_funding_transaction_generated(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*temporary_channel_id)[32], struct LDKOutPoint funding_txo);
-	public static native void ChannelManager_funding_transaction_generated(long this_arg, byte[] temporary_channel_id, long funding_txo);
+	// MUST_USE_RES struct LDKCResult_NoneAPIErrorZ ChannelManager_funding_transaction_generated(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*temporary_channel_id)[32], struct LDKTransaction funding_transaction, uint16_t output_index);
+	public static native long ChannelManager_funding_transaction_generated(long this_arg, byte[] temporary_channel_id, byte[] funding_transaction, short output_index);
 	// void ChannelManager_broadcast_node_announcement(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThreeBytes rgb, struct LDKThirtyTwoBytes alias, struct LDKCVec_NetAddressZ addresses);
 	public static native void ChannelManager_broadcast_node_announcement(long this_arg, byte[] rgb, byte[] alias, long[] addresses);
 	// void ChannelManager_process_pending_htlc_forwards(const struct LDKChannelManager *NONNULL_PTR this_arg);
@@ -2159,10 +2158,14 @@ public class bindings {
 	public static native long ChannelManager_as_EventsProvider(long this_arg);
 	// struct LDKListen ChannelManager_as_Listen(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	public static native long ChannelManager_as_Listen(long this_arg);
-	// void ChannelManager_block_connected(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height);
-	public static native void ChannelManager_block_connected(long this_arg, byte[] header, long[] txdata, int height);
-	// void ChannelManager_block_disconnected(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80]);
-	public static native void ChannelManager_block_disconnected(long this_arg, byte[] header);
+	// void ChannelManager_transactions_confirmed(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKCVec_C2Tuple_usizeTransactionZZ txdata);
+	public static native void ChannelManager_transactions_confirmed(long this_arg, byte[] header, int height, long[] txdata);
+	// void ChannelManager_update_best_block(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height);
+	public static native void ChannelManager_update_best_block(long this_arg, byte[] header, int height);
+	// MUST_USE_RES struct LDKCVec_TxidZ ChannelManager_get_relevant_txids(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	public static native byte[][] ChannelManager_get_relevant_txids(long this_arg);
+	// void ChannelManager_transaction_unconfirmed(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*txid)[32]);
+	public static native void ChannelManager_transaction_unconfirmed(long this_arg, byte[] txid);
 	// MUST_USE_RES bool ChannelManager_await_persistable_update_timeout(const struct LDKChannelManager *NONNULL_PTR this_arg, uint64_t max_wait);
 	public static native boolean ChannelManager_await_persistable_update_timeout(long this_arg, long max_wait);
 	// void ChannelManager_await_persistable_update(const struct LDKChannelManager *NONNULL_PTR this_arg);
