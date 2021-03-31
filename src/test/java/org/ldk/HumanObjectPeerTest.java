@@ -1,10 +1,8 @@
 package org.ldk;
 
 import org.bitcoinj.core.*;
-import org.bitcoinj.core.Transaction;
 import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
-import org.ldk.batteries.ChannelManagerConstructor;
 import org.ldk.batteries.NioPeerHandler;
 import org.ldk.enums.LDKNetwork;
 import org.ldk.impl.bindings;
@@ -287,38 +285,26 @@ class HumanObjectPeerTestInstance {
         Object ptr_to;
         Peer(Peer orig) {
             this(null, orig.seed);
-            if (!break_cross_peer_refs) {
-                ChannelMonitor[] monitors = new ChannelMonitor[1];
-                synchronized (monitors) {
-                    assert orig.monitors.size() == 1;
+            // TODO: Optionally test ChannelManagerConstructor
+            ChannelMonitor[] monitors = new ChannelMonitor[1];
+            synchronized (monitors) {
+                assert orig.monitors.size() == 1;
+                if (!break_cross_peer_refs) {
                     monitors[0] = orig.monitors.values().stream().iterator().next();
-                }
-                byte[] serialized = orig.chan_manager.write();
-                Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
-                        UtilMethods.constructor_BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.constructor_default(), monitors);
-                assert read_res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK;
-                this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
-                this.chain_watch.watch_channel(monitors[0].get_funding_txo().a, monitors[0]);
-            } else {
-                final ArrayList<byte[]> channel_monitors = new ArrayList();
-                synchronized (monitors) {
-                    assert orig.monitors.size() == 1;
-                    channel_monitors.add(orig.monitors.values().stream().iterator().next().write());
-                }
-                byte[] serialized = orig.chan_manager.write();
-                try {
-                    ChannelManagerConstructor constructed = new ChannelManagerConstructor(serialized, channel_monitors.toArray(new byte[1][]), this.keys_interface, this.fee_estimator, this.chain_watch, this.filter, this.tx_broadcaster, this.logger);
-                    this.chan_manager = constructed.channel_manager;
-                    constructed.chain_sync_completed();
-                    if (use_filter && !use_manual_watch) {
-                        // With a manual watch we don't actually use the filter object at all.
-                        assert this.filter_additions.containsAll(orig.filter_additions) &&
-                                orig.filter_additions.containsAll(this.filter_additions);
-                    }
-                } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {
-                    assert false;
+                } else {
+                    byte[] serialized = orig.monitors.values().stream().iterator().next().write();
+                    Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res =
+                            UtilMethods.constructor_BlockHashChannelMonitorZ_read(serialized, this.keys_interface);
+                    assert res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
+                    monitors[0] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.b;
                 }
             }
+            byte[] serialized = orig.chan_manager.write();
+            Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
+                    UtilMethods.constructor_BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.constructor_default(), monitors);
+            assert read_res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK;
+            this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
+            this.chain_watch.watch_channel(monitors[0].get_funding_txo().a, monitors[0]);
             if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
                 // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
                 // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
