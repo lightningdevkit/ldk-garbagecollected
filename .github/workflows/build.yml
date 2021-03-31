@@ -30,7 +30,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
       - name: Rebuild C bindings, and check the sample app builds + links
-        run: cd ldk-c-bindings && ./genbindings.sh ../rust-lightning && cd ..
+        run: cd ldk-c-bindings && ./genbindings.sh ../rust-lightning true && cd ..
       - name: Build Java/TS Debug Bindings
         run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" true false
       - name: Run Java Tests against Debug Bindings
