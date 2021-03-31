@@ -8289,6 +8289,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1block_1disconn
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ChannelManager_await_persistable_update_timeout
+ * Signature: (JJ)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_ChannelManager_1await_1persistable_1update_1timeout
+  (JNIEnv *, jclass, jlong, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ChannelManager_await_persistable_update
  * Signature: (J)V
  */

@@ -6634,6 +6634,14 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelManager_block_disconnected(this_arg, encodeArray(header));
 		// debug statements here
 	}
+	// MUST_USE_RES bool ChannelManager_await_persistable_update_timeout(const struct LDKChannelManager *NONNULL_PTR this_arg, uint64_t max_wait);
+	export function ChannelManager_await_persistable_update_timeout(this_arg: number, max_wait: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelManager_await_persistable_update_timeout(this_arg, max_wait);
+		return nativeResponseValue;
+	}
 	// void ChannelManager_await_persistable_update(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	export function ChannelManager_await_persistable_update(this_arg: number): void {
 		if(!isWasmInitialized) {

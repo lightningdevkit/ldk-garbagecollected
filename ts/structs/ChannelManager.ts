@@ -153,6 +153,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelManager_block_disconnected(this.ptr, header);
 	}
 
+	public boolean await_persistable_update_timeout(number max_wait) {
+		boolean ret = bindings.ChannelManager_await_persistable_update_timeout(this.ptr, max_wait);
+		return ret;
+	}
+
 	public void await_persistable_update() {
 		bindings.ChannelManager_await_persistable_update(this.ptr);
 	}

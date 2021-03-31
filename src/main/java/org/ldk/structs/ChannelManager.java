@@ -395,6 +395,18 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Blocks until ChannelManager needs to be persisted or a timeout is reached. It returns a bool
+	 * indicating whether persistence is necessary. Only one listener on
+	 * `await_persistable_update` or `await_persistable_update_timeout` is guaranteed to be woken
+	 * up.
+	 * Note that the feature `allow_wallclock_use` must be enabled to use this function.
+	 */
+	public boolean await_persistable_update_timeout(long max_wait) {
+		boolean ret = bindings.ChannelManager_await_persistable_update_timeout(this.ptr, max_wait);
+		return ret;
+	}
+
+	/**
 	 * Blocks until ChannelManager needs to be persisted. Only one listener on
 	 * `await_persistable_update` or `await_persistable_update_timeout` is guaranteed to be woken
 	 * up.

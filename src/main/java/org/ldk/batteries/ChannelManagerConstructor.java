@@ -34,7 +34,7 @@ public class ChannelManagerConstructor {
      */
     public final TwoTuple<ChannelMonitor, byte[]>[] channel_monitors;
 
-    private final Watch chain_watch;
+    private final ChainMonitor chain_monitor;
 
     /**
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
@@ -44,7 +44,7 @@ public class ChannelManagerConstructor {
      *               outputs will be loaded when chain_sync_completed is called.
      */
     public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized,
-                                     KeysInterface keys_interface, FeeEstimator fee_estimator, Watch chain_watch, @Nullable Filter filter,
+                                     KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor, @Nullable Filter filter,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
         this.channel_monitors = new TwoTuple[monitors.length];
@@ -57,14 +57,14 @@ public class ChannelManagerConstructor {
             this.channel_monitors[i] = new TwoTuple<>(monitors[i], ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK)res).res.a);
         }
         Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
-                UtilMethods.constructor_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_watch, tx_broadcaster,
+                UtilMethods.constructor_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
                         logger, UserConfig.constructor_default(), monitors);
         if (res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err) {
             throw new InvalidSerializedDataException();
         }
         this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.b;
         this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.a;
-        this.chain_watch = chain_watch;
+        this.chain_monitor = chain_monitor;
         if (filter != null) {
             for (ChannelMonitor monitor : monitors) {
                 monitor.load_outputs_to_watch(filter);
@@ -76,21 +76,74 @@ public class ChannelManagerConstructor {
      * Constructs a channel manager from the given interface implementations
      */
     public ChannelManagerConstructor(LDKNetwork network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
-                                     KeysInterface keys_interface, FeeEstimator fee_estimator, Watch chain_watch,
+                                     KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         channel_monitors = new TwoTuple[0];
         channel_manager_latest_block_hash = null;
-        this.chain_watch = chain_watch;
-        channel_manager = ChannelManager.constructor_new(fee_estimator, chain_watch, tx_broadcaster, logger, keys_interface, config, network, current_blockchain_tip_hash, current_blockchain_tip_height);
+        this.chain_monitor = chain_monitor;
+        channel_manager = ChannelManager.constructor_new(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, logger, keys_interface, config, network, current_blockchain_tip_hash, current_blockchain_tip_height);
     }
+
+    /**
+     * Abstract interface which should handle Events and persist the ChannelManager. When you call chain_sync_completed
+     * a background thread is started which will automatically call these methods for you when events occur.
+     */
+    public interface ChannelManagerPersister {
+        void handle_events(Event[] events);
+        void persist_manager(byte[] channel_manager_bytes);
+    }
+
+    Thread persister_thread = null;
+    volatile boolean shutdown = false;
 
     /**
      * Utility which adds all of the deserialized ChannelMonitors to the chain watch so that further updates from the
      * ChannelManager are processed as normal.
+     *
+     * This also spawns a background thread which will call the appropriate methods on the provided
+     * ChannelManagerPersister as required.
      */
-    public void chain_sync_completed() {
+    public void chain_sync_completed(ChannelManagerPersister persister) {
+        if (persister_thread != null) { return; }
         for (TwoTuple<ChannelMonitor, byte[]> monitor: channel_monitors) {
-            this.chain_watch.watch_channel(monitor.a.get_funding_txo().a, monitor.a);
+            this.chain_monitor.as_Watch().watch_channel(monitor.a.get_funding_txo().a, monitor.a);
         }
+        persister_thread = new Thread(() -> {
+            long lastTimerTick = System.currentTimeMillis();
+            while (true) {
+                boolean need_persist = this.channel_manager.await_persistable_update_timeout(1);
+                Event[] events = this.channel_manager.as_EventsProvider().get_and_clear_pending_events();
+                if (events.length != 0) {
+                    persister.handle_events(events);
+                    need_persist = true;
+                }
+                events = this.chain_monitor.as_EventsProvider().get_and_clear_pending_events();
+                if (events.length != 0) {
+                    persister.handle_events(events);
+                    need_persist = true;
+                }
+                if (need_persist) {
+                    persister.persist_manager(this.channel_manager.write());
+                }
+                if (shutdown) {
+                    return;
+                }
+                if (lastTimerTick < System.currentTimeMillis() - 60 * 1000) {
+                    this.channel_manager.timer_chan_freshness_every_min();
+                    lastTimerTick = System.currentTimeMillis();
+                }
+            }
+        }, "NioPeerHandler NIO Thread");
+        persister_thread.start();
+    }
+
+    /**
+     * Interrupt the background thread, stopping the background handling of
+     */
+    public void interrupt() {
+        shutdown = true;
+        try {
+            persister_thread.join();
+        } catch (InterruptedException ignored) { }
     }
 }
