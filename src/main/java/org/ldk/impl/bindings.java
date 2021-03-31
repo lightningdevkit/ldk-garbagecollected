@@ -2163,6 +2163,8 @@ public class bindings {
 	public static native void ChannelManager_block_connected(long this_arg, byte[] header, long[] txdata, int height);
 	// void ChannelManager_block_disconnected(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80]);
 	public static native void ChannelManager_block_disconnected(long this_arg, byte[] header);
+	// MUST_USE_RES bool ChannelManager_await_persistable_update_timeout(const struct LDKChannelManager *NONNULL_PTR this_arg, uint64_t max_wait);
+	public static native boolean ChannelManager_await_persistable_update_timeout(long this_arg, long max_wait);
 	// void ChannelManager_await_persistable_update(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	public static native void ChannelManager_await_persistable_update(long this_arg);
 	// struct LDKChannelMessageHandler ChannelManager_as_ChannelMessageHandler(const struct LDKChannelManager *NONNULL_PTR this_arg);

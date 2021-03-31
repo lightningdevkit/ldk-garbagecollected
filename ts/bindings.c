@@ -11492,6 +11492,14 @@ void  __attribute__((visibility("default"))) TS_ChannelManager_block_disconnecte
 	ChannelManager_block_disconnected(&this_arg_conv, header_ref);
 }
 
+jboolean  __attribute__((visibility("default"))) TS_ChannelManager_await_persistable_update_timeout(uint32_t this_arg, int64_t max_wait) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	jboolean ret_val = ChannelManager_await_persistable_update_timeout(&this_arg_conv, max_wait);
+	return ret_val;
+}
+
 void  __attribute__((visibility("default"))) TS_ChannelManager_await_persistable_update(uint32_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));

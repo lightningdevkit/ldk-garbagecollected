@@ -12722,6 +12722,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1block_1disconn
 	ChannelManager_block_disconnected(&this_arg_conv, header_ref);
 }
 
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_ChannelManager_1await_1persistable_1update_1timeout(JNIEnv *env, jclass clz, int64_t this_arg, int64_t max_wait) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	jboolean ret_val = ChannelManager_await_persistable_update_timeout(&this_arg_conv, max_wait);
+	return ret_val;
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ChannelManager_1await_1persistable_1update(JNIEnv *env, jclass clz, int64_t this_arg) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
