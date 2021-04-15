@@ -151,7 +151,7 @@ def java_c_types(fn_arg, ret_arr_len):
         rust_obj = "LDKCVec_u8Z"
         assert var_is_arr_regex.match(fn_arg[8:])
         arr_access = "data"
-    elif fn_arg.startswith("LDKTransaction"):
+    elif fn_arg.startswith("LDKTransaction ") or fn_arg == "LDKTransaction":
         fn_arg = "uint8_t (*" + fn_arg[15:] + ")[datalen]"
         rust_obj = "LDKTransaction"
         assert var_is_arr_regex.match(fn_arg[8:])

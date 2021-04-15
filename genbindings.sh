@@ -18,15 +18,21 @@ fi
 
 set -e
 
+cp "$1/lightning-c-bindings/include/lightning.h" ./
+sed -i "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+
 echo "Creating Java bindings..."
 mkdir -p src/main/java/org/ldk/{enums,structs}
 rm -f src/main/java/org/ldk/{enums,structs}/*.java
 rm -f src/main/jni/*.h
 if [ "$4" = "true" ]; then
-	./genbindings.py "$1/lightning-c-bindings/include/lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c $3 android $4
+	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c.body $3 android $4
 else
-	./genbindings.py "$1/lightning-c-bindings/include/lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c $3 java $4
+	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c.body $3 java $4
 fi
+echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > src/main/jni/bindings.c
+echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> src/main/jni/bindings.c
+cat src/main/jni/bindings.c.body >> src/main/jni/bindings.c
 javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/impl/bindings.java
 rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
@@ -41,7 +47,10 @@ fi
 echo "Creating TS bindings..."
 mkdir -p ts/{enums,structs}
 rm -f ts/{enums,structs}/*.ts
-./genbindings.py "$1/lightning-c-bindings/include/lightning.h" ts/bindings.ts ts ts/bindings.c $3 typescript
+./genbindings.py "./lightning.h" ts/bindings.ts ts ts/bindings.c.body $3 typescript
+echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > ts/bindings.c
+echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> ts/bindings.c
+cat ts/bindings.c.body >> ts/bindings.c
 
 echo "Building TS bindings..."
 COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -Wl,--export-dynamic -Wl,-allow-undefined -nostdlib --target=wasm32-wasi"
