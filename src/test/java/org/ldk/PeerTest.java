@@ -3,9 +3,8 @@ package org.ldk;
 import org.bitcoinj.core.*;
 import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
+import org.ldk.enums.LDKNetwork;
 import org.ldk.impl.bindings;
-import org.ldk.enums.*;
-import org.ldk.structs.Result_NoneChannelMonitorUpdateErrZ;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,7 +92,7 @@ public class PeerTest {
             this.keys = bindings.KeysManager_new(key_seed, System.currentTimeMillis() / 1000, (int)(System.currentTimeMillis() * 1000) & 0xffffffff);
             this.keys_interface = bindings.KeysManager_as_KeysInterface(keys);
             this.config = bindings.UserConfig_default();
-            long params = bindings.ChainParameters_new(LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 0);
+            long params = bindings.ChainParameters_new(LDKNetwork.LDKNetwork_Bitcoin, bindings.BestBlock_new(new byte[32], 0));
             this.chan_manager = bindings.ChannelManager_new(fee_estimator, chain_monitor, tx_broadcaster, logger, keys_interface, config, params);
             this.node_id = bindings.ChannelManager_get_our_node_id(chan_manager);
             this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
@@ -238,7 +237,7 @@ public class PeerTest {
         funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
         funding.getInput(0).getWitness().setPush(0, new byte[] {0x1});
         funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
-        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, funding.bitcoinSerialize(), (short)0);
+        bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, funding.bitcoinSerialize());
 
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
