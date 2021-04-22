@@ -233,11 +233,23 @@ static inline uint32_t init_arr(size_t arr_len, size_t elem_size, const char *ty
 	return (uint32_t)elems;
 }
 
-jstring str_ref_to_ts(const char* chars, size_t len) {
+static inline jstring str_ref_to_ts(const char* chars, size_t len) {
 	char* err_buf = MALLOC(len + 4, "str conv buf");
 	*((uint32_t*)err_buf) = len;
 	memcpy(err_buf + 4, chars, len);
 	return (uint32_t) err_buf;
+}
+static inline LDKStr str_ref_to_owned_c(jstring str) {
+	uint32_t *str_len = (uint32_t*)str;
+	char* newchars = MALLOC(*str_len + 1, "String chars");
+	memcpy(newchars, (const char*)(str + 4), *str_len);
+	newchars[*str_len] = 0;
+	LDKStr res= {
+		.chars = newchars,
+		.len = *str_len,
+		.chars_is_owned = true
+	};
+	return res;
 }
 
 typedef bool jboolean;
@@ -305,8 +317,10 @@ import * as bindings from '../bindings' // TODO: figure out location
         else:
             return None
 
-    def str_ref_to_c_call(self, var_name, str_len):
+    def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
+    def str_ref_to_c_call(self, var_name):
+        return "str_ref_to_owned_c(" + var_name + ")"
 
     def c_fn_name_define_pfx(self, fn_name, have_args):
         return " __attribute__((visibility(\"default\"))) TS_" + fn_name + "("

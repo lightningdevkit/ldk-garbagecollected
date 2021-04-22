@@ -171,18 +171,24 @@ class TypeMappingGenerator:
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = arg_conv_cleanup,
                     ret_conv = ret_conv, ret_conv_name = arr_name + "_arr", to_hu_conv = to_hu_conv, to_hu_conv_name = to_hu_conv_name, from_hu_conv = from_hu_conv)
         elif ty_info.java_ty == "String":
+            if not is_free:
+                arg_conv = "LDKStr " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_c_call(ty_info.var_name) + ";"
+                arg_conv_name = ty_info.var_name + "_conv"
+            else:
+                arg_conv = "LDKStr dummy = { .chars = NULL, .len = 0, .chars_is_owned = false };"
+                arg_conv_name = "dummy"
             if ty_info.arr_access is None:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                    arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
                     ret_conv = ("const char* " + ty_info.var_name + "_str = ",
-                        ";\njstring " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_c_call(ty_info.var_name + "_str", "strlen(" + ty_info.var_name + "_str)") + ";"),
+                        ";\njstring " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_native_call(ty_info.var_name + "_str", "strlen(" + ty_info.var_name + "_str)") + ";"),
                     ret_conv_name = ty_info.var_name + "_conv",
                     to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
             else:
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                    arg_conv = None, arg_conv_name = None, arg_conv_cleanup = None,
+                    arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
                     ret_conv = ("LDKStr " + ty_info.var_name + "_str = ",
-                        ";\njstring " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_c_call(ty_info.var_name + "_str." + ty_info.arr_access, ty_info.var_name + "_str." + ty_info.arr_len) + ";"),
+                        ";\njstring " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_native_call(ty_info.var_name + "_str." + ty_info.arr_access, ty_info.var_name + "_str." + ty_info.arr_len) + ";"),
                     ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
         elif ty_info.var_name == "" and not print_void:
             # We don't have a parameter name, and want one, just call it arg

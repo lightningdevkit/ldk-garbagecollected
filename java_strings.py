@@ -315,6 +315,20 @@ static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len
 	FREE(err_buf);
 	return err_conv;
 }
+static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
+	uint64_t str_len = (*env)->GetStringUTFLength(env, str);
+	char* newchars = MALLOC(str_len + 1, "String chars");
+	const char* jchars = (*env)->GetStringUTFChars(env, str, NULL);
+	memcpy(newchars, jchars, str_len);
+	newchars[str_len] = 0;
+	(*env)->ReleaseStringUTFChars(env, str, jchars);
+	LDKStr res = {
+		.chars = newchars,
+		.len = str_len,
+		.chars_is_owned = true
+	};
+	return res;
+}
 """
 
         self.hu_struct_file_prefix = """package org.ldk.structs;
@@ -381,8 +395,10 @@ import java.util.Arrays;
         else:
             return "(*env)->Release" + ty_info.java_ty.strip("[]").title() + "ArrayElements(env, " + arr_name + ", " + dest_name + ", 0)"
 
-    def str_ref_to_c_call(self, var_name, str_len):
+    def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_java(env, " + var_name + ", " + str_len + ")"
+    def str_ref_to_c_call(self, var_name):
+        return "java_to_owned_str(env, " + var_name + ")"
 
     def c_fn_name_define_pfx(self, fn_name, has_args):
         if has_args:
