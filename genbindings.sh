@@ -19,7 +19,12 @@ fi
 set -e
 
 cp "$1/lightning-c-bindings/include/lightning.h" ./
-sed -i "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+if [ "$(rustc --version --verbose | grep "host:")" = "host: x86_64-apple-darwin" ]; then
+	# OSX sed is for some reason not compatible with GNU sed
+	sed -i '' "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+else
+	sed -i "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+fi
 
 echo "Creating Java bindings..."
 mkdir -p src/main/java/org/ldk/{enums,structs}
