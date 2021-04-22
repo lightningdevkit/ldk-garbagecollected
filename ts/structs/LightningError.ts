@@ -23,7 +23,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public void set_err(Uint8Array val) {
+	public void set_err(String val) {
 		bindings.LightningError_set_err(this.ptr, val);
 	}
 
@@ -38,7 +38,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.LightningError_set_action(this.ptr, val.ptr);
 	}
 
-	public static LightningError constructor_new(Uint8Array err_arg, ErrorAction action_arg) {
+	public static LightningError constructor_new(String err_arg, ErrorAction action_arg) {
 		number ret = bindings.LightningError_new(err_arg, action_arg.ptr);
 		const ret_hu_conv: LightningError = new LightningError(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

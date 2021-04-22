@@ -303,8 +303,8 @@ public class ChannelManager extends CommonBase {
 	 * Returns false if no payment was found to fail backwards, true if the process of failing the
 	 * HTLC backwards has been started.
 	 */
-	public boolean fail_htlc_backwards(byte[] payment_hash, byte[] payment_secret) {
-		boolean ret = bindings.ChannelManager_fail_htlc_backwards(this.ptr, payment_hash, payment_secret);
+	public boolean fail_htlc_backwards(byte[] payment_hash) {
+		boolean ret = bindings.ChannelManager_fail_htlc_backwards(this.ptr, payment_hash);
 		return ret;
 	}
 
@@ -313,20 +313,18 @@ public class ChannelManager extends CommonBase {
 	 * generating message events for the net layer to claim the payment, if possible. Thus, you
 	 * should probably kick the net layer to go send messages if this returns true!
 	 * 
-	 * You must specify the expected amounts for this HTLC, and we will only claim HTLCs
-	 * available within a few percent of the expected amount. This is critical for several
-	 * reasons : a) it avoids providing senders with `proof-of-payment` (in the form of the
-	 * payment_preimage without having provided the full value and b) it avoids certain
-	 * privacy-breaking recipient-probing attacks which may reveal payment activity to
-	 * motivated attackers.
-	 * 
-	 * Note that the privacy concerns in (b) are not relevant in payments with a payment_secret
-	 * set. Thus, for such payments we will claim any payments which do not under-pay.
+	 * Note that if you did not set an `amount_msat` when calling [`create_inbound_payment`] or
+	 * [`create_inbound_payment_for_hash`] you must check that the amount in the `PaymentReceived`
+	 * event matches your expectation. If you fail to do so and call this method, you may provide
+	 * the sender \"proof-of-payment\" when they did not fulfill the full expected payment.
 	 * 
 	 * May panic if called except in response to a PaymentReceived event.
+	 * 
+	 * [`create_inbound_payment`]: Self::create_inbound_payment
+	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
 	 */
-	public boolean claim_funds(byte[] payment_preimage, byte[] payment_secret, long expected_amount) {
-		boolean ret = bindings.ChannelManager_claim_funds(this.ptr, payment_preimage, payment_secret, expected_amount);
+	public boolean claim_funds(byte[] payment_preimage) {
+		boolean ret = bindings.ChannelManager_claim_funds(this.ptr, payment_preimage);
 		return ret;
 	}
 
@@ -366,6 +364,87 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Gets a payment secret and payment hash for use in an invoice given to a third party wishing
+	 * to pay us.
+	 * 
+	 * This differs from [`create_inbound_payment_for_hash`] only in that it generates the
+	 * [`PaymentHash`] and [`PaymentPreimage`] for you, returning the first and storing the second.
+	 * 
+	 * The [`PaymentPreimage`] will ultimately be returned to you in the [`PaymentReceived`], which
+	 * will have the [`PaymentReceived::payment_preimage`] field filled in. That should then be
+	 * passed directly to [`claim_funds`].
+	 * 
+	 * See [`create_inbound_payment_for_hash`] for detailed documentation on behavior and requirements.
+	 * 
+	 * [`claim_funds`]: Self::claim_funds
+	 * [`PaymentReceived`]: events::Event::PaymentReceived
+	 * [`PaymentReceived::payment_preimage`]: events::Event::PaymentReceived::payment_preimage
+	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
+	 */
+	public TwoTuple<byte[], byte[]> create_inbound_payment(Option_u64Z min_value_msat, int invoice_expiry_delta_secs, long user_payment_id) {
+		long ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
+		byte[] ret_a = bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_a(ret);
+		byte[] ret_b = bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_b(ret);
+		TwoTuple<byte[], byte[]> ret_conv = new TwoTuple<byte[], byte[]>(ret_a, ret_b, () -> {
+			bindings.C2Tuple_PaymentHashPaymentSecretZ_free(ret);
+		});
+		return ret_conv;
+	}
+
+	/**
+	 * Gets a [`PaymentSecret`] for a given [`PaymentHash`], for which the payment preimage is
+	 * stored external to LDK.
+	 * 
+	 * A [`PaymentReceived`] event will only be generated if the [`PaymentSecret`] matches a
+	 * payment secret fetched via this method or [`create_inbound_payment`], and which is at least
+	 * the `min_value_msat` provided here, if one is provided.
+	 * 
+	 * The [`PaymentHash`] (and corresponding [`PaymentPreimage`]) must be globally unique. This
+	 * method may return an Err if another payment with the same payment_hash is still pending.
+	 * 
+	 * `user_payment_id` will be provided back in [`PaymentReceived::user_payment_id`] events to
+	 * allow tracking of which events correspond with which calls to this and
+	 * [`create_inbound_payment`]. `user_payment_id` has no meaning inside of LDK, it is simply
+	 * copied to events and otherwise ignored. It may be used to correlate PaymentReceived events
+	 * with invoice metadata stored elsewhere.
+	 * 
+	 * `min_value_msat` should be set if the invoice being generated contains a value. Any payment
+	 * received for the returned [`PaymentHash`] will be required to be at least `min_value_msat`
+	 * before a [`PaymentReceived`] event will be generated, ensuring that we do not provide the
+	 * sender \"proof-of-payment\" unless they have paid the required amount.
+	 * 
+	 * `invoice_expiry_delta_secs` describes the number of seconds that the invoice is valid for
+	 * in excess of the current time. This should roughly match the expiry time set in the invoice.
+	 * After this many seconds, we will remove the inbound payment, resulting in any attempts to
+	 * pay the invoice failing. The BOLT spec suggests 7,200 secs as a default validity time for
+	 * invoices when no timeout is set.
+	 * 
+	 * Note that we use block header time to time-out pending inbound payments (with some margin
+	 * to compensate for the inaccuracy of block header timestamps). Thus, in practice we will
+	 * accept a payment and generate a [`PaymentReceived`] event for some time after the expiry.
+	 * If you need exact expiry semantics, you should enforce them upon receipt of
+	 * [`PaymentReceived`].
+	 * 
+	 * Pending inbound payments are stored in memory and in serialized versions of this
+	 * [`ChannelManager`]. If potentially unbounded numbers of inbound payments may exist and
+	 * space is limited, you may wish to rate-limit inbound payment creation.
+	 * 
+	 * May panic if `invoice_expiry_delta_secs` is greater than one year.
+	 * 
+	 * Note that invoices generated for inbound payments should have their `min_final_cltv_expiry`
+	 * set to at least [`MIN_FINAL_CLTV_EXPIRY`].
+	 * 
+	 * [`create_inbound_payment`]: Self::create_inbound_payment
+	 * [`PaymentReceived`]: events::Event::PaymentReceived
+	 * [`PaymentReceived::user_payment_id`]: events::Event::PaymentReceived::user_payment_id
+	 */
+	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash(byte[] payment_hash, Option_u64Z min_value_msat, int invoice_expiry_delta_secs, long user_payment_id) {
+		long ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, payment_hash, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
+		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Constructs a new MessageSendEventsProvider which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned MessageSendEventsProvider must be freed before this_arg is
 	 */
@@ -399,92 +478,14 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Updates channel state to take note of transactions which were confirmed in the given block
-	 * at the given height.
-	 * 
-	 * Note that you must still call (or have called) [`update_best_block`] with the block
-	 * information which is included here.
-	 * 
-	 * This method may be called before or after [`update_best_block`] for a given block's
-	 * transaction data and may be called multiple times with additional transaction data for a
-	 * given block.
-	 * 
-	 * This method may be called for a previous block after an [`update_best_block`] call has
-	 * been made for a later block, however it must *not* be called with transaction data from a
-	 * block which is no longer in the best chain (ie where [`update_best_block`] has already
-	 * been informed about a blockchain reorganization which no longer includes the block which
-	 * corresponds to `header`).
-	 * 
-	 * [`update_best_block`]: `Self::update_best_block`
+	 * Constructs a new Confirm which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned Confirm must be freed before this_arg is
 	 */
-	public void transactions_confirmed(byte[] header, int height, TwoTuple<Long, byte[]>[] txdata) {
-		bindings.ChannelManager_transactions_confirmed(this.ptr, header, height, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray());
-		/* TODO 2 TwoTuple<Long, byte[]>  */;
-	}
-
-	/**
-	 * Updates channel state with the current best blockchain tip. You should attempt to call this
-	 * quickly after a new block becomes available, however if multiple new blocks become
-	 * available at the same time, only a single `update_best_block()` call needs to be made.
-	 * 
-	 * This method should also be called immediately after any block disconnections, once at the
-	 * reorganization fork point, and once with the new chain tip. Calling this method at the
-	 * blockchain reorganization fork point ensures we learn when a funding transaction which was
-	 * previously confirmed is reorganized out of the blockchain, ensuring we do not continue to
-	 * accept payments which cannot be enforced on-chain.
-	 * 
-	 * In both the block-connection and block-disconnection case, this method may be called either
-	 * once per block connected or disconnected, or simply at the fork point and new tip(s),
-	 * skipping any intermediary blocks.
-	 */
-	public void update_best_block(byte[] header, int height) {
-		bindings.ChannelManager_update_best_block(this.ptr, header, height);
-	}
-
-	/**
-	 * Gets the set of txids which should be monitored for their confirmation state.
-	 * 
-	 * If you're providing information about reorganizations via [`transaction_unconfirmed`], this
-	 * is the set of transactions which you may need to call [`transaction_unconfirmed`] for.
-	 * 
-	 * This may be useful to poll to determine the set of transactions which must be registered
-	 * with an Electrum server or for which an Electrum server needs to be polled to determine
-	 * transaction confirmation state.
-	 * 
-	 * This may update after any [`transactions_confirmed`] or [`block_connected`] call.
-	 * 
-	 * Note that this is NOT the set of transactions which must be included in calls to
-	 * [`transactions_confirmed`] if they are confirmed, but a small subset of it.
-	 * 
-	 * [`transactions_confirmed`]: Self::transactions_confirmed
-	 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
-	 * [`block_connected`]: chain::Listen::block_connected
-	 */
-	public byte[][] get_relevant_txids() {
-		byte[][] ret = bindings.ChannelManager_get_relevant_txids(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * Marks a transaction as having been reorganized out of the blockchain.
-	 * 
-	 * If a transaction is included in [`get_relevant_txids`], and is no longer in the main branch
-	 * of the blockchain, this function should be called to indicate that the transaction should
-	 * be considered reorganized out.
-	 * 
-	 * Once this is called, the given transaction will no longer appear on [`get_relevant_txids`],
-	 * though this may be called repeatedly for a given transaction without issue.
-	 * 
-	 * Note that if the transaction is confirmed on the main chain in a different block (indicated
-	 * via a call to [`transactions_confirmed`]), it may re-appear in [`get_relevant_txids`], thus
-	 * be very wary of race-conditions wherein the final state of a transaction indicated via
-	 * these APIs is not the same as its state on the blockchain.
-	 * 
-	 * [`transactions_confirmed`]: Self::transactions_confirmed
-	 * [`get_relevant_txids`]: Self::get_relevant_txids
-	 */
-	public void transaction_unconfirmed(byte[] txid) {
-		bindings.ChannelManager_transaction_unconfirmed(this.ptr, txid);
+	public Confirm as_Confirm() {
+		long ret = bindings.ChannelManager_as_Confirm(this.ptr);
+		Confirm ret_hu_conv = new Confirm(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	/**

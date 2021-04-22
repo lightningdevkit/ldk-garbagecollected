@@ -68,6 +68,13 @@ public class KeysInterface extends CommonBase {
 		 * you've read all of the provided bytes to ensure no corruption occurred.
 		 */
 		Result_SignDecodeErrorZ read_chan_signer(byte[] reader);
+		/**
+		 * Sign an invoice's preimage (note that this is the preimage of the invoice, not the HTLC's
+		 * preimage). By parameterizing by the preimage instead of the hash, we allow implementors of
+		 * this trait to parse the invoice and make sure they're signing what they expect, rather than
+		 * blindly signing the hash.
+		 */
+		Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage);
 	}
 	private static class LDKKeysInterfaceHolder { KeysInterface held; }
 	public static KeysInterface new_impl(KeysInterfaceInterface arg) {
@@ -97,6 +104,11 @@ public class KeysInterface extends CommonBase {
 			}
 			@Override public long read_chan_signer(byte[] reader) {
 				Result_SignDecodeErrorZ ret = arg.read_chan_signer(reader);
+				long result = ret != null ? ret.ptr : 0;
+				return result;
+			}
+			@Override public long sign_invoice(byte[] invoice_preimage) {
+				Result_RecoverableSignatureNoneZ ret = arg.sign_invoice(invoice_preimage);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
@@ -172,6 +184,18 @@ public class KeysInterface extends CommonBase {
 	public Result_SignDecodeErrorZ read_chan_signer(byte[] reader) {
 		long ret = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sign an invoice's preimage (note that this is the preimage of the invoice, not the HTLC's
+	 * preimage). By parameterizing by the preimage instead of the hash, we allow implementors of
+	 * this trait to parse the invoice and make sure they're signing what they expect, rather than
+	 * blindly signing the hash.
+	 */
+	public Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage) {
+		long ret = bindings.KeysInterface_sign_invoice(this.ptr, invoice_preimage);
+		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

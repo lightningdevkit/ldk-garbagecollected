@@ -18,33 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChainMonitor_free(this.ptr);
                     }
                 }
-	public void block_connected(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
-		bindings.ChainMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new), height);
-		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
-	}
-
-	public void transactions_confirmed(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
-		bindings.ChainMonitor_transactions_confirmed(this.ptr, header, Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new), height);
-		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
-	}
-
-	public void update_best_block(Uint8Array header, number height) {
-		bindings.ChainMonitor_update_best_block(this.ptr, header, height);
-	}
-
-	public void block_disconnected(Uint8Array header, number disconnected_height) {
-		bindings.ChainMonitor_block_disconnected(this.ptr, header, disconnected_height);
-	}
-
-	public void transaction_unconfirmed(Uint8Array txid) {
-		bindings.ChainMonitor_transaction_unconfirmed(this.ptr, txid);
-	}
-
-	public Uint8Array[] get_relevant_txids() {
-		Uint8Array[] ret = bindings.ChainMonitor_get_relevant_txids(this.ptr);
-		return ret;
-	}
-
 	public static ChainMonitor constructor_new(Filter chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
 		number ret = bindings.ChainMonitor_new(chain_source == null ? 0 : chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
 		const ret_hu_conv: ChainMonitor = new ChainMonitor(null, ret);
@@ -54,6 +27,20 @@ import * as bindings from '../bindings' // TODO: figure out location
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(feeest);
 		ret_hu_conv.ptrs_to.add(persister);
+		return ret_hu_conv;
+	}
+
+	public Listen as_Listen() {
+		number ret = bindings.ChainMonitor_as_Listen(this.ptr);
+		Listen ret_hu_conv = new Listen(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public Confirm as_Confirm() {
+		number ret = bindings.ChainMonitor_as_Confirm(this.ptr);
+		Confirm ret_hu_conv = new Confirm(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

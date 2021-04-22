@@ -30,14 +30,14 @@ export default class APIError extends CommonBase {
 
 }
 export class APIMisuseError extends APIError {
-	public err: Uint8Array;
+	public err: String;
 	private constructor(ptr: number, obj: bindings.LDKAPIError.APIMisuseError) {
 		super(null, ptr);
 		this.err = obj.err;
 	}
 }
 export class FeeRateTooHigh extends APIError {
-	public err: Uint8Array;
+	public err: String;
 	public feerate: number;
 	private constructor(ptr: number, obj: bindings.LDKAPIError.FeeRateTooHigh) {
 		super(null, ptr);
@@ -53,7 +53,7 @@ export class RouteError extends APIError {
 	}
 }
 export class ChannelUnavailable extends APIError {
-	public err: Uint8Array;
+	public err: String;
 	private constructor(ptr: number, obj: bindings.LDKAPIError.ChannelUnavailable) {
 		super(null, ptr);
 		this.err = obj.err;

@@ -191,8 +191,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(logger);
 	}
 
-	public TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] update_best_block(Uint8Array header, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		number[] ret = bindings.ChannelMonitor_update_best_block(this.ptr, header, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+	public TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] best_block_updated(Uint8Array header, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+		number[] ret = bindings.ChannelMonitor_best_block_updated(this.ptr, header, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple<Uint8Array, TwoTuple<Number, TxOut>[]>[] ret_conv_49_arr = new TwoTuple[ret.length];
 		for (int x = 0; x < ret.length; x++) {
 			number ret_conv_49 = ret[x];

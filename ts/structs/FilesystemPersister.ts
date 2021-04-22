@@ -18,19 +18,19 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.FilesystemPersister_free(this.ptr);
                     }
                 }
-	public static FilesystemPersister constructor_new(Uint8Array path_to_channel_data) {
+	public static FilesystemPersister constructor_new(String path_to_channel_data) {
 		number ret = bindings.FilesystemPersister_new(path_to_channel_data);
 		const ret_hu_conv: FilesystemPersister = new FilesystemPersister(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public Uint8Array get_data_dir() {
-		Uint8Array ret = bindings.FilesystemPersister_get_data_dir(this.ptr);
+	public String get_data_dir() {
+		String ret = bindings.FilesystemPersister_get_data_dir(this.ptr);
 		return ret;
 	}
 
-	public static Result_NoneErrorZ constructor_persist_manager(Uint8Array data_dir, ChannelManager manager) {
+	public static Result_NoneErrorZ constructor_persist_manager(String data_dir, ChannelManager manager) {
 		number ret = bindings.FilesystemPersister_persist_manager(data_dir, manager == null ? 0 : manager.ptr & ~1);
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(manager);

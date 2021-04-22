@@ -1,6 +1,7 @@
 package org.ldk.structs;
 import org.ldk.impl.bindings;
 import java.util.Arrays;
+import org.ldk.enums.*;
 
 public class UtilMethods {
 	/**
@@ -26,6 +27,30 @@ public class UtilMethods {
 		ret_hu_conv.ptrs_to.add(arg_logger);
 		ret_hu_conv.ptrs_to.add(arg_default_config);
 		/* TODO 2 ChannelMonitor  */;
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility to construct an invoice. Generally, unless you want to do something like a custom
+	 * cltv_expiry, this is what you should be using to create an invoice. The reason being, this
+	 * method stores the invoice's payment secret and preimage in `ChannelManager`, so (a) the user
+	 * doesn't have to store preimage/payment secret information and (b) `ChannelManager` can verify
+	 * that the payment secret is valid when the invoice is paid.
+	 */
+	public static Result_InvoiceSignOrCreationErrorZ constructor_invoice_from_channelmanager(ChannelManager channelmanager, KeysInterface keys_manager, LDKCurrency network, Option_u64Z amt_msat, String description) {
+		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description);
+		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(channelmanager);
+		ret_hu_conv.ptrs_to.add(keys_manager);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Read a SiPrefix object from a string
+	 */
+	public static Result_SiPrefixNoneZ constructor_from_str(String s) {
+		long ret = bindings.SiPrefix_from_str(s);
+		Result_SiPrefixNoneZ ret_hu_conv = Result_SiPrefixNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

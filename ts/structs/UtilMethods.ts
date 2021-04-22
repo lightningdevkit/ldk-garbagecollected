@@ -18,3 +18,17 @@
 		return ret_hu_conv;
 	}
 
+	public static Result_InvoiceSignOrCreationErrorZ constructor_invoice_from_channelmanager(ChannelManager channelmanager, KeysInterface keys_manager, LDKCurrency network, Option_u64Z amt_msat, String description) {
+		number ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description);
+		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(channelmanager);
+		ret_hu_conv.ptrs_to.add(keys_manager);
+		return ret_hu_conv;
+	}
+
+	public static Result_SiPrefixNoneZ constructor_from_str(String s) {
+		number ret = bindings.SiPrefix_from_str(s);
+		Result_SiPrefixNoneZ ret_hu_conv = Result_SiPrefixNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+

@@ -65,6 +65,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return result;
 						},
 
+						sign_invoice (invoice_preimage: Uint8Array): number {
+							Result_RecoverableSignatureNoneZ ret = arg.sign_invoice(invoice_preimage);
+				result: number = ret != null ? ret.ptr : 0;
+				return result;
+						},
+
 						
                     };
                     impl_holder.held = new KeysInterface (null, structImplementation);
@@ -78,6 +84,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				get_channel_signer(inbound: boolean, channel_value_satoshis: number): Sign;
 				get_secure_random_bytes(): Uint8Array;
 				read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ;
+				sign_invoice(invoice_preimage: Uint8Array): Result_RecoverableSignatureNoneZ;
 				
             }
 
@@ -114,6 +121,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Result_SignDecodeErrorZ read_chan_signer(Uint8Array reader) {
 		number ret = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_RecoverableSignatureNoneZ sign_invoice(Uint8Array invoice_preimage) {
+		number ret = bindings.KeysInterface_sign_invoice(this.ptr, invoice_preimage);
+		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
