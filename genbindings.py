@@ -69,7 +69,7 @@ def camel_to_snake(s):
 unitary_enums = set()
 complex_enums = set()
 opaque_structs = set()
-trait_structs = set()
+trait_structs = {}
 result_types = set()
 tuple_types = {}
 
@@ -98,6 +98,11 @@ def java_c_types(fn_arg, ret_arr_len):
     java_hu_ty = None
     if fn_arg.startswith("LDKThirtyTwoBytes"):
         fn_arg = "uint8_t (*" + fn_arg[18:] + ")[32]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKThirtyTwoBytes"
+        arr_access = "data"
+    elif fn_arg.startswith("LDKTxid"):
+        fn_arg = "uint8_t (*" + fn_arg[8:] + ")[32]"
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
         arr_access = "data"
@@ -146,7 +151,7 @@ def java_c_types(fn_arg, ret_arr_len):
         rust_obj = "LDKCVec_u8Z"
         assert var_is_arr_regex.match(fn_arg[8:])
         arr_access = "data"
-    elif fn_arg.startswith("LDKTransaction"):
+    elif fn_arg.startswith("LDKTransaction ") or fn_arg == "LDKTransaction":
         fn_arg = "uint8_t (*" + fn_arg[15:] + ")[datalen]"
         rust_obj = "LDKTransaction"
         assert var_is_arr_regex.match(fn_arg[8:])
@@ -509,12 +514,17 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_trait(struct_name, field_var_lines, trait_fn_lines, trait_doc_comment):
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDK', '')}{consts.file_ext}", "w") as out_java_trait:
             field_var_convs = []
+            flattened_field_var_convs = []
             for var_line in field_var_lines:
                 if var_line.group(1) in trait_structs:
-                    field_var_convs.append((var_line.group(1), var_line.group(2)))
+                    field_var_convs.append((var_line.group(1), var_line.group(2), trait_structs[var_line.group(1)]))
+                    flattened_field_var_convs.append((var_line.group(1), var_line.group(2), ))
+                    flattened_field_var_convs.extend(trait_structs[var_line.group(1)])
                 else:
-                    field_var_convs.append(
-                        type_mapping_generator.map_type(var_line.group(1) + " " + var_line.group(2), False, None, False, False))
+                    mapped = type_mapping_generator.map_type(var_line.group(1) + " " + var_line.group(2), False, None, False, False)
+                    field_var_convs.append(mapped)
+                    flattened_field_var_convs.append(mapped)
+            trait_structs[struct_name] = field_var_convs
 
             field_fns = []
             for fn_docs, fn_line in trait_fn_lines:
@@ -529,7 +539,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     arg_tys.append(arg_conv_info)
                 field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys, fn_docs))
 
-            (out_java_addendum, out_java_trait_addendum, out_c_addendum) = consts.native_c_map_trait(struct_name, field_var_convs, field_fns, trait_doc_comment)
+            (out_java_addendum, out_java_trait_addendum, out_c_addendum) = consts.native_c_map_trait(struct_name, field_var_convs, flattened_field_var_convs, field_fns, trait_doc_comment)
             write_c(out_c_addendum)
             out_java_trait.write(out_java_trait_addendum)
             out_java.write(out_java_addendum)
@@ -874,7 +884,6 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     map_unitary_enum(struct_name, field_lines, last_block_comment)
                     last_block_comment = None
                 elif len(trait_fn_lines) > 0:
-                    trait_structs.add(struct_name)
                     map_trait(struct_name, field_var_lines, trait_fn_lines, last_block_comment)
                 elif struct_name == "LDKTxOut":
                     with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:

@@ -26,9 +26,6 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.FundingGenerationReady.class) {
 			return new FundingGenerationReady(ptr, (bindings.LDKEvent.FundingGenerationReady)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKEvent.FundingBroadcastSafe.class) {
-			return new FundingBroadcastSafe(ptr, (bindings.LDKEvent.FundingBroadcastSafe)raw_val);
-		}
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentReceived.class) {
 			return new PaymentReceived(ptr, (bindings.LDKEvent.PaymentReceived)raw_val);
 		}
@@ -57,18 +54,6 @@ public class Event extends CommonBase {
 			this.temporary_channel_id = obj.temporary_channel_id;
 			this.channel_value_satoshis = obj.channel_value_satoshis;
 			this.output_script = obj.output_script;
-			this.user_channel_id = obj.user_channel_id;
-		}
-	}
-	public final static class FundingBroadcastSafe extends Event {
-		public final OutPoint funding_txo;
-		public final long user_channel_id;
-		private FundingBroadcastSafe(long ptr, bindings.LDKEvent.FundingBroadcastSafe obj) {
-			super(null, ptr);
-			long funding_txo = obj.funding_txo;
-			OutPoint funding_txo_hu_conv = new OutPoint(null, funding_txo);
-			funding_txo_hu_conv.ptrs_to.add(this);
-			this.funding_txo = funding_txo_hu_conv;
 			this.user_channel_id = obj.user_channel_id;
 		}
 	}

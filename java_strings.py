@@ -479,7 +479,7 @@ import java.util.Arrays;
             ret = ret + ", " + param
         return ret + ")"
 
-    def native_c_map_trait(self, struct_name, field_vars, field_fns, trait_doc_comment):
+    def native_c_map_trait(self, struct_name, field_vars, flattened_field_vars, field_fns, trait_doc_comment):
         out_java_trait = ""
         out_java = ""
 
@@ -492,14 +492,14 @@ import java.util.Arrays;
         out_java_trait = out_java_trait + "\tfinal bindings." + struct_name + " bindings_instance;\n"
         out_java_trait = out_java_trait + "\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }\n"
         out_java_trait = out_java_trait + "\tprivate " + struct_name.replace("LDK", "") + "(bindings." + struct_name + " arg"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 out_java_trait = out_java_trait + ", " + var.java_hu_ty + " " + var.arg_name
             else:
                 out_java_trait = out_java_trait + ", bindings." + var[0] + " " + var[1]
         out_java_trait = out_java_trait + ") {\n"
         out_java_trait = out_java_trait + "\t\tsuper(bindings." + struct_name + "_new(arg"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 if var.from_hu_conv is not None:
                     out_java_trait = out_java_trait + ", " + var.from_hu_conv[0]
@@ -509,7 +509,7 @@ import java.util.Arrays;
                 out_java_trait = out_java_trait + ", " + var[1]
         out_java_trait = out_java_trait + "));\n"
         out_java_trait = out_java_trait + "\t\tthis.ptrs_to.add(arg);\n"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 if var.from_hu_conv is not None and var.from_hu_conv[1] != "":
                     out_java_trait = out_java_trait + "\t\t" + var.from_hu_conv[1].replace("\n", "\n\t\t") + ";\n"
@@ -524,7 +524,7 @@ import java.util.Arrays;
 
         java_trait_constr = "\tprivate static class " + struct_name + "Holder { " + struct_name.replace("LDK", "") + " held; }\n"
         java_trait_constr = java_trait_constr + "\tpublic static " + struct_name.replace("LDK", "") + " new_impl(" + struct_name.replace("LDK", "") + "Interface arg"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 java_trait_constr = java_trait_constr + ", " + var.java_hu_ty + " " + var.arg_name
             else:
@@ -593,14 +593,25 @@ import java.util.Arrays;
             if isinstance(var, ConvInfo):
                 java_trait_constr = java_trait_constr + ", " + var.arg_name
             else:
-                java_trait_constr = java_trait_constr + ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
+                java_trait_constr += ", " + var[1] + ".new_impl(" + var[1] + "_impl"
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        java_trait_constr += ", " + suparg.arg_name
+                    else:
+                        java_trait_constr += ", " + suparg[1]
+                java_trait_constr += ").bindings_instance"
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        java_trait_constr += ", " + suparg.arg_name
+                    else:
+                        java_trait_constr += ", " + suparg[1]
         out_java_trait = out_java_trait + "\t}\n"
         out_java_trait = out_java_trait + java_trait_constr + ");\n\t\treturn impl_holder.held;\n\t}\n"
 
         out_java = out_java + "\t}\n"
 
         out_java = out_java + "\tpublic static native long " + struct_name + "_new(" + struct_name + " impl"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 out_java = out_java + ", " + var.java_ty + " " + var.arg_name
             else:
@@ -612,7 +623,7 @@ import java.util.Arrays;
         out_c = out_c + "\tatomic_size_t refcnt;\n"
         out_c = out_c + "\tJavaVM *vm;\n"
         out_c = out_c + "\tjweak o;\n"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 # We're a regular ol' field
                 pass
@@ -688,7 +699,7 @@ import java.util.Arrays;
         out_c = out_c + "}\n"
 
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", jobject o"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
@@ -707,7 +718,7 @@ import java.util.Arrays;
                 out_c = out_c + "\tcalls->" + fn_name + "_meth = (*env)->GetMethodID(env, c, \"" + fn_name + "\", \"" + java_meth_descr + "\");\n"
                 out_c = out_c + "\tCHECK(calls->" + fn_name + "_meth != NULL);\n"
 
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo) and var.arg_conv is not None:
                 out_c = out_c + "\n\t" + var.arg_conv.replace("\n", "\n\t") +"\n"
         out_c = out_c + "\n\t" + struct_name + " ret = {\n"
@@ -728,16 +739,22 @@ import java.util.Arrays;
                     out_c = out_c + "\t\t." + var.var_name + " = " + var.var_name + ",\n"
                     out_c = out_c + "\t\t.set_" + var.var_name + " = NULL,\n"
             else:
-                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(env, clz, " + var[1] + "),\n"
+                out_c += "\t\t." + var[1] + " = " + var[0] + "_init(env, clz, " + var[1]
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        out_c = out_c + ", " + suparg.arg_name
+                    else:
+                        out_c = out_c + ", " + suparg[1]
+                out_c += "),\n"
         out_c = out_c + "\t};\n"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if not isinstance(var, ConvInfo):
                 out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[1] + ".this_arg;\n"
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
         out_c = out_c + self.c_fn_ty_pfx + "int64_t " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "jobject o"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
@@ -745,7 +762,7 @@ import java.util.Arrays;
         out_c = out_c + ") {\n"
         out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
         out_c = out_c + "\t*res_ptr = " + struct_name + "_init(env, clz, o"
-        for var in field_vars:
+        for var in flattened_field_vars:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.arg_name
             else:

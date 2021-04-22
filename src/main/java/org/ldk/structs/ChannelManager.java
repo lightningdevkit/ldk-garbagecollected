@@ -36,7 +36,7 @@ import java.util.Arrays;
  * ChannelUpdate messages informing peers that the channel is temporarily disabled. To avoid
  * spam due to quick disconnection/reconnection, updates are not sent until the channel has been
  * offline for a full minute. In order to track this, you must call
- * timer_chan_freshness_every_min roughly once per minute, though it doesn't have to be perfect.
+ * timer_tick_occurred roughly once per minute, though it doesn't have to be perfect.
  * 
  * Rather than using a plain ChannelManager, it is preferable to use either a SimpleArcChannelManager
  * a SimpleRefChannelManager, for conciseness. See their documentation for more details, but
@@ -67,8 +67,8 @@ public class ChannelManager extends CommonBase {
 	 * disconnected using its `block_connected` and `block_disconnected` methods, starting
 	 * from after `params.latest_hash`.
 	 */
-	public static ChannelManager constructor_new(FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, LDKNetwork params_network_arg, byte[] params_latest_hash_arg, long params_latest_height_arg) {
-		long ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, bindings.ChainParameters_new(params_network_arg, params_latest_hash_arg, params_latest_height_arg));
+	public static ChannelManager constructor_new(FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, LDKNetwork params_network_arg, BestBlock params_best_block_arg) {
+		long ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, bindings.ChainParameters_new(params_network_arg, params_best_block_arg == null ? 0 : params_best_block_arg.ptr & ~1));
 		ChannelManager ret_hu_conv = new ChannelManager(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fee_est);
@@ -77,16 +77,28 @@ public class ChannelManager extends CommonBase {
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(keys_manager);
 		ret_hu_conv.ptrs_to.add(config);
+		ret_hu_conv.ptrs_to.add(params_best_block_arg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the current configuration applied to all new channels,  as
+	 */
+	public UserConfig get_current_default_configuration() {
+		long ret = bindings.ChannelManager_get_current_default_configuration(this.ptr);
+		UserConfig ret_hu_conv = new UserConfig(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	/**
 	 * Creates a new outbound channel to the given remote node and with the given value.
 	 * 
-	 * user_id will be provided back as user_channel_id in FundingGenerationReady and
-	 * FundingBroadcastSafe events to allow tracking of which events correspond with which
-	 * create_channel call. Note that user_channel_id defaults to 0 for inbound channels, so you
-	 * may wish to avoid using 0 for user_id here.
+	 * user_id will be provided back as user_channel_id in FundingGenerationReady events to allow
+	 * tracking of which events correspond with which create_channel call. Note that the
+	 * user_channel_id defaults to 0 for inbound channels, so you may wish to avoid using 0 for
+	 * user_id here. user_id has no meaning inside of LDK, it is simply copied to events and
+	 * otherwise ignored.
 	 * 
 	 * If successful, will generate a SendOpenChannel message event, so you should probably poll
 	 * PeerManager::process_events afterwards.
@@ -218,17 +230,27 @@ public class ChannelManager extends CommonBase {
 	/**
 	 * Call this upon creation of a funding transaction for the given channel.
 	 * 
-	 * Note that ALL inputs in the transaction pointed to by funding_txo MUST spend SegWit outputs
-	 * or your counterparty can steal your funds!
+	 * Returns an [`APIError::APIMisuseError`] if the funding_transaction spent non-SegWit outputs
+	 * or if no output was found which matches the parameters in [`Event::FundingGenerationReady`].
 	 * 
 	 * Panics if a funding transaction has already been provided for this channel.
 	 * 
-	 * May panic if the funding_txo is duplicative with some other channel (note that this should
-	 * be trivially prevented by using unique funding transaction keys per-channel).
+	 * May panic if the output found in the funding transaction is duplicative with some other
+	 * channel (note that this should be trivially prevented by using unique funding transaction
+	 * keys per-channel).
+	 * 
+	 * Do NOT broadcast the funding transaction yourself. When we have safely received our
+	 * counterparty's signature the funding transaction will automatically be broadcast via the
+	 * [`BroadcasterInterface`] provided when this `ChannelManager` was constructed.
+	 * 
+	 * Note that this includes RBF or similar transaction replacement strategies - lightning does
+	 * not currently support replacing a funding transaction on an existing channel. Instead,
+	 * create a new channel with a conflicting funding transaction.
 	 */
-	public void funding_transaction_generated(byte[] temporary_channel_id, OutPoint funding_txo) {
-		bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_txo == null ? 0 : funding_txo.ptr & ~1);
-		this.ptrs_to.add(funding_txo);
+	public Result_NoneAPIErrorZ funding_transaction_generated(byte[] temporary_channel_id, byte[] funding_transaction) {
+		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_transaction);
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -270,8 +292,8 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Note that in some rare cases this may generate a `chain::Watch::update_channel` call.
 	 */
-	public void timer_chan_freshness_every_min() {
-		bindings.ChannelManager_timer_chan_freshness_every_min(this.ptr);
+	public void timer_tick_occurred() {
+		bindings.ChannelManager_timer_tick_occurred(this.ptr);
 	}
 
 	/**
@@ -377,21 +399,92 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Updates channel state based on transactions seen in a connected block.
+	 * Updates channel state to take note of transactions which were confirmed in the given block
+	 * at the given height.
+	 * 
+	 * Note that you must still call (or have called) [`update_best_block`] with the block
+	 * information which is included here.
+	 * 
+	 * This method may be called before or after [`update_best_block`] for a given block's
+	 * transaction data and may be called multiple times with additional transaction data for a
+	 * given block.
+	 * 
+	 * This method may be called for a previous block after an [`update_best_block`] call has
+	 * been made for a later block, however it must *not* be called with transaction data from a
+	 * block which is no longer in the best chain (ie where [`update_best_block`] has already
+	 * been informed about a blockchain reorganization which no longer includes the block which
+	 * corresponds to `header`).
+	 * 
+	 * [`update_best_block`]: `Self::update_best_block`
 	 */
-	public void block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
-		bindings.ChannelManager_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height);
+	public void transactions_confirmed(byte[] header, int height, TwoTuple<Long, byte[]>[] txdata) {
+		bindings.ChannelManager_transactions_confirmed(this.ptr, header, height, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray());
 		/* TODO 2 TwoTuple<Long, byte[]>  */;
 	}
 
 	/**
-	 * Updates channel state based on a disconnected block.
+	 * Updates channel state with the current best blockchain tip. You should attempt to call this
+	 * quickly after a new block becomes available, however if multiple new blocks become
+	 * available at the same time, only a single `update_best_block()` call needs to be made.
 	 * 
-	 * If necessary, the channel may be force-closed without letting the counterparty participate
-	 * in the shutdown.
+	 * This method should also be called immediately after any block disconnections, once at the
+	 * reorganization fork point, and once with the new chain tip. Calling this method at the
+	 * blockchain reorganization fork point ensures we learn when a funding transaction which was
+	 * previously confirmed is reorganized out of the blockchain, ensuring we do not continue to
+	 * accept payments which cannot be enforced on-chain.
+	 * 
+	 * In both the block-connection and block-disconnection case, this method may be called either
+	 * once per block connected or disconnected, or simply at the fork point and new tip(s),
+	 * skipping any intermediary blocks.
 	 */
-	public void block_disconnected(byte[] header) {
-		bindings.ChannelManager_block_disconnected(this.ptr, header);
+	public void update_best_block(byte[] header, int height) {
+		bindings.ChannelManager_update_best_block(this.ptr, header, height);
+	}
+
+	/**
+	 * Gets the set of txids which should be monitored for their confirmation state.
+	 * 
+	 * If you're providing information about reorganizations via [`transaction_unconfirmed`], this
+	 * is the set of transactions which you may need to call [`transaction_unconfirmed`] for.
+	 * 
+	 * This may be useful to poll to determine the set of transactions which must be registered
+	 * with an Electrum server or for which an Electrum server needs to be polled to determine
+	 * transaction confirmation state.
+	 * 
+	 * This may update after any [`transactions_confirmed`] or [`block_connected`] call.
+	 * 
+	 * Note that this is NOT the set of transactions which must be included in calls to
+	 * [`transactions_confirmed`] if they are confirmed, but a small subset of it.
+	 * 
+	 * [`transactions_confirmed`]: Self::transactions_confirmed
+	 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
+	 * [`block_connected`]: chain::Listen::block_connected
+	 */
+	public byte[][] get_relevant_txids() {
+		byte[][] ret = bindings.ChannelManager_get_relevant_txids(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Marks a transaction as having been reorganized out of the blockchain.
+	 * 
+	 * If a transaction is included in [`get_relevant_txids`], and is no longer in the main branch
+	 * of the blockchain, this function should be called to indicate that the transaction should
+	 * be considered reorganized out.
+	 * 
+	 * Once this is called, the given transaction will no longer appear on [`get_relevant_txids`],
+	 * though this may be called repeatedly for a given transaction without issue.
+	 * 
+	 * Note that if the transaction is confirmed on the main chain in a different block (indicated
+	 * via a call to [`transactions_confirmed`]), it may re-appear in [`get_relevant_txids`], thus
+	 * be very wary of race-conditions wherein the final state of a transaction indicated via
+	 * these APIs is not the same as its state on the blockchain.
+	 * 
+	 * [`transactions_confirmed`]: Self::transactions_confirmed
+	 * [`get_relevant_txids`]: Self::get_relevant_txids
+	 */
+	public void transaction_unconfirmed(byte[] txid) {
+		bindings.ChannelManager_transaction_unconfirmed(this.ptr, txid);
 	}
 
 	/**

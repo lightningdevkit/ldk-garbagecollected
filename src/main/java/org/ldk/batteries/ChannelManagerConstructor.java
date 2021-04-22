@@ -81,7 +81,8 @@ public class ChannelManagerConstructor {
         channel_monitors = new TwoTuple[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
-        channel_manager = ChannelManager.constructor_new(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, logger, keys_interface, config, network, current_blockchain_tip_hash, current_blockchain_tip_height);
+        BestBlock block = BestBlock.constructor_new(current_blockchain_tip_hash, current_blockchain_tip_height);
+        channel_manager = ChannelManager.constructor_new(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, logger, keys_interface, config, network, block);
     }
 
     /**
@@ -118,6 +119,7 @@ public class ChannelManagerConstructor {
                     need_persist = true;
                 }
                 events = this.chain_monitor.as_EventsProvider().get_and_clear_pending_events();
+
                 if (events.length != 0) {
                     persister.handle_events(events);
                     need_persist = true;
@@ -129,7 +131,7 @@ public class ChannelManagerConstructor {
                     return;
                 }
                 if (lastTimerTick < System.currentTimeMillis() - 60 * 1000) {
-                    this.channel_manager.timer_chan_freshness_every_min();
+                    this.channel_manager.timer_tick_occurred();
                     lastTimerTick = System.currentTimeMillis();
                 }
             }

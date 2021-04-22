@@ -237,4 +237,116 @@ public class ChannelMonitor extends CommonBase {
 		this.ptrs_to.add(logger);
 	}
 
+	/**
+	 * Processes transactions confirmed in a block with the given header and height, returning new
+	 * outputs to watch. See [`block_connected`] for details.
+	 * 
+	 * Used instead of [`block_connected`] by clients that are notified of transactions rather than
+	 * blocks. May be called before or after [`update_best_block`] for transactions in the
+	 * corresponding block. See [`update_best_block`] for further calling expectations.
+	 * 
+	 * [`block_connected`]: Self::block_connected
+	 * [`update_best_block`]: Self::update_best_block
+	 */
+	public TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] transactions_confirmed(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+		long[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] ret_conv_46_arr = new TwoTuple[ret.length];
+		for (int u = 0; u < ret.length; u++) {
+			long ret_conv_46 = ret[u];
+			byte[] ret_conv_46_a = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(ret_conv_46);
+			long[] ret_conv_46_b = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(ret_conv_46);
+			TwoTuple<Integer, TxOut>[] ret_conv_46_b_conv_26_arr = new TwoTuple[ret_conv_46_b.length];
+			for (int a = 0; a < ret_conv_46_b.length; a++) {
+				long ret_conv_46_b_conv_26 = ret_conv_46_b[a];
+				int ret_conv_46_b_conv_26_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(ret_conv_46_b_conv_26);
+				long ret_conv_46_b_conv_26_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(ret_conv_46_b_conv_26));
+				TxOut ret_conv_46_b_conv_26_b_conv = new TxOut(null, ret_conv_46_b_conv_26_b);;
+				TwoTuple<Integer, TxOut> ret_conv_46_b_conv_26_conv = new TwoTuple<Integer, TxOut>(ret_conv_46_b_conv_26_a, ret_conv_46_b_conv_26_b_conv, () -> {
+					bindings.C2Tuple_u32TxOutZ_free(ret_conv_46_b_conv_26);
+				});
+				ret_conv_46_b_conv_26_b_conv.ptrs_to.add(ret_conv_46_b_conv_26_conv);
+				ret_conv_46_b_conv_26_arr[a] = ret_conv_46_b_conv_26_conv;
+			};
+			TwoTuple<byte[], TwoTuple<Integer, TxOut>[]> ret_conv_46_conv = new TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>(ret_conv_46_a, ret_conv_46_b_conv_26_arr);
+			// Warning: We may not free the C tuple object!
+			ret_conv_46_arr[u] = ret_conv_46_conv;
+		}
+		/* TODO 2 TwoTuple<Long, byte[]>  */;
+		this.ptrs_to.add(broadcaster);
+		this.ptrs_to.add(fee_estimator);
+		this.ptrs_to.add(logger);
+		return ret_conv_46_arr;
+	}
+
+	/**
+	 * Processes a transaction that was reorganized out of the chain.
+	 * 
+	 * Used instead of [`block_disconnected`] by clients that are notified of transactions rather
+	 * than blocks. May be called before or after [`update_best_block`] for transactions in the
+	 * corresponding block. See [`update_best_block`] for further calling expectations.
+	 * 
+	 * [`block_disconnected`]: Self::block_disconnected
+	 * [`update_best_block`]: Self::update_best_block
+	 */
+	public void transaction_unconfirmed(byte[] txid, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, txid, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		this.ptrs_to.add(broadcaster);
+		this.ptrs_to.add(fee_estimator);
+		this.ptrs_to.add(logger);
+	}
+
+	/**
+	 * Updates the monitor with the current best chain tip, returning new outputs to watch. See
+	 * [`block_connected`] for details.
+	 * 
+	 * Used instead of [`block_connected`] by clients that are notified of transactions rather than
+	 * blocks. May be called before or after [`transactions_confirmed`] for the corresponding
+	 * block.
+	 * 
+	 * Must be called after new blocks become available for the most recent block. Intermediary
+	 * blocks, however, may be safely skipped. In the event of a chain re-organization, this only
+	 * needs to be called for the most recent block assuming `transaction_unconfirmed` is called
+	 * for any affected transactions.
+	 * 
+	 * [`block_connected`]: Self::block_connected
+	 * [`transactions_confirmed`]: Self::transactions_confirmed
+	 * [`transaction_unconfirmed`]: Self::transaction_unconfirmed
+	 */
+	public TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] update_best_block(byte[] header, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+		long[] ret = bindings.ChannelMonitor_update_best_block(this.ptr, header, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] ret_conv_46_arr = new TwoTuple[ret.length];
+		for (int u = 0; u < ret.length; u++) {
+			long ret_conv_46 = ret[u];
+			byte[] ret_conv_46_a = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(ret_conv_46);
+			long[] ret_conv_46_b = bindings.LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(ret_conv_46);
+			TwoTuple<Integer, TxOut>[] ret_conv_46_b_conv_26_arr = new TwoTuple[ret_conv_46_b.length];
+			for (int a = 0; a < ret_conv_46_b.length; a++) {
+				long ret_conv_46_b_conv_26 = ret_conv_46_b[a];
+				int ret_conv_46_b_conv_26_a = bindings.LDKC2Tuple_u32TxOutZ_get_a(ret_conv_46_b_conv_26);
+				long ret_conv_46_b_conv_26_b = bindings.TxOut_clone(bindings.LDKC2Tuple_u32TxOutZ_get_b(ret_conv_46_b_conv_26));
+				TxOut ret_conv_46_b_conv_26_b_conv = new TxOut(null, ret_conv_46_b_conv_26_b);;
+				TwoTuple<Integer, TxOut> ret_conv_46_b_conv_26_conv = new TwoTuple<Integer, TxOut>(ret_conv_46_b_conv_26_a, ret_conv_46_b_conv_26_b_conv, () -> {
+					bindings.C2Tuple_u32TxOutZ_free(ret_conv_46_b_conv_26);
+				});
+				ret_conv_46_b_conv_26_b_conv.ptrs_to.add(ret_conv_46_b_conv_26_conv);
+				ret_conv_46_b_conv_26_arr[a] = ret_conv_46_b_conv_26_conv;
+			};
+			TwoTuple<byte[], TwoTuple<Integer, TxOut>[]> ret_conv_46_conv = new TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>(ret_conv_46_a, ret_conv_46_b_conv_26_arr);
+			// Warning: We may not free the C tuple object!
+			ret_conv_46_arr[u] = ret_conv_46_conv;
+		}
+		this.ptrs_to.add(broadcaster);
+		this.ptrs_to.add(fee_estimator);
+		this.ptrs_to.add(logger);
+		return ret_conv_46_arr;
+	}
+
+	/**
+	 * Returns the set of txids that should be monitored for re-organization out of the chain.
+	 */
+	public byte[][] get_relevant_txids() {
+		byte[][] ret = bindings.ChannelMonitor_get_relevant_txids(this.ptr);
+		return ret;
+	}
+
 }

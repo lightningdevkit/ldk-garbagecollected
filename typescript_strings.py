@@ -483,14 +483,14 @@ const decodeString = (stringPointer, free = true) => {
             ret = ret + "; (void) " + param
         return ret
 
-    def native_c_map_trait(self, struct_name, field_var_conversions, field_function_lines, trait_doc_comment):
+    def native_c_map_trait(self, struct_name, field_var_conversions, flattened_field_var_conversions, field_function_lines, trait_doc_comment):
         out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
 
         constructor_arguments = ""
         super_instantiator = ""
         pointer_to_adder = ""
         impl_constructor_arguments = ""
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 constructor_arguments += f", {first_to_lower(var.arg_name)}?: {var.java_hu_ty}"
                 impl_constructor_arguments += f", {var.arg_name}: {var.java_hu_ty}"
@@ -568,7 +568,18 @@ const decodeString = (stringPointer, free = true) => {
             if isinstance(var, ConvInfo):
                 trait_constructor_arguments += ", " + var.arg_name
             else:
-                trait_constructor_arguments += ", " + var[1] + ".new_impl(" + var[1] + "_impl).bindings_instance"
+                trait_constructor_arguments += ", " + var[1] + ".new_impl(" + var[1] + "_impl"
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        trait_constructor_arguments += ", " + suparg.arg_name
+                    else:
+                        trait_constructor_arguments += ", " + suparg[1]
+                trait_constructor_arguments += ").bindings_instance"
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        trait_constructor_arguments += ", " + suparg.arg_name
+                    else:
+                        trait_constructor_arguments += ", " + suparg[1]
 
         out_typescript_human = f"""
             {self.hu_struct_file_prefix}
@@ -631,7 +642,7 @@ const decodeString = (stringPointer, free = true) => {
         out_typescript_bindings = out_typescript_bindings + "\t\t}\n\n"
 
         out_typescript_bindings += f"\t\texport function {struct_name}_new(impl: {struct_name}"
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_typescript_bindings += f", {var.arg_name}: {var.java_ty}"
             else:
@@ -647,7 +658,7 @@ const decodeString = (stringPointer, free = true) => {
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
         out_c = out_c + "\tatomic_size_t refcnt;\n"
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 # We're a regular ol' field
                 pass
@@ -722,7 +733,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "}\n"
 
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (/*TODO: JS Object Reference */void* o"
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
@@ -738,7 +749,7 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "\tcalls->" + fn_name + "_meth = (*env)->GetMethodID(env, c, \"" + fn_name + "\", \"" + java_meth_descr + "\");\n"
                 out_c = out_c + "\tCHECK(calls->" + fn_name + "_meth != NULL);\n"
 
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo) and var.arg_conv is not None:
                 out_c = out_c + "\n\t" + var.arg_conv.replace("\n", "\n\t") +"\n"
         out_c = out_c + "\n\t" + struct_name + " ret = {\n"
@@ -759,16 +770,22 @@ const decodeString = (stringPointer, free = true) => {
                     out_c = out_c + "\t\t." + var.var_name + " = " + var.var_name + ",\n"
                     out_c = out_c + "\t\t.set_" + var.var_name + " = NULL,\n"
             else:
-                out_c = out_c + "\t\t." + var[1] + " = " + var[0] + "_init(" + var[1] + "),\n"
+                out_c += "\t\t." + var[1] + " = " + var[0] + "_init(" + var[1]
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        out_c += ", " + suparg.arg_name
+                    else:
+                        out_c += ", " + suparg[1]
+                out_c += "),\n"
         out_c = out_c + "\t};\n"
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if not isinstance(var, ConvInfo):
                 out_c = out_c + "\tcalls->" + var[1] + " = ret." + var[1] + ".this_arg;\n"
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
         out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "/*TODO: JS Object Reference */void* o"
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
@@ -776,7 +793,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + ") {\n"
         out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
         out_c = out_c + "\t*res_ptr = " + struct_name + "_init(o"
-        for var in field_var_conversions:
+        for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.arg_name
             else:

@@ -43,7 +43,8 @@ class HumanObjectPeerTestInstance {
                 @Override
                 public Sign get_channel_signer(boolean inbound, long channel_value_satoshis) {
                     Sign underlying_ck = underlying_if.get_channel_signer(inbound, channel_value_satoshis);
-                    Sign.SignInterface si = new Sign.SignInterface() {
+                    // TODO: Expose the underlying signer from a Sign
+                    /*BaseSign.BaseSignInterface si = new BaseSign.BaseSignInterface() {
                         @Override
                         public byte[] get_per_commitment_point(long idx) {
                             return underlying_ck.get_per_commitment_point(idx);
@@ -98,12 +99,13 @@ class HumanObjectPeerTestInstance {
                         public byte[] write() {
                             return underlying_ck.write();
                         }
-                    };
-                    Sign resp = Sign.new_impl(si, underlying_ck.get_pubkeys());
-                    must_free_objs.add(new WeakReference<>(si));
-                    must_free_objs.add(new WeakReference<>(resp));
+                    };*/
+                    //Sign resp = Sign.new_impl(si, underlying_ck.get_pubkeys());
+                    //must_free_objs.add(new WeakReference<>(si));
+                    //must_free_objs.add(new WeakReference<>(resp));
                     must_free_objs.add(new WeakReference<>(underlying_ck));
-                    return resp;
+                    //return resp;
+                    return underlying_ck;
                 }
 
                 @Override
@@ -270,7 +272,7 @@ class HumanObjectPeerTestInstance {
         }
         Peer(byte seed) {
             this(null, seed);
-            this.chan_manager = ChannelManager.constructor_new(FeeEstimator.new_impl(confirmation_target -> 0), chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), LDKNetwork.LDKNetwork_Bitcoin, new byte[32], 0);
+            this.chan_manager = ChannelManager.constructor_new(FeeEstimator.new_impl(confirmation_target -> 0), chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), LDKNetwork.LDKNetwork_Bitcoin, BestBlock.constructor_new(new byte[32], 0));
             this.node_id = chan_manager.get_our_node_id();
             this.chan_manager_events = chan_manager.as_EventsProvider();
 
@@ -342,10 +344,13 @@ class HumanObjectPeerTestInstance {
                 txn = new TwoTuple[]{txp};
             } else
                 txn = new TwoTuple[0];
-            chan_manager.as_Listen().block_connected(b.bitcoinSerialize(), height);
             if (chain_monitor != null) {
+                chan_manager.as_Listen().block_connected(b.bitcoinSerialize(), height);
                 chain_monitor.block_connected(header, txn, height);
             } else {
+                chan_manager.transactions_confirmed(header, height, txn);
+                chan_manager.update_best_block(header, height);
+                // Connect manually if we aren't using a ChainMonitor and are implementing Watch ourselves
                 synchronized (monitors) {
                     assert monitors.size() == 1;
                     for (ChannelMonitor mon : monitors.values()) {
@@ -519,13 +524,13 @@ class HumanObjectPeerTestInstance {
         funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
         funding.getInput(0).getWitness().setPush(0, new byte[]{0x1});
         funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
-        peer1.chan_manager.funding_transaction_generated(chan_id, OutPoint.constructor_new(funding.getTxId().getReversedBytes(), (short) 0));
+        Result_NoneAPIErrorZ funding_res = peer1.chan_manager.funding_transaction_generated(chan_id, funding.bitcoinSerialize());
+        assert funding_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
         wait_events_processed(peer1, peer2);
 
-        events = peer1.chan_manager_events.get_and_clear_pending_events();
-        assert events.length == 1;
-        assert events[0] instanceof Event.FundingBroadcastSafe;
-        assert ((Event.FundingBroadcastSafe) events[0]).user_channel_id == 42;
+        assert peer1.broadcast_set.size() == 1;
+        assert Arrays.equals(peer1.broadcast_set.get(0), funding.bitcoinSerialize());
+        peer1.broadcast_set.clear();
 
         Block b = new Block(bitcoinj_net, 2, Sha256Hash.ZERO_HASH, Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
         peer1.connect_block(b, 1, 0);
@@ -644,7 +649,7 @@ class HumanObjectPeerTestInstance {
             wait_events_processed(state.peer1, state.peer2);
 
             assert state.peer1.broadcast_set.size() == 1;
-            assert state.peer2.broadcast_set.size() == 0;
+            assert state.peer2.broadcast_set.size() == 1;
 
             NetworkParameters bitcoinj_net = NetworkParameters.fromID(NetworkParameters.ID_MAINNET);
             Transaction tx = new Transaction(bitcoinj_net, state.peer1.broadcast_set.getFirst());

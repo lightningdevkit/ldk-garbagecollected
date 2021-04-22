@@ -136,6 +136,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public BaseSign as_BaseSign() {
+		number ret = bindings.InMemorySigner_as_BaseSign(this.ptr);
+		BaseSign ret_hu_conv = new BaseSign(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public Sign as_Sign() {
 		number ret = bindings.InMemorySigner_as_Sign(this.ptr);
 		Sign ret_hu_conv = new Sign(null, ret);
