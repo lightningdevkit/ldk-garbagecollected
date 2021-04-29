@@ -310,7 +310,7 @@ class TypeMappingGenerator:
                         base_conv = base_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone((" + ty_info.rust_obj + "*)(((uint64_t)" + ty_info.var_name + ") & ~1));"
                     elif needs_full_clone:
                         base_conv = base_conv + "\n// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj
-                if not needs_full_clone and ty_info.rust_obj != "LDKu8slice":
+                if not needs_full_clone and ty_info.rust_obj != "LDKu8slice" and (not holds_ref or is_free):
                     # Don't bother free'ing slices passed in - Rust doesn't auto-free the
                     # underlying unlike Vecs, and it gives Java more freedom.
                     base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");"
