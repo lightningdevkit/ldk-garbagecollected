@@ -121,6 +121,11 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKSignature"
         arr_access = "compact_form"
+    elif fn_arg.startswith("LDKRecoverableSignature"):
+        fn_arg = "uint8_t (*" + fn_arg[25:] + ")[68]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKRecoverableSignature"
+        arr_access = "serialized_form"
     elif fn_arg.startswith("LDKThreeBytes"):
         fn_arg = "uint8_t (*" + fn_arg[14:] + ")[3]"
         assert var_is_arr_regex.match(fn_arg[8:])
@@ -135,6 +140,11 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_arg = "uint8_t (*" + fn_arg[16:] + ")[16]"
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKSixteenBytes"
+        arr_access = "data"
+    elif fn_arg.startswith("LDKTwentyBytes"):
+        fn_arg = "uint8_t (*" + fn_arg[15:] + ")[20]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKTwentyBytes"
         arr_access = "data"
     elif fn_arg.startswith("LDKTenBytes"):
         fn_arg = "uint8_t (*" + fn_arg[12:] + ")[10]"
@@ -210,6 +220,13 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_ty_arg = "B"
         fn_arg = fn_arg[7:].strip()
         is_primitive = True
+    elif fn_arg.startswith("LDKu5"):
+        java_ty = consts.c_type_map['uint8_t'][0]
+        java_hu_ty = "UInt5"
+        rust_obj = "LDKu5"
+        c_ty = "int8_t"
+        fn_ty_arg = "B"
+        fn_arg = fn_arg[6:].strip()
     elif fn_arg.startswith("uint16_t"):
         mapped_type = consts.c_type_map['uint16_t']
         java_ty = mapped_type[0]

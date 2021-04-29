@@ -398,7 +398,14 @@ class TypeMappingGenerator:
                         ret_conv = ("long " + ty_info.var_name + "_ref = (long)(&", ") | 1;"), ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = to_hu_conv, to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
 
-                # The manually-defined types - TxOut and Transaction
+                # The manually-defined types - TxOut and u5
+                if ty_info.rust_obj == "LDKu5":
+                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                        arg_conv = "", arg_conv_name = "(LDKu5){ ._0 = " + ty_info.var_name + " }", arg_conv_cleanup = None,
+                        ret_conv = ("uint8_t " + ty_info.var_name + "_val = ", "._0;"), ret_conv_name = ty_info.var_name + "_val",
+                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " + ty_info.java_hu_ty + "(" + ty_info.var_name + ");",
+                        to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
+
                 assert ty_info.rust_obj == "LDKTxOut"
                 if not ty_info.is_ptr and not holds_ref:
                     ret_conv = ("LDKTxOut* " + ty_info.var_name + "_ref = MALLOC(sizeof(LDKTxOut), \"LDKTxOut\");\n*" + ty_info.var_name + "_ref = ", ";")
