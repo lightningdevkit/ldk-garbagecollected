@@ -60,6 +60,7 @@ public class bindings {
         self.util_fn_pfx = """package org.ldk.structs;
 import org.ldk.impl.bindings;
 import java.util.Arrays;
+import org.ldk.enums.*;
 
 public class UtilMethods {
 """

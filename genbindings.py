@@ -468,8 +468,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 or expected_struct in complex_enums or expected_cstruct in complex_enums
                 or expected_cstruct in result_types) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
-        elif method_name.startswith("C2Tuple_") and method_name.endswith("_read"):
-            struct_meth = method_name.rsplit("_", 1)[0]
+        elif (method_name.startswith("C2Tuple_") and method_name.endswith("_read")) or \
+                (return_type_info.rust_obj is not None and "Result" in return_type_info.rust_obj and "from" in method_name):
             out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
         if out_java_struct is not None:
             out_java_struct.write(out_java_struct_delta)
