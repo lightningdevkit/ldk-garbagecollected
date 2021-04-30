@@ -512,7 +512,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 if "LDK" + variant_name in union_enum_items:
                     enum_var_lines = union_enum_items["LDK" + variant_name]
                     for idx, field in enumerate(enum_var_lines):
-                        if idx != 0 and idx < len(enum_var_lines) - 2:
+                        if idx != 0 and idx < len(enum_var_lines) - 2 and field.strip() != "":
                             fields.append(type_mapping_generator.map_type(field.strip(' ;'), False, None, False, True))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, False))
                 elif camel_to_snake(variant_name) in inline_enum_variants:
@@ -888,6 +888,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                             line = line.strip()
                             if line.startswith("struct "):
                                 line = line[7:]
+                            elif line.startswith("enum "):
+                                line = line[5:]
                             split = line.split(" ")
                             assert len(split) == 2
                             tuple_variants[split[1].strip(";")] = split[0]
