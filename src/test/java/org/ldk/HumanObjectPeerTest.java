@@ -4,6 +4,7 @@ import org.bitcoinj.core.*;
 import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
 import org.ldk.batteries.NioPeerHandler;
+import org.ldk.enums.LDKCurrency;
 import org.ldk.enums.LDKNetwork;
 import org.ldk.impl.bindings;
 import org.ldk.structs.*;
@@ -116,6 +117,11 @@ class HumanObjectPeerTestInstance {
                 @Override
                 public Result_SignDecodeErrorZ read_chan_signer(byte[] reader) {
                     return underlying_if.read_chan_signer(reader);
+                }
+
+                @Override
+                public Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage) {
+                    return underlying_if.sign_invoice(invoice_preimage);
                 }
             });
         }
@@ -346,10 +352,10 @@ class HumanObjectPeerTestInstance {
                 txn = new TwoTuple[0];
             if (chain_monitor != null) {
                 chan_manager.as_Listen().block_connected(b.bitcoinSerialize(), height);
-                chain_monitor.block_connected(header, txn, height);
+                chain_monitor.as_Listen().block_connected(b.bitcoinSerialize(), height);
             } else {
-                chan_manager.transactions_confirmed(header, height, txn);
-                chan_manager.update_best_block(header, height);
+                chan_manager.as_Confirm().transactions_confirmed(header, txn, height);
+                chan_manager.as_Confirm().best_block_updated(header, height);
                 // Connect manually if we aren't using a ChainMonitor and are implementing Watch ourselves
                 synchronized (monitors) {
                     assert monitors.size() == 1;
@@ -556,11 +562,13 @@ class HumanObjectPeerTestInstance {
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 
-        byte[] payment_preimage = new byte[32];
-        for (int i = 0; i < 32; i++) payment_preimage[i] = (byte) (i ^ 0x0f);
-        byte[] payment_hash = Sha256Hash.hash(payment_preimage);
+        Result_InvoiceNoneZ invoice = UtilMethods.constructor_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, LDKCurrency.LDKCurrency_Bitcoin, Option_u64Z.constructor_none(), new byte[0]);
+        assert invoice instanceof Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK;
+        byte[] payment_hash = ((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) invoice).res.payment_hash();
+        byte[] payment_secret = ((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) invoice).res.payment_secret();
+
         Route route = peer1.get_route(peer2.node_id, peer1_chans);
-        Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, new byte[32]);
+        Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
         wait_events_processed(peer1, peer2);
 
@@ -570,7 +578,7 @@ class HumanObjectPeerTestInstance {
         hop_pubkey[1] = 42;
         hops[0][0] = RouteHop.constructor_new(hop_pubkey, NodeFeatures.constructor_known(), 42, ChannelFeatures.constructor_known(), 100, 0);
         Route r2 = Route.constructor_new(hops);
-        payment_res = peer1.chan_manager.send_payment(r2, payment_hash, new byte[32]);
+        payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
 
         assert peer1.get_monitor_events().length == 0;
@@ -584,9 +592,9 @@ class HumanObjectPeerTestInstance {
             WeakReference<Peer> op1 = new WeakReference<Peer>(peer1);
             peer1 = new Peer(peer1);
             peer2 = new Peer(peer2);
-            return new TestState(op1, peer1, peer2, payment_preimage, b.getHash());
+            return new TestState(op1, peer1, peer2, b.getHash());
         }
-        return new TestState(null, peer1, peer2, payment_preimage, b.getHash());
+        return new TestState(null, peer1, peer2, b.getHash());
     }
 
     boolean cross_reload_ref_pollution = false;
@@ -594,14 +602,12 @@ class HumanObjectPeerTestInstance {
         private final WeakReference<Peer> ref_block;
         private final Peer peer1;
         private final Peer peer2;
-        private final byte[] payment_preimage;
         public Sha256Hash best_blockhash;
 
-        public TestState(WeakReference<Peer> ref_block, Peer peer1, Peer peer2, byte[] payment_preimage, Sha256Hash best_blockhash) {
+        public TestState(WeakReference<Peer> ref_block, Peer peer1, Peer peer2, Sha256Hash best_blockhash) {
             this.ref_block = ref_block;
             this.peer1 = peer1;
             this.peer2 = peer2;
-            this.payment_preimage = payment_preimage;
             this.best_blockhash = best_blockhash;
         }
     }
@@ -626,13 +632,15 @@ class HumanObjectPeerTestInstance {
         events = state.peer2.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
         assert events[0] instanceof Event.PaymentReceived;
-        state.peer2.chan_manager.claim_funds(state.payment_preimage, new byte[32], ((Event.PaymentReceived) events[0]).amt);
+        byte[] payment_preimage = ((Event.PaymentReceived)events[0]).payment_preimage;
+        assert !Arrays.equals(payment_preimage, new byte[32]);
+        state.peer2.chan_manager.claim_funds(payment_preimage);
         wait_events_processed(state.peer1, state.peer2);
 
         events = state.peer1.chan_manager_events.get_and_clear_pending_events();
         assert events.length == 1;
         assert events[0] instanceof Event.PaymentSent;
-        assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, state.payment_preimage);
+        assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
         wait_events_processed(state.peer1, state.peer2);
 
         ChannelDetails[] peer1_chans = state.peer1.chan_manager.list_channels();

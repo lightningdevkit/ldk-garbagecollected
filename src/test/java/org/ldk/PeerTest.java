@@ -268,17 +268,19 @@ public class PeerTest {
         assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer2_chans[0]), funding.getTxId().getReversedBytes());
         for (long chan : peer2_chans) bindings.ChannelDetails_free(chan);
 
-        byte[] payment_preimage = new byte[32];
-        for (int i = 0; i < 32; i++) payment_preimage[i] = (byte) (i ^ 0x0f);
-        byte[] payment_hash = Sha256Hash.hash(payment_preimage);
+        long no_min_val = bindings.COption_u64Z_none();
+        long inbound_payment = bindings.ChannelManager_create_inbound_payment(peer2.chan_manager, no_min_val, 7200, 42);
+        bindings.COption_u64Z_free(no_min_val);
         long netgraph = bindings.NetGraphMsgHandler_read_locked_graph(peer1.router);
         long route = bindings.get_route(peer1.node_id, bindings.LockedNetworkGraph_graph(netgraph), peer2.node_id, 0L, peer1_chans,
                 new long[0], 1000, 42, peer1.logger);
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
         bindings.LockedNetworkGraph_free(netgraph);
-        long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route), payment_hash, new byte[32]);
+        long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route),
+                bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_a(inbound_payment), bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_b(inbound_payment));
         bindings.CResult_RouteLightningErrorZ_free(route);
+        bindings.C2Tuple_PaymentHashPaymentSecretZ_free(inbound_payment);
         assert bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(payment_res);
         bindings.CResult_NonePaymentSendFailureZ_free(payment_res);
 
@@ -300,7 +302,7 @@ public class PeerTest {
         assert peer2_events.length == 1;
         bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(peer2_events[0]);
         assert payment_recvd instanceof bindings.LDKEvent.PaymentReceived;
-        assert bindings.ChannelManager_claim_funds(peer2.chan_manager, payment_preimage, new byte[32], ((bindings.LDKEvent.PaymentReceived)payment_recvd).amt);
+        assert bindings.ChannelManager_claim_funds(peer2.chan_manager, ((bindings.LDKEvent.PaymentReceived) payment_recvd).payment_preimage);
         bindings.CVec_EventZ_free(peer2_events);
 
         bindings.PeerManager_process_events(peer2.peer_manager);
@@ -312,7 +314,6 @@ public class PeerTest {
         assert peer1_events.length == 1;
         bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(peer1_events[0]);
         assert sent instanceof bindings.LDKEvent.PaymentSent;
-        assert Arrays.equals(((bindings.LDKEvent.PaymentSent)sent).payment_preimage, payment_preimage);
         bindings.CVec_EventZ_free(peer1_events);
 
         peer1.free();
