@@ -408,7 +408,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         else:
             struct_meth = method_name.split("_")[0]
 
-        return_type_info = type_mapping_generator.map_type(method_return_type, True, ret_arr_len, False, False)
+        return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, False)
 
         argument_types = []
         default_constructor_args = {}
@@ -545,7 +545,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
             field_fns = []
             for fn_docs, fn_line in trait_fn_lines:
-                ret_ty_info = type_mapping_generator.map_type(fn_line.group(2), True, None, False, False)
+                ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
                 is_const = fn_line.group(4) is not None
 
                 arg_tys = []

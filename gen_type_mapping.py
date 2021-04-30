@@ -32,8 +32,6 @@ class TypeMappingGenerator:
             else:
                 arr_name = "ret"
                 arr_len = ret_arr_len
-            if arr_name == "arg":
-                arr_name = "ret"
             if ty_info.c_ty == "int8_tArray":
                 (set_pfx, set_sfx) = self.consts.set_native_arr_contents(arr_name + "_arr", arr_len, ty_info)
                 ret_conv = ("int8_tArray " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_len, ty_info) + ";\n" + set_pfx, "")
