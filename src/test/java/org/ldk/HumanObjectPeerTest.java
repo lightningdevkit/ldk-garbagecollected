@@ -562,10 +562,14 @@ class HumanObjectPeerTestInstance {
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 
-        Result_InvoiceNoneZ invoice = UtilMethods.constructor_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, LDKCurrency.LDKCurrency_Bitcoin, Option_u64Z.constructor_none(), new byte[0]);
-        assert invoice instanceof Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK;
-        byte[] payment_hash = ((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) invoice).res.payment_hash();
-        byte[] payment_secret = ((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) invoice).res.payment_secret();
+        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.constructor_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, LDKCurrency.LDKCurrency_Bitcoin, Option_u64Z.constructor_none(), "");
+        assert invoice instanceof Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK;
+        System.out.println("Got invoice: " + ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
+        Result_InvoiceNoneZ parsed_invoice = Invoice.constructor_from_str(((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
+        assert parsed_invoice instanceof Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK;
+        assert Arrays.equals(((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res.payment_hash(), ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());
+        byte[] payment_hash = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash();
+        byte[] payment_secret = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_secret();
 
         Route route = peer1.get_route(peer2.node_id, peer1_chans);
         Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
