@@ -260,6 +260,7 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_ty_arg = "Ljava/lang/String;"
         fn_arg = fn_arg[6:].strip()
     elif fn_arg.startswith("LDKStr"):
+        rust_obj = "LDKStr"
         java_ty = "String"
         c_ty = "jstring"
         fn_ty_arg = "Ljava/lang/String;"

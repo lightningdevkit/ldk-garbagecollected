@@ -309,12 +309,12 @@ typedef jbyteArray int8_tArray;
 
 static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len) {
 	// Sadly we need to create a temporary because Java can't accept a char* without a 0-terminator
-	char* err_buf = MALLOC(len + 1, "str conv buf");
-	memcpy(err_buf, chars, len);
-	err_buf[len] = 0;
-	jstring err_conv = (*env)->NewStringUTF(env, chars);
-	FREE(err_buf);
-	return err_conv;
+	char* conv_buf = MALLOC(len + 1, "str conv buf");
+	memcpy(conv_buf, chars, len);
+	conv_buf[len] = 0;
+	jstring ret = (*env)->NewStringUTF(env, conv_buf);
+	FREE(conv_buf);
+	return ret;
 }
 static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 	uint64_t str_len = (*env)->GetStringUTFLength(env, str);
