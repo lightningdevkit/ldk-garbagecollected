@@ -84,6 +84,35 @@ class CommonBase {
 
 """
 
+        if self.target == Target.ANDROID:
+            self.c_file_pfx = self.c_file_pfx + """
+#include <android/log.h>
+#define DEBUG_PRINT(...) __android_log_print(ANDROID_LOG_ERROR, "LDK", __VA_ARGS__)
+
+#include <unistd.h>
+#include <pthread.h>
+static void* redirect_stderr(void* ignored) {
+	int pipes[2];
+	pipe(pipes);
+	dup2(pipes[1], STDERR_FILENO);
+	char buf[8192];
+	memset(buf, 0, 8192);
+	ssize_t len;
+	while ((len = read(pipes[0], buf, 8191)) > 0) {
+		DEBUG_PRINT("%s\\n", buf);
+		memset(buf, 0, 8192);
+	}
+	DEBUG_PRINT("End of stderr???\\n");
+	return 0;
+}
+void __attribute__((constructor)) spawn_stderr_redirection() {
+	pthread_t thread;
+	pthread_create(&thread, NULL, &redirect_stderr, NULL);
+}
+"""
+        else:
+            self.c_file_pfx = self.c_file_pfx + "#define DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__)\n"
+
         if not DEBUG:
             self.c_file_pfx = self.c_file_pfx + """#define MALLOC(a, _) malloc(a)
 #define FREE(p) if ((long)(p) > 1024) { free(p); }
@@ -102,7 +131,53 @@ class CommonBase {
 // linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
 // and free'd in Rust or C across the generated bindings shared library.
 #include <threads.h>
-#include <execinfo.h>
+"""
+
+            if self.target == Target.ANDROID:
+                self.c_file_pfx = self.c_file_pfx + """
+#include <unwind.h>
+#include <dlfcn.h>
+
+// Implement the execinfo functions using _Unwind_backtrace. This seems to miss many Rust
+// symbols, so we only use it on Android, where execinfo.h is unavailable.
+
+struct BacktraceState {
+	void** current;
+	void** end;
+};
+static _Unwind_Reason_Code unwind_callback(struct _Unwind_Context* context, void* arg) {
+	struct BacktraceState* state = (struct BacktraceState*)arg;
+	uintptr_t pc = _Unwind_GetIP(context);
+	if (pc) {
+		if (state->current == state->end) {
+			return _URC_END_OF_STACK;
+		} else {
+			*state->current++ = (void*)(pc);
+		}
+	}
+	return _URC_NO_REASON;
+}
+
+int backtrace(void** buffer, int max) {
+	struct BacktraceState state = { buffer, buffer + max };
+	_Unwind_Backtrace(unwind_callback, &state);
+	return state.current - buffer;
+}
+
+void backtrace_symbols_fd(void ** buffer, int count, int _fd) {
+	for (int idx = 0; idx < count; ++idx) {
+		Dl_info info;
+		if (dladdr(buffer[idx], &info) && info.dli_sname) {
+			DEBUG_PRINT("%p: %s", buffer[idx], info.dli_sname);
+		} else {
+			DEBUG_PRINT("%p: ???", buffer[idx]);
+		}
+	}
+}
+"""
+            else:
+                self.c_file_pfx = self.c_file_pfx + "#include <execinfo.h>\n"
+            self.c_file_pfx = self.c_file_pfx + """
 #include <unistd.h>
 static mtx_t allocation_mtx;
 
@@ -117,7 +192,7 @@ typedef struct allocation {
 	const char* struct_name;
 	void* bt[BT_MAX];
 	int bt_len;
-	size_t alloc_len;
+	unsigned long alloc_len;
 } allocation;
 static allocation* allocation_ll = NULL;
 
@@ -147,11 +222,11 @@ static void alloc_freed(void* ptr) {
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
 		if (it == NULL) {
-			fprintf(stderr, "Tried to free unknown pointer %p at:\\n", ptr);
+			DEBUG_PRINT("Tried to free unknown pointer %p at:\\n", ptr);
 			void* bt[BT_MAX];
 			int bt_len = backtrace(bt, BT_MAX);
 			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
-			fprintf(stderr, "\\n\\n");
+			DEBUG_PRINT("\\n\\n");
 			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
 			return; // addrsan should catch malloc-unknown and print more info than we have
 		}
@@ -196,21 +271,21 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 }
 
 void __attribute__((destructor)) check_leaks() {
-	size_t alloc_count = 0;
-	size_t alloc_size = 0;
-	fprintf(stderr, "The following LDK-allocated blocks still remain.\\n");
-	fprintf(stderr, "Note that this is only accurate if System.gc(); System.runFinalization()\\n");
-	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
+	unsigned long alloc_count = 0;
+	unsigned long alloc_size = 0;
+	DEBUG_PRINT("The following LDK-allocated blocks still remain.\\n");
+	DEBUG_PRINT("Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	DEBUG_PRINT("was called prior to exit after all LDK objects were out of scope.\\n");
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		fprintf(stderr, "%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
+		DEBUG_PRINT("%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
-		fprintf(stderr, "\\n\\n");
+		DEBUG_PRINT("\\n\\n");
 		alloc_count++;
 		alloc_size += a->alloc_len;
 	}
-	fprintf(stderr, "%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
-	fprintf(stderr, "Note that this is only accurate if System.gc(); System.runFinalization()\\n");
-	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
+	DEBUG_PRINT("%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
+	DEBUG_PRINT("Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	DEBUG_PRINT("was called prior to exit after all LDK objects were out of scope.\\n");
 }
 """
         self.c_file_pfx = self.c_file_pfx + """
