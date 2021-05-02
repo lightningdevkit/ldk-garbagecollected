@@ -101,8 +101,14 @@ class CommonBase {
 // so instead we implement our own naive leak checker here, relying on the -wrap
 // linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
 // and free'd in Rust or C across the generated bindings shared library.
+"""
+            if self.target == Target.ANDROID:
+                self.c_file_pfx = self.c_file_pfx + "#define LDK_ANDROID_BUILD"
+            self.c_file_pfx = self.c_file_pfx + """
 #include <threads.h>
+#ifndef LDK_ANDROID_BUILD
 #include <execinfo.h>
+#endif
 #include <unistd.h>
 static mtx_t allocation_mtx;
 
@@ -115,8 +121,10 @@ typedef struct allocation {
 	struct allocation* next;
 	void* ptr;
 	const char* struct_name;
+#ifndef LDK_ANDROID_BUILD
 	void* bt[BT_MAX];
 	int bt_len;
+#endif
 	size_t alloc_len;
 } allocation;
 static allocation* allocation_ll = NULL;
@@ -127,7 +135,9 @@ static void new_allocation(void* res, const char* struct_name, size_t len) {
 	allocation* new_alloc = __real_malloc(sizeof(allocation));
 	new_alloc->ptr = res;
 	new_alloc->struct_name = struct_name;
+#ifndef LDK_ANDROID_BUILD
 	new_alloc->bt_len = backtrace(new_alloc->bt, BT_MAX);
+#endif
 	new_alloc->alloc_len = len;
 	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
 	new_alloc->next = allocation_ll;
@@ -148,9 +158,11 @@ static void alloc_freed(void* ptr) {
 		p = it; it = it->next;
 		if (it == NULL) {
 			fprintf(stderr, "Tried to free unknown pointer %p at:\\n", ptr);
+#ifndef LDK_ANDROID_BUILD
 			void* bt[BT_MAX];
 			int bt_len = backtrace(bt, BT_MAX);
 			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
+#endif
 			fprintf(stderr, "\\n\\n");
 			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
 			return; // addrsan should catch malloc-unknown and print more info than we have
@@ -203,7 +215,9 @@ void __attribute__((destructor)) check_leaks() {
 	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
 		fprintf(stderr, "%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
+#ifndef LDK_ANDROID_BUILD
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
+#endif
 		fprintf(stderr, "\\n\\n");
 		alloc_count++;
 		alloc_size += a->alloc_len;
