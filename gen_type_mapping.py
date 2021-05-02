@@ -239,12 +239,12 @@ class TypeMappingGenerator:
                 elif not holds_ref and ty_info.is_ptr:
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
 
-                opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
-                opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((long)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
+                opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((uint64_t)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
+                opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((uint64_t)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
                 if holds_ref:
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner & ~1;"
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "uint64_t " + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_var.inner & ~1;"
                 else:
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_var.inner;\n"
+                    opaque_ret_conv_suf = opaque_ret_conv_suf + "uint64_t " + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_var.inner;\n"
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "if (" + ty_info.var_name + "_var.is_owned) {\n"
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "\t" + ty_info.var_name + "_ref |= 1;\n"
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "}"
@@ -296,7 +296,7 @@ class TypeMappingGenerator:
                         base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ret_conv, ret_conv_name = "(long)ret",
+                        ret_conv = ret_conv, ret_conv_name = "(uint64_t)ret",
                         to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                         to_hu_conv_name = "ret_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
@@ -313,7 +313,7 @@ class TypeMappingGenerator:
                     # underlying unlike Vecs, and it gives Java more freedom.
                     base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");"
                 if ty_info.rust_obj in self.complex_enums:
-                    ret_conv = ("long " + ty_info.var_name + "_ref = ((long)&", ") | 1;")
+                    ret_conv = ("uint64_t " + ty_info.var_name + "_ref = ((uint64_t)&", ") | 1;")
                     if not holds_ref:
                         ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_copy = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n", "")
                         if ty_info.requires_clone == True: # Set in object array mapping
@@ -323,7 +323,7 @@ class TypeMappingGenerator:
                                 ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", "; // Warning: We likely need to clone here, but no clone is available for " + ty_inf.rust_obj + "\n")
                         else:
                             ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", ";\n")
-                        ret_conv = (ret_conv[0], ret_conv[1] + "long " + ty_info.var_name + "_ref = (long)" + ty_info.var_name + "_copy;")
+                        ret_conv = (ret_conv[0], ret_conv[1] + "uint64_t " + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_copy;")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ret_conv, ret_conv_name = ty_info.var_name + "_ref",
@@ -339,7 +339,7 @@ class TypeMappingGenerator:
                         ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ret_conv, ret_conv_name = "(long)" + ty_info.var_name + "_conv",
+                        ret_conv = ret_conv, ret_conv_name = "(uint64_t)" + ty_info.var_name + "_conv",
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + " != null ? " + ty_info.var_name + ".ptr : 0", ""))
                 if ty_info.rust_obj in self.tuple_types:
@@ -389,11 +389,11 @@ class TypeMappingGenerator:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                             ret_conv = ret_conv,
-                            ret_conv_name = "(long)" + ty_info.var_name + "_ref",
+                            ret_conv_name = "(uint64_t)" + ty_info.var_name + "_ref",
                             to_hu_conv = to_hu_conv, to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("long " + ty_info.var_name + "_ref = (long)(&", ") | 1;"), ret_conv_name = ty_info.var_name + "_ref",
+                        ret_conv = ("uint64_t " + ty_info.var_name + "_ref = (uint64_t)(&", ") | 1;"), ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = to_hu_conv, to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
 
                 # The manually-defined types - TxOut and u5
@@ -408,10 +408,10 @@ class TypeMappingGenerator:
                 if not ty_info.is_ptr and not holds_ref:
                     ret_conv = ("LDKTxOut* " + ty_info.var_name + "_ref = MALLOC(sizeof(LDKTxOut), \"LDKTxOut\");\n*" + ty_info.var_name + "_ref = ", ";")
                 else:
-                    ret_conv = ("long " + ty_info.var_name + "_ref = ((long)&", ") | 1;")
+                    ret_conv = ("uint64_t " + ty_info.var_name + "_ref = ((uint64_t)&", ") | 1;")
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                    ret_conv = ret_conv, ret_conv_name = "(long)" + ty_info.var_name + "_ref",
+                    ret_conv = ret_conv, ret_conv_name = "(uint64_t)" + ty_info.var_name + "_ref",
                     to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");",
                     to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
             elif ty_info.is_ptr:
@@ -420,7 +420,7 @@ class TypeMappingGenerator:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                         arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("long ret_" + ty_info.var_name + " = (long)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
+                        ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
@@ -445,20 +445,20 @@ class TypeMappingGenerator:
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
                             ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_clone = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n" +
                                 "*" + ty_info.var_name + "_clone = " + ty_info.rust_obj.replace("LDK", "") + "_clone(", ");"),
-                            ret_conv_name = "(long)" + ty_info.var_name + "_clone",
+                            ret_conv_name = "(uint64_t)" + ty_info.var_name + "_clone",
                             to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                             to_hu_conv_name = "ret_hu_conv",
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
-                            ret_conv = ("long ret_" + ty_info.var_name + " = (long)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
+                            ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
                             to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                             to_hu_conv_name = "ret_hu_conv",
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)(" + ty_info.var_name + " & ~1);",
                     arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                    ret_conv = ("long ret_" + ty_info.var_name + " = (long)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
+                    ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
                     to_hu_conv = "TODO 3", to_hu_conv_name = None, from_hu_conv = None) # its a pointer, no conv needed
             assert False # We should have handled every case by now.
