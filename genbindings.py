@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, re
+import sys, re, subprocess
 
 if len(sys.argv) < 7:
     print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang")
@@ -709,7 +709,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 write_c("\treturn tuple->" + e + ";\n")
             write_c("}\n")
 
-    out_java.write(consts.bindings_header)
+    local_git_version = subprocess.check_output(["git", "rev-parse", 'HEAD'])
+    out_java.write(consts.bindings_header.replace('<git_hash_ldk_garbagecollected>', local_git_version.decode("utf-8").strip()))
 
     with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "w") as out_java_struct:
         out_java_struct.write(consts.common_base)

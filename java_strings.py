@@ -40,6 +40,10 @@ public class bindings {
 	}
 	static native void init(java.lang.Class c, java.lang.Class slicedef);
 	static native void init_class_cache();
+	
+	public static String get_java_generator_version(){
+		return "<git_hash_ldk_garbagecollected>";
+	}
 
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);
