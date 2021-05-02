@@ -86,7 +86,7 @@ class CommonBase {
 
         if not DEBUG:
             self.c_file_pfx = self.c_file_pfx + """#define MALLOC(a, _) malloc(a)
-#define FREE(p) if ((long)(p) > 1024) { free(p); }
+#define FREE(p) if ((uint64_t)(p) > 1024) { free(p); }
 #define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
 """
@@ -162,7 +162,7 @@ static void alloc_freed(void* ptr) {
 	__real_free(it);
 }
 static void FREE(void* ptr) {
-	if ((long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
+	if ((uint64_t)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
 	alloc_freed(ptr);
 	__real_free(ptr);
 }
@@ -251,14 +251,14 @@ JNIEXPORT int64_t impl_bindings_bytes_1to_1u8_1vec (JNIEnv * env, jclass _b, jby
 	vec->datalen = (*env)->GetArrayLength(env, bytes);
 	vec->data = (uint8_t*)MALLOC(vec->datalen, "LDKCVec_u8Z Bytes");
 	(*env)->GetByteArrayRegion (env, bytes, 0, vec->datalen, vec->data);
-	return (long)vec;
+	return (uint64_t)vec;
 }
 JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_txpointer_1get_1buffer (JNIEnv * env, jclass _b, jlong ptr) {
 	LDKTransaction *txdata = (LDKTransaction*)ptr;
 	LDKu8slice slice;
 	slice.data = txdata->data;
 	slice.datalen = txdata->datalen;
-	return Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes(env, _b, (long)&slice);
+	return Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes(env, _b, (uint64_t)&slice);
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
 	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
@@ -266,7 +266,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data 
 	txdata->data = (uint8_t*)MALLOC(txdata->datalen, "Tx Data Bytes");
 	txdata->data_is_owned = false;
 	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
-	return (long)txdata;
+	return (uint64_t)txdata;
 }
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_txpointer_1free (JNIEnv * env, jclass _b, jlong ptr) {
 	LDKTransaction *tx = (LDKTransaction*)ptr;
@@ -281,7 +281,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_EventZ, datalen), "Vec<*> needs to be mapped identically");
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_C2Tuple_usizeTransactionZZ, datalen), "Vec<*> needs to be mapped identically");
 	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
-	return (long)vec->datalen;
+	return (uint64_t)vec->datalen;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec (JNIEnv * env, jclass _b) {
 	// Check sizes of a few Vec types are all consistent as we're meant to be generic across types
@@ -292,7 +292,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec (JNI
 	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)MALLOC(sizeof(LDKCVec_u8Z), "Empty LDKCVec");
 	vec->data = NULL;
 	vec->datalen = 0;
-	return (long)vec;
+	return (uint64_t)vec;
 }
 
 // We assume that CVec_u8Z and u8slice are the same size and layout (and thus pointers to the two can be mixed)
@@ -785,7 +785,7 @@ import java.util.Arrays;
             else:
                 out_c = out_c + ", " + var[1]
         out_c = out_c + ");\n"
-        out_c = out_c + "\treturn (long)res_ptr;\n"
+        out_c = out_c + "\treturn (uint64_t)res_ptr;\n"
         out_c = out_c + "}\n"
 
         return (out_java, out_java_trait, out_c)

@@ -693,7 +693,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     write_c("\tret->" + e + " = " + e + ";\n")
                 if ty_info.arg_conv_cleanup is not None:
                     write_c("\t//TODO: Really need to call " + ty_info.arg_conv_cleanup + " here\n")
-        write_c("\treturn (long)ret;\n")
+        write_c("\treturn (uint64_t)ret;\n")
         write_c("}\n")
 
         for idx, ty_info in enumerate(ty_list):
@@ -853,7 +853,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         if cleanup is not None:
                             write_c("\t\t" + cleanup + ";\n")
                         write_c("\t}\n")
-                        write_c("\treturn (long)ret;\n")
+                        write_c("\treturn (uint64_t)ret;\n")
                         write_c("}\n")
 
                     if ty_info.is_native_primitive:
