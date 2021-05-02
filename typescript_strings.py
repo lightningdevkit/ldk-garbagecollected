@@ -97,8 +97,7 @@ public static native long new_empty_slice_vec();
             }
 """
 
-        self.c_file_pfx = """#include <rust_types.h>
-#include "js-wasm.h"
+        self.c_file_pfx = """#include "js-wasm.h"
 #include <stdatomic.h>
 #include <lightning.h>
 

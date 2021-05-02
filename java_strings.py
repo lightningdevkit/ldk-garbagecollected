@@ -37,9 +37,21 @@ public class bindings {
 		System.loadLibrary(\"lightningjni\");
 		init(java.lang.Enum.class, VecOrSliceDef.class);
 		init_class_cache();
+		if (!get_lib_version_string().equals(get_ldk_java_bindings_version()))
+			throw new IllegalArgumentException("Compiled LDK library and LDK class failes do not match");
+		// Fetching the LDK versions from C also checks that the header and binaries match
+		get_ldk_c_bindings_version();
+		get_ldk_version();
 	}
 	static native void init(java.lang.Class c, java.lang.Class slicedef);
 	static native void init_class_cache();
+	static native String get_lib_version_string();
+
+	public static String get_ldk_java_bindings_version() {
+		return "<git_version_ldk_garbagecollected>";
+	}
+	public static native String get_ldk_c_bindings_version();
+	public static native String get_ldk_version();
 
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);
@@ -76,7 +88,6 @@ class CommonBase {
 """
 
         self.c_file_pfx = """#include \"org_ldk_impl_bindings.h\"
-#include <rust_types.h>
 #include <lightning.h>
 #include <string.h>
 #include <stdatomic.h>
@@ -125,6 +136,14 @@ void __attribute__((constructor)) spawn_stderr_redirection() {
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
 // Assert a is true or do nothing
 #define CHECK(a) DO_ASSERT(a)
+
+void __attribute__((constructor)) debug_log_version() {
+	if (check_get_ldk_version() == NULL)
+		DEBUG_PRINT("LDK version did not match the header we built against\\n");
+	if (check_get_ldk_bindings_version() == NULL)
+		DEBUG_PRINT("LDK C Bindings version did not match the header we built against\\n");
+	DEBUG_PRINT("Loaded LDK-Java Bindings with LDK %s and LDK-C-Bindings %s\\n", check_get_ldk_version(), check_get_ldk_bindings_version());
+}
 
 // Running a leak check across all the allocations and frees of the JDK is a mess,
 // so instead we implement our own naive leak checker here, relying on the -wrap
@@ -404,6 +423,16 @@ static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 		.chars_is_owned = true
 	};
 	return res;
+}
+
+JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
+	return str_ref_to_java(env, "<git_version_ldk_garbagecollected>", strlen("<git_version_ldk_garbagecollected>"));
+}
+JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1c_1bindings_1version(JNIEnv *env, jclass _c) {
+	return str_ref_to_java(env, check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
+}
+JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1version(JNIEnv *env, jclass _c) {
+	return str_ref_to_java(env, check_get_ldk_version(), strlen(check_get_ldk_version()));
 }
 """
 

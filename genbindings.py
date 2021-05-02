@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, re
+import sys, re, subprocess
 
 if len(sys.argv) < 7:
     print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang")
@@ -32,6 +32,8 @@ else:
 
 
 consts = Consts(DEBUG, target=target)
+
+local_git_version = subprocess.check_output(["git", "describe", '--tag', '--dirty']).decode("utf-8").strip()
 
 from bindingstypes import *
 
@@ -709,7 +711,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 write_c("\treturn tuple->" + e + ";\n")
             write_c("}\n")
 
-    out_java.write(consts.bindings_header)
+    out_java.write(consts.bindings_header.replace('<git_version_ldk_garbagecollected>', local_git_version))
 
     with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "w") as out_java_struct:
         out_java_struct.write(consts.common_base)
@@ -968,7 +970,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write("}\n")
 
 with open(sys.argv[4], "w") as out_c:
-    out_c.write(consts.c_file_pfx)
+    out_c.write(consts.c_file_pfx.replace('<git_version_ldk_garbagecollected>', local_git_version))
     out_c.write(consts.init_str())
     out_c.write(c_file)
 with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:
