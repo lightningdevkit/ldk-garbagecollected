@@ -96,15 +96,20 @@ class CommonBase {
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
 // Assert a is true or do nothing
 #define CHECK(a) DO_ASSERT(a)
-
+"""
+            if self.target == Target.ANDROID:
+                self.c_file_pfx = self.c_file_pfx + """
+#include <android/log.h>
+#define DEBUG_PRINT(...) __android_log_print(ANDROID_LOG_ERROR, "LDK", __VA_ARGS__)
+#define LDK_ANDROID_BUILD
+"""
+            else:
+                self.c_file_pfx = self.c_file_pfx + "#define DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__)"
+            self.c_file_pfx = self.c_file_pfx + """
 // Running a leak check across all the allocations and frees of the JDK is a mess,
 // so instead we implement our own naive leak checker here, relying on the -wrap
 // linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
 // and free'd in Rust or C across the generated bindings shared library.
-"""
-            if self.target == Target.ANDROID:
-                self.c_file_pfx = self.c_file_pfx + "#define LDK_ANDROID_BUILD"
-            self.c_file_pfx = self.c_file_pfx + """
 #include <threads.h>
 #ifndef LDK_ANDROID_BUILD
 #include <execinfo.h>
@@ -157,13 +162,13 @@ static void alloc_freed(void* ptr) {
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
 		if (it == NULL) {
-			fprintf(stderr, "Tried to free unknown pointer %p at:\\n", ptr);
+			DEBUG_PRINT("Tried to free unknown pointer %p at:\\n", ptr);
 #ifndef LDK_ANDROID_BUILD
 			void* bt[BT_MAX];
 			int bt_len = backtrace(bt, BT_MAX);
 			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
-#endif
 			fprintf(stderr, "\\n\\n");
+#endif
 			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
 			return; // addrsan should catch malloc-unknown and print more info than we have
 		}
@@ -210,21 +215,21 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 void __attribute__((destructor)) check_leaks() {
 	size_t alloc_count = 0;
 	size_t alloc_size = 0;
-	fprintf(stderr, "The following LDK-allocated blocks still remain.\\n");
-	fprintf(stderr, "Note that this is only accurate if System.gc(); System.runFinalization()\\n");
-	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
+	DEBUG_PRINT("The following LDK-allocated blocks still remain.\\n");
+	DEBUG_PRINT("Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	DEBUG_PRINT("was called prior to exit after all LDK objects were out of scope.\\n");
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		fprintf(stderr, "%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
+		DEBUG_PRINT("%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
 #ifndef LDK_ANDROID_BUILD
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
+		DEBUG_PRINT("\\n\\n");
 #endif
-		fprintf(stderr, "\\n\\n");
 		alloc_count++;
 		alloc_size += a->alloc_len;
 	}
-	fprintf(stderr, "%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
-	fprintf(stderr, "Note that this is only accurate if System.gc(); System.runFinalization()\\n");
-	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
+	DEBUG_PRINT("%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
+	DEBUG_PRINT("Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	DEBUG_PRINT("was called prior to exit after all LDK objects were out of scope.\\n");
 }
 """
         self.c_file_pfx = self.c_file_pfx + """
