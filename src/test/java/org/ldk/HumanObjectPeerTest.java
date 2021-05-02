@@ -517,7 +517,7 @@ class HumanObjectPeerTestInstance {
         if (use_nio_peer_handler) {
             peer1.nio_peer_handler.check_events();
             peer2.nio_peer_handler.check_events();
-            try { Thread.sleep(400); } catch (InterruptedException e) { assert false; }
+            try { Thread.sleep(500); } catch (InterruptedException e) { assert false; }
         } else {
             synchronized (runqueue) {
                 ran = false;
