@@ -263,7 +263,7 @@ public class PeerTest {
         assert peer1_chans.length == 1;
         assert peer2_chans.length == 1;
         assert bindings.ChannelDetails_get_channel_value_satoshis(peer1_chans[0]) == 10000;
-        assert bindings.ChannelDetails_get_is_live(peer1_chans[0]);
+        assert bindings.ChannelDetails_get_is_usable(peer1_chans[0]);
         assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer1_chans[0]), funding.getTxId().getReversedBytes());
         assert Arrays.equals(bindings.ChannelDetails_get_channel_id(peer2_chans[0]), funding.getTxId().getReversedBytes());
         for (long chan : peer2_chans) bindings.ChannelDetails_free(chan);

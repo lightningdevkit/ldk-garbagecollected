@@ -1043,8 +1043,12 @@ import java.util.Arrays;
             if doc_comment is not None:
                 out_java_struct += "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
             if not takes_self:
-                out_java_struct += (
-                    "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
+                if meth_n == "new":
+                    out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " of("
+                elif meth_n == "default":
+                    out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " with_default("
+                else:
+                    out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " " + meth_n + "("
             else:
                 out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
             for idx, arg in enumerate(argument_types):

@@ -135,7 +135,7 @@ class HumanObjectPeerTestInstance {
                     synchronized (monitors) {
                         assert monitors.put(Arrays.toString(funding_txo.get_txid()), monitor) == null;
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+                    return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
 
                 public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
@@ -145,7 +145,7 @@ class HumanObjectPeerTestInstance {
                         Result_NoneMonitorUpdateErrorZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
                         assert update_res instanceof Result_NoneMonitorUpdateErrorZ.Result_NoneMonitorUpdateErrorZ_OK;
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+                    return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
 
                 @Override
@@ -191,7 +191,7 @@ class HumanObjectPeerTestInstance {
             // Because get_funding_txo() returns an OutPoint in a tuple that is a reference to an OutPoint inside the
             // ChannelMonitor, its a good test to ensure that the OutPoint isn't freed (or is cloned) before the
             // ChannelMonitor is. This used to be broken.
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.constructor_BlockHashChannelMonitorZ_read(mon.write(), keys_interface);
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.BlockHashChannelMonitorZ_read(mon.write(), keys_interface);
             assert roundtrip_monitor instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
             TwoTuple<OutPoint, byte[]> funding_txo = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.b.get_funding_txo();
             System.gc(); System.runFinalization(); // Give the GC a chance to run.
@@ -216,7 +216,7 @@ class HumanObjectPeerTestInstance {
                         assert Arrays.equals(res.a.get_txid(), id.get_txid());
                         assert res.a.get_index() == id.get_index();
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+                    return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
 
                 @Override
@@ -228,7 +228,7 @@ class HumanObjectPeerTestInstance {
                         assert Arrays.equals(res.a.get_txid(), id.get_txid());
                         assert res.a.get_index() == id.get_index();
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+                    return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
             });
 
@@ -240,7 +240,7 @@ class HumanObjectPeerTestInstance {
                     }
                     @Override public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
                         filter_additions.add(Arrays.toString(output.get_outpoint().get_txid()) + ":" + output.get_outpoint().get_index());
-                        return Option_C2Tuple_usizeTransactionZZ.constructor_none();
+                        return Option_C2Tuple_usizeTransactionZZ.none();
                     }
                 });
             } else {
@@ -251,7 +251,7 @@ class HumanObjectPeerTestInstance {
                 chain_watch = get_manual_watch();
                 chain_monitor = null;
             } else {
-                chain_monitor = ChainMonitor.constructor_new(filter, tx_broadcaster, logger, fee_estimator, persister);
+                chain_monitor = ChainMonitor.of(filter, tx_broadcaster, logger, fee_estimator, persister);
                 chain_watch = chain_monitor.as_Watch();
             }
 
@@ -259,7 +259,7 @@ class HumanObjectPeerTestInstance {
             for (byte i = 0; i < 32; i++) {
                 key_seed[i] = (byte) (i ^ seed);
             }
-            KeysManager keys = KeysManager.constructor_new(key_seed, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000));
+            KeysManager keys = KeysManager.of(key_seed, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000));
             if (use_km_wrapper) {
                 this.keys_interface = manual_keysif(keys.as_KeysInterface());
                 this.explicit_keys_manager = null;
@@ -267,7 +267,7 @@ class HumanObjectPeerTestInstance {
                 this.keys_interface = keys.as_KeysInterface();
                 this.explicit_keys_manager = keys;
             }
-            this.router = NetGraphMsgHandler.constructor_new(new byte[32], null, logger);
+            this.router = NetGraphMsgHandler.of(new byte[32], null, logger);
         }
         private void bind_nio() {
             if (!use_nio_peer_handler) return;
@@ -284,7 +284,7 @@ class HumanObjectPeerTestInstance {
             this(null, seed);
             if (use_chan_manager_constructor) {
                 try {
-                    this.constructor = new ChannelManagerConstructor(LDKNetwork.LDKNetwork_Bitcoin, UserConfig.constructor_default(), new byte[32], 0,
+                    this.constructor = new ChannelManagerConstructor(LDKNetwork.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
                             this.keys_interface, this.fee_estimator, this.chain_monitor, this.tx_broadcaster, this.logger);
                     constructor.chain_sync_completed(new ChannelManagerConstructor.ChannelManagerPersister() {
                         @Override public void handle_events(Event[] events) {
@@ -301,7 +301,7 @@ class HumanObjectPeerTestInstance {
                     assert false;
                 }
             } else {
-                this.chan_manager = ChannelManager.constructor_new(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), LDKNetwork.LDKNetwork_Bitcoin, BestBlock.constructor_new(new byte[32], 0));
+                this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), LDKNetwork.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
             }
 
             this.node_id = chan_manager.get_our_node_id();
@@ -310,7 +310,7 @@ class HumanObjectPeerTestInstance {
             for (byte i = 0; i < 32; i++) {
                 random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
             }
-            this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+            this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
             bind_nio();
             System.gc();
         }
@@ -364,13 +364,13 @@ class HumanObjectPeerTestInstance {
                 } else {
                     byte[] serialized = orig.monitors.values().stream().iterator().next().write();
                     Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res =
-                            UtilMethods.constructor_BlockHashChannelMonitorZ_read(serialized, this.keys_interface);
+                            UtilMethods.BlockHashChannelMonitorZ_read(serialized, this.keys_interface);
                     assert res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
                     monitors[0] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.b;
                 }
                 byte[] serialized = orig.chan_manager.write();
                 Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
-                        UtilMethods.constructor_BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.constructor_default(), monitors);
+                        UtilMethods.BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.with_default(), monitors);
                 assert read_res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK;
                 this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
                 this.chain_watch.watch_channel(monitors[0].get_funding_txo().a, monitors[0]);
@@ -398,7 +398,7 @@ class HumanObjectPeerTestInstance {
             for (byte i = 0; i < 32; i++) {
                 random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
             }
-            this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+            this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
             bind_nio();
         }
 
@@ -490,7 +490,7 @@ class HumanObjectPeerTestInstance {
                 assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
                 byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
                 must_free_objs.add(new WeakReference<>(serialized_route));
-                Result_RouteDecodeErrorZ copy = Route.constructor_read(serialized_route);
+                Result_RouteDecodeErrorZ copy = Route.read(serialized_route);
                 assert copy instanceof Result_RouteDecodeErrorZ.Result_RouteDecodeErrorZ_OK;
                 bindings.CResult_RouteLightningErrorZ_free(res);
                 return ((Result_RouteDecodeErrorZ.Result_RouteDecodeErrorZ_OK) copy).res;
@@ -653,17 +653,17 @@ class HumanObjectPeerTestInstance {
         assert peer1_chans.length == 1;
         assert peer2_chans.length == 1;
         assert peer1_chans[0].get_channel_value_satoshis() == 10000;
-        assert peer1_chans[0].get_is_live();
+        assert peer1_chans[0].get_is_usable();
         Option_u64Z short_chan_id = peer1_chans[0].get_short_channel_id();
         assert short_chan_id instanceof Option_u64Z.Some;
         assert ((Option_u64Z.Some)short_chan_id).some == (1L << 40); // 0th output in the 0th transaction in the 1st block
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 
-        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.constructor_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, LDKCurrency.LDKCurrency_Bitcoin, Option_u64Z.constructor_none(), "Invoice Description");
+        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, LDKCurrency.LDKCurrency_Bitcoin, Option_u64Z.none(), "Invoice Description");
         assert invoice instanceof Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK;
         System.out.println("Got invoice: " + ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
-        Result_InvoiceNoneZ parsed_invoice = Invoice.constructor_from_str(((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
+        Result_InvoiceNoneZ parsed_invoice = Invoice.from_str(((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
         assert parsed_invoice instanceof Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK;
         assert Arrays.equals(((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res.payment_hash(), ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());
         SignedRawInvoice signed_raw = ((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res.into_signed_raw();
@@ -684,8 +684,8 @@ class HumanObjectPeerTestInstance {
         byte[] hop_pubkey = new byte[33];
         hop_pubkey[0] = 3;
         hop_pubkey[1] = 42;
-        hops[0][0] = RouteHop.constructor_new(hop_pubkey, NodeFeatures.constructor_known(), 42, ChannelFeatures.constructor_known(), 100, 0);
-        Route r2 = Route.constructor_new(hops);
+        hops[0][0] = RouteHop.of(hop_pubkey, NodeFeatures.known(), 42, ChannelFeatures.known(), 100, 0);
+        Route r2 = Route.of(hops);
         payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
 
