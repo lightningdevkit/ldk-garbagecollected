@@ -221,16 +221,19 @@ public class PeerTest {
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long events[] = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events);
-        assert events.length == 1;
-        bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events[0]);
+        ArrayList<Long> events = new ArrayList();
+        long handler = bindings.LDKEventHandler_new(events::add);
+
+        bindings.EventsProvider_process_pending_events(peer1.chan_manager_events, handler);
+        assert events.size() == 1;
+        bindings.LDKEvent event = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert event instanceof bindings.LDKEvent.FundingGenerationReady;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).channel_value_satoshis == 10000;
         assert ((bindings.LDKEvent.FundingGenerationReady)event).user_channel_id == 42;
         byte[] funding_spk = ((bindings.LDKEvent.FundingGenerationReady)event).output_script;
         assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
         byte[] chan_id = ((bindings.LDKEvent.FundingGenerationReady)event).temporary_channel_id;
-        bindings.CVec_EventZ_free(events);
+        bindings.Event_free(events.remove(0));
 
         Transaction funding = new Transaction(NetworkParameters.fromID(NetworkParameters.ID_MAINNET));
         funding.addInput(new TransactionInput(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), funding, new byte[0]));
@@ -291,30 +294,32 @@ public class PeerTest {
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long[] peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events);
-        assert peer2_events.length == 1;
-        bindings.LDKEvent forwardable = bindings.LDKEvent_ref_from_ptr(peer2_events[0]);
+        bindings.EventsProvider_process_pending_events(peer2.chan_manager_events, handler);
+        assert events.size() == 1;
+        bindings.LDKEvent forwardable = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert forwardable instanceof bindings.LDKEvent.PendingHTLCsForwardable;
-        bindings.CVec_EventZ_free(peer2_events);
+        bindings.Event_free(events.remove(0));
         bindings.ChannelManager_process_pending_htlc_forwards(peer2.chan_manager);
 
-        peer2_events = bindings.EventsProvider_get_and_clear_pending_events(peer2.chan_manager_events);
-        assert peer2_events.length == 1;
-        bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(peer2_events[0]);
+        bindings.EventsProvider_process_pending_events(peer2.chan_manager_events, handler);
+        assert events.size() == 1;
+        bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert payment_recvd instanceof bindings.LDKEvent.PaymentReceived;
         assert bindings.ChannelManager_claim_funds(peer2.chan_manager, ((bindings.LDKEvent.PaymentReceived) payment_recvd).payment_preimage);
-        bindings.CVec_EventZ_free(peer2_events);
+        bindings.Event_free(events.remove(0));
 
         bindings.PeerManager_process_events(peer2.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
         bindings.PeerManager_process_events(peer1.peer_manager);
         while (!list.isEmpty()) { list.poll().join(); }
 
-        long[] peer1_events = bindings.EventsProvider_get_and_clear_pending_events(peer1.chan_manager_events);
-        assert peer1_events.length == 1;
-        bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(peer1_events[0]);
+        bindings.EventsProvider_process_pending_events(peer1.chan_manager_events, handler);
+        assert events.size() == 1;
+        bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert sent instanceof bindings.LDKEvent.PaymentSent;
-        bindings.CVec_EventZ_free(peer1_events);
+        bindings.Event_free(events.remove(0));
+
+        bindings.EventHandler_free(handler);
 
         peer1.free();
         peer2.free();
