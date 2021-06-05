@@ -1034,7 +1034,7 @@ import java.util.Arrays;
         return out_opaque_struct_human
 
 
-    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator, doc_comment):
+    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None
@@ -1076,7 +1076,7 @@ import java.util.Arrays;
             for idx, arg in enumerate(argument_types):
                 if idx != 0:
                     if not takes_self or idx > 1:
-                        out_java_struct += (", ")
+                        out_java_struct += ", "
                 elif takes_self:
                     continue
                 if arg.java_ty != "void":
@@ -1177,6 +1177,8 @@ import java.util.Arrays;
                     else:
                         out_java_struct += ("\t\t" + info.from_hu_conv[1].replace("\n", "\n\t\t") + ";\n")
 
+            if takes_self and not takes_self_as_ref:
+                out_java_struct += "\t\t" + argument_types[0].from_hu_conv[1].replace("\n", "\n\t\t").replace("this_arg", "this") + ";\n"
             if return_type_info.to_hu_conv_name is not None:
                 out_java_struct += ("\t\treturn " + return_type_info.to_hu_conv_name + ";\n")
             elif return_type_info.java_ty != "void" and return_type_info.rust_obj != "LDK" + struct_meth:

@@ -416,12 +416,15 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         argument_types = []
         default_constructor_args = {}
         takes_self = False
+        takes_self_ptr = False
         args_known = True
 
         for argument_index, argument in enumerate(method_arguments):
             argument_conversion_info = type_mapping_generator.map_type(argument, False, None, is_free, True)
             if argument_index == 0 and argument_conversion_info.java_hu_ty == struct_meth:
                 takes_self = True
+                if argument_conversion_info.ty_info.is_ptr:
+                    takes_self_ptr = True
             if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
@@ -439,7 +442,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
         out_java.write("\t// " + line)
         (out_java_delta, out_c_delta, out_java_struct_delta) = \
-            consts.map_function(argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator, doc_comment)
+            consts.map_function(argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_ptr, args_known, type_mapping_generator, doc_comment)
         out_java.write(out_java_delta)
 
         if is_free:
