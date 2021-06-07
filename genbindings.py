@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, re, subprocess
+import os, sys, re, subprocess
 
 if len(sys.argv) < 7:
     print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang")
@@ -33,7 +33,9 @@ else:
 
 consts = Consts(DEBUG, target=target)
 
-local_git_version = subprocess.check_output(["git", "describe", '--tag', '--dirty']).decode("utf-8").strip()
+local_git_version = os.getenv("LDK_GARBAGECOLLECTED_GIT_OVERRIDE")
+if local_git_version is None:
+    local_git_version = subprocess.check_output(["git", "describe", '--tag', '--dirty']).decode("utf-8").strip()
 
 from bindingstypes import *
 

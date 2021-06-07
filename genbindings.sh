@@ -18,6 +18,10 @@ fi
 
 set -e
 
+if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
+	export LDK_GARBAGECOLLECTED_GIT_OVERRIDE=$(git describe --tag --dirty)
+fi
+
 cp "$1/lightning-c-bindings/include/lightning.h" ./
 if [ "$(rustc --version --verbose | grep "host:")" = "host: x86_64-apple-darwin" ]; then
 	# OSX sed is for some reason not compatible with GNU sed
