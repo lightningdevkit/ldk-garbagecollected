@@ -43,6 +43,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public boolean eq(RoutingFees b) {
+		boolean ret = bindings.RoutingFees_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
 	public RoutingFees clone() {
 		number ret = bindings.RoutingFees_clone(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
@@ -50,15 +56,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public Uint8Array write() {
+		Uint8Array ret = bindings.RoutingFees_write(this.ptr);
+		return ret;
+	}
+
 	public static Result_RoutingFeesDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.RoutingFees_read(ser);
 		Result_RoutingFeesDecodeErrorZ ret_hu_conv = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
-	}
-
-	public Uint8Array write() {
-		Uint8Array ret = bindings.RoutingFees_write(this.ptr);
-		return ret;
 	}
 
 }

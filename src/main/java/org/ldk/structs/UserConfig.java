@@ -78,7 +78,7 @@ public class UserConfig extends CommonBase {
 	/**
 	 * Constructs a new UserConfig given each field
 	 */
-	public static UserConfig constructor_new(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg) {
+	public static UserConfig of(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg) {
 		long ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1);
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -101,7 +101,7 @@ public class UserConfig extends CommonBase {
 	/**
 	 * Creates a "default" UserConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
-	public static UserConfig constructor_default() {
+	public static UserConfig with_default() {
 		long ret = bindings.UserConfig_default();
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

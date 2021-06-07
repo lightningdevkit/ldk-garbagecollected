@@ -122,7 +122,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	/**
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
-	public static NodeAnnouncementInfo constructor_new(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
+	public static NodeAnnouncementInfo of(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
 		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray(), announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -153,7 +153,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	/**
 	 * Read a NodeAnnouncementInfo from a byte array, created by NodeAnnouncementInfo_write
 	 */
-	public static Result_NodeAnnouncementInfoDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_NodeAnnouncementInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeAnnouncementInfo_read(ser);
 		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -54,7 +54,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	/**
 	 * Constructs a new CounterpartyChannelTransactionParameters given each field
 	 */
-	public static CounterpartyChannelTransactionParameters constructor_new(ChannelPublicKeys pubkeys_arg, short selected_contest_delay_arg) {
+	public static CounterpartyChannelTransactionParameters of(ChannelPublicKeys pubkeys_arg, short selected_contest_delay_arg) {
 		long ret = bindings.CounterpartyChannelTransactionParameters_new(pubkeys_arg == null ? 0 : pubkeys_arg.ptr & ~1, selected_contest_delay_arg);
 		CounterpartyChannelTransactionParameters ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -83,7 +83,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	/**
 	 * Read a CounterpartyChannelTransactionParameters from a byte array, created by CounterpartyChannelTransactionParameters_write
 	 */
-	public static Result_CounterpartyChannelTransactionParametersDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_CounterpartyChannelTransactionParametersDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.CounterpartyChannelTransactionParameters_read(ser);
 		Result_CounterpartyChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_CounterpartyChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

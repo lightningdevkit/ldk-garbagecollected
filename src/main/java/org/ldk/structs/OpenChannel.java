@@ -309,7 +309,7 @@ public class OpenChannel extends CommonBase {
 	/**
 	 * Read a OpenChannel from a byte array, created by OpenChannel_write
 	 */
-	public static Result_OpenChannelDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_OpenChannelDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.OpenChannel_read(ser);
 		Result_OpenChannelDecodeErrorZ ret_hu_conv = Result_OpenChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

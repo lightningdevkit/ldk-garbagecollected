@@ -84,7 +84,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	/**
 	 * Read a UpdateFailMalformedHTLC from a byte array, created by UpdateFailMalformedHTLC_write
 	 */
-	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_UpdateFailMalformedHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateFailMalformedHTLC_read(ser);
 		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

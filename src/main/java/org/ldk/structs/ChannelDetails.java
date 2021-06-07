@@ -40,6 +40,32 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
+	 * The Channel's funding transaction output, if we've negotiated the funding transaction with
+	 * our counterparty already.
+	 * 
+	 * Note that, if this has been set, `channel_id` will be equivalent to
+	 * `funding_txo.unwrap().to_channel_id()`.
+	 */
+	public OutPoint get_funding_txo() {
+		long ret = bindings.ChannelDetails_get_funding_txo(this.ptr);
+		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The Channel's funding transaction output, if we've negotiated the funding transaction with
+	 * our counterparty already.
+	 * 
+	 * Note that, if this has been set, `channel_id` will be equivalent to
+	 * `funding_txo.unwrap().to_channel_id()`.
+	 */
+	public void set_funding_txo(OutPoint val) {
+		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
+	/**
 	 * The position of the funding transaction in the chain. None if the funding transaction has
 	 * not yet been confirmed and the channel fully opened.
 	 */
@@ -170,20 +196,77 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
-	 * True if the channel is (a) confirmed and funding_locked messages have been exchanged, (b)
-	 * the peer is connected, and (c) no monitor update failure is pending resolution.
+	 * True if the channel was initiated (and thus funded) by us.
 	 */
-	public boolean get_is_live() {
-		boolean ret = bindings.ChannelDetails_get_is_live(this.ptr);
+	public boolean get_is_outbound() {
+		boolean ret = bindings.ChannelDetails_get_is_outbound(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * True if the channel was initiated (and thus funded) by us.
+	 */
+	public void set_is_outbound(boolean val) {
+		bindings.ChannelDetails_set_is_outbound(this.ptr, val);
+	}
+
+	/**
+	 * True if the channel is confirmed, funding_locked messages have been exchanged, and the
+	 * channel is not currently being shut down. `funding_locked` message exchange implies the
+	 * required confirmation count has been reached (and we were connected to the peer at some
+	 * point after the funding transaction received enough confirmations).
+	 */
+	public boolean get_is_funding_locked() {
+		boolean ret = bindings.ChannelDetails_get_is_funding_locked(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * True if the channel is confirmed, funding_locked messages have been exchanged, and the
+	 * channel is not currently being shut down. `funding_locked` message exchange implies the
+	 * required confirmation count has been reached (and we were connected to the peer at some
+	 * point after the funding transaction received enough confirmations).
+	 */
+	public void set_is_funding_locked(boolean val) {
+		bindings.ChannelDetails_set_is_funding_locked(this.ptr, val);
+	}
+
+	/**
+	 * True if the channel is (a) confirmed and funding_locked messages have been exchanged, (b)
+	 * the peer is connected, (c) no monitor update failure is pending resolution, and (d) the
+	 * channel is not currently negotiating a shutdown.
+	 * 
+	 * This is a strict superset of `is_funding_locked`.
+	 */
+	public boolean get_is_usable() {
+		boolean ret = bindings.ChannelDetails_get_is_usable(this.ptr);
 		return ret;
 	}
 
 	/**
 	 * True if the channel is (a) confirmed and funding_locked messages have been exchanged, (b)
-	 * the peer is connected, and (c) no monitor update failure is pending resolution.
+	 * the peer is connected, (c) no monitor update failure is pending resolution, and (d) the
+	 * channel is not currently negotiating a shutdown.
+	 * 
+	 * This is a strict superset of `is_funding_locked`.
 	 */
-	public void set_is_live(boolean val) {
-		bindings.ChannelDetails_set_is_live(this.ptr, val);
+	public void set_is_usable(boolean val) {
+		bindings.ChannelDetails_set_is_usable(this.ptr, val);
+	}
+
+	/**
+	 * True if this channel is (or will be) publicly-announced.
+	 */
+	public boolean get_is_public() {
+		boolean ret = bindings.ChannelDetails_get_is_public(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * True if this channel is (or will be) publicly-announced.
+	 */
+	public void set_is_public(boolean val) {
+		bindings.ChannelDetails_set_is_public(this.ptr, val);
 	}
 
 	/**

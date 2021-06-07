@@ -39,14 +39,14 @@ public class APIError extends CommonBase {
 	}
 
 	public final static class APIMisuseError extends APIError {
-		public final byte[] err;
+		public final String err;
 		private APIMisuseError(long ptr, bindings.LDKAPIError.APIMisuseError obj) {
 			super(null, ptr);
 			this.err = obj.err;
 		}
 	}
 	public final static class FeeRateTooHigh extends APIError {
-		public final byte[] err;
+		public final String err;
 		public final int feerate;
 		private FeeRateTooHigh(long ptr, bindings.LDKAPIError.FeeRateTooHigh obj) {
 			super(null, ptr);
@@ -62,7 +62,7 @@ public class APIError extends CommonBase {
 		}
 	}
 	public final static class ChannelUnavailable extends APIError {
-		public final byte[] err;
+		public final String err;
 		private ChannelUnavailable(long ptr, bindings.LDKAPIError.ChannelUnavailable obj) {
 			super(null, ptr);
 			this.err = obj.err;

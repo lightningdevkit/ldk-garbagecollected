@@ -49,7 +49,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	/**
 	 * Constructs a new COption_C2Tuple_usizeTransactionZZ containing a crate::c_types::derived::C2Tuple_usizeTransactionZ
 	 */
-	public static Option_C2Tuple_usizeTransactionZZ constructor_some(TwoTuple<Long, byte[]> o) {
+	public static Option_C2Tuple_usizeTransactionZZ some(TwoTuple<Long, byte[]> o) {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_some(bindings.C2Tuple_usizeTransactionZ_new(o.a, o.b));
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -59,10 +59,21 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	/**
 	 * Constructs a new COption_C2Tuple_usizeTransactionZZ containing nothing
 	 */
-	public static Option_C2Tuple_usizeTransactionZZ constructor_none() {
+	public static Option_C2Tuple_usizeTransactionZZ none() {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_none();
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new COption_C2Tuple_usizeTransactionZZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Option_C2Tuple_usizeTransactionZZ clone() {
+		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_clone(this.ptr);
+		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

@@ -130,7 +130,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	/**
 	 * Constructs a new DelayedPaymentOutputDescriptor given each field
 	 */
-	public static DelayedPaymentOutputDescriptor constructor_new(OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, TxOut output_arg, byte[] revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
+	public static DelayedPaymentOutputDescriptor of(OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, TxOut output_arg, byte[] revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
 		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, per_commitment_point_arg, to_self_delay_arg, output_arg.ptr, revocation_pubkey_arg, channel_keys_id_arg, channel_value_satoshis_arg);
 		DelayedPaymentOutputDescriptor ret_hu_conv = new DelayedPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -145,6 +145,23 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 		long ret = bindings.DelayedPaymentOutputDescriptor_clone(this.ptr);
 		DelayedPaymentOutputDescriptor ret_hu_conv = new DelayedPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the DelayedPaymentOutputDescriptor object into a byte array which can be read by DelayedPaymentOutputDescriptor_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.DelayedPaymentOutputDescriptor_write(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Read a DelayedPaymentOutputDescriptor from a byte array, created by DelayedPaymentOutputDescriptor_write
+	 */
+	public static Result_DelayedPaymentOutputDescriptorDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.DelayedPaymentOutputDescriptor_read(ser);
+		Result_DelayedPaymentOutputDescriptorDecodeErrorZ ret_hu_conv = Result_DelayedPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

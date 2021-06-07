@@ -41,7 +41,7 @@ public class HTLCUpdate extends CommonBase {
 	/**
 	 * Read a HTLCUpdate from a byte array, created by HTLCUpdate_write
 	 */
-	public static Result_HTLCUpdateDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_HTLCUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.HTLCUpdate_read(ser);
 		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -113,7 +113,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	/**
 	 * Constructs a new ChannelTransactionParameters given each field
 	 */
-	public static ChannelTransactionParameters constructor_new(ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg) {
+	public static ChannelTransactionParameters of(ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg) {
 		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr & ~1, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr & ~1);
 		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -178,7 +178,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	/**
 	 * Read a ChannelTransactionParameters from a byte array, created by ChannelTransactionParameters_write
 	 */
-	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ChannelTransactionParametersDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelTransactionParameters_read(ser);
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

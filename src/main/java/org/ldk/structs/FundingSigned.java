@@ -51,7 +51,7 @@ public class FundingSigned extends CommonBase {
 	/**
 	 * Constructs a new FundingSigned given each field
 	 */
-	public static FundingSigned constructor_new(byte[] channel_id_arg, byte[] signature_arg) {
+	public static FundingSigned of(byte[] channel_id_arg, byte[] signature_arg) {
 		long ret = bindings.FundingSigned_new(channel_id_arg, signature_arg);
 		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -79,7 +79,7 @@ public class FundingSigned extends CommonBase {
 	/**
 	 * Read a FundingSigned from a byte array, created by FundingSigned_write
 	 */
-	public static Result_FundingSignedDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_FundingSignedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.FundingSigned_read(ser);
 		Result_FundingSignedDecodeErrorZ ret_hu_conv = Result_FundingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

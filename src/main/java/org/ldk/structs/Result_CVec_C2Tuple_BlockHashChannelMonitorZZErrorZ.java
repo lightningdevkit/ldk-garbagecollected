@@ -41,7 +41,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	}
 
 	public static final class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_Err extends Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ {
-		public final LDKIOError err;
+		public final IOError err;
 		private Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_err(ptr);
@@ -51,7 +51,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ in the success state.
 	 */
-	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor_ok(TwoTuple<byte[], ChannelMonitor>[] o) {
+	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ok(TwoTuple<byte[], ChannelMonitor>[] o) {
 		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(Arrays.stream(o).mapToLong(o_conv_34 -> bindings.C2Tuple_BlockHashChannelMonitorZ_new(o_conv_34.a, o_conv_34.b == null ? 0 : o_conv_34.b.ptr & ~1)).toArray());
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		/* TODO 2 TwoTuple<byte[], ChannelMonitor>  */;
@@ -61,7 +61,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ in the error state.
 	 */
-	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor_err(LDKIOError e) {
+	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ err(IOError e) {
 		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e);
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

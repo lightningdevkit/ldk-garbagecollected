@@ -32,11 +32,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public void set_data(Uint8Array val) {
+	public void set_data(String val) {
 		bindings.ErrorMessage_set_data(this.ptr, val);
 	}
 
-	public static ErrorMessage constructor_new(Uint8Array channel_id_arg, Uint8Array data_arg) {
+	public static ErrorMessage constructor_new(Uint8Array channel_id_arg, String data_arg) {
 		number ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
 		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

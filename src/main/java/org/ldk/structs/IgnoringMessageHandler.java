@@ -22,7 +22,7 @@ public class IgnoringMessageHandler extends CommonBase {
 	/**
 	 * Constructs a new IgnoringMessageHandler given each field
 	 */
-	public static IgnoringMessageHandler constructor_new() {
+	public static IgnoringMessageHandler of() {
 		long ret = bindings.IgnoringMessageHandler_new();
 		IgnoringMessageHandler ret_hu_conv = new IgnoringMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

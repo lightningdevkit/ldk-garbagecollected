@@ -27,7 +27,7 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 	}
 
 	public static final class Result_SecretKeyErrorZ_Err extends Result_SecretKeyErrorZ {
-		public final LDKSecp256k1Error err;
+		public final Secp256k1Error err;
 		private Result_SecretKeyErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_SecretKeyErrorZ_get_err(ptr);
@@ -37,7 +37,7 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SecretKeyErrorZ in the success state.
 	 */
-	public static Result_SecretKeyErrorZ constructor_ok(byte[] o) {
+	public static Result_SecretKeyErrorZ ok(byte[] o) {
 		long ret = bindings.CResult_SecretKeyErrorZ_ok(o);
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -46,7 +46,7 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SecretKeyErrorZ in the error state.
 	 */
-	public static Result_SecretKeyErrorZ constructor_err(LDKSecp256k1Error e) {
+	public static Result_SecretKeyErrorZ err(Secp256k1Error e) {
 		long ret = bindings.CResult_SecretKeyErrorZ_err(e);
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

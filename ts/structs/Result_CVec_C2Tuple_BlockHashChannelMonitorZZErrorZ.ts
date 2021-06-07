@@ -38,7 +38,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	}
 
 	public static final class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_Err extends Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ {
-		public final LDKIOError err;
+		public final IOError err;
 		private Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_err(ptr);
@@ -52,7 +52,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 		return ret_hu_conv;
 	}
 
-	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor__err(LDKIOError e) {
+	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor__err(IOError e) {
 		number ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e);
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

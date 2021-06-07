@@ -40,7 +40,7 @@ public class PeerHandleError extends CommonBase {
 	/**
 	 * Constructs a new PeerHandleError given each field
 	 */
-	public static PeerHandleError constructor_new(boolean no_connection_possible_arg) {
+	public static PeerHandleError of(boolean no_connection_possible_arg) {
 		long ret = bindings.PeerHandleError_new(no_connection_possible_arg);
 		PeerHandleError ret_hu_conv = new PeerHandleError(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

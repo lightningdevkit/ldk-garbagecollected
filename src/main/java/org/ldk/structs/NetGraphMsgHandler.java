@@ -29,7 +29,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 * channel data is correct, and that the announcement is signed with
 	 * channel owners' keys.
 	 */
-	public static NetGraphMsgHandler constructor_new(byte[] genesis_hash, Access chain_access, Logger logger) {
+	public static NetGraphMsgHandler of(byte[] genesis_hash, Access chain_access, Logger logger) {
 		long ret = bindings.NetGraphMsgHandler_new(genesis_hash, chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr);
 		NetGraphMsgHandler ret_hu_conv = new NetGraphMsgHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -42,7 +42,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 * Creates a new tracker of the actual state of the network of channels and nodes,
 	 * assuming an existing Network Graph.
 	 */
-	public static NetGraphMsgHandler constructor_from_net_graph(Access chain_access, Logger logger, NetworkGraph network_graph) {
+	public static NetGraphMsgHandler from_net_graph(Access chain_access, Logger logger, NetworkGraph network_graph) {
 		long ret = bindings.NetGraphMsgHandler_from_net_graph(chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr, network_graph == null ? 0 : network_graph.ptr & ~1);
 		NetGraphMsgHandler ret_hu_conv = new NetGraphMsgHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

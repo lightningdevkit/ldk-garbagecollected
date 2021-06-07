@@ -63,24 +63,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelHandshakeLimits_set_min_max_accepted_htlcs(this.ptr, val);
 	}
 
-	public number get_min_dust_limit_satoshis() {
-		number ret = bindings.ChannelHandshakeLimits_get_min_dust_limit_satoshis(this.ptr);
-		return ret;
-	}
-
-	public void set_min_dust_limit_satoshis(number val) {
-		bindings.ChannelHandshakeLimits_set_min_dust_limit_satoshis(this.ptr, val);
-	}
-
-	public number get_max_dust_limit_satoshis() {
-		number ret = bindings.ChannelHandshakeLimits_get_max_dust_limit_satoshis(this.ptr);
-		return ret;
-	}
-
-	public void set_max_dust_limit_satoshis(number val) {
-		bindings.ChannelHandshakeLimits_set_max_dust_limit_satoshis(this.ptr, val);
-	}
-
 	public number get_max_minimum_depth() {
 		number ret = bindings.ChannelHandshakeLimits_get_max_minimum_depth(this.ptr);
 		return ret;
@@ -108,8 +90,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelHandshakeLimits_set_their_to_self_delay(this.ptr, val);
 	}
 
-	public static ChannelHandshakeLimits constructor_new(number min_funding_satoshis_arg, number max_htlc_minimum_msat_arg, number min_max_htlc_value_in_flight_msat_arg, number max_channel_reserve_satoshis_arg, number min_max_accepted_htlcs_arg, number min_dust_limit_satoshis_arg, number max_dust_limit_satoshis_arg, number max_minimum_depth_arg, boolean force_announced_channel_preference_arg, number their_to_self_delay_arg) {
-		number ret = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, min_dust_limit_satoshis_arg, max_dust_limit_satoshis_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
+	public static ChannelHandshakeLimits constructor_new(number min_funding_satoshis_arg, number max_htlc_minimum_msat_arg, number min_max_htlc_value_in_flight_msat_arg, number max_channel_reserve_satoshis_arg, number min_max_accepted_htlcs_arg, number max_minimum_depth_arg, boolean force_announced_channel_preference_arg, number their_to_self_delay_arg) {
+		number ret = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 		const ret_hu_conv: ChannelHandshakeLimits = new ChannelHandshakeLimits(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

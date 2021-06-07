@@ -35,7 +35,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CVec_SignatureZNoneZ in the success state.
 	 */
-	public static Result_CVec_SignatureZNoneZ constructor_ok(byte[][] o) {
+	public static Result_CVec_SignatureZNoneZ ok(byte[][] o) {
 		long ret = bindings.CResult_CVec_SignatureZNoneZ_ok(o);
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -44,7 +44,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CVec_SignatureZNoneZ in the error state.
 	 */
-	public static Result_CVec_SignatureZNoneZ constructor_err() {
+	public static Result_CVec_SignatureZNoneZ err() {
 		long ret = bindings.CResult_CVec_SignatureZNoneZ_err();
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

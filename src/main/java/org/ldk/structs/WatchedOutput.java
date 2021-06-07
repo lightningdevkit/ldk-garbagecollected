@@ -79,12 +79,30 @@ public class WatchedOutput extends CommonBase {
 	/**
 	 * Constructs a new WatchedOutput given each field
 	 */
-	public static WatchedOutput constructor_new(byte[] block_hash_arg, OutPoint outpoint_arg, byte[] script_pubkey_arg) {
+	public static WatchedOutput of(byte[] block_hash_arg, OutPoint outpoint_arg, byte[] script_pubkey_arg) {
 		long ret = bindings.WatchedOutput_new(block_hash_arg, outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
 		WatchedOutput ret_hu_conv = new WatchedOutput(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(outpoint_arg);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a copy of the WatchedOutput
+	 */
+	public WatchedOutput clone() {
+		long ret = bindings.WatchedOutput_clone(this.ptr);
+		WatchedOutput ret_hu_conv = new WatchedOutput(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two WatchedOutputs contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.WatchedOutput_hash(this.ptr);
+		return ret;
 	}
 
 }

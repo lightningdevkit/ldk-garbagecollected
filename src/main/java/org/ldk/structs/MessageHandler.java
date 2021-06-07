@@ -61,7 +61,7 @@ public class MessageHandler extends CommonBase {
 	/**
 	 * Constructs a new MessageHandler given each field
 	 */
-	public static MessageHandler constructor_new(ChannelMessageHandler chan_handler_arg, RoutingMessageHandler route_handler_arg) {
+	public static MessageHandler of(ChannelMessageHandler chan_handler_arg, RoutingMessageHandler route_handler_arg) {
 		long ret = bindings.MessageHandler_new(chan_handler_arg == null ? 0 : chan_handler_arg.ptr, route_handler_arg == null ? 0 : route_handler_arg.ptr);
 		MessageHandler ret_hu_conv = new MessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

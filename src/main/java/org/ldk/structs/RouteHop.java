@@ -127,7 +127,7 @@ public class RouteHop extends CommonBase {
 	/**
 	 * Constructs a new RouteHop given each field
 	 */
-	public static RouteHop constructor_new(byte[] pubkey_arg, NodeFeatures node_features_arg, long short_channel_id_arg, ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
+	public static RouteHop of(byte[] pubkey_arg, NodeFeatures node_features_arg, long short_channel_id_arg, ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
 		long ret = bindings.RouteHop_new(pubkey_arg, node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
 		RouteHop ret_hu_conv = new RouteHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -143,6 +143,23 @@ public class RouteHop extends CommonBase {
 		long ret = bindings.RouteHop_clone(this.ptr);
 		RouteHop ret_hu_conv = new RouteHop(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the RouteHop object into a byte array which can be read by RouteHop_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.RouteHop_write(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Read a RouteHop from a byte array, created by RouteHop_write
+	 */
+	public static Result_RouteHopDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.RouteHop_read(ser);
+		Result_RouteHopDecodeErrorZ ret_hu_conv = Result_RouteHopDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

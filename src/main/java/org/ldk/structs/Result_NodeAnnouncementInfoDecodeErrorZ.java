@@ -43,7 +43,7 @@ public class Result_NodeAnnouncementInfoDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NodeAnnouncementInfoDecodeErrorZ in the success state.
 	 */
-	public static Result_NodeAnnouncementInfoDecodeErrorZ constructor_ok(NodeAnnouncementInfo o) {
+	public static Result_NodeAnnouncementInfoDecodeErrorZ ok(NodeAnnouncementInfo o) {
 		long ret = bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_NodeAnnouncementInfoDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NodeAnnouncementInfoDecodeErrorZ in the error state.
 	 */
-	public static Result_NodeAnnouncementInfoDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_NodeAnnouncementInfoDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

@@ -19,6 +19,17 @@ public class ChannelFeatures extends CommonBase {
 	}
 
 	/**
+	 * Checks if two ChannelFeaturess contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(ChannelFeatures b) {
+		boolean ret = bindings.ChannelFeatures_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
+	/**
 	 * Creates a copy of the ChannelFeatures
 	 */
 	public ChannelFeatures clone() {
@@ -31,7 +42,7 @@ public class ChannelFeatures extends CommonBase {
 	/**
 	 * Create a blank Features with no features set
 	 */
-	public static ChannelFeatures constructor_empty() {
+	public static ChannelFeatures empty() {
 		long ret = bindings.ChannelFeatures_empty();
 		ChannelFeatures ret_hu_conv = new ChannelFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -41,7 +52,7 @@ public class ChannelFeatures extends CommonBase {
 	/**
 	 * Creates a Features with the bits set which are known by the implementation
 	 */
-	public static ChannelFeatures constructor_known() {
+	public static ChannelFeatures known() {
 		long ret = bindings.ChannelFeatures_known();
 		ChannelFeatures ret_hu_conv = new ChannelFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -59,7 +70,7 @@ public class ChannelFeatures extends CommonBase {
 	/**
 	 * Read a ChannelFeatures from a byte array, created by ChannelFeatures_write
 	 */
-	public static Result_ChannelFeaturesDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ChannelFeaturesDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelFeatures_read(ser);
 		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

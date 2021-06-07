@@ -54,7 +54,7 @@ public class NodeAnnouncement extends CommonBase {
 	/**
 	 * Constructs a new NodeAnnouncement given each field
 	 */
-	public static NodeAnnouncement constructor_new(byte[] signature_arg, UnsignedNodeAnnouncement contents_arg) {
+	public static NodeAnnouncement of(byte[] signature_arg, UnsignedNodeAnnouncement contents_arg) {
 		long ret = bindings.NodeAnnouncement_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -83,7 +83,7 @@ public class NodeAnnouncement extends CommonBase {
 	/**
 	 * Read a NodeAnnouncement from a byte array, created by NodeAnnouncement_write
 	 */
-	public static Result_NodeAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_NodeAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeAnnouncement_read(ser);
 		Result_NodeAnnouncementDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

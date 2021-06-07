@@ -53,7 +53,7 @@ public class Ping extends CommonBase {
 	/**
 	 * Constructs a new Ping given each field
 	 */
-	public static Ping constructor_new(short ponglen_arg, short byteslen_arg) {
+	public static Ping of(short ponglen_arg, short byteslen_arg) {
 		long ret = bindings.Ping_new(ponglen_arg, byteslen_arg);
 		Ping ret_hu_conv = new Ping(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -81,7 +81,7 @@ public class Ping extends CommonBase {
 	/**
 	 * Read a Ping from a byte array, created by Ping_write
 	 */
-	public static Result_PingDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_PingDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Ping_read(ser);
 		Result_PingDecodeErrorZ ret_hu_conv = Result_PingDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

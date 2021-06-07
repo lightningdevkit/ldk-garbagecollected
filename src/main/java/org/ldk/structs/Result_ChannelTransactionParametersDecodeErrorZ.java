@@ -43,7 +43,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	/**
 	 * Creates a new CResult_ChannelTransactionParametersDecodeErrorZ in the success state.
 	 */
-	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_ok(ChannelTransactionParameters o) {
+	public static Result_ChannelTransactionParametersDecodeErrorZ ok(ChannelTransactionParameters o) {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	/**
 	 * Creates a new CResult_ChannelTransactionParametersDecodeErrorZ in the error state.
 	 */
-	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_ChannelTransactionParametersDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

@@ -43,7 +43,7 @@ public class Result_ChannelMonitorUpdateDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelMonitorUpdateDecodeErrorZ in the success state.
 	 */
-	public static Result_ChannelMonitorUpdateDecodeErrorZ constructor_ok(ChannelMonitorUpdate o) {
+	public static Result_ChannelMonitorUpdateDecodeErrorZ ok(ChannelMonitorUpdate o) {
 		long ret = bindings.CResult_ChannelMonitorUpdateDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ChannelMonitorUpdateDecodeErrorZ ret_hu_conv = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_ChannelMonitorUpdateDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelMonitorUpdateDecodeErrorZ in the error state.
 	 */
-	public static Result_ChannelMonitorUpdateDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_ChannelMonitorUpdateDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ChannelMonitorUpdateDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ChannelMonitorUpdateDecodeErrorZ ret_hu_conv = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

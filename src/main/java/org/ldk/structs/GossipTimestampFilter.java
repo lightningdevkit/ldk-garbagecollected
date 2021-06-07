@@ -68,7 +68,7 @@ public class GossipTimestampFilter extends CommonBase {
 	/**
 	 * Constructs a new GossipTimestampFilter given each field
 	 */
-	public static GossipTimestampFilter constructor_new(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg) {
+	public static GossipTimestampFilter of(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg) {
 		long ret = bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg);
 		GossipTimestampFilter ret_hu_conv = new GossipTimestampFilter(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -88,7 +88,7 @@ public class GossipTimestampFilter extends CommonBase {
 	/**
 	 * Read a GossipTimestampFilter from a byte array, created by GossipTimestampFilter_write
 	 */
-	public static Result_GossipTimestampFilterDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_GossipTimestampFilterDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.GossipTimestampFilter_read(ser);
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

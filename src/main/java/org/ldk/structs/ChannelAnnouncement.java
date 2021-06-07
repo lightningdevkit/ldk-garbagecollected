@@ -99,7 +99,7 @@ public class ChannelAnnouncement extends CommonBase {
 	/**
 	 * Constructs a new ChannelAnnouncement given each field
 	 */
-	public static ChannelAnnouncement constructor_new(byte[] node_signature_1_arg, byte[] node_signature_2_arg, byte[] bitcoin_signature_1_arg, byte[] bitcoin_signature_2_arg, UnsignedChannelAnnouncement contents_arg) {
+	public static ChannelAnnouncement of(byte[] node_signature_1_arg, byte[] node_signature_2_arg, byte[] bitcoin_signature_1_arg, byte[] bitcoin_signature_2_arg, UnsignedChannelAnnouncement contents_arg) {
 		long ret = bindings.ChannelAnnouncement_new(node_signature_1_arg, node_signature_2_arg, bitcoin_signature_1_arg, bitcoin_signature_2_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -128,7 +128,7 @@ public class ChannelAnnouncement extends CommonBase {
 	/**
 	 * Read a ChannelAnnouncement from a byte array, created by ChannelAnnouncement_write
 	 */
-	public static Result_ChannelAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ChannelAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelAnnouncement_read(ser);
 		Result_ChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -166,7 +166,7 @@ public class ChannelConfig extends CommonBase {
 	/**
 	 * Constructs a new ChannelConfig given each field
 	 */
-	public static ChannelConfig constructor_new(int fee_proportional_millionths_arg, short cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
+	public static ChannelConfig of(int fee_proportional_millionths_arg, short cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
 		long ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -186,7 +186,7 @@ public class ChannelConfig extends CommonBase {
 	/**
 	 * Creates a "default" ChannelConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
-	public static ChannelConfig constructor_default() {
+	public static ChannelConfig with_default() {
 		long ret = bindings.ChannelConfig_default();
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -204,7 +204,7 @@ public class ChannelConfig extends CommonBase {
 	/**
 	 * Read a ChannelConfig from a byte array, created by ChannelConfig_write
 	 */
-	public static Result_ChannelConfigDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ChannelConfigDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelConfig_read(ser);
 		Result_ChannelConfigDecodeErrorZ ret_hu_conv = Result_ChannelConfigDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

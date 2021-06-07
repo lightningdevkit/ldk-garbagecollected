@@ -124,7 +124,7 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Create a new InMemorySigner
 	 */
-	public static InMemorySigner constructor_new(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
+	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
 		long ret = bindings.InMemorySigner_new(funding_key, revocation_base_key, payment_key, delayed_payment_base_key, htlc_base_key, commitment_seed, channel_value_satoshis, channel_keys_id);
 		InMemorySigner ret_hu_conv = new InMemorySigner(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -259,7 +259,7 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
 	 */
-	public static Result_InMemorySignerDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.InMemorySigner_read(ser);
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

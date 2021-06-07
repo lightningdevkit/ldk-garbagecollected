@@ -45,7 +45,7 @@ public class KeysManager extends CommonBase {
 	 * versions. Once the library is more fully supported, the docs will be updated to include a
 	 * detailed description of the guarantee.
 	 */
-	public static KeysManager constructor_new(byte[] seed, long starting_time_secs, int starting_time_nanos) {
+	public static KeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos) {
 		long ret = bindings.KeysManager_new(seed, starting_time_secs, starting_time_nanos);
 		KeysManager ret_hu_conv = new KeysManager(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

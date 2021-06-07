@@ -38,7 +38,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TrustedCommitmentTransactionNoneZ in the success state.
 	 */
-	public static Result_TrustedCommitmentTransactionNoneZ constructor_ok(TrustedCommitmentTransaction o) {
+	public static Result_TrustedCommitmentTransactionNoneZ ok(TrustedCommitmentTransaction o) {
 		long ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -56,7 +56,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TrustedCommitmentTransactionNoneZ in the error state.
 	 */
-	public static Result_TrustedCommitmentTransactionNoneZ constructor_err() {
+	public static Result_TrustedCommitmentTransactionNoneZ err() {
 		long ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_err();
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

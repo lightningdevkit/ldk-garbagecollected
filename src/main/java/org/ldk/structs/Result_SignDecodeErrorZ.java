@@ -43,7 +43,7 @@ public class Result_SignDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SignDecodeErrorZ in the success state.
 	 */
-	public static Result_SignDecodeErrorZ constructor_ok(Sign o) {
+	public static Result_SignDecodeErrorZ ok(Sign o) {
 		long ret = bindings.CResult_SignDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_SignDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SignDecodeErrorZ in the error state.
 	 */
-	public static Result_SignDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_SignDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_SignDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

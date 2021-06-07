@@ -25,7 +25,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public static BestBlock constructor_from_genesis(LDKNetwork network) {
+	public static BestBlock constructor_from_genesis(Network network) {
 		number ret = bindings.BestBlock_from_genesis(network);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

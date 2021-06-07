@@ -43,7 +43,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UpdateFeeDecodeErrorZ in the success state.
 	 */
-	public static Result_UpdateFeeDecodeErrorZ constructor_ok(UpdateFee o) {
+	public static Result_UpdateFeeDecodeErrorZ ok(UpdateFee o) {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UpdateFeeDecodeErrorZ in the error state.
 	 */
-	public static Result_UpdateFeeDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_UpdateFeeDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

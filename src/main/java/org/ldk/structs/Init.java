@@ -39,7 +39,7 @@ public class Init extends CommonBase {
 	/**
 	 * Constructs a new Init given each field
 	 */
-	public static Init constructor_new(InitFeatures features_arg) {
+	public static Init of(InitFeatures features_arg) {
 		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr & ~1);
 		Init ret_hu_conv = new Init(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -68,7 +68,7 @@ public class Init extends CommonBase {
 	/**
 	 * Read a Init from a byte array, created by Init_write
 	 */
-	public static Result_InitDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_InitDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Init_read(ser);
 		Result_InitDecodeErrorZ ret_hu_conv = Result_InitDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

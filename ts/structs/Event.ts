@@ -47,13 +47,17 @@ export class FundingGenerationReady extends Event {
 }
 export class PaymentReceived extends Event {
 	public payment_hash: Uint8Array;
+	public payment_preimage: Uint8Array;
 	public payment_secret: Uint8Array;
 	public amt: number;
+	public user_payment_id: number;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentReceived) {
 		super(null, ptr);
 		this.payment_hash = obj.payment_hash;
+		this.payment_preimage = obj.payment_preimage;
 		this.payment_secret = obj.payment_secret;
 		this.amt = obj.amt;
+		this.user_payment_id = obj.user_payment_id;
 	}
 }
 export class PaymentSent extends Event {

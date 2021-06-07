@@ -84,12 +84,29 @@ public class BaseSign extends CommonBase {
 		 */
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx);
 		/**
-		 * Create a signature for the given input in a transaction spending an HTLC or commitment
-		 * transaction output when our counterparty broadcasts an old state.
+		 * Create a signature for the given input in a transaction spending an HTLC transaction output
+		 * or a commitment transaction `to_local` output when our counterparty broadcasts an old state.
 		 * 
-		 * A justice transaction may claim multiples outputs at the same time if timelocks are
+		 * A justice transaction may claim multiple outputs at the same time if timelocks are
 		 * similar, but only a signature for the input at index `input` should be signed for here.
-		 * It may be called multiples time for same output(s) if a fee-bump is needed with regards
+		 * It may be called multiple times for same output(s) if a fee-bump is needed with regards
+		 * to an upcoming timelock expiration.
+		 * 
+		 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+		 * 
+		 * per_commitment_key is revocation secret which was provided by our counterparty when they
+		 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
+		 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
+		 * so).
+		 */
+		Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key);
+		/**
+		 * Create a signature for the given input in a transaction spending a commitment transaction
+		 * HTLC output when our counterparty broadcasts an old state.
+		 * 
+		 * A justice transaction may claim multiple outputs at the same time if timelocks are
+		 * similar, but only a signature for the input at index `input` should be signed for here.
+		 * It may be called multiple times for same output(s) if a fee-bump is needed with regards
 		 * to an upcoming timelock expiration.
 		 * 
 		 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
@@ -99,11 +116,10 @@ public class BaseSign extends CommonBase {
 		 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
 		 * so).
 		 * 
-		 * htlc holds HTLC elements (hash, timelock) if the output being spent is a HTLC output, thus
-		 * changing the format of the witness script (which is committed to in the BIP 143
-		 * signatures).
+		 * htlc holds HTLC elements (hash, timelock), thus changing the format of the witness script
+		 * (which is committed to in the BIP 143 signatures).
 		 */
-		Result_SignatureNoneZ sign_justice_transaction(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc);
+		Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc);
 		/**
 		 * Create a signature for a claiming transaction for a HTLC output on a counterparty's commitment
 		 * transaction, either offered or received.
@@ -182,9 +198,14 @@ public class BaseSign extends CommonBase {
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
-			@Override public long sign_justice_transaction(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc) {
+			@Override public long sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
+				Result_SignatureNoneZ ret = arg.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
+				long result = ret != null ? ret.ptr : 0;
+				return result;
+			}
+			@Override public long sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc) {
 				HTLCOutputInCommitment htlc_hu_conv = new HTLCOutputInCommitment(null, htlc);
-				Result_SignatureNoneZ ret = arg.sign_justice_transaction(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
+				Result_SignatureNoneZ ret = arg.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
@@ -280,12 +301,34 @@ public class BaseSign extends CommonBase {
 	}
 
 	/**
-	 * Create a signature for the given input in a transaction spending an HTLC or commitment
-	 * transaction output when our counterparty broadcasts an old state.
+	 * Create a signature for the given input in a transaction spending an HTLC transaction output
+	 * or a commitment transaction `to_local` output when our counterparty broadcasts an old state.
 	 * 
-	 * A justice transaction may claim multiples outputs at the same time if timelocks are
+	 * A justice transaction may claim multiple outputs at the same time if timelocks are
 	 * similar, but only a signature for the input at index `input` should be signed for here.
-	 * It may be called multiples time for same output(s) if a fee-bump is needed with regards
+	 * It may be called multiple times for same output(s) if a fee-bump is needed with regards
+	 * to an upcoming timelock expiration.
+	 * 
+	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
+	 * 
+	 * per_commitment_key is revocation secret which was provided by our counterparty when they
+	 * revoked the state which they eventually broadcast. It's not a _holder_ secret key and does
+	 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
+	 * so).
+	 */
+	public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
+		long ret = bindings.BaseSign_sign_justice_revoked_output(this.ptr, justice_tx, input, amount, per_commitment_key);
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Create a signature for the given input in a transaction spending a commitment transaction
+	 * HTLC output when our counterparty broadcasts an old state.
+	 * 
+	 * A justice transaction may claim multiple outputs at the same time if timelocks are
+	 * similar, but only a signature for the input at index `input` should be signed for here.
+	 * It may be called multiple times for same output(s) if a fee-bump is needed with regards
 	 * to an upcoming timelock expiration.
 	 * 
 	 * Amount is value of the output spent by this input, committed to in the BIP 143 signature.
@@ -295,12 +338,11 @@ public class BaseSign extends CommonBase {
 	 * not allow the spending of any funds by itself (you need our holder revocation_secret to do
 	 * so).
 	 * 
-	 * htlc holds HTLC elements (hash, timelock) if the output being spent is a HTLC output, thus
-	 * changing the format of the witness script (which is committed to in the BIP 143
-	 * signatures).
+	 * htlc holds HTLC elements (hash, timelock), thus changing the format of the witness script
+	 * (which is committed to in the BIP 143 signatures).
 	 */
-	public Result_SignatureNoneZ sign_justice_transaction(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
-		long ret = bindings.BaseSign_sign_justice_transaction(this.ptr, justice_tx, input, amount, per_commitment_key, htlc == null ? 0 : htlc.ptr & ~1);
+	public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
+		long ret = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, per_commitment_key, htlc == null ? 0 : htlc.ptr & ~1);
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(htlc);
 		return ret_hu_conv;

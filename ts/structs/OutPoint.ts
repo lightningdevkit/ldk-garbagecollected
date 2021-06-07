@@ -50,6 +50,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public boolean eq(OutPoint b) {
+		boolean ret = bindings.OutPoint_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
+	public number hash() {
+		number ret = bindings.OutPoint_hash(this.ptr);
+		return ret;
+	}
+
 	public Uint8Array to_channel_id() {
 		Uint8Array ret = bindings.OutPoint_to_channel_id(this.ptr);
 		return ret;

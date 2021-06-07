@@ -43,7 +43,7 @@ public class Option_u32Z extends CommonBase {
 	/**
 	 * Constructs a new COption_u32Z containing a u32
 	 */
-	public static Option_u32Z constructor_some(int o) {
+	public static Option_u32Z some(int o) {
 		long ret = bindings.COption_u32Z_some(o);
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -53,7 +53,7 @@ public class Option_u32Z extends CommonBase {
 	/**
 	 * Constructs a new COption_u32Z containing nothing
 	 */
-	public static Option_u32Z constructor_none() {
+	public static Option_u32Z none() {
 		long ret = bindings.COption_u32Z_none();
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

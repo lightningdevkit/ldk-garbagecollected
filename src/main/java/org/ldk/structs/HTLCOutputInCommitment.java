@@ -110,7 +110,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	/**
 	 * Constructs a new HTLCOutputInCommitment given each field
 	 */
-	public static HTLCOutputInCommitment constructor_new(boolean offered_arg, long amount_msat_arg, int cltv_expiry_arg, byte[] payment_hash_arg, Option_u32Z transaction_output_index_arg) {
+	public static HTLCOutputInCommitment of(boolean offered_arg, long amount_msat_arg, int cltv_expiry_arg, byte[] payment_hash_arg, Option_u32Z transaction_output_index_arg) {
 		long ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, payment_hash_arg, transaction_output_index_arg.ptr);
 		HTLCOutputInCommitment ret_hu_conv = new HTLCOutputInCommitment(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -138,7 +138,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	/**
 	 * Read a HTLCOutputInCommitment from a byte array, created by HTLCOutputInCommitment_write
 	 */
-	public static Result_HTLCOutputInCommitmentDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_HTLCOutputInCommitmentDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.HTLCOutputInCommitment_read(ser);
 		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

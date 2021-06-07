@@ -22,7 +22,7 @@ public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 	}
 
 	public static final class Result_NoneChannelMonitorUpdateErrZ_Err extends Result_NoneChannelMonitorUpdateErrZ {
-		public final LDKChannelMonitorUpdateErr err;
+		public final ChannelMonitorUpdateErr err;
 		private Result_NoneChannelMonitorUpdateErrZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(ptr);
@@ -35,7 +35,7 @@ public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static Result_NoneChannelMonitorUpdateErrZ constructor__err(LDKChannelMonitorUpdateErr e) {
+	public static Result_NoneChannelMonitorUpdateErrZ constructor__err(ChannelMonitorUpdateErr e) {
 		number ret = bindings.CResult_NoneChannelMonitorUpdateErrZ_err(e);
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;

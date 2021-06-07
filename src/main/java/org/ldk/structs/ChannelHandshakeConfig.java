@@ -116,7 +116,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 	/**
 	 * Constructs a new ChannelHandshakeConfig given each field
 	 */
-	public static ChannelHandshakeConfig constructor_new(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg) {
+	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg) {
 		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
 		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -136,7 +136,7 @@ public class ChannelHandshakeConfig extends CommonBase {
 	/**
 	 * Creates a "default" ChannelHandshakeConfig. See struct and individual field documentaiton for details on which values are used.
 	 */
-	public static ChannelHandshakeConfig constructor_default() {
+	public static ChannelHandshakeConfig with_default() {
 		long ret = bindings.ChannelHandshakeConfig_default();
 		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

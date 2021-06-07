@@ -25,15 +25,15 @@ public class ChainParameters extends CommonBase {
 	/**
 	 * The network for determining the `chain_hash` in Lightning messages.
 	 */
-	public LDKNetwork get_network() {
-		LDKNetwork ret = bindings.ChainParameters_get_network(this.ptr);
+	public Network get_network() {
+		Network ret = bindings.ChainParameters_get_network(this.ptr);
 		return ret;
 	}
 
 	/**
 	 * The network for determining the `chain_hash` in Lightning messages.
 	 */
-	public void set_network(LDKNetwork val) {
+	public void set_network(Network val) {
 		bindings.ChainParameters_set_network(this.ptr, val);
 	}
 
@@ -62,11 +62,21 @@ public class ChainParameters extends CommonBase {
 	/**
 	 * Constructs a new ChainParameters given each field
 	 */
-	public static ChainParameters constructor_new(LDKNetwork network_arg, BestBlock best_block_arg) {
+	public static ChainParameters of(Network network_arg, BestBlock best_block_arg) {
 		long ret = bindings.ChainParameters_new(network_arg, best_block_arg == null ? 0 : best_block_arg.ptr & ~1);
 		ChainParameters ret_hu_conv = new ChainParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(best_block_arg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a copy of the ChainParameters
+	 */
+	public ChainParameters clone() {
+		long ret = bindings.ChainParameters_clone(this.ptr);
+		ChainParameters ret_hu_conv = new ChainParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

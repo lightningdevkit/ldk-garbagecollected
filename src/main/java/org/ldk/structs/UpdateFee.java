@@ -51,7 +51,7 @@ public class UpdateFee extends CommonBase {
 	/**
 	 * Constructs a new UpdateFee given each field
 	 */
-	public static UpdateFee constructor_new(byte[] channel_id_arg, int feerate_per_kw_arg) {
+	public static UpdateFee of(byte[] channel_id_arg, int feerate_per_kw_arg) {
 		long ret = bindings.UpdateFee_new(channel_id_arg, feerate_per_kw_arg);
 		UpdateFee ret_hu_conv = new UpdateFee(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -79,7 +79,7 @@ public class UpdateFee extends CommonBase {
 	/**
 	 * Read a UpdateFee from a byte array, created by UpdateFee_write
 	 */
-	public static Result_UpdateFeeDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_UpdateFeeDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateFee_read(ser);
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

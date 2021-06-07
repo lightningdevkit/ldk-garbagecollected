@@ -84,7 +84,7 @@ public class ChannelReestablish extends CommonBase {
 	/**
 	 * Read a ChannelReestablish from a byte array, created by ChannelReestablish_write
 	 */
-	public static Result_ChannelReestablishDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ChannelReestablishDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelReestablish_read(ser);
 		Result_ChannelReestablishDecodeErrorZ ret_hu_conv = Result_ChannelReestablishDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

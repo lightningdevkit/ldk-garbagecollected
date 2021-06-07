@@ -147,7 +147,7 @@ public class ChannelInfo extends CommonBase {
 	/**
 	 * Constructs a new ChannelInfo given each field
 	 */
-	public static ChannelInfo constructor_new(ChannelFeatures features_arg, byte[] node_one_arg, DirectionalChannelInfo one_to_two_arg, byte[] node_two_arg, DirectionalChannelInfo two_to_one_arg, Option_u64Z capacity_sats_arg, ChannelAnnouncement announcement_message_arg) {
+	public static ChannelInfo of(ChannelFeatures features_arg, byte[] node_one_arg, DirectionalChannelInfo one_to_two_arg, byte[] node_two_arg, DirectionalChannelInfo two_to_one_arg, Option_u64Z capacity_sats_arg, ChannelAnnouncement announcement_message_arg) {
 		long ret = bindings.ChannelInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, node_one_arg, one_to_two_arg == null ? 0 : one_to_two_arg.ptr & ~1, node_two_arg, two_to_one_arg == null ? 0 : two_to_one_arg.ptr & ~1, capacity_sats_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		ChannelInfo ret_hu_conv = new ChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -179,7 +179,7 @@ public class ChannelInfo extends CommonBase {
 	/**
 	 * Read a ChannelInfo from a byte array, created by ChannelInfo_write
 	 */
-	public static Result_ChannelInfoDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ChannelInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelInfo_read(ser);
 		Result_ChannelInfoDecodeErrorZ ret_hu_conv = Result_ChannelInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

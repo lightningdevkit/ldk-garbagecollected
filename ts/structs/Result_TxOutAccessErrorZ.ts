@@ -26,7 +26,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	}
 
 	public static final class Result_TxOutAccessErrorZ_Err extends Result_TxOutAccessErrorZ {
-		public final LDKAccessError err;
+		public final AccessError err;
 		private Result_TxOutAccessErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_TxOutAccessErrorZ_get_err(ptr);
@@ -39,7 +39,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static Result_TxOutAccessErrorZ constructor__err(LDKAccessError e) {
+	public static Result_TxOutAccessErrorZ constructor__err(AccessError e) {
 		number ret = bindings.CResult_TxOutAccessErrorZ_err(e);
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

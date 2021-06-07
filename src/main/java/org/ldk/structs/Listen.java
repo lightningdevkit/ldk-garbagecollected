@@ -6,10 +6,13 @@ import org.ldk.util.*;
 import java.util.Arrays;
 
 /**
- * The `Listen` trait is used to be notified of when blocks have been connected or disconnected
- * from the chain.
+ * The `Listen` trait is used to notify when blocks have been connected or disconnected from the
+ * chain.
  * 
- * Useful when needing to replay chain data upon startup or as new chain events occur.
+ * Useful when needing to replay chain data upon startup or as new chain events occur. Clients
+ * sourcing chain data using a block-oriented API should prefer this interface over [`Confirm`].
+ * Such clients fetch the entire header chain whereas clients using [`Confirm`] only fetch headers
+ * when needed.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Listen extends CommonBase {

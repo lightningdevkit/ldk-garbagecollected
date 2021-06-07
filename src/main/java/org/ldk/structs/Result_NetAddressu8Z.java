@@ -40,7 +40,7 @@ public class Result_NetAddressu8Z extends CommonBase {
 	/**
 	 * Creates a new CResult_NetAddressu8Z in the success state.
 	 */
-	public static Result_NetAddressu8Z constructor_ok(NetAddress o) {
+	public static Result_NetAddressu8Z ok(NetAddress o) {
 		long ret = bindings.CResult_NetAddressu8Z_ok(o.ptr);
 		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -49,7 +49,7 @@ public class Result_NetAddressu8Z extends CommonBase {
 	/**
 	 * Creates a new CResult_NetAddressu8Z in the error state.
 	 */
-	public static Result_NetAddressu8Z constructor_err(byte e) {
+	public static Result_NetAddressu8Z err(byte e) {
 		long ret = bindings.CResult_NetAddressu8Z_err(e);
 		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
 		return ret_hu_conv;

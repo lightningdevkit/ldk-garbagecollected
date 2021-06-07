@@ -56,7 +56,7 @@ public class DataLossProtect extends CommonBase {
 	/**
 	 * Constructs a new DataLossProtect given each field
 	 */
-	public static DataLossProtect constructor_new(byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg) {
+	public static DataLossProtect of(byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg) {
 		long ret = bindings.DataLossProtect_new(your_last_per_commitment_secret_arg, my_current_per_commitment_point_arg);
 		DataLossProtect ret_hu_conv = new DataLossProtect(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

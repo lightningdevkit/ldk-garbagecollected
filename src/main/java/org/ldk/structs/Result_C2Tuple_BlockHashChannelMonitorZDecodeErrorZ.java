@@ -49,7 +49,7 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ in the success state.
 	 */
-	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ constructor_ok(TwoTuple<byte[], ChannelMonitor> o) {
+	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ok(TwoTuple<byte[], ChannelMonitor> o) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(bindings.C2Tuple_BlockHashChannelMonitorZ_new(o.a, o.b == null ? 0 : o.b.ptr & ~1));
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o.b);
@@ -59,7 +59,7 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ in the error state.
 	 */
-	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

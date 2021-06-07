@@ -54,7 +54,7 @@ public class OutPoint extends CommonBase {
 	/**
 	 * Constructs a new OutPoint given each field
 	 */
-	public static OutPoint constructor_new(byte[] txid_arg, short index_arg) {
+	public static OutPoint of(byte[] txid_arg, short index_arg) {
 		long ret = bindings.OutPoint_new(txid_arg, index_arg);
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -69,6 +69,25 @@ public class OutPoint extends CommonBase {
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two OutPoints contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(OutPoint b) {
+		boolean ret = bindings.OutPoint_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
+	/**
+	 * Checks if two OutPoints contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.OutPoint_hash(this.ptr);
+		return ret;
 	}
 
 	/**
@@ -90,7 +109,7 @@ public class OutPoint extends CommonBase {
 	/**
 	 * Read a OutPoint from a byte array, created by OutPoint_write
 	 */
-	public static Result_OutPointDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_OutPointDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.OutPoint_read(ser);
 		Result_OutPointDecodeErrorZ ret_hu_conv = Result_OutPointDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

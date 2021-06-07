@@ -37,13 +37,13 @@ public class FeeEstimator extends CommonBase {
 		 * satoshis-per-byte * 250
 		 * ceil(satoshis-per-kbyte / 4)
 		 */
-		int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target);
+		int get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target);
 	}
 	private static class LDKFeeEstimatorHolder { FeeEstimator held; }
 	public static FeeEstimator new_impl(FeeEstimatorInterface arg) {
 		final LDKFeeEstimatorHolder impl_holder = new LDKFeeEstimatorHolder();
 		impl_holder.held = new FeeEstimator(new bindings.LDKFeeEstimator() {
-			@Override public int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target) {
+			@Override public int get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target) {
 				int ret = arg.get_est_sat_per_1000_weight(confirmation_target);
 				return ret;
 			}
@@ -60,7 +60,7 @@ public class FeeEstimator extends CommonBase {
 	 * satoshis-per-byte * 250
 	 * ceil(satoshis-per-kbyte / 4)
 	 */
-	public int get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target) {
+	public int get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target) {
 		int ret = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);
 		return ret;
 	}

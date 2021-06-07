@@ -66,7 +66,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	/**
 	 * Constructs a new UpdateFulfillHTLC given each field
 	 */
-	public static UpdateFulfillHTLC constructor_new(byte[] channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg) {
+	public static UpdateFulfillHTLC of(byte[] channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg) {
 		long ret = bindings.UpdateFulfillHTLC_new(channel_id_arg, htlc_id_arg, payment_preimage_arg);
 		UpdateFulfillHTLC ret_hu_conv = new UpdateFulfillHTLC(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -94,7 +94,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	/**
 	 * Read a UpdateFulfillHTLC from a byte array, created by UpdateFulfillHTLC_write
 	 */
-	public static Result_UpdateFulfillHTLCDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_UpdateFulfillHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateFulfillHTLC_read(ser);
 		Result_UpdateFulfillHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFulfillHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

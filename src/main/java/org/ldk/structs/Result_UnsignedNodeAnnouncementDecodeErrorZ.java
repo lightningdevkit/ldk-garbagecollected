@@ -43,7 +43,7 @@ public class Result_UnsignedNodeAnnouncementDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UnsignedNodeAnnouncementDecodeErrorZ in the success state.
 	 */
-	public static Result_UnsignedNodeAnnouncementDecodeErrorZ constructor_ok(UnsignedNodeAnnouncement o) {
+	public static Result_UnsignedNodeAnnouncementDecodeErrorZ ok(UnsignedNodeAnnouncement o) {
 		long ret = bindings.CResult_UnsignedNodeAnnouncementDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_UnsignedNodeAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_UnsignedNodeAnnouncementDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_UnsignedNodeAnnouncementDecodeErrorZ in the error state.
 	 */
-	public static Result_UnsignedNodeAnnouncementDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_UnsignedNodeAnnouncementDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_UnsignedNodeAnnouncementDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_UnsignedNodeAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

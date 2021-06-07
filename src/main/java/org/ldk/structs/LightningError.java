@@ -29,7 +29,7 @@ public class LightningError extends CommonBase {
 	/**
 	 * A human-readable message describing the error
 	 */
-	public void set_err(byte[] val) {
+	public void set_err(String val) {
 		bindings.LightningError_set_err(this.ptr, val);
 	}
 
@@ -53,7 +53,7 @@ public class LightningError extends CommonBase {
 	/**
 	 * Constructs a new LightningError given each field
 	 */
-	public static LightningError constructor_new(byte[] err_arg, ErrorAction action_arg) {
+	public static LightningError of(String err_arg, ErrorAction action_arg) {
 		long ret = bindings.LightningError_new(err_arg, action_arg.ptr);
 		LightningError ret_hu_conv = new LightningError(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

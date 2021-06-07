@@ -43,7 +43,7 @@ public class Result_HTLCUpdateDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_HTLCUpdateDecodeErrorZ in the success state.
 	 */
-	public static Result_HTLCUpdateDecodeErrorZ constructor_ok(HTLCUpdate o) {
+	public static Result_HTLCUpdateDecodeErrorZ ok(HTLCUpdate o) {
 		long ret = bindings.CResult_HTLCUpdateDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_HTLCUpdateDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_HTLCUpdateDecodeErrorZ in the error state.
 	 */
-	public static Result_HTLCUpdateDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_HTLCUpdateDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_HTLCUpdateDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

@@ -63,7 +63,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	/**
 	 * Read a HolderCommitmentTransaction from a byte array, created by HolderCommitmentTransaction_write
 	 */
-	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_HolderCommitmentTransactionDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.HolderCommitmentTransaction_read(ser);
 		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -73,7 +73,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	 * Create a new holder transaction with the given counterparty signatures.
 	 * The funding keys are used to figure out which signature should go first when building the transaction for broadcast.
 	 */
-	public static HolderCommitmentTransaction constructor_new(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
+	public static HolderCommitmentTransaction of(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
 		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

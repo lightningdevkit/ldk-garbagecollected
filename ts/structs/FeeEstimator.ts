@@ -32,7 +32,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                     const impl_holder: LDKFeeEstimatorHolder = new LDKFeeEstimatorHolder();
                     let structImplementation = <bindings.LDKFeeEstimator>{
                         // todo: in-line interface filling
-                        get_est_sat_per_1000_weight (confirmation_target: LDKConfirmationTarget): number {
+                        get_est_sat_per_1000_weight (confirmation_target: ConfirmationTarget): number {
 							number ret = arg.get_est_sat_per_1000_weight(confirmation_target);
 				return ret;
 						},
@@ -44,14 +44,14 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 
             export interface FeeEstimatorInterface {
-                get_est_sat_per_1000_weight(confirmation_target: LDKConfirmationTarget): number;
+                get_est_sat_per_1000_weight(confirmation_target: ConfirmationTarget): number;
 				
             }
 
             class LDKFeeEstimatorHolder {
                 held: FeeEstimator;
             }
-	public number get_est_sat_per_1000_weight(LDKConfirmationTarget confirmation_target) {
+	public number get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target) {
 		number ret = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);
 		return ret;
 	}

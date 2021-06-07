@@ -43,7 +43,7 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_GossipTimestampFilterDecodeErrorZ in the success state.
 	 */
-	public static Result_GossipTimestampFilterDecodeErrorZ constructor_ok(GossipTimestampFilter o) {
+	public static Result_GossipTimestampFilterDecodeErrorZ ok(GossipTimestampFilter o) {
 		long ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_GossipTimestampFilterDecodeErrorZ in the error state.
 	 */
-	public static Result_GossipTimestampFilterDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_GossipTimestampFilterDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

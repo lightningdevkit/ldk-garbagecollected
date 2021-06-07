@@ -35,7 +35,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SignatureNoneZ in the success state.
 	 */
-	public static Result_SignatureNoneZ constructor_ok(byte[] o) {
+	public static Result_SignatureNoneZ ok(byte[] o) {
 		long ret = bindings.CResult_SignatureNoneZ_ok(o);
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -44,7 +44,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SignatureNoneZ in the error state.
 	 */
-	public static Result_SignatureNoneZ constructor_err() {
+	public static Result_SignatureNoneZ err() {
 		long ret = bindings.CResult_SignatureNoneZ_err();
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

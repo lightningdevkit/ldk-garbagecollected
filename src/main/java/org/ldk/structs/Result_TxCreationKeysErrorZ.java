@@ -30,7 +30,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	}
 
 	public static final class Result_TxCreationKeysErrorZ_Err extends Result_TxCreationKeysErrorZ {
-		public final LDKSecp256k1Error err;
+		public final Secp256k1Error err;
 		private Result_TxCreationKeysErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_TxCreationKeysErrorZ_get_err(ptr);
@@ -40,7 +40,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxCreationKeysErrorZ in the success state.
 	 */
-	public static Result_TxCreationKeysErrorZ constructor_ok(TxCreationKeys o) {
+	public static Result_TxCreationKeysErrorZ ok(TxCreationKeys o) {
 		long ret = bindings.CResult_TxCreationKeysErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -50,8 +50,18 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxCreationKeysErrorZ in the error state.
 	 */
-	public static Result_TxCreationKeysErrorZ constructor_err(LDKSecp256k1Error e) {
+	public static Result_TxCreationKeysErrorZ err(Secp256k1Error e) {
 		long ret = bindings.CResult_TxCreationKeysErrorZ_err(e);
+		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_TxCreationKeysErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_TxCreationKeysErrorZ clone() {
+		long ret = bindings.CResult_TxCreationKeysErrorZ_clone(this.ptr);
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

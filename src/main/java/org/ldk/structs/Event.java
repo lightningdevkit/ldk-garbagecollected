@@ -59,13 +59,17 @@ public class Event extends CommonBase {
 	}
 	public final static class PaymentReceived extends Event {
 		public final byte[] payment_hash;
+		public final byte[] payment_preimage;
 		public final byte[] payment_secret;
 		public final long amt;
+		public final long user_payment_id;
 		private PaymentReceived(long ptr, bindings.LDKEvent.PaymentReceived obj) {
 			super(null, ptr);
 			this.payment_hash = obj.payment_hash;
+			this.payment_preimage = obj.payment_preimage;
 			this.payment_secret = obj.payment_secret;
 			this.amt = obj.amt;
+			this.user_payment_id = obj.user_payment_id;
 		}
 	}
 	public final static class PaymentSent extends Event {

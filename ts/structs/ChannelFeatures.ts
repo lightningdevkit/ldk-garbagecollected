@@ -18,6 +18,12 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelFeatures_free(this.ptr);
                     }
                 }
+	public boolean eq(ChannelFeatures b) {
+		boolean ret = bindings.ChannelFeatures_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
 	public ChannelFeatures clone() {
 		number ret = bindings.ChannelFeatures_clone(this.ptr);
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);

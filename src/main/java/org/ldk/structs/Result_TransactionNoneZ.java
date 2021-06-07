@@ -35,7 +35,7 @@ public class Result_TransactionNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TransactionNoneZ in the success state.
 	 */
-	public static Result_TransactionNoneZ constructor_ok(byte[] o) {
+	public static Result_TransactionNoneZ ok(byte[] o) {
 		long ret = bindings.CResult_TransactionNoneZ_ok(o);
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -44,8 +44,18 @@ public class Result_TransactionNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TransactionNoneZ in the error state.
 	 */
-	public static Result_TransactionNoneZ constructor_err() {
+	public static Result_TransactionNoneZ err() {
 		long ret = bindings.CResult_TransactionNoneZ_err();
+		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_TransactionNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_TransactionNoneZ clone() {
+		long ret = bindings.CResult_TransactionNoneZ_clone(this.ptr);
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

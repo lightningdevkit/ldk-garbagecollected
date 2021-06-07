@@ -43,7 +43,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ClosingSignedDecodeErrorZ in the success state.
 	 */
-	public static Result_ClosingSignedDecodeErrorZ constructor_ok(ClosingSigned o) {
+	public static Result_ClosingSignedDecodeErrorZ ok(ClosingSigned o) {
 		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ClosingSignedDecodeErrorZ in the error state.
 	 */
-	public static Result_ClosingSignedDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_ClosingSignedDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

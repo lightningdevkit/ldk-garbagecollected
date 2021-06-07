@@ -43,7 +43,7 @@ public class Result_ChannelReestablishDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelReestablishDecodeErrorZ in the success state.
 	 */
-	public static Result_ChannelReestablishDecodeErrorZ constructor_ok(ChannelReestablish o) {
+	public static Result_ChannelReestablishDecodeErrorZ ok(ChannelReestablish o) {
 		long ret = bindings.CResult_ChannelReestablishDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ChannelReestablishDecodeErrorZ ret_hu_conv = Result_ChannelReestablishDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_ChannelReestablishDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelReestablishDecodeErrorZ in the error state.
 	 */
-	public static Result_ChannelReestablishDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_ChannelReestablishDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ChannelReestablishDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ChannelReestablishDecodeErrorZ ret_hu_conv = Result_ChannelReestablishDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

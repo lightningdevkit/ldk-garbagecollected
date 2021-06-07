@@ -81,7 +81,7 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 	/**
 	 * Constructs a new StaticPaymentOutputDescriptor given each field
 	 */
-	public static StaticPaymentOutputDescriptor constructor_new(OutPoint outpoint_arg, TxOut output_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
+	public static StaticPaymentOutputDescriptor of(OutPoint outpoint_arg, TxOut output_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
 		long ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, output_arg.ptr, channel_keys_id_arg, channel_value_satoshis_arg);
 		StaticPaymentOutputDescriptor ret_hu_conv = new StaticPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -96,6 +96,23 @@ public class StaticPaymentOutputDescriptor extends CommonBase {
 		long ret = bindings.StaticPaymentOutputDescriptor_clone(this.ptr);
 		StaticPaymentOutputDescriptor ret_hu_conv = new StaticPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the StaticPaymentOutputDescriptor object into a byte array which can be read by StaticPaymentOutputDescriptor_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.StaticPaymentOutputDescriptor_write(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Read a StaticPaymentOutputDescriptor from a byte array, created by StaticPaymentOutputDescriptor_write
+	 */
+	public static Result_StaticPaymentOutputDescriptorDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.StaticPaymentOutputDescriptor_read(ser);
+		Result_StaticPaymentOutputDescriptorDecodeErrorZ ret_hu_conv = Result_StaticPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

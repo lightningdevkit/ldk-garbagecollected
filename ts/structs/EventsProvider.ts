@@ -32,11 +32,10 @@ import * as bindings from '../bindings' // TODO: figure out location
                     const impl_holder: LDKEventsProviderHolder = new LDKEventsProviderHolder();
                     let structImplementation = <bindings.LDKEventsProvider>{
                         // todo: in-line interface filling
-                        get_and_clear_pending_events (): number[] {
-							Event[] ret = arg.get_and_clear_pending_events();
-				result: number[] = Arrays.stream(ret).map(ret_conv_7 -> ret_conv_7.ptr).toArray(number[]::new);
-				/* TODO 2 Event  */;
-				return result;
+                        process_pending_events (handler: number): void {
+							EventHandler ret_hu_conv = new EventHandler(null, handler);
+				ret_hu_conv.ptrs_to.add(this);
+							arg.process_pending_events(ret_hu_conv);
 						},
 
 						
@@ -46,23 +45,16 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 
             export interface EventsProviderInterface {
-                get_and_clear_pending_events(): Event[];
+                process_pending_events(handler: EventHandler): void;
 				
             }
 
             class LDKEventsProviderHolder {
                 held: EventsProvider;
             }
-	public Event[] get_and_clear_pending_events() {
-		number[] ret = bindings.EventsProvider_get_and_clear_pending_events(this.ptr);
-		Event[] ret_conv_7_arr = new Event[ret.length];
-		for (int h = 0; h < ret.length; h++) {
-			number ret_conv_7 = ret[h];
-			Event ret_conv_7_hu_conv = Event.constr_from_ptr(ret_conv_7);
-			ret_conv_7_hu_conv.ptrs_to.add(this);
-			ret_conv_7_arr[h] = ret_conv_7_hu_conv;
-		}
-		return ret_conv_7_arr;
+	public void process_pending_events(EventHandler handler) {
+		bindings.EventsProvider_process_pending_events(this.ptr, handler == null ? 0 : handler.ptr);
+		this.ptrs_to.add(handler);
 	}
 
 }

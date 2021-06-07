@@ -43,7 +43,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxCreationKeysDecodeErrorZ in the success state.
 	 */
-	public static Result_TxCreationKeysDecodeErrorZ constructor_ok(TxCreationKeys o) {
+	public static Result_TxCreationKeysDecodeErrorZ ok(TxCreationKeys o) {
 		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_TxCreationKeysDecodeErrorZ ret_hu_conv = Result_TxCreationKeysDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxCreationKeysDecodeErrorZ in the error state.
 	 */
-	public static Result_TxCreationKeysDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_TxCreationKeysDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_TxCreationKeysDecodeErrorZ ret_hu_conv = Result_TxCreationKeysDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

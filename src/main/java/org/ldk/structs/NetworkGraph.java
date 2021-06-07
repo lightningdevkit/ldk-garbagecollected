@@ -39,7 +39,7 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Read a NetworkGraph from a byte array, created by NetworkGraph_write
 	 */
-	public static Result_NetworkGraphDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NetworkGraph_read(ser);
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -48,7 +48,7 @@ public class NetworkGraph extends CommonBase {
 	/**
 	 * Creates a new, empty, network graph.
 	 */
-	public static NetworkGraph constructor_new(byte[] genesis_hash) {
+	public static NetworkGraph of(byte[] genesis_hash) {
 		long ret = bindings.NetworkGraph_new(genesis_hash);
 		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

@@ -152,18 +152,12 @@ public static native long new_empty_slice_vec();
 */
 
 	public static native long LDKCVec_u8Z_new(number[] elems);
-	public static native boolean LDKCResult_ChannelConfigDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_ChannelConfigDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_ChannelConfigDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_OutPointDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_OutPointDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_OutPointDecodeErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_SecretKeyErrorZ_result_ok(long arg);
 	public static native Uint8Array LDKCResult_SecretKeyErrorZ_get_ok(long arg);
-	public static native LDKSecp256k1Error LDKCResult_SecretKeyErrorZ_get_err(long arg);
+	public static native Secp256k1Error LDKCResult_SecretKeyErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_PublicKeyErrorZ_result_ok(long arg);
 	public static native Uint8Array LDKCResult_PublicKeyErrorZ_get_ok(long arg);
-	public static native LDKSecp256k1Error LDKCResult_PublicKeyErrorZ_get_err(long arg);
+	public static native Secp256k1Error LDKCResult_PublicKeyErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_TxCreationKeysDecodeErrorZ_result_ok(long arg);
 	public static native number LDKCResult_TxCreationKeysDecodeErrorZ_get_ok(long arg);
 	public static native number LDKCResult_TxCreationKeysDecodeErrorZ_get_err(long arg);
@@ -172,7 +166,7 @@ public static native long new_empty_slice_vec();
 	public static native number LDKCResult_ChannelPublicKeysDecodeErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_TxCreationKeysErrorZ_result_ok(long arg);
 	public static native number LDKCResult_TxCreationKeysErrorZ_get_ok(long arg);
-	public static native LDKSecp256k1Error LDKCResult_TxCreationKeysErrorZ_get_err(long arg);
+	public static native Secp256k1Error LDKCResult_TxCreationKeysErrorZ_get_err(long arg);
 	public static class LDKCOption_u32Z {
 		private LDKCOption_u32Z() {}
 		export class Some extends LDKCOption_u32Z {
@@ -210,265 +204,12 @@ public static native long new_empty_slice_vec();
 	public static native boolean LDKCResult_CVec_SignatureZNoneZ_result_ok(long arg);
 	public static native Uint8Array[] LDKCResult_CVec_SignatureZNoneZ_get_ok(long arg);
 	public static native void LDKCResult_CVec_SignatureZNoneZ_get_err(long arg);
-	public static native boolean LDKCResult_ChannelMonitorUpdateDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_HTLCUpdateDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_HTLCUpdateDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_HTLCUpdateDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_NoneMonitorUpdateErrorZ_result_ok(long arg);
-	public static native void LDKCResult_NoneMonitorUpdateErrorZ_get_ok(long arg);
-	public static native number LDKCResult_NoneMonitorUpdateErrorZ_get_err(long arg);
-	public static native long LDKC2Tuple_OutPointScriptZ_new(number a, Uint8Array b);
-	public static native number LDKC2Tuple_OutPointScriptZ_get_a(long ptr);
-	public static native Uint8Array LDKC2Tuple_OutPointScriptZ_get_b(long ptr);
-	public static native long LDKC2Tuple_u32ScriptZ_new(number a, Uint8Array b);
-	public static native number LDKC2Tuple_u32ScriptZ_get_a(long ptr);
-	public static native Uint8Array LDKC2Tuple_u32ScriptZ_get_b(long ptr);
-	public static native long LDKCVec_C2Tuple_u32ScriptZZ_new(number[] elems);
-	public static native long LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(Uint8Array a, number[] b);
-	public static native Uint8Array LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(long ptr);
-	public static native number[] LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(long ptr);
-	public static native long LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_new(number[] elems);
-	public static class LDKMonitorEvent {
-		private LDKMonitorEvent() {}
-		export class HTLCEvent extends LDKMonitorEvent {
-			public number htlc_event;
-			HTLCEvent(number htlc_event) { this.htlc_event = htlc_event; }
-		}
-		export class CommitmentTxBroadcasted extends LDKMonitorEvent {
-			public number commitment_tx_broadcasted;
-			CommitmentTxBroadcasted(number commitment_tx_broadcasted) { this.commitment_tx_broadcasted = commitment_tx_broadcasted; }
-		}
-		static native void init();
-	}
-	static { LDKMonitorEvent.init(); }
-	public static native LDKMonitorEvent LDKMonitorEvent_ref_from_ptr(long ptr);
-	public static native long LDKCVec_MonitorEventZ_new(number[] elems);
-	public static class LDKSpendableOutputDescriptor {
-		private LDKSpendableOutputDescriptor() {}
-		export class StaticOutput extends LDKSpendableOutputDescriptor {
-			public number outpoint;
-			public number output;
-			StaticOutput(number outpoint, number output) { this.outpoint = outpoint; this.output = output; }
-		}
-		export class DelayedPaymentOutput extends LDKSpendableOutputDescriptor {
-			public number delayed_payment_output;
-			DelayedPaymentOutput(number delayed_payment_output) { this.delayed_payment_output = delayed_payment_output; }
-		}
-		export class StaticPaymentOutput extends LDKSpendableOutputDescriptor {
-			public number static_payment_output;
-			StaticPaymentOutput(number static_payment_output) { this.static_payment_output = static_payment_output; }
-		}
-		static native void init();
-	}
-	static { LDKSpendableOutputDescriptor.init(); }
-	public static native LDKSpendableOutputDescriptor LDKSpendableOutputDescriptor_ref_from_ptr(long ptr);
-	public static native long LDKCVec_SpendableOutputDescriptorZ_new(number[] elems);
-	public static class LDKEvent {
-		private LDKEvent() {}
-		export class FundingGenerationReady extends LDKEvent {
-			public Uint8Array temporary_channel_id;
-			public number channel_value_satoshis;
-			public Uint8Array output_script;
-			public number user_channel_id;
-			FundingGenerationReady(Uint8Array temporary_channel_id, number channel_value_satoshis, Uint8Array output_script, number user_channel_id) { this.temporary_channel_id = temporary_channel_id; this.channel_value_satoshis = channel_value_satoshis; this.output_script = output_script; this.user_channel_id = user_channel_id; }
-		}
-		export class PaymentReceived extends LDKEvent {
-			public Uint8Array payment_hash;
-			public Uint8Array payment_secret;
-			public number amt;
-			PaymentReceived(Uint8Array payment_hash, Uint8Array payment_secret, number amt) { this.payment_hash = payment_hash; this.payment_secret = payment_secret; this.amt = amt; }
-		}
-		export class PaymentSent extends LDKEvent {
-			public Uint8Array payment_preimage;
-			PaymentSent(Uint8Array payment_preimage) { this.payment_preimage = payment_preimage; }
-		}
-		export class PaymentFailed extends LDKEvent {
-			public Uint8Array payment_hash;
-			public boolean rejected_by_dest;
-			PaymentFailed(Uint8Array payment_hash, boolean rejected_by_dest) { this.payment_hash = payment_hash; this.rejected_by_dest = rejected_by_dest; }
-		}
-		export class PendingHTLCsForwardable extends LDKEvent {
-			public number time_forwardable;
-			PendingHTLCsForwardable(number time_forwardable) { this.time_forwardable = time_forwardable; }
-		}
-		export class SpendableOutputs extends LDKEvent {
-			public number[] outputs;
-			SpendableOutputs(number[] outputs) { this.outputs = outputs; }
-		}
-		static native void init();
-	}
-	static { LDKEvent.init(); }
-	public static native LDKEvent LDKEvent_ref_from_ptr(long ptr);
-	public static native long LDKCVec_EventZ_new(number[] elems);
-	public static native long LDKC2Tuple_usizeTransactionZ_new(number a, Uint8Array b);
-	public static native number LDKC2Tuple_usizeTransactionZ_get_a(long ptr);
-	public static native Uint8Array LDKC2Tuple_usizeTransactionZ_get_b(long ptr);
-	public static native long LDKCVec_C2Tuple_usizeTransactionZZ_new(number[] elems);
-	public static native long LDKC2Tuple_u32TxOutZ_new(number a, number b);
-	public static native number LDKC2Tuple_u32TxOutZ_get_a(long ptr);
-	public static native number LDKC2Tuple_u32TxOutZ_get_b(long ptr);
-	public static native long LDKCVec_C2Tuple_u32TxOutZZ_new(number[] elems);
-	public static native long LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(Uint8Array a, number[] b);
-	public static native Uint8Array LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(long ptr);
-	public static native number[] LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(long ptr);
-	public static native long LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_new(number[] elems);
-	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
-	public static native void LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(long arg);
-	public static native LDKChannelMonitorUpdateErr LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(long arg);
-	public static native long LDKC2Tuple_SignatureCVec_SignatureZZ_new(Uint8Array a, Uint8Array[] b);
-	public static native Uint8Array LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(long ptr);
-	public static native Uint8Array[] LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(long ptr);
-	public static native boolean LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(long arg);
-	public static native number LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(long arg);
-	public static native void LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_err(long arg);
-	public static native boolean LDKCResult_SignatureNoneZ_result_ok(long arg);
-	public static native Uint8Array LDKCResult_SignatureNoneZ_get_ok(long arg);
-	public static native void LDKCResult_SignatureNoneZ_get_err(long arg);
-
-
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
-
-		export interface LDKBaseSign {
-			get_per_commitment_point (idx: number): Uint8Array;
-			release_commitment_secret (idx: number): Uint8Array;
-			channel_keys_id (): Uint8Array;
-			sign_counterparty_commitment (commitment_tx: number): number;
-			sign_holder_commitment_and_htlcs (commitment_tx: number): number;
-			sign_justice_transaction (justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: number): number;
-			sign_counterparty_htlc_transaction (htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: number): number;
-			sign_closing_transaction (closing_tx: Uint8Array): number;
-			sign_channel_announcement (msg: number): number;
-			ready_channel (channel_parameters: number): void;
-		}
-
-		export function LDKBaseSign_new(impl: LDKBaseSign, pubkeys: number): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
-
-
-	// LDKPublicKey BaseSign_get_per_commitment_point LDKBaseSign *NONNULL_PTR this_arg, uint64_t idx
-	export function BaseSign_get_per_commitment_point(this_arg: number, idx: number): Uint8Array {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_get_per_commitment_point(this_arg, idx);
-		return decodeArray(nativeResponseValue);
-	}
-	// LDKThirtyTwoBytes BaseSign_release_commitment_secret LDKBaseSign *NONNULL_PTR this_arg, uint64_t idx
-	export function BaseSign_release_commitment_secret(this_arg: number, idx: number): Uint8Array {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_release_commitment_secret(this_arg, idx);
-		return decodeArray(nativeResponseValue);
-	}
-	// LDKThirtyTwoBytes BaseSign_channel_keys_id LDKBaseSign *NONNULL_PTR this_arg
-	export function BaseSign_channel_keys_id(this_arg: number): Uint8Array {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_channel_keys_id(this_arg);
-		return decodeArray(nativeResponseValue);
-	}
-	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ BaseSign_sign_counterparty_commitment LDKBaseSign *NONNULL_PTR this_arg, const struct LDKCommitmentTransaction *NONNULL_PTR commitment_tx
-	export function BaseSign_sign_counterparty_commitment(this_arg: number, commitment_tx: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_sign_counterparty_commitment(this_arg, commitment_tx);
-		return nativeResponseValue;
-	}
-	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ BaseSign_sign_holder_commitment_and_htlcs LDKBaseSign *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR commitment_tx
-	export function BaseSign_sign_holder_commitment_and_htlcs(this_arg: number, commitment_tx: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_sign_holder_commitment_and_htlcs(this_arg, commitment_tx);
-		return nativeResponseValue;
-	}
-	// LDKCResult_SignatureNoneZ BaseSign_sign_justice_transaction LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc
-	export function BaseSign_sign_justice_transaction(this_arg: number, justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_sign_justice_transaction(this_arg, encodeArray(justice_tx), input, amount, encodeArray(per_commitment_key), htlc);
-		return nativeResponseValue;
-	}
-	// LDKCResult_SignatureNoneZ BaseSign_sign_counterparty_htlc_transaction LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, struct LDKPublicKey per_commitment_point, const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc
-	export function BaseSign_sign_counterparty_htlc_transaction(this_arg: number, htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_sign_counterparty_htlc_transaction(this_arg, encodeArray(htlc_tx), input, amount, encodeArray(per_commitment_point), htlc);
-		return nativeResponseValue;
-	}
-	// LDKCResult_SignatureNoneZ BaseSign_sign_closing_transaction LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction closing_tx
-	export function BaseSign_sign_closing_transaction(this_arg: number, closing_tx: Uint8Array): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_sign_closing_transaction(this_arg, encodeArray(closing_tx));
-		return nativeResponseValue;
-	}
-	// LDKCResult_SignatureNoneZ BaseSign_sign_channel_announcement LDKBaseSign *NONNULL_PTR this_arg, const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR msg
-	export function BaseSign_sign_channel_announcement(this_arg: number, msg: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_sign_channel_announcement(this_arg, msg);
-		return nativeResponseValue;
-	}
-	// void BaseSign_ready_channel LDKBaseSign *NONNULL_PTR this_arg, const struct LDKChannelTransactionParameters *NONNULL_PTR channel_parameters
-	export function BaseSign_ready_channel(this_arg: number, channel_parameters: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_ready_channel(this_arg, channel_parameters);
-		// debug statements here
-	}
-	// LDKChannelPublicKeys BaseSign_get_pubkeys LDKBaseSign *NONNULL_PTR this_arg
-	export function BaseSign_get_pubkeys(this_arg: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BaseSign_get_pubkeys(this_arg);
-		return nativeResponseValue;
-	}
-
-
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
-
-		export interface LDKSign {
-			write (): Uint8Array;
-		}
-
-		export function LDKSign_new(impl: LDKSign, BaseSign: LDKBaseSign, pubkeys: number): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
-
-
-	// LDKCVec_u8Z Sign_write LDKSign *NONNULL_PTR this_arg
-	export function Sign_write(this_arg: number): Uint8Array {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.Sign_write(this_arg);
-		return decodeArray(nativeResponseValue);
-	}
-	public static native long LDKC2Tuple_BlockHashChannelMonitorZ_new(Uint8Array a, number b);
-	public static native Uint8Array LDKC2Tuple_BlockHashChannelMonitorZ_get_a(long ptr);
-	public static native number LDKC2Tuple_BlockHashChannelMonitorZ_get_b(long ptr);
-	public static native boolean LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_NoneErrorZ_result_ok(long arg);
+	public static native void LDKCResult_NoneErrorZ_get_ok(long arg);
+	public static native IOError LDKCResult_NoneErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_RouteHopDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_RouteHopDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_RouteHopDecodeErrorZ_get_err(long arg);
 	public static native long LDKCVec_RouteHopZ_new(number[] elems);
 	public static native boolean LDKCResult_RouteDecodeErrorZ_result_ok(long arg);
 	public static native number LDKCResult_RouteDecodeErrorZ_get_ok(long arg);
@@ -491,6 +232,64 @@ public static native long new_empty_slice_vec();
 	public static native boolean LDKCResult_RouteLightningErrorZ_result_ok(long arg);
 	public static native number LDKCResult_RouteLightningErrorZ_get_ok(long arg);
 	public static native number LDKCResult_RouteLightningErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_TxOutAccessErrorZ_result_ok(long arg);
+	public static native number LDKCResult_TxOutAccessErrorZ_get_ok(long arg);
+	public static native AccessError LDKCResult_TxOutAccessErrorZ_get_err(long arg);
+	public static native long LDKC2Tuple_usizeTransactionZ_new(number a, Uint8Array b);
+	public static native number LDKC2Tuple_usizeTransactionZ_get_a(long ptr);
+	public static native Uint8Array LDKC2Tuple_usizeTransactionZ_get_b(long ptr);
+	public static native long LDKCVec_C2Tuple_usizeTransactionZZ_new(number[] elems);
+	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
+	public static native void LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(long arg);
+	public static native ChannelMonitorUpdateErr LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(long arg);
+	public static class LDKMonitorEvent {
+		private LDKMonitorEvent() {}
+		export class HTLCEvent extends LDKMonitorEvent {
+			public number htlc_event;
+			HTLCEvent(number htlc_event) { this.htlc_event = htlc_event; }
+		}
+		export class CommitmentTxBroadcasted extends LDKMonitorEvent {
+			public number commitment_tx_broadcasted;
+			CommitmentTxBroadcasted(number commitment_tx_broadcasted) { this.commitment_tx_broadcasted = commitment_tx_broadcasted; }
+		}
+		static native void init();
+	}
+	static { LDKMonitorEvent.init(); }
+	public static native LDKMonitorEvent LDKMonitorEvent_ref_from_ptr(long ptr);
+	public static native long LDKCVec_MonitorEventZ_new(number[] elems);
+	public static class LDKCOption_C2Tuple_usizeTransactionZZ {
+		private LDKCOption_C2Tuple_usizeTransactionZZ() {}
+		export class Some extends LDKCOption_C2Tuple_usizeTransactionZZ {
+			public number some;
+			Some(number some) { this.some = some; }
+		}
+		export class None extends LDKCOption_C2Tuple_usizeTransactionZZ {
+			None() { }
+		}
+		static native void init();
+	}
+	static { LDKCOption_C2Tuple_usizeTransactionZZ.init(); }
+	public static native LDKCOption_C2Tuple_usizeTransactionZZ LDKCOption_C2Tuple_usizeTransactionZZ_ref_from_ptr(long ptr);
+	public static class LDKSpendableOutputDescriptor {
+		private LDKSpendableOutputDescriptor() {}
+		export class StaticOutput extends LDKSpendableOutputDescriptor {
+			public number outpoint;
+			public number output;
+			StaticOutput(number outpoint, number output) { this.outpoint = outpoint; this.output = output; }
+		}
+		export class DelayedPaymentOutput extends LDKSpendableOutputDescriptor {
+			public number delayed_payment_output;
+			DelayedPaymentOutput(number delayed_payment_output) { this.delayed_payment_output = delayed_payment_output; }
+		}
+		export class StaticPaymentOutput extends LDKSpendableOutputDescriptor {
+			public number static_payment_output;
+			StaticPaymentOutput(number static_payment_output) { this.static_payment_output = static_payment_output; }
+		}
+		static native void init();
+	}
+	static { LDKSpendableOutputDescriptor.init(); }
+	public static native LDKSpendableOutputDescriptor LDKSpendableOutputDescriptor_ref_from_ptr(long ptr);
+	public static native long LDKCVec_SpendableOutputDescriptorZ_new(number[] elems);
 	public static class LDKErrorAction {
 		private LDKErrorAction() {}
 		export class DisconnectPeer extends LDKErrorAction {
@@ -627,52 +426,261 @@ public static native long new_empty_slice_vec();
 	static { LDKMessageSendEvent.init(); }
 	public static native LDKMessageSendEvent LDKMessageSendEvent_ref_from_ptr(long ptr);
 	public static native long LDKCVec_MessageSendEventZ_new(number[] elems);
-	public static native boolean LDKCResult_boolLightningErrorZ_result_ok(long arg);
-	public static native boolean LDKCResult_boolLightningErrorZ_get_ok(long arg);
-	public static native number LDKCResult_boolLightningErrorZ_get_err(long arg);
-	public static native long LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(number a, number b, number c);
-	public static native number LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(long ptr);
-	public static native number LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(long ptr);
-	public static native number LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(long ptr);
-	public static native long LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_new(number[] elems);
-	public static native long LDKCVec_NodeAnnouncementZ_new(number[] elems);
-	public static native boolean LDKCResult_NoneLightningErrorZ_result_ok(long arg);
-	public static native void LDKCResult_NoneLightningErrorZ_get_ok(long arg);
-	public static native number LDKCResult_NoneLightningErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(long arg);
-	public static native Uint8Array LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(long arg);
-	public static native number LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_NonePeerHandleErrorZ_result_ok(long arg);
-	public static native void LDKCResult_NonePeerHandleErrorZ_get_ok(long arg);
-	public static native number LDKCResult_NonePeerHandleErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_boolPeerHandleErrorZ_result_ok(long arg);
-	public static native boolean LDKCResult_boolPeerHandleErrorZ_get_ok(long arg);
-	public static native number LDKCResult_boolPeerHandleErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_TxOutAccessErrorZ_result_ok(long arg);
-	public static native number LDKCResult_TxOutAccessErrorZ_get_ok(long arg);
-	public static native LDKAccessError LDKCResult_TxOutAccessErrorZ_get_err(long arg);
-	public static class LDKCOption_C2Tuple_usizeTransactionZZ {
-		private LDKCOption_C2Tuple_usizeTransactionZZ() {}
-		export class Some extends LDKCOption_C2Tuple_usizeTransactionZZ {
-			public number some;
-			Some(number some) { this.some = some; }
+	public static native boolean LDKCResult_InitFeaturesDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_InitFeaturesDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_InitFeaturesDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_NodeFeaturesDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_NodeFeaturesDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_NodeFeaturesDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_ChannelFeaturesDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_ChannelFeaturesDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_ChannelFeaturesDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_InvoiceFeaturesDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_InvoiceFeaturesDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_InvoiceFeaturesDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_SpendableOutputDescriptorDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_err(long arg);
+	public static native long LDKC2Tuple_SignatureCVec_SignatureZZ_new(Uint8Array a, Uint8Array[] b);
+	public static native Uint8Array LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(long ptr);
+	public static native Uint8Array[] LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(long ptr);
+	public static native boolean LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(long arg);
+	public static native number LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(long arg);
+	public static native void LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_err(long arg);
+	public static native boolean LDKCResult_SignatureNoneZ_result_ok(long arg);
+	public static native Uint8Array LDKCResult_SignatureNoneZ_get_ok(long arg);
+	public static native void LDKCResult_SignatureNoneZ_get_err(long arg);
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKBaseSign {
+			get_per_commitment_point (idx: number): Uint8Array;
+			release_commitment_secret (idx: number): Uint8Array;
+			channel_keys_id (): Uint8Array;
+			sign_counterparty_commitment (commitment_tx: number): number;
+			sign_holder_commitment_and_htlcs (commitment_tx: number): number;
+			sign_justice_revoked_output (justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array): number;
+			sign_justice_revoked_htlc (justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: number): number;
+			sign_counterparty_htlc_transaction (htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: number): number;
+			sign_closing_transaction (closing_tx: Uint8Array): number;
+			sign_channel_announcement (msg: number): number;
+			ready_channel (channel_parameters: number): void;
 		}
-		export class None extends LDKCOption_C2Tuple_usizeTransactionZZ {
-			None() { }
+
+		export function LDKBaseSign_new(impl: LDKBaseSign, pubkeys: number): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// LDKPublicKey BaseSign_get_per_commitment_point LDKBaseSign *NONNULL_PTR this_arg, uint64_t idx
+	export function BaseSign_get_per_commitment_point(this_arg: number, idx: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_get_per_commitment_point(this_arg, idx);
+		return decodeArray(nativeResponseValue);
+	}
+	// LDKThirtyTwoBytes BaseSign_release_commitment_secret LDKBaseSign *NONNULL_PTR this_arg, uint64_t idx
+	export function BaseSign_release_commitment_secret(this_arg: number, idx: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_release_commitment_secret(this_arg, idx);
+		return decodeArray(nativeResponseValue);
+	}
+	// LDKThirtyTwoBytes BaseSign_channel_keys_id LDKBaseSign *NONNULL_PTR this_arg
+	export function BaseSign_channel_keys_id(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_channel_keys_id(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ BaseSign_sign_counterparty_commitment LDKBaseSign *NONNULL_PTR this_arg, const struct LDKCommitmentTransaction *NONNULL_PTR commitment_tx
+	export function BaseSign_sign_counterparty_commitment(this_arg: number, commitment_tx: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_sign_counterparty_commitment(this_arg, commitment_tx);
+		return nativeResponseValue;
+	}
+	// LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ BaseSign_sign_holder_commitment_and_htlcs LDKBaseSign *NONNULL_PTR this_arg, const struct LDKHolderCommitmentTransaction *NONNULL_PTR commitment_tx
+	export function BaseSign_sign_holder_commitment_and_htlcs(this_arg: number, commitment_tx: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_sign_holder_commitment_and_htlcs(this_arg, commitment_tx);
+		return nativeResponseValue;
+	}
+	// LDKCResult_SignatureNoneZ BaseSign_sign_justice_revoked_output LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32]
+	export function BaseSign_sign_justice_revoked_output(this_arg: number, justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_sign_justice_revoked_output(this_arg, encodeArray(justice_tx), input, amount, encodeArray(per_commitment_key));
+		return nativeResponseValue;
+	}
+	// LDKCResult_SignatureNoneZ BaseSign_sign_justice_revoked_htlc LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc
+	export function BaseSign_sign_justice_revoked_htlc(this_arg: number, justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_sign_justice_revoked_htlc(this_arg, encodeArray(justice_tx), input, amount, encodeArray(per_commitment_key), htlc);
+		return nativeResponseValue;
+	}
+	// LDKCResult_SignatureNoneZ BaseSign_sign_counterparty_htlc_transaction LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, struct LDKPublicKey per_commitment_point, const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc
+	export function BaseSign_sign_counterparty_htlc_transaction(this_arg: number, htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_sign_counterparty_htlc_transaction(this_arg, encodeArray(htlc_tx), input, amount, encodeArray(per_commitment_point), htlc);
+		return nativeResponseValue;
+	}
+	// LDKCResult_SignatureNoneZ BaseSign_sign_closing_transaction LDKBaseSign *NONNULL_PTR this_arg, struct LDKTransaction closing_tx
+	export function BaseSign_sign_closing_transaction(this_arg: number, closing_tx: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_sign_closing_transaction(this_arg, encodeArray(closing_tx));
+		return nativeResponseValue;
+	}
+	// LDKCResult_SignatureNoneZ BaseSign_sign_channel_announcement LDKBaseSign *NONNULL_PTR this_arg, const struct LDKUnsignedChannelAnnouncement *NONNULL_PTR msg
+	export function BaseSign_sign_channel_announcement(this_arg: number, msg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_sign_channel_announcement(this_arg, msg);
+		return nativeResponseValue;
+	}
+	// void BaseSign_ready_channel LDKBaseSign *NONNULL_PTR this_arg, const struct LDKChannelTransactionParameters *NONNULL_PTR channel_parameters
+	export function BaseSign_ready_channel(this_arg: number, channel_parameters: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_ready_channel(this_arg, channel_parameters);
+		// debug statements here
+	}
+	// LDKChannelPublicKeys BaseSign_get_pubkeys LDKBaseSign *NONNULL_PTR this_arg
+	export function BaseSign_get_pubkeys(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BaseSign_get_pubkeys(this_arg);
+		return nativeResponseValue;
+	}
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKSign {
+			write (): Uint8Array;
+		}
+
+		export function LDKSign_new(impl: LDKSign, BaseSign: LDKBaseSign, pubkeys: number): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// LDKCVec_u8Z Sign_write LDKSign *NONNULL_PTR this_arg
+	export function Sign_write(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Sign_write(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	public static native boolean LDKCResult_SignDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_SignDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_SignDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_RecoverableSignatureNoneZ_result_ok(long arg);
+	public static native Uint8Array LDKCResult_RecoverableSignatureNoneZ_get_ok(long arg);
+	public static native void LDKCResult_RecoverableSignatureNoneZ_get_err(long arg);
+	public static native boolean LDKCResult_CVec_CVec_u8ZZNoneZ_result_ok(long arg);
+	public static native Uint8Array[] LDKCResult_CVec_CVec_u8ZZNoneZ_get_ok(long arg);
+	public static native void LDKCResult_CVec_CVec_u8ZZNoneZ_get_err(long arg);
+	public static native boolean LDKCResult_InMemorySignerDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_InMemorySignerDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_InMemorySignerDecodeErrorZ_get_err(long arg);
+	public static native long LDKCVec_TxOutZ_new(number[] elems);
+	public static native boolean LDKCResult_TransactionNoneZ_result_ok(long arg);
+	public static native Uint8Array LDKCResult_TransactionNoneZ_get_ok(long arg);
+	public static native void LDKCResult_TransactionNoneZ_get_err(long arg);
+	public static native long LDKC2Tuple_BlockHashChannelMonitorZ_new(Uint8Array a, number b);
+	public static native Uint8Array LDKC2Tuple_BlockHashChannelMonitorZ_get_a(long ptr);
+	public static native number LDKC2Tuple_BlockHashChannelMonitorZ_get_b(long ptr);
+	public static native long LDKCVec_C2Tuple_BlockHashChannelMonitorZZ_new(number[] elems);
+	public static native boolean LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_result_ok(long arg);
+	public static native number[] LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_ok(long arg);
+	public static native IOError LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_err(long arg);
+	public static class LDKAPIError {
+		private LDKAPIError() {}
+		export class APIMisuseError extends LDKAPIError {
+			public String err;
+			APIMisuseError(String err) { this.err = err; }
+		}
+		export class FeeRateTooHigh extends LDKAPIError {
+			public String err;
+			public number feerate;
+			FeeRateTooHigh(String err, number feerate) { this.err = err; this.feerate = feerate; }
+		}
+		export class RouteError extends LDKAPIError {
+			public String err;
+			RouteError(String err) { this.err = err; }
+		}
+		export class ChannelUnavailable extends LDKAPIError {
+			public String err;
+			ChannelUnavailable(String err) { this.err = err; }
+		}
+		export class MonitorUpdateFailed extends LDKAPIError {
+			MonitorUpdateFailed() { }
 		}
 		static native void init();
 	}
-	static { LDKCOption_C2Tuple_usizeTransactionZZ.init(); }
-	public static native LDKCOption_C2Tuple_usizeTransactionZZ LDKCOption_C2Tuple_usizeTransactionZZ_ref_from_ptr(long ptr);
-	public static native boolean LDKCResult_DirectionalChannelInfoDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_DirectionalChannelInfoDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_DirectionalChannelInfoDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_ChannelInfoDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_ChannelInfoDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_ChannelInfoDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_RoutingFeesDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_RoutingFeesDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_RoutingFeesDecodeErrorZ_get_err(long arg);
+	static { LDKAPIError.init(); }
+	public static native LDKAPIError LDKAPIError_ref_from_ptr(long ptr);
+	public static native boolean LDKCResult_NoneAPIErrorZ_result_ok(long arg);
+	public static native void LDKCResult_NoneAPIErrorZ_get_ok(long arg);
+	public static native number LDKCResult_NoneAPIErrorZ_get_err(long arg);
+	public static native long LDKCVec_CResult_NoneAPIErrorZZ_new(number[] elems);
+	public static native long LDKCVec_APIErrorZ_new(number[] elems);
+	public static class LDKPaymentSendFailure {
+		private LDKPaymentSendFailure() {}
+		export class ParameterError extends LDKPaymentSendFailure {
+			public number parameter_error;
+			ParameterError(number parameter_error) { this.parameter_error = parameter_error; }
+		}
+		export class PathParameterError extends LDKPaymentSendFailure {
+			public number[] path_parameter_error;
+			PathParameterError(number[] path_parameter_error) { this.path_parameter_error = path_parameter_error; }
+		}
+		export class AllFailedRetrySafe extends LDKPaymentSendFailure {
+			public number[] all_failed_retry_safe;
+			AllFailedRetrySafe(number[] all_failed_retry_safe) { this.all_failed_retry_safe = all_failed_retry_safe; }
+		}
+		export class PartialFailure extends LDKPaymentSendFailure {
+			public number[] partial_failure;
+			PartialFailure(number[] partial_failure) { this.partial_failure = partial_failure; }
+		}
+		static native void init();
+	}
+	static { LDKPaymentSendFailure.init(); }
+	public static native LDKPaymentSendFailure LDKPaymentSendFailure_ref_from_ptr(long ptr);
+	public static native boolean LDKCResult_NonePaymentSendFailureZ_result_ok(long arg);
+	public static native void LDKCResult_NonePaymentSendFailureZ_get_ok(long arg);
+	public static native number LDKCResult_NonePaymentSendFailureZ_get_err(long arg);
 	public static class LDKNetAddress {
 		private LDKNetAddress() {}
 		export class IPv4 extends LDKNetAddress {
@@ -702,6 +710,347 @@ public static native long new_empty_slice_vec();
 	static { LDKNetAddress.init(); }
 	public static native LDKNetAddress LDKNetAddress_ref_from_ptr(long ptr);
 	public static native long LDKCVec_NetAddressZ_new(number[] elems);
+	public static native long LDKC2Tuple_PaymentHashPaymentSecretZ_new(Uint8Array a, Uint8Array b);
+	public static native Uint8Array LDKC2Tuple_PaymentHashPaymentSecretZ_get_a(long ptr);
+	public static native Uint8Array LDKC2Tuple_PaymentHashPaymentSecretZ_get_b(long ptr);
+	public static native boolean LDKCResult_PaymentSecretAPIErrorZ_result_ok(long arg);
+	public static native Uint8Array LDKCResult_PaymentSecretAPIErrorZ_get_ok(long arg);
+	public static native number LDKCResult_PaymentSecretAPIErrorZ_get_err(long arg);
+	public static native long LDKCVec_ChannelMonitorZ_new(number[] elems);
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKWatch {
+			watch_channel (funding_txo: number, monitor: number): number;
+			update_channel (funding_txo: number, update: number): number;
+			release_pending_monitor_events (): number[];
+		}
+
+		export function LDKWatch_new(impl: LDKWatch): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// LDKCResult_NoneChannelMonitorUpdateErrZ Watch_watch_channel LDKWatch *NONNULL_PTR this_arg, struct LDKOutPoint funding_txo, struct LDKChannelMonitor monitor
+	export function Watch_watch_channel(this_arg: number, funding_txo: number, monitor: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Watch_watch_channel(this_arg, funding_txo, monitor);
+		return nativeResponseValue;
+	}
+	// LDKCResult_NoneChannelMonitorUpdateErrZ Watch_update_channel LDKWatch *NONNULL_PTR this_arg, struct LDKOutPoint funding_txo, struct LDKChannelMonitorUpdate update
+	export function Watch_update_channel(this_arg: number, funding_txo: number, update: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Watch_update_channel(this_arg, funding_txo, update);
+		return nativeResponseValue;
+	}
+	// LDKCVec_MonitorEventZ Watch_release_pending_monitor_events LDKWatch *NONNULL_PTR this_arg
+	export function Watch_release_pending_monitor_events(this_arg: number): number[] {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Watch_release_pending_monitor_events(this_arg);
+		return nativeResponseValue;
+	}
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKBroadcasterInterface {
+			broadcast_transaction (tx: Uint8Array): void;
+		}
+
+		export function LDKBroadcasterInterface_new(impl: LDKBroadcasterInterface): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// void BroadcasterInterface_broadcast_transaction LDKBroadcasterInterface *NONNULL_PTR this_arg, struct LDKTransaction tx
+	export function BroadcasterInterface_broadcast_transaction(this_arg: number, tx: Uint8Array): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BroadcasterInterface_broadcast_transaction(this_arg, encodeArray(tx));
+		// debug statements here
+	}
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKKeysInterface {
+			get_node_secret (): Uint8Array;
+			get_destination_script (): Uint8Array;
+			get_shutdown_pubkey (): Uint8Array;
+			get_channel_signer (inbound: boolean, channel_value_satoshis: number): number;
+			get_secure_random_bytes (): Uint8Array;
+			read_chan_signer (reader: Uint8Array): number;
+			sign_invoice (invoice_preimage: Uint8Array): number;
+		}
+
+		export function LDKKeysInterface_new(impl: LDKKeysInterface): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// LDKSecretKey KeysInterface_get_node_secret LDKKeysInterface *NONNULL_PTR this_arg
+	export function KeysInterface_get_node_secret(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.KeysInterface_get_node_secret(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// LDKCVec_u8Z KeysInterface_get_destination_script LDKKeysInterface *NONNULL_PTR this_arg
+	export function KeysInterface_get_destination_script(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.KeysInterface_get_destination_script(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// LDKPublicKey KeysInterface_get_shutdown_pubkey LDKKeysInterface *NONNULL_PTR this_arg
+	export function KeysInterface_get_shutdown_pubkey(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.KeysInterface_get_shutdown_pubkey(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// LDKSign KeysInterface_get_channel_signer LDKKeysInterface *NONNULL_PTR this_arg, bool inbound, uint64_t channel_value_satoshis
+	export function KeysInterface_get_channel_signer(this_arg: number, inbound: boolean, channel_value_satoshis: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.KeysInterface_get_channel_signer(this_arg, inbound, channel_value_satoshis);
+		return nativeResponseValue;
+	}
+	// LDKThirtyTwoBytes KeysInterface_get_secure_random_bytes LDKKeysInterface *NONNULL_PTR this_arg
+	export function KeysInterface_get_secure_random_bytes(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.KeysInterface_get_secure_random_bytes(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// LDKCResult_SignDecodeErrorZ KeysInterface_read_chan_signer LDKKeysInterface *NONNULL_PTR this_arg, struct LDKu8slice reader
+	export function KeysInterface_read_chan_signer(this_arg: number, reader: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.KeysInterface_read_chan_signer(this_arg, encodeArray(reader));
+		return nativeResponseValue;
+	}
+	// LDKCResult_RecoverableSignatureNoneZ KeysInterface_sign_invoice LDKKeysInterface *NONNULL_PTR this_arg, struct LDKCVec_u8Z invoice_preimage
+	export function KeysInterface_sign_invoice(this_arg: number, invoice_preimage: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.KeysInterface_sign_invoice(this_arg, encodeArray(invoice_preimage));
+		return nativeResponseValue;
+	}
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKFeeEstimator {
+			get_est_sat_per_1000_weight (confirmation_target: ConfirmationTarget): number;
+		}
+
+		export function LDKFeeEstimator_new(impl: LDKFeeEstimator): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// uint32_t FeeEstimator_get_est_sat_per_1000_weight LDKFeeEstimator *NONNULL_PTR this_arg, enum LDKConfirmationTarget confirmation_target
+	export function FeeEstimator_get_est_sat_per_1000_weight(this_arg: number, confirmation_target: ConfirmationTarget): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.FeeEstimator_get_est_sat_per_1000_weight(this_arg, confirmation_target);
+		return nativeResponseValue;
+	}
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKLogger {
+			log (record: String): void;
+		}
+
+		export function LDKLogger_new(impl: LDKLogger): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	public static native long LDKC2Tuple_BlockHashChannelManagerZ_new(Uint8Array a, number b);
+	public static native Uint8Array LDKC2Tuple_BlockHashChannelManagerZ_get_a(long ptr);
+	public static native number LDKC2Tuple_BlockHashChannelManagerZ_get_b(long ptr);
+	public static native boolean LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_ChannelConfigDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_ChannelConfigDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_ChannelConfigDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_OutPointDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_OutPointDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_OutPointDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_SiPrefixNoneZ_result_ok(long arg);
+	public static native SiPrefix LDKCResult_SiPrefixNoneZ_get_ok(long arg);
+	public static native void LDKCResult_SiPrefixNoneZ_get_err(long arg);
+	public static native boolean LDKCResult_InvoiceNoneZ_result_ok(long arg);
+	public static native number LDKCResult_InvoiceNoneZ_get_ok(long arg);
+	public static native void LDKCResult_InvoiceNoneZ_get_err(long arg);
+	public static native boolean LDKCResult_SignedRawInvoiceNoneZ_result_ok(long arg);
+	public static native number LDKCResult_SignedRawInvoiceNoneZ_get_ok(long arg);
+	public static native void LDKCResult_SignedRawInvoiceNoneZ_get_err(long arg);
+	public static native long LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_new(number a, Uint8Array b, number c);
+	public static native number LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(long ptr);
+	public static native Uint8Array LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_b(long ptr);
+	public static native number LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(long ptr);
+	public static native boolean LDKCResult_PayeePubKeyErrorZ_result_ok(long arg);
+	public static native number LDKCResult_PayeePubKeyErrorZ_get_ok(long arg);
+	public static native Secp256k1Error LDKCResult_PayeePubKeyErrorZ_get_err(long arg);
+	public static native long LDKCVec_PrivateRouteZ_new(number[] elems);
+	public static native boolean LDKCResult_PositiveTimestampCreationErrorZ_result_ok(long arg);
+	public static native number LDKCResult_PositiveTimestampCreationErrorZ_get_ok(long arg);
+	public static native CreationError LDKCResult_PositiveTimestampCreationErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_NoneSemanticErrorZ_result_ok(long arg);
+	public static native void LDKCResult_NoneSemanticErrorZ_get_ok(long arg);
+	public static native SemanticError LDKCResult_NoneSemanticErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_InvoiceSemanticErrorZ_result_ok(long arg);
+	public static native number LDKCResult_InvoiceSemanticErrorZ_get_ok(long arg);
+	public static native SemanticError LDKCResult_InvoiceSemanticErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_DescriptionCreationErrorZ_result_ok(long arg);
+	public static native number LDKCResult_DescriptionCreationErrorZ_get_ok(long arg);
+	public static native CreationError LDKCResult_DescriptionCreationErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_ExpiryTimeCreationErrorZ_result_ok(long arg);
+	public static native number LDKCResult_ExpiryTimeCreationErrorZ_get_ok(long arg);
+	public static native CreationError LDKCResult_ExpiryTimeCreationErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_PrivateRouteCreationErrorZ_result_ok(long arg);
+	public static native number LDKCResult_PrivateRouteCreationErrorZ_get_ok(long arg);
+	public static native CreationError LDKCResult_PrivateRouteCreationErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_StringErrorZ_result_ok(long arg);
+	public static native String LDKCResult_StringErrorZ_get_ok(long arg);
+	public static native Secp256k1Error LDKCResult_StringErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_ChannelMonitorUpdateDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_ChannelMonitorUpdateDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_HTLCUpdateDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_HTLCUpdateDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_HTLCUpdateDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_NoneMonitorUpdateErrorZ_result_ok(long arg);
+	public static native void LDKCResult_NoneMonitorUpdateErrorZ_get_ok(long arg);
+	public static native number LDKCResult_NoneMonitorUpdateErrorZ_get_err(long arg);
+	public static native long LDKC2Tuple_OutPointScriptZ_new(number a, Uint8Array b);
+	public static native number LDKC2Tuple_OutPointScriptZ_get_a(long ptr);
+	public static native Uint8Array LDKC2Tuple_OutPointScriptZ_get_b(long ptr);
+	public static native long LDKC2Tuple_u32ScriptZ_new(number a, Uint8Array b);
+	public static native number LDKC2Tuple_u32ScriptZ_get_a(long ptr);
+	public static native Uint8Array LDKC2Tuple_u32ScriptZ_get_b(long ptr);
+	public static native long LDKCVec_C2Tuple_u32ScriptZZ_new(number[] elems);
+	public static native long LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(Uint8Array a, number[] b);
+	public static native Uint8Array LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(long ptr);
+	public static native number[] LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(long ptr);
+	public static native long LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_new(number[] elems);
+	public static class LDKEvent {
+		private LDKEvent() {}
+		export class FundingGenerationReady extends LDKEvent {
+			public Uint8Array temporary_channel_id;
+			public number channel_value_satoshis;
+			public Uint8Array output_script;
+			public number user_channel_id;
+			FundingGenerationReady(Uint8Array temporary_channel_id, number channel_value_satoshis, Uint8Array output_script, number user_channel_id) { this.temporary_channel_id = temporary_channel_id; this.channel_value_satoshis = channel_value_satoshis; this.output_script = output_script; this.user_channel_id = user_channel_id; }
+		}
+		export class PaymentReceived extends LDKEvent {
+			public Uint8Array payment_hash;
+			public Uint8Array payment_preimage;
+			public Uint8Array payment_secret;
+			public number amt;
+			public number user_payment_id;
+			PaymentReceived(Uint8Array payment_hash, Uint8Array payment_preimage, Uint8Array payment_secret, number amt, number user_payment_id) { this.payment_hash = payment_hash; this.payment_preimage = payment_preimage; this.payment_secret = payment_secret; this.amt = amt; this.user_payment_id = user_payment_id; }
+		}
+		export class PaymentSent extends LDKEvent {
+			public Uint8Array payment_preimage;
+			PaymentSent(Uint8Array payment_preimage) { this.payment_preimage = payment_preimage; }
+		}
+		export class PaymentFailed extends LDKEvent {
+			public Uint8Array payment_hash;
+			public boolean rejected_by_dest;
+			PaymentFailed(Uint8Array payment_hash, boolean rejected_by_dest) { this.payment_hash = payment_hash; this.rejected_by_dest = rejected_by_dest; }
+		}
+		export class PendingHTLCsForwardable extends LDKEvent {
+			public number time_forwardable;
+			PendingHTLCsForwardable(number time_forwardable) { this.time_forwardable = time_forwardable; }
+		}
+		export class SpendableOutputs extends LDKEvent {
+			public number[] outputs;
+			SpendableOutputs(number[] outputs) { this.outputs = outputs; }
+		}
+		static native void init();
+	}
+	static { LDKEvent.init(); }
+	public static native LDKEvent LDKEvent_ref_from_ptr(long ptr);
+	public static native long LDKCVec_EventZ_new(number[] elems);
+	public static native long LDKC2Tuple_u32TxOutZ_new(number a, number b);
+	public static native number LDKC2Tuple_u32TxOutZ_get_a(long ptr);
+	public static native number LDKC2Tuple_u32TxOutZ_get_b(long ptr);
+	public static native long LDKCVec_C2Tuple_u32TxOutZZ_new(number[] elems);
+	public static native long LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(Uint8Array a, number[] b);
+	public static native Uint8Array LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(long ptr);
+	public static native number[] LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(long ptr);
+	public static native long LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_new(number[] elems);
+	public static native boolean LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_boolLightningErrorZ_result_ok(long arg);
+	public static native boolean LDKCResult_boolLightningErrorZ_get_ok(long arg);
+	public static native number LDKCResult_boolLightningErrorZ_get_err(long arg);
+	public static native long LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(number a, number b, number c);
+	public static native number LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(long ptr);
+	public static native number LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(long ptr);
+	public static native number LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(long ptr);
+	public static native long LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_new(number[] elems);
+	public static native long LDKCVec_NodeAnnouncementZ_new(number[] elems);
+	public static native boolean LDKCResult_NoneLightningErrorZ_result_ok(long arg);
+	public static native void LDKCResult_NoneLightningErrorZ_get_ok(long arg);
+	public static native number LDKCResult_NoneLightningErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(long arg);
+	public static native Uint8Array LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(long arg);
+	public static native number LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_NonePeerHandleErrorZ_result_ok(long arg);
+	public static native void LDKCResult_NonePeerHandleErrorZ_get_ok(long arg);
+	public static native number LDKCResult_NonePeerHandleErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_boolPeerHandleErrorZ_result_ok(long arg);
+	public static native boolean LDKCResult_boolPeerHandleErrorZ_get_ok(long arg);
+	public static native number LDKCResult_boolPeerHandleErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_DirectionalChannelInfoDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_DirectionalChannelInfoDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_DirectionalChannelInfoDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_ChannelInfoDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_ChannelInfoDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_ChannelInfoDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_RoutingFeesDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_RoutingFeesDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_RoutingFeesDecodeErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_NodeAnnouncementInfoDecodeErrorZ_result_ok(long arg);
 	public static native number LDKCResult_NodeAnnouncementInfoDecodeErrorZ_get_ok(long arg);
 	public static native number LDKCResult_NodeAnnouncementInfoDecodeErrorZ_get_err(long arg);
@@ -712,24 +1061,15 @@ public static native long new_empty_slice_vec();
 	public static native boolean LDKCResult_NetworkGraphDecodeErrorZ_result_ok(long arg);
 	public static native number LDKCResult_NetworkGraphDecodeErrorZ_get_ok(long arg);
 	public static native number LDKCResult_NetworkGraphDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_InitFeaturesDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_InitFeaturesDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_InitFeaturesDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_NodeFeaturesDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_NodeFeaturesDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_NodeFeaturesDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_ChannelFeaturesDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_ChannelFeaturesDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_ChannelFeaturesDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_InvoiceFeaturesDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_InvoiceFeaturesDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_InvoiceFeaturesDecodeErrorZ_get_err(long arg);
 	public static native boolean LDKCResult_NetAddressu8Z_result_ok(long arg);
 	public static native number LDKCResult_NetAddressu8Z_get_ok(long arg);
 	public static native number LDKCResult_NetAddressu8Z_get_err(long arg);
 	public static native boolean LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_result_ok(long arg);
 	public static native number LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_ok(long arg);
 	public static native number LDKCResult_CResult_NetAddressu8ZDecodeErrorZ_get_err(long arg);
+	public static native boolean LDKCResult_NetAddressDecodeErrorZ_result_ok(long arg);
+	public static native number LDKCResult_NetAddressDecodeErrorZ_get_ok(long arg);
+	public static native number LDKCResult_NetAddressDecodeErrorZ_get_err(long arg);
 	public static native long LDKCVec_UpdateAddHTLCZ_new(number[] elems);
 	public static native long LDKCVec_UpdateFulfillHTLCZ_new(number[] elems);
 	public static native long LDKCVec_UpdateFailHTLCZ_new(number[] elems);
@@ -827,267 +1167,22 @@ public static native long new_empty_slice_vec();
 	public static native boolean LDKCResult_GossipTimestampFilterDecodeErrorZ_result_ok(long arg);
 	public static native number LDKCResult_GossipTimestampFilterDecodeErrorZ_get_ok(long arg);
 	public static native number LDKCResult_GossipTimestampFilterDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_SpendableOutputDescriptorDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_SpendableOutputDescriptorDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_SignDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_SignDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_SignDecodeErrorZ_get_err(long arg);
-	public static native boolean LDKCResult_CVec_CVec_u8ZZNoneZ_result_ok(long arg);
-	public static native Uint8Array[] LDKCResult_CVec_CVec_u8ZZNoneZ_get_ok(long arg);
-	public static native void LDKCResult_CVec_CVec_u8ZZNoneZ_get_err(long arg);
-	public static native boolean LDKCResult_InMemorySignerDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_InMemorySignerDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_InMemorySignerDecodeErrorZ_get_err(long arg);
-	public static native long LDKCVec_TxOutZ_new(number[] elems);
-	public static native boolean LDKCResult_TransactionNoneZ_result_ok(long arg);
-	public static native Uint8Array LDKCResult_TransactionNoneZ_get_ok(long arg);
-	public static native void LDKCResult_TransactionNoneZ_get_err(long arg);
-	public static native boolean LDKCResult_NoneErrorZ_result_ok(long arg);
-	public static native void LDKCResult_NoneErrorZ_get_ok(long arg);
-	public static native LDKIOError LDKCResult_NoneErrorZ_get_err(long arg);
-	public static native long LDKCVec_C2Tuple_BlockHashChannelMonitorZZ_new(number[] elems);
-	public static native boolean LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_result_ok(long arg);
-	public static native number[] LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_ok(long arg);
-	public static native LDKIOError LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_err(long arg);
-	public static class LDKAPIError {
-		private LDKAPIError() {}
-		export class APIMisuseError extends LDKAPIError {
-			public Uint8Array err;
-			APIMisuseError(Uint8Array err) { this.err = err; }
+	public static class LDKSignOrCreationError {
+		private LDKSignOrCreationError() {}
+		export class SignError extends LDKSignOrCreationError {
+			SignError() { }
 		}
-		export class FeeRateTooHigh extends LDKAPIError {
-			public Uint8Array err;
-			public number feerate;
-			FeeRateTooHigh(Uint8Array err, number feerate) { this.err = err; this.feerate = feerate; }
-		}
-		export class RouteError extends LDKAPIError {
-			public String err;
-			RouteError(String err) { this.err = err; }
-		}
-		export class ChannelUnavailable extends LDKAPIError {
-			public Uint8Array err;
-			ChannelUnavailable(Uint8Array err) { this.err = err; }
-		}
-		export class MonitorUpdateFailed extends LDKAPIError {
-			MonitorUpdateFailed() { }
+		export class CreationError extends LDKSignOrCreationError {
+			public CreationError creation_error;
+			CreationError(CreationError creation_error) { this.creation_error = creation_error; }
 		}
 		static native void init();
 	}
-	static { LDKAPIError.init(); }
-	public static native LDKAPIError LDKAPIError_ref_from_ptr(long ptr);
-	public static native boolean LDKCResult_NoneAPIErrorZ_result_ok(long arg);
-	public static native void LDKCResult_NoneAPIErrorZ_get_ok(long arg);
-	public static native number LDKCResult_NoneAPIErrorZ_get_err(long arg);
-	public static native long LDKCVec_CResult_NoneAPIErrorZZ_new(number[] elems);
-	public static native long LDKCVec_APIErrorZ_new(number[] elems);
-	public static class LDKPaymentSendFailure {
-		private LDKPaymentSendFailure() {}
-		export class ParameterError extends LDKPaymentSendFailure {
-			public number parameter_error;
-			ParameterError(number parameter_error) { this.parameter_error = parameter_error; }
-		}
-		export class PathParameterError extends LDKPaymentSendFailure {
-			public number[] path_parameter_error;
-			PathParameterError(number[] path_parameter_error) { this.path_parameter_error = path_parameter_error; }
-		}
-		export class AllFailedRetrySafe extends LDKPaymentSendFailure {
-			public number[] all_failed_retry_safe;
-			AllFailedRetrySafe(number[] all_failed_retry_safe) { this.all_failed_retry_safe = all_failed_retry_safe; }
-		}
-		export class PartialFailure extends LDKPaymentSendFailure {
-			public number[] partial_failure;
-			PartialFailure(number[] partial_failure) { this.partial_failure = partial_failure; }
-		}
-		static native void init();
-	}
-	static { LDKPaymentSendFailure.init(); }
-	public static native LDKPaymentSendFailure LDKPaymentSendFailure_ref_from_ptr(long ptr);
-	public static native boolean LDKCResult_NonePaymentSendFailureZ_result_ok(long arg);
-	public static native void LDKCResult_NonePaymentSendFailureZ_get_ok(long arg);
-	public static native number LDKCResult_NonePaymentSendFailureZ_get_err(long arg);
-	public static native long LDKCVec_ChannelMonitorZ_new(number[] elems);
-
-
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
-
-		export interface LDKWatch {
-			watch_channel (funding_txo: number, monitor: number): number;
-			update_channel (funding_txo: number, update: number): number;
-			release_pending_monitor_events (): number[];
-		}
-
-		export function LDKWatch_new(impl: LDKWatch): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
-
-
-	// LDKCResult_NoneChannelMonitorUpdateErrZ Watch_watch_channel LDKWatch *NONNULL_PTR this_arg, struct LDKOutPoint funding_txo, struct LDKChannelMonitor monitor
-	export function Watch_watch_channel(this_arg: number, funding_txo: number, monitor: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.Watch_watch_channel(this_arg, funding_txo, monitor);
-		return nativeResponseValue;
-	}
-	// LDKCResult_NoneChannelMonitorUpdateErrZ Watch_update_channel LDKWatch *NONNULL_PTR this_arg, struct LDKOutPoint funding_txo, struct LDKChannelMonitorUpdate update
-	export function Watch_update_channel(this_arg: number, funding_txo: number, update: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.Watch_update_channel(this_arg, funding_txo, update);
-		return nativeResponseValue;
-	}
-	// LDKCVec_MonitorEventZ Watch_release_pending_monitor_events LDKWatch *NONNULL_PTR this_arg
-	export function Watch_release_pending_monitor_events(this_arg: number): number[] {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.Watch_release_pending_monitor_events(this_arg);
-		return nativeResponseValue;
-	}
-
-
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
-
-		export interface LDKBroadcasterInterface {
-			broadcast_transaction (tx: Uint8Array): void;
-		}
-
-		export function LDKBroadcasterInterface_new(impl: LDKBroadcasterInterface): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
-
-
-	// void BroadcasterInterface_broadcast_transaction LDKBroadcasterInterface *NONNULL_PTR this_arg, struct LDKTransaction tx
-	export function BroadcasterInterface_broadcast_transaction(this_arg: number, tx: Uint8Array): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.BroadcasterInterface_broadcast_transaction(this_arg, encodeArray(tx));
-		// debug statements here
-	}
-
-
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
-
-		export interface LDKKeysInterface {
-			get_node_secret (): Uint8Array;
-			get_destination_script (): Uint8Array;
-			get_shutdown_pubkey (): Uint8Array;
-			get_channel_signer (inbound: boolean, channel_value_satoshis: number): number;
-			get_secure_random_bytes (): Uint8Array;
-			read_chan_signer (reader: Uint8Array): number;
-		}
-
-		export function LDKKeysInterface_new(impl: LDKKeysInterface): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
-
-
-	// LDKSecretKey KeysInterface_get_node_secret LDKKeysInterface *NONNULL_PTR this_arg
-	export function KeysInterface_get_node_secret(this_arg: number): Uint8Array {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.KeysInterface_get_node_secret(this_arg);
-		return decodeArray(nativeResponseValue);
-	}
-	// LDKCVec_u8Z KeysInterface_get_destination_script LDKKeysInterface *NONNULL_PTR this_arg
-	export function KeysInterface_get_destination_script(this_arg: number): Uint8Array {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.KeysInterface_get_destination_script(this_arg);
-		return decodeArray(nativeResponseValue);
-	}
-	// LDKPublicKey KeysInterface_get_shutdown_pubkey LDKKeysInterface *NONNULL_PTR this_arg
-	export function KeysInterface_get_shutdown_pubkey(this_arg: number): Uint8Array {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.KeysInterface_get_shutdown_pubkey(this_arg);
-		return decodeArray(nativeResponseValue);
-	}
-	// LDKSign KeysInterface_get_channel_signer LDKKeysInterface *NONNULL_PTR this_arg, bool inbound, uint64_t channel_value_satoshis
-	export function KeysInterface_get_channel_signer(this_arg: number, inbound: boolean, channel_value_satoshis: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.KeysInterface_get_channel_signer(this_arg, inbound, channel_value_satoshis);
-		return nativeResponseValue;
-	}
-	// LDKThirtyTwoBytes KeysInterface_get_secure_random_bytes LDKKeysInterface *NONNULL_PTR this_arg
-	export function KeysInterface_get_secure_random_bytes(this_arg: number): Uint8Array {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.KeysInterface_get_secure_random_bytes(this_arg);
-		return decodeArray(nativeResponseValue);
-	}
-	// LDKCResult_SignDecodeErrorZ KeysInterface_read_chan_signer LDKKeysInterface *NONNULL_PTR this_arg, struct LDKu8slice reader
-	export function KeysInterface_read_chan_signer(this_arg: number, reader: Uint8Array): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.KeysInterface_read_chan_signer(this_arg, encodeArray(reader));
-		return nativeResponseValue;
-	}
-
-
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
-
-		export interface LDKFeeEstimator {
-			get_est_sat_per_1000_weight (confirmation_target: LDKConfirmationTarget): number;
-		}
-
-		export function LDKFeeEstimator_new(impl: LDKFeeEstimator): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
-
-
-	// uint32_t FeeEstimator_get_est_sat_per_1000_weight LDKFeeEstimator *NONNULL_PTR this_arg, enum LDKConfirmationTarget confirmation_target
-	export function FeeEstimator_get_est_sat_per_1000_weight(this_arg: number, confirmation_target: LDKConfirmationTarget): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.FeeEstimator_get_est_sat_per_1000_weight(this_arg, confirmation_target);
-		return nativeResponseValue;
-	}
-
-
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
-
-		export interface LDKLogger {
-			log (record: String): void;
-		}
-
-		export function LDKLogger_new(impl: LDKLogger): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
-
-// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
-
-
-	public static native long LDKC2Tuple_BlockHashChannelManagerZ_new(Uint8Array a, number b);
-	public static native Uint8Array LDKC2Tuple_BlockHashChannelManagerZ_get_a(long ptr);
-	public static native number LDKC2Tuple_BlockHashChannelManagerZ_get_b(long ptr);
-	public static native boolean LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_result_ok(long arg);
-	public static native number LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(long arg);
-	public static native number LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(long arg);
+	static { LDKSignOrCreationError.init(); }
+	public static native LDKSignOrCreationError LDKSignOrCreationError_ref_from_ptr(long ptr);
+	public static native boolean LDKCResult_InvoiceSignOrCreationErrorZ_result_ok(long arg);
+	public static native number LDKCResult_InvoiceSignOrCreationErrorZ_get_ok(long arg);
+	public static native number LDKCResult_InvoiceSignOrCreationErrorZ_get_err(long arg);
 
 
 
@@ -1117,8 +1212,32 @@ public static native long new_empty_slice_vec();
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
 
+		export interface LDKEventHandler {
+			handle_event (event: number): void;
+		}
+
+		export function LDKEventHandler_new(impl: LDKEventHandler): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// void EventHandler_handle_event LDKEventHandler *NONNULL_PTR this_arg, struct LDKEvent event
+	export function EventHandler_handle_event(this_arg: number, event: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.EventHandler_handle_event(this_arg, event);
+		// debug statements here
+	}
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
 		export interface LDKEventsProvider {
-			get_and_clear_pending_events (): number[];
+			process_pending_events (handler: number): void;
 		}
 
 		export function LDKEventsProvider_new(impl: LDKEventsProvider): number {
@@ -1128,13 +1247,13 @@ public static native long new_empty_slice_vec();
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
 
-	// LDKCVec_EventZ EventsProvider_get_and_clear_pending_events LDKEventsProvider *NONNULL_PTR this_arg
-	export function EventsProvider_get_and_clear_pending_events(this_arg: number): number[] {
+	// void EventsProvider_process_pending_events LDKEventsProvider *NONNULL_PTR this_arg, struct LDKEventHandler handler
+	export function EventsProvider_process_pending_events(this_arg: number, handler: number): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.EventsProvider_get_and_clear_pending_events(this_arg);
-		return nativeResponseValue;
+		const nativeResponseValue = wasm.EventsProvider_process_pending_events(this_arg, handler);
+		// debug statements here
 	}
 
 
@@ -1192,6 +1311,57 @@ public static native long new_empty_slice_vec();
 		}
 		const nativeResponseValue = wasm.Listen_block_disconnected(this_arg, encodeArray(header), height);
 		// debug statements here
+	}
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKConfirm {
+			transactions_confirmed (header: Uint8Array, txdata: number[], height: number): void;
+			transaction_unconfirmed (txid: Uint8Array): void;
+			best_block_updated (header: Uint8Array, height: number): void;
+			get_relevant_txids (): Uint8Array[];
+		}
+
+		export function LDKConfirm_new(impl: LDKConfirm): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// void Confirm_transactions_confirmed LDKConfirm *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height
+	export function Confirm_transactions_confirmed(this_arg: number, header: Uint8Array, txdata: number[], height: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Confirm_transactions_confirmed(this_arg, encodeArray(header), txdata, height);
+		// debug statements here
+	}
+	// void Confirm_transaction_unconfirmed LDKConfirm *NONNULL_PTR this_arg, const uint8_t (*txid)[32]
+	export function Confirm_transaction_unconfirmed(this_arg: number, txid: Uint8Array): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Confirm_transaction_unconfirmed(this_arg, encodeArray(txid));
+		// debug statements here
+	}
+	// void Confirm_best_block_updated LDKConfirm *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height
+	export function Confirm_best_block_updated(this_arg: number, header: Uint8Array, height: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Confirm_best_block_updated(this_arg, encodeArray(header), height);
+		// debug statements here
+	}
+	// LDKCVec_TxidZ Confirm_get_relevant_txids LDKConfirm *NONNULL_PTR this_arg
+	export function Confirm_get_relevant_txids(this_arg: number): Uint8Array[] {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Confirm_get_relevant_txids(this_arg);
+		return nativeResponseValue;
 	}
 
 
@@ -1611,6 +1781,65 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.SocketDescriptor_hash(this_arg);
 		return nativeResponseValue;
 	}
+
+
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START
+
+		export interface LDKChannelManagerPersister {
+			persist_manager (channel_manager: number): number;
+		}
+
+		export function LDKChannelManagerPersister_new(impl: LDKChannelManagerPersister): number {
+            throw new Error('unimplemented'); // TODO: bind to WASM
+        }
+
+// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
+
+
+	// LDKCResult_NoneErrorZ ChannelManagerPersister_persist_manager LDKChannelManagerPersister *NONNULL_PTR this_arg, const struct LDKChannelManager *NONNULL_PTR channel_manager
+	export function ChannelManagerPersister_persist_manager(this_arg: number, channel_manager: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelManagerPersister_persist_manager(this_arg, channel_manager);
+		return nativeResponseValue;
+	}
+	public static class LDKFallback {
+		private LDKFallback() {}
+		export class SegWitProgram extends LDKFallback {
+			public number version;
+			public Uint8Array program;
+			SegWitProgram(number version, Uint8Array program) { this.version = version; this.program = program; }
+		}
+		export class PubKeyHash extends LDKFallback {
+			public Uint8Array pub_key_hash;
+			PubKeyHash(Uint8Array pub_key_hash) { this.pub_key_hash = pub_key_hash; }
+		}
+		export class ScriptHash extends LDKFallback {
+			public Uint8Array script_hash;
+			ScriptHash(Uint8Array script_hash) { this.script_hash = script_hash; }
+		}
+		static native void init();
+	}
+	static { LDKFallback.init(); }
+	public static native LDKFallback LDKFallback_ref_from_ptr(long ptr);
+	// struct LDKStr _ldk_get_compiled_version(void);
+	export function _ldk_get_compiled_version(): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm._ldk_get_compiled_version();
+		return nativeResponseValue;
+	}
+	// struct LDKStr _ldk_c_bindings_get_compiled_version(void);
+	export function _ldk_c_bindings_get_compiled_version(): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm._ldk_c_bindings_get_compiled_version();
+		return nativeResponseValue;
+	}
 	// void Transaction_free(struct LDKTransaction _res);
 	export function Transaction_free(_res: Uint8Array): void {
 		if(!isWasmInitialized) {
@@ -1635,69 +1864,13 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.TxOut_clone(orig);
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_ChannelConfigDecodeErrorZ CResult_ChannelConfigDecodeErrorZ_ok(struct LDKChannelConfig o);
-	export function CResult_ChannelConfigDecodeErrorZ_ok(o: number): number {
+	// void Str_free(struct LDKStr _res);
+	export function Str_free(_res: String): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_ChannelConfigDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_ChannelConfigDecodeErrorZ CResult_ChannelConfigDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_ChannelConfigDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_ChannelConfigDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_ChannelConfigDecodeErrorZ_free(struct LDKCResult_ChannelConfigDecodeErrorZ _res);
-	export function CResult_ChannelConfigDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_ChannelConfigDecodeErrorZ_free(_res);
+		const nativeResponseValue = wasm.Str_free(_res);
 		// debug statements here
-	}
-	// struct LDKCResult_ChannelConfigDecodeErrorZ CResult_ChannelConfigDecodeErrorZ_clone(const struct LDKCResult_ChannelConfigDecodeErrorZ *NONNULL_PTR orig);
-	export function CResult_ChannelConfigDecodeErrorZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_ChannelConfigDecodeErrorZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_OutPointDecodeErrorZ CResult_OutPointDecodeErrorZ_ok(struct LDKOutPoint o);
-	export function CResult_OutPointDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_OutPointDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_OutPointDecodeErrorZ CResult_OutPointDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_OutPointDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_OutPointDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_OutPointDecodeErrorZ_free(struct LDKCResult_OutPointDecodeErrorZ _res);
-	export function CResult_OutPointDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_OutPointDecodeErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_OutPointDecodeErrorZ CResult_OutPointDecodeErrorZ_clone(const struct LDKCResult_OutPointDecodeErrorZ *NONNULL_PTR orig);
-	export function CResult_OutPointDecodeErrorZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_OutPointDecodeErrorZ_clone(orig);
-		return nativeResponseValue;
 	}
 	// struct LDKCResult_SecretKeyErrorZ CResult_SecretKeyErrorZ_ok(struct LDKSecretKey o);
 	export function CResult_SecretKeyErrorZ_ok(o: Uint8Array): number {
@@ -1708,7 +1881,7 @@ public static native long new_empty_slice_vec();
 		return nativeResponseValue;
 	}
 	// struct LDKCResult_SecretKeyErrorZ CResult_SecretKeyErrorZ_err(enum LDKSecp256k1Error e);
-	export function CResult_SecretKeyErrorZ_err(e: LDKSecp256k1Error): number {
+	export function CResult_SecretKeyErrorZ_err(e: Secp256k1Error): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -1732,7 +1905,7 @@ public static native long new_empty_slice_vec();
 		return nativeResponseValue;
 	}
 	// struct LDKCResult_PublicKeyErrorZ CResult_PublicKeyErrorZ_err(enum LDKSecp256k1Error e);
-	export function CResult_PublicKeyErrorZ_err(e: LDKSecp256k1Error): number {
+	export function CResult_PublicKeyErrorZ_err(e: Secp256k1Error): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -1746,6 +1919,14 @@ public static native long new_empty_slice_vec();
 		}
 		const nativeResponseValue = wasm.CResult_PublicKeyErrorZ_free(_res);
 		// debug statements here
+	}
+	// struct LDKCResult_PublicKeyErrorZ CResult_PublicKeyErrorZ_clone(const struct LDKCResult_PublicKeyErrorZ *NONNULL_PTR orig);
+	export function CResult_PublicKeyErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PublicKeyErrorZ_clone(orig);
+		return nativeResponseValue;
 	}
 	// struct LDKCResult_TxCreationKeysDecodeErrorZ CResult_TxCreationKeysDecodeErrorZ_ok(struct LDKTxCreationKeys o);
 	export function CResult_TxCreationKeysDecodeErrorZ_ok(o: number): number {
@@ -1820,7 +2001,7 @@ public static native long new_empty_slice_vec();
 		return nativeResponseValue;
 	}
 	// struct LDKCResult_TxCreationKeysErrorZ CResult_TxCreationKeysErrorZ_err(enum LDKSecp256k1Error e);
-	export function CResult_TxCreationKeysErrorZ_err(e: LDKSecp256k1Error): number {
+	export function CResult_TxCreationKeysErrorZ_err(e: Secp256k1Error): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -1834,6 +2015,14 @@ public static native long new_empty_slice_vec();
 		}
 		const nativeResponseValue = wasm.CResult_TxCreationKeysErrorZ_free(_res);
 		// debug statements here
+	}
+	// struct LDKCResult_TxCreationKeysErrorZ CResult_TxCreationKeysErrorZ_clone(const struct LDKCResult_TxCreationKeysErrorZ *NONNULL_PTR orig);
+	export function CResult_TxCreationKeysErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TxCreationKeysErrorZ_clone(orig);
+		return nativeResponseValue;
 	}
 	// struct LDKCOption_u32Z COption_u32Z_some(uint32_t o);
 	export function COption_u32Z_some(o: number): number {
@@ -2123,349 +2312,69 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.CResult_CVec_SignatureZNoneZ_clone(orig);
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ CResult_ChannelMonitorUpdateDecodeErrorZ_ok(struct LDKChannelMonitorUpdate o);
-	export function CResult_ChannelMonitorUpdateDecodeErrorZ_ok(o: number): number {
+	// struct LDKCResult_NoneErrorZ CResult_NoneErrorZ_ok(void);
+	export function CResult_NoneErrorZ_ok(): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_ChannelMonitorUpdateDecodeErrorZ_ok(o);
+		const nativeResponseValue = wasm.CResult_NoneErrorZ_ok();
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ CResult_ChannelMonitorUpdateDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_ChannelMonitorUpdateDecodeErrorZ_err(e: number): number {
+	// struct LDKCResult_NoneErrorZ CResult_NoneErrorZ_err(enum LDKIOError e);
+	export function CResult_NoneErrorZ_err(e: IOError): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_ChannelMonitorUpdateDecodeErrorZ_err(e);
+		const nativeResponseValue = wasm.CResult_NoneErrorZ_err(e);
 		return nativeResponseValue;
 	}
-	// void CResult_ChannelMonitorUpdateDecodeErrorZ_free(struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ _res);
-	export function CResult_ChannelMonitorUpdateDecodeErrorZ_free(_res: number): void {
+	// void CResult_NoneErrorZ_free(struct LDKCResult_NoneErrorZ _res);
+	export function CResult_NoneErrorZ_free(_res: number): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_ChannelMonitorUpdateDecodeErrorZ_free(_res);
+		const nativeResponseValue = wasm.CResult_NoneErrorZ_free(_res);
 		// debug statements here
 	}
-	// struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ CResult_ChannelMonitorUpdateDecodeErrorZ_clone(const struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ *NONNULL_PTR orig);
-	export function CResult_ChannelMonitorUpdateDecodeErrorZ_clone(orig: number): number {
+	// struct LDKCResult_NoneErrorZ CResult_NoneErrorZ_clone(const struct LDKCResult_NoneErrorZ *NONNULL_PTR orig);
+	export function CResult_NoneErrorZ_clone(orig: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_ChannelMonitorUpdateDecodeErrorZ_clone(orig);
+		const nativeResponseValue = wasm.CResult_NoneErrorZ_clone(orig);
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_HTLCUpdateDecodeErrorZ CResult_HTLCUpdateDecodeErrorZ_ok(struct LDKHTLCUpdate o);
-	export function CResult_HTLCUpdateDecodeErrorZ_ok(o: number): number {
+	// struct LDKCResult_RouteHopDecodeErrorZ CResult_RouteHopDecodeErrorZ_ok(struct LDKRouteHop o);
+	export function CResult_RouteHopDecodeErrorZ_ok(o: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_HTLCUpdateDecodeErrorZ_ok(o);
+		const nativeResponseValue = wasm.CResult_RouteHopDecodeErrorZ_ok(o);
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_HTLCUpdateDecodeErrorZ CResult_HTLCUpdateDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_HTLCUpdateDecodeErrorZ_err(e: number): number {
+	// struct LDKCResult_RouteHopDecodeErrorZ CResult_RouteHopDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_RouteHopDecodeErrorZ_err(e: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_HTLCUpdateDecodeErrorZ_err(e);
+		const nativeResponseValue = wasm.CResult_RouteHopDecodeErrorZ_err(e);
 		return nativeResponseValue;
 	}
-	// void CResult_HTLCUpdateDecodeErrorZ_free(struct LDKCResult_HTLCUpdateDecodeErrorZ _res);
-	export function CResult_HTLCUpdateDecodeErrorZ_free(_res: number): void {
+	// void CResult_RouteHopDecodeErrorZ_free(struct LDKCResult_RouteHopDecodeErrorZ _res);
+	export function CResult_RouteHopDecodeErrorZ_free(_res: number): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_HTLCUpdateDecodeErrorZ_free(_res);
+		const nativeResponseValue = wasm.CResult_RouteHopDecodeErrorZ_free(_res);
 		// debug statements here
 	}
-	// struct LDKCResult_HTLCUpdateDecodeErrorZ CResult_HTLCUpdateDecodeErrorZ_clone(const struct LDKCResult_HTLCUpdateDecodeErrorZ *NONNULL_PTR orig);
-	export function CResult_HTLCUpdateDecodeErrorZ_clone(orig: number): number {
+	// struct LDKCResult_RouteHopDecodeErrorZ CResult_RouteHopDecodeErrorZ_clone(const struct LDKCResult_RouteHopDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_RouteHopDecodeErrorZ_clone(orig: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_HTLCUpdateDecodeErrorZ_clone(orig);
+		const nativeResponseValue = wasm.CResult_RouteHopDecodeErrorZ_clone(orig);
 		return nativeResponseValue;
-	}
-	// struct LDKCResult_NoneMonitorUpdateErrorZ CResult_NoneMonitorUpdateErrorZ_ok(void);
-	export function CResult_NoneMonitorUpdateErrorZ_ok(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneMonitorUpdateErrorZ_ok();
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_NoneMonitorUpdateErrorZ CResult_NoneMonitorUpdateErrorZ_err(struct LDKMonitorUpdateError e);
-	export function CResult_NoneMonitorUpdateErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneMonitorUpdateErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_NoneMonitorUpdateErrorZ_free(struct LDKCResult_NoneMonitorUpdateErrorZ _res);
-	export function CResult_NoneMonitorUpdateErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneMonitorUpdateErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NoneMonitorUpdateErrorZ CResult_NoneMonitorUpdateErrorZ_clone(const struct LDKCResult_NoneMonitorUpdateErrorZ *NONNULL_PTR orig);
-	export function CResult_NoneMonitorUpdateErrorZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneMonitorUpdateErrorZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKC2Tuple_OutPointScriptZ C2Tuple_OutPointScriptZ_new(struct LDKOutPoint a, struct LDKCVec_u8Z b);
-	export function C2Tuple_OutPointScriptZ_new(a: number, b: Uint8Array): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_OutPointScriptZ_new(a, encodeArray(b));
-		return nativeResponseValue;
-	}
-	// void C2Tuple_OutPointScriptZ_free(struct LDKC2Tuple_OutPointScriptZ _res);
-	export function C2Tuple_OutPointScriptZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_OutPointScriptZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKC2Tuple_u32ScriptZ C2Tuple_u32ScriptZ_new(uint32_t a, struct LDKCVec_u8Z b);
-	export function C2Tuple_u32ScriptZ_new(a: number, b: Uint8Array): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_u32ScriptZ_new(a, encodeArray(b));
-		return nativeResponseValue;
-	}
-	// void C2Tuple_u32ScriptZ_free(struct LDKC2Tuple_u32ScriptZ _res);
-	export function C2Tuple_u32ScriptZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_u32ScriptZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_C2Tuple_u32ScriptZZ_free(struct LDKCVec_C2Tuple_u32ScriptZZ _res);
-	export function CVec_C2Tuple_u32ScriptZZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_C2Tuple_u32ScriptZZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(struct LDKThirtyTwoBytes a, struct LDKCVec_C2Tuple_u32ScriptZZ b);
-	export function C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(a: Uint8Array, b: number[]): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(encodeArray(a), b);
-		return nativeResponseValue;
-	}
-	// void C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_free(struct LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ _res);
-	export function C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_free(struct LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ _res);
-	export function CVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_MonitorEventZ_free(struct LDKCVec_MonitorEventZ _res);
-	export function CVec_MonitorEventZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_MonitorEventZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_EventZ_free(struct LDKCVec_EventZ _res);
-	export function CVec_EventZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_EventZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_TransactionZ_free(struct LDKCVec_TransactionZ _res);
-	export function CVec_TransactionZ_free(_res: Uint8Array[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_TransactionZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKC2Tuple_usizeTransactionZ C2Tuple_usizeTransactionZ_new(uintptr_t a, struct LDKTransaction b);
-	export function C2Tuple_usizeTransactionZ_new(a: number, b: Uint8Array): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_usizeTransactionZ_new(a, encodeArray(b));
-		return nativeResponseValue;
-	}
-	// void C2Tuple_usizeTransactionZ_free(struct LDKC2Tuple_usizeTransactionZ _res);
-	export function C2Tuple_usizeTransactionZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_usizeTransactionZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_C2Tuple_usizeTransactionZZ_free(struct LDKCVec_C2Tuple_usizeTransactionZZ _res);
-	export function CVec_C2Tuple_usizeTransactionZZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_C2Tuple_usizeTransactionZZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKC2Tuple_u32TxOutZ C2Tuple_u32TxOutZ_clone(const struct LDKC2Tuple_u32TxOutZ *NONNULL_PTR orig);
-	export function C2Tuple_u32TxOutZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_u32TxOutZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKC2Tuple_u32TxOutZ C2Tuple_u32TxOutZ_new(uint32_t a, struct LDKTxOut b);
-	export function C2Tuple_u32TxOutZ_new(a: number, b: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_u32TxOutZ_new(a, b);
-		return nativeResponseValue;
-	}
-	// void C2Tuple_u32TxOutZ_free(struct LDKC2Tuple_u32TxOutZ _res);
-	export function C2Tuple_u32TxOutZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_u32TxOutZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_C2Tuple_u32TxOutZZ_free(struct LDKCVec_C2Tuple_u32TxOutZZ _res);
-	export function CVec_C2Tuple_u32TxOutZZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_C2Tuple_u32TxOutZZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(struct LDKThirtyTwoBytes a, struct LDKCVec_C2Tuple_u32TxOutZZ b);
-	export function C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(a: Uint8Array, b: number[]): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(encodeArray(a), b);
-		return nativeResponseValue;
-	}
-	// void C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(struct LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ _res);
-	export function C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(struct LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ _res);
-	export function CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_TxidZ_free(struct LDKCVec_TxidZ _res);
-	export function CVec_TxidZ_free(_res: Uint8Array[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_TxidZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitorUpdateErrZ_ok(void);
-	export function CResult_NoneChannelMonitorUpdateErrZ_ok(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneChannelMonitorUpdateErrZ_ok();
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitorUpdateErrZ_err(enum LDKChannelMonitorUpdateErr e);
-	export function CResult_NoneChannelMonitorUpdateErrZ_err(e: LDKChannelMonitorUpdateErr): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneChannelMonitorUpdateErrZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_NoneChannelMonitorUpdateErrZ_free(struct LDKCResult_NoneChannelMonitorUpdateErrZ _res);
-	export function CResult_NoneChannelMonitorUpdateErrZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneChannelMonitorUpdateErrZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitorUpdateErrZ_clone(const struct LDKCResult_NoneChannelMonitorUpdateErrZ *NONNULL_PTR orig);
-	export function CResult_NoneChannelMonitorUpdateErrZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneChannelMonitorUpdateErrZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKC2Tuple_BlockHashChannelMonitorZ C2Tuple_BlockHashChannelMonitorZ_new(struct LDKThirtyTwoBytes a, struct LDKChannelMonitor b);
-	export function C2Tuple_BlockHashChannelMonitorZ_new(a: Uint8Array, b: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_BlockHashChannelMonitorZ_new(encodeArray(a), b);
-		return nativeResponseValue;
-	}
-	// void C2Tuple_BlockHashChannelMonitorZ_free(struct LDKC2Tuple_BlockHashChannelMonitorZ _res);
-	export function C2Tuple_BlockHashChannelMonitorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_BlockHashChannelMonitorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(struct LDKC2Tuple_BlockHashChannelMonitorZ o);
-	export function CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ _res);
-	export function CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(_res);
-		// debug statements here
 	}
 	// void CVec_RouteHopZ_free(struct LDKCVec_RouteHopZ _res);
 	export function CVec_RouteHopZ_free(_res: number[]): void {
@@ -2595,12 +2504,1596 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.CResult_RouteLightningErrorZ_clone(orig);
 		return nativeResponseValue;
 	}
+	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_ok(struct LDKTxOut o);
+	export function CResult_TxOutAccessErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TxOutAccessErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_err(enum LDKAccessError e);
+	export function CResult_TxOutAccessErrorZ_err(e: AccessError): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TxOutAccessErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_TxOutAccessErrorZ_free(struct LDKCResult_TxOutAccessErrorZ _res);
+	export function CResult_TxOutAccessErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TxOutAccessErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_clone(const struct LDKCResult_TxOutAccessErrorZ *NONNULL_PTR orig);
+	export function CResult_TxOutAccessErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TxOutAccessErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_usizeTransactionZ C2Tuple_usizeTransactionZ_clone(const struct LDKC2Tuple_usizeTransactionZ *NONNULL_PTR orig);
+	export function C2Tuple_usizeTransactionZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_usizeTransactionZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_usizeTransactionZ C2Tuple_usizeTransactionZ_new(uintptr_t a, struct LDKTransaction b);
+	export function C2Tuple_usizeTransactionZ_new(a: number, b: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_usizeTransactionZ_new(a, encodeArray(b));
+		return nativeResponseValue;
+	}
+	// void C2Tuple_usizeTransactionZ_free(struct LDKC2Tuple_usizeTransactionZ _res);
+	export function C2Tuple_usizeTransactionZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_usizeTransactionZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_C2Tuple_usizeTransactionZZ_free(struct LDKCVec_C2Tuple_usizeTransactionZZ _res);
+	export function CVec_C2Tuple_usizeTransactionZZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_C2Tuple_usizeTransactionZZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_TxidZ_free(struct LDKCVec_TxidZ _res);
+	export function CVec_TxidZ_free(_res: Uint8Array[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_TxidZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitorUpdateErrZ_ok(void);
+	export function CResult_NoneChannelMonitorUpdateErrZ_ok(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneChannelMonitorUpdateErrZ_ok();
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitorUpdateErrZ_err(enum LDKChannelMonitorUpdateErr e);
+	export function CResult_NoneChannelMonitorUpdateErrZ_err(e: ChannelMonitorUpdateErr): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneChannelMonitorUpdateErrZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_NoneChannelMonitorUpdateErrZ_free(struct LDKCResult_NoneChannelMonitorUpdateErrZ _res);
+	export function CResult_NoneChannelMonitorUpdateErrZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneChannelMonitorUpdateErrZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NoneChannelMonitorUpdateErrZ CResult_NoneChannelMonitorUpdateErrZ_clone(const struct LDKCResult_NoneChannelMonitorUpdateErrZ *NONNULL_PTR orig);
+	export function CResult_NoneChannelMonitorUpdateErrZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneChannelMonitorUpdateErrZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_MonitorEventZ_free(struct LDKCVec_MonitorEventZ _res);
+	export function CVec_MonitorEventZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_MonitorEventZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCOption_C2Tuple_usizeTransactionZZ COption_C2Tuple_usizeTransactionZZ_some(struct LDKC2Tuple_usizeTransactionZ o);
+	export function COption_C2Tuple_usizeTransactionZZ_some(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.COption_C2Tuple_usizeTransactionZZ_some(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCOption_C2Tuple_usizeTransactionZZ COption_C2Tuple_usizeTransactionZZ_none(void);
+	export function COption_C2Tuple_usizeTransactionZZ_none(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.COption_C2Tuple_usizeTransactionZZ_none();
+		return nativeResponseValue;
+	}
+	// void COption_C2Tuple_usizeTransactionZZ_free(struct LDKCOption_C2Tuple_usizeTransactionZZ _res);
+	export function COption_C2Tuple_usizeTransactionZZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.COption_C2Tuple_usizeTransactionZZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCOption_C2Tuple_usizeTransactionZZ COption_C2Tuple_usizeTransactionZZ_clone(const struct LDKCOption_C2Tuple_usizeTransactionZZ *NONNULL_PTR orig);
+	export function COption_C2Tuple_usizeTransactionZZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.COption_C2Tuple_usizeTransactionZZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_SpendableOutputDescriptorZ_free(struct LDKCVec_SpendableOutputDescriptorZ _res);
+	export function CVec_SpendableOutputDescriptorZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_SpendableOutputDescriptorZ_free(_res);
+		// debug statements here
+	}
 	// void CVec_MessageSendEventZ_free(struct LDKCVec_MessageSendEventZ _res);
 	export function CVec_MessageSendEventZ_free(_res: number[]): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.CVec_MessageSendEventZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_InitFeaturesDecodeErrorZ CResult_InitFeaturesDecodeErrorZ_ok(struct LDKInitFeatures o);
+	export function CResult_InitFeaturesDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InitFeaturesDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InitFeaturesDecodeErrorZ CResult_InitFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_InitFeaturesDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InitFeaturesDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_InitFeaturesDecodeErrorZ_free(struct LDKCResult_InitFeaturesDecodeErrorZ _res);
+	export function CResult_InitFeaturesDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InitFeaturesDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NodeFeaturesDecodeErrorZ CResult_NodeFeaturesDecodeErrorZ_ok(struct LDKNodeFeatures o);
+	export function CResult_NodeFeaturesDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NodeFeaturesDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NodeFeaturesDecodeErrorZ CResult_NodeFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_NodeFeaturesDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NodeFeaturesDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_NodeFeaturesDecodeErrorZ_free(struct LDKCResult_NodeFeaturesDecodeErrorZ _res);
+	export function CResult_NodeFeaturesDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NodeFeaturesDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_ChannelFeaturesDecodeErrorZ CResult_ChannelFeaturesDecodeErrorZ_ok(struct LDKChannelFeatures o);
+	export function CResult_ChannelFeaturesDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelFeaturesDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_ChannelFeaturesDecodeErrorZ CResult_ChannelFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_ChannelFeaturesDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelFeaturesDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_ChannelFeaturesDecodeErrorZ_free(struct LDKCResult_ChannelFeaturesDecodeErrorZ _res);
+	export function CResult_ChannelFeaturesDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelFeaturesDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_InvoiceFeaturesDecodeErrorZ CResult_InvoiceFeaturesDecodeErrorZ_ok(struct LDKInvoiceFeatures o);
+	export function CResult_InvoiceFeaturesDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceFeaturesDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InvoiceFeaturesDecodeErrorZ CResult_InvoiceFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_InvoiceFeaturesDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceFeaturesDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_InvoiceFeaturesDecodeErrorZ_free(struct LDKCResult_InvoiceFeaturesDecodeErrorZ _res);
+	export function CResult_InvoiceFeaturesDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceFeaturesDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_ok(struct LDKDelayedPaymentOutputDescriptor o);
+	export function CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_free(struct LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ _res);
+	export function CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone(const struct LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ CResult_StaticPaymentOutputDescriptorDecodeErrorZ_ok(struct LDKStaticPaymentOutputDescriptor o);
+	export function CResult_StaticPaymentOutputDescriptorDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ CResult_StaticPaymentOutputDescriptorDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_StaticPaymentOutputDescriptorDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_StaticPaymentOutputDescriptorDecodeErrorZ_free(struct LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ _res);
+	export function CResult_StaticPaymentOutputDescriptorDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone(const struct LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ CResult_SpendableOutputDescriptorDecodeErrorZ_ok(struct LDKSpendableOutputDescriptor o);
+	export function CResult_SpendableOutputDescriptorDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SpendableOutputDescriptorDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ CResult_SpendableOutputDescriptorDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_SpendableOutputDescriptorDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_SpendableOutputDescriptorDecodeErrorZ_free(struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ _res);
+	export function CResult_SpendableOutputDescriptorDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SpendableOutputDescriptorDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ CResult_SpendableOutputDescriptorDecodeErrorZ_clone(const struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_SpendableOutputDescriptorDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SpendableOutputDescriptorDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_SignatureCVec_SignatureZZ C2Tuple_SignatureCVec_SignatureZZ_clone(const struct LDKC2Tuple_SignatureCVec_SignatureZZ *NONNULL_PTR orig);
+	export function C2Tuple_SignatureCVec_SignatureZZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_SignatureCVec_SignatureZZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_SignatureCVec_SignatureZZ C2Tuple_SignatureCVec_SignatureZZ_new(struct LDKSignature a, struct LDKCVec_SignatureZ b);
+	export function C2Tuple_SignatureCVec_SignatureZZ_new(a: Uint8Array, b: Uint8Array[]): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_SignatureCVec_SignatureZZ_new(encodeArray(a), b);
+		return nativeResponseValue;
+	}
+	// void C2Tuple_SignatureCVec_SignatureZZ_free(struct LDKC2Tuple_SignatureCVec_SignatureZZ _res);
+	export function C2Tuple_SignatureCVec_SignatureZZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_SignatureCVec_SignatureZZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(struct LDKC2Tuple_SignatureCVec_SignatureZZ o);
+	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err(void);
+	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err();
+		return nativeResponseValue;
+	}
+	// void CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ _res);
+	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(const struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *NONNULL_PTR orig);
+	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_ok(struct LDKSignature o);
+	export function CResult_SignatureNoneZ_ok(o: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignatureNoneZ_ok(encodeArray(o));
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_err(void);
+	export function CResult_SignatureNoneZ_err(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignatureNoneZ_err();
+		return nativeResponseValue;
+	}
+	// void CResult_SignatureNoneZ_free(struct LDKCResult_SignatureNoneZ _res);
+	export function CResult_SignatureNoneZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignatureNoneZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_clone(const struct LDKCResult_SignatureNoneZ *NONNULL_PTR orig);
+	export function CResult_SignatureNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignatureNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_ok(struct LDKSign o);
+	export function CResult_SignDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_SignDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_SignDecodeErrorZ_free(struct LDKCResult_SignDecodeErrorZ _res);
+	export function CResult_SignDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_clone(const struct LDKCResult_SignDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_SignDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_u8Z_free(struct LDKCVec_u8Z _res);
+	export function CVec_u8Z_free(_res: Uint8Array): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_u8Z_free(encodeArray(_res));
+		// debug statements here
+	}
+	// struct LDKCResult_RecoverableSignatureNoneZ CResult_RecoverableSignatureNoneZ_ok(struct LDKRecoverableSignature o);
+	export function CResult_RecoverableSignatureNoneZ_ok(arg: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_RecoverableSignatureNoneZ_ok(encodeArray(arg));
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_RecoverableSignatureNoneZ CResult_RecoverableSignatureNoneZ_err(void);
+	export function CResult_RecoverableSignatureNoneZ_err(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_RecoverableSignatureNoneZ_err();
+		return nativeResponseValue;
+	}
+	// void CResult_RecoverableSignatureNoneZ_free(struct LDKCResult_RecoverableSignatureNoneZ _res);
+	export function CResult_RecoverableSignatureNoneZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_RecoverableSignatureNoneZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_RecoverableSignatureNoneZ CResult_RecoverableSignatureNoneZ_clone(const struct LDKCResult_RecoverableSignatureNoneZ *NONNULL_PTR orig);
+	export function CResult_RecoverableSignatureNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_RecoverableSignatureNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_CVec_u8ZZ_free(struct LDKCVec_CVec_u8ZZ _res);
+	export function CVec_CVec_u8ZZ_free(_res: Uint8Array[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_CVec_u8ZZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_ok(struct LDKCVec_CVec_u8ZZ o);
+	export function CResult_CVec_CVec_u8ZZNoneZ_ok(o: Uint8Array[]): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_CVec_CVec_u8ZZNoneZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_err(void);
+	export function CResult_CVec_CVec_u8ZZNoneZ_err(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_CVec_CVec_u8ZZNoneZ_err();
+		return nativeResponseValue;
+	}
+	// void CResult_CVec_CVec_u8ZZNoneZ_free(struct LDKCResult_CVec_CVec_u8ZZNoneZ _res);
+	export function CResult_CVec_CVec_u8ZZNoneZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_CVec_CVec_u8ZZNoneZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_clone(const struct LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR orig);
+	export function CResult_CVec_CVec_u8ZZNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_CVec_CVec_u8ZZNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InMemorySignerDecodeErrorZ CResult_InMemorySignerDecodeErrorZ_ok(struct LDKInMemorySigner o);
+	export function CResult_InMemorySignerDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InMemorySignerDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InMemorySignerDecodeErrorZ CResult_InMemorySignerDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_InMemorySignerDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InMemorySignerDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_InMemorySignerDecodeErrorZ_free(struct LDKCResult_InMemorySignerDecodeErrorZ _res);
+	export function CResult_InMemorySignerDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InMemorySignerDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_InMemorySignerDecodeErrorZ CResult_InMemorySignerDecodeErrorZ_clone(const struct LDKCResult_InMemorySignerDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_InMemorySignerDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InMemorySignerDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_TxOutZ_free(struct LDKCVec_TxOutZ _res);
+	export function CVec_TxOutZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_TxOutZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_TransactionNoneZ CResult_TransactionNoneZ_ok(struct LDKTransaction o);
+	export function CResult_TransactionNoneZ_ok(o: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TransactionNoneZ_ok(encodeArray(o));
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_TransactionNoneZ CResult_TransactionNoneZ_err(void);
+	export function CResult_TransactionNoneZ_err(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TransactionNoneZ_err();
+		return nativeResponseValue;
+	}
+	// void CResult_TransactionNoneZ_free(struct LDKCResult_TransactionNoneZ _res);
+	export function CResult_TransactionNoneZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TransactionNoneZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_TransactionNoneZ CResult_TransactionNoneZ_clone(const struct LDKCResult_TransactionNoneZ *NONNULL_PTR orig);
+	export function CResult_TransactionNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_TransactionNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_BlockHashChannelMonitorZ C2Tuple_BlockHashChannelMonitorZ_new(struct LDKThirtyTwoBytes a, struct LDKChannelMonitor b);
+	export function C2Tuple_BlockHashChannelMonitorZ_new(a: Uint8Array, b: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_BlockHashChannelMonitorZ_new(encodeArray(a), b);
+		return nativeResponseValue;
+	}
+	// void C2Tuple_BlockHashChannelMonitorZ_free(struct LDKC2Tuple_BlockHashChannelMonitorZ _res);
+	export function C2Tuple_BlockHashChannelMonitorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_BlockHashChannelMonitorZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_C2Tuple_BlockHashChannelMonitorZZ_free(struct LDKCVec_C2Tuple_BlockHashChannelMonitorZZ _res);
+	export function CVec_C2Tuple_BlockHashChannelMonitorZZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_C2Tuple_BlockHashChannelMonitorZZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(struct LDKCVec_C2Tuple_BlockHashChannelMonitorZZ o);
+	export function CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o: number[]): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(enum LDKIOError e);
+	export function CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e: IOError): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_free(struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ _res);
+	export function CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_ok(void);
+	export function CResult_NoneAPIErrorZ_ok(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneAPIErrorZ_ok();
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_err(struct LDKAPIError e);
+	export function CResult_NoneAPIErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneAPIErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_NoneAPIErrorZ_free(struct LDKCResult_NoneAPIErrorZ _res);
+	export function CResult_NoneAPIErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneAPIErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_clone(const struct LDKCResult_NoneAPIErrorZ *NONNULL_PTR orig);
+	export function CResult_NoneAPIErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneAPIErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_CResult_NoneAPIErrorZZ_free(struct LDKCVec_CResult_NoneAPIErrorZZ _res);
+	export function CVec_CResult_NoneAPIErrorZZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_CResult_NoneAPIErrorZZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_APIErrorZ_free(struct LDKCVec_APIErrorZ _res);
+	export function CVec_APIErrorZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_APIErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_ok(void);
+	export function CResult_NonePaymentSendFailureZ_ok(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_ok();
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_err(struct LDKPaymentSendFailure e);
+	export function CResult_NonePaymentSendFailureZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_NonePaymentSendFailureZ_free(struct LDKCResult_NonePaymentSendFailureZ _res);
+	export function CResult_NonePaymentSendFailureZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_clone(const struct LDKCResult_NonePaymentSendFailureZ *NONNULL_PTR orig);
+	export function CResult_NonePaymentSendFailureZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_NetAddressZ_free(struct LDKCVec_NetAddressZ _res);
+	export function CVec_NetAddressZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_NetAddressZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKC2Tuple_PaymentHashPaymentSecretZ C2Tuple_PaymentHashPaymentSecretZ_clone(const struct LDKC2Tuple_PaymentHashPaymentSecretZ *NONNULL_PTR orig);
+	export function C2Tuple_PaymentHashPaymentSecretZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_PaymentHashPaymentSecretZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_PaymentHashPaymentSecretZ C2Tuple_PaymentHashPaymentSecretZ_new(struct LDKThirtyTwoBytes a, struct LDKThirtyTwoBytes b);
+	export function C2Tuple_PaymentHashPaymentSecretZ_new(a: Uint8Array, b: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_PaymentHashPaymentSecretZ_new(encodeArray(a), encodeArray(b));
+		return nativeResponseValue;
+	}
+	// void C2Tuple_PaymentHashPaymentSecretZ_free(struct LDKC2Tuple_PaymentHashPaymentSecretZ _res);
+	export function C2Tuple_PaymentHashPaymentSecretZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_PaymentHashPaymentSecretZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_PaymentSecretAPIErrorZ CResult_PaymentSecretAPIErrorZ_ok(struct LDKThirtyTwoBytes o);
+	export function CResult_PaymentSecretAPIErrorZ_ok(o: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PaymentSecretAPIErrorZ_ok(encodeArray(o));
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_PaymentSecretAPIErrorZ CResult_PaymentSecretAPIErrorZ_err(struct LDKAPIError e);
+	export function CResult_PaymentSecretAPIErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PaymentSecretAPIErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_PaymentSecretAPIErrorZ_free(struct LDKCResult_PaymentSecretAPIErrorZ _res);
+	export function CResult_PaymentSecretAPIErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PaymentSecretAPIErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_PaymentSecretAPIErrorZ CResult_PaymentSecretAPIErrorZ_clone(const struct LDKCResult_PaymentSecretAPIErrorZ *NONNULL_PTR orig);
+	export function CResult_PaymentSecretAPIErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PaymentSecretAPIErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_ChannelMonitorZ_free(struct LDKCVec_ChannelMonitorZ _res);
+	export function CVec_ChannelMonitorZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_ChannelMonitorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKC2Tuple_BlockHashChannelManagerZ C2Tuple_BlockHashChannelManagerZ_new(struct LDKThirtyTwoBytes a, struct LDKChannelManager b);
+	export function C2Tuple_BlockHashChannelManagerZ_new(a: Uint8Array, b: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_BlockHashChannelManagerZ_new(encodeArray(a), b);
+		return nativeResponseValue;
+	}
+	// void C2Tuple_BlockHashChannelManagerZ_free(struct LDKC2Tuple_BlockHashChannelManagerZ _res);
+	export function C2Tuple_BlockHashChannelManagerZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_BlockHashChannelManagerZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(struct LDKC2Tuple_BlockHashChannelManagerZ o);
+	export function CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(struct LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ _res);
+	export function CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_ChannelConfigDecodeErrorZ CResult_ChannelConfigDecodeErrorZ_ok(struct LDKChannelConfig o);
+	export function CResult_ChannelConfigDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelConfigDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_ChannelConfigDecodeErrorZ CResult_ChannelConfigDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_ChannelConfigDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelConfigDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_ChannelConfigDecodeErrorZ_free(struct LDKCResult_ChannelConfigDecodeErrorZ _res);
+	export function CResult_ChannelConfigDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelConfigDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_ChannelConfigDecodeErrorZ CResult_ChannelConfigDecodeErrorZ_clone(const struct LDKCResult_ChannelConfigDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_ChannelConfigDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelConfigDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_OutPointDecodeErrorZ CResult_OutPointDecodeErrorZ_ok(struct LDKOutPoint o);
+	export function CResult_OutPointDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_OutPointDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_OutPointDecodeErrorZ CResult_OutPointDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_OutPointDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_OutPointDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_OutPointDecodeErrorZ_free(struct LDKCResult_OutPointDecodeErrorZ _res);
+	export function CResult_OutPointDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_OutPointDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_OutPointDecodeErrorZ CResult_OutPointDecodeErrorZ_clone(const struct LDKCResult_OutPointDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_OutPointDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_OutPointDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SiPrefixNoneZ CResult_SiPrefixNoneZ_ok(enum LDKSiPrefix o);
+	export function CResult_SiPrefixNoneZ_ok(o: SiPrefix): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SiPrefixNoneZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SiPrefixNoneZ CResult_SiPrefixNoneZ_err(void);
+	export function CResult_SiPrefixNoneZ_err(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SiPrefixNoneZ_err();
+		return nativeResponseValue;
+	}
+	// void CResult_SiPrefixNoneZ_free(struct LDKCResult_SiPrefixNoneZ _res);
+	export function CResult_SiPrefixNoneZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SiPrefixNoneZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_SiPrefixNoneZ CResult_SiPrefixNoneZ_clone(const struct LDKCResult_SiPrefixNoneZ *NONNULL_PTR orig);
+	export function CResult_SiPrefixNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SiPrefixNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InvoiceNoneZ CResult_InvoiceNoneZ_ok(struct LDKInvoice o);
+	export function CResult_InvoiceNoneZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceNoneZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InvoiceNoneZ CResult_InvoiceNoneZ_err(void);
+	export function CResult_InvoiceNoneZ_err(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceNoneZ_err();
+		return nativeResponseValue;
+	}
+	// void CResult_InvoiceNoneZ_free(struct LDKCResult_InvoiceNoneZ _res);
+	export function CResult_InvoiceNoneZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceNoneZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_InvoiceNoneZ CResult_InvoiceNoneZ_clone(const struct LDKCResult_InvoiceNoneZ *NONNULL_PTR orig);
+	export function CResult_InvoiceNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SignedRawInvoiceNoneZ CResult_SignedRawInvoiceNoneZ_ok(struct LDKSignedRawInvoice o);
+	export function CResult_SignedRawInvoiceNoneZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignedRawInvoiceNoneZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SignedRawInvoiceNoneZ CResult_SignedRawInvoiceNoneZ_err(void);
+	export function CResult_SignedRawInvoiceNoneZ_err(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignedRawInvoiceNoneZ_err();
+		return nativeResponseValue;
+	}
+	// void CResult_SignedRawInvoiceNoneZ_free(struct LDKCResult_SignedRawInvoiceNoneZ _res);
+	export function CResult_SignedRawInvoiceNoneZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignedRawInvoiceNoneZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_SignedRawInvoiceNoneZ CResult_SignedRawInvoiceNoneZ_clone(const struct LDKCResult_SignedRawInvoiceNoneZ *NONNULL_PTR orig);
+	export function CResult_SignedRawInvoiceNoneZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_SignedRawInvoiceNoneZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone(const struct LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ *NONNULL_PTR orig);
+	export function C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ C3Tuple_RawInvoice_u832InvoiceSignatureZ_new(struct LDKRawInvoice a, struct LDKThirtyTwoBytes b, struct LDKInvoiceSignature c);
+	export function C3Tuple_RawInvoice_u832InvoiceSignatureZ_new(a: number, b: Uint8Array, c: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C3Tuple_RawInvoice_u832InvoiceSignatureZ_new(a, encodeArray(b), c);
+		return nativeResponseValue;
+	}
+	// void C3Tuple_RawInvoice_u832InvoiceSignatureZ_free(struct LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ _res);
+	export function C3Tuple_RawInvoice_u832InvoiceSignatureZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C3Tuple_RawInvoice_u832InvoiceSignatureZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_PayeePubKeyErrorZ CResult_PayeePubKeyErrorZ_ok(struct LDKPayeePubKey o);
+	export function CResult_PayeePubKeyErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PayeePubKeyErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_PayeePubKeyErrorZ CResult_PayeePubKeyErrorZ_err(enum LDKSecp256k1Error e);
+	export function CResult_PayeePubKeyErrorZ_err(e: Secp256k1Error): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PayeePubKeyErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_PayeePubKeyErrorZ_free(struct LDKCResult_PayeePubKeyErrorZ _res);
+	export function CResult_PayeePubKeyErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PayeePubKeyErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_PayeePubKeyErrorZ CResult_PayeePubKeyErrorZ_clone(const struct LDKCResult_PayeePubKeyErrorZ *NONNULL_PTR orig);
+	export function CResult_PayeePubKeyErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PayeePubKeyErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// void CVec_PrivateRouteZ_free(struct LDKCVec_PrivateRouteZ _res);
+	export function CVec_PrivateRouteZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_PrivateRouteZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_PositiveTimestampCreationErrorZ CResult_PositiveTimestampCreationErrorZ_ok(struct LDKPositiveTimestamp o);
+	export function CResult_PositiveTimestampCreationErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PositiveTimestampCreationErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_PositiveTimestampCreationErrorZ CResult_PositiveTimestampCreationErrorZ_err(enum LDKCreationError e);
+	export function CResult_PositiveTimestampCreationErrorZ_err(e: CreationError): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PositiveTimestampCreationErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_PositiveTimestampCreationErrorZ_free(struct LDKCResult_PositiveTimestampCreationErrorZ _res);
+	export function CResult_PositiveTimestampCreationErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PositiveTimestampCreationErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_PositiveTimestampCreationErrorZ CResult_PositiveTimestampCreationErrorZ_clone(const struct LDKCResult_PositiveTimestampCreationErrorZ *NONNULL_PTR orig);
+	export function CResult_PositiveTimestampCreationErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PositiveTimestampCreationErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NoneSemanticErrorZ CResult_NoneSemanticErrorZ_ok(void);
+	export function CResult_NoneSemanticErrorZ_ok(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneSemanticErrorZ_ok();
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NoneSemanticErrorZ CResult_NoneSemanticErrorZ_err(enum LDKSemanticError e);
+	export function CResult_NoneSemanticErrorZ_err(e: SemanticError): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneSemanticErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_NoneSemanticErrorZ_free(struct LDKCResult_NoneSemanticErrorZ _res);
+	export function CResult_NoneSemanticErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneSemanticErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NoneSemanticErrorZ CResult_NoneSemanticErrorZ_clone(const struct LDKCResult_NoneSemanticErrorZ *NONNULL_PTR orig);
+	export function CResult_NoneSemanticErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneSemanticErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InvoiceSemanticErrorZ CResult_InvoiceSemanticErrorZ_ok(struct LDKInvoice o);
+	export function CResult_InvoiceSemanticErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceSemanticErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InvoiceSemanticErrorZ CResult_InvoiceSemanticErrorZ_err(enum LDKSemanticError e);
+	export function CResult_InvoiceSemanticErrorZ_err(e: SemanticError): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceSemanticErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_InvoiceSemanticErrorZ_free(struct LDKCResult_InvoiceSemanticErrorZ _res);
+	export function CResult_InvoiceSemanticErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceSemanticErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_InvoiceSemanticErrorZ CResult_InvoiceSemanticErrorZ_clone(const struct LDKCResult_InvoiceSemanticErrorZ *NONNULL_PTR orig);
+	export function CResult_InvoiceSemanticErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_InvoiceSemanticErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_DescriptionCreationErrorZ CResult_DescriptionCreationErrorZ_ok(struct LDKDescription o);
+	export function CResult_DescriptionCreationErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_DescriptionCreationErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_DescriptionCreationErrorZ CResult_DescriptionCreationErrorZ_err(enum LDKCreationError e);
+	export function CResult_DescriptionCreationErrorZ_err(e: CreationError): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_DescriptionCreationErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_DescriptionCreationErrorZ_free(struct LDKCResult_DescriptionCreationErrorZ _res);
+	export function CResult_DescriptionCreationErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_DescriptionCreationErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_DescriptionCreationErrorZ CResult_DescriptionCreationErrorZ_clone(const struct LDKCResult_DescriptionCreationErrorZ *NONNULL_PTR orig);
+	export function CResult_DescriptionCreationErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_DescriptionCreationErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_ExpiryTimeCreationErrorZ CResult_ExpiryTimeCreationErrorZ_ok(struct LDKExpiryTime o);
+	export function CResult_ExpiryTimeCreationErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ExpiryTimeCreationErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_ExpiryTimeCreationErrorZ CResult_ExpiryTimeCreationErrorZ_err(enum LDKCreationError e);
+	export function CResult_ExpiryTimeCreationErrorZ_err(e: CreationError): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ExpiryTimeCreationErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_ExpiryTimeCreationErrorZ_free(struct LDKCResult_ExpiryTimeCreationErrorZ _res);
+	export function CResult_ExpiryTimeCreationErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ExpiryTimeCreationErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_ExpiryTimeCreationErrorZ CResult_ExpiryTimeCreationErrorZ_clone(const struct LDKCResult_ExpiryTimeCreationErrorZ *NONNULL_PTR orig);
+	export function CResult_ExpiryTimeCreationErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ExpiryTimeCreationErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_PrivateRouteCreationErrorZ CResult_PrivateRouteCreationErrorZ_ok(struct LDKPrivateRoute o);
+	export function CResult_PrivateRouteCreationErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PrivateRouteCreationErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_PrivateRouteCreationErrorZ CResult_PrivateRouteCreationErrorZ_err(enum LDKCreationError e);
+	export function CResult_PrivateRouteCreationErrorZ_err(e: CreationError): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PrivateRouteCreationErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_PrivateRouteCreationErrorZ_free(struct LDKCResult_PrivateRouteCreationErrorZ _res);
+	export function CResult_PrivateRouteCreationErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PrivateRouteCreationErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_PrivateRouteCreationErrorZ CResult_PrivateRouteCreationErrorZ_clone(const struct LDKCResult_PrivateRouteCreationErrorZ *NONNULL_PTR orig);
+	export function CResult_PrivateRouteCreationErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_PrivateRouteCreationErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_StringErrorZ CResult_StringErrorZ_ok(struct LDKStr o);
+	export function CResult_StringErrorZ_ok(o: String): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_StringErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_StringErrorZ CResult_StringErrorZ_err(enum LDKSecp256k1Error e);
+	export function CResult_StringErrorZ_err(e: Secp256k1Error): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_StringErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_StringErrorZ_free(struct LDKCResult_StringErrorZ _res);
+	export function CResult_StringErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_StringErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ CResult_ChannelMonitorUpdateDecodeErrorZ_ok(struct LDKChannelMonitorUpdate o);
+	export function CResult_ChannelMonitorUpdateDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelMonitorUpdateDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ CResult_ChannelMonitorUpdateDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_ChannelMonitorUpdateDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelMonitorUpdateDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_ChannelMonitorUpdateDecodeErrorZ_free(struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ _res);
+	export function CResult_ChannelMonitorUpdateDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelMonitorUpdateDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ CResult_ChannelMonitorUpdateDecodeErrorZ_clone(const struct LDKCResult_ChannelMonitorUpdateDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_ChannelMonitorUpdateDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_ChannelMonitorUpdateDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_HTLCUpdateDecodeErrorZ CResult_HTLCUpdateDecodeErrorZ_ok(struct LDKHTLCUpdate o);
+	export function CResult_HTLCUpdateDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_HTLCUpdateDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_HTLCUpdateDecodeErrorZ CResult_HTLCUpdateDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_HTLCUpdateDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_HTLCUpdateDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_HTLCUpdateDecodeErrorZ_free(struct LDKCResult_HTLCUpdateDecodeErrorZ _res);
+	export function CResult_HTLCUpdateDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_HTLCUpdateDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_HTLCUpdateDecodeErrorZ CResult_HTLCUpdateDecodeErrorZ_clone(const struct LDKCResult_HTLCUpdateDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_HTLCUpdateDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_HTLCUpdateDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NoneMonitorUpdateErrorZ CResult_NoneMonitorUpdateErrorZ_ok(void);
+	export function CResult_NoneMonitorUpdateErrorZ_ok(): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneMonitorUpdateErrorZ_ok();
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NoneMonitorUpdateErrorZ CResult_NoneMonitorUpdateErrorZ_err(struct LDKMonitorUpdateError e);
+	export function CResult_NoneMonitorUpdateErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneMonitorUpdateErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_NoneMonitorUpdateErrorZ_free(struct LDKCResult_NoneMonitorUpdateErrorZ _res);
+	export function CResult_NoneMonitorUpdateErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneMonitorUpdateErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NoneMonitorUpdateErrorZ CResult_NoneMonitorUpdateErrorZ_clone(const struct LDKCResult_NoneMonitorUpdateErrorZ *NONNULL_PTR orig);
+	export function CResult_NoneMonitorUpdateErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NoneMonitorUpdateErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_OutPointScriptZ C2Tuple_OutPointScriptZ_clone(const struct LDKC2Tuple_OutPointScriptZ *NONNULL_PTR orig);
+	export function C2Tuple_OutPointScriptZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_OutPointScriptZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_OutPointScriptZ C2Tuple_OutPointScriptZ_new(struct LDKOutPoint a, struct LDKCVec_u8Z b);
+	export function C2Tuple_OutPointScriptZ_new(a: number, b: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_OutPointScriptZ_new(a, encodeArray(b));
+		return nativeResponseValue;
+	}
+	// void C2Tuple_OutPointScriptZ_free(struct LDKC2Tuple_OutPointScriptZ _res);
+	export function C2Tuple_OutPointScriptZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_OutPointScriptZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKC2Tuple_u32ScriptZ C2Tuple_u32ScriptZ_clone(const struct LDKC2Tuple_u32ScriptZ *NONNULL_PTR orig);
+	export function C2Tuple_u32ScriptZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_u32ScriptZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_u32ScriptZ C2Tuple_u32ScriptZ_new(uint32_t a, struct LDKCVec_u8Z b);
+	export function C2Tuple_u32ScriptZ_new(a: number, b: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_u32ScriptZ_new(a, encodeArray(b));
+		return nativeResponseValue;
+	}
+	// void C2Tuple_u32ScriptZ_free(struct LDKC2Tuple_u32ScriptZ _res);
+	export function C2Tuple_u32ScriptZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_u32ScriptZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_C2Tuple_u32ScriptZZ_free(struct LDKCVec_C2Tuple_u32ScriptZZ _res);
+	export function CVec_C2Tuple_u32ScriptZZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_C2Tuple_u32ScriptZZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone(const struct LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ *NONNULL_PTR orig);
+	export function C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(struct LDKThirtyTwoBytes a, struct LDKCVec_C2Tuple_u32ScriptZZ b);
+	export function C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(a: Uint8Array, b: number[]): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(encodeArray(a), b);
+		return nativeResponseValue;
+	}
+	// void C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_free(struct LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ _res);
+	export function C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_free(struct LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ _res);
+	export function CVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_EventZ_free(struct LDKCVec_EventZ _res);
+	export function CVec_EventZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_EventZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_TransactionZ_free(struct LDKCVec_TransactionZ _res);
+	export function CVec_TransactionZ_free(_res: Uint8Array[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_TransactionZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKC2Tuple_u32TxOutZ C2Tuple_u32TxOutZ_clone(const struct LDKC2Tuple_u32TxOutZ *NONNULL_PTR orig);
+	export function C2Tuple_u32TxOutZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_u32TxOutZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_u32TxOutZ C2Tuple_u32TxOutZ_new(uint32_t a, struct LDKTxOut b);
+	export function C2Tuple_u32TxOutZ_new(a: number, b: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_u32TxOutZ_new(a, b);
+		return nativeResponseValue;
+	}
+	// void C2Tuple_u32TxOutZ_free(struct LDKC2Tuple_u32TxOutZ _res);
+	export function C2Tuple_u32TxOutZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_u32TxOutZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_C2Tuple_u32TxOutZZ_free(struct LDKCVec_C2Tuple_u32TxOutZZ _res);
+	export function CVec_C2Tuple_u32TxOutZZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_C2Tuple_u32TxOutZZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(const struct LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *NONNULL_PTR orig);
+	export function C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(struct LDKThirtyTwoBytes a, struct LDKCVec_C2Tuple_u32TxOutZZ b);
+	export function C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(a: Uint8Array, b: number[]): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(encodeArray(a), b);
+		return nativeResponseValue;
+	}
+	// void C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(struct LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ _res);
+	export function C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free(_res);
+		// debug statements here
+	}
+	// void CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(struct LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ _res);
+	export function CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(_res: number[]): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(struct LDKC2Tuple_BlockHashChannelMonitorZ o);
+	export function CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ _res);
+	export function CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(_res);
 		// debug statements here
 	}
 	// struct LDKCResult_boolLightningErrorZ CResult_boolLightningErrorZ_ok(bool o);
@@ -2715,14 +4208,6 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.CVec_PublicKeyZ_free(_res);
 		// debug statements here
 	}
-	// void CVec_u8Z_free(struct LDKCVec_u8Z _res);
-	export function CVec_u8Z_free(_res: Uint8Array): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_u8Z_free(encodeArray(_res));
-		// debug statements here
-	}
 	// struct LDKCResult_CVec_u8ZPeerHandleErrorZ CResult_CVec_u8ZPeerHandleErrorZ_ok(struct LDKCVec_u8Z o);
 	export function CResult_CVec_u8ZPeerHandleErrorZ_ok(o: Uint8Array): number {
 		if(!isWasmInitialized) {
@@ -2819,70 +4304,6 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.CResult_boolPeerHandleErrorZ_clone(orig);
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_ok(struct LDKTxOut o);
-	export function CResult_TxOutAccessErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_TxOutAccessErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_err(enum LDKAccessError e);
-	export function CResult_TxOutAccessErrorZ_err(e: LDKAccessError): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_TxOutAccessErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_TxOutAccessErrorZ_free(struct LDKCResult_TxOutAccessErrorZ _res);
-	export function CResult_TxOutAccessErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_TxOutAccessErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_TxOutAccessErrorZ CResult_TxOutAccessErrorZ_clone(const struct LDKCResult_TxOutAccessErrorZ *NONNULL_PTR orig);
-	export function CResult_TxOutAccessErrorZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_TxOutAccessErrorZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKCOption_C2Tuple_usizeTransactionZZ COption_C2Tuple_usizeTransactionZZ_some(struct LDKC2Tuple_usizeTransactionZ o);
-	export function COption_C2Tuple_usizeTransactionZZ_some(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.COption_C2Tuple_usizeTransactionZZ_some(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCOption_C2Tuple_usizeTransactionZZ COption_C2Tuple_usizeTransactionZZ_none(void);
-	export function COption_C2Tuple_usizeTransactionZZ_none(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.COption_C2Tuple_usizeTransactionZZ_none();
-		return nativeResponseValue;
-	}
-	// void COption_C2Tuple_usizeTransactionZZ_free(struct LDKCOption_C2Tuple_usizeTransactionZZ _res);
-	export function COption_C2Tuple_usizeTransactionZZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.COption_C2Tuple_usizeTransactionZZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_SpendableOutputDescriptorZ_free(struct LDKCVec_SpendableOutputDescriptorZ _res);
-	export function CVec_SpendableOutputDescriptorZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_SpendableOutputDescriptorZ_free(_res);
-		// debug statements here
-	}
 	// struct LDKCResult_DirectionalChannelInfoDecodeErrorZ CResult_DirectionalChannelInfoDecodeErrorZ_ok(struct LDKDirectionalChannelInfo o);
 	export function CResult_DirectionalChannelInfoDecodeErrorZ_ok(o: number): number {
 		if(!isWasmInitialized) {
@@ -2978,14 +4399,6 @@ public static native long new_empty_slice_vec();
 		}
 		const nativeResponseValue = wasm.CResult_RoutingFeesDecodeErrorZ_clone(orig);
 		return nativeResponseValue;
-	}
-	// void CVec_NetAddressZ_free(struct LDKCVec_NetAddressZ _res);
-	export function CVec_NetAddressZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_NetAddressZ_free(_res);
-		// debug statements here
 	}
 	// struct LDKCResult_NodeAnnouncementInfoDecodeErrorZ CResult_NodeAnnouncementInfoDecodeErrorZ_ok(struct LDKNodeAnnouncementInfo o);
 	export function CResult_NodeAnnouncementInfoDecodeErrorZ_ok(o: number): number {
@@ -3091,102 +4504,6 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.CResult_NetworkGraphDecodeErrorZ_clone(orig);
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_InitFeaturesDecodeErrorZ CResult_InitFeaturesDecodeErrorZ_ok(struct LDKInitFeatures o);
-	export function CResult_InitFeaturesDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InitFeaturesDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_InitFeaturesDecodeErrorZ CResult_InitFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_InitFeaturesDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InitFeaturesDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_InitFeaturesDecodeErrorZ_free(struct LDKCResult_InitFeaturesDecodeErrorZ _res);
-	export function CResult_InitFeaturesDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InitFeaturesDecodeErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NodeFeaturesDecodeErrorZ CResult_NodeFeaturesDecodeErrorZ_ok(struct LDKNodeFeatures o);
-	export function CResult_NodeFeaturesDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NodeFeaturesDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_NodeFeaturesDecodeErrorZ CResult_NodeFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_NodeFeaturesDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NodeFeaturesDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_NodeFeaturesDecodeErrorZ_free(struct LDKCResult_NodeFeaturesDecodeErrorZ _res);
-	export function CResult_NodeFeaturesDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NodeFeaturesDecodeErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_ChannelFeaturesDecodeErrorZ CResult_ChannelFeaturesDecodeErrorZ_ok(struct LDKChannelFeatures o);
-	export function CResult_ChannelFeaturesDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_ChannelFeaturesDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_ChannelFeaturesDecodeErrorZ CResult_ChannelFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_ChannelFeaturesDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_ChannelFeaturesDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_ChannelFeaturesDecodeErrorZ_free(struct LDKCResult_ChannelFeaturesDecodeErrorZ _res);
-	export function CResult_ChannelFeaturesDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_ChannelFeaturesDecodeErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_InvoiceFeaturesDecodeErrorZ CResult_InvoiceFeaturesDecodeErrorZ_ok(struct LDKInvoiceFeatures o);
-	export function CResult_InvoiceFeaturesDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InvoiceFeaturesDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_InvoiceFeaturesDecodeErrorZ CResult_InvoiceFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_InvoiceFeaturesDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InvoiceFeaturesDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_InvoiceFeaturesDecodeErrorZ_free(struct LDKCResult_InvoiceFeaturesDecodeErrorZ _res);
-	export function CResult_InvoiceFeaturesDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InvoiceFeaturesDecodeErrorZ_free(_res);
-		// debug statements here
-	}
 	// struct LDKCResult_NetAddressu8Z CResult_NetAddressu8Z_ok(struct LDKNetAddress o);
 	export function CResult_NetAddressu8Z_ok(o: number): number {
 		if(!isWasmInitialized) {
@@ -3249,6 +4566,38 @@ public static native long new_empty_slice_vec();
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.CResult_CResult_NetAddressu8ZDecodeErrorZ_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NetAddressDecodeErrorZ CResult_NetAddressDecodeErrorZ_ok(struct LDKNetAddress o);
+	export function CResult_NetAddressDecodeErrorZ_ok(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NetAddressDecodeErrorZ_ok(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_NetAddressDecodeErrorZ CResult_NetAddressDecodeErrorZ_err(struct LDKDecodeError e);
+	export function CResult_NetAddressDecodeErrorZ_err(e: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NetAddressDecodeErrorZ_err(e);
+		return nativeResponseValue;
+	}
+	// void CResult_NetAddressDecodeErrorZ_free(struct LDKCResult_NetAddressDecodeErrorZ _res);
+	export function CResult_NetAddressDecodeErrorZ_free(_res: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NetAddressDecodeErrorZ_free(_res);
+		// debug statements here
+	}
+	// struct LDKCResult_NetAddressDecodeErrorZ CResult_NetAddressDecodeErrorZ_clone(const struct LDKCResult_NetAddressDecodeErrorZ *NONNULL_PTR orig);
+	export function CResult_NetAddressDecodeErrorZ_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CResult_NetAddressDecodeErrorZ_clone(orig);
 		return nativeResponseValue;
 	}
 	// void CVec_UpdateAddHTLCZ_free(struct LDKCVec_UpdateAddHTLCZ _res);
@@ -4275,445 +5624,37 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.CResult_GossipTimestampFilterDecodeErrorZ_clone(orig);
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ CResult_SpendableOutputDescriptorDecodeErrorZ_ok(struct LDKSpendableOutputDescriptor o);
-	export function CResult_SpendableOutputDescriptorDecodeErrorZ_ok(o: number): number {
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ CResult_InvoiceSignOrCreationErrorZ_ok(struct LDKInvoice o);
+	export function CResult_InvoiceSignOrCreationErrorZ_ok(o: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_SpendableOutputDescriptorDecodeErrorZ_ok(o);
+		const nativeResponseValue = wasm.CResult_InvoiceSignOrCreationErrorZ_ok(o);
 		return nativeResponseValue;
 	}
-	// struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ CResult_SpendableOutputDescriptorDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_SpendableOutputDescriptorDecodeErrorZ_err(e: number): number {
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ CResult_InvoiceSignOrCreationErrorZ_err(struct LDKSignOrCreationError e);
+	export function CResult_InvoiceSignOrCreationErrorZ_err(e: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e);
+		const nativeResponseValue = wasm.CResult_InvoiceSignOrCreationErrorZ_err(e);
 		return nativeResponseValue;
 	}
-	// void CResult_SpendableOutputDescriptorDecodeErrorZ_free(struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ _res);
-	export function CResult_SpendableOutputDescriptorDecodeErrorZ_free(_res: number): void {
+	// void CResult_InvoiceSignOrCreationErrorZ_free(struct LDKCResult_InvoiceSignOrCreationErrorZ _res);
+	export function CResult_InvoiceSignOrCreationErrorZ_free(_res: number): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_SpendableOutputDescriptorDecodeErrorZ_free(_res);
+		const nativeResponseValue = wasm.CResult_InvoiceSignOrCreationErrorZ_free(_res);
 		// debug statements here
 	}
-	// struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ CResult_SpendableOutputDescriptorDecodeErrorZ_clone(const struct LDKCResult_SpendableOutputDescriptorDecodeErrorZ *NONNULL_PTR orig);
-	export function CResult_SpendableOutputDescriptorDecodeErrorZ_clone(orig: number): number {
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ CResult_InvoiceSignOrCreationErrorZ_clone(const struct LDKCResult_InvoiceSignOrCreationErrorZ *NONNULL_PTR orig);
+	export function CResult_InvoiceSignOrCreationErrorZ_clone(orig: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.CResult_SpendableOutputDescriptorDecodeErrorZ_clone(orig);
+		const nativeResponseValue = wasm.CResult_InvoiceSignOrCreationErrorZ_clone(orig);
 		return nativeResponseValue;
-	}
-	// struct LDKC2Tuple_SignatureCVec_SignatureZZ C2Tuple_SignatureCVec_SignatureZZ_clone(const struct LDKC2Tuple_SignatureCVec_SignatureZZ *NONNULL_PTR orig);
-	export function C2Tuple_SignatureCVec_SignatureZZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_SignatureCVec_SignatureZZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKC2Tuple_SignatureCVec_SignatureZZ C2Tuple_SignatureCVec_SignatureZZ_new(struct LDKSignature a, struct LDKCVec_SignatureZ b);
-	export function C2Tuple_SignatureCVec_SignatureZZ_new(a: Uint8Array, b: Uint8Array[]): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_SignatureCVec_SignatureZZ_new(encodeArray(a), b);
-		return nativeResponseValue;
-	}
-	// void C2Tuple_SignatureCVec_SignatureZZ_free(struct LDKC2Tuple_SignatureCVec_SignatureZZ _res);
-	export function C2Tuple_SignatureCVec_SignatureZZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_SignatureCVec_SignatureZZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(struct LDKC2Tuple_SignatureCVec_SignatureZZ o);
-	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err(void);
-	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err();
-		return nativeResponseValue;
-	}
-	// void CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ _res);
-	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(const struct LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ *NONNULL_PTR orig);
-	export function CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_ok(struct LDKSignature o);
-	export function CResult_SignatureNoneZ_ok(o: Uint8Array): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_SignatureNoneZ_ok(encodeArray(o));
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_err(void);
-	export function CResult_SignatureNoneZ_err(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_SignatureNoneZ_err();
-		return nativeResponseValue;
-	}
-	// void CResult_SignatureNoneZ_free(struct LDKCResult_SignatureNoneZ _res);
-	export function CResult_SignatureNoneZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_SignatureNoneZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_SignatureNoneZ CResult_SignatureNoneZ_clone(const struct LDKCResult_SignatureNoneZ *NONNULL_PTR orig);
-	export function CResult_SignatureNoneZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_SignatureNoneZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_ok(struct LDKSign o);
-	export function CResult_SignDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_SignDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_SignDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_SignDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_SignDecodeErrorZ_free(struct LDKCResult_SignDecodeErrorZ _res);
-	export function CResult_SignDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_SignDecodeErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_SignDecodeErrorZ CResult_SignDecodeErrorZ_clone(const struct LDKCResult_SignDecodeErrorZ *NONNULL_PTR orig);
-	export function CResult_SignDecodeErrorZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_SignDecodeErrorZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// void CVec_CVec_u8ZZ_free(struct LDKCVec_CVec_u8ZZ _res);
-	export function CVec_CVec_u8ZZ_free(_res: Uint8Array[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_CVec_u8ZZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_ok(struct LDKCVec_CVec_u8ZZ o);
-	export function CResult_CVec_CVec_u8ZZNoneZ_ok(o: Uint8Array[]): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_CVec_CVec_u8ZZNoneZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_err(void);
-	export function CResult_CVec_CVec_u8ZZNoneZ_err(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_CVec_CVec_u8ZZNoneZ_err();
-		return nativeResponseValue;
-	}
-	// void CResult_CVec_CVec_u8ZZNoneZ_free(struct LDKCResult_CVec_CVec_u8ZZNoneZ _res);
-	export function CResult_CVec_CVec_u8ZZNoneZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_CVec_CVec_u8ZZNoneZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_CVec_CVec_u8ZZNoneZ CResult_CVec_CVec_u8ZZNoneZ_clone(const struct LDKCResult_CVec_CVec_u8ZZNoneZ *NONNULL_PTR orig);
-	export function CResult_CVec_CVec_u8ZZNoneZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_CVec_CVec_u8ZZNoneZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_InMemorySignerDecodeErrorZ CResult_InMemorySignerDecodeErrorZ_ok(struct LDKInMemorySigner o);
-	export function CResult_InMemorySignerDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InMemorySignerDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_InMemorySignerDecodeErrorZ CResult_InMemorySignerDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_InMemorySignerDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InMemorySignerDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_InMemorySignerDecodeErrorZ_free(struct LDKCResult_InMemorySignerDecodeErrorZ _res);
-	export function CResult_InMemorySignerDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InMemorySignerDecodeErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_InMemorySignerDecodeErrorZ CResult_InMemorySignerDecodeErrorZ_clone(const struct LDKCResult_InMemorySignerDecodeErrorZ *NONNULL_PTR orig);
-	export function CResult_InMemorySignerDecodeErrorZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_InMemorySignerDecodeErrorZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// void CVec_TxOutZ_free(struct LDKCVec_TxOutZ _res);
-	export function CVec_TxOutZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_TxOutZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_TransactionNoneZ CResult_TransactionNoneZ_ok(struct LDKTransaction o);
-	export function CResult_TransactionNoneZ_ok(o: Uint8Array): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_TransactionNoneZ_ok(encodeArray(o));
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_TransactionNoneZ CResult_TransactionNoneZ_err(void);
-	export function CResult_TransactionNoneZ_err(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_TransactionNoneZ_err();
-		return nativeResponseValue;
-	}
-	// void CResult_TransactionNoneZ_free(struct LDKCResult_TransactionNoneZ _res);
-	export function CResult_TransactionNoneZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_TransactionNoneZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NoneErrorZ CResult_NoneErrorZ_ok(void);
-	export function CResult_NoneErrorZ_ok(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneErrorZ_ok();
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_NoneErrorZ CResult_NoneErrorZ_err(enum LDKIOError e);
-	export function CResult_NoneErrorZ_err(e: LDKIOError): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_NoneErrorZ_free(struct LDKCResult_NoneErrorZ _res);
-	export function CResult_NoneErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneErrorZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_C2Tuple_BlockHashChannelMonitorZZ_free(struct LDKCVec_C2Tuple_BlockHashChannelMonitorZZ _res);
-	export function CVec_C2Tuple_BlockHashChannelMonitorZZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_C2Tuple_BlockHashChannelMonitorZZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(struct LDKCVec_C2Tuple_BlockHashChannelMonitorZZ o);
-	export function CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o: number[]): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(enum LDKIOError e);
-	export function CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e: LDKIOError): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_free(struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ _res);
-	export function CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_ok(void);
-	export function CResult_NoneAPIErrorZ_ok(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneAPIErrorZ_ok();
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_err(struct LDKAPIError e);
-	export function CResult_NoneAPIErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneAPIErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_NoneAPIErrorZ_free(struct LDKCResult_NoneAPIErrorZ _res);
-	export function CResult_NoneAPIErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneAPIErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NoneAPIErrorZ CResult_NoneAPIErrorZ_clone(const struct LDKCResult_NoneAPIErrorZ *NONNULL_PTR orig);
-	export function CResult_NoneAPIErrorZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NoneAPIErrorZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// void CVec_CResult_NoneAPIErrorZZ_free(struct LDKCVec_CResult_NoneAPIErrorZZ _res);
-	export function CVec_CResult_NoneAPIErrorZZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_CResult_NoneAPIErrorZZ_free(_res);
-		// debug statements here
-	}
-	// void CVec_APIErrorZ_free(struct LDKCVec_APIErrorZ _res);
-	export function CVec_APIErrorZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_APIErrorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_ok(void);
-	export function CResult_NonePaymentSendFailureZ_ok(): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_ok();
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_err(struct LDKPaymentSendFailure e);
-	export function CResult_NonePaymentSendFailureZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_NonePaymentSendFailureZ_free(struct LDKCResult_NonePaymentSendFailureZ _res);
-	export function CResult_NonePaymentSendFailureZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_NonePaymentSendFailureZ CResult_NonePaymentSendFailureZ_clone(const struct LDKCResult_NonePaymentSendFailureZ *NONNULL_PTR orig);
-	export function CResult_NonePaymentSendFailureZ_clone(orig: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_NonePaymentSendFailureZ_clone(orig);
-		return nativeResponseValue;
-	}
-	// void CVec_ChannelMonitorZ_free(struct LDKCVec_ChannelMonitorZ _res);
-	export function CVec_ChannelMonitorZ_free(_res: number[]): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CVec_ChannelMonitorZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKC2Tuple_BlockHashChannelManagerZ C2Tuple_BlockHashChannelManagerZ_new(struct LDKThirtyTwoBytes a, struct LDKChannelManager b);
-	export function C2Tuple_BlockHashChannelManagerZ_new(a: Uint8Array, b: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_BlockHashChannelManagerZ_new(encodeArray(a), b);
-		return nativeResponseValue;
-	}
-	// void C2Tuple_BlockHashChannelManagerZ_free(struct LDKC2Tuple_BlockHashChannelManagerZ _res);
-	export function C2Tuple_BlockHashChannelManagerZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.C2Tuple_BlockHashChannelManagerZ_free(_res);
-		// debug statements here
-	}
-	// struct LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(struct LDKC2Tuple_BlockHashChannelManagerZ o);
-	export function CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(struct LDKDecodeError e);
-	export function CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e);
-		return nativeResponseValue;
-	}
-	// void CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(struct LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ _res);
-	export function CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(_res: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_free(_res);
-		// debug statements here
 	}
 	// void Event_free(struct LDKEvent this_ptr);
 	export function Event_free(this_ptr: number): void {
@@ -4771,6 +5712,14 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.EventsProvider_free(this_ptr);
 		// debug statements here
 	}
+	// void EventHandler_free(struct LDKEventHandler this_ptr);
+	export function EventHandler_free(this_ptr: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.EventHandler_free(this_ptr);
+		// debug statements here
+	}
 	// void APIError_free(struct LDKAPIError this_ptr);
 	export function APIError_free(this_ptr: number): void {
 		if(!isWasmInitialized) {
@@ -4787,16 +5736,56 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.APIError_clone(orig);
 		return nativeResponseValue;
 	}
+	// struct LDKCResult_StringErrorZ sign(struct LDKu8slice msg, struct LDKSecretKey sk);
+	export function sign(msg: Uint8Array, sk: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.sign(encodeArray(msg), encodeArray(sk));
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_PublicKeyErrorZ recover_pk(struct LDKu8slice msg, struct LDKStr sig);
+	export function recover_pk(msg: Uint8Array, sig: String): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.recover_pk(encodeArray(msg), sig);
+		return nativeResponseValue;
+	}
+	// bool verify(struct LDKu8slice msg, struct LDKStr sig, struct LDKPublicKey pk);
+	export function verify(msg: Uint8Array, sig: String, pk: Uint8Array): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.verify(encodeArray(msg), sig, encodeArray(pk));
+		return nativeResponseValue;
+	}
 	// enum LDKLevel Level_clone(const enum LDKLevel *NONNULL_PTR orig);
-	export function Level_clone(orig: number): LDKLevel {
+	export function Level_clone(orig: number): Level {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.Level_clone(orig);
 		return nativeResponseValue;
 	}
+	// bool Level_eq(const enum LDKLevel *NONNULL_PTR a, const enum LDKLevel *NONNULL_PTR b);
+	export function Level_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Level_eq(a, b);
+		return nativeResponseValue;
+	}
+	// uint64_t Level_hash(const enum LDKLevel *NONNULL_PTR o);
+	export function Level_hash(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Level_hash(o);
+		return nativeResponseValue;
+	}
 	// MUST_USE_RES enum LDKLevel Level_max(void);
-	export function Level_max(): LDKLevel {
+	export function Level_max(): Level {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -4979,38 +5968,6 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelHandshakeLimits_set_min_max_accepted_htlcs(this_ptr, val);
 		// debug statements here
 	}
-	// uint64_t ChannelHandshakeLimits_get_min_dust_limit_satoshis(const struct LDKChannelHandshakeLimits *NONNULL_PTR this_ptr);
-	export function ChannelHandshakeLimits_get_min_dust_limit_satoshis(this_ptr: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChannelHandshakeLimits_get_min_dust_limit_satoshis(this_ptr);
-		return nativeResponseValue;
-	}
-	// void ChannelHandshakeLimits_set_min_dust_limit_satoshis(struct LDKChannelHandshakeLimits *NONNULL_PTR this_ptr, uint64_t val);
-	export function ChannelHandshakeLimits_set_min_dust_limit_satoshis(this_ptr: number, val: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChannelHandshakeLimits_set_min_dust_limit_satoshis(this_ptr, val);
-		// debug statements here
-	}
-	// uint64_t ChannelHandshakeLimits_get_max_dust_limit_satoshis(const struct LDKChannelHandshakeLimits *NONNULL_PTR this_ptr);
-	export function ChannelHandshakeLimits_get_max_dust_limit_satoshis(this_ptr: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChannelHandshakeLimits_get_max_dust_limit_satoshis(this_ptr);
-		return nativeResponseValue;
-	}
-	// void ChannelHandshakeLimits_set_max_dust_limit_satoshis(struct LDKChannelHandshakeLimits *NONNULL_PTR this_ptr, uint64_t val);
-	export function ChannelHandshakeLimits_set_max_dust_limit_satoshis(this_ptr: number, val: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChannelHandshakeLimits_set_max_dust_limit_satoshis(this_ptr, val);
-		// debug statements here
-	}
 	// uint32_t ChannelHandshakeLimits_get_max_minimum_depth(const struct LDKChannelHandshakeLimits *NONNULL_PTR this_ptr);
 	export function ChannelHandshakeLimits_get_max_minimum_depth(this_ptr: number): number {
 		if(!isWasmInitialized) {
@@ -5059,12 +6016,12 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelHandshakeLimits_set_their_to_self_delay(this_ptr, val);
 		// debug statements here
 	}
-	// MUST_USE_RES struct LDKChannelHandshakeLimits ChannelHandshakeLimits_new(uint64_t min_funding_satoshis_arg, uint64_t max_htlc_minimum_msat_arg, uint64_t min_max_htlc_value_in_flight_msat_arg, uint64_t max_channel_reserve_satoshis_arg, uint16_t min_max_accepted_htlcs_arg, uint64_t min_dust_limit_satoshis_arg, uint64_t max_dust_limit_satoshis_arg, uint32_t max_minimum_depth_arg, bool force_announced_channel_preference_arg, uint16_t their_to_self_delay_arg);
-	export function ChannelHandshakeLimits_new(min_funding_satoshis_arg: number, max_htlc_minimum_msat_arg: number, min_max_htlc_value_in_flight_msat_arg: number, max_channel_reserve_satoshis_arg: number, min_max_accepted_htlcs_arg: number, min_dust_limit_satoshis_arg: number, max_dust_limit_satoshis_arg: number, max_minimum_depth_arg: number, force_announced_channel_preference_arg: boolean, their_to_self_delay_arg: number): number {
+	// MUST_USE_RES struct LDKChannelHandshakeLimits ChannelHandshakeLimits_new(uint64_t min_funding_satoshis_arg, uint64_t max_htlc_minimum_msat_arg, uint64_t min_max_htlc_value_in_flight_msat_arg, uint64_t max_channel_reserve_satoshis_arg, uint16_t min_max_accepted_htlcs_arg, uint32_t max_minimum_depth_arg, bool force_announced_channel_preference_arg, uint16_t their_to_self_delay_arg);
+	export function ChannelHandshakeLimits_new(min_funding_satoshis_arg: number, max_htlc_minimum_msat_arg: number, min_max_htlc_value_in_flight_msat_arg: number, max_channel_reserve_satoshis_arg: number, min_max_accepted_htlcs_arg: number, max_minimum_depth_arg: number, force_announced_channel_preference_arg: boolean, their_to_self_delay_arg: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, min_dust_limit_satoshis_arg, max_dust_limit_satoshis_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
+		const nativeResponseValue = wasm.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 		return nativeResponseValue;
 	}
 	// struct LDKChannelHandshakeLimits ChannelHandshakeLimits_clone(const struct LDKChannelHandshakeLimits *NONNULL_PTR orig);
@@ -5276,7 +6233,7 @@ public static native long new_empty_slice_vec();
 		return nativeResponseValue;
 	}
 	// enum LDKAccessError AccessError_clone(const enum LDKAccessError *NONNULL_PTR orig);
-	export function AccessError_clone(orig: number): LDKAccessError {
+	export function AccessError_clone(orig: number): AccessError {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -5297,6 +6254,14 @@ public static native long new_empty_slice_vec();
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.Listen_free(this_ptr);
+		// debug statements here
+	}
+	// void Confirm_free(struct LDKConfirm this_ptr);
+	export function Confirm_free(this_ptr: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Confirm_free(this_ptr);
 		// debug statements here
 	}
 	// void Watch_free(struct LDKWatch this_ptr);
@@ -5379,6 +6344,22 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.WatchedOutput_new(encodeArray(block_hash_arg), outpoint_arg, encodeArray(script_pubkey_arg));
 		return nativeResponseValue;
 	}
+	// struct LDKWatchedOutput WatchedOutput_clone(const struct LDKWatchedOutput *NONNULL_PTR orig);
+	export function WatchedOutput_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.WatchedOutput_clone(orig);
+		return nativeResponseValue;
+	}
+	// uint64_t WatchedOutput_hash(const struct LDKWatchedOutput *NONNULL_PTR o);
+	export function WatchedOutput_hash(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.WatchedOutput_hash(o);
+		return nativeResponseValue;
+	}
 	// void BroadcasterInterface_free(struct LDKBroadcasterInterface this_ptr);
 	export function BroadcasterInterface_free(this_ptr: number): void {
 		if(!isWasmInitialized) {
@@ -5388,7 +6369,7 @@ public static native long new_empty_slice_vec();
 		// debug statements here
 	}
 	// enum LDKConfirmationTarget ConfirmationTarget_clone(const enum LDKConfirmationTarget *NONNULL_PTR orig);
-	export function ConfirmationTarget_clone(orig: number): LDKConfirmationTarget {
+	export function ConfirmationTarget_clone(orig: number): ConfirmationTarget {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -5411,60 +6392,28 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChainMonitor_free(this_obj);
 		// debug statements here
 	}
-	// void ChainMonitor_block_connected(const struct LDKChainMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height);
-	export function ChainMonitor_block_connected(this_arg: number, header: Uint8Array, txdata: number[], height: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChainMonitor_block_connected(this_arg, encodeArray(header), txdata, height);
-		// debug statements here
-	}
-	// void ChainMonitor_transactions_confirmed(const struct LDKChainMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], struct LDKCVec_C2Tuple_usizeTransactionZZ txdata, uint32_t height);
-	export function ChainMonitor_transactions_confirmed(this_arg: number, header: Uint8Array, txdata: number[], height: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChainMonitor_transactions_confirmed(this_arg, encodeArray(header), txdata, height);
-		// debug statements here
-	}
-	// void ChainMonitor_update_best_block(const struct LDKChainMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height);
-	export function ChainMonitor_update_best_block(this_arg: number, header: Uint8Array, height: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChainMonitor_update_best_block(this_arg, encodeArray(header), height);
-		// debug statements here
-	}
-	// void ChainMonitor_block_disconnected(const struct LDKChainMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t disconnected_height);
-	export function ChainMonitor_block_disconnected(this_arg: number, header: Uint8Array, disconnected_height: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChainMonitor_block_disconnected(this_arg, encodeArray(header), disconnected_height);
-		// debug statements here
-	}
-	// void ChainMonitor_transaction_unconfirmed(const struct LDKChainMonitor *NONNULL_PTR this_arg, const uint8_t (*txid)[32]);
-	export function ChainMonitor_transaction_unconfirmed(this_arg: number, txid: Uint8Array): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChainMonitor_transaction_unconfirmed(this_arg, encodeArray(txid));
-		// debug statements here
-	}
-	// MUST_USE_RES struct LDKCVec_TxidZ ChainMonitor_get_relevant_txids(const struct LDKChainMonitor *NONNULL_PTR this_arg);
-	export function ChainMonitor_get_relevant_txids(this_arg: number): Uint8Array[] {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChainMonitor_get_relevant_txids(this_arg);
-		return nativeResponseValue;
-	}
 	// MUST_USE_RES struct LDKChainMonitor ChainMonitor_new(struct LDKFilter *chain_source, struct LDKBroadcasterInterface broadcaster, struct LDKLogger logger, struct LDKFeeEstimator feeest, struct LDKPersist persister);
 	export function ChainMonitor_new(chain_source: number, broadcaster: number, logger: number, feeest: number, persister: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.ChainMonitor_new(chain_source, broadcaster, logger, feeest, persister);
+		return nativeResponseValue;
+	}
+	// struct LDKListen ChainMonitor_as_Listen(const struct LDKChainMonitor *NONNULL_PTR this_arg);
+	export function ChainMonitor_as_Listen(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChainMonitor_as_Listen(this_arg);
+		return nativeResponseValue;
+	}
+	// struct LDKConfirm ChainMonitor_as_Confirm(const struct LDKChainMonitor *NONNULL_PTR this_arg);
+	export function ChainMonitor_as_Confirm(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChainMonitor_as_Confirm(this_arg);
 		return nativeResponseValue;
 	}
 	// struct LDKWatch ChainMonitor_as_Watch(const struct LDKChainMonitor *NONNULL_PTR this_arg);
@@ -5532,7 +6481,7 @@ public static native long new_empty_slice_vec();
 		return nativeResponseValue;
 	}
 	// enum LDKChannelMonitorUpdateErr ChannelMonitorUpdateErr_clone(const enum LDKChannelMonitorUpdateErr *NONNULL_PTR orig);
-	export function ChannelMonitorUpdateErr_clone(orig: number): LDKChannelMonitorUpdateErr {
+	export function ChannelMonitorUpdateErr_clone(orig: number): ChannelMonitorUpdateErr {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -5723,12 +6672,12 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelMonitor_transaction_unconfirmed(this_arg, encodeArray(txid), broadcaster, fee_estimator, logger);
 		// debug statements here
 	}
-	// MUST_USE_RES struct LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ ChannelMonitor_update_best_block(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, struct LDKLogger logger);
-	export function ChannelMonitor_update_best_block(this_arg: number, header: Uint8Array, height: number, broadcaster: number, fee_estimator: number, logger: number): number[] {
+	// MUST_USE_RES struct LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ ChannelMonitor_best_block_updated(const struct LDKChannelMonitor *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKBroadcasterInterface broadcaster, struct LDKFeeEstimator fee_estimator, struct LDKLogger logger);
+	export function ChannelMonitor_best_block_updated(this_arg: number, header: Uint8Array, height: number, broadcaster: number, fee_estimator: number, logger: number): number[] {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelMonitor_update_best_block(this_arg, encodeArray(header), height, broadcaster, fee_estimator, logger);
+		const nativeResponseValue = wasm.ChannelMonitor_best_block_updated(this_arg, encodeArray(header), height, broadcaster, fee_estimator, logger);
 		return nativeResponseValue;
 	}
 	// MUST_USE_RES struct LDKCVec_TxidZ ChannelMonitor_get_relevant_txids(const struct LDKChannelMonitor *NONNULL_PTR this_arg);
@@ -5809,6 +6758,22 @@ public static native long new_empty_slice_vec();
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.OutPoint_clone(orig);
+		return nativeResponseValue;
+	}
+	// bool OutPoint_eq(const struct LDKOutPoint *NONNULL_PTR a, const struct LDKOutPoint *NONNULL_PTR b);
+	export function OutPoint_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.OutPoint_eq(a, b);
+		return nativeResponseValue;
+	}
+	// uint64_t OutPoint_hash(const struct LDKOutPoint *NONNULL_PTR o);
+	export function OutPoint_hash(o: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.OutPoint_hash(o);
 		return nativeResponseValue;
 	}
 	// MUST_USE_RES struct LDKThirtyTwoBytes OutPoint_to_channel_id(const struct LDKOutPoint *NONNULL_PTR this_arg);
@@ -5963,6 +6928,22 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.DelayedPaymentOutputDescriptor_clone(orig);
 		return nativeResponseValue;
 	}
+	// struct LDKCVec_u8Z DelayedPaymentOutputDescriptor_write(const struct LDKDelayedPaymentOutputDescriptor *NONNULL_PTR obj);
+	export function DelayedPaymentOutputDescriptor_write(obj: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.DelayedPaymentOutputDescriptor_write(obj);
+		return decodeArray(nativeResponseValue);
+	}
+	// struct LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ DelayedPaymentOutputDescriptor_read(struct LDKu8slice ser);
+	export function DelayedPaymentOutputDescriptor_read(ser: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.DelayedPaymentOutputDescriptor_read(encodeArray(ser));
+		return nativeResponseValue;
+	}
 	// void StaticPaymentOutputDescriptor_free(struct LDKStaticPaymentOutputDescriptor this_obj);
 	export function StaticPaymentOutputDescriptor_free(this_obj: number): void {
 		if(!isWasmInitialized) {
@@ -6041,6 +7022,22 @@ public static native long new_empty_slice_vec();
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.StaticPaymentOutputDescriptor_clone(orig);
+		return nativeResponseValue;
+	}
+	// struct LDKCVec_u8Z StaticPaymentOutputDescriptor_write(const struct LDKStaticPaymentOutputDescriptor *NONNULL_PTR obj);
+	export function StaticPaymentOutputDescriptor_write(obj: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.StaticPaymentOutputDescriptor_write(obj);
+		return decodeArray(nativeResponseValue);
+	}
+	// struct LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ StaticPaymentOutputDescriptor_read(struct LDKu8slice ser);
+	export function StaticPaymentOutputDescriptor_read(ser: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.StaticPaymentOutputDescriptor_read(encodeArray(ser));
 		return nativeResponseValue;
 	}
 	// void SpendableOutputDescriptor_free(struct LDKSpendableOutputDescriptor this_ptr);
@@ -6380,7 +7377,7 @@ public static native long new_empty_slice_vec();
 		// debug statements here
 	}
 	// enum LDKNetwork ChainParameters_get_network(const struct LDKChainParameters *NONNULL_PTR this_ptr);
-	export function ChainParameters_get_network(this_ptr: number): LDKNetwork {
+	export function ChainParameters_get_network(this_ptr: number): Network {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -6388,7 +7385,7 @@ public static native long new_empty_slice_vec();
 		return nativeResponseValue;
 	}
 	// void ChainParameters_set_network(struct LDKChainParameters *NONNULL_PTR this_ptr, enum LDKNetwork val);
-	export function ChainParameters_set_network(this_ptr: number, val: LDKNetwork): void {
+	export function ChainParameters_set_network(this_ptr: number, val: Network): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -6412,11 +7409,19 @@ public static native long new_empty_slice_vec();
 		// debug statements here
 	}
 	// MUST_USE_RES struct LDKChainParameters ChainParameters_new(enum LDKNetwork network_arg, struct LDKBestBlock best_block_arg);
-	export function ChainParameters_new(network_arg: LDKNetwork, best_block_arg: number): number {
+	export function ChainParameters_new(network_arg: Network, best_block_arg: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.ChainParameters_new(network_arg, best_block_arg);
+		return nativeResponseValue;
+	}
+	// struct LDKChainParameters ChainParameters_clone(const struct LDKChainParameters *NONNULL_PTR orig);
+	export function ChainParameters_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChainParameters_clone(orig);
 		return nativeResponseValue;
 	}
 	// void BestBlock_free(struct LDKBestBlock this_obj);
@@ -6436,7 +7441,7 @@ public static native long new_empty_slice_vec();
 		return nativeResponseValue;
 	}
 	// MUST_USE_RES struct LDKBestBlock BestBlock_from_genesis(enum LDKNetwork network);
-	export function BestBlock_from_genesis(network: LDKNetwork): number {
+	export function BestBlock_from_genesis(network: Network): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
@@ -6489,6 +7494,22 @@ public static native long new_empty_slice_vec();
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.ChannelDetails_set_channel_id(this_ptr, encodeArray(val));
+		// debug statements here
+	}
+	// struct LDKOutPoint ChannelDetails_get_funding_txo(const struct LDKChannelDetails *NONNULL_PTR this_ptr);
+	export function ChannelDetails_get_funding_txo(this_ptr: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelDetails_get_funding_txo(this_ptr);
+		return nativeResponseValue;
+	}
+	// void ChannelDetails_set_funding_txo(struct LDKChannelDetails *NONNULL_PTR this_ptr, struct LDKOutPoint val);
+	export function ChannelDetails_set_funding_txo(this_ptr: number, val: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelDetails_set_funding_txo(this_ptr, val);
 		// debug statements here
 	}
 	// struct LDKCOption_u64Z ChannelDetails_get_short_channel_id(const struct LDKChannelDetails *NONNULL_PTR this_ptr);
@@ -6603,20 +7624,68 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelDetails_set_inbound_capacity_msat(this_ptr, val);
 		// debug statements here
 	}
-	// bool ChannelDetails_get_is_live(const struct LDKChannelDetails *NONNULL_PTR this_ptr);
-	export function ChannelDetails_get_is_live(this_ptr: number): boolean {
+	// bool ChannelDetails_get_is_outbound(const struct LDKChannelDetails *NONNULL_PTR this_ptr);
+	export function ChannelDetails_get_is_outbound(this_ptr: number): boolean {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelDetails_get_is_live(this_ptr);
+		const nativeResponseValue = wasm.ChannelDetails_get_is_outbound(this_ptr);
 		return nativeResponseValue;
 	}
-	// void ChannelDetails_set_is_live(struct LDKChannelDetails *NONNULL_PTR this_ptr, bool val);
-	export function ChannelDetails_set_is_live(this_ptr: number, val: boolean): void {
+	// void ChannelDetails_set_is_outbound(struct LDKChannelDetails *NONNULL_PTR this_ptr, bool val);
+	export function ChannelDetails_set_is_outbound(this_ptr: number, val: boolean): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelDetails_set_is_live(this_ptr, val);
+		const nativeResponseValue = wasm.ChannelDetails_set_is_outbound(this_ptr, val);
+		// debug statements here
+	}
+	// bool ChannelDetails_get_is_funding_locked(const struct LDKChannelDetails *NONNULL_PTR this_ptr);
+	export function ChannelDetails_get_is_funding_locked(this_ptr: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelDetails_get_is_funding_locked(this_ptr);
+		return nativeResponseValue;
+	}
+	// void ChannelDetails_set_is_funding_locked(struct LDKChannelDetails *NONNULL_PTR this_ptr, bool val);
+	export function ChannelDetails_set_is_funding_locked(this_ptr: number, val: boolean): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelDetails_set_is_funding_locked(this_ptr, val);
+		// debug statements here
+	}
+	// bool ChannelDetails_get_is_usable(const struct LDKChannelDetails *NONNULL_PTR this_ptr);
+	export function ChannelDetails_get_is_usable(this_ptr: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelDetails_get_is_usable(this_ptr);
+		return nativeResponseValue;
+	}
+	// void ChannelDetails_set_is_usable(struct LDKChannelDetails *NONNULL_PTR this_ptr, bool val);
+	export function ChannelDetails_set_is_usable(this_ptr: number, val: boolean): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelDetails_set_is_usable(this_ptr, val);
+		// debug statements here
+	}
+	// bool ChannelDetails_get_is_public(const struct LDKChannelDetails *NONNULL_PTR this_ptr);
+	export function ChannelDetails_get_is_public(this_ptr: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelDetails_get_is_public(this_ptr);
+		return nativeResponseValue;
+	}
+	// void ChannelDetails_set_is_public(struct LDKChannelDetails *NONNULL_PTR this_ptr, bool val);
+	export function ChannelDetails_set_is_public(this_ptr: number, val: boolean): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelDetails_set_is_public(this_ptr, val);
 		// debug statements here
 	}
 	// struct LDKChannelDetails ChannelDetails_clone(const struct LDKChannelDetails *NONNULL_PTR orig);
@@ -6747,20 +7816,20 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelManager_timer_tick_occurred(this_arg);
 		// debug statements here
 	}
-	// MUST_USE_RES bool ChannelManager_fail_htlc_backwards(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*payment_hash)[32], struct LDKThirtyTwoBytes payment_secret);
-	export function ChannelManager_fail_htlc_backwards(this_arg: number, payment_hash: Uint8Array, payment_secret: Uint8Array): boolean {
+	// MUST_USE_RES bool ChannelManager_fail_htlc_backwards(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*payment_hash)[32]);
+	export function ChannelManager_fail_htlc_backwards(this_arg: number, payment_hash: Uint8Array): boolean {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelManager_fail_htlc_backwards(this_arg, encodeArray(payment_hash), encodeArray(payment_secret));
+		const nativeResponseValue = wasm.ChannelManager_fail_htlc_backwards(this_arg, encodeArray(payment_hash));
 		return nativeResponseValue;
 	}
-	// MUST_USE_RES bool ChannelManager_claim_funds(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_preimage, struct LDKThirtyTwoBytes payment_secret, uint64_t expected_amount);
-	export function ChannelManager_claim_funds(this_arg: number, payment_preimage: Uint8Array, payment_secret: Uint8Array, expected_amount: number): boolean {
+	// MUST_USE_RES bool ChannelManager_claim_funds(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_preimage);
+	export function ChannelManager_claim_funds(this_arg: number, payment_preimage: Uint8Array): boolean {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelManager_claim_funds(this_arg, encodeArray(payment_preimage), encodeArray(payment_secret), expected_amount);
+		const nativeResponseValue = wasm.ChannelManager_claim_funds(this_arg, encodeArray(payment_preimage));
 		return nativeResponseValue;
 	}
 	// MUST_USE_RES struct LDKPublicKey ChannelManager_get_our_node_id(const struct LDKChannelManager *NONNULL_PTR this_arg);
@@ -6778,6 +7847,22 @@ public static native long new_empty_slice_vec();
 		}
 		const nativeResponseValue = wasm.ChannelManager_channel_monitor_updated(this_arg, funding_txo, highest_applied_update_id);
 		// debug statements here
+	}
+	// MUST_USE_RES struct LDKC2Tuple_PaymentHashPaymentSecretZ ChannelManager_create_inbound_payment(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs, uint64_t user_payment_id);
+	export function ChannelManager_create_inbound_payment(this_arg: number, min_value_msat: number, invoice_expiry_delta_secs: number, user_payment_id: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelManager_create_inbound_payment(this_arg, min_value_msat, invoice_expiry_delta_secs, user_payment_id);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_PaymentSecretAPIErrorZ ChannelManager_create_inbound_payment_for_hash(const struct LDKChannelManager *NONNULL_PTR this_arg, struct LDKThirtyTwoBytes payment_hash, struct LDKCOption_u64Z min_value_msat, uint32_t invoice_expiry_delta_secs, uint64_t user_payment_id);
+	export function ChannelManager_create_inbound_payment_for_hash(this_arg: number, payment_hash: Uint8Array, min_value_msat: number, invoice_expiry_delta_secs: number, user_payment_id: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelManager_create_inbound_payment_for_hash(this_arg, encodeArray(payment_hash), min_value_msat, invoice_expiry_delta_secs, user_payment_id);
+		return nativeResponseValue;
 	}
 	// struct LDKMessageSendEventsProvider ChannelManager_as_MessageSendEventsProvider(const struct LDKChannelManager *NONNULL_PTR this_arg);
 	export function ChannelManager_as_MessageSendEventsProvider(this_arg: number): number {
@@ -6803,37 +7888,13 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ChannelManager_as_Listen(this_arg);
 		return nativeResponseValue;
 	}
-	// void ChannelManager_transactions_confirmed(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height, struct LDKCVec_C2Tuple_usizeTransactionZZ txdata);
-	export function ChannelManager_transactions_confirmed(this_arg: number, header: Uint8Array, height: number, txdata: number[]): void {
+	// struct LDKConfirm ChannelManager_as_Confirm(const struct LDKChannelManager *NONNULL_PTR this_arg);
+	export function ChannelManager_as_Confirm(this_arg: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ChannelManager_transactions_confirmed(this_arg, encodeArray(header), height, txdata);
-		// debug statements here
-	}
-	// void ChannelManager_update_best_block(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*header)[80], uint32_t height);
-	export function ChannelManager_update_best_block(this_arg: number, header: Uint8Array, height: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChannelManager_update_best_block(this_arg, encodeArray(header), height);
-		// debug statements here
-	}
-	// MUST_USE_RES struct LDKCVec_TxidZ ChannelManager_get_relevant_txids(const struct LDKChannelManager *NONNULL_PTR this_arg);
-	export function ChannelManager_get_relevant_txids(this_arg: number): Uint8Array[] {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChannelManager_get_relevant_txids(this_arg);
+		const nativeResponseValue = wasm.ChannelManager_as_Confirm(this_arg);
 		return nativeResponseValue;
-	}
-	// void ChannelManager_transaction_unconfirmed(const struct LDKChannelManager *NONNULL_PTR this_arg, const uint8_t (*txid)[32]);
-	export function ChannelManager_transaction_unconfirmed(this_arg: number, txid: Uint8Array): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.ChannelManager_transaction_unconfirmed(this_arg, encodeArray(txid));
-		// debug statements here
 	}
 	// MUST_USE_RES bool ChannelManager_await_persistable_update_timeout(const struct LDKChannelManager *NONNULL_PTR this_arg, uint64_t max_wait);
 	export function ChannelManager_await_persistable_update_timeout(this_arg: number, max_wait: number): boolean {
@@ -7075,20 +8136,20 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.ErrorMessage_get_data(this_ptr);
 		return nativeResponseValue;
 	}
-	// void ErrorMessage_set_data(struct LDKErrorMessage *NONNULL_PTR this_ptr, struct LDKCVec_u8Z val);
-	export function ErrorMessage_set_data(this_ptr: number, val: Uint8Array): void {
+	// void ErrorMessage_set_data(struct LDKErrorMessage *NONNULL_PTR this_ptr, struct LDKStr val);
+	export function ErrorMessage_set_data(this_ptr: number, val: String): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ErrorMessage_set_data(this_ptr, encodeArray(val));
+		const nativeResponseValue = wasm.ErrorMessage_set_data(this_ptr, val);
 		// debug statements here
 	}
-	// MUST_USE_RES struct LDKErrorMessage ErrorMessage_new(struct LDKThirtyTwoBytes channel_id_arg, struct LDKCVec_u8Z data_arg);
-	export function ErrorMessage_new(channel_id_arg: Uint8Array, data_arg: Uint8Array): number {
+	// MUST_USE_RES struct LDKErrorMessage ErrorMessage_new(struct LDKThirtyTwoBytes channel_id_arg, struct LDKStr data_arg);
+	export function ErrorMessage_new(channel_id_arg: Uint8Array, data_arg: String): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.ErrorMessage_new(encodeArray(channel_id_arg), encodeArray(data_arg));
+		const nativeResponseValue = wasm.ErrorMessage_new(encodeArray(channel_id_arg), data_arg);
 		return nativeResponseValue;
 	}
 	// struct LDKErrorMessage ErrorMessage_clone(const struct LDKErrorMessage *NONNULL_PTR orig);
@@ -8779,6 +9840,14 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.Result_read(encodeArray(ser));
 		return nativeResponseValue;
 	}
+	// struct LDKCResult_NetAddressDecodeErrorZ NetAddress_read(struct LDKu8slice ser);
+	export function NetAddress_read(ser: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.NetAddress_read(encodeArray(ser));
+		return nativeResponseValue;
+	}
 	// void UnsignedNodeAnnouncement_free(struct LDKUnsignedNodeAnnouncement this_obj);
 	export function UnsignedNodeAnnouncement_free(this_obj: number): void {
 		if(!isWasmInitialized) {
@@ -9747,12 +10816,12 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.LightningError_get_err(this_ptr);
 		return nativeResponseValue;
 	}
-	// void LightningError_set_err(struct LDKLightningError *NONNULL_PTR this_ptr, struct LDKCVec_u8Z val);
-	export function LightningError_set_err(this_ptr: number, val: Uint8Array): void {
+	// void LightningError_set_err(struct LDKLightningError *NONNULL_PTR this_ptr, struct LDKStr val);
+	export function LightningError_set_err(this_ptr: number, val: String): void {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.LightningError_set_err(this_ptr, encodeArray(val));
+		const nativeResponseValue = wasm.LightningError_set_err(this_ptr, val);
 		// debug statements here
 	}
 	// struct LDKErrorAction LightningError_get_action(const struct LDKLightningError *NONNULL_PTR this_ptr);
@@ -9771,12 +10840,12 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.LightningError_set_action(this_ptr, val);
 		// debug statements here
 	}
-	// MUST_USE_RES struct LDKLightningError LightningError_new(struct LDKCVec_u8Z err_arg, struct LDKErrorAction action_arg);
-	export function LightningError_new(err_arg: Uint8Array, action_arg: number): number {
+	// MUST_USE_RES struct LDKLightningError LightningError_new(struct LDKStr err_arg, struct LDKErrorAction action_arg);
+	export function LightningError_new(err_arg: String, action_arg: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.LightningError_new(encodeArray(err_arg), action_arg);
+		const nativeResponseValue = wasm.LightningError_new(err_arg, action_arg);
 		return nativeResponseValue;
 	}
 	// struct LDKLightningError LightningError_clone(const struct LDKLightningError *NONNULL_PTR orig);
@@ -11107,12 +12176,12 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.make_funding_redeemscript(encodeArray(broadcaster), encodeArray(countersignatory));
 		return decodeArray(nativeResponseValue);
 	}
-	// struct LDKTransaction build_htlc_transaction(const uint8_t (*prev_hash)[32], uint32_t feerate_per_kw, uint16_t contest_delay, const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc, struct LDKPublicKey broadcaster_delayed_payment_key, struct LDKPublicKey revocation_key);
-	export function build_htlc_transaction(prev_hash: Uint8Array, feerate_per_kw: number, contest_delay: number, htlc: number, broadcaster_delayed_payment_key: Uint8Array, revocation_key: Uint8Array): Uint8Array {
+	// struct LDKTransaction build_htlc_transaction(const uint8_t (*commitment_txid)[32], uint32_t feerate_per_kw, uint16_t contest_delay, const struct LDKHTLCOutputInCommitment *NONNULL_PTR htlc, struct LDKPublicKey broadcaster_delayed_payment_key, struct LDKPublicKey revocation_key);
+	export function build_htlc_transaction(commitment_txid: Uint8Array, feerate_per_kw: number, contest_delay: number, htlc: number, broadcaster_delayed_payment_key: Uint8Array, revocation_key: Uint8Array): Uint8Array {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.build_htlc_transaction(encodeArray(prev_hash), feerate_per_kw, contest_delay, htlc, encodeArray(broadcaster_delayed_payment_key), encodeArray(revocation_key));
+		const nativeResponseValue = wasm.build_htlc_transaction(encodeArray(commitment_txid), feerate_per_kw, contest_delay, htlc, encodeArray(broadcaster_delayed_payment_key), encodeArray(revocation_key));
 		return decodeArray(nativeResponseValue);
 	}
 	// void ChannelTransactionParameters_free(struct LDKChannelTransactionParameters this_obj);
@@ -11659,6 +12728,38 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.get_commitment_transaction_number_obscure_factor(encodeArray(broadcaster_payment_basepoint), encodeArray(countersignatory_payment_basepoint), outbound_from_broadcaster);
 		return nativeResponseValue;
 	}
+	// bool InitFeatures_eq(const struct LDKInitFeatures *NONNULL_PTR a, const struct LDKInitFeatures *NONNULL_PTR b);
+	export function InitFeatures_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.InitFeatures_eq(a, b);
+		return nativeResponseValue;
+	}
+	// bool NodeFeatures_eq(const struct LDKNodeFeatures *NONNULL_PTR a, const struct LDKNodeFeatures *NONNULL_PTR b);
+	export function NodeFeatures_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.NodeFeatures_eq(a, b);
+		return nativeResponseValue;
+	}
+	// bool ChannelFeatures_eq(const struct LDKChannelFeatures *NONNULL_PTR a, const struct LDKChannelFeatures *NONNULL_PTR b);
+	export function ChannelFeatures_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelFeatures_eq(a, b);
+		return nativeResponseValue;
+	}
+	// bool InvoiceFeatures_eq(const struct LDKInvoiceFeatures *NONNULL_PTR a, const struct LDKInvoiceFeatures *NONNULL_PTR b);
+	export function InvoiceFeatures_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.InvoiceFeatures_eq(a, b);
+		return nativeResponseValue;
+	}
 	// struct LDKInitFeatures InitFeatures_clone(const struct LDKInitFeatures *NONNULL_PTR orig);
 	export function InitFeatures_clone(orig: number): number {
 		if(!isWasmInitialized) {
@@ -11785,6 +12886,30 @@ public static native long new_empty_slice_vec();
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.InvoiceFeatures_known();
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES bool InitFeatures_supports_payment_secret(const struct LDKInitFeatures *NONNULL_PTR this_arg);
+	export function InitFeatures_supports_payment_secret(this_arg: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.InitFeatures_supports_payment_secret(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES bool NodeFeatures_supports_payment_secret(const struct LDKNodeFeatures *NONNULL_PTR this_arg);
+	export function NodeFeatures_supports_payment_secret(this_arg: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.NodeFeatures_supports_payment_secret(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES bool InvoiceFeatures_supports_payment_secret(const struct LDKInvoiceFeatures *NONNULL_PTR this_arg);
+	export function InvoiceFeatures_supports_payment_secret(this_arg: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.InvoiceFeatures_supports_payment_secret(this_arg);
 		return nativeResponseValue;
 	}
 	// struct LDKCVec_u8Z InitFeatures_write(const struct LDKInitFeatures *NONNULL_PTR obj);
@@ -11971,6 +13096,22 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.RouteHop_clone(orig);
 		return nativeResponseValue;
 	}
+	// struct LDKCVec_u8Z RouteHop_write(const struct LDKRouteHop *NONNULL_PTR obj);
+	export function RouteHop_write(obj: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHop_write(obj);
+		return decodeArray(nativeResponseValue);
+	}
+	// struct LDKCResult_RouteHopDecodeErrorZ RouteHop_read(struct LDKu8slice ser);
+	export function RouteHop_read(ser: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHop_read(encodeArray(ser));
+		return nativeResponseValue;
+	}
 	// void Route_free(struct LDKRoute this_obj);
 	export function Route_free(this_obj: number): void {
 		if(!isWasmInitialized) {
@@ -12027,108 +13168,12 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.RouteHint_free(this_obj);
 		// debug statements here
 	}
-	// struct LDKPublicKey RouteHint_get_src_node_id(const struct LDKRouteHint *NONNULL_PTR this_ptr);
-	export function RouteHint_get_src_node_id(this_ptr: number): Uint8Array {
+	// bool RouteHint_eq(const struct LDKRouteHint *NONNULL_PTR a, const struct LDKRouteHint *NONNULL_PTR b);
+	export function RouteHint_eq(a: number, b: number): boolean {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.RouteHint_get_src_node_id(this_ptr);
-		return decodeArray(nativeResponseValue);
-	}
-	// void RouteHint_set_src_node_id(struct LDKRouteHint *NONNULL_PTR this_ptr, struct LDKPublicKey val);
-	export function RouteHint_set_src_node_id(this_ptr: number, val: Uint8Array): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_set_src_node_id(this_ptr, encodeArray(val));
-		// debug statements here
-	}
-	// uint64_t RouteHint_get_short_channel_id(const struct LDKRouteHint *NONNULL_PTR this_ptr);
-	export function RouteHint_get_short_channel_id(this_ptr: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_get_short_channel_id(this_ptr);
-		return nativeResponseValue;
-	}
-	// void RouteHint_set_short_channel_id(struct LDKRouteHint *NONNULL_PTR this_ptr, uint64_t val);
-	export function RouteHint_set_short_channel_id(this_ptr: number, val: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_set_short_channel_id(this_ptr, val);
-		// debug statements here
-	}
-	// struct LDKRoutingFees RouteHint_get_fees(const struct LDKRouteHint *NONNULL_PTR this_ptr);
-	export function RouteHint_get_fees(this_ptr: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_get_fees(this_ptr);
-		return nativeResponseValue;
-	}
-	// void RouteHint_set_fees(struct LDKRouteHint *NONNULL_PTR this_ptr, struct LDKRoutingFees val);
-	export function RouteHint_set_fees(this_ptr: number, val: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_set_fees(this_ptr, val);
-		// debug statements here
-	}
-	// uint16_t RouteHint_get_cltv_expiry_delta(const struct LDKRouteHint *NONNULL_PTR this_ptr);
-	export function RouteHint_get_cltv_expiry_delta(this_ptr: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_get_cltv_expiry_delta(this_ptr);
-		return nativeResponseValue;
-	}
-	// void RouteHint_set_cltv_expiry_delta(struct LDKRouteHint *NONNULL_PTR this_ptr, uint16_t val);
-	export function RouteHint_set_cltv_expiry_delta(this_ptr: number, val: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_set_cltv_expiry_delta(this_ptr, val);
-		// debug statements here
-	}
-	// struct LDKCOption_u64Z RouteHint_get_htlc_minimum_msat(const struct LDKRouteHint *NONNULL_PTR this_ptr);
-	export function RouteHint_get_htlc_minimum_msat(this_ptr: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_get_htlc_minimum_msat(this_ptr);
-		return nativeResponseValue;
-	}
-	// void RouteHint_set_htlc_minimum_msat(struct LDKRouteHint *NONNULL_PTR this_ptr, struct LDKCOption_u64Z val);
-	export function RouteHint_set_htlc_minimum_msat(this_ptr: number, val: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_set_htlc_minimum_msat(this_ptr, val);
-		// debug statements here
-	}
-	// struct LDKCOption_u64Z RouteHint_get_htlc_maximum_msat(const struct LDKRouteHint *NONNULL_PTR this_ptr);
-	export function RouteHint_get_htlc_maximum_msat(this_ptr: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_get_htlc_maximum_msat(this_ptr);
-		return nativeResponseValue;
-	}
-	// void RouteHint_set_htlc_maximum_msat(struct LDKRouteHint *NONNULL_PTR this_ptr, struct LDKCOption_u64Z val);
-	export function RouteHint_set_htlc_maximum_msat(this_ptr: number, val: number): void {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_set_htlc_maximum_msat(this_ptr, val);
-		// debug statements here
-	}
-	// MUST_USE_RES struct LDKRouteHint RouteHint_new(struct LDKPublicKey src_node_id_arg, uint64_t short_channel_id_arg, struct LDKRoutingFees fees_arg, uint16_t cltv_expiry_delta_arg, struct LDKCOption_u64Z htlc_minimum_msat_arg, struct LDKCOption_u64Z htlc_maximum_msat_arg);
-	export function RouteHint_new(src_node_id_arg: Uint8Array, short_channel_id_arg: number, fees_arg: number, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: number, htlc_maximum_msat_arg: number): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RouteHint_new(encodeArray(src_node_id_arg), short_channel_id_arg, fees_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg);
+		const nativeResponseValue = wasm.RouteHint_eq(a, b);
 		return nativeResponseValue;
 	}
 	// struct LDKRouteHint RouteHint_clone(const struct LDKRouteHint *NONNULL_PTR orig);
@@ -12137,6 +13182,134 @@ public static native long new_empty_slice_vec();
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.RouteHint_clone(orig);
+		return nativeResponseValue;
+	}
+	// void RouteHintHop_free(struct LDKRouteHintHop this_obj);
+	export function RouteHintHop_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_free(this_obj);
+		// debug statements here
+	}
+	// struct LDKPublicKey RouteHintHop_get_src_node_id(const struct LDKRouteHintHop *NONNULL_PTR this_ptr);
+	export function RouteHintHop_get_src_node_id(this_ptr: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_get_src_node_id(this_ptr);
+		return decodeArray(nativeResponseValue);
+	}
+	// void RouteHintHop_set_src_node_id(struct LDKRouteHintHop *NONNULL_PTR this_ptr, struct LDKPublicKey val);
+	export function RouteHintHop_set_src_node_id(this_ptr: number, val: Uint8Array): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_set_src_node_id(this_ptr, encodeArray(val));
+		// debug statements here
+	}
+	// uint64_t RouteHintHop_get_short_channel_id(const struct LDKRouteHintHop *NONNULL_PTR this_ptr);
+	export function RouteHintHop_get_short_channel_id(this_ptr: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_get_short_channel_id(this_ptr);
+		return nativeResponseValue;
+	}
+	// void RouteHintHop_set_short_channel_id(struct LDKRouteHintHop *NONNULL_PTR this_ptr, uint64_t val);
+	export function RouteHintHop_set_short_channel_id(this_ptr: number, val: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_set_short_channel_id(this_ptr, val);
+		// debug statements here
+	}
+	// struct LDKRoutingFees RouteHintHop_get_fees(const struct LDKRouteHintHop *NONNULL_PTR this_ptr);
+	export function RouteHintHop_get_fees(this_ptr: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_get_fees(this_ptr);
+		return nativeResponseValue;
+	}
+	// void RouteHintHop_set_fees(struct LDKRouteHintHop *NONNULL_PTR this_ptr, struct LDKRoutingFees val);
+	export function RouteHintHop_set_fees(this_ptr: number, val: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_set_fees(this_ptr, val);
+		// debug statements here
+	}
+	// uint16_t RouteHintHop_get_cltv_expiry_delta(const struct LDKRouteHintHop *NONNULL_PTR this_ptr);
+	export function RouteHintHop_get_cltv_expiry_delta(this_ptr: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_get_cltv_expiry_delta(this_ptr);
+		return nativeResponseValue;
+	}
+	// void RouteHintHop_set_cltv_expiry_delta(struct LDKRouteHintHop *NONNULL_PTR this_ptr, uint16_t val);
+	export function RouteHintHop_set_cltv_expiry_delta(this_ptr: number, val: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_set_cltv_expiry_delta(this_ptr, val);
+		// debug statements here
+	}
+	// struct LDKCOption_u64Z RouteHintHop_get_htlc_minimum_msat(const struct LDKRouteHintHop *NONNULL_PTR this_ptr);
+	export function RouteHintHop_get_htlc_minimum_msat(this_ptr: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_get_htlc_minimum_msat(this_ptr);
+		return nativeResponseValue;
+	}
+	// void RouteHintHop_set_htlc_minimum_msat(struct LDKRouteHintHop *NONNULL_PTR this_ptr, struct LDKCOption_u64Z val);
+	export function RouteHintHop_set_htlc_minimum_msat(this_ptr: number, val: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_set_htlc_minimum_msat(this_ptr, val);
+		// debug statements here
+	}
+	// struct LDKCOption_u64Z RouteHintHop_get_htlc_maximum_msat(const struct LDKRouteHintHop *NONNULL_PTR this_ptr);
+	export function RouteHintHop_get_htlc_maximum_msat(this_ptr: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_get_htlc_maximum_msat(this_ptr);
+		return nativeResponseValue;
+	}
+	// void RouteHintHop_set_htlc_maximum_msat(struct LDKRouteHintHop *NONNULL_PTR this_ptr, struct LDKCOption_u64Z val);
+	export function RouteHintHop_set_htlc_maximum_msat(this_ptr: number, val: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_set_htlc_maximum_msat(this_ptr, val);
+		// debug statements here
+	}
+	// MUST_USE_RES struct LDKRouteHintHop RouteHintHop_new(struct LDKPublicKey src_node_id_arg, uint64_t short_channel_id_arg, struct LDKRoutingFees fees_arg, uint16_t cltv_expiry_delta_arg, struct LDKCOption_u64Z htlc_minimum_msat_arg, struct LDKCOption_u64Z htlc_maximum_msat_arg);
+	export function RouteHintHop_new(src_node_id_arg: Uint8Array, short_channel_id_arg: number, fees_arg: number, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: number, htlc_maximum_msat_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_new(encodeArray(src_node_id_arg), short_channel_id_arg, fees_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg);
+		return nativeResponseValue;
+	}
+	// bool RouteHintHop_eq(const struct LDKRouteHintHop *NONNULL_PTR a, const struct LDKRouteHintHop *NONNULL_PTR b);
+	export function RouteHintHop_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKRouteHintHop RouteHintHop_clone(const struct LDKRouteHintHop *NONNULL_PTR orig);
+	export function RouteHintHop_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RouteHintHop_clone(orig);
 		return nativeResponseValue;
 	}
 	// struct LDKCResult_RouteLightningErrorZ get_route(struct LDKPublicKey our_node_id, const struct LDKNetworkGraph *NONNULL_PTR network, struct LDKPublicKey payee, struct LDKInvoiceFeatures payee_features, struct LDKCVec_ChannelDetailsZ *first_hops, struct LDKCVec_RouteHintZ last_hops, uint64_t final_value_msat, uint32_t final_cltv, struct LDKLogger logger);
@@ -12587,20 +13760,20 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.RoutingFees_new(base_msat_arg, proportional_millionths_arg);
 		return nativeResponseValue;
 	}
+	// bool RoutingFees_eq(const struct LDKRoutingFees *NONNULL_PTR a, const struct LDKRoutingFees *NONNULL_PTR b);
+	export function RoutingFees_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RoutingFees_eq(a, b);
+		return nativeResponseValue;
+	}
 	// struct LDKRoutingFees RoutingFees_clone(const struct LDKRoutingFees *NONNULL_PTR orig);
 	export function RoutingFees_clone(orig: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.RoutingFees_clone(orig);
-		return nativeResponseValue;
-	}
-	// struct LDKCResult_RoutingFeesDecodeErrorZ RoutingFees_read(struct LDKu8slice ser);
-	export function RoutingFees_read(ser: Uint8Array): number {
-		if(!isWasmInitialized) {
-			throw new Error("initializeWasm() must be awaited first!");
-		}
-		const nativeResponseValue = wasm.RoutingFees_read(encodeArray(ser));
 		return nativeResponseValue;
 	}
 	// struct LDKCVec_u8Z RoutingFees_write(const struct LDKRoutingFees *NONNULL_PTR obj);
@@ -12610,6 +13783,14 @@ public static native long new_empty_slice_vec();
 		}
 		const nativeResponseValue = wasm.RoutingFees_write(obj);
 		return decodeArray(nativeResponseValue);
+	}
+	// struct LDKCResult_RoutingFeesDecodeErrorZ RoutingFees_read(struct LDKu8slice ser);
+	export function RoutingFees_read(ser: Uint8Array): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RoutingFees_read(encodeArray(ser));
+		return nativeResponseValue;
 	}
 	// void NodeAnnouncementInfo_free(struct LDKNodeAnnouncementInfo this_obj);
 	export function NodeAnnouncementInfo_free(this_obj: number): void {
@@ -12907,28 +14088,28 @@ public static native long new_empty_slice_vec();
 		const nativeResponseValue = wasm.FilesystemPersister_free(this_obj);
 		// debug statements here
 	}
-	// MUST_USE_RES struct LDKFilesystemPersister FilesystemPersister_new(struct LDKCVec_u8Z path_to_channel_data);
-	export function FilesystemPersister_new(path_to_channel_data: Uint8Array): number {
+	// MUST_USE_RES struct LDKFilesystemPersister FilesystemPersister_new(struct LDKStr path_to_channel_data);
+	export function FilesystemPersister_new(path_to_channel_data: String): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.FilesystemPersister_new(encodeArray(path_to_channel_data));
+		const nativeResponseValue = wasm.FilesystemPersister_new(path_to_channel_data);
 		return nativeResponseValue;
 	}
-	// MUST_USE_RES struct LDKCVec_u8Z FilesystemPersister_get_data_dir(const struct LDKFilesystemPersister *NONNULL_PTR this_arg);
-	export function FilesystemPersister_get_data_dir(this_arg: number): Uint8Array {
+	// MUST_USE_RES struct LDKStr FilesystemPersister_get_data_dir(const struct LDKFilesystemPersister *NONNULL_PTR this_arg);
+	export function FilesystemPersister_get_data_dir(this_arg: number): String {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.FilesystemPersister_get_data_dir(this_arg);
-		return decodeArray(nativeResponseValue);
+		return nativeResponseValue;
 	}
-	// MUST_USE_RES struct LDKCResult_NoneErrorZ FilesystemPersister_persist_manager(struct LDKCVec_u8Z data_dir, const struct LDKChannelManager *NONNULL_PTR manager);
-	export function FilesystemPersister_persist_manager(data_dir: Uint8Array, manager: number): number {
+	// MUST_USE_RES struct LDKCResult_NoneErrorZ FilesystemPersister_persist_manager(struct LDKStr data_dir, const struct LDKChannelManager *NONNULL_PTR manager);
+	export function FilesystemPersister_persist_manager(data_dir: String, manager: number): number {
 		if(!isWasmInitialized) {
 			throw new Error("initializeWasm() must be awaited first!");
 		}
-		const nativeResponseValue = wasm.FilesystemPersister_persist_manager(encodeArray(data_dir), manager);
+		const nativeResponseValue = wasm.FilesystemPersister_persist_manager(data_dir, manager);
 		return nativeResponseValue;
 	}
 	// MUST_USE_RES struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ FilesystemPersister_read_channelmonitors(const struct LDKFilesystemPersister *NONNULL_PTR this_arg, struct LDKKeysInterface keys_manager);
@@ -12945,6 +14126,934 @@ public static native long new_empty_slice_vec();
 			throw new Error("initializeWasm() must be awaited first!");
 		}
 		const nativeResponseValue = wasm.FilesystemPersister_as_Persist(this_arg);
+		return nativeResponseValue;
+	}
+	// void BackgroundProcessor_free(struct LDKBackgroundProcessor this_obj);
+	export function BackgroundProcessor_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BackgroundProcessor_free(this_obj);
+		// debug statements here
+	}
+	// void ChannelManagerPersister_free(struct LDKChannelManagerPersister this_ptr);
+	export function ChannelManagerPersister_free(this_ptr: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ChannelManagerPersister_free(this_ptr);
+		// debug statements here
+	}
+	// MUST_USE_RES struct LDKBackgroundProcessor BackgroundProcessor_start(struct LDKChannelManagerPersister persister, struct LDKEventHandler event_handler, const struct LDKChainMonitor *NONNULL_PTR chain_monitor, const struct LDKChannelManager *NONNULL_PTR channel_manager, const struct LDKPeerManager *NONNULL_PTR peer_manager, struct LDKLogger logger);
+	export function BackgroundProcessor_start(persister: number, event_handler: number, chain_monitor: number, channel_manager: number, peer_manager: number, logger: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BackgroundProcessor_start(persister, event_handler, chain_monitor, channel_manager, peer_manager, logger);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_NoneErrorZ BackgroundProcessor_stop(struct LDKBackgroundProcessor this_arg);
+	export function BackgroundProcessor_stop(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.BackgroundProcessor_stop(this_arg);
+		return nativeResponseValue;
+	}
+	// void check_platform(void);
+	export function check_platform(): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.check_platform();
+		// debug statements here
+	}
+	// void Invoice_free(struct LDKInvoice this_obj);
+	export function Invoice_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_free(this_obj);
+		// debug statements here
+	}
+	// bool Invoice_eq(const struct LDKInvoice *NONNULL_PTR a, const struct LDKInvoice *NONNULL_PTR b);
+	export function Invoice_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKInvoice Invoice_clone(const struct LDKInvoice *NONNULL_PTR orig);
+	export function Invoice_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_clone(orig);
+		return nativeResponseValue;
+	}
+	// void SignedRawInvoice_free(struct LDKSignedRawInvoice this_obj);
+	export function SignedRawInvoice_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_free(this_obj);
+		// debug statements here
+	}
+	// bool SignedRawInvoice_eq(const struct LDKSignedRawInvoice *NONNULL_PTR a, const struct LDKSignedRawInvoice *NONNULL_PTR b);
+	export function SignedRawInvoice_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKSignedRawInvoice SignedRawInvoice_clone(const struct LDKSignedRawInvoice *NONNULL_PTR orig);
+	export function SignedRawInvoice_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_clone(orig);
+		return nativeResponseValue;
+	}
+	// void RawInvoice_free(struct LDKRawInvoice this_obj);
+	export function RawInvoice_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_free(this_obj);
+		// debug statements here
+	}
+	// struct LDKRawDataPart RawInvoice_get_data(const struct LDKRawInvoice *NONNULL_PTR this_ptr);
+	export function RawInvoice_get_data(this_ptr: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_get_data(this_ptr);
+		return nativeResponseValue;
+	}
+	// void RawInvoice_set_data(struct LDKRawInvoice *NONNULL_PTR this_ptr, struct LDKRawDataPart val);
+	export function RawInvoice_set_data(this_ptr: number, val: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_set_data(this_ptr, val);
+		// debug statements here
+	}
+	// bool RawInvoice_eq(const struct LDKRawInvoice *NONNULL_PTR a, const struct LDKRawInvoice *NONNULL_PTR b);
+	export function RawInvoice_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKRawInvoice RawInvoice_clone(const struct LDKRawInvoice *NONNULL_PTR orig);
+	export function RawInvoice_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_clone(orig);
+		return nativeResponseValue;
+	}
+	// void RawDataPart_free(struct LDKRawDataPart this_obj);
+	export function RawDataPart_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawDataPart_free(this_obj);
+		// debug statements here
+	}
+	// struct LDKPositiveTimestamp RawDataPart_get_timestamp(const struct LDKRawDataPart *NONNULL_PTR this_ptr);
+	export function RawDataPart_get_timestamp(this_ptr: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawDataPart_get_timestamp(this_ptr);
+		return nativeResponseValue;
+	}
+	// void RawDataPart_set_timestamp(struct LDKRawDataPart *NONNULL_PTR this_ptr, struct LDKPositiveTimestamp val);
+	export function RawDataPart_set_timestamp(this_ptr: number, val: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawDataPart_set_timestamp(this_ptr, val);
+		// debug statements here
+	}
+	// bool RawDataPart_eq(const struct LDKRawDataPart *NONNULL_PTR a, const struct LDKRawDataPart *NONNULL_PTR b);
+	export function RawDataPart_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawDataPart_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKRawDataPart RawDataPart_clone(const struct LDKRawDataPart *NONNULL_PTR orig);
+	export function RawDataPart_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawDataPart_clone(orig);
+		return nativeResponseValue;
+	}
+	// void PositiveTimestamp_free(struct LDKPositiveTimestamp this_obj);
+	export function PositiveTimestamp_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PositiveTimestamp_free(this_obj);
+		// debug statements here
+	}
+	// bool PositiveTimestamp_eq(const struct LDKPositiveTimestamp *NONNULL_PTR a, const struct LDKPositiveTimestamp *NONNULL_PTR b);
+	export function PositiveTimestamp_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PositiveTimestamp_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKPositiveTimestamp PositiveTimestamp_clone(const struct LDKPositiveTimestamp *NONNULL_PTR orig);
+	export function PositiveTimestamp_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PositiveTimestamp_clone(orig);
+		return nativeResponseValue;
+	}
+	// enum LDKSiPrefix SiPrefix_clone(const enum LDKSiPrefix *NONNULL_PTR orig);
+	export function SiPrefix_clone(orig: number): SiPrefix {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SiPrefix_clone(orig);
+		return nativeResponseValue;
+	}
+	// bool SiPrefix_eq(const enum LDKSiPrefix *NONNULL_PTR a, const enum LDKSiPrefix *NONNULL_PTR b);
+	export function SiPrefix_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SiPrefix_eq(a, b);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES uint64_t SiPrefix_multiplier(const enum LDKSiPrefix *NONNULL_PTR this_arg);
+	export function SiPrefix_multiplier(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SiPrefix_multiplier(this_arg);
+		return nativeResponseValue;
+	}
+	// enum LDKCurrency Currency_clone(const enum LDKCurrency *NONNULL_PTR orig);
+	export function Currency_clone(orig: number): Currency {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Currency_clone(orig);
+		return nativeResponseValue;
+	}
+	// bool Currency_eq(const enum LDKCurrency *NONNULL_PTR a, const enum LDKCurrency *NONNULL_PTR b);
+	export function Currency_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Currency_eq(a, b);
+		return nativeResponseValue;
+	}
+	// void Sha256_free(struct LDKSha256 this_obj);
+	export function Sha256_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Sha256_free(this_obj);
+		// debug statements here
+	}
+	// bool Sha256_eq(const struct LDKSha256 *NONNULL_PTR a, const struct LDKSha256 *NONNULL_PTR b);
+	export function Sha256_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Sha256_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKSha256 Sha256_clone(const struct LDKSha256 *NONNULL_PTR orig);
+	export function Sha256_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Sha256_clone(orig);
+		return nativeResponseValue;
+	}
+	// void Description_free(struct LDKDescription this_obj);
+	export function Description_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Description_free(this_obj);
+		// debug statements here
+	}
+	// bool Description_eq(const struct LDKDescription *NONNULL_PTR a, const struct LDKDescription *NONNULL_PTR b);
+	export function Description_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Description_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKDescription Description_clone(const struct LDKDescription *NONNULL_PTR orig);
+	export function Description_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Description_clone(orig);
+		return nativeResponseValue;
+	}
+	// void PayeePubKey_free(struct LDKPayeePubKey this_obj);
+	export function PayeePubKey_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PayeePubKey_free(this_obj);
+		// debug statements here
+	}
+	// bool PayeePubKey_eq(const struct LDKPayeePubKey *NONNULL_PTR a, const struct LDKPayeePubKey *NONNULL_PTR b);
+	export function PayeePubKey_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PayeePubKey_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKPayeePubKey PayeePubKey_clone(const struct LDKPayeePubKey *NONNULL_PTR orig);
+	export function PayeePubKey_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PayeePubKey_clone(orig);
+		return nativeResponseValue;
+	}
+	// void ExpiryTime_free(struct LDKExpiryTime this_obj);
+	export function ExpiryTime_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ExpiryTime_free(this_obj);
+		// debug statements here
+	}
+	// bool ExpiryTime_eq(const struct LDKExpiryTime *NONNULL_PTR a, const struct LDKExpiryTime *NONNULL_PTR b);
+	export function ExpiryTime_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ExpiryTime_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKExpiryTime ExpiryTime_clone(const struct LDKExpiryTime *NONNULL_PTR orig);
+	export function ExpiryTime_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ExpiryTime_clone(orig);
+		return nativeResponseValue;
+	}
+	// void MinFinalCltvExpiry_free(struct LDKMinFinalCltvExpiry this_obj);
+	export function MinFinalCltvExpiry_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.MinFinalCltvExpiry_free(this_obj);
+		// debug statements here
+	}
+	// bool MinFinalCltvExpiry_eq(const struct LDKMinFinalCltvExpiry *NONNULL_PTR a, const struct LDKMinFinalCltvExpiry *NONNULL_PTR b);
+	export function MinFinalCltvExpiry_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.MinFinalCltvExpiry_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKMinFinalCltvExpiry MinFinalCltvExpiry_clone(const struct LDKMinFinalCltvExpiry *NONNULL_PTR orig);
+	export function MinFinalCltvExpiry_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.MinFinalCltvExpiry_clone(orig);
+		return nativeResponseValue;
+	}
+	// void Fallback_free(struct LDKFallback this_ptr);
+	export function Fallback_free(this_ptr: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Fallback_free(this_ptr);
+		// debug statements here
+	}
+	// struct LDKFallback Fallback_clone(const struct LDKFallback *NONNULL_PTR orig);
+	export function Fallback_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Fallback_clone(orig);
+		return nativeResponseValue;
+	}
+	// bool Fallback_eq(const struct LDKFallback *NONNULL_PTR a, const struct LDKFallback *NONNULL_PTR b);
+	export function Fallback_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Fallback_eq(a, b);
+		return nativeResponseValue;
+	}
+	// void InvoiceSignature_free(struct LDKInvoiceSignature this_obj);
+	export function InvoiceSignature_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.InvoiceSignature_free(this_obj);
+		// debug statements here
+	}
+	// bool InvoiceSignature_eq(const struct LDKInvoiceSignature *NONNULL_PTR a, const struct LDKInvoiceSignature *NONNULL_PTR b);
+	export function InvoiceSignature_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.InvoiceSignature_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKInvoiceSignature InvoiceSignature_clone(const struct LDKInvoiceSignature *NONNULL_PTR orig);
+	export function InvoiceSignature_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.InvoiceSignature_clone(orig);
+		return nativeResponseValue;
+	}
+	// void PrivateRoute_free(struct LDKPrivateRoute this_obj);
+	export function PrivateRoute_free(this_obj: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PrivateRoute_free(this_obj);
+		// debug statements here
+	}
+	// bool PrivateRoute_eq(const struct LDKPrivateRoute *NONNULL_PTR a, const struct LDKPrivateRoute *NONNULL_PTR b);
+	export function PrivateRoute_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PrivateRoute_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKPrivateRoute PrivateRoute_clone(const struct LDKPrivateRoute *NONNULL_PTR orig);
+	export function PrivateRoute_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PrivateRoute_clone(orig);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ SignedRawInvoice_into_parts(struct LDKSignedRawInvoice this_arg);
+	export function SignedRawInvoice_into_parts(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_into_parts(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKRawInvoice SignedRawInvoice_raw_invoice(const struct LDKSignedRawInvoice *NONNULL_PTR this_arg);
+	export function SignedRawInvoice_raw_invoice(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_raw_invoice(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES const uint8_t (*SignedRawInvoice_hash(const struct LDKSignedRawInvoice *NONNULL_PTR this_arg))[32];
+	export function SignedRawInvoice_hash(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_hash(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// MUST_USE_RES struct LDKInvoiceSignature SignedRawInvoice_signature(const struct LDKSignedRawInvoice *NONNULL_PTR this_arg);
+	export function SignedRawInvoice_signature(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_signature(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_PayeePubKeyErrorZ SignedRawInvoice_recover_payee_pub_key(const struct LDKSignedRawInvoice *NONNULL_PTR this_arg);
+	export function SignedRawInvoice_recover_payee_pub_key(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_recover_payee_pub_key(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES bool SignedRawInvoice_check_signature(const struct LDKSignedRawInvoice *NONNULL_PTR this_arg);
+	export function SignedRawInvoice_check_signature(this_arg: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_check_signature(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKThirtyTwoBytes RawInvoice_hash(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_hash(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_hash(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// MUST_USE_RES struct LDKSha256 RawInvoice_payment_hash(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_payment_hash(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_payment_hash(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKDescription RawInvoice_description(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_description(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_description(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKPayeePubKey RawInvoice_payee_pub_key(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_payee_pub_key(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_payee_pub_key(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKSha256 RawInvoice_description_hash(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_description_hash(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_description_hash(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKExpiryTime RawInvoice_expiry_time(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_expiry_time(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_expiry_time(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKMinFinalCltvExpiry RawInvoice_min_final_cltv_expiry(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_min_final_cltv_expiry(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_min_final_cltv_expiry(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKThirtyTwoBytes RawInvoice_payment_secret(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_payment_secret(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_payment_secret(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// MUST_USE_RES struct LDKInvoiceFeatures RawInvoice_features(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_features(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_features(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCVec_PrivateRouteZ RawInvoice_private_routes(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_private_routes(this_arg: number): number[] {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_private_routes(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCOption_u64Z RawInvoice_amount_pico_btc(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_amount_pico_btc(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_amount_pico_btc(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES enum LDKCurrency RawInvoice_currency(const struct LDKRawInvoice *NONNULL_PTR this_arg);
+	export function RawInvoice_currency(this_arg: number): Currency {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.RawInvoice_currency(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_PositiveTimestampCreationErrorZ PositiveTimestamp_from_unix_timestamp(uint64_t unix_seconds);
+	export function PositiveTimestamp_from_unix_timestamp(unix_seconds: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PositiveTimestamp_from_unix_timestamp(unix_seconds);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_PositiveTimestampCreationErrorZ PositiveTimestamp_from_system_time(uint64_t time);
+	export function PositiveTimestamp_from_system_time(time: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PositiveTimestamp_from_system_time(time);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES uint64_t PositiveTimestamp_as_unix_timestamp(const struct LDKPositiveTimestamp *NONNULL_PTR this_arg);
+	export function PositiveTimestamp_as_unix_timestamp(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PositiveTimestamp_as_unix_timestamp(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES uint64_t PositiveTimestamp_as_time(const struct LDKPositiveTimestamp *NONNULL_PTR this_arg);
+	export function PositiveTimestamp_as_time(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PositiveTimestamp_as_time(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKSignedRawInvoice Invoice_into_signed_raw(struct LDKInvoice this_arg);
+	export function Invoice_into_signed_raw(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_into_signed_raw(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_NoneSemanticErrorZ Invoice_check_signature(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_check_signature(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_check_signature(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_InvoiceSemanticErrorZ Invoice_from_signed(struct LDKSignedRawInvoice signed_invoice);
+	export function Invoice_from_signed(signed_invoice: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_from_signed(signed_invoice);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES uint64_t Invoice_timestamp(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_timestamp(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_timestamp(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES const uint8_t (*Invoice_payment_hash(const struct LDKInvoice *NONNULL_PTR this_arg))[32];
+	export function Invoice_payment_hash(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_payment_hash(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// MUST_USE_RES struct LDKPublicKey Invoice_payee_pub_key(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_payee_pub_key(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_payee_pub_key(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// MUST_USE_RES struct LDKThirtyTwoBytes Invoice_payment_secret(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_payment_secret(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_payment_secret(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// MUST_USE_RES struct LDKInvoiceFeatures Invoice_features(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_features(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_features(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKPublicKey Invoice_recover_payee_pub_key(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_recover_payee_pub_key(this_arg: number): Uint8Array {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_recover_payee_pub_key(this_arg);
+		return decodeArray(nativeResponseValue);
+	}
+	// MUST_USE_RES uint64_t Invoice_expiry_time(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_expiry_time(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_expiry_time(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES uint64_t Invoice_min_final_cltv_expiry(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_min_final_cltv_expiry(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_min_final_cltv_expiry(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCVec_PrivateRouteZ Invoice_private_routes(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_private_routes(this_arg: number): number[] {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_private_routes(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCVec_RouteHintZ Invoice_route_hints(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_route_hints(this_arg: number): number[] {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_route_hints(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES enum LDKCurrency Invoice_currency(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_currency(this_arg: number): Currency {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_currency(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCOption_u64Z Invoice_amount_pico_btc(const struct LDKInvoice *NONNULL_PTR this_arg);
+	export function Invoice_amount_pico_btc(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_amount_pico_btc(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_DescriptionCreationErrorZ Description_new(struct LDKStr description);
+	export function Description_new(description: String): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Description_new(description);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKStr Description_into_inner(struct LDKDescription this_arg);
+	export function Description_into_inner(this_arg: number): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Description_into_inner(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_ExpiryTimeCreationErrorZ ExpiryTime_from_seconds(uint64_t seconds);
+	export function ExpiryTime_from_seconds(seconds: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ExpiryTime_from_seconds(seconds);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_ExpiryTimeCreationErrorZ ExpiryTime_from_duration(uint64_t duration);
+	export function ExpiryTime_from_duration(duration: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ExpiryTime_from_duration(duration);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES uint64_t ExpiryTime_as_seconds(const struct LDKExpiryTime *NONNULL_PTR this_arg);
+	export function ExpiryTime_as_seconds(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ExpiryTime_as_seconds(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES uint64_t ExpiryTime_as_duration(const struct LDKExpiryTime *NONNULL_PTR this_arg);
+	export function ExpiryTime_as_duration(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.ExpiryTime_as_duration(this_arg);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKCResult_PrivateRouteCreationErrorZ PrivateRoute_new(struct LDKRouteHint hops);
+	export function PrivateRoute_new(hops: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PrivateRoute_new(hops);
+		return nativeResponseValue;
+	}
+	// MUST_USE_RES struct LDKRouteHint PrivateRoute_into_inner(struct LDKPrivateRoute this_arg);
+	export function PrivateRoute_into_inner(this_arg: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.PrivateRoute_into_inner(this_arg);
+		return nativeResponseValue;
+	}
+	// enum LDKCreationError CreationError_clone(const enum LDKCreationError *NONNULL_PTR orig);
+	export function CreationError_clone(orig: number): CreationError {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CreationError_clone(orig);
+		return nativeResponseValue;
+	}
+	// bool CreationError_eq(const enum LDKCreationError *NONNULL_PTR a, const enum LDKCreationError *NONNULL_PTR b);
+	export function CreationError_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CreationError_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKStr CreationError_to_str(const enum LDKCreationError *NONNULL_PTR o);
+	export function CreationError_to_str(o: number): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.CreationError_to_str(o);
+		return nativeResponseValue;
+	}
+	// enum LDKSemanticError SemanticError_clone(const enum LDKSemanticError *NONNULL_PTR orig);
+	export function SemanticError_clone(orig: number): SemanticError {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SemanticError_clone(orig);
+		return nativeResponseValue;
+	}
+	// bool SemanticError_eq(const enum LDKSemanticError *NONNULL_PTR a, const enum LDKSemanticError *NONNULL_PTR b);
+	export function SemanticError_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SemanticError_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKStr SemanticError_to_str(const enum LDKSemanticError *NONNULL_PTR o);
+	export function SemanticError_to_str(o: number): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SemanticError_to_str(o);
+		return nativeResponseValue;
+	}
+	// void SignOrCreationError_free(struct LDKSignOrCreationError this_ptr);
+	export function SignOrCreationError_free(this_ptr: number): void {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignOrCreationError_free(this_ptr);
+		// debug statements here
+	}
+	// struct LDKSignOrCreationError SignOrCreationError_clone(const struct LDKSignOrCreationError *NONNULL_PTR orig);
+	export function SignOrCreationError_clone(orig: number): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignOrCreationError_clone(orig);
+		return nativeResponseValue;
+	}
+	// bool SignOrCreationError_eq(const struct LDKSignOrCreationError *NONNULL_PTR a, const struct LDKSignOrCreationError *NONNULL_PTR b);
+	export function SignOrCreationError_eq(a: number, b: number): boolean {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignOrCreationError_eq(a, b);
+		return nativeResponseValue;
+	}
+	// struct LDKStr SignOrCreationError_to_str(const struct LDKSignOrCreationError *NONNULL_PTR o);
+	export function SignOrCreationError_to_str(o: number): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignOrCreationError_to_str(o);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(const struct LDKChannelManager *NONNULL_PTR channelmanager, struct LDKKeysInterface keys_manager, enum LDKCurrency network, struct LDKCOption_u64Z amt_msat, struct LDKStr description);
+	export function create_invoice_from_channelmanager(channelmanager: number, keys_manager: number, network: Currency, amt_msat: number, description: String): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.create_invoice_from_channelmanager(channelmanager, keys_manager, network, amt_msat, description);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SiPrefixNoneZ SiPrefix_from_str(struct LDKStr s);
+	export function SiPrefix_from_str(s: String): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SiPrefix_from_str(s);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_InvoiceNoneZ Invoice_from_str(struct LDKStr s);
+	export function Invoice_from_str(s: String): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_from_str(s);
+		return nativeResponseValue;
+	}
+	// struct LDKCResult_SignedRawInvoiceNoneZ SignedRawInvoice_from_str(struct LDKStr s);
+	export function SignedRawInvoice_from_str(s: String): number {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_from_str(s);
+		return nativeResponseValue;
+	}
+	// struct LDKStr Invoice_to_str(const struct LDKInvoice *NONNULL_PTR o);
+	export function Invoice_to_str(o: number): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Invoice_to_str(o);
+		return nativeResponseValue;
+	}
+	// struct LDKStr SignedRawInvoice_to_str(const struct LDKSignedRawInvoice *NONNULL_PTR o);
+	export function SignedRawInvoice_to_str(o: number): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SignedRawInvoice_to_str(o);
+		return nativeResponseValue;
+	}
+	// struct LDKStr Currency_to_str(const enum LDKCurrency *NONNULL_PTR o);
+	export function Currency_to_str(o: number): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.Currency_to_str(o);
+		return nativeResponseValue;
+	}
+	// struct LDKStr SiPrefix_to_str(const enum LDKSiPrefix *NONNULL_PTR o);
+	export function SiPrefix_to_str(o: number): String {
+		if(!isWasmInitialized) {
+			throw new Error("initializeWasm() must be awaited first!");
+		}
+		const nativeResponseValue = wasm.SiPrefix_to_str(o);
 		return nativeResponseValue;
 	}
 

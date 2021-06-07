@@ -44,7 +44,7 @@ public class CommitmentTransaction extends CommonBase {
 	/**
 	 * Read a CommitmentTransaction from a byte array, created by CommitmentTransaction_write
 	 */
-	public static Result_CommitmentTransactionDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_CommitmentTransactionDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.CommitmentTransaction_read(ser);
 		Result_CommitmentTransactionDecodeErrorZ ret_hu_conv = Result_CommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
