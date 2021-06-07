@@ -5,8 +5,8 @@ import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
 import org.ldk.batteries.ChannelManagerConstructor;
 import org.ldk.batteries.NioPeerHandler;
-import org.ldk.enums.LDKCurrency;
-import org.ldk.enums.LDKNetwork;
+import org.ldk.enums.Currency;
+import org.ldk.enums.Network;
 import org.ldk.impl.bindings;
 import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;
@@ -287,26 +287,22 @@ class HumanObjectPeerTestInstance {
         Peer(byte seed) {
             this(null, seed);
             if (use_chan_manager_constructor) {
-                try {
-                    this.constructor = new ChannelManagerConstructor(LDKNetwork.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
-                            this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
-                    constructor.chain_sync_completed(new ChannelManagerConstructor.ChannelManagerPersister() {
-                        @Override public void handle_event(Event event) {
-                            synchronized (pending_manager_events) {
-                                pending_manager_events.add(event);
-                                pending_manager_events.notifyAll();
-                            }
+                this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
+                        this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
+                constructor.chain_sync_completed(new ChannelManagerConstructor.ChannelManagerPersister() {
+                    @Override public void handle_event(Event event) {
+                        synchronized (pending_manager_events) {
+                            pending_manager_events.add(event);
+                            pending_manager_events.notifyAll();
                         }
-                        @Override public void persist_manager(byte[] channel_manager_bytes) { }
-                    });
-                    this.chan_manager = constructor.channel_manager;
-                    this.peer_manager = constructor.peer_manager;
-                    must_free_objs.add(new WeakReference<>(this.chan_manager));
-                } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {
-                    assert false;
-                }
+                    }
+                    @Override public void persist_manager(byte[] channel_manager_bytes) { }
+                });
+                this.chan_manager = constructor.channel_manager;
+                this.peer_manager = constructor.peer_manager;
+                must_free_objs.add(new WeakReference<>(this.chan_manager));
             } else {
-                ChainParameters params = ChainParameters.of(LDKNetwork.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
+                ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
                 this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), params);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
                 this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
@@ -653,9 +649,10 @@ class HumanObjectPeerTestInstance {
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 
-        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, LDKCurrency.LDKCurrency_Bitcoin, Option_u64Z.none(), "Invoice Description");
+        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.create_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, Currency.LDKCurrency_Bitcoin, Option_u64Z.none(), "Invoice Description");
         assert invoice instanceof Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK;
         System.out.println("Got invoice: " + ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
+
         Result_InvoiceNoneZ parsed_invoice = Invoice.from_str(((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
         assert parsed_invoice instanceof Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK;
         assert Arrays.equals(((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res.payment_hash(), ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());

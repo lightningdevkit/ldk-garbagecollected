@@ -1,7 +1,7 @@
 package org.ldk.batteries;
 
 import org.jetbrains.annotations.Nullable;
-import org.ldk.enums.LDKNetwork;
+import org.ldk.enums.Network;
 import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;
 
@@ -100,10 +100,10 @@ public class ChannelManagerConstructor {
     /**
      * Constructs a channel manager from the given interface implementations
      */
-    public ChannelManagerConstructor(LDKNetwork network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
+    public ChannelManagerConstructor(Network network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
                                      @Nullable NetGraphMsgHandler router,
-                                     BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
+                                     BroadcasterInterface tx_broadcaster, Logger logger) {
         channel_monitors = new TwoTuple[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
