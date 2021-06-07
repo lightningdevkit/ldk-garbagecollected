@@ -404,6 +404,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_fn(line, re_match, ret_arr_len, c_call_string, doc_comment):
         method_return_type = re_match.group(1)
         method_name = re_match.group(2)
+        orig_method_name = str(method_name)
         method_comma_separated_arguments = re_match.group(3)
         method_arguments = method_comma_separated_arguments.split(',')
 
@@ -441,6 +442,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                             default_constructor_args[argument_conversion_info.arg_name] = []
                         default_constructor_args[argument_conversion_info.arg_name].append(explode_arg_conv)
             argument_types.append(argument_conversion_info)
+        if not takes_self and return_type_info.java_hu_ty != struct_meth:
+            if not return_type_info.java_hu_ty.startswith("Result_" + struct_meth):
+                method_name = orig_method_name
+                struct_meth = ""
 
         out_java.write("\t// " + line)
         (out_java_delta, out_c_delta, out_java_struct_delta) = \
@@ -476,11 +481,19 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 or expected_struct in complex_enums or expected_cstruct in complex_enums
                 or expected_cstruct in result_types) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
-        elif (method_name.startswith("C2Tuple_") and method_name.endswith("_read")) or \
-                (return_type_info.rust_obj is not None and "Result" in return_type_info.rust_obj and "from" in method_name):
-            out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
-        if out_java_struct is not None:
             out_java_struct.write(out_java_struct_delta)
+        elif (not is_free and not method_name.endswith("_clone") and
+                not method_name.startswith("_") and
+                method_name != "check_platform" and method_name != "Result_read" and
+                not expected_struct in unitary_enums and
+                ((not method_name.startswith("C2Tuple_") and not method_name.startswith("C3Tuple_"))
+                  or method_name.endswith("_read"))):
+            out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
+            for line in out_java_struct_delta.splitlines():
+                if not line.strip().startswith("this."):
+                    out_java_struct.write(line + "\n")
+                else:
+                    out_java_struct.write("\t\t// " + line.strip() + "\n")
 
     def map_unitary_enum(struct_name, field_lines, enum_doc_comment):
         assert struct_name.startswith("LDK")

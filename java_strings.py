@@ -1068,7 +1068,7 @@ import java.util.Arrays;
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
-            meth_n = method_name[len(struct_meth) + 1:].strip("_")
+            meth_n = method_name[len(struct_meth) + 1 if len(struct_meth) != 0 else 0:].strip("_")
             if doc_comment is not None:
                 out_java_struct += "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
             if not takes_self:
