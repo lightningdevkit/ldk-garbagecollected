@@ -272,9 +272,11 @@ def java_c_types(fn_arg, ret_arr_len):
     else:
         ma = var_ty_regex.match(fn_arg)
         if ma.group(1).strip() in unitary_enums:
-            java_ty = ma.group(1).strip()
+            assert ma.group(1).strip().startswith("LDK")
+            java_ty = ma.group(1).strip()[3:]
+            java_hu_ty = java_ty
             c_ty = consts.result_c_ty
-            fn_ty_arg = "Lorg/ldk/enums/" + ma.group(1).strip() + ";"
+            fn_ty_arg = "Lorg/ldk/enums/" + java_ty + ";"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
         elif ma.group(1).strip().startswith("LDKC2Tuple"):
@@ -481,7 +483,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write(out_java_struct_delta)
 
     def map_unitary_enum(struct_name, field_lines, enum_doc_comment):
-        with open(f"{sys.argv[3]}/enums/{struct_name}{consts.file_ext}", "w") as out_java_enum:
+        assert struct_name.startswith("LDK")
+        with open(f"{sys.argv[3]}/enums/{struct_name[3:]}{consts.file_ext}", "w") as out_java_enum:
             unitary_enums.add(struct_name)
             for idx, struct_line in enumerate(field_lines):
                 if idx == 0:
@@ -492,7 +495,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     assert(struct_line == "} %s;" % struct_name)
                 elif idx == len(field_lines) - 1:
                     assert(struct_line == "")
-            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name, [x.strip().strip(",") for x in field_lines[1:-3]], enum_doc_comment)
+            assert struct_name.startswith("LDK")
+            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [x.strip().strip(",") for x in field_lines[1:-3]], enum_doc_comment)
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)

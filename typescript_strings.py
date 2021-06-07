@@ -450,7 +450,7 @@ const decodeString = (stringPointer, free = true) => {
         return ""
 
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
-        out_c = "static inline " + struct_name + " " + struct_name + "_from_js(int32_t ord) {\n"
+        out_c = "static inline LDK" + struct_name + " LDK" + struct_name + "_from_js(int32_t ord) {\n"
         out_c = out_c + "\tswitch (ord) {\n"
         ord_v = 0
 
@@ -464,7 +464,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\tabort();\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + "static inline int32_t " + struct_name + "_to_js(" + struct_name + " val) {\n"
+        out_c = out_c + "static inline int32_t LDK" + struct_name + "_to_js(LDK" + struct_name + " val) {\n"
         out_c = out_c + "\tswitch (val) {\n"
         ord_v = 0
         for var in variants:

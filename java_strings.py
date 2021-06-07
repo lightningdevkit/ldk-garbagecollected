@@ -541,7 +541,7 @@ import java.util.Arrays;
         out_java_enum = "package org.ldk.enums;\n\n"
         out_java = ""
         out_c = ""
-        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
+        out_c = out_c + "static inline LDK" + struct_name + " LDK" + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
         out_c = out_c + "\tswitch ((*env)->CallIntMethod(env, clz, ordinal_meth)) {\n"
 
         if enum_doc_comment is not None:
@@ -570,7 +570,7 @@ import java.util.Arrays;
             out_c = out_c + "\t" + struct_name + "_" + var + " = (*env)->GetStaticFieldID(env, " + struct_name + "_class, \"" + var + "\", \"Lorg/ldk/enums/" + struct_name + ";\");\n"
             out_c = out_c + "\tCHECK(" + struct_name + "_" + var + " != NULL);\n"
         out_c = out_c + "}\n"
-        out_c = out_c + "static inline jclass " + struct_name + "_to_java(JNIEnv *env, " + struct_name + " val) {\n"
+        out_c = out_c + "static inline jclass LDK" + struct_name + "_to_java(JNIEnv *env, LDK" + struct_name + " val) {\n"
         out_c = out_c + "\tswitch (val) {\n"
         ord_v = 0
         for var in variants:
@@ -956,8 +956,19 @@ import java.util.Arrays;
             init_meth_body = ""
             hu_conv_body = ""
             for idx, field_ty in enumerate(var.fields):
-                out_java += ("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
-                java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
+                if idx > 0:
+                    init_meth_params = init_meth_params + ", "
+
+                if field_ty.java_hu_ty == var.var_name:
+                    field_path = field_ty.java_fn_ty_arg.strip("L;").replace("/", ".")
+                    out_java += "\t\t\tpublic " + field_path + " " + field_ty.arg_name + ";\n"
+                    java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_path + " " + field_ty.arg_name + ";\n"
+                    init_meth_params = init_meth_params + field_path + " " + field_ty.arg_name
+                else:
+                    out_java += "\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n"
+                    java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
+                    init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
+                init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
                 if field_ty.to_hu_conv is not None:
                     hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.java_ty + " " + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
                     hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
@@ -965,10 +976,6 @@ import java.util.Arrays;
                 else:
                     hu_conv_body = hu_conv_body + "\t\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
                 init_meth_jty_str = init_meth_jty_str + field_ty.java_fn_ty_arg
-                if idx > 0:
-                    init_meth_params = init_meth_params + ", "
-                init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
-                init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
             out_java +=  ("\t\t\t" + var.var_name + "(" + init_meth_params + ") { ")
             out_java +=  (init_meth_body)
             out_java +=  ("}\n")
