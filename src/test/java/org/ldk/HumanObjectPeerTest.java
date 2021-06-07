@@ -470,21 +470,6 @@ class HumanObjectPeerTestInstance {
             assert res.length == expected_len;
             return res;
         }
-
-        Route get_route(byte[] dest_node, ChannelDetails[] our_chans) {
-            try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
-                NetworkGraph graph = netgraph.graph();
-                long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, 0L, new long[]{our_chans[0]._test_only_get_ptr()},
-                        new long[0], 1000000, 42, this.logger._test_only_get_ptr());
-                assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
-                byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
-                must_free_objs.add(new WeakReference<>(serialized_route));
-                Result_RouteDecodeErrorZ copy = Route.read(serialized_route);
-                assert copy instanceof Result_RouteDecodeErrorZ.Result_RouteDecodeErrorZ_OK;
-                bindings.CResult_RouteLightningErrorZ_free(res);
-                return ((Result_RouteDecodeErrorZ.Result_RouteDecodeErrorZ_OK) copy).res;
-            }
-        }
     }
 
     static class DescriptorHolder { SocketDescriptor val; }
@@ -664,8 +649,19 @@ class HumanObjectPeerTestInstance {
         assert description_string.equals("Invoice Description");
         byte[] payment_hash = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash();
         byte[] payment_secret = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_secret();
+        byte[] dest_node_id = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.recover_payee_pub_key();
+        assert Arrays.equals(dest_node_id, peer2.node_id);
+        InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
+        RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-        Route route = peer1.get_route(peer2.node_id, peer1_chans);
+        Route route;
+        try (LockedNetworkGraph netgraph = peer1.router.read_locked_graph()) {
+            NetworkGraph graph = netgraph.graph();
+            Result_RouteLightningErrorZ route_res = UtilMethods.get_route(peer1.chan_manager.get_our_node_id(), graph, peer2.node_id, invoice_features, peer1_chans, route_hints, 1000000, 42, peer1.logger);
+            assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
+            route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
+        }
+
         Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
         wait_events_processed(peer1, peer2);
