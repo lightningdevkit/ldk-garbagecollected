@@ -46,7 +46,7 @@ javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/i
 rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
 echo "Building Java bindings..."
-COMPILE="$COMMON_COMPILE -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -shared -fPIC"
+COMPILE="$COMMON_COMPILE -march=sandybridge -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -shared -fPIC"
 if [ "$3" = "true" ]; then
 	$COMPILE -o liblightningjni_debug.so -g -fsanitize=address -shared-libasan -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/debug/libldk.a -lm
 else
