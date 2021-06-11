@@ -130,7 +130,7 @@ static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 }
 
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
-	return str_ref_to_java(env, "v0.0.13-26-gfb06c6a", strlen("v0.0.13-26-gfb06c6a"));
+	return str_ref_to_java(env, "v0.0.98", strlen("v0.0.98"));
 }
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1c_1bindings_1version(JNIEnv *env, jclass _c) {
 	return str_ref_to_java(env, check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
