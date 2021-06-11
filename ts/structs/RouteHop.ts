@@ -94,4 +94,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public Uint8Array write() {
+		Uint8Array ret = bindings.RouteHop_write(this.ptr);
+		return ret;
+	}
+
+	public static Result_RouteHopDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.RouteHop_read(ser);
+		Result_RouteHopDecodeErrorZ ret_hu_conv = Result_RouteHopDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -66,7 +66,7 @@ public class RevokeAndACK extends CommonBase {
 	/**
 	 * Constructs a new RevokeAndACK given each field
 	 */
-	public static RevokeAndACK constructor_new(byte[] channel_id_arg, byte[] per_commitment_secret_arg, byte[] next_per_commitment_point_arg) {
+	public static RevokeAndACK of(byte[] channel_id_arg, byte[] per_commitment_secret_arg, byte[] next_per_commitment_point_arg) {
 		long ret = bindings.RevokeAndACK_new(channel_id_arg, per_commitment_secret_arg, next_per_commitment_point_arg);
 		RevokeAndACK ret_hu_conv = new RevokeAndACK(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -94,7 +94,7 @@ public class RevokeAndACK extends CommonBase {
 	/**
 	 * Read a RevokeAndACK from a byte array, created by RevokeAndACK_write
 	 */
-	public static Result_RevokeAndACKDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_RevokeAndACKDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.RevokeAndACK_read(ser);
 		Result_RevokeAndACKDecodeErrorZ ret_hu_conv = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

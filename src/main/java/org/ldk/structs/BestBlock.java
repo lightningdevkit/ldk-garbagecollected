@@ -31,7 +31,7 @@ public class BestBlock extends CommonBase {
 	/**
 	 * Returns the best block from the genesis of the given network.
 	 */
-	public static BestBlock constructor_from_genesis(LDKNetwork network) {
+	public static BestBlock from_genesis(Network network) {
 		long ret = bindings.BestBlock_from_genesis(network);
 		BestBlock ret_hu_conv = new BestBlock(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -41,7 +41,7 @@ public class BestBlock extends CommonBase {
 	/**
 	 * Returns the best block as identified by the given block hash and height.
 	 */
-	public static BestBlock constructor_new(byte[] block_hash, int height) {
+	public static BestBlock of(byte[] block_hash, int height) {
 		long ret = bindings.BestBlock_new(block_hash, height);
 		BestBlock ret_hu_conv = new BestBlock(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

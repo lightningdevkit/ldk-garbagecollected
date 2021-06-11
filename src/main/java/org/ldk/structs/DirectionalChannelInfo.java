@@ -143,7 +143,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	/**
 	 * Constructs a new DirectionalChannelInfo given each field
 	 */
-	public static DirectionalChannelInfo constructor_new(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
+	public static DirectionalChannelInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
 		long ret = bindings.DirectionalChannelInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg.ptr, fees_arg == null ? 0 : fees_arg.ptr & ~1, last_update_message_arg == null ? 0 : last_update_message_arg.ptr & ~1);
 		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -173,7 +173,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	/**
 	 * Read a DirectionalChannelInfo from a byte array, created by DirectionalChannelInfo_write
 	 */
-	public static Result_DirectionalChannelInfoDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_DirectionalChannelInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.DirectionalChannelInfo_read(ser);
 		Result_DirectionalChannelInfoDecodeErrorZ ret_hu_conv = Result_DirectionalChannelInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -27,6 +27,18 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelDetails_set_channel_id(this.ptr, val);
 	}
 
+	public OutPoint get_funding_txo() {
+		number ret = bindings.ChannelDetails_get_funding_txo(this.ptr);
+		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public void set_funding_txo(OutPoint val) {
+		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
 	public Option_u64Z get_short_channel_id() {
 		number ret = bindings.ChannelDetails_get_short_channel_id(this.ptr);
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
@@ -95,13 +107,40 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelDetails_set_inbound_capacity_msat(this.ptr, val);
 	}
 
-	public boolean get_is_live() {
-		boolean ret = bindings.ChannelDetails_get_is_live(this.ptr);
+	public boolean get_is_outbound() {
+		boolean ret = bindings.ChannelDetails_get_is_outbound(this.ptr);
 		return ret;
 	}
 
-	public void set_is_live(boolean val) {
-		bindings.ChannelDetails_set_is_live(this.ptr, val);
+	public void set_is_outbound(boolean val) {
+		bindings.ChannelDetails_set_is_outbound(this.ptr, val);
+	}
+
+	public boolean get_is_funding_locked() {
+		boolean ret = bindings.ChannelDetails_get_is_funding_locked(this.ptr);
+		return ret;
+	}
+
+	public void set_is_funding_locked(boolean val) {
+		bindings.ChannelDetails_set_is_funding_locked(this.ptr, val);
+	}
+
+	public boolean get_is_usable() {
+		boolean ret = bindings.ChannelDetails_get_is_usable(this.ptr);
+		return ret;
+	}
+
+	public void set_is_usable(boolean val) {
+		bindings.ChannelDetails_set_is_usable(this.ptr, val);
+	}
+
+	public boolean get_is_public() {
+		boolean ret = bindings.ChannelDetails_get_is_public(this.ptr);
+		return ret;
+	}
+
+	public void set_is_public(boolean val) {
+		bindings.ChannelDetails_set_is_public(this.ptr, val);
 	}
 
 	public ChannelDetails clone() {

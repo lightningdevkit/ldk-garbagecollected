@@ -72,7 +72,7 @@ public class NodeInfo extends CommonBase {
 	/**
 	 * Constructs a new NodeInfo given each field
 	 */
-	public static NodeInfo constructor_new(long[] channels_arg, RoutingFees lowest_inbound_channel_fees_arg, NodeAnnouncementInfo announcement_info_arg) {
+	public static NodeInfo of(long[] channels_arg, RoutingFees lowest_inbound_channel_fees_arg, NodeAnnouncementInfo announcement_info_arg) {
 		long ret = bindings.NodeInfo_new(channels_arg, lowest_inbound_channel_fees_arg == null ? 0 : lowest_inbound_channel_fees_arg.ptr & ~1, announcement_info_arg == null ? 0 : announcement_info_arg.ptr & ~1);
 		NodeInfo ret_hu_conv = new NodeInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -102,7 +102,7 @@ public class NodeInfo extends CommonBase {
 	/**
 	 * Read a NodeInfo from a byte array, created by NodeInfo_write
 	 */
-	public static Result_NodeInfoDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_NodeInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeInfo_read(ser);
 		Result_NodeInfoDecodeErrorZ ret_hu_conv = Result_NodeInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

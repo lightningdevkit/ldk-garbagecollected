@@ -249,7 +249,7 @@ public class AcceptChannel extends CommonBase {
 	/**
 	 * Read a AcceptChannel from a byte array, created by AcceptChannel_write
 	 */
-	public static Result_AcceptChannelDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_AcceptChannelDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.AcceptChannel_read(ser);
 		Result_AcceptChannelDecodeErrorZ ret_hu_conv = Result_AcceptChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

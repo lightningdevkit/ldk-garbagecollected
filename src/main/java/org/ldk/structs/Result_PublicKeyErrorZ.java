@@ -27,7 +27,7 @@ public class Result_PublicKeyErrorZ extends CommonBase {
 	}
 
 	public static final class Result_PublicKeyErrorZ_Err extends Result_PublicKeyErrorZ {
-		public final LDKSecp256k1Error err;
+		public final Secp256k1Error err;
 		private Result_PublicKeyErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_PublicKeyErrorZ_get_err(ptr);
@@ -37,7 +37,7 @@ public class Result_PublicKeyErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PublicKeyErrorZ in the success state.
 	 */
-	public static Result_PublicKeyErrorZ constructor_ok(byte[] o) {
+	public static Result_PublicKeyErrorZ ok(byte[] o) {
 		long ret = bindings.CResult_PublicKeyErrorZ_ok(o);
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -46,8 +46,18 @@ public class Result_PublicKeyErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PublicKeyErrorZ in the error state.
 	 */
-	public static Result_PublicKeyErrorZ constructor_err(LDKSecp256k1Error e) {
+	public static Result_PublicKeyErrorZ err(Secp256k1Error e) {
 		long ret = bindings.CResult_PublicKeyErrorZ_err(e);
+		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_PublicKeyErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_PublicKeyErrorZ clone() {
+		long ret = bindings.CResult_PublicKeyErrorZ_clone(this.ptr);
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

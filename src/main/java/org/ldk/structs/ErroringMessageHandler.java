@@ -22,7 +22,7 @@ public class ErroringMessageHandler extends CommonBase {
 	/**
 	 * Constructs a new ErroringMessageHandler
 	 */
-	public static ErroringMessageHandler constructor_new() {
+	public static ErroringMessageHandler of() {
 		long ret = bindings.ErroringMessageHandler_new();
 		ErroringMessageHandler ret_hu_conv = new ErroringMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

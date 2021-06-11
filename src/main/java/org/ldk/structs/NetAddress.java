@@ -92,4 +92,13 @@ public class NetAddress extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Read a NetAddress from a byte array, created by NetAddress_write
+	 */
+	public static Result_NetAddressDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.NetAddress_read(ser);
+		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

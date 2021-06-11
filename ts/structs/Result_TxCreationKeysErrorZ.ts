@@ -27,7 +27,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	}
 
 	public static final class Result_TxCreationKeysErrorZ_Err extends Result_TxCreationKeysErrorZ {
-		public final LDKSecp256k1Error err;
+		public final Secp256k1Error err;
 		private Result_TxCreationKeysErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_TxCreationKeysErrorZ_get_err(ptr);
@@ -41,8 +41,14 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static Result_TxCreationKeysErrorZ constructor__err(LDKSecp256k1Error e) {
+	public static Result_TxCreationKeysErrorZ constructor__err(Secp256k1Error e) {
 		number ret = bindings.CResult_TxCreationKeysErrorZ_err(e);
+		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_TxCreationKeysErrorZ _clone() {
+		number ret = bindings.CResult_TxCreationKeysErrorZ_clone(this.ptr);
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

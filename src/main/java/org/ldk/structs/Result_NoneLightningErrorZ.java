@@ -38,7 +38,7 @@ public class Result_NoneLightningErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneLightningErrorZ in the success state.
 	 */
-	public static Result_NoneLightningErrorZ constructor_ok() {
+	public static Result_NoneLightningErrorZ ok() {
 		long ret = bindings.CResult_NoneLightningErrorZ_ok();
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -47,7 +47,7 @@ public class Result_NoneLightningErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneLightningErrorZ in the error state.
 	 */
-	public static Result_NoneLightningErrorZ constructor_err(LightningError e) {
+	public static Result_NoneLightningErrorZ err(LightningError e) {
 		long ret = bindings.CResult_NoneLightningErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

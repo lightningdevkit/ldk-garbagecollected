@@ -173,7 +173,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	/**
 	 * Read a UnsignedChannelUpdate from a byte array, created by UnsignedChannelUpdate_write
 	 */
-	public static Result_UnsignedChannelUpdateDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_UnsignedChannelUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UnsignedChannelUpdate_read(ser);
 		Result_UnsignedChannelUpdateDecodeErrorZ ret_hu_conv = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

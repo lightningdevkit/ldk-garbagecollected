@@ -53,7 +53,7 @@ public class Shutdown extends CommonBase {
 	/**
 	 * Constructs a new Shutdown given each field
 	 */
-	public static Shutdown constructor_new(byte[] channel_id_arg, byte[] scriptpubkey_arg) {
+	public static Shutdown of(byte[] channel_id_arg, byte[] scriptpubkey_arg) {
 		long ret = bindings.Shutdown_new(channel_id_arg, scriptpubkey_arg);
 		Shutdown ret_hu_conv = new Shutdown(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -81,7 +81,7 @@ public class Shutdown extends CommonBase {
 	/**
 	 * Read a Shutdown from a byte array, created by Shutdown_write
 	 */
-	public static Result_ShutdownDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ShutdownDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Shutdown_read(ser);
 		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

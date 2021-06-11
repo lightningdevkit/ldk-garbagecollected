@@ -43,7 +43,7 @@ public class Result_FundingCreatedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_FundingCreatedDecodeErrorZ in the success state.
 	 */
-	public static Result_FundingCreatedDecodeErrorZ constructor_ok(FundingCreated o) {
+	public static Result_FundingCreatedDecodeErrorZ ok(FundingCreated o) {
 		long ret = bindings.CResult_FundingCreatedDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_FundingCreatedDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_FundingCreatedDecodeErrorZ in the error state.
 	 */
-	public static Result_FundingCreatedDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_FundingCreatedDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_FundingCreatedDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

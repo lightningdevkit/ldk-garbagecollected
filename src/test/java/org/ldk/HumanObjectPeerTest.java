@@ -3,8 +3,10 @@ package org.ldk;
 import org.bitcoinj.core.*;
 import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
+import org.ldk.batteries.ChannelManagerConstructor;
 import org.ldk.batteries.NioPeerHandler;
-import org.ldk.enums.LDKNetwork;
+import org.ldk.enums.Currency;
+import org.ldk.enums.Network;
 import org.ldk.impl.bindings;
 import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;
@@ -22,8 +24,9 @@ class HumanObjectPeerTestInstance {
     private final boolean break_cross_peer_refs;
     private final boolean use_nio_peer_handler;
     private final boolean use_filter;
+    private final boolean use_chan_manager_constructor;
 
-    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter) {
+    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter, boolean use_chan_manager_constructor) {
         this.nice_close = nice_close;
         this.use_km_wrapper = use_km_wrapper;
         this.use_manual_watch = use_manual_watch;
@@ -31,6 +34,7 @@ class HumanObjectPeerTestInstance {
         this.break_cross_peer_refs = break_cross_peer_refs;
         this.use_nio_peer_handler = use_nio_peer_handler;
         this.use_filter = use_filter;
+        this.use_chan_manager_constructor = use_chan_manager_constructor;
     }
 
     class Peer {
@@ -117,6 +121,11 @@ class HumanObjectPeerTestInstance {
                 public Result_SignDecodeErrorZ read_chan_signer(byte[] reader) {
                     return underlying_if.read_chan_signer(reader);
                 }
+
+                @Override
+                public Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage) {
+                    return underlying_if.sign_invoice(invoice_preimage);
+                }
             });
         }
 
@@ -126,7 +135,7 @@ class HumanObjectPeerTestInstance {
                     synchronized (monitors) {
                         assert monitors.put(Arrays.toString(funding_txo.get_txid()), monitor) == null;
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+                    return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
 
                 public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
@@ -136,7 +145,7 @@ class HumanObjectPeerTestInstance {
                         Result_NoneMonitorUpdateErrorZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
                         assert update_res instanceof Result_NoneMonitorUpdateErrorZ.Result_NoneMonitorUpdateErrorZ_OK;
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+                    return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
 
                 @Override
@@ -170,18 +179,19 @@ class HumanObjectPeerTestInstance {
         final HashSet<String> filter_additions;
         final Filter filter;
         ChannelManager chan_manager;
-        EventsProvider chan_manager_events;
         PeerManager peer_manager;
         final HashMap<String, ChannelMonitor> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
         final LinkedList<byte[]> broadcast_set = new LinkedList<>();
+        final LinkedList<Event> pending_manager_events = new LinkedList<>();
+        ChannelManagerConstructor constructor = null;
         GcCheck obj = new GcCheck();
 
         private TwoTuple<OutPoint, byte[]> test_mon_roundtrip(ChannelMonitor mon) {
             // Because get_funding_txo() returns an OutPoint in a tuple that is a reference to an OutPoint inside the
             // ChannelMonitor, its a good test to ensure that the OutPoint isn't freed (or is cloned) before the
             // ChannelMonitor is. This used to be broken.
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.constructor_BlockHashChannelMonitorZ_read(mon.write(), keys_interface);
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.BlockHashChannelMonitorZ_read(mon.write(), keys_interface);
             assert roundtrip_monitor instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
             TwoTuple<OutPoint, byte[]> funding_txo = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.b.get_funding_txo();
             System.gc(); System.runFinalization(); // Give the GC a chance to run.
@@ -206,7 +216,7 @@ class HumanObjectPeerTestInstance {
                         assert Arrays.equals(res.a.get_txid(), id.get_txid());
                         assert res.a.get_index() == id.get_index();
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+                    return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
 
                 @Override
@@ -218,7 +228,7 @@ class HumanObjectPeerTestInstance {
                         assert Arrays.equals(res.a.get_txid(), id.get_txid());
                         assert res.a.get_index() == id.get_index();
                     }
-                    return Result_NoneChannelMonitorUpdateErrZ.constructor_ok();
+                    return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
             });
 
@@ -230,7 +240,7 @@ class HumanObjectPeerTestInstance {
                     }
                     @Override public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
                         filter_additions.add(Arrays.toString(output.get_outpoint().get_txid()) + ":" + output.get_outpoint().get_index());
-                        return Option_C2Tuple_usizeTransactionZZ.constructor_none();
+                        return Option_C2Tuple_usizeTransactionZZ.none();
                     }
                 });
             } else {
@@ -241,7 +251,7 @@ class HumanObjectPeerTestInstance {
                 chain_watch = get_manual_watch();
                 chain_monitor = null;
             } else {
-                chain_monitor = ChainMonitor.constructor_new(filter, tx_broadcaster, logger, fee_estimator, persister);
+                chain_monitor = ChainMonitor.of(filter, tx_broadcaster, logger, fee_estimator, persister);
                 chain_watch = chain_monitor.as_Watch();
             }
 
@@ -249,7 +259,7 @@ class HumanObjectPeerTestInstance {
             for (byte i = 0; i < 32; i++) {
                 key_seed[i] = (byte) (i ^ seed);
             }
-            KeysManager keys = KeysManager.constructor_new(key_seed, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000));
+            KeysManager keys = KeysManager.of(key_seed, System.currentTimeMillis() / 1000, (int) (System.currentTimeMillis() * 1000));
             if (use_km_wrapper) {
                 this.keys_interface = manual_keysif(keys.as_KeysInterface());
                 this.explicit_keys_manager = null;
@@ -257,11 +267,15 @@ class HumanObjectPeerTestInstance {
                 this.keys_interface = keys.as_KeysInterface();
                 this.explicit_keys_manager = keys;
             }
-            this.router = NetGraphMsgHandler.constructor_new(new byte[32], null, logger);
+            this.router = NetGraphMsgHandler.of(new byte[32], null, logger);
         }
         private void bind_nio() {
             if (!use_nio_peer_handler) return;
-            try { this.nio_peer_handler = new NioPeerHandler(peer_manager); } catch (IOException e) { assert false; }
+            if (use_chan_manager_constructor) {
+                this.nio_peer_handler = this.constructor.nio_peer_handler;
+            } else {
+                try { this.nio_peer_handler = new NioPeerHandler(peer_manager); } catch (IOException e) { assert false; }
+            }
             for (short i = 10_000; true; i++) {
                 try {
                     nio_peer_handler.bind_listener(new InetSocketAddress("127.0.0.1", i));
@@ -272,49 +286,93 @@ class HumanObjectPeerTestInstance {
         }
         Peer(byte seed) {
             this(null, seed);
-            this.chan_manager = ChannelManager.constructor_new(FeeEstimator.new_impl(confirmation_target -> 0), chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.constructor_default(), LDKNetwork.LDKNetwork_Bitcoin, BestBlock.constructor_new(new byte[32], 0));
-            this.node_id = chan_manager.get_our_node_id();
-            this.chan_manager_events = chan_manager.as_EventsProvider();
-
-            byte[] random_data = new byte[32];
-            for (byte i = 0; i < 32; i++) {
-                random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
+            if (use_chan_manager_constructor) {
+                this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
+                        this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
+                constructor.chain_sync_completed(new ChannelManagerConstructor.ChannelManagerPersister() {
+                    @Override public void handle_event(Event event) {
+                        synchronized (pending_manager_events) {
+                            pending_manager_events.add(event);
+                            pending_manager_events.notifyAll();
+                        }
+                    }
+                    @Override public void persist_manager(byte[] channel_manager_bytes) { }
+                });
+                this.chan_manager = constructor.channel_manager;
+                this.peer_manager = constructor.peer_manager;
+                must_free_objs.add(new WeakReference<>(this.chan_manager));
+            } else {
+                ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
+                this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), params);
+                byte[] random_data = keys_interface.get_secure_random_bytes();
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
             }
-            this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+
+            this.node_id = chan_manager.get_our_node_id();
             bind_nio();
             System.gc();
         }
+
         Object ptr_to;
         Peer(Peer orig) {
             this(null, orig.seed);
-            // TODO: Optionally test ChannelManagerConstructor
-            ChannelMonitor[] monitors = new ChannelMonitor[1];
-            synchronized (monitors) {
+            if (use_chan_manager_constructor) {
+                byte[][] monitors = {orig.monitors.values().stream().iterator().next().write()};
+                byte[] serialized = orig.chan_manager.write();
+                try {
+                    this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
+                            this.fee_estimator, this.chain_monitor, this.filter, this.router, this.tx_broadcaster, this.logger);
+                    constructor.chain_sync_completed(new ChannelManagerConstructor.ChannelManagerPersister() {
+                        @Override public void handle_event(Event event) {
+                            synchronized (pending_manager_events) {
+                                pending_manager_events.add(event);
+                                pending_manager_events.notifyAll();
+                            }
+                        }
+                        @Override public void persist_manager(byte[] channel_manager_bytes) { }
+                    });
+                    this.chan_manager = constructor.channel_manager;
+                    this.peer_manager = constructor.peer_manager;
+                    must_free_objs.add(new WeakReference<>(this.chan_manager));
+                    // If we are using a ChannelManagerConstructor, we may have pending events waiting on the old peer
+                    // which have been removed from the ChannelManager but which we still need to handle.
+                    this.pending_manager_events.addAll(orig.pending_manager_events);
+                    if (!this.pending_manager_events.isEmpty()) {
+                        // However, this implies cross_reload_ref_pollution
+                        cross_reload_ref_pollution = true;
+                    }
+                } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {
+                    assert false;
+                }
+            } else {
+                ChannelMonitor[] monitors = new ChannelMonitor[1];
                 assert orig.monitors.size() == 1;
                 if (!break_cross_peer_refs) {
                     monitors[0] = orig.monitors.values().stream().iterator().next();
                 } else {
                     byte[] serialized = orig.monitors.values().stream().iterator().next().write();
                     Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res =
-                            UtilMethods.constructor_BlockHashChannelMonitorZ_read(serialized, this.keys_interface);
+                            UtilMethods.BlockHashChannelMonitorZ_read(serialized, this.keys_interface);
                     assert res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
                     monitors[0] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.b;
                 }
-            }
-            byte[] serialized = orig.chan_manager.write();
-            Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
-                    UtilMethods.constructor_BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.constructor_default(), monitors);
-            assert read_res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK;
-            this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
-            this.chain_watch.watch_channel(monitors[0].get_funding_txo().a, monitors[0]);
-            if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
-                // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
-                // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
-                // shouldn't bother waiting for the original to be freed later on.
-                cross_reload_ref_pollution = true;
+                byte[] serialized = orig.chan_manager.write();
+                Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
+                        UtilMethods.BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.with_default(), monitors);
+                assert read_res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK;
+                this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
+                this.chain_watch.watch_channel(monitors[0].get_funding_txo().a, monitors[0]);
+                byte[] random_data = keys_interface.get_secure_random_bytes();
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+                if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
+                    // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
+                    // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
+                    // shouldn't bother waiting for the original to be freed later on.
+                    cross_reload_ref_pollution = true;
+                }
             }
             this.node_id = chan_manager.get_our_node_id();
-            this.chan_manager_events = chan_manager.as_EventsProvider();
+            bind_nio();
 
             if (cross_reload_ref_pollution) {
                 // This really, really needs to be handled at the bindings layer, but its rather complicated -
@@ -326,13 +384,6 @@ class HumanObjectPeerTestInstance {
                 // the ChannelSigner.
                 this.ptr_to = orig.chan_manager;
             }
-
-            byte[] random_data = new byte[32];
-            for (byte i = 0; i < 32; i++) {
-                random_data[i] = (byte) ((i ^ seed) ^ 0xf0);
-            }
-            this.peer_manager = PeerManager.constructor_new(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
-            bind_nio();
         }
 
         TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] connect_block(Block b, int height, long expected_monitor_update_len) {
@@ -346,10 +397,10 @@ class HumanObjectPeerTestInstance {
                 txn = new TwoTuple[0];
             if (chain_monitor != null) {
                 chan_manager.as_Listen().block_connected(b.bitcoinSerialize(), height);
-                chain_monitor.block_connected(header, txn, height);
+                chain_monitor.as_Listen().block_connected(b.bitcoinSerialize(), height);
             } else {
-                chan_manager.transactions_confirmed(header, height, txn);
-                chan_manager.update_best_block(header, height);
+                chan_manager.as_Confirm().transactions_confirmed(header, txn, height);
+                chan_manager.as_Confirm().best_block_updated(header, height);
                 // Connect manually if we aren't using a ChainMonitor and are implementing Watch ourselves
                 synchronized (monitors) {
                     assert monitors.size() == 1;
@@ -363,33 +414,61 @@ class HumanObjectPeerTestInstance {
             return null;
         }
 
-        Event[] get_monitor_events() {
-            if (chain_monitor != null) {
-                return chain_monitor.as_EventsProvider().get_and_clear_pending_events();
+        Event[] get_monitor_events(int expected_len) {
+            if (use_chan_manager_constructor) {
+                while (true) {
+                    synchronized (this.pending_manager_events) {
+                        if (expected_len != 0 && this.pending_manager_events.size() != expected_len) {
+                            break;
+                        }
+                    }
+                    try { Thread.sleep(500); } catch (InterruptedException e) { assert false; }
+                    break;
+                }
+                synchronized (this.pending_manager_events) {
+                    Event[] res = this.pending_manager_events.toArray(new Event[0]);
+                    this.pending_manager_events.clear();
+                    assert res.length == expected_len;
+                    return res;
+                }
+            } else if (chain_monitor != null) {
+                ArrayList<Event> l = new ArrayList<Event>();
+                chain_monitor.as_EventsProvider().process_pending_events(EventHandler.new_impl(l::add));
+                assert l.size() == expected_len;
+                return l.toArray(new Event[0]);
             } else {
                 synchronized (monitors) {
                     assert monitors.size() == 1;
                     for (ChannelMonitor mon : monitors.values()) {
-                        return mon.get_and_clear_pending_events();
+                        Event[] res = mon.get_and_clear_pending_events();
+                        assert res.length == expected_len;
+                        return res;
                     }
                     return null;
                 }
             }
         }
 
-        Route get_route(byte[] dest_node, ChannelDetails[] our_chans) {
-            try (LockedNetworkGraph netgraph = this.router.read_locked_graph()) {
-                NetworkGraph graph = netgraph.graph();
-                long res = bindings.get_route(this.node_id, graph._test_only_get_ptr(), dest_node, 0L, new long[]{our_chans[0]._test_only_get_ptr()},
-                        new long[0], 1000000, 42, this.logger._test_only_get_ptr());
-                assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(res);
-                byte[] serialized_route = bindings.Route_write(bindings.LDKCResult_RouteLightningErrorZ_get_ok(res));
-                must_free_objs.add(new WeakReference<>(serialized_route));
-                Result_RouteDecodeErrorZ copy = Route.constructor_read(serialized_route);
-                assert copy instanceof Result_RouteDecodeErrorZ.Result_RouteDecodeErrorZ_OK;
-                bindings.CResult_RouteLightningErrorZ_free(res);
-                return ((Result_RouteDecodeErrorZ.Result_RouteDecodeErrorZ_OK) copy).res;
+        Event[] get_manager_events(int expected_len) {
+            Event[] res = new Event[0];
+            if (use_chan_manager_constructor) {
+                while (res.length < expected_len) {
+                    synchronized (this.pending_manager_events) {
+                        res = this.pending_manager_events.toArray(res);
+                        assert res.length == expected_len || res.length == 0; // We don't handle partial results
+                        this.pending_manager_events.clear();
+                        if (res.length < expected_len) {
+                            try { this.pending_manager_events.wait(); } catch (InterruptedException e) { assert false; }
+                        }
+                    }
+                }
+            } else {
+                ArrayList<Event> l = new ArrayList<Event>();
+                chan_manager.as_EventsProvider().process_pending_events(EventHandler.new_impl(l::add));
+                return l.toArray(new Event[0]);
             }
+            assert res.length == expected_len;
+            return res;
         }
     }
 
@@ -423,7 +502,7 @@ class HumanObjectPeerTestInstance {
         if (use_nio_peer_handler) {
             peer1.nio_peer_handler.check_events();
             peer2.nio_peer_handler.check_events();
-            try { Thread.sleep(400); } catch (InterruptedException e) { assert false; }
+            try { Thread.sleep(500); } catch (InterruptedException e) { assert false; }
         } else {
             synchronized (runqueue) {
                 ran = false;
@@ -508,8 +587,7 @@ class HumanObjectPeerTestInstance {
         assert cc_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
         wait_events_processed(peer1, peer2);
 
-        Event[] events = peer1.chan_manager_events.get_and_clear_pending_events();
-        assert events.length == 1;
+        Event[] events = peer1.get_manager_events(1);
         assert events[0] instanceof Event.FundingGenerationReady;
         assert ((Event.FundingGenerationReady) events[0]).channel_value_satoshis == 10000;
         assert ((Event.FundingGenerationReady) events[0]).user_channel_id == 42;
@@ -549,18 +627,42 @@ class HumanObjectPeerTestInstance {
         assert peer1_chans.length == 1;
         assert peer2_chans.length == 1;
         assert peer1_chans[0].get_channel_value_satoshis() == 10000;
-        assert peer1_chans[0].get_is_live();
+        assert peer1_chans[0].get_is_usable();
         Option_u64Z short_chan_id = peer1_chans[0].get_short_channel_id();
         assert short_chan_id instanceof Option_u64Z.Some;
         assert ((Option_u64Z.Some)short_chan_id).some == (1L << 40); // 0th output in the 0th transaction in the 1st block
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 
-        byte[] payment_preimage = new byte[32];
-        for (int i = 0; i < 32; i++) payment_preimage[i] = (byte) (i ^ 0x0f);
-        byte[] payment_hash = Sha256Hash.hash(payment_preimage);
-        Route route = peer1.get_route(peer2.node_id, peer1_chans);
-        Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, new byte[32]);
+        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.create_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, Currency.LDKCurrency_Bitcoin, Option_u64Z.none(), "Invoice Description");
+        assert invoice instanceof Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK;
+        System.out.println("Got invoice: " + ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
+
+        Result_InvoiceNoneZ parsed_invoice = Invoice.from_str(((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
+        assert parsed_invoice instanceof Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK;
+        assert Arrays.equals(((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res.payment_hash(), ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());
+        SignedRawInvoice signed_raw = ((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res.into_signed_raw();
+        RawInvoice raw_invoice = signed_raw.raw_invoice();
+        byte[] desc_hash = raw_invoice.hash();
+        Description raw_invoice_description = raw_invoice.description();
+        String description_string = raw_invoice_description.into_inner();
+        assert description_string.equals("Invoice Description");
+        byte[] payment_hash = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash();
+        byte[] payment_secret = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_secret();
+        byte[] dest_node_id = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.recover_payee_pub_key();
+        assert Arrays.equals(dest_node_id, peer2.node_id);
+        InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
+        RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
+
+        Route route;
+        try (LockedNetworkGraph netgraph = peer1.router.read_locked_graph()) {
+            NetworkGraph graph = netgraph.graph();
+            Result_RouteLightningErrorZ route_res = UtilMethods.get_route(peer1.chan_manager.get_our_node_id(), graph, peer2.node_id, invoice_features, peer1_chans, route_hints, 1000000, 42, peer1.logger);
+            assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
+            route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
+        }
+
+        Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
         wait_events_processed(peer1, peer2);
 
@@ -568,25 +670,33 @@ class HumanObjectPeerTestInstance {
         byte[] hop_pubkey = new byte[33];
         hop_pubkey[0] = 3;
         hop_pubkey[1] = 42;
-        hops[0][0] = RouteHop.constructor_new(hop_pubkey, NodeFeatures.constructor_known(), 42, ChannelFeatures.constructor_known(), 100, 0);
-        Route r2 = Route.constructor_new(hops);
-        payment_res = peer1.chan_manager.send_payment(r2, payment_hash, new byte[32]);
+        hops[0][0] = RouteHop.of(hop_pubkey, NodeFeatures.known(), 42, ChannelFeatures.known(), 100, 0);
+        Route r2 = Route.of(hops);
+        payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
 
-        assert peer1.get_monitor_events().length == 0;
-        assert peer2.get_monitor_events().length == 0;
+        if (!use_chan_manager_constructor) {
+            peer1.get_monitor_events(0);
+            peer2.get_monitor_events(0);
+        } else {
+            // The events are combined across manager + monitors but peer1 still has no events
+        }
 
         if (reload_peers) {
             if (use_nio_peer_handler) {
                 peer1.nio_peer_handler.interrupt();
                 peer2.nio_peer_handler.interrupt();
             }
+            if (use_chan_manager_constructor) {
+                peer1.constructor.interrupt();
+                peer2.constructor.interrupt();
+            }
             WeakReference<Peer> op1 = new WeakReference<Peer>(peer1);
             peer1 = new Peer(peer1);
             peer2 = new Peer(peer2);
-            return new TestState(op1, peer1, peer2, payment_preimage, b.getHash());
+            return new TestState(op1, peer1, peer2, b.getHash());
         }
-        return new TestState(null, peer1, peer2, payment_preimage, b.getHash());
+        return new TestState(null, peer1, peer2, b.getHash());
     }
 
     boolean cross_reload_ref_pollution = false;
@@ -594,14 +704,12 @@ class HumanObjectPeerTestInstance {
         private final WeakReference<Peer> ref_block;
         private final Peer peer1;
         private final Peer peer2;
-        private final byte[] payment_preimage;
         public Sha256Hash best_blockhash;
 
-        public TestState(WeakReference<Peer> ref_block, Peer peer1, Peer peer2, byte[] payment_preimage, Sha256Hash best_blockhash) {
+        public TestState(WeakReference<Peer> ref_block, Peer peer1, Peer peer2, Sha256Hash best_blockhash) {
             this.ref_block = ref_block;
             this.peer1 = peer1;
             this.peer2 = peer2;
-            this.payment_preimage = payment_preimage;
             this.best_blockhash = best_blockhash;
         }
     }
@@ -618,21 +726,20 @@ class HumanObjectPeerTestInstance {
         }
         wait_events_processed(state.peer1, state.peer2);
 
-        Event[] events = state.peer2.chan_manager_events.get_and_clear_pending_events();
-        assert events.length == 1;
+        Event[] events = state.peer2.get_manager_events(1);
         assert events[0] instanceof Event.PendingHTLCsForwardable;
         state.peer2.chan_manager.process_pending_htlc_forwards();
 
-        events = state.peer2.chan_manager_events.get_and_clear_pending_events();
-        assert events.length == 1;
+        events = state.peer2.get_manager_events(1);
         assert events[0] instanceof Event.PaymentReceived;
-        state.peer2.chan_manager.claim_funds(state.payment_preimage, new byte[32], ((Event.PaymentReceived) events[0]).amt);
+        byte[] payment_preimage = ((Event.PaymentReceived)events[0]).payment_preimage;
+        assert !Arrays.equals(payment_preimage, new byte[32]);
+        state.peer2.chan_manager.claim_funds(payment_preimage);
         wait_events_processed(state.peer1, state.peer2);
 
-        events = state.peer1.chan_manager_events.get_and_clear_pending_events();
-        assert events.length == 1;
+        events = state.peer1.get_manager_events(1);
         assert events[0] instanceof Event.PaymentSent;
-        assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, state.payment_preimage);
+        assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
         wait_events_processed(state.peer1, state.peer2);
 
         ChannelDetails[] peer1_chans = state.peer1.chan_manager.list_channels();
@@ -669,16 +776,10 @@ class HumanObjectPeerTestInstance {
                 state.peer2.connect_block(b, i, 0);
             }
 
-            Event[] broadcastable_event = null;
-            if (state.peer2.chain_monitor != null) {
-                broadcastable_event = state.peer2.chain_monitor.as_EventsProvider().get_and_clear_pending_events();
-            }
-            // This used to be buggy and double-free, so go ahead and fetch them!
+            Event[] broadcastable_event = state.peer2.get_monitor_events(1);
             for (ChannelMonitor mon : state.peer2.monitors.values()) {
+                // This used to be buggy and double-free, so go ahead and fetch them!
                 byte[][] txn = mon.get_latest_holder_commitment_txn(state.peer2.logger);
-                if (state.peer2.chain_monitor == null) {
-                    broadcastable_event = mon.get_and_clear_pending_events();
-                }
             }
             assert broadcastable_event.length == 1;
             assert broadcastable_event[0] instanceof Event.SpendableOutputs;
@@ -700,8 +801,15 @@ class HumanObjectPeerTestInstance {
             state.peer2.nio_peer_handler.interrupt();
         }
 
-        assert state.peer1.get_monitor_events().length == 0;
-        assert state.peer2.get_monitor_events().length == 0;
+        state.peer1.get_monitor_events(0);
+        state.peer2.get_monitor_events(0);
+
+        if (use_chan_manager_constructor) {
+            state.peer1.constructor.interrupt();
+            state.peer2.constructor.interrupt();
+        }
+
+        t.interrupt();
     }
 
     java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
@@ -717,14 +825,14 @@ class HumanObjectPeerTestInstance {
     }
 }
 public class HumanObjectPeerTest {
-    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler) throws InterruptedException {
-        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler);
+    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_chan_manager_constructor) throws InterruptedException {
+        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_chan_manager_constructor);
         HumanObjectPeerTestInstance.TestState state = instance.do_test_message_handler();
         instance.do_test_message_handler_b(state);
         return instance;
     }
-    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler) throws InterruptedException {
-        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler);
+    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_chan_manager_constructor) throws InterruptedException {
+        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_chan_manager_constructor);
         while (instance.gc_count != instance.gc_exp_count) {
             System.gc();
             System.runFinalization();
@@ -734,19 +842,24 @@ public class HumanObjectPeerTest {
     }
     @Test
     public void test_message_handler() throws InterruptedException {
-        for (int i = 0; i < (1 << 6) - 1; i++) {
-            boolean nice_close =       (i & (1 << 0)) != 0;
-            boolean use_km_wrapper =   (i & (1 << 1)) != 0;
-            boolean use_manual_watch = (i & (1 << 2)) != 0;
-            boolean reload_peers =     (i & (1 << 3)) != 0;
-            boolean break_cross_refs = (i & (1 << 4)) != 0;
-            boolean nio_peer_handler = (i & (1 << 5)) != 0;
+        for (int i = 0; i < (1 << 7) - 1; i++) {
+            boolean nice_close =                   (i & (1 << 0)) != 0;
+            boolean use_km_wrapper =               (i & (1 << 1)) != 0;
+            boolean use_manual_watch =             (i & (1 << 2)) != 0;
+            boolean reload_peers =                 (i & (1 << 3)) != 0;
+            boolean break_cross_refs =             (i & (1 << 4)) != 0;
+            boolean nio_peer_handler =             (i & (1 << 5)) != 0;
+            boolean use_chan_manager_constructor = (i & (1 << 6)) != 0;
             if (break_cross_refs && !reload_peers) {
                 // There are no cross refs to break without reloading peers.
                 continue;
             }
+            if (use_chan_manager_constructor && (use_manual_watch || !nio_peer_handler)) {
+                // ChannelManagerConstructor requires a ChainMonitor as the Watch and creates a NioPeerHandler for us.
+                continue;
+            }
             System.err.println("Running test with flags " + i);
-            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler);
+            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_chan_manager_constructor);
         }
     }
 }

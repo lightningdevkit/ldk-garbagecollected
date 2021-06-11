@@ -33,7 +33,7 @@ public class FilesystemPersister extends CommonBase {
 	 * Initialize a new FilesystemPersister and set the path to the individual channels'
 	 * files.
 	 */
-	public static FilesystemPersister constructor_new(byte[] path_to_channel_data) {
+	public static FilesystemPersister of(String path_to_channel_data) {
 		long ret = bindings.FilesystemPersister_new(path_to_channel_data);
 		FilesystemPersister ret_hu_conv = new FilesystemPersister(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -43,20 +43,9 @@ public class FilesystemPersister extends CommonBase {
 	/**
 	 * Get the directory which was provided when this persister was initialized.
 	 */
-	public byte[] get_data_dir() {
-		byte[] ret = bindings.FilesystemPersister_get_data_dir(this.ptr);
+	public String get_data_dir() {
+		String ret = bindings.FilesystemPersister_get_data_dir(this.ptr);
 		return ret;
-	}
-
-	/**
-	 * Writes the provided `ChannelManager` to the path provided at `FilesystemPersister`
-	 * initialization, within a file called \"manager\".
-	 */
-	public static Result_NoneErrorZ constructor_persist_manager(byte[] data_dir, ChannelManager manager) {
-		long ret = bindings.FilesystemPersister_persist_manager(data_dir, manager == null ? 0 : manager.ptr & ~1);
-		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(manager);
-		return ret_hu_conv;
 	}
 
 	/**

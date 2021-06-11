@@ -18,6 +18,12 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.InvoiceFeatures_free(this.ptr);
                     }
                 }
+	public boolean eq(InvoiceFeatures b) {
+		boolean ret = bindings.InvoiceFeatures_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
 	public InvoiceFeatures clone() {
 		number ret = bindings.InvoiceFeatures_clone(this.ptr);
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
@@ -37,6 +43,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public boolean supports_payment_secret() {
+		boolean ret = bindings.InvoiceFeatures_supports_payment_secret(this.ptr);
+		return ret;
 	}
 
 	public Uint8Array write() {

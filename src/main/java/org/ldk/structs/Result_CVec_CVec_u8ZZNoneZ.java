@@ -35,7 +35,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CVec_CVec_u8ZZNoneZ in the success state.
 	 */
-	public static Result_CVec_CVec_u8ZZNoneZ constructor_ok(byte[][] o) {
+	public static Result_CVec_CVec_u8ZZNoneZ ok(byte[][] o) {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(o);
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -44,7 +44,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CVec_CVec_u8ZZNoneZ in the error state.
 	 */
-	public static Result_CVec_CVec_u8ZZNoneZ constructor_err() {
+	public static Result_CVec_CVec_u8ZZNoneZ err() {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_err();
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

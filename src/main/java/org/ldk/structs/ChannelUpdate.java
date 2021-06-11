@@ -54,7 +54,7 @@ public class ChannelUpdate extends CommonBase {
 	/**
 	 * Constructs a new ChannelUpdate given each field
 	 */
-	public static ChannelUpdate constructor_new(byte[] signature_arg, UnsignedChannelUpdate contents_arg) {
+	public static ChannelUpdate of(byte[] signature_arg, UnsignedChannelUpdate contents_arg) {
 		long ret = bindings.ChannelUpdate_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -83,7 +83,7 @@ public class ChannelUpdate extends CommonBase {
 	/**
 	 * Read a ChannelUpdate from a byte array, created by ChannelUpdate_write
 	 */
-	public static Result_ChannelUpdateDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ChannelUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelUpdate_read(ser);
 		Result_ChannelUpdateDecodeErrorZ ret_hu_conv = Result_ChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

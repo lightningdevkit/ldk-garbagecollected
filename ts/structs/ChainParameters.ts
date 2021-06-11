@@ -18,12 +18,12 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChainParameters_free(this.ptr);
                     }
                 }
-	public LDKNetwork get_network() {
-		LDKNetwork ret = bindings.ChainParameters_get_network(this.ptr);
+	public Network get_network() {
+		Network ret = bindings.ChainParameters_get_network(this.ptr);
 		return ret;
 	}
 
-	public void set_network(LDKNetwork val) {
+	public void set_network(Network val) {
 		bindings.ChainParameters_set_network(this.ptr, val);
 	}
 
@@ -39,11 +39,18 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(val);
 	}
 
-	public static ChainParameters constructor_new(LDKNetwork network_arg, BestBlock best_block_arg) {
+	public static ChainParameters constructor_new(Network network_arg, BestBlock best_block_arg) {
 		number ret = bindings.ChainParameters_new(network_arg, best_block_arg == null ? 0 : best_block_arg.ptr & ~1);
 		const ret_hu_conv: ChainParameters = new ChainParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(best_block_arg);
+		return ret_hu_conv;
+	}
+
+	public ChainParameters clone() {
+		number ret = bindings.ChainParameters_clone(this.ptr);
+		const ret_hu_conv: ChainParameters = new ChainParameters(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

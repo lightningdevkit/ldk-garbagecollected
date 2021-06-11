@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, re
+import os, sys, re, subprocess
 
 if len(sys.argv) < 7:
     print("USAGE: /path/to/lightning.h /path/to/bindings/output /path/to/bindings/ /path/to/bindings/output.c debug lang")
@@ -32,6 +32,10 @@ else:
 
 
 consts = Consts(DEBUG, target=target)
+
+local_git_version = os.getenv("LDK_GARBAGECOLLECTED_GIT_OVERRIDE")
+if local_git_version is None:
+    local_git_version = subprocess.check_output(["git", "describe", '--tag', '--dirty']).decode("utf-8").strip()
 
 from bindingstypes import *
 
@@ -121,6 +125,11 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKSignature"
         arr_access = "compact_form"
+    elif fn_arg.startswith("LDKRecoverableSignature"):
+        fn_arg = "uint8_t (*" + fn_arg[25:] + ")[68]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKRecoverableSignature"
+        arr_access = "serialized_form"
     elif fn_arg.startswith("LDKThreeBytes"):
         fn_arg = "uint8_t (*" + fn_arg[14:] + ")[3]"
         assert var_is_arr_regex.match(fn_arg[8:])
@@ -135,6 +144,11 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_arg = "uint8_t (*" + fn_arg[16:] + ")[16]"
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKSixteenBytes"
+        arr_access = "data"
+    elif fn_arg.startswith("LDKTwentyBytes"):
+        fn_arg = "uint8_t (*" + fn_arg[15:] + ")[20]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKTwentyBytes"
         arr_access = "data"
     elif fn_arg.startswith("LDKTenBytes"):
         fn_arg = "uint8_t (*" + fn_arg[12:] + ")[10]"
@@ -210,6 +224,13 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_ty_arg = "B"
         fn_arg = fn_arg[7:].strip()
         is_primitive = True
+    elif fn_arg.startswith("LDKu5"):
+        java_ty = consts.c_type_map['uint8_t'][0]
+        java_hu_ty = "UInt5"
+        rust_obj = "LDKu5"
+        c_ty = "int8_t"
+        fn_ty_arg = "B"
+        fn_arg = fn_arg[6:].strip()
     elif fn_arg.startswith("uint16_t"):
         mapped_type = consts.c_type_map['uint16_t']
         java_ty = mapped_type[0]
@@ -243,6 +264,7 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_ty_arg = "Ljava/lang/String;"
         fn_arg = fn_arg[6:].strip()
     elif fn_arg.startswith("LDKStr"):
+        rust_obj = "LDKStr"
         java_ty = "String"
         c_ty = "jstring"
         fn_ty_arg = "Ljava/lang/String;"
@@ -252,9 +274,11 @@ def java_c_types(fn_arg, ret_arr_len):
     else:
         ma = var_ty_regex.match(fn_arg)
         if ma.group(1).strip() in unitary_enums:
-            java_ty = ma.group(1).strip()
+            assert ma.group(1).strip().startswith("LDK")
+            java_ty = ma.group(1).strip()[3:]
+            java_hu_ty = java_ty
             c_ty = consts.result_c_ty
-            fn_ty_arg = "Lorg/ldk/enums/" + ma.group(1).strip() + ";"
+            fn_ty_arg = "Lorg/ldk/enums/" + java_ty + ";"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
         elif ma.group(1).strip().startswith("LDKC2Tuple"):
@@ -382,6 +406,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     def map_fn(line, re_match, ret_arr_len, c_call_string, doc_comment):
         method_return_type = re_match.group(1)
         method_name = re_match.group(2)
+        orig_method_name = str(method_name)
         method_comma_separated_arguments = re_match.group(3)
         method_arguments = method_comma_separated_arguments.split(',')
 
@@ -391,17 +416,20 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         else:
             struct_meth = method_name.split("_")[0]
 
-        return_type_info = type_mapping_generator.map_type(method_return_type, True, ret_arr_len, False, False)
+        return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, False)
 
         argument_types = []
         default_constructor_args = {}
         takes_self = False
+        takes_self_ptr = False
         args_known = True
 
         for argument_index, argument in enumerate(method_arguments):
             argument_conversion_info = type_mapping_generator.map_type(argument, False, None, is_free, True)
             if argument_index == 0 and argument_conversion_info.java_hu_ty == struct_meth:
                 takes_self = True
+                if argument_conversion_info.ty_info.is_ptr:
+                    takes_self_ptr = True
             if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
@@ -416,10 +444,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                             default_constructor_args[argument_conversion_info.arg_name] = []
                         default_constructor_args[argument_conversion_info.arg_name].append(explode_arg_conv)
             argument_types.append(argument_conversion_info)
+        if not takes_self and return_type_info.java_hu_ty != struct_meth:
+            if not return_type_info.java_hu_ty.startswith("Result_" + struct_meth):
+                method_name = orig_method_name
+                struct_meth = ""
 
         out_java.write("\t// " + line)
         (out_java_delta, out_c_delta, out_java_struct_delta) = \
-            consts.map_function(argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator, doc_comment)
+            consts.map_function(argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_ptr, args_known, type_mapping_generator, doc_comment)
         out_java.write(out_java_delta)
 
         if is_free:
@@ -451,14 +483,23 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 or expected_struct in complex_enums or expected_cstruct in complex_enums
                 or expected_cstruct in result_types) and not is_free:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
-        elif method_name.startswith("C2Tuple_") and method_name.endswith("_read"):
-            struct_meth = method_name.rsplit("_", 1)[0]
-            out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
-        if out_java_struct is not None:
             out_java_struct.write(out_java_struct_delta)
+        elif (not is_free and not method_name.endswith("_clone") and
+                not method_name.startswith("_") and
+                method_name != "check_platform" and method_name != "Result_read" and
+                not expected_struct in unitary_enums and
+                ((not method_name.startswith("C2Tuple_") and not method_name.startswith("C3Tuple_"))
+                  or method_name.endswith("_read"))):
+            out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
+            for line in out_java_struct_delta.splitlines():
+                if not line.strip().startswith("this."):
+                    out_java_struct.write(line + "\n")
+                else:
+                    out_java_struct.write("\t\t// " + line.strip() + "\n")
 
     def map_unitary_enum(struct_name, field_lines, enum_doc_comment):
-        with open(f"{sys.argv[3]}/enums/{struct_name}{consts.file_ext}", "w") as out_java_enum:
+        assert struct_name.startswith("LDK")
+        with open(f"{sys.argv[3]}/enums/{struct_name[3:]}{consts.file_ext}", "w") as out_java_enum:
             unitary_enums.add(struct_name)
             for idx, struct_line in enumerate(field_lines):
                 if idx == 0:
@@ -469,7 +510,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     assert(struct_line == "} %s;" % struct_name)
                 elif idx == len(field_lines) - 1:
                     assert(struct_line == "")
-            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name, [x.strip().strip(",") for x in field_lines[1:-3]], enum_doc_comment)
+            assert struct_name.startswith("LDK")
+            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [x.strip().strip(",") for x in field_lines[1:-3]], enum_doc_comment)
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
@@ -495,7 +537,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 if "LDK" + variant_name in union_enum_items:
                     enum_var_lines = union_enum_items["LDK" + variant_name]
                     for idx, field in enumerate(enum_var_lines):
-                        if idx != 0 and idx < len(enum_var_lines) - 2:
+                        if idx != 0 and idx < len(enum_var_lines) - 2 and field.strip() != "":
                             fields.append(type_mapping_generator.map_type(field.strip(' ;'), False, None, False, True))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, False))
                 elif camel_to_snake(variant_name) in inline_enum_variants:
@@ -528,7 +570,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
             field_fns = []
             for fn_docs, fn_line in trait_fn_lines:
-                ret_ty_info = type_mapping_generator.map_type(fn_line.group(2), True, None, False, False)
+                ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
                 is_const = fn_line.group(4) is not None
 
                 arg_tys = []
@@ -675,7 +717,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     write_c("\tret->" + e + " = " + e + ";\n")
                 if ty_info.arg_conv_cleanup is not None:
                     write_c("\t//TODO: Really need to call " + ty_info.arg_conv_cleanup + " here\n")
-        write_c("\treturn (long)ret;\n")
+        write_c("\treturn (uint64_t)ret;\n")
         write_c("}\n")
 
         for idx, ty_info in enumerate(ty_list):
@@ -691,7 +733,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 write_c("\treturn tuple->" + e + ";\n")
             write_c("}\n")
 
-    out_java.write(consts.bindings_header)
+    out_java.write(consts.bindings_header.replace('<git_version_ldk_garbagecollected>', local_git_version))
 
     with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "w") as out_java_struct:
         out_java_struct.write(consts.common_base)
@@ -835,7 +877,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         if cleanup is not None:
                             write_c("\t\t" + cleanup + ";\n")
                         write_c("\t}\n")
-                        write_c("\treturn (long)ret;\n")
+                        write_c("\treturn (uint64_t)ret;\n")
                         write_c("}\n")
 
                     if ty_info.is_native_primitive:
@@ -871,6 +913,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                             line = line.strip()
                             if line.startswith("struct "):
                                 line = line[7:]
+                            elif line.startswith("enum "):
+                                line = line[5:]
                             split = line.split(" ")
                             assert len(split) == 2
                             tuple_variants[split[1].strip(";")] = split[0]
@@ -948,7 +992,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct.write("}\n")
 
 with open(sys.argv[4], "w") as out_c:
-    out_c.write(consts.c_file_pfx)
+    out_c.write(consts.c_file_pfx.replace('<git_version_ldk_garbagecollected>', local_git_version))
     out_c.write(consts.init_str())
     out_c.write(c_file)
 with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:

@@ -81,7 +81,7 @@ public class AnnouncementSignatures extends CommonBase {
 	/**
 	 * Constructs a new AnnouncementSignatures given each field
 	 */
-	public static AnnouncementSignatures constructor_new(byte[] channel_id_arg, long short_channel_id_arg, byte[] node_signature_arg, byte[] bitcoin_signature_arg) {
+	public static AnnouncementSignatures of(byte[] channel_id_arg, long short_channel_id_arg, byte[] node_signature_arg, byte[] bitcoin_signature_arg) {
 		long ret = bindings.AnnouncementSignatures_new(channel_id_arg, short_channel_id_arg, node_signature_arg, bitcoin_signature_arg);
 		AnnouncementSignatures ret_hu_conv = new AnnouncementSignatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -109,7 +109,7 @@ public class AnnouncementSignatures extends CommonBase {
 	/**
 	 * Read a AnnouncementSignatures from a byte array, created by AnnouncementSignatures_write
 	 */
-	public static Result_AnnouncementSignaturesDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_AnnouncementSignaturesDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.AnnouncementSignatures_read(ser);
 		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

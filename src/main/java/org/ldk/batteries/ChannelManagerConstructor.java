@@ -1,14 +1,18 @@
 package org.ldk.batteries;
 
 import org.jetbrains.annotations.Nullable;
-import org.ldk.enums.LDKNetwork;
+import org.ldk.enums.Network;
 import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;
+
+import java.io.IOException;
 
 
 /**
  * A simple utility class which assists in constructing a fresh or deserializing from disk a ChannelManager and one or
  * more ChannelMonitors.
+ *
+ * Also constructs a PeerManager and spawns a background thread to monitor for and notify you of relevant Events.
  */
 public class ChannelManagerConstructor {
     /**
@@ -33,8 +37,18 @@ public class ChannelManagerConstructor {
      * and then continue to normal application operation.
      */
     public final TwoTuple<ChannelMonitor, byte[]>[] channel_monitors;
+    /**
+     * A PeerManager which is constructed to pass messages and handle connections to peers.
+     */
+    public final PeerManager peer_manager;
+    /**
+     * A NioPeerHandler which manages a background thread to handle socket events and pass them to the peer_manager.
+     */
+    public final NioPeerHandler nio_peer_handler;
 
     private final ChainMonitor chain_monitor;
+
+    private final Logger logger;
 
     /**
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
@@ -45,11 +59,12 @@ public class ChannelManagerConstructor {
      */
     public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized,
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor, @Nullable Filter filter,
+                                     @Nullable NetGraphMsgHandler router,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
         this.channel_monitors = new TwoTuple[monitors.length];
         for (int i = 0; i < monitors.length; i++) {
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.constructor_BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], keys_interface);
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], keys_interface);
             if (res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_Err) {
                 throw new InvalidSerializedDataException();
             }
@@ -57,14 +72,24 @@ public class ChannelManagerConstructor {
             this.channel_monitors[i] = new TwoTuple<>(monitors[i], ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK)res).res.a);
         }
         Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
-                UtilMethods.constructor_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
-                        logger, UserConfig.constructor_default(), monitors);
+                UtilMethods.BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
+                        logger, UserConfig.with_default(), monitors);
         if (res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err) {
             throw new InvalidSerializedDataException();
         }
         this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.b;
         this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.a;
         this.chain_monitor = chain_monitor;
+        this.logger = logger;
+        byte[] random_data = keys_interface.get_secure_random_bytes();
+        if (router != null) {
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+        } else {
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), (IgnoringMessageHandler.of()).as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+        }
+        NioPeerHandler nio_peer_handler = null;
+        try { nio_peer_handler = new NioPeerHandler(this.peer_manager); } catch (IOException e) { assert false; }
+        this.nio_peer_handler = nio_peer_handler;
         if (filter != null) {
             for (ChannelMonitor monitor : monitors) {
                 monitor.load_outputs_to_watch(filter);
@@ -75,14 +100,26 @@ public class ChannelManagerConstructor {
     /**
      * Constructs a channel manager from the given interface implementations
      */
-    public ChannelManagerConstructor(LDKNetwork network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
+    public ChannelManagerConstructor(Network network, UserConfig config, byte[] current_blockchain_tip_hash, int current_blockchain_tip_height,
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
-                                     BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
+                                     @Nullable NetGraphMsgHandler router,
+                                     BroadcasterInterface tx_broadcaster, Logger logger) {
         channel_monitors = new TwoTuple[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
-        BestBlock block = BestBlock.constructor_new(current_blockchain_tip_hash, current_blockchain_tip_height);
-        channel_manager = ChannelManager.constructor_new(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, logger, keys_interface, config, network, block);
+        BestBlock block = BestBlock.of(current_blockchain_tip_hash, current_blockchain_tip_height);
+        ChainParameters params = ChainParameters.of(network, block);
+        channel_manager = ChannelManager.of(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, logger, keys_interface, config, params);
+        this.logger = logger;
+        byte[] random_data = keys_interface.get_secure_random_bytes();
+        if (router != null) {
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+        } else {
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), (IgnoringMessageHandler.of()).as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+        }
+        NioPeerHandler nio_peer_handler = null;
+        try { nio_peer_handler = new NioPeerHandler(this.peer_manager); } catch (IOException e) { assert false; }
+        this.nio_peer_handler = nio_peer_handler;
     }
 
     /**
@@ -90,12 +127,11 @@ public class ChannelManagerConstructor {
      * a background thread is started which will automatically call these methods for you when events occur.
      */
     public interface ChannelManagerPersister {
-        void handle_events(Event[] events);
+        void handle_event(Event events);
         void persist_manager(byte[] channel_manager_bytes);
     }
 
-    Thread persister_thread = null;
-    volatile boolean shutdown = false;
+    BackgroundProcessor background_processor = null;
 
     /**
      * Utility which adds all of the deserialized ChannelMonitors to the chain watch so that further updates from the
@@ -105,47 +141,22 @@ public class ChannelManagerConstructor {
      * ChannelManagerPersister as required.
      */
     public void chain_sync_completed(ChannelManagerPersister persister) {
-        if (persister_thread != null) { return; }
+        if (background_processor != null) { return; }
         for (TwoTuple<ChannelMonitor, byte[]> monitor: channel_monitors) {
             this.chain_monitor.as_Watch().watch_channel(monitor.a.get_funding_txo().a, monitor.a);
         }
-        persister_thread = new Thread(() -> {
-            long lastTimerTick = System.currentTimeMillis();
-            while (true) {
-                boolean need_persist = this.channel_manager.await_persistable_update_timeout(1);
-                Event[] events = this.channel_manager.as_EventsProvider().get_and_clear_pending_events();
-                if (events.length != 0) {
-                    persister.handle_events(events);
-                    need_persist = true;
-                }
-                events = this.chain_monitor.as_EventsProvider().get_and_clear_pending_events();
-
-                if (events.length != 0) {
-                    persister.handle_events(events);
-                    need_persist = true;
-                }
-                if (need_persist) {
-                    persister.persist_manager(this.channel_manager.write());
-                }
-                if (shutdown) {
-                    return;
-                }
-                if (lastTimerTick < System.currentTimeMillis() - 60 * 1000) {
-                    this.channel_manager.timer_tick_occurred();
-                    lastTimerTick = System.currentTimeMillis();
-                }
-            }
-        }, "NioPeerHandler NIO Thread");
-        persister_thread.start();
+        background_processor = BackgroundProcessor.start(org.ldk.structs.ChannelManagerPersister.new_impl(channel_manager -> {
+            persister.persist_manager(channel_manager.write());
+            return Result_NoneErrorZ.ok();
+        }), EventHandler.new_impl(persister::handle_event),
+        this.chain_monitor, this.channel_manager, this.peer_manager, this.logger);
     }
 
     /**
-     * Interrupt the background thread, stopping the background handling of
+     * Interrupt the background thread, stopping the background handling of events.
      */
     public void interrupt() {
-        shutdown = true;
-        try {
-            persister_thread.join();
-        } catch (InterruptedException ignored) { }
+        this.background_processor.stop();
+        this.nio_peer_handler.interrupt();
     }
 }

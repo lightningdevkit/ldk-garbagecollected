@@ -136,60 +136,6 @@ public class ChannelHandshakeLimits extends CommonBase {
 	}
 
 	/**
-	 * Outputs below a certain value will not be added to on-chain transactions. The dust value is
-	 * required to always be higher than this value so this only applies to HTLC outputs (and
-	 * potentially to-self outputs before any payments have been made).
-	 * Thus, HTLCs below this amount plus HTLC transaction fees are not enforceable on-chain.
-	 * This setting allows you to set a minimum dust limit for their commitment transactions,
-	 * reflecting the reality that tiny outputs are not considered standard transactions and will
-	 * not propagate through the Bitcoin network.
-	 * 
-	 * Default value: 546, the current dust limit on the Bitcoin network.
-	 */
-	public long get_min_dust_limit_satoshis() {
-		long ret = bindings.ChannelHandshakeLimits_get_min_dust_limit_satoshis(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * Outputs below a certain value will not be added to on-chain transactions. The dust value is
-	 * required to always be higher than this value so this only applies to HTLC outputs (and
-	 * potentially to-self outputs before any payments have been made).
-	 * Thus, HTLCs below this amount plus HTLC transaction fees are not enforceable on-chain.
-	 * This setting allows you to set a minimum dust limit for their commitment transactions,
-	 * reflecting the reality that tiny outputs are not considered standard transactions and will
-	 * not propagate through the Bitcoin network.
-	 * 
-	 * Default value: 546, the current dust limit on the Bitcoin network.
-	 */
-	public void set_min_dust_limit_satoshis(long val) {
-		bindings.ChannelHandshakeLimits_set_min_dust_limit_satoshis(this.ptr, val);
-	}
-
-	/**
-	 * Maximum allowed threshold above which outputs will not be generated in their commitment
-	 * transactions.
-	 * HTLCs below this amount plus HTLC transaction fees are not enforceable on-chain.
-	 * 
-	 * Default value: u64::max_value.
-	 */
-	public long get_max_dust_limit_satoshis() {
-		long ret = bindings.ChannelHandshakeLimits_get_max_dust_limit_satoshis(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * Maximum allowed threshold above which outputs will not be generated in their commitment
-	 * transactions.
-	 * HTLCs below this amount plus HTLC transaction fees are not enforceable on-chain.
-	 * 
-	 * Default value: u64::max_value.
-	 */
-	public void set_max_dust_limit_satoshis(long val) {
-		bindings.ChannelHandshakeLimits_set_max_dust_limit_satoshis(this.ptr, val);
-	}
-
-	/**
 	 * Before a channel is usable the funding transaction will need to be confirmed by at least a
 	 * certain number of blocks, specified by the node which is not the funder (as the funder can
 	 * assume they aren't going to double-spend themselves).
@@ -267,8 +213,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	/**
 	 * Constructs a new ChannelHandshakeLimits given each field
 	 */
-	public static ChannelHandshakeLimits constructor_new(long min_funding_satoshis_arg, long max_htlc_minimum_msat_arg, long min_max_htlc_value_in_flight_msat_arg, long max_channel_reserve_satoshis_arg, short min_max_accepted_htlcs_arg, long min_dust_limit_satoshis_arg, long max_dust_limit_satoshis_arg, int max_minimum_depth_arg, boolean force_announced_channel_preference_arg, short their_to_self_delay_arg) {
-		long ret = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, min_dust_limit_satoshis_arg, max_dust_limit_satoshis_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
+	public static ChannelHandshakeLimits of(long min_funding_satoshis_arg, long max_htlc_minimum_msat_arg, long min_max_htlc_value_in_flight_msat_arg, long max_channel_reserve_satoshis_arg, short min_max_accepted_htlcs_arg, int max_minimum_depth_arg, boolean force_announced_channel_preference_arg, short their_to_self_delay_arg) {
+		long ret = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -287,7 +233,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	/**
 	 * Creates a "default" ChannelHandshakeLimits. See struct and individual field documentaiton for details on which values are used.
 	 */
-	public static ChannelHandshakeLimits constructor_default() {
+	public static ChannelHandshakeLimits with_default() {
 		long ret = bindings.ChannelHandshakeLimits_default();
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

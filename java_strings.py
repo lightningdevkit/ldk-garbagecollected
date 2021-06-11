@@ -37,9 +37,21 @@ public class bindings {
 		System.loadLibrary(\"lightningjni\");
 		init(java.lang.Enum.class, VecOrSliceDef.class);
 		init_class_cache();
+		if (!get_lib_version_string().equals(get_ldk_java_bindings_version()))
+			throw new IllegalArgumentException("Compiled LDK library and LDK class failes do not match");
+		// Fetching the LDK versions from C also checks that the header and binaries match
+		get_ldk_c_bindings_version();
+		get_ldk_version();
 	}
 	static native void init(java.lang.Class c, java.lang.Class slicedef);
 	static native void init_class_cache();
+	static native String get_lib_version_string();
+
+	public static String get_ldk_java_bindings_version() {
+		return "<git_version_ldk_garbagecollected>";
+	}
+	public static native String get_ldk_c_bindings_version();
+	public static native String get_ldk_version();
 
 	public static native boolean deref_bool(long ptr);
 	public static native long deref_long(long ptr);
@@ -60,6 +72,7 @@ public class bindings {
         self.util_fn_pfx = """package org.ldk.structs;
 import org.ldk.impl.bindings;
 import java.util.Arrays;
+import org.ldk.enums.*;
 
 public class UtilMethods {
 """
@@ -75,7 +88,6 @@ class CommonBase {
 """
 
         self.c_file_pfx = """#include \"org_ldk_impl_bindings.h\"
-#include <rust_types.h>
 #include <lightning.h>
 #include <string.h>
 #include <stdatomic.h>
@@ -83,9 +95,38 @@ class CommonBase {
 
 """
 
+        if self.target == Target.ANDROID:
+            self.c_file_pfx = self.c_file_pfx + """
+#include <android/log.h>
+#define DEBUG_PRINT(...) __android_log_print(ANDROID_LOG_ERROR, "LDK", __VA_ARGS__)
+
+#include <unistd.h>
+#include <pthread.h>
+static void* redirect_stderr(void* ignored) {
+	int pipes[2];
+	pipe(pipes);
+	dup2(pipes[1], STDERR_FILENO);
+	char buf[8192];
+	memset(buf, 0, 8192);
+	ssize_t len;
+	while ((len = read(pipes[0], buf, 8191)) > 0) {
+		DEBUG_PRINT("%s\\n", buf);
+		memset(buf, 0, 8192);
+	}
+	DEBUG_PRINT("End of stderr???\\n");
+	return 0;
+}
+void __attribute__((constructor)) spawn_stderr_redirection() {
+	pthread_t thread;
+	pthread_create(&thread, NULL, &redirect_stderr, NULL);
+}
+"""
+        else:
+            self.c_file_pfx = self.c_file_pfx + "#define DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__)\n"
+
         if not DEBUG:
             self.c_file_pfx = self.c_file_pfx + """#define MALLOC(a, _) malloc(a)
-#define FREE(p) if ((long)(p) > 1024) { free(p); }
+#define FREE(p) if ((uint64_t)(p) > 1024) { free(p); }
 #define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
 """
@@ -96,12 +137,66 @@ class CommonBase {
 // Assert a is true or do nothing
 #define CHECK(a) DO_ASSERT(a)
 
+void __attribute__((constructor)) debug_log_version() {
+	if (check_get_ldk_version() == NULL)
+		DEBUG_PRINT("LDK version did not match the header we built against\\n");
+	if (check_get_ldk_bindings_version() == NULL)
+		DEBUG_PRINT("LDK C Bindings version did not match the header we built against\\n");
+	DEBUG_PRINT("Loaded LDK-Java Bindings with LDK %s and LDK-C-Bindings %s\\n", check_get_ldk_version(), check_get_ldk_bindings_version());
+}
+
 // Running a leak check across all the allocations and frees of the JDK is a mess,
 // so instead we implement our own naive leak checker here, relying on the -wrap
 // linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
 // and free'd in Rust or C across the generated bindings shared library.
 #include <threads.h>
-#include <execinfo.h>
+"""
+
+            if self.target == Target.ANDROID:
+                self.c_file_pfx = self.c_file_pfx + """
+#include <unwind.h>
+#include <dlfcn.h>
+
+// Implement the execinfo functions using _Unwind_backtrace. This seems to miss many Rust
+// symbols, so we only use it on Android, where execinfo.h is unavailable.
+
+struct BacktraceState {
+	void** current;
+	void** end;
+};
+static _Unwind_Reason_Code unwind_callback(struct _Unwind_Context* context, void* arg) {
+	struct BacktraceState* state = (struct BacktraceState*)arg;
+	uintptr_t pc = _Unwind_GetIP(context);
+	if (pc) {
+		if (state->current == state->end) {
+			return _URC_END_OF_STACK;
+		} else {
+			*state->current++ = (void*)(pc);
+		}
+	}
+	return _URC_NO_REASON;
+}
+
+int backtrace(void** buffer, int max) {
+	struct BacktraceState state = { buffer, buffer + max };
+	_Unwind_Backtrace(unwind_callback, &state);
+	return state.current - buffer;
+}
+
+void backtrace_symbols_fd(void ** buffer, int count, int _fd) {
+	for (int idx = 0; idx < count; ++idx) {
+		Dl_info info;
+		if (dladdr(buffer[idx], &info) && info.dli_sname) {
+			DEBUG_PRINT("%p: %s", buffer[idx], info.dli_sname);
+		} else {
+			DEBUG_PRINT("%p: ???", buffer[idx]);
+		}
+	}
+}
+"""
+            else:
+                self.c_file_pfx = self.c_file_pfx + "#include <execinfo.h>\n"
+            self.c_file_pfx = self.c_file_pfx + """
 #include <unistd.h>
 static mtx_t allocation_mtx;
 
@@ -116,7 +211,7 @@ typedef struct allocation {
 	const char* struct_name;
 	void* bt[BT_MAX];
 	int bt_len;
-	size_t alloc_len;
+	unsigned long alloc_len;
 } allocation;
 static allocation* allocation_ll = NULL;
 
@@ -146,11 +241,11 @@ static void alloc_freed(void* ptr) {
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
 		if (it == NULL) {
-			fprintf(stderr, "Tried to free unknown pointer %p at:\\n", ptr);
+			DEBUG_PRINT("Tried to free unknown pointer %p at:\\n", ptr);
 			void* bt[BT_MAX];
 			int bt_len = backtrace(bt, BT_MAX);
 			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
-			fprintf(stderr, "\\n\\n");
+			DEBUG_PRINT("\\n\\n");
 			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
 			return; // addrsan should catch malloc-unknown and print more info than we have
 		}
@@ -161,7 +256,7 @@ static void alloc_freed(void* ptr) {
 	__real_free(it);
 }
 static void FREE(void* ptr) {
-	if ((long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
+	if ((uint64_t)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
 	alloc_freed(ptr);
 	__real_free(ptr);
 }
@@ -195,21 +290,21 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 }
 
 void __attribute__((destructor)) check_leaks() {
-	size_t alloc_count = 0;
-	size_t alloc_size = 0;
-	fprintf(stderr, "The following LDK-allocated blocks still remain.\\n");
-	fprintf(stderr, "Note that this is only accurate if System.gc(); System.runFinalization()\\n");
-	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
+	unsigned long alloc_count = 0;
+	unsigned long alloc_size = 0;
+	DEBUG_PRINT("The following LDK-allocated blocks still remain.\\n");
+	DEBUG_PRINT("Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	DEBUG_PRINT("was called prior to exit after all LDK objects were out of scope.\\n");
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		fprintf(stderr, "%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
+		DEBUG_PRINT("%s %p (%lu bytes) remains:\\n", a->struct_name, a->ptr, a->alloc_len);
 		backtrace_symbols_fd(a->bt, a->bt_len, STDERR_FILENO);
-		fprintf(stderr, "\\n\\n");
+		DEBUG_PRINT("\\n\\n");
 		alloc_count++;
 		alloc_size += a->alloc_len;
 	}
-	fprintf(stderr, "%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
-	fprintf(stderr, "Note that this is only accurate if System.gc(); System.runFinalization()\\n");
-	fprintf(stderr, "was called prior to exit after all LDK objects were out of scope.\\n");
+	DEBUG_PRINT("%lu allocations remained for %lu bytes.\\n", alloc_count, alloc_size);
+	DEBUG_PRINT("Note that this is only accurate if System.gc(); System.runFinalization()\\n");
+	DEBUG_PRINT("was called prior to exit after all LDK objects were out of scope.\\n");
 }
 """
         self.c_file_pfx = self.c_file_pfx + """
@@ -250,14 +345,14 @@ JNIEXPORT int64_t impl_bindings_bytes_1to_1u8_1vec (JNIEnv * env, jclass _b, jby
 	vec->datalen = (*env)->GetArrayLength(env, bytes);
 	vec->data = (uint8_t*)MALLOC(vec->datalen, "LDKCVec_u8Z Bytes");
 	(*env)->GetByteArrayRegion (env, bytes, 0, vec->datalen, vec->data);
-	return (long)vec;
+	return (uint64_t)vec;
 }
 JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_txpointer_1get_1buffer (JNIEnv * env, jclass _b, jlong ptr) {
 	LDKTransaction *txdata = (LDKTransaction*)ptr;
 	LDKu8slice slice;
 	slice.data = txdata->data;
 	slice.datalen = txdata->datalen;
-	return Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes(env, _b, (long)&slice);
+	return Java_org_ldk_impl_bindings_get_1u8_1slice_1bytes(env, _b, (uint64_t)&slice);
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data (JNIEnv * env, jclass _b, jbyteArray bytes) {
 	LDKTransaction *txdata = (LDKTransaction*)MALLOC(sizeof(LDKTransaction), "LDKTransaction");
@@ -265,7 +360,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1txpointer_1copy_1data 
 	txdata->data = (uint8_t*)MALLOC(txdata->datalen, "Tx Data Bytes");
 	txdata->data_is_owned = false;
 	(*env)->GetByteArrayRegion (env, bytes, 0, txdata->datalen, txdata->data);
-	return (long)txdata;
+	return (uint64_t)txdata;
 }
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_txpointer_1free (JNIEnv * env, jclass _b, jlong ptr) {
 	LDKTransaction *tx = (LDKTransaction*)ptr;
@@ -280,7 +375,7 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_vec_1slice_1len (JNIEnv * env
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_EventZ, datalen), "Vec<*> needs to be mapped identically");
 	_Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKCVec_C2Tuple_usizeTransactionZZ, datalen), "Vec<*> needs to be mapped identically");
 	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)ptr;
-	return (long)vec->datalen;
+	return (uint64_t)vec->datalen;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec (JNIEnv * env, jclass _b) {
 	// Check sizes of a few Vec types are all consistent as we're meant to be generic across types
@@ -291,7 +386,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_new_1empty_1slice_1vec (JNI
 	LDKCVec_u8Z *vec = (LDKCVec_u8Z*)MALLOC(sizeof(LDKCVec_u8Z), "Empty LDKCVec");
 	vec->data = NULL;
 	vec->datalen = 0;
-	return (long)vec;
+	return (uint64_t)vec;
 }
 
 // We assume that CVec_u8Z and u8slice are the same size and layout (and thus pointers to the two can be mixed)
@@ -308,12 +403,36 @@ typedef jbyteArray int8_tArray;
 
 static inline jstring str_ref_to_java(JNIEnv *env, const char* chars, size_t len) {
 	// Sadly we need to create a temporary because Java can't accept a char* without a 0-terminator
-	char* err_buf = MALLOC(len + 1, "str conv buf");
-	memcpy(err_buf, chars, len);
-	err_buf[len] = 0;
-	jstring err_conv = (*env)->NewStringUTF(env, chars);
-	FREE(err_buf);
-	return err_conv;
+	char* conv_buf = MALLOC(len + 1, "str conv buf");
+	memcpy(conv_buf, chars, len);
+	conv_buf[len] = 0;
+	jstring ret = (*env)->NewStringUTF(env, conv_buf);
+	FREE(conv_buf);
+	return ret;
+}
+static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
+	uint64_t str_len = (*env)->GetStringUTFLength(env, str);
+	char* newchars = MALLOC(str_len + 1, "String chars");
+	const char* jchars = (*env)->GetStringUTFChars(env, str, NULL);
+	memcpy(newchars, jchars, str_len);
+	newchars[str_len] = 0;
+	(*env)->ReleaseStringUTFChars(env, str, jchars);
+	LDKStr res = {
+		.chars = newchars,
+		.len = str_len,
+		.chars_is_owned = true
+	};
+	return res;
+}
+
+JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
+	return str_ref_to_java(env, "<git_version_ldk_garbagecollected>", strlen("<git_version_ldk_garbagecollected>"));
+}
+JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1c_1bindings_1version(JNIEnv *env, jclass _c) {
+	return str_ref_to_java(env, check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
+}
+JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1version(JNIEnv *env, jclass _c) {
+	return str_ref_to_java(env, check_get_ldk_version(), strlen(check_get_ldk_version()));
 }
 """
 
@@ -333,6 +452,21 @@ import java.util.Arrays;
         self.result_c_ty = "jclass"
         self.ptr_arr = "jobjectArray"
         self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")
+
+    def construct_jenv(self):
+        res =  "JNIEnv *env;\n"
+        res += "jint get_jenv_res = (*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6);\n"
+        res += "if (get_jenv_res == JNI_EDETACHED) {\n"
+        res += "\tDO_ASSERT((*j_calls->vm)->AttachCurrentThread(j_calls->vm, (void**)&env, NULL) == JNI_OK);\n"
+        res += "} else {\n"
+        res += "\tDO_ASSERT(get_jenv_res == JNI_OK);\n"
+        res += "}\n"
+        return res
+    def deconstruct_jenv(self):
+        res = "if (get_jenv_res == JNI_EDETACHED) {\n"
+        res += "\tDO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);\n"
+        res += "}\n"
+        return res
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         if ty_info.subty is None or not ty_info.subty.c_ty.endswith("Array"):
@@ -381,8 +515,10 @@ import java.util.Arrays;
         else:
             return "(*env)->Release" + ty_info.java_ty.strip("[]").title() + "ArrayElements(env, " + arr_name + ", " + dest_name + ", 0)"
 
-    def str_ref_to_c_call(self, var_name, str_len):
+    def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_java(env, " + var_name + ", " + str_len + ")"
+    def str_ref_to_c_call(self, var_name):
+        return "java_to_owned_str(env, " + var_name + ")"
 
     def c_fn_name_define_pfx(self, fn_name, has_args):
         if has_args:
@@ -405,7 +541,7 @@ import java.util.Arrays;
         out_java_enum = "package org.ldk.enums;\n\n"
         out_java = ""
         out_c = ""
-        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
+        out_c = out_c + "static inline LDK" + struct_name + " LDK" + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
         out_c = out_c + "\tswitch ((*env)->CallIntMethod(env, clz, ordinal_meth)) {\n"
 
         if enum_doc_comment is not None:
@@ -434,7 +570,7 @@ import java.util.Arrays;
             out_c = out_c + "\t" + struct_name + "_" + var + " = (*env)->GetStaticFieldID(env, " + struct_name + "_class, \"" + var + "\", \"Lorg/ldk/enums/" + struct_name + ";\");\n"
             out_c = out_c + "\tCHECK(" + struct_name + "_" + var + " != NULL);\n"
         out_c = out_c + "}\n"
-        out_c = out_c + "static inline jclass " + struct_name + "_to_java(JNIEnv *env, " + struct_name + " val) {\n"
+        out_c = out_c + "static inline jclass LDK" + struct_name + "_to_java(JNIEnv *env, LDK" + struct_name + " val) {\n"
         out_c = out_c + "\tswitch (val) {\n"
         ord_v = 0
         for var in variants:
@@ -640,9 +776,9 @@ import java.util.Arrays;
                 out_c = out_c + "static void " + struct_name + "_JCalls_free(void* this_arg) {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
-                out_c = out_c + "\t\tJNIEnv *env;\n"
-                out_c = out_c + "\t\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);\n"
+                out_c += "\t\t" + self.construct_jenv().replace("\n", "\n\t\t").strip() + "\n"
                 out_c = out_c + "\t\t(*env)->DeleteWeakGlobalRef(env, j_calls->o);\n"
+                out_c += "\t\t" + self.deconstruct_jenv().replace("\n", "\n\t\t").strip() + "\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -660,8 +796,7 @@ import java.util.Arrays;
 
                 out_c = out_c + ") {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
-                out_c = out_c + "\tJNIEnv *env;\n"
-                out_c = out_c + "\tDO_ASSERT((*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6) == JNI_OK);\n"
+                out_c += "\t" + self.construct_jenv().replace("\n", "\n\t").strip() + "\n"
 
                 for arg_info in fn_line.args_ty:
                     if arg_info.ret_conv is not None:
@@ -672,8 +807,10 @@ import java.util.Arrays;
                 out_c = out_c + "\tjobject obj = (*env)->NewLocalRef(env, j_calls->o);\n\tCHECK(obj != NULL);\n"
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
                     out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                elif fn_line.ret_ty_info.c_ty == "void":
+                    out_c += "\t(*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c = out_c + "\treturn (*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 else:
                     out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret = (" + fn_line.ret_ty_info.rust_obj + "*)(*env)->CallLongMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
 
@@ -684,7 +821,13 @@ import java.util.Arrays;
                         out_c = out_c + ", " + arg_info.arg_name
                 out_c = out_c + ");\n"
                 if fn_line.ret_ty_info.arg_conv is not None:
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
+                    out_c += "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n"
+                    out_c += "\t" + self.deconstruct_jenv().replace("\n", "\n\t").strip() + "\n"
+                    out_c += "\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
+                else:
+                    out_c += "\t" + self.deconstruct_jenv().replace("\n", "\n\t").strip() + "\n"
+                    if not fn_line.ret_ty_info.passed_as_ptr and fn_line.ret_ty_info.c_ty != "void":
+                        out_c += "\treturn ret;\n"
 
                 out_c = out_c + "}\n"
 
@@ -768,7 +911,7 @@ import java.util.Arrays;
             else:
                 out_c = out_c + ", " + var[1]
         out_c = out_c + ");\n"
-        out_c = out_c + "\treturn (long)res_ptr;\n"
+        out_c = out_c + "\treturn (uint64_t)res_ptr;\n"
         out_c = out_c + "}\n"
 
         return (out_java, out_java_trait, out_c)
@@ -813,8 +956,19 @@ import java.util.Arrays;
             init_meth_body = ""
             hu_conv_body = ""
             for idx, field_ty in enumerate(var.fields):
-                out_java += ("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
-                java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
+                if idx > 0:
+                    init_meth_params = init_meth_params + ", "
+
+                if field_ty.java_hu_ty == var.var_name:
+                    field_path = field_ty.java_fn_ty_arg.strip("L;").replace("/", ".")
+                    out_java += "\t\t\tpublic " + field_path + " " + field_ty.arg_name + ";\n"
+                    java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_path + " " + field_ty.arg_name + ";\n"
+                    init_meth_params = init_meth_params + field_path + " " + field_ty.arg_name
+                else:
+                    out_java += "\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n"
+                    java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
+                    init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
+                init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
                 if field_ty.to_hu_conv is not None:
                     hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.java_ty + " " + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
                     hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
@@ -822,10 +976,6 @@ import java.util.Arrays;
                 else:
                     hu_conv_body = hu_conv_body + "\t\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
                 init_meth_jty_str = init_meth_jty_str + field_ty.java_fn_ty_arg
-                if idx > 0:
-                    init_meth_params = init_meth_params + ", "
-                init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
-                init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
             out_java +=  ("\t\t\t" + var.var_name + "(" + init_meth_params + ") { ")
             out_java +=  (init_meth_body)
             out_java +=  ("}\n")
@@ -891,7 +1041,7 @@ import java.util.Arrays;
         return out_opaque_struct_human
 
 
-    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator, doc_comment):
+    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None
@@ -918,18 +1068,22 @@ import java.util.Arrays;
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
-            meth_n = method_name[len(struct_meth) + 1:].strip("_")
+            meth_n = method_name[len(struct_meth) + 1 if len(struct_meth) != 0 else 0:].strip("_")
             if doc_comment is not None:
                 out_java_struct += "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
             if not takes_self:
-                out_java_struct += (
-                    "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
+                if meth_n == "new":
+                    out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " of("
+                elif meth_n == "default":
+                    out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " with_default("
+                else:
+                    out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " " + meth_n + "("
             else:
                 out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
             for idx, arg in enumerate(argument_types):
                 if idx != 0:
                     if not takes_self or idx > 1:
-                        out_java_struct += (", ")
+                        out_java_struct += ", "
                 elif takes_self:
                     continue
                 if arg.java_ty != "void":
@@ -1030,6 +1184,8 @@ import java.util.Arrays;
                     else:
                         out_java_struct += ("\t\t" + info.from_hu_conv[1].replace("\n", "\n\t\t") + ";\n")
 
+            if takes_self and not takes_self_as_ref:
+                out_java_struct += "\t\t" + argument_types[0].from_hu_conv[1].replace("\n", "\n\t\t").replace("this_arg", "this") + ";\n"
             if return_type_info.to_hu_conv_name is not None:
                 out_java_struct += ("\t\treturn " + return_type_info.to_hu_conv_name + ";\n")
             elif return_type_info.java_ty != "void" and return_type_info.rust_obj != "LDK" + struct_meth:

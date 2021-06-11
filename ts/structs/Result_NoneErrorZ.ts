@@ -22,7 +22,7 @@ public class Result_NoneErrorZ extends CommonBase {
 	}
 
 	public static final class Result_NoneErrorZ_Err extends Result_NoneErrorZ {
-		public final LDKIOError err;
+		public final IOError err;
 		private Result_NoneErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_NoneErrorZ_get_err(ptr);
@@ -35,8 +35,14 @@ public class Result_NoneErrorZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static Result_NoneErrorZ constructor__err(LDKIOError e) {
+	public static Result_NoneErrorZ constructor__err(IOError e) {
 		number ret = bindings.CResult_NoneErrorZ_err(e);
+		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_NoneErrorZ _clone() {
+		number ret = bindings.CResult_NoneErrorZ_clone(this.ptr);
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

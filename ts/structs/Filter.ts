@@ -63,11 +63,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.Filter_register_tx(this.ptr, txid, script_pubkey);
 	}
 
-	public Option_C2Tuple_usizeTransactionZZ register_output(Uint8Array output_block_hash_arg, OutPoint output_outpoint_arg, Uint8Array output_script_pubkey_arg) {
-		number ret = bindings.Filter_register_output(this.ptr, bindings.WatchedOutput_new(output_block_hash_arg, output_outpoint_arg == null ? 0 : output_outpoint_arg.ptr & ~1, output_script_pubkey_arg));
+	public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
+		number ret = bindings.Filter_register_output(this.ptr, output == null ? 0 : output.ptr & ~1);
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
-		ret_hu_conv.ptrs_to.add(output_outpoint_arg);
+		this.ptrs_to.add(output);
 		return ret_hu_conv;
 	}
 

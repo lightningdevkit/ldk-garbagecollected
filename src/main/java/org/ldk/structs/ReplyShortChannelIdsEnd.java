@@ -56,7 +56,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	/**
 	 * Constructs a new ReplyShortChannelIdsEnd given each field
 	 */
-	public static ReplyShortChannelIdsEnd constructor_new(byte[] chain_hash_arg, boolean full_information_arg) {
+	public static ReplyShortChannelIdsEnd of(byte[] chain_hash_arg, boolean full_information_arg) {
 		long ret = bindings.ReplyShortChannelIdsEnd_new(chain_hash_arg, full_information_arg);
 		ReplyShortChannelIdsEnd ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -76,7 +76,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	/**
 	 * Read a ReplyShortChannelIdsEnd from a byte array, created by ReplyShortChannelIdsEnd_write
 	 */
-	public static Result_ReplyShortChannelIdsEndDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ReplyShortChannelIdsEndDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ReplyShortChannelIdsEnd_read(ser);
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

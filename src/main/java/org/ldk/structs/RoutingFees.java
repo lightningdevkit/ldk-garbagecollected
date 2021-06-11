@@ -53,11 +53,22 @@ public class RoutingFees extends CommonBase {
 	/**
 	 * Constructs a new RoutingFees given each field
 	 */
-	public static RoutingFees constructor_new(int base_msat_arg, int proportional_millionths_arg) {
+	public static RoutingFees of(int base_msat_arg, int proportional_millionths_arg) {
 		long ret = bindings.RoutingFees_new(base_msat_arg, proportional_millionths_arg);
 		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two RoutingFeess contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(RoutingFees b) {
+		boolean ret = bindings.RoutingFees_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
 	}
 
 	/**
@@ -71,20 +82,20 @@ public class RoutingFees extends CommonBase {
 	}
 
 	/**
-	 * Read a RoutingFees from a byte array, created by RoutingFees_write
-	 */
-	public static Result_RoutingFeesDecodeErrorZ constructor_read(byte[] ser) {
-		long ret = bindings.RoutingFees_read(ser);
-		Result_RoutingFeesDecodeErrorZ ret_hu_conv = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Serialize the RoutingFees object into a byte array which can be read by RoutingFees_read
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.RoutingFees_write(this.ptr);
 		return ret;
+	}
+
+	/**
+	 * Read a RoutingFees from a byte array, created by RoutingFees_write
+	 */
+	public static Result_RoutingFeesDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.RoutingFees_read(ser);
+		Result_RoutingFeesDecodeErrorZ ret_hu_conv = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

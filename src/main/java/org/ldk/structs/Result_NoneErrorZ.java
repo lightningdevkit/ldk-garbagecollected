@@ -25,7 +25,7 @@ public class Result_NoneErrorZ extends CommonBase {
 	}
 
 	public static final class Result_NoneErrorZ_Err extends Result_NoneErrorZ {
-		public final LDKIOError err;
+		public final IOError err;
 		private Result_NoneErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			this.err = bindings.LDKCResult_NoneErrorZ_get_err(ptr);
@@ -35,7 +35,7 @@ public class Result_NoneErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneErrorZ in the success state.
 	 */
-	public static Result_NoneErrorZ constructor_ok() {
+	public static Result_NoneErrorZ ok() {
 		long ret = bindings.CResult_NoneErrorZ_ok();
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -44,8 +44,18 @@ public class Result_NoneErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneErrorZ in the error state.
 	 */
-	public static Result_NoneErrorZ constructor_err(LDKIOError e) {
+	public static Result_NoneErrorZ err(IOError e) {
 		long ret = bindings.CResult_NoneErrorZ_err(e);
+		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NoneErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_NoneErrorZ clone() {
+		long ret = bindings.CResult_NoneErrorZ_clone(this.ptr);
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -43,7 +43,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SpendableOutputDescriptorDecodeErrorZ in the success state.
 	 */
-	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor_ok(SpendableOutputDescriptor o) {
+	public static Result_SpendableOutputDescriptorDecodeErrorZ ok(SpendableOutputDescriptor o) {
 		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_ok(o.ptr);
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -52,7 +52,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SpendableOutputDescriptorDecodeErrorZ in the error state.
 	 */
-	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_SpendableOutputDescriptorDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

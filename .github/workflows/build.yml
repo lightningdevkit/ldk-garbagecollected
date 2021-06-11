@@ -18,10 +18,14 @@ jobs:
           apt-get -y install cargo libstd-rust-dev-wasm32 valgrind lld git g++ clang openjdk-11-jdk maven
       - name: Checkout source code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Install cbindgen
         run: cargo install --force cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
+          git config --global user.email "ldk-ci@example.com"
+          git config --global user.name "LDK CI"
           git clone https://github.com/rust-bitcoin/rust-lightning
           cd rust-lightning
           git remote add matt https://git.bitcoin.ninja/rust-lightning
@@ -33,10 +37,16 @@ jobs:
         run: |
           cd ldk-c-bindings
           ./genbindings.sh ../rust-lightning false
-          mv target/wasm32-wasi ./
+          mv lightning-c-bindings/target/wasm32-wasi ./
           cd ..
       - name: Rebuild C bindings, and check the sample app builds + links
-        run: cd ldk-c-bindings && ./genbindings.sh ../rust-lightning true && mv wasm32-wasi target/ && cd ..
+        run: |
+          cd ldk-c-bindings
+          # Reset the Cargo.toml file so that git describe doesn't think we're "-dirty"
+          git checkout lightning-c-bindings/Cargo.toml
+          ./genbindings.sh ../rust-lightning true
+          mv wasm32-wasi lightning-c-bindings/target/
+          cd ..
       - name: Build Java/TS Debug Bindings
         run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" true false
       - name: Run Java Tests against Debug Bindings
@@ -49,7 +59,20 @@ jobs:
           mvn test
           git checkout liblightningjni.so
       - name: Build Java/TS Release Bindings
-        run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
+        run: |
+          # We assume the top commit is just a bindings update commit, so we
+          # check out the previous commit to use as the commit we git describe.
+          # If the top commit is a merge commit, we need to get the last merge
+          # head and assume the latest bindings are built against its parent.
+          COMMIT_PARENTS=$(git show -s --pretty=format:%P HEAD)
+          if [ "${#COMMIT_PARENTS}" = 40 ]; then
+            export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD^1)"
+          else
+            MERGE_HEAD=$(git show --pretty=format:%P HEAD | ( for last in $(cat /dev/stdin); do true; done; echo $last ))
+            export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag $MERGE_HEAD^1)"
+          fi
+          echo "Using $LDK_GARBAGECOLLECTED_GIT_OVERRIDE as git version"
+          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
       - name: Check latest headers are in git
         run: |
           # For some reason the debug library is not deterministic, this may be fixed in a future rustc

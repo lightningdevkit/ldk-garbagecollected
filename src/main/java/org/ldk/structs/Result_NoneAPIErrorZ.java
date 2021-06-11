@@ -38,7 +38,7 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneAPIErrorZ in the success state.
 	 */
-	public static Result_NoneAPIErrorZ constructor_ok() {
+	public static Result_NoneAPIErrorZ ok() {
 		long ret = bindings.CResult_NoneAPIErrorZ_ok();
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -47,7 +47,7 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneAPIErrorZ in the error state.
 	 */
-	public static Result_NoneAPIErrorZ constructor_err(APIError e) {
+	public static Result_NoneAPIErrorZ err(APIError e) {
 		long ret = bindings.CResult_NoneAPIErrorZ_err(e.ptr);
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -49,7 +49,7 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ in the success state.
 	 */
-	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ constructor_ok(TwoTuple<byte[], ChannelManager> o) {
+	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ok(TwoTuple<byte[], ChannelManager> o) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(bindings.C2Tuple_BlockHashChannelManagerZ_new(o.a, o.b == null ? 0 : o.b.ptr & ~1));
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o.b);
@@ -67,7 +67,7 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ in the error state.
 	 */
-	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

@@ -66,7 +66,7 @@ public class ClosingSigned extends CommonBase {
 	/**
 	 * Constructs a new ClosingSigned given each field
 	 */
-	public static ClosingSigned constructor_new(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg) {
+	public static ClosingSigned of(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg) {
 		long ret = bindings.ClosingSigned_new(channel_id_arg, fee_satoshis_arg, signature_arg);
 		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -94,7 +94,7 @@ public class ClosingSigned extends CommonBase {
 	/**
 	 * Read a ClosingSigned from a byte array, created by ClosingSigned_write
 	 */
-	public static Result_ClosingSignedDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ClosingSignedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ClosingSigned_read(ser);
 		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

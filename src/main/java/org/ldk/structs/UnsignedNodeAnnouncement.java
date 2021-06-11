@@ -129,7 +129,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	/**
 	 * Read a UnsignedNodeAnnouncement from a byte array, created by UnsignedNodeAnnouncement_write
 	 */
-	public static Result_UnsignedNodeAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_UnsignedNodeAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UnsignedNodeAnnouncement_read(ser);
 		Result_UnsignedNodeAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

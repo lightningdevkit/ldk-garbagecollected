@@ -43,7 +43,7 @@ public class Result_RouteLightningErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_RouteLightningErrorZ in the success state.
 	 */
-	public static Result_RouteLightningErrorZ constructor_ok(Route o) {
+	public static Result_RouteLightningErrorZ ok(Route o) {
 		long ret = bindings.CResult_RouteLightningErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_RouteLightningErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_RouteLightningErrorZ in the error state.
 	 */
-	public static Result_RouteLightningErrorZ constructor_err(LightningError e) {
+	public static Result_RouteLightningErrorZ err(LightningError e) {
 		long ret = bindings.CResult_RouteLightningErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

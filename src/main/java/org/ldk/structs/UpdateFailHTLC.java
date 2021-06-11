@@ -69,7 +69,7 @@ public class UpdateFailHTLC extends CommonBase {
 	/**
 	 * Read a UpdateFailHTLC from a byte array, created by UpdateFailHTLC_write
 	 */
-	public static Result_UpdateFailHTLCDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_UpdateFailHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateFailHTLC_read(ser);
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -114,7 +114,7 @@ public class UpdateAddHTLC extends CommonBase {
 	/**
 	 * Read a UpdateAddHTLC from a byte array, created by UpdateAddHTLC_write
 	 */
-	public static Result_UpdateAddHTLCDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_UpdateAddHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateAddHTLC_read(ser);
 		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

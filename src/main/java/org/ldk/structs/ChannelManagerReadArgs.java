@@ -179,7 +179,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * HashMap for you. This is primarily useful for C bindings where it is not practical to
 	 * populate a HashMap directly from C.
 	 */
-	public static ChannelManagerReadArgs constructor_new(KeysInterface keys_manager, FeeEstimator fee_estimator, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, UserConfig default_config, ChannelMonitor[] channel_monitors) {
+	public static ChannelManagerReadArgs of(KeysInterface keys_manager, FeeEstimator fee_estimator, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, UserConfig default_config, ChannelMonitor[] channel_monitors) {
 		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr & ~1, Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr & ~1).toArray());
 		ChannelManagerReadArgs ret_hu_conv = new ChannelManagerReadArgs(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

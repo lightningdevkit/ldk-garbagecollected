@@ -78,4 +78,10 @@ export class OnionV3 extends NetAddress {
 		return ret;
 	}
 
+	public static Result_NetAddressDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.NetAddress_read(ser);
+		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

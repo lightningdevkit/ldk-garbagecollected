@@ -58,7 +58,7 @@ public class CommitmentSigned extends CommonBase {
 	/**
 	 * Constructs a new CommitmentSigned given each field
 	 */
-	public static CommitmentSigned constructor_new(byte[] channel_id_arg, byte[] signature_arg, byte[][] htlc_signatures_arg) {
+	public static CommitmentSigned of(byte[] channel_id_arg, byte[] signature_arg, byte[][] htlc_signatures_arg) {
 		long ret = bindings.CommitmentSigned_new(channel_id_arg, signature_arg, htlc_signatures_arg);
 		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -86,7 +86,7 @@ public class CommitmentSigned extends CommonBase {
 	/**
 	 * Read a CommitmentSigned from a byte array, created by CommitmentSigned_write
 	 */
-	public static Result_CommitmentSignedDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_CommitmentSignedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.CommitmentSigned_read(ser);
 		Result_CommitmentSignedDecodeErrorZ ret_hu_conv = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

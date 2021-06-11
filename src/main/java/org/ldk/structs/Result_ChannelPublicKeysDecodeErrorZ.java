@@ -43,7 +43,7 @@ public class Result_ChannelPublicKeysDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelPublicKeysDecodeErrorZ in the success state.
 	 */
-	public static Result_ChannelPublicKeysDecodeErrorZ constructor_ok(ChannelPublicKeys o) {
+	public static Result_ChannelPublicKeysDecodeErrorZ ok(ChannelPublicKeys o) {
 		long ret = bindings.CResult_ChannelPublicKeysDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ChannelPublicKeysDecodeErrorZ ret_hu_conv = Result_ChannelPublicKeysDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_ChannelPublicKeysDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ChannelPublicKeysDecodeErrorZ in the error state.
 	 */
-	public static Result_ChannelPublicKeysDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_ChannelPublicKeysDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ChannelPublicKeysDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ChannelPublicKeysDecodeErrorZ ret_hu_conv = Result_ChannelPublicKeysDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

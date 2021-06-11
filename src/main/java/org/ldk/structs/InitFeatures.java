@@ -19,6 +19,17 @@ public class InitFeatures extends CommonBase {
 	}
 
 	/**
+	 * Checks if two InitFeaturess contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(InitFeatures b) {
+		boolean ret = bindings.InitFeatures_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
+	/**
 	 * Creates a copy of the InitFeatures
 	 */
 	public InitFeatures clone() {
@@ -31,7 +42,7 @@ public class InitFeatures extends CommonBase {
 	/**
 	 * Create a blank Features with no features set
 	 */
-	public static InitFeatures constructor_empty() {
+	public static InitFeatures empty() {
 		long ret = bindings.InitFeatures_empty();
 		InitFeatures ret_hu_conv = new InitFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -41,11 +52,19 @@ public class InitFeatures extends CommonBase {
 	/**
 	 * Creates a Features with the bits set which are known by the implementation
 	 */
-	public static InitFeatures constructor_known() {
+	public static InitFeatures known() {
 		long ret = bindings.InitFeatures_known();
 		InitFeatures ret_hu_conv = new InitFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns whether the `payment_secret` feature is supported.
+	 */
+	public boolean supports_payment_secret() {
+		boolean ret = bindings.InitFeatures_supports_payment_secret(this.ptr);
+		return ret;
 	}
 
 	/**
@@ -59,7 +78,7 @@ public class InitFeatures extends CommonBase {
 	/**
 	 * Read a InitFeatures from a byte array, created by InitFeatures_write
 	 */
-	public static Result_InitFeaturesDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_InitFeaturesDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.InitFeatures_read(ser);
 		Result_InitFeaturesDecodeErrorZ ret_hu_conv = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

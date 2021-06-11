@@ -62,9 +62,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return result;
 						},
 
-						sign_justice_transaction (justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: number): number {
+						sign_justice_revoked_output (justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array): number {
+							Result_SignatureNoneZ ret = arg.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
+				result: number = ret != null ? ret.ptr : 0;
+				return result;
+						},
+
+						sign_justice_revoked_htlc (justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: number): number {
 							const htlc_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, htlc);
-							Result_SignatureNoneZ ret = arg.sign_justice_transaction(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
+							Result_SignatureNoneZ ret = arg.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
 						},
@@ -106,7 +112,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 				channel_keys_id(): Uint8Array;
 				sign_counterparty_commitment(commitment_tx: CommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
 				sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
-				sign_justice_transaction(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
+				sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array): Result_SignatureNoneZ;
+				sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
 				sign_counterparty_htlc_transaction(htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
 				sign_closing_transaction(closing_tx: Uint8Array): Result_SignatureNoneZ;
 				sign_channel_announcement(msg: UnsignedChannelAnnouncement): Result_SignatureNoneZ;
@@ -146,8 +153,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public Result_SignatureNoneZ sign_justice_transaction(Uint8Array justice_tx, number input, number amount, Uint8Array per_commitment_key, HTLCOutputInCommitment htlc) {
-		number ret = bindings.BaseSign_sign_justice_transaction(this.ptr, justice_tx, input, amount, per_commitment_key, htlc == null ? 0 : htlc.ptr & ~1);
+	public Result_SignatureNoneZ sign_justice_revoked_output(Uint8Array justice_tx, number input, number amount, Uint8Array per_commitment_key) {
+		number ret = bindings.BaseSign_sign_justice_revoked_output(this.ptr, justice_tx, input, amount, per_commitment_key);
+		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_SignatureNoneZ sign_justice_revoked_htlc(Uint8Array justice_tx, number input, number amount, Uint8Array per_commitment_key, HTLCOutputInCommitment htlc) {
+		number ret = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, per_commitment_key, htlc == null ? 0 : htlc.ptr & ~1);
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(htlc);
 		return ret_hu_conv;

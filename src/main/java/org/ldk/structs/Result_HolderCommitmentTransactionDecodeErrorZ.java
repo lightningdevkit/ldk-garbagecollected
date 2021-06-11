@@ -43,7 +43,7 @@ public class Result_HolderCommitmentTransactionDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_HolderCommitmentTransactionDecodeErrorZ in the success state.
 	 */
-	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor_ok(HolderCommitmentTransaction o) {
+	public static Result_HolderCommitmentTransactionDecodeErrorZ ok(HolderCommitmentTransaction o) {
 		long ret = bindings.CResult_HolderCommitmentTransactionDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_HolderCommitmentTransactionDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_HolderCommitmentTransactionDecodeErrorZ in the error state.
 	 */
-	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_HolderCommitmentTransactionDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_HolderCommitmentTransactionDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

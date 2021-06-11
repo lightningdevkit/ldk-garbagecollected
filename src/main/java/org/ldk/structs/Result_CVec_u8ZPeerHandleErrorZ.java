@@ -40,7 +40,7 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CVec_u8ZPeerHandleErrorZ in the success state.
 	 */
-	public static Result_CVec_u8ZPeerHandleErrorZ constructor_ok(byte[] o) {
+	public static Result_CVec_u8ZPeerHandleErrorZ ok(byte[] o) {
 		long ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_ok(o);
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -49,7 +49,7 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_CVec_u8ZPeerHandleErrorZ in the error state.
 	 */
-	public static Result_CVec_u8ZPeerHandleErrorZ constructor_err(PeerHandleError e) {
+	public static Result_CVec_u8ZPeerHandleErrorZ err(PeerHandleError e) {
 		long ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

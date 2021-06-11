@@ -35,7 +35,7 @@ public class Route extends CommonBase {
 	/**
 	 * Constructs a new Route given each field
 	 */
-	public static Route constructor_new(RouteHop[][] paths_arg) {
+	public static Route of(RouteHop[][] paths_arg) {
 		long ret = bindings.Route_new(Arrays.stream(paths_arg).map(paths_arg_conv_12 -> Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray()).toArray(long[][]::new));
 		Route ret_hu_conv = new Route(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -64,7 +64,7 @@ public class Route extends CommonBase {
 	/**
 	 * Read a Route from a byte array, created by Route_write
 	 */
-	public static Result_RouteDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_RouteDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Route_read(ser);
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

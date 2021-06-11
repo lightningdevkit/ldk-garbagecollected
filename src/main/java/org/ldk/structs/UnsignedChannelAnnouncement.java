@@ -147,7 +147,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	/**
 	 * Read a UnsignedChannelAnnouncement from a byte array, created by UnsignedChannelAnnouncement_write
 	 */
-	public static Result_UnsignedChannelAnnouncementDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_UnsignedChannelAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UnsignedChannelAnnouncement_read(ser);
 		Result_UnsignedChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

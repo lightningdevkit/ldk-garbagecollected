@@ -94,7 +94,7 @@ public class ReplyChannelRange extends CommonBase {
 	/**
 	 * Constructs a new ReplyChannelRange given each field
 	 */
-	public static ReplyChannelRange constructor_new(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg, boolean sync_complete_arg, long[] short_channel_ids_arg) {
+	public static ReplyChannelRange of(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg, boolean sync_complete_arg, long[] short_channel_ids_arg) {
 		long ret = bindings.ReplyChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, short_channel_ids_arg);
 		ReplyChannelRange ret_hu_conv = new ReplyChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -114,7 +114,7 @@ public class ReplyChannelRange extends CommonBase {
 	/**
 	 * Read a ReplyChannelRange from a byte array, created by ReplyChannelRange_write
 	 */
-	public static Result_ReplyChannelRangeDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ReplyChannelRangeDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ReplyChannelRange_read(ser);
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -43,7 +43,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ReplyChannelRangeDecodeErrorZ in the success state.
 	 */
-	public static Result_ReplyChannelRangeDecodeErrorZ constructor_ok(ReplyChannelRange o) {
+	public static Result_ReplyChannelRangeDecodeErrorZ ok(ReplyChannelRange o) {
 		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -53,7 +53,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ReplyChannelRangeDecodeErrorZ in the error state.
 	 */
-	public static Result_ReplyChannelRangeDecodeErrorZ constructor_err(DecodeError e) {
+	public static Result_ReplyChannelRangeDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

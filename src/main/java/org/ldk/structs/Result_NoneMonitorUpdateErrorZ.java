@@ -38,7 +38,7 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneMonitorUpdateErrorZ in the success state.
 	 */
-	public static Result_NoneMonitorUpdateErrorZ constructor_ok() {
+	public static Result_NoneMonitorUpdateErrorZ ok() {
 		long ret = bindings.CResult_NoneMonitorUpdateErrorZ_ok();
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -47,7 +47,7 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NoneMonitorUpdateErrorZ in the error state.
 	 */
-	public static Result_NoneMonitorUpdateErrorZ constructor_err(MonitorUpdateError e) {
+	public static Result_NoneMonitorUpdateErrorZ err(MonitorUpdateError e) {
 		long ret = bindings.CResult_NoneMonitorUpdateErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);

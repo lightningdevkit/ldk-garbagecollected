@@ -90,7 +90,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	/**
 	 * Read a SpendableOutputDescriptor from a byte array, created by SpendableOutputDescriptor_write
 	 */
-	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_SpendableOutputDescriptorDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.SpendableOutputDescriptor_read(ser);
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

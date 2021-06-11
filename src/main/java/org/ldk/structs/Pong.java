@@ -38,7 +38,7 @@ public class Pong extends CommonBase {
 	/**
 	 * Constructs a new Pong given each field
 	 */
-	public static Pong constructor_new(short byteslen_arg) {
+	public static Pong of(short byteslen_arg) {
 		long ret = bindings.Pong_new(byteslen_arg);
 		Pong ret_hu_conv = new Pong(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -66,7 +66,7 @@ public class Pong extends CommonBase {
 	/**
 	 * Read a Pong from a byte array, created by Pong_write
 	 */
-	public static Result_PongDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_PongDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Pong_read(ser);
 		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

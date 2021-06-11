@@ -97,8 +97,7 @@ public static native long new_empty_slice_vec();
             }
 """
 
-        self.c_file_pfx = """#include <rust_types.h>
-#include "js-wasm.h"
+        self.c_file_pfx = """#include "js-wasm.h"
 #include <stdatomic.h>
 #include <lightning.h>
 
@@ -233,11 +232,23 @@ static inline uint32_t init_arr(size_t arr_len, size_t elem_size, const char *ty
 	return (uint32_t)elems;
 }
 
-jstring str_ref_to_ts(const char* chars, size_t len) {
+static inline jstring str_ref_to_ts(const char* chars, size_t len) {
 	char* err_buf = MALLOC(len + 4, "str conv buf");
 	*((uint32_t*)err_buf) = len;
 	memcpy(err_buf + 4, chars, len);
 	return (uint32_t) err_buf;
+}
+static inline LDKStr str_ref_to_owned_c(jstring str) {
+	uint32_t *str_len = (uint32_t*)str;
+	char* newchars = MALLOC(*str_len + 1, "String chars");
+	memcpy(newchars, (const char*)(str + 4), *str_len);
+	newchars[*str_len] = 0;
+	LDKStr res= {
+		.chars = newchars,
+		.len = *str_len,
+		.chars_is_owned = true
+	};
+	return res;
 }
 
 typedef bool jboolean;
@@ -305,8 +316,10 @@ import * as bindings from '../bindings' // TODO: figure out location
         else:
             return None
 
-    def str_ref_to_c_call(self, var_name, str_len):
+    def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
+    def str_ref_to_c_call(self, var_name):
+        return "str_ref_to_owned_c(" + var_name + ")"
 
     def c_fn_name_define_pfx(self, fn_name, have_args):
         return " __attribute__((visibility(\"default\"))) TS_" + fn_name + "("
@@ -437,7 +450,7 @@ const decodeString = (stringPointer, free = true) => {
         return ""
 
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
-        out_c = "static inline " + struct_name + " " + struct_name + "_from_js(int32_t ord) {\n"
+        out_c = "static inline LDK" + struct_name + " LDK" + struct_name + "_from_js(int32_t ord) {\n"
         out_c = out_c + "\tswitch (ord) {\n"
         ord_v = 0
 
@@ -451,7 +464,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\tabort();\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + "static inline int32_t " + struct_name + "_to_js(" + struct_name + " val) {\n"
+        out_c = out_c + "static inline int32_t LDK" + struct_name + "_to_js(LDK" + struct_name + " val) {\n"
         out_c = out_c + "\tswitch (val) {\n"
         ord_v = 0
         for var in variants:
@@ -920,7 +933,7 @@ const decodeString = (stringPointer, free = true) => {
 """
         return out_opaque_struct_human
 
-    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, args_known, type_mapping_generator, doc_comment):
+    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None

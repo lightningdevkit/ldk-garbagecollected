@@ -30,7 +30,7 @@ public class PeerManager extends CommonBase {
 	 * ephemeral_random_data is used to derive per-connection ephemeral keys and must be
 	 * cryptographically secure random bytes.
 	 */
-	public static PeerManager constructor_new(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, byte[] our_node_secret, byte[] ephemeral_random_data, Logger logger) {
+	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, byte[] our_node_secret, byte[] ephemeral_random_data, Logger logger) {
 		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr), our_node_secret, ephemeral_random_data, logger == null ? 0 : logger.ptr);
 		PeerManager ret_hu_conv = new PeerManager(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

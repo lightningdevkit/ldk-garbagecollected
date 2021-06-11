@@ -57,7 +57,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	/**
 	 * Constructs a new BuiltCommitmentTransaction given each field
 	 */
-	public static BuiltCommitmentTransaction constructor_new(byte[] transaction_arg, byte[] txid_arg) {
+	public static BuiltCommitmentTransaction of(byte[] transaction_arg, byte[] txid_arg) {
 		long ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, txid_arg);
 		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -85,7 +85,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	/**
 	 * Read a BuiltCommitmentTransaction from a byte array, created by BuiltCommitmentTransaction_write
 	 */
-	public static Result_BuiltCommitmentTransactionDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_BuiltCommitmentTransactionDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.BuiltCommitmentTransaction_read(ser);
 		Result_BuiltCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -50,14 +50,14 @@ public class ErrorMessage extends CommonBase {
 	 * or printed to stdout).  Otherwise, a well crafted error message may trigger a security
 	 * vulnerability in the terminal emulator or the logging subsystem.
 	 */
-	public void set_data(byte[] val) {
+	public void set_data(String val) {
 		bindings.ErrorMessage_set_data(this.ptr, val);
 	}
 
 	/**
 	 * Constructs a new ErrorMessage given each field
 	 */
-	public static ErrorMessage constructor_new(byte[] channel_id_arg, byte[] data_arg) {
+	public static ErrorMessage of(byte[] channel_id_arg, String data_arg) {
 		long ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
 		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -85,7 +85,7 @@ public class ErrorMessage extends CommonBase {
 	/**
 	 * Read a ErrorMessage from a byte array, created by ErrorMessage_write
 	 */
-	public static Result_ErrorMessageDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ErrorMessageDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ErrorMessage_read(ser);
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

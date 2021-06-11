@@ -69,7 +69,7 @@ public class QueryChannelRange extends CommonBase {
 	/**
 	 * Constructs a new QueryChannelRange given each field
 	 */
-	public static QueryChannelRange constructor_new(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg) {
+	public static QueryChannelRange of(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg) {
 		long ret = bindings.QueryChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg);
 		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -97,7 +97,7 @@ public class QueryChannelRange extends CommonBase {
 	/**
 	 * Read a QueryChannelRange from a byte array, created by QueryChannelRange_write
 	 */
-	public static Result_QueryChannelRangeDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_QueryChannelRangeDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.QueryChannelRange_read(ser);
 		Result_QueryChannelRangeDecodeErrorZ ret_hu_conv = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

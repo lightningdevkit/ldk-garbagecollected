@@ -75,7 +75,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	/**
 	 * Read a ChannelMonitorUpdate from a byte array, created by ChannelMonitorUpdate_write
 	 */
-	public static Result_ChannelMonitorUpdateDecodeErrorZ constructor_read(byte[] ser) {
+	public static Result_ChannelMonitorUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelMonitorUpdate_read(ser);
 		Result_ChannelMonitorUpdateDecodeErrorZ ret_hu_conv = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

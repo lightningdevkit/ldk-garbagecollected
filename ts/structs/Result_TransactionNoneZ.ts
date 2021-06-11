@@ -41,4 +41,10 @@ public class Result_TransactionNoneZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	public Result_TransactionNoneZ _clone() {
+		number ret = bindings.CResult_TransactionNoneZ_clone(this.ptr);
+		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

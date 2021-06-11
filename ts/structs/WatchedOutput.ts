@@ -56,4 +56,16 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public WatchedOutput clone() {
+		number ret = bindings.WatchedOutput_clone(this.ptr);
+		const ret_hu_conv: WatchedOutput = new WatchedOutput(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public number hash() {
+		number ret = bindings.WatchedOutput_hash(this.ptr);
+		return ret;
+	}
+
 }
