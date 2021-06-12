@@ -457,7 +457,10 @@ import java.util.Arrays;
         res =  "JNIEnv *env;\n"
         res += "jint get_jenv_res = (*j_calls->vm)->GetEnv(j_calls->vm, (void**)&env, JNI_VERSION_1_6);\n"
         res += "if (get_jenv_res == JNI_EDETACHED) {\n"
-        res += "\tDO_ASSERT((*j_calls->vm)->AttachCurrentThread(j_calls->vm, (void**)&env, NULL) == JNI_OK);\n"
+        if self.target == Target.ANDROID:
+            res += "\tDO_ASSERT((*j_calls->vm)->AttachCurrentThread(j_calls->vm, &env, NULL) == JNI_OK);\n"
+        else:
+            res += "\tDO_ASSERT((*j_calls->vm)->AttachCurrentThread(j_calls->vm, (void**)&env, NULL) == JNI_OK);\n"
         res += "} else {\n"
         res += "\tDO_ASSERT(get_jenv_res == JNI_OK);\n"
         res += "}\n"
