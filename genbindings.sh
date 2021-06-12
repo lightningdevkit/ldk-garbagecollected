@@ -16,6 +16,13 @@ else
 	COMMON_COMPILE="clang -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
 fi
 
+if [ "$LDK_TARGET" != "" ]; then
+	LDK_TARGET_SUFFIX="_$LDK_TARGET"
+fi
+if [ "$LDK_TARGET_CPU" = "" ]; then
+	LDK_TARGET_CPU="sandybridge"
+fi
+
 set -e
 
 if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
@@ -46,11 +53,11 @@ javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/i
 rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
 echo "Building Java bindings..."
-COMPILE="$COMMON_COMPILE -march=sandybridge -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -shared -fPIC"
+COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -shared -fPIC"
 if [ "$3" = "true" ]; then
-	$COMPILE -o liblightningjni_debug.so -g -fsanitize=address -shared-libasan -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/debug/libldk.a -lm
+	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 else
-	$COMPILE -o liblightningjni_release.so -Wl,--version-script=libcode.version -flto -fuse-ld=lld -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/release/libldk.a
+	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -Wl,--version-script=libcode.version -flto -fuse-ld=lld -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 fi
 
 echo "Creating TS bindings..."
