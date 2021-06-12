@@ -5,6 +5,7 @@ import org.ldk.structs.*;
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.net.StandardSocketOptions;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 
@@ -182,13 +183,13 @@ public class NioPeerHandler {
                                 }
                             }
                             if (key.isValid() && (key.interestOps() & SelectionKey.OP_READ) != 0 && key.isReadable()) {
-                                buf.clear();
+                                ((Buffer)buf).clear();
                                 int read = ((SocketChannel) key.channel()).read(buf);
                                 if (read == -1) {
                                     this.peer_manager.socket_disconnected(peer.descriptor);
                                     key.cancel();
                                 } else if (read > 0) {
-                                    buf.flip();
+                                    ((Buffer)buf).flip();
                                     byte[] read_bytes = new byte[read];
                                     buf.get(read_bytes, 0, read);
                                     Result_boolPeerHandleErrorZ res = this.peer_manager.read_event(peer.descriptor, read_bytes);
