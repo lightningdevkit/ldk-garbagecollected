@@ -25,6 +25,17 @@ bindings should be built with workarounds required for Android. JNI CFLAGS on de
 When running a program linking against the library in debug mode, LD_PRELOAD should likely include
 the relevant `libclang_rt.asan-platform.so` path.
 
+Note that building with address sanitizer is only supported on MacOS with upstream clang (ie where
+the LLVM version in use matches the LLVM version against which rustc was built), not with Apple clang.
+Builds with Apple clang will work fine, but largely only be useful in a release context.
+To build on Mac with address sanitizer, you will need to run `ldk-c-bindings`' `genbindings.sh`
+script with upstream clang in your PATH and likely replace your $JAVA_HOME/bin/java with a simple
+wrapper which calls java after an export like:
+`export DYLD_INSERT_LIBRARIES=/path/to/upstream/llvm/lib/clang/12.0.0/lib/darwin/libclang_rt.asan_osx_dynamic.dylib`
+
+To build for Apple M1 (ie aarch64-apple-darwin), you probably want something like
+`CC="clang --target=aarch64-apple-darwin" LDK_TARGET=aarch64-apple-darwin LDK_TARGET_CPU=generic ./genbindings.sh ...`
+
 Status
 ======
 
