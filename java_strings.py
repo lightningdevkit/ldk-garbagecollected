@@ -86,7 +86,10 @@ class CommonBase {
 }
 """
 
-        self.c_file_pfx = """#include \"org_ldk_impl_bindings.h\"
+        self.c_file_pfx = """#include <jni.h>
+// On OSX jlong (ie long long) is not equivalent to int64_t, so we override here
+#define int64_t jlong
+#include \"org_ldk_impl_bindings.h\"
 #include <lightning.h>
 #include <string.h>
 #include <stdatomic.h>
