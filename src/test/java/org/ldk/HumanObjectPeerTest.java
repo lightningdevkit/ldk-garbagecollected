@@ -897,4 +897,15 @@ public class HumanObjectPeerTest {
             do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_chan_manager_constructor);
         }
     }
+
+    // This is used in the test jar to test the built jar is runnable
+    public static void main(String[] args) {
+        try {
+            new HumanObjectPeerTest().test_message_handler();
+        } catch (Exception e) {
+            System.err.println("Caught exception:");
+            System.err.println(e);
+            System.exit(1);
+        }
+    }
 }
