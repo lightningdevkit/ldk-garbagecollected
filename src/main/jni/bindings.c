@@ -1,5 +1,8 @@
 #define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ
 #define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free
+#include <jni.h>
+// On OSX jlong (ie long long) is not equivalent to int64_t, so we override here
+#define int64_t jlong
 #include "org_ldk_impl_bindings.h"
 #include <lightning.h>
 #include <string.h>
@@ -130,7 +133,7 @@ static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 }
 
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
-	return str_ref_to_java(env, "v0.0.98.1", strlen("v0.0.98.1"));
+	return str_ref_to_java(env, "v0.0.98.2", strlen("v0.0.98.2"));
 }
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1c_1bindings_1version(JNIEnv *env, jclass _c) {
 	return str_ref_to_java(env, check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
