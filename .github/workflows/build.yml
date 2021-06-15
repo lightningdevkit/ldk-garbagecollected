@@ -51,11 +51,9 @@ jobs:
         run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" true false
       - name: Run Java Tests against Debug Bindings
         run: |
-          rm liblightningjni.so
-          ln -s liblightningjni_debug_Linux-amd64.so liblightningjni.so
+          mv liblightningjni_debug_Linux-amd64.so liblightningjni.so
           export ASAN_OPTIONS=detect_leaks=0
           LD_PRELOAD=/usr/lib/llvm-11/lib/clang/11.0.1/lib/linux/libclang_rt.asan-x86_64.so LD_LIBRARY_PATH=. mvn test
-          git checkout liblightningjni.so
       - name: Build Java/TS Release Bindings
         run: |
           # We assume the top commit is just a bindings update commit, so we
