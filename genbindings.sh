@@ -19,9 +19,21 @@ else
 	COMMON_COMPILE="clang -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
 fi
 
-if [ "$LDK_TARGET" != "" ]; then
-	LDK_TARGET_SUFFIX="_$LDK_TARGET"
+TARGET_STRING="$LDK_TARGET"
+if [ "$TARGET_STRING" = "" ]; then
+	# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
+	TARGET_STRING="$($CC --version | grep Target | awk '{ print $2 }')"
 fi
+case "$TARGET_STRING" in
+	"x86_64-pc-linux"*)
+		LDK_TARGET_SUFFIX="_Linux-amd64" ;;
+	"x86_64-apple-darwin"*)
+		LDK_TARGET_SUFFIX="_MacOSX-x86_64" ;;
+	"aarch64-apple-darwin"*)
+		LDK_TARGET_SUFFIX="_MacOSX-aarch64" ;;
+	*)
+		LDK_TARGET_SUFFIX=""
+esac
 if [ "$LDK_TARGET_CPU" = "" ]; then
 	LDK_TARGET_CPU="sandybridge"
 fi
@@ -68,6 +80,10 @@ if [ "$3" = "true" ]; then
 else
 	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--version-script=libcode.version -fuse-ld=lld"
 	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
+	if [ "$LDK_TARGET_SUFFIX" != "" ]; then
+		# Copy to JNI native directory for inclusion in JARs
+		cp liblightningjni_release$LDK_TARGET_SUFFIX.so src/main/resources/liblightningjni$LDK_TARGET_SUFFIX.nativelib
+	fi
 fi
 
 echo "Creating TS bindings..."

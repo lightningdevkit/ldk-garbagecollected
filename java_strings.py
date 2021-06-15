@@ -24,6 +24,12 @@ class Consts:
 
         self.bindings_header = """package org.ldk.impl;
 import org.ldk.enums.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class bindings {
 	public static class VecOrSliceDef {
@@ -35,7 +41,24 @@ public class bindings {
 		}
 	}
 	static {
-		System.loadLibrary(\"lightningjni\");
+		try {
+			// Try to load natively first, this works on Android and in testing.
+			System.loadLibrary(\"lightningjni\");
+		} catch (UnsatisfiedLinkError _ignored) {
+			// Otherwise try to load from the library jar.
+			File tmpdir = new File(System.getProperty("java.io.tmpdir"), "ldk-java-nativelib");
+			tmpdir.mkdir(); // If it fails to create, assume it was there already
+			tmpdir.deleteOnExit();
+			String libname = "liblightningjni_" + System.getProperty("os.name").replaceAll(" ", "") +
+				"-" + System.getProperty("os.arch").replaceAll(" ", "") + ".nativelib";
+			try (InputStream is = bindings.class.getResourceAsStream("/" + libname)) {
+				Path libpath = new File(tmpdir.toPath().toString(), "liblightningjni.so").toPath();
+				Files.copy(is, libpath, StandardCopyOption.REPLACE_EXISTING);
+				Runtime.getRuntime().load(libpath.toString());
+			} catch (IOException e) {
+				throw new IllegalArgumentException(e);
+			}
+		}
 		init(java.lang.Enum.class, VecOrSliceDef.class);
 		init_class_cache();
 		if (!get_lib_version_string().equals(get_ldk_java_bindings_version()))
