@@ -1,5 +1,6 @@
 from bindingstypes import *
 from enum import Enum
+import sys
 
 class Target(Enum):
     JAVA = 1,
@@ -23,6 +24,12 @@ class Consts:
 
         self.bindings_header = """package org.ldk.impl;
 import org.ldk.enums.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class bindings {
 	public static class VecOrSliceDef {
@@ -34,7 +41,24 @@ public class bindings {
 		}
 	}
 	static {
-		System.loadLibrary(\"lightningjni\");
+		try {
+			// Try to load natively first, this works on Android and in testing.
+			System.loadLibrary(\"lightningjni\");
+		} catch (UnsatisfiedLinkError _ignored) {
+			// Otherwise try to load from the library jar.
+			File tmpdir = new File(System.getProperty("java.io.tmpdir"), "ldk-java-nativelib");
+			tmpdir.mkdir(); // If it fails to create, assume it was there already
+			tmpdir.deleteOnExit();
+			String libname = "liblightningjni_" + System.getProperty("os.name").replaceAll(" ", "") +
+				"-" + System.getProperty("os.arch").replaceAll(" ", "") + ".nativelib";
+			try (InputStream is = bindings.class.getResourceAsStream("/" + libname)) {
+				Path libpath = new File(tmpdir.toPath().toString(), "liblightningjni.so").toPath();
+				Files.copy(is, libpath, StandardCopyOption.REPLACE_EXISTING);
+				Runtime.getRuntime().load(libpath.toString());
+			} catch (IOException e) {
+				throw new IllegalArgumentException(e);
+			}
+		}
 		init(java.lang.Enum.class, VecOrSliceDef.class);
 		init_class_cache();
 		if (!get_lib_version_string().equals(get_ldk_java_bindings_version()))
@@ -83,11 +107,13 @@ class CommonBase {
 	long ptr;
 	LinkedList<Object> ptrs_to = new LinkedList();
 	protected CommonBase(long ptr) { this.ptr = ptr; }
-	public long _test_only_get_ptr() { return this.ptr; }
 }
 """
 
-        self.c_file_pfx = """#include \"org_ldk_impl_bindings.h\"
+        self.c_file_pfx = """#include <jni.h>
+// On OSX jlong (ie long long) is not equivalent to int64_t, so we override here
+#define int64_t jlong
+#include \"org_ldk_impl_bindings.h\"
 #include <lightning.h>
 #include <string.h>
 #include <stdatomic.h>
@@ -124,13 +150,15 @@ void __attribute__((constructor)) spawn_stderr_redirection() {
         else:
             self.c_file_pfx = self.c_file_pfx + "#define DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__)\n"
 
-        if not DEBUG:
+        if not DEBUG or sys.platform == "darwin":
             self.c_file_pfx = self.c_file_pfx + """#define MALLOC(a, _) malloc(a)
 #define FREE(p) if ((uint64_t)(p) > 1024) { free(p); }
-#define DO_ASSERT(a) (void)(a)
+"""
+        if not DEBUG:
+            self.c_file_pfx += """#define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
 """
-        else:
+        if DEBUG:
             self.c_file_pfx = self.c_file_pfx + """#include <assert.h>
 // Always run a, then assert it is true:
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
@@ -144,7 +172,10 @@ void __attribute__((constructor)) debug_log_version() {
 		DEBUG_PRINT("LDK C Bindings version did not match the header we built against\\n");
 	DEBUG_PRINT("Loaded LDK-Java Bindings with LDK %s and LDK-C-Bindings %s\\n", check_get_ldk_version(), check_get_ldk_bindings_version());
 }
+"""
 
+            if sys.platform != "darwin":
+                self.c_file_pfx += """
 // Running a leak check across all the allocations and frees of the JDK is a mess,
 // so instead we implement our own naive leak checker here, relying on the -wrap
 // linker option to wrap malloc/calloc/realloc/free, tracking everyhing allocated
@@ -152,8 +183,8 @@ void __attribute__((constructor)) debug_log_version() {
 #include <threads.h>
 """
 
-            if self.target == Target.ANDROID:
-                self.c_file_pfx = self.c_file_pfx + """
+                if self.target == Target.ANDROID:
+                    self.c_file_pfx = self.c_file_pfx + """
 #include <unwind.h>
 #include <dlfcn.h>
 
@@ -194,9 +225,9 @@ void backtrace_symbols_fd(void ** buffer, int count, int _fd) {
 	}
 }
 """
-            else:
-                self.c_file_pfx = self.c_file_pfx + "#include <execinfo.h>\n"
-            self.c_file_pfx = self.c_file_pfx + """
+                else:
+                    self.c_file_pfx = self.c_file_pfx + "#include <execinfo.h>\n"
+                self.c_file_pfx = self.c_file_pfx + """
 #include <unistd.h>
 static mtx_t allocation_mtx;
 

@@ -7,7 +7,6 @@ import org.ldk.batteries.ChannelManagerConstructor;
 import org.ldk.batteries.NioPeerHandler;
 import org.ldk.enums.Currency;
 import org.ldk.enums.Network;
-import org.ldk.impl.bindings;
 import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;
 
@@ -202,7 +201,10 @@ class HumanObjectPeerTestInstance {
             logger = Logger.new_impl((String arg) -> System.out.println(seed + ": " + arg));
             fee_estimator = FeeEstimator.new_impl((confirmation_target -> 253));
             tx_broadcaster = BroadcasterInterface.new_impl(tx -> {
-                broadcast_set.add(tx);
+                synchronized (broadcast_set) {
+                    broadcast_set.add(tx);
+                    broadcast_set.notifyAll();
+                }
             });
             monitors = new HashMap<>();
             this.seed = seed;
@@ -418,12 +420,16 @@ class HumanObjectPeerTestInstance {
             if (use_chan_manager_constructor) {
                 while (true) {
                     synchronized (this.pending_manager_events) {
-                        if (expected_len != 0 && this.pending_manager_events.size() != expected_len) {
+                        if (expected_len != 0 && this.pending_manager_events.size() == expected_len) {
                             break;
                         }
                     }
-                    try { Thread.sleep(500); } catch (InterruptedException e) { assert false; }
-                    break;
+                    if (expected_len == 0) {
+                        try { Thread.sleep(500); } catch (InterruptedException e) { assert false; }
+                        break;
+                    } else {
+                        Thread.yield();
+                    }
                 }
                 synchronized (this.pending_manager_events) {
                     Event[] res = this.pending_manager_events.toArray(new Event[0]);
@@ -449,7 +455,11 @@ class HumanObjectPeerTestInstance {
             }
         }
 
-        Event[] get_manager_events(int expected_len) {
+        Event[] get_manager_events(int expected_len, Peer peer1, Peer peer2) {
+            assert expected_len != 0;
+            if (!use_nio_peer_handler) {
+                maybe_exchange_peer_messages(peer1, peer2);
+            }
             Event[] res = new Event[0];
             if (use_chan_manager_constructor) {
                 while (res.length < expected_len) {
@@ -464,7 +474,15 @@ class HumanObjectPeerTestInstance {
                 }
             } else {
                 ArrayList<Event> l = new ArrayList<Event>();
-                chan_manager.as_EventsProvider().process_pending_events(EventHandler.new_impl(l::add));
+                while (l.size() < expected_len) {
+                    Thread.yield();
+                    if (use_nio_peer_handler) {
+                        peer1.nio_peer_handler.check_events();
+                        peer2.nio_peer_handler.check_events();
+                    }
+                    chan_manager.as_EventsProvider().process_pending_events(EventHandler.new_impl(l::add));
+                    assert l.size() == expected_len || l.size() == 0; // We don't handle partial results
+                }
                 return l.toArray(new Event[0]);
             }
             assert res.length == expected_len;
@@ -498,12 +516,9 @@ class HumanObjectPeerTestInstance {
                 }
             }
     });
-    void wait_events_processed(Peer peer1, Peer peer2) {
-        if (use_nio_peer_handler) {
-            peer1.nio_peer_handler.check_events();
-            peer2.nio_peer_handler.check_events();
-            try { Thread.sleep(500); } catch (InterruptedException e) { assert false; }
-        } else {
+
+    void maybe_exchange_peer_messages(Peer peer1, Peer peer2) {
+        if (!use_nio_peer_handler) {
             synchronized (runqueue) {
                 ran = false;
             }
@@ -520,6 +535,9 @@ class HumanObjectPeerTestInstance {
                     try { runqueue.wait(); } catch (InterruptedException e) { assert false; }
                 }
             }
+        } else if (!use_chan_manager_constructor) {
+            peer1.nio_peer_handler.check_events();
+            peer2.nio_peer_handler.check_events();
         }
     }
     void do_read_event(PeerManager pm, SocketDescriptor descriptor, byte[] data) {
@@ -540,6 +558,9 @@ class HumanObjectPeerTestInstance {
             try {
                 peer1.nio_peer_handler.connect(peer2.chan_manager.get_our_node_id(), new InetSocketAddress("127.0.0.1", peer2.nio_port), 100);
             } catch (IOException e) { assert false; }
+            while (peer1.peer_manager.get_peer_node_ids().length == 0 || peer2.peer_manager.get_peer_node_ids().length == 0) {
+                Thread.yield();
+            }
         } else {
             DescriptorHolder descriptor1 = new DescriptorHolder();
             DescriptorHolder descriptor1ref = descriptor1;
@@ -573,6 +594,8 @@ class HumanObjectPeerTestInstance {
             Result_NonePeerHandleErrorZ inbound_conn_res = peer2.peer_manager.new_inbound_connection(descriptor2);
             assert inbound_conn_res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_OK;
             do_read_event(peer2.peer_manager, descriptor2, ((Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) conn_res).res);
+
+            maybe_exchange_peer_messages(peer1, peer2);
         }
     }
 
@@ -581,13 +604,11 @@ class HumanObjectPeerTestInstance {
         Peer peer2 = new Peer((byte) 2);
 
         connect_peers(peer1, peer2);
-        wait_events_processed(peer1, peer2);
 
         Result_NoneAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 10000, 1000, 42, null);
         assert cc_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
-        wait_events_processed(peer1, peer2);
 
-        Event[] events = peer1.get_manager_events(1);
+        Event[] events = peer1.get_manager_events(1, peer1, peer2);
         assert events[0] instanceof Event.FundingGenerationReady;
         assert ((Event.FundingGenerationReady) events[0]).channel_value_satoshis == 10000;
         assert ((Event.FundingGenerationReady) events[0]).user_channel_id == 42;
@@ -604,7 +625,13 @@ class HumanObjectPeerTestInstance {
         funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
         Result_NoneAPIErrorZ funding_res = peer1.chan_manager.funding_transaction_generated(chan_id, funding.bitcoinSerialize());
         assert funding_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
-        wait_events_processed(peer1, peer2);
+
+        maybe_exchange_peer_messages(peer1, peer2);
+        synchronized (peer1.broadcast_set) {
+            while (peer1.broadcast_set.size() != 1) {
+                peer1.broadcast_set.wait();
+            }
+        }
 
         assert peer1.broadcast_set.size() == 1;
         assert Arrays.equals(peer1.broadcast_set.get(0), funding.bitcoinSerialize());
@@ -619,7 +646,9 @@ class HumanObjectPeerTestInstance {
             peer1.connect_block(b, height, 0);
             peer2.connect_block(b, height, 0);
         }
-        wait_events_processed(peer1, peer2);
+
+        maybe_exchange_peer_messages(peer1, peer2);
+        while (peer1.chan_manager.list_usable_channels().length != 1 || peer2.chan_manager.list_usable_channels().length != 1)
 
         peer1.chan_manager.list_channels();
         ChannelDetails[] peer1_chans = peer1.chan_manager.list_usable_channels();
@@ -664,7 +693,6 @@ class HumanObjectPeerTestInstance {
 
         Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
-        wait_events_processed(peer1, peer2);
 
         RouteHop[][] hops = new RouteHop[1][1];
         byte[] hop_pubkey = new byte[33];
@@ -675,21 +703,13 @@ class HumanObjectPeerTestInstance {
         payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
 
-        if (!use_chan_manager_constructor) {
-            peer1.get_monitor_events(0);
-            peer2.get_monitor_events(0);
-        } else {
-            // The events are combined across manager + monitors but peer1 still has no events
-        }
-
         if (reload_peers) {
-            if (use_nio_peer_handler) {
-                peer1.nio_peer_handler.interrupt();
-                peer2.nio_peer_handler.interrupt();
-            }
             if (use_chan_manager_constructor) {
                 peer1.constructor.interrupt();
                 peer2.constructor.interrupt();
+            } else if (use_nio_peer_handler) {
+                peer1.nio_peer_handler.interrupt();
+                peer2.nio_peer_handler.interrupt();
             }
             WeakReference<Peer> op1 = new WeakReference<Peer>(peer1);
             peer1 = new Peer(peer1);
@@ -713,7 +733,7 @@ class HumanObjectPeerTestInstance {
             this.best_blockhash = best_blockhash;
         }
     }
-    void do_test_message_handler_b(TestState state) {
+    void do_test_message_handler_b(TestState state) throws InterruptedException {
         GcCheck obj = new GcCheck();
         if (state.ref_block != null) {
             // Ensure the original peers get freed before we move on. Note that we have to be in a different function
@@ -724,36 +744,52 @@ class HumanObjectPeerTestInstance {
             }
             connect_peers(state.peer1, state.peer2);
         }
-        wait_events_processed(state.peer1, state.peer2);
 
-        Event[] events = state.peer2.get_manager_events(1);
+        Event[] events = state.peer2.get_manager_events(1, state.peer1, state.peer2);
         assert events[0] instanceof Event.PendingHTLCsForwardable;
         state.peer2.chan_manager.process_pending_htlc_forwards();
 
-        events = state.peer2.get_manager_events(1);
+        events = state.peer2.get_manager_events(1, state.peer1, state.peer2);
         assert events[0] instanceof Event.PaymentReceived;
         byte[] payment_preimage = ((Event.PaymentReceived)events[0]).payment_preimage;
         assert !Arrays.equals(payment_preimage, new byte[32]);
         state.peer2.chan_manager.claim_funds(payment_preimage);
-        wait_events_processed(state.peer1, state.peer2);
 
-        events = state.peer1.get_manager_events(1);
+        events = state.peer1.get_manager_events(1, state.peer1, state.peer2);
         assert events[0] instanceof Event.PaymentSent;
         assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
-        wait_events_processed(state.peer1, state.peer2);
+
+        if (use_nio_peer_handler) {
+            // We receive PaymentSent immediately upon receipt of the payment preimage, but we expect to not have an
+            // HTLC transaction to broadcast below, which requires a bit more time to fully complete the
+            // commitment-transaction-update dance between both peers.
+            Thread.sleep(100);
+        }
 
         ChannelDetails[] peer1_chans = state.peer1.chan_manager.list_channels();
 
         if (nice_close) {
             Result_NoneAPIErrorZ close_res = state.peer1.chan_manager.close_channel(peer1_chans[0].get_channel_id());
             assert close_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
-            wait_events_processed(state.peer1, state.peer2);
+            maybe_exchange_peer_messages(state.peer1, state.peer2);
+            synchronized (state.peer1.broadcast_set) {
+                while (state.peer1.broadcast_set.size() != 1) state.peer1.broadcast_set.wait();
+            }
+            synchronized (state.peer2.broadcast_set) {
+                while (state.peer2.broadcast_set.size() != 1) state.peer2.broadcast_set.wait();
+            }
 
             assert state.peer1.broadcast_set.size() == 1;
             assert state.peer2.broadcast_set.size() == 1;
         } else {
             state.peer1.chan_manager.force_close_all_channels();
-            wait_events_processed(state.peer1, state.peer2);
+            maybe_exchange_peer_messages(state.peer1, state.peer2);
+            synchronized (state.peer1.broadcast_set) {
+                while (state.peer1.broadcast_set.size() != 1) state.peer1.broadcast_set.wait();
+            }
+            synchronized (state.peer2.broadcast_set) {
+                while (state.peer2.broadcast_set.size() != 1) state.peer2.broadcast_set.wait();
+            }
 
             assert state.peer1.broadcast_set.size() == 1;
             assert state.peer2.broadcast_set.size() == 1;
@@ -794,9 +830,8 @@ class HumanObjectPeerTestInstance {
 
         if (use_nio_peer_handler) {
             state.peer1.peer_manager.disconnect_by_node_id(state.peer2.chan_manager.get_our_node_id(), false);
-            wait_events_processed(state.peer1, state.peer2);
-            assert state.peer1.peer_manager.get_peer_node_ids().length == 0;
-            assert state.peer2.peer_manager.get_peer_node_ids().length == 0;
+            while (state.peer1.peer_manager.get_peer_node_ids().length != 0) Thread.yield();
+            while (state.peer2.peer_manager.get_peer_node_ids().length != 0) Thread.yield();
             state.peer1.nio_peer_handler.interrupt();
             state.peer2.nio_peer_handler.interrupt();
         }
@@ -860,6 +895,17 @@ public class HumanObjectPeerTest {
             }
             System.err.println("Running test with flags " + i);
             do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_chan_manager_constructor);
+        }
+    }
+
+    // This is used in the test jar to test the built jar is runnable
+    public static void main(String[] args) {
+        try {
+            new HumanObjectPeerTest().test_message_handler();
+        } catch (Exception e) {
+            System.err.println("Caught exception:");
+            System.err.println(e);
+            System.exit(1);
         }
     }
 }

@@ -10,15 +10,30 @@ usage() {
 [ "$3" != "true" -a "$3" != "false" ] && usage
 [ "$4" != "true" -a "$4" != "false" ] && usage
 
+set -x
+
 if [ "$CC" != "" ]; then
 	COMMON_COMPILE="$CC -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
 else
+	CC=clang
 	COMMON_COMPILE="clang -std=c11 -Wall -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-unused-function -Wno-nullability-completeness -Wno-pointer-sign -Wdate-time -ffile-prefix-map=$(pwd)="
 fi
 
-if [ "$LDK_TARGET" != "" ]; then
-	LDK_TARGET_SUFFIX="_$LDK_TARGET"
+TARGET_STRING="$LDK_TARGET"
+if [ "$TARGET_STRING" = "" ]; then
+	# We assume clang-style $CC --version here, but worst-case we just get an empty suffix
+	TARGET_STRING="$($CC --version | grep Target | awk '{ print $2 }')"
 fi
+case "$TARGET_STRING" in
+	"x86_64-pc-linux"*)
+		LDK_TARGET_SUFFIX="_Linux-amd64" ;;
+	"x86_64-apple-darwin"*)
+		LDK_TARGET_SUFFIX="_MacOSX-x86_64" ;;
+	"aarch64-apple-darwin"*)
+		LDK_TARGET_SUFFIX="_MacOSX-aarch64" ;;
+	*)
+		LDK_TARGET_SUFFIX=""
+esac
 if [ "$LDK_TARGET_CPU" = "" ]; then
 	LDK_TARGET_CPU="sandybridge"
 fi
@@ -52,12 +67,23 @@ cat src/main/jni/bindings.c.body >> src/main/jni/bindings.c
 javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/impl/bindings.java
 rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
+IS_MAC=false
+[ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
+
 echo "Building Java bindings..."
-COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -ldl -Wl,--no-undefined -shared -fPIC"
+COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -ldl -shared -fPIC"
+[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--no-undefined"
+[ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
 if [ "$3" = "true" ]; then
-	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
+	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
+	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 else
-	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -Wl,--version-script=libcode.version -flto -fuse-ld=lld -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
+	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--version-script=libcode.version -fuse-ld=lld"
+	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
+	if [ "$LDK_TARGET_SUFFIX" != "" ]; then
+		# Copy to JNI native directory for inclusion in JARs
+		cp liblightningjni_release$LDK_TARGET_SUFFIX.so src/main/resources/liblightningjni$LDK_TARGET_SUFFIX.nativelib
+	fi
 fi
 
 echo "Creating TS bindings..."

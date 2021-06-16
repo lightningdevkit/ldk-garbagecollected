@@ -88,7 +88,11 @@ public class ChannelManagerConstructor {
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), (IgnoringMessageHandler.of()).as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
         }
         NioPeerHandler nio_peer_handler = null;
-        try { nio_peer_handler = new NioPeerHandler(this.peer_manager); } catch (IOException e) { assert false; }
+        try {
+            nio_peer_handler = new NioPeerHandler(this.peer_manager);
+        } catch (IOException e) {
+            throw new IllegalStateException("We should never fail to construct nio objects unless we're on a platform that cannot run LDK.");
+        }
         this.nio_peer_handler = nio_peer_handler;
         if (filter != null) {
             for (ChannelMonitor monitor : monitors) {
@@ -118,7 +122,11 @@ public class ChannelManagerConstructor {
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), (IgnoringMessageHandler.of()).as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
         }
         NioPeerHandler nio_peer_handler = null;
-        try { nio_peer_handler = new NioPeerHandler(this.peer_manager); } catch (IOException e) { assert false; }
+        try {
+            nio_peer_handler = new NioPeerHandler(this.peer_manager);
+        } catch (IOException e) {
+            throw new IllegalStateException("We should never fail to construct nio objects unless we're on a platform that cannot run LDK.");
+        }
         this.nio_peer_handler = nio_peer_handler;
     }
 
