@@ -78,8 +78,24 @@ if [ "$3" = "true" ]; then
 	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
 	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 else
-	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--version-script=libcode.version -fuse-ld=lld"
+	if [ "$IS_MAC" = "false" ]; then
+		COMPILE="$COMPILE -Wl,--version-script=libcode.version -fuse-ld=lld"
+		echo "// __cxa_thread_atexit_impl is used to more effeciently cleanup per-thread local storage by rust libstd." >> src/main/jni/bindings.c
+		echo "// However, it is not available on glibc versions 2.17 or earlier, and rust libstd has a null-check and fallback in case it is missing." >> src/main/jni/bindings.c
+		echo "// Because it is weak-linked on the rust side, we can simply define it explicitly here, forcing rust to use the fallback." >> src/main/jni/bindings.c
+		echo "void *__cxa_thread_atexit_impl = NULL;" >> src/main/jni/bindings.c
+	fi
 	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
+	if [ "$IS_MAC" = "false" ]; then
+		set +e # grep exits with 1 if no lines were left, which is our success condition
+		GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) ")"
+		set -e
+		if [ "$GLIBC_SYMBS" != "" ]; then
+			echo "Unexpected glibc version dependency! Some users need glibc 2.17 support, symbols for newer glibcs cannot be included."
+			echo "$GLIBC_SYMBS"
+			exit 1
+		fi
+	fi
 	if [ "$LDK_TARGET_SUFFIX" != "" ]; then
 		# Copy to JNI native directory for inclusion in JARs
 		cp liblightningjni_release$LDK_TARGET_SUFFIX.so src/main/resources/liblightningjni$LDK_TARGET_SUFFIX.nativelib
