@@ -48,7 +48,7 @@ public class bindings {
 	static native String get_lib_version_string();
 
 	public static String get_ldk_java_bindings_version() {
-		return "v0.0.98.3";
+		return "v0.0.98.4";
 	}
 	public static native String get_ldk_c_bindings_version();
 	public static native String get_ldk_version();
