@@ -26,13 +26,19 @@ if [ "$TARGET_STRING" = "" ]; then
 fi
 case "$TARGET_STRING" in
 	"x86_64-pc-linux"*)
-		LDK_TARGET_SUFFIX="_Linux-amd64" ;;
+		LDK_TARGET_SUFFIX="_Linux-amd64"
+		LDK_JAR_TARGET=true
+		;;
 	"x86_64-apple-darwin"*)
-		LDK_TARGET_SUFFIX="_MacOSX-x86_64" ;;
+		LDK_TARGET_SUFFIX="_MacOSX-x86_64"
+		LDK_JAR_TARGET=true
+		;;
 	"aarch64-apple-darwin"*)
-		LDK_TARGET_SUFFIX="_MacOSX-aarch64" ;;
+		LDK_TARGET_SUFFIX="_MacOSX-aarch64"
+		LDK_JAR_TARGET=true
+		;;
 	*)
-		LDK_TARGET_SUFFIX=""
+		LDK_TARGET_SUFFIX="_${TARGET_STRING}"
 esac
 if [ "$LDK_TARGET_CPU" = "" ]; then
 	LDK_TARGET_CPU="sandybridge"
@@ -96,7 +102,7 @@ else
 			exit 1
 		fi
 	fi
-	if [ "$LDK_TARGET_SUFFIX" != "" ]; then
+	if [ "$LDK_JAR_TARGET" = "true" ]; then
 		# Copy to JNI native directory for inclusion in JARs
 		cp liblightningjni_release$LDK_TARGET_SUFFIX.so src/main/resources/liblightningjni$LDK_TARGET_SUFFIX.nativelib
 	fi
