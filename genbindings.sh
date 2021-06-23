@@ -135,6 +135,7 @@ else
 	fi
 	if [ "$LDK_JAR_TARGET" = "true" ]; then
 		# Copy to JNI native directory for inclusion in JARs
+		mkdir -p src/main/resources/
 		cp liblightningjni_release$LDK_TARGET_SUFFIX.so src/main/resources/liblightningjni$LDK_TARGET_SUFFIX.nativelib
 	fi
 fi

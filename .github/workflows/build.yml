@@ -73,7 +73,7 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
           git clone https://git.bitcoin.ninja/ldk-java-bins
           mkdir -p src/main/resources/
-          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-*" src/main/resources/
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"* src/main/resources/
       - name: Build Java/TS Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
@@ -175,7 +175,7 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
           git clone https://git.bitcoin.ninja/ldk-java-bins
           mkdir -p src/main/resources/
-          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_Linux-*" src/main/resources/
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_Linux-"* src/main/resources/
       - name: Build Java/TS Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
