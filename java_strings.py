@@ -854,6 +854,12 @@ import java.util.Arrays;
                     else:
                         out_c = out_c + ", " + arg_info.arg_name
                 out_c = out_c + ");\n"
+
+                out_c += "\tif ((*env)->ExceptionCheck(env)) {\n"
+                out_c += "\t\t(*env)->ExceptionDescribe(env);\n"
+                out_c += "\t\t(*env)->FatalError(env, \"A Java interface method called from rust threw an exception.\");\n"
+                out_c += "\t}\n"
+
                 if fn_line.ret_ty_info.arg_conv is not None:
                     out_c += "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n"
                     out_c += "\t" + self.deconstruct_jenv().replace("\n", "\n\t").strip() + "\n"
