@@ -26,13 +26,19 @@ if [ "$TARGET_STRING" = "" ]; then
 fi
 case "$TARGET_STRING" in
 	"x86_64-pc-linux"*)
-		LDK_TARGET_SUFFIX="_Linux-amd64" ;;
+		LDK_TARGET_SUFFIX="_Linux-amd64"
+		LDK_JAR_TARGET=true
+		;;
 	"x86_64-apple-darwin"*)
-		LDK_TARGET_SUFFIX="_MacOSX-x86_64" ;;
+		LDK_TARGET_SUFFIX="_MacOSX-x86_64"
+		LDK_JAR_TARGET=true
+		;;
 	"aarch64-apple-darwin"*)
-		LDK_TARGET_SUFFIX="_MacOSX-aarch64" ;;
+		LDK_TARGET_SUFFIX="_MacOSX-aarch64"
+		LDK_JAR_TARGET=true
+		;;
 	*)
-		LDK_TARGET_SUFFIX=""
+		LDK_TARGET_SUFFIX="_${TARGET_STRING}"
 esac
 if [ "$LDK_TARGET_CPU" = "" ]; then
 	LDK_TARGET_CPU="sandybridge"
@@ -78,26 +84,58 @@ if [ "$3" = "true" ]; then
 	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
 	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 else
+	LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
 	if [ "$IS_MAC" = "false" ]; then
 		COMPILE="$COMPILE -Wl,--version-script=libcode.version -fuse-ld=lld"
 		echo "// __cxa_thread_atexit_impl is used to more effeciently cleanup per-thread local storage by rust libstd." >> src/main/jni/bindings.c
 		echo "// However, it is not available on glibc versions 2.17 or earlier, and rust libstd has a null-check and fallback in case it is missing." >> src/main/jni/bindings.c
-		echo "// Because it is weak-linked on the rust side, we can simply define it explicitly here, forcing rust to use the fallback." >> src/main/jni/bindings.c
+		echo "// Because it is weak-linked on the rust side, we should be able to simply define it explicitly here, forcing rust to use the fallback." >> src/main/jni/bindings.c
 		echo "void *__cxa_thread_atexit_impl = NULL;" >> src/main/jni/bindings.c
+		# Note that the above is not sufficient. For some reason involving ancient dark magic and
+		# haunted code segments, overriding the weak symbol only impacts sites which *call* the
+		# symbol in question, not sites which *compare with* the symbol in question.
+		# This means that the NULL check in rust's libstd will always think the function is
+		# callable while the function which is called ends up being NULL (leading to a jmp to the
+		# zero page and a quick SEGFAULT).
+		# This issue persists not only with directly providing a symbol, but also ld.lld's -wrap
+		# and --defsym arguments.
+		# In smaller programs, it appears to be possible to work around this with -Bsymbolic and
+		# -nostdlib, however when applied the full-sized JNI library here it no longer works.
+		# After exhausting nearly every flag documented in lld, the only reliable method appears
+		# to be editing the LDK binary. Luckily, LLVM's tooling makes this rather easy as we can
+		# disassemble it into very readable code, edit it, and then reassemble it.
+		[ ! -f "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a ] && exit 1
+		if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep -v "\.o$" || echo)" != "" ]; then
+			echo "Archive contained non-object files!"
+			exit 1
+		fi
+		if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep ldk.ldk.*-cgu.*.rcgu.o | wc -l)" != "1" ]; then
+			echo "Archive contained more than one LDK object file"
+			exit 1
+		fi
+		mkdir -p tmp
+		rm -f tmp/*
+		ar x --output=tmp "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
+		pushd tmp
+		llvm-dis ldk.ldk.*-cgu.*.rcgu.o
+		sed -i 's/br i1 icmp eq (i8\* @__cxa_thread_atexit_impl, i8\* null)/br i1 icmp eq (i8* null, i8* null)/g' ldk.ldk.*-cgu.*.rcgu.o.ll
+		llvm-as ldk.ldk.*-cgu.*.rcgu.o.ll -o ./libldk.bc
+		ar q libldk.a *.o
+		popd
+		LDK_LIB="tmp/libldk.bc tmp/libldk.a"
 	fi
-	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
+	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c $LDK_LIB
 	if [ "$IS_MAC" = "false" ]; then
-		set +e # grep exits with 1 if no lines were left, which is our success condition
-		GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) ")"
-		set -e
+		GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) " || echo)"
 		if [ "$GLIBC_SYMBS" != "" ]; then
 			echo "Unexpected glibc version dependency! Some users need glibc 2.17 support, symbols for newer glibcs cannot be included."
 			echo "$GLIBC_SYMBS"
 			exit 1
 		fi
 	fi
-	if [ "$LDK_TARGET_SUFFIX" != "" ]; then
+	if [ "$LDK_JAR_TARGET" = "true" ]; then
 		# Copy to JNI native directory for inclusion in JARs
+		mkdir -p src/main/resources/
 		cp liblightningjni_release$LDK_TARGET_SUFFIX.so src/main/resources/liblightningjni$LDK_TARGET_SUFFIX.nativelib
 	fi
 fi

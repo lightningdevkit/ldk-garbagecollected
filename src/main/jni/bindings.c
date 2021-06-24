@@ -133,7 +133,7 @@ static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 }
 
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
-	return str_ref_to_java(env, "v0.0.98.3", strlen("v0.0.98.3"));
+	return str_ref_to_java(env, "v0.0.98.4", strlen("v0.0.98.4"));
 }
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1c_1bindings_1version(JNIEnv *env, jclass _c) {
 	return str_ref_to_java(env, check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
@@ -25884,5 +25884,5 @@ JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_SiPrefix_1to_1str(JNIEnv *e
 
 // __cxa_thread_atexit_impl is used to more effeciently cleanup per-thread local storage by rust libstd.
 // However, it is not available on glibc versions 2.17 or earlier, and rust libstd has a null-check and fallback in case it is missing.
-// Because it is weak-linked on the rust side, we can simply define it explicitly here, forcing rust to use the fallback.
+// Because it is weak-linked on the rust side, we should be able to simply define it explicitly here, forcing rust to use the fallback.
 void *__cxa_thread_atexit_impl = NULL;
