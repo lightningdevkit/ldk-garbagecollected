@@ -298,7 +298,7 @@ class HumanObjectPeerTestInstance {
                             pending_manager_events.notifyAll();
                         }
                     }
-                    @Override public void persist_manager(byte[] channel_manager_bytes) { }
+                    @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
                 });
                 this.chan_manager = constructor.channel_manager;
                 this.peer_manager = constructor.peer_manager;
@@ -331,7 +331,7 @@ class HumanObjectPeerTestInstance {
                                 pending_manager_events.notifyAll();
                             }
                         }
-                        @Override public void persist_manager(byte[] channel_manager_bytes) { }
+                        @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
                     });
                     this.chan_manager = constructor.channel_manager;
                     this.peer_manager = constructor.peer_manager;
