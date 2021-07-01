@@ -133,7 +133,7 @@ static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 }
 
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
-	return str_ref_to_java(env, "v0.0.98.4", strlen("v0.0.98.4"));
+	return str_ref_to_java(env, "v0.0.98.5", strlen("v0.0.98.5"));
 }
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1c_1bindings_1version(JNIEnv *env, jclass _c) {
 	return str_ref_to_java(env, check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
@@ -2141,7 +2141,7 @@ LDKPublicKey get_per_commitment_point_LDKBaseSign_jcall(const void* this_arg, ui
 	int8_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_per_commitment_point_meth, idx);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_per_commitment_point in LDKBaseSign from rust threw an exception.");
 	}
 	LDKPublicKey ret_ref;
 	CHECK((*env)->GetArrayLength(env, ret) == 33);
@@ -2165,7 +2165,7 @@ LDKThirtyTwoBytes release_commitment_secret_LDKBaseSign_jcall(const void* this_a
 	int8_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->release_commitment_secret_meth, idx);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to release_commitment_secret in LDKBaseSign from rust threw an exception.");
 	}
 	LDKThirtyTwoBytes ret_ref;
 	CHECK((*env)->GetArrayLength(env, ret) == 32);
@@ -2189,7 +2189,7 @@ LDKThirtyTwoBytes channel_keys_id_LDKBaseSign_jcall(const void* this_arg) {
 	int8_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->channel_keys_id_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to channel_keys_id in LDKBaseSign from rust threw an exception.");
 	}
 	LDKThirtyTwoBytes ret_ref;
 	CHECK((*env)->GetArrayLength(env, ret) == 32);
@@ -2221,7 +2221,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_L
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_counterparty_commitment_meth, commitment_tx_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sign_counterparty_commitment in LDKBaseSign from rust threw an exception.");
 	}
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(((uint64_t)ret) & ~1));
@@ -2252,7 +2252,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htl
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* ret = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_holder_commitment_and_htlcs_meth, commitment_tx_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sign_holder_commitment_and_htlcs in LDKBaseSign from rust threw an exception.");
 	}
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_conv = *(LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone((LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(((uint64_t)ret) & ~1));
@@ -2281,7 +2281,7 @@ LDKCResult_SignatureNoneZ sign_justice_revoked_output_LDKBaseSign_jcall(const vo
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_justice_revoked_output_meth, justice_tx_arr, input, amount, per_commitment_key_arr);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sign_justice_revoked_output in LDKBaseSign from rust threw an exception.");
 	}
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
@@ -2318,7 +2318,7 @@ LDKCResult_SignatureNoneZ sign_justice_revoked_htlc_LDKBaseSign_jcall(const void
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_justice_revoked_htlc_meth, justice_tx_arr, input, amount, per_commitment_key_arr, htlc_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sign_justice_revoked_htlc in LDKBaseSign from rust threw an exception.");
 	}
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
@@ -2355,7 +2355,7 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_LDKBaseSign_jcall(c
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_counterparty_htlc_transaction_meth, htlc_tx_arr, input, amount, per_commitment_point_arr, htlc_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sign_counterparty_htlc_transaction in LDKBaseSign from rust threw an exception.");
 	}
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
@@ -2382,7 +2382,7 @@ LDKCResult_SignatureNoneZ sign_closing_transaction_LDKBaseSign_jcall(const void*
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_closing_transaction_meth, closing_tx_arr);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sign_closing_transaction in LDKBaseSign from rust threw an exception.");
 	}
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
@@ -2413,7 +2413,7 @@ LDKCResult_SignatureNoneZ sign_channel_announcement_LDKBaseSign_jcall(const void
 	LDKCResult_SignatureNoneZ* ret = (LDKCResult_SignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_channel_announcement_meth, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sign_channel_announcement in LDKBaseSign from rust threw an exception.");
 	}
 	LDKCResult_SignatureNoneZ ret_conv = *(LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_SignatureNoneZ_clone((LDKCResult_SignatureNoneZ*)(((uint64_t)ret) & ~1));
@@ -2444,7 +2444,7 @@ void ready_channel_LDKBaseSign_jcall(void* this_arg, const LDKChannelTransaction
 	(*env)->CallVoidMethod(env, obj, j_calls->ready_channel_meth, channel_parameters_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to ready_channel in LDKBaseSign from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -2693,7 +2693,7 @@ LDKCVec_u8Z write_LDKSign_jcall(const void* this_arg) {
 	int8_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->write_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to write in LDKSign from rust threw an exception.");
 	}
 	LDKCVec_u8Z ret_ref;
 	ret_ref.datalen = (*env)->GetArrayLength(env, ret);
@@ -3363,7 +3363,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ watch_channel_LDKWatch_jcall(const void*
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*env)->CallLongMethod(env, obj, j_calls->watch_channel_meth, funding_txo_ref, monitor_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to watch_channel in LDKWatch from rust threw an exception.");
 	}
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1));
@@ -3400,7 +3400,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_channel_LDKWatch_jcall(const void
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*env)->CallLongMethod(env, obj, j_calls->update_channel_meth, funding_txo_ref, update_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to update_channel in LDKWatch from rust threw an exception.");
 	}
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1));
@@ -3423,7 +3423,7 @@ LDKCVec_MonitorEventZ release_pending_monitor_events_LDKWatch_jcall(const void* 
 	int64_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->release_pending_monitor_events_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to release_pending_monitor_events in LDKWatch from rust threw an exception.");
 	}
 	LDKCVec_MonitorEventZ ret_constr;
 	ret_constr.datalen = (*env)->GetArrayLength(env, ret);
@@ -3564,7 +3564,7 @@ void broadcast_transaction_LDKBroadcasterInterface_jcall(const void* this_arg, L
 	(*env)->CallVoidMethod(env, obj, j_calls->broadcast_transaction_meth, tx_arr);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to broadcast_transaction in LDKBroadcasterInterface from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -3650,7 +3650,7 @@ LDKSecretKey get_node_secret_LDKKeysInterface_jcall(const void* this_arg) {
 	int8_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_node_secret_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_node_secret in LDKKeysInterface from rust threw an exception.");
 	}
 	LDKSecretKey ret_ref;
 	CHECK((*env)->GetArrayLength(env, ret) == 32);
@@ -3674,7 +3674,7 @@ LDKCVec_u8Z get_destination_script_LDKKeysInterface_jcall(const void* this_arg) 
 	int8_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_destination_script_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_destination_script in LDKKeysInterface from rust threw an exception.");
 	}
 	LDKCVec_u8Z ret_ref;
 	ret_ref.datalen = (*env)->GetArrayLength(env, ret);
@@ -3699,7 +3699,7 @@ LDKPublicKey get_shutdown_pubkey_LDKKeysInterface_jcall(const void* this_arg) {
 	int8_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_shutdown_pubkey_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_shutdown_pubkey in LDKKeysInterface from rust threw an exception.");
 	}
 	LDKPublicKey ret_ref;
 	CHECK((*env)->GetArrayLength(env, ret) == 33);
@@ -3723,7 +3723,7 @@ LDKSign get_channel_signer_LDKKeysInterface_jcall(const void* this_arg, bool inb
 	LDKSign* ret = (LDKSign*)(*env)->CallLongMethod(env, obj, j_calls->get_channel_signer_meth, inbound, channel_value_satoshis);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_channel_signer in LDKKeysInterface from rust threw an exception.");
 	}
 	LDKSign ret_conv = *(LDKSign*)(((uint64_t)ret) & ~1);
 	ret_conv = Sign_clone(ret);
@@ -3746,7 +3746,7 @@ LDKThirtyTwoBytes get_secure_random_bytes_LDKKeysInterface_jcall(const void* thi
 	int8_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_secure_random_bytes_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_secure_random_bytes in LDKKeysInterface from rust threw an exception.");
 	}
 	LDKThirtyTwoBytes ret_ref;
 	CHECK((*env)->GetArrayLength(env, ret) == 32);
@@ -3773,7 +3773,7 @@ LDKCResult_SignDecodeErrorZ read_chan_signer_LDKKeysInterface_jcall(const void* 
 	LDKCResult_SignDecodeErrorZ* ret = (LDKCResult_SignDecodeErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->read_chan_signer_meth, reader_arr);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to read_chan_signer in LDKKeysInterface from rust threw an exception.");
 	}
 	LDKCResult_SignDecodeErrorZ ret_conv = *(LDKCResult_SignDecodeErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_SignDecodeErrorZ_clone((LDKCResult_SignDecodeErrorZ*)(((uint64_t)ret) & ~1));
@@ -3800,7 +3800,7 @@ LDKCResult_RecoverableSignatureNoneZ sign_invoice_LDKKeysInterface_jcall(const v
 	LDKCResult_RecoverableSignatureNoneZ* ret = (LDKCResult_RecoverableSignatureNoneZ*)(*env)->CallLongMethod(env, obj, j_calls->sign_invoice_meth, invoice_preimage_arr);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sign_invoice in LDKKeysInterface from rust threw an exception.");
 	}
 	LDKCResult_RecoverableSignatureNoneZ ret_conv = *(LDKCResult_RecoverableSignatureNoneZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_RecoverableSignatureNoneZ_clone((LDKCResult_RecoverableSignatureNoneZ*)(((uint64_t)ret) & ~1));
@@ -3951,7 +3951,7 @@ uint32_t get_est_sat_per_1000_weight_LDKFeeEstimator_jcall(const void* this_arg,
 	int32_t ret = (*env)->CallIntMethod(env, obj, j_calls->get_est_sat_per_1000_weight_meth, confirmation_target_conv);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_est_sat_per_1000_weight in LDKFeeEstimator from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -4031,7 +4031,7 @@ void log_LDKLogger_jcall(const void* this_arg, const char* record) {
 	(*env)->CallVoidMethod(env, obj, j_calls->log_meth, record_conv);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to log in LDKLogger from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6070,7 +6070,7 @@ LDKCVec_MessageSendEventZ get_and_clear_pending_msg_events_LDKMessageSendEventsP
 	int64_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_and_clear_pending_msg_events_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_and_clear_pending_msg_events in LDKMessageSendEventsProvider from rust threw an exception.");
 	}
 	LDKCVec_MessageSendEventZ ret_constr;
 	ret_constr.datalen = (*env)->GetArrayLength(env, ret);
@@ -6174,7 +6174,7 @@ void handle_event_LDKEventHandler_jcall(const void* this_arg, LDKEvent event) {
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_event_meth, event_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_event in LDKEventHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6252,7 +6252,7 @@ void process_pending_events_LDKEventsProvider_jcall(const void* this_arg, LDKEve
 	(*env)->CallVoidMethod(env, obj, j_calls->process_pending_events_meth, (uint64_t)ret);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to process_pending_events in LDKEventsProvider from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6334,7 +6334,7 @@ LDKCResult_TxOutAccessErrorZ get_utxo_LDKAccess_jcall(const void* this_arg, cons
 	LDKCResult_TxOutAccessErrorZ* ret = (LDKCResult_TxOutAccessErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->get_utxo_meth, genesis_hash_arr, short_channel_id);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_utxo in LDKAccess from rust threw an exception.");
 	}
 	LDKCResult_TxOutAccessErrorZ ret_conv = *(LDKCResult_TxOutAccessErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_TxOutAccessErrorZ_clone((LDKCResult_TxOutAccessErrorZ*)(((uint64_t)ret) & ~1));
@@ -6422,7 +6422,7 @@ void block_connected_LDKListen_jcall(const void* this_arg, LDKu8slice block, uin
 	(*env)->CallVoidMethod(env, obj, j_calls->block_connected_meth, block_arr, height);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to block_connected in LDKListen from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6444,7 +6444,7 @@ void block_disconnected_LDKListen_jcall(const void* this_arg, const uint8_t (* h
 	(*env)->CallVoidMethod(env, obj, j_calls->block_disconnected_meth, header_arr, height);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to block_disconnected in LDKListen from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6550,7 +6550,7 @@ void transactions_confirmed_LDKConfirm_jcall(const void* this_arg, const uint8_t
 	(*env)->CallVoidMethod(env, obj, j_calls->transactions_confirmed_meth, header_arr, txdata_arr, height);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to transactions_confirmed in LDKConfirm from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6572,7 +6572,7 @@ void transaction_unconfirmed_LDKConfirm_jcall(const void* this_arg, const uint8_
 	(*env)->CallVoidMethod(env, obj, j_calls->transaction_unconfirmed_meth, txid_arr);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to transaction_unconfirmed in LDKConfirm from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6594,7 +6594,7 @@ void best_block_updated_LDKConfirm_jcall(const void* this_arg, const uint8_t (* 
 	(*env)->CallVoidMethod(env, obj, j_calls->best_block_updated_meth, header_arr, height);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to best_block_updated in LDKConfirm from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6614,7 +6614,7 @@ LDKCVec_TxidZ get_relevant_txids_LDKConfirm_jcall(const void* this_arg) {
 	jobjectArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_relevant_txids_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_relevant_txids in LDKConfirm from rust threw an exception.");
 	}
 	LDKCVec_TxidZ ret_constr;
 	ret_constr.datalen = (*env)->GetArrayLength(env, ret);
@@ -6768,7 +6768,7 @@ void register_tx_LDKFilter_jcall(const void* this_arg, const uint8_t (* txid)[32
 	(*env)->CallVoidMethod(env, obj, j_calls->register_tx_meth, txid_arr, script_pubkey_arr);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to register_tx in LDKFilter from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -6795,7 +6795,7 @@ LDKCOption_C2Tuple_usizeTransactionZZ register_output_LDKFilter_jcall(const void
 	LDKCOption_C2Tuple_usizeTransactionZZ* ret = (LDKCOption_C2Tuple_usizeTransactionZZ*)(*env)->CallLongMethod(env, obj, j_calls->register_output_meth, output_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to register_output in LDKFilter from rust threw an exception.");
 	}
 	LDKCOption_C2Tuple_usizeTransactionZZ ret_conv = *(LDKCOption_C2Tuple_usizeTransactionZZ*)(((uint64_t)ret) & ~1);
 	ret_conv = COption_C2Tuple_usizeTransactionZZ_clone((LDKCOption_C2Tuple_usizeTransactionZZ*)(((uint64_t)ret) & ~1));
@@ -6912,7 +6912,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_LDKPersist_jcall(con
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*env)->CallLongMethod(env, obj, j_calls->persist_new_channel_meth, id_ref, data_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to persist_new_channel in LDKPersist from rust threw an exception.");
 	}
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1));
@@ -6958,7 +6958,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_LDKPersist_jcal
 	LDKCResult_NoneChannelMonitorUpdateErrZ* ret = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(*env)->CallLongMethod(env, obj, j_calls->update_persisted_channel_meth, id_ref, update_ref, data_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to update_persisted_channel in LDKPersist from rust threw an exception.");
 	}
 	LDKCResult_NoneChannelMonitorUpdateErrZ ret_conv = *(LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone((LDKCResult_NoneChannelMonitorUpdateErrZ*)(((uint64_t)ret) & ~1));
@@ -7102,7 +7102,7 @@ void handle_open_channel_LDKChannelMessageHandler_jcall(const void* this_arg, LD
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_open_channel_meth, their_node_id_arr, their_features_ref, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_open_channel in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7139,7 +7139,7 @@ void handle_accept_channel_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_accept_channel_meth, their_node_id_arr, their_features_ref, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_accept_channel in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7169,7 +7169,7 @@ void handle_funding_created_LDKChannelMessageHandler_jcall(const void* this_arg,
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_funding_created_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_funding_created in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7199,7 +7199,7 @@ void handle_funding_signed_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_funding_signed_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_funding_signed in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7229,7 +7229,7 @@ void handle_funding_locked_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_funding_locked_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_funding_locked in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7267,7 +7267,7 @@ void handle_shutdown_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPub
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_shutdown_meth, their_node_id_arr, their_features_ref, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_shutdown in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7297,7 +7297,7 @@ void handle_closing_signed_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_closing_signed_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_closing_signed in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7327,7 +7327,7 @@ void handle_update_add_htlc_LDKChannelMessageHandler_jcall(const void* this_arg,
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_update_add_htlc_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_update_add_htlc in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7357,7 +7357,7 @@ void handle_update_fulfill_htlc_LDKChannelMessageHandler_jcall(const void* this_
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_update_fulfill_htlc_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_update_fulfill_htlc in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7387,7 +7387,7 @@ void handle_update_fail_htlc_LDKChannelMessageHandler_jcall(const void* this_arg
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_update_fail_htlc_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_update_fail_htlc in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7417,7 +7417,7 @@ void handle_update_fail_malformed_htlc_LDKChannelMessageHandler_jcall(const void
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_update_fail_malformed_htlc_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_update_fail_malformed_htlc in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7447,7 +7447,7 @@ void handle_commitment_signed_LDKChannelMessageHandler_jcall(const void* this_ar
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_commitment_signed_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_commitment_signed in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7477,7 +7477,7 @@ void handle_revoke_and_ack_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_revoke_and_ack_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_revoke_and_ack in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7507,7 +7507,7 @@ void handle_update_fee_LDKChannelMessageHandler_jcall(const void* this_arg, LDKP
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_update_fee_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_update_fee in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7537,7 +7537,7 @@ void handle_announcement_signatures_LDKChannelMessageHandler_jcall(const void* t
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_announcement_signatures_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_announcement_signatures in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7559,7 +7559,7 @@ void peer_disconnected_LDKChannelMessageHandler_jcall(const void* this_arg, LDKP
 	(*env)->CallVoidMethod(env, obj, j_calls->peer_disconnected_meth, their_node_id_arr, no_connection_possible);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to peer_disconnected in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7589,7 +7589,7 @@ void peer_connected_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPubl
 	(*env)->CallVoidMethod(env, obj, j_calls->peer_connected_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to peer_connected in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7619,7 +7619,7 @@ void handle_channel_reestablish_LDKChannelMessageHandler_jcall(const void* this_
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_channel_reestablish_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_channel_reestablish in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7649,7 +7649,7 @@ void handle_channel_update_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_channel_update_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_channel_update in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -7679,7 +7679,7 @@ void handle_error_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublic
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_error_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_error in LDKChannelMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -8056,7 +8056,7 @@ LDKCResult_boolLightningErrorZ handle_node_announcement_LDKRoutingMessageHandler
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_node_announcement_meth, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_node_announcement in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1));
@@ -8087,7 +8087,7 @@ LDKCResult_boolLightningErrorZ handle_channel_announcement_LDKRoutingMessageHand
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_channel_announcement_meth, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_channel_announcement in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1));
@@ -8118,7 +8118,7 @@ LDKCResult_boolLightningErrorZ handle_channel_update_LDKRoutingMessageHandler_jc
 	LDKCResult_boolLightningErrorZ* ret = (LDKCResult_boolLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_channel_update_meth, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_channel_update in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCResult_boolLightningErrorZ ret_conv = *(LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_boolLightningErrorZ_clone((LDKCResult_boolLightningErrorZ*)(((uint64_t)ret) & ~1));
@@ -8142,7 +8142,7 @@ void handle_htlc_fail_channel_update_LDKRoutingMessageHandler_jcall(const void* 
 	(*env)->CallVoidMethod(env, obj, j_calls->handle_htlc_fail_channel_update_meth, ret_update);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_htlc_fail_channel_update in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -8162,7 +8162,7 @@ LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ get_next_channel
 	int64_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_next_channel_announcements_meth, starting_point, batch_amount);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_next_channel_announcements in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ ret_constr;
 	ret_constr.datalen = (*env)->GetArrayLength(env, ret);
@@ -8199,7 +8199,7 @@ LDKCVec_NodeAnnouncementZ get_next_node_announcements_LDKRoutingMessageHandler_j
 	int64_tArray ret = (*env)->CallObjectMethod(env, obj, j_calls->get_next_node_announcements_meth, starting_point_arr, batch_amount);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to get_next_node_announcements in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCVec_NodeAnnouncementZ ret_constr;
 	ret_constr.datalen = (*env)->GetArrayLength(env, ret);
@@ -8246,7 +8246,7 @@ void sync_routing_table_LDKRoutingMessageHandler_jcall(const void* this_arg, LDK
 	(*env)->CallVoidMethod(env, obj, j_calls->sync_routing_table_meth, their_node_id_arr, init_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to sync_routing_table in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -8275,7 +8275,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_channel_range_LDKRoutingMessageHandl
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_reply_channel_range_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_reply_channel_range in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1));
@@ -8307,7 +8307,7 @@ LDKCResult_NoneLightningErrorZ handle_reply_short_channel_ids_end_LDKRoutingMess
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_reply_short_channel_ids_end_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_reply_short_channel_ids_end in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1));
@@ -8339,7 +8339,7 @@ LDKCResult_NoneLightningErrorZ handle_query_channel_range_LDKRoutingMessageHandl
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_query_channel_range_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_query_channel_range in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1));
@@ -8371,7 +8371,7 @@ LDKCResult_NoneLightningErrorZ handle_query_short_channel_ids_LDKRoutingMessageH
 	LDKCResult_NoneLightningErrorZ* ret = (LDKCResult_NoneLightningErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->handle_query_short_channel_ids_meth, their_node_id_arr, msg_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to handle_query_short_channel_ids in LDKRoutingMessageHandler from rust threw an exception.");
 	}
 	LDKCResult_NoneLightningErrorZ ret_conv = *(LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneLightningErrorZ_clone((LDKCResult_NoneLightningErrorZ*)(((uint64_t)ret) & ~1));
@@ -8624,7 +8624,7 @@ uintptr_t send_data_LDKSocketDescriptor_jcall(void* this_arg, LDKu8slice data, b
 	int64_t ret = (*env)->CallLongMethod(env, obj, j_calls->send_data_meth, data_arr, resume_read);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to send_data in LDKSocketDescriptor from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -8645,7 +8645,7 @@ void disconnect_socket_LDKSocketDescriptor_jcall(void* this_arg) {
 	(*env)->CallVoidMethod(env, obj, j_calls->disconnect_socket_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to disconnect_socket in LDKSocketDescriptor from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -8667,7 +8667,7 @@ bool eq_LDKSocketDescriptor_jcall(const void* this_arg, const LDKSocketDescripto
 	jboolean ret = (*env)->CallBooleanMethod(env, obj, j_calls->eq_meth, (uint64_t)other_arg_clone);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to eq in LDKSocketDescriptor from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -8688,7 +8688,7 @@ uint64_t hash_LDKSocketDescriptor_jcall(const void* this_arg) {
 	int64_t ret = (*env)->CallLongMethod(env, obj, j_calls->hash_meth);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to hash in LDKSocketDescriptor from rust threw an exception.");
 	}
 	if (get_jenv_res == JNI_EDETACHED) {
 		DO_ASSERT((*j_calls->vm)->DetachCurrentThread(j_calls->vm) == JNI_OK);
@@ -8798,7 +8798,7 @@ LDKCResult_NoneErrorZ persist_manager_LDKChannelManagerPersister_jcall(const voi
 	LDKCResult_NoneErrorZ* ret = (LDKCResult_NoneErrorZ*)(*env)->CallLongMethod(env, obj, j_calls->persist_manager_meth, channel_manager_ref);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionDescribe(env);
-		(*env)->FatalError(env, "A Java interface method called from rust threw an exception.");
+		(*env)->FatalError(env, "A call to persist_manager in LDKChannelManagerPersister from rust threw an exception.");
 	}
 	LDKCResult_NoneErrorZ ret_conv = *(LDKCResult_NoneErrorZ*)(((uint64_t)ret) & ~1);
 	ret_conv = CResult_NoneErrorZ_clone((LDKCResult_NoneErrorZ*)(((uint64_t)ret) & ~1));
