@@ -857,7 +857,7 @@ import java.util.Arrays;
 
                 out_c += "\tif ((*env)->ExceptionCheck(env)) {\n"
                 out_c += "\t\t(*env)->ExceptionDescribe(env);\n"
-                out_c += "\t\t(*env)->FatalError(env, \"A Java interface method called from rust threw an exception.\");\n"
+                out_c += "\t\t(*env)->FatalError(env, \"A call to " + fn_line.fn_name + " in " + struct_name + " from rust threw an exception.\");\n"
                 out_c += "\t}\n"
 
                 if fn_line.ret_ty_info.arg_conv is not None:
