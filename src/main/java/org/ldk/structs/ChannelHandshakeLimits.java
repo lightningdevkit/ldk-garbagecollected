@@ -161,11 +161,14 @@ public class ChannelHandshakeLimits extends CommonBase {
 	}
 
 	/**
-	 * Set to force the incoming channel to match our announced channel preference in
-	 * ChannelConfig.
+	 * Set to force an incoming channel to match our announced channel preference in
+	 * [`ChannelConfig::announced_channel`].
 	 * 
-	 * Default value: true, to make the default that no announced channels are possible (which is
-	 * appropriate for any nodes which are not online very reliably).
+	 * For a node which is not online reliably, this should be set to true and
+	 * [`ChannelConfig::announced_channel`] set to false, ensuring that no announced (aka public)
+	 * channels will ever be opened.
+	 * 
+	 * Default value: true.
 	 */
 	public boolean get_force_announced_channel_preference() {
 		boolean ret = bindings.ChannelHandshakeLimits_get_force_announced_channel_preference(this.ptr);
@@ -173,11 +176,14 @@ public class ChannelHandshakeLimits extends CommonBase {
 	}
 
 	/**
-	 * Set to force the incoming channel to match our announced channel preference in
-	 * ChannelConfig.
+	 * Set to force an incoming channel to match our announced channel preference in
+	 * [`ChannelConfig::announced_channel`].
 	 * 
-	 * Default value: true, to make the default that no announced channels are possible (which is
-	 * appropriate for any nodes which are not online very reliably).
+	 * For a node which is not online reliably, this should be set to true and
+	 * [`ChannelConfig::announced_channel`] set to false, ensuring that no announced (aka public)
+	 * channels will ever be opened.
+	 * 
+	 * Default value: true.
 	 */
 	public void set_force_announced_channel_preference(boolean val) {
 		bindings.ChannelHandshakeLimits_set_force_announced_channel_preference(this.ptr, val);

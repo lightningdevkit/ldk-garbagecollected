@@ -18,13 +18,22 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelConfig_free(this.ptr);
                     }
                 }
-	public number get_fee_proportional_millionths() {
-		number ret = bindings.ChannelConfig_get_fee_proportional_millionths(this.ptr);
+	public number get_forwarding_fee_proportional_millionths() {
+		number ret = bindings.ChannelConfig_get_forwarding_fee_proportional_millionths(this.ptr);
 		return ret;
 	}
 
-	public void set_fee_proportional_millionths(number val) {
-		bindings.ChannelConfig_set_fee_proportional_millionths(this.ptr, val);
+	public void set_forwarding_fee_proportional_millionths(number val) {
+		bindings.ChannelConfig_set_forwarding_fee_proportional_millionths(this.ptr, val);
+	}
+
+	public number get_forwarding_fee_base_msat() {
+		number ret = bindings.ChannelConfig_get_forwarding_fee_base_msat(this.ptr);
+		return ret;
+	}
+
+	public void set_forwarding_fee_base_msat(number val) {
+		bindings.ChannelConfig_set_forwarding_fee_base_msat(this.ptr, val);
 	}
 
 	public number get_cltv_expiry_delta() {
@@ -54,8 +63,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
 	}
 
-	public static ChannelConfig constructor_new(number fee_proportional_millionths_arg, number cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
-		number ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+	public static ChannelConfig constructor_new(number forwarding_fee_proportional_millionths_arg, number forwarding_fee_base_msat_arg, number cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
+		number ret = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

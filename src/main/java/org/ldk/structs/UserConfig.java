@@ -76,10 +76,55 @@ public class UserConfig extends CommonBase {
 	}
 
 	/**
+	 * If this is set to false, we will reject any HTLCs which were to be forwarded over private
+	 * channels. This prevents us from taking on HTLC-forwarding risk when we intend to run as a
+	 * node which is not online reliably.
+	 * 
+	 * For nodes which are not online reliably, you should set all channels to *not* be announced
+	 * (using [`ChannelConfig::announced_channel`] and
+	 * [`ChannelHandshakeLimits::force_announced_channel_preference`]) and set this to false to
+	 * ensure you are not exposed to any forwarding risk.
+	 * 
+	 * Note that because you cannot change a channel's announced state after creation, there is no
+	 * way to disable forwarding on public channels retroactively. Thus, in order to change a node
+	 * from a publicly-announced forwarding node to a private non-forwarding node you must close
+	 * all your channels and open new ones. For privacy, you should also change your node_id
+	 * (swapping all private and public key material for new ones) at that time.
+	 * 
+	 * Default value: false.
+	 */
+	public boolean get_accept_forwards_to_priv_channels() {
+		boolean ret = bindings.UserConfig_get_accept_forwards_to_priv_channels(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * If this is set to false, we will reject any HTLCs which were to be forwarded over private
+	 * channels. This prevents us from taking on HTLC-forwarding risk when we intend to run as a
+	 * node which is not online reliably.
+	 * 
+	 * For nodes which are not online reliably, you should set all channels to *not* be announced
+	 * (using [`ChannelConfig::announced_channel`] and
+	 * [`ChannelHandshakeLimits::force_announced_channel_preference`]) and set this to false to
+	 * ensure you are not exposed to any forwarding risk.
+	 * 
+	 * Note that because you cannot change a channel's announced state after creation, there is no
+	 * way to disable forwarding on public channels retroactively. Thus, in order to change a node
+	 * from a publicly-announced forwarding node to a private non-forwarding node you must close
+	 * all your channels and open new ones. For privacy, you should also change your node_id
+	 * (swapping all private and public key material for new ones) at that time.
+	 * 
+	 * Default value: false.
+	 */
+	public void set_accept_forwards_to_priv_channels(boolean val) {
+		bindings.UserConfig_set_accept_forwards_to_priv_channels(this.ptr, val);
+	}
+
+	/**
 	 * Constructs a new UserConfig given each field
 	 */
-	public static UserConfig of(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg) {
-		long ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1);
+	public static UserConfig of(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg, boolean accept_forwards_to_priv_channels_arg) {
+		long ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1, accept_forwards_to_priv_channels_arg);
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(own_channel_config_arg);

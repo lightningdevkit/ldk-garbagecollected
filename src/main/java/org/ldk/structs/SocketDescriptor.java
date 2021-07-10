@@ -12,11 +12,12 @@ import java.util.Arrays;
  * 
  * For efficiency, Clone should be relatively cheap for this type.
  * 
- * You probably want to just extend an int and put a file descriptor in a struct and implement
- * send_data. Note that if you are using a higher-level net library that may call close() itself,
- * be careful to ensure you don't have races whereby you might register a new connection with an
- * fd which is the same as a previous one which has yet to be removed via
- * PeerManager::socket_disconnected().
+ * Two descriptors may compare equal (by [`cmp::Eq`] and [`hash::Hash`]) as long as the original
+ * has been disconnected, the [`PeerManager`] has been informed of the disconnection (either by it
+ * having triggered the disconnection or a call to [`PeerManager::socket_disconnected`]), and no
+ * further calls to the [`PeerManager`] related to the original socket occur. This allows you to
+ * use a file descriptor for your SocketDescriptor directly, however for simplicity you may wish
+ * to simply use another value which is guaranteed to be globally unique instead.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class SocketDescriptor extends CommonBase {
@@ -37,25 +38,27 @@ public class SocketDescriptor extends CommonBase {
 		 * Attempts to send some data from the given slice to the peer.
 		 * 
 		 * Returns the amount of data which was sent, possibly 0 if the socket has since disconnected.
-		 * Note that in the disconnected case, socket_disconnected must still fire and further write
-		 * attempts may occur until that time.
+		 * Note that in the disconnected case, [`PeerManager::socket_disconnected`] must still be
+		 * called and further write attempts may occur until that time.
 		 * 
-		 * If the returned size is smaller than data.len(), a write_available event must
-		 * trigger the next time more data can be written. Additionally, until the a send_data event
-		 * completes fully, no further read_events should trigger on the same peer!
+		 * If the returned size is smaller than `data.len()`, a
+		 * [`PeerManager::write_buffer_space_avail`] call must be made the next time more data can be
+		 * written. Additionally, until a `send_data` event completes fully, no further
+		 * [`PeerManager::read_event`] calls should be made for the same peer! Because this is to
+		 * prevent denial-of-service issues, you should not read or buffer any data from the socket
+		 * until then.
 		 * 
-		 * If a read_event on this descriptor had previously returned true (indicating that read
-		 * events should be paused to prevent DoS in the send buffer), resume_read may be set
-		 * indicating that read events on this descriptor should resume. A resume_read of false does
-		 * not* imply that further read events should be paused.
+		 * If a [`PeerManager::read_event`] call on this descriptor had previously returned true
+		 * (indicating that read events should be paused to prevent DoS in the send buffer),
+		 * `resume_read` may be set indicating that read events on this descriptor should resume. A
+		 * `resume_read` of false carries no meaning, and should not cause any action.
 		 */
 		long send_data(byte[] data, boolean resume_read);
 		/**
-		 * Disconnect the socket pointed to by this SocketDescriptor. Once this function returns, no
-		 * more calls to write_buffer_space_avail, read_event or socket_disconnected may be made with
-		 * this descriptor. No socket_disconnected call should be generated as a result of this call,
-		 * though races may occur whereby disconnect_socket is called after a call to
-		 * socket_disconnected but prior to socket_disconnected returning.
+		 * Disconnect the socket pointed to by this SocketDescriptor.
+		 * 
+		 * You do *not* need to call [`PeerManager::socket_disconnected`] with this socket after this
+		 * call (doing so is a noop).
 		 */
 		void disconnect_socket();
 		/**
@@ -96,17 +99,20 @@ public class SocketDescriptor extends CommonBase {
 	 * Attempts to send some data from the given slice to the peer.
 	 * 
 	 * Returns the amount of data which was sent, possibly 0 if the socket has since disconnected.
-	 * Note that in the disconnected case, socket_disconnected must still fire and further write
-	 * attempts may occur until that time.
+	 * Note that in the disconnected case, [`PeerManager::socket_disconnected`] must still be
+	 * called and further write attempts may occur until that time.
 	 * 
-	 * If the returned size is smaller than data.len(), a write_available event must
-	 * trigger the next time more data can be written. Additionally, until the a send_data event
-	 * completes fully, no further read_events should trigger on the same peer!
+	 * If the returned size is smaller than `data.len()`, a
+	 * [`PeerManager::write_buffer_space_avail`] call must be made the next time more data can be
+	 * written. Additionally, until a `send_data` event completes fully, no further
+	 * [`PeerManager::read_event`] calls should be made for the same peer! Because this is to
+	 * prevent denial-of-service issues, you should not read or buffer any data from the socket
+	 * until then.
 	 * 
-	 * If a read_event on this descriptor had previously returned true (indicating that read
-	 * events should be paused to prevent DoS in the send buffer), resume_read may be set
-	 * indicating that read events on this descriptor should resume. A resume_read of false does
-	 * not* imply that further read events should be paused.
+	 * If a [`PeerManager::read_event`] call on this descriptor had previously returned true
+	 * (indicating that read events should be paused to prevent DoS in the send buffer),
+	 * `resume_read` may be set indicating that read events on this descriptor should resume. A
+	 * `resume_read` of false carries no meaning, and should not cause any action.
 	 */
 	public long send_data(byte[] data, boolean resume_read) {
 		long ret = bindings.SocketDescriptor_send_data(this.ptr, data, resume_read);
@@ -114,11 +120,10 @@ public class SocketDescriptor extends CommonBase {
 	}
 
 	/**
-	 * Disconnect the socket pointed to by this SocketDescriptor. Once this function returns, no
-	 * more calls to write_buffer_space_avail, read_event or socket_disconnected may be made with
-	 * this descriptor. No socket_disconnected call should be generated as a result of this call,
-	 * though races may occur whereby disconnect_socket is called after a call to
-	 * socket_disconnected but prior to socket_disconnected returning.
+	 * Disconnect the socket pointed to by this SocketDescriptor.
+	 * 
+	 * You do *not* need to call [`PeerManager::socket_disconnected`] with this socket after this
+	 * call (doing so is a noop).
 	 */
 	public void disconnect_socket() {
 		bindings.SocketDescriptor_disconnect_socket(this.ptr);

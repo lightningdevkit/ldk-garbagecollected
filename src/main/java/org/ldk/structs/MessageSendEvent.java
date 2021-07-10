@@ -63,6 +63,9 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.BroadcastChannelUpdate.class) {
 			return new BroadcastChannelUpdate(ptr, (bindings.LDKMessageSendEvent.BroadcastChannelUpdate)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendChannelUpdate.class) {
+			return new SendChannelUpdate(ptr, (bindings.LDKMessageSendEvent.SendChannelUpdate)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.HandleError.class) {
 			return new HandleError(ptr, (bindings.LDKMessageSendEvent.HandleError)raw_val);
 		}
@@ -242,6 +245,18 @@ public class MessageSendEvent extends CommonBase {
 		public final ChannelUpdate msg;
 		private BroadcastChannelUpdate(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelUpdate obj) {
 			super(null, ptr);
+			long msg = obj.msg;
+			ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
+			this.msg = msg_hu_conv;
+		}
+	}
+	public final static class SendChannelUpdate extends MessageSendEvent {
+		public final byte[] node_id;
+		public final ChannelUpdate msg;
+		private SendChannelUpdate(long ptr, bindings.LDKMessageSendEvent.SendChannelUpdate obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
 			msg_hu_conv.ptrs_to.add(this);

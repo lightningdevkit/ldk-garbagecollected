@@ -20,7 +20,9 @@ public class MessageHandler extends CommonBase {
 
 	/**
 	 * A message handler which handles messages specific to channels. Usually this is just a
-	 * ChannelManager object or a ErroringMessageHandler.
+	 * [`ChannelManager`] object or an [`ErroringMessageHandler`].
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public ChannelMessageHandler get_chan_handler() {
 		long ret = bindings.MessageHandler_get_chan_handler(this.ptr);
@@ -31,7 +33,9 @@ public class MessageHandler extends CommonBase {
 
 	/**
 	 * A message handler which handles messages specific to channels. Usually this is just a
-	 * ChannelManager object or a ErroringMessageHandler.
+	 * [`ChannelManager`] object or an [`ErroringMessageHandler`].
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
 	 */
 	public void set_chan_handler(ChannelMessageHandler val) {
 		bindings.MessageHandler_set_chan_handler(this.ptr, val == null ? 0 : val.ptr);
@@ -40,7 +44,10 @@ public class MessageHandler extends CommonBase {
 
 	/**
 	 * A message handler which handles messages updating our knowledge of the network channel
-	 * graph. Usually this is just a NetGraphMsgHandlerMonitor object or an IgnoringMessageHandler.
+	 * graph. Usually this is just a [`NetGraphMsgHandler`] object or an
+	 * [`IgnoringMessageHandler`].
+	 * 
+	 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
 	 */
 	public RoutingMessageHandler get_route_handler() {
 		long ret = bindings.MessageHandler_get_route_handler(this.ptr);
@@ -51,7 +58,10 @@ public class MessageHandler extends CommonBase {
 
 	/**
 	 * A message handler which handles messages updating our knowledge of the network channel
-	 * graph. Usually this is just a NetGraphMsgHandlerMonitor object or an IgnoringMessageHandler.
+	 * graph. Usually this is just a [`NetGraphMsgHandler`] object or an
+	 * [`IgnoringMessageHandler`].
+	 * 
+	 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
 	 */
 	public void set_route_handler(RoutingMessageHandler val) {
 		bindings.MessageHandler_set_route_handler(this.ptr, val == null ? 0 : val.ptr);

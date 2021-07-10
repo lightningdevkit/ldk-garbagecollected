@@ -40,6 +40,24 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
+	 * Parameters which apply to our counterparty. See individual fields for more information.
+	 */
+	public ChannelCounterparty get_counterparty() {
+		long ret = bindings.ChannelDetails_get_counterparty(this.ptr);
+		ChannelCounterparty ret_hu_conv = new ChannelCounterparty(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Parameters which apply to our counterparty. See individual fields for more information.
+	 */
+	public void set_counterparty(ChannelCounterparty val) {
+		bindings.ChannelDetails_set_counterparty(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
+	/**
 	 * The Channel's funding transaction output, if we've negotiated the funding transaction with
 	 * our counterparty already.
 	 * 
@@ -85,43 +103,6 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
-	 * The node_id of our counterparty
-	 */
-	public byte[] get_remote_network_id() {
-		byte[] ret = bindings.ChannelDetails_get_remote_network_id(this.ptr);
-		return ret;
-	}
-
-	/**
-	 * The node_id of our counterparty
-	 */
-	public void set_remote_network_id(byte[] val) {
-		bindings.ChannelDetails_set_remote_network_id(this.ptr, val);
-	}
-
-	/**
-	 * The Features the channel counterparty provided upon last connection.
-	 * Useful for routing as it is the most up-to-date copy of the counterparty's features and
-	 * many routing-relevant features are present in the init context.
-	 */
-	public InitFeatures get_counterparty_features() {
-		long ret = bindings.ChannelDetails_get_counterparty_features(this.ptr);
-		InitFeatures ret_hu_conv = new InitFeatures(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * The Features the channel counterparty provided upon last connection.
-	 * Useful for routing as it is the most up-to-date copy of the counterparty's features and
-	 * many routing-relevant features are present in the init context.
-	 */
-	public void set_counterparty_features(InitFeatures val) {
-		bindings.ChannelDetails_set_counterparty_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
-	}
-
-	/**
 	 * The value, in satoshis, of this channel as appears in the funding output
 	 */
 	public long get_channel_value_satoshis() {
@@ -134,6 +115,39 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_channel_value_satoshis(long val) {
 		bindings.ChannelDetails_set_channel_value_satoshis(this.ptr, val);
+	}
+
+	/**
+	 * The value, in satoshis, that must always be held in the channel for us. This value ensures
+	 * that if we broadcast a revoked state, our counterparty can punish us by claiming at least
+	 * this value on chain.
+	 * 
+	 * This value is not included in [`outbound_capacity_msat`] as it can never be spent.
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 * 
+	 * [`outbound_capacity_msat`]: ChannelDetails::outbound_capacity_msat
+	 */
+	public Option_u64Z get_unspendable_punishment_reserve() {
+		long ret = bindings.ChannelDetails_get_unspendable_punishment_reserve(this.ptr);
+		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The value, in satoshis, that must always be held in the channel for us. This value ensures
+	 * that if we broadcast a revoked state, our counterparty can punish us by claiming at least
+	 * this value on chain.
+	 * 
+	 * This value is not included in [`outbound_capacity_msat`] as it can never be spent.
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 * 
+	 * [`outbound_capacity_msat`]: ChannelDetails::outbound_capacity_msat
+	 */
+	public void set_unspendable_punishment_reserve(Option_u64Z val) {
+		bindings.ChannelDetails_set_unspendable_punishment_reserve(this.ptr, val.ptr);
 	}
 
 	/**
@@ -156,6 +170,10 @@ public class ChannelDetails extends CommonBase {
 	 * any pending HTLCs which are not yet fully resolved (and, thus, who's balance is not
 	 * available for inclusion in new outbound HTLCs). This further does not include any pending
 	 * outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * 
+	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
+	 * conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
+	 * should be able to spend nearly this amount.
 	 */
 	public long get_outbound_capacity_msat() {
 		long ret = bindings.ChannelDetails_get_outbound_capacity_msat(this.ptr);
@@ -167,6 +185,10 @@ public class ChannelDetails extends CommonBase {
 	 * any pending HTLCs which are not yet fully resolved (and, thus, who's balance is not
 	 * available for inclusion in new outbound HTLCs). This further does not include any pending
 	 * outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * 
+	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
+	 * conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
+	 * should be able to spend nearly this amount.
 	 */
 	public void set_outbound_capacity_msat(long val) {
 		bindings.ChannelDetails_set_outbound_capacity_msat(this.ptr, val);
@@ -178,6 +200,10 @@ public class ChannelDetails extends CommonBase {
 	 * available for inclusion in new inbound HTLCs).
 	 * Note that there are some corner cases not fully handled here, so the actual available
 	 * inbound capacity may be slightly higher than this.
+	 * 
+	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
+	 * counterparty's conflict-avoidance policy, exactly this amount is not likely to be spendable.
+	 * However, our counterparty should be able to spend nearly this amount.
 	 */
 	public long get_inbound_capacity_msat() {
 		long ret = bindings.ChannelDetails_get_inbound_capacity_msat(this.ptr);
@@ -190,9 +216,79 @@ public class ChannelDetails extends CommonBase {
 	 * available for inclusion in new inbound HTLCs).
 	 * Note that there are some corner cases not fully handled here, so the actual available
 	 * inbound capacity may be slightly higher than this.
+	 * 
+	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
+	 * counterparty's conflict-avoidance policy, exactly this amount is not likely to be spendable.
+	 * However, our counterparty should be able to spend nearly this amount.
 	 */
 	public void set_inbound_capacity_msat(long val) {
 		bindings.ChannelDetails_set_inbound_capacity_msat(this.ptr, val);
+	}
+
+	/**
+	 * The number of required confirmations on the funding transaction before the funding will be
+	 * considered \"locked\". This number is selected by the channel fundee (i.e. us if
+	 * [`is_outbound`] is *not* set), and can be selected for inbound channels with
+	 * [`ChannelHandshakeConfig::minimum_depth`] or limited for outbound channels with
+	 * [`ChannelHandshakeLimits::max_minimum_depth`].
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 * 
+	 * [`is_outbound`]: ChannelDetails::is_outbound
+	 * [`ChannelHandshakeConfig::minimum_depth`]: crate::util::config::ChannelHandshakeConfig::minimum_depth
+	 * [`ChannelHandshakeLimits::max_minimum_depth`]: crate::util::config::ChannelHandshakeLimits::max_minimum_depth
+	 */
+	public Option_u32Z get_confirmations_required() {
+		long ret = bindings.ChannelDetails_get_confirmations_required(this.ptr);
+		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The number of required confirmations on the funding transaction before the funding will be
+	 * considered \"locked\". This number is selected by the channel fundee (i.e. us if
+	 * [`is_outbound`] is *not* set), and can be selected for inbound channels with
+	 * [`ChannelHandshakeConfig::minimum_depth`] or limited for outbound channels with
+	 * [`ChannelHandshakeLimits::max_minimum_depth`].
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 * 
+	 * [`is_outbound`]: ChannelDetails::is_outbound
+	 * [`ChannelHandshakeConfig::minimum_depth`]: crate::util::config::ChannelHandshakeConfig::minimum_depth
+	 * [`ChannelHandshakeLimits::max_minimum_depth`]: crate::util::config::ChannelHandshakeLimits::max_minimum_depth
+	 */
+	public void set_confirmations_required(Option_u32Z val) {
+		bindings.ChannelDetails_set_confirmations_required(this.ptr, val.ptr);
+	}
+
+	/**
+	 * The number of blocks (after our commitment transaction confirms) that we will need to wait
+	 * until we can claim our funds after we force-close the channel. During this time our
+	 * counterparty is allowed to punish us if we broadcasted a stale state. If our counterparty
+	 * force-closes the channel and broadcasts a commitment transaction we do not have to wait any
+	 * time to claim our non-HTLC-encumbered funds.
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 */
+	public Option_u16Z get_force_close_spend_delay() {
+		long ret = bindings.ChannelDetails_get_force_close_spend_delay(this.ptr);
+		Option_u16Z ret_hu_conv = Option_u16Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The number of blocks (after our commitment transaction confirms) that we will need to wait
+	 * until we can claim our funds after we force-close the channel. During this time our
+	 * counterparty is allowed to punish us if we broadcasted a stale state. If our counterparty
+	 * force-closes the channel and broadcasts a commitment transaction we do not have to wait any
+	 * time to claim our non-HTLC-encumbered funds.
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 */
+	public void set_force_close_spend_delay(Option_u16Z val) {
+		bindings.ChannelDetails_set_force_close_spend_delay(this.ptr, val.ptr);
 	}
 
 	/**
@@ -214,7 +310,10 @@ public class ChannelDetails extends CommonBase {
 	 * True if the channel is confirmed, funding_locked messages have been exchanged, and the
 	 * channel is not currently being shut down. `funding_locked` message exchange implies the
 	 * required confirmation count has been reached (and we were connected to the peer at some
-	 * point after the funding transaction received enough confirmations).
+	 * point after the funding transaction received enough confirmations). The required
+	 * confirmation count is provided in [`confirmations_required`].
+	 * 
+	 * [`confirmations_required`]: ChannelDetails::confirmations_required
 	 */
 	public boolean get_is_funding_locked() {
 		boolean ret = bindings.ChannelDetails_get_is_funding_locked(this.ptr);
@@ -225,7 +324,10 @@ public class ChannelDetails extends CommonBase {
 	 * True if the channel is confirmed, funding_locked messages have been exchanged, and the
 	 * channel is not currently being shut down. `funding_locked` message exchange implies the
 	 * required confirmation count has been reached (and we were connected to the peer at some
-	 * point after the funding transaction received enough confirmations).
+	 * point after the funding transaction received enough confirmations). The required
+	 * confirmation count is provided in [`confirmations_required`].
+	 * 
+	 * [`confirmations_required`]: ChannelDetails::confirmations_required
 	 */
 	public void set_is_funding_locked(boolean val) {
 		bindings.ChannelDetails_set_is_funding_locked(this.ptr, val);
@@ -233,8 +335,7 @@ public class ChannelDetails extends CommonBase {
 
 	/**
 	 * True if the channel is (a) confirmed and funding_locked messages have been exchanged, (b)
-	 * the peer is connected, (c) no monitor update failure is pending resolution, and (d) the
-	 * channel is not currently negotiating a shutdown.
+	 * the peer is connected, and (c) the channel is not currently negotiating a shutdown.
 	 * 
 	 * This is a strict superset of `is_funding_locked`.
 	 */
@@ -245,8 +346,7 @@ public class ChannelDetails extends CommonBase {
 
 	/**
 	 * True if the channel is (a) confirmed and funding_locked messages have been exchanged, (b)
-	 * the peer is connected, (c) no monitor update failure is pending resolution, and (d) the
-	 * channel is not currently negotiating a shutdown.
+	 * the peer is connected, and (c) the channel is not currently negotiating a shutdown.
 	 * 
 	 * This is a strict superset of `is_funding_locked`.
 	 */
@@ -267,6 +367,18 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_is_public(boolean val) {
 		bindings.ChannelDetails_set_is_public(this.ptr, val);
+	}
+
+	/**
+	 * Constructs a new ChannelDetails given each field
+	 */
+	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, Option_u64Z short_channel_id_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_id_arg, long outbound_capacity_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_funding_locked_arg, boolean is_usable_arg, boolean is_public_arg) {
+		long ret = bindings.ChannelDetails_new(channel_id_arg, counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+		ChannelDetails ret_hu_conv = new ChannelDetails(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(counterparty_arg);
+		ret_hu_conv.ptrs_to.add(funding_txo_arg);
+		return ret_hu_conv;
 	}
 
 	/**

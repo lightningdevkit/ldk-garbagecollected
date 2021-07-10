@@ -225,4 +225,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public BestBlock current_best_block() {
+		number ret = bindings.ChannelMonitor_current_best_block(this.ptr);
+		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

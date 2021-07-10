@@ -52,6 +52,9 @@ export default class MessageSendEvent extends CommonBase {
 		if (raw_val instanceof bindings.LDKMessageSendEvent.BroadcastChannelUpdate) {
 			return new BroadcastChannelUpdate(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKMessageSendEvent.SendChannelUpdate) {
+			return new SendChannelUpdate(this.ptr, raw_val);
+		}
 		if (raw_val instanceof bindings.LDKMessageSendEvent.HandleError) {
 			return new HandleError(this.ptr, raw_val);
 		}
@@ -232,6 +235,18 @@ export class BroadcastChannelUpdate extends MessageSendEvent {
 	public msg: ChannelUpdate;
 	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.BroadcastChannelUpdate) {
 		super(null, ptr);
+		const msg: number = obj.msg;
+		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
+			msg_hu_conv.ptrs_to.add(this);
+		this.msg = msg_hu_conv;
+	}
+}
+export class SendChannelUpdate extends MessageSendEvent {
+	public node_id: Uint8Array;
+	public msg: ChannelUpdate;
+	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.SendChannelUpdate) {
+		super(null, ptr);
+		this.node_id = obj.node_id;
 		const msg: number = obj.msg;
 		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 			msg_hu_conv.ptrs_to.add(this);
