@@ -29,7 +29,8 @@ public class BestBlock extends CommonBase {
 	}
 
 	/**
-	 * Returns the best block from the genesis of the given network.
+	 * Constructs a `BestBlock` that represents the genesis block at height 0 of the given
+	 * network.
 	 */
 	public static BestBlock from_genesis(Network network) {
 		long ret = bindings.BestBlock_from_genesis(network);
@@ -39,7 +40,7 @@ public class BestBlock extends CommonBase {
 	}
 
 	/**
-	 * Returns the best block as identified by the given block hash and height.
+	 * Returns a `BestBlock` as identified by the given block hash and height.
 	 */
 	public static BestBlock of(byte[] block_hash, int height) {
 		long ret = bindings.BestBlock_new(block_hash, height);

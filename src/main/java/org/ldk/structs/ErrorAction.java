@@ -25,6 +25,9 @@ public class ErrorAction extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKErrorAction.IgnoreError.class) {
 			return new IgnoreError(ptr, (bindings.LDKErrorAction.IgnoreError)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKErrorAction.IgnoreAndLog.class) {
+			return new IgnoreAndLog(ptr, (bindings.LDKErrorAction.IgnoreAndLog)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKErrorAction.SendErrorMessage.class) {
 			return new SendErrorMessage(ptr, (bindings.LDKErrorAction.SendErrorMessage)raw_val);
 		}
@@ -44,6 +47,13 @@ public class ErrorAction extends CommonBase {
 	public final static class IgnoreError extends ErrorAction {
 		private IgnoreError(long ptr, bindings.LDKErrorAction.IgnoreError obj) {
 			super(null, ptr);
+		}
+	}
+	public final static class IgnoreAndLog extends ErrorAction {
+		public final Level ignore_and_log;
+		private IgnoreAndLog(long ptr, bindings.LDKErrorAction.IgnoreAndLog obj) {
+			super(null, ptr);
+			this.ignore_and_log = obj.ignore_and_log;
 		}
 	}
 	public final static class SendErrorMessage extends ErrorAction {

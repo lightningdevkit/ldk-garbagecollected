@@ -16,13 +16,6 @@ import java.nio.channels.*;
 public class NioPeerHandler {
     private static class Peer {
         SocketDescriptor descriptor;
-        // When we are told by LDK to disconnect, we can't return to LDK until we are sure
-        // won't call any more read/write PeerManager functions with the same connection.
-        // This is set to true if we're in such a condition (with disconnect checked
-        // before with the Peer monitor lock held) and false when we can return.
-        boolean block_disconnect_socket = false;
-        // Indicates LDK told us to disconnect this peer, and thus we should not call socket_disconnected.
-        boolean disconnect_requested = false;
         SelectionKey key;
     }
 
@@ -83,22 +76,12 @@ public class NioPeerHandler {
 
             @Override
             public void disconnect_socket() {
-                synchronized (peer) {
-                    peer.disconnect_requested = true;
-                }
                 try {
                     do_selector_action(() -> {
                         peer.key.cancel();
                         peer.key.channel().close();
                     });
                 } catch (IOException ignored) { }
-                synchronized (peer) {
-                    while (peer.block_disconnect_socket) {
-                        try {
-                            peer.wait();
-                        } catch (InterruptedException ignored) { }
-                    }
-                }
             }
             @Override public boolean eq(SocketDescriptor other_arg) { return other_arg.hash() == our_id; }
             @Override public long hash() { return our_id; }
@@ -169,11 +152,6 @@ public class NioPeerHandler {
                             continue; // There is no attachment so the rest of the loop is useless
                         }
                         Peer peer = (Peer) key.attachment();
-                        synchronized (peer) {
-                            if (peer.disconnect_requested)
-                                continue;
-                            peer.block_disconnect_socket = true;
-                        }
                         try {
                             if (key.isValid() && (key.interestOps() & SelectionKey.OP_WRITE) != 0 && key.isWritable()) {
                                 Result_NonePeerHandleErrorZ res = this.peer_manager.write_buffer_space_avail(peer.descriptor);
@@ -207,10 +185,6 @@ public class NioPeerHandler {
                             try { key.channel().close(); } catch (IOException ignored2) { }
                             key.cancel();
                             peer_manager.socket_disconnected(peer.descriptor);
-                        }
-                        synchronized (peer) {
-                            peer.block_disconnect_socket = false;
-                            peer.notifyAll();
                         }
                     } catch (CancelledKeyException e) {
                         try { key.channel().close(); } catch (IOException ignored) { }

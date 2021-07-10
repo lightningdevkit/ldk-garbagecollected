@@ -20,26 +20,65 @@ public class ChannelConfig extends CommonBase {
 	}
 
 	/**
-	 * Amount (in millionths of a satoshi) the channel will charge per transferred satoshi.
+	 * Amount (in millionths of a satoshi) charged per satoshi for payments forwarded outbound
+	 * over the channel.
 	 * This may be allowed to change at runtime in a later update, however doing so must result in
 	 * update messages sent to notify all nodes of our updated relay fee.
 	 * 
 	 * Default value: 0.
 	 */
-	public int get_fee_proportional_millionths() {
-		int ret = bindings.ChannelConfig_get_fee_proportional_millionths(this.ptr);
+	public int get_forwarding_fee_proportional_millionths() {
+		int ret = bindings.ChannelConfig_get_forwarding_fee_proportional_millionths(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * Amount (in millionths of a satoshi) the channel will charge per transferred satoshi.
+	 * Amount (in millionths of a satoshi) charged per satoshi for payments forwarded outbound
+	 * over the channel.
 	 * This may be allowed to change at runtime in a later update, however doing so must result in
 	 * update messages sent to notify all nodes of our updated relay fee.
 	 * 
 	 * Default value: 0.
 	 */
-	public void set_fee_proportional_millionths(int val) {
-		bindings.ChannelConfig_set_fee_proportional_millionths(this.ptr, val);
+	public void set_forwarding_fee_proportional_millionths(int val) {
+		bindings.ChannelConfig_set_forwarding_fee_proportional_millionths(this.ptr, val);
+	}
+
+	/**
+	 * Amount (in milli-satoshi) charged for payments forwarded outbound over the channel, in
+	 * excess of [`forwarding_fee_proportional_millionths`].
+	 * This may be allowed to change at runtime in a later update, however doing so must result in
+	 * update messages sent to notify all nodes of our updated relay fee.
+	 * 
+	 * The default value of a single satoshi roughly matches the market rate on many routing nodes
+	 * as of July 2021. Adjusting it upwards or downwards may change whether nodes route through
+	 * this node.
+	 * 
+	 * Default value: 1000.
+	 * 
+	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
+	 */
+	public int get_forwarding_fee_base_msat() {
+		int ret = bindings.ChannelConfig_get_forwarding_fee_base_msat(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Amount (in milli-satoshi) charged for payments forwarded outbound over the channel, in
+	 * excess of [`forwarding_fee_proportional_millionths`].
+	 * This may be allowed to change at runtime in a later update, however doing so must result in
+	 * update messages sent to notify all nodes of our updated relay fee.
+	 * 
+	 * The default value of a single satoshi roughly matches the market rate on many routing nodes
+	 * as of July 2021. Adjusting it upwards or downwards may change whether nodes route through
+	 * this node.
+	 * 
+	 * Default value: 1000.
+	 * 
+	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
+	 */
+	public void set_forwarding_fee_base_msat(int val) {
+		bindings.ChannelConfig_set_forwarding_fee_base_msat(this.ptr, val);
 	}
 
 	/**
@@ -100,7 +139,7 @@ public class ChannelConfig extends CommonBase {
 	 * This should only be set to true for nodes which expect to be online reliably.
 	 * 
 	 * As the node which funds a channel picks this value this will only apply for new outbound
-	 * channels unless ChannelHandshakeLimits::force_announced_channel_preferences is set.
+	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
 	 * 
 	 * This cannot be changed after the initial channel handshake.
 	 * 
@@ -118,7 +157,7 @@ public class ChannelConfig extends CommonBase {
 	 * This should only be set to true for nodes which expect to be online reliably.
 	 * 
 	 * As the node which funds a channel picks this value this will only apply for new outbound
-	 * channels unless ChannelHandshakeLimits::force_announced_channel_preferences is set.
+	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
 	 * 
 	 * This cannot be changed after the initial channel handshake.
 	 * 
@@ -166,8 +205,8 @@ public class ChannelConfig extends CommonBase {
 	/**
 	 * Constructs a new ChannelConfig given each field
 	 */
-	public static ChannelConfig of(int fee_proportional_millionths_arg, short cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
-		long ret = bindings.ChannelConfig_new(fee_proportional_millionths_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+	public static ChannelConfig of(int forwarding_fee_proportional_millionths_arg, int forwarding_fee_base_msat_arg, short cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
+		long ret = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

@@ -185,6 +185,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelManager_await_persistable_update(this.ptr);
 	}
 
+	public BestBlock current_best_block() {
+		number ret = bindings.ChannelManager_current_best_block(this.ptr);
+		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 	public ChannelMessageHandler as_ChannelMessageHandler() {
 		number ret = bindings.ChannelManager_as_ChannelMessageHandler(this.ptr);
 		ChannelMessageHandler ret_hu_conv = new ChannelMessageHandler(null, ret);

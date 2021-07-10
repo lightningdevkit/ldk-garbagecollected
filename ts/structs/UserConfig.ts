@@ -54,8 +54,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(val);
 	}
 
-	public static UserConfig constructor_new(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg) {
-		number ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1);
+	public boolean get_accept_forwards_to_priv_channels() {
+		boolean ret = bindings.UserConfig_get_accept_forwards_to_priv_channels(this.ptr);
+		return ret;
+	}
+
+	public void set_accept_forwards_to_priv_channels(boolean val) {
+		bindings.UserConfig_set_accept_forwards_to_priv_channels(this.ptr, val);
+	}
+
+	public static UserConfig constructor_new(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg, boolean accept_forwards_to_priv_channels_arg) {
+		number ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1, accept_forwards_to_priv_channels_arg);
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(own_channel_config_arg);

@@ -105,6 +105,10 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Raises APIError::APIMisuseError when channel_value_satoshis > 2**24 or push_msat is
 	 * greater than channel_value_satoshis * 1k or channel_value_satoshis is < 1000.
+	 * 
+	 * Note that we do not check if you are currently connected to the given peer. If no
+	 * connection is available, the outbound `open_channel` message may fail to send, resulting in
+	 * the channel eventually being silently forgotten.
 	 */
 	public Result_NoneAPIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, long user_id, UserConfig override_config) {
 		long ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_id, override_config == null ? 0 : override_config.ptr & ~1);
@@ -515,6 +519,17 @@ public class ChannelManager extends CommonBase {
 	 */
 	public void await_persistable_update() {
 		bindings.ChannelManager_await_persistable_update(this.ptr);
+	}
+
+	/**
+	 * Gets the latest best block which was connected either via the [`chain::Listen`] or
+	 * [`chain::Confirm`] interfaces.
+	 */
+	public BestBlock current_best_block() {
+		long ret = bindings.ChannelManager_current_best_block(this.ptr);
+		BestBlock ret_hu_conv = new BestBlock(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	/**

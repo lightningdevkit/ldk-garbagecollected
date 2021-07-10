@@ -16,6 +16,9 @@ export default class ErrorAction extends CommonBase {
 		if (raw_val instanceof bindings.LDKErrorAction.IgnoreError) {
 			return new IgnoreError(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKErrorAction.IgnoreAndLog) {
+			return new IgnoreAndLog(this.ptr, raw_val);
+		}
 		if (raw_val instanceof bindings.LDKErrorAction.SendErrorMessage) {
 			return new SendErrorMessage(this.ptr, raw_val);
 		}
@@ -36,6 +39,13 @@ export class DisconnectPeer extends ErrorAction {
 export class IgnoreError extends ErrorAction {
 	private constructor(ptr: number, obj: bindings.LDKErrorAction.IgnoreError) {
 		super(null, ptr);
+	}
+}
+export class IgnoreAndLog extends ErrorAction {
+	public ignore_and_log: Level;
+	private constructor(ptr: number, obj: bindings.LDKErrorAction.IgnoreAndLog) {
+		super(null, ptr);
+		this.ignore_and_log = obj.ignore_and_log;
 	}
 }
 export class SendErrorMessage extends ErrorAction {

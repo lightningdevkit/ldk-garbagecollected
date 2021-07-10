@@ -7,14 +7,25 @@ import java.util.Arrays;
 
 
 /**
- * A PeerManager manages a set of peers, described by their SocketDescriptor and marshalls socket
- * events into messages which it passes on to its MessageHandlers.
+ * A PeerManager manages a set of peers, described by their [`SocketDescriptor`] and marshalls
+ * socket events into messages which it passes on to its [`MessageHandler`].
+ * 
+ * Locks are taken internally, so you must never assume that reentrancy from a
+ * [`SocketDescriptor`] call back into [`PeerManager`] methods will not deadlock.
+ * 
+ * Calls to [`read_event`] will decode relevant messages and pass them to the
+ * [`ChannelMessageHandler`], likely doing message processing in-line. Thus, the primary form of
+ * parallelism in Rust-Lightning is in calls to [`read_event`]. Note, however, that calls to any
+ * [`PeerManager`] functions related to the same connection must occur only in serial, making new
+ * calls only after previous ones have returned.
  * 
  * Rather than using a plain PeerManager, it is preferable to use either a SimpleArcPeerManager
  * a SimpleRefPeerManager, for conciseness. See their documentation for more details, but
  * essentially you should default to using a SimpleRefPeerManager, and use a
  * SimpleArcPeerManager when you require a PeerManager with a static lifetime, such as when
  * you're using lightning-net-tokio.
+ * 
+ * [`read_event`]: PeerManager::read_event
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class PeerManager extends CommonBase {
@@ -59,8 +70,10 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * Returns a small number of bytes to send to the remote node (currently always 50).
 	 * 
-	 * Panics if descriptor is duplicative with some other descriptor which has not yet had a
-	 * socket_disconnected().
+	 * Panics if descriptor is duplicative with some other descriptor which has not yet been
+	 * [`socket_disconnected()`].
+	 * 
+	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
 	 */
 	public Result_CVec_u8ZPeerHandleErrorZ new_outbound_connection(byte[] their_node_id, SocketDescriptor descriptor) {
 		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, their_node_id, descriptor == null ? 0 : descriptor.ptr);
@@ -77,8 +90,10 @@ public class PeerManager extends CommonBase {
 	 * call socket_disconnected for the new descriptor but must disconnect the connection
 	 * immediately.
 	 * 
-	 * Panics if descriptor is duplicative with some other descriptor which has not yet had
-	 * socket_disconnected called.
+	 * Panics if descriptor is duplicative with some other descriptor which has not yet been
+	 * [`socket_disconnected()`].
+	 * 
+	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
 	 */
 	public Result_NonePeerHandleErrorZ new_inbound_connection(SocketDescriptor descriptor) {
 		long ret = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor == null ? 0 : descriptor.ptr);
@@ -92,12 +107,14 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * May return an Err to indicate that the connection should be closed.
 	 * 
-	 * Will most likely call send_data on the descriptor passed in (or the descriptor handed into
-	 * new_*\\_connection) before returning. Thus, be very careful with reentrancy issues! The
-	 * invariants around calling write_buffer_space_avail in case a write did not fully complete
-	 * must still hold - be ready to call write_buffer_space_avail again if a write call generated
-	 * here isn't sufficient! Panics if the descriptor was not previously registered in a
-	 * new_\\*_connection event.
+	 * May call [`send_data`] on the descriptor passed in (or an equal descriptor) before
+	 * returning. Thus, be very careful with reentrancy issues! The invariants around calling
+	 * [`write_buffer_space_avail`] in case a write did not fully complete must still hold - be
+	 * ready to call `[write_buffer_space_avail`] again if a write call generated here isn't
+	 * sufficient!
+	 * 
+	 * [`send_data`]: SocketDescriptor::send_data
+	 * [`write_buffer_space_avail`]: PeerManager::write_buffer_space_avail
 	 */
 	public Result_NonePeerHandleErrorZ write_buffer_space_avail(SocketDescriptor descriptor) {
 		long ret = bindings.PeerManager_write_buffer_space_avail(this.ptr, descriptor == null ? 0 : descriptor.ptr);
@@ -111,14 +128,16 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * May return an Err to indicate that the connection should be closed.
 	 * 
-	 * Will *not* call back into send_data on any descriptors to avoid reentrancy complexity.
-	 * Thus, however, you almost certainly want to call process_events() after any read_event to
-	 * generate send_data calls to handle responses.
+	 * Will *not* call back into [`send_data`] on any descriptors to avoid reentrancy complexity.
+	 * Thus, however, you should call [`process_events`] after any `read_event` to generate
+	 * [`send_data`] calls to handle responses.
 	 * 
-	 * If Ok(true) is returned, further read_events should not be triggered until a send_data call
-	 * on this file descriptor has resume_read set (preventing DoS issues in the send buffer).
+	 * If `Ok(true)` is returned, further read_events should not be triggered until a
+	 * [`send_data`] call on this descriptor has `resume_read` set (preventing DoS issues in the
+	 * send buffer).
 	 * 
-	 * Panics if the descriptor was not previously registered in a new_*_connection event.
+	 * [`send_data`]: SocketDescriptor::send_data
+	 * [`process_events`]: PeerManager::process_events
 	 */
 	public Result_boolPeerHandleErrorZ read_event(SocketDescriptor peer_descriptor, byte[] data) {
 		long ret = bindings.PeerManager_read_event(this.ptr, peer_descriptor == null ? 0 : peer_descriptor.ptr, data);
@@ -130,7 +149,14 @@ public class PeerManager extends CommonBase {
 	/**
 	 * Checks for any events generated by our handlers and processes them. Includes sending most
 	 * response messages as well as messages generated by calls to handler functions directly (eg
-	 * functions like ChannelManager::process_pending_htlc_forward or send_payment).
+	 * functions like [`ChannelManager::process_pending_htlc_forwards`] or [`send_payment`]).
+	 * 
+	 * May call [`send_data`] on [`SocketDescriptor`]s. Thus, be very careful with reentrancy
+	 * issues!
+	 * 
+	 * [`send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::process_pending_htlc_forwards`]: crate::ln::channelmanager::ChannelManager::process_pending_htlc_forwards
+	 * [`send_data`]: SocketDescriptor::send_data
 	 */
 	public void process_events() {
 		bindings.PeerManager_process_events(this.ptr);
@@ -138,13 +164,6 @@ public class PeerManager extends CommonBase {
 
 	/**
 	 * Indicates that the given socket descriptor's connection is now closed.
-	 * 
-	 * This must only be called if the socket has been disconnected by the peer or your own
-	 * decision to disconnect it and must NOT be called in any case where other parts of this
-	 * library (eg PeerHandleError, explicit disconnect_socket calls) instruct you to disconnect
-	 * the peer.
-	 * 
-	 * Panics if the descriptor was not previously registered in a successful new_*_connection event.
 	 */
 	public void socket_disconnected(SocketDescriptor descriptor) {
 		bindings.PeerManager_socket_disconnected(this.ptr, descriptor == null ? 0 : descriptor.ptr);
@@ -154,11 +173,13 @@ public class PeerManager extends CommonBase {
 	/**
 	 * Disconnect a peer given its node id.
 	 * 
-	 * Set no_connection_possible to true to prevent any further connection with this peer,
+	 * Set `no_connection_possible` to true to prevent any further connection with this peer,
 	 * force-closing any channels we have with it.
 	 * 
-	 * If a peer is connected, this will call `disconnect_socket` on the descriptor for the peer,
-	 * so be careful about reentrancy issues.
+	 * If a peer is connected, this will call [`disconnect_socket`] on the descriptor for the
+	 * peer. Thus, be very careful about reentrancy issues.
+	 * 
+	 * [`disconnect_socket`]: SocketDescriptor::disconnect_socket
 	 */
 	public void disconnect_by_node_id(byte[] node_id, boolean no_connection_possible) {
 		bindings.PeerManager_disconnect_by_node_id(this.ptr, node_id, no_connection_possible);
@@ -166,8 +187,13 @@ public class PeerManager extends CommonBase {
 
 	/**
 	 * This function should be called roughly once every 30 seconds.
-	 * It will send pings to each peer and disconnect those which did not respond to the last round of pings.
-	 * Will most likely call send_data on all of the registered descriptors, thus, be very careful with reentrancy issues!
+	 * It will send pings to each peer and disconnect those which did not respond to the last
+	 * round of pings.
+	 * 
+	 * May call [`send_data`] on all [`SocketDescriptor`]s. Thus, be very careful with reentrancy
+	 * issues!
+	 * 
+	 * [`send_data`]: SocketDescriptor::send_data
 	 */
 	public void timer_tick_occurred() {
 		bindings.PeerManager_timer_tick_occurred(this.ptr);

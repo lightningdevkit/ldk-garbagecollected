@@ -337,4 +337,15 @@ public class ChannelMonitor extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Gets the latest best block which was connected either via the [`chain::Listen`] or
+	 * [`chain::Confirm`] interfaces.
+	 */
+	public BestBlock current_best_block() {
+		long ret = bindings.ChannelMonitor_current_best_block(this.ptr);
+		BestBlock ret_hu_conv = new BestBlock(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }
