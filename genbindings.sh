@@ -85,15 +85,15 @@ if [ "$3" = "true" ]; then
 	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 else
 	LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
-	if [ "$IS_MAC" = "false" ]; then
+	if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 		COMPILE="$COMPILE -Wl,--version-script=libcode.version -fuse-ld=lld"
-		echo "// __cxa_thread_atexit_impl is used to more effeciently cleanup per-thread local storage by rust libstd." >> src/main/jni/bindings.c
-		echo "// However, it is not available on glibc versions 2.17 or earlier, and rust libstd has a null-check and fallback in case it is missing." >> src/main/jni/bindings.c
-		echo "// Because it is weak-linked on the rust side, we should be able to simply define it explicitly here, forcing rust to use the fallback." >> src/main/jni/bindings.c
-		echo "void *__cxa_thread_atexit_impl = NULL;" >> src/main/jni/bindings.c
-		# Note that the above is not sufficient. For some reason involving ancient dark magic and
-		# haunted code segments, overriding the weak symbol only impacts sites which *call* the
-		# symbol in question, not sites which *compare with* the symbol in question.
+		# __cxa_thread_atexit_impl is used to more effeciently cleanup per-thread local storage by rust libstd.
+		# However, it is not available on glibc versions 2.17 or earlier, and rust libstd has a null-check and
+		# fallback in case it is missing.
+		# Because it is weak-linked on the rust side, we should be able to simply define it
+		# explicitly, forcing rust to use the fallback. However, for some reason involving ancient
+		# dark magic and haunted code segments, overriding the weak symbol only impacts sites which
+		# *call* the symbol in question, not sites which *compare with* the symbol in question.
 		# This means that the NULL check in rust's libstd will always think the function is
 		# callable while the function which is called ends up being NULL (leading to a jmp to the
 		# zero page and a quick SEGFAULT).
@@ -104,6 +104,9 @@ else
 		# After exhausting nearly every flag documented in lld, the only reliable method appears
 		# to be editing the LDK binary. Luckily, LLVM's tooling makes this rather easy as we can
 		# disassemble it into very readable code, edit it, and then reassemble it.
+		# Note that if we do so we don't have to bother overriding the actual call, LLVM should
+		# optimize it away, which also provides a good check that there isn't anything actually
+		# relying on it elsewhere.
 		[ ! -f "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a ] && exit 1
 		if [ "$(ar t "$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a | grep -v "\.o$" || echo)" != "" ]; then
 			echo "Archive contained non-object files!"
@@ -125,7 +128,7 @@ else
 		LDK_LIB="tmp/libldk.bc tmp/libldk.a"
 	fi
 	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c $LDK_LIB
-	if [ "$IS_MAC" = "false" ]; then
+	if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 		GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) " || echo)"
 		if [ "$GLIBC_SYMBS" != "" ]; then
 			echo "Unexpected glibc version dependency! Some users need glibc 2.17 support, symbols for newer glibcs cannot be included."

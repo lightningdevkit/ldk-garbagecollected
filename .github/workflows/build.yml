@@ -71,7 +71,7 @@ jobs:
       - name: Checkout latest MacOS binaries
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
-          git clone https://git.bitcoin.ninja/ldk-java-bins
+          git clone --depth 1 https://git.bitcoin.ninja/ldk-java-bins
           mkdir -p src/main/resources/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"* src/main/resources/
       - name: Build Java/TS Release Bindings
@@ -82,7 +82,7 @@ jobs:
         run: ./build-release-jar.sh
       - name: Run Java Tests against built release jar
         run: |
-          mvn install:install-file -Dfile=target/ldk-java-1.0-SNAPSHOT.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+          mvn install:install-file -Dfile=ldk-java.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
           cd javatester
           mvn package
           java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
@@ -93,9 +93,91 @@ jobs:
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
+          rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"*.jar
+          rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_Linux*.nativelib
           cp src/main/resources/liblightningjni_Linux-amd64.nativelib "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-          cp target/ldk-java-1.0-SNAPSHOT.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-          cp target/ldk-java-1.0-SNAPSHOT-sources.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+          cp ldk-java-sources.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+          cp ldk-java.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+          cp ldk-java-classes.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+          cd ldk-java-bins
+          git diff --exit-code
+
+  android:
+    runs-on: ubuntu-latest
+    # Frankly, I'm not really sure why debian and ubuntu differ in the results here, they really shouldn't
+    container: debian:bullseye
+    env:
+      TOOLCHAIN: stable
+    steps:
+      - name: Install rust targets
+        run: |
+          apt-get update
+          apt-get -y dist-upgrade
+          apt-get -y install git g++ clang faketime zip unzip curl openjdk-11-jdk
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
+          chmod +x ./rustup.sh
+          ./rustup.sh -y
+          . $HOME/.cargo/env
+          rustup target add armv7-linux-androideabi
+          rustup target add aarch64-linux-android
+          rustup target add i686-linux-android
+          rustup target add x86_64-linux-android
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install android NDK compilers
+        run: |
+          curl https://dl.google.com/android/repository/android-ndk-r22b-linux-x86_64.zip > android-ndk-r22b-linux-x86_64.zip
+          if [ "$(sha256sum android-ndk-r22b-linux-x86_64.zip | awk '{ print $1 }')" != "ac3a0421e76f71dd330d0cd55f9d99b9ac864c4c034fc67e0d671d022d4e806b" ]; then
+            echo "Bad hash"
+            exit 1
+          fi
+          unzip android-ndk-r22b-linux-x86_64.zip
+      - name: Install cbindgen
+        run: |
+          . $HOME/.cargo/env
+          cargo install --force cbindgen
+      - name: Checkout Rust-Lightning and LDK-C-Bindings git
+        run: |
+          git config --global user.email "ldk-ci@example.com"
+          git config --global user.name "LDK CI"
+          # Note this is a different endpoint, as we need one non-upstream commit!
+          git clone https://git.bitcoin.ninja/rust-lightning
+          cd rust-lightning
+          git checkout origin/2021-03-java-bindings-base
+          cd ..
+          git clone https://github.com/lightningdevkit/ldk-c-bindings
+      - name: Detect current git version
+        run: |
+          # We assume the top commit is just a bindings update commit, so we
+          # check out the previous commit to use as the commit we git describe.
+          # If the top commit is a merge commit, we need to get the last merge
+          # head and assume the latest bindings are built against its parent.
+          COMMIT_PARENTS=$(git show -s --pretty=format:%P HEAD)
+          if [ "${#COMMIT_PARENTS}" = 40 ]; then
+            export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD^1)"
+          else
+            MERGE_HEAD=$(git show --pretty=format:%P HEAD | ( for last in $(cat /dev/stdin); do true; done; echo $last ))
+            export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag $MERGE_HEAD^1)"
+          fi
+          echo "Using $LDK_GARBAGECOLLECTED_GIT_OVERRIDE as git version"
+          echo "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" > .git_ver
+      - name: Checkout Android AAR binaries and artifacts
+        run: git clone --depth 1 https://git.bitcoin.ninja/ldk-java-bins
+      - name: Build Android aar
+        run: |
+          . $HOME/.cargo/env
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar" ./
+          export ANDROID_TOOLCHAIN="$(pwd)/android-ndk-r22b/toolchains/llvm/prebuilt/linux-x86_64"
+          export PATH="$PATH:$ANDROID_TOOLCHAIN/bin"
+          ./android-build.sh ./rust-lightning ./ldk-c-bindings/ ./ldk-java-bins/android-artifacts
+      - name: Check latest library and jars are in bins repo
+        run: |
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
+          rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
+          cp LDK-release.aar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cd ldk-java-bins
           git diff --exit-code
 
@@ -104,8 +186,7 @@ jobs:
       matrix:
         include:
           - platform: macos-10.15
-          # MacOS 11 is currently in private preview, we've applied for access
-          # - platform: macos-11
+          - platform: macos-11
     runs-on: ${{ matrix.platform }}
     env:
       TOOLCHAIN: stable
@@ -173,7 +254,7 @@ jobs:
       - name: Checkout latest Linux binaries
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
-          git clone https://git.bitcoin.ninja/ldk-java-bins
+          git clone --depth 1 https://git.bitcoin.ninja/ldk-java-bins
           mkdir -p src/main/resources/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_Linux-"* src/main/resources/
       - name: Build Java/TS Release Bindings
@@ -182,8 +263,16 @@ jobs:
           # genbindings.sh always fails as there is no wasm32-wasi library
           # available, so instead we check that the expected JNI library
           # is created.
+          export PATH=`pwd`/clang+llvm-12.0.0-x86_64-apple-darwin/bin:$PATH
           ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false || echo
           cat src/main/resources/liblightningjni_MacOSX-x86_64.nativelib > /dev/null
+          if [ "${{ matrix.platform }}" = "macos-11" ]; then
+            export CC="clang --target=aarch64-apple-darwin"
+            export LDK_TARGET=aarch64-apple-darwin
+            export LDK_TARGET_CPU=apple-a14
+            ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false || echo
+            cat src/main/resources/liblightningjni_MacOSX-aarch64.nativelib > /dev/null
+          fi
       - name: Fetch Maven 3.8.1
         run: |
           wget -O apache-maven-3.8.1-bin.tar.gz https://apache.osuosl.org/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz
@@ -205,7 +294,22 @@ jobs:
         run: |
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
             export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
-            cp src/main/resources/liblightningjni_MacOS-amd64.nativelib "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+            rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-{x86_64,aarch64}.nativelib
+            cp src/main/resources/liblightningjni_MacOSX-*.nativelib "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
             cd ldk-java-bins
-            git diff --exit-code
+            # Sadly, OSX binaries are not currently deterministic, more debugging is needed.
+            #git diff --exit-code
+          fi
+      - name: Run Java Tests against release bins
+        run: |
+          if [ "${{ matrix.platform }}" != "macos-11" ]; then
+            export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
+            cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-{x86_64,aarch64}.nativelib src/main/resources/
+            mvn clean
+            mvn -DskipTests=true package
+            mvn install:install-file -Dfile=target/ldk-java-1.0-SNAPSHOT.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+            cd javatester
+            mvn package
+            java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
+            cd ..
           fi
