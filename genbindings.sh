@@ -85,7 +85,7 @@ if [ "$3" = "true" ]; then
 	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 else
 	LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
-	if [ "$IS_MAC" = "false" ]; then
+	if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 		COMPILE="$COMPILE -Wl,--version-script=libcode.version -fuse-ld=lld"
 		# __cxa_thread_atexit_impl is used to more effeciently cleanup per-thread local storage by rust libstd.
 		# However, it is not available on glibc versions 2.17 or earlier, and rust libstd has a null-check and
@@ -128,7 +128,7 @@ else
 		LDK_LIB="tmp/libldk.bc tmp/libldk.a"
 	fi
 	$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c $LDK_LIB
-	if [ "$IS_MAC" = "false" ]; then
+	if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 		GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) " || echo)"
 		if [ "$GLIBC_SYMBS" != "" ]; then
 			echo "Unexpected glibc version dependency! Some users need glibc 2.17 support, symbols for newer glibcs cannot be included."

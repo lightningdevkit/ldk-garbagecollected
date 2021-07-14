@@ -19,10 +19,9 @@ cd ziptmp
 unzip ../target/ldk-java-1.0-SNAPSHOT-sources.jar | grep inflating | awk '{ print $2 }' | sort > ../sources-zip-files.txt
 sed -i 's/#Fri Jan 01 00:.* UTC 2021/#Fri Jan 01 00:00:00 UTC 2021/' META-INF/maven/org.ldk/ldk-java/pom.properties
 touch -d "2021-01-01 00:00 UTC" $(cat ../sources-zip-files.txt)
-cat ../sources-zip-files.txt | zip -X@ ../ldk-java-1.0-SNAPSHOT-sources-deterministic.jar
+cat ../sources-zip-files.txt | zip -X@ ../ldk-java-sources.jar
 cd ..
 rm -r ziptmp
-mv ldk-java-1.0-SNAPSHOT-sources-deterministic.jar target/ldk-java-1.0-SNAPSHOT-sources.jar
 
 mkdir ziptmp
 cd ziptmp
@@ -30,7 +29,7 @@ unzip ../target/ldk-java-1.0-SNAPSHOT.jar | grep inflating | awk '{ print $2 }' 
 sed -i 's/#Fri Jan 01 00:.* UTC 2021/#Fri Jan 01 00:00:00 UTC 2021/' META-INF/maven/org.ldk/ldk-java/pom.properties
 sed -i 's/Built-By: .*/Built-By: ldk-deterministic-builds/' META-INF/MANIFEST.MF
 touch -d "2021-01-01 00:00 UTC" $(cat ../classes-zip-files.txt)
-cat ../classes-zip-files.txt | zip -X@ ../ldk-java-1.0-SNAPSHOT-deterministic.jar
+cat ../classes-zip-files.txt | zip -X@ ../ldk-java.jar
+cat ../classes-zip-files.txt | grep -v nativelib | zip -X@ ../ldk-java-classes.jar
 cd ..
 rm -r ziptmp
-mv ldk-java-1.0-SNAPSHOT-deterministic.jar target/ldk-java-1.0-SNAPSHOT.jar
