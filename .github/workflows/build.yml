@@ -104,8 +104,7 @@ jobs:
       matrix:
         include:
           - platform: macos-10.15
-          # MacOS 11 is currently in private preview, we've applied for access
-          # - platform: macos-11
+          - platform: macos-11
     runs-on: ${{ matrix.platform }}
     env:
       TOOLCHAIN: stable
@@ -182,8 +181,16 @@ jobs:
           # genbindings.sh always fails as there is no wasm32-wasi library
           # available, so instead we check that the expected JNI library
           # is created.
+          export PATH=`pwd`/clang+llvm-12.0.0-x86_64-apple-darwin/bin:$PATH
           ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false || echo
           cat src/main/resources/liblightningjni_MacOSX-x86_64.nativelib > /dev/null
+          if [ "${{ matrix.platform }}" = "macos-11" ]; then
+            export CC="clang --target=aarch64-apple-darwin"
+            export LDK_TARGET=aarch64-apple-darwin
+            export LDK_TARGET_CPU=apple-a14
+            ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false || echo
+            cat src/main/resources/liblightningjni_MacOSX-aarch64.nativelib > /dev/null
+          fi
       - name: Fetch Maven 3.8.1
         run: |
           wget -O apache-maven-3.8.1-bin.tar.gz https://apache.osuosl.org/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz
@@ -205,7 +212,22 @@ jobs:
         run: |
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
             export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
-            cp src/main/resources/liblightningjni_MacOS-amd64.nativelib "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+            rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-{x86_64,aarch64}.nativelib
+            cp src/main/resources/liblightningjni_MacOSX-*.nativelib "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
             cd ldk-java-bins
-            git diff --exit-code
+            # Sadly, OSX binaries are not currently deterministic, more debugging is needed.
+            #git diff --exit-code
+          fi
+      - name: Run Java Tests against release bins
+        run: |
+          if [ "${{ matrix.platform }}" != "macos-11" ]; then
+            export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
+            cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-{x86_64,aarch64}.nativelib src/main/resources/
+            mvn clean
+            mvn -DskipTests=true package
+            mvn install:install-file -Dfile=target/ldk-java-1.0-SNAPSHOT.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+            cd javatester
+            mvn package
+            java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
+            cd ..
           fi
