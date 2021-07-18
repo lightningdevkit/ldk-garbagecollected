@@ -570,16 +570,20 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
             field_fns = []
             for fn_docs, fn_line in trait_fn_lines:
-                ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
-                is_const = fn_line.group(4) is not None
+                if fn_line == "cloned":
+                    ret_ty_info = type_mapping_generator.map_type("void", True, None, False, False)
+                    field_fns.append(TraitMethInfo("cloned", False, ret_ty_info, [], fn_docs))
+                else:
+                    ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
+                    is_const = fn_line.group(4) is not None
 
-                arg_tys = []
-                for idx, arg in enumerate(fn_line.group(5).split(',')):
-                    if arg == "":
-                        continue
-                    arg_conv_info = type_mapping_generator.map_type(arg, True, None, False, False)
-                    arg_tys.append(arg_conv_info)
-                field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys, fn_docs))
+                    arg_tys = []
+                    for idx, arg in enumerate(fn_line.group(5).split(',')):
+                        if arg == "":
+                            continue
+                        arg_conv_info = type_mapping_generator.map_type(arg, True, None, False, False)
+                        arg_tys.append(arg_conv_info)
+                    field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys, fn_docs))
 
             (out_java_addendum, out_java_trait_addendum, out_c_addendum) = consts.native_c_map_trait(struct_name, field_var_convs, flattened_field_var_convs, field_fns, trait_doc_comment)
             write_c(out_c_addendum)
@@ -587,9 +591,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java.write(out_java_addendum)
 
         for fn_docs, fn_line in trait_fn_lines:
+            if fn_line == "cloned":
+                continue
             # For now, just disable enabling the _call_log - we don't know how to inverse-map String
             is_log = fn_line.group(3) == "log" and struct_name == "LDKLogger"
-            if fn_line.group(3) != "free" and fn_line.group(3) != "clone" and fn_line.group(3) != "eq" and not is_log:
+            if fn_line.group(3) != "free" and fn_line.group(3) != "eq" and not is_log:
                 dummy_line = fn_line.group(2) + struct_name.replace("LDK", "") + "_" + fn_line.group(3) + " " + struct_name + " *NONNULL_PTR this_arg" + fn_line.group(5) + "\n"
                 map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(this_arg_conv->" + fn_line.group(3) + ")(this_arg_conv->this_arg", fn_docs)
         for idx, var_line in enumerate(field_var_lines):
@@ -750,8 +756,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     line_indicates_trait_regex = re.compile("^   (struct |enum |union )?([A-Za-z_0-9]* \*?)\(\*([A-Za-z_0-9]*)\)\((const )?void \*this_arg(.*)\);$")
     assert(line_indicates_trait_regex.match("   uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);"))
     assert(line_indicates_trait_regex.match("   struct LDKCVec_MessageSendEventZ (*get_and_clear_pending_msg_events)(const void *this_arg);"))
-    assert(line_indicates_trait_regex.match("   void *(*clone)(const void *this_arg);"))
     assert(line_indicates_trait_regex.match("   struct LDKCVec_u8Z (*write)(const void *this_arg);"))
+    line_indicates_trait_clone_regex = re.compile("^   void \(\*cloned\)\(struct ([A-Za-z0-9])* \*NONNULL_PTR new_[A-Za-z0-9]*\);$")
+    assert(line_indicates_trait_clone_regex.match("   void (*cloned)(struct LDKSign *NONNULL_PTR new_Sign);"))
     line_field_var_regex = re.compile("^   struct ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
     assert(line_field_var_regex.match("   struct LDKMessageSendEventsProvider MessageSendEventsProvider;"))
     assert(line_field_var_regex.match("   struct LDKChannelPublicKeys pubkeys;"))
@@ -817,6 +824,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         trait_fn_match = line_indicates_trait_regex.match(struct_line)
                         if trait_fn_match is not None:
                             trait_fn_lines.append((last_struct_block_comment, trait_fn_match))
+                        trait_clone_fn_match = line_indicates_trait_clone_regex.match(struct_line)
+                        if trait_clone_fn_match is not None:
+                            trait_fn_lines.append((last_struct_block_comment, "cloned"))
                         field_var_match = line_field_var_regex.match(struct_line)
                         if field_var_match is not None:
                             field_var_lines.append(field_var_match)
