@@ -46,16 +46,16 @@ class HumanObjectPeerTestInstance {
                 @Override
                 public Sign get_channel_signer(boolean inbound, long channel_value_satoshis) {
                     Sign underlying_ck = underlying_if.get_channel_signer(inbound, channel_value_satoshis);
-                    // TODO: Expose the underlying signer from a Sign
-                    /*BaseSign.BaseSignInterface si = new BaseSign.BaseSignInterface() {
+                    BaseSign underlying_base = underlying_ck.get_base_sign();
+                    BaseSign.BaseSignInterface bsi = new BaseSign.BaseSignInterface() {
                         @Override
                         public byte[] get_per_commitment_point(long idx) {
-                            return underlying_ck.get_per_commitment_point(idx);
+                            return underlying_base.get_per_commitment_point(idx);
                         }
 
                         @Override
                         public byte[] release_commitment_secret(long idx) {
-                            return underlying_ck.release_commitment_secret(idx);
+                            return underlying_base.release_commitment_secret(idx);
                         }
 
                         @Override
@@ -65,50 +65,57 @@ class HumanObjectPeerTestInstance {
 
                         @Override
                         public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
-                            return underlying_ck.sign_counterparty_commitment(commitment_tx);
+                            return underlying_base.sign_counterparty_commitment(commitment_tx);
                         }
 
                         @Override
                         public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction holder_commitment_tx) {
-                            return underlying_ck.sign_holder_commitment_and_htlcs(holder_commitment_tx);
+                            return underlying_base.sign_holder_commitment_and_htlcs(holder_commitment_tx);
                         }
 
                         @Override
-                        public Result_SignatureNoneZ sign_justice_transaction(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
-                            return underlying_ck.sign_justice_transaction(justice_tx, input, amount, per_commitment_key, htlc);
+                        public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
+                            return underlying_base.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
+                        }
+
+                        @Override
+                        public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
+                            return underlying_base.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc);
                         }
 
                         @Override
                         public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
-                            return underlying_ck.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc);
+                            return underlying_base.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc);
                         }
 
                         @Override
                         public Result_SignatureNoneZ sign_closing_transaction(byte[] closing_tx) {
-                            return underlying_ck.sign_closing_transaction(closing_tx);
+                            return underlying_base.sign_closing_transaction(closing_tx);
                         }
 
                         @Override
                         public Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
-                            return underlying_ck.sign_channel_announcement(msg);
+                            return underlying_base.sign_channel_announcement(msg);
                         }
 
                         @Override
                         public void ready_channel(ChannelTransactionParameters params) {
-                            underlying_ck.ready_channel(params);
+                            underlying_base.ready_channel(params);
                         }
-
+                    };
+                    Sign.SignInterface si = new Sign.SignInterface() {
                         @Override
                         public byte[] write() {
                             return underlying_ck.write();
                         }
-                    };*/
-                    //Sign resp = Sign.new_impl(si, underlying_ck.get_pubkeys());
-                    //must_free_objs.add(new WeakReference<>(si));
-                    //must_free_objs.add(new WeakReference<>(resp));
+                    };
+                    Sign resp = Sign.new_impl(si, bsi, underlying_base.get_pubkeys());
+                    must_free_objs.add(new WeakReference<>(si));
+                    must_free_objs.add(new WeakReference<>(bsi));
+                    must_free_objs.add(new WeakReference<>(resp));
+                    must_free_objs.add(new WeakReference<>(underlying_base));
                     must_free_objs.add(new WeakReference<>(underlying_ck));
-                    //return resp;
-                    return underlying_ck;
+                    return resp;
                 }
 
                 @Override
