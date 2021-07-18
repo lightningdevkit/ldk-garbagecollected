@@ -167,6 +167,16 @@ public class PeerTest {
         list.add(thread);
     }
 
+    void deliver_peer_messages(ConcurrentLinkedQueue<Thread> list, long peer1, long peer2) throws InterruptedException {
+        bindings.PeerManager_process_events(peer1);
+        bindings.PeerManager_process_events(peer2);
+        while (!list.isEmpty()) {
+            list.poll().join();
+            bindings.PeerManager_process_events(peer1);
+            bindings.PeerManager_process_events(peer2);
+        }
+    }
+
     @Test
     void test_message_handler() throws InterruptedException {
         Peer peer1 = new Peer((byte) 1);
@@ -210,16 +220,13 @@ public class PeerTest {
         do_read_event(list, peer2.peer_manager, descriptor2, bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(init_vec));
         bindings.CResult_CVec_u8ZPeerHandleErrorZ_free(init_vec);
 
-        while (!list.isEmpty()) { list.poll().join(); }
+        deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, peer2.node_id, 10000, 1000, 42, 0);
         assert bindings.LDKCResult_NoneAPIErrorZ_result_ok(cc_res);
         bindings.CResult_NoneAPIErrorZ_free(cc_res);
 
-        bindings.PeerManager_process_events(peer1.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
-        bindings.PeerManager_process_events(peer2.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
+        deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         ArrayList<Long> events = new ArrayList();
         long handler = bindings.LDKEventHandler_new(events::add);
@@ -242,10 +249,7 @@ public class PeerTest {
         funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
         bindings.ChannelManager_funding_transaction_generated(peer1.chan_manager, chan_id, funding.bitcoinSerialize());
 
-        bindings.PeerManager_process_events(peer1.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
-        bindings.PeerManager_process_events(peer2.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
+        deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         Block b = new Block(NetworkParameters.fromID(NetworkParameters.ID_MAINNET), 2, Sha256Hash.ZERO_HASH, Sha256Hash.ZERO_HASH, 42, 0, 0, Arrays.asList(new Transaction[]{funding}));
         peer1.connect_block(b, funding, 1);
@@ -257,9 +261,7 @@ public class PeerTest {
             peer2.connect_block(b, null, height);
         }
 
-        bindings.PeerManager_process_events(peer1.peer_manager);
-        bindings.PeerManager_process_events(peer2.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
+        deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         long[] peer1_chans = bindings.ChannelManager_list_channels(peer1.chan_manager);
         long[] peer2_chans = bindings.ChannelManager_list_channels(peer2.chan_manager);
@@ -287,12 +289,7 @@ public class PeerTest {
         assert bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(payment_res);
         bindings.CResult_NonePaymentSendFailureZ_free(payment_res);
 
-        bindings.PeerManager_process_events(peer1.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
-        bindings.PeerManager_process_events(peer2.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
-        bindings.PeerManager_process_events(peer1.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
+        deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         bindings.EventsProvider_process_pending_events(peer2.chan_manager_events, handler);
         assert events.size() == 1;
@@ -308,10 +305,7 @@ public class PeerTest {
         assert bindings.ChannelManager_claim_funds(peer2.chan_manager, ((bindings.LDKEvent.PaymentReceived) payment_recvd).payment_preimage);
         bindings.Event_free(events.remove(0));
 
-        bindings.PeerManager_process_events(peer2.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
-        bindings.PeerManager_process_events(peer1.peer_manager);
-        while (!list.isEmpty()) { list.poll().join(); }
+        deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         bindings.EventsProvider_process_pending_events(peer1.chan_manager_events, handler);
         assert events.size() == 1;
