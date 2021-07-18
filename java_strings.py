@@ -958,6 +958,28 @@ import java.util.Arrays;
         out_c = out_c + "\treturn (uint64_t)res_ptr;\n"
         out_c = out_c + "}\n"
 
+        for var in flattened_field_vars:
+            if not isinstance(var, ConvInfo):
+                out_java_trait += "\n\t/**\n"
+                out_java_trait += "\t * Gets the underlying " + var[1] + ".\n"
+                out_java_trait += "\t */\n"
+                underscore_name = ''.join('_' + c.lower() if c.isupper() else c for c in var[1]).strip('_')
+                out_java_trait += "\tpublic " + var[1] + " get_" + underscore_name + "() {\n"
+                out_java_trait += "\t\t" + var[1] + " res = new " + var[1] + "(null, bindings." + struct_name + "_get_" + var[1] + "(this.ptr));\n"
+                out_java_trait += "\t\tthis.ptrs_to.add(res);\n"
+                out_java_trait += "\t\treturn res;\n"
+                out_java_trait += "\t}\n"
+                out_java_trait += "\n"
+
+                out_java += "\tpublic static native long " + struct_name + "_get_" + var[1] + "(long arg);\n"
+
+                out_c += "JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_" + struct_name + "_1get_1" + var[1] + "(JNIEnv *env, jclass clz, int64_t arg) {\n"
+                out_c += "\t" + struct_name + " *inp = (" + struct_name + " *)(arg & ~1);\n"
+                out_c += "\tuint64_t res_ptr = (uint64_t)&inp->" + var[1] + ";\n"
+                out_c += "\tDO_ASSERT((res_ptr & 1) == 0);\n"
+                out_c += "\treturn (int64_t)(res_ptr | 1);\n"
+                out_c += "}\n"
+
         return (out_java, out_java_trait, out_c)
 
     def trait_struct_inc_refcnt(self, ty_info):
