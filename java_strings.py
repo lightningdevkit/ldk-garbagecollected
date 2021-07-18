@@ -708,7 +708,7 @@ import java.util.Arrays;
         java_meths = []
         for fn_line in field_fns:
             java_meth_descr = "("
-            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 out_java = out_java + "\t\t " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
                 java_trait_constr = java_trait_constr + "\t\t\t@Override public " + fn_line.ret_ty_info.java_ty + " " + fn_line.fn_name + "("
                 out_java_trait += "\t\t/**\n\t\t * " + fn_line.docs.replace("\n", "\n\t\t * ") + "\n\t\t */\n"
@@ -801,7 +801,7 @@ import java.util.Arrays;
                 # We're a supertrait
                 out_c = out_c + "\t" + var[0] + "_JCalls* " + var[1] + ";\n"
         for fn in field_fns:
-            if fn.fn_name != "free" and fn.fn_name != "clone":
+            if fn.fn_name != "free" and fn.fn_name != "cloned":
                 out_c = out_c + "\tjmethodID " + fn.fn_name + "_meth;\n"
         out_c = out_c + "} " + struct_name + "_JCalls;\n"
 
@@ -817,7 +817,7 @@ import java.util.Arrays;
                 out_c = out_c + "\t}\n}\n"
 
         for idx, fn_line in enumerate(field_fns):
-            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 assert fn_line.ret_ty_info.ty_info.get_full_rust_ty()[1] == ""
                 out_c = out_c + fn_line.ret_ty_info.ty_info.get_full_rust_ty()[0] + " " + fn_line.fn_name + "_" + struct_name + "_jcall("
                 if fn_line.self_is_const:
@@ -871,15 +871,19 @@ import java.util.Arrays;
 
                 out_c = out_c + "}\n"
 
-        # Write out a clone function whether we need one or not, as we use them in moving to rust
-        out_c = out_c + "static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n"
-        out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
-        out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
+        # If we can, write out a clone function whether we need one or not, as we use them in moving to rust
+        can_clone_with_ptr = True
         for var in field_vars:
-            if not isinstance(var, ConvInfo):
-                out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
-        out_c = out_c + "\treturn (void*) this_arg;\n"
-        out_c = out_c + "}\n"
+            if isinstance(var, ConvInfo):
+                can_clone_with_ptr = False
+        if can_clone_with_ptr:
+            out_c = out_c + "static void " + struct_name + "_JCalls_cloned(" + struct_name + "* new_obj) {\n"
+            out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) new_obj->this_arg;\n"
+            out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
+            for var in field_vars:
+                if not isinstance(var, ConvInfo):
+                    out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
+            out_c = out_c + "}\n"
 
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (" + self.c_fn_args_pfx + ", jobject o"
         for var in flattened_field_vars:
@@ -897,7 +901,7 @@ import java.util.Arrays;
         out_c = out_c + "\tcalls->o = (*env)->NewWeakGlobalRef(env, o);\n"
 
         for (fn_name, java_meth_descr) in java_meths:
-            if fn_name != "free" and fn_name != "clone":
+            if fn_name != "free" and fn_name != "cloned":
                 out_c = out_c + "\tcalls->" + fn_name + "_meth = (*env)->GetMethodID(env, c, \"" + fn_name + "\", \"" + java_meth_descr + "\");\n"
                 out_c = out_c + "\tCHECK(calls->" + fn_name + "_meth != NULL);\n"
 
@@ -907,12 +911,12 @@ import java.util.Arrays;
         out_c = out_c + "\n\t" + struct_name + " ret = {\n"
         out_c = out_c + "\t\t.this_arg = (void*) calls,\n"
         for fn_line in field_fns:
-            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 out_c = out_c + "\t\t." + fn_line.fn_name + " = " + fn_line.fn_name + "_" + struct_name + "_jcall,\n"
             elif fn_line.fn_name == "free":
                 out_c = out_c + "\t\t.free = " + struct_name + "_JCalls_free,\n"
             else:
-                out_c = out_c + "\t\t.clone = " + struct_name + "_JCalls_clone,\n"
+                out_c = out_c + "\t\t.cloned = " + struct_name + "_JCalls_cloned,\n"
         for var in field_vars:
             if isinstance(var, ConvInfo):
                 if var.arg_conv_name is not None:
@@ -959,7 +963,7 @@ import java.util.Arrays;
     def trait_struct_inc_refcnt(self, ty_info):
         base_conv = "\nif (" + ty_info.var_name + "_conv.free == " + ty_info.rust_obj + "_JCalls_free) {\n"
         base_conv = base_conv + "\t// If this_arg is a JCalls struct, then we need to increment the refcnt in it.\n"
-        base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_clone(" + ty_info.var_name + "_conv.this_arg);\n}"
+        base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_cloned(&" + ty_info.var_name + "_conv);\n}"
         return base_conv
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake, enum_doc_comment):
