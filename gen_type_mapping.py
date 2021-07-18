@@ -183,10 +183,13 @@ class TypeMappingGenerator:
                     ret_conv_name = ty_info.var_name + "_conv",
                     to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
             else:
+                free_str = ""
+                if not holds_ref:
+                    free_str = "\nStr_free(" + ty_info.var_name + "_str);"
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
                     ret_conv = ("LDKStr " + ty_info.var_name + "_str = ",
-                        ";\njstring " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_native_call(ty_info.var_name + "_str." + ty_info.arr_access, ty_info.var_name + "_str." + ty_info.arr_len) + ";"),
+                        ";\njstring " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_native_call(ty_info.var_name + "_str." + ty_info.arr_access, ty_info.var_name + "_str." + ty_info.arr_len) + ";" + free_str),
                     ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
         elif ty_info.var_name == "" and not print_void:
             # We don't have a parameter name, and want one, just call it arg
