@@ -106,7 +106,7 @@ import java.util.LinkedList;
 class CommonBase {
 	long ptr;
 	LinkedList<Object> ptrs_to = new LinkedList();
-	protected CommonBase(long ptr) { this.ptr = ptr; }
+	protected CommonBase(long ptr) { assert ptr > 1024; this.ptr = ptr; }
 }
 """
 
@@ -1226,6 +1226,9 @@ import java.util.Arrays;
                 else:
                     out_java_struct += (info.arg_name)
             out_java_struct += (");\n")
+            if return_type_info.java_ty == "long" and return_type_info.java_hu_ty != "long":
+                out_java_struct += "\t\tif (ret < 1024) { return null; }\n"
+
             if return_type_info.to_hu_conv is not None:
                 if not takes_self:
                     out_java_struct += ("\t\t" + return_type_info.to_hu_conv.replace("\n", "\n\t\t").replace("this",
