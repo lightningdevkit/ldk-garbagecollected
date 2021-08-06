@@ -615,6 +615,10 @@ class HumanObjectPeerTestInstance {
         Result_NoneAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, 42, null);
         assert cc_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
 
+        // Previously, this was a SEGFAULT instead of get_funding_txo() returning null.
+        ChannelDetails pre_funding_chan = peer1.chan_manager.list_channels()[0];
+        assert pre_funding_chan.get_funding_txo() == null;
+
         Event[] events = peer1.get_manager_events(1, peer1, peer2);
         assert events[0] instanceof Event.FundingGenerationReady;
         assert ((Event.FundingGenerationReady) events[0]).channel_value_satoshis == 100000;
