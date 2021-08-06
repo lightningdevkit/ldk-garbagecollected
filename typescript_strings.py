@@ -848,7 +848,7 @@ const decodeString = (stringPointer, free = true) => {
             init_meth_params = ""
             init_meth_body = ""
             hu_conv_body = ""
-            for idx, field_ty in enumerate(var.fields):
+            for idx, (field_ty, field_docs) in enumerate(var.fields):
                 out_java += ("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
                 java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
                 if field_ty.to_hu_conv is not None:
@@ -881,7 +881,7 @@ const decodeString = (stringPointer, free = true) => {
         for var in variant_list:
             out_c += ("\t\tcase " + struct_name + "_" + var.var_name + ": {\n")
             c_params = []
-            for idx, field_map in enumerate(var.fields):
+            for idx, (field_map, _) in enumerate(var.fields):
                 if field_map.ret_conv is not None:
                     out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
                     if var.tuple_variant:

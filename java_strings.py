@@ -1024,7 +1024,7 @@ import javax.annotation.Nullable;
             init_meth_params = ""
             init_meth_body = ""
             hu_conv_body = ""
-            for idx, field_ty in enumerate(var.fields):
+            for idx, (field_ty, field_docs) in enumerate(var.fields):
                 if idx > 0:
                     init_meth_params = init_meth_params + ", "
 
@@ -1035,7 +1035,12 @@ import javax.annotation.Nullable;
                     init_meth_params = init_meth_params + field_path + " " + field_ty.arg_name
                 else:
                     out_java += "\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n"
-                    java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
+                    if field_docs is not None:
+                        java_hu_subclasses += "\t\t/**\n\t\t * " + field_docs.replace("\n", "\n\t\t * ") + "\n\t\t*/\n"
+                    java_hu_subclasses += "\t\t"
+                    if field_ty.nullable:
+                        java_hu_subclasses += "@Nullable "
+                    java_hu_subclasses += "public final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
                     init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
                 init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
                 if field_ty.to_hu_conv is not None:
@@ -1069,7 +1074,7 @@ import javax.annotation.Nullable;
         for var in variant_list:
             out_c += ("\t\tcase " + struct_name + "_" + var.var_name + ": {\n")
             c_params = []
-            for idx, field_map in enumerate(var.fields):
+            for idx, (field_map, field_docs) in enumerate(var.fields):
                 if field_map.ret_conv is not None:
                     out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
                     if var.tuple_variant:

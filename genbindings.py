@@ -70,6 +70,14 @@ def camel_to_snake(s):
             lastund = True
     return (ret + lastchar.lower()).strip("_")
 
+def doc_to_field_nullable(doc):
+    if doc is None:
+        return False
+    for line in doc.splitlines():
+        if "Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None" in line:
+            return True
+    return False
+
 def doc_to_params_ret_nullable(doc):
     if doc is None:
         return (set(), False)
@@ -523,7 +531,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         assert struct_name.startswith("LDK")
         with open(f"{sys.argv[3]}/enums/{struct_name[3:]}{consts.file_ext}", "w") as out_java_enum:
             unitary_enums.add(struct_name)
-            for idx, struct_line in enumerate(field_lines):
+            for idx, (struct_line, _) in enumerate(field_lines):
                 if idx == 0:
                     assert(struct_line == "typedef enum %s {" % struct_name)
                 elif idx == len(field_lines) - 3:
@@ -533,7 +541,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 elif idx == len(field_lines) - 1:
                     assert(struct_line == "")
             assert struct_name.startswith("LDK")
-            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [x.strip().strip(",") for x in field_lines[1:-3]], enum_doc_comment)
+            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [x.strip().strip(",") for x, _ in field_lines[1:-3]], enum_doc_comment)
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
@@ -544,7 +552,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
         enum_variants = []
         tag_field_lines = union_enum_items["field_lines"]
-        for idx, struct_line in enumerate(tag_field_lines):
+        for idx, (struct_line, _) in enumerate(tag_field_lines):
             if idx == 0:
                 assert(struct_line == "typedef enum %s_Tag {" % struct_name)
             elif idx == len(tag_field_lines) - 3:
@@ -558,12 +566,17 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 fields = []
                 if "LDK" + variant_name in union_enum_items:
                     enum_var_lines = union_enum_items["LDK" + variant_name]
-                    for idx, field in enumerate(enum_var_lines):
+                    for idx, (field, field_docs) in enumerate(enum_var_lines):
                         if idx != 0 and idx < len(enum_var_lines) - 2 and field.strip() != "":
-                            fields.append(type_mapping_generator.map_type(field.strip(' ;'), False, None, False, True))
+                            field_ty = type_mapping_generator.map_type(field.strip(' ;'), False, None, False, True)
+                            if field_docs is not None and doc_to_field_nullable(field_docs):
+                                field_ty.nullable = True
+                            fields.append((field_ty, field_docs))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, False))
                 elif camel_to_snake(variant_name) in inline_enum_variants:
-                    fields.append(type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True))
+                    # TODO: If we ever have a rust enum Variant(Option<Struct>) we need to pipe
+                    # docs through to there, and then potentially mark the field nullable.
+                    fields.append((type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True), None))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
                 else:
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
@@ -728,7 +741,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         out_java.write("\tpublic static native long " + struct_name + "_new(")
         write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_new", len(field_lines) > 3))
         ty_list = []
-        for idx, line in enumerate(field_lines):
+        for idx, (line, _) in enumerate(field_lines):
             if idx != 0 and idx < len(field_lines) - 2:
                 ty_info = java_c_types(line.strip(';'), None)
                 if idx != 1:
@@ -742,7 +755,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         out_java.write(");\n")
         write_c(") {\n")
         write_c("\t" + struct_name + "* ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-        for idx, line in enumerate(field_lines):
+        for idx, (line, _) in enumerate(field_lines):
             if idx != 0 and idx < len(field_lines) - 2:
                 ty_info = type_mapping_generator.map_type(line.strip(';'), False, None, False, False)
                 e = chr(ord('a') + idx - 1)
@@ -820,6 +833,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 is_tuple = False
                 trait_fn_lines = []
                 field_var_lines = []
+                last_struct_block_comment = None
 
                 for idx, struct_line in enumerate(obj_lines):
                     if struct_line.strip().startswith("/*"):
@@ -860,7 +874,8 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         field_var_match = line_field_var_regex.match(struct_line)
                         if field_var_match is not None:
                             field_var_lines.append(field_var_match)
-                        field_lines.append(struct_line)
+                        field_lines.append((struct_line, last_struct_block_comment))
+                        last_struct_block_comment = None
 
                 assert(struct_name is not None)
                 assert(len(trait_fn_lines) == 0 or not (is_opaque or is_unitary_enum or is_union_enum or is_union or result_contents is not None or vec_ty is not None))
@@ -882,7 +897,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     res_ty, err_ty = result_ptr_struct_items[result_contents]
                     map_result(struct_name, res_ty, err_ty)
                 elif struct_name.startswith("LDKCResult_") and struct_name.endswith("ZPtr"):
-                    for line in field_lines:
+                    for line, _ in field_lines:
                         if line.endswith("*result;"):
                             res_ty = line[:-8].strip()
                         elif line.endswith("*err;"):
@@ -944,7 +959,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 elif struct_name in union_enum_items:
                     tuple_variants = {}
                     elem_items = -1
-                    for line in field_lines:
+                    for line, _ in field_lines:
                         if line == "      struct {":
                             elem_items = 0
                         elif line == "      };":
