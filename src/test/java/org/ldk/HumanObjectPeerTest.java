@@ -612,12 +612,12 @@ class HumanObjectPeerTestInstance {
 
         connect_peers(peer1, peer2);
 
-        Result_NoneAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 10000, 1000, 42, null);
+        Result_NoneAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, 42, null);
         assert cc_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
 
         Event[] events = peer1.get_manager_events(1, peer1, peer2);
         assert events[0] instanceof Event.FundingGenerationReady;
-        assert ((Event.FundingGenerationReady) events[0]).channel_value_satoshis == 10000;
+        assert ((Event.FundingGenerationReady) events[0]).channel_value_satoshis == 100000;
         assert ((Event.FundingGenerationReady) events[0]).user_channel_id == 42;
         byte[] funding_spk = ((Event.FundingGenerationReady) events[0]).output_script;
         assert funding_spk.length == 34 && funding_spk[0] == 0 && funding_spk[1] == 32; // P2WSH
@@ -629,7 +629,7 @@ class HumanObjectPeerTestInstance {
         funding.addInput(new TransactionInput(bitcoinj_net, funding, new byte[0]));
         funding.getInputs().get(0).setWitness(new TransactionWitness(2)); // Make sure we don't complain about lack of witness
         funding.getInput(0).getWitness().setPush(0, new byte[]{0x1});
-        funding.addOutput(Coin.SATOSHI.multiply(10000), new Script(funding_spk));
+        funding.addOutput(Coin.SATOSHI.multiply(100000), new Script(funding_spk));
         Result_NoneAPIErrorZ funding_res = peer1.chan_manager.funding_transaction_generated(chan_id, funding.bitcoinSerialize());
         assert funding_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
 
@@ -662,7 +662,7 @@ class HumanObjectPeerTestInstance {
         ChannelDetails[] peer2_chans = peer2.chan_manager.list_usable_channels();
         assert peer1_chans.length == 1;
         assert peer2_chans.length == 1;
-        assert peer1_chans[0].get_channel_value_satoshis() == 10000;
+        assert peer1_chans[0].get_channel_value_satoshis() == 100000;
         assert peer1_chans[0].get_is_usable();
         Option_u64Z short_chan_id = peer1_chans[0].get_short_channel_id();
         assert short_chan_id instanceof Option_u64Z.Some;
@@ -693,7 +693,7 @@ class HumanObjectPeerTestInstance {
         Route route;
         try (LockedNetworkGraph netgraph = peer1.router.read_locked_graph()) {
             NetworkGraph graph = netgraph.graph();
-            Result_RouteLightningErrorZ route_res = UtilMethods.get_route(peer1.chan_manager.get_our_node_id(), graph, peer2.node_id, invoice_features, peer1_chans, route_hints, 1000000, 42, peer1.logger);
+            Result_RouteLightningErrorZ route_res = UtilMethods.get_route(peer1.chan_manager.get_our_node_id(), graph, peer2.node_id, invoice_features, peer1_chans, route_hints, 10000000, 42, peer1.logger);
             assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
             route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
         }
@@ -827,11 +827,14 @@ class HumanObjectPeerTestInstance {
             assert broadcastable_event.length == 1;
             assert broadcastable_event[0] instanceof Event.SpendableOutputs;
             if (state.peer2.explicit_keys_manager != null) {
-                Result_TransactionNoneZ tx_res = state.peer2.explicit_keys_manager.spend_spendable_outputs(((Event.SpendableOutputs) broadcastable_event[0]).outputs, new TxOut[0], new byte[] {0x00}, 253);
+                TxOut[] additional_outputs = new TxOut[] { new TxOut(420, new byte[] { 0x42 }) };
+                Result_TransactionNoneZ tx_res = state.peer2.explicit_keys_manager.spend_spendable_outputs(((Event.SpendableOutputs) broadcastable_event[0]).outputs, additional_outputs, new byte[] {0x00}, 253);
                 assert tx_res instanceof Result_TransactionNoneZ.Result_TransactionNoneZ_OK;
                 Transaction built_tx = new Transaction(bitcoinj_net, ((Result_TransactionNoneZ.Result_TransactionNoneZ_OK) tx_res).res);
-                assert built_tx.getOutputs().size() == 1;
-                assert Arrays.equals(built_tx.getOutput(0).getScriptBytes(), new byte[]{0x00});
+                assert built_tx.getOutputs().size() == 2;
+                assert Arrays.equals(built_tx.getOutput(1).getScriptBytes(), new byte[]{0x00});
+                assert Arrays.equals(built_tx.getOutput(0).getScriptBytes(), new byte[]{0x42});
+                assert built_tx.getOutput(0).getValue().value == 420;
             }
         }
 
