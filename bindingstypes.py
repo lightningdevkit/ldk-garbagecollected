@@ -65,6 +65,8 @@ class ConvInfo:
         self.to_hu_conv = to_hu_conv
         self.to_hu_conv_name = to_hu_conv_name
         self.from_hu_conv = from_hu_conv
+        # This is set based on docstrings in various contexts:
+        self.nullable = False
 
 class TraitMethInfo:
     def __init__(self, fn_name, self_is_const, ret_ty_info, args_ty, docs):

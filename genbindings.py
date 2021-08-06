@@ -70,6 +70,21 @@ def camel_to_snake(s):
             lastund = True
     return (ret + lastchar.lower()).strip("_")
 
+def doc_to_params_ret_nullable(doc):
+    if doc is None:
+        return (set(), False)
+    params = set()
+    ret_null = False
+    for line in doc.splitlines():
+        if "may be NULL or all-0s to represent None" not in line:
+            continue
+        if "Note that the return value" in line:
+            ret_null = True
+        elif "Note that " in line:
+            param = line.split("Note that ")[1].split(" ")[0]
+            params.add(param)
+    return (params, ret_null)
+
 unitary_enums = set()
 complex_enums = set()
 opaque_structs = set()
@@ -418,6 +433,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
         return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, False)
 
+        (params_nullable, ret_nullable) = doc_to_params_ret_nullable(doc_comment)
+        if ret_nullable:
+            return_type_info.nullable = True
+
         argument_types = []
         default_constructor_args = {}
         takes_self = False
@@ -430,7 +449,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 takes_self = True
                 if argument_conversion_info.ty_info.is_ptr:
                     takes_self_ptr = True
+            elif argument_conversion_info.arg_name in params_nullable:
+                argument_conversion_info.nullable = True
             if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
+                assert not argument_conversion_info.arg_name in params_nullable
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
                     for explode_arg in constructor_fns[argument_conversion_info.rust_obj].split(','):
@@ -576,12 +598,20 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 else:
                     ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
                     is_const = fn_line.group(4) is not None
+                    (nullable_params, ret_nullable) = doc_to_params_ret_nullable(fn_docs)
+                    if ret_nullable:
+                        assert False # This isn't yet handled on the Java side
+                        ret_ty_info.nullable = True
 
                     arg_tys = []
                     for idx, arg in enumerate(fn_line.group(5).split(',')):
                         if arg == "":
                             continue
                         arg_conv_info = type_mapping_generator.map_type(arg, True, None, False, False)
+                        if arg_conv_info.arg_name in nullable_params:
+                            # Types that are actually null instead of all-0s aren't yet handled on the Java side:
+                            assert arg_conv_info.rust_obj == "LDKPublicKey"
+                            arg_conv_info.nullable = True
                         arg_tys.append(arg_conv_info)
                     field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys, fn_docs))
 

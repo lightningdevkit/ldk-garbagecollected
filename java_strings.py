@@ -96,6 +96,7 @@ public class bindings {
         self.util_fn_pfx = """package org.ldk.structs;
 import org.ldk.impl.bindings;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 import org.ldk.enums.*;
 
 public class UtilMethods {
@@ -473,6 +474,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 """
         self.c_fn_ty_pfx = "JNIEXPORT "
@@ -1137,6 +1139,8 @@ import java.util.Arrays;
             meth_n = method_name[len(struct_meth) + 1 if len(struct_meth) != 0 else 0:].strip("_")
             if doc_comment is not None:
                 out_java_struct += "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
+            if return_type_info.nullable:
+                out_java_struct += "\t@Nullable\n"
             if not takes_self:
                 if meth_n == "new":
                     out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " of("
@@ -1154,12 +1158,15 @@ import java.util.Arrays;
                     continue
                 if arg.java_ty != "void":
                     if arg.arg_name in default_constructor_args:
+                        assert not arg.nullable
                         for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
                             if explode_idx != 0:
                                 out_java_struct += (", ")
                             out_java_struct += (
                                 explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
                     else:
+                        if arg.nullable:
+                            out_java_struct += "@Nullable "
                         out_java_struct += (arg.java_hu_ty + " " + arg.arg_name)
         out_java += (");\n")
         out_c += (") {\n")
