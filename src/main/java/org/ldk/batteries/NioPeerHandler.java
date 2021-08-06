@@ -237,6 +237,15 @@ public class NioPeerHandler {
     }
 
     /**
+     * Disconnects any connections currently open with the peer with the given node id.
+     *
+     * @param their_node_id must be a valid 33-byte public key
+     */
+    public void disconnect(byte[] their_node_id) {
+        this.peer_manager.disconnect_by_node_id(their_node_id, false);
+    }
+
+    /**
      * Binds a listening socket to the given address, accepting incoming connections and handling them on the background
      * thread.
      *
