@@ -302,7 +302,9 @@ public class PeerTest {
         assert events.size() == 1;
         bindings.LDKEvent payment_recvd = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert payment_recvd instanceof bindings.LDKEvent.PaymentReceived;
-        assert bindings.ChannelManager_claim_funds(peer2.chan_manager, ((bindings.LDKEvent.PaymentReceived) payment_recvd).payment_preimage);
+        bindings.LDKPaymentPurpose purpose = bindings.LDKPaymentPurpose_ref_from_ptr(((bindings.LDKEvent.PaymentReceived) payment_recvd).purpose);
+        assert purpose instanceof bindings.LDKPaymentPurpose.InvoicePayment;
+        assert bindings.ChannelManager_claim_funds(peer2.chan_manager, ((bindings.LDKPaymentPurpose.InvoicePayment) purpose).payment_preimage);
         bindings.Event_free(events.remove(0));
 
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);

@@ -41,7 +41,7 @@ class HumanObjectPeerTestInstance {
             return KeysInterface.new_impl(new KeysInterface.KeysInterfaceInterface() {
                 @Override public byte[] get_node_secret() { return underlying_if.get_node_secret(); }
                 @Override public byte[] get_destination_script() { return underlying_if.get_destination_script(); }
-                @Override public byte[] get_shutdown_pubkey() { return underlying_if.get_shutdown_pubkey(); }
+                @Override public ShutdownScript get_shutdown_scriptpubkey() { return underlying_if.get_shutdown_scriptpubkey(); }
 
                 @Override
                 public Sign get_channel_signer(boolean inbound, long channel_value_satoshis) {
@@ -762,7 +762,8 @@ class HumanObjectPeerTestInstance {
 
         events = state.peer2.get_manager_events(1, state.peer1, state.peer2);
         assert events[0] instanceof Event.PaymentReceived;
-        byte[] payment_preimage = ((Event.PaymentReceived)events[0]).payment_preimage;
+        assert ((Event.PaymentReceived)events[0]).purpose instanceof PaymentPurpose.InvoicePayment;
+        byte[] payment_preimage = ((PaymentPurpose.InvoicePayment)((Event.PaymentReceived)events[0]).purpose).payment_preimage;
         assert !Arrays.equals(payment_preimage, new byte[32]);
         state.peer2.chan_manager.claim_funds(payment_preimage);
 
