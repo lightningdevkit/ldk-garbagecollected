@@ -515,6 +515,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
             out_java_struct.write(out_java_struct_delta)
         elif (not is_free and not method_name.endswith("_clone") and
+                not method_name.startswith("TxOut") and
                 not method_name.startswith("_") and
                 method_name != "check_platform" and method_name != "Result_read" and
                 not expected_struct in unitary_enums and
@@ -988,15 +989,39 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write("public class TxOut extends CommonBase{\n")
-                        out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
-                        out_java_struct.write("\tlong to_c_ptr() { return 0; }\n")
+                        out_java_struct.write("\t/** The script_pubkey in this output */\n")
+                        out_java_struct.write("\tpublic final byte[] script_pubkey;\n")
+                        out_java_struct.write("\t/** The value, in satoshis, of this output */\n")
+                        out_java_struct.write("\tpublic final long value;\n")
+                        out_java_struct.write("\n")
+                        out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) {\n")
+                        out_java_struct.write("\t\tsuper(ptr);\n")
+                        out_java_struct.write("\t\tthis.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);\n")
+                        out_java_struct.write("\t\tthis.value = bindings.TxOut_get_value(ptr);\n")
+                        out_java_struct.write("\t}\n")
+                        out_java_struct.write("\tpublic TxOut(long value, byte[] script_pubkey) {\n")
+                        out_java_struct.write("\t\tsuper(bindings.TxOut_new(script_pubkey, value));\n")
+                        out_java_struct.write("\t\tthis.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);\n")
+                        out_java_struct.write("\t\tthis.value = bindings.TxOut_get_value(ptr);\n")
+                        out_java_struct.write("\t}\n")
+                        out_java_struct.write("\n")
                         out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
                         out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
                         out_java_struct.write("\t\tsuper.finalize();\n")
                         out_java_struct.write("\t\tif (ptr != 0) { bindings.TxOut_free(ptr); }\n")
                         out_java_struct.write("\t}\n")
-                        # TODO: TxOut body
+                        out_java_struct.write("\n")
                         out_java_struct.write("}")
+                        fn_line = "struct LDKCVec_u8Z TxOut_get_script_pubkey (struct LDKTxOut* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn CVec_u8Z_clone(&thing->script_pubkey);")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxOut_get_script_pubkey) \((.*)\)").match(fn_line), None, None, None)
+                        fn_line = "uint64_t TxOut_get_value (struct LDKTxOut* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn thing->value;")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxOut_get_value) \((.*)\)").match(fn_line), None, None, None)
                 else:
                     pass # Everything remaining is a byte[] or some form
                 cur_block_obj = None
