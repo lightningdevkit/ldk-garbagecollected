@@ -484,6 +484,7 @@ import javax.annotation.Nullable;
         self.ptr_native_ty = "long"
         self.result_c_ty = "jclass"
         self.ptr_arr = "jobjectArray"
+        self.is_arr_some_check = ("", " != NULL")
         self.get_native_arr_len_call = ("(*env)->GetArrayLength(env, ", ")")
 
     def construct_jenv(self):

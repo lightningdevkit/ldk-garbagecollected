@@ -272,6 +272,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.ptr_native_ty = "number"
         self.result_c_ty = "uint32_t"
         self.ptr_arr = "ptrArray"
+        self.is_arr_some_check = ("", " != 0")
         self.get_native_arr_len_call = ("*((uint32_t*)", ")")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):

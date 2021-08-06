@@ -87,38 +87,45 @@ class TypeMappingGenerator:
                     ty_info.subty.requires_clone = False
                 subty = self.map_type_with_info(ty_info.subty, False, None, is_free, holds_ref)
                 arg_conv = ty_info.rust_obj + " " + arr_name + "_constr;\n"
-                arg_conv = arg_conv + arr_name + "_constr." + arr_len + " = " + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + ";\n"
-                arg_conv = arg_conv + "if (" + arr_name + "_constr." + arr_len + " > 0)\n"
+                pf = ""
+                if ty_info.is_ptr:
+                    pf = "\t"
+                    arg_conv += ty_info.rust_obj + " *" + arr_name + "_ptr = NULL;\n"
+                    arg_conv += "if (" + self.consts.is_arr_some_check[0] + arr_name + self.consts.is_arr_some_check[1] + ") {\n"
+                arg_conv += pf + arr_name + "_constr." + arr_len + " = " + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + ";\n"
+                arg_conv += pf + "if (" + arr_name + "_constr." + arr_len + " > 0)\n"
                 if subty.is_native_primitive:
                     szof = subty.c_ty
                 else:
                     szof = subty.rust_obj
-                arg_conv = arg_conv + "\t" + arr_name + "_constr." + ty_info.arr_access + " = MALLOC(" + arr_name + "_constr." + arr_len + " * sizeof(" + szof + "), \"" + ty_info.rust_obj + " Elements\");\n"
-                arg_conv = arg_conv + "else\n"
-                arg_conv = arg_conv + "\t" + arr_name + "_constr." + ty_info.arr_access + " = NULL;\n"
+                arg_conv += pf + "\t" + arr_name + "_constr." + ty_info.arr_access + " = MALLOC(" + arr_name + "_constr." + arr_len + " * sizeof(" + szof + "), \"" + ty_info.rust_obj + " Elements\");\n"
+                arg_conv += pf + "else\n"
+                arg_conv += pf + "\t" + arr_name + "_constr." + ty_info.arr_access + " = NULL;\n"
                 get_arr = self.consts.get_native_arr_contents(arr_name, "NO_DEST", arr_name + "_constr." + arr_len, ty_info, False)
                 if get_arr != None:
-                    arg_conv = arg_conv + subty.c_ty + "* " + arr_name + "_vals = " + get_arr + ";\n"
-                arg_conv = arg_conv + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_constr." + arr_len + "; " + idxc + "++) {\n"
+                    arg_conv += pf + subty.c_ty + "* " + arr_name + "_vals = " + get_arr + ";\n"
+                arg_conv += pf + "for (size_t " + idxc + " = 0; " + idxc + " < " + arr_name + "_constr." + arr_len + "; " + idxc + "++) {\n"
                 if get_arr != None:
-                    arg_conv = arg_conv + "\t" + subty.c_ty + " " + conv_name + " = " + arr_name + "_vals[" + idxc + "];"
+                    arg_conv += pf + "\t" + subty.c_ty + " " + conv_name + " = " + arr_name + "_vals[" + idxc + "];"
                     if subty.arg_conv is not None:
-                        arg_conv = arg_conv + "\n\t" + subty.arg_conv.replace("\n", "\n\t")
+                        arg_conv += "\n\t" + pf + subty.arg_conv.replace("\n", "\n\t" + pf)
                 else:
-                    arg_conv = arg_conv + "\t" + subty.c_ty + " " + conv_name + " = " + self.consts.get_native_arr_elem(arr_name, idxc, ty_info) + ";\n"
-                    arg_conv = arg_conv + "\t" + subty.arg_conv.replace("\n", "\n\t")
-                arg_conv = arg_conv + "\n\t" + arr_name + "_constr." + ty_info.arr_access + "[" + idxc + "] = " + subty.arg_conv_name + ";\n}"
+                    arg_conv += pf + "\t" + subty.c_ty + " " + conv_name + " = " + self.consts.get_native_arr_elem(arr_name, idxc, ty_info) + ";\n"
+                    arg_conv += pf + "\t" + subty.arg_conv.replace("\n", "\n\t" + pf)
+                arg_conv += "\n\t" + pf + arr_name + "_constr." + ty_info.arr_access + "[" + idxc + "] = " + subty.arg_conv_name + ";\n" + pf + "}"
                 if get_arr != None:
                     cleanup = self.consts.cleanup_native_arr_ref_contents(arr_name, arr_name + "_vals", arr_name + "_constr." + arr_len, ty_info)
                     if cleanup is not None:
-                        arg_conv = arg_conv + "\n" + cleanup + ";"
+                        arg_conv += "\n" + pf + cleanup + ";"
                 if ty_info.is_ptr:
-                    arg_conv_name = "&" + arr_name + "_constr"
+                    arg_conv_name = arr_name + "_ptr"
                 else:
                     arg_conv_name = arr_name + "_constr"
                 arg_conv_cleanup = None
                 if ty_info.is_ptr:
-                    arg_conv_cleanup = "FREE(" + arr_name + "_constr." + ty_info.arr_access + ");"
+                    arg_conv_cleanup = "if (" + arr_name + "_ptr != NULL) { FREE(" + arr_name + "_constr." + ty_info.arr_access + "); }"
+                if ty_info.is_ptr:
+                    arg_conv += "\n\t" + arr_name + "_ptr = &" + arr_name + "_constr;\n}"
 
                 ret_conv = (ty_info.rust_obj + " " + arr_name + "_var = ", "")
                 if subty.ret_conv is None:
@@ -159,11 +166,11 @@ class TypeMappingGenerator:
                 from_hu_conv = None
                 if subty.from_hu_conv is not None:
                     if subty.java_ty == "long" and subty.java_hu_ty != "long":
-                        from_hu_conv = ("Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray()", "/* TODO 2 " + subty.java_hu_ty + "  */")
+                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
                     elif subty.java_ty == "long":
-                        from_hu_conv = ("Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray()", "/* TODO 2 " + subty.java_hu_ty + "  */")
+                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
                     else:
-                        from_hu_conv = ("Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray(" + ty_info.java_ty + "::new)", "/* TODO 2 " + subty.java_hu_ty + "  */")
+                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray(" + ty_info.java_ty + "::new) : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
 
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = arg_conv_cleanup,
