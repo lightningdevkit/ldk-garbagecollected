@@ -32,6 +32,8 @@ jobs:
           git checkout origin/2021-03-java-bindings-base
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.99
       - name: Rebuild C bindings without STD for WASM
         run: |
           cd ldk-c-bindings
@@ -148,6 +150,8 @@ jobs:
           git checkout origin/2021-03-java-bindings-base
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.99
       - name: Detect current git version
         run: |
           # We assume the top commit is just a bindings update commit, so we
@@ -213,13 +217,14 @@ jobs:
         run: |
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
-          git clone https://github.com/rust-bitcoin/rust-lightning
+          # Note this is a different endpoint, as we need one non-upstream commit!
+          git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git remote add matt https://git.bitcoin.ninja/rust-lightning
-          git fetch matt
-          git merge matt/2021-03-java-bindings-base
+          git checkout origin/2021-03-java-bindings-base
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.99
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
