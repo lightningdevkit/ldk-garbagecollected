@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -116,6 +117,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public static ChannelPublicKeys of(byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_point_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg) {
 		long ret = bindings.ChannelPublicKeys_new(funding_pubkey_arg, revocation_basepoint_arg, payment_point_arg, delayed_payment_basepoint_arg, htlc_basepoint_arg);
+		if (ret < 1024) { return null; }
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -126,6 +128,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public ChannelPublicKeys clone() {
 		long ret = bindings.ChannelPublicKeys_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -144,6 +147,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public static Result_ChannelPublicKeysDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelPublicKeys_read(ser);
+		if (ret < 1024) { return null; }
 		Result_ChannelPublicKeysDecodeErrorZ ret_hu_conv = Result_ChannelPublicKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

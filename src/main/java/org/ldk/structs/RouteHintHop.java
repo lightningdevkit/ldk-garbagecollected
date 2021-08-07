@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -53,6 +54,7 @@ public class RouteHintHop extends CommonBase {
 	 */
 	public RoutingFees get_fees() {
 		long ret = bindings.RouteHintHop_get_fees(this.ptr);
+		if (ret < 1024) { return null; }
 		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -86,6 +88,7 @@ public class RouteHintHop extends CommonBase {
 	 */
 	public Option_u64Z get_htlc_minimum_msat() {
 		long ret = bindings.RouteHintHop_get_htlc_minimum_msat(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -103,6 +106,7 @@ public class RouteHintHop extends CommonBase {
 	 */
 	public Option_u64Z get_htlc_maximum_msat() {
 		long ret = bindings.RouteHintHop_get_htlc_maximum_msat(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -120,6 +124,7 @@ public class RouteHintHop extends CommonBase {
 	 */
 	public static RouteHintHop of(byte[] src_node_id_arg, long short_channel_id_arg, RoutingFees fees_arg, short cltv_expiry_delta_arg, Option_u64Z htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg) {
 		long ret = bindings.RouteHintHop_new(src_node_id_arg, short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
+		if (ret < 1024) { return null; }
 		RouteHintHop ret_hu_conv = new RouteHintHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fees_arg);
@@ -142,6 +147,7 @@ public class RouteHintHop extends CommonBase {
 	 */
 	public RouteHintHop clone() {
 		long ret = bindings.RouteHintHop_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		RouteHintHop ret_hu_conv = new RouteHintHop(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

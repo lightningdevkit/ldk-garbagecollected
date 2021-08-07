@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * The `Filter` trait defines behavior for indicating chain activity of interest pertaining to
@@ -98,6 +99,7 @@ public class Filter extends CommonBase {
 	 */
 	public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
 		long ret = bindings.Filter_register_output(this.ptr, output == null ? 0 : output.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		this.ptrs_to.add(output);

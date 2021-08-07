@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -46,8 +47,31 @@ public class SignOrCreationError extends CommonBase {
 	 */
 	public SignOrCreationError clone() {
 		long ret = bindings.SignOrCreationError_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SignError-variant SignOrCreationError
+	 */
+	public static SignOrCreationError sign_error() {
+		long ret = bindings.SignOrCreationError_sign_error();
+		if (ret < 1024) { return null; }
+		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new CreationError-variant SignOrCreationError
+	 */
+	public static SignOrCreationError creation_error(org.ldk.enums.CreationError a) {
+		long ret = bindings.SignOrCreationError_creation_error(a);
+		if (ret < 1024) { return null; }
+		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

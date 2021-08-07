@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -42,6 +43,7 @@ public class PeerHandleError extends CommonBase {
 	 */
 	public static PeerHandleError of(boolean no_connection_possible_arg) {
 		long ret = bindings.PeerHandleError_new(no_connection_possible_arg);
+		if (ret < 1024) { return null; }
 		PeerHandleError ret_hu_conv = new PeerHandleError(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -52,6 +54,7 @@ public class PeerHandleError extends CommonBase {
 	 */
 	public PeerHandleError clone() {
 		long ret = bindings.PeerHandleError_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		PeerHandleError ret_hu_conv = new PeerHandleError(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

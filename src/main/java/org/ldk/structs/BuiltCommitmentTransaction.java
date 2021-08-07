@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -59,6 +60,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public static BuiltCommitmentTransaction of(byte[] transaction_arg, byte[] txid_arg) {
 		long ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, txid_arg);
+		if (ret < 1024) { return null; }
 		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -69,6 +71,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public BuiltCommitmentTransaction clone() {
 		long ret = bindings.BuiltCommitmentTransaction_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -87,6 +90,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public static Result_BuiltCommitmentTransactionDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.BuiltCommitmentTransaction_read(ser);
+		if (ret < 1024) { return null; }
 		Result_BuiltCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

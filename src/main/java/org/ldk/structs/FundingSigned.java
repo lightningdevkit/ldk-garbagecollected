@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -53,6 +54,7 @@ public class FundingSigned extends CommonBase {
 	 */
 	public static FundingSigned of(byte[] channel_id_arg, byte[] signature_arg) {
 		long ret = bindings.FundingSigned_new(channel_id_arg, signature_arg);
+		if (ret < 1024) { return null; }
 		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -63,6 +65,7 @@ public class FundingSigned extends CommonBase {
 	 */
 	public FundingSigned clone() {
 		long ret = bindings.FundingSigned_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		FundingSigned ret_hu_conv = new FundingSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -81,6 +84,7 @@ public class FundingSigned extends CommonBase {
 	 */
 	public static Result_FundingSignedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.FundingSigned_read(ser);
+		if (ret < 1024) { return null; }
 		Result_FundingSignedDecodeErrorZ ret_hu_conv = Result_FundingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

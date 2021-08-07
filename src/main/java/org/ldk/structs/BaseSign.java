@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * A trait to sign lightning channel transactions as described in BOLT 3.
@@ -275,6 +276,7 @@ public class BaseSign extends CommonBase {
 	 */
 	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
 		long ret = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
@@ -295,6 +297,7 @@ public class BaseSign extends CommonBase {
 	 */
 	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction commitment_tx) {
 		long ret = bindings.BaseSign_sign_holder_commitment_and_htlcs(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
@@ -318,6 +321,7 @@ public class BaseSign extends CommonBase {
 	 */
 	public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
 		long ret = bindings.BaseSign_sign_justice_revoked_output(this.ptr, justice_tx, input, amount, per_commitment_key);
+		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -343,6 +347,7 @@ public class BaseSign extends CommonBase {
 	 */
 	public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
 		long ret = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, per_commitment_key, htlc == null ? 0 : htlc.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(htlc);
 		return ret_hu_conv;
@@ -369,6 +374,7 @@ public class BaseSign extends CommonBase {
 	 */
 	public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
 		long ret = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, per_commitment_point, htlc == null ? 0 : htlc.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(htlc);
 		return ret_hu_conv;
@@ -382,6 +388,7 @@ public class BaseSign extends CommonBase {
 	 */
 	public Result_SignatureNoneZ sign_closing_transaction(byte[] closing_tx) {
 		long ret = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx);
+		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -396,6 +403,7 @@ public class BaseSign extends CommonBase {
 	 */
 	public Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
 		long ret = bindings.BaseSign_sign_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
@@ -424,6 +432,7 @@ public class BaseSign extends CommonBase {
 	 */
 	public ChannelPublicKeys get_pubkeys() {
 		long ret = bindings.BaseSign_get_pubkeys(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

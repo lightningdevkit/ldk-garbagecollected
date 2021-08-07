@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -36,6 +37,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 */
 	public BuiltCommitmentTransaction built_transaction() {
 		long ret = bindings.TrustedCommitmentTransaction_built_transaction(this.ptr);
+		if (ret < 1024) { return null; }
 		BuiltCommitmentTransaction ret_hu_conv = new BuiltCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -46,6 +48,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 */
 	public TxCreationKeys keys() {
 		long ret = bindings.TrustedCommitmentTransaction_keys(this.ptr);
+		if (ret < 1024) { return null; }
 		TxCreationKeys ret_hu_conv = new TxCreationKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -59,6 +62,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 */
 	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, DirectedChannelTransactionParameters channel_parameters) {
 		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, htlc_base_key, channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(channel_parameters);
 		return ret_hu_conv;

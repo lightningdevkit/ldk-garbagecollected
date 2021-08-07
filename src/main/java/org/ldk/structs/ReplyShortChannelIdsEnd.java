@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -58,6 +59,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	 */
 	public static ReplyShortChannelIdsEnd of(byte[] chain_hash_arg, boolean full_information_arg) {
 		long ret = bindings.ReplyShortChannelIdsEnd_new(chain_hash_arg, full_information_arg);
+		if (ret < 1024) { return null; }
 		ReplyShortChannelIdsEnd ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -68,6 +70,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	 */
 	public ReplyShortChannelIdsEnd clone() {
 		long ret = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ReplyShortChannelIdsEnd ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -78,6 +81,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	 */
 	public static Result_ReplyShortChannelIdsEndDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ReplyShortChannelIdsEnd_read(ser);
+		if (ret < 1024) { return null; }
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

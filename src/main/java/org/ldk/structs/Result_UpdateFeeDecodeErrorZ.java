@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	private Result_UpdateFeeDecodeErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -45,6 +46,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UpdateFeeDecodeErrorZ ok(UpdateFee o) {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
@@ -55,6 +57,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UpdateFeeDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
@@ -66,6 +69,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	 */
 	public Result_UpdateFeeDecodeErrorZ clone() {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

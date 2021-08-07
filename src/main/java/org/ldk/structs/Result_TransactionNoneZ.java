@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_TransactionNoneZ extends CommonBase {
 	private Result_TransactionNoneZ(Object _dummy, long ptr) { super(ptr); }
@@ -37,6 +38,7 @@ public class Result_TransactionNoneZ extends CommonBase {
 	 */
 	public static Result_TransactionNoneZ ok(byte[] o) {
 		long ret = bindings.CResult_TransactionNoneZ_ok(o);
+		if (ret < 1024) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -46,6 +48,7 @@ public class Result_TransactionNoneZ extends CommonBase {
 	 */
 	public static Result_TransactionNoneZ err() {
 		long ret = bindings.CResult_TransactionNoneZ_err();
+		if (ret < 1024) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,6 +59,7 @@ public class Result_TransactionNoneZ extends CommonBase {
 	 */
 	public Result_TransactionNoneZ clone() {
 		long ret = bindings.CResult_TransactionNoneZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

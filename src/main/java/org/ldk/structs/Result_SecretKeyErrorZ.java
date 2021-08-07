@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_SecretKeyErrorZ extends CommonBase {
 	private Result_SecretKeyErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -39,6 +40,7 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 	 */
 	public static Result_SecretKeyErrorZ ok(byte[] o) {
 		long ret = bindings.CResult_SecretKeyErrorZ_ok(o);
+		if (ret < 1024) { return null; }
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -46,8 +48,9 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_SecretKeyErrorZ in the error state.
 	 */
-	public static Result_SecretKeyErrorZ err(Secp256k1Error e) {
+	public static Result_SecretKeyErrorZ err(org.ldk.enums.Secp256k1Error e) {
 		long ret = bindings.CResult_SecretKeyErrorZ_err(e);
+		if (ret < 1024) { return null; }
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -28,7 +29,7 @@ public class Route extends CommonBase {
 	 * ensure it is viable.
 	 */
 	public void set_paths(RouteHop[][] val) {
-		bindings.Route_set_paths(this.ptr, Arrays.stream(val).map(val_conv_12 -> Arrays.stream(val_conv_12).mapToLong(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr & ~1).toArray()).toArray(long[][]::new));
+		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12 != null ? Arrays.stream(val_conv_12).mapToLong(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null);
 		/* TODO 2 RouteHop[]  */;
 	}
 
@@ -36,7 +37,8 @@ public class Route extends CommonBase {
 	 * Constructs a new Route given each field
 	 */
 	public static Route of(RouteHop[][] paths_arg) {
-		long ret = bindings.Route_new(Arrays.stream(paths_arg).map(paths_arg_conv_12 -> Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray()).toArray(long[][]::new));
+		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null);
+		if (ret < 1024) { return null; }
 		Route ret_hu_conv = new Route(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		/* TODO 2 RouteHop[]  */;
@@ -48,6 +50,7 @@ public class Route extends CommonBase {
 	 */
 	public Route clone() {
 		long ret = bindings.Route_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Route ret_hu_conv = new Route(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -66,6 +69,7 @@ public class Route extends CommonBase {
 	 */
 	public static Result_RouteDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Route_read(ser);
+		if (ret < 1024) { return null; }
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

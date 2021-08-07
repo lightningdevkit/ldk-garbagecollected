@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	private Result_PaymentSecretAPIErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -42,6 +43,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	 */
 	public static Result_PaymentSecretAPIErrorZ ok(byte[] o) {
 		long ret = bindings.CResult_PaymentSecretAPIErrorZ_ok(o);
+		if (ret < 1024) { return null; }
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -51,6 +53,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	 */
 	public static Result_PaymentSecretAPIErrorZ err(APIError e) {
 		long ret = bindings.CResult_PaymentSecretAPIErrorZ_err(e.ptr);
+		if (ret < 1024) { return null; }
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -61,6 +64,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	 */
 	public Result_PaymentSecretAPIErrorZ clone() {
 		long ret = bindings.CResult_PaymentSecretAPIErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -29,7 +30,7 @@ public class LightningError extends CommonBase {
 	/**
 	 * A human-readable message describing the error
 	 */
-	public void set_err(String val) {
+	public void set_err(java.lang.String val) {
 		bindings.LightningError_set_err(this.ptr, val);
 	}
 
@@ -38,6 +39,7 @@ public class LightningError extends CommonBase {
 	 */
 	public ErrorAction get_action() {
 		long ret = bindings.LightningError_get_action(this.ptr);
+		if (ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -53,8 +55,9 @@ public class LightningError extends CommonBase {
 	/**
 	 * Constructs a new LightningError given each field
 	 */
-	public static LightningError of(String err_arg, ErrorAction action_arg) {
+	public static LightningError of(java.lang.String err_arg, ErrorAction action_arg) {
 		long ret = bindings.LightningError_new(err_arg, action_arg.ptr);
+		if (ret < 1024) { return null; }
 		LightningError ret_hu_conv = new LightningError(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -65,6 +68,7 @@ public class LightningError extends CommonBase {
 	 */
 	public LightningError clone() {
 		long ret = bindings.LightningError_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		LightningError ret_hu_conv = new LightningError(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

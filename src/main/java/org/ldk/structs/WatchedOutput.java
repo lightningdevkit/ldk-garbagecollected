@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -30,7 +31,10 @@ public class WatchedOutput extends CommonBase {
 
 	/**
 	 * First block where the transaction output may have been spent.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public byte[] get_block_hash() {
 		byte[] ret = bindings.WatchedOutput_get_block_hash(this.ptr);
 		return ret;
@@ -38,8 +42,10 @@ public class WatchedOutput extends CommonBase {
 
 	/**
 	 * First block where the transaction output may have been spent.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_block_hash(byte[] val) {
+	public void set_block_hash(@Nullable byte[] val) {
 		bindings.WatchedOutput_set_block_hash(this.ptr, val);
 	}
 
@@ -48,6 +54,7 @@ public class WatchedOutput extends CommonBase {
 	 */
 	public OutPoint get_outpoint() {
 		long ret = bindings.WatchedOutput_get_outpoint(this.ptr);
+		if (ret < 1024) { return null; }
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -81,6 +88,7 @@ public class WatchedOutput extends CommonBase {
 	 */
 	public static WatchedOutput of(byte[] block_hash_arg, OutPoint outpoint_arg, byte[] script_pubkey_arg) {
 		long ret = bindings.WatchedOutput_new(block_hash_arg, outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
+		if (ret < 1024) { return null; }
 		WatchedOutput ret_hu_conv = new WatchedOutput(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(outpoint_arg);
@@ -92,6 +100,7 @@ public class WatchedOutput extends CommonBase {
 	 */
 	public WatchedOutput clone() {
 		long ret = bindings.WatchedOutput_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		WatchedOutput ret_hu_conv = new WatchedOutput(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

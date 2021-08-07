@@ -58,4 +58,26 @@ export class NodeFailure extends HTLCFailChannelUpdate {
 		return ret_hu_conv;
 	}
 
+	public static HTLCFailChannelUpdate constructor_channel_update_message(ChannelUpdate msg) {
+		number ret = bindings.HTLCFailChannelUpdate_channel_update_message(msg == null ? 0 : msg.ptr & ~1);
+		HTLCFailChannelUpdate ret_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static HTLCFailChannelUpdate constructor_channel_closed(number short_channel_id, boolean is_permanent) {
+		number ret = bindings.HTLCFailChannelUpdate_channel_closed(short_channel_id, is_permanent);
+		HTLCFailChannelUpdate ret_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static HTLCFailChannelUpdate constructor_node_failure(Uint8Array node_id, boolean is_permanent) {
+		number ret = bindings.HTLCFailChannelUpdate_node_failure(node_id, is_permanent);
+		HTLCFailChannelUpdate ret_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 }

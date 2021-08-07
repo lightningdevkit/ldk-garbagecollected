@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -45,6 +46,7 @@ public class Option_u32Z extends CommonBase {
 	 */
 	public static Option_u32Z some(int o) {
 		long ret = bindings.COption_u32Z_some(o);
+		if (ret < 1024) { return null; }
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -55,6 +57,7 @@ public class Option_u32Z extends CommonBase {
 	 */
 	public static Option_u32Z none() {
 		long ret = bindings.COption_u32Z_none();
+		if (ret < 1024) { return null; }
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -66,6 +69,7 @@ public class Option_u32Z extends CommonBase {
 	 */
 	public Option_u32Z clone() {
 		long ret = bindings.COption_u32Z_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

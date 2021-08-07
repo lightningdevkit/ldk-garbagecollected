@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -23,6 +24,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelPublicKeys get_pubkeys() {
 		long ret = bindings.CounterpartyChannelTransactionParameters_get_pubkeys(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -56,6 +58,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public static CounterpartyChannelTransactionParameters of(ChannelPublicKeys pubkeys_arg, short selected_contest_delay_arg) {
 		long ret = bindings.CounterpartyChannelTransactionParameters_new(pubkeys_arg == null ? 0 : pubkeys_arg.ptr & ~1, selected_contest_delay_arg);
+		if (ret < 1024) { return null; }
 		CounterpartyChannelTransactionParameters ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(pubkeys_arg);
@@ -67,6 +70,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public CounterpartyChannelTransactionParameters clone() {
 		long ret = bindings.CounterpartyChannelTransactionParameters_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		CounterpartyChannelTransactionParameters ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -85,6 +89,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public static Result_CounterpartyChannelTransactionParametersDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.CounterpartyChannelTransactionParameters_read(ser);
+		if (ret < 1024) { return null; }
 		Result_CounterpartyChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_CounterpartyChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

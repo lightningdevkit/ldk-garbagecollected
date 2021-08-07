@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -52,6 +53,7 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public static QueryShortChannelIds of(byte[] chain_hash_arg, long[] short_channel_ids_arg) {
 		long ret = bindings.QueryShortChannelIds_new(chain_hash_arg, short_channel_ids_arg);
+		if (ret < 1024) { return null; }
 		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -62,6 +64,7 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public QueryShortChannelIds clone() {
 		long ret = bindings.QueryShortChannelIds_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		QueryShortChannelIds ret_hu_conv = new QueryShortChannelIds(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -72,6 +75,7 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public static Result_QueryShortChannelIdsDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.QueryShortChannelIds_read(ser);
+		if (ret < 1024) { return null; }
 		Result_QueryShortChannelIdsDecodeErrorZ ret_hu_conv = Result_QueryShortChannelIdsDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

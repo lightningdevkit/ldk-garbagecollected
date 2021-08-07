@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_TxCreationKeysErrorZ extends CommonBase {
 	private Result_TxCreationKeysErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -42,6 +43,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	 */
 	public static Result_TxCreationKeysErrorZ ok(TxCreationKeys o) {
 		long ret = bindings.CResult_TxCreationKeysErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
@@ -50,8 +52,9 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxCreationKeysErrorZ in the error state.
 	 */
-	public static Result_TxCreationKeysErrorZ err(Secp256k1Error e) {
+	public static Result_TxCreationKeysErrorZ err(org.ldk.enums.Secp256k1Error e) {
 		long ret = bindings.CResult_TxCreationKeysErrorZ_err(e);
+		if (ret < 1024) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -62,6 +65,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	 */
 	public Result_TxCreationKeysErrorZ clone() {
 		long ret = bindings.CResult_TxCreationKeysErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

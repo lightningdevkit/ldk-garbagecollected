@@ -55,6 +55,27 @@ export class ScriptHash extends Fallback {
 		return ret_hu_conv;
 	}
 
+	public static Fallback constructor_seg_wit_program(UInt5 version, Uint8Array program) {
+		number ret = bindings.Fallback_seg_wit_program(version.getVal(), program);
+		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Fallback constructor_pub_key_hash(Uint8Array a) {
+		number ret = bindings.Fallback_pub_key_hash(a);
+		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Fallback constructor_script_hash(Uint8Array a) {
+		number ret = bindings.Fallback_script_hash(a);
+		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	public boolean eq(Fallback b) {
 		boolean ret = bindings.Fallback_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
 		this.ptrs_to.add(b);

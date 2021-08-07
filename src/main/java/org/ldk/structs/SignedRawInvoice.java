@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -38,6 +39,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public SignedRawInvoice clone() {
 		long ret = bindings.SignedRawInvoice_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		SignedRawInvoice ret_hu_conv = new SignedRawInvoice(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -51,6 +53,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public ThreeTuple<RawInvoice, byte[], InvoiceSignature> into_parts() {
 		long ret = bindings.SignedRawInvoice_into_parts(this.ptr);
+		if (ret < 1024) { return null; }
 		long ret_a = bindings.LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(ret);
 		RawInvoice ret_a_hu_conv = new RawInvoice(null, ret_a);
 		ret_a_hu_conv.ptrs_to.add(this);;
@@ -72,6 +75,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public RawInvoice raw_invoice() {
 		long ret = bindings.SignedRawInvoice_raw_invoice(this.ptr);
+		if (ret < 1024) { return null; }
 		RawInvoice ret_hu_conv = new RawInvoice(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -90,6 +94,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public InvoiceSignature signature() {
 		long ret = bindings.SignedRawInvoice_signature(this.ptr);
+		if (ret < 1024) { return null; }
 		InvoiceSignature ret_hu_conv = new InvoiceSignature(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -100,6 +105,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public Result_PayeePubKeyErrorZ recover_payee_pub_key() {
 		long ret = bindings.SignedRawInvoice_recover_payee_pub_key(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -116,8 +122,9 @@ public class SignedRawInvoice extends CommonBase {
 	/**
 	 * Read a SignedRawInvoice object from a string
 	 */
-	public static Result_SignedRawInvoiceNoneZ from_str(String s) {
+	public static Result_SignedRawInvoiceNoneZ from_str(java.lang.String s) {
 		long ret = bindings.SignedRawInvoice_from_str(s);
+		if (ret < 1024) { return null; }
 		Result_SignedRawInvoiceNoneZ ret_hu_conv = Result_SignedRawInvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

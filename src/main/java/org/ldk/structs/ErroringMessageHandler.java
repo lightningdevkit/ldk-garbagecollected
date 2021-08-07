@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -24,6 +25,7 @@ public class ErroringMessageHandler extends CommonBase {
 	 */
 	public static ErroringMessageHandler of() {
 		long ret = bindings.ErroringMessageHandler_new();
+		if (ret < 1024) { return null; }
 		ErroringMessageHandler ret_hu_conv = new ErroringMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -35,6 +37,7 @@ public class ErroringMessageHandler extends CommonBase {
 	 */
 	public MessageSendEventsProvider as_MessageSendEventsProvider() {
 		long ret = bindings.ErroringMessageHandler_as_MessageSendEventsProvider(this.ptr);
+		if (ret < 1024) { return null; }
 		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -46,6 +49,7 @@ public class ErroringMessageHandler extends CommonBase {
 	 */
 	public ChannelMessageHandler as_ChannelMessageHandler() {
 		long ret = bindings.ErroringMessageHandler_as_ChannelMessageHandler(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelMessageHandler ret_hu_conv = new ChannelMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

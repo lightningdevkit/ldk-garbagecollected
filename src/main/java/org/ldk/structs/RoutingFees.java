@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -55,6 +56,7 @@ public class RoutingFees extends CommonBase {
 	 */
 	public static RoutingFees of(int base_msat_arg, int proportional_millionths_arg) {
 		long ret = bindings.RoutingFees_new(base_msat_arg, proportional_millionths_arg);
+		if (ret < 1024) { return null; }
 		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -76,6 +78,7 @@ public class RoutingFees extends CommonBase {
 	 */
 	public RoutingFees clone() {
 		long ret = bindings.RoutingFees_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -94,6 +97,7 @@ public class RoutingFees extends CommonBase {
 	 */
 	public static Result_RoutingFeesDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.RoutingFees_read(ser);
+		if (ret < 1024) { return null; }
 		Result_RoutingFeesDecodeErrorZ ret_hu_conv = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

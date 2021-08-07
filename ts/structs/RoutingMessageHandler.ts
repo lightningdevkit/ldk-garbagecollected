@@ -61,14 +61,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						get_next_channel_announcements (starting_point: number, batch_amount: number): number[] {
 							ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
-				result: number[] = Arrays.stream(ret).map(ret_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(ret_conv_63.a == null ? 0 : ret_conv_63.a.ptr & ~1, ret_conv_63.b == null ? 0 : ret_conv_63.b.ptr & ~1, ret_conv_63.c == null ? 0 : ret_conv_63.c.ptr & ~1)).toArray(number[]::new);
+				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(ret_conv_63.a == null ? 0 : ret_conv_63.a.ptr & ~1, ret_conv_63.b == null ? 0 : ret_conv_63.b.ptr & ~1, ret_conv_63.c == null ? 0 : ret_conv_63.c.ptr & ~1)).toArray(number[]::new) : null;
 				/* TODO 2 ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>  */;
 				return result;
 						},
 
 						get_next_node_announcements (starting_point: Uint8Array, batch_amount: number): number[] {
 							NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
-				result: number[] = Arrays.stream(ret).map(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.ptr & ~1).toArray(number[]::new);
+				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.ptr & ~1).toArray(number[]::new) : null;
 				/* TODO 2 NodeAnnouncement  */;
 				return result;
 						},

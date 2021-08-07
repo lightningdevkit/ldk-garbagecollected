@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_StringErrorZ extends CommonBase {
 	private Result_StringErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -37,8 +38,9 @@ public class Result_StringErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_StringErrorZ in the success state.
 	 */
-	public static Result_StringErrorZ ok(String o) {
+	public static Result_StringErrorZ ok(java.lang.String o) {
 		long ret = bindings.CResult_StringErrorZ_ok(o);
+		if (ret < 1024) { return null; }
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -46,8 +48,9 @@ public class Result_StringErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_StringErrorZ in the error state.
 	 */
-	public static Result_StringErrorZ err(Secp256k1Error e) {
+	public static Result_StringErrorZ err(org.ldk.enums.Secp256k1Error e) {
 		long ret = bindings.CResult_StringErrorZ_err(e);
+		if (ret < 1024) { return null; }
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

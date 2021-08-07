@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 	private Result_CResult_NetAddressu8ZDecodeErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -44,6 +45,7 @@ public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_CResult_NetAddressu8ZDecodeErrorZ ok(Result_NetAddressu8Z o) {
 		long ret = bindings.CResult_CResult_NetAddressu8ZDecodeErrorZ_ok(o != null ? o.ptr : 0);
+		if (ret < 1024) { return null; }
 		Result_CResult_NetAddressu8ZDecodeErrorZ ret_hu_conv = Result_CResult_NetAddressu8ZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,6 +55,7 @@ public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_CResult_NetAddressu8ZDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_CResult_NetAddressu8ZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_CResult_NetAddressu8ZDecodeErrorZ ret_hu_conv = Result_CResult_NetAddressu8ZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
@@ -64,6 +67,7 @@ public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 	 */
 	public Result_CResult_NetAddressu8ZDecodeErrorZ clone() {
 		long ret = bindings.CResult_CResult_NetAddressu8ZDecodeErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_CResult_NetAddressu8ZDecodeErrorZ ret_hu_conv = Result_CResult_NetAddressu8ZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

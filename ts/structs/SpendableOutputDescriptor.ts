@@ -64,6 +64,30 @@ export class StaticPaymentOutput extends SpendableOutputDescriptor {
 		return ret_hu_conv;
 	}
 
+	public static SpendableOutputDescriptor constructor_static_output(OutPoint outpoint, TxOut output) {
+		number ret = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : outpoint.ptr & ~1, output.ptr);
+		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(outpoint);
+		return ret_hu_conv;
+	}
+
+	public static SpendableOutputDescriptor constructor_delayed_payment_output(DelayedPaymentOutputDescriptor a) {
+		number ret = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0 : a.ptr & ~1);
+		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
+		return ret_hu_conv;
+	}
+
+	public static SpendableOutputDescriptor constructor_static_payment_output(StaticPaymentOutputDescriptor a) {
+		number ret = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0 : a.ptr & ~1);
+		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.SpendableOutputDescriptor_write(this.ptr);
 		return ret;

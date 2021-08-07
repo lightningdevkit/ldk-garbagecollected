@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	private Result_ChannelFeaturesDecodeErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -45,6 +46,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ChannelFeaturesDecodeErrorZ ok(ChannelFeatures o) {
 		long ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
@@ -55,6 +57,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ChannelFeaturesDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;

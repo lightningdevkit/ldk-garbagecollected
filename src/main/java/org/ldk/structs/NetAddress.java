@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -35,7 +36,13 @@ public class NetAddress extends CommonBase {
 	}
 
 	public final static class IPv4 extends NetAddress {
+		/**
+		 * The 4-byte IPv4 address
+		*/
 		public final byte[] addr;
+		/**
+		 * The port on which the node is listening
+		*/
 		public final short port;
 		private IPv4(long ptr, bindings.LDKNetAddress.IPv4 obj) {
 			super(null, ptr);
@@ -44,7 +51,13 @@ public class NetAddress extends CommonBase {
 		}
 	}
 	public final static class IPv6 extends NetAddress {
+		/**
+		 * The 16-byte IPv6 address
+		*/
 		public final byte[] addr;
+		/**
+		 * The port on which the node is listening
+		*/
 		public final short port;
 		private IPv6(long ptr, bindings.LDKNetAddress.IPv6 obj) {
 			super(null, ptr);
@@ -53,7 +66,13 @@ public class NetAddress extends CommonBase {
 		}
 	}
 	public final static class OnionV2 extends NetAddress {
+		/**
+		 * The bytes (usually encoded in base32 with \".onion\" appended)
+		*/
 		public final byte[] addr;
+		/**
+		 * The port on which the node is listening
+		*/
 		public final short port;
 		private OnionV2(long ptr, bindings.LDKNetAddress.OnionV2 obj) {
 			super(null, ptr);
@@ -62,9 +81,21 @@ public class NetAddress extends CommonBase {
 		}
 	}
 	public final static class OnionV3 extends NetAddress {
+		/**
+		 * The ed25519 long-term public key of the peer
+		*/
 		public final byte[] ed25519_pubkey;
+		/**
+		 * The checksum of the pubkey and version, as included in the onion address
+		*/
 		public final short checksum;
+		/**
+		 * The version byte, as defined by the Tor Onion v3 spec.
+		*/
 		public final byte version;
+		/**
+		 * The port on which the node is listening
+		*/
 		public final short port;
 		private OnionV3(long ptr, bindings.LDKNetAddress.OnionV3 obj) {
 			super(null, ptr);
@@ -79,8 +110,53 @@ public class NetAddress extends CommonBase {
 	 */
 	public NetAddress clone() {
 		long ret = bindings.NetAddress_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new IPv4-variant NetAddress
+	 */
+	public static NetAddress ipv4(byte[] addr, short port) {
+		long ret = bindings.NetAddress_ipv4(addr, port);
+		if (ret < 1024) { return null; }
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new IPv6-variant NetAddress
+	 */
+	public static NetAddress ipv6(byte[] addr, short port) {
+		long ret = bindings.NetAddress_ipv6(addr, port);
+		if (ret < 1024) { return null; }
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new OnionV2-variant NetAddress
+	 */
+	public static NetAddress onion_v2(byte[] addr, short port) {
+		long ret = bindings.NetAddress_onion_v2(addr, port);
+		if (ret < 1024) { return null; }
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new OnionV3-variant NetAddress
+	 */
+	public static NetAddress onion_v3(byte[] ed25519_pubkey, short checksum, byte version, short port) {
+		long ret = bindings.NetAddress_onion_v3(ed25519_pubkey, checksum, version, port);
+		if (ret < 1024) { return null; }
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
@@ -97,6 +173,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public static Result_NetAddressDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NetAddress_read(ser);
+		if (ret < 1024) { return null; }
 		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

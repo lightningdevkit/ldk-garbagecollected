@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	private Result_RevokeAndACKDecodeErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -45,6 +46,7 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_RevokeAndACKDecodeErrorZ ok(RevokeAndACK o) {
 		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_RevokeAndACKDecodeErrorZ ret_hu_conv = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
@@ -55,6 +57,7 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_RevokeAndACKDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_RevokeAndACKDecodeErrorZ ret_hu_conv = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
@@ -66,6 +69,7 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	 */
 	public Result_RevokeAndACKDecodeErrorZ clone() {
 		long ret = bindings.CResult_RevokeAndACKDecodeErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_RevokeAndACKDecodeErrorZ ret_hu_conv = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

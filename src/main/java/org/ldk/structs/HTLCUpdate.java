@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -25,6 +26,7 @@ public class HTLCUpdate extends CommonBase {
 	 */
 	public HTLCUpdate clone() {
 		long ret = bindings.HTLCUpdate_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		HTLCUpdate ret_hu_conv = new HTLCUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -43,6 +45,7 @@ public class HTLCUpdate extends CommonBase {
 	 */
 	public static Result_HTLCUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.HTLCUpdate_read(ser);
+		if (ret < 1024) { return null; }
 		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

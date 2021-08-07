@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -51,6 +52,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	 */
 	public static Option_C2Tuple_usizeTransactionZZ some(TwoTuple<Long, byte[]> o) {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_some(bindings.C2Tuple_usizeTransactionZ_new(o.a, o.b));
+		if (ret < 1024) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -61,6 +63,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	 */
 	public static Option_C2Tuple_usizeTransactionZZ none() {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_none();
+		if (ret < 1024) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -72,6 +75,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	 */
 	public Option_C2Tuple_usizeTransactionZZ clone() {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

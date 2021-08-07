@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -55,6 +56,7 @@ public class Ping extends CommonBase {
 	 */
 	public static Ping of(short ponglen_arg, short byteslen_arg) {
 		long ret = bindings.Ping_new(ponglen_arg, byteslen_arg);
+		if (ret < 1024) { return null; }
 		Ping ret_hu_conv = new Ping(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -65,6 +67,7 @@ public class Ping extends CommonBase {
 	 */
 	public Ping clone() {
 		long ret = bindings.Ping_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Ping ret_hu_conv = new Ping(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -83,6 +86,7 @@ public class Ping extends CommonBase {
 	 */
 	public static Result_PingDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Ping_read(ser);
+		if (ret < 1024) { return null; }
 		Result_PingDecodeErrorZ ret_hu_conv = Result_PingDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

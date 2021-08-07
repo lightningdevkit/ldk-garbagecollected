@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -68,6 +69,7 @@ public class ClosingSigned extends CommonBase {
 	 */
 	public static ClosingSigned of(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg) {
 		long ret = bindings.ClosingSigned_new(channel_id_arg, fee_satoshis_arg, signature_arg);
+		if (ret < 1024) { return null; }
 		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -78,6 +80,7 @@ public class ClosingSigned extends CommonBase {
 	 */
 	public ClosingSigned clone() {
 		long ret = bindings.ClosingSigned_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -96,6 +99,7 @@ public class ClosingSigned extends CommonBase {
 	 */
 	public static Result_ClosingSignedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ClosingSigned_read(ser);
+		if (ret < 1024) { return null; }
 		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

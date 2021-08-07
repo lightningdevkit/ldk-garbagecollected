@@ -65,4 +65,34 @@ export class SendErrorMessage extends ErrorAction {
 		return ret_hu_conv;
 	}
 
+	public static ErrorAction constructor_disconnect_peer(ErrorMessage msg) {
+		number ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr & ~1);
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static ErrorAction constructor_ignore_error() {
+		number ret = bindings.ErrorAction_ignore_error();
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static ErrorAction constructor_ignore_and_log(Level a) {
+		number ret = bindings.ErrorAction_ignore_and_log(a);
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static ErrorAction constructor_send_error_message(ErrorMessage msg) {
+		number ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr & ~1);
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
 }

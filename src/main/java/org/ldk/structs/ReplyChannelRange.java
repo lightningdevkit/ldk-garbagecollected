@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -96,6 +97,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public static ReplyChannelRange of(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg, boolean sync_complete_arg, long[] short_channel_ids_arg) {
 		long ret = bindings.ReplyChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, short_channel_ids_arg);
+		if (ret < 1024) { return null; }
 		ReplyChannelRange ret_hu_conv = new ReplyChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -106,6 +108,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public ReplyChannelRange clone() {
 		long ret = bindings.ReplyChannelRange_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ReplyChannelRange ret_hu_conv = new ReplyChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -116,6 +119,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public static Result_ReplyChannelRangeDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ReplyChannelRange_read(ser);
+		if (ret < 1024) { return null; }
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

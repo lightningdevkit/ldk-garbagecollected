@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_NonePaymentSendFailureZ extends CommonBase {
 	private Result_NonePaymentSendFailureZ(Object _dummy, long ptr) { super(ptr); }
@@ -40,6 +41,7 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 	 */
 	public static Result_NonePaymentSendFailureZ ok() {
 		long ret = bindings.CResult_NonePaymentSendFailureZ_ok();
+		if (ret < 1024) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -49,6 +51,7 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 	 */
 	public static Result_NonePaymentSendFailureZ err(PaymentSendFailure e) {
 		long ret = bindings.CResult_NonePaymentSendFailureZ_err(e.ptr);
+		if (ret < 1024) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -59,6 +62,7 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 	 */
 	public Result_NonePaymentSendFailureZ clone() {
 		long ret = bindings.CResult_NonePaymentSendFailureZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

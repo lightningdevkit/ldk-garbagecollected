@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -86,6 +87,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public Option_u64Z get_htlc_maximum_msat() {
 		long ret = bindings.DirectionalChannelInfo_get_htlc_maximum_msat(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -103,6 +105,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public RoutingFees get_fees() {
 		long ret = bindings.DirectionalChannelInfo_get_fees(this.ptr);
+		if (ret < 1024) { return null; }
 		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -121,9 +124,13 @@ public class DirectionalChannelInfo extends CommonBase {
 	 * Mostly redundant with the data we store in fields explicitly.
 	 * Everything else is useful only for sending out for initial routing sync.
 	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public ChannelUpdate get_last_update_message() {
 		long ret = bindings.DirectionalChannelInfo_get_last_update_message(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -134,8 +141,10 @@ public class DirectionalChannelInfo extends CommonBase {
 	 * Mostly redundant with the data we store in fields explicitly.
 	 * Everything else is useful only for sending out for initial routing sync.
 	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_last_update_message(ChannelUpdate val) {
+	public void set_last_update_message(@Nullable ChannelUpdate val) {
 		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
 	}
@@ -145,6 +154,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public static DirectionalChannelInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
 		long ret = bindings.DirectionalChannelInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg.ptr, fees_arg == null ? 0 : fees_arg.ptr & ~1, last_update_message_arg == null ? 0 : last_update_message_arg.ptr & ~1);
+		if (ret < 1024) { return null; }
 		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fees_arg);
@@ -157,6 +167,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public DirectionalChannelInfo clone() {
 		long ret = bindings.DirectionalChannelInfo_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -175,6 +186,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public static Result_DirectionalChannelInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.DirectionalChannelInfo_read(ser);
+		if (ret < 1024) { return null; }
 		Result_DirectionalChannelInfoDecodeErrorZ ret_hu_conv = Result_DirectionalChannelInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

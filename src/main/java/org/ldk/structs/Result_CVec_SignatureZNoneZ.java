@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	private Result_CVec_SignatureZNoneZ(Object _dummy, long ptr) { super(ptr); }
@@ -37,6 +38,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_SignatureZNoneZ ok(byte[][] o) {
 		long ret = bindings.CResult_CVec_SignatureZNoneZ_ok(o);
+		if (ret < 1024) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -46,6 +48,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_SignatureZNoneZ err() {
 		long ret = bindings.CResult_CVec_SignatureZNoneZ_err();
+		if (ret < 1024) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,6 +59,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	 */
 	public Result_CVec_SignatureZNoneZ clone() {
 		long ret = bindings.CResult_CVec_SignatureZNoneZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

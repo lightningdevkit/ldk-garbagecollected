@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * The `Confirm` trait is used to notify when transactions have been confirmed on chain or
@@ -151,7 +152,7 @@ public class Confirm extends CommonBase {
 	 * [`best_block_updated`]: Self::best_block_updated
 	 */
 	public void transactions_confirmed(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
-		bindings.Confirm_transactions_confirmed(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height);
+		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray() : null, height);
 		/* TODO 2 TwoTuple<Long, byte[]>  */;
 	}
 

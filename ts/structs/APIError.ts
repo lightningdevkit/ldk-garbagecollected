@@ -71,4 +71,39 @@ export class MonitorUpdateFailed extends APIError {
 		return ret_hu_conv;
 	}
 
+	public static APIError constructor_apimisuse_error(String err) {
+		number ret = bindings.APIError_apimisuse_error(err);
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static APIError constructor_fee_rate_too_high(String err, number feerate) {
+		number ret = bindings.APIError_fee_rate_too_high(err, feerate);
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static APIError constructor_route_error(String err) {
+		number ret = bindings.APIError_route_error(err);
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static APIError constructor_channel_unavailable(String err) {
+		number ret = bindings.APIError_channel_unavailable(err);
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static APIError constructor_monitor_update_failed() {
+		number ret = bindings.APIError_monitor_update_failed();
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 }

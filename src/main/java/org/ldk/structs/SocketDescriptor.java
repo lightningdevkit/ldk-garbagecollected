@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * Provides an object which can be used to send data to and which uniquely identifies a connection
@@ -143,6 +144,7 @@ public class SocketDescriptor extends CommonBase {
 	 */
 	public SocketDescriptor clone() {
 		long ret = bindings.SocketDescriptor_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		SocketDescriptor ret_hu_conv = new SocketDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

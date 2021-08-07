@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_TxOutAccessErrorZ extends CommonBase {
 	private Result_TxOutAccessErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -41,6 +42,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public static Result_TxOutAccessErrorZ ok(TxOut o) {
 		long ret = bindings.CResult_TxOutAccessErrorZ_ok(o.ptr);
+		if (ret < 1024) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -48,8 +50,9 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_TxOutAccessErrorZ in the error state.
 	 */
-	public static Result_TxOutAccessErrorZ err(AccessError e) {
+	public static Result_TxOutAccessErrorZ err(org.ldk.enums.AccessError e) {
 		long ret = bindings.CResult_TxOutAccessErrorZ_err(e);
+		if (ret < 1024) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -60,6 +63,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public Result_TxOutAccessErrorZ clone() {
 		long ret = bindings.CResult_TxOutAccessErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

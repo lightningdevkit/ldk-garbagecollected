@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -26,6 +27,7 @@ public class UserConfig extends CommonBase {
 	 */
 	public ChannelHandshakeConfig get_own_channel_config() {
 		long ret = bindings.UserConfig_get_own_channel_config(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelHandshakeConfig ret_hu_conv = new ChannelHandshakeConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -44,6 +46,7 @@ public class UserConfig extends CommonBase {
 	 */
 	public ChannelHandshakeLimits get_peer_channel_config_limits() {
 		long ret = bindings.UserConfig_get_peer_channel_config_limits(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelHandshakeLimits ret_hu_conv = new ChannelHandshakeLimits(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -62,6 +65,7 @@ public class UserConfig extends CommonBase {
 	 */
 	public ChannelConfig get_channel_options() {
 		long ret = bindings.UserConfig_get_channel_options(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelConfig ret_hu_conv = new ChannelConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -125,6 +129,7 @@ public class UserConfig extends CommonBase {
 	 */
 	public static UserConfig of(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg, boolean accept_forwards_to_priv_channels_arg) {
 		long ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1, accept_forwards_to_priv_channels_arg);
+		if (ret < 1024) { return null; }
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(own_channel_config_arg);
@@ -138,6 +143,7 @@ public class UserConfig extends CommonBase {
 	 */
 	public UserConfig clone() {
 		long ret = bindings.UserConfig_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -148,6 +154,7 @@ public class UserConfig extends CommonBase {
 	 */
 	public static UserConfig with_default() {
 		long ret = bindings.UserConfig_default();
+		if (ret < 1024) { return null; }
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

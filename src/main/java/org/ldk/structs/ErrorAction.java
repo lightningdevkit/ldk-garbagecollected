@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -35,7 +36,12 @@ public class ErrorAction extends CommonBase {
 	}
 
 	public final static class DisconnectPeer extends ErrorAction {
-		public final ErrorMessage msg;
+		/**
+		 * An error message which we should make an effort to send before we disconnect.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final ErrorMessage msg;
 		private DisconnectPeer(long ptr, bindings.LDKErrorAction.DisconnectPeer obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -57,6 +63,9 @@ public class ErrorAction extends CommonBase {
 		}
 	}
 	public final static class SendErrorMessage extends ErrorAction {
+		/**
+		 * The message to send.
+		*/
 		public final ErrorMessage msg;
 		private SendErrorMessage(long ptr, bindings.LDKErrorAction.SendErrorMessage obj) {
 			super(null, ptr);
@@ -71,8 +80,55 @@ public class ErrorAction extends CommonBase {
 	 */
 	public ErrorAction clone() {
 		long ret = bindings.ErrorAction_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new DisconnectPeer-variant ErrorAction
+	 */
+	public static ErrorAction disconnect_peer(ErrorMessage msg) {
+		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new IgnoreError-variant ErrorAction
+	 */
+	public static ErrorAction ignore_error() {
+		long ret = bindings.ErrorAction_ignore_error();
+		if (ret < 1024) { return null; }
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new IgnoreAndLog-variant ErrorAction
+	 */
+	public static ErrorAction ignore_and_log(org.ldk.enums.Level a) {
+		long ret = bindings.ErrorAction_ignore_and_log(a);
+		if (ret < 1024) { return null; }
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendErrorMessage-variant ErrorAction
+	 */
+	public static ErrorAction send_error_message(ErrorMessage msg) {
+		long ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
