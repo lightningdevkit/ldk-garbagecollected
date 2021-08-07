@@ -412,7 +412,7 @@ class TypeMappingGenerator:
                         arg_conv = "", arg_conv_name = "(LDKu5){ ._0 = " + ty_info.var_name + " }", arg_conv_cleanup = None,
                         ret_conv = ("uint8_t " + ty_info.var_name + "_val = ", "._0;"), ret_conv_name = ty_info.var_name + "_val",
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " + ty_info.java_hu_ty + "(" + ty_info.var_name + ");",
-                        to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
+                        to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".getVal()", ""))
 
                 assert ty_info.rust_obj == "LDKTxOut"
                 if not ty_info.is_ptr and not holds_ref:
