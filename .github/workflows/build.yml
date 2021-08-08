@@ -102,7 +102,15 @@ jobs:
           cp ldk-java.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cp ldk-java-classes.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cd ldk-java-bins
-          git diff --exit-code
+          if ! git diff --exit-code; then
+            mv "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"* ./
+            git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+            apt-get -y install diffoscope
+            diffoscope ldk-java-sources.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-sources.jar"
+            diffoscope ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar"
+            diffoscope ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar"
+            exit 1
+          fi
 
   android:
     runs-on: ubuntu-latest
@@ -183,7 +191,13 @@ jobs:
           rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
           cp LDK-release.aar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cd ldk-java-bins
-          git diff --exit-code
+          if ! git diff --exit-code; then
+            mv "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar" ./
+            git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
+            apt-get -y install diffoscope
+            diffoscope LDK-release.aar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
+            exit 1
+          fi
 
   osx:
     strategy:
