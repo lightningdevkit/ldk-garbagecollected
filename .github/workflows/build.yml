@@ -82,13 +82,6 @@ jobs:
           ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
       - name: Build deterministic release jar
         run: ./build-release-jar.sh
-      - name: Run Java Tests against built release jar
-        run: |
-          mvn install:install-file -Dfile=ldk-java.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
-          cd javatester
-          mvn package
-          java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
-          cd ..
       - name: Check latest headers are in git
         run: |
           git diff --exit-code
@@ -111,6 +104,13 @@ jobs:
             diffoscope ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar"
             exit 1
           fi
+      - name: Run Java Tests against built release jar
+        run: |
+          mvn install:install-file -Dfile=ldk-java.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+          cd javatester
+          mvn package
+          java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
+          cd ..
 
   android:
     runs-on: ubuntu-latest
