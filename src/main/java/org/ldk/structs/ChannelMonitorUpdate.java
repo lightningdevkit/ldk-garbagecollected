@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -59,6 +60,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 */
 	public ChannelMonitorUpdate clone() {
 		long ret = bindings.ChannelMonitorUpdate_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelMonitorUpdate ret_hu_conv = new ChannelMonitorUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -77,6 +79,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 */
 	public static Result_ChannelMonitorUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelMonitorUpdate_read(ser);
+		if (ret < 1024) { return null; }
 		Result_ChannelMonitorUpdateDecodeErrorZ ret_hu_conv = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

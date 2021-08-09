@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -23,6 +24,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 */
 	public NodeFeatures get_features() {
 		long ret = bindings.UnsignedNodeAnnouncement_get_features(this.ptr);
+		if (ret < 1024) { return null; }
 		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -104,7 +106,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * List of addresses on which this node is reachable
 	 */
 	public void set_addresses(NetAddress[] val) {
-		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray());
+		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
 		/* TODO 2 NetAddress  */;
 	}
 
@@ -113,6 +115,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 */
 	public UnsignedNodeAnnouncement clone() {
 		long ret = bindings.UnsignedNodeAnnouncement_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		UnsignedNodeAnnouncement ret_hu_conv = new UnsignedNodeAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -131,6 +134,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 */
 	public static Result_UnsignedNodeAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UnsignedNodeAnnouncement_read(ser);
+		if (ret < 1024) { return null; }
 		Result_UnsignedNodeAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

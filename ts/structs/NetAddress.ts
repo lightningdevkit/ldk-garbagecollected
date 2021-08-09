@@ -73,6 +73,34 @@ export class OnionV3 extends NetAddress {
 		return ret_hu_conv;
 	}
 
+	public static NetAddress constructor_ipv4(Uint8Array addr, number port) {
+		number ret = bindings.NetAddress_ipv4(addr, port);
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static NetAddress constructor_ipv6(Uint8Array addr, number port) {
+		number ret = bindings.NetAddress_ipv6(addr, port);
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static NetAddress constructor_onion_v2(Uint8Array addr, number port) {
+		number ret = bindings.NetAddress_onion_v2(addr, port);
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static NetAddress constructor_onion_v3(Uint8Array ed25519_pubkey, number checksum, number version, number port) {
+		number ret = bindings.NetAddress_onion_v3(ed25519_pubkey, checksum, version, port);
+		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.NetAddress_write(this.ptr);
 		return ret;

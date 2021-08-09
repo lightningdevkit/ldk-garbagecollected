@@ -3,11 +3,26 @@ import CommonBase from './CommonBase';
 import * as bindings from '../bindings' // TODO: figure out location
 
 public class TxOut extends CommonBase{
-	TxOut(java.lang.Object _dummy, long ptr) { super(ptr); }
-	long to_c_ptr() { return 0; }
+	/** The script_pubkey in this output */
+	public final byte[] script_pubkey;
+	/** The value, in satoshis, of this output */
+	public final long value;
+
+	TxOut(java.lang.Object _dummy, long ptr) {
+		super(ptr);
+		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.value = bindings.TxOut_get_value(ptr);
+	}
+	public TxOut(long value, byte[] script_pubkey) {
+		super(bindings.TxOut_new(script_pubkey, value));
+		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.value = bindings.TxOut_get_value(ptr);
+	}
+
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		super.finalize();
 		if (ptr != 0) { bindings.TxOut_free(ptr); }
 	}
+
 }

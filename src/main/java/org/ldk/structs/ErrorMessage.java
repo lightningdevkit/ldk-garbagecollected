@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -50,15 +51,16 @@ public class ErrorMessage extends CommonBase {
 	 * or printed to stdout).  Otherwise, a well crafted error message may trigger a security
 	 * vulnerability in the terminal emulator or the logging subsystem.
 	 */
-	public void set_data(String val) {
+	public void set_data(java.lang.String val) {
 		bindings.ErrorMessage_set_data(this.ptr, val);
 	}
 
 	/**
 	 * Constructs a new ErrorMessage given each field
 	 */
-	public static ErrorMessage of(byte[] channel_id_arg, String data_arg) {
+	public static ErrorMessage of(byte[] channel_id_arg, java.lang.String data_arg) {
 		long ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
+		if (ret < 1024) { return null; }
 		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -69,6 +71,7 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public ErrorMessage clone() {
 		long ret = bindings.ErrorMessage_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -87,6 +90,7 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public static Result_ErrorMessageDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ErrorMessage_read(ser);
+		if (ret < 1024) { return null; }
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

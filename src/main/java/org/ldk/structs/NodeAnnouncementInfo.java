@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -23,6 +24,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public NodeFeatures get_features() {
 		long ret = bindings.NodeAnnouncementInfo_get_features(this.ptr);
+		if (ret < 1024) { return null; }
 		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -91,7 +93,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * Internet-level addresses via which one can connect to the node
 	 */
 	public void set_addresses(NetAddress[] val) {
-		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray());
+		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
 		/* TODO 2 NetAddress  */;
 	}
 
@@ -100,9 +102,13 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * Mostly redundant with the data we store in fields explicitly.
 	 * Everything else is useful only for sending out for initial routing sync.
 	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public NodeAnnouncement get_announcement_message() {
 		long ret = bindings.NodeAnnouncementInfo_get_announcement_message(this.ptr);
+		if (ret < 1024) { return null; }
 		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -113,8 +119,10 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * Mostly redundant with the data we store in fields explicitly.
 	 * Everything else is useful only for sending out for initial routing sync.
 	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_announcement_message(NodeAnnouncement val) {
+	public void set_announcement_message(@Nullable NodeAnnouncement val) {
 		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
 	}
@@ -123,7 +131,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
 	public static NodeAnnouncementInfo of(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
-		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray(), announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+		if (ret < 1024) { return null; }
 		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(features_arg);
@@ -137,6 +146,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public NodeAnnouncementInfo clone() {
 		long ret = bindings.NodeAnnouncementInfo_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -155,6 +165,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public static Result_NodeAnnouncementInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeAnnouncementInfo_read(ser);
+		if (ret < 1024) { return null; }
 		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

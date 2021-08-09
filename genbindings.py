@@ -70,6 +70,29 @@ def camel_to_snake(s):
             lastund = True
     return (ret + lastchar.lower()).strip("_")
 
+def doc_to_field_nullable(doc):
+    if doc is None:
+        return False
+    for line in doc.splitlines():
+        if "Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None" in line:
+            return True
+    return False
+
+def doc_to_params_ret_nullable(doc):
+    if doc is None:
+        return (set(), False)
+    params = set()
+    ret_null = False
+    for line in doc.splitlines():
+        if "may be NULL or all-0s to represent None" not in line:
+            continue
+        if "Note that the return value" in line:
+            ret_null = True
+        elif "Note that " in line:
+            param = line.split("Note that ")[1].split(" ")[0]
+            params.add(param)
+    return (params, ret_null)
+
 unitary_enums = set()
 complex_enums = set()
 opaque_structs = set()
@@ -418,6 +441,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
         return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, False)
 
+        (params_nullable, ret_nullable) = doc_to_params_ret_nullable(doc_comment)
+        if ret_nullable:
+            return_type_info.nullable = True
+
         argument_types = []
         default_constructor_args = {}
         takes_self = False
@@ -430,7 +457,10 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 takes_self = True
                 if argument_conversion_info.ty_info.is_ptr:
                     takes_self_ptr = True
+            elif argument_conversion_info.arg_name in params_nullable:
+                argument_conversion_info.nullable = True
             if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
+                assert not argument_conversion_info.arg_name in params_nullable
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
                     for explode_arg in constructor_fns[argument_conversion_info.rust_obj].split(','):
@@ -485,6 +515,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
             out_java_struct.write(out_java_struct_delta)
         elif (not is_free and not method_name.endswith("_clone") and
+                not method_name.startswith("TxOut") and
                 not method_name.startswith("_") and
                 method_name != "check_platform" and method_name != "Result_read" and
                 not expected_struct in unitary_enums and
@@ -501,7 +532,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         assert struct_name.startswith("LDK")
         with open(f"{sys.argv[3]}/enums/{struct_name[3:]}{consts.file_ext}", "w") as out_java_enum:
             unitary_enums.add(struct_name)
-            for idx, struct_line in enumerate(field_lines):
+            for idx, (struct_line, _) in enumerate(field_lines):
                 if idx == 0:
                     assert(struct_line == "typedef enum %s {" % struct_name)
                 elif idx == len(field_lines) - 3:
@@ -511,7 +542,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 elif idx == len(field_lines) - 1:
                     assert(struct_line == "")
             assert struct_name.startswith("LDK")
-            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [x.strip().strip(",") for x in field_lines[1:-3]], enum_doc_comment)
+            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [x.strip().strip(",") for x, _ in field_lines[1:-3]], enum_doc_comment)
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
@@ -522,7 +553,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
         enum_variants = []
         tag_field_lines = union_enum_items["field_lines"]
-        for idx, struct_line in enumerate(tag_field_lines):
+        for idx, (struct_line, _) in enumerate(tag_field_lines):
             if idx == 0:
                 assert(struct_line == "typedef enum %s_Tag {" % struct_name)
             elif idx == len(tag_field_lines) - 3:
@@ -536,12 +567,17 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 fields = []
                 if "LDK" + variant_name in union_enum_items:
                     enum_var_lines = union_enum_items["LDK" + variant_name]
-                    for idx, field in enumerate(enum_var_lines):
+                    for idx, (field, field_docs) in enumerate(enum_var_lines):
                         if idx != 0 and idx < len(enum_var_lines) - 2 and field.strip() != "":
-                            fields.append(type_mapping_generator.map_type(field.strip(' ;'), False, None, False, True))
+                            field_ty = type_mapping_generator.map_type(field.strip(' ;'), False, None, False, True)
+                            if field_docs is not None and doc_to_field_nullable(field_docs):
+                                field_ty.nullable = True
+                            fields.append((field_ty, field_docs))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, False))
                 elif camel_to_snake(variant_name) in inline_enum_variants:
-                    fields.append(type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True))
+                    # TODO: If we ever have a rust enum Variant(Option<Struct>) we need to pipe
+                    # docs through to there, and then potentially mark the field nullable.
+                    fields.append((type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True), None))
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
                 else:
                     enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
@@ -570,16 +606,28 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
 
             field_fns = []
             for fn_docs, fn_line in trait_fn_lines:
-                ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
-                is_const = fn_line.group(4) is not None
+                if fn_line == "cloned":
+                    ret_ty_info = type_mapping_generator.map_type("void", True, None, False, False)
+                    field_fns.append(TraitMethInfo("cloned", False, ret_ty_info, [], fn_docs))
+                else:
+                    ret_ty_info = type_mapping_generator.map_type(fn_line.group(2).strip() + " ret", True, None, False, False)
+                    is_const = fn_line.group(4) is not None
+                    (nullable_params, ret_nullable) = doc_to_params_ret_nullable(fn_docs)
+                    if ret_nullable:
+                        assert False # This isn't yet handled on the Java side
+                        ret_ty_info.nullable = True
 
-                arg_tys = []
-                for idx, arg in enumerate(fn_line.group(5).split(',')):
-                    if arg == "":
-                        continue
-                    arg_conv_info = type_mapping_generator.map_type(arg, True, None, False, False)
-                    arg_tys.append(arg_conv_info)
-                field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys, fn_docs))
+                    arg_tys = []
+                    for idx, arg in enumerate(fn_line.group(5).split(',')):
+                        if arg == "":
+                            continue
+                        arg_conv_info = type_mapping_generator.map_type(arg, True, None, False, False)
+                        if arg_conv_info.arg_name in nullable_params:
+                            # Types that are actually null instead of all-0s aren't yet handled on the Java side:
+                            assert arg_conv_info.rust_obj == "LDKPublicKey"
+                            arg_conv_info.nullable = True
+                        arg_tys.append(arg_conv_info)
+                    field_fns.append(TraitMethInfo(fn_line.group(3), is_const, ret_ty_info, arg_tys, fn_docs))
 
             (out_java_addendum, out_java_trait_addendum, out_c_addendum) = consts.native_c_map_trait(struct_name, field_var_convs, flattened_field_var_convs, field_fns, trait_doc_comment)
             write_c(out_c_addendum)
@@ -587,9 +635,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
             out_java.write(out_java_addendum)
 
         for fn_docs, fn_line in trait_fn_lines:
+            if fn_line == "cloned":
+                continue
             # For now, just disable enabling the _call_log - we don't know how to inverse-map String
             is_log = fn_line.group(3) == "log" and struct_name == "LDKLogger"
-            if fn_line.group(3) != "free" and fn_line.group(3) != "clone" and fn_line.group(3) != "eq" and not is_log:
+            if fn_line.group(3) != "free" and fn_line.group(3) != "eq" and not is_log:
                 dummy_line = fn_line.group(2) + struct_name.replace("LDK", "") + "_" + fn_line.group(3) + " " + struct_name + " *NONNULL_PTR this_arg" + fn_line.group(5) + "\n"
                 map_fn(dummy_line, re.compile("([A-Za-z_0-9]*) *([A-Za-z_0-9]*) *(.*)").match(dummy_line), None, "(this_arg_conv->" + fn_line.group(3) + ")(this_arg_conv->this_arg", fn_docs)
         for idx, var_line in enumerate(field_var_lines):
@@ -692,7 +742,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         out_java.write("\tpublic static native long " + struct_name + "_new(")
         write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_new", len(field_lines) > 3))
         ty_list = []
-        for idx, line in enumerate(field_lines):
+        for idx, (line, _) in enumerate(field_lines):
             if idx != 0 and idx < len(field_lines) - 2:
                 ty_info = java_c_types(line.strip(';'), None)
                 if idx != 1:
@@ -706,7 +756,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         out_java.write(");\n")
         write_c(") {\n")
         write_c("\t" + struct_name + "* ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-        for idx, line in enumerate(field_lines):
+        for idx, (line, _) in enumerate(field_lines):
             if idx != 0 and idx < len(field_lines) - 2:
                 ty_info = type_mapping_generator.map_type(line.strip(';'), False, None, False, False)
                 e = chr(ord('a') + idx - 1)
@@ -750,8 +800,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
     line_indicates_trait_regex = re.compile("^   (struct |enum |union )?([A-Za-z_0-9]* \*?)\(\*([A-Za-z_0-9]*)\)\((const )?void \*this_arg(.*)\);$")
     assert(line_indicates_trait_regex.match("   uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);"))
     assert(line_indicates_trait_regex.match("   struct LDKCVec_MessageSendEventZ (*get_and_clear_pending_msg_events)(const void *this_arg);"))
-    assert(line_indicates_trait_regex.match("   void *(*clone)(const void *this_arg);"))
     assert(line_indicates_trait_regex.match("   struct LDKCVec_u8Z (*write)(const void *this_arg);"))
+    line_indicates_trait_clone_regex = re.compile("^   void \(\*cloned\)\(struct ([A-Za-z0-9])* \*NONNULL_PTR new_[A-Za-z0-9]*\);$")
+    assert(line_indicates_trait_clone_regex.match("   void (*cloned)(struct LDKSign *NONNULL_PTR new_Sign);"))
     line_field_var_regex = re.compile("^   struct ([A-Za-z_0-9]*) ([A-Za-z_0-9]*);$")
     assert(line_field_var_regex.match("   struct LDKMessageSendEventsProvider MessageSendEventsProvider;"))
     assert(line_field_var_regex.match("   struct LDKChannelPublicKeys pubkeys;"))
@@ -783,6 +834,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 is_tuple = False
                 trait_fn_lines = []
                 field_var_lines = []
+                last_struct_block_comment = None
 
                 for idx, struct_line in enumerate(obj_lines):
                     if struct_line.strip().startswith("/*"):
@@ -817,10 +869,14 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                         trait_fn_match = line_indicates_trait_regex.match(struct_line)
                         if trait_fn_match is not None:
                             trait_fn_lines.append((last_struct_block_comment, trait_fn_match))
+                        trait_clone_fn_match = line_indicates_trait_clone_regex.match(struct_line)
+                        if trait_clone_fn_match is not None:
+                            trait_fn_lines.append((last_struct_block_comment, "cloned"))
                         field_var_match = line_field_var_regex.match(struct_line)
                         if field_var_match is not None:
                             field_var_lines.append(field_var_match)
-                        field_lines.append(struct_line)
+                        field_lines.append((struct_line, last_struct_block_comment))
+                        last_struct_block_comment = None
 
                 assert(struct_name is not None)
                 assert(len(trait_fn_lines) == 0 or not (is_opaque or is_unitary_enum or is_union_enum or is_union or result_contents is not None or vec_ty is not None))
@@ -842,7 +898,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     res_ty, err_ty = result_ptr_struct_items[result_contents]
                     map_result(struct_name, res_ty, err_ty)
                 elif struct_name.startswith("LDKCResult_") and struct_name.endswith("ZPtr"):
-                    for line in field_lines:
+                    for line, _ in field_lines:
                         if line.endswith("*result;"):
                             res_ty = line[:-8].strip()
                         elif line.endswith("*err;"):
@@ -904,7 +960,7 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 elif struct_name in union_enum_items:
                     tuple_variants = {}
                     elem_items = -1
-                    for line in field_lines:
+                    for line, _ in field_lines:
                         if line == "      struct {":
                             elem_items = 0
                         elif line == "      };":
@@ -933,15 +989,39 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
                         out_java_struct.write("public class TxOut extends CommonBase{\n")
-                        out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) { super(ptr); }\n")
-                        out_java_struct.write("\tlong to_c_ptr() { return 0; }\n")
+                        out_java_struct.write("\t/** The script_pubkey in this output */\n")
+                        out_java_struct.write("\tpublic final byte[] script_pubkey;\n")
+                        out_java_struct.write("\t/** The value, in satoshis, of this output */\n")
+                        out_java_struct.write("\tpublic final long value;\n")
+                        out_java_struct.write("\n")
+                        out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) {\n")
+                        out_java_struct.write("\t\tsuper(ptr);\n")
+                        out_java_struct.write("\t\tthis.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);\n")
+                        out_java_struct.write("\t\tthis.value = bindings.TxOut_get_value(ptr);\n")
+                        out_java_struct.write("\t}\n")
+                        out_java_struct.write("\tpublic TxOut(long value, byte[] script_pubkey) {\n")
+                        out_java_struct.write("\t\tsuper(bindings.TxOut_new(script_pubkey, value));\n")
+                        out_java_struct.write("\t\tthis.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);\n")
+                        out_java_struct.write("\t\tthis.value = bindings.TxOut_get_value(ptr);\n")
+                        out_java_struct.write("\t}\n")
+                        out_java_struct.write("\n")
                         out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
                         out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
                         out_java_struct.write("\t\tsuper.finalize();\n")
                         out_java_struct.write("\t\tif (ptr != 0) { bindings.TxOut_free(ptr); }\n")
                         out_java_struct.write("\t}\n")
-                        # TODO: TxOut body
+                        out_java_struct.write("\n")
                         out_java_struct.write("}")
+                        fn_line = "struct LDKCVec_u8Z TxOut_get_script_pubkey (struct LDKTxOut* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn CVec_u8Z_clone(&thing->script_pubkey);")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxOut_get_script_pubkey) \((.*)\)").match(fn_line), None, None, None)
+                        fn_line = "uint64_t TxOut_get_value (struct LDKTxOut* thing)"
+                        write_c(fn_line + " {")
+                        write_c("\treturn thing->value;")
+                        write_c("}")
+                        map_fn(fn_line + "\n", re.compile("(.*) (TxOut_get_value) \((.*)\)").match(fn_line), None, None, None)
                 else:
                     pass # Everything remaining is a byte[] or some form
                 cur_block_obj = None

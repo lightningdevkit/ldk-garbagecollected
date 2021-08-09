@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	private Result_CVec_CVec_u8ZZNoneZ(Object _dummy, long ptr) { super(ptr); }
@@ -37,6 +38,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_CVec_u8ZZNoneZ ok(byte[][] o) {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(o);
+		if (ret < 1024) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -46,6 +48,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_CVec_u8ZZNoneZ err() {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_err();
+		if (ret < 1024) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,6 +59,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ clone() {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

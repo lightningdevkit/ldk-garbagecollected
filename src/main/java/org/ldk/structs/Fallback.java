@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -61,8 +62,42 @@ public class Fallback extends CommonBase {
 	 */
 	public Fallback clone() {
 		long ret = bindings.Fallback_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SegWitProgram-variant Fallback
+	 */
+	public static Fallback seg_wit_program(UInt5 version, byte[] program) {
+		long ret = bindings.Fallback_seg_wit_program(version.getVal(), program);
+		if (ret < 1024) { return null; }
+		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PubKeyHash-variant Fallback
+	 */
+	public static Fallback pub_key_hash(byte[] a) {
+		long ret = bindings.Fallback_pub_key_hash(a);
+		if (ret < 1024) { return null; }
+		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ScriptHash-variant Fallback
+	 */
+	public static Fallback script_hash(byte[] a) {
+		long ret = bindings.Fallback_script_hash(a);
+		if (ret < 1024) { return null; }
+		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -44,6 +45,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public ChannelCounterparty get_counterparty() {
 		long ret = bindings.ChannelDetails_get_counterparty(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelCounterparty ret_hu_conv = new ChannelCounterparty(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -63,9 +65,13 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * Note that, if this has been set, `channel_id` will be equivalent to
 	 * `funding_txo.unwrap().to_channel_id()`.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public OutPoint get_funding_txo() {
 		long ret = bindings.ChannelDetails_get_funding_txo(this.ptr);
+		if (ret < 1024) { return null; }
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -77,8 +83,10 @@ public class ChannelDetails extends CommonBase {
 	 * 
 	 * Note that, if this has been set, `channel_id` will be equivalent to
 	 * `funding_txo.unwrap().to_channel_id()`.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_funding_txo(OutPoint val) {
+	public void set_funding_txo(@Nullable OutPoint val) {
 		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
 	}
@@ -89,6 +97,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public Option_u64Z get_short_channel_id() {
 		long ret = bindings.ChannelDetails_get_short_channel_id(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -130,6 +139,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public Option_u64Z get_unspendable_punishment_reserve() {
 		long ret = bindings.ChannelDetails_get_unspendable_punishment_reserve(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -240,6 +250,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public Option_u32Z get_confirmations_required() {
 		long ret = bindings.ChannelDetails_get_confirmations_required(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -273,6 +284,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public Option_u16Z get_force_close_spend_delay() {
 		long ret = bindings.ChannelDetails_get_force_close_spend_delay(this.ptr);
+		if (ret < 1024) { return null; }
 		Option_u16Z ret_hu_conv = Option_u16Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -374,6 +386,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, Option_u64Z short_channel_id_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_id_arg, long outbound_capacity_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_funding_locked_arg, boolean is_usable_arg, boolean is_public_arg) {
 		long ret = bindings.ChannelDetails_new(channel_id_arg, counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+		if (ret < 1024) { return null; }
 		ChannelDetails ret_hu_conv = new ChannelDetails(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(counterparty_arg);
@@ -386,6 +399,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public ChannelDetails clone() {
 		long ret = bindings.ChannelDetails_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelDetails ret_hu_conv = new ChannelDetails(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

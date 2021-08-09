@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * A trait which should be implemented to provide feerate information on a number of time
@@ -60,7 +61,7 @@ public class FeeEstimator extends CommonBase {
 	 * satoshis-per-byte * 250
 	 * ceil(satoshis-per-kbyte / 4)
 	 */
-	public int get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target) {
+	public int get_est_sat_per_1000_weight(org.ldk.enums.ConfirmationTarget confirmation_target) {
 		int ret = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);
 		return ret;
 	}

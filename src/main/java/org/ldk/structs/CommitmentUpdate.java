@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -23,7 +24,7 @@ public class CommitmentUpdate extends CommonBase {
 	 * update_add_htlc messages which should be sent
 	 */
 	public void set_update_add_htlcs(UpdateAddHTLC[] val) {
-		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, Arrays.stream(val).mapToLong(val_conv_15 -> val_conv_15 == null ? 0 : val_conv_15.ptr & ~1).toArray());
+		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_15 -> val_conv_15 == null ? 0 : val_conv_15.ptr & ~1).toArray() : null);
 		/* TODO 2 UpdateAddHTLC  */;
 	}
 
@@ -31,7 +32,7 @@ public class CommitmentUpdate extends CommonBase {
 	 * update_fulfill_htlc messages which should be sent
 	 */
 	public void set_update_fulfill_htlcs(UpdateFulfillHTLC[] val) {
-		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, Arrays.stream(val).mapToLong(val_conv_19 -> val_conv_19 == null ? 0 : val_conv_19.ptr & ~1).toArray());
+		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_19 -> val_conv_19 == null ? 0 : val_conv_19.ptr & ~1).toArray() : null);
 		/* TODO 2 UpdateFulfillHTLC  */;
 	}
 
@@ -39,7 +40,7 @@ public class CommitmentUpdate extends CommonBase {
 	 * update_fail_htlc messages which should be sent
 	 */
 	public void set_update_fail_htlcs(UpdateFailHTLC[] val) {
-		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, Arrays.stream(val).mapToLong(val_conv_16 -> val_conv_16 == null ? 0 : val_conv_16.ptr & ~1).toArray());
+		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_16 -> val_conv_16 == null ? 0 : val_conv_16.ptr & ~1).toArray() : null);
 		/* TODO 2 UpdateFailHTLC  */;
 	}
 
@@ -47,15 +48,19 @@ public class CommitmentUpdate extends CommonBase {
 	 * update_fail_malformed_htlc messages which should be sent
 	 */
 	public void set_update_fail_malformed_htlcs(UpdateFailMalformedHTLC[] val) {
-		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, Arrays.stream(val).mapToLong(val_conv_25 -> val_conv_25 == null ? 0 : val_conv_25.ptr & ~1).toArray());
+		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_25 -> val_conv_25 == null ? 0 : val_conv_25.ptr & ~1).toArray() : null);
 		/* TODO 2 UpdateFailMalformedHTLC  */;
 	}
 
 	/**
 	 * An update_fee message which should be sent
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public UpdateFee get_update_fee() {
 		long ret = bindings.CommitmentUpdate_get_update_fee(this.ptr);
+		if (ret < 1024) { return null; }
 		UpdateFee ret_hu_conv = new UpdateFee(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -63,8 +68,10 @@ public class CommitmentUpdate extends CommonBase {
 
 	/**
 	 * An update_fee message which should be sent
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_update_fee(UpdateFee val) {
+	public void set_update_fee(@Nullable UpdateFee val) {
 		bindings.CommitmentUpdate_set_update_fee(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
 	}
@@ -74,6 +81,7 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public CommitmentSigned get_commitment_signed() {
 		long ret = bindings.CommitmentUpdate_get_commitment_signed(this.ptr);
+		if (ret < 1024) { return null; }
 		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -91,7 +99,8 @@ public class CommitmentUpdate extends CommonBase {
 	 * Constructs a new CommitmentUpdate given each field
 	 */
 	public static CommitmentUpdate of(UpdateAddHTLC[] update_add_htlcs_arg, UpdateFulfillHTLC[] update_fulfill_htlcs_arg, UpdateFailHTLC[] update_fail_htlcs_arg, UpdateFailMalformedHTLC[] update_fail_malformed_htlcs_arg, UpdateFee update_fee_arg, CommitmentSigned commitment_signed_arg) {
-		long ret = bindings.CommitmentUpdate_new(Arrays.stream(update_add_htlcs_arg).mapToLong(update_add_htlcs_arg_conv_15 -> update_add_htlcs_arg_conv_15 == null ? 0 : update_add_htlcs_arg_conv_15.ptr & ~1).toArray(), Arrays.stream(update_fulfill_htlcs_arg).mapToLong(update_fulfill_htlcs_arg_conv_19 -> update_fulfill_htlcs_arg_conv_19 == null ? 0 : update_fulfill_htlcs_arg_conv_19.ptr & ~1).toArray(), Arrays.stream(update_fail_htlcs_arg).mapToLong(update_fail_htlcs_arg_conv_16 -> update_fail_htlcs_arg_conv_16 == null ? 0 : update_fail_htlcs_arg_conv_16.ptr & ~1).toArray(), Arrays.stream(update_fail_malformed_htlcs_arg).mapToLong(update_fail_malformed_htlcs_arg_conv_25 -> update_fail_malformed_htlcs_arg_conv_25 == null ? 0 : update_fail_malformed_htlcs_arg_conv_25.ptr & ~1).toArray(), update_fee_arg == null ? 0 : update_fee_arg.ptr & ~1, commitment_signed_arg == null ? 0 : commitment_signed_arg.ptr & ~1);
+		long ret = bindings.CommitmentUpdate_new(update_add_htlcs_arg != null ? Arrays.stream(update_add_htlcs_arg).mapToLong(update_add_htlcs_arg_conv_15 -> update_add_htlcs_arg_conv_15 == null ? 0 : update_add_htlcs_arg_conv_15.ptr & ~1).toArray() : null, update_fulfill_htlcs_arg != null ? Arrays.stream(update_fulfill_htlcs_arg).mapToLong(update_fulfill_htlcs_arg_conv_19 -> update_fulfill_htlcs_arg_conv_19 == null ? 0 : update_fulfill_htlcs_arg_conv_19.ptr & ~1).toArray() : null, update_fail_htlcs_arg != null ? Arrays.stream(update_fail_htlcs_arg).mapToLong(update_fail_htlcs_arg_conv_16 -> update_fail_htlcs_arg_conv_16 == null ? 0 : update_fail_htlcs_arg_conv_16.ptr & ~1).toArray() : null, update_fail_malformed_htlcs_arg != null ? Arrays.stream(update_fail_malformed_htlcs_arg).mapToLong(update_fail_malformed_htlcs_arg_conv_25 -> update_fail_malformed_htlcs_arg_conv_25 == null ? 0 : update_fail_malformed_htlcs_arg_conv_25.ptr & ~1).toArray() : null, update_fee_arg == null ? 0 : update_fee_arg.ptr & ~1, commitment_signed_arg == null ? 0 : commitment_signed_arg.ptr & ~1);
+		if (ret < 1024) { return null; }
 		CommitmentUpdate ret_hu_conv = new CommitmentUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		/* TODO 2 UpdateAddHTLC  */;
@@ -108,6 +117,7 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public CommitmentUpdate clone() {
 		long ret = bindings.CommitmentUpdate_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		CommitmentUpdate ret_hu_conv = new CommitmentUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

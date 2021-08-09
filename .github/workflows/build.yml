@@ -10,6 +10,8 @@ jobs:
     container: debian:bullseye
     env:
       TOOLCHAIN: stable
+    strategy:
+      fail-fast: false
     steps:
       - name: Install native Rust toolchain, Valgrind, and build utilitis
         run: |
@@ -32,6 +34,8 @@ jobs:
           git checkout origin/2021-03-java-bindings-base
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.99
       - name: Rebuild C bindings without STD for WASM
         run: |
           cd ldk-c-bindings
@@ -80,13 +84,6 @@ jobs:
           ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
       - name: Build deterministic release jar
         run: ./build-release-jar.sh
-      - name: Run Java Tests against built release jar
-        run: |
-          mvn install:install-file -Dfile=ldk-java.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
-          cd javatester
-          mvn package
-          java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
-          cd ..
       - name: Check latest headers are in git
         run: |
           git diff --exit-code
@@ -100,7 +97,22 @@ jobs:
           cp ldk-java.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cp ldk-java-classes.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cd ldk-java-bins
-          git diff --exit-code
+          if ! git diff --exit-code; then
+            mv "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"* ./
+            git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+            apt-get -y install diffoscope
+            diffoscope ldk-java-sources.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-sources.jar"
+            diffoscope ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar"
+            diffoscope ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar"
+            exit 1
+          fi
+      - name: Run Java Tests against built release jar
+        run: |
+          mvn install:install-file -Dfile=ldk-java.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+          cd javatester
+          mvn package
+          java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
+          cd ..
 
   android:
     runs-on: ubuntu-latest
@@ -108,6 +120,8 @@ jobs:
     container: debian:bullseye
     env:
       TOOLCHAIN: stable
+    strategy:
+      fail-fast: false
     steps:
       - name: Install rust targets
         run: |
@@ -148,6 +162,8 @@ jobs:
           git checkout origin/2021-03-java-bindings-base
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.99
       - name: Detect current git version
         run: |
           # We assume the top commit is just a bindings update commit, so we
@@ -179,7 +195,13 @@ jobs:
           rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
           cp LDK-release.aar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cd ldk-java-bins
-          git diff --exit-code
+          if ! git diff --exit-code; then
+            mv "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar" ./
+            git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
+            apt-get -y install diffoscope
+            diffoscope LDK-release.aar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
+            exit 1
+          fi
 
   osx:
     strategy:
@@ -187,6 +209,7 @@ jobs:
         include:
           - platform: macos-10.15
           - platform: macos-11
+      fail-fast: false
     runs-on: ${{ matrix.platform }}
     env:
       TOOLCHAIN: stable
@@ -213,13 +236,14 @@ jobs:
         run: |
           git config --global user.email "ldk-ci@example.com"
           git config --global user.name "LDK CI"
-          git clone https://github.com/rust-bitcoin/rust-lightning
+          # Note this is a different endpoint, as we need one non-upstream commit!
+          git clone https://git.bitcoin.ninja/rust-lightning
           cd rust-lightning
-          git remote add matt https://git.bitcoin.ninja/rust-lightning
-          git fetch matt
-          git merge matt/2021-03-java-bindings-base
+          git checkout origin/2021-03-java-bindings-base
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.99
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
           cd ldk-c-bindings

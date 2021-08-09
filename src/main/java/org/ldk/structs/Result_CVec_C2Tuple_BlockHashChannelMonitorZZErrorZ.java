@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonBase {
 	private Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -52,7 +53,8 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	 * Creates a new CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ in the success state.
 	 */
 	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ok(TwoTuple<byte[], ChannelMonitor>[] o) {
-		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(Arrays.stream(o).mapToLong(o_conv_34 -> bindings.C2Tuple_BlockHashChannelMonitorZ_new(o_conv_34.a, o_conv_34.b == null ? 0 : o_conv_34.b.ptr & ~1)).toArray());
+		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o != null ? Arrays.stream(o).mapToLong(o_conv_34 -> bindings.C2Tuple_BlockHashChannelMonitorZ_new(o_conv_34.a, o_conv_34.b == null ? 0 : o_conv_34.b.ptr & ~1)).toArray() : null);
+		if (ret < 1024) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		/* TODO 2 TwoTuple<byte[], ChannelMonitor>  */;
 		return ret_hu_conv;
@@ -61,8 +63,9 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ in the error state.
 	 */
-	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ err(IOError e) {
+	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ err(org.ldk.enums.IOError e) {
 		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e);
+		if (ret < 1024) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

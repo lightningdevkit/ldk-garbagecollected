@@ -39,6 +39,20 @@ export class CreationError extends SignOrCreationError {
 		return ret_hu_conv;
 	}
 
+	public static SignOrCreationError constructor_sign_error() {
+		number ret = bindings.SignOrCreationError_sign_error();
+		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static SignOrCreationError constructor_creation_error(CreationError a) {
+		number ret = bindings.SignOrCreationError_creation_error(a);
+		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	public boolean eq(SignOrCreationError b) {
 		boolean ret = bindings.SignOrCreationError_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
 		this.ptrs_to.add(b);

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -41,6 +42,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public InitFeatures get_features() {
 		long ret = bindings.ChannelCounterparty_get_features(this.ptr);
+		if (ret < 1024) { return null; }
 		InitFeatures ret_hu_conv = new InitFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -88,6 +90,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public ChannelCounterparty clone() {
 		long ret = bindings.ChannelCounterparty_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelCounterparty ret_hu_conv = new ChannelCounterparty(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_SignatureNoneZ extends CommonBase {
 	private Result_SignatureNoneZ(Object _dummy, long ptr) { super(ptr); }
@@ -37,6 +38,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	 */
 	public static Result_SignatureNoneZ ok(byte[] o) {
 		long ret = bindings.CResult_SignatureNoneZ_ok(o);
+		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -46,6 +48,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	 */
 	public static Result_SignatureNoneZ err() {
 		long ret = bindings.CResult_SignatureNoneZ_err();
+		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,6 +59,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	 */
 	public Result_SignatureNoneZ clone() {
 		long ret = bindings.CResult_SignatureNoneZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

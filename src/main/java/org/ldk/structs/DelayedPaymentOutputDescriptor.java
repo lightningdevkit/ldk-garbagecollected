@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -24,6 +25,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 */
 	public OutPoint get_outpoint() {
 		long ret = bindings.DelayedPaymentOutputDescriptor_get_outpoint(this.ptr);
+		if (ret < 1024) { return null; }
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -132,6 +134,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 */
 	public static DelayedPaymentOutputDescriptor of(OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, TxOut output_arg, byte[] revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
 		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, per_commitment_point_arg, to_self_delay_arg, output_arg.ptr, revocation_pubkey_arg, channel_keys_id_arg, channel_value_satoshis_arg);
+		if (ret < 1024) { return null; }
 		DelayedPaymentOutputDescriptor ret_hu_conv = new DelayedPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(outpoint_arg);
@@ -143,6 +146,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 */
 	public DelayedPaymentOutputDescriptor clone() {
 		long ret = bindings.DelayedPaymentOutputDescriptor_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		DelayedPaymentOutputDescriptor ret_hu_conv = new DelayedPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -161,6 +165,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 */
 	public static Result_DelayedPaymentOutputDescriptorDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.DelayedPaymentOutputDescriptor_read(ser);
+		if (ret < 1024) { return null; }
 		Result_DelayedPaymentOutputDescriptorDecodeErrorZ ret_hu_conv = Result_DelayedPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

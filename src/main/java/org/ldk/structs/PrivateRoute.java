@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -37,6 +38,7 @@ public class PrivateRoute extends CommonBase {
 	 */
 	public PrivateRoute clone() {
 		long ret = bindings.PrivateRoute_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		PrivateRoute ret_hu_conv = new PrivateRoute(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -47,6 +49,7 @@ public class PrivateRoute extends CommonBase {
 	 */
 	public static Result_PrivateRouteCreationErrorZ of(RouteHint hops) {
 		long ret = bindings.PrivateRoute_new(hops == null ? 0 : hops.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(hops);
 		return ret_hu_conv;
@@ -57,6 +60,7 @@ public class PrivateRoute extends CommonBase {
 	 */
 	public RouteHint into_inner() {
 		long ret = bindings.PrivateRoute_into_inner(this.ptr);
+		if (ret < 1024) { return null; }
 		RouteHint ret_hu_conv = new RouteHint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		this.ptrs_to.add(this);

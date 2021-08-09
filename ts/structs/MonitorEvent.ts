@@ -47,4 +47,20 @@ export class CommitmentTxBroadcasted extends MonitorEvent {
 		return ret_hu_conv;
 	}
 
+	public static MonitorEvent constructor_htlcevent(HTLCUpdate a) {
+		number ret = bindings.MonitorEvent_htlcevent(a == null ? 0 : a.ptr & ~1);
+		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
+		return ret_hu_conv;
+	}
+
+	public static MonitorEvent constructor_commitment_tx_broadcasted(OutPoint a) {
+		number ret = bindings.MonitorEvent_commitment_tx_broadcasted(a == null ? 0 : a.ptr & ~1);
+		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
+		return ret_hu_conv;
+	}
+
 }

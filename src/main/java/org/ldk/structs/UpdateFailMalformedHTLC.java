@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -68,6 +69,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public UpdateFailMalformedHTLC clone() {
 		long ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		UpdateFailMalformedHTLC ret_hu_conv = new UpdateFailMalformedHTLC(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -86,6 +88,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public static Result_UpdateFailMalformedHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateFailMalformedHTLC_read(ser);
+		if (ret < 1024) { return null; }
 		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -23,6 +24,7 @@ public class LockedNetworkGraph extends CommonBase implements AutoCloseable {
 	 */
 	public NetworkGraph graph() {
 		long ret = bindings.LockedNetworkGraph_graph(this.ptr);
+		if (ret < 1024) { return null; }
 		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

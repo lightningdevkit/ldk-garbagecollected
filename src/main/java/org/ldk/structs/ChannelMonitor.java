@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -38,6 +39,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public ChannelMonitor clone() {
 		long ret = bindings.ChannelMonitor_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelMonitor ret_hu_conv = new ChannelMonitor(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -59,6 +61,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public Result_NoneMonitorUpdateErrorZ update_monitor(ChannelMonitorUpdate updates, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
 		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr & ~1, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		if (ret < 1024) { return null; }
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(updates);
 		this.ptrs_to.add(broadcaster);
@@ -81,6 +84,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public TwoTuple<OutPoint, byte[]> get_funding_txo() {
 		long ret = bindings.ChannelMonitor_get_funding_txo(this.ptr);
+		if (ret < 1024) { return null; }
 		long ret_a = bindings.LDKC2Tuple_OutPointScriptZ_get_a(ret);
 		OutPoint ret_a_hu_conv = new OutPoint(null, ret_a);
 		ret_a_hu_conv.ptrs_to.add(this);;
@@ -197,7 +201,7 @@ public class ChannelMonitor extends CommonBase {
 	 * [`get_outputs_to_watch`]: #method.get_outputs_to_watch
 	 */
 	public TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] block_connected(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray() : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] ret_conv_46_arr = new TwoTuple[ret.length];
 		for (int u = 0; u < ret.length; u++) {
 			long ret_conv_46 = ret[u];
@@ -247,7 +251,7 @@ public class ChannelMonitor extends CommonBase {
 	 * [`block_connected`]: Self::block_connected
 	 */
 	public TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] transactions_confirmed(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		long[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, header, Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray(), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		long[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray() : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] ret_conv_46_arr = new TwoTuple[ret.length];
 		for (int u = 0; u < ret.length; u++) {
 			long ret_conv_46 = ret[u];
@@ -343,6 +347,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public BestBlock current_best_block() {
 		long ret = bindings.ChannelMonitor_current_best_block(this.ptr);
+		if (ret < 1024) { return null; }
 		BestBlock ret_hu_conv = new BestBlock(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

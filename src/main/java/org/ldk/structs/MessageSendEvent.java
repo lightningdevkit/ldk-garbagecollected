@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -85,7 +86,13 @@ public class MessageSendEvent extends CommonBase {
 	}
 
 	public final static class SendAcceptChannel extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
 		public final AcceptChannel msg;
 		private SendAcceptChannel(long ptr, bindings.LDKMessageSendEvent.SendAcceptChannel obj) {
 			super(null, ptr);
@@ -97,7 +104,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendOpenChannel extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
 		public final OpenChannel msg;
 		private SendOpenChannel(long ptr, bindings.LDKMessageSendEvent.SendOpenChannel obj) {
 			super(null, ptr);
@@ -109,7 +122,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendFundingCreated extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
 		public final FundingCreated msg;
 		private SendFundingCreated(long ptr, bindings.LDKMessageSendEvent.SendFundingCreated obj) {
 			super(null, ptr);
@@ -121,7 +140,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendFundingSigned extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
 		public final FundingSigned msg;
 		private SendFundingSigned(long ptr, bindings.LDKMessageSendEvent.SendFundingSigned obj) {
 			super(null, ptr);
@@ -133,7 +158,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendFundingLocked extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive these message(s)
+		*/
 		public final byte[] node_id;
+		/**
+		 * The funding_locked message which should be sent.
+		*/
 		public final FundingLocked msg;
 		private SendFundingLocked(long ptr, bindings.LDKMessageSendEvent.SendFundingLocked obj) {
 			super(null, ptr);
@@ -145,7 +176,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendAnnouncementSignatures extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive these message(s)
+		*/
 		public final byte[] node_id;
+		/**
+		 * The announcement_signatures message which should be sent.
+		*/
 		public final AnnouncementSignatures msg;
 		private SendAnnouncementSignatures(long ptr, bindings.LDKMessageSendEvent.SendAnnouncementSignatures obj) {
 			super(null, ptr);
@@ -157,7 +194,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class UpdateHTLCs extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive these message(s)
+		*/
 		public final byte[] node_id;
+		/**
+		 * The update messages which should be sent. ALL messages in the struct should be sent!
+		*/
 		public final CommitmentUpdate updates;
 		private UpdateHTLCs(long ptr, bindings.LDKMessageSendEvent.UpdateHTLCs obj) {
 			super(null, ptr);
@@ -169,7 +212,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendRevokeAndACK extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
 		public final RevokeAndACK msg;
 		private SendRevokeAndACK(long ptr, bindings.LDKMessageSendEvent.SendRevokeAndACK obj) {
 			super(null, ptr);
@@ -181,7 +230,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendClosingSigned extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
 		public final ClosingSigned msg;
 		private SendClosingSigned(long ptr, bindings.LDKMessageSendEvent.SendClosingSigned obj) {
 			super(null, ptr);
@@ -193,7 +248,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendShutdown extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
 		public final Shutdown msg;
 		private SendShutdown(long ptr, bindings.LDKMessageSendEvent.SendShutdown obj) {
 			super(null, ptr);
@@ -205,7 +266,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendChannelReestablish extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The message which should be sent.
+		*/
 		public final ChannelReestablish msg;
 		private SendChannelReestablish(long ptr, bindings.LDKMessageSendEvent.SendChannelReestablish obj) {
 			super(null, ptr);
@@ -217,7 +284,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class BroadcastChannelAnnouncement extends MessageSendEvent {
+		/**
+		 * The channel_announcement which should be sent.
+		*/
 		public final ChannelAnnouncement msg;
+		/**
+		 * The followup channel_update which should be sent.
+		*/
 		public final ChannelUpdate update_msg;
 		private BroadcastChannelAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelAnnouncement obj) {
 			super(null, ptr);
@@ -232,6 +305,9 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class BroadcastNodeAnnouncement extends MessageSendEvent {
+		/**
+		 * The node_announcement which should be sent.
+		*/
 		public final NodeAnnouncement msg;
 		private BroadcastNodeAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement obj) {
 			super(null, ptr);
@@ -242,6 +318,9 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class BroadcastChannelUpdate extends MessageSendEvent {
+		/**
+		 * The channel_update which should be sent.
+		*/
 		public final ChannelUpdate msg;
 		private BroadcastChannelUpdate(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelUpdate obj) {
 			super(null, ptr);
@@ -252,7 +331,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendChannelUpdate extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The channel_update which should be sent.
+		*/
 		public final ChannelUpdate msg;
 		private SendChannelUpdate(long ptr, bindings.LDKMessageSendEvent.SendChannelUpdate obj) {
 			super(null, ptr);
@@ -264,7 +349,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class HandleError extends MessageSendEvent {
+		/**
+		 * The node_id of the node which should receive this message
+		*/
 		public final byte[] node_id;
+		/**
+		 * The action which should be taken.
+		*/
 		public final ErrorAction action;
 		private HandleError(long ptr, bindings.LDKMessageSendEvent.HandleError obj) {
 			super(null, ptr);
@@ -276,6 +367,9 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class PaymentFailureNetworkUpdate extends MessageSendEvent {
+		/**
+		 * The channel/node update which should be sent to NetGraphMsgHandler
+		*/
 		public final HTLCFailChannelUpdate update;
 		private PaymentFailureNetworkUpdate(long ptr, bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate obj) {
 			super(null, ptr);
@@ -286,7 +380,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendChannelRangeQuery extends MessageSendEvent {
+		/**
+		 * The node_id of this message recipient
+		*/
 		public final byte[] node_id;
+		/**
+		 * The query_channel_range which should be sent.
+		*/
 		public final QueryChannelRange msg;
 		private SendChannelRangeQuery(long ptr, bindings.LDKMessageSendEvent.SendChannelRangeQuery obj) {
 			super(null, ptr);
@@ -298,7 +398,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendShortIdsQuery extends MessageSendEvent {
+		/**
+		 * The node_id of this message recipient
+		*/
 		public final byte[] node_id;
+		/**
+		 * The query_short_channel_ids which should be sent.
+		*/
 		public final QueryShortChannelIds msg;
 		private SendShortIdsQuery(long ptr, bindings.LDKMessageSendEvent.SendShortIdsQuery obj) {
 			super(null, ptr);
@@ -310,7 +416,13 @@ public class MessageSendEvent extends CommonBase {
 		}
 	}
 	public final static class SendReplyChannelRange extends MessageSendEvent {
+		/**
+		 * The node_id of this message recipient
+		*/
 		public final byte[] node_id;
+		/**
+		 * The reply_channel_range which should be sent.
+		*/
 		public final ReplyChannelRange msg;
 		private SendReplyChannelRange(long ptr, bindings.LDKMessageSendEvent.SendReplyChannelRange obj) {
 			super(null, ptr);
@@ -326,8 +438,248 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public MessageSendEvent clone() {
 		long ret = bindings.MessageSendEvent_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendAcceptChannel-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_accept_channel(byte[] node_id, AcceptChannel msg) {
+		long ret = bindings.MessageSendEvent_send_accept_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendOpenChannel-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_open_channel(byte[] node_id, OpenChannel msg) {
+		long ret = bindings.MessageSendEvent_send_open_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendFundingCreated-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_funding_created(byte[] node_id, FundingCreated msg) {
+		long ret = bindings.MessageSendEvent_send_funding_created(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendFundingSigned-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_funding_signed(byte[] node_id, FundingSigned msg) {
+		long ret = bindings.MessageSendEvent_send_funding_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendFundingLocked-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_funding_locked(byte[] node_id, FundingLocked msg) {
+		long ret = bindings.MessageSendEvent_send_funding_locked(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendAnnouncementSignatures-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_announcement_signatures(byte[] node_id, AnnouncementSignatures msg) {
+		long ret = bindings.MessageSendEvent_send_announcement_signatures(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new UpdateHTLCs-variant MessageSendEvent
+	 */
+	public static MessageSendEvent update_htlcs(byte[] node_id, CommitmentUpdate updates) {
+		long ret = bindings.MessageSendEvent_update_htlcs(node_id, updates == null ? 0 : updates.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(updates);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendRevokeAndACK-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_revoke_and_ack(byte[] node_id, RevokeAndACK msg) {
+		long ret = bindings.MessageSendEvent_send_revoke_and_ack(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendClosingSigned-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_closing_signed(byte[] node_id, ClosingSigned msg) {
+		long ret = bindings.MessageSendEvent_send_closing_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendShutdown-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_shutdown(byte[] node_id, Shutdown msg) {
+		long ret = bindings.MessageSendEvent_send_shutdown(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendChannelReestablish-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_channel_reestablish(byte[] node_id, ChannelReestablish msg) {
+		long ret = bindings.MessageSendEvent_send_channel_reestablish(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new BroadcastChannelAnnouncement-variant MessageSendEvent
+	 */
+	public static MessageSendEvent broadcast_channel_announcement(ChannelAnnouncement msg, ChannelUpdate update_msg) {
+		long ret = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0 : msg.ptr & ~1, update_msg == null ? 0 : update_msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		ret_hu_conv.ptrs_to.add(update_msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new BroadcastNodeAnnouncement-variant MessageSendEvent
+	 */
+	public static MessageSendEvent broadcast_node_announcement(NodeAnnouncement msg) {
+		long ret = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new BroadcastChannelUpdate-variant MessageSendEvent
+	 */
+	public static MessageSendEvent broadcast_channel_update(ChannelUpdate msg) {
+		long ret = bindings.MessageSendEvent_broadcast_channel_update(msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendChannelUpdate-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_channel_update(byte[] node_id, ChannelUpdate msg) {
+		long ret = bindings.MessageSendEvent_send_channel_update(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new HandleError-variant MessageSendEvent
+	 */
+	public static MessageSendEvent handle_error(byte[] node_id, ErrorAction action) {
+		long ret = bindings.MessageSendEvent_handle_error(node_id, action.ptr);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PaymentFailureNetworkUpdate-variant MessageSendEvent
+	 */
+	public static MessageSendEvent payment_failure_network_update(HTLCFailChannelUpdate update) {
+		long ret = bindings.MessageSendEvent_payment_failure_network_update(update.ptr);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendChannelRangeQuery-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_channel_range_query(byte[] node_id, QueryChannelRange msg) {
+		long ret = bindings.MessageSendEvent_send_channel_range_query(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendShortIdsQuery-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_short_ids_query(byte[] node_id, QueryShortChannelIds msg) {
+		long ret = bindings.MessageSendEvent_send_short_ids_query(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendReplyChannelRange-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_reply_channel_range(byte[] node_id, ReplyChannelRange msg) {
+		long ret = bindings.MessageSendEvent_send_reply_channel_range(node_id, msg == null ? 0 : msg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

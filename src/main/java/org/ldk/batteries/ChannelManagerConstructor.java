@@ -1,6 +1,6 @@
 package org.ldk.batteries;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.ldk.enums.Network;
 import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;

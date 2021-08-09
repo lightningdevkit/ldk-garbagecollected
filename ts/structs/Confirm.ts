@@ -77,7 +77,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                 held: Confirm;
             }
 	public void transactions_confirmed(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
-		bindings.Confirm_transactions_confirmed(this.ptr, header, Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new), height);
+		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new) : null, height);
 		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
 	}
 

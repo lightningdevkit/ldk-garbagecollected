@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -34,6 +35,7 @@ public class Sha256 extends CommonBase {
 	 */
 	public Sha256 clone() {
 		long ret = bindings.Sha256_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Sha256 ret_hu_conv = new Sha256(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

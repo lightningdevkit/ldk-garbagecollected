@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -39,6 +40,9 @@ public class APIError extends CommonBase {
 	}
 
 	public final static class APIMisuseError extends APIError {
+		/**
+		 * A human-readable error message
+		*/
 		public final String err;
 		private APIMisuseError(long ptr, bindings.LDKAPIError.APIMisuseError obj) {
 			super(null, ptr);
@@ -46,7 +50,13 @@ public class APIError extends CommonBase {
 		}
 	}
 	public final static class FeeRateTooHigh extends APIError {
+		/**
+		 * A human-readable error message
+		*/
 		public final String err;
+		/**
+		 * The feerate which was too high.
+		*/
 		public final int feerate;
 		private FeeRateTooHigh(long ptr, bindings.LDKAPIError.FeeRateTooHigh obj) {
 			super(null, ptr);
@@ -55,6 +65,9 @@ public class APIError extends CommonBase {
 		}
 	}
 	public final static class RouteError extends APIError {
+		/**
+		 * A human-readable error message
+		*/
 		public final String err;
 		private RouteError(long ptr, bindings.LDKAPIError.RouteError obj) {
 			super(null, ptr);
@@ -62,6 +75,9 @@ public class APIError extends CommonBase {
 		}
 	}
 	public final static class ChannelUnavailable extends APIError {
+		/**
+		 * A human-readable error message
+		*/
 		public final String err;
 		private ChannelUnavailable(long ptr, bindings.LDKAPIError.ChannelUnavailable obj) {
 			super(null, ptr);
@@ -78,8 +94,64 @@ public class APIError extends CommonBase {
 	 */
 	public APIError clone() {
 		long ret = bindings.APIError_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new APIMisuseError-variant APIError
+	 */
+	public static APIError apimisuse_error(java.lang.String err) {
+		long ret = bindings.APIError_apimisuse_error(err);
+		if (ret < 1024) { return null; }
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new FeeRateTooHigh-variant APIError
+	 */
+	public static APIError fee_rate_too_high(java.lang.String err, int feerate) {
+		long ret = bindings.APIError_fee_rate_too_high(err, feerate);
+		if (ret < 1024) { return null; }
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new RouteError-variant APIError
+	 */
+	public static APIError route_error(java.lang.String err) {
+		long ret = bindings.APIError_route_error(err);
+		if (ret < 1024) { return null; }
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ChannelUnavailable-variant APIError
+	 */
+	public static APIError channel_unavailable(java.lang.String err) {
+		long ret = bindings.APIError_channel_unavailable(err);
+		if (ret < 1024) { return null; }
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new MonitorUpdateFailed-variant APIError
+	 */
+	public static APIError monitor_update_failed() {
+		long ret = bindings.APIError_monitor_update_failed();
+		if (ret < 1024) { return null; }
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

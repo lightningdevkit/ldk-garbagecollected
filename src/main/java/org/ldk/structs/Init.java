@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -23,6 +24,7 @@ public class Init extends CommonBase {
 	 */
 	public InitFeatures get_features() {
 		long ret = bindings.Init_get_features(this.ptr);
+		if (ret < 1024) { return null; }
 		InitFeatures ret_hu_conv = new InitFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -41,6 +43,7 @@ public class Init extends CommonBase {
 	 */
 	public static Init of(InitFeatures features_arg) {
 		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Init ret_hu_conv = new Init(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(features_arg);
@@ -52,6 +55,7 @@ public class Init extends CommonBase {
 	 */
 	public Init clone() {
 		long ret = bindings.Init_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Init ret_hu_conv = new Init(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -70,6 +74,7 @@ public class Init extends CommonBase {
 	 */
 	public static Result_InitDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Init_read(ser);
+		if (ret < 1024) { return null; }
 		Result_InitDecodeErrorZ ret_hu_conv = Result_InitDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

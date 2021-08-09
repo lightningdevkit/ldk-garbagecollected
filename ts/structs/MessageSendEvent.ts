@@ -318,4 +318,163 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		return ret_hu_conv;
 	}
 
+	public static MessageSendEvent constructor_send_accept_channel(Uint8Array node_id, AcceptChannel msg) {
+		number ret = bindings.MessageSendEvent_send_accept_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_open_channel(Uint8Array node_id, OpenChannel msg) {
+		number ret = bindings.MessageSendEvent_send_open_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_funding_created(Uint8Array node_id, FundingCreated msg) {
+		number ret = bindings.MessageSendEvent_send_funding_created(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_funding_signed(Uint8Array node_id, FundingSigned msg) {
+		number ret = bindings.MessageSendEvent_send_funding_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_funding_locked(Uint8Array node_id, FundingLocked msg) {
+		number ret = bindings.MessageSendEvent_send_funding_locked(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_announcement_signatures(Uint8Array node_id, AnnouncementSignatures msg) {
+		number ret = bindings.MessageSendEvent_send_announcement_signatures(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_update_htlcs(Uint8Array node_id, CommitmentUpdate updates) {
+		number ret = bindings.MessageSendEvent_update_htlcs(node_id, updates == null ? 0 : updates.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(updates);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_revoke_and_ack(Uint8Array node_id, RevokeAndACK msg) {
+		number ret = bindings.MessageSendEvent_send_revoke_and_ack(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_closing_signed(Uint8Array node_id, ClosingSigned msg) {
+		number ret = bindings.MessageSendEvent_send_closing_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_shutdown(Uint8Array node_id, Shutdown msg) {
+		number ret = bindings.MessageSendEvent_send_shutdown(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_channel_reestablish(Uint8Array node_id, ChannelReestablish msg) {
+		number ret = bindings.MessageSendEvent_send_channel_reestablish(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_broadcast_channel_announcement(ChannelAnnouncement msg, ChannelUpdate update_msg) {
+		number ret = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0 : msg.ptr & ~1, update_msg == null ? 0 : update_msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		ret_hu_conv.ptrs_to.add(update_msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_broadcast_node_announcement(NodeAnnouncement msg) {
+		number ret = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_broadcast_channel_update(ChannelUpdate msg) {
+		number ret = bindings.MessageSendEvent_broadcast_channel_update(msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_channel_update(Uint8Array node_id, ChannelUpdate msg) {
+		number ret = bindings.MessageSendEvent_send_channel_update(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_handle_error(Uint8Array node_id, ErrorAction action) {
+		number ret = bindings.MessageSendEvent_handle_error(node_id, action.ptr);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_payment_failure_network_update(HTLCFailChannelUpdate update) {
+		number ret = bindings.MessageSendEvent_payment_failure_network_update(update.ptr);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_channel_range_query(Uint8Array node_id, QueryChannelRange msg) {
+		number ret = bindings.MessageSendEvent_send_channel_range_query(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_short_ids_query(Uint8Array node_id, QueryShortChannelIds msg) {
+		number ret = bindings.MessageSendEvent_send_short_ids_query(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
+	public static MessageSendEvent constructor_send_reply_channel_range(Uint8Array node_id, ReplyChannelRange msg) {
+		number ret = bindings.MessageSendEvent_send_reply_channel_range(node_id, msg == null ? 0 : msg.ptr & ~1);
+		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(msg);
+		return ret_hu_conv;
+	}
+
 }

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_NoneAPIErrorZ extends CommonBase {
 	private Result_NoneAPIErrorZ(Object _dummy, long ptr) { super(ptr); }
@@ -40,6 +41,7 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 	 */
 	public static Result_NoneAPIErrorZ ok() {
 		long ret = bindings.CResult_NoneAPIErrorZ_ok();
+		if (ret < 1024) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -49,6 +51,7 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 	 */
 	public static Result_NoneAPIErrorZ err(APIError e) {
 		long ret = bindings.CResult_NoneAPIErrorZ_err(e.ptr);
+		if (ret < 1024) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -59,6 +62,7 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 	 */
 	public Result_NoneAPIErrorZ clone() {
 		long ret = bindings.CResult_NoneAPIErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -27,6 +28,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelPublicKeys get_holder_pubkeys() {
 		long ret = bindings.ChannelTransactionParameters_get_holder_pubkeys(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -75,9 +77,13 @@ public class ChannelTransactionParameters extends CommonBase {
 	/**
 	 * The late-bound counterparty channel transaction parameters.
 	 * These parameters are populated at the point in the protocol where the counterparty provides them.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public CounterpartyChannelTransactionParameters get_counterparty_parameters() {
 		long ret = bindings.ChannelTransactionParameters_get_counterparty_parameters(this.ptr);
+		if (ret < 1024) { return null; }
 		CounterpartyChannelTransactionParameters ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -86,17 +92,23 @@ public class ChannelTransactionParameters extends CommonBase {
 	/**
 	 * The late-bound counterparty channel transaction parameters.
 	 * These parameters are populated at the point in the protocol where the counterparty provides them.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_counterparty_parameters(CounterpartyChannelTransactionParameters val) {
+	public void set_counterparty_parameters(@Nullable CounterpartyChannelTransactionParameters val) {
 		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
 	}
 
 	/**
 	 * The late-bound funding outpoint
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
+	@Nullable
 	public OutPoint get_funding_outpoint() {
 		long ret = bindings.ChannelTransactionParameters_get_funding_outpoint(this.ptr);
+		if (ret < 1024) { return null; }
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -104,8 +116,10 @@ public class ChannelTransactionParameters extends CommonBase {
 
 	/**
 	 * The late-bound funding outpoint
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_funding_outpoint(OutPoint val) {
+	public void set_funding_outpoint(@Nullable OutPoint val) {
 		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
 		this.ptrs_to.add(val);
 	}
@@ -115,6 +129,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public static ChannelTransactionParameters of(ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg) {
 		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr & ~1, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr & ~1);
+		if (ret < 1024) { return null; }
 		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(holder_pubkeys_arg);
@@ -128,6 +143,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelTransactionParameters clone() {
 		long ret = bindings.ChannelTransactionParameters_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -149,6 +165,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public DirectedChannelTransactionParameters as_holder_broadcastable() {
 		long ret = bindings.ChannelTransactionParameters_as_holder_broadcastable(this.ptr);
+		if (ret < 1024) { return null; }
 		DirectedChannelTransactionParameters ret_hu_conv = new DirectedChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -162,6 +179,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public DirectedChannelTransactionParameters as_counterparty_broadcastable() {
 		long ret = bindings.ChannelTransactionParameters_as_counterparty_broadcastable(this.ptr);
+		if (ret < 1024) { return null; }
 		DirectedChannelTransactionParameters ret_hu_conv = new DirectedChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -180,6 +198,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public static Result_ChannelTransactionParametersDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelTransactionParameters_read(ser);
+		if (ret < 1024) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

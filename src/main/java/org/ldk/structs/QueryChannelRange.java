@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -71,6 +72,7 @@ public class QueryChannelRange extends CommonBase {
 	 */
 	public static QueryChannelRange of(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg) {
 		long ret = bindings.QueryChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg);
+		if (ret < 1024) { return null; }
 		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -81,6 +83,7 @@ public class QueryChannelRange extends CommonBase {
 	 */
 	public QueryChannelRange clone() {
 		long ret = bindings.QueryChannelRange_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		QueryChannelRange ret_hu_conv = new QueryChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -99,6 +102,7 @@ public class QueryChannelRange extends CommonBase {
 	 */
 	public static Result_QueryChannelRangeDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.QueryChannelRange_read(ser);
+		if (ret < 1024) { return null; }
 		Result_QueryChannelRangeDecodeErrorZ ret_hu_conv = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

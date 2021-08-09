@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -56,6 +57,7 @@ public class OutPoint extends CommonBase {
 	 */
 	public static OutPoint of(byte[] txid_arg, short index_arg) {
 		long ret = bindings.OutPoint_new(txid_arg, index_arg);
+		if (ret < 1024) { return null; }
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -66,6 +68,7 @@ public class OutPoint extends CommonBase {
 	 */
 	public OutPoint clone() {
 		long ret = bindings.OutPoint_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -111,6 +114,7 @@ public class OutPoint extends CommonBase {
 	 */
 	public static Result_OutPointDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.OutPoint_read(ser);
+		if (ret < 1024) { return null; }
 		Result_OutPointDecodeErrorZ ret_hu_conv = Result_OutPointDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

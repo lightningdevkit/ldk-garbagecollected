@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -53,8 +54,33 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public MonitorEvent clone() {
 		long ret = bindings.MonitorEvent_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new HTLCEvent-variant MonitorEvent
+	 */
+	public static MonitorEvent htlcevent(HTLCUpdate a) {
+		long ret = bindings.MonitorEvent_htlcevent(a == null ? 0 : a.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new CommitmentTxBroadcasted-variant MonitorEvent
+	 */
+	public static MonitorEvent commitment_tx_broadcasted(OutPoint a) {
+		long ret = bindings.MonitorEvent_commitment_tx_broadcasted(a == null ? 0 : a.ptr & ~1);
+		if (ret < 1024) { return null; }
+		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 

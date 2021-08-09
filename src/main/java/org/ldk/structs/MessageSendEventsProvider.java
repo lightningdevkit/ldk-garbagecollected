@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * A trait indicating an object may generate message send events
@@ -35,7 +36,7 @@ public class MessageSendEventsProvider extends CommonBase {
 		impl_holder.held = new MessageSendEventsProvider(new bindings.LDKMessageSendEventsProvider() {
 			@Override public long[] get_and_clear_pending_msg_events() {
 				MessageSendEvent[] ret = arg.get_and_clear_pending_msg_events();
-				long[] result = Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18.ptr).toArray();
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18.ptr).toArray() : null;
 				/* TODO 2 MessageSendEvent  */;
 				return result;
 			}

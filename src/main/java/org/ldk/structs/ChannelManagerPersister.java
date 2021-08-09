@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * Trait which handles persisting a [`ChannelManager`] to disk.
@@ -54,6 +55,7 @@ public class ChannelManagerPersister extends CommonBase {
 	 */
 	public Result_NoneErrorZ persist_manager(ChannelManager channel_manager) {
 		long ret = bindings.ChannelManagerPersister_persist_manager(this.ptr, channel_manager == null ? 0 : channel_manager.ptr & ~1);
+		if (ret < 1024) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(channel_manager);
 		return ret_hu_conv;

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -49,6 +50,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public KeysInterface get_keys_manager() {
 		long ret = bindings.ChannelManagerReadArgs_get_keys_manager(this.ptr);
+		if (ret < 1024) { return null; }
 		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -71,6 +73,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public FeeEstimator get_fee_estimator() {
 		long ret = bindings.ChannelManagerReadArgs_get_fee_estimator(this.ptr);
+		if (ret < 1024) { return null; }
 		FeeEstimator ret_hu_conv = new FeeEstimator(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -95,6 +98,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public Watch get_chain_monitor() {
 		long ret = bindings.ChannelManagerReadArgs_get_chain_monitor(this.ptr);
+		if (ret < 1024) { return null; }
 		Watch ret_hu_conv = new Watch(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -119,6 +123,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public BroadcasterInterface get_tx_broadcaster() {
 		long ret = bindings.ChannelManagerReadArgs_get_tx_broadcaster(this.ptr);
+		if (ret < 1024) { return null; }
 		BroadcasterInterface ret_hu_conv = new BroadcasterInterface(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -140,6 +145,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public Logger get_logger() {
 		long ret = bindings.ChannelManagerReadArgs_get_logger(this.ptr);
+		if (ret < 1024) { return null; }
 		Logger ret_hu_conv = new Logger(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -160,6 +166,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public UserConfig get_default_config() {
 		long ret = bindings.ChannelManagerReadArgs_get_default_config(this.ptr);
+		if (ret < 1024) { return null; }
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -180,7 +187,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 * populate a HashMap directly from C.
 	 */
 	public static ChannelManagerReadArgs of(KeysInterface keys_manager, FeeEstimator fee_estimator, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, UserConfig default_config, ChannelMonitor[] channel_monitors) {
-		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr & ~1, Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr & ~1).toArray());
+		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr & ~1, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr & ~1).toArray() : null);
+		if (ret < 1024) { return null; }
 		ChannelManagerReadArgs ret_hu_conv = new ChannelManagerReadArgs(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(keys_manager);

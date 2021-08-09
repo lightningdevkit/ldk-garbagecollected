@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 public class Result_RecoverableSignatureNoneZ extends CommonBase {
 	private Result_RecoverableSignatureNoneZ(Object _dummy, long ptr) { super(ptr); }
@@ -37,6 +38,7 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 	 */
 	public static Result_RecoverableSignatureNoneZ ok(byte[] arg) {
 		long ret = bindings.CResult_RecoverableSignatureNoneZ_ok(arg);
+		if (ret < 1024) { return null; }
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -46,6 +48,7 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 	 */
 	public static Result_RecoverableSignatureNoneZ err() {
 		long ret = bindings.CResult_RecoverableSignatureNoneZ_err();
+		if (ret < 1024) { return null; }
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,6 +59,7 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 	 */
 	public Result_RecoverableSignatureNoneZ clone() {
 		long ret = bindings.CResult_RecoverableSignatureNoneZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

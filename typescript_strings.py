@@ -272,6 +272,7 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.ptr_native_ty = "number"
         self.result_c_ty = "uint32_t"
         self.ptr_arr = "ptrArray"
+        self.is_arr_some_check = ("", " != 0")
         self.get_native_arr_len_call = ("*((uint32_t*)", ")")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
@@ -525,7 +526,7 @@ const decodeString = (stringPointer, free = true) => {
         java_methods = []
         for fn_line in field_function_lines:
             java_method_descriptor = ""
-            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 out_java_interface += fn_line.fn_name + "("
                 out_interface_implementation_overrides += f"{fn_line.fn_name} ("
 
@@ -642,7 +643,7 @@ const decodeString = (stringPointer, free = true) => {
         out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
         java_meths = []
         for fn_line in field_function_lines:
-            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 out_typescript_bindings += f"\t\t\t{fn_line.fn_name} ("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
@@ -679,7 +680,7 @@ const decodeString = (stringPointer, free = true) => {
                 # We're a supertrait
                 out_c = out_c + "\t" + var[0] + "_JCalls* " + var[1] + ";\n"
         for fn in field_function_lines:
-            if fn.fn_name != "free" and fn.fn_name != "clone":
+            if fn.fn_name != "free" and fn.fn_name != "cloned":
                 out_c = out_c + "\tuint32_t " + fn.fn_name + "_meth;\n"
         out_c = out_c + "} " + struct_name + "_JCalls;\n"
 
@@ -689,13 +690,13 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
                 for fn in field_function_lines:
-                    if fn.fn_name != "free" and fn.fn_name != "clone":
+                    if fn.fn_name != "free" and fn.fn_name != "cloned":
                         out_c = out_c + "\t\tjs_free(j_calls->" + fn.fn_name + "_meth);\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
         for idx, fn_line in enumerate(field_function_lines):
-            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 assert fn_line.ret_ty_info.ty_info.get_full_rust_ty()[1] == ""
                 out_c = out_c + fn_line.ret_ty_info.ty_info.get_full_rust_ty()[0] + " " + fn_line.fn_name + "_" + struct_name + "_jcall("
                 if fn_line.self_is_const:
@@ -736,13 +737,12 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "}\n"
 
         # Write out a clone function whether we need one or not, as we use them in moving to rust
-        out_c = out_c + "static void* " + struct_name + "_JCalls_clone(const void* this_arg) {\n"
-        out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
+        out_c = out_c + "static void " + struct_name + "_JCalls_cloned(" + struct_name + "* new_obj) {\n"
+        out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) new_obj->this_arg;\n"
         out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);\n"
         for var in field_var_conversions:
             if not isinstance(var, ConvInfo):
                 out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
-        out_c = out_c + "\treturn (void*) this_arg;\n"
         out_c = out_c + "}\n"
 
         out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (/*TODO: JS Object Reference */void* o"
@@ -758,7 +758,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\t//TODO: Assign calls->o from o\n"
 
         for (fn_name, java_meth_descr) in java_meths:
-            if fn_name != "free" and fn_name != "clone":
+            if fn_name != "free" and fn_name != "cloned":
                 out_c = out_c + "\tcalls->" + fn_name + "_meth = (*env)->GetMethodID(env, c, \"" + fn_name + "\", \"" + java_meth_descr + "\");\n"
                 out_c = out_c + "\tCHECK(calls->" + fn_name + "_meth != NULL);\n"
 
@@ -768,12 +768,12 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\n\t" + struct_name + " ret = {\n"
         out_c = out_c + "\t\t.this_arg = (void*) calls,\n"
         for fn_line in field_function_lines:
-            if fn_line.fn_name != "free" and fn_line.fn_name != "clone":
+            if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
                 out_c = out_c + "\t\t." + fn_line.fn_name + " = " + fn_line.fn_name + "_" + struct_name + "_jcall,\n"
             elif fn_line.fn_name == "free":
                 out_c = out_c + "\t\t.free = " + struct_name + "_JCalls_free,\n"
             else:
-                out_c = out_c + "\t\t.clone = " + struct_name + "_JCalls_clone,\n"
+                out_c = out_c + "\t\t.cloned = " + struct_name + "_JCalls_cloned,\n"
         for var in field_var_conversions:
             if isinstance(var, ConvInfo):
                 if var.arg_conv_name is not None:
@@ -848,7 +848,7 @@ const decodeString = (stringPointer, free = true) => {
             init_meth_params = ""
             init_meth_body = ""
             hu_conv_body = ""
-            for idx, field_ty in enumerate(var.fields):
+            for idx, (field_ty, field_docs) in enumerate(var.fields):
                 out_java += ("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
                 java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
                 if field_ty.to_hu_conv is not None:
@@ -881,7 +881,7 @@ const decodeString = (stringPointer, free = true) => {
         for var in variant_list:
             out_c += ("\t\tcase " + struct_name + "_" + var.var_name + ": {\n")
             c_params = []
-            for idx, field_map in enumerate(var.fields):
+            for idx, (field_map, _) in enumerate(var.fields):
                 if field_map.ret_conv is not None:
                     out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
                     if var.tuple_variant:

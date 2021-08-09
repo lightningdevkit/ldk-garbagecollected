@@ -100,7 +100,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void broadcast_node_announcement(Uint8Array rgb, Uint8Array alias, NetAddress[] addresses) {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, Arrays.stream(addresses).map(addresses_conv_12 -> addresses_conv_12.ptr).toArray(number[]::new));
+		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, addresses != null ? Arrays.stream(addresses).map(addresses_conv_12 -> addresses_conv_12.ptr).toArray(number[]::new) : null);
 		/* TODO 2 NetAddress  */;
 	}
 

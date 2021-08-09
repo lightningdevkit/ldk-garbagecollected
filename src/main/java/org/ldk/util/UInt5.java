@@ -11,4 +11,11 @@ public class UInt5 {
         }
         this.val = val;
     }
+
+    /**
+     * @return the value represented
+     */
+    public byte getVal() {
+        return val;
+    }
 }

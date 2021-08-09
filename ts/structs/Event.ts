@@ -105,6 +105,49 @@ export class SpendableOutputs extends Event {
 		return ret_hu_conv;
 	}
 
+	public static Event constructor_funding_generation_ready(Uint8Array temporary_channel_id, number channel_value_satoshis, Uint8Array output_script, number user_channel_id) {
+		number ret = bindings.Event_funding_generation_ready(temporary_channel_id, channel_value_satoshis, output_script, user_channel_id);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Event constructor_payment_received(Uint8Array payment_hash, Uint8Array payment_preimage, Uint8Array payment_secret, number amt, number user_payment_id) {
+		number ret = bindings.Event_payment_received(payment_hash, payment_preimage, payment_secret, amt, user_payment_id);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Event constructor_payment_sent(Uint8Array payment_preimage) {
+		number ret = bindings.Event_payment_sent(payment_preimage);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Event constructor_payment_failed(Uint8Array payment_hash, boolean rejected_by_dest) {
+		number ret = bindings.Event_payment_failed(payment_hash, rejected_by_dest);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Event constructor_pending_htlcs_forwardable(number time_forwardable) {
+		number ret = bindings.Event_pending_htlcs_forwardable(time_forwardable);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Event constructor_spendable_outputs(SpendableOutputDescriptor[] outputs) {
+		number ret = bindings.Event_spendable_outputs(outputs != null ? Arrays.stream(outputs).map(outputs_conv_27 -> outputs_conv_27.ptr).toArray(number[]::new) : null);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		/* TODO 2 SpendableOutputDescriptor  */;
+		return ret_hu_conv;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.Event_write(this.ptr);
 		return ret;

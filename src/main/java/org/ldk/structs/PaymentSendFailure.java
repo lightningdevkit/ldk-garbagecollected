@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 
 /**
@@ -94,8 +95,56 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public PaymentSendFailure clone() {
 		long ret = bindings.PaymentSendFailure_clone(this.ptr);
+		if (ret < 1024) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ParameterError-variant PaymentSendFailure
+	 */
+	public static PaymentSendFailure parameter_error(APIError a) {
+		long ret = bindings.PaymentSendFailure_parameter_error(a.ptr);
+		if (ret < 1024) { return null; }
+		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PathParameterError-variant PaymentSendFailure
+	 */
+	public static PaymentSendFailure path_parameter_error(Result_NoneAPIErrorZ[] a) {
+		long ret = bindings.PaymentSendFailure_path_parameter_error(a != null ? Arrays.stream(a).mapToLong(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray() : null);
+		if (ret < 1024) { return null; }
+		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		/* TODO 2 Result_NoneAPIErrorZ  */;
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new AllFailedRetrySafe-variant PaymentSendFailure
+	 */
+	public static PaymentSendFailure all_failed_retry_safe(APIError[] a) {
+		long ret = bindings.PaymentSendFailure_all_failed_retry_safe(a != null ? Arrays.stream(a).mapToLong(a_conv_10 -> a_conv_10.ptr).toArray() : null);
+		if (ret < 1024) { return null; }
+		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		/* TODO 2 APIError  */;
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PartialFailure-variant PaymentSendFailure
+	 */
+	public static PaymentSendFailure partial_failure(Result_NoneAPIErrorZ[] a) {
+		long ret = bindings.PaymentSendFailure_partial_failure(a != null ? Arrays.stream(a).mapToLong(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray() : null);
+		if (ret < 1024) { return null; }
+		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		/* TODO 2 Result_NoneAPIErrorZ  */;
 		return ret_hu_conv;
 	}
 
