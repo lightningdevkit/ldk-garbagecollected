@@ -849,7 +849,7 @@ import javax.annotation.Nullable;
                 elif not fn_line.ret_ty_info.passed_as_ptr:
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 else:
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.rust_obj + "* ret = (" + fn_line.ret_ty_info.rust_obj + "*)(*env)->CallLongMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\tuint64_t ret = (*env)->CallLongMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
