@@ -198,6 +198,24 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Gets a keysend route from us (payer) to the given target node (payee). This is needed because
+	 * keysend payments do not have an invoice from which to pull the payee's supported features, which
+	 * makes it tricky to otherwise supply the `payee_features` parameter of `get_route`.
+	 * 
+	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public static Result_RouteLightningErrorZ get_keysend_route(byte[] our_node_id, NetworkGraph network, byte[] payee, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger) {
+		long ret = bindings.get_keysend_route(our_node_id, network == null ? 0 : network.ptr & ~1, payee, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr);
+		if (ret < 1024) { return null; }
+		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(network);
+		/* TODO 2 ChannelDetails  */;
+		/* TODO 2 RouteHint  */;
+		ret_hu_conv.ptrs_to.add(logger);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Gets a route from us (payer) to the given target node (payee).
 	 * 
 	 * If the payee provided features in their invoice, they should be provided via payee_features.

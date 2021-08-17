@@ -25,6 +25,9 @@ export default class APIError extends CommonBase {
 		if (raw_val instanceof bindings.LDKAPIError.MonitorUpdateFailed) {
 			return new MonitorUpdateFailed(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKAPIError.IncompatibleShutdownScript) {
+			return new IncompatibleShutdownScript(this.ptr, raw_val);
+		}
 		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -62,6 +65,16 @@ export class ChannelUnavailable extends APIError {
 export class MonitorUpdateFailed extends APIError {
 	private constructor(ptr: number, obj: bindings.LDKAPIError.MonitorUpdateFailed) {
 		super(null, ptr);
+	}
+}
+export class IncompatibleShutdownScript extends APIError {
+	public script: ShutdownScript;
+	private constructor(ptr: number, obj: bindings.LDKAPIError.IncompatibleShutdownScript) {
+		super(null, ptr);
+		const script: number = obj.script;
+		const script_hu_conv: ShutdownScript = new ShutdownScript(null, script);
+			script_hu_conv.ptrs_to.add(this);
+		this.script = script_hu_conv;
 	}
 }
 	public APIError clone() {
@@ -103,6 +116,14 @@ export class MonitorUpdateFailed extends APIError {
 		number ret = bindings.APIError_monitor_update_failed();
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static APIError constructor_incompatible_shutdown_script(ShutdownScript script) {
+		number ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr & ~1);
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(script);
 		return ret_hu_conv;
 	}
 

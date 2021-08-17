@@ -42,6 +42,9 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.SpendableOutputs.class) {
 			return new SpendableOutputs(ptr, (bindings.LDKEvent.SpendableOutputs)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.PaymentForwarded.class) {
+			return new PaymentForwarded(ptr, (bindings.LDKEvent.PaymentForwarded)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -77,53 +80,24 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] payment_hash;
 		/**
-		 * The preimage to the payment_hash, if the payment hash (and secret) were fetched via
-		 * [`ChannelManager::create_inbound_payment`]. If provided, this can be handed directly to
-		 * [`ChannelManager::claim_funds`].
-		 * 
-		 * [`ChannelManager::create_inbound_payment`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment
-		 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
-		 * 
-		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
-		*/
-		@Nullable public final byte[] payment_preimage;
-		/**
-		 * The \"payment secret\". This authenticates the sender to the recipient, preventing a
-		 * number of deanonymization attacks during the routing process.
-		 * It is provided here for your reference, however its accuracy is enforced directly by
-		 * [`ChannelManager`] using the values you previously provided to
-		 * [`ChannelManager::create_inbound_payment`] or
-		 * [`ChannelManager::create_inbound_payment_for_hash`].
-		 * 
-		 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
-		 * [`ChannelManager::create_inbound_payment`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment
-		 * [`ChannelManager::create_inbound_payment_for_hash`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash
-		*/
-		public final byte[] payment_secret;
-		/**
 		 * The value, in thousandths of a satoshi, that this payment is for. Note that you must
 		 * compare this to the expected value before accepting the payment (as otherwise you are
 		 * providing proof-of-payment for less than the value you expected!).
 		*/
 		public final long amt;
 		/**
-		 * This is the `user_payment_id` which was provided to
-		 * [`ChannelManager::create_inbound_payment_for_hash`] or
-		 * [`ChannelManager::create_inbound_payment`]. It has no meaning inside of LDK and is
-		 * simply copied here. It may be used to correlate PaymentReceived events with invoice
-		 * metadata stored elsewhere.
-		 * 
-		 * [`ChannelManager::create_inbound_payment`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment
-		 * [`ChannelManager::create_inbound_payment_for_hash`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash
+		 * Information for claiming this received payment, based on whether the purpose of the
+		 * payment is to pay an invoice or to send a spontaneous payment.
 		*/
-		public final long user_payment_id;
+		public final PaymentPurpose purpose;
 		private PaymentReceived(long ptr, bindings.LDKEvent.PaymentReceived obj) {
 			super(null, ptr);
 			this.payment_hash = obj.payment_hash;
-			this.payment_preimage = obj.payment_preimage;
-			this.payment_secret = obj.payment_secret;
 			this.amt = obj.amt;
-			this.user_payment_id = obj.user_payment_id;
+			long purpose = obj.purpose;
+			PaymentPurpose purpose_hu_conv = PaymentPurpose.constr_from_ptr(purpose);
+			purpose_hu_conv.ptrs_to.add(this);
+			this.purpose = purpose_hu_conv;
 		}
 	}
 	public final static class PaymentSent extends Event {
@@ -186,6 +160,37 @@ public class Event extends CommonBase {
 			this.outputs = outputs_conv_27_arr;
 		}
 	}
+	public final static class PaymentForwarded extends Event {
+		/**
+		 * The fee, in milli-satoshis, which was earned as a result of the payment.
+		 * 
+		 * Note that if we force-closed the channel over which we forwarded an HTLC while the HTLC
+		 * was pending, the amount the next hop claimed will have been rounded down to the nearest
+		 * whole satoshi. Thus, the fee calculated here may be higher than expected as we still
+		 * claimed the full value in millisatoshis from the source. In this case,
+		 * `claim_from_onchain_tx` will be set.
+		 * 
+		 * If the channel which sent us the payment has been force-closed, we will claim the funds
+		 * via an on-chain transaction. In that case we do not yet know the on-chain transaction
+		 * fees which we will spend and will instead set this to `None`. It is possible duplicate
+		 * `PaymentForwarded` events are generated for the same payment iff `fee_earned_msat` is
+		 * `None`.
+		*/
+		public final Option_u64Z fee_earned_msat;
+		/**
+		 * If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
+		 * transaction.
+		*/
+		public final boolean claim_from_onchain_tx;
+		private PaymentForwarded(long ptr, bindings.LDKEvent.PaymentForwarded obj) {
+			super(null, ptr);
+			long fee_earned_msat = obj.fee_earned_msat;
+			Option_u64Z fee_earned_msat_hu_conv = Option_u64Z.constr_from_ptr(fee_earned_msat);
+			fee_earned_msat_hu_conv.ptrs_to.add(this);
+			this.fee_earned_msat = fee_earned_msat_hu_conv;
+			this.claim_from_onchain_tx = obj.claim_from_onchain_tx;
+		}
+	}
 	/**
 	 * Creates a copy of the Event
 	 */
@@ -211,8 +216,8 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentReceived-variant Event
 	 */
-	public static Event payment_received(byte[] payment_hash, byte[] payment_preimage, byte[] payment_secret, long amt, long user_payment_id) {
-		long ret = bindings.Event_payment_received(payment_hash, payment_preimage, payment_secret, amt, user_payment_id);
+	public static Event payment_received(byte[] payment_hash, long amt, PaymentPurpose purpose) {
+		long ret = bindings.Event_payment_received(payment_hash, amt, purpose.ptr);
 		if (ret < 1024) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -261,6 +266,17 @@ public class Event extends CommonBase {
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		/* TODO 2 SpendableOutputDescriptor  */;
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PaymentForwarded-variant Event
+	 */
+	public static Event payment_forwarded(Option_u64Z fee_earned_msat, boolean claim_from_onchain_tx) {
+		long ret = bindings.Event_payment_forwarded(fee_earned_msat.ptr, claim_from_onchain_tx);
+		if (ret < 1024) { return null; }
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

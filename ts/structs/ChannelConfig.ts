@@ -63,8 +63,26 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
 	}
 
-	public static ChannelConfig constructor_new(number forwarding_fee_proportional_millionths_arg, number forwarding_fee_base_msat_arg, number cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg) {
-		number ret = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg);
+	public number get_max_dust_htlc_exposure_msat() {
+		number ret = bindings.ChannelConfig_get_max_dust_htlc_exposure_msat(this.ptr);
+		return ret;
+	}
+
+	public void set_max_dust_htlc_exposure_msat(number val) {
+		bindings.ChannelConfig_set_max_dust_htlc_exposure_msat(this.ptr, val);
+	}
+
+	public number get_force_close_avoidance_max_fee_satoshis() {
+		number ret = bindings.ChannelConfig_get_force_close_avoidance_max_fee_satoshis(this.ptr);
+		return ret;
+	}
+
+	public void set_force_close_avoidance_max_fee_satoshis(number val) {
+		bindings.ChannelConfig_set_force_close_avoidance_max_fee_satoshis(this.ptr, val);
+	}
+
+	public static ChannelConfig constructor_new(number forwarding_fee_proportional_millionths_arg, number forwarding_fee_base_msat_arg, number cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg, number max_dust_htlc_exposure_msat_arg, number force_close_avoidance_max_fee_satoshis_arg) {
+		number ret = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

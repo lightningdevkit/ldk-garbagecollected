@@ -28,6 +28,9 @@ export default class Event extends CommonBase {
 		if (raw_val instanceof bindings.LDKEvent.SpendableOutputs) {
 			return new SpendableOutputs(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKEvent.PaymentForwarded) {
+			return new PaymentForwarded(this.ptr, raw_val);
+		}
 		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -47,17 +50,16 @@ export class FundingGenerationReady extends Event {
 }
 export class PaymentReceived extends Event {
 	public payment_hash: Uint8Array;
-	public payment_preimage: Uint8Array;
-	public payment_secret: Uint8Array;
 	public amt: number;
-	public user_payment_id: number;
+	public purpose: PaymentPurpose;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentReceived) {
 		super(null, ptr);
 		this.payment_hash = obj.payment_hash;
-		this.payment_preimage = obj.payment_preimage;
-		this.payment_secret = obj.payment_secret;
 		this.amt = obj.amt;
-		this.user_payment_id = obj.user_payment_id;
+		const purpose: number = obj.purpose;
+		PaymentPurpose purpose_hu_conv = PaymentPurpose.constr_from_ptr(purpose);
+			purpose_hu_conv.ptrs_to.add(this);
+		this.purpose = purpose_hu_conv;
 	}
 }
 export class PaymentSent extends Event {
@@ -98,6 +100,18 @@ export class SpendableOutputs extends Event {
 		this.outputs = outputs_conv_27_arr;
 	}
 }
+export class PaymentForwarded extends Event {
+	public fee_earned_msat: Option_u64Z;
+	public claim_from_onchain_tx: boolean;
+	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentForwarded) {
+		super(null, ptr);
+		const fee_earned_msat: number = obj.fee_earned_msat;
+		Option_u64Z fee_earned_msat_hu_conv = Option_u64Z.constr_from_ptr(fee_earned_msat);
+			fee_earned_msat_hu_conv.ptrs_to.add(this);
+		this.fee_earned_msat = fee_earned_msat_hu_conv;
+		this.claim_from_onchain_tx = obj.claim_from_onchain_tx;
+	}
+}
 	public Event clone() {
 		number ret = bindings.Event_clone(this.ptr);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
@@ -112,8 +126,8 @@ export class SpendableOutputs extends Event {
 		return ret_hu_conv;
 	}
 
-	public static Event constructor_payment_received(Uint8Array payment_hash, Uint8Array payment_preimage, Uint8Array payment_secret, number amt, number user_payment_id) {
-		number ret = bindings.Event_payment_received(payment_hash, payment_preimage, payment_secret, amt, user_payment_id);
+	public static Event constructor_payment_received(Uint8Array payment_hash, number amt, PaymentPurpose purpose) {
+		number ret = bindings.Event_payment_received(payment_hash, amt, purpose.ptr);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -145,6 +159,13 @@ export class SpendableOutputs extends Event {
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		/* TODO 2 SpendableOutputDescriptor  */;
+		return ret_hu_conv;
+	}
+
+	public static Event constructor_payment_forwarded(Option_u64Z fee_earned_msat, boolean claim_from_onchain_tx) {
+		number ret = bindings.Event_payment_forwarded(fee_earned_msat.ptr, claim_from_onchain_tx);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

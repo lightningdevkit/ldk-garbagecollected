@@ -164,10 +164,50 @@ public class ChannelManager extends CommonBase {
 	 * will be accepted on the given channel, and after additional timeout/the closing of all
 	 * pending HTLCs, the channel will be closed on chain.
 	 * 
+	 * If we are the channel initiator, we will pay between our [`Background`] and
+	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`] plus our [`Normal`] fee
+	 * estimate.
+	 * If our counterparty is the channel initiator, we will require a channel closing
+	 * transaction feerate of at least our [`Background`] feerate or the feerate which
+	 * would appear on a force-closure transaction, whichever is lower. We will allow our
+	 * counterparty to pay as much fee as they'd like, however.
+	 * 
 	 * May generate a SendShutdown message event on success, which should be relayed.
+	 * 
+	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
+	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
+	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
 	 */
 	public Result_NoneAPIErrorZ close_channel(byte[] channel_id) {
 		long ret = bindings.ChannelManager_close_channel(this.ptr, channel_id);
+		if (ret < 1024) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Begins the process of closing a channel. After this call (plus some timeout), no new HTLCs
+	 * will be accepted on the given channel, and after additional timeout/the closing of all
+	 * pending HTLCs, the channel will be closed on chain.
+	 * 
+	 * `target_feerate_sat_per_1000_weight` has different meanings depending on if we initiated
+	 * the channel being closed or not:
+	 * If we are the channel initiator, we will pay at least this feerate on the closing
+	 * transaction. The upper-bound is set by
+	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`] plus our [`Normal`] fee
+	 * estimate (or `target_feerate_sat_per_1000_weight`, if it is greater).
+	 * If our counterparty is the channel initiator, we will refuse to accept a channel closure
+	 * transaction feerate below `target_feerate_sat_per_1000_weight` (or the feerate which
+	 * will appear on a force-closure transaction, whichever is lower).
+	 * 
+	 * May generate a SendShutdown message event on success, which should be relayed.
+	 * 
+	 * [`ChannelConfig::force_close_avoidance_max_fee_satoshis`]: crate::util::config::ChannelConfig::force_close_avoidance_max_fee_satoshis
+	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
+	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 */
+	public Result_NoneAPIErrorZ close_channel_with_target_feerate(byte[] channel_id, int target_feerate_sats_per_1000_weight) {
+		long ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, channel_id, target_feerate_sats_per_1000_weight);
 		if (ret < 1024) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -244,6 +284,32 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Send a spontaneous payment, which is a payment that does not require the recipient to have
+	 * generated an invoice. Optionally, you may specify the preimage. If you do choose to specify
+	 * the preimage, it must be a cryptographically secure random value that no intermediate node
+	 * would be able to guess -- otherwise, an intermediate node may claim the payment and it will
+	 * never reach the recipient.
+	 * 
+	 * See [`send_payment`] documentation for more details on the return value of this function.
+	 * 
+	 * Similar to regular payments, you MUST NOT reuse a `payment_preimage` value. See
+	 * [`send_payment`] for more information about the risks of duplicate preimage usage.
+	 * 
+	 * Note that `route` must have exactly one path.
+	 * 
+	 * [`send_payment`]: Self::send_payment
+	 * 
+	 * Note that payment_preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public Result_PaymentHashPaymentSendFailureZ send_spontaneous_payment(Route route, @Nullable byte[] payment_preimage) {
+		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_preimage);
+		if (ret < 1024) { return null; }
+		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
+		this.ptrs_to.add(route);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Call this upon creation of a funding transaction for the given channel.
 	 * 
 	 * Returns an [`APIError::APIMisuseError`] if the funding_transaction spent non-SegWit outputs
@@ -308,13 +374,16 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * If a peer is disconnected we mark any channels with that peer as 'disabled'.
-	 * After some time, if channels are still disabled we need to broadcast a ChannelUpdate
-	 * to inform the network about the uselessness of these channels.
+	 * Performs actions which should happen on startup and roughly once per minute thereafter.
 	 * 
-	 * This method handles all the details, and must be called roughly once per minute.
+	 * This currently includes:
+	 * Increasing or decreasing the on-chain feerate estimates for our outbound channels,
+	 * Broadcasting `ChannelUpdate` messages if we've been disconnected from our peer for more
+	 * than a minute, informing the network that they should no longer attempt to route over
+	 * the channel.
 	 * 
-	 * Note that in some rare cases this may generate a `chain::Watch::update_channel` call.
+	 * Note that this may cause reentrancy through `chain::Watch::update_channel` calls or feerate
+	 * estimate fetches.
 	 */
 	public void timer_tick_occurred() {
 		bindings.ChannelManager_timer_tick_occurred(this.ptr);
@@ -427,7 +496,7 @@ public class ChannelManager extends CommonBase {
 	 * The [`PaymentHash`] (and corresponding [`PaymentPreimage`]) must be globally unique. This
 	 * method may return an Err if another payment with the same payment_hash is still pending.
 	 * 
-	 * `user_payment_id` will be provided back in [`PaymentReceived::user_payment_id`] events to
+	 * `user_payment_id` will be provided back in [`PaymentPurpose::InvoicePayment::user_payment_id`] events to
 	 * allow tracking of which events correspond with which calls to this and
 	 * [`create_inbound_payment`]. `user_payment_id` has no meaning inside of LDK, it is simply
 	 * copied to events and otherwise ignored. It may be used to correlate PaymentReceived events
@@ -461,7 +530,7 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`create_inbound_payment`]: Self::create_inbound_payment
 	 * [`PaymentReceived`]: events::Event::PaymentReceived
-	 * [`PaymentReceived::user_payment_id`]: events::Event::PaymentReceived::user_payment_id
+	 * [`PaymentPurpose::InvoicePayment::user_payment_id`]: events::PaymentPurpose::InvoicePayment::user_payment_id
 	 */
 	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash(byte[] payment_hash, Option_u64Z min_value_msat, int invoice_expiry_delta_secs, long user_payment_id) {
 		long ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, payment_hash, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);

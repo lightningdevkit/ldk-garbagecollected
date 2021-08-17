@@ -65,13 +65,40 @@ public class ClosingSigned extends CommonBase {
 	}
 
 	/**
+	 * The minimum and maximum fees which the sender is willing to accept, provided only by new
+	 * nodes.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public ClosingSignedFeeRange get_fee_range() {
+		long ret = bindings.ClosingSigned_get_fee_range(this.ptr);
+		if (ret < 1024) { return null; }
+		ClosingSignedFeeRange ret_hu_conv = new ClosingSignedFeeRange(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The minimum and maximum fees which the sender is willing to accept, provided only by new
+	 * nodes.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_fee_range(@Nullable ClosingSignedFeeRange val) {
+		bindings.ClosingSigned_set_fee_range(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
+	/**
 	 * Constructs a new ClosingSigned given each field
 	 */
-	public static ClosingSigned of(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg) {
-		long ret = bindings.ClosingSigned_new(channel_id_arg, fee_satoshis_arg, signature_arg);
+	public static ClosingSigned of(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg, ClosingSignedFeeRange fee_range_arg) {
+		long ret = bindings.ClosingSigned_new(channel_id_arg, fee_satoshis_arg, signature_arg, fee_range_arg == null ? 0 : fee_range_arg.ptr & ~1);
 		if (ret < 1024) { return null; }
 		ClosingSigned ret_hu_conv = new ClosingSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(fee_range_arg);
 		return ret_hu_conv;
 	}
 

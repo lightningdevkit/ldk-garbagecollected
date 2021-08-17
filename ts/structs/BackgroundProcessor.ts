@@ -31,6 +31,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public Result_NoneErrorZ join() {
+		number ret = bindings.BackgroundProcessor_join(this.ptr);
+		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 	public Result_NoneErrorZ stop() {
 		number ret = bindings.BackgroundProcessor_stop(this.ptr);
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
