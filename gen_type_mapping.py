@@ -297,7 +297,7 @@ class TypeMappingGenerator:
                     if not is_free:
                         needs_full_clone = not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False
                         if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
-                            base_conv = base_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + ");"
+                            base_conv = base_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
                         else:
                             base_conv = base_conv + self.consts.trait_struct_inc_refcnt(ty_info)
                             if needs_full_clone:
