@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
  * then there is a risk of channels force-closing on startup when the manager realizes it's
  * outdated. However, as long as `ChannelMonitor` backups are sound, no funds besides those used
  * for unilateral chain closure fees are at risk.
+ * BackgroundProcessor will immediately stop on drop. It should be stored until shutdown.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class BackgroundProcessor extends CommonBase {
@@ -33,21 +34,25 @@ public class BackgroundProcessor extends CommonBase {
 	}
 
 	/**
-	 * Start a background thread that takes care of responsibilities enumerated in the top-level
-	 * documentation.
+	 * Start a background thread that takes care of responsibilities enumerated in the [top-level
+	 * documentation].
 	 * 
-	 * If `persist_manager` returns an error, then this thread will return said error (and
-	 * `start()` will need to be called again to restart the `BackgroundProcessor`). Users should
-	 * wait on [`thread_handle`]'s `join()` method to be able to tell if and when an error is
-	 * returned, or implement `persist_manager` such that an error is never returned to the
-	 * `BackgroundProcessor`
+	 * The thread runs indefinitely unless the object is dropped, [`stop`] is called, or
+	 * `persist_manager` returns an error. In case of an error, the error is retrieved by calling
+	 * either [`join`] or [`stop`].
+	 * 
+	 * Typically, users should either implement [`ChannelManagerPersister`] to never return an
+	 * error or call [`join`] and handle any error that may arise. For the latter case, the
+	 * `BackgroundProcessor` must be restarted by calling `start` again after handling the error.
 	 * 
 	 * `persist_manager` is responsible for writing out the [`ChannelManager`] to disk, and/or
 	 * uploading to one or more backup services. See [`ChannelManager::write`] for writing out a
 	 * [`ChannelManager`]. See [`FilesystemPersister::persist_manager`] for Rust-Lightning's
 	 * provided implementation.
 	 * 
-	 * [`thread_handle`]: BackgroundProcessor::thread_handle
+	 * [top-level documentation]: Self
+	 * [`join`]: Self::join
+	 * [`stop`]: Self::stop
 	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
 	 * [`ChannelManager::write`]: lightning::ln::channelmanager::ChannelManager#impl-Writeable
 	 * [`FilesystemPersister::persist_manager`]: lightning_persister::FilesystemPersister::persist_manager
@@ -67,7 +72,42 @@ public class BackgroundProcessor extends CommonBase {
 	}
 
 	/**
-	 * Stop `BackgroundProcessor`'s thread.
+	 * Join `BackgroundProcessor`'s thread, returning any error that occurred while persisting
+	 * [`ChannelManager`].
+	 * 
+	 * # Panics
+	 * 
+	 * This function panics if the background thread has panicked such as while persisting or
+	 * handling events.
+	 * 
+	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
+	 */
+	public Result_NoneErrorZ join() {
+		long ret = bindings.BackgroundProcessor_join(this.ptr);
+		if (ret < 1024) { return null; }
+		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
+		this.ptrs_to.add(this);
+		// Due to rust's strict-ownership memory model, in some cases we need to "move"
+		// an object to pass exclusive ownership to the function being called.
+		// In most cases, we avoid this being visible in GC'd languages by cloning the object
+		// at the FFI layer, creating a new object which Rust can claim ownership of
+		// However, in some cases (eg here), there is no way to clone an object, and thus
+		// we actually have to pass full ownership to Rust.
+		// Thus, after this call, this is reset to null and is now a dummy object.
+		this.ptr = 0;
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Stop `BackgroundProcessor`'s thread, returning any error that occurred while persisting
+	 * [`ChannelManager`].
+	 * 
+	 * # Panics
+	 * 
+	 * This function panics if the background thread has panicked such as while persisting or
+	 * handling events.
+	 * 
+	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
 	 */
 	public Result_NoneErrorZ stop() {
 		long ret = bindings.BackgroundProcessor_stop(this.ptr);

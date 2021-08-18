@@ -42,9 +42,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return ret;
 						},
 
-						get_shutdown_pubkey (): Uint8Array {
-							Uint8Array ret = arg.get_shutdown_pubkey();
-				return ret;
+						get_shutdown_scriptpubkey (): number {
+							ShutdownScript ret = arg.get_shutdown_scriptpubkey();
+				result: number = ret == null ? 0 : ret.ptr & ~1;
+				impl_holder.held.ptrs_to.add(ret);
+				return result;
 						},
 
 						get_channel_signer (inbound: boolean, channel_value_satoshis: number): number {
@@ -80,7 +82,7 @@ import * as bindings from '../bindings' // TODO: figure out location
             export interface KeysInterfaceInterface {
                 get_node_secret(): Uint8Array;
 				get_destination_script(): Uint8Array;
-				get_shutdown_pubkey(): Uint8Array;
+				get_shutdown_scriptpubkey(): ShutdownScript;
 				get_channel_signer(inbound: boolean, channel_value_satoshis: number): Sign;
 				get_secure_random_bytes(): Uint8Array;
 				read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ;
@@ -101,9 +103,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public Uint8Array get_shutdown_pubkey() {
-		Uint8Array ret = bindings.KeysInterface_get_shutdown_pubkey(this.ptr);
-		return ret;
+	public ShutdownScript get_shutdown_scriptpubkey() {
+		number ret = bindings.KeysInterface_get_shutdown_scriptpubkey(this.ptr);
+		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public Sign get_channel_signer(boolean inbound, number channel_value_satoshis) {

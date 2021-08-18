@@ -38,13 +38,12 @@ public class KeysInterface extends CommonBase {
 		 */
 		byte[] get_destination_script();
 		/**
-		 * Get a public key which we will send funds to (in the form of a P2WPKH output) when closing
-		 * a channel.
+		 * Get a script pubkey which we will send funds to when closing a channel.
 		 * 
 		 * This method should return a different value each time it is called, to avoid linking
 		 * on-chain funds across channels as controlled to the same user.
 		 */
-		byte[] get_shutdown_pubkey();
+		ShutdownScript get_shutdown_scriptpubkey();
 		/**
 		 * Get a new set of Sign for per-channel secrets. These MUST be unique even if you
 		 * restarted with some stale data!
@@ -89,9 +88,11 @@ public class KeysInterface extends CommonBase {
 				byte[] ret = arg.get_destination_script();
 				return ret;
 			}
-			@Override public byte[] get_shutdown_pubkey() {
-				byte[] ret = arg.get_shutdown_pubkey();
-				return ret;
+			@Override public long get_shutdown_scriptpubkey() {
+				ShutdownScript ret = arg.get_shutdown_scriptpubkey();
+				long result = ret == null ? 0 : ret.ptr & ~1;
+				impl_holder.held.ptrs_to.add(ret);
+				return result;
 			}
 			@Override public long get_channel_signer(boolean inbound, long channel_value_satoshis) {
 				Sign ret = arg.get_channel_signer(inbound, channel_value_satoshis);
@@ -138,15 +139,17 @@ public class KeysInterface extends CommonBase {
 	}
 
 	/**
-	 * Get a public key which we will send funds to (in the form of a P2WPKH output) when closing
-	 * a channel.
+	 * Get a script pubkey which we will send funds to when closing a channel.
 	 * 
 	 * This method should return a different value each time it is called, to avoid linking
 	 * on-chain funds across channels as controlled to the same user.
 	 */
-	public byte[] get_shutdown_pubkey() {
-		byte[] ret = bindings.KeysInterface_get_shutdown_pubkey(this.ptr);
-		return ret;
+	public ShutdownScript get_shutdown_scriptpubkey() {
+		long ret = bindings.KeysInterface_get_shutdown_scriptpubkey(this.ptr);
+		if (ret < 1024) { return null; }
+		ShutdownScript ret_hu_conv = new ShutdownScript(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	/**

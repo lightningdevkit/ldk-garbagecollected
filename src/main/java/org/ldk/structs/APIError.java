@@ -36,6 +36,9 @@ public class APIError extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKAPIError.MonitorUpdateFailed.class) {
 			return new MonitorUpdateFailed(ptr, (bindings.LDKAPIError.MonitorUpdateFailed)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKAPIError.IncompatibleShutdownScript.class) {
+			return new IncompatibleShutdownScript(ptr, (bindings.LDKAPIError.IncompatibleShutdownScript)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -87,6 +90,19 @@ public class APIError extends CommonBase {
 	public final static class MonitorUpdateFailed extends APIError {
 		private MonitorUpdateFailed(long ptr, bindings.LDKAPIError.MonitorUpdateFailed obj) {
 			super(null, ptr);
+		}
+	}
+	public final static class IncompatibleShutdownScript extends APIError {
+		/**
+		 * The incompatible shutdown script.
+		*/
+		public final ShutdownScript script;
+		private IncompatibleShutdownScript(long ptr, bindings.LDKAPIError.IncompatibleShutdownScript obj) {
+			super(null, ptr);
+			long script = obj.script;
+			ShutdownScript script_hu_conv = new ShutdownScript(null, script);
+			script_hu_conv.ptrs_to.add(this);
+			this.script = script_hu_conv;
 		}
 	}
 	/**
@@ -152,6 +168,18 @@ public class APIError extends CommonBase {
 		if (ret < 1024) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new IncompatibleShutdownScript-variant APIError
+	 */
+	public static APIError incompatible_shutdown_script(ShutdownScript script) {
+		long ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr & ~1);
+		if (ret < 1024) { return null; }
+		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(script);
 		return ret_hu_conv;
 	}
 

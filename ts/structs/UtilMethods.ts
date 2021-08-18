@@ -92,6 +92,16 @@
 		return ret;
 	}
 
+	public static Result_RouteLightningErrorZ constructor_et_keysend_route(Uint8Array our_node_id, NetworkGraph network, Uint8Array payee, ChannelDetails[] first_hops, RouteHint[] last_hops, number final_value_msat, number final_cltv, Logger logger) {
+		number ret = bindings.get_keysend_route(our_node_id, network == null ? 0 : network.ptr & ~1, payee, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, last_hops != null ? Arrays.stream(last_hops).map(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray(number[]::new) : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr);
+		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(network);
+		/* TODO 2 ChannelDetails  */;
+		/* TODO 2 RouteHint  */;
+		ret_hu_conv.ptrs_to.add(logger);
+		return ret_hu_conv;
+	}
+
 	public static Result_RouteLightningErrorZ constructor_et_route(Uint8Array our_node_id, NetworkGraph network, Uint8Array payee, InvoiceFeatures payee_features, ChannelDetails[] first_hops, RouteHint[] last_hops, number final_value_msat, number final_cltv, Logger logger) {
 		number ret = bindings.get_route(our_node_id, network == null ? 0 : network.ptr & ~1, payee, payee_features == null ? 0 : payee_features.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, last_hops != null ? Arrays.stream(last_hops).map(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray(number[]::new) : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
