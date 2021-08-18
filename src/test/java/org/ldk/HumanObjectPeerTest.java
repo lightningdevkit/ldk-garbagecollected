@@ -23,9 +23,10 @@ class HumanObjectPeerTestInstance {
     private final boolean break_cross_peer_refs;
     private final boolean use_nio_peer_handler;
     private final boolean use_filter;
+    private final boolean use_ignore_handler;
     private final boolean use_chan_manager_constructor;
 
-    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter, boolean use_chan_manager_constructor) {
+    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter, boolean use_ignore_handler, boolean use_chan_manager_constructor) {
         this.nice_close = nice_close;
         this.use_km_wrapper = use_km_wrapper;
         this.use_manual_watch = use_manual_watch;
@@ -33,6 +34,7 @@ class HumanObjectPeerTestInstance {
         this.break_cross_peer_refs = break_cross_peer_refs;
         this.use_nio_peer_handler = use_nio_peer_handler;
         this.use_filter = use_filter;
+        this.use_ignore_handler = use_ignore_handler;
         this.use_chan_manager_constructor = use_chan_manager_constructor;
     }
 
@@ -296,8 +298,12 @@ class HumanObjectPeerTestInstance {
         Peer(byte seed) {
             this(null, seed);
             if (use_chan_manager_constructor) {
+                NetGraphMsgHandler route_handler = null;
+                if (!use_ignore_handler) {
+                    route_handler = router;
+                }
                 this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
-                        this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
+                        this.keys_interface, this.fee_estimator, this.chain_monitor, route_handler, this.tx_broadcaster, this.logger);
                 constructor.chain_sync_completed(new ChannelManagerConstructor.ChannelManagerPersister() {
                     @Override public void handle_event(Event event) {
                         synchronized (pending_manager_events) {
@@ -875,14 +881,14 @@ class HumanObjectPeerTestInstance {
     }
 }
 public class HumanObjectPeerTest {
-    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_chan_manager_constructor) throws InterruptedException {
-        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_chan_manager_constructor);
+    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor) throws InterruptedException {
+        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor);
         HumanObjectPeerTestInstance.TestState state = instance.do_test_message_handler();
         instance.do_test_message_handler_b(state);
         return instance;
     }
-    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_chan_manager_constructor) throws InterruptedException {
-        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_chan_manager_constructor);
+    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor) throws InterruptedException {
+        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor);
         while (instance.gc_count != instance.gc_exp_count) {
             System.gc();
             System.runFinalization();
@@ -899,7 +905,8 @@ public class HumanObjectPeerTest {
             boolean reload_peers =                 (i & (1 << 3)) != 0;
             boolean break_cross_refs =             (i & (1 << 4)) != 0;
             boolean nio_peer_handler =             (i & (1 << 5)) != 0;
-            boolean use_chan_manager_constructor = (i & (1 << 6)) != 0;
+            boolean use_ignoring_routing_handler = (i & (1 << 6)) != 0;
+            boolean use_chan_manager_constructor = (i & (1 << 7)) != 0;
             if (break_cross_refs && !reload_peers) {
                 // There are no cross refs to break without reloading peers.
                 continue;
@@ -908,8 +915,13 @@ public class HumanObjectPeerTest {
                 // ChannelManagerConstructor requires a ChainMonitor as the Watch and creates a NioPeerHandler for us.
                 continue;
             }
+            if (!use_chan_manager_constructor && use_ignoring_routing_handler) {
+                // We rely on the ChannelManagerConstructor to convert null into an IgnoringMessageHandler, so don't
+                // try to run with an IgnoringMessageHandler unless we're also using a ChannelManagerConstructor.
+                continue;
+            }
             System.err.println("Running test with flags " + i);
-            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_chan_manager_constructor);
+            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor);
         }
     }
 
