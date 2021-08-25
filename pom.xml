@@ -65,6 +65,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <org.lightningdevkit.skipdocs>true</org.lightningdevkit.skipdocs>
     </properties>
 
     <build>
@@ -84,6 +85,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <skip>${org.lightningdevkit.skipdocs}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

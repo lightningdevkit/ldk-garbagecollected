@@ -12,7 +12,7 @@ ls src/main/resources/liblightningjni_MacOSX-aarch64.nativelib
 export LANG=C
 
 mvn clean
-faketime 2021-01-01 mvn -DskipTests=true package
+faketime 2021-01-01 mvn -DskipTests=true -Dorg.lightningdevkit.skipdocs=false package
 
 mkdir ziptmp
 cd ziptmp
