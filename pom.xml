@@ -4,9 +4,38 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.ldk</groupId>
+    <groupId>org.lightningdevkit</groupId>
     <artifactId>ldk-java</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.100.2</version>
+
+    <name>LDK Java Bindings and Binaries</name>
+    <description>LDK Java Bindings and Release Binaries</description>
+    <url>https://lightningdevkit.org</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/MIT</url>
+        </license>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Lightning Dev Kit Developers</name>
+            <organization>LDK</organization>
+            <organizationUrl>https://github.com/lightningdevkit</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/lightningdevkit/ldk-garbagecollected.git</connection>
+        <url>https://github.com/lightningdevkit/ldk-garbagecollected</url>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -36,7 +65,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <org.lightningdevkit.skipdocs>true</org.lightningdevkit.skipdocs>
     </properties>
 
     <build>
@@ -44,10 +73,24 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>${maven-source-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <skip>${org.lightningdevkit.skipdocs}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>

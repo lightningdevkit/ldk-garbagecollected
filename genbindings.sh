@@ -49,13 +49,19 @@ set -e
 if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
 	export LDK_GARBAGECOLLECTED_GIT_OVERRIDE=$(git describe --tag --dirty)
 fi
+if [ "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:0:1}" != "v" ]; then
+	echo "Version tag should start with a v" > /dev/stderr
+	exit 1
+fi
 
 cp "$1/lightning-c-bindings/include/lightning.h" ./
 if [ "$(rustc --version --verbose | grep "host:")" = "host: x86_64-apple-darwin" ]; then
 	# OSX sed is for some reason not compatible with GNU sed
 	sed -i '' "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+	sed -i '' "s/^    <version>.*<\/version>/    <version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" pom.xml
 else
 	sed -i "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
+	sed -i "s/^    <version>.*<\/version>/    <version>${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}<\/version>/g" pom.xml
 fi
 
 echo "Creating Java bindings..."
