@@ -27,7 +27,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.ldk</groupId>
+            <groupId>org.lightningdevkit</groupId>
             <artifactId>ldk-java</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

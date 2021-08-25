@@ -96,19 +96,21 @@ jobs:
           cp ldk-java-sources.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cp ldk-java.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cp ldk-java-classes.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+          cp ldk-java-javadoc.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cd ldk-java-bins
           if ! git diff --exit-code; then
             mv "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"* ./
             git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
             apt-get -y install diffoscope
             diffoscope ldk-java-sources.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-sources.jar"
+            diffoscope ldk-java-javadoc.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-javadoc.jar"
             diffoscope ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar"
             diffoscope ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar"
             exit 1
           fi
       - name: Run Java Tests against built release jar
         run: |
-          mvn install:install-file -Dfile=ldk-java.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+          mvn install:install-file -Dfile=ldk-java.jar -DgroupId=org.lightningdevkit -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
           cd javatester
           mvn package
           java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
@@ -309,7 +311,9 @@ jobs:
       - name: Run Java Tests against built jar
         run: |
           mvn -DskipTests=true package
-          mvn install:install-file -Dfile=target/ldk-java-1.0-SNAPSHOT.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(cat .git_ver)"
+          JAR_VERSION=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}
+          mvn install:install-file -Dfile=target/ldk-java-${JAR_VERSION}.jar -DgroupId=org.lightningdevkit -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
           cd javatester
           mvn package
           java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
@@ -331,7 +335,8 @@ jobs:
             cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-{x86_64,aarch64}.nativelib src/main/resources/
             mvn clean
             mvn -DskipTests=true package
-            mvn install:install-file -Dfile=target/ldk-java-1.0-SNAPSHOT.jar -DgroupId=org.ldk -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+            JAR_VERSION=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}
+            mvn install:install-file -Dfile=target/ldk-java-${JAR_VERSION}.jar -DgroupId=org.lightningdevkit -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
             cd javatester
             mvn package
             java -ea -jar target/ldk-java-tests-1.0-SNAPSHOT-jar-with-dependencies.jar
