@@ -6,7 +6,7 @@
 
     <groupId>org.lightningdevkit</groupId>
     <artifactId>ldk-java</artifactId>
-    <version>0.0.100.1</version>
+    <version>0.0.100.2</version>
 
     <name>LDK Java Bindings and Binaries</name>
     <description>LDK Java Bindings and Release Binaries</description>
