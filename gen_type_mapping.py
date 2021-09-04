@@ -157,20 +157,29 @@ class TypeMappingGenerator:
                 to_hu_conv = None
                 to_hu_conv_name = None
                 if subty.to_hu_conv is not None:
-                    to_hu_conv = ty_info.java_hu_ty + " " + conv_name + "_arr = new " + ty_info.subty.java_hu_ty.split("<")[0] + "[" + arr_name + ".length];\n"
-                    to_hu_conv = to_hu_conv + "for (int " + idxc + " = 0; " + idxc + " < " + arr_name + ".length; " + idxc + "++) {\n"
-                    to_hu_conv = to_hu_conv + "\t" + subty.java_ty + " " + conv_name + " = " + arr_name + "[" + idxc + "];\n"
-                    to_hu_conv = to_hu_conv + "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"
-                    to_hu_conv = to_hu_conv + "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n}"
+                    base_ty = ty_info.subty.java_hu_ty.split("[")[0].split("<")[0]
+                    to_hu_conv = ty_info.java_hu_ty + " " + conv_name + "_arr = new " + base_ty + "[" + arr_name + ".length]"
+                    if "[" in ty_info.subty.java_hu_ty.split("<")[0]:
+                        # Do a bit of a dance to move any excess [] to the end
+                        to_hu_conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
+                    to_hu_conv += ";\nfor (int " + idxc + " = 0; " + idxc + " < " + arr_name + ".length; " + idxc + "++) {\n"
+                    to_hu_conv += "\t" + subty.java_ty + " " + conv_name + " = " + arr_name + "[" + idxc + "];\n"
+                    to_hu_conv += "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"
+                    to_hu_conv += "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n}"
                     to_hu_conv_name = conv_name + "_arr"
                 from_hu_conv = None
                 if subty.from_hu_conv is not None:
+                    hu_conv_b = ""
+                    if subty.from_hu_conv[1] != "":
+                        hu_conv_b = "for (" + subty.java_hu_ty + " " + conv_name + ": " + arr_name + ") { " + subty.from_hu_conv[1] + "; }"
                     if subty.java_ty == "long" and subty.java_hu_ty != "long":
-                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
+                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null",
+                            hu_conv_b)
                     elif subty.java_ty == "long":
                         from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
                     else:
-                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray(" + ty_info.java_ty + "::new) : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
+                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray(" + ty_info.java_ty + "::new) : null",
+                            hu_conv_b)
 
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = arg_conv_cleanup,
@@ -385,6 +394,8 @@ class TypeMappingGenerator:
                             from_hu_conv = from_hu_conv + conv_map.from_hu_conv[0].replace(ty_info.var_name + "_" + chr(idx + ord("a")), ty_info.var_name + "." + chr(idx + ord("a")))
                             if conv_map.from_hu_conv[1] != "":
                                 from_hu_conv_sfx = from_hu_conv_sfx + conv_map.from_hu_conv[1].replace(conv.var_name, ty_info.var_name + "." + chr(idx + ord("a")))
+                                if idx != len(self.tuple_types[ty_info.rust_obj][0]) - 1:
+                                    from_hu_conv_sfx += "; "
                         else:
                             from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
 
