@@ -304,7 +304,7 @@ class HumanObjectPeerTestInstance {
                 }
                 this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
                         this.keys_interface, this.fee_estimator, this.chain_monitor, route_handler, this.tx_broadcaster, this.logger);
-                constructor.chain_sync_completed(new ChannelManagerConstructor.ChannelManagerPersister() {
+                constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                     @Override public void handle_event(Event event) {
                         synchronized (pending_manager_events) {
                             pending_manager_events.add(event);
@@ -337,7 +337,7 @@ class HumanObjectPeerTestInstance {
                 try {
                     this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
                             this.fee_estimator, this.chain_monitor, this.filter, this.router, this.tx_broadcaster, this.logger);
-                    constructor.chain_sync_completed(new ChannelManagerConstructor.ChannelManagerPersister() {
+                    constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
                                 pending_manager_events.add(event);

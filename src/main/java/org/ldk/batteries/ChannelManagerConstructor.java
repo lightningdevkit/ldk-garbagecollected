@@ -134,7 +134,7 @@ public class ChannelManagerConstructor {
      * Abstract interface which should handle Events and persist the ChannelManager. When you call chain_sync_completed
      * a background thread is started which will automatically call these methods for you when events occur.
      */
-    public interface ChannelManagerPersister {
+    public interface EventHandler {
         void handle_event(Event events);
         void persist_manager(byte[] channel_manager_bytes);
     }
@@ -146,17 +146,17 @@ public class ChannelManagerConstructor {
      * ChannelManager are processed as normal.
      *
      * This also spawns a background thread which will call the appropriate methods on the provided
-     * ChannelManagerPersister as required.
+     * EventHandler as required.
      */
-    public void chain_sync_completed(ChannelManagerPersister persister) {
+    public void chain_sync_completed(EventHandler event_handler) {
         if (background_processor != null) { return; }
         for (TwoTuple<ChannelMonitor, byte[]> monitor: channel_monitors) {
             this.chain_monitor.as_Watch().watch_channel(monitor.a.get_funding_txo().a, monitor.a);
         }
         background_processor = BackgroundProcessor.start(org.ldk.structs.ChannelManagerPersister.new_impl(channel_manager -> {
-            persister.persist_manager(channel_manager.write());
+            event_handler.persist_manager(channel_manager.write());
             return Result_NoneErrorZ.ok();
-        }), EventHandler.new_impl(persister::handle_event),
+        }), org.ldk.structs.EventHandler.new_impl(event_handler::handle_event),
         this.chain_monitor, this.channel_manager, this.peer_manager, this.logger);
     }
 
