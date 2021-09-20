@@ -44,7 +44,7 @@ public class bindings {
 		try {
 			// Try to load natively first, this works on Android and in testing.
 			System.loadLibrary(\"lightningjni\");
-		} catch (UnsatisfiedLinkError _ignored) {
+		} catch (UnsatisfiedLinkError system_load_err) {
 			// Otherwise try to load from the library jar.
 			File tmpdir = new File(System.getProperty("java.io.tmpdir"), "ldk-java-nativelib");
 			tmpdir.mkdir(); // If it fails to create, assume it was there already
@@ -56,6 +56,9 @@ public class bindings {
 				Files.copy(is, libpath, StandardCopyOption.REPLACE_EXISTING);
 				Runtime.getRuntime().load(libpath.toString());
 			} catch (IOException e) {
+				System.err.println("Failed to load LDK native library.");
+				System.err.println("System LDK native library load failed with: " + system_load_err);
+				System.err.println("Resource-based LDK native library load failed with: " + e);
 				throw new IllegalArgumentException(e);
 			}
 		}
