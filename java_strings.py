@@ -233,10 +233,11 @@ void backtrace_symbols_fd(void ** buffer, int count, int _fd) {
                     self.c_file_pfx = self.c_file_pfx + "#include <execinfo.h>\n"
                 self.c_file_pfx = self.c_file_pfx + """
 #include <unistd.h>
-static mtx_t allocation_mtx;
+#include <pthread.h>
+static pthread_mutex_t allocation_mtx;
 
 void __attribute__((constructor)) init_mtx() {
-	DO_ASSERT(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);
+	DO_ASSERT(!pthread_mutex_init(&allocation_mtx, NULL));
 }
 
 #define BT_MAX 128
@@ -258,10 +259,10 @@ static void new_allocation(void* res, const char* struct_name, size_t len) {
 	new_alloc->struct_name = struct_name;
 	new_alloc->bt_len = backtrace(new_alloc->bt, BT_MAX);
 	new_alloc->alloc_len = len;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
+	DO_ASSERT(!pthread_mutex_lock(&allocation_mtx));
 	new_alloc->next = allocation_ll;
 	allocation_ll = new_alloc;
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
+	DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
 }
 static void* MALLOC(size_t len, const char* struct_name) {
 	void* res = __real_malloc(len);
@@ -271,7 +272,7 @@ static void* MALLOC(size_t len, const char* struct_name) {
 void __real_free(void* ptr);
 static void alloc_freed(void* ptr) {
 	allocation* p = NULL;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
+	DO_ASSERT(!pthread_mutex_lock(&allocation_mtx));
 	allocation* it = allocation_ll;
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
@@ -281,12 +282,12 @@ static void alloc_freed(void* ptr) {
 			int bt_len = backtrace(bt, BT_MAX);
 			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
 			DEBUG_PRINT("\\n\\n");
-			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
+			DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
 			return; // addrsan should catch malloc-unknown and print more info than we have
 		}
 	}
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
+	DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
 	DO_ASSERT(it->ptr == ptr);
 	__real_free(it);
 }
