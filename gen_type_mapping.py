@@ -319,7 +319,7 @@ class TypeMappingGenerator:
                         to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                         to_hu_conv_name = "ret_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
-                needs_full_clone = not is_free and ((not ty_info.is_ptr and not holds_ref) or ty_info.requires_clone == True) and ty_info.requires_clone != False
+                needs_full_clone = not is_free and (not ty_info.is_ptr or ty_info.requires_clone == True) and ty_info.requires_clone != False
                 if needs_full_clone:
                     if "res" in ty_info.var_name: # XXX: This is a stupid hack
                         needs_full_clone = False
