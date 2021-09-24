@@ -91,7 +91,7 @@ echo "Building Java bindings..."
 COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -ldl -shared -fPIC"
 [ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--no-undefined"
 [ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
-[ "$IS_MAC" = "false" -a "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
+[ "$IS_MAC" = "false" -a "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
 if [ "$3" = "true" ]; then
 	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 else
@@ -144,6 +144,11 @@ else
 		if [ "$GLIBC_SYMBS" != "" ]; then
 			echo "Unexpected glibc version dependency! Some users need glibc 2.17 support, symbols for newer glibcs cannot be included."
 			echo "$GLIBC_SYMBS"
+			exit 1
+		fi
+		REALLOC_ARRAY_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep reallocarray || echo)"
+		if [ "$REALLOC_ARRAY_SYMBS" != "" ]; then
+			echo "Unexpected reallocarray dependency!"
 			exit 1
 		fi
 	fi
