@@ -438,10 +438,15 @@ class TypeMappingGenerator:
             elif ty_info.is_ptr:
                 assert(not is_free)
                 if ty_info.rust_obj in self.complex_enums:
+                    ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", " | 1; // Warning: We should clone here!")
+                    if ty_info.rust_obj.replace("LDK", "") + "_clone" in self.clone_fns:
+                        ret_conv_pfx = ty_info.rust_obj + " *ret_" + ty_info.var_name + " = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + " ret conversion\");\n"
+                        ret_conv_pfx += "*ret_" + ty_info.var_name + " = " + ty_info.rust_obj.replace("LDK", "") + "_clone("
+                        ret_conv = (ret_conv_pfx, ");")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                         arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
+                        ret_conv = ret_conv, ret_conv_name = "(uint64_t)ret_" + ty_info.var_name,
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
