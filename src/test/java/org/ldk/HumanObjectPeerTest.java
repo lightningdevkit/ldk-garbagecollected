@@ -176,8 +176,12 @@ class HumanObjectPeerTestInstance {
         PeerManager peer_manager;
         final HashMap<String, ChannelMonitor> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
+        byte[] connected_peer_node_id = null;
         final LinkedList<byte[]> broadcast_set = new LinkedList<>();
         final LinkedList<Event> pending_manager_events = new LinkedList<>();
+        private final CustomMessageHandler custom_message_handler;
+        final LinkedList<byte[]> received_custom_messages = new LinkedList<>();
+        final LinkedList<byte[]> custom_messages_to_send = new LinkedList<>();
         ChannelManagerConstructor constructor = null;
         GcCheck obj = new GcCheck();
 
@@ -264,7 +268,52 @@ class HumanObjectPeerTestInstance {
                 this.keys_interface = keys.as_KeysInterface();
                 this.explicit_keys_manager = keys;
             }
-            this.router = NetGraphMsgHandler.of(new byte[32], Option_AccessZ.none(), logger);
+            this.router = NetGraphMsgHandler.of(new byte[32], Option_AccessZ.some(Access.new_impl(new Access.AccessInterface() {
+                @Override
+                public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
+                    // We don't exchange any gossip, so should never actually get called, but providing a Some(Access)
+                    // is a good test of our Option<Trait> free'ing, which used to be broken and relies on a dirty hack.
+                    assert false;
+                    return Result_TxOutAccessErrorZ.err(AccessError.LDKAccessError_UnknownTx);
+                }
+            })), logger);
+
+            this.custom_message_handler = CustomMessageHandler.new_impl(new CustomMessageHandler.CustomMessageHandlerInterface() {
+                @Override
+                public Result_NoneLightningErrorZ handle_custom_message(Type msg, byte[] sender_node_id) {
+                    synchronized (received_custom_messages) {
+                        received_custom_messages.add(msg.write());
+                        received_custom_messages.notifyAll();
+                    }
+                    return Result_NoneLightningErrorZ.ok();
+                }
+
+                @Override
+                public TwoTuple<byte[], Type>[] get_and_clear_pending_msg() {
+                    byte[][] bytes;
+                    synchronized (custom_messages_to_send) {
+                        bytes = custom_messages_to_send.toArray(new byte[0][0]);
+                        custom_messages_to_send.clear();
+                    }
+                    TwoTuple[] ret = new TwoTuple[bytes.length];
+                    for (int i = 0; i < bytes.length; i++) {
+                        final int msg_idx = i;
+                        ret[i] = new TwoTuple(connected_peer_node_id, Type.new_impl(new Type.TypeInterface() {
+                            @Override public short type_id() { return 4096; }
+                            @Override public String debug_str() { return "Custom Java Message"; }
+                            @Override public byte[] write() { return bytes[msg_idx]; }
+                        }));
+                    }
+                    return ret;
+                }
+            }, (message_type, buffer) -> {
+                assert message_type == 4096;
+                return Result_COption_TypeZDecodeErrorZ.ok(Option_TypeZ.some(Type.new_impl(new Type.TypeInterface() {
+                    @Override public short type_id() { return 4096; }
+                    @Override public String debug_str() { return "Custom Java-Decoded Message"; }
+                    @Override public byte[] write() { return buffer; }
+                })));
+            });
         }
         private void bind_nio() {
             if (!use_nio_peer_handler) return;
@@ -306,7 +355,7 @@ class HumanObjectPeerTestInstance {
                 ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
                 this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), params);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
-                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, IgnoringMessageHandler.of().as_CustomMessageHandler());
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
             }
 
             this.node_id = chan_manager.get_our_node_id();
@@ -368,7 +417,7 @@ class HumanObjectPeerTestInstance {
                 this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
                 this.chain_watch.watch_channel(monitors[0].get_funding_txo().a, monitors[0]);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
-                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, IgnoringMessageHandler.of().as_CustomMessageHandler());
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
                 if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
                     // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
                     // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
@@ -557,6 +606,8 @@ class HumanObjectPeerTestInstance {
     }
 
     void connect_peers(final Peer peer1, final Peer peer2) {
+        peer2.connected_peer_node_id = peer1.node_id;
+        peer1.connected_peer_node_id = peer2.node_id;
         if (use_nio_peer_handler) {
             try {
                 peer1.nio_peer_handler.connect(peer2.chan_manager.get_our_node_id(), new InetSocketAddress("127.0.0.1", peer2.nio_port), 100);
@@ -693,6 +744,9 @@ class HumanObjectPeerTestInstance {
         Result_RouteLightningErrorZ route_res = UtilMethods.get_route(peer1.chan_manager.get_our_node_id(), peer1.router.get_network_graph(), peer2.node_id, invoice_features, peer1_chans, route_hints, 10000000, 42, peer1.logger);
         assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
         Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
+        assert route.get_paths().length == 1;
+        assert route.get_paths()[0].length == 1;
+        assert route.get_paths()[0][0].get_fee_msat() == 10000000;
 
         Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
@@ -824,14 +878,30 @@ class HumanObjectPeerTestInstance {
             assert broadcastable_event.length == 1;
             assert broadcastable_event[0] instanceof Event.SpendableOutputs;
             if (state.peer2.explicit_keys_manager != null) {
-                TxOut[] additional_outputs = new TxOut[] { new TxOut(420, new byte[] { 0x42 }) };
-                Result_TransactionNoneZ tx_res = state.peer2.explicit_keys_manager.spend_spendable_outputs(((Event.SpendableOutputs) broadcastable_event[0]).outputs, additional_outputs, new byte[] {0x00}, 253);
+                TxOut[] additional_outputs = new TxOut[]{new TxOut(420, new byte[]{0x42})};
+                Result_TransactionNoneZ tx_res = state.peer2.explicit_keys_manager.spend_spendable_outputs(((Event.SpendableOutputs) broadcastable_event[0]).outputs, additional_outputs, new byte[]{0x00}, 253);
                 assert tx_res instanceof Result_TransactionNoneZ.Result_TransactionNoneZ_OK;
                 Transaction built_tx = new Transaction(bitcoinj_net, ((Result_TransactionNoneZ.Result_TransactionNoneZ_OK) tx_res).res);
                 assert built_tx.getOutputs().size() == 2;
                 assert Arrays.equals(built_tx.getOutput(1).getScriptBytes(), new byte[]{0x00});
                 assert Arrays.equals(built_tx.getOutput(0).getScriptBytes(), new byte[]{0x42});
                 assert built_tx.getOutput(0).getValue().value == 420;
+            }
+        }
+
+        // Test exchanging a custom message
+        byte[] custom_message_bytes = new byte[] { 0x42, 0x44, 0x43, 0x00 };
+        state.peer1.custom_messages_to_send.add(custom_message_bytes);
+        state.peer1.peer_manager.process_events();
+        synchronized (state.peer2.received_custom_messages) {
+            while (true) {
+                if (state.peer2.received_custom_messages.isEmpty()) {
+                    state.peer2.received_custom_messages.wait();
+                    continue;
+                }
+                assert state.peer2.received_custom_messages.size() == 1;
+                assert Arrays.equals(state.peer2.received_custom_messages.get(0), custom_message_bytes);
+                break;
             }
         }
 
@@ -852,6 +922,12 @@ class HumanObjectPeerTestInstance {
         }
 
         t.interrupt();
+
+        // Construct the only Option_Enum::Variant(OpaqueStruct) we have in the codebase as this used to cause double-frees:
+        byte[] serd = new byte[] {(byte)0xd9,(byte)0x77,(byte)0xcb,(byte)0x9b,(byte)0x53,(byte)0xd9,(byte)0x3a,(byte)0x6f,(byte)0xf6,(byte)0x4b,(byte)0xb5,(byte)0xf1,(byte)0xe1,(byte)0x58,(byte)0xb4,(byte)0x09,(byte)0x4b,(byte)0x66,(byte)0xe7,(byte)0x98,(byte)0xfb,(byte)0x12,(byte)0x91,(byte)0x11,(byte)0x68,(byte)0xa3,(byte)0xcc,(byte)0xdf,(byte)0x80,(byte)0xa8,(byte)0x30,(byte)0x96,(byte)0x34,(byte)0x0a,(byte)0x6a,(byte)0x95,(byte)0xda,(byte)0x0a,(byte)0xe8,(byte)0xd9,(byte)0xf7,(byte)0x76,(byte)0x52,(byte)0x8e,(byte)0xec,(byte)0xdb,(byte)0xb7,(byte)0x47,(byte)0xeb,(byte)0x6b,(byte)0x54,(byte)0x54,(byte)0x95,(byte)0xa4,(byte)0x31,(byte)0x9e,(byte)0xd5,(byte)0x37,(byte)0x8e,(byte)0x35,(byte)0xb2,(byte)0x1e,(byte)0x07,(byte)0x3a,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x19,(byte)0xd6,(byte)0x68,(byte)0x9c,(byte)0x08,(byte)0x5a,(byte)0xe1,(byte)0x65,(byte)0x83,(byte)0x1e,(byte)0x93,(byte)0x4f,(byte)0xf7,(byte)0x63,(byte)0xae,(byte)0x46,(byte)0xa2,(byte)0xa6,(byte)0xc1,(byte)0x72,(byte)0xb3,(byte)0xf1,(byte)0xb6,(byte)0x0a,(byte)0x8c,(byte)0xe2,(byte)0x6f,(byte)0x00,(byte)0x08,(byte)0x3a,(byte)0x84,(byte)0x00,(byte)0x00,(byte)0x03,(byte)0x4d,(byte)0x01,(byte)0x34,(byte)0x13,(byte)0xa7,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x90,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x0f,(byte)0x42,(byte)0x40,(byte)0x00,(byte)0x00,(byte)0x27,(byte)0x10,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x14,};
+        Result_ChannelUpdateDecodeErrorZ upd_msg = ChannelUpdate.read(serd);
+        assert upd_msg instanceof Result_ChannelUpdateDecodeErrorZ.Result_ChannelUpdateDecodeErrorZ_OK;
+        Option_NetworkUpdateZ upd = Option_NetworkUpdateZ.some(NetworkUpdate.channel_update_message(((Result_ChannelUpdateDecodeErrorZ.Result_ChannelUpdateDecodeErrorZ_OK) upd_msg).res));
     }
 
     java.util.LinkedList<WeakReference<Object>> must_free_objs = new java.util.LinkedList();
