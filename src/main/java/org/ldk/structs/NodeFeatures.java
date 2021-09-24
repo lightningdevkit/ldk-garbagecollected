@@ -64,6 +64,15 @@ public class NodeFeatures extends CommonBase {
 	}
 
 	/**
+	 * Returns true if this `Features` object contains unknown feature flags which are set as
+	 * \"required\".
+	 */
+	public boolean requires_unknown_bits() {
+		boolean ret = bindings.NodeFeatures_requires_unknown_bits(this.ptr);
+		return ret;
+	}
+
+	/**
 	 * Returns whether the `payment_secret` feature is supported.
 	 */
 	public boolean supports_payment_secret() {

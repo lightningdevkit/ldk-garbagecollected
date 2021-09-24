@@ -23,8 +23,8 @@ public class MonitorEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMonitorEvent.HTLCEvent.class) {
 			return new HTLCEvent(ptr, (bindings.LDKMonitorEvent.HTLCEvent)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKMonitorEvent.CommitmentTxBroadcasted.class) {
-			return new CommitmentTxBroadcasted(ptr, (bindings.LDKMonitorEvent.CommitmentTxBroadcasted)raw_val);
+		if (raw_val.getClass() == bindings.LDKMonitorEvent.CommitmentTxConfirmed.class) {
+			return new CommitmentTxConfirmed(ptr, (bindings.LDKMonitorEvent.CommitmentTxConfirmed)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
@@ -39,14 +39,14 @@ public class MonitorEvent extends CommonBase {
 			this.htlc_event = htlc_event_hu_conv;
 		}
 	}
-	public final static class CommitmentTxBroadcasted extends MonitorEvent {
-		public final OutPoint commitment_tx_broadcasted;
-		private CommitmentTxBroadcasted(long ptr, bindings.LDKMonitorEvent.CommitmentTxBroadcasted obj) {
+	public final static class CommitmentTxConfirmed extends MonitorEvent {
+		public final OutPoint commitment_tx_confirmed;
+		private CommitmentTxConfirmed(long ptr, bindings.LDKMonitorEvent.CommitmentTxConfirmed obj) {
 			super(null, ptr);
-			long commitment_tx_broadcasted = obj.commitment_tx_broadcasted;
-			OutPoint commitment_tx_broadcasted_hu_conv = new OutPoint(null, commitment_tx_broadcasted);
-			commitment_tx_broadcasted_hu_conv.ptrs_to.add(this);
-			this.commitment_tx_broadcasted = commitment_tx_broadcasted_hu_conv;
+			long commitment_tx_confirmed = obj.commitment_tx_confirmed;
+			OutPoint commitment_tx_confirmed_hu_conv = new OutPoint(null, commitment_tx_confirmed);
+			commitment_tx_confirmed_hu_conv.ptrs_to.add(this);
+			this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
 		}
 	}
 	/**
@@ -73,10 +73,10 @@ public class MonitorEvent extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new CommitmentTxBroadcasted-variant MonitorEvent
+	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
 	 */
-	public static MonitorEvent commitment_tx_broadcasted(OutPoint a) {
-		long ret = bindings.MonitorEvent_commitment_tx_broadcasted(a == null ? 0 : a.ptr & ~1);
+	public static MonitorEvent commitment_tx_confirmed(OutPoint a) {
+		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr & ~1);
 		if (ret < 1024) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

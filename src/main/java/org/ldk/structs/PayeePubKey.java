@@ -20,17 +20,6 @@ public class PayeePubKey extends CommonBase {
 	}
 
 	/**
-	 * Checks if two PayeePubKeys contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public boolean eq(PayeePubKey b) {
-		boolean ret = bindings.PayeePubKey_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
-		return ret;
-	}
-
-	/**
 	 * Creates a copy of the PayeePubKey
 	 */
 	public PayeePubKey clone() {
@@ -39,6 +28,25 @@ public class PayeePubKey extends CommonBase {
 		PayeePubKey ret_hu_conv = new PayeePubKey(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two PayeePubKeys contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.PayeePubKey_hash(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Checks if two PayeePubKeys contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(PayeePubKey b) {
+		boolean ret = bindings.PayeePubKey_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
 	}
 
 }

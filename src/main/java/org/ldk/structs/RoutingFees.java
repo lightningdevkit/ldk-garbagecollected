@@ -85,6 +85,14 @@ public class RoutingFees extends CommonBase {
 	}
 
 	/**
+	 * Checks if two RoutingFeess contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.RoutingFees_hash(this.ptr);
+		return ret;
+	}
+
+	/**
 	 * Serialize the RoutingFees object into a byte array which can be read by RoutingFees_read
 	 */
 	public byte[] write() {

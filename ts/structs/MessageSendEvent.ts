@@ -58,9 +58,6 @@ export default class MessageSendEvent extends CommonBase {
 		if (raw_val instanceof bindings.LDKMessageSendEvent.HandleError) {
 			return new HandleError(this.ptr, raw_val);
 		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate) {
-			return new PaymentFailureNetworkUpdate(this.ptr, raw_val);
-		}
 		if (raw_val instanceof bindings.LDKMessageSendEvent.SendChannelRangeQuery) {
 			return new SendChannelRangeQuery(this.ptr, raw_val);
 		}
@@ -265,16 +262,6 @@ export class HandleError extends MessageSendEvent {
 		this.action = action_hu_conv;
 	}
 }
-export class PaymentFailureNetworkUpdate extends MessageSendEvent {
-	public update: HTLCFailChannelUpdate;
-	private constructor(ptr: number, obj: bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate) {
-		super(null, ptr);
-		const update: number = obj.update;
-		HTLCFailChannelUpdate update_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(update);
-			update_hu_conv.ptrs_to.add(this);
-		this.update = update_hu_conv;
-	}
-}
 export class SendChannelRangeQuery extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: QueryChannelRange;
@@ -441,13 +428,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 
 	public static MessageSendEvent constructor_handle_error(Uint8Array node_id, ErrorAction action) {
 		number ret = bindings.MessageSendEvent_handle_error(node_id, action.ptr);
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		return ret_hu_conv;
-	}
-
-	public static MessageSendEvent constructor_payment_failure_network_update(HTLCFailChannelUpdate update) {
-		number ret = bindings.MessageSendEvent_payment_failure_network_update(update.ptr);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

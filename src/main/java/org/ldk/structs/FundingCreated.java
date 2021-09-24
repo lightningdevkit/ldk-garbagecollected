@@ -65,7 +65,7 @@ public class FundingCreated extends CommonBase {
 	}
 
 	/**
-	 * The signature of the channel initiator (funder) on the funding transaction
+	 * The signature of the channel initiator (funder) on the initial commitment transaction
 	 */
 	public byte[] get_signature() {
 		byte[] ret = bindings.FundingCreated_get_signature(this.ptr);
@@ -73,7 +73,7 @@ public class FundingCreated extends CommonBase {
 	}
 
 	/**
-	 * The signature of the channel initiator (funder) on the funding transaction
+	 * The signature of the channel initiator (funder) on the initial commitment transaction
 	 */
 	public void set_signature(byte[] val) {
 		bindings.FundingCreated_set_signature(this.ptr, val);

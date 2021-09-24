@@ -18,17 +18,22 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.PrivateRoute_free(this.ptr);
                     }
                 }
-	public boolean eq(PrivateRoute b) {
-		boolean ret = bindings.PrivateRoute_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
-		return ret;
-	}
-
 	public PrivateRoute clone() {
 		number ret = bindings.PrivateRoute_clone(this.ptr);
 		const ret_hu_conv: PrivateRoute = new PrivateRoute(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	public number hash() {
+		number ret = bindings.PrivateRoute_hash(this.ptr);
+		return ret;
+	}
+
+	public boolean eq(PrivateRoute b) {
+		boolean ret = bindings.PrivateRoute_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
 	}
 
 	public static Result_PrivateRouteCreationErrorZ constructor_new(RouteHint hops) {

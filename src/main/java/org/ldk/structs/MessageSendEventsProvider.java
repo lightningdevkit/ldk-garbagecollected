@@ -37,7 +37,6 @@ public class MessageSendEventsProvider extends CommonBase {
 			@Override public long[] get_and_clear_pending_msg_events() {
 				MessageSendEvent[] ret = arg.get_and_clear_pending_msg_events();
 				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18.ptr).toArray() : null;
-				/* TODO 2 MessageSendEvent  */;
 				return result;
 			}
 		});

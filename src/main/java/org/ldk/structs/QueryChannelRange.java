@@ -98,6 +98,14 @@ public class QueryChannelRange extends CommonBase {
 	}
 
 	/**
+	 * Serialize the QueryChannelRange object into a byte array which can be read by QueryChannelRange_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.QueryChannelRange_write(this.ptr);
+		return ret;
+	}
+
+	/**
 	 * Read a QueryChannelRange from a byte array, created by QueryChannelRange_write
 	 */
 	public static Result_QueryChannelRangeDecodeErrorZ read(byte[] ser) {
@@ -105,14 +113,6 @@ public class QueryChannelRange extends CommonBase {
 		if (ret < 1024) { return null; }
 		Result_QueryChannelRangeDecodeErrorZ ret_hu_conv = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Serialize the QueryChannelRange object into a byte array which can be read by QueryChannelRange_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.QueryChannelRange_write(this.ptr);
-		return ret;
 	}
 
 }

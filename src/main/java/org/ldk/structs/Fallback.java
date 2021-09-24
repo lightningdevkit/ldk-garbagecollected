@@ -103,6 +103,14 @@ public class Fallback extends CommonBase {
 
 	/**
 	 * Checks if two Fallbacks contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.Fallback_hash(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Checks if two Fallbacks contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
 	public boolean eq(Fallback b) {

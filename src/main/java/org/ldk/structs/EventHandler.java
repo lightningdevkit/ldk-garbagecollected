@@ -37,7 +37,6 @@ public class EventHandler extends CommonBase {
 		impl_holder.held = new EventHandler(new bindings.LDKEventHandler() {
 			@Override public void handle_event(long event) {
 				Event event_hu_conv = Event.constr_from_ptr(event);
-				event_hu_conv.ptrs_to.add(this);
 				arg.handle_event(event_hu_conv);
 			}
 		});
@@ -49,7 +48,8 @@ public class EventHandler extends CommonBase {
 	 * See [`EventsProvider`] for details that must be considered when implementing this method.
 	 */
 	public void handle_event(Event event) {
-		bindings.EventHandler_handle_event(this.ptr, event.ptr);
+		bindings.EventHandler_handle_event(this.ptr, event == null ? 0 : event.ptr & ~1);
+		this.ptrs_to.add(event);
 	}
 
 }

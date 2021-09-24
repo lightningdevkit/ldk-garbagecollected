@@ -31,12 +31,18 @@
 		ret_hu_conv.ptrs_to.add(arg_tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(arg_logger);
 		ret_hu_conv.ptrs_to.add(arg_default_config);
-		/* TODO 2 ChannelMonitor  */;
+		for (ChannelMonitor arg_channel_monitors_conv_16: arg_channel_monitors) { ret_hu_conv.ptrs_to.add(arg_channel_monitors_conv_16); };
 		return ret_hu_conv;
 	}
 
 	public static Uint8Array constructor_uild_commitment_secret(Uint8Array commitment_seed, number idx) {
 		Uint8Array ret = bindings.build_commitment_secret(commitment_seed, idx);
+		return ret;
+	}
+
+	public static Uint8Array constructor_uild_closing_transaction(number to_holder_value_sat, number to_counterparty_value_sat, Uint8Array to_holder_script, Uint8Array to_counterparty_script, OutPoint funding_outpoint) {
+		Uint8Array ret = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
+		// this.ptrs_to.add(funding_outpoint);
 		return ret;
 	}
 
@@ -96,8 +102,8 @@
 		number ret = bindings.get_keysend_route(our_node_id, network == null ? 0 : network.ptr & ~1, payee, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, last_hops != null ? Arrays.stream(last_hops).map(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray(number[]::new) : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(network);
-		/* TODO 2 ChannelDetails  */;
-		/* TODO 2 RouteHint  */;
+		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
+		for (RouteHint last_hops_conv_11: last_hops) { ret_hu_conv.ptrs_to.add(last_hops_conv_11); };
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}
@@ -107,8 +113,8 @@
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(network);
 		ret_hu_conv.ptrs_to.add(payee_features);
-		/* TODO 2 ChannelDetails  */;
-		/* TODO 2 RouteHint  */;
+		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
+		for (RouteHint last_hops_conv_11: last_hops) { ret_hu_conv.ptrs_to.add(last_hops_conv_11); };
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}

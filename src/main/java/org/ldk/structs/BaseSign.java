@@ -59,6 +59,15 @@ public class BaseSign extends CommonBase {
 		 */
 		byte[] release_commitment_secret(long idx);
 		/**
+		 * Validate the counterparty's signatures on the holder commitment transaction and HTLCs.
+		 * 
+		 * This is required in order for the signer to make sure that releasing a commitment
+		 * secret won't leave us without a broadcastable holder transaction.
+		 * Policy checks should be implemented in this function, including checking the amount
+		 * sent to us and checking the HTLCs.
+		 */
+		Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx);
+		/**
 		 * Gets an arbitrary identifier describing the set of keys which are provided back to you in
 		 * some SpendableOutputDescriptor types. This should be sufficient to identify this
 		 * Sign object uniquely and lookup or re-derive its keys.
@@ -68,8 +77,18 @@ public class BaseSign extends CommonBase {
 		 * Create a signature for a counterparty's commitment transaction and associated HTLC transactions.
 		 * 
 		 * Note that if signing fails or is rejected, the channel will be force-closed.
+		 * 
+		 * Policy checks should be implemented in this function, including checking the amount
+		 * sent to us and checking the HTLCs.
 		 */
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx);
+		/**
+		 * Validate the counterparty's revocation.
+		 * 
+		 * This is required in order for the signer to make sure that the state has moved
+		 * forward and it is safe to sign the next counterparty commitment.
+		 */
+		Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret);
 		/**
 		 * Create a signatures for a holder's commitment transaction and its claiming HTLC transactions.
 		 * This will only ever be called with a non-revoked commitment_tx.  This will be called with the
@@ -147,7 +166,7 @@ public class BaseSign extends CommonBase {
 		 * Note that, due to rounding, there may be one \"missing\" satoshi, and either party may have
 		 * chosen to forgo their output as dust.
 		 */
-		Result_SignatureNoneZ sign_closing_transaction(byte[] closing_tx);
+		Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx);
 		/**
 		 * Signs a channel announcement message with our funding key, proving it comes from one
 		 * of the channel participants.
@@ -183,6 +202,12 @@ public class BaseSign extends CommonBase {
 				byte[] ret = arg.release_commitment_secret(idx);
 				return ret;
 			}
+			@Override public long validate_holder_commitment(long holder_tx) {
+				HolderCommitmentTransaction holder_tx_hu_conv = new HolderCommitmentTransaction(null, holder_tx);
+				Result_NoneNoneZ ret = arg.validate_holder_commitment(holder_tx_hu_conv);
+				long result = ret != null ? ret.ptr : 0;
+				return result;
+			}
 			@Override public byte[] channel_keys_id() {
 				byte[] ret = arg.channel_keys_id();
 				return ret;
@@ -190,6 +215,11 @@ public class BaseSign extends CommonBase {
 			@Override public long sign_counterparty_commitment(long commitment_tx) {
 				CommitmentTransaction commitment_tx_hu_conv = new CommitmentTransaction(null, commitment_tx);
 				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv);
+				long result = ret != null ? ret.ptr : 0;
+				return result;
+			}
+			@Override public long validate_counterparty_revocation(long idx, byte[] secret) {
+				Result_NoneNoneZ ret = arg.validate_counterparty_revocation(idx, secret);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
@@ -216,8 +246,9 @@ public class BaseSign extends CommonBase {
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
-			@Override public long sign_closing_transaction(byte[] closing_tx) {
-				Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx);
+			@Override public long sign_closing_transaction(long closing_tx) {
+				ClosingTransaction closing_tx_hu_conv = new ClosingTransaction(null, closing_tx);
+				Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
@@ -260,6 +291,22 @@ public class BaseSign extends CommonBase {
 	}
 
 	/**
+	 * Validate the counterparty's signatures on the holder commitment transaction and HTLCs.
+	 * 
+	 * This is required in order for the signer to make sure that releasing a commitment
+	 * secret won't leave us without a broadcastable holder transaction.
+	 * Policy checks should be implemented in this function, including checking the amount
+	 * sent to us and checking the HTLCs.
+	 */
+	public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx) {
+		long ret = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr & ~1);
+		if (ret < 1024) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		this.ptrs_to.add(holder_tx);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Gets an arbitrary identifier describing the set of keys which are provided back to you in
 	 * some SpendableOutputDescriptor types. This should be sufficient to identify this
 	 * Sign object uniquely and lookup or re-derive its keys.
@@ -273,12 +320,28 @@ public class BaseSign extends CommonBase {
 	 * Create a signature for a counterparty's commitment transaction and associated HTLC transactions.
 	 * 
 	 * Note that if signing fails or is rejected, the channel will be force-closed.
+	 * 
+	 * Policy checks should be implemented in this function, including checking the amount
+	 * sent to us and checking the HTLCs.
 	 */
 	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
 		long ret = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Validate the counterparty's revocation.
+	 * 
+	 * This is required in order for the signer to make sure that the state has moved
+	 * forward and it is safe to sign the next counterparty commitment.
+	 */
+	public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
+		long ret = bindings.BaseSign_validate_counterparty_revocation(this.ptr, idx, secret);
+		if (ret < 1024) { return null; }
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -386,10 +449,11 @@ public class BaseSign extends CommonBase {
 	 * Note that, due to rounding, there may be one \"missing\" satoshi, and either party may have
 	 * chosen to forgo their output as dust.
 	 */
-	public Result_SignatureNoneZ sign_closing_transaction(byte[] closing_tx) {
-		long ret = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx);
+	public Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
+		long ret = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx == null ? 0 : closing_tx.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		this.ptrs_to.add(closing_tx);
 		return ret_hu_conv;
 	}
 

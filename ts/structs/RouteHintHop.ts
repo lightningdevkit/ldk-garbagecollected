@@ -87,17 +87,22 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public boolean eq(RouteHintHop b) {
-		boolean ret = bindings.RouteHintHop_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
-		return ret;
-	}
-
 	public RouteHintHop clone() {
 		number ret = bindings.RouteHintHop_clone(this.ptr);
 		const ret_hu_conv: RouteHintHop = new RouteHintHop(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	public number hash() {
+		number ret = bindings.RouteHintHop_hash(this.ptr);
+		return ret;
+	}
+
+	public boolean eq(RouteHintHop b) {
+		boolean ret = bindings.RouteHintHop_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
 	}
 
 }

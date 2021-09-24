@@ -86,6 +86,45 @@ public class ChannelCounterparty extends CommonBase {
 	}
 
 	/**
+	 * Information on the fees and requirements that the counterparty requires when forwarding
+	 * payments to us through this channel.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public CounterpartyForwardingInfo get_forwarding_info() {
+		long ret = bindings.ChannelCounterparty_get_forwarding_info(this.ptr);
+		if (ret < 1024) { return null; }
+		CounterpartyForwardingInfo ret_hu_conv = new CounterpartyForwardingInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Information on the fees and requirements that the counterparty requires when forwarding
+	 * payments to us through this channel.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_forwarding_info(@Nullable CounterpartyForwardingInfo val) {
+		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
+	/**
+	 * Constructs a new ChannelCounterparty given each field
+	 */
+	public static ChannelCounterparty of(byte[] node_id_arg, InitFeatures features_arg, long unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg) {
+		long ret = bindings.ChannelCounterparty_new(node_id_arg, features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
+		if (ret < 1024) { return null; }
+		ChannelCounterparty ret_hu_conv = new ChannelCounterparty(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(features_arg);
+		ret_hu_conv.ptrs_to.add(forwarding_info_arg);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Creates a copy of the ChannelCounterparty
 	 */
 	public ChannelCounterparty clone() {

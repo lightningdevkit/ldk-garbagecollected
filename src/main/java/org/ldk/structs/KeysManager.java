@@ -86,8 +86,6 @@ public class KeysManager extends CommonBase {
 		long ret = bindings.KeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? Arrays.stream(descriptors).mapToLong(descriptors_conv_27 -> descriptors_conv_27.ptr).toArray() : null, outputs != null ? Arrays.stream(outputs).mapToLong(outputs_conv_7 -> outputs_conv_7.ptr).toArray() : null, change_destination_script, feerate_sat_per_1000_weight);
 		if (ret < 1024) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
-		/* TODO 2 SpendableOutputDescriptor  */;
-		/* TODO 2 TxOut  */;
 		return ret_hu_conv;
 	}
 

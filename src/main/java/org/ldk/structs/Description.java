@@ -23,17 +23,6 @@ public class Description extends CommonBase {
 	}
 
 	/**
-	 * Checks if two Descriptions contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public boolean eq(Description b) {
-		boolean ret = bindings.Description_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
-		return ret;
-	}
-
-	/**
 	 * Creates a copy of the Description
 	 */
 	public Description clone() {
@@ -42,6 +31,25 @@ public class Description extends CommonBase {
 		Description ret_hu_conv = new Description(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two Descriptions contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.Description_hash(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Checks if two Descriptions contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(Description b) {
+		boolean ret = bindings.Description_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
 	}
 
 	/**

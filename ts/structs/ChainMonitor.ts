@@ -18,16 +18,28 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChainMonitor_free(this.ptr);
                     }
                 }
-	public static ChainMonitor constructor_new(Filter chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
-		number ret = bindings.ChainMonitor_new(chain_source == null ? 0 : chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
+	public static ChainMonitor constructor_new(Option_FilterZ chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
+		number ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
 		const ret_hu_conv: ChainMonitor = new ChainMonitor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(chain_source);
 		ret_hu_conv.ptrs_to.add(broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(feeest);
 		ret_hu_conv.ptrs_to.add(persister);
 		return ret_hu_conv;
+	}
+
+	public Balance[] get_claimable_balances(ChannelDetails[] ignored_channels) {
+		number[] ret = bindings.ChainMonitor_get_claimable_balances(this.ptr, ignored_channels != null ? Arrays.stream(ignored_channels).map(ignored_channels_conv_16 -> ignored_channels_conv_16 == null ? 0 : ignored_channels_conv_16.ptr & ~1).toArray(number[]::new) : null);
+		Balance[] ret_conv_9_arr = new Balance[ret.length];
+		for (int j = 0; j < ret.length; j++) {
+			number ret_conv_9 = ret[j];
+			Balance ret_conv_9_hu_conv = Balance.constr_from_ptr(ret_conv_9);
+			ret_conv_9_hu_conv.ptrs_to.add(this);
+			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
+		}
+		for (ChannelDetails ignored_channels_conv_16: ignored_channels) { this.ptrs_to.add(ignored_channels_conv_16); };
+		return ret_conv_9_arr;
 	}
 
 	public Listen as_Listen() {

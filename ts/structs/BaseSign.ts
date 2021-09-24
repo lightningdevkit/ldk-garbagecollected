@@ -43,6 +43,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return ret;
 						},
 
+						validate_holder_commitment (holder_tx: number): number {
+							const holder_tx_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, holder_tx);
+							Result_NoneNoneZ ret = arg.validate_holder_commitment(holder_tx_hu_conv);
+				result: number = ret != null ? ret.ptr : 0;
+				return result;
+						},
+
 						channel_keys_id (): Uint8Array {
 							Uint8Array ret = arg.channel_keys_id();
 				return ret;
@@ -51,6 +58,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 						sign_counterparty_commitment (commitment_tx: number): number {
 							const commitment_tx_hu_conv: CommitmentTransaction = new CommitmentTransaction(null, commitment_tx);
 							Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv);
+				result: number = ret != null ? ret.ptr : 0;
+				return result;
+						},
+
+						validate_counterparty_revocation (idx: number, secret: Uint8Array): number {
+							Result_NoneNoneZ ret = arg.validate_counterparty_revocation(idx, secret);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
 						},
@@ -82,8 +95,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return result;
 						},
 
-						sign_closing_transaction (closing_tx: Uint8Array): number {
-							Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx);
+						sign_closing_transaction (closing_tx: number): number {
+							const closing_tx_hu_conv: ClosingTransaction = new ClosingTransaction(null, closing_tx);
+							Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx_hu_conv);
 				result: number = ret != null ? ret.ptr : 0;
 				return result;
 						},
@@ -109,13 +123,15 @@ import * as bindings from '../bindings' // TODO: figure out location
             export interface BaseSignInterface {
                 get_per_commitment_point(idx: number): Uint8Array;
 				release_commitment_secret(idx: number): Uint8Array;
+				validate_holder_commitment(holder_tx: HolderCommitmentTransaction): Result_NoneNoneZ;
 				channel_keys_id(): Uint8Array;
 				sign_counterparty_commitment(commitment_tx: CommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
+				validate_counterparty_revocation(idx: number, secret: Uint8Array): Result_NoneNoneZ;
 				sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
 				sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array): Result_SignatureNoneZ;
 				sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
 				sign_counterparty_htlc_transaction(htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
-				sign_closing_transaction(closing_tx: Uint8Array): Result_SignatureNoneZ;
+				sign_closing_transaction(closing_tx: ClosingTransaction): Result_SignatureNoneZ;
 				sign_channel_announcement(msg: UnsignedChannelAnnouncement): Result_SignatureNoneZ;
 				ready_channel(channel_parameters: ChannelTransactionParameters): void;
 				
@@ -134,6 +150,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx) {
+		number ret = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr & ~1);
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
+		this.ptrs_to.add(holder_tx);
+		return ret_hu_conv;
+	}
+
 	public Uint8Array channel_keys_id() {
 		Uint8Array ret = bindings.BaseSign_channel_keys_id(this.ptr);
 		return ret;
@@ -143,6 +166,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
+		return ret_hu_conv;
+	}
+
+	public Result_NoneNoneZ validate_counterparty_revocation(number idx, Uint8Array secret) {
+		number ret = bindings.BaseSign_validate_counterparty_revocation(this.ptr, idx, secret);
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -173,9 +202,10 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public Result_SignatureNoneZ sign_closing_transaction(Uint8Array closing_tx) {
-		number ret = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx);
+	public Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
+		number ret = bindings.BaseSign_sign_closing_transaction(this.ptr, closing_tx == null ? 0 : closing_tx.ptr & ~1);
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		this.ptrs_to.add(closing_tx);
 		return ret_hu_conv;
 	}
 

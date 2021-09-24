@@ -140,7 +140,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 			// Warning: We may not free the C tuple object!
 			ret_conv_49_arr[x] = ret_conv_49_conv;
 		}
-		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
@@ -177,7 +176,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 			// Warning: We may not free the C tuple object!
 			ret_conv_49_arr[x] = ret_conv_49_conv;
 		}
-		/* TODO 2 TwoTuple<Number, Uint8Array>  */;
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
@@ -230,6 +228,18 @@ import * as bindings from '../bindings' // TODO: figure out location
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	public Balance[] get_claimable_balances() {
+		number[] ret = bindings.ChannelMonitor_get_claimable_balances(this.ptr);
+		Balance[] ret_conv_9_arr = new Balance[ret.length];
+		for (int j = 0; j < ret.length; j++) {
+			number ret_conv_9 = ret[j];
+			Balance ret_conv_9_hu_conv = Balance.constr_from_ptr(ret_conv_9);
+			ret_conv_9_hu_conv.ptrs_to.add(this);
+			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
+		}
+		return ret_conv_9_arr;
 	}
 
 }

@@ -152,6 +152,25 @@ public class RouteHop extends CommonBase {
 	}
 
 	/**
+	 * Checks if two RouteHops contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.RouteHop_hash(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Checks if two RouteHops contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(RouteHop b) {
+		boolean ret = bindings.RouteHop_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
+	/**
 	 * Serialize the RouteHop object into a byte array which can be read by RouteHop_read
 	 */
 	public byte[] write() {

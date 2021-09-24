@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 
 /**
- * This class tracks the per-transaction information needed to build a commitment transaction and to
+ * This class tracks the per-transaction information needed to build a commitment transaction and will
  * actually build it and sign.  It is used for holder transactions that we sign only when needed
  * and for transactions we sign for the counterparty.
  * 
@@ -91,7 +91,7 @@ public class CommitmentTransaction extends CommonBase {
 	 * Applies a wrapper which allows access to these fields.
 	 * 
 	 * This should only be used if you fully trust the builder of this object.  It should not
-	 * \tbe used by an external signer - instead use the verify function.
+	 * be used by an external signer - instead use the verify function.
 	 */
 	public TrustedCommitmentTransaction trust() {
 		long ret = bindings.CommitmentTransaction_trust(this.ptr);

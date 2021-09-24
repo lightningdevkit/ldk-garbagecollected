@@ -360,7 +360,6 @@ public class ChannelManager extends CommonBase {
 	 */
 	public void broadcast_node_announcement(byte[] rgb, byte[] alias, NetAddress[] addresses) {
 		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, addresses != null ? Arrays.stream(addresses).mapToLong(addresses_conv_12 -> addresses_conv_12.ptr).toArray() : null);
-		/* TODO 2 NetAddress  */;
 	}
 
 	/**

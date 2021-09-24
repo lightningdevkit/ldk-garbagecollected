@@ -153,7 +153,6 @@ public class Confirm extends CommonBase {
 	 */
 	public void transactions_confirmed(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
 		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray() : null, height);
-		/* TODO 2 TwoTuple<Long, byte[]>  */;
 	}
 
 	/**

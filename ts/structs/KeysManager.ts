@@ -35,8 +35,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, Uint8Array change_destination_script, number feerate_sat_per_1000_weight) {
 		number ret = bindings.KeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? Arrays.stream(descriptors).map(descriptors_conv_27 -> descriptors_conv_27.ptr).toArray(number[]::new) : null, outputs != null ? Arrays.stream(outputs).map(outputs_conv_7 -> outputs_conv_7.ptr).toArray(number[]::new) : null, change_destination_script, feerate_sat_per_1000_weight);
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
-		/* TODO 2 SpendableOutputDescriptor  */;
-		/* TODO 2 TxOut  */;
 		return ret_hu_conv;
 	}
 

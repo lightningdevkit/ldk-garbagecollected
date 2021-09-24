@@ -18,13 +18,14 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.PeerManager_free(this.ptr);
                     }
                 }
-	public static PeerManager constructor_new(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, Uint8Array our_node_secret, Uint8Array ephemeral_random_data, Logger logger) {
-		number ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr), our_node_secret, ephemeral_random_data, logger == null ? 0 : logger.ptr);
+	public static PeerManager constructor_new(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, Uint8Array our_node_secret, Uint8Array ephemeral_random_data, Logger logger, CustomMessageHandler custom_message_handler) {
+		number ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr), our_node_secret, ephemeral_random_data, logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr);
 		const ret_hu_conv: PeerManager = new PeerManager(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(message_handler_chan_handler_arg);
 		ret_hu_conv.ptrs_to.add(message_handler_route_handler_arg);
 		ret_hu_conv.ptrs_to.add(logger);
+		ret_hu_conv.ptrs_to.add(custom_message_handler);
 		return ret_hu_conv;
 	}
 
