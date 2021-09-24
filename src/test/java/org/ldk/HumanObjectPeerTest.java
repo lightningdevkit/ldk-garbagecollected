@@ -5,6 +5,7 @@ import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
 import org.ldk.batteries.ChannelManagerConstructor;
 import org.ldk.batteries.NioPeerHandler;
+import org.ldk.enums.AccessError;
 import org.ldk.enums.Currency;
 import org.ldk.enums.Network;
 import org.ldk.structs.*;
@@ -50,58 +51,43 @@ class HumanObjectPeerTestInstance {
                     Sign underlying_ck = underlying_if.get_channel_signer(inbound, channel_value_satoshis);
                     BaseSign underlying_base = underlying_ck.get_base_sign();
                     BaseSign.BaseSignInterface bsi = new BaseSign.BaseSignInterface() {
-                        @Override
-                        public byte[] get_per_commitment_point(long idx) {
+                        @Override public byte[] get_per_commitment_point(long idx) {
                             return underlying_base.get_per_commitment_point(idx);
                         }
-
-                        @Override
-                        public byte[] release_commitment_secret(long idx) {
+                        @Override public byte[] release_commitment_secret(long idx) {
                             return underlying_base.release_commitment_secret(idx);
                         }
-
-                        @Override
-                        public byte[] channel_keys_id() {
+                        @Override public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx) {
+                            return underlying_base.validate_holder_commitment(holder_tx);
+                        }
+                        @Override public byte[] channel_keys_id() {
                             return new byte[32];
                         }
-
-                        @Override
-                        public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
+                        @Override public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
                             return underlying_base.sign_counterparty_commitment(commitment_tx);
                         }
-
-                        @Override
-                        public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction holder_commitment_tx) {
+                        @Override public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
+                            return underlying_base.validate_counterparty_revocation(idx, secret);
+                        }
+                        @Override public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htlcs(HolderCommitmentTransaction holder_commitment_tx) {
                             return underlying_base.sign_holder_commitment_and_htlcs(holder_commitment_tx);
                         }
-
-                        @Override
-                        public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
+                        @Override public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
                             return underlying_base.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
                         }
-
-                        @Override
-                        public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
+                        @Override public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
                             return underlying_base.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc);
                         }
-
-                        @Override
-                        public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
+                        @Override public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
                             return underlying_base.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc);
                         }
-
-                        @Override
-                        public Result_SignatureNoneZ sign_closing_transaction(byte[] closing_tx) {
+                        @Override public Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
                             return underlying_base.sign_closing_transaction(closing_tx);
                         }
-
-                        @Override
-                        public Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
+                        @Override public Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
                             return underlying_base.sign_channel_announcement(msg);
                         }
-
-                        @Override
-                        public void ready_channel(ChannelTransactionParameters params) {
+                        @Override public void ready_channel(ChannelTransactionParameters params) {
                             underlying_base.ready_channel(params);
                         }
                     };
@@ -185,7 +171,7 @@ class HumanObjectPeerTestInstance {
         final NetGraphMsgHandler router;
         final Watch chain_watch;
         final HashSet<String> filter_additions;
-        final Filter filter;
+        final Option_FilterZ filter;
         ChannelManager chan_manager;
         PeerManager peer_manager;
         final HashMap<String, ChannelMonitor> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
@@ -245,7 +231,7 @@ class HumanObjectPeerTestInstance {
 
             filter_additions = new HashSet<>();
             if (use_filter) {
-                this.filter = Filter.new_impl(new Filter.FilterInterface() {
+                this.filter = Option_FilterZ.some(Filter.new_impl(new Filter.FilterInterface() {
                     @Override public void register_tx(byte[] txid, byte[] script_pubkey) {
                         filter_additions.add(Arrays.toString(txid));
                     }
@@ -253,9 +239,9 @@ class HumanObjectPeerTestInstance {
                         filter_additions.add(Arrays.toString(output.get_outpoint().get_txid()) + ":" + output.get_outpoint().get_index());
                         return Option_C2Tuple_usizeTransactionZZ.none();
                     }
-                });
+                }));
             } else {
-                this.filter = null;
+                this.filter = Option_FilterZ.none();
             }
 
             if (use_manual_watch) {
@@ -278,7 +264,7 @@ class HumanObjectPeerTestInstance {
                 this.keys_interface = keys.as_KeysInterface();
                 this.explicit_keys_manager = keys;
             }
-            this.router = NetGraphMsgHandler.of(new byte[32], null, logger);
+            this.router = NetGraphMsgHandler.of(new byte[32], Option_AccessZ.none(), logger);
         }
         private void bind_nio() {
             if (!use_nio_peer_handler) return;
@@ -320,7 +306,7 @@ class HumanObjectPeerTestInstance {
                 ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
                 this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), params);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
-                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, IgnoringMessageHandler.of().as_CustomMessageHandler());
             }
 
             this.node_id = chan_manager.get_our_node_id();
@@ -335,8 +321,12 @@ class HumanObjectPeerTestInstance {
                 byte[][] monitors = {orig.monitors.values().stream().iterator().next().write()};
                 byte[] serialized = orig.chan_manager.write();
                 try {
+                    Filter filter_nullable = null;
+                    if (this.filter instanceof Option_FilterZ.Some) {
+                        filter_nullable = ((Option_FilterZ.Some) this.filter).some;
+                    }
                     this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
-                            this.fee_estimator, this.chain_monitor, this.filter, this.router, this.tx_broadcaster, this.logger);
+                            this.fee_estimator, this.chain_monitor, filter_nullable, this.router, this.tx_broadcaster, this.logger);
                     constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
@@ -378,7 +368,7 @@ class HumanObjectPeerTestInstance {
                 this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
                 this.chain_watch.watch_channel(monitors[0].get_funding_txo().a, monitors[0]);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
-                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, IgnoringMessageHandler.of().as_CustomMessageHandler());
                 if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
                     // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
                     // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
@@ -700,13 +690,9 @@ class HumanObjectPeerTestInstance {
         InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
         RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-        Route route;
-        try (LockedNetworkGraph netgraph = peer1.router.read_locked_graph()) {
-            NetworkGraph graph = netgraph.graph();
-            Result_RouteLightningErrorZ route_res = UtilMethods.get_route(peer1.chan_manager.get_our_node_id(), graph, peer2.node_id, invoice_features, peer1_chans, route_hints, 10000000, 42, peer1.logger);
-            assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
-            route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
-        }
+        Result_RouteLightningErrorZ route_res = UtilMethods.get_route(peer1.chan_manager.get_our_node_id(), peer1.router.get_network_graph(), peer2.node_id, invoice_features, peer1_chans, route_hints, 10000000, 42, peer1.logger);
+        assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
+        Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
 
         Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
         assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;

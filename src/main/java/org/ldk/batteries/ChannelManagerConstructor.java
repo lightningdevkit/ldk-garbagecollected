@@ -50,6 +50,8 @@ public class ChannelManagerConstructor {
 
     private final Logger logger;
 
+    public final @Nullable NetGraphMsgHandler router;
+
     /**
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
      *
@@ -61,6 +63,7 @@ public class ChannelManagerConstructor {
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor, @Nullable Filter filter,
                                      @Nullable NetGraphMsgHandler router,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
+        final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
         this.channel_monitors = new TwoTuple[monitors.length];
         for (int i = 0; i < monitors.length; i++) {
@@ -80,12 +83,15 @@ public class ChannelManagerConstructor {
         this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.b;
         this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.a;
         this.chain_monitor = chain_monitor;
+        this.router = router;
         this.logger = logger;
         byte[] random_data = keys_interface.get_secure_random_bytes();
         if (router != null) {
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(),
+                    keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
         } else {
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), (IgnoringMessageHandler.of()).as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), (IgnoringMessageHandler.of()).as_RoutingMessageHandler(),
+                    keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
         }
         NioPeerHandler nio_peer_handler = null;
         try {
@@ -108,18 +114,22 @@ public class ChannelManagerConstructor {
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
                                      @Nullable NetGraphMsgHandler router,
                                      BroadcasterInterface tx_broadcaster, Logger logger) {
+        final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
         channel_monitors = new TwoTuple[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
+        this.router = router;
         BestBlock block = BestBlock.of(current_blockchain_tip_hash, current_blockchain_tip_height);
         ChainParameters params = ChainParameters.of(network, block);
         channel_manager = ChannelManager.of(fee_estimator, chain_monitor.as_Watch(), tx_broadcaster, logger, keys_interface, config, params);
         this.logger = logger;
         byte[] random_data = keys_interface.get_secure_random_bytes();
         if (router != null) {
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(),
+                    keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
         } else {
-            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), (IgnoringMessageHandler.of()).as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger);
+            this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), (IgnoringMessageHandler.of()).as_RoutingMessageHandler(),
+                    keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
         }
         NioPeerHandler nio_peer_handler = null;
         try {
@@ -157,7 +167,7 @@ public class ChannelManagerConstructor {
             event_handler.persist_manager(channel_manager.write());
             return Result_NoneErrorZ.ok();
         }), org.ldk.structs.EventHandler.new_impl(event_handler::handle_event),
-        this.chain_monitor, this.channel_manager, this.peer_manager, this.logger);
+        this.chain_monitor, this.channel_manager, this.router, this.peer_manager, this.logger);
     }
 
     /**
