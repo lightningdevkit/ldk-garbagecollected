@@ -98,14 +98,16 @@ jobs:
           cp ldk-java-classes.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cp ldk-java-javadoc.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
           cd ldk-java-bins
+          # ldk-java-leaktracking is only for debug purposes and we don't bother with determinism
+          git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-leaktracking.jar"
           if ! git diff --exit-code; then
             mv "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"* ./
             git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
             apt-get -y install diffoscope
-            diffoscope ldk-java-sources.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-sources.jar"
-            diffoscope ldk-java-javadoc.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-javadoc.jar"
-            diffoscope ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar"
-            diffoscope ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar"
+            diffoscope ldk-java-sources.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-sources.jar" || echo
+            diffoscope ldk-java-javadoc.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-javadoc.jar" || echo
+            diffoscope ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar" || echo
+            diffoscope ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar" || echo
             exit 1
           fi
       - name: Run Java Tests against built release jar

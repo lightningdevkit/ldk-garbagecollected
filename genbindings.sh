@@ -2,12 +2,13 @@
 usage() {
 	echo "USAGE: path/to/ldk-c-bindings \"JNI_CFLAGS\" debug android"
 	echo "For JNI_CFLAGS you probably want -I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/"
-	echo "debug should either be true or false"
+	echo "debug should either be true, false, or leaks"
+	echo "debug of leaks turns on leak tracking on an optimized release bianry"
 	echo "android should either be true or false"
 	exit 1
 }
 [ "$1" = "" ] && usage
-[ "$3" != "true" -a "$3" != "false" ] && usage
+[ "$3" != "true" -a "$3" != "false" -a "$3" != "leaks" ] && usage
 [ "$4" != "true" -a "$4" != "false" ] && usage
 
 set -x
@@ -68,10 +69,14 @@ echo "Creating Java bindings..."
 mkdir -p src/main/java/org/ldk/{enums,structs}
 rm -f src/main/java/org/ldk/{enums,structs}/*.java
 rm -f src/main/jni/*.h
+DEBUG_ARG="$3"
+if [ "$3" = "leaks" ]; then
+	DEBUG_ARG="true"
+fi
 if [ "$4" = "true" ]; then
-	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c.body $3 android $4
+	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c.body $DEBUG_ARG android $4
 else
-	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c.body $3 java $4
+	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c.body $DEBUG_ARG java $4
 fi
 echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > src/main/jni/bindings.c
 echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> src/main/jni/bindings.c
@@ -86,8 +91,8 @@ echo "Building Java bindings..."
 COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -ldl -shared -fPIC"
 [ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--no-undefined"
 [ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
+[ "$IS_MAC" = "false" -a "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
 if [ "$3" = "true" ]; then
-	[ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
 	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm
 else
 	LDK_LIB="$1"/lightning-c-bindings/target/$LDK_TARGET/release/libldk.a
@@ -152,7 +157,7 @@ fi
 echo "Creating TS bindings..."
 mkdir -p ts/{enums,structs}
 rm -f ts/{enums,structs}/*.ts
-./genbindings.py "./lightning.h" ts/bindings.ts ts ts/bindings.c.body $3 typescript
+./genbindings.py "./lightning.h" ts/bindings.ts ts ts/bindings.c.body $DEBUG_ARG typescript
 echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > ts/bindings.c
 echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> ts/bindings.c
 cat ts/bindings.c.body >> ts/bindings.c
@@ -162,8 +167,9 @@ COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -Wl,--export-dynamic -Wl,-allow-un
 # We only need malloc and assert/abort, but for now just use WASI for those:
 #EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 EXTRA_LINK=
+[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
 if [ "$3" = "true" ]; then
-	$COMPILE -o liblightningjs_debug.wasm -g -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
+	$COMPILE -o liblightningjs_debug.wasm -g -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
 else
 	$COMPILE -o liblightningjs_release.wasm -s -Os -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
 fi
