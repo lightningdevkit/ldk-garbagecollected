@@ -302,7 +302,8 @@ class TypeMappingGenerator:
                         if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                             ret_conv = (ret_conv[0] + ty_info.rust_obj.replace("LDK", "") + "_clone(&", ");")
                         else:
-                            ret_conv = (ret_conv[0], "; // Warning: We likely need to clone here, but no clone is available for " + ty_info.rust_obj)
+                            ret_conv = (ret_conv[0], ";\n// Warning: We likely need to clone here, but no clone is available, so we just do it for Java instances")
+                            ret_conv = (ret_conv[0], ret_conv[1] + "" + self.consts.trait_struct_inc_refcnt(ty_info).replace(ty_info.var_name + "_conv", "(*" + ty_info.var_name + "_ret)"))
                     if not is_free:
                         needs_full_clone = not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False
                         if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
@@ -332,6 +333,18 @@ class TypeMappingGenerator:
                     # underlying unlike Vecs, and it gives Java more freedom.
                     base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");"
                 if ty_info.rust_obj in self.complex_enums:
+                    if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
+                        # We really need a full clone here, but for now we just implement
+                        # a manual clone explicitly for Option<Trait>s
+                        if ty_info.rust_obj.startswith("LDKCOption"):
+                            optional_ty = ty_info.rust_obj[11:-1]
+                            if "LDK" + optional_ty in self.trait_structs:
+                                base_conv += "\nif (" + ty_info.var_name + "_conv.tag == " + ty_info.rust_obj + "_Some) {"
+                                base_conv += "\n\t// Manually implement clone for Java trait instances"
+                                optional_ty_info = self.java_c_types("LDK" + optional_ty + " " + ty_info.var_name, None)
+                                base_conv += self.consts.trait_struct_inc_refcnt(optional_ty_info).\
+                                    replace("\n", "\n\t").replace(ty_info.var_name + "_conv", ty_info.var_name + "_conv.some")
+                                base_conv += "\n}"
                     ret_conv = ("uint64_t " + ty_info.var_name + "_ref = ((uint64_t)&", ") | 1;")
                     if not holds_ref:
                         ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_copy = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n", "")
