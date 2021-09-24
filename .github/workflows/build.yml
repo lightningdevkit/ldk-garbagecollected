@@ -35,7 +35,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.100
+          git checkout 0.0.101
       - name: Rebuild C bindings without STD for WASM
         run: |
           cd ldk-c-bindings
@@ -167,7 +167,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.100
+          git checkout 0.0.101
       - name: Detect current git version
         run: |
           # We assume the top commit is just a bindings update commit, so we
@@ -247,7 +247,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.100
+          git checkout 0.0.101
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
