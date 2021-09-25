@@ -33,8 +33,8 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentSent.class) {
 			return new PaymentSent(ptr, (bindings.LDKEvent.PaymentSent)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKEvent.PaymentFailed.class) {
-			return new PaymentFailed(ptr, (bindings.LDKEvent.PaymentFailed)raw_val);
+		if (raw_val.getClass() == bindings.LDKEvent.PaymentPathFailed.class) {
+			return new PaymentPathFailed(ptr, (bindings.LDKEvent.PaymentPathFailed)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKEvent.PendingHTLCsForwardable.class) {
 			return new PendingHTLCsForwardable(ptr, (bindings.LDKEvent.PendingHTLCsForwardable)raw_val);
@@ -44,6 +44,9 @@ public class Event extends CommonBase {
 		}
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentForwarded.class) {
 			return new PaymentForwarded(ptr, (bindings.LDKEvent.PaymentForwarded)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKEvent.ChannelClosed.class) {
+			return new ChannelClosed(ptr, (bindings.LDKEvent.ChannelClosed)raw_val);
 		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
@@ -112,7 +115,7 @@ public class Event extends CommonBase {
 			this.payment_preimage = obj.payment_preimage;
 		}
 	}
-	public final static class PaymentFailed extends Event {
+	public final static class PaymentPathFailed extends Event {
 		/**
 		 * The hash which was given to ChannelManager::send_payment.
 		*/
@@ -123,10 +126,45 @@ public class Event extends CommonBase {
 		 * retry the payment via a different route.
 		*/
 		public final boolean rejected_by_dest;
-		private PaymentFailed(long ptr, bindings.LDKEvent.PaymentFailed obj) {
+		/**
+		 * Any failure information conveyed via the Onion return packet by a node along the failed
+		 * payment route.
+		 * 
+		 * Should be applied to the [`NetworkGraph`] so that routing decisions can take into
+		 * account the update. [`NetGraphMsgHandler`] is capable of doing this.
+		 * 
+		 * [`NetworkGraph`]: crate::routing::network_graph::NetworkGraph
+		 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
+		*/
+		public final Option_NetworkUpdateZ network_update;
+		/**
+		 * For both single-path and multi-path payments, this is set if all paths of the payment have
+		 * failed. This will be set to false if (1) this is an MPP payment and (2) other parts of the
+		 * larger MPP payment were still in flight when this event was generated.
+		*/
+		public final boolean all_paths_failed;
+		/**
+		 * The payment path that failed.
+		*/
+		public final RouteHop[] path;
+		private PaymentPathFailed(long ptr, bindings.LDKEvent.PaymentPathFailed obj) {
 			super(null, ptr);
 			this.payment_hash = obj.payment_hash;
 			this.rejected_by_dest = obj.rejected_by_dest;
+			long network_update = obj.network_update;
+			Option_NetworkUpdateZ network_update_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(network_update);
+			network_update_hu_conv.ptrs_to.add(this);
+			this.network_update = network_update_hu_conv;
+			this.all_paths_failed = obj.all_paths_failed;
+			long[] path = obj.path;
+			RouteHop[] path_conv_10_arr = new RouteHop[path.length];
+			for (int k = 0; k < path.length; k++) {
+				long path_conv_10 = path[k];
+				RouteHop path_conv_10_hu_conv = new RouteHop(null, path_conv_10);
+				path_conv_10_hu_conv.ptrs_to.add(this);
+				path_conv_10_arr[k] = path_conv_10_hu_conv;
+			}
+			this.path = path_conv_10_arr;
 		}
 	}
 	public final static class PendingHTLCsForwardable extends Event {
@@ -191,6 +229,25 @@ public class Event extends CommonBase {
 			this.claim_from_onchain_tx = obj.claim_from_onchain_tx;
 		}
 	}
+	public final static class ChannelClosed extends Event {
+		/**
+		 * The channel_id of the channel which has been closed. Note that on-chain transactions
+		 * resolving the channel are likely still awaiting confirmation.
+		*/
+		public final byte[] channel_id;
+		/**
+		 * The reason the channel was closed.
+		*/
+		public final ClosureReason reason;
+		private ChannelClosed(long ptr, bindings.LDKEvent.ChannelClosed obj) {
+			super(null, ptr);
+			this.channel_id = obj.channel_id;
+			long reason = obj.reason;
+			ClosureReason reason_hu_conv = ClosureReason.constr_from_ptr(reason);
+			reason_hu_conv.ptrs_to.add(this);
+			this.reason = reason_hu_conv;
+		}
+	}
 	/**
 	 * Creates a copy of the Event
 	 */
@@ -236,13 +293,14 @@ public class Event extends CommonBase {
 	}
 
 	/**
-	 * Utility method to constructs a new PaymentFailed-variant Event
+	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
-	public static Event payment_failed(byte[] payment_hash, boolean rejected_by_dest) {
-		long ret = bindings.Event_payment_failed(payment_hash, rejected_by_dest);
+	public static Event payment_path_failed(byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path) {
+		long ret = bindings.Event_payment_path_failed(payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
 		if (ret < 1024) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
 		return ret_hu_conv;
 	}
 
@@ -265,7 +323,6 @@ public class Event extends CommonBase {
 		if (ret < 1024) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		/* TODO 2 SpendableOutputDescriptor  */;
 		return ret_hu_conv;
 	}
 
@@ -274,6 +331,17 @@ public class Event extends CommonBase {
 	 */
 	public static Event payment_forwarded(Option_u64Z fee_earned_msat, boolean claim_from_onchain_tx) {
 		long ret = bindings.Event_payment_forwarded(fee_earned_msat.ptr, claim_from_onchain_tx);
+		if (ret < 1024) { return null; }
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new ChannelClosed-variant Event
+	 */
+	public static Event channel_closed(byte[] channel_id, ClosureReason reason) {
+		long ret = bindings.Event_channel_closed(channel_id, reason.ptr);
 		if (ret < 1024) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

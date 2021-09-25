@@ -98,7 +98,6 @@ public class NioPeerHandler {
 
     /**
      * Constructs a new peer handler, spawning a thread to monitor for socket events.
-     * The background thread will call the PeerManager's timer_tick_occured() function for you on an appropriate schedule.
      *
      * @param manager The LDK PeerManager which connection data will be provided to.
      * @throws IOException If an internal java.nio error occurs.
@@ -108,7 +107,6 @@ public class NioPeerHandler {
         this.selector = Selector.open();
         io_thread = new Thread(() -> {
             ByteBuffer buf = ByteBuffer.allocate(8192);
-            long lastTimerTick = System.currentTimeMillis();
             while (true) {
                 try {
                     if (IS_ANDROID) {
@@ -191,10 +189,6 @@ public class NioPeerHandler {
                         // The key is only cancelled when we have notified the PeerManager that the socket is closed, so
                         // no need to do anything here with the PeerManager.
                     }
-                }
-                if (lastTimerTick < System.currentTimeMillis() - 30 * 1000) {
-                    peer_manager.timer_tick_occurred();
-                    lastTimerTick = System.currentTimeMillis();
                 }
                 peer_manager.process_events();
             }

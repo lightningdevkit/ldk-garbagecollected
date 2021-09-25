@@ -48,7 +48,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor__ok(TwoTuple<Uint8Array, ChannelMonitor>[] o) {
 		number ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o != null ? Arrays.stream(o).map(o_conv_38 -> bindings.C2Tuple_BlockHashChannelMonitorZ_new(o_conv_38.a, o_conv_38.b == null ? 0 : o_conv_38.b.ptr & ~1)).toArray(number[]::new) : null);
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
-		/* TODO 2 TwoTuple<Uint8Array, ChannelMonitor>  */;
+		for (TwoTuple<Uint8Array, ChannelMonitor> o_conv_38: o) { ret_hu_conv.ptrs_to.add(o_conv_38.b); };
 		return ret_hu_conv;
 	}
 

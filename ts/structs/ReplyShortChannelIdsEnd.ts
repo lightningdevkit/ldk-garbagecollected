@@ -50,15 +50,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public Uint8Array write() {
+		Uint8Array ret = bindings.ReplyShortChannelIdsEnd_write(this.ptr);
+		return ret;
+	}
+
 	public static Result_ReplyShortChannelIdsEndDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.ReplyShortChannelIdsEnd_read(ser);
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
-	}
-
-	public Uint8Array write() {
-		Uint8Array ret = bindings.ReplyShortChannelIdsEnd_write(this.ptr);
-		return ret;
 	}
 
 }

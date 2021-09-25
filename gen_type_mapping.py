@@ -157,20 +157,29 @@ class TypeMappingGenerator:
                 to_hu_conv = None
                 to_hu_conv_name = None
                 if subty.to_hu_conv is not None:
-                    to_hu_conv = ty_info.java_hu_ty + " " + conv_name + "_arr = new " + ty_info.subty.java_hu_ty.split("<")[0] + "[" + arr_name + ".length];\n"
-                    to_hu_conv = to_hu_conv + "for (int " + idxc + " = 0; " + idxc + " < " + arr_name + ".length; " + idxc + "++) {\n"
-                    to_hu_conv = to_hu_conv + "\t" + subty.java_ty + " " + conv_name + " = " + arr_name + "[" + idxc + "];\n"
-                    to_hu_conv = to_hu_conv + "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"
-                    to_hu_conv = to_hu_conv + "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n}"
+                    base_ty = ty_info.subty.java_hu_ty.split("[")[0].split("<")[0]
+                    to_hu_conv = ty_info.java_hu_ty + " " + conv_name + "_arr = new " + base_ty + "[" + arr_name + ".length]"
+                    if "[" in ty_info.subty.java_hu_ty.split("<")[0]:
+                        # Do a bit of a dance to move any excess [] to the end
+                        to_hu_conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
+                    to_hu_conv += ";\nfor (int " + idxc + " = 0; " + idxc + " < " + arr_name + ".length; " + idxc + "++) {\n"
+                    to_hu_conv += "\t" + subty.java_ty + " " + conv_name + " = " + arr_name + "[" + idxc + "];\n"
+                    to_hu_conv += "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"
+                    to_hu_conv += "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n}"
                     to_hu_conv_name = conv_name + "_arr"
                 from_hu_conv = None
                 if subty.from_hu_conv is not None:
+                    hu_conv_b = ""
+                    if subty.from_hu_conv[1] != "":
+                        hu_conv_b = "for (" + subty.java_hu_ty + " " + conv_name + ": " + arr_name + ") { " + subty.from_hu_conv[1] + "; }"
                     if subty.java_ty == "long" and subty.java_hu_ty != "long":
-                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
+                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null",
+                            hu_conv_b)
                     elif subty.java_ty == "long":
                         from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
                     else:
-                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray(" + ty_info.java_ty + "::new) : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
+                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray(" + ty_info.java_ty + "::new) : null",
+                            hu_conv_b)
 
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = arg_conv_cleanup,
@@ -288,12 +297,13 @@ class TypeMappingGenerator:
                         ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
                 base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)(((uint64_t)" + ty_info.var_name + ") & ~1);"
                 if ty_info.rust_obj in self.trait_structs:
-                    ret_conv = (ty_info.rust_obj + "* ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*ret = ", ";")
+                    ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ret =MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ret = ", ";")
                     if holds_ref:
                         if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                             ret_conv = (ret_conv[0] + ty_info.rust_obj.replace("LDK", "") + "_clone(&", ");")
                         else:
-                            ret_conv = (ret_conv[0], "; // Warning: We likely need to clone here, but no clone is available for " + ty_info.rust_obj)
+                            ret_conv = (ret_conv[0], ";\n// Warning: We likely need to clone here, but no clone is available, so we just do it for Java instances")
+                            ret_conv = (ret_conv[0], ret_conv[1] + "" + self.consts.trait_struct_inc_refcnt(ty_info).replace(ty_info.var_name + "_conv", "(*" + ty_info.var_name + "_ret)"))
                     if not is_free:
                         needs_full_clone = not is_free and (not ty_info.is_ptr and not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False
                         if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
@@ -306,11 +316,11 @@ class TypeMappingGenerator:
                         base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ret_conv, ret_conv_name = "(uint64_t)ret",
+                        ret_conv = ret_conv, ret_conv_name = "(uint64_t)" + ty_info.var_name + "_ret",
                         to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                         to_hu_conv_name = "ret_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
-                needs_full_clone = not is_free and ((not ty_info.is_ptr and not holds_ref) or ty_info.requires_clone == True) and ty_info.requires_clone != False
+                needs_full_clone = not is_free and (not ty_info.is_ptr or ty_info.requires_clone == True) and ty_info.requires_clone != False
                 if needs_full_clone:
                     if "res" in ty_info.var_name: # XXX: This is a stupid hack
                         needs_full_clone = False
@@ -323,6 +333,18 @@ class TypeMappingGenerator:
                     # underlying unlike Vecs, and it gives Java more freedom.
                     base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");"
                 if ty_info.rust_obj in self.complex_enums:
+                    if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
+                        # We really need a full clone here, but for now we just implement
+                        # a manual clone explicitly for Option<Trait>s
+                        if ty_info.rust_obj.startswith("LDKCOption"):
+                            optional_ty = ty_info.rust_obj[11:-1]
+                            if "LDK" + optional_ty in self.trait_structs:
+                                base_conv += "\nif (" + ty_info.var_name + "_conv.tag == " + ty_info.rust_obj + "_Some) {"
+                                base_conv += "\n\t// Manually implement clone for Java trait instances"
+                                optional_ty_info = self.java_c_types("LDK" + optional_ty + " " + ty_info.var_name, None)
+                                base_conv += self.consts.trait_struct_inc_refcnt(optional_ty_info).\
+                                    replace("\n", "\n\t").replace(ty_info.var_name + "_conv", ty_info.var_name + "_conv.some")
+                                base_conv += "\n}"
                     ret_conv = ("uint64_t " + ty_info.var_name + "_ref = ((uint64_t)&", ") | 1;")
                     if not holds_ref:
                         ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_copy = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n", "")
@@ -385,6 +407,8 @@ class TypeMappingGenerator:
                             from_hu_conv = from_hu_conv + conv_map.from_hu_conv[0].replace(ty_info.var_name + "_" + chr(idx + ord("a")), ty_info.var_name + "." + chr(idx + ord("a")))
                             if conv_map.from_hu_conv[1] != "":
                                 from_hu_conv_sfx = from_hu_conv_sfx + conv_map.from_hu_conv[1].replace(conv.var_name, ty_info.var_name + "." + chr(idx + ord("a")))
+                                if idx != len(self.tuple_types[ty_info.rust_obj][0]) - 1:
+                                    from_hu_conv_sfx += "; "
                         else:
                             from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
 
@@ -427,10 +451,15 @@ class TypeMappingGenerator:
             elif ty_info.is_ptr:
                 assert(not is_free)
                 if ty_info.rust_obj in self.complex_enums:
+                    ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", " | 1; // Warning: We should clone here!")
+                    if ty_info.rust_obj.replace("LDK", "") + "_clone" in self.clone_fns:
+                        ret_conv_pfx = ty_info.rust_obj + " *ret_" + ty_info.var_name + " = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + " ret conversion\");\n"
+                        ret_conv_pfx += "*ret_" + ty_info.var_name + " = " + ty_info.rust_obj.replace("LDK", "") + "_clone("
+                        ret_conv = (ret_conv_pfx, ");")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                         arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
+                        ret_conv = ret_conv, ret_conv_name = "(uint64_t)ret_" + ty_info.var_name,
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))

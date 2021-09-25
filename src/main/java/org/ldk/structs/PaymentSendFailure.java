@@ -120,7 +120,6 @@ public class PaymentSendFailure extends CommonBase {
 		if (ret < 1024) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		/* TODO 2 Result_NoneAPIErrorZ  */;
 		return ret_hu_conv;
 	}
 
@@ -132,7 +131,6 @@ public class PaymentSendFailure extends CommonBase {
 		if (ret < 1024) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		/* TODO 2 APIError  */;
 		return ret_hu_conv;
 	}
 
@@ -144,7 +142,6 @@ public class PaymentSendFailure extends CommonBase {
 		if (ret < 1024) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		/* TODO 2 Result_NoneAPIErrorZ  */;
 		return ret_hu_conv;
 	}
 

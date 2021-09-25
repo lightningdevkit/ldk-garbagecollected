@@ -89,6 +89,14 @@ public class GossipTimestampFilter extends CommonBase {
 	}
 
 	/**
+	 * Serialize the GossipTimestampFilter object into a byte array which can be read by GossipTimestampFilter_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.GossipTimestampFilter_write(this.ptr);
+		return ret;
+	}
+
+	/**
 	 * Read a GossipTimestampFilter from a byte array, created by GossipTimestampFilter_write
 	 */
 	public static Result_GossipTimestampFilterDecodeErrorZ read(byte[] ser) {
@@ -96,14 +104,6 @@ public class GossipTimestampFilter extends CommonBase {
 		if (ret < 1024) { return null; }
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Serialize the GossipTimestampFilter object into a byte array which can be read by GossipTimestampFilter_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.GossipTimestampFilter_write(this.ptr);
-		return ret;
 	}
 
 }

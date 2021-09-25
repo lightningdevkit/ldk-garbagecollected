@@ -45,6 +45,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public boolean requires_unknown_bits() {
+		boolean ret = bindings.InitFeatures_requires_unknown_bits(this.ptr);
+		return ret;
+	}
+
 	public boolean supports_payment_secret() {
 		boolean ret = bindings.InitFeatures_supports_payment_secret(this.ptr);
 		return ret;

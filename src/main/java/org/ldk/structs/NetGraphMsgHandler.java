@@ -13,6 +13,9 @@ import javax.annotation.Nullable;
  * This network graph is then used for routing payments.
  * Provides interface to help with initial routing sync by
  * serving historical announcements.
+ * 
+ * Serves as an [`EventHandler`] for applying updates from [`Event::PaymentPathFailed`] to the
+ * [`NetworkGraph`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class NetGraphMsgHandler extends CommonBase {
@@ -24,38 +27,48 @@ public class NetGraphMsgHandler extends CommonBase {
 	}
 
 	/**
-	 * Creates a new tracker of the actual state of the network of channels and nodes,
-	 * assuming a fresh network graph.
-	 * Chain monitor is used to make sure announced channels exist on-chain,
-	 * channel data is correct, and that the announcement is signed with
-	 * channel owners' keys.
-	 * 
-	 * Note that chain_access (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Constructs a new EventHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EventHandler must be freed before this_arg is
 	 */
-	public static NetGraphMsgHandler of(byte[] genesis_hash, @Nullable Access chain_access, Logger logger) {
-		long ret = bindings.NetGraphMsgHandler_new(genesis_hash, chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr);
+	public EventHandler as_EventHandler() {
+		long ret = bindings.NetGraphMsgHandler_as_EventHandler(this.ptr);
 		if (ret < 1024) { return null; }
-		NetGraphMsgHandler ret_hu_conv = new NetGraphMsgHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(chain_access);
-		ret_hu_conv.ptrs_to.add(logger);
+		EventHandler ret_hu_conv = new EventHandler(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Representation of the payment channel network
+	 */
+	public NetworkGraph get_network_graph() {
+		long ret = bindings.NetGraphMsgHandler_get_network_graph(this.ptr);
+		if (ret < 1024) { return null; }
+		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Representation of the payment channel network
+	 */
+	public void set_network_graph(byte[] val_genesis_hash) {
+		bindings.NetGraphMsgHandler_set_network_graph(this.ptr, bindings.NetworkGraph_new(val_genesis_hash));
 	}
 
 	/**
 	 * Creates a new tracker of the actual state of the network of channels and nodes,
 	 * assuming an existing Network Graph.
-	 * 
-	 * Note that chain_access (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * Chain monitor is used to make sure announced channels exist on-chain,
+	 * channel data is correct, and that the announcement is signed with
+	 * channel owners' keys.
 	 */
-	public static NetGraphMsgHandler from_net_graph(@Nullable Access chain_access, Logger logger, NetworkGraph network_graph) {
-		long ret = bindings.NetGraphMsgHandler_from_net_graph(chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr, network_graph == null ? 0 : network_graph.ptr & ~1);
+	public static NetGraphMsgHandler of(byte[] network_graph_genesis_hash, Option_AccessZ chain_access, Logger logger) {
+		long ret = bindings.NetGraphMsgHandler_new(bindings.NetworkGraph_new(network_graph_genesis_hash), chain_access.ptr, logger == null ? 0 : logger.ptr);
 		if (ret < 1024) { return null; }
 		NetGraphMsgHandler ret_hu_conv = new NetGraphMsgHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(chain_access);
 		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(network_graph);
 		return ret_hu_conv;
 	}
 
@@ -63,26 +76,9 @@ public class NetGraphMsgHandler extends CommonBase {
 	 * Adds a provider used to check new announcements. Does not affect
 	 * existing announcements unless they are updated.
 	 * Add, update or remove the provider would replace the current one.
-	 * 
-	 * Note that chain_access (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void add_chain_access(@Nullable Access chain_access) {
-		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access == null ? 0 : chain_access.ptr);
-		this.ptrs_to.add(chain_access);
-	}
-
-	/**
-	 * Take a read lock on the network_graph and return it in the C-bindings
-	 * newtype helper. This is likely only useful when called via the C
-	 * bindings as you can call `self.network_graph.read().unwrap()` in Rust
-	 * yourself.
-	 */
-	public LockedNetworkGraph read_locked_graph() {
-		long ret = bindings.NetGraphMsgHandler_read_locked_graph(this.ptr);
-		if (ret < 1024) { return null; }
-		LockedNetworkGraph ret_hu_conv = new LockedNetworkGraph(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
+	public void add_chain_access(Option_AccessZ chain_access) {
+		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access.ptr);
 	}
 
 	/**

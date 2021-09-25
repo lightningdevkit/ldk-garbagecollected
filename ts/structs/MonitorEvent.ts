@@ -13,8 +13,8 @@ export default class MonitorEvent extends CommonBase {
 		if (raw_val instanceof bindings.LDKMonitorEvent.HTLCEvent) {
 			return new HTLCEvent(this.ptr, raw_val);
 		}
-		if (raw_val instanceof bindings.LDKMonitorEvent.CommitmentTxBroadcasted) {
-			return new CommitmentTxBroadcasted(this.ptr, raw_val);
+		if (raw_val instanceof bindings.LDKMonitorEvent.CommitmentTxConfirmed) {
+			return new CommitmentTxConfirmed(this.ptr, raw_val);
 		}
 		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
@@ -30,14 +30,14 @@ export class HTLCEvent extends MonitorEvent {
 		this.htlc_event = htlc_event_hu_conv;
 	}
 }
-export class CommitmentTxBroadcasted extends MonitorEvent {
-	public commitment_tx_broadcasted: OutPoint;
-	private constructor(ptr: number, obj: bindings.LDKMonitorEvent.CommitmentTxBroadcasted) {
+export class CommitmentTxConfirmed extends MonitorEvent {
+	public commitment_tx_confirmed: OutPoint;
+	private constructor(ptr: number, obj: bindings.LDKMonitorEvent.CommitmentTxConfirmed) {
 		super(null, ptr);
-		const commitment_tx_broadcasted: number = obj.commitment_tx_broadcasted;
-		const commitment_tx_broadcasted_hu_conv: OutPoint = new OutPoint(null, commitment_tx_broadcasted);
-			commitment_tx_broadcasted_hu_conv.ptrs_to.add(this);
-		this.commitment_tx_broadcasted = commitment_tx_broadcasted_hu_conv;
+		const commitment_tx_confirmed: number = obj.commitment_tx_confirmed;
+		const commitment_tx_confirmed_hu_conv: OutPoint = new OutPoint(null, commitment_tx_confirmed);
+			commitment_tx_confirmed_hu_conv.ptrs_to.add(this);
+		this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
 	}
 }
 	public MonitorEvent clone() {
@@ -55,8 +55,8 @@ export class CommitmentTxBroadcasted extends MonitorEvent {
 		return ret_hu_conv;
 	}
 
-	public static MonitorEvent constructor_commitment_tx_broadcasted(OutPoint a) {
-		number ret = bindings.MonitorEvent_commitment_tx_broadcasted(a == null ? 0 : a.ptr & ~1);
+	public static MonitorEvent constructor_commitment_tx_confirmed(OutPoint a) {
+		number ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr & ~1);
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(a);

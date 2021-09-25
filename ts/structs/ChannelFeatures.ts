@@ -45,6 +45,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public boolean requires_unknown_bits() {
+		boolean ret = bindings.ChannelFeatures_requires_unknown_bits(this.ptr);
+		return ret;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.ChannelFeatures_write(this.ptr);
 		return ret;

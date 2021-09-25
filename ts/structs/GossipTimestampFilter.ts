@@ -59,15 +59,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public Uint8Array write() {
+		Uint8Array ret = bindings.GossipTimestampFilter_write(this.ptr);
+		return ret;
+	}
+
 	public static Result_GossipTimestampFilterDecodeErrorZ constructor_read(Uint8Array ser) {
 		number ret = bindings.GossipTimestampFilter_read(ser);
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
-	}
-
-	public Uint8Array write() {
-		Uint8Array ret = bindings.GossipTimestampFilter_write(this.ptr);
-		return ret;
 	}
 
 }

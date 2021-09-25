@@ -64,6 +64,15 @@ public class ChannelFeatures extends CommonBase {
 	}
 
 	/**
+	 * Returns true if this `Features` object contains unknown feature flags which are set as
+	 * \"required\".
+	 */
+	public boolean requires_unknown_bits() {
+		boolean ret = bindings.ChannelFeatures_requires_unknown_bits(this.ptr);
+		return ret;
+	}
+
+	/**
 	 * Serialize the ChannelFeatures object into a byte array which can be read by ChannelFeatures_read
 	 */
 	public byte[] write() {

@@ -35,20 +35,41 @@ public class ChainMonitor extends CommonBase {
 	 * pre-filter blocks or only fetch blocks matching a compact filter. Otherwise, clients may
 	 * always need to fetch full blocks absent another means for determining which blocks contain
 	 * transactions relevant to the watched channels.
-	 * 
-	 * Note that chain_source (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static ChainMonitor of(@Nullable Filter chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
-		long ret = bindings.ChainMonitor_new(chain_source == null ? 0 : chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
+	public static ChainMonitor of(Option_FilterZ chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
+		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
 		if (ret < 1024) { return null; }
 		ChainMonitor ret_hu_conv = new ChainMonitor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(chain_source);
 		ret_hu_conv.ptrs_to.add(broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(feeest);
 		ret_hu_conv.ptrs_to.add(persister);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the balances in the contained [`ChannelMonitor`]s which are claimable on-chain or
+	 * claims which are awaiting confirmation.
+	 * 
+	 * Includes the balances from each [`ChannelMonitor`] *except* those included in
+	 * `ignored_channels`, allowing you to filter out balances from channels which are still open
+	 * (and whose balance should likely be pulled from the [`ChannelDetails`]).
+	 * 
+	 * See [`ChannelMonitor::get_claimable_balances`] for more details on the exact criteria for
+	 * inclusion in the return value.
+	 */
+	public Balance[] get_claimable_balances(ChannelDetails[] ignored_channels) {
+		long[] ret = bindings.ChainMonitor_get_claimable_balances(this.ptr, ignored_channels != null ? Arrays.stream(ignored_channels).mapToLong(ignored_channels_conv_16 -> ignored_channels_conv_16 == null ? 0 : ignored_channels_conv_16.ptr & ~1).toArray() : null);
+		Balance[] ret_conv_9_arr = new Balance[ret.length];
+		for (int j = 0; j < ret.length; j++) {
+			long ret_conv_9 = ret[j];
+			Balance ret_conv_9_hu_conv = Balance.constr_from_ptr(ret_conv_9);
+			ret_conv_9_hu_conv.ptrs_to.add(this);
+			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
+		}
+		for (ChannelDetails ignored_channels_conv_16: ignored_channels) { this.ptrs_to.add(ignored_channels_conv_16); };
+		return ret_conv_9_arr;
 	}
 
 	/**

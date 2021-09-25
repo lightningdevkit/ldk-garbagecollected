@@ -97,7 +97,6 @@ public class Watch extends CommonBase {
 			@Override public long[] release_pending_monitor_events() {
 				MonitorEvent[] ret = arg.release_pending_monitor_events();
 				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_14 -> ret_conv_14.ptr).toArray() : null;
-				/* TODO 2 MonitorEvent  */;
 				return result;
 			}
 		});

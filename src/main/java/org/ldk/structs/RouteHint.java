@@ -20,17 +20,6 @@ public class RouteHint extends CommonBase {
 	}
 
 	/**
-	 * Checks if two RouteHints contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public boolean eq(RouteHint b) {
-		boolean ret = bindings.RouteHint_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
-		return ret;
-	}
-
-	/**
 	 * Creates a copy of the RouteHint
 	 */
 	public RouteHint clone() {
@@ -39,6 +28,25 @@ public class RouteHint extends CommonBase {
 		RouteHint ret_hu_conv = new RouteHint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two RouteHints contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.RouteHint_hash(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Checks if two RouteHints contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(RouteHint b) {
+		boolean ret = bindings.RouteHint_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
 	}
 
 }

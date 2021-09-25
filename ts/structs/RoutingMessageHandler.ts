@@ -54,22 +54,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return result;
 						},
 
-						handle_htlc_fail_channel_update (update: number): void {
-							HTLCFailChannelUpdate update_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(update);
-							arg.handle_htlc_fail_channel_update(update_hu_conv);
-						},
-
 						get_next_channel_announcements (starting_point: number, batch_amount: number): number[] {
 							ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
 				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(ret_conv_63.a == null ? 0 : ret_conv_63.a.ptr & ~1, ret_conv_63.b == null ? 0 : ret_conv_63.b.ptr & ~1, ret_conv_63.c == null ? 0 : ret_conv_63.c.ptr & ~1)).toArray(number[]::new) : null;
-				/* TODO 2 ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>  */;
+				for (ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> ret_conv_63: ret) { impl_holder.held.ptrs_to.add(ret_conv_63.a); impl_holder.held.ptrs_to.add(ret_conv_63.b); impl_holder.held.ptrs_to.add(ret_conv_63.c); };
 				return result;
 						},
 
 						get_next_node_announcements (starting_point: Uint8Array, batch_amount: number): number[] {
 							NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
 				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.ptr & ~1).toArray(number[]::new) : null;
-				/* TODO 2 NodeAnnouncement  */;
+				for (NodeAnnouncement ret_conv_18: ret) { impl_holder.held.ptrs_to.add(ret_conv_18); };
 				return result;
 						},
 
@@ -120,7 +115,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                 handle_node_announcement(msg: NodeAnnouncement): Result_boolLightningErrorZ;
 				handle_channel_announcement(msg: ChannelAnnouncement): Result_boolLightningErrorZ;
 				handle_channel_update(msg: ChannelUpdate): Result_boolLightningErrorZ;
-				handle_htlc_fail_channel_update(update: HTLCFailChannelUpdate): void;
 				get_next_channel_announcements(starting_point: number, batch_amount: number): ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[];
 				get_next_node_announcements(starting_point: Uint8Array, batch_amount: number): NodeAnnouncement[];
 				sync_routing_table(their_node_id: Uint8Array, init: Init): void;
@@ -153,11 +147,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
-	}
-
-	public void handle_htlc_fail_channel_update(HTLCFailChannelUpdate update) {
-		bindings.RoutingMessageHandler_handle_htlc_fail_channel_update(this.ptr, update == null ? 0 : update.ptr & ~1);
-		this.ptrs_to.add(update);
 	}
 
 	public ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] get_next_channel_announcements(number starting_point, number batch_amount) {

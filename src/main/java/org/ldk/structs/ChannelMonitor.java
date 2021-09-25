@@ -223,7 +223,6 @@ public class ChannelMonitor extends CommonBase {
 			// Warning: We may not free the C tuple object!
 			ret_conv_46_arr[u] = ret_conv_46_conv;
 		}
-		/* TODO 2 TwoTuple<Long, byte[]>  */;
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
@@ -273,7 +272,6 @@ public class ChannelMonitor extends CommonBase {
 			// Warning: We may not free the C tuple object!
 			ret_conv_46_arr[u] = ret_conv_46_conv;
 		}
-		/* TODO 2 TwoTuple<Long, byte[]>  */;
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
@@ -351,6 +349,34 @@ public class ChannelMonitor extends CommonBase {
 		BestBlock ret_hu_conv = new BestBlock(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the balances in this channel which are either claimable by us if we were to
+	 * force-close the channel now or which are claimable on-chain (possibly awaiting
+	 * confirmation).
+	 * 
+	 * Any balances in the channel which are available on-chain (excluding on-chain fees) are
+	 * included here until an [`Event::SpendableOutputs`] event has been generated for the
+	 * balance, or until our counterparty has claimed the balance and accrued several
+	 * confirmations on the claim transaction.
+	 * 
+	 * Note that the balances available when you or your counterparty have broadcasted revoked
+	 * state(s) may not be fully captured here.
+	 * 
+	 * See [`Balance`] for additional details on the types of claimable balances which
+	 * may be returned here and their meanings.
+	 */
+	public Balance[] get_claimable_balances() {
+		long[] ret = bindings.ChannelMonitor_get_claimable_balances(this.ptr);
+		Balance[] ret_conv_9_arr = new Balance[ret.length];
+		for (int j = 0; j < ret.length; j++) {
+			long ret_conv_9 = ret[j];
+			Balance ret_conv_9_hu_conv = Balance.constr_from_ptr(ret_conv_9);
+			ret_conv_9_hu_conv.ptrs_to.add(this);
+			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
+		}
+		return ret_conv_9_arr;
 	}
 
 }

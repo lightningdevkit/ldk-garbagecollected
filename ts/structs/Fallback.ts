@@ -76,6 +76,11 @@ export class ScriptHash extends Fallback {
 		return ret_hu_conv;
 	}
 
+	public number hash() {
+		number ret = bindings.Fallback_hash(this.ptr);
+		return ret;
+	}
+
 	public boolean eq(Fallback b) {
 		boolean ret = bindings.Fallback_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
 		this.ptrs_to.add(b);

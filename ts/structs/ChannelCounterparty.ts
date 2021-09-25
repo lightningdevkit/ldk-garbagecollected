@@ -48,6 +48,27 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelCounterparty_set_unspendable_punishment_reserve(this.ptr, val);
 	}
 
+	public CounterpartyForwardingInfo get_forwarding_info() {
+		number ret = bindings.ChannelCounterparty_get_forwarding_info(this.ptr);
+		const ret_hu_conv: CounterpartyForwardingInfo = new CounterpartyForwardingInfo(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public void set_forwarding_info(CounterpartyForwardingInfo val) {
+		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
+	}
+
+	public static ChannelCounterparty constructor_new(Uint8Array node_id_arg, InitFeatures features_arg, number unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg) {
+		number ret = bindings.ChannelCounterparty_new(node_id_arg, features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
+		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(features_arg);
+		ret_hu_conv.ptrs_to.add(forwarding_info_arg);
+		return ret_hu_conv;
+	}
+
 	public ChannelCounterparty clone() {
 		number ret = bindings.ChannelCounterparty_clone(this.ptr);
 		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);

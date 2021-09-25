@@ -459,8 +459,23 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                     takes_self_ptr = True
             elif argument_conversion_info.arg_name in params_nullable:
                 argument_conversion_info.nullable = True
+                if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
+                    arg_ty_info = java_c_types(argument, None)
+                    print("WARNING: Remapping argument " + arg_ty_info.var_name + " of function " + method_name + " to a reference")
+                    print("    The argument appears to require a move, or not clonable, and is nullable.")
+                    print("    Normally for arguments that require a move and are not clonable, we split")
+                    print("    the argument into the type's constructor's arguments and just use those to")
+                    print("    construct a new object on the fly.")
+                    print("    However, because the object is nullable, doing so would mean we can no")
+                    print("    longer allow the user to pass null, as we now have an argument list instead.")
+                    print("    Thus, we blindly assume its really an Option<&Type> instead of an Option<Type>.")
+                    print("    It may or may not actually be a reference, but its the simplest mapping option")
+                    print("    and also the only use of this code today.")
+                    arg_ty_info.requires_clone = False
+                    argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty_info, False, None, is_free, True)
+                    assert argument_conversion_info.arg_conv is not None and "Warning" not in argument_conversion_info.arg_conv
+
             if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
-                assert not argument_conversion_info.arg_name in params_nullable
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
                     for explode_arg in constructor_fns[argument_conversion_info.rust_obj].split(','):

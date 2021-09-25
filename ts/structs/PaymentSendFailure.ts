@@ -97,7 +97,6 @@ export class PartialFailure extends PaymentSendFailure {
 		number ret = bindings.PaymentSendFailure_path_parameter_error(a != null ? Arrays.stream(a).map(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray(number[]::new) : null);
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		/* TODO 2 Result_NoneAPIErrorZ  */;
 		return ret_hu_conv;
 	}
 
@@ -105,7 +104,6 @@ export class PartialFailure extends PaymentSendFailure {
 		number ret = bindings.PaymentSendFailure_all_failed_retry_safe(a != null ? Arrays.stream(a).map(a_conv_10 -> a_conv_10.ptr).toArray(number[]::new) : null);
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		/* TODO 2 APIError  */;
 		return ret_hu_conv;
 	}
 
@@ -113,7 +111,6 @@ export class PartialFailure extends PaymentSendFailure {
 		number ret = bindings.PaymentSendFailure_partial_failure(a != null ? Arrays.stream(a).map(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray(number[]::new) : null);
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		/* TODO 2 Result_NoneAPIErrorZ  */;
 		return ret_hu_conv;
 	}
 

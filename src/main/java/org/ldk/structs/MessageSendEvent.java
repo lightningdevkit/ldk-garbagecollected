@@ -70,9 +70,6 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.HandleError.class) {
 			return new HandleError(ptr, (bindings.LDKMessageSendEvent.HandleError)raw_val);
 		}
-		if (raw_val.getClass() == bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate.class) {
-			return new PaymentFailureNetworkUpdate(ptr, (bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate)raw_val);
-		}
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendChannelRangeQuery.class) {
 			return new SendChannelRangeQuery(ptr, (bindings.LDKMessageSendEvent.SendChannelRangeQuery)raw_val);
 		}
@@ -366,19 +363,6 @@ public class MessageSendEvent extends CommonBase {
 			this.action = action_hu_conv;
 		}
 	}
-	public final static class PaymentFailureNetworkUpdate extends MessageSendEvent {
-		/**
-		 * The channel/node update which should be sent to NetGraphMsgHandler
-		*/
-		public final HTLCFailChannelUpdate update;
-		private PaymentFailureNetworkUpdate(long ptr, bindings.LDKMessageSendEvent.PaymentFailureNetworkUpdate obj) {
-			super(null, ptr);
-			long update = obj.update;
-			HTLCFailChannelUpdate update_hu_conv = HTLCFailChannelUpdate.constr_from_ptr(update);
-			update_hu_conv.ptrs_to.add(this);
-			this.update = update_hu_conv;
-		}
-	}
 	public final static class SendChannelRangeQuery extends MessageSendEvent {
 		/**
 		 * The node_id of this message recipient
@@ -630,17 +614,6 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent handle_error(byte[] node_id, ErrorAction action) {
 		long ret = bindings.MessageSendEvent_handle_error(node_id, action.ptr);
-		if (ret < 1024) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Utility method to constructs a new PaymentFailureNetworkUpdate-variant MessageSendEvent
-	 */
-	public static MessageSendEvent payment_failure_network_update(HTLCFailChannelUpdate update) {
-		long ret = bindings.MessageSendEvent_payment_failure_network_update(update.ptr);
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

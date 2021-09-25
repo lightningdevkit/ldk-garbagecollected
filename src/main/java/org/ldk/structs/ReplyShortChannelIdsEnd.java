@@ -77,6 +77,14 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	}
 
 	/**
+	 * Serialize the ReplyShortChannelIdsEnd object into a byte array which can be read by ReplyShortChannelIdsEnd_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.ReplyShortChannelIdsEnd_write(this.ptr);
+		return ret;
+	}
+
+	/**
 	 * Read a ReplyShortChannelIdsEnd from a byte array, created by ReplyShortChannelIdsEnd_write
 	 */
 	public static Result_ReplyShortChannelIdsEndDecodeErrorZ read(byte[] ser) {
@@ -84,14 +92,6 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 		if (ret < 1024) { return null; }
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Serialize the ReplyShortChannelIdsEnd object into a byte array which can be read by ReplyShortChannelIdsEnd_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.ReplyShortChannelIdsEnd_write(this.ptr);
-		return ret;
 	}
 
 }

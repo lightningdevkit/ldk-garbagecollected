@@ -121,9 +121,6 @@ public class ManualMsgHandlingPeerTest {
             @Override public long handle_channel_update(long msg) {
                 return 0;
             }
-            @Override public void handle_htlc_fail_channel_update(long update) {
-
-            }
             @Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
                 return new long[0];
             }
@@ -161,7 +158,9 @@ public class ManualMsgHandlingPeerTest {
         byte[] random_data = new byte[32];
         for (byte i = 0; i < 32; i++) { random_data[i] = i; our_node_secret[i] = (byte) (i ^ 0xff); }
 
-        long peer_manager = bindings.PeerManager_new(message_handler, our_node_secret, random_data, logger);
+        long ignoring_message_handler = bindings.IgnoringMessageHandler_new();
+        long peer_manager = bindings.PeerManager_new(message_handler, our_node_secret, random_data, logger,
+                bindings.IgnoringMessageHandler_as_CustomMessageHandler(ignoring_message_handler));
 
         // Test Level_max() since its the only place we create a java object from a Rust-returned enum.
         assert bindings.Level_max() == Level.LDKLevel_Trace;

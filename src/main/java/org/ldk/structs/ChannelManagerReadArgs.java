@@ -197,7 +197,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 		ret_hu_conv.ptrs_to.add(tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(default_config);
-		/* TODO 2 ChannelMonitor  */;
+		for (ChannelMonitor channel_monitors_conv_16: channel_monitors) { ret_hu_conv.ptrs_to.add(channel_monitors_conv_16); };
 		return ret_hu_conv;
 	}
 

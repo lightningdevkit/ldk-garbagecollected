@@ -20,17 +20,6 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	/**
-	 * Creates a copy of the NetworkGraph
-	 */
-	public NetworkGraph clone() {
-		long ret = bindings.NetworkGraph_clone(this.ptr);
-		if (ret < 1024) { return null; }
-		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Serialize the NetworkGraph object into a byte array which can be read by NetworkGraph_read
 	 */
 	public byte[] write() {
@@ -56,6 +45,17 @@ public class NetworkGraph extends CommonBase {
 		if (ret < 1024) { return null; }
 		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns a read-only view of the network graph.
+	 */
+	public ReadOnlyNetworkGraph read_only() {
+		long ret = bindings.NetworkGraph_read_only(this.ptr);
+		if (ret < 1024) { return null; }
+		ReadOnlyNetworkGraph ret_hu_conv = new ReadOnlyNetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
@@ -98,15 +98,12 @@ public class NetworkGraph extends CommonBase {
 	 * 
 	 * If a `chain::Access` object is provided via `chain_access`, it will be called to verify
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
-	 * 
-	 * Note that chain_access (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneLightningErrorZ update_channel_from_announcement(ChannelAnnouncement msg, @Nullable Access chain_access) {
-		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access == null ? 0 : chain_access.ptr);
+	public Result_NoneLightningErrorZ update_channel_from_announcement(ChannelAnnouncement msg, Option_AccessZ chain_access) {
+		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access.ptr);
 		if (ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
-		this.ptrs_to.add(chain_access);
 		return ret_hu_conv;
 	}
 
@@ -117,15 +114,12 @@ public class NetworkGraph extends CommonBase {
 	 * 
 	 * If a `chain::Access` object is provided via `chain_access`, it will be called to verify
 	 * the corresponding UTXO exists on chain and is correctly-formatted.
-	 * 
-	 * Note that chain_access (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(UnsignedChannelAnnouncement msg, @Nullable Access chain_access) {
-		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access == null ? 0 : chain_access.ptr);
+	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(UnsignedChannelAnnouncement msg, Option_AccessZ chain_access) {
+		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access.ptr);
 		if (ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
-		this.ptrs_to.add(chain_access);
 		return ret_hu_conv;
 	}
 
@@ -137,6 +131,13 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public void close_channel_from_update(long short_channel_id, boolean is_permanent) {
 		bindings.NetworkGraph_close_channel_from_update(this.ptr, short_channel_id, is_permanent);
+	}
+
+	/**
+	 * Marks a node in the graph as failed.
+	 */
+	public void fail_node(byte[] _node_id, boolean is_permanent) {
+		bindings.NetworkGraph_fail_node(this.ptr, _node_id, is_permanent);
 	}
 
 	/**

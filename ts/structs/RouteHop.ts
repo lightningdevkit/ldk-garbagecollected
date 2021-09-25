@@ -94,6 +94,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number hash() {
+		number ret = bindings.RouteHop_hash(this.ptr);
+		return ret;
+	}
+
+	public boolean eq(RouteHop b) {
+		boolean ret = bindings.RouteHop_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.RouteHop_write(this.ptr);
 		return ret;

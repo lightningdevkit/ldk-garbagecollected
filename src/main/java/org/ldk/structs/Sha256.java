@@ -20,17 +20,6 @@ public class Sha256 extends CommonBase {
 	}
 
 	/**
-	 * Checks if two Sha256s contain equal inner contents.
-	 * This ignores pointers and is_owned flags and looks at the values in fields.
-	 * Two objects with NULL inner values will be considered "equal" here.
-	 */
-	public boolean eq(Sha256 b) {
-		boolean ret = bindings.Sha256_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
-		return ret;
-	}
-
-	/**
 	 * Creates a copy of the Sha256
 	 */
 	public Sha256 clone() {
@@ -39,6 +28,25 @@ public class Sha256 extends CommonBase {
 		Sha256 ret_hu_conv = new Sha256(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two Sha256s contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.Sha256_hash(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Checks if two Sha256s contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
+	public boolean eq(Sha256 b) {
+		boolean ret = bindings.Sha256_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		this.ptrs_to.add(b);
+		return ret;
 	}
 
 }

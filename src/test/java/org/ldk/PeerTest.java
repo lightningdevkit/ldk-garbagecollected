@@ -26,6 +26,7 @@ public class PeerTest {
         final long router;
         final long route_handler;
         final long message_handler;
+        final long custom_message_handler;
         final long peer_manager;
         HashMap<String, Long> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
         byte[] node_id;
@@ -98,13 +99,15 @@ public class PeerTest {
             this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
 
             this.chan_handler = bindings.ChannelManager_as_ChannelMessageHandler(chan_manager);
-            this.router = bindings.NetGraphMsgHandler_new(new byte[32], 0, logger);
+            this.router = bindings.NetGraphMsgHandler_new(bindings.NetworkGraph_new(new byte[32]), bindings.COption_AccessZ_none(), logger);
             this.route_handler = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(router);
             this.message_handler = bindings.MessageHandler_new(chan_handler, route_handler);
+            this.custom_message_handler = bindings.IgnoringMessageHandler_new();
 
             byte[] random_data = new byte[32];
             for (byte i = 0; i < 32; i++) { random_data[i] = (byte) ((i ^ seed) ^ 0xf0); }
-            this.peer_manager = bindings.PeerManager_new(message_handler, bindings.KeysInterface_get_node_secret(keys_interface), random_data, logger);
+            this.peer_manager = bindings.PeerManager_new(message_handler, bindings.KeysInterface_get_node_secret(keys_interface), random_data,
+                    logger, bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.custom_message_handler));
         }
 
         void connect_block(Block b, Transaction t, int height) {
@@ -276,12 +279,12 @@ public class PeerTest {
         long no_min_val = bindings.COption_u64Z_none();
         long inbound_payment = bindings.ChannelManager_create_inbound_payment(peer2.chan_manager, no_min_val, 7200, 42);
         bindings.COption_u64Z_free(no_min_val);
-        long netgraph = bindings.NetGraphMsgHandler_read_locked_graph(peer1.router);
-        long route = bindings.get_route(peer1.node_id, bindings.LockedNetworkGraph_graph(netgraph), peer2.node_id, 0L, peer1_chans,
+        long netgraph = bindings.NetGraphMsgHandler_get_network_graph(peer1.router);
+        long route = bindings.get_route(peer1.node_id, netgraph, peer2.node_id, 0L, peer1_chans,
                 new long[0], 1000, 42, peer1.logger);
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
-        bindings.LockedNetworkGraph_free(netgraph);
+        bindings.NetworkGraph_free(netgraph);
         long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route),
                 bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_a(inbound_payment), bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_b(inbound_payment));
         bindings.CResult_RouteLightningErrorZ_free(route);

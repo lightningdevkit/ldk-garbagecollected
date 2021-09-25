@@ -55,4 +55,28 @@ public class IgnoringMessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new CustomMessageReader which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned CustomMessageReader must be freed before this_arg is
+	 */
+	public CustomMessageReader as_CustomMessageReader() {
+		long ret = bindings.IgnoringMessageHandler_as_CustomMessageReader(this.ptr);
+		if (ret < 1024) { return null; }
+		CustomMessageReader ret_hu_conv = new CustomMessageReader(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Constructs a new CustomMessageHandler which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned CustomMessageHandler must be freed before this_arg is
+	 */
+	public CustomMessageHandler as_CustomMessageHandler() {
+		long ret = bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.ptr);
+		if (ret < 1024) { return null; }
+		CustomMessageHandler ret_hu_conv = new CustomMessageHandler(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

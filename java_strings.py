@@ -44,7 +44,7 @@ public class bindings {
 		try {
 			// Try to load natively first, this works on Android and in testing.
 			System.loadLibrary(\"lightningjni\");
-		} catch (UnsatisfiedLinkError _ignored) {
+		} catch (UnsatisfiedLinkError system_load_err) {
 			// Otherwise try to load from the library jar.
 			File tmpdir = new File(System.getProperty("java.io.tmpdir"), "ldk-java-nativelib");
 			tmpdir.mkdir(); // If it fails to create, assume it was there already
@@ -56,6 +56,9 @@ public class bindings {
 				Files.copy(is, libpath, StandardCopyOption.REPLACE_EXISTING);
 				Runtime.getRuntime().load(libpath.toString());
 			} catch (IOException e) {
+				System.err.println("Failed to load LDK native library.");
+				System.err.println("System LDK native library load failed with: " + system_load_err);
+				System.err.println("Resource-based LDK native library load failed with: " + e);
 				throw new IllegalArgumentException(e);
 			}
 		}
@@ -230,10 +233,11 @@ void backtrace_symbols_fd(void ** buffer, int count, int _fd) {
                     self.c_file_pfx = self.c_file_pfx + "#include <execinfo.h>\n"
                 self.c_file_pfx = self.c_file_pfx + """
 #include <unistd.h>
-static mtx_t allocation_mtx;
+#include <pthread.h>
+static pthread_mutex_t allocation_mtx;
 
 void __attribute__((constructor)) init_mtx() {
-	DO_ASSERT(mtx_init(&allocation_mtx, mtx_plain) == thrd_success);
+	DO_ASSERT(!pthread_mutex_init(&allocation_mtx, NULL));
 }
 
 #define BT_MAX 128
@@ -255,10 +259,10 @@ static void new_allocation(void* res, const char* struct_name, size_t len) {
 	new_alloc->struct_name = struct_name;
 	new_alloc->bt_len = backtrace(new_alloc->bt, BT_MAX);
 	new_alloc->alloc_len = len;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
+	DO_ASSERT(!pthread_mutex_lock(&allocation_mtx));
 	new_alloc->next = allocation_ll;
 	allocation_ll = new_alloc;
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
+	DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
 }
 static void* MALLOC(size_t len, const char* struct_name) {
 	void* res = __real_malloc(len);
@@ -268,7 +272,7 @@ static void* MALLOC(size_t len, const char* struct_name) {
 void __real_free(void* ptr);
 static void alloc_freed(void* ptr) {
 	allocation* p = NULL;
-	DO_ASSERT(mtx_lock(&allocation_mtx) == thrd_success);
+	DO_ASSERT(!pthread_mutex_lock(&allocation_mtx));
 	allocation* it = allocation_ll;
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
@@ -278,12 +282,12 @@ static void alloc_freed(void* ptr) {
 			int bt_len = backtrace(bt, BT_MAX);
 			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
 			DEBUG_PRINT("\\n\\n");
-			DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
+			DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
 			return; // addrsan should catch malloc-unknown and print more info than we have
 		}
 	}
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
-	DO_ASSERT(mtx_unlock(&allocation_mtx) == thrd_success);
+	DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
 	DO_ASSERT(it->ptr == ptr);
 	__real_free(it);
 }
@@ -846,6 +850,9 @@ import javax.annotation.Nullable;
                     out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.c_ty == "void":
                     out_c += "\t(*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
+                elif fn_line.ret_ty_info.java_ty == "String":
+                    # Manually write out String methods as they're just an Object
+                    out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 else:

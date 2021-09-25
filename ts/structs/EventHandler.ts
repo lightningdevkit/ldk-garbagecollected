@@ -34,7 +34,6 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         handle_event (event: number): void {
 							Event event_hu_conv = Event.constr_from_ptr(event);
-				event_hu_conv.ptrs_to.add(this);
 							arg.handle_event(event_hu_conv);
 						},
 
@@ -53,7 +52,8 @@ import * as bindings from '../bindings' // TODO: figure out location
                 held: EventHandler;
             }
 	public void handle_event(Event event) {
-		bindings.EventHandler_handle_event(this.ptr, event.ptr);
+		bindings.EventHandler_handle_event(this.ptr, event == null ? 0 : event.ptr & ~1);
+		this.ptrs_to.add(event);
 	}
 
 }

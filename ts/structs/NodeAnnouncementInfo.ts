@@ -59,7 +59,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_addresses(NetAddress[] val) {
 		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12.ptr).toArray(number[]::new) : null);
-		/* TODO 2 NetAddress  */;
 	}
 
 	public NodeAnnouncement get_announcement_message() {
@@ -79,7 +78,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(features_arg);
-		/* TODO 2 NetAddress  */;
 		ret_hu_conv.ptrs_to.add(announcement_message_arg);
 		return ret_hu_conv;
 	}

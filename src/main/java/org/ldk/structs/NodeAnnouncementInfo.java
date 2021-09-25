@@ -94,7 +94,6 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_addresses(NetAddress[] val) {
 		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
-		/* TODO 2 NetAddress  */;
 	}
 
 	/**
@@ -136,7 +135,6 @@ public class NodeAnnouncementInfo extends CommonBase {
 		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(features_arg);
-		/* TODO 2 NetAddress  */;
 		ret_hu_conv.ptrs_to.add(announcement_message_arg);
 		return ret_hu_conv;
 	}

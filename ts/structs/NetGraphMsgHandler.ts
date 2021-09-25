@@ -18,35 +18,34 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.NetGraphMsgHandler_free(this.ptr);
                     }
                 }
-	public static NetGraphMsgHandler constructor_new(Uint8Array genesis_hash, Access chain_access, Logger logger) {
-		number ret = bindings.NetGraphMsgHandler_new(genesis_hash, chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr);
-		const ret_hu_conv: NetGraphMsgHandler = new NetGraphMsgHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(chain_access);
-		ret_hu_conv.ptrs_to.add(logger);
-		return ret_hu_conv;
-	}
-
-	public static NetGraphMsgHandler constructor_from_net_graph(Access chain_access, Logger logger, NetworkGraph network_graph) {
-		number ret = bindings.NetGraphMsgHandler_from_net_graph(chain_access == null ? 0 : chain_access.ptr, logger == null ? 0 : logger.ptr, network_graph == null ? 0 : network_graph.ptr & ~1);
-		const ret_hu_conv: NetGraphMsgHandler = new NetGraphMsgHandler(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(chain_access);
-		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(network_graph);
-		return ret_hu_conv;
-	}
-
-	public void add_chain_access(Access chain_access) {
-		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access == null ? 0 : chain_access.ptr);
-		this.ptrs_to.add(chain_access);
-	}
-
-	public LockedNetworkGraph read_locked_graph() {
-		number ret = bindings.NetGraphMsgHandler_read_locked_graph(this.ptr);
-		const ret_hu_conv: LockedNetworkGraph = new LockedNetworkGraph(null, ret);
+	public EventHandler as_EventHandler() {
+		number ret = bindings.NetGraphMsgHandler_as_EventHandler(this.ptr);
+		EventHandler ret_hu_conv = new EventHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	public NetworkGraph get_network_graph() {
+		number ret = bindings.NetGraphMsgHandler_get_network_graph(this.ptr);
+		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public void set_network_graph(Uint8Array val_genesis_hash) {
+		bindings.NetGraphMsgHandler_set_network_graph(this.ptr, bindings.NetworkGraph_new(val_genesis_hash));
+	}
+
+	public static NetGraphMsgHandler constructor_new(Uint8Array network_graph_genesis_hash, Option_AccessZ chain_access, Logger logger) {
+		number ret = bindings.NetGraphMsgHandler_new(bindings.NetworkGraph_new(network_graph_genesis_hash), chain_access.ptr, logger == null ? 0 : logger.ptr);
+		const ret_hu_conv: NetGraphMsgHandler = new NetGraphMsgHandler(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(logger);
+		return ret_hu_conv;
+	}
+
+	public void add_chain_access(Option_AccessZ chain_access) {
+		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access.ptr);
 	}
 
 	public RoutingMessageHandler as_RoutingMessageHandler() {

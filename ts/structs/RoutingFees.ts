@@ -56,6 +56,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number hash() {
+		number ret = bindings.RoutingFees_hash(this.ptr);
+		return ret;
+	}
+
 	public Uint8Array write() {
 		Uint8Array ret = bindings.RoutingFees_write(this.ptr);
 		return ret;

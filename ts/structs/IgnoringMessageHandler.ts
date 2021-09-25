@@ -39,4 +39,18 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public CustomMessageReader as_CustomMessageReader() {
+		number ret = bindings.IgnoringMessageHandler_as_CustomMessageReader(this.ptr);
+		CustomMessageReader ret_hu_conv = new CustomMessageReader(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public CustomMessageHandler as_CustomMessageHandler() {
+		number ret = bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.ptr);
+		CustomMessageHandler ret_hu_conv = new CustomMessageHandler(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }
