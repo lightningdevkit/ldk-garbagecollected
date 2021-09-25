@@ -11,6 +11,8 @@ ls src/main/resources/liblightningjni_MacOSX-aarch64.nativelib
 
 export LANG=C
 
+# We need to fetch dependencies first as faketime will break PKI cert checks!
+mvn -DskipTests=true -Dorg.lightningdevkit.skipdocs=false package
 mvn clean
 faketime 2021-01-01 mvn -DskipTests=true -Dorg.lightningdevkit.skipdocs=false package
 
