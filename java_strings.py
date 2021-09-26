@@ -24,6 +24,7 @@ class Consts:
 
         self.bindings_header = """package org.ldk.impl;
 import org.ldk.enums.*;
+import org.ldk.impl.version;
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class bindings {
 		}
 		init(java.lang.Enum.class, VecOrSliceDef.class);
 		init_class_cache();
-		if (!get_lib_version_string().equals(get_ldk_java_bindings_version()))
+		if (!get_lib_version_string().equals(version.get_ldk_java_bindings_version()))
 			throw new IllegalArgumentException("Compiled LDK library and LDK class failes do not match");
 		// Fetching the LDK versions from C also checks that the header and binaries match
 		get_ldk_c_bindings_version();
@@ -74,9 +75,6 @@ public class bindings {
 	static native void init_class_cache();
 	static native String get_lib_version_string();
 
-	public static String get_ldk_java_bindings_version() {
-		return "<git_version_ldk_garbagecollected>";
-	}
 	public static native String get_ldk_c_bindings_version();
 	public static native String get_ldk_version();
 
@@ -93,6 +91,13 @@ public class bindings {
 	public static native long new_empty_slice_vec();
 
 """
+        self.bindings_version_file = """package org.ldk.impl;
+
+public class version {
+	public static String get_ldk_java_bindings_version() {
+		return "<git_version_ldk_garbagecollected>";
+	}
+}"""
 
         self.bindings_footer = "}\n"
 
@@ -461,16 +466,17 @@ static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 	return res;
 }
 
-JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
-	return str_ref_to_java(env, "<git_version_ldk_garbagecollected>", strlen("<git_version_ldk_garbagecollected>"));
-}
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1c_1bindings_1version(JNIEnv *env, jclass _c) {
 	return str_ref_to_java(env, check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
 }
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1version(JNIEnv *env, jclass _c) {
 	return str_ref_to_java(env, check_get_ldk_version(), strlen(check_get_ldk_version()));
 }
+#include "version.c"
 """
+        self.c_version_file = """JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
+	return str_ref_to_java(env, "<git_version_ldk_garbagecollected>", strlen("<git_version_ldk_garbagecollected>"));
+}"""
 
         self.hu_struct_file_prefix = """package org.ldk.structs;
 

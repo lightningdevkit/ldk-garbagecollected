@@ -86,6 +86,7 @@ jobs:
         run: ./build-release-jar.sh
       - name: Check latest headers are in git
         run: |
+          git checkout pom.xml
           git diff --exit-code
       - name: Check latest library and jars are in bins repo
         run: |

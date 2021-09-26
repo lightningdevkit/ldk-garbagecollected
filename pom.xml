@@ -6,7 +6,7 @@
 
     <groupId>org.lightningdevkit</groupId>
     <artifactId>ldk-java</artifactId>
-    <version>0.0.101.0</version>
+    <version>Set in genbindings.sh automagically</version>
 
     <name>LDK Java Bindings and Binaries</name>
     <description>LDK Java Bindings and Release Binaries</description>

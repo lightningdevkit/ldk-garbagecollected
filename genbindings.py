@@ -424,7 +424,7 @@ java_c_types_none_allowed = False # C structs created by cbindgen are declared i
 with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:
     util.write(consts.util_fn_pfx)
 
-with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
+with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}", "w") as out_java:
     # Map a top-level function
     def map_fn(line, re_match, ret_arr_len, c_call_string, doc_comment):
         method_return_type = re_match.group(1)
@@ -798,7 +798,9 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
                 write_c("\treturn tuple->" + e + ";\n")
             write_c("}\n")
 
-    out_java.write(consts.bindings_header.replace('<git_version_ldk_garbagecollected>', local_git_version))
+    out_java.write(consts.bindings_header)
+    with open(f"{sys.argv[2]}/version{consts.file_ext}", "w") as out_java_version:
+        out_java_version.write(consts.bindings_version_file.replace('<git_version_ldk_garbagecollected>', local_git_version))
 
     with open(f"{sys.argv[3]}/structs/CommonBase{consts.file_ext}", "w") as out_java_struct:
         out_java_struct.write(consts.common_base)
@@ -1086,9 +1088,11 @@ with open(sys.argv[1]) as in_h, open(sys.argv[2], "w") as out_java:
         with open(f"{sys.argv[3]}/structs/{struct_name.replace('LDKCResult', 'Result')}{consts.file_ext}", "a") as out_java_struct:
             out_java_struct.write("}\n")
 
-with open(sys.argv[4], "w") as out_c:
-    out_c.write(consts.c_file_pfx.replace('<git_version_ldk_garbagecollected>', local_git_version))
+with open(f"{sys.argv[4]}/bindings.c.body", "w") as out_c:
+    out_c.write(consts.c_file_pfx)
     out_c.write(consts.init_str())
     out_c.write(c_file)
+with open(f"{sys.argv[4]}/version.c", "w") as out_c:
+    out_c.write(consts.c_version_file.replace('<git_version_ldk_garbagecollected>', local_git_version))
 with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:
     util.write(consts.util_fn_sfx)

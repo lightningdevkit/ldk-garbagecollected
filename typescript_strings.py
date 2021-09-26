@@ -71,6 +71,8 @@ public static native long new_empty_slice_vec();
 
 """
 
+        self.bindings_version_file = ""
+
         self.bindings_footer = """
         export async function initializeWasm(allowDoubleInitialization: boolean = false): Promise<void> {
             if(isWasmInitialized && !allowDoubleInitialization) {
@@ -260,6 +262,8 @@ void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
 	FREE((void*)ptr);
 }
 """
+
+        self.c_version_file = ""
 
         self.hu_struct_file_prefix = f"""
 import CommonBase from './CommonBase';
