@@ -56,7 +56,7 @@ public class bindings {
 				Path libpath = new File(tmpdir.toPath().toString(), "liblightningjni.so").toPath();
 				Files.copy(is, libpath, StandardCopyOption.REPLACE_EXISTING);
 				Runtime.getRuntime().load(libpath.toString());
-			} catch (IOException e) {
+			} catch (Exception e) {
 				System.err.println("Failed to load LDK native library.");
 				System.err.println("System LDK native library load failed with: " + system_load_err);
 				System.err.println("Resource-based LDK native library load failed with: " + e);
