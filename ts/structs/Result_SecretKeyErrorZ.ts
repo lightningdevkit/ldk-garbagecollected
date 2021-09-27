@@ -31,13 +31,13 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_SecretKeyErrorZ constructor__ok(Uint8Array o) {
+	public static Result_SecretKeyErrorZ constructor_ok(Uint8Array o) {
 		number ret = bindings.CResult_SecretKeyErrorZ_ok(o);
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_SecretKeyErrorZ constructor__err(Secp256k1Error e) {
+	public static Result_SecretKeyErrorZ constructor_err(Secp256k1Error e) {
 		number ret = bindings.CResult_SecretKeyErrorZ_err(e);
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

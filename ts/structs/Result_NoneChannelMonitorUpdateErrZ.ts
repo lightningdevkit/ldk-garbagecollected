@@ -29,19 +29,19 @@ public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 		}
 	}
 
-	public static Result_NoneChannelMonitorUpdateErrZ constructor__ok() {
+	public static Result_NoneChannelMonitorUpdateErrZ constructor_ok() {
 		number ret = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_NoneChannelMonitorUpdateErrZ constructor__err(ChannelMonitorUpdateErr e) {
+	public static Result_NoneChannelMonitorUpdateErrZ constructor_err(ChannelMonitorUpdateErr e) {
 		number ret = bindings.CResult_NoneChannelMonitorUpdateErrZ_err(e);
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_NoneChannelMonitorUpdateErrZ _clone() {
+	public Result_NoneChannelMonitorUpdateErrZ clone() {
 		number ret = bindings.CResult_NoneChannelMonitorUpdateErrZ_clone(this.ptr);
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;

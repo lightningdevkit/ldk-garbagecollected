@@ -42,9 +42,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 						},
 
 						get_and_clear_pending_msg (): number[] {
-							TwoTuple<Uint8Array, Type>[] ret = arg.get_and_clear_pending_msg();
-				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_28 -> bindings.C2Tuple_PublicKeyTypeZ_new(ret_conv_28.a, ret_conv_28.b == null ? 0 : ret_conv_28.b.ptr)).toArray(number[]::new) : null;
-				for (TwoTuple<Uint8Array, Type> ret_conv_28: ret) { impl_holder.held.ptrs_to.add(ret_conv_28.b); };
+							TwoTuple_PublicKeyTypeZ[] ret = arg.get_and_clear_pending_msg();
+				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_25 -> ret_conv_25 != null ? ret_conv_25.ptr : 0).toArray(number[]::new) : null;
 				return result;
 						},
 
@@ -56,7 +55,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 
             export interface CustomMessageHandlerInterface {
                 handle_custom_message(msg: Type, sender_node_id: Uint8Array): Result_NoneLightningErrorZ;
-				get_and_clear_pending_msg(): TwoTuple<Uint8Array, Type>[];
+				get_and_clear_pending_msg(): TwoTuple_PublicKeyTypeZ[];
 				
             }
 
@@ -70,22 +69,16 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public TwoTuple<Uint8Array, Type>[] get_and_clear_pending_msg() {
+	public TwoTuple_PublicKeyTypeZ[] get_and_clear_pending_msg() {
 		number[] ret = bindings.CustomMessageHandler_get_and_clear_pending_msg(this.ptr);
-		TwoTuple<Uint8Array, Type>[] ret_conv_28_arr = new TwoTuple[ret.length];
-		for (int c = 0; c < ret.length; c++) {
-			number ret_conv_28 = ret[c];
-			Uint8Array ret_conv_28_a = bindings.LDKC2Tuple_PublicKeyTypeZ_get_a(ret_conv_28);
-			number ret_conv_28_b = bindings.LDKC2Tuple_PublicKeyTypeZ_get_b(ret_conv_28);
-			Type ret_hu_conv = new Type(null, ret_conv_28_b);
-			ret_hu_conv.ptrs_to.add(this);;
-			TwoTuple<Uint8Array, Type> ret_conv_28_conv = new TwoTuple<Uint8Array, Type>(ret_conv_28_a, ret_hu_conv, () -> {
-				bindings.C2Tuple_PublicKeyTypeZ_free(ret_conv_28);
-			});
-			ret_hu_conv.ptrs_to.add(ret_conv_28_conv);
-			ret_conv_28_arr[c] = ret_conv_28_conv;
+		TwoTuple_PublicKeyTypeZ[] ret_conv_25_arr = new TwoTuple_PublicKeyTypeZ[ret.length];
+		for (int z = 0; z < ret.length; z++) {
+			number ret_conv_25 = ret[z];
+			TwoTuple_PublicKeyTypeZ ret_conv_25_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret_conv_25);
+			ret_conv_25_hu_conv.ptrs_to.add(this);
+			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
 		}
-		return ret_conv_28_arr;
+		return ret_conv_25_arr;
 	}
 
 }

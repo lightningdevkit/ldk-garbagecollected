@@ -37,20 +37,20 @@ public class Result_COption_TypeZDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_COption_TypeZDecodeErrorZ constructor__ok(Option_TypeZ o) {
+	public static Result_COption_TypeZDecodeErrorZ constructor_ok(Option_TypeZ o) {
 		number ret = bindings.CResult_COption_TypeZDecodeErrorZ_ok(o.ptr);
 		Result_COption_TypeZDecodeErrorZ ret_hu_conv = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_COption_TypeZDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_COption_TypeZDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_COption_TypeZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_COption_TypeZDecodeErrorZ ret_hu_conv = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_COption_TypeZDecodeErrorZ _clone() {
+	public Result_COption_TypeZDecodeErrorZ clone() {
 		number ret = bindings.CResult_COption_TypeZDecodeErrorZ_clone(this.ptr);
 		Result_COption_TypeZDecodeErrorZ ret_hu_conv = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

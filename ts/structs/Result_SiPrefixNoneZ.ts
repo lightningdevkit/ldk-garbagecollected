@@ -29,19 +29,19 @@ public class Result_SiPrefixNoneZ extends CommonBase {
 		}
 	}
 
-	public static Result_SiPrefixNoneZ constructor__ok(SiPrefix o) {
+	public static Result_SiPrefixNoneZ constructor_ok(SiPrefix o) {
 		number ret = bindings.CResult_SiPrefixNoneZ_ok(o);
 		Result_SiPrefixNoneZ ret_hu_conv = Result_SiPrefixNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_SiPrefixNoneZ constructor__err() {
+	public static Result_SiPrefixNoneZ constructor_err() {
 		number ret = bindings.CResult_SiPrefixNoneZ_err();
 		Result_SiPrefixNoneZ ret_hu_conv = Result_SiPrefixNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_SiPrefixNoneZ _clone() {
+	public Result_SiPrefixNoneZ clone() {
 		number ret = bindings.CResult_SiPrefixNoneZ_clone(this.ptr);
 		Result_SiPrefixNoneZ ret_hu_conv = Result_SiPrefixNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

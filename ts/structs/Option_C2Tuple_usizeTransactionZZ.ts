@@ -21,16 +21,13 @@ export default class COption_C2Tuple_usizeTransactionZZ extends CommonBase {
 
 }
 export class Some extends COption_C2Tuple_usizeTransactionZZ {
-	public some: TwoTuple<Number, Uint8Array>;
+	public some: TwoTuple_usizeTransactionZ;
 	private constructor(ptr: number, obj: bindings.LDKCOption_C2Tuple_usizeTransactionZZ.Some) {
 		super(null, ptr);
 		const some: number = obj.some;
-		number some_a = bindings.LDKC2Tuple_usizeTransactionZ_get_a(some);
-			Uint8Array some_b = bindings.LDKC2Tuple_usizeTransactionZ_get_b(some);
-			TwoTuple<Number, Uint8Array> some_conv = new TwoTuple<Number, Uint8Array>(some_a, some_b, () -> {
-				bindings.C2Tuple_usizeTransactionZ_free(some);
-			});
-		this.some = some_conv;
+		TwoTuple_usizeTransactionZ some_hu_conv = new TwoTuple_usizeTransactionZ(null, some);
+			some_hu_conv.ptrs_to.add(this);
+		this.some = some_hu_conv;
 	}
 }
 export class None extends COption_C2Tuple_usizeTransactionZZ {
@@ -38,21 +35,21 @@ export class None extends COption_C2Tuple_usizeTransactionZZ {
 		super(null, ptr);
 	}
 }
-	public static Option_C2Tuple_usizeTransactionZZ constructor__some(TwoTuple<Number, Uint8Array> o) {
-		number ret = bindings.COption_C2Tuple_usizeTransactionZZ_some(bindings.C2Tuple_usizeTransactionZ_new(o.a, o.b));
+	public static Option_C2Tuple_usizeTransactionZZ constructor_some(TwoTuple_usizeTransactionZ o) {
+		number ret = bindings.COption_C2Tuple_usizeTransactionZZ_some(o != null ? o.ptr : 0);
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static Option_C2Tuple_usizeTransactionZZ constructor__none() {
+	public static Option_C2Tuple_usizeTransactionZZ constructor_none() {
 		number ret = bindings.COption_C2Tuple_usizeTransactionZZ_none();
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public Option_C2Tuple_usizeTransactionZZ _clone() {
+	public Option_C2Tuple_usizeTransactionZZ clone() {
 		number ret = bindings.COption_C2Tuple_usizeTransactionZZ_clone(this.ptr);
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);

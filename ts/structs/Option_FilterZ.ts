@@ -35,7 +35,7 @@ export class None extends COption_FilterZ {
 		super(null, ptr);
 	}
 }
-	public static Option_FilterZ constructor__some(Filter o) {
+	public static Option_FilterZ constructor_some(Filter o) {
 		number ret = bindings.COption_FilterZ_some(o == null ? 0 : o.ptr);
 		Option_FilterZ ret_hu_conv = Option_FilterZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -43,7 +43,7 @@ export class None extends COption_FilterZ {
 		return ret_hu_conv;
 	}
 
-	public static Option_FilterZ constructor__none() {
+	public static Option_FilterZ constructor_none() {
 		number ret = bindings.COption_FilterZ_none();
 		Option_FilterZ ret_hu_conv = Option_FilterZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

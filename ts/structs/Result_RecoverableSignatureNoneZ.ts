@@ -29,19 +29,19 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 		}
 	}
 
-	public static Result_RecoverableSignatureNoneZ constructor__ok(Uint8Array arg) {
+	public static Result_RecoverableSignatureNoneZ constructor_ok(Uint8Array arg) {
 		number ret = bindings.CResult_RecoverableSignatureNoneZ_ok(arg);
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_RecoverableSignatureNoneZ constructor__err() {
+	public static Result_RecoverableSignatureNoneZ constructor_err() {
 		number ret = bindings.CResult_RecoverableSignatureNoneZ_err();
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_RecoverableSignatureNoneZ _clone() {
+	public Result_RecoverableSignatureNoneZ clone() {
 		number ret = bindings.CResult_RecoverableSignatureNoneZ_clone(this.ptr);
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

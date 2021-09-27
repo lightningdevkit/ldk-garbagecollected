@@ -34,19 +34,19 @@ public class Result_NetAddressu8Z extends CommonBase {
 		}
 	}
 
-	public static Result_NetAddressu8Z constructor__ok(NetAddress o) {
+	public static Result_NetAddressu8Z constructor_ok(NetAddress o) {
 		number ret = bindings.CResult_NetAddressu8Z_ok(o.ptr);
 		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_NetAddressu8Z constructor__err(number e) {
+	public static Result_NetAddressu8Z constructor_err(number e) {
 		number ret = bindings.CResult_NetAddressu8Z_err(e);
 		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_NetAddressu8Z _clone() {
+	public Result_NetAddressu8Z clone() {
 		number ret = bindings.CResult_NetAddressu8Z_clone(this.ptr);
 		Result_NetAddressu8Z ret_hu_conv = Result_NetAddressu8Z.constr_from_ptr(ret);
 		return ret_hu_conv;

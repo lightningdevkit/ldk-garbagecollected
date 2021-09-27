@@ -286,7 +286,7 @@ public class PeerTest {
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
         bindings.NetworkGraph_free(netgraph);
         long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route),
-                bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_a(inbound_payment), bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_b(inbound_payment));
+                bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(inbound_payment), bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(inbound_payment));
         bindings.CResult_RouteLightningErrorZ_free(route);
         bindings.C2Tuple_PaymentHashPaymentSecretZ_free(inbound_payment);
         assert bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(payment_res);

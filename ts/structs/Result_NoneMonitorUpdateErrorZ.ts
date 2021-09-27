@@ -32,20 +32,20 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_NoneMonitorUpdateErrorZ constructor__ok() {
+	public static Result_NoneMonitorUpdateErrorZ constructor_ok() {
 		number ret = bindings.CResult_NoneMonitorUpdateErrorZ_ok();
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_NoneMonitorUpdateErrorZ constructor__err(MonitorUpdateError e) {
+	public static Result_NoneMonitorUpdateErrorZ constructor_err(MonitorUpdateError e) {
 		number ret = bindings.CResult_NoneMonitorUpdateErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_NoneMonitorUpdateErrorZ _clone() {
+	public Result_NoneMonitorUpdateErrorZ clone() {
 		number ret = bindings.CResult_NoneMonitorUpdateErrorZ_clone(this.ptr);
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

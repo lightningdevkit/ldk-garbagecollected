@@ -35,7 +35,7 @@ export class None extends COption_TypeZ {
 		super(null, ptr);
 	}
 }
-	public static Option_TypeZ constructor__some(Type o) {
+	public static Option_TypeZ constructor_some(Type o) {
 		number ret = bindings.COption_TypeZ_some(o == null ? 0 : o.ptr);
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -43,14 +43,14 @@ export class None extends COption_TypeZ {
 		return ret_hu_conv;
 	}
 
-	public static Option_TypeZ constructor__none() {
+	public static Option_TypeZ constructor_none() {
 		number ret = bindings.COption_TypeZ_none();
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public Option_TypeZ _clone() {
+	public Option_TypeZ clone() {
 		number ret = bindings.COption_TypeZ_clone(this.ptr);
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);

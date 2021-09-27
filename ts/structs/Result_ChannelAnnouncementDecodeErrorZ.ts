@@ -37,21 +37,21 @@ public class Result_ChannelAnnouncementDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_ChannelAnnouncementDecodeErrorZ constructor__ok(ChannelAnnouncement o) {
+	public static Result_ChannelAnnouncementDecodeErrorZ constructor_ok(ChannelAnnouncement o) {
 		number ret = bindings.CResult_ChannelAnnouncementDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_ChannelAnnouncementDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_ChannelAnnouncementDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_ChannelAnnouncementDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_ChannelAnnouncementDecodeErrorZ _clone() {
+	public Result_ChannelAnnouncementDecodeErrorZ clone() {
 		number ret = bindings.CResult_ChannelAnnouncementDecodeErrorZ_clone(this.ptr);
 		Result_ChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

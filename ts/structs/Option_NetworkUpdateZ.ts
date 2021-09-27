@@ -35,21 +35,21 @@ export class None extends COption_NetworkUpdateZ {
 		super(null, ptr);
 	}
 }
-	public static Option_NetworkUpdateZ constructor__some(NetworkUpdate o) {
+	public static Option_NetworkUpdateZ constructor_some(NetworkUpdate o) {
 		number ret = bindings.COption_NetworkUpdateZ_some(o.ptr);
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static Option_NetworkUpdateZ constructor__none() {
+	public static Option_NetworkUpdateZ constructor_none() {
 		number ret = bindings.COption_NetworkUpdateZ_none();
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public Option_NetworkUpdateZ _clone() {
+	public Option_NetworkUpdateZ clone() {
 		number ret = bindings.COption_NetworkUpdateZ_clone(this.ptr);
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);

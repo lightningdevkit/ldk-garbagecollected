@@ -35,7 +35,7 @@ export class None extends COption_AccessZ {
 		super(null, ptr);
 	}
 }
-	public static Option_AccessZ constructor__some(Access o) {
+	public static Option_AccessZ constructor_some(Access o) {
 		number ret = bindings.COption_AccessZ_some(o == null ? 0 : o.ptr);
 		Option_AccessZ ret_hu_conv = Option_AccessZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -43,7 +43,7 @@ export class None extends COption_AccessZ {
 		return ret_hu_conv;
 	}
 
-	public static Option_AccessZ constructor__none() {
+	public static Option_AccessZ constructor_none() {
 		number ret = bindings.COption_AccessZ_none();
 		Option_AccessZ ret_hu_conv = Option_AccessZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

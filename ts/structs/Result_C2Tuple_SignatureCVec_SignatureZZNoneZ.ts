@@ -16,16 +16,13 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 		}
 	}
 	public static final class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK extends Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
-		public final TwoTuple<Uint8Array, Uint8Array[]> res;
+		public final TwoTuple_SignatureCVec_SignatureZZ res;
 		private Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			number res = bindings.LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(ptr);
-			Uint8Array res_a = bindings.LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(res);
-			Uint8Array[] res_b = bindings.LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(res);
-			TwoTuple<Uint8Array, Uint8Array[]> res_conv = new TwoTuple<Uint8Array, Uint8Array[]>(res_a, res_b, () -> {
-				bindings.C2Tuple_SignatureCVec_SignatureZZ_free(res);
-			});
-			this.res = res_conv;
+			TwoTuple_SignatureCVec_SignatureZZ res_hu_conv = new TwoTuple_SignatureCVec_SignatureZZ(null, res);
+			res_hu_conv.ptrs_to.add(this);
+			this.res = res_hu_conv;
 		}
 	}
 
@@ -35,19 +32,19 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 		}
 	}
 
-	public static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constructor__ok(TwoTuple<Uint8Array, Uint8Array[]> o) {
-		number ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(bindings.C2Tuple_SignatureCVec_SignatureZZ_new(o.a, o.b));
+	public static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constructor_ok(TwoTuple_SignatureCVec_SignatureZZ o) {
+		number ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_ok(o != null ? o.ptr : 0);
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constructor__err() {
+	public static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constructor_err() {
 		number ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err();
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ _clone() {
+	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ clone() {
 		number ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(this.ptr);
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

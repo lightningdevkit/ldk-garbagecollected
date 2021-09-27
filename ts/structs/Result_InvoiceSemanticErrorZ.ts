@@ -34,20 +34,20 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_InvoiceSemanticErrorZ constructor__ok(Invoice o) {
+	public static Result_InvoiceSemanticErrorZ constructor_ok(Invoice o) {
 		number ret = bindings.CResult_InvoiceSemanticErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_InvoiceSemanticErrorZ constructor__err(SemanticError e) {
+	public static Result_InvoiceSemanticErrorZ constructor_err(SemanticError e) {
 		number ret = bindings.CResult_InvoiceSemanticErrorZ_err(e);
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_InvoiceSemanticErrorZ _clone() {
+	public Result_InvoiceSemanticErrorZ clone() {
 		number ret = bindings.CResult_InvoiceSemanticErrorZ_clone(this.ptr);
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

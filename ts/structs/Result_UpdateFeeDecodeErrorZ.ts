@@ -37,21 +37,21 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_UpdateFeeDecodeErrorZ constructor__ok(UpdateFee o) {
+	public static Result_UpdateFeeDecodeErrorZ constructor_ok(UpdateFee o) {
 		number ret = bindings.CResult_UpdateFeeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_UpdateFeeDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_UpdateFeeDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_UpdateFeeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_UpdateFeeDecodeErrorZ _clone() {
+	public Result_UpdateFeeDecodeErrorZ clone() {
 		number ret = bindings.CResult_UpdateFeeDecodeErrorZ_clone(this.ptr);
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

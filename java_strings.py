@@ -24,6 +24,7 @@ class Consts:
 
         self.bindings_header = """package org.ldk.impl;
 import org.ldk.enums.*;
+import org.ldk.impl.version;
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class bindings {
 				Path libpath = new File(tmpdir.toPath().toString(), "liblightningjni.so").toPath();
 				Files.copy(is, libpath, StandardCopyOption.REPLACE_EXISTING);
 				Runtime.getRuntime().load(libpath.toString());
-			} catch (IOException e) {
+			} catch (Exception e) {
 				System.err.println("Failed to load LDK native library.");
 				System.err.println("System LDK native library load failed with: " + system_load_err);
 				System.err.println("Resource-based LDK native library load failed with: " + e);
@@ -64,7 +65,7 @@ public class bindings {
 		}
 		init(java.lang.Enum.class, VecOrSliceDef.class);
 		init_class_cache();
-		if (!get_lib_version_string().equals(get_ldk_java_bindings_version()))
+		if (!get_lib_version_string().equals(version.get_ldk_java_bindings_version()))
 			throw new IllegalArgumentException("Compiled LDK library and LDK class failes do not match");
 		// Fetching the LDK versions from C also checks that the header and binaries match
 		get_ldk_c_bindings_version();
@@ -74,9 +75,6 @@ public class bindings {
 	static native void init_class_cache();
 	static native String get_lib_version_string();
 
-	public static String get_ldk_java_bindings_version() {
-		return "<git_version_ldk_garbagecollected>";
-	}
 	public static native String get_ldk_c_bindings_version();
 	public static native String get_ldk_version();
 
@@ -93,6 +91,13 @@ public class bindings {
 	public static native long new_empty_slice_vec();
 
 """
+        self.bindings_version_file = """package org.ldk.impl;
+
+public class version {
+	public static String get_ldk_java_bindings_version() {
+		return "<git_version_ldk_garbagecollected>";
+	}
+}"""
 
         self.bindings_footer = "}\n"
 
@@ -461,16 +466,17 @@ static inline LDKStr java_to_owned_str(JNIEnv *env, jstring str) {
 	return res;
 }
 
-JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
-	return str_ref_to_java(env, "<git_version_ldk_garbagecollected>", strlen("<git_version_ldk_garbagecollected>"));
-}
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1c_1bindings_1version(JNIEnv *env, jclass _c) {
 	return str_ref_to_java(env, check_get_ldk_bindings_version(), strlen(check_get_ldk_bindings_version()));
 }
 JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1ldk_1version(JNIEnv *env, jclass _c) {
 	return str_ref_to_java(env, check_get_ldk_version(), strlen(check_get_ldk_version()));
 }
+#include "version.c"
 """
+        self.c_version_file = """JNIEXPORT jstring JNICALL Java_org_ldk_impl_bindings_get_1lib_1version_1string(JNIEnv *env, jclass _c) {
+	return str_ref_to_java(env, "<git_version_ldk_garbagecollected>", strlen("<git_version_ldk_garbagecollected>"));
+}"""
 
         self.hu_struct_file_prefix = """package org.ldk.structs;
 
@@ -1106,11 +1112,12 @@ import javax.annotation.Nullable;
         out_opaque_struct_human += self.hu_struct_file_prefix
         out_opaque_struct_human += "\n/**\n * " + struct_doc_comment.replace("\n", "\n * ") + "\n */\n"
         out_opaque_struct_human += "@SuppressWarnings(\"unchecked\") // We correctly assign various generic arrays\n"
-        out_opaque_struct_human += ("public class " + struct_name.replace("LDK","") + " extends CommonBase")
+        hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
+        out_opaque_struct_human += ("public class " + hu_name + " extends CommonBase")
         if struct_name.startswith("LDKLocked"):
             out_opaque_struct_human += (" implements AutoCloseable")
         out_opaque_struct_human += (" {\n")
-        out_opaque_struct_human += ("\t" + struct_name.replace("LDK", "") + "(Object _dummy, long ptr) { super(ptr); }\n")
+        out_opaque_struct_human += ("\t" + hu_name + "(Object _dummy, long ptr) { super(ptr); }\n")
         if struct_name.startswith("LDKLocked"):
             out_opaque_struct_human += ("\t@Override public void close() {\n")
         else:
@@ -1121,8 +1128,10 @@ import javax.annotation.Nullable;
         out_opaque_struct_human += ("\t}\n\n")
         return out_opaque_struct_human
 
+    def map_tuple(self, struct_name):
+        return self.map_opaque_struct(struct_name, "A Tuple")
 
-    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
+    def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None
@@ -1149,7 +1158,6 @@ import javax.annotation.Nullable;
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
-            meth_n = method_name[len(struct_meth) + 1 if len(struct_meth) != 0 else 0:].strip("_")
             if doc_comment is not None:
                 out_java_struct += "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
             if return_type_info.nullable:

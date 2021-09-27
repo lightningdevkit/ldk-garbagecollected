@@ -37,21 +37,21 @@ public class Result_ShutdownDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_ShutdownDecodeErrorZ constructor__ok(Shutdown o) {
+	public static Result_ShutdownDecodeErrorZ constructor_ok(Shutdown o) {
 		number ret = bindings.CResult_ShutdownDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_ShutdownDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_ShutdownDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_ShutdownDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_ShutdownDecodeErrorZ _clone() {
+	public Result_ShutdownDecodeErrorZ clone() {
 		number ret = bindings.CResult_ShutdownDecodeErrorZ_clone(this.ptr);
 		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

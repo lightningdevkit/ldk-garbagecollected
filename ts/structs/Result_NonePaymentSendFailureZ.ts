@@ -32,19 +32,19 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 		}
 	}
 
-	public static Result_NonePaymentSendFailureZ constructor__ok() {
+	public static Result_NonePaymentSendFailureZ constructor_ok() {
 		number ret = bindings.CResult_NonePaymentSendFailureZ_ok();
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_NonePaymentSendFailureZ constructor__err(PaymentSendFailure e) {
+	public static Result_NonePaymentSendFailureZ constructor_err(PaymentSendFailure e) {
 		number ret = bindings.CResult_NonePaymentSendFailureZ_err(e.ptr);
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_NonePaymentSendFailureZ _clone() {
+	public Result_NonePaymentSendFailureZ clone() {
 		number ret = bindings.CResult_NonePaymentSendFailureZ_clone(this.ptr);
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;

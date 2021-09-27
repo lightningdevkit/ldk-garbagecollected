@@ -34,19 +34,19 @@ public class Result_PaymentHashPaymentSendFailureZ extends CommonBase {
 		}
 	}
 
-	public static Result_PaymentHashPaymentSendFailureZ constructor__ok(Uint8Array o) {
+	public static Result_PaymentHashPaymentSendFailureZ constructor_ok(Uint8Array o) {
 		number ret = bindings.CResult_PaymentHashPaymentSendFailureZ_ok(o);
 		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_PaymentHashPaymentSendFailureZ constructor__err(PaymentSendFailure e) {
+	public static Result_PaymentHashPaymentSendFailureZ constructor_err(PaymentSendFailure e) {
 		number ret = bindings.CResult_PaymentHashPaymentSendFailureZ_err(e.ptr);
 		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_PaymentHashPaymentSendFailureZ _clone() {
+	public Result_PaymentHashPaymentSendFailureZ clone() {
 		number ret = bindings.CResult_PaymentHashPaymentSendFailureZ_clone(this.ptr);
 		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;

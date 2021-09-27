@@ -31,13 +31,13 @@ public class Result_StringErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_StringErrorZ constructor__ok(String o) {
+	public static Result_StringErrorZ constructor_ok(String o) {
 		number ret = bindings.CResult_StringErrorZ_ok(o);
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_StringErrorZ constructor__err(Secp256k1Error e) {
+	public static Result_StringErrorZ constructor_err(Secp256k1Error e) {
 		number ret = bindings.CResult_StringErrorZ_err(e);
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

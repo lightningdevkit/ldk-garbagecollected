@@ -30,16 +30,13 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	}
 
 	public final static class Some extends Option_C2Tuple_usizeTransactionZZ {
-		public final TwoTuple<Long, byte[]> some;
+		public final TwoTuple_usizeTransactionZ some;
 		private Some(long ptr, bindings.LDKCOption_C2Tuple_usizeTransactionZZ.Some obj) {
 			super(null, ptr);
 			long some = obj.some;
-			long some_a = bindings.LDKC2Tuple_usizeTransactionZ_get_a(some);
-			byte[] some_b = bindings.LDKC2Tuple_usizeTransactionZ_get_b(some);
-			TwoTuple<Long, byte[]> some_conv = new TwoTuple<Long, byte[]>(some_a, some_b, () -> {
-				bindings.C2Tuple_usizeTransactionZ_free(some);
-			});
-			this.some = some_conv;
+			TwoTuple_usizeTransactionZ some_hu_conv = new TwoTuple_usizeTransactionZ(null, some);
+			some_hu_conv.ptrs_to.add(this);
+			this.some = some_hu_conv;
 		}
 	}
 	public final static class None extends Option_C2Tuple_usizeTransactionZZ {
@@ -50,8 +47,8 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	/**
 	 * Constructs a new COption_C2Tuple_usizeTransactionZZ containing a crate::c_types::derived::C2Tuple_usizeTransactionZ
 	 */
-	public static Option_C2Tuple_usizeTransactionZZ some(TwoTuple<Long, byte[]> o) {
-		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_some(bindings.C2Tuple_usizeTransactionZ_new(o.a, o.b));
+	public static Option_C2Tuple_usizeTransactionZZ some(TwoTuple_usizeTransactionZ o) {
+		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_some(o != null ? o.ptr : 0);
 		if (ret < 1024) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

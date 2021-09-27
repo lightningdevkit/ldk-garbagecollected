@@ -37,21 +37,21 @@ public class Result_UpdateFailMalformedHTLCDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor__ok(UpdateFailMalformedHTLC o) {
+	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor_ok(UpdateFailMalformedHTLC o) {
 		number ret = bindings.CResult_UpdateFailMalformedHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_UpdateFailMalformedHTLCDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_UpdateFailMalformedHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_UpdateFailMalformedHTLCDecodeErrorZ _clone() {
+	public Result_UpdateFailMalformedHTLCDecodeErrorZ clone() {
 		number ret = bindings.CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone(this.ptr);
 		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

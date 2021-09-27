@@ -34,20 +34,20 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_TxCreationKeysErrorZ constructor__ok(TxCreationKeys o) {
+	public static Result_TxCreationKeysErrorZ constructor_ok(TxCreationKeys o) {
 		number ret = bindings.CResult_TxCreationKeysErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_TxCreationKeysErrorZ constructor__err(Secp256k1Error e) {
+	public static Result_TxCreationKeysErrorZ constructor_err(Secp256k1Error e) {
 		number ret = bindings.CResult_TxCreationKeysErrorZ_err(e);
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_TxCreationKeysErrorZ _clone() {
+	public Result_TxCreationKeysErrorZ clone() {
 		number ret = bindings.CResult_TxCreationKeysErrorZ_clone(this.ptr);
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -51,7 +51,7 @@ public class RoutingMessageHandler extends CommonBase {
 		 * to a remote node, starting at the short_channel_id indicated by starting_point and
 		 * including the batch_amount entries immediately higher in numerical value than starting_point.
 		 */
-		ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] get_next_channel_announcements(long starting_point, byte batch_amount);
+		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] get_next_channel_announcements(long starting_point, byte batch_amount);
 		/**
 		 * Gets a subset of the node announcements required to dump our routing table to a remote node,
 		 * starting at the node *after* the provided publickey and including batch_amount entries
@@ -114,9 +114,8 @@ public class RoutingMessageHandler extends CommonBase {
 				return result;
 			}
 			@Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
-				ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_63 -> bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(ret_conv_63.a == null ? 0 : ret_conv_63.a.ptr & ~1, ret_conv_63.b == null ? 0 : ret_conv_63.b.ptr & ~1, ret_conv_63.c == null ? 0 : ret_conv_63.c.ptr & ~1)).toArray() : null;
-				for (ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> ret_conv_63: ret) { impl_holder.held.ptrs_to.add(ret_conv_63.a); impl_holder.held.ptrs_to.add(ret_conv_63.b); impl_holder.held.ptrs_to.add(ret_conv_63.c); };
+				ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_59 -> ret_conv_59 != null ? ret_conv_59.ptr : 0).toArray() : null;
 				return result;
 			}
 			@Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
@@ -211,29 +210,16 @@ public class RoutingMessageHandler extends CommonBase {
 	 * to a remote node, starting at the short_channel_id indicated by starting_point and
 	 * including the batch_amount entries immediately higher in numerical value than starting_point.
 	 */
-	public ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] get_next_channel_announcements(long starting_point, byte batch_amount) {
+	public ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_channel_announcements(this.ptr, starting_point, batch_amount);
-		ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>[] ret_conv_63_arr = new ThreeTuple[ret.length];
-		for (int l = 0; l < ret.length; l++) {
-			long ret_conv_63 = ret[l];
-			long ret_conv_63_a = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(ret_conv_63);
-			ChannelAnnouncement ret_conv_63_a_hu_conv = new ChannelAnnouncement(null, ret_conv_63_a);
-			ret_conv_63_a_hu_conv.ptrs_to.add(this);;
-			long ret_conv_63_b = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(ret_conv_63);
-			ChannelUpdate ret_conv_63_b_hu_conv = new ChannelUpdate(null, ret_conv_63_b);
-			ret_conv_63_b_hu_conv.ptrs_to.add(this);;
-			long ret_conv_63_c = bindings.LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(ret_conv_63);
-			ChannelUpdate ret_conv_63_c_hu_conv = new ChannelUpdate(null, ret_conv_63_c);
-			ret_conv_63_c_hu_conv.ptrs_to.add(this);;
-			ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate> ret_conv_63_conv = new ThreeTuple<ChannelAnnouncement, ChannelUpdate, ChannelUpdate>(ret_conv_63_a_hu_conv, ret_conv_63_b_hu_conv, ret_conv_63_c_hu_conv, () -> {
-				bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free(ret_conv_63);
-			});
-			ret_conv_63_a_hu_conv.ptrs_to.add(ret_conv_63_conv);
-			ret_conv_63_b_hu_conv.ptrs_to.add(ret_conv_63_conv);
-			ret_conv_63_c_hu_conv.ptrs_to.add(ret_conv_63_conv);
-			ret_conv_63_arr[l] = ret_conv_63_conv;
+		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret_conv_59_arr = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[ret.length];
+		for (int h = 0; h < ret.length; h++) {
+			long ret_conv_59 = ret[h];
+			ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret_conv_59_hu_conv = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret_conv_59);
+			ret_conv_59_hu_conv.ptrs_to.add(this);
+			ret_conv_59_arr[h] = ret_conv_59_hu_conv;
 		}
-		return ret_conv_63_arr;
+		return ret_conv_59_arr;
 	}
 
 	/**

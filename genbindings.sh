@@ -74,14 +74,14 @@ if [ "$3" = "leaks" ]; then
 	DEBUG_ARG="true"
 fi
 if [ "$4" = "true" ]; then
-	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c.body $DEBUG_ARG android $4
+	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG android $4
 else
-	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl/bindings.java src/main/java/org/ldk src/main/jni/bindings.c.body $DEBUG_ARG java $4
+	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG java $4
 fi
 echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > src/main/jni/bindings.c
 echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> src/main/jni/bindings.c
 cat src/main/jni/bindings.c.body >> src/main/jni/bindings.c
-javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/impl/bindings.java
+javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/impl/*.java
 rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.class
 
 IS_MAC=false
@@ -162,7 +162,7 @@ fi
 echo "Creating TS bindings..."
 mkdir -p ts/{enums,structs}
 rm -f ts/{enums,structs}/*.ts
-./genbindings.py "./lightning.h" ts/bindings.ts ts ts/bindings.c.body $DEBUG_ARG typescript
+./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript
 echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > ts/bindings.c
 echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> ts/bindings.c
 cat ts/bindings.c.body >> ts/bindings.c

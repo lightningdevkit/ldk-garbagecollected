@@ -32,7 +32,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 		}
 	}
 
-	public static Result_TrustedCommitmentTransactionNoneZ constructor__ok(TrustedCommitmentTransaction o) {
+	public static Result_TrustedCommitmentTransactionNoneZ constructor_ok(TrustedCommitmentTransaction o) {
 		number ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
@@ -47,7 +47,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static Result_TrustedCommitmentTransactionNoneZ constructor__err() {
+	public static Result_TrustedCommitmentTransactionNoneZ constructor_err() {
 		number ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_err();
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -185,13 +185,13 @@ class HumanObjectPeerTestInstance {
         ChannelManagerConstructor constructor = null;
         GcCheck obj = new GcCheck();
 
-        private TwoTuple<OutPoint, byte[]> test_mon_roundtrip(ChannelMonitor mon) {
+        private TwoTuple_OutPointScriptZ test_mon_roundtrip(ChannelMonitor mon) {
             // Because get_funding_txo() returns an OutPoint in a tuple that is a reference to an OutPoint inside the
             // ChannelMonitor, its a good test to ensure that the OutPoint isn't freed (or is cloned) before the
             // ChannelMonitor is. This used to be broken.
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.BlockHashChannelMonitorZ_read(mon.write(), keys_interface);
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(mon.write(), keys_interface);
             assert roundtrip_monitor instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
-            TwoTuple<OutPoint, byte[]> funding_txo = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.b.get_funding_txo();
+            TwoTuple_OutPointScriptZ funding_txo = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.get_b().get_funding_txo();
             System.gc(); System.runFinalization(); // Give the GC a chance to run.
             return funding_txo;
         }
@@ -213,9 +213,9 @@ class HumanObjectPeerTestInstance {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
                         assert monitors.put(key, data) == null;
-                        TwoTuple<OutPoint, byte[]> res = test_mon_roundtrip(data);
-                        assert Arrays.equals(res.a.get_txid(), id.get_txid());
-                        assert res.a.get_index() == id.get_index();
+                        TwoTuple_OutPointScriptZ res = test_mon_roundtrip(data);
+                        assert Arrays.equals(res.get_a().get_txid(), id.get_txid());
+                        assert res.get_a().get_index() == id.get_index();
                     }
                     return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
@@ -225,9 +225,9 @@ class HumanObjectPeerTestInstance {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
                         assert monitors.put(key, data) != null;
-                        TwoTuple<OutPoint, byte[]> res = test_mon_roundtrip(data);
-                        assert Arrays.equals(res.a.get_txid(), id.get_txid());
-                        assert res.a.get_index() == id.get_index();
+                        TwoTuple_OutPointScriptZ res = test_mon_roundtrip(data);
+                        assert Arrays.equals(res.get_a().get_txid(), id.get_txid());
+                        assert res.get_a().get_index() == id.get_index();
                     }
                     return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
@@ -268,7 +268,7 @@ class HumanObjectPeerTestInstance {
                 this.keys_interface = keys.as_KeysInterface();
                 this.explicit_keys_manager = keys;
             }
-            this.router = NetGraphMsgHandler.of(new byte[32], Option_AccessZ.some(Access.new_impl(new Access.AccessInterface() {
+            this.router = NetGraphMsgHandler.of(NetworkGraph.of(new byte[32]), Option_AccessZ.some(Access.new_impl(new Access.AccessInterface() {
                 @Override
                 public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
                     // We don't exchange any gossip, so should never actually get called, but providing a Some(Access)
@@ -289,16 +289,16 @@ class HumanObjectPeerTestInstance {
                 }
 
                 @Override
-                public TwoTuple<byte[], Type>[] get_and_clear_pending_msg() {
+                public TwoTuple_PublicKeyTypeZ[] get_and_clear_pending_msg() {
                     byte[][] bytes;
                     synchronized (custom_messages_to_send) {
                         bytes = custom_messages_to_send.toArray(new byte[0][0]);
                         custom_messages_to_send.clear();
                     }
-                    TwoTuple[] ret = new TwoTuple[bytes.length];
+                    TwoTuple_PublicKeyTypeZ[] ret = new TwoTuple_PublicKeyTypeZ[bytes.length];
                     for (int i = 0; i < bytes.length; i++) {
                         final int msg_idx = i;
-                        ret[i] = new TwoTuple(connected_peer_node_id, Type.new_impl(new Type.TypeInterface() {
+                        ret[i] = TwoTuple_PublicKeyTypeZ.of(connected_peer_node_id, Type.new_impl(new Type.TypeInterface() {
                             @Override public short type_id() { return 4096; }
                             @Override public String debug_str() { return "Custom Java Message"; }
                             @Override public byte[] write() { return bytes[msg_idx]; }
@@ -406,16 +406,16 @@ class HumanObjectPeerTestInstance {
                 } else {
                     byte[] serialized = orig.monitors.values().stream().iterator().next().write();
                     Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res =
-                            UtilMethods.BlockHashChannelMonitorZ_read(serialized, this.keys_interface);
+                            UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(serialized, this.keys_interface);
                     assert res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
-                    monitors[0] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.b;
+                    monitors[0] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.get_b();
                 }
                 byte[] serialized = orig.chan_manager.write();
                 Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ read_res =
-                        UtilMethods.BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.with_default(), monitors);
+                        UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(serialized, this.keys_interface, this.fee_estimator, this.chain_watch, this.tx_broadcaster, this.logger, UserConfig.with_default(), monitors);
                 assert read_res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK;
-                this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.b;
-                this.chain_watch.watch_channel(monitors[0].get_funding_txo().a, monitors[0]);
+                this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.get_b();
+                this.chain_watch.watch_channel(monitors[0].get_funding_txo().get_a(), monitors[0]);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
                 this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
                 if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
@@ -440,15 +440,15 @@ class HumanObjectPeerTestInstance {
             }
         }
 
-        TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] connect_block(Block b, int height, long expected_monitor_update_len) {
+        TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] connect_block(Block b, int height, long expected_monitor_update_len) {
             byte[] header = Arrays.copyOfRange(b.bitcoinSerialize(), 0, 80);
-            TwoTuple<Long, byte[]>[] txn;
+            TwoTuple_usizeTransactionZ[] txn;
             if (b.hasTransactions()) {
                 assert b.getTransactions().size() == 1;
-                TwoTuple<Long, byte[]> txp = new TwoTuple<>((long) 0, b.getTransactions().get(0).bitcoinSerialize());
-                txn = new TwoTuple[]{txp};
+                TwoTuple_usizeTransactionZ txp = TwoTuple_usizeTransactionZ.of((long) 0, b.getTransactions().get(0).bitcoinSerialize());
+                txn = new TwoTuple_usizeTransactionZ[]{txp};
             } else
-                txn = new TwoTuple[0];
+                txn = new TwoTuple_usizeTransactionZ[0];
             if (chain_monitor != null) {
                 chan_manager.as_Listen().block_connected(b.bitcoinSerialize(), height);
                 chain_monitor.as_Listen().block_connected(b.bitcoinSerialize(), height);
@@ -459,7 +459,7 @@ class HumanObjectPeerTestInstance {
                 synchronized (monitors) {
                     assert monitors.size() == 1;
                     for (ChannelMonitor mon : monitors.values()) {
-                        TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] ret = mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
+                        TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret = mon.block_connected(header, txn, height, tx_broadcaster, fee_estimator, logger);
                         assert ret.length == expected_monitor_update_len;
                         return ret;
                     }
@@ -824,6 +824,13 @@ class HumanObjectPeerTestInstance {
             Thread.sleep(100);
         }
 
+        if (state.peer1.chain_monitor != null) {
+            Balance[] peer1_balances = state.peer1.chain_monitor.get_claimable_balances(state.peer1.chan_manager.list_channels());
+            assert peer1_balances.length == 0;
+            Balance[] peer2_balances = state.peer2.chain_monitor.get_claimable_balances(state.peer2.chan_manager.list_channels());
+            assert peer2_balances.length == 0;
+        }
+
         ChannelDetails[] peer1_chans = state.peer1.chan_manager.list_channels();
 
         if (nice_close) {
@@ -851,18 +858,36 @@ class HumanObjectPeerTestInstance {
 
             assert state.peer1.broadcast_set.size() == 1;
             assert state.peer2.broadcast_set.size() == 1;
+        }
 
+        if (state.peer1.chain_monitor != null) {
+            Balance[] peer1_balances = state.peer1.chain_monitor.get_claimable_balances(state.peer1.chan_manager.list_channels());
+            assert peer1_balances.length == 1;
+            for (Balance bal : peer1_balances) {
+                assert bal instanceof Balance.ClaimableOnChannelClose;
+                long expected_tx_fee = 183;
+                assert ((Balance.ClaimableOnChannelClose) bal).claimable_amount_satoshis == 100000 - 1 - 10000 - expected_tx_fee;
+            }
+            Balance[] peer2_balances = state.peer2.chain_monitor.get_claimable_balances(state.peer2.chan_manager.list_channels());
+            assert peer2_balances.length == 1;
+            for (Balance bal : peer2_balances) {
+                assert bal instanceof Balance.ClaimableOnChannelClose;
+                assert ((Balance.ClaimableOnChannelClose) bal).claimable_amount_satoshis == 10000 + 1;
+            }
+        }
+
+        if (!nice_close) {
             NetworkParameters bitcoinj_net = NetworkParameters.fromID(NetworkParameters.ID_MAINNET);
             Transaction tx = new Transaction(bitcoinj_net, state.peer1.broadcast_set.getFirst());
             Block b = new Block(bitcoinj_net, 2, state.best_blockhash, Sha256Hash.ZERO_HASH, 42, 0, 0,
                     Arrays.asList(new Transaction[]{tx}));
-            TwoTuple<byte[], TwoTuple<Integer, TxOut>[]>[] watch_outputs = state.peer2.connect_block(b, 10, 1);
+            TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] watch_outputs = state.peer2.connect_block(b, 10, 1);
             if (watch_outputs != null) { // We only process watch_outputs manually when we use a manually-build Watch impl
                 assert watch_outputs.length == 1;
-                assert Arrays.equals(watch_outputs[0].a, tx.getTxId().getReversedBytes());
-                assert watch_outputs[0].b.length == 2;
-                assert watch_outputs[0].b[0].a == 0;
-                assert watch_outputs[0].b[1].a == 1;
+                assert Arrays.equals(watch_outputs[0].get_a(), tx.getTxId().getReversedBytes());
+                assert watch_outputs[0].get_b().length == 2;
+                assert watch_outputs[0].get_b()[0].get_a() == 0;
+                assert watch_outputs[0].get_b()[1].get_a() == 1;
             }
 
             for (int i = 11; i < 21; i++) {

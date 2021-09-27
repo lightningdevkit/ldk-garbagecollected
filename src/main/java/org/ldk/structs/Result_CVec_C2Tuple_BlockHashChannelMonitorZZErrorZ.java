@@ -20,24 +20,18 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 		}
 	}
 	public static final class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_OK extends Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ {
-		public final TwoTuple<byte[], ChannelMonitor>[] res;
+		public final TwoTuple_BlockHashChannelMonitorZ[] res;
 		private Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long[] res = bindings.LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_ok(ptr);
-			TwoTuple<byte[], ChannelMonitor>[] res_conv_34_arr = new TwoTuple[res.length];
-			for (int i = 0; i < res.length; i++) {
-				long res_conv_34 = res[i];
-				byte[] res_conv_34_a = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_a(res_conv_34);
-				long res_conv_34_b = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_b(res_conv_34);
-				ChannelMonitor res_conv_34_b_hu_conv = new ChannelMonitor(null, res_conv_34_b);
-				res_conv_34_b_hu_conv.ptrs_to.add(this);;
-				TwoTuple<byte[], ChannelMonitor> res_conv_34_conv = new TwoTuple<byte[], ChannelMonitor>(res_conv_34_a, res_conv_34_b_hu_conv, () -> {
-					bindings.C2Tuple_BlockHashChannelMonitorZ_free(res_conv_34);
-				});
-				res_conv_34_b_hu_conv.ptrs_to.add(res_conv_34_conv);
-				res_conv_34_arr[i] = res_conv_34_conv;
+			TwoTuple_BlockHashChannelMonitorZ[] res_conv_35_arr = new TwoTuple_BlockHashChannelMonitorZ[res.length];
+			for (int j = 0; j < res.length; j++) {
+				long res_conv_35 = res[j];
+				TwoTuple_BlockHashChannelMonitorZ res_conv_35_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, res_conv_35);
+				res_conv_35_hu_conv.ptrs_to.add(this);
+				res_conv_35_arr[j] = res_conv_35_hu_conv;
 			}
-			this.res = res_conv_34_arr;
+			this.res = res_conv_35_arr;
 		}
 	}
 
@@ -52,11 +46,10 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ in the success state.
 	 */
-	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ok(TwoTuple<byte[], ChannelMonitor>[] o) {
-		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o != null ? Arrays.stream(o).mapToLong(o_conv_34 -> bindings.C2Tuple_BlockHashChannelMonitorZ_new(o_conv_34.a, o_conv_34.b == null ? 0 : o_conv_34.b.ptr & ~1)).toArray() : null);
+	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ok(TwoTuple_BlockHashChannelMonitorZ[] o) {
+		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o != null ? Arrays.stream(o).mapToLong(o_conv_35 -> o_conv_35 != null ? o_conv_35.ptr : 0).toArray() : null);
 		if (ret < 1024) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
-		for (TwoTuple<byte[], ChannelMonitor> o_conv_34: o) { ret_hu_conv.ptrs_to.add(o_conv_34.b); };
 		return ret_hu_conv;
 	}
 
@@ -65,6 +58,17 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	 */
 	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ err(org.ldk.enums.IOError e) {
 		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e);
+		if (ret < 1024) { return null; }
+		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ clone() {
+		long ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_clone(this.ptr);
 		if (ret < 1024) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

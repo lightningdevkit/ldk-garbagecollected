@@ -713,18 +713,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1usizeTransactionZ
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_usizeTransactionZ_get_a
+ * Method:    C2Tuple_usizeTransactionZ_get_a
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1usizeTransactionZ_1get_1a
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1usizeTransactionZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_usizeTransactionZ_get_b
+ * Method:    C2Tuple_usizeTransactionZ_get_b
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1usizeTransactionZ_1get_1b
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1usizeTransactionZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -1041,18 +1041,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1SignatureCVec_1Si
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_SignatureCVec_SignatureZZ_get_a
+ * Method:    C2Tuple_SignatureCVec_SignatureZZ_get_a
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1SignatureCVec_1SignatureZZ_1get_1a
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1SignatureCVec_1SignatureZZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_SignatureCVec_SignatureZZ_get_b
+ * Method:    C2Tuple_SignatureCVec_SignatureZZ_get_b
  * Signature: (J)[[B
  */
-JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1SignatureCVec_1SignatureZZ_1get_1b
+JNIEXPORT jobjectArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1SignatureCVec_1SignatureZZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -1385,18 +1385,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChannelM
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_BlockHashChannelMonitorZ_get_a
+ * Method:    C2Tuple_BlockHashChannelMonitorZ_get_a
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChannelMonitorZ_1get_1a
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelMonitorZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_BlockHashChannelMonitorZ_get_b
+ * Method:    C2Tuple_BlockHashChannelMonitorZ_get_b
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChannelMonitorZ_1get_1b
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelMonitorZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -1569,18 +1569,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PaymentHashPaymen
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_PaymentHashPaymentSecretZ_get_a
+ * Method:    C2Tuple_PaymentHashPaymentSecretZ_get_a
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PaymentHashPaymentSecretZ_1get_1a
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1PaymentHashPaymentSecretZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_PaymentHashPaymentSecretZ_get_b
+ * Method:    C2Tuple_PaymentHashPaymentSecretZ_get_b
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PaymentHashPaymentSecretZ_1get_1b
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1PaymentHashPaymentSecretZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -1761,18 +1761,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChannelM
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_BlockHashChannelManagerZ_get_a
+ * Method:    C2Tuple_BlockHashChannelManagerZ_get_a
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChannelManagerZ_1get_1a
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelManagerZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_BlockHashChannelManagerZ_get_b
+ * Method:    C2Tuple_BlockHashChannelManagerZ_get_b
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChannelManagerZ_1get_1b
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelManagerZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -1993,26 +1993,26 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1RawInvoice_1u832I
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a
+ * Method:    C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1get_1a
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_b
+ * Method:    C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_b
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1get_1b
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c
+ * Method:    C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1get_1c
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1get_1c
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -2297,18 +2297,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1OutPointScriptZ_1
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_OutPointScriptZ_get_a
+ * Method:    C2Tuple_OutPointScriptZ_get_a
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1OutPointScriptZ_1get_1a
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_OutPointScriptZ_get_b
+ * Method:    C2Tuple_OutPointScriptZ_get_b
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1OutPointScriptZ_1get_1b
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -2321,18 +2321,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32ScriptZ_1new
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_u32ScriptZ_get_a
+ * Method:    C2Tuple_u32ScriptZ_get_a
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32ScriptZ_1get_1a
+JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_C2Tuple_1u32ScriptZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_u32ScriptZ_get_b
+ * Method:    C2Tuple_u32ScriptZ_get_b
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32ScriptZ_1get_1b
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1u32ScriptZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -2353,18 +2353,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a
+ * Method:    C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple_1u32ScriptZZZ_1get_1a
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1TxidCVec_1C2Tuple_1u32ScriptZZZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b
+ * Method:    C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b
  * Signature: (J)[J
  */
-JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple_1u32ScriptZZZ_1get_1b
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1TxidCVec_1C2Tuple_1u32ScriptZZZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -2417,18 +2417,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32TxOutZ_1new
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_u32TxOutZ_get_a
+ * Method:    C2Tuple_u32TxOutZ_get_a
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32TxOutZ_1get_1a
+JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_C2Tuple_1u32TxOutZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_u32TxOutZ_get_b
+ * Method:    C2Tuple_u32TxOutZ_get_b
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32TxOutZ_1get_1b
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1u32TxOutZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -2449,18 +2449,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a
+ * Method:    C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1get_1a
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b
+ * Method:    C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b
  * Signature: (J)[J
  */
-JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1get_1b
+JNIEXPORT jlongArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -2545,18 +2545,18 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PublicKeyTypeZ_1n
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_PublicKeyTypeZ_get_a
+ * Method:    C2Tuple_PublicKeyTypeZ_get_a
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PublicKeyTypeZ_1get_1a
+JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1PublicKeyTypeZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_PublicKeyTypeZ_get_b
+ * Method:    C2Tuple_PublicKeyTypeZ_get_b
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PublicKeyTypeZ_1get_1b
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1PublicKeyTypeZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -2601,26 +2601,26 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnounceme
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a
+ * Method:    C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1a
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1a
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b
+ * Method:    C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1b
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1b
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c
+ * Method:    C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1c
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1get_1c
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -5793,6 +5793,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1TransactionNoneZ_1cl
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    C2Tuple_BlockHashChannelMonitorZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelMonitorZ_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    C2Tuple_BlockHashChannelMonitorZ_new
  * Signature: ([BJ)J
  */
@@ -5837,6 +5845,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1C2Tuple_1Block
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1C2Tuple_1BlockHashChannelMonitorZZErrorZ_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1CVec_1C2Tuple_1BlockHashChannelMonitorZZErrorZ_1clone
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -6897,6 +6913,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1BlockHashCha
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1C2Tuple_1BlockHashChannelMonitorZDecodeErrorZ_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    CResult_NoneLightningErrorZ_ok
  * Signature: ()J
  */
@@ -7349,6 +7373,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NetworkGraphDecodeEr
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1NetworkGraphDecodeErrorZ_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    CResult_NetworkGraphDecodeErrorZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1NetworkGraphDecodeErrorZ_1clone
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -17709,6 +17741,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_get_1route
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    NetworkGraph_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_NetworkGraph_1clone
   (JNIEnv *, jclass, jlong);
 
 /*

@@ -52,8 +52,9 @@ public class NetGraphMsgHandler extends CommonBase {
 	/**
 	 * Representation of the payment channel network
 	 */
-	public void set_network_graph(byte[] val_genesis_hash) {
-		bindings.NetGraphMsgHandler_set_network_graph(this.ptr, bindings.NetworkGraph_new(val_genesis_hash));
+	public void set_network_graph(NetworkGraph val) {
+		bindings.NetGraphMsgHandler_set_network_graph(this.ptr, val == null ? 0 : val.ptr & ~1);
+		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -63,11 +64,12 @@ public class NetGraphMsgHandler extends CommonBase {
 	 * channel data is correct, and that the announcement is signed with
 	 * channel owners' keys.
 	 */
-	public static NetGraphMsgHandler of(byte[] network_graph_genesis_hash, Option_AccessZ chain_access, Logger logger) {
-		long ret = bindings.NetGraphMsgHandler_new(bindings.NetworkGraph_new(network_graph_genesis_hash), chain_access.ptr, logger == null ? 0 : logger.ptr);
+	public static NetGraphMsgHandler of(NetworkGraph network_graph, Option_AccessZ chain_access, Logger logger) {
+		long ret = bindings.NetGraphMsgHandler_new(network_graph == null ? 0 : network_graph.ptr & ~1, chain_access.ptr, logger == null ? 0 : logger.ptr);
 		if (ret < 1024) { return null; }
 		NetGraphMsgHandler ret_hu_conv = new NetGraphMsgHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(network_graph);
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}

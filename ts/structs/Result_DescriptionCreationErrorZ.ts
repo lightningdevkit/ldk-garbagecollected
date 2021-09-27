@@ -34,20 +34,20 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_DescriptionCreationErrorZ constructor__ok(Description o) {
+	public static Result_DescriptionCreationErrorZ constructor_ok(Description o) {
 		number ret = bindings.CResult_DescriptionCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_DescriptionCreationErrorZ constructor__err(CreationError e) {
+	public static Result_DescriptionCreationErrorZ constructor_err(CreationError e) {
 		number ret = bindings.CResult_DescriptionCreationErrorZ_err(e);
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_DescriptionCreationErrorZ _clone() {
+	public Result_DescriptionCreationErrorZ clone() {
 		number ret = bindings.CResult_DescriptionCreationErrorZ_clone(this.ptr);
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

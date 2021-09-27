@@ -34,20 +34,20 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_ExpiryTimeCreationErrorZ constructor__ok(ExpiryTime o) {
+	public static Result_ExpiryTimeCreationErrorZ constructor_ok(ExpiryTime o) {
 		number ret = bindings.CResult_ExpiryTimeCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_ExpiryTimeCreationErrorZ constructor__err(CreationError e) {
+	public static Result_ExpiryTimeCreationErrorZ constructor_err(CreationError e) {
 		number ret = bindings.CResult_ExpiryTimeCreationErrorZ_err(e);
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_ExpiryTimeCreationErrorZ _clone() {
+	public Result_ExpiryTimeCreationErrorZ clone() {
 		number ret = bindings.CResult_ExpiryTimeCreationErrorZ_clone(this.ptr);
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

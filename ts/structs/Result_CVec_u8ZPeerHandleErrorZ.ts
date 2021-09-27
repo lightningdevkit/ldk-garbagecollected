@@ -34,20 +34,20 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_CVec_u8ZPeerHandleErrorZ constructor__ok(Uint8Array o) {
+	public static Result_CVec_u8ZPeerHandleErrorZ constructor_ok(Uint8Array o) {
 		number ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_ok(o);
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_CVec_u8ZPeerHandleErrorZ constructor__err(PeerHandleError e) {
+	public static Result_CVec_u8ZPeerHandleErrorZ constructor_err(PeerHandleError e) {
 		number ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_CVec_u8ZPeerHandleErrorZ _clone() {
+	public Result_CVec_u8ZPeerHandleErrorZ clone() {
 		number ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_clone(this.ptr);
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

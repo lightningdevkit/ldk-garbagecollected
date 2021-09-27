@@ -37,21 +37,21 @@ public class Result_HolderCommitmentTransactionDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor__ok(HolderCommitmentTransaction o) {
+	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor_ok(HolderCommitmentTransaction o) {
 		number ret = bindings.CResult_HolderCommitmentTransactionDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_HolderCommitmentTransactionDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_HolderCommitmentTransactionDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_HolderCommitmentTransactionDecodeErrorZ _clone() {
+	public Result_HolderCommitmentTransactionDecodeErrorZ clone() {
 		number ret = bindings.CResult_HolderCommitmentTransactionDecodeErrorZ_clone(this.ptr);
 		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

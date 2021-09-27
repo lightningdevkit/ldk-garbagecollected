@@ -20,6 +20,17 @@ public class NetworkGraph extends CommonBase {
 	}
 
 	/**
+	 * Creates a copy of the NetworkGraph
+	 */
+	public NetworkGraph clone() {
+		long ret = bindings.NetworkGraph_clone(this.ptr);
+		if (ret < 1024) { return null; }
+		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Serialize the NetworkGraph object into a byte array which can be read by NetworkGraph_read
 	 */
 	public byte[] write() {

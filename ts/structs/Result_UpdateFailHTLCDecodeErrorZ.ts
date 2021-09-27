@@ -37,21 +37,21 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_UpdateFailHTLCDecodeErrorZ constructor__ok(UpdateFailHTLC o) {
+	public static Result_UpdateFailHTLCDecodeErrorZ constructor_ok(UpdateFailHTLC o) {
 		number ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_UpdateFailHTLCDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_UpdateFailHTLCDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_UpdateFailHTLCDecodeErrorZ _clone() {
+	public Result_UpdateFailHTLCDecodeErrorZ clone() {
 		number ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_clone(this.ptr);
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

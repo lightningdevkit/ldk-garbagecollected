@@ -36,7 +36,7 @@ public class ChannelManagerConstructor {
      * After doing so (and syncing the blockchain on the channel manager as well), you should call chain_sync_completed()
      * and then continue to normal application operation.
      */
-    public final TwoTuple<ChannelMonitor, byte[]>[] channel_monitors;
+    public final TwoTuple_BlockHashChannelMonitorZ[] channel_monitors;
     /**
      * A PeerManager which is constructed to pass messages and handle connections to peers.
      */
@@ -65,23 +65,24 @@ public class ChannelManagerConstructor {
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
-        this.channel_monitors = new TwoTuple[monitors.length];
+        this.channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[monitors.length];
         for (int i = 0; i < monitors.length; i++) {
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], keys_interface);
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], keys_interface);
             if (res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_Err) {
                 throw new InvalidSerializedDataException();
             }
-            monitors[i] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.b;
-            this.channel_monitors[i] = new TwoTuple<>(monitors[i], ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK)res).res.a);
+            byte[] block_hash = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK)res).res.get_a();
+            monitors[i] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.get_b();
+            this.channel_monitors[i] = TwoTuple_BlockHashChannelMonitorZ.of(block_hash, monitors[i]);
         }
         Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
-                UtilMethods.BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
+                UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
                         logger, UserConfig.with_default(), monitors);
         if (res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err) {
             throw new InvalidSerializedDataException();
         }
-        this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.b;
-        this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.a;
+        this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.get_b();
+        this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.get_a();
         this.chain_monitor = chain_monitor;
         this.router = router;
         this.logger = logger;
@@ -115,7 +116,7 @@ public class ChannelManagerConstructor {
                                      @Nullable NetGraphMsgHandler router,
                                      BroadcasterInterface tx_broadcaster, Logger logger) {
         final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
-        channel_monitors = new TwoTuple[0];
+        channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[0];
         channel_manager_latest_block_hash = null;
         this.chain_monitor = chain_monitor;
         this.router = router;
@@ -160,8 +161,8 @@ public class ChannelManagerConstructor {
      */
     public void chain_sync_completed(EventHandler event_handler) {
         if (background_processor != null) { return; }
-        for (TwoTuple<ChannelMonitor, byte[]> monitor: channel_monitors) {
-            this.chain_monitor.as_Watch().watch_channel(monitor.a.get_funding_txo().a, monitor.a);
+        for (TwoTuple_BlockHashChannelMonitorZ monitor: channel_monitors) {
+            this.chain_monitor.as_Watch().watch_channel(monitor.get_b().get_funding_txo().get_a(), monitor.get_b());
         }
         background_processor = BackgroundProcessor.start(org.ldk.structs.ChannelManagerPersister.new_impl(channel_manager -> {
             event_handler.persist_manager(channel_manager.write());
