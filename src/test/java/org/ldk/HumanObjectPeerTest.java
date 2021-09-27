@@ -824,6 +824,13 @@ class HumanObjectPeerTestInstance {
             Thread.sleep(100);
         }
 
+        if (state.peer1.chain_monitor != null) {
+            Balance[] peer1_balances = state.peer1.chain_monitor.get_claimable_balances(state.peer1.chan_manager.list_channels());
+            assert peer1_balances.length == 0;
+            Balance[] peer2_balances = state.peer2.chain_monitor.get_claimable_balances(state.peer2.chan_manager.list_channels());
+            assert peer2_balances.length == 0;
+        }
+
         ChannelDetails[] peer1_chans = state.peer1.chan_manager.list_channels();
 
         if (nice_close) {
@@ -851,7 +858,25 @@ class HumanObjectPeerTestInstance {
 
             assert state.peer1.broadcast_set.size() == 1;
             assert state.peer2.broadcast_set.size() == 1;
+        }
 
+        if (state.peer1.chain_monitor != null) {
+            Balance[] peer1_balances = state.peer1.chain_monitor.get_claimable_balances(state.peer1.chan_manager.list_channels());
+            assert peer1_balances.length == 1;
+            for (Balance bal : peer1_balances) {
+                assert bal instanceof Balance.ClaimableOnChannelClose;
+                long expected_tx_fee = 183;
+                assert ((Balance.ClaimableOnChannelClose) bal).claimable_amount_satoshis == 100000 - 1 - 10000 - expected_tx_fee;
+            }
+            Balance[] peer2_balances = state.peer2.chain_monitor.get_claimable_balances(state.peer2.chan_manager.list_channels());
+            assert peer2_balances.length == 1;
+            for (Balance bal : peer2_balances) {
+                assert bal instanceof Balance.ClaimableOnChannelClose;
+                assert ((Balance.ClaimableOnChannelClose) bal).claimable_amount_satoshis == 10000 + 1;
+            }
+        }
+
+        if (!nice_close) {
             NetworkParameters bitcoinj_net = NetworkParameters.fromID(NetworkParameters.ID_MAINNET);
             Transaction tx = new Transaction(bitcoinj_net, state.peer1.broadcast_set.getFirst());
             Block b = new Block(bitcoinj_net, 2, state.best_blockhash, Sha256Hash.ZERO_HASH, 42, 0, 0,
