@@ -860,6 +860,11 @@ class HumanObjectPeerTestInstance {
             assert state.peer2.broadcast_set.size() == 1;
         }
 
+        events = state.peer2.get_manager_events(1, state.peer1, state.peer2);
+        assert events[0] instanceof Event.ChannelClosed;
+        events = state.peer1.get_manager_events(1, state.peer1, state.peer2);
+        assert events[0] instanceof Event.ChannelClosed;
+
         if (state.peer1.chain_monitor != null) {
             Balance[] peer1_balances = state.peer1.chain_monitor.get_claimable_balances(state.peer1.chan_manager.list_channels());
             assert peer1_balances.length == 1;
@@ -914,19 +919,22 @@ class HumanObjectPeerTestInstance {
             }
         }
 
-        // Test exchanging a custom message
-        byte[] custom_message_bytes = new byte[] { 0x42, 0x44, 0x43, 0x00 };
-        state.peer1.custom_messages_to_send.add(custom_message_bytes);
-        state.peer1.peer_manager.process_events();
-        synchronized (state.peer2.received_custom_messages) {
-            while (true) {
-                if (state.peer2.received_custom_messages.isEmpty()) {
-                    state.peer2.received_custom_messages.wait();
-                    continue;
+        // Test exchanging a custom message (note that ChannelManagerConstructor) always loads an IgnorimgMessageHandler
+        // so we cannot exchange custom messages with it
+        if (!use_chan_manager_constructor) {
+            byte[] custom_message_bytes = new byte[]{0x42, 0x44, 0x43, 0x00};
+            state.peer1.custom_messages_to_send.add(custom_message_bytes);
+            state.peer1.peer_manager.process_events();
+            synchronized (state.peer2.received_custom_messages) {
+                while (true) {
+                    if (state.peer2.received_custom_messages.isEmpty()) {
+                        state.peer2.received_custom_messages.wait();
+                        continue;
+                    }
+                    assert state.peer2.received_custom_messages.size() == 1;
+                    assert Arrays.equals(state.peer2.received_custom_messages.get(0), custom_message_bytes);
+                    break;
                 }
-                assert state.peer2.received_custom_messages.size() == 1;
-                assert Arrays.equals(state.peer2.received_custom_messages.get(0), custom_message_bytes);
-                break;
             }
         }
 
@@ -985,7 +993,7 @@ public class HumanObjectPeerTest {
     }
     @Test
     public void test_message_handler() throws InterruptedException {
-        for (int i = 0; i < (1 << 7) - 1; i++) {
+        for (int i = 0; i < (1 << 8) - 1; i++) {
             boolean nice_close =                   (i & (1 << 0)) != 0;
             boolean use_km_wrapper =               (i & (1 << 1)) != 0;
             boolean use_manual_watch =             (i & (1 << 2)) != 0;
