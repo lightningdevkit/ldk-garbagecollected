@@ -268,12 +268,15 @@ class TypeMappingGenerator:
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "\t" + ty_info.var_name + "_ref |= 1;\n"
                     opaque_ret_conv_suf = opaque_ret_conv_suf + "}"
 
+                to_hu_conv_sfx = ""
+                if not ty_info.is_ptr or holds_ref:
+                    to_hu_conv_sfx = "\n" + ty_info.var_name + "_hu_conv.ptrs_to.add(this);"
                 if ty_info.is_ptr:
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = opaque_arg_conv, arg_conv_name = "&" + ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = *", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = self.consts.to_hu_conv_templates['ptr'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name),
+                        to_hu_conv = self.consts.to_hu_conv_templates['ptr'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name) + to_hu_conv_sfx,
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = from_hu_conv)
                 else:
@@ -281,7 +284,7 @@ class TypeMappingGenerator:
                         arg_conv = opaque_arg_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = (ty_info.rust_obj + " " + ty_info.var_name + "_var = ", opaque_ret_conv_suf),
                         ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name) + "\n" + ty_info.var_name + "_hu_conv.ptrs_to.add(this);",
+                        to_hu_conv = self.consts.to_hu_conv_templates['default'].replace('{human_type}', ty_info.java_hu_ty).replace('{var_name}', ty_info.var_name) + to_hu_conv_sfx,
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = from_hu_conv)
 
@@ -375,60 +378,27 @@ class TypeMappingGenerator:
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + " != null ? " + ty_info.var_name + ".ptr : 0", ""))
                 if ty_info.rust_obj in self.tuple_types:
-                    from_hu_conv_sfx = ""
-                    from_hu_conv = "bindings." + self.tuple_types[ty_info.rust_obj][1].replace("LDK", "") + "_new("
-                    to_hu_conv_pfx = ""
-                    to_hu_conv_sfx = ty_info.java_hu_ty + " " + ty_info.var_name + "_conv = new " + ty_info.java_hu_ty + "("
-                    to_hu_conv_refs = ""
-                    for idx, conv in enumerate(self.tuple_types[ty_info.rust_obj][0]):
-                        if idx != 0:
-                            to_hu_conv_sfx = to_hu_conv_sfx + ", "
-                            from_hu_conv = from_hu_conv + ", "
-                        conv.var_name = ty_info.var_name + "_" + chr(idx + ord("a"))
-                        conv_map = self.map_type_with_info(conv, False, None, is_free, holds_ref)
-                        to_hu_conv_pfx = to_hu_conv_pfx + conv.java_ty + " " + ty_info.var_name + "_" + chr(idx + ord("a")) + " = "
-                        if not conv.is_native_primitive and (conv_map.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns and conv_map.rust_obj == "LDKTxOut":
-                            to_hu_conv_pfx = to_hu_conv_pfx + "bindings." + conv_map.rust_obj.replace("LDK", "") + "_clone("
-                        to_hu_conv_pfx = to_hu_conv_pfx + "bindings." + self.tuple_types[ty_info.rust_obj][1] + "_get_" + chr(idx + ord("a")) + "(" + ty_info.var_name + ")"
-                        if not conv.is_native_primitive and (conv_map.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns and conv_map.rust_obj == "LDKTxOut": # XXX
-                            to_hu_conv_pfx = to_hu_conv_pfx + ")"
-                        to_hu_conv_pfx = to_hu_conv_pfx + ";\n"
-                        if conv_map.to_hu_conv is not None:
-                            to_hu_conv_pfx = to_hu_conv_pfx + conv_map.to_hu_conv + ";\n"
-                            to_hu_conv_sfx = to_hu_conv_sfx + conv_map.to_hu_conv_name
-                            if to_hu_conv_refs is not None:
-                                if conv_map.c_ty.endswith("Array"):
-                                    to_hu_conv_refs = None
-                                else:
-                                    to_hu_conv_refs = to_hu_conv_refs + "\n" + conv_map.to_hu_conv_name + ".ptrs_to.add(" + ty_info.var_name + "_conv);"
+                    ret_conv_name = "((uint64_t)" + ty_info.var_name + "_conv)"
+                    if holds_ref:
+                        # If we're trying to return a ref, we have to clone.
+                        # We just blindly assume its implemented and let the compiler fail if its not.
+                        ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
+                        if (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
+                            ret_conv = (ret_conv[0], ret_conv[1] + "\n// Warning: we really need to clone here, but no clone is available for " + ty_info.rust_obj)
+                            ret_conv_name += " | 1"
                         else:
-                            to_hu_conv_sfx = to_hu_conv_sfx + ty_info.var_name + "_" + chr(idx + ord("a"))
-                        if conv_map.from_hu_conv is not None:
-                            from_hu_conv = from_hu_conv + conv_map.from_hu_conv[0].replace(ty_info.var_name + "_" + chr(idx + ord("a")), ty_info.var_name + "." + chr(idx + ord("a")))
-                            if conv_map.from_hu_conv[1] != "":
-                                from_hu_conv_sfx = from_hu_conv_sfx + conv_map.from_hu_conv[1].replace(conv.var_name, ty_info.var_name + "." + chr(idx + ord("a")))
-                                if idx != len(self.tuple_types[ty_info.rust_obj][0]) - 1:
-                                    from_hu_conv_sfx += "; "
-                        else:
-                            from_hu_conv = from_hu_conv + ty_info.var_name + "." + chr(idx + ord("a"))
-
-                    if to_hu_conv_refs is None:
-                        to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ");\n// Warning: We may not free the C tuple object!"
+                            ret_conv = (ret_conv[0], ret_conv[1] + "\n*" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + "_conv);")
                     else:
-                        to_hu_conv = to_hu_conv_pfx + to_hu_conv_sfx + ", () -> {\n"
-                        to_hu_conv = to_hu_conv + "\tbindings." + ty_info.rust_obj.replace("LDK", "") + "_free(" + ty_info.var_name + ");\n"
-                        to_hu_conv = to_hu_conv + "});" + to_hu_conv_refs
-                    if not ty_info.is_ptr and not holds_ref:
-                        ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ref = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ref = ", ";")
-                        return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
-                            arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                            ret_conv = ret_conv,
-                            ret_conv_name = "(uint64_t)" + ty_info.var_name + "_ref",
-                            to_hu_conv = to_hu_conv, to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
+                        ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
+                    if not ty_info.is_ptr or holds_ref:
+                        to_hu_conv_sfx = "\n" + ty_info.var_name + "_hu_conv.ptrs_to.add(this);"
+                    else:
+                        to_hu_conv_sfx = ""
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                        ret_conv = ("uint64_t " + ty_info.var_name + "_ref = (uint64_t)(&", ") | 1;"), ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = to_hu_conv, to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (from_hu_conv + ")", from_hu_conv_sfx))
+                        ret_conv = ret_conv, ret_conv_name = ret_conv_name,
+                        to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");" + to_hu_conv_sfx,
+                        to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + " != null ? " + ty_info.var_name + ".ptr : 0", ""))
 
                 # The manually-defined types - TxOut and u5
                 if ty_info.rust_obj == "LDKu5":

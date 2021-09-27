@@ -939,7 +939,10 @@ const decodeString = (stringPointer, free = true) => {
 """
         return out_opaque_struct_human
 
-    def map_function(self, argument_types, c_call_string, method_name, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
+    def map_tuple(self, struct_name):
+        return self.map_opaque_struct(struct_name, "A Tuple")
+
+    def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None
@@ -992,7 +995,6 @@ const decodeString = (stringPointer, free = true) => {
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
-            meth_n = method_name[len(struct_meth) + 1:]
             if not takes_self:
                 out_java_struct += (
                         "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
