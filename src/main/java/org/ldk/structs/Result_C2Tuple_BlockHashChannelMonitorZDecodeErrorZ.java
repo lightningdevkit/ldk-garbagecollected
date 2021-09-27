@@ -20,19 +20,13 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 		}
 	}
 	public static final class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK extends Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ {
-		public final TwoTuple<byte[], ChannelMonitor> res;
+		public final TwoTuple_BlockHashChannelMonitorZ res;
 		private Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_ok(ptr);
-			byte[] res_a = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_a(res);
-			long res_b = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_b(res);
-			ChannelMonitor res_b_hu_conv = new ChannelMonitor(null, res_b);
-			res_b_hu_conv.ptrs_to.add(this);;
-			TwoTuple<byte[], ChannelMonitor> res_conv = new TwoTuple<byte[], ChannelMonitor>(res_a, res_b_hu_conv, () -> {
-				bindings.C2Tuple_BlockHashChannelMonitorZ_free(res);
-			});
-			res_b_hu_conv.ptrs_to.add(res_conv);
-			this.res = res_conv;
+			TwoTuple_BlockHashChannelMonitorZ res_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, res);
+			res_hu_conv.ptrs_to.add(this);
+			this.res = res_hu_conv;
 		}
 	}
 
@@ -50,11 +44,10 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ in the success state.
 	 */
-	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ok(TwoTuple<byte[], ChannelMonitor> o) {
-		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(bindings.C2Tuple_BlockHashChannelMonitorZ_new(o.a, o.b == null ? 0 : o.b.ptr & ~1));
+	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ok(TwoTuple_BlockHashChannelMonitorZ o) {
+		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(o != null ? o.ptr : 0);
 		if (ret < 1024) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o.b);
 		return ret_hu_conv;
 	}
 
@@ -66,6 +59,17 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 		if (ret < 1024) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ clone() {
+		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
+		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

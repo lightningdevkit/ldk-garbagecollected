@@ -34,20 +34,20 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_PrivateRouteCreationErrorZ constructor__ok(PrivateRoute o) {
+	public static Result_PrivateRouteCreationErrorZ constructor_ok(PrivateRoute o) {
 		number ret = bindings.CResult_PrivateRouteCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_PrivateRouteCreationErrorZ constructor__err(CreationError e) {
+	public static Result_PrivateRouteCreationErrorZ constructor_err(CreationError e) {
 		number ret = bindings.CResult_PrivateRouteCreationErrorZ_err(e);
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_PrivateRouteCreationErrorZ _clone() {
+	public Result_PrivateRouteCreationErrorZ clone() {
 		number ret = bindings.CResult_PrivateRouteCreationErrorZ_clone(this.ptr);
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

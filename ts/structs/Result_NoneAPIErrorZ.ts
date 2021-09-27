@@ -32,19 +32,19 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_NoneAPIErrorZ constructor__ok() {
+	public static Result_NoneAPIErrorZ constructor_ok() {
 		number ret = bindings.CResult_NoneAPIErrorZ_ok();
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_NoneAPIErrorZ constructor__err(APIError e) {
+	public static Result_NoneAPIErrorZ constructor_err(APIError e) {
 		number ret = bindings.CResult_NoneAPIErrorZ_err(e.ptr);
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_NoneAPIErrorZ _clone() {
+	public Result_NoneAPIErrorZ clone() {
 		number ret = bindings.CResult_NoneAPIErrorZ_clone(this.ptr);
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

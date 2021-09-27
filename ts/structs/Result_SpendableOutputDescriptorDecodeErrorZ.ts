@@ -37,20 +37,20 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor__ok(SpendableOutputDescriptor o) {
+	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor_ok(SpendableOutputDescriptor o) {
 		number ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_ok(o.ptr);
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_SpendableOutputDescriptorDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_SpendableOutputDescriptorDecodeErrorZ _clone() {
+	public Result_SpendableOutputDescriptorDecodeErrorZ clone() {
 		number ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_clone(this.ptr);
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

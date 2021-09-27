@@ -37,21 +37,21 @@ public class Result_RouteDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_RouteDecodeErrorZ constructor__ok(Route o) {
+	public static Result_RouteDecodeErrorZ constructor_ok(Route o) {
 		number ret = bindings.CResult_RouteDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_RouteDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_RouteDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_RouteDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_RouteDecodeErrorZ _clone() {
+	public Result_RouteDecodeErrorZ clone() {
 		number ret = bindings.CResult_RouteDecodeErrorZ_clone(this.ptr);
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

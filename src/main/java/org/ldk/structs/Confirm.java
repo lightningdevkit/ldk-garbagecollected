@@ -70,7 +70,7 @@ public class Confirm extends CommonBase {
 		 * [chain order]: Confirm#Order
 		 * [`best_block_updated`]: Self::best_block_updated
 		 */
-		void transactions_confirmed(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height);
+		void transactions_confirmed(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height);
 		/**
 		 * Processes a transaction that is no longer confirmed as result of a chain reorganization.
 		 * 
@@ -111,17 +111,14 @@ public class Confirm extends CommonBase {
 		final LDKConfirmHolder impl_holder = new LDKConfirmHolder();
 		impl_holder.held = new Confirm(new bindings.LDKConfirm() {
 			@Override public void transactions_confirmed(byte[] header, long[] txdata, int height) {
-				TwoTuple<Long, byte[]>[] txdata_conv_24_arr = new TwoTuple[txdata.length];
-				for (int y = 0; y < txdata.length; y++) {
-					long txdata_conv_24 = txdata[y];
-					long txdata_conv_24_a = bindings.LDKC2Tuple_usizeTransactionZ_get_a(txdata_conv_24);
-					byte[] txdata_conv_24_b = bindings.LDKC2Tuple_usizeTransactionZ_get_b(txdata_conv_24);
-					TwoTuple<Long, byte[]> txdata_conv_24_conv = new TwoTuple<Long, byte[]>(txdata_conv_24_a, txdata_conv_24_b, () -> {
-						bindings.C2Tuple_usizeTransactionZ_free(txdata_conv_24);
-					});
-					txdata_conv_24_arr[y] = txdata_conv_24_conv;
+				TwoTuple_usizeTransactionZ[] txdata_conv_28_arr = new TwoTuple_usizeTransactionZ[txdata.length];
+				for (int c = 0; c < txdata.length; c++) {
+					long txdata_conv_28 = txdata[c];
+					TwoTuple_usizeTransactionZ txdata_conv_28_hu_conv = new TwoTuple_usizeTransactionZ(null, txdata_conv_28);
+					txdata_conv_28_hu_conv.ptrs_to.add(this);
+					txdata_conv_28_arr[c] = txdata_conv_28_hu_conv;
 				}
-				arg.transactions_confirmed(header, txdata_conv_24_arr, height);
+				arg.transactions_confirmed(header, txdata_conv_28_arr, height);
 			}
 			@Override public void transaction_unconfirmed(byte[] txid) {
 				arg.transaction_unconfirmed(txid);
@@ -151,8 +148,8 @@ public class Confirm extends CommonBase {
 	 * [chain order]: Confirm#Order
 	 * [`best_block_updated`]: Self::best_block_updated
 	 */
-	public void transactions_confirmed(byte[] header, TwoTuple<Long, byte[]>[] txdata, int height) {
-		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_24 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_24.a, txdata_conv_24.b)).toArray() : null, height);
+	public void transactions_confirmed(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height) {
+		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height);
 	}
 
 	/**

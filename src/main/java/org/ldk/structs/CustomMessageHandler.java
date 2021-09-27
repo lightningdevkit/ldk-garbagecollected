@@ -36,7 +36,7 @@ public class CustomMessageHandler extends CommonBase {
 		 * correspond to the intended recipients node ids. If no connection to one of the
 		 * specified node does not exist, the message is simply not sent to it.
 		 */
-		TwoTuple<byte[], Type>[] get_and_clear_pending_msg();
+		TwoTuple_PublicKeyTypeZ[] get_and_clear_pending_msg();
 	}
 	private static class LDKCustomMessageHandlerHolder { CustomMessageHandler held; }
 	public static CustomMessageHandler new_impl(CustomMessageHandlerInterface arg, CustomMessageReader.CustomMessageReaderInterface CustomMessageReader_impl) {
@@ -50,9 +50,8 @@ public class CustomMessageHandler extends CommonBase {
 				return result;
 			}
 			@Override public long[] get_and_clear_pending_msg() {
-				TwoTuple<byte[], Type>[] ret = arg.get_and_clear_pending_msg();
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_24 -> bindings.C2Tuple_PublicKeyTypeZ_new(ret_conv_24.a, ret_conv_24.b == null ? 0 : ret_conv_24.b.ptr)).toArray() : null;
-				for (TwoTuple<byte[], Type> ret_conv_24: ret) { impl_holder.held.ptrs_to.add(ret_conv_24.b); };
+				TwoTuple_PublicKeyTypeZ[] ret = arg.get_and_clear_pending_msg();
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_25 -> ret_conv_25 != null ? ret_conv_25.ptr : 0).toArray() : null;
 				return result;
 			}
 		}, CustomMessageReader.new_impl(CustomMessageReader_impl).bindings_instance);
@@ -86,22 +85,16 @@ public class CustomMessageHandler extends CommonBase {
 	 * correspond to the intended recipients node ids. If no connection to one of the
 	 * specified node does not exist, the message is simply not sent to it.
 	 */
-	public TwoTuple<byte[], Type>[] get_and_clear_pending_msg() {
+	public TwoTuple_PublicKeyTypeZ[] get_and_clear_pending_msg() {
 		long[] ret = bindings.CustomMessageHandler_get_and_clear_pending_msg(this.ptr);
-		TwoTuple<byte[], Type>[] ret_conv_24_arr = new TwoTuple[ret.length];
-		for (int y = 0; y < ret.length; y++) {
-			long ret_conv_24 = ret[y];
-			byte[] ret_conv_24_a = bindings.LDKC2Tuple_PublicKeyTypeZ_get_a(ret_conv_24);
-			long ret_conv_24_b = bindings.LDKC2Tuple_PublicKeyTypeZ_get_b(ret_conv_24);
-			Type ret_hu_conv = new Type(null, ret_conv_24_b);
-			ret_hu_conv.ptrs_to.add(this);;
-			TwoTuple<byte[], Type> ret_conv_24_conv = new TwoTuple<byte[], Type>(ret_conv_24_a, ret_hu_conv, () -> {
-				bindings.C2Tuple_PublicKeyTypeZ_free(ret_conv_24);
-			});
-			ret_hu_conv.ptrs_to.add(ret_conv_24_conv);
-			ret_conv_24_arr[y] = ret_conv_24_conv;
+		TwoTuple_PublicKeyTypeZ[] ret_conv_25_arr = new TwoTuple_PublicKeyTypeZ[ret.length];
+		for (int z = 0; z < ret.length; z++) {
+			long ret_conv_25 = ret[z];
+			TwoTuple_PublicKeyTypeZ ret_conv_25_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret_conv_25);
+			ret_conv_25_hu_conv.ptrs_to.add(this);
+			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
 		}
-		return ret_conv_24_arr;
+		return ret_conv_25_arr;
 	}
 
 }

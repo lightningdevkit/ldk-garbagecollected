@@ -29,19 +29,19 @@ public class Result_TransactionNoneZ extends CommonBase {
 		}
 	}
 
-	public static Result_TransactionNoneZ constructor__ok(Uint8Array o) {
+	public static Result_TransactionNoneZ constructor_ok(Uint8Array o) {
 		number ret = bindings.CResult_TransactionNoneZ_ok(o);
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_TransactionNoneZ constructor__err() {
+	public static Result_TransactionNoneZ constructor_err() {
 		number ret = bindings.CResult_TransactionNoneZ_err();
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_TransactionNoneZ _clone() {
+	public Result_TransactionNoneZ clone() {
 		number ret = bindings.CResult_TransactionNoneZ_clone(this.ptr);
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

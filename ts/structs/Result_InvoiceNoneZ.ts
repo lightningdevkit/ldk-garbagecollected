@@ -32,20 +32,20 @@ public class Result_InvoiceNoneZ extends CommonBase {
 		}
 	}
 
-	public static Result_InvoiceNoneZ constructor__ok(Invoice o) {
+	public static Result_InvoiceNoneZ constructor_ok(Invoice o) {
 		number ret = bindings.CResult_InvoiceNoneZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_InvoiceNoneZ ret_hu_conv = Result_InvoiceNoneZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_InvoiceNoneZ constructor__err() {
+	public static Result_InvoiceNoneZ constructor_err() {
 		number ret = bindings.CResult_InvoiceNoneZ_err();
 		Result_InvoiceNoneZ ret_hu_conv = Result_InvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_InvoiceNoneZ _clone() {
+	public Result_InvoiceNoneZ clone() {
 		number ret = bindings.CResult_InvoiceNoneZ_clone(this.ptr);
 		Result_InvoiceNoneZ ret_hu_conv = Result_InvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

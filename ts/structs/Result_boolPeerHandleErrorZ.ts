@@ -34,20 +34,20 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_boolPeerHandleErrorZ constructor__ok(boolean o) {
+	public static Result_boolPeerHandleErrorZ constructor_ok(boolean o) {
 		number ret = bindings.CResult_boolPeerHandleErrorZ_ok(o);
 		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_boolPeerHandleErrorZ constructor__err(PeerHandleError e) {
+	public static Result_boolPeerHandleErrorZ constructor_err(PeerHandleError e) {
 		number ret = bindings.CResult_boolPeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_boolPeerHandleErrorZ _clone() {
+	public Result_boolPeerHandleErrorZ clone() {
 		number ret = bindings.CResult_boolPeerHandleErrorZ_clone(this.ptr);
 		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

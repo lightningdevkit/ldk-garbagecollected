@@ -20,19 +20,13 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 		}
 	}
 	public static final class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK extends Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
-		public final TwoTuple<byte[], ChannelManager> res;
+		public final TwoTuple_BlockHashChannelManagerZ res;
 		private Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(ptr);
-			byte[] res_a = bindings.LDKC2Tuple_BlockHashChannelManagerZ_get_a(res);
-			long res_b = bindings.LDKC2Tuple_BlockHashChannelManagerZ_get_b(res);
-			ChannelManager res_b_hu_conv = new ChannelManager(null, res_b);
-			res_b_hu_conv.ptrs_to.add(this);;
-			TwoTuple<byte[], ChannelManager> res_conv = new TwoTuple<byte[], ChannelManager>(res_a, res_b_hu_conv, () -> {
-				bindings.C2Tuple_BlockHashChannelManagerZ_free(res);
-			});
-			res_b_hu_conv.ptrs_to.add(res_conv);
-			this.res = res_conv;
+			TwoTuple_BlockHashChannelManagerZ res_hu_conv = new TwoTuple_BlockHashChannelManagerZ(null, res);
+			res_hu_conv.ptrs_to.add(this);
+			this.res = res_hu_conv;
 		}
 	}
 
@@ -50,19 +44,10 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	/**
 	 * Creates a new CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ in the success state.
 	 */
-	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ok(TwoTuple<byte[], ChannelManager> o) {
-		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(bindings.C2Tuple_BlockHashChannelManagerZ_new(o.a, o.b == null ? 0 : o.b.ptr & ~1));
+	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ok(TwoTuple_BlockHashChannelManagerZ o) {
+		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o != null ? o.ptr : 0);
 		if (ret < 1024) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o.b);
-		// Due to rust's strict-ownership memory model, in some cases we need to "move"
-		// an object to pass exclusive ownership to the function being called.
-		// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
-		// at the FFI layer, creating a new object which Rust can claim ownership of
-		// However, in some cases (eg here), there is no way to clone an object, and thus
-		// we actually have to pass full ownership to Rust.
-		// Thus, after ret_hu_conv call, o.b is reset to null and is now a dummy object.
-		o.b.ptr = 0;
 		return ret_hu_conv;
 	}
 

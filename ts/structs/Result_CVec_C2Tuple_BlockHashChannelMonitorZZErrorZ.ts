@@ -16,24 +16,18 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 		}
 	}
 	public static final class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_OK extends Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ {
-		public final TwoTuple<Uint8Array, ChannelMonitor>[] res;
+		public final TwoTuple_BlockHashChannelMonitorZ[] res;
 		private Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			number[] res = bindings.LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_ok(ptr);
-			TwoTuple<Uint8Array, ChannelMonitor>[] res_conv_38_arr = new TwoTuple[res.length];
-			for (int m = 0; m < res.length; m++) {
-				number res_conv_38 = res[m];
-				Uint8Array res_conv_38_a = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_a(res_conv_38);
-				number res_conv_38_b = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_b(res_conv_38);
-				const res_conv_38_b_hu_conv: ChannelMonitor = new ChannelMonitor(null, res_conv_38_b);
-				res_conv_38_b_hu_conv.ptrs_to.add(this);;
-				TwoTuple<Uint8Array, ChannelMonitor> res_conv_38_conv = new TwoTuple<Uint8Array, ChannelMonitor>(res_conv_38_a, res_conv_38_b_hu_conv, () -> {
-					bindings.C2Tuple_BlockHashChannelMonitorZ_free(res_conv_38);
-				});
-				res_conv_38_b_hu_conv.ptrs_to.add(res_conv_38_conv);
-				res_conv_38_arr[m] = res_conv_38_conv;
+			TwoTuple_BlockHashChannelMonitorZ[] res_conv_35_arr = new TwoTuple_BlockHashChannelMonitorZ[res.length];
+			for (int j = 0; j < res.length; j++) {
+				number res_conv_35 = res[j];
+				TwoTuple_BlockHashChannelMonitorZ res_conv_35_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, res_conv_35);
+				res_conv_35_hu_conv.ptrs_to.add(this);
+				res_conv_35_arr[j] = res_conv_35_hu_conv;
 			}
-			this.res = res_conv_38_arr;
+			this.res = res_conv_35_arr;
 		}
 	}
 
@@ -45,15 +39,20 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 		}
 	}
 
-	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor__ok(TwoTuple<Uint8Array, ChannelMonitor>[] o) {
-		number ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o != null ? Arrays.stream(o).map(o_conv_38 -> bindings.C2Tuple_BlockHashChannelMonitorZ_new(o_conv_38.a, o_conv_38.b == null ? 0 : o_conv_38.b.ptr & ~1)).toArray(number[]::new) : null);
+	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor_ok(TwoTuple_BlockHashChannelMonitorZ[] o) {
+		number ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_ok(o != null ? Arrays.stream(o).map(o_conv_35 -> o_conv_35 != null ? o_conv_35.ptr : 0).toArray(number[]::new) : null);
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
-		for (TwoTuple<Uint8Array, ChannelMonitor> o_conv_38: o) { ret_hu_conv.ptrs_to.add(o_conv_38.b); };
 		return ret_hu_conv;
 	}
 
-	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor__err(IOError e) {
+	public static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constructor_err(IOError e) {
 		number ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e);
+		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ clone() {
+		number ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_clone(this.ptr);
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

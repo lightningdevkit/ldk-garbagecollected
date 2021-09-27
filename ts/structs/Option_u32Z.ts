@@ -32,21 +32,21 @@ export class None extends COption_u32Z {
 		super(null, ptr);
 	}
 }
-	public static Option_u32Z constructor__some(number o) {
+	public static Option_u32Z constructor_some(number o) {
 		number ret = bindings.COption_u32Z_some(o);
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static Option_u32Z constructor__none() {
+	public static Option_u32Z constructor_none() {
 		number ret = bindings.COption_u32Z_none();
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public Option_u32Z _clone() {
+	public Option_u32Z clone() {
 		number ret = bindings.COption_u32Z_clone(this.ptr);
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);

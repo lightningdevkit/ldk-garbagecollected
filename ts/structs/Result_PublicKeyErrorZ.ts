@@ -31,19 +31,19 @@ public class Result_PublicKeyErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_PublicKeyErrorZ constructor__ok(Uint8Array o) {
+	public static Result_PublicKeyErrorZ constructor_ok(Uint8Array o) {
 		number ret = bindings.CResult_PublicKeyErrorZ_ok(o);
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_PublicKeyErrorZ constructor__err(Secp256k1Error e) {
+	public static Result_PublicKeyErrorZ constructor_err(Secp256k1Error e) {
 		number ret = bindings.CResult_PublicKeyErrorZ_err(e);
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_PublicKeyErrorZ _clone() {
+	public Result_PublicKeyErrorZ clone() {
 		number ret = bindings.CResult_PublicKeyErrorZ_clone(this.ptr);
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

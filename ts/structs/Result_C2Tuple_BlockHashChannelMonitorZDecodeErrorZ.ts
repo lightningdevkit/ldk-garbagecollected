@@ -16,19 +16,13 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 		}
 	}
 	public static final class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK extends Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ {
-		public final TwoTuple<Uint8Array, ChannelMonitor> res;
+		public final TwoTuple_BlockHashChannelMonitorZ res;
 		private Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			number res = bindings.LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_get_ok(ptr);
-			Uint8Array res_a = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_a(res);
-			number res_b = bindings.LDKC2Tuple_BlockHashChannelMonitorZ_get_b(res);
-			const res_b_hu_conv: ChannelMonitor = new ChannelMonitor(null, res_b);
-			res_b_hu_conv.ptrs_to.add(this);;
-			TwoTuple<Uint8Array, ChannelMonitor> res_conv = new TwoTuple<Uint8Array, ChannelMonitor>(res_a, res_b_hu_conv, () -> {
-				bindings.C2Tuple_BlockHashChannelMonitorZ_free(res);
-			});
-			res_b_hu_conv.ptrs_to.add(res_conv);
-			this.res = res_conv;
+			TwoTuple_BlockHashChannelMonitorZ res_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, res);
+			res_hu_conv.ptrs_to.add(this);
+			this.res = res_hu_conv;
 		}
 	}
 
@@ -43,17 +37,22 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 		}
 	}
 
-	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ constructor__ok(TwoTuple<Uint8Array, ChannelMonitor> o) {
-		number ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(bindings.C2Tuple_BlockHashChannelMonitorZ_new(o.a, o.b == null ? 0 : o.b.ptr & ~1));
+	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ constructor_ok(TwoTuple_BlockHashChannelMonitorZ o) {
+		number ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(o != null ? o.ptr : 0);
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o.b);
 		return ret_hu_conv;
 	}
 
-	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	public Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ clone() {
+		number ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone(this.ptr);
+		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

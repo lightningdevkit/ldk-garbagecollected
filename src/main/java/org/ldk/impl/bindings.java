@@ -1,5 +1,6 @@
 package org.ldk.impl;
 import org.ldk.enums.*;
+import org.ldk.impl.version;
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class bindings {
 				Path libpath = new File(tmpdir.toPath().toString(), "liblightningjni.so").toPath();
 				Files.copy(is, libpath, StandardCopyOption.REPLACE_EXISTING);
 				Runtime.getRuntime().load(libpath.toString());
-			} catch (IOException e) {
+			} catch (Exception e) {
 				System.err.println("Failed to load LDK native library.");
 				System.err.println("System LDK native library load failed with: " + system_load_err);
 				System.err.println("Resource-based LDK native library load failed with: " + e);
@@ -40,7 +41,7 @@ public class bindings {
 		}
 		init(java.lang.Enum.class, VecOrSliceDef.class);
 		init_class_cache();
-		if (!get_lib_version_string().equals(get_ldk_java_bindings_version()))
+		if (!get_lib_version_string().equals(version.get_ldk_java_bindings_version()))
 			throw new IllegalArgumentException("Compiled LDK library and LDK class failes do not match");
 		// Fetching the LDK versions from C also checks that the header and binaries match
 		get_ldk_c_bindings_version();
@@ -50,9 +51,6 @@ public class bindings {
 	static native void init_class_cache();
 	static native String get_lib_version_string();
 
-	public static String get_ldk_java_bindings_version() {
-		return "v0.0.101.0";
-	}
 	public static native String get_ldk_c_bindings_version();
 	public static native String get_ldk_version();
 
@@ -177,8 +175,10 @@ public class bindings {
 	public static native long LDKCResult_TxOutAccessErrorZ_get_ok(long arg);
 	public static native AccessError LDKCResult_TxOutAccessErrorZ_get_err(long arg);
 	public static native long LDKC2Tuple_usizeTransactionZ_new(long a, byte[] b);
-	public static native long LDKC2Tuple_usizeTransactionZ_get_a(long ptr);
-	public static native byte[] LDKC2Tuple_usizeTransactionZ_get_b(long ptr);
+	// uintptr_t C2Tuple_usizeTransactionZ_get_a(LDKC2Tuple_usizeTransactionZ *NONNULL_PTR tuple);
+	public static native long C2Tuple_usizeTransactionZ_get_a(long tuple);
+	// struct LDKTransaction C2Tuple_usizeTransactionZ_get_b(LDKC2Tuple_usizeTransactionZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_usizeTransactionZ_get_b(long tuple);
 	public static native long LDKCVec_C2Tuple_usizeTransactionZZ_new(long[] elems);
 	public static native boolean LDKCResult_NoneChannelMonitorUpdateErrZ_result_ok(long arg);
 	public static native void LDKCResult_NoneChannelMonitorUpdateErrZ_get_ok(long arg);
@@ -410,8 +410,10 @@ public class bindings {
 	public static native void LDKCResult_NoneNoneZ_get_ok(long arg);
 	public static native void LDKCResult_NoneNoneZ_get_err(long arg);
 	public static native long LDKC2Tuple_SignatureCVec_SignatureZZ_new(byte[] a, byte[][] b);
-	public static native byte[] LDKC2Tuple_SignatureCVec_SignatureZZ_get_a(long ptr);
-	public static native byte[][] LDKC2Tuple_SignatureCVec_SignatureZZ_get_b(long ptr);
+	// struct LDKSignature C2Tuple_SignatureCVec_SignatureZZ_get_a(LDKC2Tuple_SignatureCVec_SignatureZZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_SignatureCVec_SignatureZZ_get_a(long tuple);
+	// struct LDKCVec_SignatureZ C2Tuple_SignatureCVec_SignatureZZ_get_b(LDKC2Tuple_SignatureCVec_SignatureZZ *NONNULL_PTR tuple);
+	public static native byte[][] C2Tuple_SignatureCVec_SignatureZZ_get_b(long tuple);
 	public static native boolean LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(long arg);
 	public static native long LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_ok(long arg);
 	public static native void LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_get_err(long arg);
@@ -486,8 +488,10 @@ public class bindings {
 	public static native byte[] LDKCResult_TransactionNoneZ_get_ok(long arg);
 	public static native void LDKCResult_TransactionNoneZ_get_err(long arg);
 	public static native long LDKC2Tuple_BlockHashChannelMonitorZ_new(byte[] a, long b);
-	public static native byte[] LDKC2Tuple_BlockHashChannelMonitorZ_get_a(long ptr);
-	public static native long LDKC2Tuple_BlockHashChannelMonitorZ_get_b(long ptr);
+	// struct LDKThirtyTwoBytes C2Tuple_BlockHashChannelMonitorZ_get_a(LDKC2Tuple_BlockHashChannelMonitorZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_BlockHashChannelMonitorZ_get_a(long tuple);
+	// struct LDKChannelMonitor C2Tuple_BlockHashChannelMonitorZ_get_b(LDKC2Tuple_BlockHashChannelMonitorZ *NONNULL_PTR tuple);
+	public static native long C2Tuple_BlockHashChannelMonitorZ_get_b(long tuple);
 	public static native long LDKCVec_C2Tuple_BlockHashChannelMonitorZZ_new(long[] elems);
 	public static native boolean LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_result_ok(long arg);
 	public static native long[] LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_ok(long arg);
@@ -598,8 +602,10 @@ public class bindings {
 	public static native LDKNetAddress LDKNetAddress_ref_from_ptr(long ptr);
 	public static native long LDKCVec_NetAddressZ_new(long[] elems);
 	public static native long LDKC2Tuple_PaymentHashPaymentSecretZ_new(byte[] a, byte[] b);
-	public static native byte[] LDKC2Tuple_PaymentHashPaymentSecretZ_get_a(long ptr);
-	public static native byte[] LDKC2Tuple_PaymentHashPaymentSecretZ_get_b(long ptr);
+	// struct LDKThirtyTwoBytes C2Tuple_PaymentHashPaymentSecretZ_get_a(LDKC2Tuple_PaymentHashPaymentSecretZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_PaymentHashPaymentSecretZ_get_a(long tuple);
+	// struct LDKThirtyTwoBytes C2Tuple_PaymentHashPaymentSecretZ_get_b(LDKC2Tuple_PaymentHashPaymentSecretZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_PaymentHashPaymentSecretZ_get_b(long tuple);
 	public static native boolean LDKCResult_PaymentSecretAPIErrorZ_result_ok(long arg);
 	public static native byte[] LDKCResult_PaymentSecretAPIErrorZ_get_ok(long arg);
 	public static native long LDKCResult_PaymentSecretAPIErrorZ_get_err(long arg);
@@ -657,8 +663,10 @@ public class bindings {
 	}
 	public static native long LDKLogger_new(LDKLogger impl);
 	public static native long LDKC2Tuple_BlockHashChannelManagerZ_new(byte[] a, long b);
-	public static native byte[] LDKC2Tuple_BlockHashChannelManagerZ_get_a(long ptr);
-	public static native long LDKC2Tuple_BlockHashChannelManagerZ_get_b(long ptr);
+	// struct LDKThirtyTwoBytes C2Tuple_BlockHashChannelManagerZ_get_a(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_BlockHashChannelManagerZ_get_a(long tuple);
+	// struct LDKChannelManager *C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR tuple);
+	public static native long C2Tuple_BlockHashChannelManagerZ_get_b(long tuple);
 	public static native boolean LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_result_ok(long arg);
 	public static native long LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(long arg);
 	public static native long LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(long arg);
@@ -706,9 +714,12 @@ public class bindings {
 	public static native long LDKCResult_SignedRawInvoiceNoneZ_get_ok(long arg);
 	public static native void LDKCResult_SignedRawInvoiceNoneZ_get_err(long arg);
 	public static native long LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_new(long a, byte[] b, long c);
-	public static native long LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(long ptr);
-	public static native byte[] LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_b(long ptr);
-	public static native long LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(long ptr);
+	// struct LDKRawInvoice C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ *NONNULL_PTR tuple);
+	public static native long C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(long tuple);
+	// struct LDKThirtyTwoBytes C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_b(LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ *NONNULL_PTR tuple);
+	public static native byte[] C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_b(long tuple);
+	// struct LDKInvoiceSignature C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ *NONNULL_PTR tuple);
+	public static native long C3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(long tuple);
 	public static native boolean LDKCResult_PayeePubKeyErrorZ_result_ok(long arg);
 	public static native long LDKCResult_PayeePubKeyErrorZ_get_ok(long arg);
 	public static native Secp256k1Error LDKCResult_PayeePubKeyErrorZ_get_err(long arg);
@@ -744,15 +755,21 @@ public class bindings {
 	public static native void LDKCResult_NoneMonitorUpdateErrorZ_get_ok(long arg);
 	public static native long LDKCResult_NoneMonitorUpdateErrorZ_get_err(long arg);
 	public static native long LDKC2Tuple_OutPointScriptZ_new(long a, byte[] b);
-	public static native long LDKC2Tuple_OutPointScriptZ_get_a(long ptr);
-	public static native byte[] LDKC2Tuple_OutPointScriptZ_get_b(long ptr);
+	// struct LDKOutPoint C2Tuple_OutPointScriptZ_get_a(LDKC2Tuple_OutPointScriptZ *NONNULL_PTR tuple);
+	public static native long C2Tuple_OutPointScriptZ_get_a(long tuple);
+	// struct LDKCVec_u8Z C2Tuple_OutPointScriptZ_get_b(LDKC2Tuple_OutPointScriptZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_OutPointScriptZ_get_b(long tuple);
 	public static native long LDKC2Tuple_u32ScriptZ_new(int a, byte[] b);
-	public static native int LDKC2Tuple_u32ScriptZ_get_a(long ptr);
-	public static native byte[] LDKC2Tuple_u32ScriptZ_get_b(long ptr);
+	// uint32_t C2Tuple_u32ScriptZ_get_a(LDKC2Tuple_u32ScriptZ *NONNULL_PTR tuple);
+	public static native int C2Tuple_u32ScriptZ_get_a(long tuple);
+	// struct LDKCVec_u8Z C2Tuple_u32ScriptZ_get_b(LDKC2Tuple_u32ScriptZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_u32ScriptZ_get_b(long tuple);
 	public static native long LDKCVec_C2Tuple_u32ScriptZZ_new(long[] elems);
 	public static native long LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(byte[] a, long[] b);
-	public static native byte[] LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(long ptr);
-	public static native long[] LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(long ptr);
+	// struct LDKThirtyTwoBytes C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(long tuple);
+	// struct LDKCVec_C2Tuple_u32ScriptZZ C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ *NONNULL_PTR tuple);
+	public static native long[] C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(long tuple);
 	public static native long LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZZ_new(long[] elems);
 	public static class LDKPaymentPurpose {
 		private LDKPaymentPurpose() {}
@@ -850,12 +867,16 @@ public class bindings {
 	public static native LDKEvent LDKEvent_ref_from_ptr(long ptr);
 	public static native long LDKCVec_EventZ_new(long[] elems);
 	public static native long LDKC2Tuple_u32TxOutZ_new(int a, long b);
-	public static native int LDKC2Tuple_u32TxOutZ_get_a(long ptr);
-	public static native long LDKC2Tuple_u32TxOutZ_get_b(long ptr);
+	// uint32_t C2Tuple_u32TxOutZ_get_a(LDKC2Tuple_u32TxOutZ *NONNULL_PTR tuple);
+	public static native int C2Tuple_u32TxOutZ_get_a(long tuple);
+	// struct LDKTxOut C2Tuple_u32TxOutZ_get_b(LDKC2Tuple_u32TxOutZ *NONNULL_PTR tuple);
+	public static native long C2Tuple_u32TxOutZ_get_b(long tuple);
 	public static native long LDKCVec_C2Tuple_u32TxOutZZ_new(long[] elems);
 	public static native long LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(byte[] a, long[] b);
-	public static native byte[] LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(long ptr);
-	public static native long[] LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(long ptr);
+	// struct LDKThirtyTwoBytes C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(long tuple);
+	// struct LDKCVec_C2Tuple_u32TxOutZZ C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ *NONNULL_PTR tuple);
+	public static native long[] C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(long tuple);
 	public static native long LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_new(long[] elems);
 	public static class LDKBalance {
 		private LDKBalance() {}
@@ -890,16 +911,21 @@ public class bindings {
 	public static native void LDKCResult_NoneLightningErrorZ_get_ok(long arg);
 	public static native long LDKCResult_NoneLightningErrorZ_get_err(long arg);
 	public static native long LDKC2Tuple_PublicKeyTypeZ_new(byte[] a, long b);
-	public static native byte[] LDKC2Tuple_PublicKeyTypeZ_get_a(long ptr);
-	public static native long LDKC2Tuple_PublicKeyTypeZ_get_b(long ptr);
+	// struct LDKPublicKey C2Tuple_PublicKeyTypeZ_get_a(LDKC2Tuple_PublicKeyTypeZ *NONNULL_PTR tuple);
+	public static native byte[] C2Tuple_PublicKeyTypeZ_get_a(long tuple);
+	// struct LDKType C2Tuple_PublicKeyTypeZ_get_b(LDKC2Tuple_PublicKeyTypeZ *NONNULL_PTR tuple);
+	public static native long C2Tuple_PublicKeyTypeZ_get_b(long tuple);
 	public static native long LDKCVec_C2Tuple_PublicKeyTypeZZ_new(long[] elems);
 	public static native boolean LDKCResult_boolLightningErrorZ_result_ok(long arg);
 	public static native boolean LDKCResult_boolLightningErrorZ_get_ok(long arg);
 	public static native long LDKCResult_boolLightningErrorZ_get_err(long arg);
 	public static native long LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(long a, long b, long c);
-	public static native long LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(long ptr);
-	public static native long LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(long ptr);
-	public static native long LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(long ptr);
+	// struct LDKChannelAnnouncement C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR tuple);
+	public static native long C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(long tuple);
+	// struct LDKChannelUpdate C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR tuple);
+	public static native long C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(long tuple);
+	// struct LDKChannelUpdate C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ *NONNULL_PTR tuple);
+	public static native long C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(long tuple);
 	public static native long LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ_new(long[] elems);
 	public static native long LDKCVec_NodeAnnouncementZ_new(long[] elems);
 	public static native boolean LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(long arg);
@@ -1663,6 +1689,8 @@ public class bindings {
 	public static native void CResult_TransactionNoneZ_free(long _res);
 	// struct LDKCResult_TransactionNoneZ CResult_TransactionNoneZ_clone(const struct LDKCResult_TransactionNoneZ *NONNULL_PTR orig);
 	public static native long CResult_TransactionNoneZ_clone(long orig);
+	// struct LDKC2Tuple_BlockHashChannelMonitorZ C2Tuple_BlockHashChannelMonitorZ_clone(const struct LDKC2Tuple_BlockHashChannelMonitorZ *NONNULL_PTR orig);
+	public static native long C2Tuple_BlockHashChannelMonitorZ_clone(long orig);
 	// struct LDKC2Tuple_BlockHashChannelMonitorZ C2Tuple_BlockHashChannelMonitorZ_new(struct LDKThirtyTwoBytes a, struct LDKChannelMonitor b);
 	public static native long C2Tuple_BlockHashChannelMonitorZ_new(byte[] a, long b);
 	// void C2Tuple_BlockHashChannelMonitorZ_free(struct LDKC2Tuple_BlockHashChannelMonitorZ _res);
@@ -1675,6 +1703,8 @@ public class bindings {
 	public static native long CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(IOError e);
 	// void CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_free(struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ _res);
 	public static native void CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_free(long _res);
+	// struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_clone(const struct LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ *NONNULL_PTR orig);
+	public static native long CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_clone(long orig);
 	// struct LDKCOption_u16Z COption_u16Z_some(uint16_t o);
 	public static native long COption_u16Z_some(short o);
 	// struct LDKCOption_u16Z COption_u16Z_none(void);
@@ -1939,6 +1969,8 @@ public class bindings {
 	public static native long CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(long e);
 	// void CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ _res);
 	public static native void CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_free(long _res);
+	// struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone(const struct LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ *NONNULL_PTR orig);
+	public static native long CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone(long orig);
 	// struct LDKCResult_NoneLightningErrorZ CResult_NoneLightningErrorZ_ok(void);
 	public static native long CResult_NoneLightningErrorZ_ok();
 	// struct LDKCResult_NoneLightningErrorZ CResult_NoneLightningErrorZ_err(struct LDKLightningError e);
@@ -2053,6 +2085,8 @@ public class bindings {
 	public static native long CResult_NetworkGraphDecodeErrorZ_err(long e);
 	// void CResult_NetworkGraphDecodeErrorZ_free(struct LDKCResult_NetworkGraphDecodeErrorZ _res);
 	public static native void CResult_NetworkGraphDecodeErrorZ_free(long _res);
+	// struct LDKCResult_NetworkGraphDecodeErrorZ CResult_NetworkGraphDecodeErrorZ_clone(const struct LDKCResult_NetworkGraphDecodeErrorZ *NONNULL_PTR orig);
+	public static native long CResult_NetworkGraphDecodeErrorZ_clone(long orig);
 	// struct LDKCResult_NetAddressu8Z CResult_NetAddressu8Z_ok(struct LDKNetAddress o);
 	public static native long CResult_NetAddressu8Z_ok(long o);
 	// struct LDKCResult_NetAddressu8Z CResult_NetAddressu8Z_err(uint8_t e);
@@ -4643,6 +4677,8 @@ public class bindings {
 	public static native long get_route(byte[] our_node_id, long network, byte[] payee, long payee_features, long[] first_hops, long[] last_hops, long final_value_msat, int final_cltv, long logger);
 	// void NetworkGraph_free(struct LDKNetworkGraph this_obj);
 	public static native void NetworkGraph_free(long this_obj);
+	// struct LDKNetworkGraph NetworkGraph_clone(const struct LDKNetworkGraph *NONNULL_PTR orig);
+	public static native long NetworkGraph_clone(long orig);
 	// void ReadOnlyNetworkGraph_free(struct LDKReadOnlyNetworkGraph this_obj);
 	public static native void ReadOnlyNetworkGraph_free(long this_obj);
 	// void NetworkUpdate_free(struct LDKNetworkUpdate this_ptr);

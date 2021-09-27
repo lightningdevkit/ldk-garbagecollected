@@ -144,14 +144,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		this.ptrs_to.add(funding_txo);
 	}
 
-	public TwoTuple<Uint8Array, Uint8Array> create_inbound_payment(Option_u64Z min_value_msat, number invoice_expiry_delta_secs, number user_payment_id) {
+	public TwoTuple_PaymentHashPaymentSecretZ create_inbound_payment(Option_u64Z min_value_msat, number invoice_expiry_delta_secs, number user_payment_id) {
 		number ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
-		Uint8Array ret_a = bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_a(ret);
-		Uint8Array ret_b = bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_b(ret);
-		TwoTuple<Uint8Array, Uint8Array> ret_conv = new TwoTuple<Uint8Array, Uint8Array>(ret_a, ret_b, () -> {
-			bindings.C2Tuple_PaymentHashPaymentSecretZ_free(ret);
-		});
-		return ret_conv;
+		TwoTuple_PaymentHashPaymentSecretZ ret_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash(Uint8Array payment_hash, Option_u64Z min_value_msat, number invoice_expiry_delta_secs, number user_payment_id) {

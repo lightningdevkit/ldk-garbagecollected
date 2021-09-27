@@ -44,10 +44,11 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_NetworkGraphDecodeErrorZ in the success state.
 	 */
-	public static Result_NetworkGraphDecodeErrorZ ok(byte[] o_genesis_hash) {
-		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(bindings.NetworkGraph_new(o_genesis_hash));
+	public static Result_NetworkGraphDecodeErrorZ ok(NetworkGraph o) {
+		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
@@ -59,6 +60,17 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 		if (ret < 1024) { return null; }
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_NetworkGraphDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_NetworkGraphDecodeErrorZ clone() {
+		long ret = bindings.CResult_NetworkGraphDecodeErrorZ_clone(this.ptr);
+		if (ret < 1024) { return null; }
+		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

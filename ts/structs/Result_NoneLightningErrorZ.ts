@@ -32,20 +32,20 @@ public class Result_NoneLightningErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_NoneLightningErrorZ constructor__ok() {
+	public static Result_NoneLightningErrorZ constructor_ok() {
 		number ret = bindings.CResult_NoneLightningErrorZ_ok();
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_NoneLightningErrorZ constructor__err(LightningError e) {
+	public static Result_NoneLightningErrorZ constructor_err(LightningError e) {
 		number ret = bindings.CResult_NoneLightningErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_NoneLightningErrorZ _clone() {
+	public Result_NoneLightningErrorZ clone() {
 		number ret = bindings.CResult_NoneLightningErrorZ_clone(this.ptr);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

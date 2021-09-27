@@ -33,17 +33,14 @@ import * as bindings from '../bindings' // TODO: figure out location
                     let structImplementation = <bindings.LDKConfirm>{
                         // todo: in-line interface filling
                         transactions_confirmed (header: Uint8Array, txdata: number[], height: number): void {
-							TwoTuple<Number, Uint8Array>[] txdata_conv_30_arr = new TwoTuple[txdata.length];
-				for (int e = 0; e < txdata.length; e++) {
-					number txdata_conv_30 = txdata[e];
-					number txdata_conv_30_a = bindings.LDKC2Tuple_usizeTransactionZ_get_a(txdata_conv_30);
-					Uint8Array txdata_conv_30_b = bindings.LDKC2Tuple_usizeTransactionZ_get_b(txdata_conv_30);
-					TwoTuple<Number, Uint8Array> txdata_conv_30_conv = new TwoTuple<Number, Uint8Array>(txdata_conv_30_a, txdata_conv_30_b, () -> {
-						bindings.C2Tuple_usizeTransactionZ_free(txdata_conv_30);
-					});
-					txdata_conv_30_arr[e] = txdata_conv_30_conv;
+							TwoTuple_usizeTransactionZ[] txdata_conv_28_arr = new TwoTuple_usizeTransactionZ[txdata.length];
+				for (int c = 0; c < txdata.length; c++) {
+					number txdata_conv_28 = txdata[c];
+					TwoTuple_usizeTransactionZ txdata_conv_28_hu_conv = new TwoTuple_usizeTransactionZ(null, txdata_conv_28);
+					txdata_conv_28_hu_conv.ptrs_to.add(this);
+					txdata_conv_28_arr[c] = txdata_conv_28_hu_conv;
 				}
-							arg.transactions_confirmed(header, txdata_conv_30_arr, height);
+							arg.transactions_confirmed(header, txdata_conv_28_arr, height);
 						},
 
 						transaction_unconfirmed (txid: Uint8Array): void {
@@ -66,7 +63,7 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 
             export interface ConfirmInterface {
-                transactions_confirmed(header: Uint8Array, txdata: TwoTuple<Number, Uint8Array>[], height: number): void;
+                transactions_confirmed(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number): void;
 				transaction_unconfirmed(txid: Uint8Array): void;
 				best_block_updated(header: Uint8Array, height: number): void;
 				get_relevant_txids(): Uint8Array[];
@@ -76,8 +73,8 @@ import * as bindings from '../bindings' // TODO: figure out location
             class LDKConfirmHolder {
                 held: Confirm;
             }
-	public void transactions_confirmed(Uint8Array header, TwoTuple<Number, Uint8Array>[] txdata, number height) {
-		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).map(txdata_conv_30 -> bindings.C2Tuple_usizeTransactionZ_new(txdata_conv_30.a, txdata_conv_30.b)).toArray(number[]::new) : null, height);
+	public void transactions_confirmed(Uint8Array header, TwoTuple_usizeTransactionZ[] txdata, number height) {
+		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).map(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray(number[]::new) : null, height);
 	}
 
 	public void transaction_unconfirmed(Uint8Array txid) {

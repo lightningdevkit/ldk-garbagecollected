@@ -31,21 +31,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public ThreeTuple<RawInvoice, Uint8Array, InvoiceSignature> into_parts() {
+	public ThreeTuple_RawInvoice_u832InvoiceSignatureZ into_parts() {
 		number ret = bindings.SignedRawInvoice_into_parts(this.ptr);
-		number ret_a = bindings.LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(ret);
-		const ret_a_hu_conv: RawInvoice = new RawInvoice(null, ret_a);
-		ret_a_hu_conv.ptrs_to.add(this);;
-		Uint8Array ret_b = bindings.LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_b(ret);
-		number ret_c = bindings.LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(ret);
-		const ret_c_hu_conv: InvoiceSignature = new InvoiceSignature(null, ret_c);
-		ret_c_hu_conv.ptrs_to.add(this);;
-		ThreeTuple<RawInvoice, Uint8Array, InvoiceSignature> ret_conv = new ThreeTuple<RawInvoice, Uint8Array, InvoiceSignature>(ret_a_hu_conv, ret_b, ret_c_hu_conv, () -> {
-			bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_free(ret);
-		});
-		ret_a_hu_conv.ptrs_to.add(ret_conv);
-		ret_c_hu_conv.ptrs_to.add(ret_conv);
-		return ret_conv;
+		ThreeTuple_RawInvoice_u832InvoiceSignatureZ ret_hu_conv = new ThreeTuple_RawInvoice_u832InvoiceSignatureZ(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	public RawInvoice raw_invoice() {

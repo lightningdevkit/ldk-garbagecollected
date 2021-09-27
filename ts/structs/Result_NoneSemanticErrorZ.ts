@@ -29,19 +29,19 @@ public class Result_NoneSemanticErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_NoneSemanticErrorZ constructor__ok() {
+	public static Result_NoneSemanticErrorZ constructor_ok() {
 		number ret = bindings.CResult_NoneSemanticErrorZ_ok();
 		Result_NoneSemanticErrorZ ret_hu_conv = Result_NoneSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_NoneSemanticErrorZ constructor__err(SemanticError e) {
+	public static Result_NoneSemanticErrorZ constructor_err(SemanticError e) {
 		number ret = bindings.CResult_NoneSemanticErrorZ_err(e);
 		Result_NoneSemanticErrorZ ret_hu_conv = Result_NoneSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_NoneSemanticErrorZ _clone() {
+	public Result_NoneSemanticErrorZ clone() {
 		number ret = bindings.CResult_NoneSemanticErrorZ_clone(this.ptr);
 		Result_NoneSemanticErrorZ ret_hu_conv = Result_NoneSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

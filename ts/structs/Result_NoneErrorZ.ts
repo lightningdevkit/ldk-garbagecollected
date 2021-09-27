@@ -29,19 +29,19 @@ public class Result_NoneErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_NoneErrorZ constructor__ok() {
+	public static Result_NoneErrorZ constructor_ok() {
 		number ret = bindings.CResult_NoneErrorZ_ok();
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_NoneErrorZ constructor__err(IOError e) {
+	public static Result_NoneErrorZ constructor_err(IOError e) {
 		number ret = bindings.CResult_NoneErrorZ_err(e);
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_NoneErrorZ _clone() {
+	public Result_NoneErrorZ clone() {
 		number ret = bindings.CResult_NoneErrorZ_clone(this.ptr);
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

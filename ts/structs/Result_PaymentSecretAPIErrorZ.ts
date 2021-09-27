@@ -34,19 +34,19 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_PaymentSecretAPIErrorZ constructor__ok(Uint8Array o) {
+	public static Result_PaymentSecretAPIErrorZ constructor_ok(Uint8Array o) {
 		number ret = bindings.CResult_PaymentSecretAPIErrorZ_ok(o);
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static Result_PaymentSecretAPIErrorZ constructor__err(APIError e) {
+	public static Result_PaymentSecretAPIErrorZ constructor_err(APIError e) {
 		number ret = bindings.CResult_PaymentSecretAPIErrorZ_err(e.ptr);
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_PaymentSecretAPIErrorZ _clone() {
+	public Result_PaymentSecretAPIErrorZ clone() {
 		number ret = bindings.CResult_PaymentSecretAPIErrorZ_clone(this.ptr);
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

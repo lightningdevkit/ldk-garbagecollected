@@ -51,23 +51,13 @@ public class SignedRawInvoice extends CommonBase {
 	 * 2. hash of the raw invoice
 	 * 3. signature
 	 */
-	public ThreeTuple<RawInvoice, byte[], InvoiceSignature> into_parts() {
+	public ThreeTuple_RawInvoice_u832InvoiceSignatureZ into_parts() {
 		long ret = bindings.SignedRawInvoice_into_parts(this.ptr);
 		if (ret < 1024) { return null; }
-		long ret_a = bindings.LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_a(ret);
-		RawInvoice ret_a_hu_conv = new RawInvoice(null, ret_a);
-		ret_a_hu_conv.ptrs_to.add(this);;
-		byte[] ret_b = bindings.LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_b(ret);
-		long ret_c = bindings.LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_get_c(ret);
-		InvoiceSignature ret_c_hu_conv = new InvoiceSignature(null, ret_c);
-		ret_c_hu_conv.ptrs_to.add(this);;
-		ThreeTuple<RawInvoice, byte[], InvoiceSignature> ret_conv = new ThreeTuple<RawInvoice, byte[], InvoiceSignature>(ret_a_hu_conv, ret_b, ret_c_hu_conv, () -> {
-			bindings.C3Tuple_RawInvoice_u832InvoiceSignatureZ_free(ret);
-		});
-		ret_a_hu_conv.ptrs_to.add(ret_conv);
-		ret_c_hu_conv.ptrs_to.add(ret_conv);
+		ThreeTuple_RawInvoice_u832InvoiceSignatureZ ret_hu_conv = new ThreeTuple_RawInvoice_u832InvoiceSignatureZ(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		this.ptrs_to.add(this);
-		return ret_conv;
+		return ret_hu_conv;
 	}
 
 	/**

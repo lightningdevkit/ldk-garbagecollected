@@ -37,21 +37,21 @@ public class Result_SignDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_SignDecodeErrorZ constructor__ok(Sign o) {
+	public static Result_SignDecodeErrorZ constructor_ok(Sign o) {
 		number ret = bindings.CResult_SignDecodeErrorZ_ok(o == null ? 0 : o.ptr);
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_SignDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_SignDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_SignDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_SignDecodeErrorZ _clone() {
+	public Result_SignDecodeErrorZ clone() {
 		number ret = bindings.CResult_SignDecodeErrorZ_clone(this.ptr);
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

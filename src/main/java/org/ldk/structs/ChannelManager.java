@@ -473,15 +473,12 @@ public class ChannelManager extends CommonBase {
 	 * [`PaymentReceived::payment_preimage`]: events::Event::PaymentReceived::payment_preimage
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
 	 */
-	public TwoTuple<byte[], byte[]> create_inbound_payment(Option_u64Z min_value_msat, int invoice_expiry_delta_secs, long user_payment_id) {
+	public TwoTuple_PaymentHashPaymentSecretZ create_inbound_payment(Option_u64Z min_value_msat, int invoice_expiry_delta_secs, long user_payment_id) {
 		long ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
 		if (ret < 1024) { return null; }
-		byte[] ret_a = bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_a(ret);
-		byte[] ret_b = bindings.LDKC2Tuple_PaymentHashPaymentSecretZ_get_b(ret);
-		TwoTuple<byte[], byte[]> ret_conv = new TwoTuple<byte[], byte[]>(ret_a, ret_b, () -> {
-			bindings.C2Tuple_PaymentHashPaymentSecretZ_free(ret);
-		});
-		return ret_conv;
+		TwoTuple_PaymentHashPaymentSecretZ ret_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	/**

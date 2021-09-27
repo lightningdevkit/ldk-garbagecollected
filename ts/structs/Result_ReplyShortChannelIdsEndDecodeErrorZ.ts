@@ -37,21 +37,21 @@ public class Result_ReplyShortChannelIdsEndDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_ReplyShortChannelIdsEndDecodeErrorZ constructor__ok(ReplyShortChannelIdsEnd o) {
+	public static Result_ReplyShortChannelIdsEndDecodeErrorZ constructor_ok(ReplyShortChannelIdsEnd o) {
 		number ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
-	public static Result_ReplyShortChannelIdsEndDecodeErrorZ constructor__err(DecodeError e) {
+	public static Result_ReplyShortChannelIdsEndDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
-	public Result_ReplyShortChannelIdsEndDecodeErrorZ _clone() {
+	public Result_ReplyShortChannelIdsEndDecodeErrorZ clone() {
 		number ret = bindings.CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone(this.ptr);
 		Result_ReplyShortChannelIdsEndDecodeErrorZ ret_hu_conv = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
