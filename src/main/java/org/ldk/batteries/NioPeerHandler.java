@@ -3,6 +3,7 @@ package org.ldk.batteries;
 import org.ldk.structs.*;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.net.SocketAddress;
 import java.net.StandardSocketOptions;
 import java.nio.Buffer;
@@ -240,6 +241,11 @@ public class NioPeerHandler {
     }
 
     /**
+     * Before shutdown, we have to ensure all of our listening sockets are closed manually, as they appear
+     * to otherwise remain open and lying around on OSX (though no other platform).
+     */
+    private LinkedList<ServerSocketChannel> listening_sockets = new LinkedList();
+    /**
      * Binds a listening socket to the given address, accepting incoming connections and handling them on the background
      * thread.
      *
@@ -248,9 +254,13 @@ public class NioPeerHandler {
      */
     public void bind_listener(SocketAddress socket_address) throws IOException {
         ServerSocketChannel listen_channel = ServerSocketChannel.open();
+        listen_channel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
         listen_channel.bind(socket_address);
         listen_channel.configureBlocking(false);
         do_selector_action(() -> listen_channel.register(this.selector, SelectionKey.OP_ACCEPT));
+        synchronized(listening_sockets) {
+            listening_sockets.add(listen_channel);
+        }
     }
 
     /**
@@ -263,6 +273,14 @@ public class NioPeerHandler {
         try {
             io_thread.join();
         } catch (InterruptedException ignored) { }
+        synchronized(listening_sockets) {
+            try {
+                selector.close();
+                for (ServerSocketChannel chan : listening_sockets) {
+                    chan.close();
+                }
+            } catch (IOException ignored) {}
+        }
     }
 
     /**
