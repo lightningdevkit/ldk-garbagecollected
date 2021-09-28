@@ -37,7 +37,6 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 	public static Result_ExpiryTimeCreationErrorZ constructor_ok(ExpiryTime o) {
 		number ret = bindings.CResult_ExpiryTimeCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

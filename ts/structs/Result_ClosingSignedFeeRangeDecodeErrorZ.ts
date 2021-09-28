@@ -40,14 +40,12 @@ public class Result_ClosingSignedFeeRangeDecodeErrorZ extends CommonBase {
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ constructor_ok(ClosingSignedFeeRange o) {
 		number ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

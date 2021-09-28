@@ -21,7 +21,6 @@ public class Sign extends CommonBase {
 		super(bindings.LDKSign_new(arg, BaseSign, pubkeys == null ? 0 : pubkeys.ptr & ~1));
 		this.ptrs_to.add(arg);
 		this.ptrs_to.add(BaseSign);
-		this.ptrs_to.add(pubkeys);
 		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")

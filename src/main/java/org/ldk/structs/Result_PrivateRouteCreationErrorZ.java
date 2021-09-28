@@ -45,7 +45,6 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 		long ret = bindings.CResult_PrivateRouteCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

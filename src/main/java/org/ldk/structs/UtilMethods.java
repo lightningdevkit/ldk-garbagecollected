@@ -59,7 +59,7 @@ public class UtilMethods {
 		ret_hu_conv.ptrs_to.add(arg_chain_monitor);
 		ret_hu_conv.ptrs_to.add(arg_tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(arg_logger);
-		ret_hu_conv.ptrs_to.add(arg_default_config);
+		;
 		for (ChannelMonitor arg_channel_monitors_conv_16: arg_channel_monitors) { ret_hu_conv.ptrs_to.add(arg_channel_monitors_conv_16); };
 		return ret_hu_conv;
 	}
@@ -77,7 +77,6 @@ public class UtilMethods {
 	 */
 	public static byte[] build_closing_transaction(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {
 		byte[] ret = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
-		// this.ptrs_to.add(funding_outpoint);
 		return ret;
 	}
 
@@ -219,7 +218,6 @@ public class UtilMethods {
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(network);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
-		for (RouteHint last_hops_conv_11: last_hops) { ret_hu_conv.ptrs_to.add(last_hops_conv_11); };
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}
@@ -253,9 +251,7 @@ public class UtilMethods {
 		if (ret < 1024) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(network);
-		ret_hu_conv.ptrs_to.add(payee_features);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
-		for (RouteHint last_hops_conv_11: last_hops) { ret_hu_conv.ptrs_to.add(last_hops_conv_11); };
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}

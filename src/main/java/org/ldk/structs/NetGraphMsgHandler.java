@@ -54,7 +54,6 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public void set_network_graph(NetworkGraph val) {
 		bindings.NetGraphMsgHandler_set_network_graph(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -69,7 +68,6 @@ public class NetGraphMsgHandler extends CommonBase {
 		if (ret < 1024) { return null; }
 		NetGraphMsgHandler ret_hu_conv = new NetGraphMsgHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(network_graph);
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}

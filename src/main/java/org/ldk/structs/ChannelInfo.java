@@ -36,7 +36,6 @@ public class ChannelInfo extends CommonBase {
 	 */
 	public void set_features(ChannelFeatures val) {
 		bindings.ChannelInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -75,7 +74,6 @@ public class ChannelInfo extends CommonBase {
 	 */
 	public void set_one_to_two(@Nullable DirectionalChannelInfo val) {
 		bindings.ChannelInfo_set_one_to_two(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -114,7 +112,6 @@ public class ChannelInfo extends CommonBase {
 	 */
 	public void set_two_to_one(@Nullable DirectionalChannelInfo val) {
 		bindings.ChannelInfo_set_two_to_one(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -162,7 +159,6 @@ public class ChannelInfo extends CommonBase {
 	 */
 	public void set_announcement_message(@Nullable ChannelAnnouncement val) {
 		bindings.ChannelInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -173,10 +169,6 @@ public class ChannelInfo extends CommonBase {
 		if (ret < 1024) { return null; }
 		ChannelInfo ret_hu_conv = new ChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(features_arg);
-		ret_hu_conv.ptrs_to.add(one_to_two_arg);
-		ret_hu_conv.ptrs_to.add(two_to_one_arg);
-		ret_hu_conv.ptrs_to.add(announcement_message_arg);
 		return ret_hu_conv;
 	}
 

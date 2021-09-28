@@ -50,7 +50,6 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public void set_contents(UnsignedNodeAnnouncement val) {
 		bindings.NodeAnnouncement_set_contents(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -61,7 +60,6 @@ public class NodeAnnouncement extends CommonBase {
 		if (ret < 1024) { return null; }
 		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
 

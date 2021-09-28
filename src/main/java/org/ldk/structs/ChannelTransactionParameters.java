@@ -39,7 +39,6 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_holder_pubkeys(ChannelPublicKeys val) {
 		bindings.ChannelTransactionParameters_set_holder_pubkeys(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -97,7 +96,6 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_counterparty_parameters(@Nullable CounterpartyChannelTransactionParameters val) {
 		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -121,7 +119,6 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_funding_outpoint(@Nullable OutPoint val) {
 		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -132,9 +129,6 @@ public class ChannelTransactionParameters extends CommonBase {
 		if (ret < 1024) { return null; }
 		ChannelTransactionParameters ret_hu_conv = new ChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(holder_pubkeys_arg);
-		ret_hu_conv.ptrs_to.add(counterparty_parameters_arg);
-		ret_hu_conv.ptrs_to.add(funding_outpoint_arg);
 		return ret_hu_conv;
 	}
 

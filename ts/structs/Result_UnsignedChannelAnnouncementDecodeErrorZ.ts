@@ -40,14 +40,12 @@ public class Result_UnsignedChannelAnnouncementDecodeErrorZ extends CommonBase {
 	public static Result_UnsignedChannelAnnouncementDecodeErrorZ constructor_ok(UnsignedChannelAnnouncement o) {
 		number ret = bindings.CResult_UnsignedChannelAnnouncementDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_UnsignedChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_UnsignedChannelAnnouncementDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_UnsignedChannelAnnouncementDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_UnsignedChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

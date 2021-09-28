@@ -52,7 +52,6 @@ public class RouteHop extends CommonBase {
 	 */
 	public void set_node_features(NodeFeatures val) {
 		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -88,7 +87,6 @@ public class RouteHop extends CommonBase {
 	 */
 	public void set_channel_features(ChannelFeatures val) {
 		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -135,8 +133,6 @@ public class RouteHop extends CommonBase {
 		if (ret < 1024) { return null; }
 		RouteHop ret_hu_conv = new RouteHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(node_features_arg);
-		ret_hu_conv.ptrs_to.add(channel_features_arg);
 		return ret_hu_conv;
 	}
 

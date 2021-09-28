@@ -74,7 +74,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_fees(RoutingFees val) {
 		bindings.DirectionalChannelInfo_set_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public ChannelUpdate get_last_update_message() {
@@ -86,15 +85,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_last_update_message(ChannelUpdate val) {
 		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public static DirectionalChannelInfo constructor_new(number last_update_arg, boolean enabled_arg, number cltv_expiry_delta_arg, number htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
 		number ret = bindings.DirectionalChannelInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg.ptr, fees_arg == null ? 0 : fees_arg.ptr & ~1, last_update_message_arg == null ? 0 : last_update_message_arg.ptr & ~1);
 		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(fees_arg);
-		ret_hu_conv.ptrs_to.add(last_update_message_arg);
 		return ret_hu_conv;
 	}
 

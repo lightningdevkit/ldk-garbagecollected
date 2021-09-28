@@ -51,14 +51,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Result_NonePeerHandleErrorZ write_buffer_space_avail(SocketDescriptor descriptor) {
 		number ret = bindings.PeerManager_write_buffer_space_avail(this.ptr, descriptor == null ? 0 : descriptor.ptr);
 		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(descriptor);
 		return ret_hu_conv;
 	}
 
 	public Result_boolPeerHandleErrorZ read_event(SocketDescriptor peer_descriptor, Uint8Array data) {
 		number ret = bindings.PeerManager_read_event(this.ptr, peer_descriptor == null ? 0 : peer_descriptor.ptr, data);
 		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(peer_descriptor);
 		return ret_hu_conv;
 	}
 
@@ -68,7 +66,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void socket_disconnected(SocketDescriptor descriptor) {
 		bindings.PeerManager_socket_disconnected(this.ptr, descriptor == null ? 0 : descriptor.ptr);
-		this.ptrs_to.add(descriptor);
 	}
 
 	public void disconnect_by_node_id(Uint8Array node_id, boolean no_connection_possible) {

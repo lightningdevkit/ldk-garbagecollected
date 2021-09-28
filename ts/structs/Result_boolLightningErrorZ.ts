@@ -43,7 +43,6 @@ public class Result_boolLightningErrorZ extends CommonBase {
 	public static Result_boolLightningErrorZ constructor_err(LightningError e) {
 		number ret = bindings.CResult_boolLightningErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

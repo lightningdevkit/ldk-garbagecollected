@@ -123,7 +123,6 @@ export class IncompatibleShutdownScript extends APIError {
 		number ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr & ~1);
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(script);
 		return ret_hu_conv;
 	}
 

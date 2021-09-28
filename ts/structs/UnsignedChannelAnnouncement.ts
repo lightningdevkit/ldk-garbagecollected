@@ -27,7 +27,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_features(ChannelFeatures val) {
 		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public Uint8Array get_chain_hash() {

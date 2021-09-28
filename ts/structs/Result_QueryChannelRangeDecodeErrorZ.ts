@@ -40,14 +40,12 @@ public class Result_QueryChannelRangeDecodeErrorZ extends CommonBase {
 	public static Result_QueryChannelRangeDecodeErrorZ constructor_ok(QueryChannelRange o) {
 		number ret = bindings.CResult_QueryChannelRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_QueryChannelRangeDecodeErrorZ ret_hu_conv = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_QueryChannelRangeDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_QueryChannelRangeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_QueryChannelRangeDecodeErrorZ ret_hu_conv = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

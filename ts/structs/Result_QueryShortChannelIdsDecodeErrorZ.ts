@@ -40,14 +40,12 @@ public class Result_QueryShortChannelIdsDecodeErrorZ extends CommonBase {
 	public static Result_QueryShortChannelIdsDecodeErrorZ constructor_ok(QueryShortChannelIds o) {
 		number ret = bindings.CResult_QueryShortChannelIdsDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_QueryShortChannelIdsDecodeErrorZ ret_hu_conv = Result_QueryShortChannelIdsDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_QueryShortChannelIdsDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_QueryShortChannelIdsDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_QueryShortChannelIdsDecodeErrorZ ret_hu_conv = Result_QueryShortChannelIdsDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

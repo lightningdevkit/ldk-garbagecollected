@@ -35,7 +35,6 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 */
 	public void set_features(NodeFeatures val) {
 		bindings.UnsignedNodeAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**

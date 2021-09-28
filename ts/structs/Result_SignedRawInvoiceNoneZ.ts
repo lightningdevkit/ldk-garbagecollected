@@ -35,7 +35,6 @@ public class Result_SignedRawInvoiceNoneZ extends CommonBase {
 	public static Result_SignedRawInvoiceNoneZ constructor_ok(SignedRawInvoice o) {
 		number ret = bindings.CResult_SignedRawInvoiceNoneZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_SignedRawInvoiceNoneZ ret_hu_conv = Result_SignedRawInvoiceNoneZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

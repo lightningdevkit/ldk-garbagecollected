@@ -35,7 +35,6 @@ public class RawDataPart extends CommonBase {
 	 */
 	public void set_timestamp(PositiveTimestamp val) {
 		bindings.RawDataPart_set_timestamp(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**

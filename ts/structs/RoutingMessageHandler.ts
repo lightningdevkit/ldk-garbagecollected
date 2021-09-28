@@ -63,7 +63,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 						get_next_node_announcements (starting_point: Uint8Array, batch_amount: number): number[] {
 							NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
 				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.ptr & ~1).toArray(number[]::new) : null;
-				for (NodeAnnouncement ret_conv_18: ret) { impl_holder.held.ptrs_to.add(ret_conv_18); };
 				return result;
 						},
 
@@ -180,28 +179,24 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Result_NoneLightningErrorZ handle_reply_channel_range(Uint8Array their_node_id, ReplyChannelRange msg) {
 		number ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(Uint8Array their_node_id, ReplyShortChannelIdsEnd msg) {
 		number ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneLightningErrorZ handle_query_channel_range(Uint8Array their_node_id, QueryChannelRange msg) {
 		number ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneLightningErrorZ handle_query_short_channel_ids(Uint8Array their_node_id, QueryShortChannelIds msg) {
 		number ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

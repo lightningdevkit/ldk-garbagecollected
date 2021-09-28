@@ -37,7 +37,6 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 	public static Result_PositiveTimestampCreationErrorZ constructor_ok(PositiveTimestamp o) {
 		number ret = bindings.CResult_PositiveTimestampCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

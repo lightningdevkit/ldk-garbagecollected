@@ -55,7 +55,6 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 		long ret = bindings.CResult_boolPeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_boolPeerHandleErrorZ ret_hu_conv = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

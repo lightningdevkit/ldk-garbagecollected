@@ -35,7 +35,6 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_features(NodeFeatures val) {
 		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -123,7 +122,6 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_announcement_message(@Nullable NodeAnnouncement val) {
 		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -134,8 +132,6 @@ public class NodeAnnouncementInfo extends CommonBase {
 		if (ret < 1024) { return null; }
 		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(features_arg);
-		ret_hu_conv.ptrs_to.add(announcement_message_arg);
 		return ret_hu_conv;
 	}
 

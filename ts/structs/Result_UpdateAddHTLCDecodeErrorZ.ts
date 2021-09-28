@@ -40,14 +40,12 @@ public class Result_UpdateAddHTLCDecodeErrorZ extends CommonBase {
 	public static Result_UpdateAddHTLCDecodeErrorZ constructor_ok(UpdateAddHTLC o) {
 		number ret = bindings.CResult_UpdateAddHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_UpdateAddHTLCDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_UpdateAddHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

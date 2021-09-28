@@ -436,7 +436,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -448,7 +447,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -460,7 +458,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -472,7 +469,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -484,7 +480,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -496,7 +491,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -508,7 +502,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(updates);
 		return ret_hu_conv;
 	}
 
@@ -520,7 +513,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -532,7 +524,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -544,7 +535,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -556,7 +546,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -568,8 +557,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
-		ret_hu_conv.ptrs_to.add(update_msg);
 		return ret_hu_conv;
 	}
 
@@ -581,7 +568,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -593,7 +579,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -605,7 +590,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -628,7 +612,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -640,7 +623,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -652,7 +634,6 @@ public class MessageSendEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

@@ -36,7 +36,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_counterparty(ChannelCounterparty val) {
 		bindings.ChannelDetails_set_counterparty(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public OutPoint get_funding_txo() {
@@ -48,7 +47,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_funding_txo(OutPoint val) {
 		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public Option_u64Z get_short_channel_id() {
@@ -171,8 +169,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.ChannelDetails_new(channel_id_arg, counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(counterparty_arg);
-		ret_hu_conv.ptrs_to.add(funding_txo_arg);
 		return ret_hu_conv;
 	}
 

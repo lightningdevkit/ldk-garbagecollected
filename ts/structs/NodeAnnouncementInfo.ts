@@ -27,7 +27,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_features(NodeFeatures val) {
 		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public number get_last_update() {
@@ -70,15 +69,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_announcement_message(NodeAnnouncement val) {
 		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public static NodeAnnouncementInfo constructor_new(NodeFeatures features_arg, number last_update_arg, Uint8Array rgb_arg, Uint8Array alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
 		number ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, addresses_arg != null ? Arrays.stream(addresses_arg).map(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray(number[]::new) : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(features_arg);
-		ret_hu_conv.ptrs_to.add(announcement_message_arg);
 		return ret_hu_conv;
 	}
 

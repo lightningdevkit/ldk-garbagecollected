@@ -81,7 +81,6 @@ public class HolderCommitmentTransaction extends CommonBase {
 		if (ret < 1024) { return null; }
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}
 

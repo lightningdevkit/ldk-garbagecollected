@@ -40,14 +40,12 @@ public class Result_FundingCreatedDecodeErrorZ extends CommonBase {
 	public static Result_FundingCreatedDecodeErrorZ constructor_ok(FundingCreated o) {
 		number ret = bindings.CResult_FundingCreatedDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_FundingCreatedDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_FundingCreatedDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

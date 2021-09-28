@@ -40,14 +40,12 @@ public class Result_RoutingFeesDecodeErrorZ extends CommonBase {
 	public static Result_RoutingFeesDecodeErrorZ constructor_ok(RoutingFees o) {
 		number ret = bindings.CResult_RoutingFeesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_RoutingFeesDecodeErrorZ ret_hu_conv = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_RoutingFeesDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_RoutingFeesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_RoutingFeesDecodeErrorZ ret_hu_conv = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

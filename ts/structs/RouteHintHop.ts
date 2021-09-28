@@ -45,7 +45,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_fees(RoutingFees val) {
 		bindings.RouteHintHop_set_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public number get_cltv_expiry_delta() {
@@ -83,7 +82,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.RouteHintHop_new(src_node_id_arg, short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
 		const ret_hu_conv: RouteHintHop = new RouteHintHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(fees_arg);
 		return ret_hu_conv;
 	}
 

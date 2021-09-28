@@ -35,7 +35,6 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_pubkeys(ChannelPublicKeys val) {
 		bindings.CounterpartyChannelTransactionParameters_set_pubkeys(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -61,7 +60,6 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 		if (ret < 1024) { return null; }
 		CounterpartyChannelTransactionParameters ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(pubkeys_arg);
 		return ret_hu_conv;
 	}
 

@@ -69,7 +69,6 @@ export class SendErrorMessage extends ErrorAction {
 		number ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr & ~1);
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -91,7 +90,6 @@ export class SendErrorMessage extends ErrorAction {
 		number ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr & ~1);
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

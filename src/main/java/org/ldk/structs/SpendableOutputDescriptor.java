@@ -95,7 +95,6 @@ public class SpendableOutputDescriptor extends CommonBase {
 		if (ret < 1024) { return null; }
 		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(outpoint);
 		return ret_hu_conv;
 	}
 
@@ -107,7 +106,6 @@ public class SpendableOutputDescriptor extends CommonBase {
 		if (ret < 1024) { return null; }
 		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 
@@ -119,7 +117,6 @@ public class SpendableOutputDescriptor extends CommonBase {
 		if (ret < 1024) { return null; }
 		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 

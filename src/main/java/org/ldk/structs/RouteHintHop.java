@@ -65,7 +65,6 @@ public class RouteHintHop extends CommonBase {
 	 */
 	public void set_fees(RoutingFees val) {
 		bindings.RouteHintHop_set_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -127,7 +126,6 @@ public class RouteHintHop extends CommonBase {
 		if (ret < 1024) { return null; }
 		RouteHintHop ret_hu_conv = new RouteHintHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(fees_arg);
 		return ret_hu_conv;
 	}
 

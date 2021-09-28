@@ -65,7 +65,6 @@ public class WatchedOutput extends CommonBase {
 	 */
 	public void set_outpoint(OutPoint val) {
 		bindings.WatchedOutput_set_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -91,7 +90,6 @@ public class WatchedOutput extends CommonBase {
 		if (ret < 1024) { return null; }
 		WatchedOutput ret_hu_conv = new WatchedOutput(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(outpoint_arg);
 		return ret_hu_conv;
 	}
 

@@ -40,7 +40,6 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 	public static Result_InvoiceSignOrCreationErrorZ constructor_ok(Invoice o) {
 		number ret = bindings.CResult_InvoiceSignOrCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

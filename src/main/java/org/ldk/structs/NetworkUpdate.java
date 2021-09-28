@@ -99,7 +99,6 @@ public class NetworkUpdate extends CommonBase {
 		if (ret < 1024) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

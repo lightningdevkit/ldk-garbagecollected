@@ -116,7 +116,6 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_fees(RoutingFees val) {
 		bindings.DirectionalChannelInfo_set_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -146,7 +145,6 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_last_update_message(@Nullable ChannelUpdate val) {
 		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -157,8 +155,6 @@ public class DirectionalChannelInfo extends CommonBase {
 		if (ret < 1024) { return null; }
 		DirectionalChannelInfo ret_hu_conv = new DirectionalChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(fees_arg);
-		ret_hu_conv.ptrs_to.add(last_update_message_arg);
 		return ret_hu_conv;
 	}
 

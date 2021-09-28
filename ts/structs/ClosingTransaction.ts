@@ -22,7 +22,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
 		const ret_hu_conv: ClosingTransaction = new ClosingTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(funding_outpoint);
 		return ret_hu_conv;
 	}
 
@@ -36,7 +35,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Result_TrustedClosingTransactionNoneZ verify(OutPoint funding_outpoint) {
 		number ret = bindings.ClosingTransaction_verify(this.ptr, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
 		Result_TrustedClosingTransactionNoneZ ret_hu_conv = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(funding_outpoint);
 		return ret_hu_conv;
 	}
 

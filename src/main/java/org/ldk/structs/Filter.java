@@ -102,7 +102,6 @@ public class Filter extends CommonBase {
 		if (ret < 1024) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
-		this.ptrs_to.add(output);
 		return ret_hu_conv;
 	}
 

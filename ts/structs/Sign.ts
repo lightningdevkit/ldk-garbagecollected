@@ -18,7 +18,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 				        super(bindings.LDKSign_new(arg, baseSign, pubkeys == null ? 0 : pubkeys.ptr & ~1));
 				        this.ptrs_to.push(arg);
 				        this.ptrs_to.push(baseSign);
-this.ptrs_to.add(pubkeys);
 
 				    }
                 }

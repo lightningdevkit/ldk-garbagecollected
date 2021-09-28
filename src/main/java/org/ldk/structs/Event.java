@@ -300,7 +300,6 @@ public class Event extends CommonBase {
 		if (ret < 1024) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
 		return ret_hu_conv;
 	}
 

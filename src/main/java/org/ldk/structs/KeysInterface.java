@@ -91,7 +91,6 @@ public class KeysInterface extends CommonBase {
 			@Override public long get_shutdown_scriptpubkey() {
 				ShutdownScript ret = arg.get_shutdown_scriptpubkey();
 				long result = ret == null ? 0 : ret.ptr & ~1;
-				impl_holder.held.ptrs_to.add(ret);
 				return result;
 			}
 			@Override public long get_channel_signer(boolean inbound, long channel_value_satoshis) {

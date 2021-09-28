@@ -51,7 +51,6 @@ public class NodeInfo extends CommonBase {
 	 */
 	public void set_lowest_inbound_channel_fees(@Nullable RoutingFees val) {
 		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -79,7 +78,6 @@ public class NodeInfo extends CommonBase {
 	 */
 	public void set_announcement_info(@Nullable NodeAnnouncementInfo val) {
 		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -90,8 +88,6 @@ public class NodeInfo extends CommonBase {
 		if (ret < 1024) { return null; }
 		NodeInfo ret_hu_conv = new NodeInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(lowest_inbound_channel_fees_arg);
-		ret_hu_conv.ptrs_to.add(announcement_info_arg);
 		return ret_hu_conv;
 	}
 

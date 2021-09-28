@@ -41,7 +41,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.C2Tuple_OutPointScriptZ_new(a == null ? 0 : a.ptr & ~1, b);
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 

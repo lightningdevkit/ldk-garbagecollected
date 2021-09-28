@@ -39,7 +39,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static Result_PrivateRouteCreationErrorZ constructor_new(RouteHint hops) {
 		number ret = bindings.PrivateRoute_new(hops == null ? 0 : hops.ptr & ~1);
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(hops);
 		return ret_hu_conv;
 	}
 

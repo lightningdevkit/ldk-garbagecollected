@@ -68,7 +68,6 @@ public class ChainMonitor extends CommonBase {
 			ret_conv_9_hu_conv.ptrs_to.add(this);
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}
-		for (ChannelDetails ignored_channels_conv_16: ignored_channels) { this.ptrs_to.add(ignored_channels_conv_16); };
 		return ret_conv_9_arr;
 	}
 

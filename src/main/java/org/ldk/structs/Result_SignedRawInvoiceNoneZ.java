@@ -43,7 +43,6 @@ public class Result_SignedRawInvoiceNoneZ extends CommonBase {
 		long ret = bindings.CResult_SignedRawInvoiceNoneZ_ok(o == null ? 0 : o.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_SignedRawInvoiceNoneZ ret_hu_conv = Result_SignedRawInvoiceNoneZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

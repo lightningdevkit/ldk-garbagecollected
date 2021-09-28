@@ -32,7 +32,6 @@ public class BaseSign extends CommonBase {
 	private BaseSign(bindings.LDKBaseSign arg, ChannelPublicKeys pubkeys) {
 		super(bindings.LDKBaseSign_new(arg, pubkeys == null ? 0 : pubkeys.ptr & ~1));
 		this.ptrs_to.add(arg);
-		this.ptrs_to.add(pubkeys);
 		this.bindings_instance = arg;
 	}
 	@Override @SuppressWarnings("deprecation")

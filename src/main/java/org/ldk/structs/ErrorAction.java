@@ -94,7 +94,6 @@ public class ErrorAction extends CommonBase {
 		if (ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -128,7 +127,6 @@ public class ErrorAction extends CommonBase {
 		if (ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

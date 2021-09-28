@@ -31,7 +31,6 @@ public class ClosingTransaction extends CommonBase {
 		if (ret < 1024) { return null; }
 		ClosingTransaction ret_hu_conv = new ClosingTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(funding_outpoint);
 		return ret_hu_conv;
 	}
 
@@ -63,7 +62,6 @@ public class ClosingTransaction extends CommonBase {
 		long ret = bindings.ClosingTransaction_verify(this.ptr, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_TrustedClosingTransactionNoneZ ret_hu_conv = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
-		this.ptrs_to.add(funding_outpoint);
 		return ret_hu_conv;
 	}
 

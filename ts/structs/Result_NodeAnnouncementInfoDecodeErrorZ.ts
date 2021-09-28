@@ -40,14 +40,12 @@ public class Result_NodeAnnouncementInfoDecodeErrorZ extends CommonBase {
 	public static Result_NodeAnnouncementInfoDecodeErrorZ constructor_ok(NodeAnnouncementInfo o) {
 		number ret = bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_NodeAnnouncementInfoDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_NodeAnnouncementInfoDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

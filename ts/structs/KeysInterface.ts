@@ -45,7 +45,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 						get_shutdown_scriptpubkey (): number {
 							ShutdownScript ret = arg.get_shutdown_scriptpubkey();
 				result: number = ret == null ? 0 : ret.ptr & ~1;
-				impl_holder.held.ptrs_to.add(ret);
 				return result;
 						},
 

@@ -36,7 +36,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_node_features(NodeFeatures val) {
 		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public number get_short_channel_id() {
@@ -57,7 +56,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_channel_features(ChannelFeatures val) {
 		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public number get_fee_msat() {
@@ -82,8 +80,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.RouteHop_new(pubkey_arg, node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
 		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(node_features_arg);
-		ret_hu_conv.ptrs_to.add(channel_features_arg);
 		return ret_hu_conv;
 	}
 

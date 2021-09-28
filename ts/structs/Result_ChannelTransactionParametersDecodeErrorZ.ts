@@ -40,14 +40,12 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_ok(ChannelTransactionParameters o) {
 		number ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_ChannelTransactionParametersDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

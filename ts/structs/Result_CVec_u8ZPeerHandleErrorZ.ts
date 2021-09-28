@@ -43,7 +43,6 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 	public static Result_CVec_u8ZPeerHandleErrorZ constructor_err(PeerHandleError e) {
 		number ret = bindings.CResult_CVec_u8ZPeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

@@ -46,7 +46,6 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

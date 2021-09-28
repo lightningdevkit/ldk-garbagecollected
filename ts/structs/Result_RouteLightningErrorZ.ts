@@ -40,14 +40,12 @@ public class Result_RouteLightningErrorZ extends CommonBase {
 	public static Result_RouteLightningErrorZ constructor_ok(Route o) {
 		number ret = bindings.CResult_RouteLightningErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_RouteLightningErrorZ constructor_err(LightningError e) {
 		number ret = bindings.CResult_RouteLightningErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 
