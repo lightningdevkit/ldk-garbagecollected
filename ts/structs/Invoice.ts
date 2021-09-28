@@ -47,7 +47,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public static Result_InvoiceSemanticErrorZ constructor_from_signed(SignedRawInvoice signed_invoice) {
 		number ret = bindings.Invoice_from_signed(signed_invoice == null ? 0 : signed_invoice.ptr & ~1);
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(signed_invoice);
 		return ret_hu_conv;
 	}
 

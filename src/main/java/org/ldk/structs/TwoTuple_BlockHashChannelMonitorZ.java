@@ -58,7 +58,6 @@ public class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 		if (ret < 1024) { return null; }
 		TwoTuple_BlockHashChannelMonitorZ ret_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(b);
 		return ret_hu_conv;
 	}
 

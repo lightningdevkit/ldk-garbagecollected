@@ -38,7 +38,6 @@ public class UserConfig extends CommonBase {
 	 */
 	public void set_own_channel_config(ChannelHandshakeConfig val) {
 		bindings.UserConfig_set_own_channel_config(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -57,7 +56,6 @@ public class UserConfig extends CommonBase {
 	 */
 	public void set_peer_channel_config_limits(ChannelHandshakeLimits val) {
 		bindings.UserConfig_set_peer_channel_config_limits(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -76,7 +74,6 @@ public class UserConfig extends CommonBase {
 	 */
 	public void set_channel_options(ChannelConfig val) {
 		bindings.UserConfig_set_channel_options(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -132,9 +129,6 @@ public class UserConfig extends CommonBase {
 		if (ret < 1024) { return null; }
 		UserConfig ret_hu_conv = new UserConfig(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(own_channel_config_arg);
-		ret_hu_conv.ptrs_to.add(peer_channel_config_limits_arg);
-		ret_hu_conv.ptrs_to.add(channel_options_arg);
 		return ret_hu_conv;
 	}
 

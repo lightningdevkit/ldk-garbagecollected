@@ -40,14 +40,12 @@ public class Result_InvoiceFeaturesDecodeErrorZ extends CommonBase {
 	public static Result_InvoiceFeaturesDecodeErrorZ constructor_ok(InvoiceFeatures o) {
 		number ret = bindings.CResult_InvoiceFeaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_InvoiceFeaturesDecodeErrorZ ret_hu_conv = Result_InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_InvoiceFeaturesDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_InvoiceFeaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_InvoiceFeaturesDecodeErrorZ ret_hu_conv = Result_InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

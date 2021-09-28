@@ -46,7 +46,6 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 	public static Result_NetAddressDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_NetAddressDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

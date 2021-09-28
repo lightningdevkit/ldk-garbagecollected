@@ -56,7 +56,6 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_counterparty(ChannelCounterparty val) {
 		bindings.ChannelDetails_set_counterparty(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -88,7 +87,6 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_funding_txo(@Nullable OutPoint val) {
 		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -389,8 +387,6 @@ public class ChannelDetails extends CommonBase {
 		if (ret < 1024) { return null; }
 		ChannelDetails ret_hu_conv = new ChannelDetails(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(counterparty_arg);
-		ret_hu_conv.ptrs_to.add(funding_txo_arg);
 		return ret_hu_conv;
 	}
 

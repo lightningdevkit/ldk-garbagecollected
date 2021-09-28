@@ -309,7 +309,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_accept_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -317,7 +316,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_open_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -325,7 +323,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_funding_created(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -333,7 +330,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_funding_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -341,7 +337,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_funding_locked(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -349,7 +344,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_announcement_signatures(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -357,7 +351,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_update_htlcs(node_id, updates == null ? 0 : updates.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(updates);
 		return ret_hu_conv;
 	}
 
@@ -365,7 +358,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_revoke_and_ack(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -373,7 +365,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_closing_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -381,7 +372,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_shutdown(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -389,7 +379,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_channel_reestablish(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -397,8 +386,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0 : msg.ptr & ~1, update_msg == null ? 0 : update_msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
-		ret_hu_conv.ptrs_to.add(update_msg);
 		return ret_hu_conv;
 	}
 
@@ -406,7 +393,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -414,7 +400,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_broadcast_channel_update(msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -422,7 +407,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_channel_update(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -437,7 +421,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_channel_range_query(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -445,7 +428,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_short_ids_query(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -453,7 +435,6 @@ export class SendReplyChannelRange extends MessageSendEvent {
 		number ret = bindings.MessageSendEvent_send_reply_channel_range(node_id, msg == null ? 0 : msg.ptr & ~1);
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

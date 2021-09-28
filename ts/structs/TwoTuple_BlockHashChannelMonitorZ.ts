@@ -41,7 +41,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.C2Tuple_BlockHashChannelMonitorZ_new(a, b == null ? 0 : b.ptr & ~1);
 		TwoTuple_BlockHashChannelMonitorZ ret_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(b);
 		return ret_hu_conv;
 	}
 

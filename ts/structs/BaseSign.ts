@@ -17,8 +17,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				        // TODO: private constructor instantiation
 				        super(bindings.LDKBaseSign_new(arg, pubkeys == null ? 0 : pubkeys.ptr & ~1));
 				        this.ptrs_to.push(arg);
-				        this.ptrs_to.add(pubkeys);
-
+				        
 				    }
                 }
 

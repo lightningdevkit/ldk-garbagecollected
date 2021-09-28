@@ -40,14 +40,12 @@ public class Result_RouteDecodeErrorZ extends CommonBase {
 	public static Result_RouteDecodeErrorZ constructor_ok(Route o) {
 		number ret = bindings.CResult_RouteDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_RouteDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_RouteDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

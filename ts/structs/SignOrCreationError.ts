@@ -55,7 +55,6 @@ export class CreationError extends SignOrCreationError {
 
 	public boolean eq(SignOrCreationError b) {
 		boolean ret = bindings.SignOrCreationError_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
 		return ret;
 	}
 

@@ -95,7 +95,6 @@ public class ChannelAnnouncement extends CommonBase {
 	 */
 	public void set_contents(UnsignedChannelAnnouncement val) {
 		bindings.ChannelAnnouncement_set_contents(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -106,7 +105,6 @@ public class ChannelAnnouncement extends CommonBase {
 		if (ret < 1024) { return null; }
 		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
 

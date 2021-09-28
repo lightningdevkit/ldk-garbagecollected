@@ -161,7 +161,6 @@ public class Balance extends CommonBase {
 	 */
 	public boolean eq(Balance b) {
 		boolean ret = bindings.Balance_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
 		return ret;
 	}
 

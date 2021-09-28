@@ -40,14 +40,12 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	public static Result_GossipTimestampFilterDecodeErrorZ constructor_ok(GossipTimestampFilter o) {
 		number ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_GossipTimestampFilterDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

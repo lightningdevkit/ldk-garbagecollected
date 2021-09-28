@@ -218,7 +218,6 @@ public class ChannelMessageHandler extends CommonBase {
 	 */
 	public void handle_open_channel(byte[] their_node_id, InitFeatures their_features, OpenChannel msg) {
 		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
-		this.ptrs_to.add(their_features);
 		this.ptrs_to.add(msg);
 	}
 
@@ -227,7 +226,6 @@ public class ChannelMessageHandler extends CommonBase {
 	 */
 	public void handle_accept_channel(byte[] their_node_id, InitFeatures their_features, AcceptChannel msg) {
 		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
-		this.ptrs_to.add(their_features);
 		this.ptrs_to.add(msg);
 	}
 

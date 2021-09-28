@@ -27,7 +27,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_outpoint(OutPoint val) {
 		bindings.StaticPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public void set_output(TxOut val) {
@@ -56,7 +55,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, output_arg.ptr, channel_keys_id_arg, channel_value_satoshis_arg);
 		const ret_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(outpoint_arg);
 		return ret_hu_conv;
 	}
 

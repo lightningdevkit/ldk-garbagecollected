@@ -55,7 +55,6 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public void set_features(InitFeatures val) {
 		bindings.ChannelCounterparty_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -108,7 +107,6 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public void set_forwarding_info(@Nullable CounterpartyForwardingInfo val) {
 		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -119,8 +117,6 @@ public class ChannelCounterparty extends CommonBase {
 		if (ret < 1024) { return null; }
 		ChannelCounterparty ret_hu_conv = new ChannelCounterparty(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(features_arg);
-		ret_hu_conv.ptrs_to.add(forwarding_info_arg);
 		return ret_hu_conv;
 	}
 

@@ -27,8 +27,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		ret_hu_conv.ptrs_to.add(tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(keys_manager);
-		ret_hu_conv.ptrs_to.add(config);
-		ret_hu_conv.ptrs_to.add(params);
 		return ret_hu_conv;
 	}
 
@@ -42,7 +40,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Result_NoneAPIErrorZ create_channel(Uint8Array their_network_key, number channel_value_satoshis, number push_msat, number user_id, UserConfig override_config) {
 		number ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_id, override_config == null ? 0 : override_config.ptr & ~1);
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(override_config);
 		return ret_hu_conv;
 	}
 

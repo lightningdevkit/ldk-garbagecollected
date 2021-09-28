@@ -37,7 +37,6 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 	public static Result_InvoiceSemanticErrorZ constructor_ok(Invoice o) {
 		number ret = bindings.CResult_InvoiceSemanticErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

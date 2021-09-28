@@ -53,7 +53,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
 		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(commitment_tx);
 		return ret_hu_conv;
 	}
 

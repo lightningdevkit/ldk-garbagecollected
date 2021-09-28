@@ -36,7 +36,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_features(InitFeatures val) {
 		bindings.ChannelCounterparty_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public number get_unspendable_punishment_reserve() {
@@ -57,15 +56,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_forwarding_info(CounterpartyForwardingInfo val) {
 		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public static ChannelCounterparty constructor_new(Uint8Array node_id_arg, InitFeatures features_arg, number unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg) {
 		number ret = bindings.ChannelCounterparty_new(node_id_arg, features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
 		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(features_arg);
-		ret_hu_conv.ptrs_to.add(forwarding_info_arg);
 		return ret_hu_conv;
 	}
 

@@ -45,7 +45,6 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 		long ret = bindings.CResult_DescriptionCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

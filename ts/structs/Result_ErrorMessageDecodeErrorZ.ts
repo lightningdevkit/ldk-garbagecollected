@@ -40,14 +40,12 @@ public class Result_ErrorMessageDecodeErrorZ extends CommonBase {
 	public static Result_ErrorMessageDecodeErrorZ constructor_ok(ErrorMessage o) {
 		number ret = bindings.CResult_ErrorMessageDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_ErrorMessageDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_ErrorMessageDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

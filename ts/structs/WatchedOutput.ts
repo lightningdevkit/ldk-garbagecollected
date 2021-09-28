@@ -36,7 +36,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_outpoint(OutPoint val) {
 		bindings.WatchedOutput_set_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public Uint8Array get_script_pubkey() {
@@ -52,7 +51,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.WatchedOutput_new(block_hash_arg, outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
 		const ret_hu_conv: WatchedOutput = new WatchedOutput(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(outpoint_arg);
 		return ret_hu_conv;
 	}
 

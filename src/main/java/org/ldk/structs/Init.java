@@ -35,7 +35,6 @@ public class Init extends CommonBase {
 	 */
 	public void set_features(InitFeatures val) {
 		bindings.Init_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -46,7 +45,6 @@ public class Init extends CommonBase {
 		if (ret < 1024) { return null; }
 		Init ret_hu_conv = new Init(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(features_arg);
 		return ret_hu_conv;
 	}
 

@@ -58,7 +58,6 @@ public class ChainParameters extends CommonBase {
 	 */
 	public void set_best_block(BestBlock val) {
 		bindings.ChainParameters_set_best_block(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -69,7 +68,6 @@ public class ChainParameters extends CommonBase {
 		if (ret < 1024) { return null; }
 		ChainParameters ret_hu_conv = new ChainParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(best_block_arg);
 		return ret_hu_conv;
 	}
 

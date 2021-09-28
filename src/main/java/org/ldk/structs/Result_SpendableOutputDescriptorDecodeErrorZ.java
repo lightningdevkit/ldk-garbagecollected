@@ -58,7 +58,6 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

@@ -115,7 +115,6 @@ public class Fallback extends CommonBase {
 	 */
 	public boolean eq(Fallback b) {
 		boolean ret = bindings.Fallback_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
-		this.ptrs_to.add(b);
 		return ret;
 	}
 

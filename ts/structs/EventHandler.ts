@@ -53,7 +53,6 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 	public void handle_event(Event event) {
 		bindings.EventHandler_handle_event(this.ptr, event == null ? 0 : event.ptr & ~1);
-		this.ptrs_to.add(event);
 	}
 
 }

@@ -48,7 +48,6 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 		long ret = bindings.CResult_InvoiceSignOrCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

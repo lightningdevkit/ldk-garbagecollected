@@ -59,7 +59,6 @@ public class PrivateRoute extends CommonBase {
 		long ret = bindings.PrivateRoute_new(hops == null ? 0 : hops.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(hops);
 		return ret_hu_conv;
 	}
 
@@ -71,7 +70,7 @@ public class PrivateRoute extends CommonBase {
 		if (ret < 1024) { return null; }
 		RouteHint ret_hu_conv = new RouteHint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
-		this.ptrs_to.add(this);
+		;
 		return ret_hu_conv;
 	}
 

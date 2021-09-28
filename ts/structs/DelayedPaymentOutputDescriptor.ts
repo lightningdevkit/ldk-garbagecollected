@@ -27,7 +27,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_outpoint(OutPoint val) {
 		bindings.DelayedPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public Uint8Array get_per_commitment_point() {
@@ -83,7 +82,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, per_commitment_point_arg, to_self_delay_arg, output_arg.ptr, revocation_pubkey_arg, channel_keys_id_arg, channel_value_satoshis_arg);
 		const ret_hu_conv: DelayedPaymentOutputDescriptor = new DelayedPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(outpoint_arg);
 		return ret_hu_conv;
 	}
 

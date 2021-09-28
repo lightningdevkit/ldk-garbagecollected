@@ -40,14 +40,12 @@ public class Result_HTLCOutputInCommitmentDecodeErrorZ extends CommonBase {
 	public static Result_HTLCOutputInCommitmentDecodeErrorZ constructor_ok(HTLCOutputInCommitment o) {
 		number ret = bindings.CResult_HTLCOutputInCommitmentDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 
 	public static Result_HTLCOutputInCommitmentDecodeErrorZ constructor_err(DecodeError e) {
 		number ret = bindings.CResult_HTLCOutputInCommitmentDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

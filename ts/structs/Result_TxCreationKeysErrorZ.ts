@@ -37,7 +37,6 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	public static Result_TxCreationKeysErrorZ constructor_ok(TxCreationKeys o) {
 		number ret = bindings.CResult_TxCreationKeysErrorZ_ok(o == null ? 0 : o.ptr & ~1);
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
 	}
 

@@ -67,7 +67,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.Filter_register_output(this.ptr, output == null ? 0 : output.ptr & ~1);
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
-		this.ptrs_to.add(output);
 		return ret_hu_conv;
 	}
 

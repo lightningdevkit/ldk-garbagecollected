@@ -37,14 +37,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_paths(RouteHop[][] val) {
 		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12 != null ? Arrays.stream(val_conv_12).map(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr & ~1).toArray(number[]::new) : null).toArray(number[][]::new) : null);
-		for (RouteHop[] val_conv_12: val) { for (RouteHop val_conv_12_conv_10: val_conv_12) { this.ptrs_to.add(val_conv_12_conv_10); }; };
 	}
 
 	public static Route constructor_new(RouteHop[][] paths_arg) {
 		number ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).map(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray(number[]::new) : null).toArray(number[][]::new) : null);
 		const ret_hu_conv: Route = new Route(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (RouteHop[] paths_arg_conv_12: paths_arg) { for (RouteHop paths_arg_conv_12_conv_10: paths_arg_conv_12) { ret_hu_conv.ptrs_to.add(paths_arg_conv_12_conv_10); }; };
 		return ret_hu_conv;
 	}
 

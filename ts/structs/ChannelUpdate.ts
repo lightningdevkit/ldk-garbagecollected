@@ -36,14 +36,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_contents(UnsignedChannelUpdate val) {
 		bindings.ChannelUpdate_set_contents(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public static ChannelUpdate constructor_new(Uint8Array signature_arg, UnsignedChannelUpdate contents_arg) {
 		number ret = bindings.ChannelUpdate_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
 

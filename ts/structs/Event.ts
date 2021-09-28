@@ -176,7 +176,6 @@ export class ChannelClosed extends Event {
 		number ret = bindings.Event_payment_path_failed(payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		for (RouteHop path_conv_10: path) { ret_hu_conv.ptrs_to.add(path_conv_10); };
 		return ret_hu_conv;
 	}
 

@@ -39,7 +39,6 @@ public class RawInvoice extends CommonBase {
 	 */
 	public void set_data(RawDataPart val) {
 		bindings.RawInvoice_set_data(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**

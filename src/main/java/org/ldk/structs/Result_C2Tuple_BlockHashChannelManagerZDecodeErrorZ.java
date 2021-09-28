@@ -58,7 +58,6 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(e);
 		return ret_hu_conv;
 	}
 

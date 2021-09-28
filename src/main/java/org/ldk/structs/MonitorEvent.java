@@ -68,7 +68,6 @@ public class MonitorEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 
@@ -80,7 +79,6 @@ public class MonitorEvent extends CommonBase {
 		if (ret < 1024) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(a);
 		return ret_hu_conv;
 	}
 

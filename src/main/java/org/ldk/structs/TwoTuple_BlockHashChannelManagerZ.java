@@ -51,8 +51,8 @@ public class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 		ret_hu_conv.ptrs_to.add(b_tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(b_logger);
 		ret_hu_conv.ptrs_to.add(b_keys_manager);
-		ret_hu_conv.ptrs_to.add(b_config);
-		ret_hu_conv.ptrs_to.add(b_params);
+		;
+		;
 		return ret_hu_conv;
 	}
 

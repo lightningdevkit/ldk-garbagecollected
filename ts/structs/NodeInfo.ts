@@ -31,7 +31,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_lowest_inbound_channel_fees(RoutingFees val) {
 		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public NodeAnnouncementInfo get_announcement_info() {
@@ -43,15 +42,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_announcement_info(NodeAnnouncementInfo val) {
 		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public static NodeInfo constructor_new(number[] channels_arg, RoutingFees lowest_inbound_channel_fees_arg, NodeAnnouncementInfo announcement_info_arg) {
 		number ret = bindings.NodeInfo_new(channels_arg, lowest_inbound_channel_fees_arg == null ? 0 : lowest_inbound_channel_fees_arg.ptr & ~1, announcement_info_arg == null ? 0 : announcement_info_arg.ptr & ~1);
 		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(lowest_inbound_channel_fees_arg);
-		ret_hu_conv.ptrs_to.add(announcement_info_arg);
 		return ret_hu_conv;
 	}
 

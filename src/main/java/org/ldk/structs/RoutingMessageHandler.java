@@ -121,7 +121,6 @@ public class RoutingMessageHandler extends CommonBase {
 			@Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
 				NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
 				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.ptr & ~1).toArray() : null;
-				for (NodeAnnouncement ret_conv_18: ret) { impl_holder.held.ptrs_to.add(ret_conv_18); };
 				return result;
 			}
 			@Override public void sync_routing_table(byte[] their_node_id, long init) {
@@ -261,7 +260,6 @@ public class RoutingMessageHandler extends CommonBase {
 		long ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -275,7 +273,6 @@ public class RoutingMessageHandler extends CommonBase {
 		long ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -287,7 +284,6 @@ public class RoutingMessageHandler extends CommonBase {
 		long ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 
@@ -299,7 +295,6 @@ public class RoutingMessageHandler extends CommonBase {
 		long ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
-		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

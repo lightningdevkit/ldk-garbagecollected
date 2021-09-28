@@ -179,7 +179,6 @@ public class APIError extends CommonBase {
 		if (ret < 1024) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(script);
 		return ret_hu_conv;
 	}
 

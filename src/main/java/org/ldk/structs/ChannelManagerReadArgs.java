@@ -178,7 +178,6 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public void set_default_config(UserConfig val) {
 		bindings.ChannelManagerReadArgs_set_default_config(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	/**
@@ -196,7 +195,6 @@ public class ChannelManagerReadArgs extends CommonBase {
 		ret_hu_conv.ptrs_to.add(chain_monitor);
 		ret_hu_conv.ptrs_to.add(tx_broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(default_config);
 		for (ChannelMonitor channel_monitors_conv_16: channel_monitors) { ret_hu_conv.ptrs_to.add(channel_monitors_conv_16); };
 		return ret_hu_conv;
 	}

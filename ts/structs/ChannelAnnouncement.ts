@@ -63,14 +63,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_contents(UnsignedChannelAnnouncement val) {
 		bindings.ChannelAnnouncement_set_contents(this.ptr, val == null ? 0 : val.ptr & ~1);
-		this.ptrs_to.add(val);
 	}
 
 	public static ChannelAnnouncement constructor_new(Uint8Array node_signature_1_arg, Uint8Array node_signature_2_arg, Uint8Array bitcoin_signature_1_arg, Uint8Array bitcoin_signature_2_arg, UnsignedChannelAnnouncement contents_arg) {
 		number ret = bindings.ChannelAnnouncement_new(node_signature_1_arg, node_signature_2_arg, bitcoin_signature_1_arg, bitcoin_signature_2_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(contents_arg);
 		return ret_hu_conv;
 	}
 

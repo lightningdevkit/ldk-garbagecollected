@@ -70,7 +70,7 @@ public class Description extends CommonBase {
 	 */
 	public String into_inner() {
 		String ret = bindings.Description_into_inner(this.ptr);
-		this.ptrs_to.add(this);
+		;
 		return ret;
 	}
 

@@ -62,7 +62,6 @@ export class NodeFailure extends NetworkUpdate {
 		number ret = bindings.NetworkUpdate_channel_update_message(msg == null ? 0 : msg.ptr & ~1);
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}
 

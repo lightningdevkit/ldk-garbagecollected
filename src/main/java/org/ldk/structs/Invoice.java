@@ -54,7 +54,7 @@ public class Invoice extends CommonBase {
 		if (ret < 1024) { return null; }
 		SignedRawInvoice ret_hu_conv = new SignedRawInvoice(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
-		this.ptrs_to.add(this);
+		;
 		return ret_hu_conv;
 	}
 
@@ -94,7 +94,6 @@ public class Invoice extends CommonBase {
 		long ret = bindings.Invoice_from_signed(signed_invoice == null ? 0 : signed_invoice.ptr & ~1);
 		if (ret < 1024) { return null; }
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(signed_invoice);
 		return ret_hu_conv;
 	}
 
