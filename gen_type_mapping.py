@@ -240,6 +240,7 @@ class TypeMappingGenerator:
                     if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                         # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
                         opaque_arg_conv = opaque_arg_conv + "\n" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_conv);"
+                        from_hu_conv = (from_hu_conv[0], "")
                     elif ty_info.passed_as_ptr:
                         opaque_arg_conv = opaque_arg_conv + "\n// Warning: we need a move here but no clone is available for " + ty_info.rust_obj
                         # TODO: Once we support features cloning (which just isn't in C yet), we can make this a compile error instead!
@@ -422,17 +423,19 @@ class TypeMappingGenerator:
                 assert(not is_free)
                 if ty_info.rust_obj in self.complex_enums:
                     ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", " | 1; // Warning: We should clone here!")
+                    from_hu_sfx = "this.ptrs_to.add(" + ty_info.var_name + ")"
                     if ty_info.rust_obj.replace("LDK", "") + "_clone" in self.clone_fns:
                         ret_conv_pfx = ty_info.rust_obj + " *ret_" + ty_info.var_name + " = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + " ret conversion\");\n"
                         ret_conv_pfx += "*ret_" + ty_info.var_name + " = " + ty_info.rust_obj.replace("LDK", "") + "_clone("
                         ret_conv = (ret_conv_pfx, ");")
+                        from_hu_sfx = ""
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + ";",
                         arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ret_conv, ret_conv_name = "(uint64_t)ret_" + ty_info.var_name,
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", "this.ptrs_to.add(" + ty_info.var_name + ")"))
+                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", from_hu_sfx))
                 elif ty_info.rust_obj in self.trait_structs:
                     if ty_info.nonnull_ptr:
                         arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)(((uint64_t)" + ty_info.var_name + ") & ~1);"
@@ -457,7 +460,7 @@ class TypeMappingGenerator:
                             ret_conv_name = "(uint64_t)" + ty_info.var_name + "_clone",
                             to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                             to_hu_conv_name = "ret_hu_conv",
-                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", ""))
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
