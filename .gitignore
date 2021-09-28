@@ -7,3 +7,4 @@ src/main/java/org/ldk/impl/version.java
 src/main/jni/version.c
 ts/version.ts
 ts/version.c
+**/*.class
