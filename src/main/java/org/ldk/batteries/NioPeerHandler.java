@@ -61,13 +61,14 @@ public class NioPeerHandler {
             @Override
             public long send_data(byte[] data, boolean resume_read) {
                 try {
-                    if (resume_read) {
-                        do_selector_action(() -> peer.key.interestOps(peer.key.interestOps() | SelectionKey.OP_READ));
-                    }
                     long written = chan.write(ByteBuffer.wrap(data));
                     if (written != data.length) {
-                        do_selector_action(() -> peer.key.interestOps(peer.key.interestOps() | SelectionKey.OP_WRITE));
-                    }
+                        do_selector_action(() -> peer.key.interestOps(
+							(peer.key.interestOps() | SelectionKey.OP_WRITE) & (~SelectionKey.OP_READ)));
+                    } else if (resume_read) {
+                        do_selector_action(() -> peer.key.interestOps(
+							(peer.key.interestOps() | SelectionKey.OP_READ) & (~SelectionKey.OP_WRITE)));
+					}
                     return written;
                 } catch (IOException e) {
                     // Most likely the socket is disconnected, let the background thread handle it.
