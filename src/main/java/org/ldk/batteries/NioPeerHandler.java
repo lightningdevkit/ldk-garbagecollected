@@ -1,8 +1,10 @@
 package org.ldk.batteries;
 
+import org.ldk.impl.bindings;
 import org.ldk.structs.*;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.net.SocketAddress;
 import java.net.StandardSocketOptions;
@@ -17,6 +19,7 @@ import java.nio.channels.*;
 public class NioPeerHandler {
     private static class Peer {
         SocketDescriptor descriptor;
+        long descriptor_raw_pointer;
         SelectionKey key;
     }
 
@@ -42,6 +45,19 @@ public class NioPeerHandler {
             }
         } else {
             meth.meth();
+        }
+    }
+
+    static private Field CommonBasePointer;
+    static {
+        try {
+            Class c = PeerManager.class.getSuperclass();
+            CommonBasePointer = c.getDeclaredField("ptr");
+            CommonBasePointer.setAccessible(true);
+            long _dummy_check = CommonBasePointer.getLong(Ping.of((short)0, (short)0));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalArgumentException(
+                    "We currently use reflection to access protected fields as Java has no reasonable access controls", e);
         }
     }
 
@@ -89,6 +105,12 @@ public class NioPeerHandler {
             @Override public long hash() { return our_id; }
         });
         peer.descriptor = descriptor;
+        try {
+            peer.descriptor_raw_pointer = CommonBasePointer.getLong(descriptor);
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(
+                    "We currently use reflection to access protected fields as Java has no reasonable access controls", e);
+        }
         return peer;
     }
 
@@ -108,7 +130,16 @@ public class NioPeerHandler {
         this.peer_manager = manager;
         this.selector = Selector.open();
         io_thread = new Thread(() -> {
-            ByteBuffer buf = ByteBuffer.allocate(8192);
+            int BUF_SZ = 16 * 1024;
+            byte[] max_buf_byte_object = new byte[BUF_SZ];
+            ByteBuffer buf = ByteBuffer.allocate(BUF_SZ);
+
+            long peer_manager_raw_pointer;
+            try {
+                peer_manager_raw_pointer = CommonBasePointer.getLong(this.peer_manager);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
             while (true) {
                 try {
                     if (IS_ANDROID) {
@@ -168,17 +199,32 @@ public class NioPeerHandler {
                                     key.cancel();
                                 } else if (read > 0) {
                                     ((Buffer)buf).flip();
-                                    byte[] read_bytes = new byte[read];
+                                    // This code is quite hot during initial network graph sync, so we go a ways out of
+                                    // our way to avoid object allocations that'll make the GC sweat later -
+                                    // * when we're hot, we'll likely often be reading the full buffer, so we keep
+                                    //   around a full-buffer-sized byte array to reuse across reads,
+                                    // * We use the manual memory management call logic directly in bindings instead of
+                                    //   the nice "human-readable" wrappers. This puts us at risk of memory issues,
+                                    //   so we indirectly ensure compile fails if the types change by writing the
+                                    //   "human-readable" form of the same code in the dummy function below.
+                                    byte[] read_bytes;
+                                    if (read == BUF_SZ) {
+                                        read_bytes = max_buf_byte_object;
+                                    } else {
+                                        read_bytes = new byte[read];
+                                    }
                                     buf.get(read_bytes, 0, read);
-                                    Result_boolPeerHandleErrorZ res = this.peer_manager.read_event(peer.descriptor, read_bytes);
-                                    if (res instanceof Result_boolPeerHandleErrorZ.Result_boolPeerHandleErrorZ_OK) {
-                                        if (((Result_boolPeerHandleErrorZ.Result_boolPeerHandleErrorZ_OK) res).res) {
+                                    long read_result_pointer = bindings.PeerManager_read_event(
+                                            peer_manager_raw_pointer, peer.descriptor_raw_pointer, read_bytes);
+                                    if (bindings.LDKCResult_boolPeerHandleErrorZ_result_ok(read_result_pointer)) {
+                                        if (bindings.LDKCResult_boolPeerHandleErrorZ_get_ok(read_result_pointer)) {
                                             key.interestOps(key.interestOps() & (~SelectionKey.OP_READ));
                                         }
                                     } else {
                                         key.channel().close();
                                         key.cancel();
                                     }
+                                    bindings.CResult_boolPeerHandleErrorZ_free(read_result_pointer);
                                 }
                             }
                         } catch (IOException ignored) {
@@ -196,6 +242,13 @@ public class NioPeerHandler {
             }
         }, "NioPeerHandler NIO Thread");
         io_thread.start();
+    }
+
+    // Ensure the types used in the above manual code match what they were when the code was written.
+    // Ensure the above manual bindings.* code changes if this fails to compile.
+    private void dummy_check_return_type_matches_manual_memory_code_above(Peer peer) {
+        byte[] read_bytes = new byte[32];
+        Result_boolPeerHandleErrorZ res = this.peer_manager.read_event(peer.descriptor, read_bytes);
     }
 
     /**
