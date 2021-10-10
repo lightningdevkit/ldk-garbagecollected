@@ -26,7 +26,7 @@ LDK_C_BINDINGS="$(realpath $2)"
 RUST_LIGHTNING="$(realpath $1)"
 pushd "$2"
 export LDK_C_BINDINGS_EXTRA_TARGETS="x86_64-linux-android i686-linux-android armv7-linux-androideabi aarch64-linux-android"
-export LDK_C_BINDINGS_EXTRA_TARGET_CCS="x86_64-linux-android21-clang i686-linux-android21-clang armv7a-linux-androideabi21-clang aarch64-linux-android21-clang"
+export LDK_C_BINDINGS_EXTRA_TARGET_CCS="x86_64-linux-android24-clang i686-linux-android24-clang armv7a-linux-androideabi24-clang aarch64-linux-android24-clang"
 ./genbindings.sh "$RUST_LIGHTNING" true
 popd
 
