@@ -46,7 +46,7 @@ public class Result_COption_TypeZDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_COption_TypeZDecodeErrorZ ok(Option_TypeZ o) {
 		long ret = bindings.CResult_COption_TypeZDecodeErrorZ_ok(o.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_COption_TypeZDecodeErrorZ ret_hu_conv = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_COption_TypeZDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_COption_TypeZDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_COption_TypeZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_COption_TypeZDecodeErrorZ ret_hu_conv = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_COption_TypeZDecodeErrorZ extends CommonBase {
 	 */
 	public Result_COption_TypeZDecodeErrorZ clone() {
 		long ret = bindings.CResult_COption_TypeZDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_COption_TypeZDecodeErrorZ ret_hu_conv = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

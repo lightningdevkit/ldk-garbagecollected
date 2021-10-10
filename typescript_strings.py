@@ -120,7 +120,7 @@ void *malloc(size_t size);
 void free(void *ptr);
 
 #define MALLOC(a, _) malloc(a)
-#define FREE(p) if ((long)(p) > 1024) { free(p); }
+#define FREE(p) if ((unsigned long)(p) > 1024) { free(p); }
 #define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
 """
@@ -174,7 +174,7 @@ static void alloc_freed(void* ptr) {
 	__real_free(it);
 }
 static void FREE(void* ptr) {
-	if ((long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
+	if ((unsigned long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
 	alloc_freed(ptr);
 	__real_free(ptr);
 }

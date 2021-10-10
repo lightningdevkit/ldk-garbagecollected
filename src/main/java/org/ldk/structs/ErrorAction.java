@@ -80,7 +80,7 @@ public class ErrorAction extends CommonBase {
 	 */
 	public ErrorAction clone() {
 		long ret = bindings.ErrorAction_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -91,7 +91,7 @@ public class ErrorAction extends CommonBase {
 	 */
 	public static ErrorAction disconnect_peer(ErrorMessage msg) {
 		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -102,7 +102,7 @@ public class ErrorAction extends CommonBase {
 	 */
 	public static ErrorAction ignore_error() {
 		long ret = bindings.ErrorAction_ignore_error();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -113,7 +113,7 @@ public class ErrorAction extends CommonBase {
 	 */
 	public static ErrorAction ignore_and_log(org.ldk.enums.Level a) {
 		long ret = bindings.ErrorAction_ignore_and_log(a);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -124,7 +124,7 @@ public class ErrorAction extends CommonBase {
 	 */
 	public static ErrorAction send_error_message(ErrorMessage msg) {
 		long ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

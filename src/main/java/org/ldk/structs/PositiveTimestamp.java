@@ -40,7 +40,7 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public PositiveTimestamp clone() {
 		long ret = bindings.PositiveTimestamp_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		PositiveTimestamp ret_hu_conv = new PositiveTimestamp(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -53,7 +53,7 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public static Result_PositiveTimestampCreationErrorZ from_unix_timestamp(long unix_seconds) {
 		long ret = bindings.PositiveTimestamp_from_unix_timestamp(unix_seconds);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -65,7 +65,7 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public static Result_PositiveTimestampCreationErrorZ from_system_time(long time) {
 		long ret = bindings.PositiveTimestamp_from_system_time(time);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

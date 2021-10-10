@@ -46,7 +46,7 @@ public class Option_u16Z extends CommonBase {
 	 */
 	public static Option_u16Z some(short o) {
 		long ret = bindings.COption_u16Z_some(o);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_u16Z ret_hu_conv = Option_u16Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -57,7 +57,7 @@ public class Option_u16Z extends CommonBase {
 	 */
 	public static Option_u16Z none() {
 		long ret = bindings.COption_u16Z_none();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_u16Z ret_hu_conv = Option_u16Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -69,7 +69,7 @@ public class Option_u16Z extends CommonBase {
 	 */
 	public Option_u16Z clone() {
 		long ret = bindings.COption_u16Z_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_u16Z ret_hu_conv = Option_u16Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

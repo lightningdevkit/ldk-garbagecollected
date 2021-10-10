@@ -29,7 +29,7 @@ public class CommitmentTransaction extends CommonBase {
 	 */
 	public CommitmentTransaction clone() {
 		long ret = bindings.CommitmentTransaction_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		CommitmentTransaction ret_hu_conv = new CommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -48,7 +48,7 @@ public class CommitmentTransaction extends CommonBase {
 	 */
 	public static Result_CommitmentTransactionDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.CommitmentTransaction_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CommitmentTransactionDecodeErrorZ ret_hu_conv = Result_CommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -95,7 +95,7 @@ public class CommitmentTransaction extends CommonBase {
 	 */
 	public TrustedCommitmentTransaction trust() {
 		long ret = bindings.CommitmentTransaction_trust(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TrustedCommitmentTransaction ret_hu_conv = new TrustedCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -111,7 +111,7 @@ public class CommitmentTransaction extends CommonBase {
 	 */
 	public Result_TrustedCommitmentTransactionNoneZ verify(DirectedChannelTransactionParameters channel_parameters, ChannelPublicKeys broadcaster_keys, ChannelPublicKeys countersignatory_keys) {
 		long ret = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters == null ? 0 : channel_parameters.ptr & ~1, broadcaster_keys == null ? 0 : broadcaster_keys.ptr & ~1, countersignatory_keys == null ? 0 : countersignatory_keys.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(channel_parameters);
 		this.ptrs_to.add(broadcaster_keys);

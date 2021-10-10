@@ -28,7 +28,7 @@ public class MonitorUpdateError extends CommonBase {
 	 */
 	public MonitorUpdateError clone() {
 		long ret = bindings.MonitorUpdateError_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MonitorUpdateError ret_hu_conv = new MonitorUpdateError(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

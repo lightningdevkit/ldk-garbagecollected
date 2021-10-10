@@ -41,7 +41,7 @@ public class Result_SignedRawInvoiceNoneZ extends CommonBase {
 	 */
 	public static Result_SignedRawInvoiceNoneZ ok(SignedRawInvoice o) {
 		long ret = bindings.CResult_SignedRawInvoiceNoneZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_SignedRawInvoiceNoneZ ret_hu_conv = Result_SignedRawInvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -51,7 +51,7 @@ public class Result_SignedRawInvoiceNoneZ extends CommonBase {
 	 */
 	public static Result_SignedRawInvoiceNoneZ err() {
 		long ret = bindings.CResult_SignedRawInvoiceNoneZ_err();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_SignedRawInvoiceNoneZ ret_hu_conv = Result_SignedRawInvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -62,7 +62,7 @@ public class Result_SignedRawInvoiceNoneZ extends CommonBase {
 	 */
 	public Result_SignedRawInvoiceNoneZ clone() {
 		long ret = bindings.CResult_SignedRawInvoiceNoneZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_SignedRawInvoiceNoneZ ret_hu_conv = Result_SignedRawInvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

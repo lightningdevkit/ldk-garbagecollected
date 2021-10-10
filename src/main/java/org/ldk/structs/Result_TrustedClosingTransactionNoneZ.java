@@ -41,7 +41,7 @@ public class Result_TrustedClosingTransactionNoneZ extends CommonBase {
 	 */
 	public static Result_TrustedClosingTransactionNoneZ ok(TrustedClosingTransaction o) {
 		long ret = bindings.CResult_TrustedClosingTransactionNoneZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_TrustedClosingTransactionNoneZ ret_hu_conv = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
@@ -60,7 +60,7 @@ public class Result_TrustedClosingTransactionNoneZ extends CommonBase {
 	 */
 	public static Result_TrustedClosingTransactionNoneZ err() {
 		long ret = bindings.CResult_TrustedClosingTransactionNoneZ_err();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_TrustedClosingTransactionNoneZ ret_hu_conv = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

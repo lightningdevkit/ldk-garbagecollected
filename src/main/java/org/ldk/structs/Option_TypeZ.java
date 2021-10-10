@@ -49,7 +49,7 @@ public class Option_TypeZ extends CommonBase {
 	 */
 	public static Option_TypeZ some(Type o) {
 		long ret = bindings.COption_TypeZ_some(o == null ? 0 : o.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(o);
@@ -61,7 +61,7 @@ public class Option_TypeZ extends CommonBase {
 	 */
 	public static Option_TypeZ none() {
 		long ret = bindings.COption_TypeZ_none();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -73,7 +73,7 @@ public class Option_TypeZ extends CommonBase {
 	 */
 	public Option_TypeZ clone() {
 		long ret = bindings.COption_TypeZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

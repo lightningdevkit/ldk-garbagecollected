@@ -53,7 +53,7 @@ public class CustomMessageReader extends CommonBase {
 	 */
 	public Result_COption_TypeZDecodeErrorZ read(short message_type, byte[] buffer) {
 		long ret = bindings.CustomMessageReader_read(this.ptr, message_type, buffer);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_COption_TypeZDecodeErrorZ ret_hu_conv = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

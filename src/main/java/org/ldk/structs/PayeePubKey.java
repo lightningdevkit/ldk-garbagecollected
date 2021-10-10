@@ -24,7 +24,7 @@ public class PayeePubKey extends CommonBase {
 	 */
 	public PayeePubKey clone() {
 		long ret = bindings.PayeePubKey_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		PayeePubKey ret_hu_conv = new PayeePubKey(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

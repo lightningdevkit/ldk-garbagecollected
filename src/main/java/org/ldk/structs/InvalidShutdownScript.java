@@ -43,7 +43,7 @@ public class InvalidShutdownScript extends CommonBase {
 	 */
 	public static InvalidShutdownScript of(byte[] script_arg) {
 		long ret = bindings.InvalidShutdownScript_new(script_arg);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		InvalidShutdownScript ret_hu_conv = new InvalidShutdownScript(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

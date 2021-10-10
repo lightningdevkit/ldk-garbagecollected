@@ -24,7 +24,7 @@ public class TwoTuple_OutPointScriptZ extends CommonBase {
 	 */
 	public OutPoint get_a() {
 		long ret = bindings.C2Tuple_OutPointScriptZ_get_a(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -44,7 +44,7 @@ public class TwoTuple_OutPointScriptZ extends CommonBase {
 	 */
 	public TwoTuple_OutPointScriptZ clone() {
 		long ret = bindings.C2Tuple_OutPointScriptZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -55,7 +55,7 @@ public class TwoTuple_OutPointScriptZ extends CommonBase {
 	 */
 	public static TwoTuple_OutPointScriptZ of(OutPoint a, byte[] b) {
 		long ret = bindings.C2Tuple_OutPointScriptZ_new(a == null ? 0 : a.ptr & ~1, b);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

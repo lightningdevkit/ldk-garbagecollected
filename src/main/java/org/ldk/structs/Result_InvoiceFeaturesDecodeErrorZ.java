@@ -46,7 +46,7 @@ public class Result_InvoiceFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_InvoiceFeaturesDecodeErrorZ ok(InvoiceFeatures o) {
 		long ret = bindings.CResult_InvoiceFeaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_InvoiceFeaturesDecodeErrorZ ret_hu_conv = Result_InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_InvoiceFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_InvoiceFeaturesDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_InvoiceFeaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_InvoiceFeaturesDecodeErrorZ ret_hu_conv = Result_InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

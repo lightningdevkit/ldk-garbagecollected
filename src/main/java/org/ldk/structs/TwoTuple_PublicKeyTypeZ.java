@@ -32,7 +32,7 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	 */
 	public Type get_b() {
 		long ret = bindings.C2Tuple_PublicKeyTypeZ_get_b(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Type ret_hu_conv = new Type(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -44,7 +44,7 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	 */
 	public TwoTuple_PublicKeyTypeZ clone() {
 		long ret = bindings.C2Tuple_PublicKeyTypeZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_PublicKeyTypeZ ret_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -55,7 +55,7 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	 */
 	public static TwoTuple_PublicKeyTypeZ of(byte[] a, Type b) {
 		long ret = bindings.C2Tuple_PublicKeyTypeZ_new(a, b == null ? 0 : b.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_PublicKeyTypeZ ret_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(b);

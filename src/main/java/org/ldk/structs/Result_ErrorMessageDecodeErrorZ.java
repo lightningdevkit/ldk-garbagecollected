@@ -46,7 +46,7 @@ public class Result_ErrorMessageDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ErrorMessageDecodeErrorZ ok(ErrorMessage o) {
 		long ret = bindings.CResult_ErrorMessageDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_ErrorMessageDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ErrorMessageDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ErrorMessageDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_ErrorMessageDecodeErrorZ extends CommonBase {
 	 */
 	public Result_ErrorMessageDecodeErrorZ clone() {
 		long ret = bindings.CResult_ErrorMessageDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

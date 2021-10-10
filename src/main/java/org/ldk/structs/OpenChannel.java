@@ -294,7 +294,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public OpenChannel clone() {
 		long ret = bindings.OpenChannel_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		OpenChannel ret_hu_conv = new OpenChannel(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -313,7 +313,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public static Result_OpenChannelDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.OpenChannel_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_OpenChannelDecodeErrorZ ret_hu_conv = Result_OpenChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

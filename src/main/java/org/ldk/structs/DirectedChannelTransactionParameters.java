@@ -28,7 +28,7 @@ public class DirectedChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelPublicKeys broadcaster_pubkeys() {
 		long ret = bindings.DirectedChannelTransactionParameters_broadcaster_pubkeys(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -39,7 +39,7 @@ public class DirectedChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelPublicKeys countersignatory_pubkeys() {
 		long ret = bindings.DirectedChannelTransactionParameters_countersignatory_pubkeys(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelPublicKeys ret_hu_conv = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -70,7 +70,7 @@ public class DirectedChannelTransactionParameters extends CommonBase {
 	 */
 	public OutPoint funding_outpoint() {
 		long ret = bindings.DirectedChannelTransactionParameters_funding_outpoint(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		OutPoint ret_hu_conv = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

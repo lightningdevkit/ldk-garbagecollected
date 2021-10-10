@@ -46,7 +46,7 @@ public class Result_AnnouncementSignaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_AnnouncementSignaturesDecodeErrorZ ok(AnnouncementSignatures o) {
 		long ret = bindings.CResult_AnnouncementSignaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_AnnouncementSignaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_AnnouncementSignaturesDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_AnnouncementSignaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_AnnouncementSignaturesDecodeErrorZ extends CommonBase {
 	 */
 	public Result_AnnouncementSignaturesDecodeErrorZ clone() {
 		long ret = bindings.CResult_AnnouncementSignaturesDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

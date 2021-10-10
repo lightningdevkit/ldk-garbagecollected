@@ -46,7 +46,7 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_GossipTimestampFilterDecodeErrorZ ok(GossipTimestampFilter o) {
 		long ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_GossipTimestampFilterDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	 */
 	public Result_GossipTimestampFilterDecodeErrorZ clone() {
 		long ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

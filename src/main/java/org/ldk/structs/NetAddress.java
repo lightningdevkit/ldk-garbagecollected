@@ -110,7 +110,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public NetAddress clone() {
 		long ret = bindings.NetAddress_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -121,7 +121,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public static NetAddress ipv4(byte[] addr, short port) {
 		long ret = bindings.NetAddress_ipv4(addr, port);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -132,7 +132,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public static NetAddress ipv6(byte[] addr, short port) {
 		long ret = bindings.NetAddress_ipv6(addr, port);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -143,7 +143,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public static NetAddress onion_v2(byte[] addr, short port) {
 		long ret = bindings.NetAddress_onion_v2(addr, port);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -154,7 +154,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public static NetAddress onion_v3(byte[] ed25519_pubkey, short checksum, byte version, short port) {
 		long ret = bindings.NetAddress_onion_v3(ed25519_pubkey, checksum, version, port);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -173,7 +173,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public static Result_NetAddressDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NetAddress_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

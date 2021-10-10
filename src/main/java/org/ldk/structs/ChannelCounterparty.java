@@ -42,7 +42,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public InitFeatures get_features() {
 		long ret = bindings.ChannelCounterparty_get_features(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		InitFeatures ret_hu_conv = new InitFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -93,7 +93,7 @@ public class ChannelCounterparty extends CommonBase {
 	@Nullable
 	public CounterpartyForwardingInfo get_forwarding_info() {
 		long ret = bindings.ChannelCounterparty_get_forwarding_info(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		CounterpartyForwardingInfo ret_hu_conv = new CounterpartyForwardingInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -114,7 +114,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public static ChannelCounterparty of(byte[] node_id_arg, InitFeatures features_arg, long unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg) {
 		long ret = bindings.ChannelCounterparty_new(node_id_arg, features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelCounterparty ret_hu_conv = new ChannelCounterparty(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -125,7 +125,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public ChannelCounterparty clone() {
 		long ret = bindings.ChannelCounterparty_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelCounterparty ret_hu_conv = new ChannelCounterparty(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

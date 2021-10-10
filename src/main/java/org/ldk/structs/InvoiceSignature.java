@@ -24,7 +24,7 @@ public class InvoiceSignature extends CommonBase {
 	 */
 	public InvoiceSignature clone() {
 		long ret = bindings.InvoiceSignature_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		InvoiceSignature ret_hu_conv = new InvoiceSignature(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

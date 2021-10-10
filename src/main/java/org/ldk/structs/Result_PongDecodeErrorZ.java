@@ -46,7 +46,7 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_PongDecodeErrorZ ok(Pong o) {
 		long ret = bindings.CResult_PongDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_PongDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_PongDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 	 */
 	public Result_PongDecodeErrorZ clone() {
 		long ret = bindings.CResult_PongDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

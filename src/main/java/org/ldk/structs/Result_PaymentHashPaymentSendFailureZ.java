@@ -43,7 +43,7 @@ public class Result_PaymentHashPaymentSendFailureZ extends CommonBase {
 	 */
 	public static Result_PaymentHashPaymentSendFailureZ ok(byte[] o) {
 		long ret = bindings.CResult_PaymentHashPaymentSendFailureZ_ok(o);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result_PaymentHashPaymentSendFailureZ extends CommonBase {
 	 */
 	public static Result_PaymentHashPaymentSendFailureZ err(PaymentSendFailure e) {
 		long ret = bindings.CResult_PaymentHashPaymentSendFailureZ_err(e.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result_PaymentHashPaymentSendFailureZ extends CommonBase {
 	 */
 	public Result_PaymentHashPaymentSendFailureZ clone() {
 		long ret = bindings.CResult_PaymentHashPaymentSendFailureZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

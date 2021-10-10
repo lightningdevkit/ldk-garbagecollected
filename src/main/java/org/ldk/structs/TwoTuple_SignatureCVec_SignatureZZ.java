@@ -41,7 +41,7 @@ public class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	 */
 	public TwoTuple_SignatureCVec_SignatureZZ clone() {
 		long ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_SignatureCVec_SignatureZZ ret_hu_conv = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -52,7 +52,7 @@ public class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	 */
 	public static TwoTuple_SignatureCVec_SignatureZZ of(byte[] a, byte[][] b) {
 		long ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(a, b);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_SignatureCVec_SignatureZZ ret_hu_conv = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

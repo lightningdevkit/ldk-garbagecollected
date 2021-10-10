@@ -26,7 +26,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public ShutdownScript clone() {
 		long ret = bindings.ShutdownScript_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ShutdownScript ret_hu_conv = new ShutdownScript(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -45,7 +45,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static Result_ShutdownScriptDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ShutdownScript_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ShutdownScriptDecodeErrorZ ret_hu_conv = Result_ShutdownScriptDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -55,7 +55,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static ShutdownScript new_p2pkh(byte[] pubkey_hash) {
 		long ret = bindings.ShutdownScript_new_p2pkh(pubkey_hash);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ShutdownScript ret_hu_conv = new ShutdownScript(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -66,7 +66,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static ShutdownScript new_p2sh(byte[] script_hash) {
 		long ret = bindings.ShutdownScript_new_p2sh(script_hash);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ShutdownScript ret_hu_conv = new ShutdownScript(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -77,7 +77,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static ShutdownScript new_p2wpkh(byte[] pubkey_hash) {
 		long ret = bindings.ShutdownScript_new_p2wpkh(pubkey_hash);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ShutdownScript ret_hu_conv = new ShutdownScript(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -88,7 +88,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static ShutdownScript new_p2wsh(byte[] script_hash) {
 		long ret = bindings.ShutdownScript_new_p2wsh(script_hash);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ShutdownScript ret_hu_conv = new ShutdownScript(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -106,7 +106,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static Result_ShutdownScriptInvalidShutdownScriptZ new_witness_program(byte version, byte[] program) {
 		long ret = bindings.ShutdownScript_new_witness_program(version, program);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

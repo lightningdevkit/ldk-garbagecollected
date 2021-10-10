@@ -69,7 +69,7 @@ public class ChannelReestablish extends CommonBase {
 	 */
 	public ChannelReestablish clone() {
 		long ret = bindings.ChannelReestablish_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelReestablish ret_hu_conv = new ChannelReestablish(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -88,7 +88,7 @@ public class ChannelReestablish extends CommonBase {
 	 */
 	public static Result_ChannelReestablishDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelReestablish_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ChannelReestablishDecodeErrorZ ret_hu_conv = Result_ChannelReestablishDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -41,7 +41,7 @@ public class TwoTuple_usizeTransactionZ extends CommonBase {
 	 */
 	public TwoTuple_usizeTransactionZ clone() {
 		long ret = bindings.C2Tuple_usizeTransactionZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_usizeTransactionZ ret_hu_conv = new TwoTuple_usizeTransactionZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -52,7 +52,7 @@ public class TwoTuple_usizeTransactionZ extends CommonBase {
 	 */
 	public static TwoTuple_usizeTransactionZ of(long a, byte[] b) {
 		long ret = bindings.C2Tuple_usizeTransactionZ_new(a, b);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_usizeTransactionZ ret_hu_conv = new TwoTuple_usizeTransactionZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

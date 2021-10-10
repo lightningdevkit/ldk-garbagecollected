@@ -40,7 +40,7 @@ public class Invoice extends CommonBase {
 	 */
 	public Invoice clone() {
 		long ret = bindings.Invoice_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Invoice ret_hu_conv = new Invoice(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -51,7 +51,7 @@ public class Invoice extends CommonBase {
 	 */
 	public SignedRawInvoice into_signed_raw() {
 		long ret = bindings.Invoice_into_signed_raw(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		SignedRawInvoice ret_hu_conv = new SignedRawInvoice(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		;
@@ -63,7 +63,7 @@ public class Invoice extends CommonBase {
 	 */
 	public Result_NoneSemanticErrorZ check_signature() {
 		long ret = bindings.Invoice_check_signature(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NoneSemanticErrorZ ret_hu_conv = Result_NoneSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -92,7 +92,7 @@ public class Invoice extends CommonBase {
 	 */
 	public static Result_InvoiceSemanticErrorZ from_signed(SignedRawInvoice signed_invoice) {
 		long ret = bindings.Invoice_from_signed(signed_invoice == null ? 0 : signed_invoice.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -140,7 +140,7 @@ public class Invoice extends CommonBase {
 	@Nullable
 	public InvoiceFeatures features() {
 		long ret = bindings.Invoice_features(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		InvoiceFeatures ret_hu_conv = new InvoiceFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -214,7 +214,7 @@ public class Invoice extends CommonBase {
 	 */
 	public Option_u64Z amount_pico_btc() {
 		long ret = bindings.Invoice_amount_pico_btc(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -225,7 +225,7 @@ public class Invoice extends CommonBase {
 	 */
 	public static Result_InvoiceNoneZ from_str(java.lang.String s) {
 		long ret = bindings.Invoice_from_str(s);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_InvoiceNoneZ ret_hu_conv = Result_InvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

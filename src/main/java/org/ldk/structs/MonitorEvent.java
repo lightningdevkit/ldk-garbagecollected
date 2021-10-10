@@ -54,7 +54,7 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public MonitorEvent clone() {
 		long ret = bindings.MonitorEvent_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -65,7 +65,7 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public static MonitorEvent htlcevent(HTLCUpdate a) {
 		long ret = bindings.MonitorEvent_htlcevent(a == null ? 0 : a.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -76,7 +76,7 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public static MonitorEvent commitment_tx_confirmed(OutPoint a) {
 		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
