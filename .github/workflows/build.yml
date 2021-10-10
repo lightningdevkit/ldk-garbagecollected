@@ -257,15 +257,15 @@ jobs:
             ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false || echo
             cat src/main/resources/liblightningjni_MacOSX-aarch64.nativelib > /dev/null
           fi
-      - name: Fetch Maven 3.8.1
+      - name: Fetch Maven 3.8.3
         run: |
-          wget -O apache-maven-3.8.1-bin.tar.gz https://apache.osuosl.org/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz
-          if [ "$(shasum -a 256 apache-maven-3.8.1-bin.tar.gz | awk '{ print $1 }')" != "b98a1905eb554d07427b2e5509ff09bd53e2f1dd7a0afa38384968b113abef02" ]; then
+          wget -O apache-maven-3.8.3-bin.tar.gz https://apache.osuosl.org/maven/maven-3/3.8.3/binaries/apache-maven-3.8.3-bin.tar.gz
+          if [ "$(shasum -a 256 apache-maven-3.8.3-bin.tar.gz | awk '{ print $1 }')" != "0f1597d11085b8fe93d84652a18c6deea71ece9fabba45a02cf6600c7758fd5b" ]; then
             echo "Bad hash"
             exit 1
           fi
-          tar xvvf apache-maven-3.8.1-bin.tar.gz
-          export PATH=apache-maven-3.8.1/bin:$PATH
+          tar xvvf apache-maven-3.8.3-bin.tar.gz
+          export PATH=apache-maven-3.8.3/bin:$PATH
       - name: Run Java Tests against built jar
         run: |
           mvn -DskipTests=true package
