@@ -24,7 +24,7 @@ public class DecodeError extends CommonBase {
 	 */
 	public DecodeError clone() {
 		long ret = bindings.DecodeError_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		DecodeError ret_hu_conv = new DecodeError(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

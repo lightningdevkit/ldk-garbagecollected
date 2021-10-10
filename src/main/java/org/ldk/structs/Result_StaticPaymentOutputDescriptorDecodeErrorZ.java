@@ -46,7 +46,7 @@ public class Result_StaticPaymentOutputDescriptorDecodeErrorZ extends CommonBase
 	 */
 	public static Result_StaticPaymentOutputDescriptorDecodeErrorZ ok(StaticPaymentOutputDescriptor o) {
 		long ret = bindings.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_StaticPaymentOutputDescriptorDecodeErrorZ ret_hu_conv = Result_StaticPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_StaticPaymentOutputDescriptorDecodeErrorZ extends CommonBase
 	 */
 	public static Result_StaticPaymentOutputDescriptorDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_StaticPaymentOutputDescriptorDecodeErrorZ ret_hu_conv = Result_StaticPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_StaticPaymentOutputDescriptorDecodeErrorZ extends CommonBase
 	 */
 	public Result_StaticPaymentOutputDescriptorDecodeErrorZ clone() {
 		long ret = bindings.CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_StaticPaymentOutputDescriptorDecodeErrorZ ret_hu_conv = Result_StaticPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

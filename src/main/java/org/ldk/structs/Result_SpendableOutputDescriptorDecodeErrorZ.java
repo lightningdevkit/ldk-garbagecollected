@@ -46,7 +46,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_SpendableOutputDescriptorDecodeErrorZ ok(SpendableOutputDescriptor o) {
 		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_ok(o.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_SpendableOutputDescriptorDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 	 */
 	public Result_SpendableOutputDescriptorDecodeErrorZ clone() {
 		long ret = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

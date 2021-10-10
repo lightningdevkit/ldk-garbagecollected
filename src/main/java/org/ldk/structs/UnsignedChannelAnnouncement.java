@@ -24,7 +24,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public ChannelFeatures get_features() {
 		long ret = bindings.UnsignedChannelAnnouncement_get_features(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelFeatures ret_hu_conv = new ChannelFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -132,7 +132,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public UnsignedChannelAnnouncement clone() {
 		long ret = bindings.UnsignedChannelAnnouncement_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		UnsignedChannelAnnouncement ret_hu_conv = new UnsignedChannelAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -151,7 +151,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public static Result_UnsignedChannelAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UnsignedChannelAnnouncement_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UnsignedChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

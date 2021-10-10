@@ -46,7 +46,7 @@ public class Result_NodeInfoDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_NodeInfoDecodeErrorZ ok(NodeInfo o) {
 		long ret = bindings.CResult_NodeInfoDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NodeInfoDecodeErrorZ ret_hu_conv = Result_NodeInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_NodeInfoDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_NodeInfoDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_NodeInfoDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NodeInfoDecodeErrorZ ret_hu_conv = Result_NodeInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_NodeInfoDecodeErrorZ extends CommonBase {
 	 */
 	public Result_NodeInfoDecodeErrorZ clone() {
 		long ret = bindings.CResult_NodeInfoDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NodeInfoDecodeErrorZ ret_hu_conv = Result_NodeInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

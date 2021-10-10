@@ -98,7 +98,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public ClosureReason clone() {
 		long ret = bindings.ClosureReason_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -109,7 +109,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason counterparty_force_closed(java.lang.String peer_msg) {
 		long ret = bindings.ClosureReason_counterparty_force_closed(peer_msg);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -120,7 +120,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason holder_force_closed() {
 		long ret = bindings.ClosureReason_holder_force_closed();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -131,7 +131,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason cooperative_closure() {
 		long ret = bindings.ClosureReason_cooperative_closure();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -142,7 +142,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason commitment_tx_confirmed() {
 		long ret = bindings.ClosureReason_commitment_tx_confirmed();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -153,7 +153,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason processing_error(java.lang.String err) {
 		long ret = bindings.ClosureReason_processing_error(err);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -164,7 +164,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason disconnected_peer() {
 		long ret = bindings.ClosureReason_disconnected_peer();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -175,7 +175,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason outdated_channel_manager() {
 		long ret = bindings.ClosureReason_outdated_channel_manager();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

@@ -46,7 +46,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UpdateFailHTLCDecodeErrorZ ok(UpdateFailHTLC o) {
 		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UpdateFailHTLCDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	 */
 	public Result_UpdateFailHTLCDecodeErrorZ clone() {
 		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

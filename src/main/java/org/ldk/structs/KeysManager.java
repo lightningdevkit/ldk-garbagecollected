@@ -48,7 +48,7 @@ public class KeysManager extends CommonBase {
 	 */
 	public static KeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos) {
 		long ret = bindings.KeysManager_new(seed, starting_time_secs, starting_time_nanos);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		KeysManager ret_hu_conv = new KeysManager(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -63,7 +63,7 @@ public class KeysManager extends CommonBase {
 	 */
 	public InMemorySigner derive_channel_keys(long channel_value_satoshis, byte[] params) {
 		long ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, params);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		InMemorySigner ret_hu_conv = new InMemorySigner(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -84,7 +84,7 @@ public class KeysManager extends CommonBase {
 	 */
 	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight) {
 		long ret = bindings.KeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? Arrays.stream(descriptors).mapToLong(descriptors_conv_27 -> descriptors_conv_27.ptr).toArray() : null, outputs != null ? Arrays.stream(outputs).mapToLong(outputs_conv_7 -> outputs_conv_7.ptr).toArray() : null, change_destination_script, feerate_sat_per_1000_weight);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -95,7 +95,7 @@ public class KeysManager extends CommonBase {
 	 */
 	public KeysInterface as_KeysInterface() {
 		long ret = bindings.KeysManager_as_KeysInterface(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

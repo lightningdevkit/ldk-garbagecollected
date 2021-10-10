@@ -36,7 +36,7 @@ public class FilesystemPersister extends CommonBase {
 	 */
 	public static FilesystemPersister of(java.lang.String path_to_channel_data) {
 		long ret = bindings.FilesystemPersister_new(path_to_channel_data);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		FilesystemPersister ret_hu_conv = new FilesystemPersister(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -55,7 +55,7 @@ public class FilesystemPersister extends CommonBase {
 	 */
 	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ read_channelmonitors(KeysInterface keys_manager) {
 		long ret = bindings.FilesystemPersister_read_channelmonitors(this.ptr, keys_manager == null ? 0 : keys_manager.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(keys_manager);
 		return ret_hu_conv;
@@ -67,7 +67,7 @@ public class FilesystemPersister extends CommonBase {
 	 */
 	public Persist as_Persist() {
 		long ret = bindings.FilesystemPersister_as_Persist(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Persist ret_hu_conv = new Persist(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

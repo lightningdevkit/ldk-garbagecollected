@@ -24,7 +24,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public NetworkGraph clone() {
 		long ret = bindings.NetworkGraph_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -43,7 +43,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public static Result_NetworkGraphDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NetworkGraph_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public static NetworkGraph of(byte[] genesis_hash) {
 		long ret = bindings.NetworkGraph_new(genesis_hash);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -64,7 +64,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public ReadOnlyNetworkGraph read_only() {
 		long ret = bindings.NetworkGraph_read_only(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ReadOnlyNetworkGraph ret_hu_conv = new ReadOnlyNetworkGraph(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -80,7 +80,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ update_node_from_announcement(NodeAnnouncement msg) {
 		long ret = bindings.NetworkGraph_update_node_from_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
@@ -94,7 +94,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ update_node_from_unsigned_announcement(UnsignedNodeAnnouncement msg) {
 		long ret = bindings.NetworkGraph_update_node_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
@@ -112,7 +112,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ update_channel_from_announcement(ChannelAnnouncement msg, Option_AccessZ chain_access) {
 		long ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
@@ -128,7 +128,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ update_channel_from_unsigned_announcement(UnsignedChannelAnnouncement msg, Option_AccessZ chain_access) {
 		long ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
@@ -161,7 +161,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ update_channel(ChannelUpdate msg) {
 		long ret = bindings.NetworkGraph_update_channel(this.ptr, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
@@ -174,7 +174,7 @@ public class NetworkGraph extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ update_channel_unsigned(UnsignedChannelUpdate msg) {
 		long ret = bindings.NetworkGraph_update_channel_unsigned(this.ptr, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;

@@ -46,7 +46,7 @@ public class Result_FundingLockedDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_FundingLockedDecodeErrorZ ok(FundingLocked o) {
 		long ret = bindings.CResult_FundingLockedDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_FundingLockedDecodeErrorZ ret_hu_conv = Result_FundingLockedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_FundingLockedDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_FundingLockedDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_FundingLockedDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_FundingLockedDecodeErrorZ ret_hu_conv = Result_FundingLockedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_FundingLockedDecodeErrorZ extends CommonBase {
 	 */
 	public Result_FundingLockedDecodeErrorZ clone() {
 		long ret = bindings.CResult_FundingLockedDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_FundingLockedDecodeErrorZ ret_hu_conv = Result_FundingLockedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -46,7 +46,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UpdateFeeDecodeErrorZ ok(UpdateFee o) {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UpdateFeeDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	 */
 	public Result_UpdateFeeDecodeErrorZ clone() {
 		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

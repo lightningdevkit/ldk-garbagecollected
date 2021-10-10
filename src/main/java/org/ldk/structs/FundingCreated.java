@@ -84,7 +84,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public static FundingCreated of(byte[] temporary_channel_id_arg, byte[] funding_txid_arg, short funding_output_index_arg, byte[] signature_arg) {
 		long ret = bindings.FundingCreated_new(temporary_channel_id_arg, funding_txid_arg, funding_output_index_arg, signature_arg);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		FundingCreated ret_hu_conv = new FundingCreated(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -95,7 +95,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public FundingCreated clone() {
 		long ret = bindings.FundingCreated_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		FundingCreated ret_hu_conv = new FundingCreated(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -114,7 +114,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public static Result_FundingCreatedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.FundingCreated_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

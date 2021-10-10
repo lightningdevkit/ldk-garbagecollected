@@ -422,7 +422,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public MessageSendEvent clone() {
 		long ret = bindings.MessageSendEvent_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -433,7 +433,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_accept_channel(byte[] node_id, AcceptChannel msg) {
 		long ret = bindings.MessageSendEvent_send_accept_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -444,7 +444,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_open_channel(byte[] node_id, OpenChannel msg) {
 		long ret = bindings.MessageSendEvent_send_open_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -455,7 +455,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_funding_created(byte[] node_id, FundingCreated msg) {
 		long ret = bindings.MessageSendEvent_send_funding_created(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -466,7 +466,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_funding_signed(byte[] node_id, FundingSigned msg) {
 		long ret = bindings.MessageSendEvent_send_funding_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -477,7 +477,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_funding_locked(byte[] node_id, FundingLocked msg) {
 		long ret = bindings.MessageSendEvent_send_funding_locked(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -488,7 +488,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_announcement_signatures(byte[] node_id, AnnouncementSignatures msg) {
 		long ret = bindings.MessageSendEvent_send_announcement_signatures(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -499,7 +499,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent update_htlcs(byte[] node_id, CommitmentUpdate updates) {
 		long ret = bindings.MessageSendEvent_update_htlcs(node_id, updates == null ? 0 : updates.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -510,7 +510,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_revoke_and_ack(byte[] node_id, RevokeAndACK msg) {
 		long ret = bindings.MessageSendEvent_send_revoke_and_ack(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -521,7 +521,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_closing_signed(byte[] node_id, ClosingSigned msg) {
 		long ret = bindings.MessageSendEvent_send_closing_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -532,7 +532,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_shutdown(byte[] node_id, Shutdown msg) {
 		long ret = bindings.MessageSendEvent_send_shutdown(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -543,7 +543,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_channel_reestablish(byte[] node_id, ChannelReestablish msg) {
 		long ret = bindings.MessageSendEvent_send_channel_reestablish(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -554,7 +554,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent broadcast_channel_announcement(ChannelAnnouncement msg, ChannelUpdate update_msg) {
 		long ret = bindings.MessageSendEvent_broadcast_channel_announcement(msg == null ? 0 : msg.ptr & ~1, update_msg == null ? 0 : update_msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -565,7 +565,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent broadcast_node_announcement(NodeAnnouncement msg) {
 		long ret = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -576,7 +576,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent broadcast_channel_update(ChannelUpdate msg) {
 		long ret = bindings.MessageSendEvent_broadcast_channel_update(msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -587,7 +587,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_channel_update(byte[] node_id, ChannelUpdate msg) {
 		long ret = bindings.MessageSendEvent_send_channel_update(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -598,7 +598,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent handle_error(byte[] node_id, ErrorAction action) {
 		long ret = bindings.MessageSendEvent_handle_error(node_id, action.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -609,7 +609,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_channel_range_query(byte[] node_id, QueryChannelRange msg) {
 		long ret = bindings.MessageSendEvent_send_channel_range_query(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -620,7 +620,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_short_ids_query(byte[] node_id, QueryShortChannelIds msg) {
 		long ret = bindings.MessageSendEvent_send_short_ids_query(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -631,7 +631,7 @@ public class MessageSendEvent extends CommonBase {
 	 */
 	public static MessageSendEvent send_reply_channel_range(byte[] node_id, ReplyChannelRange msg) {
 		long ret = bindings.MessageSendEvent_send_reply_channel_range(node_id, msg == null ? 0 : msg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

@@ -18,7 +18,7 @@ void *malloc(size_t size);
 void free(void *ptr);
 
 #define MALLOC(a, _) malloc(a)
-#define FREE(p) if ((long)(p) > 1024) { free(p); }
+#define FREE(p) if ((unsigned long)(p) > 1024) { free(p); }
 #define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
 

@@ -46,7 +46,7 @@ public class Result_UnsignedChannelUpdateDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UnsignedChannelUpdateDecodeErrorZ ok(UnsignedChannelUpdate o) {
 		long ret = bindings.CResult_UnsignedChannelUpdateDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UnsignedChannelUpdateDecodeErrorZ ret_hu_conv = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_UnsignedChannelUpdateDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UnsignedChannelUpdateDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_UnsignedChannelUpdateDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UnsignedChannelUpdateDecodeErrorZ ret_hu_conv = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_UnsignedChannelUpdateDecodeErrorZ extends CommonBase {
 	 */
 	public Result_UnsignedChannelUpdateDecodeErrorZ clone() {
 		long ret = bindings.CResult_UnsignedChannelUpdateDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_UnsignedChannelUpdateDecodeErrorZ ret_hu_conv = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

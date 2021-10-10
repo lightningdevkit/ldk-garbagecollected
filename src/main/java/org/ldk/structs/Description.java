@@ -27,7 +27,7 @@ public class Description extends CommonBase {
 	 */
 	public Description clone() {
 		long ret = bindings.Description_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Description ret_hu_conv = new Description(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -60,7 +60,7 @@ public class Description extends CommonBase {
 	 */
 	public static Result_DescriptionCreationErrorZ of(java.lang.String description) {
 		long ret = bindings.Description_new(description);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

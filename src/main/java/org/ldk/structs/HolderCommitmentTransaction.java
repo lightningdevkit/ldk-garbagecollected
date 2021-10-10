@@ -48,7 +48,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	 */
 	public HolderCommitmentTransaction clone() {
 		long ret = bindings.HolderCommitmentTransaction_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -67,7 +67,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	 */
 	public static Result_HolderCommitmentTransactionDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.HolderCommitmentTransaction_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_HolderCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -78,7 +78,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	 */
 	public static HolderCommitmentTransaction of(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
 		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		HolderCommitmentTransaction ret_hu_conv = new HolderCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

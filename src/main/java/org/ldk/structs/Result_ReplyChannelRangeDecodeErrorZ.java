@@ -46,7 +46,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ReplyChannelRangeDecodeErrorZ ok(ReplyChannelRange o) {
 		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ReplyChannelRangeDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_ReplyChannelRangeDecodeErrorZ extends CommonBase {
 	 */
 	public Result_ReplyChannelRangeDecodeErrorZ clone() {
 		long ret = bindings.CResult_ReplyChannelRangeDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

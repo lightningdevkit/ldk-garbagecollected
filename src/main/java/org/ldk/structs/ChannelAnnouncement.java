@@ -84,7 +84,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 */
 	public UnsignedChannelAnnouncement get_contents() {
 		long ret = bindings.ChannelAnnouncement_get_contents(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		UnsignedChannelAnnouncement ret_hu_conv = new UnsignedChannelAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -102,7 +102,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 */
 	public static ChannelAnnouncement of(byte[] node_signature_1_arg, byte[] node_signature_2_arg, byte[] bitcoin_signature_1_arg, byte[] bitcoin_signature_2_arg, UnsignedChannelAnnouncement contents_arg) {
 		long ret = bindings.ChannelAnnouncement_new(node_signature_1_arg, node_signature_2_arg, bitcoin_signature_1_arg, bitcoin_signature_2_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -113,7 +113,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 */
 	public ChannelAnnouncement clone() {
 		long ret = bindings.ChannelAnnouncement_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelAnnouncement ret_hu_conv = new ChannelAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -132,7 +132,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 */
 	public static Result_ChannelAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelAnnouncement_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

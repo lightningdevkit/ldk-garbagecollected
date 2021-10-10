@@ -35,7 +35,7 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public NodeFeatures clone() {
 		long ret = bindings.NodeFeatures_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -46,7 +46,7 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public static NodeFeatures empty() {
 		long ret = bindings.NodeFeatures_empty();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -57,7 +57,7 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public static NodeFeatures known() {
 		long ret = bindings.NodeFeatures_known();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -93,7 +93,7 @@ public class NodeFeatures extends CommonBase {
 	 */
 	public static Result_NodeFeaturesDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeFeatures_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NodeFeaturesDecodeErrorZ ret_hu_conv = Result_NodeFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

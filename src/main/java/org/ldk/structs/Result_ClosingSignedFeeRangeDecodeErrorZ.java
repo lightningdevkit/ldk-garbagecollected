@@ -46,7 +46,7 @@ public class Result_ClosingSignedFeeRangeDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ ok(ClosingSignedFeeRange o) {
 		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_ClosingSignedFeeRangeDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_ClosingSignedFeeRangeDecodeErrorZ extends CommonBase {
 	 */
 	public Result_ClosingSignedFeeRangeDecodeErrorZ clone() {
 		long ret = bindings.CResult_ClosingSignedFeeRangeDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

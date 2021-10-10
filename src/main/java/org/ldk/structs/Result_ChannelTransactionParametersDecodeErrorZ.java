@@ -46,7 +46,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	 */
 	public static Result_ChannelTransactionParametersDecodeErrorZ ok(ChannelTransactionParameters o) {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	 */
 	public static Result_ChannelTransactionParametersDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	 */
 	public Result_ChannelTransactionParametersDecodeErrorZ clone() {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

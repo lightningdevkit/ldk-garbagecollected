@@ -38,7 +38,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_CVec_u8ZZNoneZ ok(byte[][] o) {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(o);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -48,7 +48,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_CVec_u8ZZNoneZ err() {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_err();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -59,7 +59,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ clone() {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -24,7 +24,7 @@ public class RawDataPart extends CommonBase {
 	 */
 	public PositiveTimestamp get_timestamp() {
 		long ret = bindings.RawDataPart_get_timestamp(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		PositiveTimestamp ret_hu_conv = new PositiveTimestamp(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -53,7 +53,7 @@ public class RawDataPart extends CommonBase {
 	 */
 	public RawDataPart clone() {
 		long ret = bindings.RawDataPart_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		RawDataPart ret_hu_conv = new RawDataPart(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

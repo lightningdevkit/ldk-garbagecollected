@@ -24,7 +24,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public NodeFeatures get_features() {
 		long ret = bindings.NodeAnnouncementInfo_get_features(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -106,7 +106,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	@Nullable
 	public NodeAnnouncement get_announcement_message() {
 		long ret = bindings.NodeAnnouncementInfo_get_announcement_message(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -129,7 +129,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public static NodeAnnouncementInfo of(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
 		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -140,7 +140,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public NodeAnnouncementInfo clone() {
 		long ret = bindings.NodeAnnouncementInfo_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -159,7 +159,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public static Result_NodeAnnouncementInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeAnnouncementInfo_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

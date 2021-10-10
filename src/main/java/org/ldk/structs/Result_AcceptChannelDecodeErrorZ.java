@@ -46,7 +46,7 @@ public class Result_AcceptChannelDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_AcceptChannelDecodeErrorZ ok(AcceptChannel o) {
 		long ret = bindings.CResult_AcceptChannelDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_AcceptChannelDecodeErrorZ ret_hu_conv = Result_AcceptChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_AcceptChannelDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_AcceptChannelDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_AcceptChannelDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_AcceptChannelDecodeErrorZ ret_hu_conv = Result_AcceptChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_AcceptChannelDecodeErrorZ extends CommonBase {
 	 */
 	public Result_AcceptChannelDecodeErrorZ clone() {
 		long ret = bindings.CResult_AcceptChannelDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_AcceptChannelDecodeErrorZ ret_hu_conv = Result_AcceptChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

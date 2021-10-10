@@ -49,7 +49,7 @@ public class Option_FilterZ extends CommonBase {
 	 */
 	public static Option_FilterZ some(Filter o) {
 		long ret = bindings.COption_FilterZ_some(o == null ? 0 : o.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_FilterZ ret_hu_conv = Option_FilterZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(o);
@@ -61,7 +61,7 @@ public class Option_FilterZ extends CommonBase {
 	 */
 	public static Option_FilterZ none() {
 		long ret = bindings.COption_FilterZ_none();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_FilterZ ret_hu_conv = Option_FilterZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

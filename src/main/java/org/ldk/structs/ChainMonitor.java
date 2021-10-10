@@ -38,7 +38,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public static ChainMonitor of(Option_FilterZ chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
 		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChainMonitor ret_hu_conv = new ChainMonitor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(broadcaster);
@@ -77,7 +77,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Listen as_Listen() {
 		long ret = bindings.ChainMonitor_as_Listen(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Listen ret_hu_conv = new Listen(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -89,7 +89,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Confirm as_Confirm() {
 		long ret = bindings.ChainMonitor_as_Confirm(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Confirm ret_hu_conv = new Confirm(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -101,7 +101,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Watch as_Watch() {
 		long ret = bindings.ChainMonitor_as_Watch(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Watch ret_hu_conv = new Watch(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -113,7 +113,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public EventsProvider as_EventsProvider() {
 		long ret = bindings.ChainMonitor_as_EventsProvider(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		EventsProvider ret_hu_conv = new EventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

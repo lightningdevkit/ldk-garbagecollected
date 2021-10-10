@@ -46,7 +46,7 @@ public class Result_ShutdownScriptInvalidShutdownScriptZ extends CommonBase {
 	 */
 	public static Result_ShutdownScriptInvalidShutdownScriptZ ok(ShutdownScript o) {
 		long ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_ShutdownScriptInvalidShutdownScriptZ extends CommonBase {
 	 */
 	public static Result_ShutdownScriptInvalidShutdownScriptZ err(byte[] e_script_arg) {
 		long ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_err(bindings.InvalidShutdownScript_new(e_script_arg));
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

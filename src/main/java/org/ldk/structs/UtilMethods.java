@@ -12,7 +12,7 @@ public class UtilMethods {
 	 */
 	public static Result_StringErrorZ sign(byte[] msg, byte[] sk) {
 		long ret = bindings.sign(msg, sk);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -22,7 +22,7 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ recover_pk(byte[] msg, java.lang.String sig) {
 		long ret = bindings.recover_pk(msg, sig);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -41,7 +41,7 @@ public class UtilMethods {
 	 */
 	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, KeysInterface arg) {
 		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_read(ser, arg == null ? 0 : arg.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(arg);
 		return ret_hu_conv;
@@ -52,7 +52,7 @@ public class UtilMethods {
 	 */
 	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ C2Tuple_BlockHashChannelManagerZ_read(byte[] ser, KeysInterface arg_keys_manager, FeeEstimator arg_fee_estimator, Watch arg_chain_monitor, BroadcasterInterface arg_tx_broadcaster, Logger arg_logger, UserConfig arg_default_config, ChannelMonitor[] arg_channel_monitors) {
 		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_read(ser, bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : arg_keys_manager.ptr, arg_fee_estimator == null ? 0 : arg_fee_estimator.ptr, arg_chain_monitor == null ? 0 : arg_chain_monitor.ptr, arg_tx_broadcaster == null ? 0 : arg_tx_broadcaster.ptr, arg_logger == null ? 0 : arg_logger.ptr, arg_default_config == null ? 0 : arg_default_config.ptr & ~1, arg_channel_monitors != null ? Arrays.stream(arg_channel_monitors).mapToLong(arg_channel_monitors_conv_16 -> arg_channel_monitors_conv_16 == null ? 0 : arg_channel_monitors_conv_16.ptr & ~1).toArray() : null));
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(arg_keys_manager);
 		ret_hu_conv.ptrs_to.add(arg_fee_estimator);
@@ -89,7 +89,7 @@ public class UtilMethods {
 	 */
 	public static Result_SecretKeyErrorZ derive_private_key(byte[] per_commitment_point, byte[] base_secret) {
 		long ret = bindings.derive_private_key(per_commitment_point, base_secret);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -104,7 +104,7 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ derive_public_key(byte[] per_commitment_point, byte[] base_point) {
 		long ret = bindings.derive_public_key(per_commitment_point, base_point);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -122,7 +122,7 @@ public class UtilMethods {
 	 */
 	public static Result_SecretKeyErrorZ derive_private_revocation_key(byte[] per_commitment_secret, byte[] countersignatory_revocation_base_secret) {
 		long ret = bindings.derive_private_revocation_key(per_commitment_secret, countersignatory_revocation_base_secret);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -142,7 +142,7 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ derive_public_revocation_key(byte[] per_commitment_point, byte[] countersignatory_revocation_base_point) {
 		long ret = bindings.derive_public_revocation_key(per_commitment_point, countersignatory_revocation_base_point);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -214,7 +214,7 @@ public class UtilMethods {
 	 */
 	public static Result_RouteLightningErrorZ get_keysend_route(byte[] our_node_id, NetworkGraph network, byte[] payee, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger) {
 		long ret = bindings.get_keysend_route(our_node_id, network == null ? 0 : network.ptr & ~1, payee, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(network);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
@@ -248,7 +248,7 @@ public class UtilMethods {
 	 */
 	public static Result_RouteLightningErrorZ get_route(byte[] our_node_id, NetworkGraph network, byte[] payee, @Nullable InvoiceFeatures payee_features, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger) {
 		long ret = bindings.get_route(our_node_id, network == null ? 0 : network.ptr & ~1, payee, payee_features == null ? 0 : payee_features.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(network);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
@@ -262,7 +262,7 @@ public class UtilMethods {
 	 */
 	public static Result_NoneErrorZ FilesystemPersister_persist_manager(java.lang.String data_dir, ChannelManager manager) {
 		long ret = bindings.FilesystemPersister_persist_manager(data_dir, manager == null ? 0 : manager.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(manager);
 		return ret_hu_conv;
@@ -277,7 +277,7 @@ public class UtilMethods {
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(ChannelManager channelmanager, KeysInterface keys_manager, org.ldk.enums.Currency network, Option_u64Z amt_msat, java.lang.String description) {
 		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(channelmanager);
 		ret_hu_conv.ptrs_to.add(keys_manager);

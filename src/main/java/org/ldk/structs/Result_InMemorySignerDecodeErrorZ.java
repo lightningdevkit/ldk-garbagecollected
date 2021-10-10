@@ -46,7 +46,7 @@ public class Result_InMemorySignerDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_InMemorySignerDecodeErrorZ ok(InMemorySigner o) {
 		long ret = bindings.CResult_InMemorySignerDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_InMemorySignerDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_InMemorySignerDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_InMemorySignerDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_InMemorySignerDecodeErrorZ extends CommonBase {
 	 */
 	public Result_InMemorySignerDecodeErrorZ clone() {
 		long ret = bindings.CResult_InMemorySignerDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

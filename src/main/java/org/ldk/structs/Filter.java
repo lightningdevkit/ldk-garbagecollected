@@ -99,7 +99,7 @@ public class Filter extends CommonBase {
 	 */
 	public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
 		long ret = bindings.Filter_register_output(this.ptr, output == null ? 0 : output.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

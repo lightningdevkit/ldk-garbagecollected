@@ -39,7 +39,7 @@ public class ChannelUpdate extends CommonBase {
 	 */
 	public UnsignedChannelUpdate get_contents() {
 		long ret = bindings.ChannelUpdate_get_contents(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		UnsignedChannelUpdate ret_hu_conv = new UnsignedChannelUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -57,7 +57,7 @@ public class ChannelUpdate extends CommonBase {
 	 */
 	public static ChannelUpdate of(byte[] signature_arg, UnsignedChannelUpdate contents_arg) {
 		long ret = bindings.ChannelUpdate_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -68,7 +68,7 @@ public class ChannelUpdate extends CommonBase {
 	 */
 	public ChannelUpdate clone() {
 		long ret = bindings.ChannelUpdate_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelUpdate ret_hu_conv = new ChannelUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -87,7 +87,7 @@ public class ChannelUpdate extends CommonBase {
 	 */
 	public static Result_ChannelUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelUpdate_read(ser);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ChannelUpdateDecodeErrorZ ret_hu_conv = Result_ChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

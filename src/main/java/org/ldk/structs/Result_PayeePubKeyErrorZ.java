@@ -43,7 +43,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	 */
 	public static Result_PayeePubKeyErrorZ ok(PayeePubKey o) {
 		long ret = bindings.CResult_PayeePubKeyErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	 */
 	public static Result_PayeePubKeyErrorZ err(org.ldk.enums.Secp256k1Error e) {
 		long ret = bindings.CResult_PayeePubKeyErrorZ_err(e);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	 */
 	public Result_PayeePubKeyErrorZ clone() {
 		long ret = bindings.CResult_PayeePubKeyErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

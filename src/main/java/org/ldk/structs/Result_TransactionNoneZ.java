@@ -38,7 +38,7 @@ public class Result_TransactionNoneZ extends CommonBase {
 	 */
 	public static Result_TransactionNoneZ ok(byte[] o) {
 		long ret = bindings.CResult_TransactionNoneZ_ok(o);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -48,7 +48,7 @@ public class Result_TransactionNoneZ extends CommonBase {
 	 */
 	public static Result_TransactionNoneZ err() {
 		long ret = bindings.CResult_TransactionNoneZ_err();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -59,7 +59,7 @@ public class Result_TransactionNoneZ extends CommonBase {
 	 */
 	public Result_TransactionNoneZ clone() {
 		long ret = bindings.CResult_TransactionNoneZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

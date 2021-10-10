@@ -49,7 +49,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	 */
 	public static Option_NetworkUpdateZ some(NetworkUpdate o) {
 		long ret = bindings.COption_NetworkUpdateZ_some(o.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -60,7 +60,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	 */
 	public static Option_NetworkUpdateZ none() {
 		long ret = bindings.COption_NetworkUpdateZ_none();
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -72,7 +72,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	 */
 	public Option_NetworkUpdateZ clone() {
 		long ret = bindings.COption_NetworkUpdateZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

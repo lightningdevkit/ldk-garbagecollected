@@ -46,7 +46,7 @@ public class Result_CommitmentSignedDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_CommitmentSignedDecodeErrorZ ok(CommitmentSigned o) {
 		long ret = bindings.CResult_CommitmentSignedDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CommitmentSignedDecodeErrorZ ret_hu_conv = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_CommitmentSignedDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_CommitmentSignedDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_CommitmentSignedDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CommitmentSignedDecodeErrorZ ret_hu_conv = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_CommitmentSignedDecodeErrorZ extends CommonBase {
 	 */
 	public Result_CommitmentSignedDecodeErrorZ clone() {
 		long ret = bindings.CResult_CommitmentSignedDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CommitmentSignedDecodeErrorZ ret_hu_conv = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

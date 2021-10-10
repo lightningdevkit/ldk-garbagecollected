@@ -28,7 +28,7 @@ public class RawInvoice extends CommonBase {
 	 */
 	public RawDataPart get_data() {
 		long ret = bindings.RawInvoice_get_data(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		RawDataPart ret_hu_conv = new RawDataPart(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -57,7 +57,7 @@ public class RawInvoice extends CommonBase {
 	 */
 	public RawInvoice clone() {
 		long ret = bindings.RawInvoice_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		RawInvoice ret_hu_conv = new RawInvoice(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -77,7 +77,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public Sha256 payment_hash() {
 		long ret = bindings.RawInvoice_payment_hash(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Sha256 ret_hu_conv = new Sha256(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -89,7 +89,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public Description description() {
 		long ret = bindings.RawInvoice_description(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Description ret_hu_conv = new Description(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -101,7 +101,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public PayeePubKey payee_pub_key() {
 		long ret = bindings.RawInvoice_payee_pub_key(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		PayeePubKey ret_hu_conv = new PayeePubKey(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -113,7 +113,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public Sha256 description_hash() {
 		long ret = bindings.RawInvoice_description_hash(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Sha256 ret_hu_conv = new Sha256(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -125,7 +125,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public ExpiryTime expiry_time() {
 		long ret = bindings.RawInvoice_expiry_time(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		ExpiryTime ret_hu_conv = new ExpiryTime(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -137,7 +137,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public MinFinalCltvExpiry min_final_cltv_expiry() {
 		long ret = bindings.RawInvoice_min_final_cltv_expiry(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		MinFinalCltvExpiry ret_hu_conv = new MinFinalCltvExpiry(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -158,7 +158,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public InvoiceFeatures features() {
 		long ret = bindings.RawInvoice_features(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		InvoiceFeatures ret_hu_conv = new InvoiceFeatures(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -178,7 +178,7 @@ public class RawInvoice extends CommonBase {
 
 	public Option_u64Z amount_pico_btc() {
 		long ret = bindings.RawInvoice_amount_pico_btc(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

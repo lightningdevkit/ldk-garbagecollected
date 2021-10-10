@@ -32,7 +32,7 @@ public class TwoTuple_u32TxOutZ extends CommonBase {
 	 */
 	public TxOut get_b() {
 		long ret = bindings.C2Tuple_u32TxOutZ_get_b(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TxOut ret_conv = new TxOut(null, ret);
 		return ret_conv;
 	}
@@ -43,7 +43,7 @@ public class TwoTuple_u32TxOutZ extends CommonBase {
 	 */
 	public TwoTuple_u32TxOutZ clone() {
 		long ret = bindings.C2Tuple_u32TxOutZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_u32TxOutZ ret_hu_conv = new TwoTuple_u32TxOutZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -54,7 +54,7 @@ public class TwoTuple_u32TxOutZ extends CommonBase {
 	 */
 	public static TwoTuple_u32TxOutZ of(int a, TxOut b) {
 		long ret = bindings.C2Tuple_u32TxOutZ_new(a, b.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		TwoTuple_u32TxOutZ ret_hu_conv = new TwoTuple_u32TxOutZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

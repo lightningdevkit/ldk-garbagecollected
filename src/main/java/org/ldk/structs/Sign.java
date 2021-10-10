@@ -68,7 +68,7 @@ public class Sign extends CommonBase {
 	 */
 	public Sign clone() {
 		long ret = bindings.Sign_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Sign ret_hu_conv = new Sign(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

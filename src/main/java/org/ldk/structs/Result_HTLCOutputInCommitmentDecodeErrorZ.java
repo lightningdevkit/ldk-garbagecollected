@@ -46,7 +46,7 @@ public class Result_HTLCOutputInCommitmentDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_HTLCOutputInCommitmentDecodeErrorZ ok(HTLCOutputInCommitment o) {
 		long ret = bindings.CResult_HTLCOutputInCommitmentDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_HTLCOutputInCommitmentDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_HTLCOutputInCommitmentDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_HTLCOutputInCommitmentDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_HTLCOutputInCommitmentDecodeErrorZ extends CommonBase {
 	 */
 	public Result_HTLCOutputInCommitmentDecodeErrorZ clone() {
 		long ret = bindings.CResult_HTLCOutputInCommitmentDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

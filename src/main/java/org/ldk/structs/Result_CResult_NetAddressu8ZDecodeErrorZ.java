@@ -45,7 +45,7 @@ public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_CResult_NetAddressu8ZDecodeErrorZ ok(Result_NetAddressu8Z o) {
 		long ret = bindings.CResult_CResult_NetAddressu8ZDecodeErrorZ_ok(o != null ? o.ptr : 0);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CResult_NetAddressu8ZDecodeErrorZ ret_hu_conv = Result_CResult_NetAddressu8ZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -55,7 +55,7 @@ public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_CResult_NetAddressu8ZDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_CResult_NetAddressu8ZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CResult_NetAddressu8ZDecodeErrorZ ret_hu_conv = Result_CResult_NetAddressu8ZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -66,7 +66,7 @@ public class Result_CResult_NetAddressu8ZDecodeErrorZ extends CommonBase {
 	 */
 	public Result_CResult_NetAddressu8ZDecodeErrorZ clone() {
 		long ret = bindings.CResult_CResult_NetAddressu8ZDecodeErrorZ_clone(this.ptr);
-		if (ret < 1024) { return null; }
+		if (ret >= 0 && ret < 1024) { return null; }
 		Result_CResult_NetAddressu8ZDecodeErrorZ ret_hu_conv = Result_CResult_NetAddressu8ZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
