@@ -212,13 +212,14 @@ public class UtilMethods {
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_RouteLightningErrorZ get_keysend_route(byte[] our_node_id, NetworkGraph network, byte[] payee, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger) {
-		long ret = bindings.get_keysend_route(our_node_id, network == null ? 0 : network.ptr & ~1, payee, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr);
+	public static Result_RouteLightningErrorZ get_keysend_route(byte[] our_node_pubkey, NetworkGraph network, byte[] payee, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger, Score scorer) {
+		long ret = bindings.get_keysend_route(our_node_pubkey, network == null ? 0 : network.ptr & ~1, payee, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
 		if (ret >= 0 && ret < 1024) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(network);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
 		ret_hu_conv.ptrs_to.add(logger);
+		ret_hu_conv.ptrs_to.add(scorer);
 		return ret_hu_conv;
 	}
 
@@ -246,13 +247,14 @@ public class UtilMethods {
 	 * Note that payee_features (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_RouteLightningErrorZ get_route(byte[] our_node_id, NetworkGraph network, byte[] payee, @Nullable InvoiceFeatures payee_features, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger) {
-		long ret = bindings.get_route(our_node_id, network == null ? 0 : network.ptr & ~1, payee, payee_features == null ? 0 : payee_features.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr);
+	public static Result_RouteLightningErrorZ get_route(byte[] our_node_pubkey, NetworkGraph network, byte[] payee, @Nullable InvoiceFeatures payee_features, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger, Score scorer) {
+		long ret = bindings.get_route(our_node_pubkey, network == null ? 0 : network.ptr & ~1, payee, payee_features == null ? 0 : payee_features.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
 		if (ret >= 0 && ret < 1024) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(network);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
 		ret_hu_conv.ptrs_to.add(logger);
+		ret_hu_conv.ptrs_to.add(scorer);
 		return ret_hu_conv;
 	}
 

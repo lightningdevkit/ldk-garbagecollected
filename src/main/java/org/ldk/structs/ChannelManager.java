@@ -95,28 +95,37 @@ public class ChannelManager extends CommonBase {
 	/**
 	 * Creates a new outbound channel to the given remote node and with the given value.
 	 * 
-	 * user_id will be provided back as user_channel_id in FundingGenerationReady events to allow
-	 * tracking of which events correspond with which create_channel call. Note that the
-	 * user_channel_id defaults to 0 for inbound channels, so you may wish to avoid using 0 for
-	 * user_id here. user_id has no meaning inside of LDK, it is simply copied to events and
-	 * otherwise ignored.
+	 * `user_channel_id` will be provided back as in
+	 * [`Event::FundingGenerationReady::user_channel_id`] to allow tracking of which events
+	 * correspond with which `create_channel` call. Note that the `user_channel_id` defaults to 0
+	 * for inbound channels, so you may wish to avoid using 0 for `user_channel_id` here.
+	 * `user_channel_id` has no meaning inside of LDK, it is simply copied to events and otherwise
+	 * ignored.
 	 * 
-	 * If successful, will generate a SendOpenChannel message event, so you should probably poll
-	 * PeerManager::process_events afterwards.
-	 * 
-	 * Raises APIError::APIMisuseError when channel_value_satoshis > 2**24 or push_msat is
-	 * greater than channel_value_satoshis * 1k or channel_value_satoshis is < 1000.
+	 * Raises [`APIError::APIMisuseError`] when `channel_value_satoshis` > 2**24 or `push_msat` is
+	 * greater than `channel_value_satoshis * 1k` or `channel_value_satoshis < 1000`.
 	 * 
 	 * Note that we do not check if you are currently connected to the given peer. If no
 	 * connection is available, the outbound `open_channel` message may fail to send, resulting in
-	 * the channel eventually being silently forgotten.
+	 * the channel eventually being silently forgotten (dropped on reload).
+	 * 
+	 * Returns the new Channel's temporary `channel_id`. This ID will appear as
+	 * [`Event::FundingGenerationReady::temporary_channel_id`] and in
+	 * [`ChannelDetails::channel_id`] until after
+	 * [`ChannelManager::funding_transaction_generated`] is called, swapping the Channel's ID for
+	 * one derived from the funding transaction's TXID. If the counterparty rejects the channel
+	 * immediately, this temporary ID will appear in [`Event::ChannelClosed::channel_id`].
+	 * 
+	 * [`Event::FundingGenerationReady::user_channel_id`]: events::Event::FundingGenerationReady::user_channel_id
+	 * [`Event::FundingGenerationReady::temporary_channel_id`]: events::Event::FundingGenerationReady::temporary_channel_id
+	 * [`Event::ChannelClosed::channel_id`]: events::Event::ChannelClosed::channel_id
 	 * 
 	 * Note that override_config (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NoneAPIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, long user_id, @Nullable UserConfig override_config) {
-		long ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_id, override_config == null ? 0 : override_config.ptr & ~1);
+	public Result__u832APIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, long user_channel_id, @Nullable UserConfig override_config) {
+		long ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr & ~1);
 		if (ret >= 0 && ret < 1024) { return null; }
-		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -272,8 +281,26 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_NonePaymentSendFailureZ send_payment(Route route, byte[] payment_hash, @Nullable byte[] payment_secret) {
+	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, byte[] payment_hash, @Nullable byte[] payment_secret) {
 		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_hash, payment_secret);
+		if (ret >= 0 && ret < 1024) { return null; }
+		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
+		this.ptrs_to.add(route);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Retries a payment along the given [`Route`].
+	 * 
+	 * Errors returned are a superset of those returned from [`send_payment`], so see
+	 * [`send_payment`] documentation for more details on errors. This method will also error if the
+	 * retry amount puts the payment more than 10% over the payment's total amount, or if the payment
+	 * for the given `payment_id` cannot be found (likely due to timeout or success).
+	 * 
+	 * [`send_payment`]: [`ChannelManager::send_payment`]
+	 */
+	public Result_NonePaymentSendFailureZ retry_payment(Route route, PaymentId payment_id) {
+		long ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id == null ? 0 : payment_id.ptr & ~1);
 		if (ret >= 0 && ret < 1024) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
@@ -298,10 +325,10 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * Note that payment_preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public Result_PaymentHashPaymentSendFailureZ send_spontaneous_payment(Route route, @Nullable byte[] payment_preimage) {
+	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_spontaneous_payment(Route route, @Nullable byte[] payment_preimage) {
 		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_preimage);
 		if (ret >= 0 && ret < 1024) { return null; }
-		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
+		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
 	}

@@ -159,18 +159,18 @@ public class ChannelDetails extends CommonBase {
 	}
 
 	/**
-	 * The user_id passed in to create_channel, or 0 if the channel was inbound.
+	 * The `user_channel_id` passed in to create_channel, or 0 if the channel was inbound.
 	 */
-	public long get_user_id() {
-		long ret = bindings.ChannelDetails_get_user_id(this.ptr);
+	public long get_user_channel_id() {
+		long ret = bindings.ChannelDetails_get_user_channel_id(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * The user_id passed in to create_channel, or 0 if the channel was inbound.
+	 * The `user_channel_id` passed in to create_channel, or 0 if the channel was inbound.
 	 */
-	public void set_user_id(long val) {
-		bindings.ChannelDetails_set_user_id(this.ptr, val);
+	public void set_user_channel_id(long val) {
+		bindings.ChannelDetails_set_user_channel_id(this.ptr, val);
 	}
 
 	/**
@@ -382,8 +382,8 @@ public class ChannelDetails extends CommonBase {
 	/**
 	 * Constructs a new ChannelDetails given each field
 	 */
-	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, Option_u64Z short_channel_id_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_id_arg, long outbound_capacity_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_funding_locked_arg, boolean is_usable_arg, boolean is_public_arg) {
-		long ret = bindings.ChannelDetails_new(channel_id_arg, counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, Option_u64Z short_channel_id_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_channel_id_arg, long outbound_capacity_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_funding_locked_arg, boolean is_usable_arg, boolean is_public_arg) {
+		long ret = bindings.ChannelDetails_new(channel_id_arg, counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
 		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelDetails ret_hu_conv = new ChannelDetails(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

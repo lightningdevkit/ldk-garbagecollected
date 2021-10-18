@@ -25,9 +25,7 @@ import javax.annotation.Nullable;
  * funds in the channel. See [`ChannelMonitorUpdateErr`] for more details about how to handle
  * multiple instances.
  * 
- * [`ChannelMonitor`]: channelmonitor::ChannelMonitor
- * [`ChannelMonitorUpdateErr`]: channelmonitor::ChannelMonitorUpdateErr
- * [`PermanentFailure`]: channelmonitor::ChannelMonitorUpdateErr::PermanentFailure
+ * [`PermanentFailure`]: ChannelMonitorUpdateErr::PermanentFailure
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class Watch extends CommonBase {
@@ -51,6 +49,9 @@ public class Watch extends CommonBase {
 		 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 		 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 		 * 
+		 * Note: this interface MUST error with `ChannelMonitorUpdateErr::PermanentFailure` if
+		 * the given `funding_txo` has previously been registered via `watch_channel`.
+		 * 
 		 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 		 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 		 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
@@ -63,7 +64,6 @@ public class Watch extends CommonBase {
 		 * [`ChannelMonitorUpdateErr`] for invariants around returning an error.
 		 * 
 		 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
-		 * [`ChannelMonitorUpdateErr`]: channelmonitor::ChannelMonitorUpdateErr
 		 */
 		Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update);
 		/**
@@ -109,6 +109,9 @@ public class Watch extends CommonBase {
 	 * with any spends of outputs returned by [`get_outputs_to_watch`]. In practice, this means
 	 * calling [`block_connected`] and [`block_disconnected`] on the monitor.
 	 * 
+	 * Note: this interface MUST error with `ChannelMonitorUpdateErr::PermanentFailure` if
+	 * the given `funding_txo` has previously been registered via `watch_channel`.
+	 * 
 	 * [`get_outputs_to_watch`]: channelmonitor::ChannelMonitor::get_outputs_to_watch
 	 * [`block_connected`]: channelmonitor::ChannelMonitor::block_connected
 	 * [`block_disconnected`]: channelmonitor::ChannelMonitor::block_disconnected
@@ -127,7 +130,6 @@ public class Watch extends CommonBase {
 	 * [`ChannelMonitorUpdateErr`] for invariants around returning an error.
 	 * 
 	 * [`update_monitor`]: channelmonitor::ChannelMonitor::update_monitor
-	 * [`ChannelMonitorUpdateErr`]: channelmonitor::ChannelMonitorUpdateErr
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
 		long ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, update == null ? 0 : update.ptr & ~1);

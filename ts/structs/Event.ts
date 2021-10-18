@@ -34,6 +34,9 @@ export default class Event extends CommonBase {
 		if (raw_val instanceof bindings.LDKEvent.ChannelClosed) {
 			return new ChannelClosed(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKEvent.DiscardFunding) {
+			return new DiscardFunding(this.ptr, raw_val);
+		}
 		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -67,9 +70,11 @@ export class PaymentReceived extends Event {
 }
 export class PaymentSent extends Event {
 	public payment_preimage: Uint8Array;
+	public payment_hash: Uint8Array;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentSent) {
 		super(null, ptr);
 		this.payment_preimage = obj.payment_preimage;
+		this.payment_hash = obj.payment_hash;
 	}
 }
 export class PaymentPathFailed extends Event {
@@ -78,6 +83,7 @@ export class PaymentPathFailed extends Event {
 	public network_update: Option_NetworkUpdateZ;
 	public all_paths_failed: boolean;
 	public path: RouteHop[];
+	public short_channel_id: Option_u64Z;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentPathFailed) {
 		super(null, ptr);
 		this.payment_hash = obj.payment_hash;
@@ -96,6 +102,10 @@ export class PaymentPathFailed extends Event {
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
 		this.path = path_conv_10_arr;
+		const short_channel_id: number = obj.short_channel_id;
+		Option_u64Z short_channel_id_hu_conv = Option_u64Z.constr_from_ptr(short_channel_id);
+			short_channel_id_hu_conv.ptrs_to.add(this);
+		this.short_channel_id = short_channel_id_hu_conv;
 	}
 }
 export class PendingHTLCsForwardable extends Event {
@@ -134,14 +144,25 @@ export class PaymentForwarded extends Event {
 }
 export class ChannelClosed extends Event {
 	public channel_id: Uint8Array;
+	public user_channel_id: number;
 	public reason: ClosureReason;
 	private constructor(ptr: number, obj: bindings.LDKEvent.ChannelClosed) {
 		super(null, ptr);
 		this.channel_id = obj.channel_id;
+		this.user_channel_id = obj.user_channel_id;
 		const reason: number = obj.reason;
 		ClosureReason reason_hu_conv = ClosureReason.constr_from_ptr(reason);
 			reason_hu_conv.ptrs_to.add(this);
 		this.reason = reason_hu_conv;
+	}
+}
+export class DiscardFunding extends Event {
+	public channel_id: Uint8Array;
+	public transaction: Uint8Array;
+	private constructor(ptr: number, obj: bindings.LDKEvent.DiscardFunding) {
+		super(null, ptr);
+		this.channel_id = obj.channel_id;
+		this.transaction = obj.transaction;
 	}
 }
 	public Event clone() {
@@ -165,15 +186,15 @@ export class ChannelClosed extends Event {
 		return ret_hu_conv;
 	}
 
-	public static Event constructor_payment_sent(Uint8Array payment_preimage) {
-		number ret = bindings.Event_payment_sent(payment_preimage);
+	public static Event constructor_payment_sent(Uint8Array payment_preimage, Uint8Array payment_hash) {
+		number ret = bindings.Event_payment_sent(payment_preimage, payment_hash);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static Event constructor_payment_path_failed(Uint8Array payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path) {
-		number ret = bindings.Event_payment_path_failed(payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null);
+	public static Event constructor_payment_path_failed(Uint8Array payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id) {
+		number ret = bindings.Event_payment_path_failed(payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null, short_channel_id.ptr);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -200,8 +221,15 @@ export class ChannelClosed extends Event {
 		return ret_hu_conv;
 	}
 
-	public static Event constructor_channel_closed(Uint8Array channel_id, ClosureReason reason) {
-		number ret = bindings.Event_channel_closed(channel_id, reason.ptr);
+	public static Event constructor_channel_closed(Uint8Array channel_id, number user_channel_id, ClosureReason reason) {
+		number ret = bindings.Event_channel_closed(channel_id, user_channel_id, reason.ptr);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Event constructor_discard_funding(Uint8Array channel_id, Uint8Array transaction) {
+		number ret = bindings.Event_discard_funding(channel_id, transaction);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

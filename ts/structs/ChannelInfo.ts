@@ -29,13 +29,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
-	public Uint8Array get_node_one() {
-		Uint8Array ret = bindings.ChannelInfo_get_node_one(this.ptr);
-		return ret;
+	public NodeId get_node_one() {
+		number ret = bindings.ChannelInfo_get_node_one(this.ptr);
+		const ret_hu_conv: NodeId = new NodeId(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
-	public void set_node_one(Uint8Array val) {
-		bindings.ChannelInfo_set_node_one(this.ptr, val);
+	public void set_node_one(NodeId val) {
+		bindings.ChannelInfo_set_node_one(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
 	public DirectionalChannelInfo get_one_to_two() {
@@ -49,13 +51,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelInfo_set_one_to_two(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
-	public Uint8Array get_node_two() {
-		Uint8Array ret = bindings.ChannelInfo_get_node_two(this.ptr);
-		return ret;
+	public NodeId get_node_two() {
+		number ret = bindings.ChannelInfo_get_node_two(this.ptr);
+		const ret_hu_conv: NodeId = new NodeId(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
-	public void set_node_two(Uint8Array val) {
-		bindings.ChannelInfo_set_node_two(this.ptr, val);
+	public void set_node_two(NodeId val) {
+		bindings.ChannelInfo_set_node_two(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
 	public DirectionalChannelInfo get_two_to_one() {
@@ -91,8 +95,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
-	public static ChannelInfo constructor_new(ChannelFeatures features_arg, Uint8Array node_one_arg, DirectionalChannelInfo one_to_two_arg, Uint8Array node_two_arg, DirectionalChannelInfo two_to_one_arg, Option_u64Z capacity_sats_arg, ChannelAnnouncement announcement_message_arg) {
-		number ret = bindings.ChannelInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, node_one_arg, one_to_two_arg == null ? 0 : one_to_two_arg.ptr & ~1, node_two_arg, two_to_one_arg == null ? 0 : two_to_one_arg.ptr & ~1, capacity_sats_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+	public static ChannelInfo constructor_new(ChannelFeatures features_arg, NodeId node_one_arg, DirectionalChannelInfo one_to_two_arg, NodeId node_two_arg, DirectionalChannelInfo two_to_one_arg, Option_u64Z capacity_sats_arg, ChannelAnnouncement announcement_message_arg) {
+		number ret = bindings.ChannelInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, node_one_arg == null ? 0 : node_one_arg.ptr & ~1, one_to_two_arg == null ? 0 : one_to_two_arg.ptr & ~1, node_two_arg == null ? 0 : node_two_arg.ptr & ~1, two_to_one_arg == null ? 0 : two_to_one_arg.ptr & ~1, capacity_sats_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		const ret_hu_conv: ChannelInfo = new ChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

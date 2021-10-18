@@ -36,20 +36,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public static ShutdownScript constructor_new_p2pkh(Uint8Array pubkey_hash) {
-		number ret = bindings.ShutdownScript_new_p2pkh(pubkey_hash);
-		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		return ret_hu_conv;
-	}
-
-	public static ShutdownScript constructor_new_p2sh(Uint8Array script_hash) {
-		number ret = bindings.ShutdownScript_new_p2sh(script_hash);
-		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		return ret_hu_conv;
-	}
-
 	public static ShutdownScript constructor_new_p2wpkh(Uint8Array pubkey_hash) {
 		number ret = bindings.ShutdownScript_new_p2wpkh(pubkey_hash);
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);

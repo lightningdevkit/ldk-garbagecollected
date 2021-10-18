@@ -48,6 +48,9 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.ChannelClosed.class) {
 			return new ChannelClosed(ptr, (bindings.LDKEvent.ChannelClosed)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.DiscardFunding.class) {
+			return new DiscardFunding(ptr, (bindings.LDKEvent.DiscardFunding)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -66,7 +69,10 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] output_script;
 		/**
-		 * The value passed in to ChannelManager::create_channel
+		 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`], or 0 for
+		 * an inbound channel.
+		 * 
+		 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
 		*/
 		public final long user_channel_id;
 		private FundingGenerationReady(long ptr, bindings.LDKEvent.FundingGenerationReady obj) {
@@ -83,9 +89,7 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] payment_hash;
 		/**
-		 * The value, in thousandths of a satoshi, that this payment is for. Note that you must
-		 * compare this to the expected value before accepting the payment (as otherwise you are
-		 * providing proof-of-payment for less than the value you expected!).
+		 * The value, in thousandths of a satoshi, that this payment is for.
 		*/
 		public final long amt;
 		/**
@@ -110,9 +114,16 @@ public class Event extends CommonBase {
 		 * store it somehow!
 		*/
 		public final byte[] payment_preimage;
+		/**
+		 * The hash which was given to [`ChannelManager::send_payment`].
+		 * 
+		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+		*/
+		public final byte[] payment_hash;
 		private PaymentSent(long ptr, bindings.LDKEvent.PaymentSent obj) {
 			super(null, ptr);
 			this.payment_preimage = obj.payment_preimage;
+			this.payment_hash = obj.payment_hash;
 		}
 	}
 	public final static class PaymentPathFailed extends Event {
@@ -147,6 +158,13 @@ public class Event extends CommonBase {
 		 * The payment path that failed.
 		*/
 		public final RouteHop[] path;
+		/**
+		 * The channel responsible for the failed payment path.
+		 * 
+		 * If this is `Some`, then the corresponding channel should be avoided when the payment is
+		 * retried. May be `None` for older [`Event`] serializations.
+		*/
+		public final Option_u64Z short_channel_id;
 		private PaymentPathFailed(long ptr, bindings.LDKEvent.PaymentPathFailed obj) {
 			super(null, ptr);
 			this.payment_hash = obj.payment_hash;
@@ -165,6 +183,10 @@ public class Event extends CommonBase {
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
 			this.path = path_conv_10_arr;
+			long short_channel_id = obj.short_channel_id;
+			Option_u64Z short_channel_id_hu_conv = Option_u64Z.constr_from_ptr(short_channel_id);
+			short_channel_id_hu_conv.ptrs_to.add(this);
+			this.short_channel_id = short_channel_id_hu_conv;
 		}
 	}
 	public final static class PendingHTLCsForwardable extends Event {
@@ -236,16 +258,40 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] channel_id;
 		/**
+		 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`], or 0 for
+		 * an inbound channel. This will always be zero for objects serialized with LDK versions
+		 * prior to 0.0.102.
+		 * 
+		 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+		*/
+		public final long user_channel_id;
+		/**
 		 * The reason the channel was closed.
 		*/
 		public final ClosureReason reason;
 		private ChannelClosed(long ptr, bindings.LDKEvent.ChannelClosed obj) {
 			super(null, ptr);
 			this.channel_id = obj.channel_id;
+			this.user_channel_id = obj.user_channel_id;
 			long reason = obj.reason;
 			ClosureReason reason_hu_conv = ClosureReason.constr_from_ptr(reason);
 			reason_hu_conv.ptrs_to.add(this);
 			this.reason = reason_hu_conv;
+		}
+	}
+	public final static class DiscardFunding extends Event {
+		/**
+		 * The channel_id of the channel which has been closed.
+		*/
+		public final byte[] channel_id;
+		/**
+		 * The full transaction received from the user
+		*/
+		public final byte[] transaction;
+		private DiscardFunding(long ptr, bindings.LDKEvent.DiscardFunding obj) {
+			super(null, ptr);
+			this.channel_id = obj.channel_id;
+			this.transaction = obj.transaction;
 		}
 	}
 	/**
@@ -284,8 +330,8 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentSent-variant Event
 	 */
-	public static Event payment_sent(byte[] payment_preimage) {
-		long ret = bindings.Event_payment_sent(payment_preimage);
+	public static Event payment_sent(byte[] payment_preimage, byte[] payment_hash) {
+		long ret = bindings.Event_payment_sent(payment_preimage, payment_hash);
 		if (ret >= 0 && ret < 1024) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -295,8 +341,8 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
-	public static Event payment_path_failed(byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path) {
-		long ret = bindings.Event_payment_path_failed(payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
+	public static Event payment_path_failed(byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id) {
+		long ret = bindings.Event_payment_path_failed(payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id.ptr);
 		if (ret >= 0 && ret < 1024) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -339,8 +385,19 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new ChannelClosed-variant Event
 	 */
-	public static Event channel_closed(byte[] channel_id, ClosureReason reason) {
-		long ret = bindings.Event_channel_closed(channel_id, reason.ptr);
+	public static Event channel_closed(byte[] channel_id, long user_channel_id, ClosureReason reason) {
+		long ret = bindings.Event_channel_closed(channel_id, user_channel_id, reason.ptr);
+		if (ret >= 0 && ret < 1024) { return null; }
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new DiscardFunding-variant Event
+	 */
+	public static Event discard_funding(byte[] channel_id, byte[] transaction) {
+		long ret = bindings.Event_discard_funding(channel_id, transaction);
 		if (ret >= 0 && ret < 1024) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
