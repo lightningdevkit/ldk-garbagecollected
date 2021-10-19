@@ -352,14 +352,8 @@ class TypeMappingGenerator:
                     ret_conv = ("uint64_t " + ty_info.var_name + "_ref = ((uint64_t)&", ") | 1;")
                     if not holds_ref:
                         ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_copy = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n", "")
-                        if ty_info.requires_clone == True: # Set in object array mapping
-                            if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
-                                ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&", ");\n")
-                            else:
-                                ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", "; // Warning: We likely need to clone here, but no clone is available for " + ty_inf.rust_obj + "\n")
-                        else:
-                            ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", ";\n")
-                        ret_conv = (ret_conv[0], ret_conv[1] + "uint64_t " + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_copy;")
+                        ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", "")
+                        ret_conv = (ret_conv[0], ";\nuint64_t " + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_copy;")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ret_conv, ret_conv_name = ty_info.var_name + "_ref",
