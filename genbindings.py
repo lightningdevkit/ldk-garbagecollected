@@ -724,39 +724,14 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             out_java_struct.write("\t}\n\n")
 
     def map_tuple(struct_name, field_lines):
-        out_java.write("\tpublic static native long " + struct_name + "_new(")
-        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_new", len(field_lines) > 3))
         human_ty = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple")
         with open(f"{sys.argv[3]}/structs/{human_ty}{consts.file_ext}", "w") as out_java_struct:
             out_java_struct.write(consts.map_tuple(struct_name))
             ty_list = []
             for idx, (line, _) in enumerate(field_lines):
                 if idx != 0 and idx < len(field_lines) - 2:
-                    ty_info = java_c_types(line.strip(';'), None)
-                    if idx != 1:
-                        out_java.write(", ")
-                        write_c(", ")
-                    e = chr(ord('a') + idx - 1)
-                    out_java.write(ty_info.java_ty + " " + e)
-                    write_c(ty_info.c_ty + " " + e)
-                    ty_list.append(ty_info)
+                    ty_list.append(java_c_types(line.strip(';'), None))
             tuple_types[struct_name] = (ty_list, struct_name)
-            out_java.write(");\n")
-            write_c(") {\n")
-            write_c("\t" + struct_name + "* ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-            for idx, (line, _) in enumerate(field_lines):
-                if idx != 0 and idx < len(field_lines) - 2:
-                    ty_info = type_mapping_generator.map_type(line.strip(';'), False, None, False, False)
-                    e = chr(ord('a') + idx - 1)
-                    if ty_info.arg_conv is not None:
-                        write_c("\t" + ty_info.arg_conv.replace("\n", "\n\t"))
-                        write_c("\n\tret->" + e + " = " + ty_info.arg_conv_name + ";\n")
-                    else:
-                        write_c("\tret->" + e + " = " + e + ";\n")
-                    if ty_info.arg_conv_cleanup is not None:
-                        write_c("\t//TODO: Really need to call " + ty_info.arg_conv_cleanup + " here\n")
-            write_c("\treturn (uint64_t)ret;\n")
-            write_c("}\n")
 
         # Map virtual getter functions
         for idx, (line, _) in enumerate(field_lines):
