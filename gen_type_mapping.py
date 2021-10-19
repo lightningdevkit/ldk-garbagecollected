@@ -299,7 +299,9 @@ class TypeMappingGenerator:
                         arg_conv_cleanup = None,
                         ret_conv = (ty_info.c_ty + " " + ty_info.var_name + "_conv = " + ret_pfx, ret_sfx + ";"),
                         ret_conv_name = ty_info.var_name + "_conv", to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
-                base_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)(((uint64_t)" + ty_info.var_name + ") & ~1);"
+                base_conv = "void* " + ty_info.var_name + "_ptr = (void*)(((uint64_t)" + ty_info.var_name + ") & ~1);\n"
+                base_conv += "CHECK_ACCESS(" + ty_info.var_name + "_ptr);\n"
+                base_conv += ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)(" + ty_info.var_name + "_ptr);"
                 if ty_info.rust_obj in self.trait_structs:
                     ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ret =MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ret = ", ";")
                     if holds_ref:
@@ -432,7 +434,9 @@ class TypeMappingGenerator:
                         from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", from_hu_sfx))
                 elif ty_info.rust_obj in self.trait_structs:
                     if ty_info.nonnull_ptr:
-                        arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)(((uint64_t)" + ty_info.var_name + ") & ~1);"
+                        arg_conv = "void* " + ty_info.var_name + "_ptr = (void*)(((uint64_t)" + ty_info.var_name + ") & ~1);\n"
+                        arg_conv += "if (!(" + ty_info.var_name + " & 1)) { CHECK_ACCESS(" + ty_info.var_name + "_ptr); }\n"
+                        arg_conv += ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)" + ty_info.var_name + "_ptr;"
                         arg_conv_name = ty_info.var_name + "_conv"
                     else:
                         # We map Option<Trait> as *mut Trait, which we can differentiate from &Trait by the NONNULL_PTR annotation.
@@ -440,7 +444,9 @@ class TypeMappingGenerator:
                         arg_conv = ty_info.rust_obj + " *" + ty_info.var_name + "_conv_ptr = NULL;\n"
                         arg_conv += "if (" + ty_info.var_name + " != 0) {\n"
                         arg_conv += "\t" + ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
-                        arg_conv += "\t" + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)(((uint64_t)" + ty_info.var_name + ") & ~1);"
+                        arg_conv += "void* " + ty_info.var_name + "_ptr = (void*)(((uint64_t)" + ty_info.var_name + ") & ~1);\n"
+                        arg_conv += "CHECK_ACCESS(" + ty_info.var_name + "_ptr);\n"
+                        arg_conv += "\t" + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)" + ty_info.var_name + "_ptr;"
                         arg_conv += self.consts.trait_struct_inc_refcnt(ty_info).replace("\n", "\n\t")
                         arg_conv += "\n\t" + ty_info.var_name + "_conv_ptr = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n"
                         arg_conv += "\t*" + ty_info.var_name + "_conv_ptr = " + ty_info.var_name + "_conv;\n"

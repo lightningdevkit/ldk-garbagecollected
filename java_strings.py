@@ -162,6 +162,7 @@ void __attribute__((constructor)) spawn_stderr_redirection() {
         if not DEBUG or sys.platform == "darwin":
             self.c_file_pfx = self.c_file_pfx + """#define MALLOC(a, _) malloc(a)
 #define FREE(p) if ((uint64_t)(p) > 1024) { free(p); }
+#define CHECK_ACCESS(p)
 """
         if not DEBUG:
             self.c_file_pfx += """#define DO_ASSERT(a) (void)(a)
@@ -282,7 +283,7 @@ static void alloc_freed(void* ptr) {
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
 		if (it == NULL) {
-			DEBUG_PRINT("Tried to free unknown pointer %p at:\\n", ptr);
+			DEBUG_PRINT("ERROR: Tried to free unknown pointer %p at:\\n", ptr);
 			void* bt[BT_MAX];
 			int bt_len = backtrace(bt, BT_MAX);
 			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
@@ -316,6 +317,24 @@ void __wrap_free(void* ptr) {
 	if (ptr == NULL) return;
 	alloc_freed(ptr);
 	__real_free(ptr);
+}
+
+static void CHECK_ACCESS(void* ptr) {
+	DO_ASSERT(!pthread_mutex_lock(&allocation_mtx));
+	allocation* it = allocation_ll;
+	while (it->ptr != ptr) {
+		it = it->next;
+		if (it == NULL) {
+			DEBUG_PRINT("ERROR: Tried to access unknown pointer %p at:\\n", ptr);
+			void* bt[BT_MAX];
+			int bt_len = backtrace(bt, BT_MAX);
+			backtrace_symbols_fd(bt, bt_len, STDERR_FILENO);
+			DEBUG_PRINT("\\n\\n");
+			DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
+			return; // addrsan should catch and print more info than we have
+		}
+	}
+	DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
 }
 
 void* __real_realloc(void* ptr, size_t newlen);
