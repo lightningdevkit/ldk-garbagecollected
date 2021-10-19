@@ -24,6 +24,25 @@ public class ClosingTransaction extends CommonBase {
 	}
 
 	/**
+	 * Creates a copy of the ClosingTransaction
+	 */
+	public ClosingTransaction clone() {
+		long ret = bindings.ClosingTransaction_clone(this.ptr);
+		if (ret >= 0 && ret < 1024) { return null; }
+		ClosingTransaction ret_hu_conv = new ClosingTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if two ClosingTransactions contain equal inner contents.
+	 */
+	public long hash() {
+		long ret = bindings.ClosingTransaction_hash(this.ptr);
+		return ret;
+	}
+
+	/**
 	 * Construct an object of the class
 	 */
 	public static ClosingTransaction of(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {

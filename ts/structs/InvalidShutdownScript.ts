@@ -34,4 +34,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public InvalidShutdownScript clone() {
+		number ret = bindings.InvalidShutdownScript_clone(this.ptr);
+		const ret_hu_conv: InvalidShutdownScript = new InvalidShutdownScript(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

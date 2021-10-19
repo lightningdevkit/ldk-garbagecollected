@@ -705,14 +705,6 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TxOutAccessErro
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_usizeTransactionZ_new
- * Signature: (J[B)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1usizeTransactionZ_1new
-  (JNIEnv *, jclass, jlong, jbyteArray);
-
-/*
- * Class:     org_ldk_impl_bindings
  * Method:    C2Tuple_usizeTransactionZ_get_a
  * Signature: (J)J
  */
@@ -1030,14 +1022,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneNoneZ_1get_1ok
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneNoneZ_1get_1err
   (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_SignatureCVec_SignatureZZ_new
- * Signature: ([B[[B)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1SignatureCVec_1SignatureZZ_1new
-  (JNIEnv *, jclass, jbyteArray, jobjectArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -1377,14 +1361,6 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1TransactionNoneZ_1
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_BlockHashChannelMonitorZ_new
- * Signature: ([BJ)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChannelMonitorZ_1new
-  (JNIEnv *, jclass, jbyteArray, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
  * Method:    C2Tuple_BlockHashChannelMonitorZ_get_a
  * Signature: (J)[B
  */
@@ -1593,14 +1569,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NonePaymentSendFa
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_PaymentHashPaymentIdZ_new
- * Signature: ([BJ)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PaymentHashPaymentIdZ_1new
-  (JNIEnv *, jclass, jbyteArray, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
  * Method:    C2Tuple_PaymentHashPaymentIdZ_get_a
  * Signature: (J)[B
  */
@@ -1654,14 +1622,6 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKNetAddress_1ref_1from_1p
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1NetAddressZ_1new
   (JNIEnv *, jclass, jlongArray);
-
-/*
- * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_PaymentHashPaymentSecretZ_new
- * Signature: ([B[B)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PaymentHashPaymentSecretZ_1new
-  (JNIEnv *, jclass, jbyteArray, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -1846,14 +1806,6 @@ JNIEXPORT jint JNICALL Java_org_ldk_impl_bindings_FeeEstimator_1get_1est_1sat_1p
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKLogger_1new
   (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_BlockHashChannelManagerZ_new
- * Signature: ([BJ)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1BlockHashChannelManagerZ_1new
-  (JNIEnv *, jclass, jbyteArray, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -2078,14 +2030,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignedRawInvoiceN
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_LDKCResult_1SignedRawInvoiceNoneZ_1get_1err
   (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
- * Method:    LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ_new
- * Signature: (J[BJ)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1RawInvoice_1u832InvoiceSignatureZ_1new
-  (JNIEnv *, jclass, jlong, jbyteArray, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -2385,14 +2329,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneMonitorUpdate
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_OutPointScriptZ_new
- * Signature: (J[B)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1OutPointScriptZ_1new
-  (JNIEnv *, jclass, jlong, jbyteArray);
-
-/*
- * Class:     org_ldk_impl_bindings
  * Method:    C2Tuple_OutPointScriptZ_get_a
  * Signature: (J)J
  */
@@ -2406,14 +2342,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1get
  */
 JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1OutPointScriptZ_1get_1b
   (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_u32ScriptZ_new
- * Signature: (I[B)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32ScriptZ_1new
-  (JNIEnv *, jclass, jint, jbyteArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -2438,14 +2366,6 @@ JNIEXPORT jbyteArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1u32ScriptZ_1get
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1u32ScriptZZ_1new
   (JNIEnv *, jclass, jlongArray);
-
-/*
- * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new
- * Signature: ([B[J)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple_1u32ScriptZZZ_1new
-  (JNIEnv *, jclass, jbyteArray, jlongArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -2505,14 +2425,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1EventZ_1new
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_u32TxOutZ_new
- * Signature: (IJ)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1u32TxOutZ_1new
-  (JNIEnv *, jclass, jint, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
  * Method:    C2Tuple_u32TxOutZ_get_a
  * Signature: (J)I
  */
@@ -2534,14 +2446,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_C2Tuple_1u32TxOutZ_1get_1b
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCVec_1C2Tuple_1u32TxOutZZ_1new
   (JNIEnv *, jclass, jlongArray);
-
-/*
- * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new
- * Signature: ([B[J)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1TxidCVec_1C2Tuple_1u32TxOutZZZ_1new
-  (JNIEnv *, jclass, jbyteArray, jlongArray);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -2633,14 +2537,6 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1NoneLightningErro
 
 /*
  * Class:     org_ldk_impl_bindings
- * Method:    LDKC2Tuple_PublicKeyTypeZ_new
- * Signature: ([BJ)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC2Tuple_1PublicKeyTypeZ_1new
-  (JNIEnv *, jclass, jbyteArray, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
  * Method:    C2Tuple_PublicKeyTypeZ_get_a
  * Signature: (J)[B
  */
@@ -2686,14 +2582,6 @@ JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningE
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKCResult_1boolLightningErrorZ_1get_1err
   (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     org_ldk_impl_bindings
- * Method:    LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new
- * Signature: (JJJ)J
- */
-JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_LDKC3Tuple_1ChannelAnnouncementChannelUpdateChannelUpdateZ_1new
-  (JNIEnv *, jclass, jlong, jlong, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings
@@ -5085,6 +4973,14 @@ JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptInvali
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptInvalidShutdownScriptZ_1free
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    CResult_ShutdownScriptInvalidShutdownScriptZ_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_CResult_1ShutdownScriptInvalidShutdownScriptZ_1clone
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -17145,6 +17041,22 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ClosingTransaction_1free
 
 /*
  * Class:     org_ldk_impl_bindings
+ * Method:    ClosingTransaction_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingTransaction_1clone
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    ClosingTransaction_hash
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_ClosingTransaction_1hash
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     org_ldk_impl_bindings
  * Method:    ClosingTransaction_new
  * Signature: (JJ[B[BJ)J
  */
@@ -17686,6 +17598,14 @@ JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_InvalidShutdownScript_1set_1sc
  */
 JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InvalidShutdownScript_1new
   (JNIEnv *, jclass, jbyteArray);
+
+/*
+ * Class:     org_ldk_impl_bindings
+ * Method:    InvalidShutdownScript_clone
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_org_ldk_impl_bindings_InvalidShutdownScript_1clone
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     org_ldk_impl_bindings

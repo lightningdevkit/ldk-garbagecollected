@@ -54,8 +54,19 @@ public class Result_ShutdownScriptInvalidShutdownScriptZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ShutdownScriptInvalidShutdownScriptZ in the error state.
 	 */
-	public static Result_ShutdownScriptInvalidShutdownScriptZ err(byte[] e_script_arg) {
-		long ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_err(bindings.InvalidShutdownScript_new(e_script_arg));
+	public static Result_ShutdownScriptInvalidShutdownScriptZ err(InvalidShutdownScript e) {
+		long ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_err(e == null ? 0 : e.ptr & ~1);
+		if (ret >= 0 && ret < 1024) { return null; }
+		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Creates a new CResult_ShutdownScriptInvalidShutdownScriptZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_ShutdownScriptInvalidShutdownScriptZ clone() {
+		long ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_clone(this.ptr);
 		if (ret >= 0 && ret < 1024) { return null; }
 		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
