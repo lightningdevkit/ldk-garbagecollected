@@ -37,9 +37,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public Result_NoneAPIErrorZ create_channel(Uint8Array their_network_key, number channel_value_satoshis, number push_msat, number user_id, UserConfig override_config) {
-		number ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_id, override_config == null ? 0 : override_config.ptr & ~1);
-		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+	public Result__u832APIErrorZ create_channel(Uint8Array their_network_key, number channel_value_satoshis, number push_msat, number user_channel_id, UserConfig override_config) {
+		number ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr & ~1);
+		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
@@ -89,16 +89,23 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelManager_force_close_all_channels(this.ptr);
 	}
 
-	public Result_NonePaymentSendFailureZ send_payment(Route route, Uint8Array payment_hash, Uint8Array payment_secret) {
+	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, Uint8Array payment_hash, Uint8Array payment_secret) {
 		number ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_hash, payment_secret);
+		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
+		this.ptrs_to.add(route);
+		return ret_hu_conv;
+	}
+
+	public Result_NonePaymentSendFailureZ retry_payment(Route route, PaymentId payment_id) {
+		number ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id == null ? 0 : payment_id.ptr & ~1);
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
 	}
 
-	public Result_PaymentHashPaymentSendFailureZ send_spontaneous_payment(Route route, Uint8Array payment_preimage) {
+	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_spontaneous_payment(Route route, Uint8Array payment_preimage) {
 		number ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_preimage);
-		Result_PaymentHashPaymentSendFailureZ ret_hu_conv = Result_PaymentHashPaymentSendFailureZ.constr_from_ptr(ret);
+		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
 	}

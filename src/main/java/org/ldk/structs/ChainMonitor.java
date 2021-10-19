@@ -72,6 +72,38 @@ public class ChainMonitor extends CommonBase {
 	}
 
 	/**
+	 * Gets the [`LockedChannelMonitor`] for a given funding outpoint, returning an `Err` if no
+	 * such [`ChannelMonitor`] is currently being monitored for.
+	 * 
+	 * Note that the result holds a mutex over our monitor set, and should not be held
+	 * indefinitely.
+	 */
+	public Result_LockedChannelMonitorNoneZ get_monitor(OutPoint funding_txo) {
+		long ret = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1);
+		if (ret >= 0 && ret < 1024) { return null; }
+		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Lists the funding outpoint of each [`ChannelMonitor`] being monitored.
+	 * 
+	 * Note that [`ChannelMonitor`]s are not removed when a channel is closed as they are always
+	 * monitoring for on-chain state resolutions.
+	 */
+	public OutPoint[] list_monitors() {
+		long[] ret = bindings.ChainMonitor_list_monitors(this.ptr);
+		OutPoint[] ret_conv_10_arr = new OutPoint[ret.length];
+		for (int k = 0; k < ret.length; k++) {
+			long ret_conv_10 = ret[k];
+			OutPoint ret_conv_10_hu_conv = new OutPoint(null, ret_conv_10);
+			ret_conv_10_hu_conv.ptrs_to.add(this);
+			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
+		}
+		return ret_conv_10_arr;
+	}
+
+	/**
 	 * Constructs a new Listen which calls the relevant methods on this_arg.
 	 * This copies the `inner` pointer in this_arg and thus the returned Listen must be freed before this_arg is
 	 */

@@ -41,16 +41,19 @@ public class ChannelInfo extends CommonBase {
 	/**
 	 * Source node of the first direction of a channel
 	 */
-	public byte[] get_node_one() {
-		byte[] ret = bindings.ChannelInfo_get_node_one(this.ptr);
-		return ret;
+	public NodeId get_node_one() {
+		long ret = bindings.ChannelInfo_get_node_one(this.ptr);
+		if (ret >= 0 && ret < 1024) { return null; }
+		NodeId ret_hu_conv = new NodeId(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Source node of the first direction of a channel
 	 */
-	public void set_node_one(byte[] val) {
-		bindings.ChannelInfo_set_node_one(this.ptr, val);
+	public void set_node_one(NodeId val) {
+		bindings.ChannelInfo_set_node_one(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
 	/**
@@ -79,16 +82,19 @@ public class ChannelInfo extends CommonBase {
 	/**
 	 * Source node of the second direction of a channel
 	 */
-	public byte[] get_node_two() {
-		byte[] ret = bindings.ChannelInfo_get_node_two(this.ptr);
-		return ret;
+	public NodeId get_node_two() {
+		long ret = bindings.ChannelInfo_get_node_two(this.ptr);
+		if (ret >= 0 && ret < 1024) { return null; }
+		NodeId ret_hu_conv = new NodeId(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 	/**
 	 * Source node of the second direction of a channel
 	 */
-	public void set_node_two(byte[] val) {
-		bindings.ChannelInfo_set_node_two(this.ptr, val);
+	public void set_node_two(NodeId val) {
+		bindings.ChannelInfo_set_node_two(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
 	/**
@@ -164,8 +170,8 @@ public class ChannelInfo extends CommonBase {
 	/**
 	 * Constructs a new ChannelInfo given each field
 	 */
-	public static ChannelInfo of(ChannelFeatures features_arg, byte[] node_one_arg, DirectionalChannelInfo one_to_two_arg, byte[] node_two_arg, DirectionalChannelInfo two_to_one_arg, Option_u64Z capacity_sats_arg, ChannelAnnouncement announcement_message_arg) {
-		long ret = bindings.ChannelInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, node_one_arg, one_to_two_arg == null ? 0 : one_to_two_arg.ptr & ~1, node_two_arg, two_to_one_arg == null ? 0 : two_to_one_arg.ptr & ~1, capacity_sats_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+	public static ChannelInfo of(ChannelFeatures features_arg, NodeId node_one_arg, DirectionalChannelInfo one_to_two_arg, NodeId node_two_arg, DirectionalChannelInfo two_to_one_arg, Option_u64Z capacity_sats_arg, ChannelAnnouncement announcement_message_arg) {
+		long ret = bindings.ChannelInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, node_one_arg == null ? 0 : node_one_arg.ptr & ~1, one_to_two_arg == null ? 0 : one_to_two_arg.ptr & ~1, node_two_arg == null ? 0 : node_two_arg.ptr & ~1, two_to_one_arg == null ? 0 : two_to_one_arg.ptr & ~1, capacity_sats_arg.ptr, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		if (ret >= 0 && ret < 1024) { return null; }
 		ChannelInfo ret_hu_conv = new ChannelInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

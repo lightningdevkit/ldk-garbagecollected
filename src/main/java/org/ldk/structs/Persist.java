@@ -41,8 +41,10 @@ public class Persist extends CommonBase {
 		 * stored channel data). Note that you **must** persist every new monitor to
 		 * disk. See the `Persist` trait documentation for more details.
 		 * 
-		 * See [`ChannelMonitor::write`] for writing out a `ChannelMonitor`,
+		 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`
 		 * and [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+		 * 
+		 * [`Writeable::write`]: crate::util::ser::Writeable::write
 		 */
 		Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data);
 		/**
@@ -65,9 +67,11 @@ public class Persist extends CommonBase {
 		 * them in batches. The size of each monitor grows `O(number of state updates)`
 		 * whereas updates are small and `O(1)`.
 		 * 
-		 * See [`ChannelMonitor::write`] for writing out a `ChannelMonitor`,
-		 * [`ChannelMonitorUpdate::write`] for writing out an update, and
+		 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`,
+		 * [`Writeable::write`] on [`ChannelMonitorUpdate`] for writing out an update, and
 		 * [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+		 * 
+		 * [`Writeable::write`]: crate::util::ser::Writeable::write
 		 */
 		Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data);
 	}
@@ -102,8 +106,10 @@ public class Persist extends CommonBase {
 	 * stored channel data). Note that you **must** persist every new monitor to
 	 * disk. See the `Persist` trait documentation for more details.
 	 * 
-	 * See [`ChannelMonitor::write`] for writing out a `ChannelMonitor`,
+	 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`
 	 * and [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+	 * 
+	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data) {
 		long ret = bindings.Persist_persist_new_channel(this.ptr, id == null ? 0 : id.ptr & ~1, data == null ? 0 : data.ptr & ~1);
@@ -133,9 +139,11 @@ public class Persist extends CommonBase {
 	 * them in batches. The size of each monitor grows `O(number of state updates)`
 	 * whereas updates are small and `O(1)`.
 	 * 
-	 * See [`ChannelMonitor::write`] for writing out a `ChannelMonitor`,
-	 * [`ChannelMonitorUpdate::write`] for writing out an update, and
+	 * See [`Writeable::write`] on [`ChannelMonitor`] for writing out a `ChannelMonitor`,
+	 * [`Writeable::write`] on [`ChannelMonitorUpdate`] for writing out an update, and
 	 * [`ChannelMonitorUpdateErr`] for requirements when returning errors.
+	 * 
+	 * [`Writeable::write`]: crate::util::ser::Writeable::write
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data) {
 		long ret = bindings.Persist_update_persisted_channel(this.ptr, id == null ? 0 : id.ptr & ~1, update == null ? 0 : update.ptr & ~1, data == null ? 0 : data.ptr & ~1);

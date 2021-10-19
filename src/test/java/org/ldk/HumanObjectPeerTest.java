@@ -659,8 +659,8 @@ class HumanObjectPeerTestInstance {
 
         connect_peers(peer1, peer2);
 
-        Result_NoneAPIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, 42, null);
-        assert cc_res instanceof Result_NoneAPIErrorZ.Result_NoneAPIErrorZ_OK;
+        Result__u832APIErrorZ cc_res = peer1.chan_manager.create_channel(peer2.node_id, 100000, 1000, 42, null);
+        assert cc_res instanceof Result__u832APIErrorZ.Result__u832APIErrorZ_OK;
 
         // Previously, this was a SEGFAULT instead of get_funding_txo() returning null.
         ChannelDetails pre_funding_chan = peer1.chan_manager.list_channels()[0];
@@ -741,15 +741,17 @@ class HumanObjectPeerTestInstance {
         InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
         RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-        Result_RouteLightningErrorZ route_res = UtilMethods.get_route(peer1.chan_manager.get_our_node_id(), peer1.router.get_network_graph(), peer2.node_id, invoice_features, peer1_chans, route_hints, 10000000, 42, peer1.logger);
+        Result_RouteLightningErrorZ route_res = UtilMethods.get_route(
+                peer1.chan_manager.get_our_node_id(), peer1.router.get_network_graph(), peer2.node_id, invoice_features,
+                peer1_chans, route_hints, 10000000, 42, peer1.logger, Scorer.with_default().as_Score());
         assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
         Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
         assert route.get_paths().length == 1;
         assert route.get_paths()[0].length == 1;
         assert route.get_paths()[0][0].get_fee_msat() == 10000000;
 
-        Result_NonePaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
-        assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_OK;
+        Result_PaymentIdPaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
+        assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_OK;
 
         RouteHop[][] hops = new RouteHop[1][1];
         byte[] hop_pubkey = new byte[33];
@@ -758,7 +760,7 @@ class HumanObjectPeerTestInstance {
         hops[0][0] = RouteHop.of(hop_pubkey, NodeFeatures.known(), 42, ChannelFeatures.known(), 100, 0);
         Route r2 = Route.of(hops);
         payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
-        assert payment_res instanceof Result_NonePaymentSendFailureZ.Result_NonePaymentSendFailureZ_Err;
+        assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_Err;
 
         if (reload_peers) {
             if (use_chan_manager_constructor) {

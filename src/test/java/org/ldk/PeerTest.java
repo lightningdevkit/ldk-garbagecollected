@@ -280,8 +280,12 @@ public class PeerTest {
         long inbound_payment = bindings.ChannelManager_create_inbound_payment(peer2.chan_manager, no_min_val, 7200, 42);
         bindings.COption_u64Z_free(no_min_val);
         long netgraph = bindings.NetGraphMsgHandler_get_network_graph(peer1.router);
+        long scorer = bindings.Scorer_default();
+        long scorer_interface = bindings.Scorer_as_Score(scorer);
         long route = bindings.get_route(peer1.node_id, netgraph, peer2.node_id, 0L, peer1_chans,
-                new long[0], 1000, 42, peer1.logger);
+                new long[0], 1000, 42, peer1.logger, scorer_interface);
+        bindings.Score_free(scorer_interface);
+        bindings.Scorer_free(scorer);
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
         bindings.NetworkGraph_free(netgraph);

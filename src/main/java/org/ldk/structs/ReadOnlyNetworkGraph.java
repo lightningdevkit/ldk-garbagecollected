@@ -19,4 +19,17 @@ public class ReadOnlyNetworkGraph extends CommonBase {
 		if (ptr != 0) { bindings.ReadOnlyNetworkGraph_free(ptr); }
 	}
 
+	/**
+	 * Get network addresses by node id.
+	 * Returns None if the requested node is completely unknown,
+	 * or if node announcement for the node was never received.
+	 */
+	public Option_CVec_NetAddressZZ get_addresses(byte[] pubkey) {
+		long ret = bindings.ReadOnlyNetworkGraph_get_addresses(this.ptr, pubkey);
+		if (ret >= 0 && ret < 1024) { return null; }
+		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
 }

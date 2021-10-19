@@ -51,28 +51,6 @@ public class ShutdownScript extends CommonBase {
 	}
 
 	/**
-	 * Generates a P2PKH script pubkey from the given [`PubkeyHash`].
-	 */
-	public static ShutdownScript new_p2pkh(byte[] pubkey_hash) {
-		long ret = bindings.ShutdownScript_new_p2pkh(pubkey_hash);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ShutdownScript ret_hu_conv = new ShutdownScript(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Generates a P2SH script pubkey from the given [`ScriptHash`].
-	 */
-	public static ShutdownScript new_p2sh(byte[] script_hash) {
-		long ret = bindings.ShutdownScript_new_p2sh(script_hash);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ShutdownScript ret_hu_conv = new ShutdownScript(null, ret);
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Generates a P2WPKH script pubkey from the given [`WPubkeyHash`].
 	 */
 	public static ShutdownScript new_p2wpkh(byte[] pubkey_hash) {

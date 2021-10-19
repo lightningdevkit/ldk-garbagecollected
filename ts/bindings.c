@@ -2223,6 +2223,27 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_CVec_C2Tuple_Bloc
 	uint32_t err_conv = LDKIOError_to_js((*val->contents.err));
 	return err_conv;
 }
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_PaymentIdDecodeErrorZ_result_ok(uint32_t arg) {
+	return ((LDKCResult_PaymentIdDecodeErrorZ*)arg)->result_ok;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PaymentIdDecodeErrorZ_get_ok(uint32_t arg) {
+	LDKCResult_PaymentIdDecodeErrorZ *val = (LDKCResult_PaymentIdDecodeErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKPaymentId res_var = (*val->contents.result);
+	CHECK((((uint64_t)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t res_ref = (uint64_t)res_var.inner & ~1;
+	return res_ref;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PaymentIdDecodeErrorZ_get_err(uint32_t arg) {
+	LDKCResult_PaymentIdDecodeErrorZ *val = (LDKCResult_PaymentIdDecodeErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKDecodeError err_var = (*val->contents.err);
+	CHECK((((uint64_t)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t err_ref = (uint64_t)err_var.inner & ~1;
+	return err_ref;
+}
 uint32_t __attribute__((visibility("default"))) TS_LDKCOption_u16Z_ref_from_ptr(uint32_t ptr) {
 	LDKCOption_u16Z *obj = (LDKCOption_u16Z*)(ptr & ~1);
 	switch(obj->tag) {
@@ -2333,6 +2354,22 @@ static inline LDKCVec_APIErrorZ CVec_APIErrorZ_clone(const LDKCVec_APIErrorZ *or
 	}
 	return ret;
 }
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult__u832APIErrorZ_result_ok(uint32_t arg) {
+	return ((LDKCResult__u832APIErrorZ*)arg)->result_ok;
+}
+int8_tArray  __attribute__((visibility("default"))) TS_LDKCResult__u832APIErrorZ_get_ok(uint32_t arg) {
+	LDKCResult__u832APIErrorZ *val = (LDKCResult__u832APIErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	int8_tArray res_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
+	memcpy((uint8_t*)(res_arr + 4), (*val->contents.result).data, 32);
+	return res_arr;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult__u832APIErrorZ_get_err(uint32_t arg) {
+	LDKCResult__u832APIErrorZ *val = (LDKCResult__u832APIErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	uint64_t err_ref = ((uint64_t)&(*val->contents.err)) | 1;
+	return err_ref;
+}
 uint32_t __attribute__((visibility("default"))) TS_LDKPaymentSendFailure_ref_from_ptr(uint32_t ptr) {
 	LDKPaymentSendFailure *obj = (LDKPaymentSendFailure*)(ptr & ~1);
 	switch(obj->tag) {
@@ -2377,6 +2414,24 @@ uint32_t __attribute__((visibility("default"))) TS_LDKPaymentSendFailure_ref_fro
 		default: abort();
 	}
 }
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_PaymentIdPaymentSendFailureZ_result_ok(uint32_t arg) {
+	return ((LDKCResult_PaymentIdPaymentSendFailureZ*)arg)->result_ok;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PaymentIdPaymentSendFailureZ_get_ok(uint32_t arg) {
+	LDKCResult_PaymentIdPaymentSendFailureZ *val = (LDKCResult_PaymentIdPaymentSendFailureZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKPaymentId res_var = (*val->contents.result);
+	CHECK((((uint64_t)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t res_ref = (uint64_t)res_var.inner & ~1;
+	return res_ref;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PaymentIdPaymentSendFailureZ_get_err(uint32_t arg) {
+	LDKCResult_PaymentIdPaymentSendFailureZ *val = (LDKCResult_PaymentIdPaymentSendFailureZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	uint64_t err_ref = ((uint64_t)&(*val->contents.err)) | 1;
+	return err_ref;
+}
 jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NonePaymentSendFailureZ_result_ok(uint32_t arg) {
 	return ((LDKCResult_NonePaymentSendFailureZ*)arg)->result_ok;
 }
@@ -2391,18 +2446,57 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NonePaymentSendFa
 	uint64_t err_ref = ((uint64_t)&(*val->contents.err)) | 1;
 	return err_ref;
 }
-jboolean  __attribute__((visibility("default"))) TS_LDKCResult_PaymentHashPaymentSendFailureZ_result_ok(uint32_t arg) {
-	return ((LDKCResult_PaymentHashPaymentSendFailureZ*)arg)->result_ok;
+uint32_t  __attribute__((visibility("default"))) TS_LDKC2Tuple_PaymentHashPaymentIdZ_new(int8_tArray a, uint32_t b) {
+	LDKC2Tuple_PaymentHashPaymentIdZ* ret = MALLOC(sizeof(LDKC2Tuple_PaymentHashPaymentIdZ), "LDKC2Tuple_PaymentHashPaymentIdZ");
+	LDKThirtyTwoBytes a_ref;
+	CHECK(*((uint32_t*)a) == 32);
+	memcpy(a_ref.data, (uint8_t*)(a + 4), 32);
+	ret->a = a_ref;
+	LDKPaymentId b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = (b & 1) || (b == 0);
+	b_conv = PaymentId_clone(&b_conv);
+	ret->b = b_conv;
+	return (uint64_t)ret;
 }
-int8_tArray  __attribute__((visibility("default"))) TS_LDKCResult_PaymentHashPaymentSendFailureZ_get_ok(uint32_t arg) {
-	LDKCResult_PaymentHashPaymentSendFailureZ *val = (LDKCResult_PaymentHashPaymentSendFailureZ*)(arg & ~1);
+static inline struct LDKThirtyTwoBytes C2Tuple_PaymentHashPaymentIdZ_get_a(LDKC2Tuple_PaymentHashPaymentIdZ *NONNULL_PTR tuple){
+	return ThirtyTwoBytes_clone(&tuple->a);
+}
+int8_tArray  __attribute__((visibility("default"))) TS_C2Tuple_PaymentHashPaymentIdZ_get_a(uint32_t tuple) {
+	LDKC2Tuple_PaymentHashPaymentIdZ* tuple_conv = (LDKC2Tuple_PaymentHashPaymentIdZ*)(tuple & ~1);
+	int8_tArray ret_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
+	memcpy((uint8_t*)(ret_arr + 4), C2Tuple_PaymentHashPaymentIdZ_get_a(tuple_conv).data, 32);
+	return ret_arr;
+}
+
+static inline struct LDKPaymentId C2Tuple_PaymentHashPaymentIdZ_get_b(LDKC2Tuple_PaymentHashPaymentIdZ *NONNULL_PTR tuple){
+	return PaymentId_clone(&tuple->b);
+}
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_PaymentHashPaymentIdZ_get_b(uint32_t tuple) {
+	LDKC2Tuple_PaymentHashPaymentIdZ* tuple_conv = (LDKC2Tuple_PaymentHashPaymentIdZ*)(tuple & ~1);
+	LDKPaymentId ret_var = C2Tuple_PaymentHashPaymentIdZ_get_b(tuple_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_result_ok(uint32_t arg) {
+	return ((LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ*)arg)->result_ok;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_ok(uint32_t arg) {
+	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ *val = (LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ*)(arg & ~1);
 	CHECK(val->result_ok);
-	int8_tArray res_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
-	memcpy((uint8_t*)(res_arr + 4), (*val->contents.result).data, 32);
-	return res_arr;
+	LDKC2Tuple_PaymentHashPaymentIdZ* res_conv = MALLOC(sizeof(LDKC2Tuple_PaymentHashPaymentIdZ), "LDKC2Tuple_PaymentHashPaymentIdZ");
+	*res_conv = (*val->contents.result);
+	*res_conv = C2Tuple_PaymentHashPaymentIdZ_clone(res_conv);
+	return ((uint64_t)res_conv);
 }
-uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_PaymentHashPaymentSendFailureZ_get_err(uint32_t arg) {
-	LDKCResult_PaymentHashPaymentSendFailureZ *val = (LDKCResult_PaymentHashPaymentSendFailureZ*)(arg & ~1);
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_err(uint32_t arg) {
+	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ *val = (LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ*)(arg & ~1);
 	CHECK(!val->result_ok);
 	uint64_t err_ref = ((uint64_t)&(*val->contents.err)) | 1;
 	return err_ref;
@@ -3758,7 +3852,9 @@ uint32_t __attribute__((visibility("default"))) TS_LDKEvent_ref_from_ptr(uint32_
 		case LDKEvent_PaymentSent: {
 			int8_tArray payment_preimage_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 			memcpy((uint8_t*)(payment_preimage_arr + 4), obj->payment_sent.payment_preimage.data, 32);
-			return 0 /* LDKEvent - PaymentSent */; (void) payment_preimage_arr;
+			int8_tArray payment_hash_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
+			memcpy((uint8_t*)(payment_hash_arr + 4), obj->payment_sent.payment_hash.data, 32);
+			return 0 /* LDKEvent - PaymentSent */; (void) payment_preimage_arr; (void) payment_hash_arr;
 		}
 		case LDKEvent_PaymentPathFailed: {
 			int8_tArray payment_hash_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
@@ -3774,7 +3870,8 @@ uint32_t __attribute__((visibility("default"))) TS_LDKEvent_ref_from_ptr(uint32_
 				uint64_t path_conv_10_ref = (uint64_t)path_conv_10_var.inner & ~1;
 				path_arr_ptr[k] = path_conv_10_ref;
 			}
-			return 0 /* LDKEvent - PaymentPathFailed */; (void) payment_hash_arr; (void) obj->payment_path_failed.rejected_by_dest; (void) network_update_ref; (void) obj->payment_path_failed.all_paths_failed; (void) path_arr;
+			uint64_t short_channel_id_ref = ((uint64_t)&obj->payment_path_failed.short_channel_id) | 1;
+			return 0 /* LDKEvent - PaymentPathFailed */; (void) payment_hash_arr; (void) obj->payment_path_failed.rejected_by_dest; (void) network_update_ref; (void) obj->payment_path_failed.all_paths_failed; (void) path_arr; (void) short_channel_id_ref;
 		}
 		case LDKEvent_PendingHTLCsForwardable: {
 			return 0 /* LDKEvent - PendingHTLCsForwardable */; (void) obj->pending_htl_cs_forwardable.time_forwardable;
@@ -3797,7 +3894,15 @@ uint32_t __attribute__((visibility("default"))) TS_LDKEvent_ref_from_ptr(uint32_
 			int8_tArray channel_id_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
 			memcpy((uint8_t*)(channel_id_arr + 4), obj->channel_closed.channel_id.data, 32);
 			uint64_t reason_ref = ((uint64_t)&obj->channel_closed.reason) | 1;
-			return 0 /* LDKEvent - ChannelClosed */; (void) channel_id_arr; (void) reason_ref;
+			return 0 /* LDKEvent - ChannelClosed */; (void) channel_id_arr; (void) obj->channel_closed.user_channel_id; (void) reason_ref;
+		}
+		case LDKEvent_DiscardFunding: {
+			int8_tArray channel_id_arr = init_arr(32, sizeof(uint8_t), "Native int8_tArray Bytes");
+			memcpy((uint8_t*)(channel_id_arr + 4), obj->discard_funding.channel_id.data, 32);
+			LDKTransaction transaction_var = obj->discard_funding.transaction;
+			int8_tArray transaction_arr = init_arr(transaction_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
+			memcpy((uint8_t*)(transaction_arr + 4), transaction_var.data, transaction_var.datalen);
+			return 0 /* LDKEvent - DiscardFunding */; (void) channel_id_arr; (void) transaction_arr;
 		}
 		default: abort();
 	}
@@ -4269,6 +4374,27 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_boolPeerHandleErr
 	uint64_t err_ref = (uint64_t)err_var.inner & ~1;
 	return err_ref;
 }
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NodeIdDecodeErrorZ_result_ok(uint32_t arg) {
+	return ((LDKCResult_NodeIdDecodeErrorZ*)arg)->result_ok;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NodeIdDecodeErrorZ_get_ok(uint32_t arg) {
+	LDKCResult_NodeIdDecodeErrorZ *val = (LDKCResult_NodeIdDecodeErrorZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKNodeId res_var = (*val->contents.result);
+	CHECK((((uint64_t)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t res_ref = (uint64_t)res_var.inner & ~1;
+	return res_ref;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NodeIdDecodeErrorZ_get_err(uint32_t arg) {
+	LDKCResult_NodeIdDecodeErrorZ *val = (LDKCResult_NodeIdDecodeErrorZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	LDKDecodeError err_var = (*val->contents.err);
+	CHECK((((uint64_t)err_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t err_ref = (uint64_t)err_var.inner & ~1;
+	return err_ref;
+}
 typedef struct LDKAccess_JCalls {
 	atomic_size_t refcnt;
 	uint32_t get_utxo_meth;
@@ -4480,6 +4606,25 @@ uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_NetworkGraphDecod
 	CHECK((((uint64_t)&err_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	uint64_t err_ref = (uint64_t)err_var.inner & ~1;
 	return err_ref;
+}
+uint32_t __attribute__((visibility("default"))) TS_LDKCOption_CVec_NetAddressZZ_ref_from_ptr(uint32_t ptr) {
+	LDKCOption_CVec_NetAddressZZ *obj = (LDKCOption_CVec_NetAddressZZ*)(ptr & ~1);
+	switch(obj->tag) {
+		case LDKCOption_CVec_NetAddressZZ_Some: {
+			LDKCVec_NetAddressZ some_var = obj->some;
+			uint32_tArray some_arr = init_arr(some_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
+			uint32_t *some_arr_ptr = (uint32_t*)(some_arr + 4);
+			for (size_t m = 0; m < some_var.datalen; m++) {
+				uint64_t some_conv_12_ref = ((uint64_t)&some_var.data[m]) | 1;
+				some_arr_ptr[m] = some_conv_12_ref;
+			}
+			return 0 /* LDKCOption_CVec_NetAddressZZ - Some */; (void) some_arr;
+		}
+		case LDKCOption_CVec_NetAddressZZ_None: {
+			return 0 /* LDKCOption_CVec_NetAddressZZ - None */;
+		}
+		default: abort();
+	}
 }
 jboolean  __attribute__((visibility("default"))) TS_LDKCResult_NetAddressu8Z_result_ok(uint32_t arg) {
 	return ((LDKCResult_NetAddressu8Z*)arg)->result_ok;
@@ -5436,6 +5581,49 @@ uint32_t __attribute__((visibility("default"))) TS_LDKCOption_FilterZ_ref_from_p
 		}
 		default: abort();
 	}
+}
+jboolean  __attribute__((visibility("default"))) TS_LDKCResult_LockedChannelMonitorNoneZ_result_ok(uint32_t arg) {
+	return ((LDKCResult_LockedChannelMonitorNoneZ*)arg)->result_ok;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCResult_LockedChannelMonitorNoneZ_get_ok(uint32_t arg) {
+	LDKCResult_LockedChannelMonitorNoneZ *val = (LDKCResult_LockedChannelMonitorNoneZ*)(arg & ~1);
+	CHECK(val->result_ok);
+	LDKLockedChannelMonitor res_var = (*val->contents.result);
+	CHECK((((uint64_t)res_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&res_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t res_ref = (uint64_t)res_var.inner & ~1;
+	return res_ref;
+}
+void  __attribute__((visibility("default"))) TS_LDKCResult_LockedChannelMonitorNoneZ_get_err(uint32_t arg) {
+	LDKCResult_LockedChannelMonitorNoneZ *val = (LDKCResult_LockedChannelMonitorNoneZ*)(arg & ~1);
+	CHECK(!val->result_ok);
+	return *val->contents.err;
+}
+uint32_t  __attribute__((visibility("default"))) TS_LDKCVec_OutPointZ_new(uint32_tArray elems) {
+	LDKCVec_OutPointZ *ret = MALLOC(sizeof(LDKCVec_OutPointZ), "LDKCVec_OutPointZ");
+	ret->datalen = *((uint32_t*)elems);
+	if (ret->datalen == 0) {
+		ret->data = NULL;
+	} else {
+		ret->data = MALLOC(sizeof(LDKOutPoint) * ret->datalen, "LDKCVec_OutPointZ Data");
+		uint32_t *java_elems = (uint32_t*)(elems + 4);
+		for (size_t i = 0; i < ret->datalen; i++) {
+			uint32_t arr_elem = java_elems[i];
+			LDKOutPoint arr_elem_conv;
+			arr_elem_conv.inner = (void*)(arr_elem & (~1));
+			arr_elem_conv.is_owned = (arr_elem & 1) || (arr_elem == 0);
+			arr_elem_conv = OutPoint_clone(&arr_elem_conv);
+			ret->data[i] = arr_elem_conv;
+		}
+	}
+	return (uint64_t)ret;
+}
+static inline LDKCVec_OutPointZ CVec_OutPointZ_clone(const LDKCVec_OutPointZ *orig) {
+	LDKCVec_OutPointZ ret = { .data = MALLOC(sizeof(LDKOutPoint) * orig->datalen, "LDKCVec_OutPointZ clone bytes"), .datalen = orig->datalen };
+	for (size_t i = 0; i < ret.datalen; i++) {
+		ret.data[i] = OutPoint_clone(&orig->data[i]);
+	}
+	return ret;
 }
 typedef struct LDKMessageSendEventsProvider_JCalls {
 	atomic_size_t refcnt;
@@ -7113,6 +7301,48 @@ void  __attribute__((visibility("default"))) TS_SocketDescriptor_disconnect_sock
 int64_t  __attribute__((visibility("default"))) TS_SocketDescriptor_hash(uint32_t this_arg) {
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)(((uint64_t)this_arg) & ~1);
 	int64_t ret_val = (this_arg_conv->hash)(this_arg_conv->this_arg);
+	return ret_val;
+}
+
+typedef struct LDKScore_JCalls {
+	atomic_size_t refcnt;
+	uint32_t channel_penalty_msat_meth;
+} LDKScore_JCalls;
+static void LDKScore_JCalls_free(void* this_arg) {
+	LDKScore_JCalls *j_calls = (LDKScore_JCalls*) this_arg;
+	if (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {
+		js_free(j_calls->channel_penalty_msat_meth);
+		FREE(j_calls);
+	}
+}
+uint64_t channel_penalty_msat_LDKScore_jcall(const void* this_arg, uint64_t short_channel_id) {
+	LDKScore_JCalls *j_calls = (LDKScore_JCalls*) this_arg;
+	return js_invoke_function_1(j_calls->channel_penalty_msat_meth, short_channel_id);
+}
+static void LDKScore_JCalls_cloned(LDKScore* new_obj) {
+	LDKScore_JCalls *j_calls = (LDKScore_JCalls*) new_obj->this_arg;
+	atomic_fetch_add_explicit(&j_calls->refcnt, 1, memory_order_release);
+}
+static inline LDKScore LDKScore_init (/*TODO: JS Object Reference */void* o) {
+	LDKScore_JCalls *calls = MALLOC(sizeof(LDKScore_JCalls), "LDKScore_JCalls");
+	atomic_init(&calls->refcnt, 1);
+	//TODO: Assign calls->o from o
+
+	LDKScore ret = {
+		.this_arg = (void*) calls,
+		.channel_penalty_msat = channel_penalty_msat_LDKScore_jcall,
+		.free = LDKScore_JCalls_free,
+	};
+	return ret;
+}
+long  __attribute__((visibility("default"))) TS_LDKScore_new(/*TODO: JS Object Reference */void* o) {
+	LDKScore *res_ptr = MALLOC(sizeof(LDKScore), "LDKScore");
+	*res_ptr = LDKScore_init(o);
+	return (long)res_ptr;
+}
+int64_t  __attribute__((visibility("default"))) TS_Score_channel_penalty_msat(uint32_t this_arg, int64_t short_channel_id) {
+	LDKScore* this_arg_conv = (LDKScore*)(((uint64_t)this_arg) & ~1);
+	int64_t ret_val = (this_arg_conv->channel_penalty_msat)(this_arg_conv->this_arg, short_channel_id);
 	return ret_val;
 }
 
@@ -8890,6 +9120,40 @@ uint32_t  __attribute__((visibility("default"))) TS_CResult_CVec_C2Tuple_BlockHa
 	return (uint64_t)ret_conv;
 }
 
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentIdDecodeErrorZ_ok(uint32_t o) {
+	LDKPaymentId o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = (o & 1) || (o == 0);
+	o_conv = PaymentId_clone(&o_conv);
+	LDKCResult_PaymentIdDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentIdDecodeErrorZ), "LDKCResult_PaymentIdDecodeErrorZ");
+	*ret_conv = CResult_PaymentIdDecodeErrorZ_ok(o_conv);
+	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentIdDecodeErrorZ_err(uint32_t e) {
+	LDKDecodeError e_conv;
+	e_conv.inner = (void*)(e & (~1));
+	e_conv.is_owned = (e & 1) || (e == 0);
+	e_conv = DecodeError_clone(&e_conv);
+	LDKCResult_PaymentIdDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentIdDecodeErrorZ), "LDKCResult_PaymentIdDecodeErrorZ");
+	*ret_conv = CResult_PaymentIdDecodeErrorZ_err(e_conv);
+	return (uint64_t)ret_conv;
+}
+
+void  __attribute__((visibility("default"))) TS_CResult_PaymentIdDecodeErrorZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKCResult_PaymentIdDecodeErrorZ _res_conv = *(LDKCResult_PaymentIdDecodeErrorZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	CResult_PaymentIdDecodeErrorZ_free(_res_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentIdDecodeErrorZ_clone(uint32_t orig) {
+	LDKCResult_PaymentIdDecodeErrorZ* orig_conv = (LDKCResult_PaymentIdDecodeErrorZ*)(orig & ~1);
+	LDKCResult_PaymentIdDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentIdDecodeErrorZ), "LDKCResult_PaymentIdDecodeErrorZ");
+	*ret_conv = CResult_PaymentIdDecodeErrorZ_clone(orig_conv);
+	return (uint64_t)ret_conv;
+}
+
 uint32_t  __attribute__((visibility("default"))) TS_COption_u16Z_some(int16_t o) {
 	LDKCOption_u16Z *ret_copy = MALLOC(sizeof(LDKCOption_u16Z), "LDKCOption_u16Z");
 	*ret_copy = COption_u16Z_some(o);
@@ -8981,6 +9245,69 @@ void  __attribute__((visibility("default"))) TS_CVec_APIErrorZ_free(uint32_tArra
 	CVec_APIErrorZ_free(_res_constr);
 }
 
+uint32_t  __attribute__((visibility("default"))) TS_CResult__u832APIErrorZ_ok(int8_tArray o) {
+	LDKThirtyTwoBytes o_ref;
+	CHECK(*((uint32_t*)o) == 32);
+	memcpy(o_ref.data, (uint8_t*)(o + 4), 32);
+	LDKCResult__u832APIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult__u832APIErrorZ), "LDKCResult__u832APIErrorZ");
+	*ret_conv = CResult__u832APIErrorZ_ok(o_ref);
+	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult__u832APIErrorZ_err(uint32_t e) {
+	LDKAPIError e_conv = *(LDKAPIError*)(((uint64_t)e) & ~1);
+	e_conv = APIError_clone((LDKAPIError*)(((uint64_t)e) & ~1));
+	LDKCResult__u832APIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult__u832APIErrorZ), "LDKCResult__u832APIErrorZ");
+	*ret_conv = CResult__u832APIErrorZ_err(e_conv);
+	return (uint64_t)ret_conv;
+}
+
+void  __attribute__((visibility("default"))) TS_CResult__u832APIErrorZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKCResult__u832APIErrorZ _res_conv = *(LDKCResult__u832APIErrorZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	CResult__u832APIErrorZ_free(_res_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult__u832APIErrorZ_clone(uint32_t orig) {
+	LDKCResult__u832APIErrorZ* orig_conv = (LDKCResult__u832APIErrorZ*)(orig & ~1);
+	LDKCResult__u832APIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult__u832APIErrorZ), "LDKCResult__u832APIErrorZ");
+	*ret_conv = CResult__u832APIErrorZ_clone(orig_conv);
+	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentIdPaymentSendFailureZ_ok(uint32_t o) {
+	LDKPaymentId o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = (o & 1) || (o == 0);
+	o_conv = PaymentId_clone(&o_conv);
+	LDKCResult_PaymentIdPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentIdPaymentSendFailureZ), "LDKCResult_PaymentIdPaymentSendFailureZ");
+	*ret_conv = CResult_PaymentIdPaymentSendFailureZ_ok(o_conv);
+	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentIdPaymentSendFailureZ_err(uint32_t e) {
+	LDKPaymentSendFailure e_conv = *(LDKPaymentSendFailure*)(((uint64_t)e) & ~1);
+	e_conv = PaymentSendFailure_clone((LDKPaymentSendFailure*)(((uint64_t)e) & ~1));
+	LDKCResult_PaymentIdPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentIdPaymentSendFailureZ), "LDKCResult_PaymentIdPaymentSendFailureZ");
+	*ret_conv = CResult_PaymentIdPaymentSendFailureZ_err(e_conv);
+	return (uint64_t)ret_conv;
+}
+
+void  __attribute__((visibility("default"))) TS_CResult_PaymentIdPaymentSendFailureZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKCResult_PaymentIdPaymentSendFailureZ _res_conv = *(LDKCResult_PaymentIdPaymentSendFailureZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	CResult_PaymentIdPaymentSendFailureZ_free(_res_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentIdPaymentSendFailureZ_clone(uint32_t orig) {
+	LDKCResult_PaymentIdPaymentSendFailureZ* orig_conv = (LDKCResult_PaymentIdPaymentSendFailureZ*)(orig & ~1);
+	LDKCResult_PaymentIdPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentIdPaymentSendFailureZ), "LDKCResult_PaymentIdPaymentSendFailureZ");
+	*ret_conv = CResult_PaymentIdPaymentSendFailureZ_clone(orig_conv);
+	return (uint64_t)ret_conv;
+}
+
 uint32_t  __attribute__((visibility("default"))) TS_CResult_NonePaymentSendFailureZ_ok() {
 	LDKCResult_NonePaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_NonePaymentSendFailureZ), "LDKCResult_NonePaymentSendFailureZ");
 	*ret_conv = CResult_NonePaymentSendFailureZ_ok();
@@ -9009,34 +9336,60 @@ uint32_t  __attribute__((visibility("default"))) TS_CResult_NonePaymentSendFailu
 	return (uint64_t)ret_conv;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentHashPaymentSendFailureZ_ok(int8_tArray o) {
-	LDKThirtyTwoBytes o_ref;
-	CHECK(*((uint32_t*)o) == 32);
-	memcpy(o_ref.data, (uint8_t*)(o + 4), 32);
-	LDKCResult_PaymentHashPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentHashPaymentSendFailureZ), "LDKCResult_PaymentHashPaymentSendFailureZ");
-	*ret_conv = CResult_PaymentHashPaymentSendFailureZ_ok(o_ref);
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_PaymentHashPaymentIdZ_clone(uint32_t orig) {
+	LDKC2Tuple_PaymentHashPaymentIdZ* orig_conv = (LDKC2Tuple_PaymentHashPaymentIdZ*)(orig & ~1);
+	LDKC2Tuple_PaymentHashPaymentIdZ* ret_conv = MALLOC(sizeof(LDKC2Tuple_PaymentHashPaymentIdZ), "LDKC2Tuple_PaymentHashPaymentIdZ");
+	*ret_conv = C2Tuple_PaymentHashPaymentIdZ_clone(orig_conv);
+	return ((uint64_t)ret_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_PaymentHashPaymentIdZ_new(int8_tArray a, uint32_t b) {
+	LDKThirtyTwoBytes a_ref;
+	CHECK(*((uint32_t*)a) == 32);
+	memcpy(a_ref.data, (uint8_t*)(a + 4), 32);
+	LDKPaymentId b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = (b & 1) || (b == 0);
+	b_conv = PaymentId_clone(&b_conv);
+	LDKC2Tuple_PaymentHashPaymentIdZ* ret_conv = MALLOC(sizeof(LDKC2Tuple_PaymentHashPaymentIdZ), "LDKC2Tuple_PaymentHashPaymentIdZ");
+	*ret_conv = C2Tuple_PaymentHashPaymentIdZ_new(a_ref, b_conv);
+	return ((uint64_t)ret_conv);
+}
+
+void  __attribute__((visibility("default"))) TS_C2Tuple_PaymentHashPaymentIdZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKC2Tuple_PaymentHashPaymentIdZ _res_conv = *(LDKC2Tuple_PaymentHashPaymentIdZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	C2Tuple_PaymentHashPaymentIdZ_free(_res_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_ok(uint32_t o) {
+	LDKC2Tuple_PaymentHashPaymentIdZ o_conv = *(LDKC2Tuple_PaymentHashPaymentIdZ*)(((uint64_t)o) & ~1);
+	o_conv = C2Tuple_PaymentHashPaymentIdZ_clone((LDKC2Tuple_PaymentHashPaymentIdZ*)(((uint64_t)o) & ~1));
+	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ), "LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ");
+	*ret_conv = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_ok(o_conv);
 	return (uint64_t)ret_conv;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentHashPaymentSendFailureZ_err(uint32_t e) {
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_err(uint32_t e) {
 	LDKPaymentSendFailure e_conv = *(LDKPaymentSendFailure*)(((uint64_t)e) & ~1);
 	e_conv = PaymentSendFailure_clone((LDKPaymentSendFailure*)(((uint64_t)e) & ~1));
-	LDKCResult_PaymentHashPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentHashPaymentSendFailureZ), "LDKCResult_PaymentHashPaymentSendFailureZ");
-	*ret_conv = CResult_PaymentHashPaymentSendFailureZ_err(e_conv);
+	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ), "LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ");
+	*ret_conv = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_err(e_conv);
 	return (uint64_t)ret_conv;
 }
 
-void  __attribute__((visibility("default"))) TS_CResult_PaymentHashPaymentSendFailureZ_free(uint32_t _res) {
+void  __attribute__((visibility("default"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_free(uint32_t _res) {
 	if ((_res & 1) != 0) return;
-	LDKCResult_PaymentHashPaymentSendFailureZ _res_conv = *(LDKCResult_PaymentHashPaymentSendFailureZ*)(((uint64_t)_res) & ~1);
+	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ _res_conv = *(LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ*)(((uint64_t)_res) & ~1);
 	FREE((void*)_res);
-	CResult_PaymentHashPaymentSendFailureZ_free(_res_conv);
+	CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_free(_res_conv);
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_CResult_PaymentHashPaymentSendFailureZ_clone(uint32_t orig) {
-	LDKCResult_PaymentHashPaymentSendFailureZ* orig_conv = (LDKCResult_PaymentHashPaymentSendFailureZ*)(orig & ~1);
-	LDKCResult_PaymentHashPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentHashPaymentSendFailureZ), "LDKCResult_PaymentHashPaymentSendFailureZ");
-	*ret_conv = CResult_PaymentHashPaymentSendFailureZ_clone(orig_conv);
+uint32_t  __attribute__((visibility("default"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone(uint32_t orig) {
+	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* orig_conv = (LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ*)(orig & ~1);
+	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ), "LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ");
+	*ret_conv = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone(orig_conv);
 	return (uint64_t)ret_conv;
 }
 
@@ -10355,6 +10708,40 @@ uint32_t  __attribute__((visibility("default"))) TS_CResult_boolPeerHandleErrorZ
 	return (uint64_t)ret_conv;
 }
 
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NodeIdDecodeErrorZ_ok(uint32_t o) {
+	LDKNodeId o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = (o & 1) || (o == 0);
+	o_conv = NodeId_clone(&o_conv);
+	LDKCResult_NodeIdDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeIdDecodeErrorZ), "LDKCResult_NodeIdDecodeErrorZ");
+	*ret_conv = CResult_NodeIdDecodeErrorZ_ok(o_conv);
+	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NodeIdDecodeErrorZ_err(uint32_t e) {
+	LDKDecodeError e_conv;
+	e_conv.inner = (void*)(e & (~1));
+	e_conv.is_owned = (e & 1) || (e == 0);
+	e_conv = DecodeError_clone(&e_conv);
+	LDKCResult_NodeIdDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeIdDecodeErrorZ), "LDKCResult_NodeIdDecodeErrorZ");
+	*ret_conv = CResult_NodeIdDecodeErrorZ_err(e_conv);
+	return (uint64_t)ret_conv;
+}
+
+void  __attribute__((visibility("default"))) TS_CResult_NodeIdDecodeErrorZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKCResult_NodeIdDecodeErrorZ _res_conv = *(LDKCResult_NodeIdDecodeErrorZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	CResult_NodeIdDecodeErrorZ_free(_res_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_NodeIdDecodeErrorZ_clone(uint32_t orig) {
+	LDKCResult_NodeIdDecodeErrorZ* orig_conv = (LDKCResult_NodeIdDecodeErrorZ*)(orig & ~1);
+	LDKCResult_NodeIdDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeIdDecodeErrorZ), "LDKCResult_NodeIdDecodeErrorZ");
+	*ret_conv = CResult_NodeIdDecodeErrorZ_clone(orig_conv);
+	return (uint64_t)ret_conv;
+}
+
 uint32_t  __attribute__((visibility("default"))) TS_COption_AccessZ_some(uint32_t o) {
 	LDKAccess o_conv = *(LDKAccess*)(((uint64_t)o) & ~1);
 	LDKCOption_AccessZ *ret_copy = MALLOC(sizeof(LDKCOption_AccessZ), "LDKCOption_AccessZ");
@@ -10594,6 +10981,48 @@ uint32_t  __attribute__((visibility("default"))) TS_CResult_NetworkGraphDecodeEr
 	LDKCResult_NetworkGraphDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NetworkGraphDecodeErrorZ), "LDKCResult_NetworkGraphDecodeErrorZ");
 	*ret_conv = CResult_NetworkGraphDecodeErrorZ_clone(orig_conv);
 	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_COption_CVec_NetAddressZZ_some(uint32_tArray o) {
+	LDKCVec_NetAddressZ o_constr;
+	o_constr.datalen = *((uint32_t*)o);
+	if (o_constr.datalen > 0)
+		o_constr.data = MALLOC(o_constr.datalen * sizeof(LDKNetAddress), "LDKCVec_NetAddressZ Elements");
+	else
+		o_constr.data = NULL;
+	uint32_t* o_vals = (uint32_t*)(o + 4);
+	for (size_t m = 0; m < o_constr.datalen; m++) {
+		uint32_t o_conv_12 = o_vals[m];
+		LDKNetAddress o_conv_12_conv = *(LDKNetAddress*)(((uint64_t)o_conv_12) & ~1);
+		o_conv_12_conv = NetAddress_clone((LDKNetAddress*)(((uint64_t)o_conv_12) & ~1));
+		o_constr.data[m] = o_conv_12_conv;
+	}
+	LDKCOption_CVec_NetAddressZZ *ret_copy = MALLOC(sizeof(LDKCOption_CVec_NetAddressZZ), "LDKCOption_CVec_NetAddressZZ");
+	*ret_copy = COption_CVec_NetAddressZZ_some(o_constr);
+	uint64_t ret_ref = (uint64_t)ret_copy;
+	return ret_ref;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_COption_CVec_NetAddressZZ_none() {
+	LDKCOption_CVec_NetAddressZZ *ret_copy = MALLOC(sizeof(LDKCOption_CVec_NetAddressZZ), "LDKCOption_CVec_NetAddressZZ");
+	*ret_copy = COption_CVec_NetAddressZZ_none();
+	uint64_t ret_ref = (uint64_t)ret_copy;
+	return ret_ref;
+}
+
+void  __attribute__((visibility("default"))) TS_COption_CVec_NetAddressZZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKCOption_CVec_NetAddressZZ _res_conv = *(LDKCOption_CVec_NetAddressZZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	COption_CVec_NetAddressZZ_free(_res_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_COption_CVec_NetAddressZZ_clone(uint32_t orig) {
+	LDKCOption_CVec_NetAddressZZ* orig_conv = (LDKCOption_CVec_NetAddressZZ*)orig;
+	LDKCOption_CVec_NetAddressZZ *ret_copy = MALLOC(sizeof(LDKCOption_CVec_NetAddressZZ), "LDKCOption_CVec_NetAddressZZ");
+	*ret_copy = COption_CVec_NetAddressZZ_clone(orig_conv);
+	uint64_t ret_ref = (uint64_t)ret_copy;
+	return ret_ref;
 }
 
 uint32_t  __attribute__((visibility("default"))) TS_CResult_NetAddressu8Z_ok(uint32_t o) {
@@ -11902,6 +12331,47 @@ void  __attribute__((visibility("default"))) TS_COption_FilterZ_free(uint32_t _r
 	COption_FilterZ_free(_res_conv);
 }
 
+uint32_t  __attribute__((visibility("default"))) TS_CResult_LockedChannelMonitorNoneZ_ok(uint32_t o) {
+	LDKLockedChannelMonitor o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = (o & 1) || (o == 0);
+	// Warning: we need a move here but no clone is available for LDKLockedChannelMonitor
+	LDKCResult_LockedChannelMonitorNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_LockedChannelMonitorNoneZ), "LDKCResult_LockedChannelMonitorNoneZ");
+	*ret_conv = CResult_LockedChannelMonitorNoneZ_ok(o_conv);
+	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_CResult_LockedChannelMonitorNoneZ_err() {
+	LDKCResult_LockedChannelMonitorNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_LockedChannelMonitorNoneZ), "LDKCResult_LockedChannelMonitorNoneZ");
+	*ret_conv = CResult_LockedChannelMonitorNoneZ_err();
+	return (uint64_t)ret_conv;
+}
+
+void  __attribute__((visibility("default"))) TS_CResult_LockedChannelMonitorNoneZ_free(uint32_t _res) {
+	if ((_res & 1) != 0) return;
+	LDKCResult_LockedChannelMonitorNoneZ _res_conv = *(LDKCResult_LockedChannelMonitorNoneZ*)(((uint64_t)_res) & ~1);
+	FREE((void*)_res);
+	CResult_LockedChannelMonitorNoneZ_free(_res_conv);
+}
+
+void  __attribute__((visibility("default"))) TS_CVec_OutPointZ_free(uint32_tArray _res) {
+	LDKCVec_OutPointZ _res_constr;
+	_res_constr.datalen = *((uint32_t*)_res);
+	if (_res_constr.datalen > 0)
+		_res_constr.data = MALLOC(_res_constr.datalen * sizeof(LDKOutPoint), "LDKCVec_OutPointZ Elements");
+	else
+		_res_constr.data = NULL;
+	uint32_t* _res_vals = (uint32_t*)(_res + 4);
+	for (size_t k = 0; k < _res_constr.datalen; k++) {
+		uint32_t _res_conv_10 = _res_vals[k];
+		LDKOutPoint _res_conv_10_conv;
+		_res_conv_10_conv.inner = (void*)(_res_conv_10 & (~1));
+		_res_conv_10_conv.is_owned = (_res_conv_10 & 1) || (_res_conv_10 == 0);
+		_res_constr.data[k] = _res_conv_10_conv;
+	}
+	CVec_OutPointZ_free(_res_constr);
+}
+
 void  __attribute__((visibility("default"))) TS_PaymentPurpose_free(uint32_t this_ptr) {
 	if ((this_ptr & 1) != 0) return;
 	LDKPaymentPurpose this_ptr_conv = *(LDKPaymentPurpose*)(((uint64_t)this_ptr) & ~1);
@@ -12056,17 +12526,20 @@ uint32_t  __attribute__((visibility("default"))) TS_Event_payment_received(int8_
 	return ret_ref;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_Event_payment_sent(int8_tArray payment_preimage) {
+uint32_t  __attribute__((visibility("default"))) TS_Event_payment_sent(int8_tArray payment_preimage, int8_tArray payment_hash) {
 	LDKThirtyTwoBytes payment_preimage_ref;
 	CHECK(*((uint32_t*)payment_preimage) == 32);
 	memcpy(payment_preimage_ref.data, (uint8_t*)(payment_preimage + 4), 32);
+	LDKThirtyTwoBytes payment_hash_ref;
+	CHECK(*((uint32_t*)payment_hash) == 32);
+	memcpy(payment_hash_ref.data, (uint8_t*)(payment_hash + 4), 32);
 	LDKEvent *ret_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
-	*ret_copy = Event_payment_sent(payment_preimage_ref);
+	*ret_copy = Event_payment_sent(payment_preimage_ref, payment_hash_ref);
 	uint64_t ret_ref = (uint64_t)ret_copy;
 	return ret_ref;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_Event_payment_path_failed(int8_tArray payment_hash, jboolean rejected_by_dest, uint32_t network_update, jboolean all_paths_failed, uint32_tArray path) {
+uint32_t  __attribute__((visibility("default"))) TS_Event_payment_path_failed(int8_tArray payment_hash, jboolean rejected_by_dest, uint32_t network_update, jboolean all_paths_failed, uint32_tArray path, uint32_t short_channel_id) {
 	LDKThirtyTwoBytes payment_hash_ref;
 	CHECK(*((uint32_t*)payment_hash) == 32);
 	memcpy(payment_hash_ref.data, (uint8_t*)(payment_hash + 4), 32);
@@ -12087,8 +12560,10 @@ uint32_t  __attribute__((visibility("default"))) TS_Event_payment_path_failed(in
 		path_conv_10_conv = RouteHop_clone(&path_conv_10_conv);
 		path_constr.data[k] = path_conv_10_conv;
 	}
+	LDKCOption_u64Z short_channel_id_conv = *(LDKCOption_u64Z*)(((uint64_t)short_channel_id) & ~1);
+	short_channel_id_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)short_channel_id) & ~1));
 	LDKEvent *ret_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
-	*ret_copy = Event_payment_path_failed(payment_hash_ref, rejected_by_dest, network_update_conv, all_paths_failed, path_constr);
+	*ret_copy = Event_payment_path_failed(payment_hash_ref, rejected_by_dest, network_update_conv, all_paths_failed, path_constr, short_channel_id_conv);
 	uint64_t ret_ref = (uint64_t)ret_copy;
 	return ret_ref;
 }
@@ -12129,14 +12604,29 @@ uint32_t  __attribute__((visibility("default"))) TS_Event_payment_forwarded(uint
 	return ret_ref;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_Event_channel_closed(int8_tArray channel_id, uint32_t reason) {
+uint32_t  __attribute__((visibility("default"))) TS_Event_channel_closed(int8_tArray channel_id, int64_t user_channel_id, uint32_t reason) {
 	LDKThirtyTwoBytes channel_id_ref;
 	CHECK(*((uint32_t*)channel_id) == 32);
 	memcpy(channel_id_ref.data, (uint8_t*)(channel_id + 4), 32);
 	LDKClosureReason reason_conv = *(LDKClosureReason*)(((uint64_t)reason) & ~1);
 	reason_conv = ClosureReason_clone((LDKClosureReason*)(((uint64_t)reason) & ~1));
 	LDKEvent *ret_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
-	*ret_copy = Event_channel_closed(channel_id_ref, reason_conv);
+	*ret_copy = Event_channel_closed(channel_id_ref, user_channel_id, reason_conv);
+	uint64_t ret_ref = (uint64_t)ret_copy;
+	return ret_ref;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_Event_discard_funding(int8_tArray channel_id, int8_tArray transaction) {
+	LDKThirtyTwoBytes channel_id_ref;
+	CHECK(*((uint32_t*)channel_id) == 32);
+	memcpy(channel_id_ref.data, (uint8_t*)(channel_id + 4), 32);
+	LDKTransaction transaction_ref;
+	transaction_ref.datalen = *((uint32_t*)transaction);
+	transaction_ref.data = MALLOC(transaction_ref.datalen, "LDKTransaction Bytes");
+	memcpy(transaction_ref.data, (uint8_t*)(transaction + 4), transaction_ref.datalen);
+	transaction_ref.data_is_owned = true;
+	LDKEvent *ret_copy = MALLOC(sizeof(LDKEvent), "LDKEvent");
+	*ret_copy = Event_discard_funding(channel_id_ref, transaction_ref);
 	uint64_t ret_ref = (uint64_t)ret_copy;
 	return ret_ref;
 }
@@ -13266,6 +13756,22 @@ void  __attribute__((visibility("default"))) TS_Confirm_free(uint32_t this_ptr) 
 	Confirm_free(this_ptr_conv);
 }
 
+uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdateErr_clone(uint32_t orig) {
+	LDKChannelMonitorUpdateErr* orig_conv = (LDKChannelMonitorUpdateErr*)(orig & ~1);
+	uint32_t ret_conv = LDKChannelMonitorUpdateErr_to_js(ChannelMonitorUpdateErr_clone(orig_conv));
+	return ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdateErr_temporary_failure() {
+	uint32_t ret_conv = LDKChannelMonitorUpdateErr_to_js(ChannelMonitorUpdateErr_temporary_failure());
+	return ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdateErr_permanent_failure() {
+	uint32_t ret_conv = LDKChannelMonitorUpdateErr_to_js(ChannelMonitorUpdateErr_permanent_failure());
+	return ret_conv;
+}
+
 void  __attribute__((visibility("default"))) TS_Watch_free(uint32_t this_ptr) {
 	if ((this_ptr & 1) != 0) return;
 	LDKWatch this_ptr_conv = *(LDKWatch*)(((uint64_t)this_ptr) & ~1);
@@ -13438,6 +13944,20 @@ void  __attribute__((visibility("default"))) TS_FeeEstimator_free(uint32_t this_
 	FeeEstimator_free(this_ptr_conv);
 }
 
+void  __attribute__((visibility("default"))) TS_Persist_free(uint32_t this_ptr) {
+	if ((this_ptr & 1) != 0) return;
+	LDKPersist this_ptr_conv = *(LDKPersist*)(((uint64_t)this_ptr) & ~1);
+	FREE((void*)this_ptr);
+	Persist_free(this_ptr_conv);
+}
+
+void  __attribute__((visibility("default"))) TS_LockedChannelMonitor_free(uint32_t this_obj) {
+	LDKLockedChannelMonitor this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	LockedChannelMonitor_free(this_obj_conv);
+}
+
 void  __attribute__((visibility("default"))) TS_ChainMonitor_free(uint32_t this_obj) {
 	LDKChainMonitor this_obj_conv;
 	this_obj_conv.inner = (void*)(this_obj & (~1));
@@ -13492,6 +14012,40 @@ uint32_tArray  __attribute__((visibility("default"))) TS_ChainMonitor_get_claima
 		*ret_conv_9_copy = Balance_clone(&ret_var.data[j]);
 		uint64_t ret_conv_9_ref = (uint64_t)ret_conv_9_copy;
 		ret_arr_ptr[j] = ret_conv_9_ref;
+	}
+	FREE(ret_var.data);
+	return ret_arr;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_ChainMonitor_get_monitor(uint32_t this_arg, uint32_t funding_txo) {
+	LDKChainMonitor this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKOutPoint funding_txo_conv;
+	funding_txo_conv.inner = (void*)(funding_txo & (~1));
+	funding_txo_conv.is_owned = (funding_txo & 1) || (funding_txo == 0);
+	funding_txo_conv = OutPoint_clone(&funding_txo_conv);
+	LDKCResult_LockedChannelMonitorNoneZ* ret_conv = MALLOC(sizeof(LDKCResult_LockedChannelMonitorNoneZ), "LDKCResult_LockedChannelMonitorNoneZ");
+	*ret_conv = ChainMonitor_get_monitor(&this_arg_conv, funding_txo_conv);
+	return (uint64_t)ret_conv;
+}
+
+uint32_tArray  __attribute__((visibility("default"))) TS_ChainMonitor_list_monitors(uint32_t this_arg) {
+	LDKChainMonitor this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKCVec_OutPointZ ret_var = ChainMonitor_list_monitors(&this_arg_conv);
+	uint32_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
+	uint32_t *ret_arr_ptr = (uint32_t*)(ret_arr + 4);
+	for (size_t k = 0; k < ret_var.datalen; k++) {
+		LDKOutPoint ret_conv_10_var = ret_var.data[k];
+		CHECK((((uint64_t)ret_conv_10_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+		CHECK((((uint64_t)&ret_conv_10_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+		uint64_t ret_conv_10_ref = (uint64_t)ret_conv_10_var.inner;
+		if (ret_conv_10_var.is_owned) {
+			ret_conv_10_ref |= 1;
+		}
+		ret_arr_ptr[k] = ret_conv_10_ref;
 	}
 	FREE(ret_var.data);
 	return ret_arr;
@@ -13587,22 +14141,6 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdate_read(in
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_ChannelMonitorUpdateDecodeErrorZ), "LDKCResult_ChannelMonitorUpdateDecodeErrorZ");
 	*ret_conv = ChannelMonitorUpdate_read(ser_ref);
 	return (uint64_t)ret_conv;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdateErr_clone(uint32_t orig) {
-	LDKChannelMonitorUpdateErr* orig_conv = (LDKChannelMonitorUpdateErr*)(orig & ~1);
-	uint32_t ret_conv = LDKChannelMonitorUpdateErr_to_js(ChannelMonitorUpdateErr_clone(orig_conv));
-	return ret_conv;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdateErr_temporary_failure() {
-	uint32_t ret_conv = LDKChannelMonitorUpdateErr_to_js(ChannelMonitorUpdateErr_temporary_failure());
-	return ret_conv;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_ChannelMonitorUpdateErr_permanent_failure() {
-	uint32_t ret_conv = LDKChannelMonitorUpdateErr_to_js(ChannelMonitorUpdateErr_permanent_failure());
-	return ret_conv;
 }
 
 void  __attribute__((visibility("default"))) TS_MonitorUpdateError_free(uint32_t this_obj) {
@@ -14063,13 +14601,6 @@ uint32_tArray  __attribute__((visibility("default"))) TS_ChannelMonitor_get_clai
 	}
 	FREE(ret_var.data);
 	return ret_arr;
-}
-
-void  __attribute__((visibility("default"))) TS_Persist_free(uint32_t this_ptr) {
-	if ((this_ptr & 1) != 0) return;
-	LDKPersist this_ptr_conv = *(LDKPersist*)(((uint64_t)this_ptr) & ~1);
-	FREE((void*)this_ptr);
-	Persist_free(this_ptr_conv);
 }
 
 uint32_t  __attribute__((visibility("default"))) TS_C2Tuple_BlockHashChannelMonitorZ_read(int8_tArray ser, uint32_t arg) {
@@ -15005,6 +15536,66 @@ uint32_t  __attribute__((visibility("default"))) TS_KeysManager_as_KeysInterface
 	return (uint64_t)ret_ret;
 }
 
+void  __attribute__((visibility("default"))) TS_PaymentId_free(uint32_t this_obj) {
+	LDKPaymentId this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	PaymentId_free(this_obj_conv);
+}
+
+int64_t  __attribute__((visibility("default"))) TS_PaymentId_hash(uint32_t o) {
+	LDKPaymentId o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = false;
+	int64_t ret_val = PaymentId_hash(&o_conv);
+	return ret_val;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_PaymentId_clone(uint32_t orig) {
+	LDKPaymentId orig_conv;
+	orig_conv.inner = (void*)(orig & (~1));
+	orig_conv.is_owned = false;
+	LDKPaymentId ret_var = PaymentId_clone(&orig_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+jboolean  __attribute__((visibility("default"))) TS_PaymentId_eq(uint32_t a, uint32_t b) {
+	LDKPaymentId a_conv;
+	a_conv.inner = (void*)(a & (~1));
+	a_conv.is_owned = false;
+	LDKPaymentId b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = false;
+	jboolean ret_val = PaymentId_eq(&a_conv, &b_conv);
+	return ret_val;
+}
+
+int8_tArray  __attribute__((visibility("default"))) TS_PaymentId_write(uint32_t obj) {
+	LDKPaymentId obj_conv;
+	obj_conv.inner = (void*)(obj & (~1));
+	obj_conv.is_owned = false;
+	LDKCVec_u8Z ret_var = PaymentId_write(&obj_conv);
+	int8_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
+	memcpy((uint8_t*)(ret_arr + 4), ret_var.data, ret_var.datalen);
+	CVec_u8Z_free(ret_var);
+	return ret_arr;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_PaymentId_read(int8_tArray ser) {
+	LDKu8slice ser_ref;
+	ser_ref.datalen = *((uint32_t*)ser);
+	ser_ref.data = (int8_t*)(ser + 4);
+	LDKCResult_PaymentIdDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentIdDecodeErrorZ), "LDKCResult_PaymentIdDecodeErrorZ");
+	*ret_conv = PaymentId_read(ser_ref);
+	return (uint64_t)ret_conv;
+}
+
 void  __attribute__((visibility("default"))) TS_ChannelManager_free(uint32_t this_obj) {
 	LDKChannelManager this_obj_conv;
 	this_obj_conv.inner = (void*)(this_obj & (~1));
@@ -15423,19 +16014,19 @@ void  __attribute__((visibility("default"))) TS_ChannelDetails_set_unspendable_p
 	ChannelDetails_set_unspendable_punishment_reserve(&this_ptr_conv, val_conv);
 }
 
-int64_t  __attribute__((visibility("default"))) TS_ChannelDetails_get_user_id(uint32_t this_ptr) {
+int64_t  __attribute__((visibility("default"))) TS_ChannelDetails_get_user_channel_id(uint32_t this_ptr) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	int64_t ret_val = ChannelDetails_get_user_id(&this_ptr_conv);
+	int64_t ret_val = ChannelDetails_get_user_channel_id(&this_ptr_conv);
 	return ret_val;
 }
 
-void  __attribute__((visibility("default"))) TS_ChannelDetails_set_user_id(uint32_t this_ptr, int64_t val) {
+void  __attribute__((visibility("default"))) TS_ChannelDetails_set_user_channel_id(uint32_t this_ptr, int64_t val) {
 	LDKChannelDetails this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	ChannelDetails_set_user_id(&this_ptr_conv, val);
+	ChannelDetails_set_user_channel_id(&this_ptr_conv, val);
 }
 
 int64_t  __attribute__((visibility("default"))) TS_ChannelDetails_get_outbound_capacity_msat(uint32_t this_ptr) {
@@ -15566,7 +16157,7 @@ void  __attribute__((visibility("default"))) TS_ChannelDetails_set_is_public(uin
 	ChannelDetails_set_is_public(&this_ptr_conv, val);
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_ChannelDetails_new(int8_tArray channel_id_arg, uint32_t counterparty_arg, uint32_t funding_txo_arg, uint32_t short_channel_id_arg, int64_t channel_value_satoshis_arg, uint32_t unspendable_punishment_reserve_arg, int64_t user_id_arg, int64_t outbound_capacity_msat_arg, int64_t inbound_capacity_msat_arg, uint32_t confirmations_required_arg, uint32_t force_close_spend_delay_arg, jboolean is_outbound_arg, jboolean is_funding_locked_arg, jboolean is_usable_arg, jboolean is_public_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelDetails_new(int8_tArray channel_id_arg, uint32_t counterparty_arg, uint32_t funding_txo_arg, uint32_t short_channel_id_arg, int64_t channel_value_satoshis_arg, uint32_t unspendable_punishment_reserve_arg, int64_t user_channel_id_arg, int64_t outbound_capacity_msat_arg, int64_t inbound_capacity_msat_arg, uint32_t confirmations_required_arg, uint32_t force_close_spend_delay_arg, jboolean is_outbound_arg, jboolean is_funding_locked_arg, jboolean is_usable_arg, jboolean is_public_arg) {
 	LDKThirtyTwoBytes channel_id_arg_ref;
 	CHECK(*((uint32_t*)channel_id_arg) == 32);
 	memcpy(channel_id_arg_ref.data, (uint8_t*)(channel_id_arg + 4), 32);
@@ -15585,7 +16176,7 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelDetails_new(int8_tArr
 	confirmations_required_arg_conv = COption_u32Z_clone((LDKCOption_u32Z*)(((uint64_t)confirmations_required_arg) & ~1));
 	LDKCOption_u16Z force_close_spend_delay_arg_conv = *(LDKCOption_u16Z*)(((uint64_t)force_close_spend_delay_arg) & ~1);
 	force_close_spend_delay_arg_conv = COption_u16Z_clone((LDKCOption_u16Z*)(((uint64_t)force_close_spend_delay_arg) & ~1));
-	LDKChannelDetails ret_var = ChannelDetails_new(channel_id_arg_ref, counterparty_arg_conv, funding_txo_arg_conv, short_channel_id_arg_conv, channel_value_satoshis_arg, unspendable_punishment_reserve_arg_conv, user_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg_conv, force_close_spend_delay_arg_conv, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+	LDKChannelDetails ret_var = ChannelDetails_new(channel_id_arg_ref, counterparty_arg_conv, funding_txo_arg_conv, short_channel_id_arg_conv, channel_value_satoshis_arg, unspendable_punishment_reserve_arg_conv, user_channel_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg_conv, force_close_spend_delay_arg_conv, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
 	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	uint64_t ret_ref = (uint64_t)ret_var.inner;
@@ -15731,7 +16322,7 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_get_current_d
 	return ret_ref;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_create_channel(uint32_t this_arg, int8_tArray their_network_key, int64_t channel_value_satoshis, int64_t push_msat, int64_t user_id, uint32_t override_config) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_create_channel(uint32_t this_arg, int8_tArray their_network_key, int64_t channel_value_satoshis, int64_t push_msat, int64_t user_channel_id, uint32_t override_config) {
 	LDKChannelManager this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -15742,8 +16333,8 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_create_channe
 	override_config_conv.inner = (void*)(override_config & (~1));
 	override_config_conv.is_owned = (override_config & 1) || (override_config == 0);
 	override_config_conv = UserConfig_clone(&override_config_conv);
-	LDKCResult_NoneAPIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneAPIErrorZ), "LDKCResult_NoneAPIErrorZ");
-	*ret_conv = ChannelManager_create_channel(&this_arg_conv, their_network_key_ref, channel_value_satoshis, push_msat, user_id, override_config_conv);
+	LDKCResult__u832APIErrorZ* ret_conv = MALLOC(sizeof(LDKCResult__u832APIErrorZ), "LDKCResult__u832APIErrorZ");
+	*ret_conv = ChannelManager_create_channel(&this_arg_conv, their_network_key_ref, channel_value_satoshis, push_msat, user_channel_id, override_config_conv);
 	return (uint64_t)ret_conv;
 }
 
@@ -15848,8 +16439,24 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_send_payment(
 	LDKThirtyTwoBytes payment_secret_ref;
 	CHECK(*((uint32_t*)payment_secret) == 32);
 	memcpy(payment_secret_ref.data, (uint8_t*)(payment_secret + 4), 32);
-	LDKCResult_NonePaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_NonePaymentSendFailureZ), "LDKCResult_NonePaymentSendFailureZ");
+	LDKCResult_PaymentIdPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentIdPaymentSendFailureZ), "LDKCResult_PaymentIdPaymentSendFailureZ");
 	*ret_conv = ChannelManager_send_payment(&this_arg_conv, &route_conv, payment_hash_ref, payment_secret_ref);
+	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_retry_payment(uint32_t this_arg, uint32_t route, uint32_t payment_id) {
+	LDKChannelManager this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKRoute route_conv;
+	route_conv.inner = (void*)(route & (~1));
+	route_conv.is_owned = false;
+	LDKPaymentId payment_id_conv;
+	payment_id_conv.inner = (void*)(payment_id & (~1));
+	payment_id_conv.is_owned = (payment_id & 1) || (payment_id == 0);
+	payment_id_conv = PaymentId_clone(&payment_id_conv);
+	LDKCResult_NonePaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_NonePaymentSendFailureZ), "LDKCResult_NonePaymentSendFailureZ");
+	*ret_conv = ChannelManager_retry_payment(&this_arg_conv, &route_conv, payment_id_conv);
 	return (uint64_t)ret_conv;
 }
 
@@ -15863,7 +16470,7 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelManager_send_spontane
 	LDKThirtyTwoBytes payment_preimage_ref;
 	CHECK(*((uint32_t*)payment_preimage) == 32);
 	memcpy(payment_preimage_ref.data, (uint8_t*)(payment_preimage + 4), 32);
-	LDKCResult_PaymentHashPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_PaymentHashPaymentSendFailureZ), "LDKCResult_PaymentHashPaymentSendFailureZ");
+	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* ret_conv = MALLOC(sizeof(LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ), "LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ");
 	*ret_conv = ChannelManager_send_spontaneous_payment(&this_arg_conv, &route_conv, payment_preimage_ref);
 	return (uint64_t)ret_conv;
 }
@@ -23202,36 +23809,6 @@ uint32_t  __attribute__((visibility("default"))) TS_ShutdownScript_read(int8_tAr
 	return (uint64_t)ret_conv;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_ShutdownScript_new_p2pkh(int8_tArray pubkey_hash) {
-	unsigned char pubkey_hash_arr[20];
-	CHECK(*((uint32_t*)pubkey_hash) == 20);
-	memcpy(pubkey_hash_arr, (uint8_t*)(pubkey_hash + 4), 20);
-	unsigned char (*pubkey_hash_ref)[20] = &pubkey_hash_arr;
-	LDKShutdownScript ret_var = ShutdownScript_new_p2pkh(pubkey_hash_ref);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_ShutdownScript_new_p2sh(int8_tArray script_hash) {
-	unsigned char script_hash_arr[20];
-	CHECK(*((uint32_t*)script_hash) == 20);
-	memcpy(script_hash_arr, (uint8_t*)(script_hash + 4), 20);
-	unsigned char (*script_hash_ref)[20] = &script_hash_arr;
-	LDKShutdownScript ret_var = ShutdownScript_new_p2sh(script_hash_ref);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
 uint32_t  __attribute__((visibility("default"))) TS_ShutdownScript_new_p2wpkh(int8_tArray pubkey_hash) {
 	unsigned char pubkey_hash_arr[20];
 	CHECK(*((uint32_t*)pubkey_hash) == 20);
@@ -23324,691 +23901,83 @@ void  __attribute__((visibility("default"))) TS_Type_free(uint32_t this_ptr) {
 	Type_free(this_ptr_conv);
 }
 
-void  __attribute__((visibility("default"))) TS_RouteHop_free(uint32_t this_obj) {
-	LDKRouteHop this_obj_conv;
-	this_obj_conv.inner = (void*)(this_obj & (~1));
-	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
-	RouteHop_free(this_obj_conv);
+void  __attribute__((visibility("default"))) TS_Score_free(uint32_t this_ptr) {
+	if ((this_ptr & 1) != 0) return;
+	LDKScore this_ptr_conv = *(LDKScore*)(((uint64_t)this_ptr) & ~1);
+	FREE((void*)this_ptr);
+	Score_free(this_ptr_conv);
 }
 
-int8_tArray  __attribute__((visibility("default"))) TS_RouteHop_get_pubkey(uint32_t this_ptr) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	int8_tArray ret_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
-	memcpy((uint8_t*)(ret_arr + 4), RouteHop_get_pubkey(&this_ptr_conv).compressed_form, 33);
+void  __attribute__((visibility("default"))) TS_NodeId_free(uint32_t this_obj) {
+	LDKNodeId this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	NodeId_free(this_obj_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_NodeId_clone(uint32_t orig) {
+	LDKNodeId orig_conv;
+	orig_conv.inner = (void*)(orig & (~1));
+	orig_conv.is_owned = false;
+	LDKNodeId ret_var = NodeId_clone(&orig_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_NodeId_from_pubkey(int8_tArray pubkey) {
+	LDKPublicKey pubkey_ref;
+	CHECK(*((uint32_t*)pubkey) == 33);
+	memcpy(pubkey_ref.compressed_form, (uint8_t*)(pubkey + 4), 33);
+	LDKNodeId ret_var = NodeId_from_pubkey(pubkey_ref);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+int8_tArray  __attribute__((visibility("default"))) TS_NodeId_as_slice(uint32_t this_arg) {
+	LDKNodeId this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKu8slice ret_var = NodeId_as_slice(&this_arg_conv);
+	int8_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
+	memcpy((uint8_t*)(ret_arr + 4), ret_var.data, ret_var.datalen);
 	return ret_arr;
 }
 
-void  __attribute__((visibility("default"))) TS_RouteHop_set_pubkey(uint32_t this_ptr, int8_tArray val) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKPublicKey val_ref;
-	CHECK(*((uint32_t*)val) == 33);
-	memcpy(val_ref.compressed_form, (uint8_t*)(val + 4), 33);
-	RouteHop_set_pubkey(&this_ptr_conv, val_ref);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHop_get_node_features(uint32_t this_ptr) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKNodeFeatures ret_var = RouteHop_get_node_features(&this_ptr_conv);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHop_set_node_features(uint32_t this_ptr, uint32_t val) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKNodeFeatures val_conv;
-	val_conv.inner = (void*)(val & (~1));
-	val_conv.is_owned = (val & 1) || (val == 0);
-	val_conv = NodeFeatures_clone(&val_conv);
-	RouteHop_set_node_features(&this_ptr_conv, val_conv);
-}
-
-int64_t  __attribute__((visibility("default"))) TS_RouteHop_get_short_channel_id(uint32_t this_ptr) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	int64_t ret_val = RouteHop_get_short_channel_id(&this_ptr_conv);
-	return ret_val;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHop_set_short_channel_id(uint32_t this_ptr, int64_t val) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	RouteHop_set_short_channel_id(&this_ptr_conv, val);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHop_get_channel_features(uint32_t this_ptr) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKChannelFeatures ret_var = RouteHop_get_channel_features(&this_ptr_conv);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHop_set_channel_features(uint32_t this_ptr, uint32_t val) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKChannelFeatures val_conv;
-	val_conv.inner = (void*)(val & (~1));
-	val_conv.is_owned = (val & 1) || (val == 0);
-	val_conv = ChannelFeatures_clone(&val_conv);
-	RouteHop_set_channel_features(&this_ptr_conv, val_conv);
-}
-
-int64_t  __attribute__((visibility("default"))) TS_RouteHop_get_fee_msat(uint32_t this_ptr) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	int64_t ret_val = RouteHop_get_fee_msat(&this_ptr_conv);
-	return ret_val;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHop_set_fee_msat(uint32_t this_ptr, int64_t val) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	RouteHop_set_fee_msat(&this_ptr_conv, val);
-}
-
-int32_t  __attribute__((visibility("default"))) TS_RouteHop_get_cltv_expiry_delta(uint32_t this_ptr) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	int32_t ret_val = RouteHop_get_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHop_set_cltv_expiry_delta(uint32_t this_ptr, int32_t val) {
-	LDKRouteHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	RouteHop_set_cltv_expiry_delta(&this_ptr_conv, val);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHop_new(int8_tArray pubkey_arg, uint32_t node_features_arg, int64_t short_channel_id_arg, uint32_t channel_features_arg, int64_t fee_msat_arg, int32_t cltv_expiry_delta_arg) {
-	LDKPublicKey pubkey_arg_ref;
-	CHECK(*((uint32_t*)pubkey_arg) == 33);
-	memcpy(pubkey_arg_ref.compressed_form, (uint8_t*)(pubkey_arg + 4), 33);
-	LDKNodeFeatures node_features_arg_conv;
-	node_features_arg_conv.inner = (void*)(node_features_arg & (~1));
-	node_features_arg_conv.is_owned = (node_features_arg & 1) || (node_features_arg == 0);
-	node_features_arg_conv = NodeFeatures_clone(&node_features_arg_conv);
-	LDKChannelFeatures channel_features_arg_conv;
-	channel_features_arg_conv.inner = (void*)(channel_features_arg & (~1));
-	channel_features_arg_conv.is_owned = (channel_features_arg & 1) || (channel_features_arg == 0);
-	channel_features_arg_conv = ChannelFeatures_clone(&channel_features_arg_conv);
-	LDKRouteHop ret_var = RouteHop_new(pubkey_arg_ref, node_features_arg_conv, short_channel_id_arg, channel_features_arg_conv, fee_msat_arg, cltv_expiry_delta_arg);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHop_clone(uint32_t orig) {
-	LDKRouteHop orig_conv;
-	orig_conv.inner = (void*)(orig & (~1));
-	orig_conv.is_owned = false;
-	LDKRouteHop ret_var = RouteHop_clone(&orig_conv);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-int64_t  __attribute__((visibility("default"))) TS_RouteHop_hash(uint32_t o) {
-	LDKRouteHop o_conv;
+int64_t  __attribute__((visibility("default"))) TS_NodeId_hash(uint32_t o) {
+	LDKNodeId o_conv;
 	o_conv.inner = (void*)(o & (~1));
 	o_conv.is_owned = false;
-	int64_t ret_val = RouteHop_hash(&o_conv);
+	int64_t ret_val = NodeId_hash(&o_conv);
 	return ret_val;
 }
 
-jboolean  __attribute__((visibility("default"))) TS_RouteHop_eq(uint32_t a, uint32_t b) {
-	LDKRouteHop a_conv;
-	a_conv.inner = (void*)(a & (~1));
-	a_conv.is_owned = false;
-	LDKRouteHop b_conv;
-	b_conv.inner = (void*)(b & (~1));
-	b_conv.is_owned = false;
-	jboolean ret_val = RouteHop_eq(&a_conv, &b_conv);
-	return ret_val;
-}
-
-int8_tArray  __attribute__((visibility("default"))) TS_RouteHop_write(uint32_t obj) {
-	LDKRouteHop obj_conv;
+int8_tArray  __attribute__((visibility("default"))) TS_NodeId_write(uint32_t obj) {
+	LDKNodeId obj_conv;
 	obj_conv.inner = (void*)(obj & (~1));
 	obj_conv.is_owned = false;
-	LDKCVec_u8Z ret_var = RouteHop_write(&obj_conv);
+	LDKCVec_u8Z ret_var = NodeId_write(&obj_conv);
 	int8_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
 	memcpy((uint8_t*)(ret_arr + 4), ret_var.data, ret_var.datalen);
 	CVec_u8Z_free(ret_var);
 	return ret_arr;
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_RouteHop_read(int8_tArray ser) {
+uint32_t  __attribute__((visibility("default"))) TS_NodeId_read(int8_tArray ser) {
 	LDKu8slice ser_ref;
 	ser_ref.datalen = *((uint32_t*)ser);
 	ser_ref.data = (int8_t*)(ser + 4);
-	LDKCResult_RouteHopDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteHopDecodeErrorZ), "LDKCResult_RouteHopDecodeErrorZ");
-	*ret_conv = RouteHop_read(ser_ref);
-	return (uint64_t)ret_conv;
-}
-
-void  __attribute__((visibility("default"))) TS_Route_free(uint32_t this_obj) {
-	LDKRoute this_obj_conv;
-	this_obj_conv.inner = (void*)(this_obj & (~1));
-	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
-	Route_free(this_obj_conv);
-}
-
-ptrArray  __attribute__((visibility("default"))) TS_Route_get_paths(uint32_t this_ptr) {
-	LDKRoute this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKCVec_CVec_RouteHopZZ ret_var = Route_get_paths(&this_ptr_conv);
-	ptrArray ret_arr = init_arr(ret_var.datalen, sizeof(uint32_t), "Native ptrArray Bytes");
-	uint32_tArray *ret_arr_ptr = (uint32_tArray*)(ret_arr + 4);
-	for (size_t m = 0; m < ret_var.datalen; m++) {
-		LDKCVec_RouteHopZ ret_conv_12_var = ret_var.data[m];
-		uint32_tArray ret_conv_12_arr = init_arr(ret_conv_12_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
-		uint32_t *ret_conv_12_arr_ptr = (uint32_t*)(ret_conv_12_arr + 4);
-		for (size_t k = 0; k < ret_conv_12_var.datalen; k++) {
-			LDKRouteHop ret_conv_12_conv_10_var = ret_conv_12_var.data[k];
-			CHECK((((uint64_t)ret_conv_12_conv_10_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-			CHECK((((uint64_t)&ret_conv_12_conv_10_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-			uint64_t ret_conv_12_conv_10_ref = (uint64_t)ret_conv_12_conv_10_var.inner;
-			if (ret_conv_12_conv_10_var.is_owned) {
-				ret_conv_12_conv_10_ref |= 1;
-			}
-			ret_conv_12_arr_ptr[k] = ret_conv_12_conv_10_ref;
-		}
-		FREE(ret_conv_12_var.data);
-		ret_arr_ptr[m] = ret_conv_12_arr;
-	}
-	FREE(ret_var.data);
-	return ret_arr;
-}
-
-void  __attribute__((visibility("default"))) TS_Route_set_paths(uint32_t this_ptr, ptrArray val) {
-	LDKRoute this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKCVec_CVec_RouteHopZZ val_constr;
-	val_constr.datalen = *((uint32_t*)val);
-	if (val_constr.datalen > 0)
-		val_constr.data = MALLOC(val_constr.datalen * sizeof(LDKCVec_RouteHopZ), "LDKCVec_CVec_RouteHopZZ Elements");
-	else
-		val_constr.data = NULL;
-	uint32_tArray* val_vals = (uint32_tArray*)(val + 4);
-	for (size_t m = 0; m < val_constr.datalen; m++) {
-		uint32_tArray val_conv_12 = val_vals[m];
-		LDKCVec_RouteHopZ val_conv_12_constr;
-		val_conv_12_constr.datalen = *((uint32_t*)val_conv_12);
-		if (val_conv_12_constr.datalen > 0)
-			val_conv_12_constr.data = MALLOC(val_conv_12_constr.datalen * sizeof(LDKRouteHop), "LDKCVec_RouteHopZ Elements");
-		else
-			val_conv_12_constr.data = NULL;
-		uint32_t* val_conv_12_vals = (uint32_t*)(val_conv_12 + 4);
-		for (size_t k = 0; k < val_conv_12_constr.datalen; k++) {
-			uint32_t val_conv_12_conv_10 = val_conv_12_vals[k];
-			LDKRouteHop val_conv_12_conv_10_conv;
-			val_conv_12_conv_10_conv.inner = (void*)(val_conv_12_conv_10 & (~1));
-			val_conv_12_conv_10_conv.is_owned = (val_conv_12_conv_10 & 1) || (val_conv_12_conv_10 == 0);
-			val_conv_12_conv_10_conv = RouteHop_clone(&val_conv_12_conv_10_conv);
-			val_conv_12_constr.data[k] = val_conv_12_conv_10_conv;
-		}
-		val_constr.data[m] = val_conv_12_constr;
-	}
-	Route_set_paths(&this_ptr_conv, val_constr);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_Route_new(ptrArray paths_arg) {
-	LDKCVec_CVec_RouteHopZZ paths_arg_constr;
-	paths_arg_constr.datalen = *((uint32_t*)paths_arg);
-	if (paths_arg_constr.datalen > 0)
-		paths_arg_constr.data = MALLOC(paths_arg_constr.datalen * sizeof(LDKCVec_RouteHopZ), "LDKCVec_CVec_RouteHopZZ Elements");
-	else
-		paths_arg_constr.data = NULL;
-	uint32_tArray* paths_arg_vals = (uint32_tArray*)(paths_arg + 4);
-	for (size_t m = 0; m < paths_arg_constr.datalen; m++) {
-		uint32_tArray paths_arg_conv_12 = paths_arg_vals[m];
-		LDKCVec_RouteHopZ paths_arg_conv_12_constr;
-		paths_arg_conv_12_constr.datalen = *((uint32_t*)paths_arg_conv_12);
-		if (paths_arg_conv_12_constr.datalen > 0)
-			paths_arg_conv_12_constr.data = MALLOC(paths_arg_conv_12_constr.datalen * sizeof(LDKRouteHop), "LDKCVec_RouteHopZ Elements");
-		else
-			paths_arg_conv_12_constr.data = NULL;
-		uint32_t* paths_arg_conv_12_vals = (uint32_t*)(paths_arg_conv_12 + 4);
-		for (size_t k = 0; k < paths_arg_conv_12_constr.datalen; k++) {
-			uint32_t paths_arg_conv_12_conv_10 = paths_arg_conv_12_vals[k];
-			LDKRouteHop paths_arg_conv_12_conv_10_conv;
-			paths_arg_conv_12_conv_10_conv.inner = (void*)(paths_arg_conv_12_conv_10 & (~1));
-			paths_arg_conv_12_conv_10_conv.is_owned = (paths_arg_conv_12_conv_10 & 1) || (paths_arg_conv_12_conv_10 == 0);
-			paths_arg_conv_12_conv_10_conv = RouteHop_clone(&paths_arg_conv_12_conv_10_conv);
-			paths_arg_conv_12_constr.data[k] = paths_arg_conv_12_conv_10_conv;
-		}
-		paths_arg_constr.data[m] = paths_arg_conv_12_constr;
-	}
-	LDKRoute ret_var = Route_new(paths_arg_constr);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_Route_clone(uint32_t orig) {
-	LDKRoute orig_conv;
-	orig_conv.inner = (void*)(orig & (~1));
-	orig_conv.is_owned = false;
-	LDKRoute ret_var = Route_clone(&orig_conv);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-int64_t  __attribute__((visibility("default"))) TS_Route_hash(uint32_t o) {
-	LDKRoute o_conv;
-	o_conv.inner = (void*)(o & (~1));
-	o_conv.is_owned = false;
-	int64_t ret_val = Route_hash(&o_conv);
-	return ret_val;
-}
-
-jboolean  __attribute__((visibility("default"))) TS_Route_eq(uint32_t a, uint32_t b) {
-	LDKRoute a_conv;
-	a_conv.inner = (void*)(a & (~1));
-	a_conv.is_owned = false;
-	LDKRoute b_conv;
-	b_conv.inner = (void*)(b & (~1));
-	b_conv.is_owned = false;
-	jboolean ret_val = Route_eq(&a_conv, &b_conv);
-	return ret_val;
-}
-
-int64_t  __attribute__((visibility("default"))) TS_Route_get_total_fees(uint32_t this_arg) {
-	LDKRoute this_arg_conv;
-	this_arg_conv.inner = (void*)(this_arg & (~1));
-	this_arg_conv.is_owned = false;
-	int64_t ret_val = Route_get_total_fees(&this_arg_conv);
-	return ret_val;
-}
-
-int64_t  __attribute__((visibility("default"))) TS_Route_get_total_amount(uint32_t this_arg) {
-	LDKRoute this_arg_conv;
-	this_arg_conv.inner = (void*)(this_arg & (~1));
-	this_arg_conv.is_owned = false;
-	int64_t ret_val = Route_get_total_amount(&this_arg_conv);
-	return ret_val;
-}
-
-int8_tArray  __attribute__((visibility("default"))) TS_Route_write(uint32_t obj) {
-	LDKRoute obj_conv;
-	obj_conv.inner = (void*)(obj & (~1));
-	obj_conv.is_owned = false;
-	LDKCVec_u8Z ret_var = Route_write(&obj_conv);
-	int8_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
-	memcpy((uint8_t*)(ret_arr + 4), ret_var.data, ret_var.datalen);
-	CVec_u8Z_free(ret_var);
-	return ret_arr;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_Route_read(int8_tArray ser) {
-	LDKu8slice ser_ref;
-	ser_ref.datalen = *((uint32_t*)ser);
-	ser_ref.data = (int8_t*)(ser + 4);
-	LDKCResult_RouteDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteDecodeErrorZ), "LDKCResult_RouteDecodeErrorZ");
-	*ret_conv = Route_read(ser_ref);
-	return (uint64_t)ret_conv;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHint_free(uint32_t this_obj) {
-	LDKRouteHint this_obj_conv;
-	this_obj_conv.inner = (void*)(this_obj & (~1));
-	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
-	RouteHint_free(this_obj_conv);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHint_clone(uint32_t orig) {
-	LDKRouteHint orig_conv;
-	orig_conv.inner = (void*)(orig & (~1));
-	orig_conv.is_owned = false;
-	LDKRouteHint ret_var = RouteHint_clone(&orig_conv);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-int64_t  __attribute__((visibility("default"))) TS_RouteHint_hash(uint32_t o) {
-	LDKRouteHint o_conv;
-	o_conv.inner = (void*)(o & (~1));
-	o_conv.is_owned = false;
-	int64_t ret_val = RouteHint_hash(&o_conv);
-	return ret_val;
-}
-
-jboolean  __attribute__((visibility("default"))) TS_RouteHint_eq(uint32_t a, uint32_t b) {
-	LDKRouteHint a_conv;
-	a_conv.inner = (void*)(a & (~1));
-	a_conv.is_owned = false;
-	LDKRouteHint b_conv;
-	b_conv.inner = (void*)(b & (~1));
-	b_conv.is_owned = false;
-	jboolean ret_val = RouteHint_eq(&a_conv, &b_conv);
-	return ret_val;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHintHop_free(uint32_t this_obj) {
-	LDKRouteHintHop this_obj_conv;
-	this_obj_conv.inner = (void*)(this_obj & (~1));
-	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
-	RouteHintHop_free(this_obj_conv);
-}
-
-int8_tArray  __attribute__((visibility("default"))) TS_RouteHintHop_get_src_node_id(uint32_t this_ptr) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	int8_tArray ret_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
-	memcpy((uint8_t*)(ret_arr + 4), RouteHintHop_get_src_node_id(&this_ptr_conv).compressed_form, 33);
-	return ret_arr;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHintHop_set_src_node_id(uint32_t this_ptr, int8_tArray val) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKPublicKey val_ref;
-	CHECK(*((uint32_t*)val) == 33);
-	memcpy(val_ref.compressed_form, (uint8_t*)(val + 4), 33);
-	RouteHintHop_set_src_node_id(&this_ptr_conv, val_ref);
-}
-
-int64_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_short_channel_id(uint32_t this_ptr) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	int64_t ret_val = RouteHintHop_get_short_channel_id(&this_ptr_conv);
-	return ret_val;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHintHop_set_short_channel_id(uint32_t this_ptr, int64_t val) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	RouteHintHop_set_short_channel_id(&this_ptr_conv, val);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_fees(uint32_t this_ptr) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKRoutingFees ret_var = RouteHintHop_get_fees(&this_ptr_conv);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHintHop_set_fees(uint32_t this_ptr, uint32_t val) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKRoutingFees val_conv;
-	val_conv.inner = (void*)(val & (~1));
-	val_conv.is_owned = (val & 1) || (val == 0);
-	val_conv = RoutingFees_clone(&val_conv);
-	RouteHintHop_set_fees(&this_ptr_conv, val_conv);
-}
-
-int16_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_cltv_expiry_delta(uint32_t this_ptr) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	int16_t ret_val = RouteHintHop_get_cltv_expiry_delta(&this_ptr_conv);
-	return ret_val;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHintHop_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	RouteHintHop_set_cltv_expiry_delta(&this_ptr_conv, val);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_htlc_minimum_msat(uint32_t this_ptr) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKCOption_u64Z *ret_copy = MALLOC(sizeof(LDKCOption_u64Z), "LDKCOption_u64Z");
-	*ret_copy = RouteHintHop_get_htlc_minimum_msat(&this_ptr_conv);
-	uint64_t ret_ref = (uint64_t)ret_copy;
-	return ret_ref;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHintHop_set_htlc_minimum_msat(uint32_t this_ptr, uint32_t val) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKCOption_u64Z val_conv = *(LDKCOption_u64Z*)(((uint64_t)val) & ~1);
-	val_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)val) & ~1));
-	RouteHintHop_set_htlc_minimum_msat(&this_ptr_conv, val_conv);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_htlc_maximum_msat(uint32_t this_ptr) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKCOption_u64Z *ret_copy = MALLOC(sizeof(LDKCOption_u64Z), "LDKCOption_u64Z");
-	*ret_copy = RouteHintHop_get_htlc_maximum_msat(&this_ptr_conv);
-	uint64_t ret_ref = (uint64_t)ret_copy;
-	return ret_ref;
-}
-
-void  __attribute__((visibility("default"))) TS_RouteHintHop_set_htlc_maximum_msat(uint32_t this_ptr, uint32_t val) {
-	LDKRouteHintHop this_ptr_conv;
-	this_ptr_conv.inner = (void*)(this_ptr & (~1));
-	this_ptr_conv.is_owned = false;
-	LDKCOption_u64Z val_conv = *(LDKCOption_u64Z*)(((uint64_t)val) & ~1);
-	val_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)val) & ~1));
-	RouteHintHop_set_htlc_maximum_msat(&this_ptr_conv, val_conv);
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_new(int8_tArray src_node_id_arg, int64_t short_channel_id_arg, uint32_t fees_arg, int16_t cltv_expiry_delta_arg, uint32_t htlc_minimum_msat_arg, uint32_t htlc_maximum_msat_arg) {
-	LDKPublicKey src_node_id_arg_ref;
-	CHECK(*((uint32_t*)src_node_id_arg) == 33);
-	memcpy(src_node_id_arg_ref.compressed_form, (uint8_t*)(src_node_id_arg + 4), 33);
-	LDKRoutingFees fees_arg_conv;
-	fees_arg_conv.inner = (void*)(fees_arg & (~1));
-	fees_arg_conv.is_owned = (fees_arg & 1) || (fees_arg == 0);
-	fees_arg_conv = RoutingFees_clone(&fees_arg_conv);
-	LDKCOption_u64Z htlc_minimum_msat_arg_conv = *(LDKCOption_u64Z*)(((uint64_t)htlc_minimum_msat_arg) & ~1);
-	htlc_minimum_msat_arg_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)htlc_minimum_msat_arg) & ~1));
-	LDKCOption_u64Z htlc_maximum_msat_arg_conv = *(LDKCOption_u64Z*)(((uint64_t)htlc_maximum_msat_arg) & ~1);
-	htlc_maximum_msat_arg_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)htlc_maximum_msat_arg) & ~1));
-	LDKRouteHintHop ret_var = RouteHintHop_new(src_node_id_arg_ref, short_channel_id_arg, fees_arg_conv, cltv_expiry_delta_arg, htlc_minimum_msat_arg_conv, htlc_maximum_msat_arg_conv);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_clone(uint32_t orig) {
-	LDKRouteHintHop orig_conv;
-	orig_conv.inner = (void*)(orig & (~1));
-	orig_conv.is_owned = false;
-	LDKRouteHintHop ret_var = RouteHintHop_clone(&orig_conv);
-	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
-	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
-	uint64_t ret_ref = (uint64_t)ret_var.inner;
-	if (ret_var.is_owned) {
-		ret_ref |= 1;
-	}
-	return ret_ref;
-}
-
-int64_t  __attribute__((visibility("default"))) TS_RouteHintHop_hash(uint32_t o) {
-	LDKRouteHintHop o_conv;
-	o_conv.inner = (void*)(o & (~1));
-	o_conv.is_owned = false;
-	int64_t ret_val = RouteHintHop_hash(&o_conv);
-	return ret_val;
-}
-
-jboolean  __attribute__((visibility("default"))) TS_RouteHintHop_eq(uint32_t a, uint32_t b) {
-	LDKRouteHintHop a_conv;
-	a_conv.inner = (void*)(a & (~1));
-	a_conv.is_owned = false;
-	LDKRouteHintHop b_conv;
-	b_conv.inner = (void*)(b & (~1));
-	b_conv.is_owned = false;
-	jboolean ret_val = RouteHintHop_eq(&a_conv, &b_conv);
-	return ret_val;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_get_keysend_route(int8_tArray our_node_id, uint32_t network, int8_tArray payee, uint32_tArray first_hops, uint32_tArray last_hops, int64_t final_value_msat, int32_t final_cltv, uint32_t logger) {
-	LDKPublicKey our_node_id_ref;
-	CHECK(*((uint32_t*)our_node_id) == 33);
-	memcpy(our_node_id_ref.compressed_form, (uint8_t*)(our_node_id + 4), 33);
-	LDKNetworkGraph network_conv;
-	network_conv.inner = (void*)(network & (~1));
-	network_conv.is_owned = false;
-	LDKPublicKey payee_ref;
-	CHECK(*((uint32_t*)payee) == 33);
-	memcpy(payee_ref.compressed_form, (uint8_t*)(payee + 4), 33);
-	LDKCVec_ChannelDetailsZ first_hops_constr;
-	LDKCVec_ChannelDetailsZ *first_hops_ptr = NULL;
-	if (first_hops != 0) {
-		first_hops_constr.datalen = *((uint32_t*)first_hops);
-		if (first_hops_constr.datalen > 0)
-			first_hops_constr.data = MALLOC(first_hops_constr.datalen * sizeof(LDKChannelDetails), "LDKCVec_ChannelDetailsZ Elements");
-		else
-			first_hops_constr.data = NULL;
-		uint32_t* first_hops_vals = (uint32_t*)(first_hops + 4);
-		for (size_t q = 0; q < first_hops_constr.datalen; q++) {
-			uint32_t first_hops_conv_16 = first_hops_vals[q];
-			LDKChannelDetails first_hops_conv_16_conv;
-			first_hops_conv_16_conv.inner = (void*)(first_hops_conv_16 & (~1));
-			first_hops_conv_16_conv.is_owned = (first_hops_conv_16 & 1) || (first_hops_conv_16 == 0);
-			first_hops_constr.data[q] = first_hops_conv_16_conv;
-		}
-		first_hops_ptr = &first_hops_constr;
-	}
-	LDKCVec_RouteHintZ last_hops_constr;
-	last_hops_constr.datalen = *((uint32_t*)last_hops);
-	if (last_hops_constr.datalen > 0)
-		last_hops_constr.data = MALLOC(last_hops_constr.datalen * sizeof(LDKRouteHint), "LDKCVec_RouteHintZ Elements");
-	else
-		last_hops_constr.data = NULL;
-	uint32_t* last_hops_vals = (uint32_t*)(last_hops + 4);
-	for (size_t l = 0; l < last_hops_constr.datalen; l++) {
-		uint32_t last_hops_conv_11 = last_hops_vals[l];
-		LDKRouteHint last_hops_conv_11_conv;
-		last_hops_conv_11_conv.inner = (void*)(last_hops_conv_11 & (~1));
-		last_hops_conv_11_conv.is_owned = (last_hops_conv_11 & 1) || (last_hops_conv_11 == 0);
-		last_hops_conv_11_conv = RouteHint_clone(&last_hops_conv_11_conv);
-		last_hops_constr.data[l] = last_hops_conv_11_conv;
-	}
-	LDKLogger logger_conv = *(LDKLogger*)(((uint64_t)logger) & ~1);
-	LDKCResult_RouteLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteLightningErrorZ), "LDKCResult_RouteLightningErrorZ");
-	*ret_conv = get_keysend_route(our_node_id_ref, &network_conv, payee_ref, first_hops_ptr, last_hops_constr, final_value_msat, final_cltv, logger_conv);
-	if (first_hops_ptr != NULL) { FREE(first_hops_constr.data); }
-	return (uint64_t)ret_conv;
-}
-
-uint32_t  __attribute__((visibility("default"))) TS_get_route(int8_tArray our_node_id, uint32_t network, int8_tArray payee, uint32_t payee_features, uint32_tArray first_hops, uint32_tArray last_hops, int64_t final_value_msat, int32_t final_cltv, uint32_t logger) {
-	LDKPublicKey our_node_id_ref;
-	CHECK(*((uint32_t*)our_node_id) == 33);
-	memcpy(our_node_id_ref.compressed_form, (uint8_t*)(our_node_id + 4), 33);
-	LDKNetworkGraph network_conv;
-	network_conv.inner = (void*)(network & (~1));
-	network_conv.is_owned = false;
-	LDKPublicKey payee_ref;
-	CHECK(*((uint32_t*)payee) == 33);
-	memcpy(payee_ref.compressed_form, (uint8_t*)(payee + 4), 33);
-	LDKInvoiceFeatures payee_features_conv;
-	payee_features_conv.inner = (void*)(payee_features & (~1));
-	payee_features_conv.is_owned = (payee_features & 1) || (payee_features == 0);
-	payee_features_conv = InvoiceFeatures_clone(&payee_features_conv);
-	LDKCVec_ChannelDetailsZ first_hops_constr;
-	LDKCVec_ChannelDetailsZ *first_hops_ptr = NULL;
-	if (first_hops != 0) {
-		first_hops_constr.datalen = *((uint32_t*)first_hops);
-		if (first_hops_constr.datalen > 0)
-			first_hops_constr.data = MALLOC(first_hops_constr.datalen * sizeof(LDKChannelDetails), "LDKCVec_ChannelDetailsZ Elements");
-		else
-			first_hops_constr.data = NULL;
-		uint32_t* first_hops_vals = (uint32_t*)(first_hops + 4);
-		for (size_t q = 0; q < first_hops_constr.datalen; q++) {
-			uint32_t first_hops_conv_16 = first_hops_vals[q];
-			LDKChannelDetails first_hops_conv_16_conv;
-			first_hops_conv_16_conv.inner = (void*)(first_hops_conv_16 & (~1));
-			first_hops_conv_16_conv.is_owned = (first_hops_conv_16 & 1) || (first_hops_conv_16 == 0);
-			first_hops_constr.data[q] = first_hops_conv_16_conv;
-		}
-		first_hops_ptr = &first_hops_constr;
-	}
-	LDKCVec_RouteHintZ last_hops_constr;
-	last_hops_constr.datalen = *((uint32_t*)last_hops);
-	if (last_hops_constr.datalen > 0)
-		last_hops_constr.data = MALLOC(last_hops_constr.datalen * sizeof(LDKRouteHint), "LDKCVec_RouteHintZ Elements");
-	else
-		last_hops_constr.data = NULL;
-	uint32_t* last_hops_vals = (uint32_t*)(last_hops + 4);
-	for (size_t l = 0; l < last_hops_constr.datalen; l++) {
-		uint32_t last_hops_conv_11 = last_hops_vals[l];
-		LDKRouteHint last_hops_conv_11_conv;
-		last_hops_conv_11_conv.inner = (void*)(last_hops_conv_11 & (~1));
-		last_hops_conv_11_conv.is_owned = (last_hops_conv_11 & 1) || (last_hops_conv_11 == 0);
-		last_hops_conv_11_conv = RouteHint_clone(&last_hops_conv_11_conv);
-		last_hops_constr.data[l] = last_hops_conv_11_conv;
-	}
-	LDKLogger logger_conv = *(LDKLogger*)(((uint64_t)logger) & ~1);
-	LDKCResult_RouteLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteLightningErrorZ), "LDKCResult_RouteLightningErrorZ");
-	*ret_conv = get_route(our_node_id_ref, &network_conv, payee_ref, payee_features_conv, first_hops_ptr, last_hops_constr, final_value_msat, final_cltv, logger_conv);
-	if (first_hops_ptr != NULL) { FREE(first_hops_constr.data); }
+	LDKCResult_NodeIdDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NodeIdDecodeErrorZ), "LDKCResult_NodeIdDecodeErrorZ");
+	*ret_conv = NodeId_read(ser_ref);
 	return (uint64_t)ret_conv;
 }
 
@@ -24407,23 +24376,29 @@ void  __attribute__((visibility("default"))) TS_ChannelInfo_set_features(uint32_
 	ChannelInfo_set_features(&this_ptr_conv, val_conv);
 }
 
-int8_tArray  __attribute__((visibility("default"))) TS_ChannelInfo_get_node_one(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_get_node_one(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	int8_tArray ret_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
-	memcpy((uint8_t*)(ret_arr + 4), ChannelInfo_get_node_one(&this_ptr_conv).compressed_form, 33);
-	return ret_arr;
+	LDKNodeId ret_var = ChannelInfo_get_node_one(&this_ptr_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
 }
 
-void  __attribute__((visibility("default"))) TS_ChannelInfo_set_node_one(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_set_node_one(uint32_t this_ptr, uint32_t val) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	LDKPublicKey val_ref;
-	CHECK(*((uint32_t*)val) == 33);
-	memcpy(val_ref.compressed_form, (uint8_t*)(val + 4), 33);
-	ChannelInfo_set_node_one(&this_ptr_conv, val_ref);
+	LDKNodeId val_conv;
+	val_conv.inner = (void*)(val & (~1));
+	val_conv.is_owned = (val & 1) || (val == 0);
+	val_conv = NodeId_clone(&val_conv);
+	ChannelInfo_set_node_one(&this_ptr_conv, val_conv);
 }
 
 uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_get_one_to_two(uint32_t this_ptr) {
@@ -24451,23 +24426,29 @@ void  __attribute__((visibility("default"))) TS_ChannelInfo_set_one_to_two(uint3
 	ChannelInfo_set_one_to_two(&this_ptr_conv, val_conv);
 }
 
-int8_tArray  __attribute__((visibility("default"))) TS_ChannelInfo_get_node_two(uint32_t this_ptr) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_get_node_two(uint32_t this_ptr) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	int8_tArray ret_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
-	memcpy((uint8_t*)(ret_arr + 4), ChannelInfo_get_node_two(&this_ptr_conv).compressed_form, 33);
-	return ret_arr;
+	LDKNodeId ret_var = ChannelInfo_get_node_two(&this_ptr_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
 }
 
-void  __attribute__((visibility("default"))) TS_ChannelInfo_set_node_two(uint32_t this_ptr, int8_tArray val) {
+void  __attribute__((visibility("default"))) TS_ChannelInfo_set_node_two(uint32_t this_ptr, uint32_t val) {
 	LDKChannelInfo this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
-	LDKPublicKey val_ref;
-	CHECK(*((uint32_t*)val) == 33);
-	memcpy(val_ref.compressed_form, (uint8_t*)(val + 4), 33);
-	ChannelInfo_set_node_two(&this_ptr_conv, val_ref);
+	LDKNodeId val_conv;
+	val_conv.inner = (void*)(val & (~1));
+	val_conv.is_owned = (val & 1) || (val == 0);
+	val_conv = NodeId_clone(&val_conv);
+	ChannelInfo_set_node_two(&this_ptr_conv, val_conv);
 }
 
 uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_get_two_to_one(uint32_t this_ptr) {
@@ -24539,21 +24520,23 @@ void  __attribute__((visibility("default"))) TS_ChannelInfo_set_announcement_mes
 	ChannelInfo_set_announcement_message(&this_ptr_conv, val_conv);
 }
 
-uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_new(uint32_t features_arg, int8_tArray node_one_arg, uint32_t one_to_two_arg, int8_tArray node_two_arg, uint32_t two_to_one_arg, uint32_t capacity_sats_arg, uint32_t announcement_message_arg) {
+uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_new(uint32_t features_arg, uint32_t node_one_arg, uint32_t one_to_two_arg, uint32_t node_two_arg, uint32_t two_to_one_arg, uint32_t capacity_sats_arg, uint32_t announcement_message_arg) {
 	LDKChannelFeatures features_arg_conv;
 	features_arg_conv.inner = (void*)(features_arg & (~1));
 	features_arg_conv.is_owned = (features_arg & 1) || (features_arg == 0);
 	features_arg_conv = ChannelFeatures_clone(&features_arg_conv);
-	LDKPublicKey node_one_arg_ref;
-	CHECK(*((uint32_t*)node_one_arg) == 33);
-	memcpy(node_one_arg_ref.compressed_form, (uint8_t*)(node_one_arg + 4), 33);
+	LDKNodeId node_one_arg_conv;
+	node_one_arg_conv.inner = (void*)(node_one_arg & (~1));
+	node_one_arg_conv.is_owned = (node_one_arg & 1) || (node_one_arg == 0);
+	node_one_arg_conv = NodeId_clone(&node_one_arg_conv);
 	LDKDirectionalChannelInfo one_to_two_arg_conv;
 	one_to_two_arg_conv.inner = (void*)(one_to_two_arg & (~1));
 	one_to_two_arg_conv.is_owned = (one_to_two_arg & 1) || (one_to_two_arg == 0);
 	one_to_two_arg_conv = DirectionalChannelInfo_clone(&one_to_two_arg_conv);
-	LDKPublicKey node_two_arg_ref;
-	CHECK(*((uint32_t*)node_two_arg) == 33);
-	memcpy(node_two_arg_ref.compressed_form, (uint8_t*)(node_two_arg + 4), 33);
+	LDKNodeId node_two_arg_conv;
+	node_two_arg_conv.inner = (void*)(node_two_arg & (~1));
+	node_two_arg_conv.is_owned = (node_two_arg & 1) || (node_two_arg == 0);
+	node_two_arg_conv = NodeId_clone(&node_two_arg_conv);
 	LDKDirectionalChannelInfo two_to_one_arg_conv;
 	two_to_one_arg_conv.inner = (void*)(two_to_one_arg & (~1));
 	two_to_one_arg_conv.is_owned = (two_to_one_arg & 1) || (two_to_one_arg == 0);
@@ -24564,7 +24547,7 @@ uint32_t  __attribute__((visibility("default"))) TS_ChannelInfo_new(uint32_t fea
 	announcement_message_arg_conv.inner = (void*)(announcement_message_arg & (~1));
 	announcement_message_arg_conv.is_owned = (announcement_message_arg & 1) || (announcement_message_arg == 0);
 	announcement_message_arg_conv = ChannelAnnouncement_clone(&announcement_message_arg_conv);
-	LDKChannelInfo ret_var = ChannelInfo_new(features_arg_conv, node_one_arg_ref, one_to_two_arg_conv, node_two_arg_ref, two_to_one_arg_conv, capacity_sats_arg_conv, announcement_message_arg_conv);
+	LDKChannelInfo ret_var = ChannelInfo_new(features_arg_conv, node_one_arg_conv, one_to_two_arg_conv, node_two_arg_conv, two_to_one_arg_conv, capacity_sats_arg_conv, announcement_message_arg_conv);
 	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	uint64_t ret_ref = (uint64_t)ret_var.inner;
@@ -25194,6 +25177,747 @@ uint32_t  __attribute__((visibility("default"))) TS_NetworkGraph_update_channel_
 	LDKCResult_NoneLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_NoneLightningErrorZ), "LDKCResult_NoneLightningErrorZ");
 	*ret_conv = NetworkGraph_update_channel_unsigned(&this_arg_conv, &msg_conv);
 	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_ReadOnlyNetworkGraph_get_addresses(uint32_t this_arg, int8_tArray pubkey) {
+	LDKReadOnlyNetworkGraph this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKPublicKey pubkey_ref;
+	CHECK(*((uint32_t*)pubkey) == 33);
+	memcpy(pubkey_ref.compressed_form, (uint8_t*)(pubkey + 4), 33);
+	LDKCOption_CVec_NetAddressZZ *ret_copy = MALLOC(sizeof(LDKCOption_CVec_NetAddressZZ), "LDKCOption_CVec_NetAddressZZ");
+	*ret_copy = ReadOnlyNetworkGraph_get_addresses(&this_arg_conv, pubkey_ref);
+	uint64_t ret_ref = (uint64_t)ret_copy;
+	return ret_ref;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHop_free(uint32_t this_obj) {
+	LDKRouteHop this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	RouteHop_free(this_obj_conv);
+}
+
+int8_tArray  __attribute__((visibility("default"))) TS_RouteHop_get_pubkey(uint32_t this_ptr) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int8_tArray ret_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
+	memcpy((uint8_t*)(ret_arr + 4), RouteHop_get_pubkey(&this_ptr_conv).compressed_form, 33);
+	return ret_arr;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHop_set_pubkey(uint32_t this_ptr, int8_tArray val) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKPublicKey val_ref;
+	CHECK(*((uint32_t*)val) == 33);
+	memcpy(val_ref.compressed_form, (uint8_t*)(val + 4), 33);
+	RouteHop_set_pubkey(&this_ptr_conv, val_ref);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_get_node_features(uint32_t this_ptr) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKNodeFeatures ret_var = RouteHop_get_node_features(&this_ptr_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHop_set_node_features(uint32_t this_ptr, uint32_t val) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKNodeFeatures val_conv;
+	val_conv.inner = (void*)(val & (~1));
+	val_conv.is_owned = (val & 1) || (val == 0);
+	val_conv = NodeFeatures_clone(&val_conv);
+	RouteHop_set_node_features(&this_ptr_conv, val_conv);
+}
+
+int64_t  __attribute__((visibility("default"))) TS_RouteHop_get_short_channel_id(uint32_t this_ptr) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int64_t ret_val = RouteHop_get_short_channel_id(&this_ptr_conv);
+	return ret_val;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHop_set_short_channel_id(uint32_t this_ptr, int64_t val) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	RouteHop_set_short_channel_id(&this_ptr_conv, val);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_get_channel_features(uint32_t this_ptr) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKChannelFeatures ret_var = RouteHop_get_channel_features(&this_ptr_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHop_set_channel_features(uint32_t this_ptr, uint32_t val) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKChannelFeatures val_conv;
+	val_conv.inner = (void*)(val & (~1));
+	val_conv.is_owned = (val & 1) || (val == 0);
+	val_conv = ChannelFeatures_clone(&val_conv);
+	RouteHop_set_channel_features(&this_ptr_conv, val_conv);
+}
+
+int64_t  __attribute__((visibility("default"))) TS_RouteHop_get_fee_msat(uint32_t this_ptr) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int64_t ret_val = RouteHop_get_fee_msat(&this_ptr_conv);
+	return ret_val;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHop_set_fee_msat(uint32_t this_ptr, int64_t val) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	RouteHop_set_fee_msat(&this_ptr_conv, val);
+}
+
+int32_t  __attribute__((visibility("default"))) TS_RouteHop_get_cltv_expiry_delta(uint32_t this_ptr) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int32_t ret_val = RouteHop_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_val;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHop_set_cltv_expiry_delta(uint32_t this_ptr, int32_t val) {
+	LDKRouteHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	RouteHop_set_cltv_expiry_delta(&this_ptr_conv, val);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_new(int8_tArray pubkey_arg, uint32_t node_features_arg, int64_t short_channel_id_arg, uint32_t channel_features_arg, int64_t fee_msat_arg, int32_t cltv_expiry_delta_arg) {
+	LDKPublicKey pubkey_arg_ref;
+	CHECK(*((uint32_t*)pubkey_arg) == 33);
+	memcpy(pubkey_arg_ref.compressed_form, (uint8_t*)(pubkey_arg + 4), 33);
+	LDKNodeFeatures node_features_arg_conv;
+	node_features_arg_conv.inner = (void*)(node_features_arg & (~1));
+	node_features_arg_conv.is_owned = (node_features_arg & 1) || (node_features_arg == 0);
+	node_features_arg_conv = NodeFeatures_clone(&node_features_arg_conv);
+	LDKChannelFeatures channel_features_arg_conv;
+	channel_features_arg_conv.inner = (void*)(channel_features_arg & (~1));
+	channel_features_arg_conv.is_owned = (channel_features_arg & 1) || (channel_features_arg == 0);
+	channel_features_arg_conv = ChannelFeatures_clone(&channel_features_arg_conv);
+	LDKRouteHop ret_var = RouteHop_new(pubkey_arg_ref, node_features_arg_conv, short_channel_id_arg, channel_features_arg_conv, fee_msat_arg, cltv_expiry_delta_arg);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_clone(uint32_t orig) {
+	LDKRouteHop orig_conv;
+	orig_conv.inner = (void*)(orig & (~1));
+	orig_conv.is_owned = false;
+	LDKRouteHop ret_var = RouteHop_clone(&orig_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+int64_t  __attribute__((visibility("default"))) TS_RouteHop_hash(uint32_t o) {
+	LDKRouteHop o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = false;
+	int64_t ret_val = RouteHop_hash(&o_conv);
+	return ret_val;
+}
+
+jboolean  __attribute__((visibility("default"))) TS_RouteHop_eq(uint32_t a, uint32_t b) {
+	LDKRouteHop a_conv;
+	a_conv.inner = (void*)(a & (~1));
+	a_conv.is_owned = false;
+	LDKRouteHop b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = false;
+	jboolean ret_val = RouteHop_eq(&a_conv, &b_conv);
+	return ret_val;
+}
+
+int8_tArray  __attribute__((visibility("default"))) TS_RouteHop_write(uint32_t obj) {
+	LDKRouteHop obj_conv;
+	obj_conv.inner = (void*)(obj & (~1));
+	obj_conv.is_owned = false;
+	LDKCVec_u8Z ret_var = RouteHop_write(&obj_conv);
+	int8_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
+	memcpy((uint8_t*)(ret_arr + 4), ret_var.data, ret_var.datalen);
+	CVec_u8Z_free(ret_var);
+	return ret_arr;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHop_read(int8_tArray ser) {
+	LDKu8slice ser_ref;
+	ser_ref.datalen = *((uint32_t*)ser);
+	ser_ref.data = (int8_t*)(ser + 4);
+	LDKCResult_RouteHopDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteHopDecodeErrorZ), "LDKCResult_RouteHopDecodeErrorZ");
+	*ret_conv = RouteHop_read(ser_ref);
+	return (uint64_t)ret_conv;
+}
+
+void  __attribute__((visibility("default"))) TS_Route_free(uint32_t this_obj) {
+	LDKRoute this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	Route_free(this_obj_conv);
+}
+
+ptrArray  __attribute__((visibility("default"))) TS_Route_get_paths(uint32_t this_ptr) {
+	LDKRoute this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKCVec_CVec_RouteHopZZ ret_var = Route_get_paths(&this_ptr_conv);
+	ptrArray ret_arr = init_arr(ret_var.datalen, sizeof(uint32_t), "Native ptrArray Bytes");
+	uint32_tArray *ret_arr_ptr = (uint32_tArray*)(ret_arr + 4);
+	for (size_t m = 0; m < ret_var.datalen; m++) {
+		LDKCVec_RouteHopZ ret_conv_12_var = ret_var.data[m];
+		uint32_tArray ret_conv_12_arr = init_arr(ret_conv_12_var.datalen, sizeof(uint32_t), "Native uint32_tArray Bytes");
+		uint32_t *ret_conv_12_arr_ptr = (uint32_t*)(ret_conv_12_arr + 4);
+		for (size_t k = 0; k < ret_conv_12_var.datalen; k++) {
+			LDKRouteHop ret_conv_12_conv_10_var = ret_conv_12_var.data[k];
+			CHECK((((uint64_t)ret_conv_12_conv_10_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+			CHECK((((uint64_t)&ret_conv_12_conv_10_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+			uint64_t ret_conv_12_conv_10_ref = (uint64_t)ret_conv_12_conv_10_var.inner;
+			if (ret_conv_12_conv_10_var.is_owned) {
+				ret_conv_12_conv_10_ref |= 1;
+			}
+			ret_conv_12_arr_ptr[k] = ret_conv_12_conv_10_ref;
+		}
+		FREE(ret_conv_12_var.data);
+		ret_arr_ptr[m] = ret_conv_12_arr;
+	}
+	FREE(ret_var.data);
+	return ret_arr;
+}
+
+void  __attribute__((visibility("default"))) TS_Route_set_paths(uint32_t this_ptr, ptrArray val) {
+	LDKRoute this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKCVec_CVec_RouteHopZZ val_constr;
+	val_constr.datalen = *((uint32_t*)val);
+	if (val_constr.datalen > 0)
+		val_constr.data = MALLOC(val_constr.datalen * sizeof(LDKCVec_RouteHopZ), "LDKCVec_CVec_RouteHopZZ Elements");
+	else
+		val_constr.data = NULL;
+	uint32_tArray* val_vals = (uint32_tArray*)(val + 4);
+	for (size_t m = 0; m < val_constr.datalen; m++) {
+		uint32_tArray val_conv_12 = val_vals[m];
+		LDKCVec_RouteHopZ val_conv_12_constr;
+		val_conv_12_constr.datalen = *((uint32_t*)val_conv_12);
+		if (val_conv_12_constr.datalen > 0)
+			val_conv_12_constr.data = MALLOC(val_conv_12_constr.datalen * sizeof(LDKRouteHop), "LDKCVec_RouteHopZ Elements");
+		else
+			val_conv_12_constr.data = NULL;
+		uint32_t* val_conv_12_vals = (uint32_t*)(val_conv_12 + 4);
+		for (size_t k = 0; k < val_conv_12_constr.datalen; k++) {
+			uint32_t val_conv_12_conv_10 = val_conv_12_vals[k];
+			LDKRouteHop val_conv_12_conv_10_conv;
+			val_conv_12_conv_10_conv.inner = (void*)(val_conv_12_conv_10 & (~1));
+			val_conv_12_conv_10_conv.is_owned = (val_conv_12_conv_10 & 1) || (val_conv_12_conv_10 == 0);
+			val_conv_12_conv_10_conv = RouteHop_clone(&val_conv_12_conv_10_conv);
+			val_conv_12_constr.data[k] = val_conv_12_conv_10_conv;
+		}
+		val_constr.data[m] = val_conv_12_constr;
+	}
+	Route_set_paths(&this_ptr_conv, val_constr);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_Route_new(ptrArray paths_arg) {
+	LDKCVec_CVec_RouteHopZZ paths_arg_constr;
+	paths_arg_constr.datalen = *((uint32_t*)paths_arg);
+	if (paths_arg_constr.datalen > 0)
+		paths_arg_constr.data = MALLOC(paths_arg_constr.datalen * sizeof(LDKCVec_RouteHopZ), "LDKCVec_CVec_RouteHopZZ Elements");
+	else
+		paths_arg_constr.data = NULL;
+	uint32_tArray* paths_arg_vals = (uint32_tArray*)(paths_arg + 4);
+	for (size_t m = 0; m < paths_arg_constr.datalen; m++) {
+		uint32_tArray paths_arg_conv_12 = paths_arg_vals[m];
+		LDKCVec_RouteHopZ paths_arg_conv_12_constr;
+		paths_arg_conv_12_constr.datalen = *((uint32_t*)paths_arg_conv_12);
+		if (paths_arg_conv_12_constr.datalen > 0)
+			paths_arg_conv_12_constr.data = MALLOC(paths_arg_conv_12_constr.datalen * sizeof(LDKRouteHop), "LDKCVec_RouteHopZ Elements");
+		else
+			paths_arg_conv_12_constr.data = NULL;
+		uint32_t* paths_arg_conv_12_vals = (uint32_t*)(paths_arg_conv_12 + 4);
+		for (size_t k = 0; k < paths_arg_conv_12_constr.datalen; k++) {
+			uint32_t paths_arg_conv_12_conv_10 = paths_arg_conv_12_vals[k];
+			LDKRouteHop paths_arg_conv_12_conv_10_conv;
+			paths_arg_conv_12_conv_10_conv.inner = (void*)(paths_arg_conv_12_conv_10 & (~1));
+			paths_arg_conv_12_conv_10_conv.is_owned = (paths_arg_conv_12_conv_10 & 1) || (paths_arg_conv_12_conv_10 == 0);
+			paths_arg_conv_12_conv_10_conv = RouteHop_clone(&paths_arg_conv_12_conv_10_conv);
+			paths_arg_conv_12_constr.data[k] = paths_arg_conv_12_conv_10_conv;
+		}
+		paths_arg_constr.data[m] = paths_arg_conv_12_constr;
+	}
+	LDKRoute ret_var = Route_new(paths_arg_constr);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_Route_clone(uint32_t orig) {
+	LDKRoute orig_conv;
+	orig_conv.inner = (void*)(orig & (~1));
+	orig_conv.is_owned = false;
+	LDKRoute ret_var = Route_clone(&orig_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+int64_t  __attribute__((visibility("default"))) TS_Route_hash(uint32_t o) {
+	LDKRoute o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = false;
+	int64_t ret_val = Route_hash(&o_conv);
+	return ret_val;
+}
+
+jboolean  __attribute__((visibility("default"))) TS_Route_eq(uint32_t a, uint32_t b) {
+	LDKRoute a_conv;
+	a_conv.inner = (void*)(a & (~1));
+	a_conv.is_owned = false;
+	LDKRoute b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = false;
+	jboolean ret_val = Route_eq(&a_conv, &b_conv);
+	return ret_val;
+}
+
+int64_t  __attribute__((visibility("default"))) TS_Route_get_total_fees(uint32_t this_arg) {
+	LDKRoute this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	int64_t ret_val = Route_get_total_fees(&this_arg_conv);
+	return ret_val;
+}
+
+int64_t  __attribute__((visibility("default"))) TS_Route_get_total_amount(uint32_t this_arg) {
+	LDKRoute this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	int64_t ret_val = Route_get_total_amount(&this_arg_conv);
+	return ret_val;
+}
+
+int8_tArray  __attribute__((visibility("default"))) TS_Route_write(uint32_t obj) {
+	LDKRoute obj_conv;
+	obj_conv.inner = (void*)(obj & (~1));
+	obj_conv.is_owned = false;
+	LDKCVec_u8Z ret_var = Route_write(&obj_conv);
+	int8_tArray ret_arr = init_arr(ret_var.datalen, sizeof(uint8_t), "Native int8_tArray Bytes");
+	memcpy((uint8_t*)(ret_arr + 4), ret_var.data, ret_var.datalen);
+	CVec_u8Z_free(ret_var);
+	return ret_arr;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_Route_read(int8_tArray ser) {
+	LDKu8slice ser_ref;
+	ser_ref.datalen = *((uint32_t*)ser);
+	ser_ref.data = (int8_t*)(ser + 4);
+	LDKCResult_RouteDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteDecodeErrorZ), "LDKCResult_RouteDecodeErrorZ");
+	*ret_conv = Route_read(ser_ref);
+	return (uint64_t)ret_conv;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHint_free(uint32_t this_obj) {
+	LDKRouteHint this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	RouteHint_free(this_obj_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHint_clone(uint32_t orig) {
+	LDKRouteHint orig_conv;
+	orig_conv.inner = (void*)(orig & (~1));
+	orig_conv.is_owned = false;
+	LDKRouteHint ret_var = RouteHint_clone(&orig_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+int64_t  __attribute__((visibility("default"))) TS_RouteHint_hash(uint32_t o) {
+	LDKRouteHint o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = false;
+	int64_t ret_val = RouteHint_hash(&o_conv);
+	return ret_val;
+}
+
+jboolean  __attribute__((visibility("default"))) TS_RouteHint_eq(uint32_t a, uint32_t b) {
+	LDKRouteHint a_conv;
+	a_conv.inner = (void*)(a & (~1));
+	a_conv.is_owned = false;
+	LDKRouteHint b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = false;
+	jboolean ret_val = RouteHint_eq(&a_conv, &b_conv);
+	return ret_val;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHintHop_free(uint32_t this_obj) {
+	LDKRouteHintHop this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	RouteHintHop_free(this_obj_conv);
+}
+
+int8_tArray  __attribute__((visibility("default"))) TS_RouteHintHop_get_src_node_id(uint32_t this_ptr) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int8_tArray ret_arr = init_arr(33, sizeof(uint8_t), "Native int8_tArray Bytes");
+	memcpy((uint8_t*)(ret_arr + 4), RouteHintHop_get_src_node_id(&this_ptr_conv).compressed_form, 33);
+	return ret_arr;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHintHop_set_src_node_id(uint32_t this_ptr, int8_tArray val) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKPublicKey val_ref;
+	CHECK(*((uint32_t*)val) == 33);
+	memcpy(val_ref.compressed_form, (uint8_t*)(val + 4), 33);
+	RouteHintHop_set_src_node_id(&this_ptr_conv, val_ref);
+}
+
+int64_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_short_channel_id(uint32_t this_ptr) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int64_t ret_val = RouteHintHop_get_short_channel_id(&this_ptr_conv);
+	return ret_val;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHintHop_set_short_channel_id(uint32_t this_ptr, int64_t val) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	RouteHintHop_set_short_channel_id(&this_ptr_conv, val);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_fees(uint32_t this_ptr) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKRoutingFees ret_var = RouteHintHop_get_fees(&this_ptr_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHintHop_set_fees(uint32_t this_ptr, uint32_t val) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKRoutingFees val_conv;
+	val_conv.inner = (void*)(val & (~1));
+	val_conv.is_owned = (val & 1) || (val == 0);
+	val_conv = RoutingFees_clone(&val_conv);
+	RouteHintHop_set_fees(&this_ptr_conv, val_conv);
+}
+
+int16_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_cltv_expiry_delta(uint32_t this_ptr) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	int16_t ret_val = RouteHintHop_get_cltv_expiry_delta(&this_ptr_conv);
+	return ret_val;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHintHop_set_cltv_expiry_delta(uint32_t this_ptr, int16_t val) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	RouteHintHop_set_cltv_expiry_delta(&this_ptr_conv, val);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_htlc_minimum_msat(uint32_t this_ptr) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKCOption_u64Z *ret_copy = MALLOC(sizeof(LDKCOption_u64Z), "LDKCOption_u64Z");
+	*ret_copy = RouteHintHop_get_htlc_minimum_msat(&this_ptr_conv);
+	uint64_t ret_ref = (uint64_t)ret_copy;
+	return ret_ref;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHintHop_set_htlc_minimum_msat(uint32_t this_ptr, uint32_t val) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKCOption_u64Z val_conv = *(LDKCOption_u64Z*)(((uint64_t)val) & ~1);
+	val_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)val) & ~1));
+	RouteHintHop_set_htlc_minimum_msat(&this_ptr_conv, val_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_get_htlc_maximum_msat(uint32_t this_ptr) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKCOption_u64Z *ret_copy = MALLOC(sizeof(LDKCOption_u64Z), "LDKCOption_u64Z");
+	*ret_copy = RouteHintHop_get_htlc_maximum_msat(&this_ptr_conv);
+	uint64_t ret_ref = (uint64_t)ret_copy;
+	return ret_ref;
+}
+
+void  __attribute__((visibility("default"))) TS_RouteHintHop_set_htlc_maximum_msat(uint32_t this_ptr, uint32_t val) {
+	LDKRouteHintHop this_ptr_conv;
+	this_ptr_conv.inner = (void*)(this_ptr & (~1));
+	this_ptr_conv.is_owned = false;
+	LDKCOption_u64Z val_conv = *(LDKCOption_u64Z*)(((uint64_t)val) & ~1);
+	val_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)val) & ~1));
+	RouteHintHop_set_htlc_maximum_msat(&this_ptr_conv, val_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_new(int8_tArray src_node_id_arg, int64_t short_channel_id_arg, uint32_t fees_arg, int16_t cltv_expiry_delta_arg, uint32_t htlc_minimum_msat_arg, uint32_t htlc_maximum_msat_arg) {
+	LDKPublicKey src_node_id_arg_ref;
+	CHECK(*((uint32_t*)src_node_id_arg) == 33);
+	memcpy(src_node_id_arg_ref.compressed_form, (uint8_t*)(src_node_id_arg + 4), 33);
+	LDKRoutingFees fees_arg_conv;
+	fees_arg_conv.inner = (void*)(fees_arg & (~1));
+	fees_arg_conv.is_owned = (fees_arg & 1) || (fees_arg == 0);
+	fees_arg_conv = RoutingFees_clone(&fees_arg_conv);
+	LDKCOption_u64Z htlc_minimum_msat_arg_conv = *(LDKCOption_u64Z*)(((uint64_t)htlc_minimum_msat_arg) & ~1);
+	htlc_minimum_msat_arg_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)htlc_minimum_msat_arg) & ~1));
+	LDKCOption_u64Z htlc_maximum_msat_arg_conv = *(LDKCOption_u64Z*)(((uint64_t)htlc_maximum_msat_arg) & ~1);
+	htlc_maximum_msat_arg_conv = COption_u64Z_clone((LDKCOption_u64Z*)(((uint64_t)htlc_maximum_msat_arg) & ~1));
+	LDKRouteHintHop ret_var = RouteHintHop_new(src_node_id_arg_ref, short_channel_id_arg, fees_arg_conv, cltv_expiry_delta_arg, htlc_minimum_msat_arg_conv, htlc_maximum_msat_arg_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_RouteHintHop_clone(uint32_t orig) {
+	LDKRouteHintHop orig_conv;
+	orig_conv.inner = (void*)(orig & (~1));
+	orig_conv.is_owned = false;
+	LDKRouteHintHop ret_var = RouteHintHop_clone(&orig_conv);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+int64_t  __attribute__((visibility("default"))) TS_RouteHintHop_hash(uint32_t o) {
+	LDKRouteHintHop o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = false;
+	int64_t ret_val = RouteHintHop_hash(&o_conv);
+	return ret_val;
+}
+
+jboolean  __attribute__((visibility("default"))) TS_RouteHintHop_eq(uint32_t a, uint32_t b) {
+	LDKRouteHintHop a_conv;
+	a_conv.inner = (void*)(a & (~1));
+	a_conv.is_owned = false;
+	LDKRouteHintHop b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = false;
+	jboolean ret_val = RouteHintHop_eq(&a_conv, &b_conv);
+	return ret_val;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_get_keysend_route(int8_tArray our_node_pubkey, uint32_t network, int8_tArray payee, uint32_tArray first_hops, uint32_tArray last_hops, int64_t final_value_msat, int32_t final_cltv, uint32_t logger, uint32_t scorer) {
+	LDKPublicKey our_node_pubkey_ref;
+	CHECK(*((uint32_t*)our_node_pubkey) == 33);
+	memcpy(our_node_pubkey_ref.compressed_form, (uint8_t*)(our_node_pubkey + 4), 33);
+	LDKNetworkGraph network_conv;
+	network_conv.inner = (void*)(network & (~1));
+	network_conv.is_owned = false;
+	LDKPublicKey payee_ref;
+	CHECK(*((uint32_t*)payee) == 33);
+	memcpy(payee_ref.compressed_form, (uint8_t*)(payee + 4), 33);
+	LDKCVec_ChannelDetailsZ first_hops_constr;
+	LDKCVec_ChannelDetailsZ *first_hops_ptr = NULL;
+	if (first_hops != 0) {
+		first_hops_constr.datalen = *((uint32_t*)first_hops);
+		if (first_hops_constr.datalen > 0)
+			first_hops_constr.data = MALLOC(first_hops_constr.datalen * sizeof(LDKChannelDetails), "LDKCVec_ChannelDetailsZ Elements");
+		else
+			first_hops_constr.data = NULL;
+		uint32_t* first_hops_vals = (uint32_t*)(first_hops + 4);
+		for (size_t q = 0; q < first_hops_constr.datalen; q++) {
+			uint32_t first_hops_conv_16 = first_hops_vals[q];
+			LDKChannelDetails first_hops_conv_16_conv;
+			first_hops_conv_16_conv.inner = (void*)(first_hops_conv_16 & (~1));
+			first_hops_conv_16_conv.is_owned = (first_hops_conv_16 & 1) || (first_hops_conv_16 == 0);
+			first_hops_constr.data[q] = first_hops_conv_16_conv;
+		}
+		first_hops_ptr = &first_hops_constr;
+	}
+	LDKCVec_RouteHintZ last_hops_constr;
+	last_hops_constr.datalen = *((uint32_t*)last_hops);
+	if (last_hops_constr.datalen > 0)
+		last_hops_constr.data = MALLOC(last_hops_constr.datalen * sizeof(LDKRouteHint), "LDKCVec_RouteHintZ Elements");
+	else
+		last_hops_constr.data = NULL;
+	uint32_t* last_hops_vals = (uint32_t*)(last_hops + 4);
+	for (size_t l = 0; l < last_hops_constr.datalen; l++) {
+		uint32_t last_hops_conv_11 = last_hops_vals[l];
+		LDKRouteHint last_hops_conv_11_conv;
+		last_hops_conv_11_conv.inner = (void*)(last_hops_conv_11 & (~1));
+		last_hops_conv_11_conv.is_owned = (last_hops_conv_11 & 1) || (last_hops_conv_11 == 0);
+		last_hops_conv_11_conv = RouteHint_clone(&last_hops_conv_11_conv);
+		last_hops_constr.data[l] = last_hops_conv_11_conv;
+	}
+	LDKLogger logger_conv = *(LDKLogger*)(((uint64_t)logger) & ~1);
+	LDKScore* scorer_conv = (LDKScore*)(((uint64_t)scorer) & ~1);
+	LDKCResult_RouteLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteLightningErrorZ), "LDKCResult_RouteLightningErrorZ");
+	*ret_conv = get_keysend_route(our_node_pubkey_ref, &network_conv, payee_ref, first_hops_ptr, last_hops_constr, final_value_msat, final_cltv, logger_conv, scorer_conv);
+	if (first_hops_ptr != NULL) { FREE(first_hops_constr.data); }
+	return (uint64_t)ret_conv;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_get_route(int8_tArray our_node_pubkey, uint32_t network, int8_tArray payee, uint32_t payee_features, uint32_tArray first_hops, uint32_tArray last_hops, int64_t final_value_msat, int32_t final_cltv, uint32_t logger, uint32_t scorer) {
+	LDKPublicKey our_node_pubkey_ref;
+	CHECK(*((uint32_t*)our_node_pubkey) == 33);
+	memcpy(our_node_pubkey_ref.compressed_form, (uint8_t*)(our_node_pubkey + 4), 33);
+	LDKNetworkGraph network_conv;
+	network_conv.inner = (void*)(network & (~1));
+	network_conv.is_owned = false;
+	LDKPublicKey payee_ref;
+	CHECK(*((uint32_t*)payee) == 33);
+	memcpy(payee_ref.compressed_form, (uint8_t*)(payee + 4), 33);
+	LDKInvoiceFeatures payee_features_conv;
+	payee_features_conv.inner = (void*)(payee_features & (~1));
+	payee_features_conv.is_owned = (payee_features & 1) || (payee_features == 0);
+	payee_features_conv = InvoiceFeatures_clone(&payee_features_conv);
+	LDKCVec_ChannelDetailsZ first_hops_constr;
+	LDKCVec_ChannelDetailsZ *first_hops_ptr = NULL;
+	if (first_hops != 0) {
+		first_hops_constr.datalen = *((uint32_t*)first_hops);
+		if (first_hops_constr.datalen > 0)
+			first_hops_constr.data = MALLOC(first_hops_constr.datalen * sizeof(LDKChannelDetails), "LDKCVec_ChannelDetailsZ Elements");
+		else
+			first_hops_constr.data = NULL;
+		uint32_t* first_hops_vals = (uint32_t*)(first_hops + 4);
+		for (size_t q = 0; q < first_hops_constr.datalen; q++) {
+			uint32_t first_hops_conv_16 = first_hops_vals[q];
+			LDKChannelDetails first_hops_conv_16_conv;
+			first_hops_conv_16_conv.inner = (void*)(first_hops_conv_16 & (~1));
+			first_hops_conv_16_conv.is_owned = (first_hops_conv_16 & 1) || (first_hops_conv_16 == 0);
+			first_hops_constr.data[q] = first_hops_conv_16_conv;
+		}
+		first_hops_ptr = &first_hops_constr;
+	}
+	LDKCVec_RouteHintZ last_hops_constr;
+	last_hops_constr.datalen = *((uint32_t*)last_hops);
+	if (last_hops_constr.datalen > 0)
+		last_hops_constr.data = MALLOC(last_hops_constr.datalen * sizeof(LDKRouteHint), "LDKCVec_RouteHintZ Elements");
+	else
+		last_hops_constr.data = NULL;
+	uint32_t* last_hops_vals = (uint32_t*)(last_hops + 4);
+	for (size_t l = 0; l < last_hops_constr.datalen; l++) {
+		uint32_t last_hops_conv_11 = last_hops_vals[l];
+		LDKRouteHint last_hops_conv_11_conv;
+		last_hops_conv_11_conv.inner = (void*)(last_hops_conv_11 & (~1));
+		last_hops_conv_11_conv.is_owned = (last_hops_conv_11 & 1) || (last_hops_conv_11 == 0);
+		last_hops_conv_11_conv = RouteHint_clone(&last_hops_conv_11_conv);
+		last_hops_constr.data[l] = last_hops_conv_11_conv;
+	}
+	LDKLogger logger_conv = *(LDKLogger*)(((uint64_t)logger) & ~1);
+	LDKScore* scorer_conv = (LDKScore*)(((uint64_t)scorer) & ~1);
+	LDKCResult_RouteLightningErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_RouteLightningErrorZ), "LDKCResult_RouteLightningErrorZ");
+	*ret_conv = get_route(our_node_pubkey_ref, &network_conv, payee_ref, payee_features_conv, first_hops_ptr, last_hops_constr, final_value_msat, final_cltv, logger_conv, scorer_conv);
+	if (first_hops_ptr != NULL) { FREE(first_hops_constr.data); }
+	return (uint64_t)ret_conv;
+}
+
+void  __attribute__((visibility("default"))) TS_Scorer_free(uint32_t this_obj) {
+	LDKScorer this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	Scorer_free(this_obj_conv);
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_Scorer_new(int64_t base_penalty_msat) {
+	LDKScorer ret_var = Scorer_new(base_penalty_msat);
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_Scorer_default() {
+	LDKScorer ret_var = Scorer_default();
+	CHECK((((uint64_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uint64_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	uint64_t ret_ref = (uint64_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+uint32_t  __attribute__((visibility("default"))) TS_Scorer_as_Score(uint32_t this_arg) {
+	LDKScorer this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	LDKScore* ret_ret =MALLOC(sizeof(LDKScore), "LDKScore");
+	*ret_ret = Scorer_as_Score(&this_arg_conv);
+	return (uint64_t)ret_ret;
 }
 
 void  __attribute__((visibility("default"))) TS_FilesystemPersister_free(uint32_t this_obj) {

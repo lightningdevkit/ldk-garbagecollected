@@ -86,11 +86,15 @@ rm src/main/java/org/ldk/enums/*.class src/main/java/org/ldk/impl/bindings*.clas
 
 IS_MAC=false
 [ "$($CC --version | grep apple-darwin)" != "" ] && IS_MAC=true
+IS_APPLE_CLANG=false
+[ "$($CC --version | grep "Apple clang version")" != "" ] && IS_APPLE_CLANG=true
 
 echo "Building Java bindings..."
 COMPILE="$COMMON_COMPILE -mcpu=$LDK_TARGET_CPU -Isrc/main/jni -pthread -ldl -shared -fPIC"
 [ "$IS_MAC" = "false" ] && COMPILE="$COMPILE -Wl,--no-undefined"
 [ "$IS_MAC" = "true" ] && COMPILE="$COMPILE -mmacosx-version-min=10.9"
+[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && COMPILE="$COMPILE -fuse-ld=lld"
+[ "$IS_MAC" = "true" -a "$IS_APPLE_CLANG" = "false" ] && echo "WARNING: Need at least upstream clang 13!"
 [ "$IS_MAC" = "false" -a "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,malloc -Wl,-wrap,free"
 if [ "$3" = "true" ]; then
 	$COMPILE -o liblightningjni_debug$LDK_TARGET_SUFFIX.so -g -fsanitize=address -shared-libasan -rdynamic -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c "$1"/lightning-c-bindings/target/$LDK_TARGET/debug/libldk.a -lm

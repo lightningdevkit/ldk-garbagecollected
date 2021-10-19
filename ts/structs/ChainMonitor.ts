@@ -41,6 +41,24 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_conv_9_arr;
 	}
 
+	public Result_LockedChannelMonitorNoneZ get_monitor(OutPoint funding_txo) {
+		number ret = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1);
+		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public OutPoint[] list_monitors() {
+		number[] ret = bindings.ChainMonitor_list_monitors(this.ptr);
+		OutPoint[] ret_conv_10_arr = new OutPoint[ret.length];
+		for (int k = 0; k < ret.length; k++) {
+			number ret_conv_10 = ret[k];
+			const ret_conv_10_hu_conv: OutPoint = new OutPoint(null, ret_conv_10);
+			ret_conv_10_hu_conv.ptrs_to.add(this);
+			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
+		}
+		return ret_conv_10_arr;
+	}
+
 	public Listen as_Listen() {
 		number ret = bindings.ChainMonitor_as_Listen(this.ptr);
 		Listen ret_hu_conv = new Listen(null, ret);

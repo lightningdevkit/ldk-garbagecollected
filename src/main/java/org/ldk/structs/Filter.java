@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * processed later. Then, in order to block until the data has been processed, any [`Watch`]
  * invocation that has called the `Filter` must return [`TemporaryFailure`].
  * 
- * [`TemporaryFailure`]: channelmonitor::ChannelMonitorUpdateErr::TemporaryFailure
+ * [`TemporaryFailure`]: ChannelMonitorUpdateErr::TemporaryFailure
  * [BIP 157]: https://github.com/bitcoin/bips/blob/master/bip-0157.mediawiki
  * [BIP 158]: https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki
  */

@@ -80,13 +80,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelDetails_set_unspendable_punishment_reserve(this.ptr, val.ptr);
 	}
 
-	public number get_user_id() {
-		number ret = bindings.ChannelDetails_get_user_id(this.ptr);
+	public number get_user_channel_id() {
+		number ret = bindings.ChannelDetails_get_user_channel_id(this.ptr);
 		return ret;
 	}
 
-	public void set_user_id(number val) {
-		bindings.ChannelDetails_set_user_id(this.ptr, val);
+	public void set_user_channel_id(number val) {
+		bindings.ChannelDetails_set_user_channel_id(this.ptr, val);
 	}
 
 	public number get_outbound_capacity_msat() {
@@ -165,8 +165,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelDetails_set_is_public(this.ptr, val);
 	}
 
-	public static ChannelDetails constructor_new(Uint8Array channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, Option_u64Z short_channel_id_arg, number channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, number user_id_arg, number outbound_capacity_msat_arg, number inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_funding_locked_arg, boolean is_usable_arg, boolean is_public_arg) {
-		number ret = bindings.ChannelDetails_new(channel_id_arg, counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+	public static ChannelDetails constructor_new(Uint8Array channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, Option_u64Z short_channel_id_arg, number channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, number user_channel_id_arg, number outbound_capacity_msat_arg, number inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_funding_locked_arg, boolean is_usable_arg, boolean is_public_arg) {
+		number ret = bindings.ChannelDetails_new(channel_id_arg, counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
