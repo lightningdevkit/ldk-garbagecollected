@@ -378,12 +378,12 @@ class TypeMappingGenerator:
                     ret_conv_name = "((uint64_t)" + ty_info.var_name + "_conv)"
                     if holds_ref:
                         # If we're trying to return a ref, we have to clone.
-                        # We just blindly assume its implemented and let the compiler fail if its not.
-                        ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
                         if (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
-                            ret_conv = (ret_conv[0], ret_conv[1] + "\n// Warning: we really need to clone here, but no clone is available for " + ty_info.rust_obj)
+                            ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = &", "")
+                            ret_conv = (ret_conv[0], ";\n// Warning: we really need to clone here, but no clone is available for " + ty_info.rust_obj)
                             ret_conv_name += " | 1"
                         else:
+                            ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
                             ret_conv = (ret_conv[0], ret_conv[1] + "\n*" + ty_info.var_name + "_conv = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + "_conv);")
                     else:
                         ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
