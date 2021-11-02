@@ -39,8 +39,19 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12 != null ? Arrays.stream(val_conv_12).map(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr & ~1).toArray(number[]::new) : null).toArray(number[][]::new) : null);
 	}
 
-	public static Route constructor_new(RouteHop[][] paths_arg) {
-		number ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).map(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray(number[]::new) : null).toArray(number[][]::new) : null);
+	public Payee get_payee() {
+		number ret = bindings.Route_get_payee(this.ptr);
+		const ret_hu_conv: Payee = new Payee(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public void set_payee(Payee val) {
+		bindings.Route_set_payee(this.ptr, val == null ? 0 : val.ptr & ~1);
+	}
+
+	public static Route constructor_new(RouteHop[][] paths_arg, Payee payee_arg) {
+		number ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).map(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray(number[]::new) : null).toArray(number[][]::new) : null, payee_arg == null ? 0 : payee_arg.ptr & ~1);
 		const ret_hu_conv: Route = new Route(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

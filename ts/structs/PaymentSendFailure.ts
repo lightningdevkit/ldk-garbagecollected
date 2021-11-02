@@ -66,17 +66,24 @@ export class AllFailedRetrySafe extends PaymentSendFailure {
 	}
 }
 export class PartialFailure extends PaymentSendFailure {
-	public partial_failure: Result_NoneAPIErrorZ[];
+	public results: Result_NoneAPIErrorZ[];
+	public failed_paths_retry: RouteParameters;
+	public payment_id: Uint8Array;
 	private constructor(ptr: number, obj: bindings.LDKPaymentSendFailure.PartialFailure) {
 		super(null, ptr);
-		const partial_failure: number[] = obj.partial_failure;
-		Result_NoneAPIErrorZ[] partial_failure_conv_22_arr = new Result_NoneAPIErrorZ[partial_failure.length];
-			for (int w = 0; w < partial_failure.length; w++) {
-				number partial_failure_conv_22 = partial_failure[w];
-				Result_NoneAPIErrorZ partial_failure_conv_22_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(partial_failure_conv_22);
-				partial_failure_conv_22_arr[w] = partial_failure_conv_22_hu_conv;
+		const results: number[] = obj.results;
+		Result_NoneAPIErrorZ[] results_conv_22_arr = new Result_NoneAPIErrorZ[results.length];
+			for (int w = 0; w < results.length; w++) {
+				number results_conv_22 = results[w];
+				Result_NoneAPIErrorZ results_conv_22_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(results_conv_22);
+				results_conv_22_arr[w] = results_conv_22_hu_conv;
 			}
-		this.partial_failure = partial_failure_conv_22_arr;
+		this.results = results_conv_22_arr;
+		const failed_paths_retry: number = obj.failed_paths_retry;
+		const failed_paths_retry_hu_conv: RouteParameters = new RouteParameters(null, failed_paths_retry);
+			failed_paths_retry_hu_conv.ptrs_to.add(this);
+		this.failed_paths_retry = failed_paths_retry_hu_conv;
+		this.payment_id = obj.payment_id;
 	}
 }
 	public PaymentSendFailure clone() {
@@ -107,8 +114,8 @@ export class PartialFailure extends PaymentSendFailure {
 		return ret_hu_conv;
 	}
 
-	public static PaymentSendFailure constructor_partial_failure(Result_NoneAPIErrorZ[] a) {
-		number ret = bindings.PaymentSendFailure_partial_failure(a != null ? Arrays.stream(a).map(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray(number[]::new) : null);
+	public static PaymentSendFailure constructor_partial_failure(Result_NoneAPIErrorZ[] results, RouteParameters failed_paths_retry, Uint8Array payment_id) {
+		number ret = bindings.PaymentSendFailure_partial_failure(results != null ? Arrays.stream(results).map(results_conv_22 -> results_conv_22 != null ? results_conv_22.ptr : 0).toArray(number[]::new) : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr & ~1, payment_id);
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

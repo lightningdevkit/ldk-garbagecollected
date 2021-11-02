@@ -54,8 +54,8 @@ public class WatchedOutput extends CommonBase {
 	 */
 	public OutPoint get_outpoint() {
 		long ret = bindings.WatchedOutput_get_outpoint(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		OutPoint ret_hu_conv = new OutPoint(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new OutPoint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -87,8 +87,8 @@ public class WatchedOutput extends CommonBase {
 	 */
 	public static WatchedOutput of(byte[] block_hash_arg, OutPoint outpoint_arg, byte[] script_pubkey_arg) {
 		long ret = bindings.WatchedOutput_new(block_hash_arg, outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
-		if (ret >= 0 && ret < 1024) { return null; }
-		WatchedOutput ret_hu_conv = new WatchedOutput(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		WatchedOutput ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new WatchedOutput(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -98,8 +98,8 @@ public class WatchedOutput extends CommonBase {
 	 */
 	public WatchedOutput clone() {
 		long ret = bindings.WatchedOutput_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		WatchedOutput ret_hu_conv = new WatchedOutput(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		WatchedOutput ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new WatchedOutput(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

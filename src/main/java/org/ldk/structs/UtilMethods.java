@@ -12,7 +12,7 @@ public class UtilMethods {
 	 */
 	public static Result_StringErrorZ sign(byte[] msg, byte[] sk) {
 		long ret = bindings.sign(msg, sk);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -22,7 +22,7 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ recover_pk(byte[] msg, java.lang.String sig) {
 		long ret = bindings.recover_pk(msg, sig);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -41,7 +41,7 @@ public class UtilMethods {
 	 */
 	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, KeysInterface arg) {
 		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_read(ser, arg == null ? 0 : arg.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(arg);
 		return ret_hu_conv;
@@ -52,7 +52,7 @@ public class UtilMethods {
 	 */
 	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ C2Tuple_BlockHashChannelManagerZ_read(byte[] ser, KeysInterface arg_keys_manager, FeeEstimator arg_fee_estimator, Watch arg_chain_monitor, BroadcasterInterface arg_tx_broadcaster, Logger arg_logger, UserConfig arg_default_config, ChannelMonitor[] arg_channel_monitors) {
 		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_read(ser, bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : arg_keys_manager.ptr, arg_fee_estimator == null ? 0 : arg_fee_estimator.ptr, arg_chain_monitor == null ? 0 : arg_chain_monitor.ptr, arg_tx_broadcaster == null ? 0 : arg_tx_broadcaster.ptr, arg_logger == null ? 0 : arg_logger.ptr, arg_default_config == null ? 0 : arg_default_config.ptr & ~1, arg_channel_monitors != null ? Arrays.stream(arg_channel_monitors).mapToLong(arg_channel_monitors_conv_16 -> arg_channel_monitors_conv_16 == null ? 0 : arg_channel_monitors_conv_16.ptr & ~1).toArray() : null));
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(arg_keys_manager);
 		ret_hu_conv.ptrs_to.add(arg_fee_estimator);
@@ -89,7 +89,7 @@ public class UtilMethods {
 	 */
 	public static Result_SecretKeyErrorZ derive_private_key(byte[] per_commitment_point, byte[] base_secret) {
 		long ret = bindings.derive_private_key(per_commitment_point, base_secret);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -104,7 +104,7 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ derive_public_key(byte[] per_commitment_point, byte[] base_point) {
 		long ret = bindings.derive_public_key(per_commitment_point, base_point);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -122,7 +122,7 @@ public class UtilMethods {
 	 */
 	public static Result_SecretKeyErrorZ derive_private_revocation_key(byte[] per_commitment_secret, byte[] countersignatory_revocation_base_secret) {
 		long ret = bindings.derive_private_revocation_key(per_commitment_secret, countersignatory_revocation_base_secret);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -142,7 +142,7 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ derive_public_revocation_key(byte[] per_commitment_point, byte[] countersignatory_revocation_base_point) {
 		long ret = bindings.derive_public_revocation_key(per_commitment_point, countersignatory_revocation_base_point);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -206,51 +206,42 @@ public class UtilMethods {
 	}
 
 	/**
-	 * Gets a keysend route from us (payer) to the given target node (payee). This is needed because
-	 * keysend payments do not have an invoice from which to pull the payee's supported features, which
-	 * makes it tricky to otherwise supply the `payee_features` parameter of `get_route`.
+	 * Finds a route from us (payer) to the given target node (payee).
 	 * 
-	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
-	 */
-	public static Result_RouteLightningErrorZ get_keysend_route(byte[] our_node_pubkey, NetworkGraph network, byte[] payee, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger, Score scorer) {
-		long ret = bindings.get_keysend_route(our_node_pubkey, network == null ? 0 : network.ptr & ~1, payee, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(network);
-		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
-		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(scorer);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Gets a route from us (payer) to the given target node (payee).
-	 * 
-	 * If the payee provided features in their invoice, they should be provided via payee_features.
+	 * If the payee provided features in their invoice, they should be provided via `params.payee`.
 	 * Without this, MPP will only be used if the payee's features are available in the network graph.
 	 * 
-	 * Private routing paths between a public node and the target may be included in `last_hops`.
-	 * Currently, only the last hop in each path is considered.
+	 * Private routing paths between a public node and the target may be included in `params.payee`.
 	 * 
-	 * If some channels aren't announced, it may be useful to fill in a first_hops with the
-	 * results from a local ChannelManager::list_usable_channels() call. If it is filled in, our
-	 * view of our local channels (from net_graph_msg_handler) will be ignored, and only those
-	 * in first_hops will be used.
+	 * If some channels aren't announced, it may be useful to fill in `first_hops` with the results
+	 * from [`ChannelManager::list_usable_channels`]. If it is filled in, the view of our local
+	 * channels from [`NetworkGraph`] will be ignored, and only those in `first_hops` will be used.
 	 * 
-	 * Panics if first_hops contains channels without short_channel_ids
-	 * (ChannelManager::list_usable_channels will never include such channels).
+	 * The fees on channels from us to the next hop are ignored as they are assumed to all be equal.
+	 * However, the enabled/disabled bit on such channels as well as the `htlc_minimum_msat` /
+	 * `htlc_maximum_msat` *are* checked as they may change based on the receiving node.
 	 * 
-	 * The fees on channels from us to next-hops are ignored (as they are assumed to all be
-	 * equal), however the enabled/disabled bit on such channels as well as the
-	 * htlc_minimum_msat/htlc_maximum_msat *are* checked as they may change based on the receiving node.
+	 * # Note
 	 * 
-	 * Note that payee_features (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 * May be used to re-compute a [`Route`] when handling a [`Event::PaymentPathFailed`]. Any
+	 * adjustments to the [`NetworkGraph`] and channel scores should be made prior to calling this
+	 * function.
+	 * 
+	 * # Panics
+	 * 
+	 * Panics if first_hops contains channels without short_channel_ids;
+	 * [`ChannelManager::list_usable_channels`] will never include such channels.
+	 * 
+	 * [`ChannelManager::list_usable_channels`]: crate::ln::channelmanager::ChannelManager::list_usable_channels
+	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_RouteLightningErrorZ get_route(byte[] our_node_pubkey, NetworkGraph network, byte[] payee, @Nullable InvoiceFeatures payee_features, @Nullable ChannelDetails[] first_hops, RouteHint[] last_hops, long final_value_msat, int final_cltv, Logger logger, Score scorer) {
-		long ret = bindings.get_route(our_node_pubkey, network == null ? 0 : network.ptr & ~1, payee, payee_features == null ? 0 : payee_features.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, last_hops != null ? Arrays.stream(last_hops).mapToLong(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray() : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+	public static Result_RouteLightningErrorZ find_route(byte[] our_node_pubkey, RouteParameters params, NetworkGraph network, @Nullable ChannelDetails[] first_hops, Logger logger, Score scorer) {
+		long ret = bindings.find_route(our_node_pubkey, params == null ? 0 : params.ptr & ~1, network == null ? 0 : network.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(params);
 		ret_hu_conv.ptrs_to.add(network);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
 		ret_hu_conv.ptrs_to.add(logger);
@@ -264,7 +255,7 @@ public class UtilMethods {
 	 */
 	public static Result_NoneErrorZ FilesystemPersister_persist_manager(java.lang.String data_dir, ChannelManager manager) {
 		long ret = bindings.FilesystemPersister_persist_manager(data_dir, manager == null ? 0 : manager.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(manager);
 		return ret_hu_conv;
@@ -279,7 +270,7 @@ public class UtilMethods {
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(ChannelManager channelmanager, KeysInterface keys_manager, org.ldk.enums.Currency network, Option_u64Z amt_msat, java.lang.String description) {
 		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(channelmanager);
 		ret_hu_conv.ptrs_to.add(keys_manager);

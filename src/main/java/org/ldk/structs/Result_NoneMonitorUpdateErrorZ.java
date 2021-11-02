@@ -30,7 +30,7 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 		private Result_NoneMonitorUpdateErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_NoneMonitorUpdateErrorZ_get_err(ptr);
-			MonitorUpdateError err_hu_conv = new MonitorUpdateError(null, err);
+			MonitorUpdateError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new MonitorUpdateError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -41,7 +41,7 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 	 */
 	public static Result_NoneMonitorUpdateErrorZ ok() {
 		long ret = bindings.CResult_NoneMonitorUpdateErrorZ_ok();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -51,7 +51,7 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 	 */
 	public static Result_NoneMonitorUpdateErrorZ err(MonitorUpdateError e) {
 		long ret = bindings.CResult_NoneMonitorUpdateErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -62,7 +62,7 @@ public class Result_NoneMonitorUpdateErrorZ extends CommonBase {
 	 */
 	public Result_NoneMonitorUpdateErrorZ clone() {
 		long ret = bindings.CResult_NoneMonitorUpdateErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

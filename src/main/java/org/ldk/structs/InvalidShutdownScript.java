@@ -43,8 +43,8 @@ public class InvalidShutdownScript extends CommonBase {
 	 */
 	public static InvalidShutdownScript of(byte[] script_arg) {
 		long ret = bindings.InvalidShutdownScript_new(script_arg);
-		if (ret >= 0 && ret < 1024) { return null; }
-		InvalidShutdownScript ret_hu_conv = new InvalidShutdownScript(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvalidShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -54,8 +54,8 @@ public class InvalidShutdownScript extends CommonBase {
 	 */
 	public InvalidShutdownScript clone() {
 		long ret = bindings.InvalidShutdownScript_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		InvalidShutdownScript ret_hu_conv = new InvalidShutdownScript(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvalidShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

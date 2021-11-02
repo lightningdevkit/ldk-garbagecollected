@@ -38,7 +38,7 @@ public class Result_NoneErrorZ extends CommonBase {
 	 */
 	public static Result_NoneErrorZ ok() {
 		long ret = bindings.CResult_NoneErrorZ_ok();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -48,7 +48,7 @@ public class Result_NoneErrorZ extends CommonBase {
 	 */
 	public static Result_NoneErrorZ err(org.ldk.enums.IOError e) {
 		long ret = bindings.CResult_NoneErrorZ_err(e);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -59,7 +59,7 @@ public class Result_NoneErrorZ extends CommonBase {
 	 */
 	public Result_NoneErrorZ clone() {
 		long ret = bindings.CResult_NoneErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

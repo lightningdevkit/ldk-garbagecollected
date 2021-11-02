@@ -28,8 +28,8 @@ public class ClosingTransaction extends CommonBase {
 	 */
 	public ClosingTransaction clone() {
 		long ret = bindings.ClosingTransaction_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ClosingTransaction ret_hu_conv = new ClosingTransaction(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -47,8 +47,8 @@ public class ClosingTransaction extends CommonBase {
 	 */
 	public static ClosingTransaction of(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {
 		long ret = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ClosingTransaction ret_hu_conv = new ClosingTransaction(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -63,8 +63,8 @@ public class ClosingTransaction extends CommonBase {
 	 */
 	public TrustedClosingTransaction trust() {
 		long ret = bindings.ClosingTransaction_trust(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		TrustedClosingTransaction ret_hu_conv = new TrustedClosingTransaction(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		TrustedClosingTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new TrustedClosingTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -79,7 +79,7 @@ public class ClosingTransaction extends CommonBase {
 	 */
 	public Result_TrustedClosingTransactionNoneZ verify(OutPoint funding_outpoint) {
 		long ret = bindings.ClosingTransaction_verify(this.ptr, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TrustedClosingTransactionNoneZ ret_hu_conv = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -28,7 +28,7 @@ public class CommitmentUpdate extends CommonBase {
 		UpdateAddHTLC[] ret_conv_15_arr = new UpdateAddHTLC[ret.length];
 		for (int p = 0; p < ret.length; p++) {
 			long ret_conv_15 = ret[p];
-			UpdateAddHTLC ret_conv_15_hu_conv = new UpdateAddHTLC(null, ret_conv_15);
+			UpdateAddHTLC ret_conv_15_hu_conv = null; if (ret_conv_15 < 0 || ret_conv_15 > 4096) { ret_conv_15_hu_conv = new UpdateAddHTLC(null, ret_conv_15); }
 			ret_conv_15_hu_conv.ptrs_to.add(this);
 			ret_conv_15_arr[p] = ret_conv_15_hu_conv;
 		}
@@ -50,7 +50,7 @@ public class CommitmentUpdate extends CommonBase {
 		UpdateFulfillHTLC[] ret_conv_19_arr = new UpdateFulfillHTLC[ret.length];
 		for (int t = 0; t < ret.length; t++) {
 			long ret_conv_19 = ret[t];
-			UpdateFulfillHTLC ret_conv_19_hu_conv = new UpdateFulfillHTLC(null, ret_conv_19);
+			UpdateFulfillHTLC ret_conv_19_hu_conv = null; if (ret_conv_19 < 0 || ret_conv_19 > 4096) { ret_conv_19_hu_conv = new UpdateFulfillHTLC(null, ret_conv_19); }
 			ret_conv_19_hu_conv.ptrs_to.add(this);
 			ret_conv_19_arr[t] = ret_conv_19_hu_conv;
 		}
@@ -72,7 +72,7 @@ public class CommitmentUpdate extends CommonBase {
 		UpdateFailHTLC[] ret_conv_16_arr = new UpdateFailHTLC[ret.length];
 		for (int q = 0; q < ret.length; q++) {
 			long ret_conv_16 = ret[q];
-			UpdateFailHTLC ret_conv_16_hu_conv = new UpdateFailHTLC(null, ret_conv_16);
+			UpdateFailHTLC ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new UpdateFailHTLC(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
@@ -94,7 +94,7 @@ public class CommitmentUpdate extends CommonBase {
 		UpdateFailMalformedHTLC[] ret_conv_25_arr = new UpdateFailMalformedHTLC[ret.length];
 		for (int z = 0; z < ret.length; z++) {
 			long ret_conv_25 = ret[z];
-			UpdateFailMalformedHTLC ret_conv_25_hu_conv = new UpdateFailMalformedHTLC(null, ret_conv_25);
+			UpdateFailMalformedHTLC ret_conv_25_hu_conv = null; if (ret_conv_25 < 0 || ret_conv_25 > 4096) { ret_conv_25_hu_conv = new UpdateFailMalformedHTLC(null, ret_conv_25); }
 			ret_conv_25_hu_conv.ptrs_to.add(this);
 			ret_conv_25_arr[z] = ret_conv_25_hu_conv;
 		}
@@ -116,8 +116,8 @@ public class CommitmentUpdate extends CommonBase {
 	@Nullable
 	public UpdateFee get_update_fee() {
 		long ret = bindings.CommitmentUpdate_get_update_fee(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		UpdateFee ret_hu_conv = new UpdateFee(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		UpdateFee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFee(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -136,8 +136,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public CommitmentSigned get_commitment_signed() {
 		long ret = bindings.CommitmentUpdate_get_commitment_signed(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		CommitmentSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -154,8 +154,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public static CommitmentUpdate of(UpdateAddHTLC[] update_add_htlcs_arg, UpdateFulfillHTLC[] update_fulfill_htlcs_arg, UpdateFailHTLC[] update_fail_htlcs_arg, UpdateFailMalformedHTLC[] update_fail_malformed_htlcs_arg, UpdateFee update_fee_arg, CommitmentSigned commitment_signed_arg) {
 		long ret = bindings.CommitmentUpdate_new(update_add_htlcs_arg != null ? Arrays.stream(update_add_htlcs_arg).mapToLong(update_add_htlcs_arg_conv_15 -> update_add_htlcs_arg_conv_15 == null ? 0 : update_add_htlcs_arg_conv_15.ptr & ~1).toArray() : null, update_fulfill_htlcs_arg != null ? Arrays.stream(update_fulfill_htlcs_arg).mapToLong(update_fulfill_htlcs_arg_conv_19 -> update_fulfill_htlcs_arg_conv_19 == null ? 0 : update_fulfill_htlcs_arg_conv_19.ptr & ~1).toArray() : null, update_fail_htlcs_arg != null ? Arrays.stream(update_fail_htlcs_arg).mapToLong(update_fail_htlcs_arg_conv_16 -> update_fail_htlcs_arg_conv_16 == null ? 0 : update_fail_htlcs_arg_conv_16.ptr & ~1).toArray() : null, update_fail_malformed_htlcs_arg != null ? Arrays.stream(update_fail_malformed_htlcs_arg).mapToLong(update_fail_malformed_htlcs_arg_conv_25 -> update_fail_malformed_htlcs_arg_conv_25 == null ? 0 : update_fail_malformed_htlcs_arg_conv_25.ptr & ~1).toArray() : null, update_fee_arg == null ? 0 : update_fee_arg.ptr & ~1, commitment_signed_arg == null ? 0 : commitment_signed_arg.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
-		CommitmentUpdate ret_hu_conv = new CommitmentUpdate(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		CommitmentUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -165,8 +165,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public CommitmentUpdate clone() {
 		long ret = bindings.CommitmentUpdate_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		CommitmentUpdate ret_hu_conv = new CommitmentUpdate(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		CommitmentUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

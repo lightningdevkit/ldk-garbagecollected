@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
  * [`routing::Score`] implementation that provides reasonable default behavior.
  * 
  * Used to apply a fixed penalty to each channel, thus avoiding long paths when shorter paths with
- * slightly higher fees are available.
+ * slightly higher fees are available. May also further penalize failed channels.
  * 
  * See [module-level documentation] for usage.
  * 
@@ -27,12 +27,12 @@ public class Scorer extends CommonBase {
 	}
 
 	/**
-	 * Creates a new scorer using `base_penalty_msat` as the channel penalty.
+	 * Creates a new scorer using the given scoring parameters.
 	 */
-	public static Scorer of(long base_penalty_msat) {
-		long ret = bindings.Scorer_new(base_penalty_msat);
-		if (ret >= 0 && ret < 1024) { return null; }
-		Scorer ret_hu_conv = new Scorer(null, ret);
+	public static Scorer of(long params_base_penalty_msat_arg, long params_failure_penalty_msat_arg, long params_failure_penalty_half_life_arg) {
+		long ret = bindings.Scorer_new(bindings.ScoringParameters_new(params_base_penalty_msat_arg, params_failure_penalty_msat_arg, params_failure_penalty_half_life_arg));
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Scorer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Scorer(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -42,8 +42,8 @@ public class Scorer extends CommonBase {
 	 */
 	public static Scorer with_default() {
 		long ret = bindings.Scorer_default();
-		if (ret >= 0 && ret < 1024) { return null; }
-		Scorer ret_hu_conv = new Scorer(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Scorer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Scorer(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -54,7 +54,7 @@ public class Scorer extends CommonBase {
 	 */
 	public Score as_Score() {
 		long ret = bindings.Scorer_as_Score(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Score ret_hu_conv = new Score(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

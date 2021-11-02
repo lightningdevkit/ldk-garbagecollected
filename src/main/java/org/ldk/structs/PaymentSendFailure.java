@@ -77,17 +77,37 @@ public class PaymentSendFailure extends CommonBase {
 		}
 	}
 	public final static class PartialFailure extends PaymentSendFailure {
-		public final Result_NoneAPIErrorZ[] partial_failure;
+		/**
+		 * The errors themselves, in the same order as the route hops.
+		*/
+		public final Result_NoneAPIErrorZ[] results;
+		/**
+		 * If some paths failed without irrevocably committing to the new HTLC(s), this will
+		 * contain a [`RouteParameters`] object which can be used to calculate a new route that
+		 * will pay all remaining unpaid balance.
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final RouteParameters failed_paths_retry;
+		/**
+		 * The payment id for the payment, which is now at least partially pending.
+		*/
+		public final byte[] payment_id;
 		private PartialFailure(long ptr, bindings.LDKPaymentSendFailure.PartialFailure obj) {
 			super(null, ptr);
-			long[] partial_failure = obj.partial_failure;
-			Result_NoneAPIErrorZ[] partial_failure_conv_22_arr = new Result_NoneAPIErrorZ[partial_failure.length];
-			for (int w = 0; w < partial_failure.length; w++) {
-				long partial_failure_conv_22 = partial_failure[w];
-				Result_NoneAPIErrorZ partial_failure_conv_22_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(partial_failure_conv_22);
-				partial_failure_conv_22_arr[w] = partial_failure_conv_22_hu_conv;
+			long[] results = obj.results;
+			Result_NoneAPIErrorZ[] results_conv_22_arr = new Result_NoneAPIErrorZ[results.length];
+			for (int w = 0; w < results.length; w++) {
+				long results_conv_22 = results[w];
+				Result_NoneAPIErrorZ results_conv_22_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(results_conv_22);
+				results_conv_22_arr[w] = results_conv_22_hu_conv;
 			}
-			this.partial_failure = partial_failure_conv_22_arr;
+			this.results = results_conv_22_arr;
+			long failed_paths_retry = obj.failed_paths_retry;
+			RouteParameters failed_paths_retry_hu_conv = null; if (failed_paths_retry < 0 || failed_paths_retry > 4096) { failed_paths_retry_hu_conv = new RouteParameters(null, failed_paths_retry); }
+			failed_paths_retry_hu_conv.ptrs_to.add(this);
+			this.failed_paths_retry = failed_paths_retry_hu_conv;
+			this.payment_id = obj.payment_id;
 		}
 	}
 	/**
@@ -95,7 +115,7 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public PaymentSendFailure clone() {
 		long ret = bindings.PaymentSendFailure_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -106,7 +126,7 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public static PaymentSendFailure parameter_error(APIError a) {
 		long ret = bindings.PaymentSendFailure_parameter_error(a.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -117,7 +137,7 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public static PaymentSendFailure path_parameter_error(Result_NoneAPIErrorZ[] a) {
 		long ret = bindings.PaymentSendFailure_path_parameter_error(a != null ? Arrays.stream(a).mapToLong(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray() : null);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -128,7 +148,7 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public static PaymentSendFailure all_failed_retry_safe(APIError[] a) {
 		long ret = bindings.PaymentSendFailure_all_failed_retry_safe(a != null ? Arrays.stream(a).mapToLong(a_conv_10 -> a_conv_10.ptr).toArray() : null);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -137,9 +157,9 @@ public class PaymentSendFailure extends CommonBase {
 	/**
 	 * Utility method to constructs a new PartialFailure-variant PaymentSendFailure
 	 */
-	public static PaymentSendFailure partial_failure(Result_NoneAPIErrorZ[] a) {
-		long ret = bindings.PaymentSendFailure_partial_failure(a != null ? Arrays.stream(a).mapToLong(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray() : null);
-		if (ret >= 0 && ret < 1024) { return null; }
+	public static PaymentSendFailure partial_failure(Result_NoneAPIErrorZ[] results, RouteParameters failed_paths_retry, byte[] payment_id) {
+		long ret = bindings.PaymentSendFailure_partial_failure(results != null ? Arrays.stream(results).mapToLong(results_conv_22 -> results_conv_22 != null ? results_conv_22.ptr : 0).toArray() : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr & ~1, payment_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

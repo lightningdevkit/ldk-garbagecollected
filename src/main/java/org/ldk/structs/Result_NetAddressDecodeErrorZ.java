@@ -35,7 +35,7 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 		private Result_NetAddressDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_NetAddressDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -46,7 +46,7 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_NetAddressDecodeErrorZ ok(NetAddress o) {
 		long ret = bindings.CResult_NetAddressDecodeErrorZ_ok(o.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_NetAddressDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_NetAddressDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 	 */
 	public Result_NetAddressDecodeErrorZ clone() {
 		long ret = bindings.CResult_NetAddressDecodeErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

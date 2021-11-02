@@ -54,8 +54,8 @@ public class FundingLocked extends CommonBase {
 	 */
 	public static FundingLocked of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg) {
 		long ret = bindings.FundingLocked_new(channel_id_arg, next_per_commitment_point_arg);
-		if (ret >= 0 && ret < 1024) { return null; }
-		FundingLocked ret_hu_conv = new FundingLocked(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		FundingLocked ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingLocked(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -65,8 +65,8 @@ public class FundingLocked extends CommonBase {
 	 */
 	public FundingLocked clone() {
 		long ret = bindings.FundingLocked_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		FundingLocked ret_hu_conv = new FundingLocked(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		FundingLocked ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingLocked(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -84,7 +84,7 @@ public class FundingLocked extends CommonBase {
 	 */
 	public static Result_FundingLockedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.FundingLocked_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_FundingLockedDecodeErrorZ ret_hu_conv = Result_FundingLockedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

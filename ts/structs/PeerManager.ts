@@ -72,6 +72,10 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.PeerManager_disconnect_by_node_id(this.ptr, node_id, no_connection_possible);
 	}
 
+	public void disconnect_all_peers() {
+		bindings.PeerManager_disconnect_all_peers(this.ptr);
+	}
+
 	public void timer_tick_occurred() {
 		bindings.PeerManager_timer_tick_occurred(this.ptr);
 	}

@@ -19,13 +19,40 @@ public class RouteHint extends CommonBase {
 		if (ptr != 0) { bindings.RouteHint_free(ptr); }
 	}
 
+	public RouteHintHop[] get_a() {
+		long[] ret = bindings.RouteHint_get_a(this.ptr);
+		RouteHintHop[] ret_conv_14_arr = new RouteHintHop[ret.length];
+		for (int o = 0; o < ret.length; o++) {
+			long ret_conv_14 = ret[o];
+			RouteHintHop ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new RouteHintHop(null, ret_conv_14); }
+			ret_conv_14_hu_conv.ptrs_to.add(this);
+			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
+		}
+		return ret_conv_14_arr;
+	}
+
+	public void set_a(RouteHintHop[] val) {
+		bindings.RouteHint_set_a(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_14 -> val_conv_14 == null ? 0 : val_conv_14.ptr & ~1).toArray() : null);
+	}
+
+	/**
+	 * Constructs a new RouteHint given each field
+	 */
+	public static RouteHint of(RouteHintHop[] a_arg) {
+		long ret = bindings.RouteHint_new(a_arg != null ? Arrays.stream(a_arg).mapToLong(a_arg_conv_14 -> a_arg_conv_14 == null ? 0 : a_arg_conv_14.ptr & ~1).toArray() : null);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHint(null, ret); }
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	/**
 	 * Creates a copy of the RouteHint
 	 */
 	public RouteHint clone() {
 		long ret = bindings.RouteHint_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		RouteHint ret_hu_conv = new RouteHint(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -47,6 +74,24 @@ public class RouteHint extends CommonBase {
 		boolean ret = bindings.RouteHint_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
 		this.ptrs_to.add(b);
 		return ret;
+	}
+
+	/**
+	 * Serialize the RouteHint object into a byte array which can be read by RouteHint_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.RouteHint_write(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * Read a RouteHint from a byte array, created by RouteHint_write
+	 */
+	public static Result_RouteHintDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.RouteHint_read(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_RouteHintDecodeErrorZ ret_hu_conv = Result_RouteHintDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

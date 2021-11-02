@@ -24,7 +24,7 @@ public class Result_HTLCUpdateDecodeErrorZ extends CommonBase {
 		private Result_HTLCUpdateDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_HTLCUpdateDecodeErrorZ_get_ok(ptr);
-			HTLCUpdate res_hu_conv = new HTLCUpdate(null, res);
+			HTLCUpdate res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new HTLCUpdate(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -35,7 +35,7 @@ public class Result_HTLCUpdateDecodeErrorZ extends CommonBase {
 		private Result_HTLCUpdateDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_HTLCUpdateDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -46,7 +46,7 @@ public class Result_HTLCUpdateDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_HTLCUpdateDecodeErrorZ ok(HTLCUpdate o) {
 		long ret = bindings.CResult_HTLCUpdateDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_HTLCUpdateDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_HTLCUpdateDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_HTLCUpdateDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_HTLCUpdateDecodeErrorZ extends CommonBase {
 	 */
 	public Result_HTLCUpdateDecodeErrorZ clone() {
 		long ret = bindings.CResult_HTLCUpdateDecodeErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_HTLCUpdateDecodeErrorZ ret_hu_conv = Result_HTLCUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

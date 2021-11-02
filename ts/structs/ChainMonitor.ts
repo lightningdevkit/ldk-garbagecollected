@@ -59,6 +59,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_conv_10_arr;
 	}
 
+	public Result_NoneAPIErrorZ channel_monitor_updated(OutPoint funding_txo, MonitorUpdateId completed_update_id) {
+		number ret = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, completed_update_id == null ? 0 : completed_update_id.ptr & ~1);
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 	public Listen as_Listen() {
 		number ret = bindings.ChainMonitor_as_Listen(this.ptr);
 		Listen ret_hu_conv = new Listen(null, ret);

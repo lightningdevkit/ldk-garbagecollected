@@ -24,7 +24,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 		private Result_ChannelTransactionParametersDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_ChannelTransactionParametersDecodeErrorZ_get_ok(ptr);
-			ChannelTransactionParameters res_hu_conv = new ChannelTransactionParameters(null, res);
+			ChannelTransactionParameters res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ChannelTransactionParameters(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -35,7 +35,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 		private Result_ChannelTransactionParametersDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_ChannelTransactionParametersDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -46,7 +46,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	 */
 	public static Result_ChannelTransactionParametersDecodeErrorZ ok(ChannelTransactionParameters o) {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	 */
 	public static Result_ChannelTransactionParametersDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_ChannelTransactionParametersDecodeErrorZ extends CommonBase 
 	 */
 	public Result_ChannelTransactionParametersDecodeErrorZ clone() {
 		long ret = bindings.CResult_ChannelTransactionParametersDecodeErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

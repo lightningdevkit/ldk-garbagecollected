@@ -54,7 +54,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 	 */
 	public static Option_CVec_NetAddressZZ some(NetAddress[] o) {
 		long ret = bindings.COption_CVec_NetAddressZZ_some(o != null ? Arrays.stream(o).mapToLong(o_conv_12 -> o_conv_12.ptr).toArray() : null);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -65,7 +65,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 	 */
 	public static Option_CVec_NetAddressZZ none() {
 		long ret = bindings.COption_CVec_NetAddressZZ_none();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -77,7 +77,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 	 */
 	public Option_CVec_NetAddressZZ clone() {
 		long ret = bindings.COption_CVec_NetAddressZZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

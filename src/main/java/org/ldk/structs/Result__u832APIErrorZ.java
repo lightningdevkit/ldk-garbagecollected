@@ -43,7 +43,7 @@ public class Result__u832APIErrorZ extends CommonBase {
 	 */
 	public static Result__u832APIErrorZ ok(byte[] o) {
 		long ret = bindings.CResult__u832APIErrorZ_ok(o);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result__u832APIErrorZ extends CommonBase {
 	 */
 	public static Result__u832APIErrorZ err(APIError e) {
 		long ret = bindings.CResult__u832APIErrorZ_err(e.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result__u832APIErrorZ extends CommonBase {
 	 */
 	public Result__u832APIErrorZ clone() {
 		long ret = bindings.CResult__u832APIErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

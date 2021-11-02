@@ -73,8 +73,8 @@ public class CounterpartyForwardingInfo extends CommonBase {
 	 */
 	public static CounterpartyForwardingInfo of(int fee_base_msat_arg, int fee_proportional_millionths_arg, short cltv_expiry_delta_arg) {
 		long ret = bindings.CounterpartyForwardingInfo_new(fee_base_msat_arg, fee_proportional_millionths_arg, cltv_expiry_delta_arg);
-		if (ret >= 0 && ret < 1024) { return null; }
-		CounterpartyForwardingInfo ret_hu_conv = new CounterpartyForwardingInfo(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		CounterpartyForwardingInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CounterpartyForwardingInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -84,8 +84,8 @@ public class CounterpartyForwardingInfo extends CommonBase {
 	 */
 	public CounterpartyForwardingInfo clone() {
 		long ret = bindings.CounterpartyForwardingInfo_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		CounterpartyForwardingInfo ret_hu_conv = new CounterpartyForwardingInfo(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		CounterpartyForwardingInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CounterpartyForwardingInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

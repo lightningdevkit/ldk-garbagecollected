@@ -42,7 +42,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public static Result_TxOutAccessErrorZ ok(TxOut o) {
 		long ret = bindings.CResult_TxOutAccessErrorZ_ok(o.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -52,7 +52,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public static Result_TxOutAccessErrorZ err(org.ldk.enums.AccessError e) {
 		long ret = bindings.CResult_TxOutAccessErrorZ_err(e);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -63,7 +63,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public Result_TxOutAccessErrorZ clone() {
 		long ret = bindings.CResult_TxOutAccessErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

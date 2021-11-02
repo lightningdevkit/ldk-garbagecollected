@@ -54,8 +54,8 @@ public class UpdateFailHTLC extends CommonBase {
 	 */
 	public UpdateFailHTLC clone() {
 		long ret = bindings.UpdateFailHTLC_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		UpdateFailHTLC ret_hu_conv = new UpdateFailHTLC(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		UpdateFailHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFailHTLC(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -73,7 +73,7 @@ public class UpdateFailHTLC extends CommonBase {
 	 */
 	public static Result_UpdateFailHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateFailHTLC_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -36,7 +36,7 @@ public class Route extends CommonBase {
 			RouteHop[] ret_conv_12_conv_10_arr = new RouteHop[ret_conv_12.length];
 			for (int k = 0; k < ret_conv_12.length; k++) {
 				long ret_conv_12_conv_10 = ret_conv_12[k];
-				RouteHop ret_conv_12_conv_10_hu_conv = new RouteHop(null, ret_conv_12_conv_10);
+				RouteHop ret_conv_12_conv_10_hu_conv = null; if (ret_conv_12_conv_10 < 0 || ret_conv_12_conv_10 > 4096) { ret_conv_12_conv_10_hu_conv = new RouteHop(null, ret_conv_12_conv_10); }
 				ret_conv_12_conv_10_hu_conv.ptrs_to.add(this);
 				ret_conv_12_conv_10_arr[k] = ret_conv_12_conv_10_hu_conv;
 			}
@@ -58,12 +58,43 @@ public class Route extends CommonBase {
 	}
 
 	/**
+	 * The `payee` parameter passed to [`find_route`].
+	 * This is used by `ChannelManager` to track information which may be required for retries,
+	 * provided back to you via [`Event::PaymentPathFailed`].
+	 * 
+	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public Payee get_payee() {
+		long ret = bindings.Route_get_payee(this.ptr);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Payee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Payee(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The `payee` parameter passed to [`find_route`].
+	 * This is used by `ChannelManager` to track information which may be required for retries,
+	 * provided back to you via [`Event::PaymentPathFailed`].
+	 * 
+	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_payee(@Nullable Payee val) {
+		bindings.Route_set_payee(this.ptr, val == null ? 0 : val.ptr & ~1);
+	}
+
+	/**
 	 * Constructs a new Route given each field
 	 */
-	public static Route of(RouteHop[][] paths_arg) {
-		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null);
-		if (ret >= 0 && ret < 1024) { return null; }
-		Route ret_hu_conv = new Route(null, ret);
+	public static Route of(RouteHop[][] paths_arg, Payee payee_arg) {
+		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null, payee_arg == null ? 0 : payee_arg.ptr & ~1);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Route(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -73,8 +104,8 @@ public class Route extends CommonBase {
 	 */
 	public Route clone() {
 		long ret = bindings.Route_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		Route ret_hu_conv = new Route(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Route(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -102,7 +133,7 @@ public class Route extends CommonBase {
 	 * Returns the total amount of fees paid on this [`Route`].
 	 * 
 	 * This doesn't include any extra payment made to the recipient, which can happen in excess of
-	 * the amount passed to [`get_route`]'s `final_value_msat`.
+	 * the amount passed to [`find_route`]'s `params.final_value_msat`.
 	 */
 	public long get_total_fees() {
 		long ret = bindings.Route_get_total_fees(this.ptr);
@@ -130,7 +161,7 @@ public class Route extends CommonBase {
 	 */
 	public static Result_RouteDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Route_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

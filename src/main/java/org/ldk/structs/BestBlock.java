@@ -24,8 +24,8 @@ public class BestBlock extends CommonBase {
 	 */
 	public BestBlock clone() {
 		long ret = bindings.BestBlock_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		BestBlock ret_hu_conv = new BestBlock(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -36,8 +36,8 @@ public class BestBlock extends CommonBase {
 	 */
 	public static BestBlock from_genesis(org.ldk.enums.Network network) {
 		long ret = bindings.BestBlock_from_genesis(network);
-		if (ret >= 0 && ret < 1024) { return null; }
-		BestBlock ret_hu_conv = new BestBlock(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -47,8 +47,8 @@ public class BestBlock extends CommonBase {
 	 */
 	public static BestBlock of(byte[] block_hash, int height) {
 		long ret = bindings.BestBlock_new(block_hash, height);
-		if (ret >= 0 && ret < 1024) { return null; }
-		BestBlock ret_hu_conv = new BestBlock(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
