@@ -46,15 +46,19 @@ public class ChannelManagerConstructor {
      */
     public final NioPeerHandler nio_peer_handler;
     /**
-     * If a `LockableScore` and a `Router` are provided to the constructor, this will be non-null
-     * and should be used to send payments instead of doing so directly via the `channel_manager`.
+     * If a `NetworkGraph` is provided to the constructor *and* a `LockableScore` is provided to
+	 * `chain_sync_completed`, this will be non-null after `chain_sync_completed` returns.
+	 *
+     * It should be used to send payments instead of doing so directly via the `channel_manager`.
+	 *
      * When payments are made through this, they are automatically retried and the provided Scorer
      * will be updated with payment failure data.
      */
-    @Nullable public final InvoicePayer payer;
+    @Nullable public InvoicePayer payer;
 
     private final ChainMonitor chain_monitor;
     @Nullable private final NetworkGraph net_graph;
+    @Nullable private final NetGraphMsgHandler graph_msg_handler;
     private final Logger logger;
 
     /**
@@ -93,10 +97,13 @@ public class ChannelManagerConstructor {
         byte[] random_data = keys_interface.get_secure_random_bytes();
         this.net_graph = net_graph;
         if (net_graph != null) {
+            //TODO: We really need to expose the Access here to let users prevent DoS issues
+            this.graph_msg_handler = NetGraphMsgHandler.of(net_graph, Option_AccessZ.none(), logger);
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
-                    NetGraphMsgHandler.of(net_graph).as_RoutingMessageHandler(),
+                    graph_msg_handler.as_RoutingMessageHandler(),
                     keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
         } else {
+            this.graph_msg_handler = null;
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), no_custom_messages.as_RoutingMessageHandler(),
                     keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
         }
@@ -132,10 +139,13 @@ public class ChannelManagerConstructor {
         byte[] random_data = keys_interface.get_secure_random_bytes();
         this.net_graph = net_graph;
         if (net_graph != null) {
+            //TODO: We really need to expose the Access here to let users prevent DoS issues
+            this.graph_msg_handler = NetGraphMsgHandler.of(net_graph, Option_AccessZ.none(), logger);
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
-                    NetGraphMsgHandler.of(net_graph).as_RoutingMessageHandler(),
+                    graph_msg_handler.as_RoutingMessageHandler(),
                     keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
         } else {
+            this.graph_msg_handler = null;
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), no_custom_messages.as_RoutingMessageHandler(),
                     keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
         }
@@ -173,20 +183,16 @@ public class ChannelManagerConstructor {
         }
         org.ldk.structs.EventHandler ldk_handler = org.ldk.structs.EventHandler.new_impl(event_handler::handle_event);
         if (this.net_graph != null && scorer != null) {
-            Router router = Router.new_impl(new Router.RouterInterface() {
-                @Override
-                Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, Score scorer) {
-                    return UtilMethods.find_route(payer, params, net_graph, first_hops, logger, scorer);
-                }
-            });
-            this.payer = InvoicePayer.of(this.channel_manager.as_Payer(), scorer, this.logger, ldk_handler, RetryAttempts.of(3));
+            Router router = DefaultRouter.of(net_graph, logger).as_Router();
+            this.payer = InvoicePayer.of(this.channel_manager.as_Payer(), router, scorer, this.logger, ldk_handler, RetryAttempts.of(3));
+assert this.payer != null;
             ldk_handler = this.payer.as_EventHandler();
         }
 
         background_processor = BackgroundProcessor.start(org.ldk.structs.ChannelManagerPersister.new_impl(channel_manager -> {
             event_handler.persist_manager(channel_manager.write());
             return Result_NoneErrorZ.ok();
-        }), ldk_handler, this.chain_monitor, this.channel_manager, this.router, this.peer_manager, this.logger);
+        }), ldk_handler, this.chain_monitor, this.channel_manager, this.graph_msg_handler, this.peer_manager, this.logger);
     }
 
     /**

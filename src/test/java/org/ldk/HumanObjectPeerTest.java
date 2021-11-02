@@ -26,8 +26,9 @@ class HumanObjectPeerTestInstance {
     private final boolean use_filter;
     private final boolean use_ignore_handler;
     private final boolean use_chan_manager_constructor;
+    private final boolean use_invoice_payer;
 
-    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter, boolean use_ignore_handler, boolean use_chan_manager_constructor) {
+    HumanObjectPeerTestInstance(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean use_nio_peer_handler, boolean use_filter, boolean use_ignore_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) {
         this.nice_close = nice_close;
         this.use_km_wrapper = use_km_wrapper;
         this.use_manual_watch = use_manual_watch;
@@ -37,6 +38,7 @@ class HumanObjectPeerTestInstance {
         this.use_filter = use_filter;
         this.use_ignore_handler = use_ignore_handler;
         this.use_chan_manager_constructor = use_chan_manager_constructor;
+        this.use_invoice_payer = use_invoice_payer;
     }
 
     class Peer {
@@ -184,6 +186,7 @@ class HumanObjectPeerTestInstance {
         final LinkedList<byte[]> received_custom_messages = new LinkedList<>();
         final LinkedList<byte[]> custom_messages_to_send = new LinkedList<>();
         ChannelManagerConstructor constructor = null;
+        InvoicePayer payer = null;
         GcCheck obj = new GcCheck();
 
         private TwoTuple_OutPointScriptZ test_mon_roundtrip(ChannelMonitor mon) {
@@ -336,10 +339,14 @@ class HumanObjectPeerTestInstance {
             this(null, seed);
             if (use_chan_manager_constructor) {
                 if (use_ignore_handler) {
-                    this.route_handler = null;
+                    this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
+							this.keys_interface, this.fee_estimator, this.chain_monitor, null, this.tx_broadcaster, this.logger);
+                } else {
+                    this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
+							this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
                 }
-                this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
-                        this.keys_interface, this.fee_estimator, this.chain_monitor, route_handler, this.tx_broadcaster, this.logger);
+                LockableScore scorer = null;
+                if (use_invoice_payer) { scorer = LockableScore.of(Scorer.with_default().as_Score()); }
                 constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                     @Override public void handle_event(Event event) {
                         synchronized (pending_manager_events) {
@@ -348,15 +355,34 @@ class HumanObjectPeerTestInstance {
                         }
                     }
                     @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
-                });
+                }, scorer);
                 this.chan_manager = constructor.channel_manager;
                 this.peer_manager = constructor.peer_manager;
+                this.payer = constructor.payer;
                 must_free_objs.add(new WeakReference<>(this.chan_manager));
             } else {
                 ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
                 this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), params);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
                 this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
+                if (use_invoice_payer) {
+                    this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
+                        @Override
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, Score scorer) {
+                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
+                        }
+                    }), LockableScore.of(Score.new_impl(new Score.ScoreInterface() {
+                        @Override public void payment_path_failed(RouteHop[] path, long scid) {}
+                        @Override public long channel_penalty_msat(long scid, NodeId src, NodeId dst) { return 0; }
+                    })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
+                        @Override public void handle_event(Event event) {
+                            synchronized (pending_manager_events) {
+                                pending_manager_events.add(event);
+                                pending_manager_events.notifyAll();
+                            }
+                        }
+                    }), RetryAttempts.of(0));
+                }
             }
 
             this.node_id = chan_manager.get_our_node_id();
@@ -376,10 +402,14 @@ class HumanObjectPeerTestInstance {
                         filter_nullable = ((Option_FilterZ.Some) this.filter).some;
                     }
                     if (use_ignore_handler) {
-                        this.route_handler = null;
+                        this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
+                                this.fee_estimator, this.chain_monitor, filter_nullable, null, this.tx_broadcaster, this.logger);
+                    } else {
+                        this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
+                                this.fee_estimator, this.chain_monitor, filter_nullable, this.router, this.tx_broadcaster, this.logger);
                     }
-                    this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
-                            this.fee_estimator, this.chain_monitor, filter_nullable, this.route_handler, this.tx_broadcaster, this.logger);
+                    LockableScore scorer = null;
+                    if (use_invoice_payer) { scorer = LockableScore.of(Scorer.with_default().as_Score()); }
                     constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
@@ -388,8 +418,9 @@ class HumanObjectPeerTestInstance {
                             }
                         }
                         @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
-                    });
+                    }, scorer);
                     this.chan_manager = constructor.channel_manager;
+                    this.payer = constructor.payer;
                     this.peer_manager = constructor.peer_manager;
                     must_free_objs.add(new WeakReference<>(this.chan_manager));
                     // If we are using a ChannelManagerConstructor, we may have pending events waiting on the old peer
@@ -427,6 +458,24 @@ class HumanObjectPeerTestInstance {
                     // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
                     // shouldn't bother waiting for the original to be freed later on.
                     cross_reload_ref_pollution = true;
+                }
+                if (use_invoice_payer) {
+                    this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
+                        @Override
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, Score scorer) {
+                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
+                        }
+                    }), LockableScore.of(Score.new_impl(new Score.ScoreInterface() {
+                        @Override public void payment_path_failed(RouteHop[] path, long scid) {}
+                        @Override public long channel_penalty_msat(long scid, NodeId src, NodeId dst) { return 0; }
+                    })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
+                        @Override public void handle_event(Event event) {
+                            synchronized (pending_manager_events) {
+                                pending_manager_events.add(event);
+                                pending_manager_events.notifyAll();
+                            }
+                        }
+                    }), RetryAttempts.of(0));
                 }
             }
             this.node_id = chan_manager.get_our_node_id();
@@ -725,7 +774,7 @@ class HumanObjectPeerTestInstance {
         assert Arrays.equals(peer1_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
         assert Arrays.equals(peer2_chans[0].get_channel_id(), funding.getTxId().getReversedBytes());
 
-        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.create_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, Currency.LDKCurrency_Bitcoin, Option_u64Z.none(), "Invoice Description");
+        Result_InvoiceSignOrCreationErrorZ invoice = UtilMethods.create_invoice_from_channelmanager(peer2.chan_manager, peer2.keys_interface, Currency.LDKCurrency_Bitcoin, Option_u64Z.some(10000000), "Invoice Description");
         assert invoice instanceof Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK;
         System.out.println("Got invoice: " + ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
 
@@ -738,35 +787,41 @@ class HumanObjectPeerTestInstance {
         Description raw_invoice_description = raw_invoice.description();
         String description_string = raw_invoice_description.into_inner();
         assert description_string.equals("Invoice Description");
-        byte[] payment_hash = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash();
-        byte[] payment_secret = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_secret();
-        byte[] dest_node_id = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.recover_payee_pub_key();
-        assert Arrays.equals(dest_node_id, peer2.node_id);
-        InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
-        RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-        Payee payee = Payee.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none());
-        RouteParameters route_params = RouteParameters.of(payee, 10000000, 42);
-        Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
-                peer1.chan_manager.get_our_node_id(), route_params, peer1.router,
-                peer1_chans, peer1.logger, Scorer.with_default().as_Score());
-        assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
-        Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
-        assert route.get_paths().length == 1;
-        assert route.get_paths()[0].length == 1;
-        assert route.get_paths()[0][0].get_fee_msat() == 10000000;
+        if (!use_invoice_payer) {
+            byte[] payment_hash = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash();
+            byte[] payment_secret = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_secret();
+            byte[] dest_node_id = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.recover_payee_pub_key();
+            assert Arrays.equals(dest_node_id, peer2.node_id);
+            InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
+            RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-        Result_PaymentIdPaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
-        assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_OK;
+            Payee payee = Payee.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none());
+            RouteParameters route_params = RouteParameters.of(payee, 10000000, 42);
+            Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
+                    peer1.chan_manager.get_our_node_id(), route_params, peer1.router,
+                    peer1_chans, peer1.logger, Scorer.with_default().as_Score());
+            assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
+            Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
+            assert route.get_paths().length == 1;
+            assert route.get_paths()[0].length == 1;
+            assert route.get_paths()[0][0].get_fee_msat() == 10000000;
 
-        RouteHop[][] hops = new RouteHop[1][1];
-        byte[] hop_pubkey = new byte[33];
-        hop_pubkey[0] = 3;
-        hop_pubkey[1] = 42;
-        hops[0][0] = RouteHop.of(hop_pubkey, NodeFeatures.known(), 42, ChannelFeatures.known(), 100, 0);
-        Route r2 = Route.of(hops, payee);
-        payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
-        assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_Err;
+            Result_PaymentIdPaymentSendFailureZ payment_res = peer1.chan_manager.send_payment(route, payment_hash, payment_secret);
+            assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_OK;
+
+            RouteHop[][] hops = new RouteHop[1][1];
+            byte[] hop_pubkey = new byte[33];
+            hop_pubkey[0] = 3;
+            hop_pubkey[1] = 42;
+            hops[0][0] = RouteHop.of(hop_pubkey, NodeFeatures.known(), 42, ChannelFeatures.known(), 100, 0);
+            Route r2 = Route.of(hops, payee);
+            payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
+            assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_Err;
+        } else {
+            Result_PaymentIdPaymentErrorZ send_res = peer1.payer.pay_invoice(((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res);
+            assert send_res instanceof Result_PaymentIdPaymentErrorZ.Result_PaymentIdPaymentErrorZ_OK;
+        }
 
         if (reload_peers) {
             if (use_chan_manager_constructor) {
@@ -984,14 +1039,14 @@ class HumanObjectPeerTestInstance {
     }
 }
 public class HumanObjectPeerTest {
-    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor) throws InterruptedException {
-        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor);
+    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws InterruptedException {
+        HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         HumanObjectPeerTestInstance.TestState state = instance.do_test_message_handler();
         instance.do_test_message_handler_b(state);
         return instance;
     }
-    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor) throws InterruptedException {
-        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor);
+    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws InterruptedException {
+        HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         while (instance.gc_count != instance.gc_exp_count) {
             System.gc();
             System.runFinalization();
@@ -1001,15 +1056,16 @@ public class HumanObjectPeerTest {
     }
     @Test
     public void test_message_handler() throws InterruptedException {
-        for (int i = 0; i < (1 << 8) - 1; i++) {
+        for (int i = 0; i < (1 << 9) - 1; i++) {
             boolean nice_close =                   (i & (1 << 0)) != 0;
             boolean use_km_wrapper =               (i & (1 << 1)) != 0;
             boolean use_manual_watch =             (i & (1 << 2)) != 0;
             boolean reload_peers =                 (i & (1 << 3)) != 0;
             boolean break_cross_refs =             (i & (1 << 4)) != 0;
-            boolean nio_peer_handler =             (i & (1 << 5)) != 0;
-            boolean use_ignoring_routing_handler = (i & (1 << 6)) != 0;
-            boolean use_chan_manager_constructor = (i & (1 << 7)) != 0;
+            boolean use_ignoring_routing_handler = (i & (1 << 5)) != 0;
+            boolean use_chan_manager_constructor = (i & (1 << 6)) != 0;
+            boolean use_invoice_payer =            (i & (1 << 7)) != 0;
+            boolean nio_peer_handler =             (i & (1 << 8)) != 0;
             if (break_cross_refs && !reload_peers) {
                 // There are no cross refs to break without reloading peers.
                 continue;
@@ -1018,13 +1074,19 @@ public class HumanObjectPeerTest {
                 // ChannelManagerConstructor requires a ChainMonitor as the Watch and creates a NioPeerHandler for us.
                 continue;
             }
-            if (!use_chan_manager_constructor && use_ignoring_routing_handler) {
+            if (!use_chan_manager_constructor && (use_ignoring_routing_handler)) {
                 // We rely on the ChannelManagerConstructor to convert null into an IgnoringMessageHandler, so don't
                 // try to run with an IgnoringMessageHandler unless we're also using a ChannelManagerConstructor.
                 continue;
             }
+            if (use_chan_manager_constructor && use_ignoring_routing_handler && use_invoice_payer) {
+                // As documented on ChannelManagerConstructor, if we provide a `null` NetworkGraph (because we want to
+                // use an IgnoringMessageHandler), no InvoicePayer will be constructored for us, thus we cannot use an
+                // InvoicePayer to send payments in this case.
+                continue;
+            }
             System.err.println("Running test with flags " + i);
-            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor);
+            do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         }
     }
 
