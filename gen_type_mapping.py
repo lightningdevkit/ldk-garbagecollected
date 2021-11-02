@@ -23,6 +23,7 @@ class TypeMappingGenerator:
         ty_info = self.java_c_types(fn_arg, ret_arr_len)
         mapped_info = self.map_type_with_info(ty_info, print_void, ret_arr_len, is_free, holds_ref, True)
         mapped_info.nullable = True
+        mapped_info.arg_conv = "unsupported" # Set this to garbage as we don't handle it currently
         return mapped_info
 
     def map_type_with_info(self, ty_info, print_void, ret_arr_len, is_free, holds_ref, is_nullable):
@@ -202,6 +203,7 @@ class TypeMappingGenerator:
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = arg_conv_cleanup,
                     ret_conv = ret_conv, ret_conv_name = arr_name + "_arr", to_hu_conv = to_hu_conv, to_hu_conv_name = to_hu_conv_name, from_hu_conv = from_hu_conv)
         elif ty_info.java_ty == "String":
+            assert not is_nullable
             if not is_free:
                 arg_conv = "LDKStr " + ty_info.var_name + "_conv = " + self.consts.str_ref_to_c_call(ty_info.var_name) + ";"
                 arg_conv_name = ty_info.var_name + "_conv"
@@ -238,6 +240,7 @@ class TypeMappingGenerator:
                     arg_conv = None, arg_conv_name = "arg", arg_conv_cleanup = None,
                     ret_conv = None, ret_conv_name = None, to_hu_conv = "TODO 8", to_hu_conv_name = None, from_hu_conv = None)
         elif ty_info.is_native_primitive:
+            assert not is_nullable
             return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                 arg_conv = None, arg_conv_name = ty_info.var_name, arg_conv_cleanup = None,
                 ret_conv = None, ret_conv_name = None, to_hu_conv = None, to_hu_conv_name = None, from_hu_conv = None)
@@ -271,20 +274,28 @@ class TypeMappingGenerator:
                             "// Thus, after this call, " + ty_info.var_name + " is reset to null and is now a dummy object.\n" + ty_info.var_name + ".ptr = 0")
 
                 opaque_ret_conv_suf = ";\n"
+                opaque_ret_conv_suf += "uint64_t " + ty_info.var_name + "_ref = 0;\n"
+                indent = ""
+                if is_nullable:
+                    opaque_ret_conv_suf += "if ((uint64_t)" + ty_info.var_name + "_var.inner > 4096) {\n"
+                    opaque_ret_conv_suf += "fprintf(stderr, \"%p\\n\", " + ty_info.var_name + "_var.inner);\n"
+                    indent = "\t"
                 if not holds_ref and ty_info.is_ptr and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns: # is_ptr, not holds_ref implies passing a pointed-to value to java, which needs copied
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + ");\n"
+                    opaque_ret_conv_suf += indent + ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + ");\n"
                 elif not holds_ref and ty_info.is_ptr:
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
+                    opaque_ret_conv_suf += indent + "// Warning: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
 
-                opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((uint64_t)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
-                opaque_ret_conv_suf = opaque_ret_conv_suf + "CHECK((((uint64_t)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
+                opaque_ret_conv_suf += indent + "CHECK((((uint64_t)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
+                opaque_ret_conv_suf += indent + "CHECK((((uint64_t)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
                 if holds_ref:
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "uint64_t " + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_var.inner & ~1;"
+                    opaque_ret_conv_suf += indent + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_var.inner & ~1;"
                 else:
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "uint64_t " + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_var.inner;\n"
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "if (" + ty_info.var_name + "_var.is_owned) {\n"
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "\t" + ty_info.var_name + "_ref |= 1;\n"
-                    opaque_ret_conv_suf = opaque_ret_conv_suf + "}"
+                    opaque_ret_conv_suf += indent + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_var.inner;\n"
+                    opaque_ret_conv_suf += indent + "if (" + ty_info.var_name + "_var.is_owned) {\n"
+                    opaque_ret_conv_suf += indent + "\t" + ty_info.var_name + "_ref |= 1;\n"
+                    opaque_ret_conv_suf += indent + "}"
+                if is_nullable:
+                    opaque_ret_conv_suf += "\n}"
 
                 to_hu_conv_sfx = ""
                 if not ty_info.is_ptr or holds_ref:
@@ -306,6 +317,7 @@ class TypeMappingGenerator:
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
                         from_hu_conv = from_hu_conv)
 
+            assert not is_nullable
             if not ty_info.is_ptr:
                 if ty_info.rust_obj in self.unitary_enums:
                     (ret_pfx, ret_sfx) = self.consts.c_unitary_enum_to_native_call(ty_info)
