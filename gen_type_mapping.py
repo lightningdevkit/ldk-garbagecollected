@@ -161,7 +161,7 @@ class TypeMappingGenerator:
                     cleanup = self.consts.release_native_arr_ptr_call(ty_info, arr_name + "_arr", arr_name + "_arr_ptr")
                     if cleanup is not None:
                         ret_conv = (ret_conv[0], ret_conv[1] + indent + cleanup + ";")
-                    if not holds_ref:
+                    if not holds_ref and not is_nullable:
                         # XXX: The commented if's are a bit smarter freeing, but we need to be a nudge smarter still
                         # Note that we don't drop the full vec here - we're passing ownership to java (or have cloned) or free'd by now!
                         ret_conv = (ret_conv[0], ret_conv[1] + "\n" + indent + "FREE(" + arr_name + "_var." + ty_info.arr_access + ");")
