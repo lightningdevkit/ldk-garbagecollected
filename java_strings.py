@@ -115,7 +115,7 @@ import java.util.LinkedList;
 class CommonBase {
 	long ptr;
 	LinkedList<Object> ptrs_to = new LinkedList();
-	protected CommonBase(long ptr) { assert ptr < 0 || ptr > 1024; this.ptr = ptr; }
+	protected CommonBase(long ptr) { assert ptr < 0 || ptr > 4096; this.ptr = ptr; }
 }
 """
 
@@ -161,7 +161,7 @@ void __attribute__((constructor)) spawn_stderr_redirection() {
 
         if not DEBUG or sys.platform == "darwin":
             self.c_file_pfx = self.c_file_pfx + """#define MALLOC(a, _) malloc(a)
-#define FREE(p) if ((uint64_t)(p) > 1024) { free(p); }
+#define FREE(p) if ((uint64_t)(p) > 4096) { free(p); }
 #define CHECK_ACCESS(p)
 """
         if not DEBUG:
@@ -298,7 +298,7 @@ static void alloc_freed(void* ptr) {
 	__real_free(it);
 }
 static void FREE(void* ptr) {
-	if ((uint64_t)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
+	if ((uint64_t)ptr <= 4096) return; // Rust loves to create pointers to the NULL page for dummys
 	alloc_freed(ptr);
 	__real_free(ptr);
 }
@@ -1277,7 +1277,7 @@ import javax.annotation.Nullable;
                     out_java_struct += (info.arg_name)
             out_java_struct += (");\n")
             if return_type_info.java_ty == "long" and return_type_info.java_hu_ty != "long":
-                out_java_struct += "\t\tif (ret >= 0 && ret < 1024) { return null; }\n"
+                out_java_struct += "\t\tif (ret >= 0 && ret <= 4096) { return null; }\n"
 
             if return_type_info.to_hu_conv is not None:
                 if not takes_self:
