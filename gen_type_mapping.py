@@ -331,7 +331,7 @@ class TypeMappingGenerator:
                 base_conv += "CHECK_ACCESS(" + ty_info.var_name + "_ptr);\n"
                 base_conv += ty_info.rust_obj + " " + ty_info.var_name + "_conv = *(" + ty_info.rust_obj + "*)(" + ty_info.var_name + "_ptr);"
                 if ty_info.rust_obj in self.trait_structs:
-                    ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ret =MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ret = ", ";")
+                    ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_ret = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_ret = ", ";")
                     if holds_ref:
                         if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                             ret_conv = (ret_conv[0] + ty_info.rust_obj.replace("LDK", "") + "_clone(&", ");")
@@ -492,7 +492,8 @@ class TypeMappingGenerator:
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
-                            ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
+                            ret_conv = ("// WARNING: This object doesn't live past this scope, needs clone!\nuint64_t ret_" + ty_info.var_name + " = ((uint64_t)", ") | 1;"),
+                            ret_conv_name = "ret_" + ty_info.var_name,
                             to_hu_conv = ty_info.java_hu_ty + " ret_hu_conv = new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ");\nret_hu_conv.ptrs_to.add(this);",
                             to_hu_conv_name = "ret_hu_conv",
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "this.ptrs_to.add(" + ty_info.var_name + ")"))
