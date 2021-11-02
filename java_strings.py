@@ -18,8 +18,8 @@ class Consts:
         )
 
         self.to_hu_conv_templates = dict(
-            ptr = '{human_type} {var_name}_hu_conv = new {human_type}(null, {var_name});',
-            default = '{human_type} {var_name}_hu_conv = new {human_type}(null, {var_name});'
+            ptr = '{human_type} {var_name}_hu_conv = null; if ({var_name} < 0 || {var_name} > 4096) { {var_name}_hu_conv = new {human_type}(null, {var_name}); }',
+            default = '{human_type} {var_name}_hu_conv = null; if ({var_name} < 0 || {var_name} > 4096) { {var_name}_hu_conv = new {human_type}(null, {var_name}); }'
         )
 
         self.bindings_header = """package org.ldk.impl;
