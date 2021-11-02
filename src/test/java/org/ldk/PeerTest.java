@@ -24,6 +24,7 @@ public class PeerTest {
         final long chan_manager_events;
         final long chan_handler;
         final long router;
+        final long router_wrapper;
         final long route_handler;
         final long message_handler;
         final long custom_message_handler;
@@ -99,8 +100,9 @@ public class PeerTest {
             this.chan_manager_events = bindings.ChannelManager_as_EventsProvider(chan_manager);
 
             this.chan_handler = bindings.ChannelManager_as_ChannelMessageHandler(chan_manager);
-            this.router = bindings.NetGraphMsgHandler_new(bindings.NetworkGraph_new(new byte[32]), bindings.COption_AccessZ_none(), logger);
-            this.route_handler = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(router);
+            this.router = bindings.NetworkGraph_new(new byte[32]);
+            this.router_wrapper = bindings.NetGraphMsgHandler_new(router, bindings.COption_AccessZ_none(), logger);
+            this.route_handler = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(router_wrapper);
             this.message_handler = bindings.MessageHandler_new(chan_handler, route_handler);
             this.custom_message_handler = bindings.IgnoringMessageHandler_new();
 
@@ -279,16 +281,14 @@ public class PeerTest {
         long no_min_val = bindings.COption_u64Z_none();
         long inbound_payment = bindings.ChannelManager_create_inbound_payment(peer2.chan_manager, no_min_val, 7200, 42);
         bindings.COption_u64Z_free(no_min_val);
-        long netgraph = bindings.NetGraphMsgHandler_get_network_graph(peer1.router);
         long scorer = bindings.Scorer_default();
         long scorer_interface = bindings.Scorer_as_Score(scorer);
-        long route = bindings.get_route(peer1.node_id, netgraph, peer2.node_id, 0L, peer1_chans,
+        /*XXX long route = bindings.find_route(peer1.node_id, peer1.router, peer2.node_id, 0L, peer1_chans,
                 new long[0], 1000, 42, peer1.logger, scorer_interface);
         bindings.Score_free(scorer_interface);
         bindings.Scorer_free(scorer);
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
-        bindings.NetworkGraph_free(netgraph);
         long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route),
                 bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(inbound_payment), bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(inbound_payment));
         bindings.CResult_RouteLightningErrorZ_free(route);
@@ -328,5 +328,10 @@ public class PeerTest {
         peer2.free();
         bindings.SocketDescriptor_free(descriptor2);
         bindings.SocketDescriptor_free(descriptor1.val);
+
+        bindings.NetworkGraph_free(peer1.router);
+        bindings.NetworkGraph_free(peer2.router);
+        bindings.NetGraphMsgHandler_free(peer1.router_wrapper);
+        bindings.NetGraphMsgHandler_free(peer2.router_wrapper);*/
     }
 }
