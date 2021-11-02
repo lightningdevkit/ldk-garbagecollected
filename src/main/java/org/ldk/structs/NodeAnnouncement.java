@@ -39,8 +39,8 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public UnsignedNodeAnnouncement get_contents() {
 		long ret = bindings.NodeAnnouncement_get_contents(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		UnsignedNodeAnnouncement ret_hu_conv = new UnsignedNodeAnnouncement(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		UnsignedNodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UnsignedNodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -57,8 +57,8 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public static NodeAnnouncement of(byte[] signature_arg, UnsignedNodeAnnouncement contents_arg) {
 		long ret = bindings.NodeAnnouncement_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -68,8 +68,8 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public NodeAnnouncement clone() {
 		long ret = bindings.NodeAnnouncement_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeAnnouncement ret_hu_conv = new NodeAnnouncement(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -87,7 +87,7 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public static Result_NodeAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeAnnouncement_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NodeAnnouncementDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

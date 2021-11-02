@@ -69,23 +69,33 @@ export class PaymentReceived extends Event {
 	}
 }
 export class PaymentSent extends Event {
+	public payment_id: Uint8Array;
 	public payment_preimage: Uint8Array;
 	public payment_hash: Uint8Array;
+	public fee_paid_msat: Option_u64Z;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentSent) {
 		super(null, ptr);
+		this.payment_id = obj.payment_id;
 		this.payment_preimage = obj.payment_preimage;
 		this.payment_hash = obj.payment_hash;
+		const fee_paid_msat: number = obj.fee_paid_msat;
+		Option_u64Z fee_paid_msat_hu_conv = Option_u64Z.constr_from_ptr(fee_paid_msat);
+			fee_paid_msat_hu_conv.ptrs_to.add(this);
+		this.fee_paid_msat = fee_paid_msat_hu_conv;
 	}
 }
 export class PaymentPathFailed extends Event {
+	public payment_id: Uint8Array;
 	public payment_hash: Uint8Array;
 	public rejected_by_dest: boolean;
 	public network_update: Option_NetworkUpdateZ;
 	public all_paths_failed: boolean;
 	public path: RouteHop[];
 	public short_channel_id: Option_u64Z;
+	public retry: RouteParameters;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentPathFailed) {
 		super(null, ptr);
+		this.payment_id = obj.payment_id;
 		this.payment_hash = obj.payment_hash;
 		this.rejected_by_dest = obj.rejected_by_dest;
 		const network_update: number = obj.network_update;
@@ -106,6 +116,10 @@ export class PaymentPathFailed extends Event {
 		Option_u64Z short_channel_id_hu_conv = Option_u64Z.constr_from_ptr(short_channel_id);
 			short_channel_id_hu_conv.ptrs_to.add(this);
 		this.short_channel_id = short_channel_id_hu_conv;
+		const retry: number = obj.retry;
+		const retry_hu_conv: RouteParameters = new RouteParameters(null, retry);
+			retry_hu_conv.ptrs_to.add(this);
+		this.retry = retry_hu_conv;
 	}
 }
 export class PendingHTLCsForwardable extends Event {
@@ -186,15 +200,15 @@ export class DiscardFunding extends Event {
 		return ret_hu_conv;
 	}
 
-	public static Event constructor_payment_sent(Uint8Array payment_preimage, Uint8Array payment_hash) {
-		number ret = bindings.Event_payment_sent(payment_preimage, payment_hash);
+	public static Event constructor_payment_sent(Uint8Array payment_id, Uint8Array payment_preimage, Uint8Array payment_hash, Option_u64Z fee_paid_msat) {
+		number ret = bindings.Event_payment_sent(payment_id, payment_preimage, payment_hash, fee_paid_msat.ptr);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static Event constructor_payment_path_failed(Uint8Array payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id) {
-		number ret = bindings.Event_payment_path_failed(payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null, short_channel_id.ptr);
+	public static Event constructor_payment_path_failed(Uint8Array payment_id, Uint8Array payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id, RouteParameters retry) {
+		number ret = bindings.Event_payment_path_failed(payment_id, payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr & ~1);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

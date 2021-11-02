@@ -39,8 +39,8 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public ChannelMonitor clone() {
 		long ret = bindings.ChannelMonitor_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ChannelMonitor ret_hu_conv = new ChannelMonitor(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ChannelMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelMonitor(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -61,7 +61,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public Result_NoneMonitorUpdateErrorZ update_monitor(ChannelMonitorUpdate updates, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
 		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr & ~1, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(updates);
 		this.ptrs_to.add(broadcaster);
@@ -84,7 +84,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public TwoTuple_OutPointScriptZ get_funding_txo() {
 		long ret = bindings.ChannelMonitor_get_funding_txo(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -285,8 +285,8 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public BestBlock current_best_block() {
 		long ret = bindings.ChannelMonitor_current_best_block(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		BestBlock ret_hu_conv = new BestBlock(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

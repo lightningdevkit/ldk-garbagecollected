@@ -69,6 +69,13 @@ public class Watch extends CommonBase {
 		/**
 		 * Returns any monitor events since the last call. Subsequent calls must only return new
 		 * events.
+		 * 
+		 * Note that after any block- or transaction-connection calls to a [`ChannelMonitor`], no
+		 * further events may be returned here until the [`ChannelMonitor`] has been fully persisted
+		 * to disk.
+		 * 
+		 * For details on asynchronous [`ChannelMonitor`] updating and returning
+		 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
 		 */
 		MonitorEvent[] release_pending_monitor_events();
 	}
@@ -77,18 +84,18 @@ public class Watch extends CommonBase {
 		final LDKWatchHolder impl_holder = new LDKWatchHolder();
 		impl_holder.held = new Watch(new bindings.LDKWatch() {
 			@Override public long watch_channel(long funding_txo, long monitor) {
-				OutPoint funding_txo_hu_conv = new OutPoint(null, funding_txo);
+				OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new OutPoint(null, funding_txo); }
 				funding_txo_hu_conv.ptrs_to.add(this);
-				ChannelMonitor monitor_hu_conv = new ChannelMonitor(null, monitor);
+				ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new ChannelMonitor(null, monitor); }
 				monitor_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
 			}
 			@Override public long update_channel(long funding_txo, long update) {
-				OutPoint funding_txo_hu_conv = new OutPoint(null, funding_txo);
+				OutPoint funding_txo_hu_conv = null; if (funding_txo < 0 || funding_txo > 4096) { funding_txo_hu_conv = new OutPoint(null, funding_txo); }
 				funding_txo_hu_conv.ptrs_to.add(this);
-				ChannelMonitorUpdate update_hu_conv = new ChannelMonitorUpdate(null, update);
+				ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new ChannelMonitorUpdate(null, update); }
 				update_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
@@ -118,7 +125,7 @@ public class Watch extends CommonBase {
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
 		long ret = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, monitor == null ? 0 : monitor.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -133,7 +140,7 @@ public class Watch extends CommonBase {
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
 		long ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, update == null ? 0 : update.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -141,6 +148,13 @@ public class Watch extends CommonBase {
 	/**
 	 * Returns any monitor events since the last call. Subsequent calls must only return new
 	 * events.
+	 * 
+	 * Note that after any block- or transaction-connection calls to a [`ChannelMonitor`], no
+	 * further events may be returned here until the [`ChannelMonitor`] has been fully persisted
+	 * to disk.
+	 * 
+	 * For details on asynchronous [`ChannelMonitor`] updating and returning
+	 * [`MonitorEvent::UpdateCompleted`] here, see [`ChannelMonitorUpdateErr::TemporaryFailure`].
 	 */
 	public MonitorEvent[] release_pending_monitor_events() {
 		long[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);

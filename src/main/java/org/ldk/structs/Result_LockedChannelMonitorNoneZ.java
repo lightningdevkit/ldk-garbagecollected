@@ -24,7 +24,7 @@ public class Result_LockedChannelMonitorNoneZ extends CommonBase {
 		private Result_LockedChannelMonitorNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_LockedChannelMonitorNoneZ_get_ok(ptr);
-			LockedChannelMonitor res_hu_conv = new LockedChannelMonitor(null, res);
+			LockedChannelMonitor res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new LockedChannelMonitor(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -41,7 +41,7 @@ public class Result_LockedChannelMonitorNoneZ extends CommonBase {
 	 */
 	public static Result_LockedChannelMonitorNoneZ ok(LockedChannelMonitor o) {
 		long ret = bindings.CResult_LockedChannelMonitorNoneZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
@@ -60,7 +60,7 @@ public class Result_LockedChannelMonitorNoneZ extends CommonBase {
 	 */
 	public static Result_LockedChannelMonitorNoneZ err() {
 		long ret = bindings.CResult_LockedChannelMonitorNoneZ_err();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

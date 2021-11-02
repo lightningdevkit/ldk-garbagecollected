@@ -61,8 +61,8 @@ public class CommitmentSigned extends CommonBase {
 	 */
 	public static CommitmentSigned of(byte[] channel_id_arg, byte[] signature_arg, byte[][] htlc_signatures_arg) {
 		long ret = bindings.CommitmentSigned_new(channel_id_arg, signature_arg, htlc_signatures_arg);
-		if (ret >= 0 && ret < 1024) { return null; }
-		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		CommitmentSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -72,8 +72,8 @@ public class CommitmentSigned extends CommonBase {
 	 */
 	public CommitmentSigned clone() {
 		long ret = bindings.CommitmentSigned_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		CommitmentSigned ret_hu_conv = new CommitmentSigned(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		CommitmentSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -91,7 +91,7 @@ public class CommitmentSigned extends CommonBase {
 	 */
 	public static Result_CommitmentSignedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.CommitmentSigned_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CommitmentSignedDecodeErrorZ ret_hu_conv = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

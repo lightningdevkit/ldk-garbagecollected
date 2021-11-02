@@ -144,7 +144,7 @@ public class SocketDescriptor extends CommonBase {
 	 */
 	public SocketDescriptor clone() {
 		long ret = bindings.SocketDescriptor_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		SocketDescriptor ret_hu_conv = new SocketDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

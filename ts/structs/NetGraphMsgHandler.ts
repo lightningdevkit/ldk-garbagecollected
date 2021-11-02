@@ -25,21 +25,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public NetworkGraph get_network_graph() {
-		number ret = bindings.NetGraphMsgHandler_get_network_graph(this.ptr);
-		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
-	public void set_network_graph(NetworkGraph val) {
-		bindings.NetGraphMsgHandler_set_network_graph(this.ptr, val == null ? 0 : val.ptr & ~1);
-	}
-
 	public static NetGraphMsgHandler constructor_new(NetworkGraph network_graph, Option_AccessZ chain_access, Logger logger) {
 		number ret = bindings.NetGraphMsgHandler_new(network_graph == null ? 0 : network_graph.ptr & ~1, chain_access.ptr, logger == null ? 0 : logger.ptr);
 		const ret_hu_conv: NetGraphMsgHandler = new NetGraphMsgHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(network_graph);
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}

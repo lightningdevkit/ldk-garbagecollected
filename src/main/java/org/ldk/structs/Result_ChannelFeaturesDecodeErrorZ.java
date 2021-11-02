@@ -24,7 +24,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		private Result_ChannelFeaturesDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_ChannelFeaturesDecodeErrorZ_get_ok(ptr);
-			ChannelFeatures res_hu_conv = new ChannelFeatures(null, res);
+			ChannelFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ChannelFeatures(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -35,7 +35,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		private Result_ChannelFeaturesDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_ChannelFeaturesDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -46,7 +46,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ChannelFeaturesDecodeErrorZ ok(ChannelFeatures o) {
 		long ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ChannelFeaturesDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

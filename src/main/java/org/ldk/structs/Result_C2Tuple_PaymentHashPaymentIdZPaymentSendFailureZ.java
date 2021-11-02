@@ -46,7 +46,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 	 */
 	public static Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ok(TwoTuple_PaymentHashPaymentIdZ o) {
 		long ret = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_ok(o != null ? o.ptr : 0);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 	 */
 	public static Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ err(PaymentSendFailure e) {
 		long ret = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_err(e.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 	 */
 	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ clone() {
 		long ret = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

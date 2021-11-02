@@ -24,7 +24,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 		private Result_TxCreationKeysErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_TxCreationKeysErrorZ_get_ok(ptr);
-			TxCreationKeys res_hu_conv = new TxCreationKeys(null, res);
+			TxCreationKeys res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new TxCreationKeys(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -43,7 +43,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	 */
 	public static Result_TxCreationKeysErrorZ ok(TxCreationKeys o) {
 		long ret = bindings.CResult_TxCreationKeysErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	 */
 	public static Result_TxCreationKeysErrorZ err(org.ldk.enums.Secp256k1Error e) {
 		long ret = bindings.CResult_TxCreationKeysErrorZ_err(e);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 	 */
 	public Result_TxCreationKeysErrorZ clone() {
 		long ret = bindings.CResult_TxCreationKeysErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

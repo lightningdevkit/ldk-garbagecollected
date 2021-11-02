@@ -49,7 +49,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	 */
 	public static Option_C2Tuple_usizeTransactionZZ some(TwoTuple_usizeTransactionZ o) {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_some(o != null ? o.ptr : 0);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -60,7 +60,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	 */
 	public static Option_C2Tuple_usizeTransactionZZ none() {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_none();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -72,7 +72,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	 */
 	public Option_C2Tuple_usizeTransactionZZ clone() {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

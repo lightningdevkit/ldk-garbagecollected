@@ -24,7 +24,7 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 		private Result_PrivateRouteCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_PrivateRouteCreationErrorZ_get_ok(ptr);
-			PrivateRoute res_hu_conv = new PrivateRoute(null, res);
+			PrivateRoute res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new PrivateRoute(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -43,7 +43,7 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 	 */
 	public static Result_PrivateRouteCreationErrorZ ok(PrivateRoute o) {
 		long ret = bindings.CResult_PrivateRouteCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 	 */
 	public static Result_PrivateRouteCreationErrorZ err(org.ldk.enums.CreationError e) {
 		long ret = bindings.CResult_PrivateRouteCreationErrorZ_err(e);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 	 */
 	public Result_PrivateRouteCreationErrorZ clone() {
 		long ret = bindings.CResult_PrivateRouteCreationErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

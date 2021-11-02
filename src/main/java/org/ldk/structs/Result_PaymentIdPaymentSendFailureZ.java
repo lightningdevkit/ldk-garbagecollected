@@ -20,13 +20,10 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 		}
 	}
 	public static final class Result_PaymentIdPaymentSendFailureZ_OK extends Result_PaymentIdPaymentSendFailureZ {
-		public final PaymentId res;
+		public final byte[] res;
 		private Result_PaymentIdPaymentSendFailureZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_PaymentIdPaymentSendFailureZ_get_ok(ptr);
-			PaymentId res_hu_conv = new PaymentId(null, res);
-			res_hu_conv.ptrs_to.add(this);
-			this.res = res_hu_conv;
+			this.res = bindings.LDKCResult_PaymentIdPaymentSendFailureZ_get_ok(ptr);
 		}
 	}
 
@@ -44,9 +41,9 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 	/**
 	 * Creates a new CResult_PaymentIdPaymentSendFailureZ in the success state.
 	 */
-	public static Result_PaymentIdPaymentSendFailureZ ok(PaymentId o) {
-		long ret = bindings.CResult_PaymentIdPaymentSendFailureZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+	public static Result_PaymentIdPaymentSendFailureZ ok(byte[] o) {
+		long ret = bindings.CResult_PaymentIdPaymentSendFailureZ_ok(o);
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +53,7 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 	 */
 	public static Result_PaymentIdPaymentSendFailureZ err(PaymentSendFailure e) {
 		long ret = bindings.CResult_PaymentIdPaymentSendFailureZ_err(e.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +64,7 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 	 */
 	public Result_PaymentIdPaymentSendFailureZ clone() {
 		long ret = bindings.CResult_PaymentIdPaymentSendFailureZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

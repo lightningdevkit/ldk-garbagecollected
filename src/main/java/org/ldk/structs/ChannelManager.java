@@ -70,8 +70,8 @@ public class ChannelManager extends CommonBase {
 	 */
 	public static ChannelManager of(FeeEstimator fee_est, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, KeysInterface keys_manager, UserConfig config, ChainParameters params) {
 		long ret = bindings.ChannelManager_new(fee_est == null ? 0 : fee_est.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, keys_manager == null ? 0 : keys_manager.ptr, config == null ? 0 : config.ptr & ~1, params == null ? 0 : params.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ChannelManager ret_hu_conv = new ChannelManager(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ChannelManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelManager(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(fee_est);
 		ret_hu_conv.ptrs_to.add(chain_monitor);
@@ -86,8 +86,8 @@ public class ChannelManager extends CommonBase {
 	 */
 	public UserConfig get_current_default_configuration() {
 		long ret = bindings.ChannelManager_get_current_default_configuration(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		UserConfig ret_hu_conv = new UserConfig(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UserConfig(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -124,7 +124,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Result__u832APIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, long user_channel_id, @Nullable UserConfig override_config) {
 		long ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -138,7 +138,7 @@ public class ChannelManager extends CommonBase {
 		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
 		for (int q = 0; q < ret.length; q++) {
 			long ret_conv_16 = ret[q];
-			ChannelDetails ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16);
+			ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
@@ -158,7 +158,7 @@ public class ChannelManager extends CommonBase {
 		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
 		for (int q = 0; q < ret.length; q++) {
 			long ret_conv_16 = ret[q];
-			ChannelDetails ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16);
+			ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
 		}
@@ -186,7 +186,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Result_NoneAPIErrorZ close_channel(byte[] channel_id) {
 		long ret = bindings.ChannelManager_close_channel(this.ptr, channel_id);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -214,7 +214,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Result_NoneAPIErrorZ close_channel_with_target_feerate(byte[] channel_id, int target_feerate_sats_per_1000_weight) {
 		long ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, channel_id, target_feerate_sats_per_1000_weight);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -225,7 +225,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Result_NoneAPIErrorZ force_close_channel(byte[] channel_id) {
 		long ret = bindings.ChannelManager_force_close_channel(this.ptr, channel_id);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -283,7 +283,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, byte[] payment_hash, @Nullable byte[] payment_secret) {
 		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_hash, payment_secret);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
@@ -299,9 +299,9 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * [`send_payment`]: [`ChannelManager::send_payment`]
 	 */
-	public Result_NonePaymentSendFailureZ retry_payment(Route route, PaymentId payment_id) {
-		long ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id == null ? 0 : payment_id.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+	public Result_NonePaymentSendFailureZ retry_payment(Route route, byte[] payment_id) {
+		long ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
@@ -327,7 +327,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_spontaneous_payment(Route route, @Nullable byte[] payment_preimage) {
 		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_preimage);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
@@ -357,7 +357,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Result_NoneAPIErrorZ funding_transaction_generated(byte[] temporary_channel_id, byte[] funding_transaction) {
 		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_transaction);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -453,33 +453,6 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
-	 * Restores a single, given channel to normal operation after a
-	 * ChannelMonitorUpdateErr::TemporaryFailure was returned from a channel monitor update
-	 * operation.
-	 * 
-	 * All ChannelMonitor updates up to and including highest_applied_update_id must have been
-	 * fully committed in every copy of the given channels' ChannelMonitors.
-	 * 
-	 * Note that there is no effect to calling with a highest_applied_update_id other than the
-	 * current latest ChannelMonitorUpdate and one call to this function after multiple
-	 * ChannelMonitorUpdateErr::TemporaryFailures is fine. The highest_applied_update_id field
-	 * exists largely only to prevent races between this and concurrent update_monitor calls.
-	 * 
-	 * Thus, the anticipated use is, at a high level:
-	 * 1) You register a chain::Watch with this ChannelManager,
-	 * 2) it stores each update to disk, and begins updating any remote (eg watchtower) copies of
-	 * said ChannelMonitors as it can, returning ChannelMonitorUpdateErr::TemporaryFailures
-	 * any time it cannot do so instantly,
-	 * 3) update(s) are applied to each remote copy of a ChannelMonitor,
-	 * 4) once all remote copies are updated, you call this function with the update_id that
-	 * completed, and once it is the latest the Channel will be re-enabled.
-	 */
-	public void channel_monitor_updated(OutPoint funding_txo, long highest_applied_update_id) {
-		bindings.ChannelManager_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, highest_applied_update_id);
-		this.ptrs_to.add(funding_txo);
-	}
-
-	/**
 	 * Gets a payment secret and payment hash for use in an invoice given to a third party wishing
 	 * to pay us.
 	 * 
@@ -499,7 +472,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public TwoTuple_PaymentHashPaymentSecretZ create_inbound_payment(Option_u64Z min_value_msat, int invoice_expiry_delta_secs, long user_payment_id) {
 		long ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_PaymentHashPaymentSecretZ ret_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -554,7 +527,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash(byte[] payment_hash, Option_u64Z min_value_msat, int invoice_expiry_delta_secs, long user_payment_id) {
 		long ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, payment_hash, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -565,7 +538,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public MessageSendEventsProvider as_MessageSendEventsProvider() {
 		long ret = bindings.ChannelManager_as_MessageSendEventsProvider(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -577,7 +550,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public EventsProvider as_EventsProvider() {
 		long ret = bindings.ChannelManager_as_EventsProvider(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		EventsProvider ret_hu_conv = new EventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -589,7 +562,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Listen as_Listen() {
 		long ret = bindings.ChannelManager_as_Listen(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Listen ret_hu_conv = new Listen(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -601,7 +574,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public Confirm as_Confirm() {
 		long ret = bindings.ChannelManager_as_Confirm(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Confirm ret_hu_conv = new Confirm(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -634,8 +607,8 @@ public class ChannelManager extends CommonBase {
 	 */
 	public BestBlock current_best_block() {
 		long ret = bindings.ChannelManager_current_best_block(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		BestBlock ret_hu_conv = new BestBlock(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -646,7 +619,7 @@ public class ChannelManager extends CommonBase {
 	 */
 	public ChannelMessageHandler as_ChannelMessageHandler() {
 		long ret = bindings.ChannelManager_as_ChannelMessageHandler(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelMessageHandler ret_hu_conv = new ChannelMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -658,6 +631,18 @@ public class ChannelManager extends CommonBase {
 	public byte[] write() {
 		byte[] ret = bindings.ChannelManager_write(this.ptr);
 		return ret;
+	}
+
+	/**
+	 * Constructs a new Payer which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned Payer must be freed before this_arg is
+	 */
+	public Payer as_Payer() {
+		long ret = bindings.ChannelManager_as_Payer(this.ptr);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Payer ret_hu_conv = new Payer(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 }

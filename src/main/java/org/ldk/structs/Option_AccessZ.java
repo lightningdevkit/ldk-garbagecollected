@@ -49,7 +49,7 @@ public class Option_AccessZ extends CommonBase {
 	 */
 	public static Option_AccessZ some(Access o) {
 		long ret = bindings.COption_AccessZ_some(o == null ? 0 : o.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_AccessZ ret_hu_conv = Option_AccessZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(o);
@@ -61,7 +61,7 @@ public class Option_AccessZ extends CommonBase {
 	 */
 	public static Option_AccessZ none() {
 		long ret = bindings.COption_AccessZ_none();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_AccessZ ret_hu_conv = Option_AccessZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

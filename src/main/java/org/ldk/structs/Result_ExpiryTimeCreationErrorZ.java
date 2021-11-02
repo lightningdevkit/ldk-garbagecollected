@@ -24,7 +24,7 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 		private Result_ExpiryTimeCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_ExpiryTimeCreationErrorZ_get_ok(ptr);
-			ExpiryTime res_hu_conv = new ExpiryTime(null, res);
+			ExpiryTime res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ExpiryTime(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -43,7 +43,7 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 	 */
 	public static Result_ExpiryTimeCreationErrorZ ok(ExpiryTime o) {
 		long ret = bindings.CResult_ExpiryTimeCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 	 */
 	public static Result_ExpiryTimeCreationErrorZ err(org.ldk.enums.CreationError e) {
 		long ret = bindings.CResult_ExpiryTimeCreationErrorZ_err(e);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 	 */
 	public Result_ExpiryTimeCreationErrorZ clone() {
 		long ret = bindings.CResult_ExpiryTimeCreationErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -97,19 +97,10 @@
 		return ret;
 	}
 
-	public static Result_RouteLightningErrorZ constructor_get_keysend_route(Uint8Array our_node_pubkey, NetworkGraph network, Uint8Array payee, ChannelDetails[] first_hops, RouteHint[] last_hops, number final_value_msat, number final_cltv, Logger logger, Score scorer) {
-		number ret = bindings.get_keysend_route(our_node_pubkey, network == null ? 0 : network.ptr & ~1, payee, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, last_hops != null ? Arrays.stream(last_hops).map(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray(number[]::new) : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
+	public static Result_RouteLightningErrorZ constructor_find_route(Uint8Array our_node_pubkey, RouteParameters params, NetworkGraph network, ChannelDetails[] first_hops, Logger logger, Score scorer) {
+		number ret = bindings.find_route(our_node_pubkey, params == null ? 0 : params.ptr & ~1, network == null ? 0 : network.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(network);
-		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
-		ret_hu_conv.ptrs_to.add(logger);
-		ret_hu_conv.ptrs_to.add(scorer);
-		return ret_hu_conv;
-	}
-
-	public static Result_RouteLightningErrorZ constructor_get_route(Uint8Array our_node_pubkey, NetworkGraph network, Uint8Array payee, InvoiceFeatures payee_features, ChannelDetails[] first_hops, RouteHint[] last_hops, number final_value_msat, number final_cltv, Logger logger, Score scorer) {
-		number ret = bindings.get_route(our_node_pubkey, network == null ? 0 : network.ptr & ~1, payee, payee_features == null ? 0 : payee_features.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, last_hops != null ? Arrays.stream(last_hops).map(last_hops_conv_11 -> last_hops_conv_11 == null ? 0 : last_hops_conv_11.ptr & ~1).toArray(number[]::new) : null, final_value_msat, final_cltv, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
-		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(params);
 		ret_hu_conv.ptrs_to.add(network);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
 		ret_hu_conv.ptrs_to.add(logger);

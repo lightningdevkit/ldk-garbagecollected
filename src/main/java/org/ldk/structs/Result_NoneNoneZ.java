@@ -36,7 +36,7 @@ public class Result_NoneNoneZ extends CommonBase {
 	 */
 	public static Result_NoneNoneZ ok() {
 		long ret = bindings.CResult_NoneNoneZ_ok();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -46,7 +46,7 @@ public class Result_NoneNoneZ extends CommonBase {
 	 */
 	public static Result_NoneNoneZ err() {
 		long ret = bindings.CResult_NoneNoneZ_err();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -57,7 +57,7 @@ public class Result_NoneNoneZ extends CommonBase {
 	 */
 	public Result_NoneNoneZ clone() {
 		long ret = bindings.CResult_NoneNoneZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

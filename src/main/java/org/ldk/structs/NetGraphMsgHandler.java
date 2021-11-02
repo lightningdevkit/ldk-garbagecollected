@@ -32,28 +32,10 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public EventHandler as_EventHandler() {
 		long ret = bindings.NetGraphMsgHandler_as_EventHandler(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		EventHandler ret_hu_conv = new EventHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Representation of the payment channel network
-	 */
-	public NetworkGraph get_network_graph() {
-		long ret = bindings.NetGraphMsgHandler_get_network_graph(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NetworkGraph ret_hu_conv = new NetworkGraph(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Representation of the payment channel network
-	 */
-	public void set_network_graph(NetworkGraph val) {
-		bindings.NetGraphMsgHandler_set_network_graph(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
 	/**
@@ -65,9 +47,10 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public static NetGraphMsgHandler of(NetworkGraph network_graph, Option_AccessZ chain_access, Logger logger) {
 		long ret = bindings.NetGraphMsgHandler_new(network_graph == null ? 0 : network_graph.ptr & ~1, chain_access.ptr, logger == null ? 0 : logger.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NetGraphMsgHandler ret_hu_conv = new NetGraphMsgHandler(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NetGraphMsgHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NetGraphMsgHandler(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(network_graph);
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}
@@ -87,7 +70,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public RoutingMessageHandler as_RoutingMessageHandler() {
 		long ret = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -99,7 +82,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public MessageSendEventsProvider as_MessageSendEventsProvider() {
 		long ret = bindings.NetGraphMsgHandler_as_MessageSendEventsProvider(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

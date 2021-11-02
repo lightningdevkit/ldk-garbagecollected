@@ -38,8 +38,8 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public static ChainMonitor of(Option_FilterZ chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
 		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ChainMonitor ret_hu_conv = new ChainMonitor(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ChainMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChainMonitor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
@@ -80,7 +80,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Result_LockedChannelMonitorNoneZ get_monitor(OutPoint funding_txo) {
 		long ret = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -96,11 +96,33 @@ public class ChainMonitor extends CommonBase {
 		OutPoint[] ret_conv_10_arr = new OutPoint[ret.length];
 		for (int k = 0; k < ret.length; k++) {
 			long ret_conv_10 = ret[k];
-			OutPoint ret_conv_10_hu_conv = new OutPoint(null, ret_conv_10);
+			OutPoint ret_conv_10_hu_conv = null; if (ret_conv_10 < 0 || ret_conv_10 > 4096) { ret_conv_10_hu_conv = new OutPoint(null, ret_conv_10); }
 			ret_conv_10_hu_conv.ptrs_to.add(this);
 			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
 		}
 		return ret_conv_10_arr;
+	}
+
+	/**
+	 * Indicates the persistence of a [`ChannelMonitor`] has completed after
+	 * [`ChannelMonitorUpdateErr::TemporaryFailure`] was returned from an update operation.
+	 * 
+	 * Thus, the anticipated use is, at a high level:
+	 * 1) This [`ChainMonitor`] calls [`Persist::update_persisted_channel`] which stores the
+	 * update to disk and begins updating any remote (e.g. watchtower/backup) copies,
+	 * returning [`ChannelMonitorUpdateErr::TemporaryFailure`],
+	 * 2) once all remote copies are updated, you call this function with the
+	 * `completed_update_id` that completed, and once all pending updates have completed the
+	 * channel will be re-enabled.
+	 * 
+	 * Returns an [`APIError::APIMisuseError`] if `funding_txo` does not match any currently
+	 * registered [`ChannelMonitor`]s.
+	 */
+	public Result_NoneAPIErrorZ channel_monitor_updated(OutPoint funding_txo, MonitorUpdateId completed_update_id) {
+		long ret = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, completed_update_id == null ? 0 : completed_update_id.ptr & ~1);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -109,7 +131,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Listen as_Listen() {
 		long ret = bindings.ChainMonitor_as_Listen(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Listen ret_hu_conv = new Listen(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -121,7 +143,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Confirm as_Confirm() {
 		long ret = bindings.ChainMonitor_as_Confirm(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Confirm ret_hu_conv = new Confirm(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -133,7 +155,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Watch as_Watch() {
 		long ret = bindings.ChainMonitor_as_Watch(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Watch ret_hu_conv = new Watch(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -145,7 +167,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public EventsProvider as_EventsProvider() {
 		long ret = bindings.ChainMonitor_as_EventsProvider(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		EventsProvider ret_hu_conv = new EventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

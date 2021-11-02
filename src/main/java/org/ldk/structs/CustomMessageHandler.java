@@ -73,7 +73,7 @@ public class CustomMessageHandler extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ handle_custom_message(Type msg, byte[] sender_node_id) {
 		long ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr, sender_node_id);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;

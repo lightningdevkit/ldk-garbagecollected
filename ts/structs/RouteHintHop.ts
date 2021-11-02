@@ -103,4 +103,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public Uint8Array write() {
+		Uint8Array ret = bindings.RouteHintHop_write(this.ptr);
+		return ret;
+	}
+
+	public static Result_RouteHintHopDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.RouteHintHop_read(ser);
+		Result_RouteHintHopDecodeErrorZ ret_hu_conv = Result_RouteHintHopDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

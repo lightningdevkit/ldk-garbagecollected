@@ -48,7 +48,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		private StaticOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticOutput obj) {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
-			OutPoint outpoint_hu_conv = new OutPoint(null, outpoint);
+			OutPoint outpoint_hu_conv = null; if (outpoint < 0 || outpoint > 4096) { outpoint_hu_conv = new OutPoint(null, outpoint); }
 			outpoint_hu_conv.ptrs_to.add(this);
 			this.outpoint = outpoint_hu_conv;
 			long output = obj.output;
@@ -61,7 +61,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		private DelayedPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.DelayedPaymentOutput obj) {
 			super(null, ptr);
 			long delayed_payment_output = obj.delayed_payment_output;
-			DelayedPaymentOutputDescriptor delayed_payment_output_hu_conv = new DelayedPaymentOutputDescriptor(null, delayed_payment_output);
+			DelayedPaymentOutputDescriptor delayed_payment_output_hu_conv = null; if (delayed_payment_output < 0 || delayed_payment_output > 4096) { delayed_payment_output_hu_conv = new DelayedPaymentOutputDescriptor(null, delayed_payment_output); }
 			delayed_payment_output_hu_conv.ptrs_to.add(this);
 			this.delayed_payment_output = delayed_payment_output_hu_conv;
 		}
@@ -71,7 +71,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		private StaticPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticPaymentOutput obj) {
 			super(null, ptr);
 			long static_payment_output = obj.static_payment_output;
-			StaticPaymentOutputDescriptor static_payment_output_hu_conv = new StaticPaymentOutputDescriptor(null, static_payment_output);
+			StaticPaymentOutputDescriptor static_payment_output_hu_conv = null; if (static_payment_output < 0 || static_payment_output > 4096) { static_payment_output_hu_conv = new StaticPaymentOutputDescriptor(null, static_payment_output); }
 			static_payment_output_hu_conv.ptrs_to.add(this);
 			this.static_payment_output = static_payment_output_hu_conv;
 		}
@@ -81,7 +81,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 */
 	public SpendableOutputDescriptor clone() {
 		long ret = bindings.SpendableOutputDescriptor_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -92,7 +92,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 */
 	public static SpendableOutputDescriptor static_output(OutPoint outpoint, TxOut output) {
 		long ret = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : outpoint.ptr & ~1, output.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -103,7 +103,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 */
 	public static SpendableOutputDescriptor delayed_payment_output(DelayedPaymentOutputDescriptor a) {
 		long ret = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0 : a.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -114,7 +114,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 */
 	public static SpendableOutputDescriptor static_payment_output(StaticPaymentOutputDescriptor a) {
 		long ret = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0 : a.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -133,7 +133,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 */
 	public static Result_SpendableOutputDescriptorDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.SpendableOutputDescriptor_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SpendableOutputDescriptorDecodeErrorZ ret_hu_conv = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

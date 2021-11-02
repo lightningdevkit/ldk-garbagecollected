@@ -100,7 +100,7 @@ public class APIError extends CommonBase {
 		private IncompatibleShutdownScript(long ptr, bindings.LDKAPIError.IncompatibleShutdownScript obj) {
 			super(null, ptr);
 			long script = obj.script;
-			ShutdownScript script_hu_conv = new ShutdownScript(null, script);
+			ShutdownScript script_hu_conv = null; if (script < 0 || script > 4096) { script_hu_conv = new ShutdownScript(null, script); }
 			script_hu_conv.ptrs_to.add(this);
 			this.script = script_hu_conv;
 		}
@@ -110,7 +110,7 @@ public class APIError extends CommonBase {
 	 */
 	public APIError clone() {
 		long ret = bindings.APIError_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -121,7 +121,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError apimisuse_error(java.lang.String err) {
 		long ret = bindings.APIError_apimisuse_error(err);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -132,7 +132,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError fee_rate_too_high(java.lang.String err, int feerate) {
 		long ret = bindings.APIError_fee_rate_too_high(err, feerate);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -143,7 +143,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError route_error(java.lang.String err) {
 		long ret = bindings.APIError_route_error(err);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -154,7 +154,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError channel_unavailable(java.lang.String err) {
 		long ret = bindings.APIError_channel_unavailable(err);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -165,7 +165,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError monitor_update_failed() {
 		long ret = bindings.APIError_monitor_update_failed();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -176,7 +176,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError incompatible_shutdown_script(ShutdownScript script) {
 		long ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

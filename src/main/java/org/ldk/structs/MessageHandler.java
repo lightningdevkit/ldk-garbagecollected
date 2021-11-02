@@ -27,7 +27,7 @@ public class MessageHandler extends CommonBase {
 	 */
 	public ChannelMessageHandler get_chan_handler() {
 		long ret = bindings.MessageHandler_get_chan_handler(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelMessageHandler ret_hu_conv = new ChannelMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -53,7 +53,7 @@ public class MessageHandler extends CommonBase {
 	 */
 	public RoutingMessageHandler get_route_handler() {
 		long ret = bindings.MessageHandler_get_route_handler(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -76,8 +76,8 @@ public class MessageHandler extends CommonBase {
 	 */
 	public static MessageHandler of(ChannelMessageHandler chan_handler_arg, RoutingMessageHandler route_handler_arg) {
 		long ret = bindings.MessageHandler_new(chan_handler_arg == null ? 0 : chan_handler_arg.ptr, route_handler_arg == null ? 0 : route_handler_arg.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		MessageHandler ret_hu_conv = new MessageHandler(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		MessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new MessageHandler(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(chan_handler_arg);
 		ret_hu_conv.ptrs_to.add(route_handler_arg);

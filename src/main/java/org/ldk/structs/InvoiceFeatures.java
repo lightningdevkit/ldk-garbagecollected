@@ -35,8 +35,8 @@ public class InvoiceFeatures extends CommonBase {
 	 */
 	public InvoiceFeatures clone() {
 		long ret = bindings.InvoiceFeatures_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		InvoiceFeatures ret_hu_conv = new InvoiceFeatures(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -46,8 +46,8 @@ public class InvoiceFeatures extends CommonBase {
 	 */
 	public static InvoiceFeatures empty() {
 		long ret = bindings.InvoiceFeatures_empty();
-		if (ret >= 0 && ret < 1024) { return null; }
-		InvoiceFeatures ret_hu_conv = new InvoiceFeatures(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -57,8 +57,8 @@ public class InvoiceFeatures extends CommonBase {
 	 */
 	public static InvoiceFeatures known() {
 		long ret = bindings.InvoiceFeatures_known();
-		if (ret >= 0 && ret < 1024) { return null; }
-		InvoiceFeatures ret_hu_conv = new InvoiceFeatures(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -93,7 +93,7 @@ public class InvoiceFeatures extends CommonBase {
 	 */
 	public static Result_InvoiceFeaturesDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.InvoiceFeatures_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceFeaturesDecodeErrorZ ret_hu_conv = Result_InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

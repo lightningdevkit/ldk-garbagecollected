@@ -16,6 +16,12 @@ export default class MonitorEvent extends CommonBase {
 		if (raw_val instanceof bindings.LDKMonitorEvent.CommitmentTxConfirmed) {
 			return new CommitmentTxConfirmed(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKMonitorEvent.UpdateCompleted) {
+			return new UpdateCompleted(this.ptr, raw_val);
+		}
+		if (raw_val instanceof bindings.LDKMonitorEvent.UpdateFailed) {
+			return new UpdateFailed(this.ptr, raw_val);
+		}
 		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -40,6 +46,28 @@ export class CommitmentTxConfirmed extends MonitorEvent {
 		this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
 	}
 }
+export class UpdateCompleted extends MonitorEvent {
+	public funding_txo: OutPoint;
+	public monitor_update_id: number;
+	private constructor(ptr: number, obj: bindings.LDKMonitorEvent.UpdateCompleted) {
+		super(null, ptr);
+		const funding_txo: number = obj.funding_txo;
+		const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
+			funding_txo_hu_conv.ptrs_to.add(this);
+		this.funding_txo = funding_txo_hu_conv;
+		this.monitor_update_id = obj.monitor_update_id;
+	}
+}
+export class UpdateFailed extends MonitorEvent {
+	public update_failed: OutPoint;
+	private constructor(ptr: number, obj: bindings.LDKMonitorEvent.UpdateFailed) {
+		super(null, ptr);
+		const update_failed: number = obj.update_failed;
+		const update_failed_hu_conv: OutPoint = new OutPoint(null, update_failed);
+			update_failed_hu_conv.ptrs_to.add(this);
+		this.update_failed = update_failed_hu_conv;
+	}
+}
 	public MonitorEvent clone() {
 		number ret = bindings.MonitorEvent_clone(this.ptr);
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
@@ -59,6 +87,25 @@ export class CommitmentTxConfirmed extends MonitorEvent {
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public static MonitorEvent constructor_update_completed(OutPoint funding_txo, number monitor_update_id) {
+		number ret = bindings.MonitorEvent_update_completed(funding_txo == null ? 0 : funding_txo.ptr & ~1, monitor_update_id);
+		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static MonitorEvent constructor_update_failed(OutPoint a) {
+		number ret = bindings.MonitorEvent_update_failed(a == null ? 0 : a.ptr & ~1);
+		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public Uint8Array write() {
+		Uint8Array ret = bindings.MonitorEvent_write(this.ptr);
+		return ret;
 	}
 
 }

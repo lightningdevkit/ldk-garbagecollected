@@ -30,7 +30,7 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 		private Result_NonePeerHandleErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_NonePeerHandleErrorZ_get_err(ptr);
-			PeerHandleError err_hu_conv = new PeerHandleError(null, err);
+			PeerHandleError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new PeerHandleError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -41,7 +41,7 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 	 */
 	public static Result_NonePeerHandleErrorZ ok() {
 		long ret = bindings.CResult_NonePeerHandleErrorZ_ok();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -51,7 +51,7 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 	 */
 	public static Result_NonePeerHandleErrorZ err(PeerHandleError e) {
 		long ret = bindings.CResult_NonePeerHandleErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -62,7 +62,7 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 	 */
 	public Result_NonePeerHandleErrorZ clone() {
 		long ret = bindings.CResult_NonePeerHandleErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
