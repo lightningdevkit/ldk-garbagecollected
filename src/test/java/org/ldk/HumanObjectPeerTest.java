@@ -168,7 +168,8 @@ class HumanObjectPeerTestInstance {
         final KeysManager explicit_keys_manager;
         final KeysInterface keys_interface;
         final ChainMonitor chain_monitor;
-        final NetGraphMsgHandler router;
+        final NetworkGraph router;
+        NetGraphMsgHandler route_handler;
         final Watch chain_watch;
         final HashSet<String> filter_additions;
         final Option_FilterZ filter;
@@ -209,7 +210,7 @@ class HumanObjectPeerTestInstance {
             this.seed = seed;
             Persist persister = Persist.new_impl(new Persist.PersistInterface() {
                 @Override
-                public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data) {
+                public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data, MonitorUpdateId update_id) {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
                         assert monitors.put(key, data) == null;
@@ -221,7 +222,7 @@ class HumanObjectPeerTestInstance {
                 }
 
                 @Override
-                public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data) {
+                public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
                         assert monitors.put(key, data) != null;
@@ -268,7 +269,8 @@ class HumanObjectPeerTestInstance {
                 this.keys_interface = keys.as_KeysInterface();
                 this.explicit_keys_manager = keys;
             }
-            this.router = NetGraphMsgHandler.of(NetworkGraph.of(new byte[32]), Option_AccessZ.some(Access.new_impl(new Access.AccessInterface() {
+            this.router = NetworkGraph.of(new byte[32]);
+            this.route_handler = NetGraphMsgHandler.of(this.router, Option_AccessZ.some(Access.new_impl(new Access.AccessInterface() {
                 @Override
                 public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
                     // We don't exchange any gossip, so should never actually get called, but providing a Some(Access)
@@ -333,9 +335,8 @@ class HumanObjectPeerTestInstance {
         Peer(byte seed) {
             this(null, seed);
             if (use_chan_manager_constructor) {
-                NetGraphMsgHandler route_handler = null;
-                if (!use_ignore_handler) {
-                    route_handler = router;
+                if (use_ignore_handler) {
+                    this.route_handler = null;
                 }
                 this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
                         this.keys_interface, this.fee_estimator, this.chain_monitor, route_handler, this.tx_broadcaster, this.logger);
@@ -355,7 +356,7 @@ class HumanObjectPeerTestInstance {
                 ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
                 this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), params);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
-                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
             }
 
             this.node_id = chan_manager.get_our_node_id();
@@ -374,8 +375,11 @@ class HumanObjectPeerTestInstance {
                     if (this.filter instanceof Option_FilterZ.Some) {
                         filter_nullable = ((Option_FilterZ.Some) this.filter).some;
                     }
+                    if (use_ignore_handler) {
+                        this.route_handler = null;
+                    }
                     this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
-                            this.fee_estimator, this.chain_monitor, filter_nullable, this.router, this.tx_broadcaster, this.logger);
+                            this.fee_estimator, this.chain_monitor, filter_nullable, this.route_handler, this.tx_broadcaster, this.logger);
                     constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
@@ -417,7 +421,7 @@ class HumanObjectPeerTestInstance {
                 this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.get_b();
                 this.chain_watch.watch_channel(monitors[0].get_funding_txo().get_a(), monitors[0]);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
-                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), router.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
                 if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
                     // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
                     // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
@@ -741,9 +745,11 @@ class HumanObjectPeerTestInstance {
         InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
         RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-        Result_RouteLightningErrorZ route_res = UtilMethods.get_route(
-                peer1.chan_manager.get_our_node_id(), peer1.router.get_network_graph(), peer2.node_id, invoice_features,
-                peer1_chans, route_hints, 10000000, 42, peer1.logger, Scorer.with_default().as_Score());
+        Payee payee = Payee.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none());
+        RouteParameters route_params = RouteParameters.of(payee, 10000000, 42);
+        Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
+                peer1.chan_manager.get_our_node_id(), route_params, peer1.router,
+                peer1_chans, peer1.logger, Scorer.with_default().as_Score());
         assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
         Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
         assert route.get_paths().length == 1;
@@ -758,7 +764,7 @@ class HumanObjectPeerTestInstance {
         hop_pubkey[0] = 3;
         hop_pubkey[1] = 42;
         hops[0][0] = RouteHop.of(hop_pubkey, NodeFeatures.known(), 42, ChannelFeatures.known(), 100, 0);
-        Route r2 = Route.of(hops);
+        Route r2 = Route.of(hops, payee);
         payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
         assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_Err;
 
