@@ -77,10 +77,10 @@ public class BackgroundProcessor extends CommonBase {
 	 * 
 	 * Note that net_graph_msg_handler (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static BackgroundProcessor start(ChannelManagerPersister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, NetGraphMsgHandler net_graph_msg_handler, PeerManager peer_manager, Logger logger) {
+	public static BackgroundProcessor start(ChannelManagerPersister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, @Nullable NetGraphMsgHandler net_graph_msg_handler, PeerManager peer_manager, Logger logger) {
 		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr & ~1, channel_manager == null ? 0 : channel_manager.ptr & ~1, net_graph_msg_handler == null ? 0 : net_graph_msg_handler.ptr & ~1, peer_manager == null ? 0 : peer_manager.ptr & ~1, logger == null ? 0 : logger.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		BackgroundProcessor ret_hu_conv = new BackgroundProcessor(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		BackgroundProcessor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BackgroundProcessor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(persister);
 		ret_hu_conv.ptrs_to.add(event_handler);
@@ -105,7 +105,7 @@ public class BackgroundProcessor extends CommonBase {
 	 */
 	public Result_NoneErrorZ join() {
 		long ret = bindings.BackgroundProcessor_join(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(this);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
@@ -132,7 +132,7 @@ public class BackgroundProcessor extends CommonBase {
 	 */
 	public Result_NoneErrorZ stop() {
 		long ret = bindings.BackgroundProcessor_stop(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(this);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"

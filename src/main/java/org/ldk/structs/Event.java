@@ -109,6 +109,16 @@ public class Event extends CommonBase {
 	}
 	public final static class PaymentSent extends Event {
 		/**
+		 * The id returned by [`ChannelManager::send_payment`] and used with
+		 * [`ChannelManager::retry_payment`].
+		 * 
+		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final byte[] payment_id;
+		/**
 		 * The preimage to the hash given to ChannelManager::send_payment.
 		 * Note that this serves as a payment receipt, if you wish to have such a thing, you must
 		 * store it somehow!
@@ -120,13 +130,40 @@ public class Event extends CommonBase {
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 		*/
 		public final byte[] payment_hash;
+		/**
+		 * The total fee which was spent at intermediate hops in this payment, across all paths.
+		 * 
+		 * Note that, like [`Route::get_total_fees`] this does *not* include any potential
+		 * overpayment to the recipient node.
+		 * 
+		 * If the recipient or an intermediate node misbehaves and gives us free money, this may
+		 * overstate the amount paid, though this is unlikely.
+		 * 
+		 * [`Route::get_total_fees`]: crate::routing::router::Route::get_total_fees
+		*/
+		public final Option_u64Z fee_paid_msat;
 		private PaymentSent(long ptr, bindings.LDKEvent.PaymentSent obj) {
 			super(null, ptr);
+			this.payment_id = obj.payment_id;
 			this.payment_preimage = obj.payment_preimage;
 			this.payment_hash = obj.payment_hash;
+			long fee_paid_msat = obj.fee_paid_msat;
+			Option_u64Z fee_paid_msat_hu_conv = Option_u64Z.constr_from_ptr(fee_paid_msat);
+			fee_paid_msat_hu_conv.ptrs_to.add(this);
+			this.fee_paid_msat = fee_paid_msat_hu_conv;
 		}
 	}
 	public final static class PaymentPathFailed extends Event {
+		/**
+		 * The id returned by [`ChannelManager::send_payment`] and used with
+		 * [`ChannelManager::retry_payment`].
+		 * 
+		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final byte[] payment_id;
 		/**
 		 * The hash which was given to ChannelManager::send_payment.
 		*/
@@ -165,8 +202,20 @@ public class Event extends CommonBase {
 		 * retried. May be `None` for older [`Event`] serializations.
 		*/
 		public final Option_u64Z short_channel_id;
+		/**
+		 * Parameters needed to compute a new [`Route`] when retrying the failed payment path.
+		 * 
+		 * See [`find_route`] for details.
+		 * 
+		 * [`Route`]: crate::routing::router::Route
+		 * [`find_route`]: crate::routing::router::find_route
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final RouteParameters retry;
 		private PaymentPathFailed(long ptr, bindings.LDKEvent.PaymentPathFailed obj) {
 			super(null, ptr);
+			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
 			this.rejected_by_dest = obj.rejected_by_dest;
 			long network_update = obj.network_update;
@@ -178,7 +227,7 @@ public class Event extends CommonBase {
 			RouteHop[] path_conv_10_arr = new RouteHop[path.length];
 			for (int k = 0; k < path.length; k++) {
 				long path_conv_10 = path[k];
-				RouteHop path_conv_10_hu_conv = new RouteHop(null, path_conv_10);
+				RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new RouteHop(null, path_conv_10); }
 				path_conv_10_hu_conv.ptrs_to.add(this);
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
@@ -187,6 +236,10 @@ public class Event extends CommonBase {
 			Option_u64Z short_channel_id_hu_conv = Option_u64Z.constr_from_ptr(short_channel_id);
 			short_channel_id_hu_conv.ptrs_to.add(this);
 			this.short_channel_id = short_channel_id_hu_conv;
+			long retry = obj.retry;
+			RouteParameters retry_hu_conv = null; if (retry < 0 || retry > 4096) { retry_hu_conv = new RouteParameters(null, retry); }
+			retry_hu_conv.ptrs_to.add(this);
+			this.retry = retry_hu_conv;
 		}
 	}
 	public final static class PendingHTLCsForwardable extends Event {
@@ -299,7 +352,7 @@ public class Event extends CommonBase {
 	 */
 	public Event clone() {
 		long ret = bindings.Event_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -310,7 +363,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event funding_generation_ready(byte[] temporary_channel_id, long channel_value_satoshis, byte[] output_script, long user_channel_id) {
 		long ret = bindings.Event_funding_generation_ready(temporary_channel_id, channel_value_satoshis, output_script, user_channel_id);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -321,7 +374,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event payment_received(byte[] payment_hash, long amt, PaymentPurpose purpose) {
 		long ret = bindings.Event_payment_received(payment_hash, amt, purpose.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -330,9 +383,9 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentSent-variant Event
 	 */
-	public static Event payment_sent(byte[] payment_preimage, byte[] payment_hash) {
-		long ret = bindings.Event_payment_sent(payment_preimage, payment_hash);
-		if (ret >= 0 && ret < 1024) { return null; }
+	public static Event payment_sent(byte[] payment_id, byte[] payment_preimage, byte[] payment_hash, Option_u64Z fee_paid_msat) {
+		long ret = bindings.Event_payment_sent(payment_id, payment_preimage, payment_hash, fee_paid_msat.ptr);
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -341,9 +394,9 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
-	public static Event payment_path_failed(byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id) {
-		long ret = bindings.Event_payment_path_failed(payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id, RouteParameters retry) {
+		long ret = bindings.Event_payment_path_failed(payment_id, payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr & ~1);
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -354,7 +407,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event pending_htlcs_forwardable(long time_forwardable) {
 		long ret = bindings.Event_pending_htlcs_forwardable(time_forwardable);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -365,7 +418,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event spendable_outputs(SpendableOutputDescriptor[] outputs) {
 		long ret = bindings.Event_spendable_outputs(outputs != null ? Arrays.stream(outputs).mapToLong(outputs_conv_27 -> outputs_conv_27.ptr).toArray() : null);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -376,7 +429,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event payment_forwarded(Option_u64Z fee_earned_msat, boolean claim_from_onchain_tx) {
 		long ret = bindings.Event_payment_forwarded(fee_earned_msat.ptr, claim_from_onchain_tx);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -387,7 +440,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event channel_closed(byte[] channel_id, long user_channel_id, ClosureReason reason) {
 		long ret = bindings.Event_channel_closed(channel_id, user_channel_id, reason.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -398,7 +451,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event discard_funding(byte[] channel_id, byte[] transaction) {
 		long ret = bindings.Event_discard_funding(channel_id, transaction);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

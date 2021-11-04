@@ -24,8 +24,8 @@ public class NodeId extends CommonBase {
 	 */
 	public NodeId clone() {
 		long ret = bindings.NodeId_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeId ret_hu_conv = new NodeId(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeId(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -35,8 +35,8 @@ public class NodeId extends CommonBase {
 	 */
 	public static NodeId from_pubkey(byte[] pubkey) {
 		long ret = bindings.NodeId_from_pubkey(pubkey);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeId ret_hu_conv = new NodeId(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeId(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -70,7 +70,7 @@ public class NodeId extends CommonBase {
 	 */
 	public static Result_NodeIdDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeId_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NodeIdDecodeErrorZ ret_hu_conv = Result_NodeIdDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

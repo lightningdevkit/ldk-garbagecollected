@@ -19,13 +19,33 @@ public class MinFinalCltvExpiry extends CommonBase {
 		if (ptr != 0) { bindings.MinFinalCltvExpiry_free(ptr); }
 	}
 
+	public long get_a() {
+		long ret = bindings.MinFinalCltvExpiry_get_a(this.ptr);
+		return ret;
+	}
+
+	public void set_a(long val) {
+		bindings.MinFinalCltvExpiry_set_a(this.ptr, val);
+	}
+
+	/**
+	 * Constructs a new MinFinalCltvExpiry given each field
+	 */
+	public static MinFinalCltvExpiry of(long a_arg) {
+		long ret = bindings.MinFinalCltvExpiry_new(a_arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		MinFinalCltvExpiry ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new MinFinalCltvExpiry(null, ret); }
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	/**
 	 * Creates a copy of the MinFinalCltvExpiry
 	 */
 	public MinFinalCltvExpiry clone() {
 		long ret = bindings.MinFinalCltvExpiry_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		MinFinalCltvExpiry ret_hu_conv = new MinFinalCltvExpiry(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		MinFinalCltvExpiry ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new MinFinalCltvExpiry(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

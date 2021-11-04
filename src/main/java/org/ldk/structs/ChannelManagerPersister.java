@@ -39,7 +39,7 @@ public class ChannelManagerPersister extends CommonBase {
 		final LDKChannelManagerPersisterHolder impl_holder = new LDKChannelManagerPersisterHolder();
 		impl_holder.held = new ChannelManagerPersister(new bindings.LDKChannelManagerPersister() {
 			@Override public long persist_manager(long channel_manager) {
-				ChannelManager channel_manager_hu_conv = new ChannelManager(null, channel_manager);
+				ChannelManager channel_manager_hu_conv = null; if (channel_manager < 0 || channel_manager > 4096) { channel_manager_hu_conv = new ChannelManager(null, channel_manager); }
 				Result_NoneErrorZ ret = arg.persist_manager(channel_manager_hu_conv);
 				long result = ret != null ? ret.ptr : 0;
 				return result;
@@ -55,7 +55,7 @@ public class ChannelManagerPersister extends CommonBase {
 	 */
 	public Result_NoneErrorZ persist_manager(ChannelManager channel_manager) {
 		long ret = bindings.ChannelManagerPersister_persist_manager(this.ptr, channel_manager == null ? 0 : channel_manager.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(channel_manager);
 		return ret_hu_conv;

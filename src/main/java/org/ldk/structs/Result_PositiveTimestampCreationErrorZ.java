@@ -24,7 +24,7 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 		private Result_PositiveTimestampCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_PositiveTimestampCreationErrorZ_get_ok(ptr);
-			PositiveTimestamp res_hu_conv = new PositiveTimestamp(null, res);
+			PositiveTimestamp res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new PositiveTimestamp(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -43,7 +43,7 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 	 */
 	public static Result_PositiveTimestampCreationErrorZ ok(PositiveTimestamp o) {
 		long ret = bindings.CResult_PositiveTimestampCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 	 */
 	public static Result_PositiveTimestampCreationErrorZ err(org.ldk.enums.CreationError e) {
 		long ret = bindings.CResult_PositiveTimestampCreationErrorZ_err(e);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 	 */
 	public Result_PositiveTimestampCreationErrorZ clone() {
 		long ret = bindings.CResult_PositiveTimestampCreationErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

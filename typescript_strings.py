@@ -120,9 +120,10 @@ void *malloc(size_t size);
 void free(void *ptr);
 
 #define MALLOC(a, _) malloc(a)
-#define FREE(p) if ((unsigned long)(p) > 1024) { free(p); }
+#define FREE(p) if ((unsigned long)(p) > 4096) { free(p); }
 #define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
+#define CHECK_ACCESS(p)
 """
         else:
             self.c_file_pfx = self.c_file_pfx + """
@@ -174,9 +175,19 @@ static void alloc_freed(void* ptr) {
 	__real_free(it);
 }
 static void FREE(void* ptr) {
-	if ((unsigned long)ptr < 1024) return; // Rust loves to create pointers to the NULL page for dummys
+	if ((unsigned long)ptr <= 4096) return; // Rust loves to create pointers to the NULL page for dummys
 	alloc_freed(ptr);
 	__real_free(ptr);
+}
+
+static void CHECK_ACCESS(void* ptr) {
+	allocation* it = allocation_ll;
+	while (it->ptr != ptr) {
+		it = it->next;
+		if (it == NULL) {
+			return; // addrsan should catch malloc-unknown and print more info than we have
+		}
+	}
 }
 
 void* __wrap_malloc(size_t len) {

@@ -36,8 +36,8 @@ public class NodeInfo extends CommonBase {
 	@Nullable
 	public RoutingFees get_lowest_inbound_channel_fees() {
 		long ret = bindings.NodeInfo_get_lowest_inbound_channel_fees(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		RoutingFees ret_hu_conv = new RoutingFees(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		RoutingFees ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RoutingFees(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -63,8 +63,8 @@ public class NodeInfo extends CommonBase {
 	@Nullable
 	public NodeAnnouncementInfo get_announcement_info() {
 		long ret = bindings.NodeInfo_get_announcement_info(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeAnnouncementInfo ret_hu_conv = new NodeAnnouncementInfo(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeAnnouncementInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncementInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -85,8 +85,8 @@ public class NodeInfo extends CommonBase {
 	 */
 	public static NodeInfo of(long[] channels_arg, RoutingFees lowest_inbound_channel_fees_arg, NodeAnnouncementInfo announcement_info_arg) {
 		long ret = bindings.NodeInfo_new(channels_arg, lowest_inbound_channel_fees_arg == null ? 0 : lowest_inbound_channel_fees_arg.ptr & ~1, announcement_info_arg == null ? 0 : announcement_info_arg.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeInfo ret_hu_conv = new NodeInfo(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -96,8 +96,8 @@ public class NodeInfo extends CommonBase {
 	 */
 	public NodeInfo clone() {
 		long ret = bindings.NodeInfo_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeInfo ret_hu_conv = new NodeInfo(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -115,7 +115,7 @@ public class NodeInfo extends CommonBase {
 	 */
 	public static Result_NodeInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeInfo_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NodeInfoDecodeErrorZ ret_hu_conv = Result_NodeInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

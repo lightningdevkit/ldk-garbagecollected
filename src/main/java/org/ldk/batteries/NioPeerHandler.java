@@ -174,10 +174,11 @@ public class NioPeerHandler {
                                 if (chan == null) continue;
                                 try {
                                     Peer peer = setup_socket(chan);
+                                    peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer);
                                     Result_NonePeerHandleErrorZ res = this.peer_manager.new_inbound_connection(peer.descriptor);
-                                    if (res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_OK) {
-                                        peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer);
-                                    }
+                                    if (res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_Err) {
+										peer.descriptor.disconnect_socket();
+									}
                                 } catch (IOException ignored) { }
                             }
                             continue; // There is no attachment so the rest of the loop is useless
@@ -273,14 +274,17 @@ public class NioPeerHandler {
             throw new IOException("Timed out");
         }
         Peer peer = setup_socket(chan);
+        do_selector_action(() -> peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer));
         Result_CVec_u8ZPeerHandleErrorZ res = this.peer_manager.new_outbound_connection(their_node_id, peer.descriptor);
         if (res instanceof  Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) {
             byte[] initial_bytes = ((Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) res).res;
             if (chan.write(ByteBuffer.wrap(initial_bytes)) != initial_bytes.length) {
+                peer.descriptor.disconnect_socket();
+                this.peer_manager.socket_disconnected(peer.descriptor);
                 throw new IOException("We assume TCP socket buffer is at least a single packet in length");
             }
-            do_selector_action(() -> peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer));
         } else {
+            peer.descriptor.disconnect_socket();
             throw new IOException("LDK rejected outbound connection. This likely shouldn't ever happen.");
         }
     }

@@ -24,7 +24,7 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 		private Result_DescriptionCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_DescriptionCreationErrorZ_get_ok(ptr);
-			Description res_hu_conv = new Description(null, res);
+			Description res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Description(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -43,7 +43,7 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 	 */
 	public static Result_DescriptionCreationErrorZ ok(Description o) {
 		long ret = bindings.CResult_DescriptionCreationErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 	 */
 	public static Result_DescriptionCreationErrorZ err(org.ldk.enums.CreationError e) {
 		long ret = bindings.CResult_DescriptionCreationErrorZ_err(e);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result_DescriptionCreationErrorZ extends CommonBase {
 	 */
 	public Result_DescriptionCreationErrorZ clone() {
 		long ret = bindings.CResult_DescriptionCreationErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_DescriptionCreationErrorZ ret_hu_conv = Result_DescriptionCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

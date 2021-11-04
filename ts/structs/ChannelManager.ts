@@ -96,8 +96,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
-	public Result_NonePaymentSendFailureZ retry_payment(Route route, PaymentId payment_id) {
-		number ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id == null ? 0 : payment_id.ptr & ~1);
+	public Result_NonePaymentSendFailureZ retry_payment(Route route, Uint8Array payment_id) {
+		number ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id);
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
@@ -141,11 +141,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Uint8Array get_our_node_id() {
 		Uint8Array ret = bindings.ChannelManager_get_our_node_id(this.ptr);
 		return ret;
-	}
-
-	public void channel_monitor_updated(OutPoint funding_txo, number highest_applied_update_id) {
-		bindings.ChannelManager_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, highest_applied_update_id);
-		this.ptrs_to.add(funding_txo);
 	}
 
 	public TwoTuple_PaymentHashPaymentSecretZ create_inbound_payment(Option_u64Z min_value_msat, number invoice_expiry_delta_secs, number user_payment_id) {
@@ -215,6 +210,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 	public Uint8Array write() {
 		Uint8Array ret = bindings.ChannelManager_write(this.ptr);
 		return ret;
+	}
+
+	public Payer as_Payer() {
+		number ret = bindings.ChannelManager_as_Payer(this.ptr);
+		Payer ret_hu_conv = new Payer(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
 	}
 
 }

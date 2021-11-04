@@ -17,7 +17,7 @@ jobs:
         run: |
           apt-get update
           apt-get -y dist-upgrade
-          apt-get -y install cargo libstd-rust-dev-wasm32 valgrind lld git g++ clang openjdk-11-jdk maven faketime zip unzip llvm
+          apt-get -y install cargo libstd-rust-dev-wasm32 valgrind lld git g++ clang openjdk-11-jdk maven faketime zip unzip llvm curl
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
@@ -35,7 +35,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.102
+          git checkout 0.0.103
       - name: Rebuild C bindings without STD for WASM
         run: |
           cd ldk-c-bindings
@@ -60,7 +60,16 @@ jobs:
       - name: Checkout latest MacOS binaries
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          git clone --depth 1 https://git.bitcoin.ninja/ldk-java-bins
+          echo "Fetching deterministic binaries for LDK-GC ${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
+          SNAPSHOT_LINK="$(curl "https://git.bitcoin.ninja/index.cgi?p=ldk-java-bins;a=tree;f=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE};hb=refs/heads/main" | grep snapshot | grep -o 'href="[a-zA-Z0-9/?\.=;\-]*"' | sed 's/href="//' | tr -d '"' | grep snapshot)"
+          curl -o bins-snapshot.tgz "https://git.bitcoin.ninja${SNAPSHOT_LINK}"
+          mkdir -p ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          cd ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          tar xvvf ../../bins-snapshot.tgz
+          mv ldk-java-bins-*/* ./
+          rm -r ldk-java-bins-*
+          cd ../..
           mkdir -p src/main/resources/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"* src/main/resources/
       - name: Build Java/TS Release Bindings
@@ -76,24 +85,23 @@ jobs:
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"*.jar
-          rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_Linux*.nativelib
-          cp src/main/resources/liblightningjni_Linux-amd64.nativelib "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-          cp ldk-java-sources.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-          cp ldk-java.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-          cp ldk-java-classes.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-          cp ldk-java-javadoc.jar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-          cd ldk-java-bins
+          mkdir ldk-java-bins/new/
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_Mac*.nativelib ldk-java-bins/new/
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"LDK-release.aar ldk-java-bins/new/
           # ldk-java-leaktracking is only for debug purposes and we don't bother with determinism
-          git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-leaktracking.jar"
-          if ! git diff --exit-code; then
-            mv "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"* ./
-            git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
+          cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"ldk-java-leaktracking.jar ldk-java-bins/new/
+          cp src/main/resources/liblightningjni_Linux-amd64.nativelib ldk-java-bins/new/
+          cp ldk-java-sources.jar ldk-java-bins/new/
+          cp ldk-java.jar ldk-java-bins/new/
+          cp ldk-java-classes.jar ldk-java-bins/new/
+          cp ldk-java-javadoc.jar ldk-java-bins/new/
+          cd ldk-java-bins
+          if ! diff -r "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/" new/; then
             apt-get -y install diffoscope
-            diffoscope ldk-java-sources.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-sources.jar" || echo
-            diffoscope ldk-java-javadoc.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-javadoc.jar" || echo
-            diffoscope ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar" || echo
-            diffoscope ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar" || echo
+            diffoscope new/ldk-java-sources.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-sources.jar" || echo
+            diffoscope new/ldk-java-javadoc.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-javadoc.jar" || echo
+            diffoscope new/ldk-java-classes.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java-classes.jar" || echo
+            diffoscope new/ldk-java.jar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/ldk-java.jar" || echo
             exit 1
           fi
       - name: Run Java Tests against built release jar
@@ -153,9 +161,31 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.102
+          git checkout 0.0.103
       - name: Checkout Android AAR binaries and artifacts
-        run: git clone --depth 1 https://git.bitcoin.ninja/ldk-java-bins
+        run: |
+          # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
+          export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          echo "Fetching deterministic binaries for LDK-GC ${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          RELEASE_PAGE="https://git.bitcoin.ninja/index.cgi?p=ldk-java-bins;a=tree;f=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE};hb=refs/heads/main"
+          SNAPSHOT_LINK="$(curl "$RELEASE_PAGE" | grep snapshot | grep -o 'href="[a-zA-Z0-9/?\.=;\-]*"' | sed 's/href="//' | tr -d '"' | grep snapshot)"
+          curl -o bins-snapshot.tgz "https://git.bitcoin.ninja${SNAPSHOT_LINK}"
+
+          ANDROID_PAGE="https://git.bitcoin.ninja/index.cgi?p=ldk-java-bins;a=tree;f=android-artifacts;hb=refs/heads/main"
+          SNAPSHOT_LINK="$(curl "$ANDROID_PAGE" | grep snapshot | grep -o 'href="[a-zA-Z0-9/?\.=;\-]*"' | sed 's/href="//' | tr -d '"' | grep snapshot)"
+          curl -o android-snapshot.tgz "https://git.bitcoin.ninja${SNAPSHOT_LINK}"
+
+          mkdir -p ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          cd ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          tar xvvf ../../bins-snapshot.tgz
+          mv ldk-java-bins-*/* ./
+          rm -r ldk-java-bins-*
+
+          mkdir -p ../android-artifacts
+          cd ../android-artifacts
+          tar xvvf ../../android-snapshot.tgz
+          mv ldk-java-bins-*/* ./
+          rm -r ldk-java-bins-*
       - name: Build Android aar
         run: |
           . $HOME/.cargo/env
@@ -167,14 +197,9 @@ jobs:
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
-          cp LDK-release.aar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-          cd ldk-java-bins
-          if ! git diff --exit-code; then
-            mv "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar" ./
-            git checkout "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
+          if ! diff LDK-release.aar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"LDK-release.aar; then
             apt-get -y install diffoscope
-            diffoscope LDK-release.aar "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
+            diffoscope LDK-release.aar "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/LDK-release.aar"
             exit 1
           fi
 
@@ -218,7 +243,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.102
+          git checkout 0.0.103
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -238,7 +263,15 @@ jobs:
       - name: Checkout latest Linux binaries
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-          git clone --depth 1 https://git.bitcoin.ninja/ldk-java-bins
+          echo "Fetching deterministic binaries for LDK-GC ${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
+          SNAPSHOT_LINK="$(wget -O /dev/stdout "https://git.bitcoin.ninja/index.cgi?p=ldk-java-bins;a=tree;f=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE};hb=refs/heads/main" | grep snapshot | grep -o 'href="[a-zA-Z0-9/?\.=;\-]*"' | sed 's/href="//' | tr -d '"' | grep snapshot)"
+          wget -O bins-snapshot.tgz "https://git.bitcoin.ninja${SNAPSHOT_LINK}"
+          mkdir -p ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          cd ldk-java-bins/"${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}"
+          tar xvvf ../../bins-snapshot.tgz
+          mv ldk-java-bins-*/* ./
+          cd ../..
           mkdir -p src/main/resources/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_Linux-"* src/main/resources/
       - name: Build Java/TS Release Bindings
@@ -280,11 +313,9 @@ jobs:
         run: |
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
             export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
-            rm "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-{x86_64,aarch64}.nativelib
-            cp src/main/resources/liblightningjni_MacOSX-*.nativelib "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"
-            cd ldk-java-bins
             # Sadly, OSX binaries are not currently deterministic, more debugging is needed.
-            #git diff --exit-code
+            diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-x86_64.nativelib src/main/resources/liblightningjni_MacOSX-x86_64.nativelib || echo
+            diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-aarch64.nativelib src/main/resources/liblightningjni_MacOSX-aarch64.nativelib || echo
           fi
       - name: Run Java Tests against release bins
         run: |

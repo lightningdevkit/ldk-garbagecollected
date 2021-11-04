@@ -16,13 +16,10 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 		}
 	}
 	public static final class Result_PaymentIdPaymentSendFailureZ_OK extends Result_PaymentIdPaymentSendFailureZ {
-		public final PaymentId res;
+		public final Uint8Array res;
 		private Result_PaymentIdPaymentSendFailureZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			number res = bindings.LDKCResult_PaymentIdPaymentSendFailureZ_get_ok(ptr);
-			const res_hu_conv: PaymentId = new PaymentId(null, res);
-			res_hu_conv.ptrs_to.add(this);
-			this.res = res_hu_conv;
+			this.res = bindings.LDKCResult_PaymentIdPaymentSendFailureZ_get_ok(ptr);
 		}
 	}
 
@@ -37,8 +34,8 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 		}
 	}
 
-	public static Result_PaymentIdPaymentSendFailureZ constructor_ok(PaymentId o) {
-		number ret = bindings.CResult_PaymentIdPaymentSendFailureZ_ok(o == null ? 0 : o.ptr & ~1);
+	public static Result_PaymentIdPaymentSendFailureZ constructor_ok(Uint8Array o) {
+		number ret = bindings.CResult_PaymentIdPaymentSendFailureZ_ok(o);
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -43,7 +43,7 @@ public class NetworkUpdate extends CommonBase {
 		private ChannelUpdateMessage(long ptr, bindings.LDKNetworkUpdate.ChannelUpdateMessage obj) {
 			super(null, ptr);
 			long msg = obj.msg;
-			ChannelUpdate msg_hu_conv = new ChannelUpdate(null, msg);
+			ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelUpdate(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -85,7 +85,7 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public NetworkUpdate clone() {
 		long ret = bindings.NetworkUpdate_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -96,7 +96,7 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public static NetworkUpdate channel_update_message(ChannelUpdate msg) {
 		long ret = bindings.NetworkUpdate_channel_update_message(msg == null ? 0 : msg.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -107,7 +107,7 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public static NetworkUpdate channel_closed(long short_channel_id, boolean is_permanent) {
 		long ret = bindings.NetworkUpdate_channel_closed(short_channel_id, is_permanent);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -118,7 +118,7 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public static NetworkUpdate node_failure(byte[] node_id, boolean is_permanent) {
 		long ret = bindings.NetworkUpdate_node_failure(node_id, is_permanent);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

@@ -24,8 +24,8 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 */
 	public NodeFeatures get_features() {
 		long ret = bindings.UnsignedNodeAnnouncement_get_features(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -113,8 +113,8 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 */
 	public UnsignedNodeAnnouncement clone() {
 		long ret = bindings.UnsignedNodeAnnouncement_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		UnsignedNodeAnnouncement ret_hu_conv = new UnsignedNodeAnnouncement(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		UnsignedNodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UnsignedNodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -132,7 +132,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 */
 	public static Result_UnsignedNodeAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UnsignedNodeAnnouncement_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UnsignedNodeAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

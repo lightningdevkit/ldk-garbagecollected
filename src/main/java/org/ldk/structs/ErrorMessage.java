@@ -60,8 +60,8 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public static ErrorMessage of(byte[] channel_id_arg, java.lang.String data_arg) {
 		long ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ErrorMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ErrorMessage(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -71,8 +71,8 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public ErrorMessage clone() {
 		long ret = bindings.ErrorMessage_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ErrorMessage ret_hu_conv = new ErrorMessage(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ErrorMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ErrorMessage(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -90,7 +90,7 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public static Result_ErrorMessageDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ErrorMessage_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

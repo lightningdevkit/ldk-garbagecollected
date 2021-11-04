@@ -24,7 +24,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 		private Result_TxCreationKeysDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_TxCreationKeysDecodeErrorZ_get_ok(ptr);
-			TxCreationKeys res_hu_conv = new TxCreationKeys(null, res);
+			TxCreationKeys res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new TxCreationKeys(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -35,7 +35,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 		private Result_TxCreationKeysDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_TxCreationKeysDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -46,7 +46,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_TxCreationKeysDecodeErrorZ ok(TxCreationKeys o) {
 		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysDecodeErrorZ ret_hu_conv = Result_TxCreationKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_TxCreationKeysDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysDecodeErrorZ ret_hu_conv = Result_TxCreationKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_TxCreationKeysDecodeErrorZ extends CommonBase {
 	 */
 	public Result_TxCreationKeysDecodeErrorZ clone() {
 		long ret = bindings.CResult_TxCreationKeysDecodeErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysDecodeErrorZ ret_hu_conv = Result_TxCreationKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

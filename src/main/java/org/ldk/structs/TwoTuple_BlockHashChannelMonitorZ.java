@@ -32,8 +32,8 @@ public class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	 */
 	public ChannelMonitor get_b() {
 		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_get_b(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ChannelMonitor ret_hu_conv = new ChannelMonitor(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ChannelMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelMonitor(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -44,7 +44,7 @@ public class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	 */
 	public TwoTuple_BlockHashChannelMonitorZ clone() {
 		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_BlockHashChannelMonitorZ ret_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -55,7 +55,7 @@ public class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	 */
 	public static TwoTuple_BlockHashChannelMonitorZ of(byte[] a, ChannelMonitor b) {
 		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_new(a, b == null ? 0 : b.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_BlockHashChannelMonitorZ ret_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

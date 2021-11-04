@@ -24,7 +24,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 		private Result_ClosingSignedDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_ClosingSignedDecodeErrorZ_get_ok(ptr);
-			ClosingSigned res_hu_conv = new ClosingSigned(null, res);
+			ClosingSigned res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ClosingSigned(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -35,7 +35,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 		private Result_ClosingSignedDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_ClosingSignedDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -46,7 +46,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ClosingSignedDecodeErrorZ ok(ClosingSigned o) {
 		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ClosingSignedDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_ClosingSignedDecodeErrorZ extends CommonBase {
 	 */
 	public Result_ClosingSignedDecodeErrorZ clone() {
 		long ret = bindings.CResult_ClosingSignedDecodeErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedDecodeErrorZ ret_hu_conv = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

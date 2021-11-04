@@ -18,6 +18,22 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.PayeePubKey_free(this.ptr);
                     }
                 }
+	public Uint8Array get_a() {
+		Uint8Array ret = bindings.PayeePubKey_get_a(this.ptr);
+		return ret;
+	}
+
+	public void set_a(Uint8Array val) {
+		bindings.PayeePubKey_set_a(this.ptr, val);
+	}
+
+	public static PayeePubKey constructor_new(Uint8Array a_arg) {
+		number ret = bindings.PayeePubKey_new(a_arg);
+		const ret_hu_conv: PayeePubKey = new PayeePubKey(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	public PayeePubKey clone() {
 		number ret = bindings.PayeePubKey_clone(this.ptr);
 		const ret_hu_conv: PayeePubKey = new PayeePubKey(null, ret);

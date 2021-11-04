@@ -85,7 +85,7 @@ public class PaymentPurpose extends CommonBase {
 	 */
 	public PaymentPurpose clone() {
 		long ret = bindings.PaymentPurpose_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -96,7 +96,7 @@ public class PaymentPurpose extends CommonBase {
 	 */
 	public static PaymentPurpose invoice_payment(byte[] payment_preimage, byte[] payment_secret, long user_payment_id) {
 		long ret = bindings.PaymentPurpose_invoice_payment(payment_preimage, payment_secret, user_payment_id);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -107,7 +107,7 @@ public class PaymentPurpose extends CommonBase {
 	 */
 	public static PaymentPurpose spontaneous_payment(byte[] a) {
 		long ret = bindings.PaymentPurpose_spontaneous_payment(a);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

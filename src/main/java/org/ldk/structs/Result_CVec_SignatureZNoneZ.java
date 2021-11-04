@@ -38,7 +38,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_SignatureZNoneZ ok(byte[][] o) {
 		long ret = bindings.CResult_CVec_SignatureZNoneZ_ok(o);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -48,7 +48,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_SignatureZNoneZ err() {
 		long ret = bindings.CResult_CVec_SignatureZNoneZ_err();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -59,7 +59,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	 */
 	public Result_CVec_SignatureZNoneZ clone() {
 		long ret = bindings.CResult_CVec_SignatureZNoneZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

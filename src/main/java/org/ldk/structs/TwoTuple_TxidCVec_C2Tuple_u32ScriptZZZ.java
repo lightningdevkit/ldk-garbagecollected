@@ -48,7 +48,7 @@ public class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	 */
 	public TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ clone() {
 		long ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ ret_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -59,7 +59,7 @@ public class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	 */
 	public static TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ of(byte[] a, TwoTuple_u32ScriptZ[] b) {
 		long ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(a, b != null ? Arrays.stream(b).mapToLong(b_conv_21 -> b_conv_21 != null ? b_conv_21.ptr : 0).toArray() : null);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ ret_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

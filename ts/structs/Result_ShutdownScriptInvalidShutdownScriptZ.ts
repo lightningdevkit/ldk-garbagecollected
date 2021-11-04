@@ -43,8 +43,14 @@ public class Result_ShutdownScriptInvalidShutdownScriptZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static Result_ShutdownScriptInvalidShutdownScriptZ constructor_err(Uint8Array e_script_arg) {
-		number ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_err(bindings.InvalidShutdownScript_new(e_script_arg));
+	public static Result_ShutdownScriptInvalidShutdownScriptZ constructor_err(InvalidShutdownScript e) {
+		number ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_err(e == null ? 0 : e.ptr & ~1);
+		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_ShutdownScriptInvalidShutdownScriptZ clone() {
+		number ret = bindings.CResult_ShutdownScriptInvalidShutdownScriptZ_clone(this.ptr);
 		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

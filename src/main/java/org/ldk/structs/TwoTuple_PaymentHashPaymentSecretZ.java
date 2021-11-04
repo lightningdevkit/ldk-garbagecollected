@@ -41,7 +41,7 @@ public class TwoTuple_PaymentHashPaymentSecretZ extends CommonBase {
 	 */
 	public TwoTuple_PaymentHashPaymentSecretZ clone() {
 		long ret = bindings.C2Tuple_PaymentHashPaymentSecretZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_PaymentHashPaymentSecretZ ret_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -52,7 +52,7 @@ public class TwoTuple_PaymentHashPaymentSecretZ extends CommonBase {
 	 */
 	public static TwoTuple_PaymentHashPaymentSecretZ of(byte[] a, byte[] b) {
 		long ret = bindings.C2Tuple_PaymentHashPaymentSecretZ_new(a, b);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_PaymentHashPaymentSecretZ ret_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

@@ -18,6 +18,18 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ClosingTransaction_free(this.ptr);
                     }
                 }
+	public ClosingTransaction clone() {
+		number ret = bindings.ClosingTransaction_clone(this.ptr);
+		const ret_hu_conv: ClosingTransaction = new ClosingTransaction(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public number hash() {
+		number ret = bindings.ClosingTransaction_hash(this.ptr);
+		return ret;
+	}
+
 	public static ClosingTransaction constructor_new(number to_holder_value_sat, number to_counterparty_value_sat, Uint8Array to_holder_script, Uint8Array to_counterparty_script, OutPoint funding_outpoint) {
 		number ret = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
 		const ret_hu_conv: ClosingTransaction = new ClosingTransaction(null, ret);

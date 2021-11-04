@@ -99,8 +99,8 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public UpdateAddHTLC clone() {
 		long ret = bindings.UpdateAddHTLC_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		UpdateAddHTLC ret_hu_conv = new UpdateAddHTLC(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		UpdateAddHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateAddHTLC(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -118,7 +118,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public static Result_UpdateAddHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateAddHTLC_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

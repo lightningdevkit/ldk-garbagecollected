@@ -24,7 +24,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 		private Result_UpdateFailHTLCDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_UpdateFailHTLCDecodeErrorZ_get_ok(ptr);
-			UpdateFailHTLC res_hu_conv = new UpdateFailHTLC(null, res);
+			UpdateFailHTLC res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new UpdateFailHTLC(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -35,7 +35,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 		private Result_UpdateFailHTLCDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_UpdateFailHTLCDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -46,7 +46,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UpdateFailHTLCDecodeErrorZ ok(UpdateFailHTLC o) {
 		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_UpdateFailHTLCDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -67,7 +67,7 @@ public class Result_UpdateFailHTLCDecodeErrorZ extends CommonBase {
 	 */
 	public Result_UpdateFailHTLCDecodeErrorZ clone() {
 		long ret = bindings.CResult_UpdateFailHTLCDecodeErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFailHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

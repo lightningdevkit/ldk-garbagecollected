@@ -32,8 +32,26 @@ import * as bindings from '../bindings' // TODO: figure out location
                     const impl_holder: LDKScoreHolder = new LDKScoreHolder();
                     let structImplementation = <bindings.LDKScore>{
                         // todo: in-line interface filling
-                        channel_penalty_msat (short_channel_id: number): number {
-							number ret = arg.channel_penalty_msat(short_channel_id);
+                        channel_penalty_msat (short_channel_id: number, source: number, target: number): number {
+							const source_hu_conv: NodeId = new NodeId(null, source);
+							const target_hu_conv: NodeId = new NodeId(null, target);
+							number ret = arg.channel_penalty_msat(short_channel_id, source_hu_conv, target_hu_conv);
+				return ret;
+						},
+
+						payment_path_failed (path: number[], short_channel_id: number): void {
+							RouteHop[] path_conv_10_arr = new RouteHop[path.length];
+				for (int k = 0; k < path.length; k++) {
+					number path_conv_10 = path[k];
+					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
+					path_conv_10_hu_conv.ptrs_to.add(this);
+					path_conv_10_arr[k] = path_conv_10_hu_conv;
+				}
+							arg.payment_path_failed(path_conv_10_arr, short_channel_id);
+						},
+
+						write (): Uint8Array {
+							Uint8Array ret = arg.write();
 				return ret;
 						},
 
@@ -44,15 +62,28 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 
             export interface ScoreInterface {
-                channel_penalty_msat(short_channel_id: number): number;
+                channel_penalty_msat(short_channel_id: number, source: NodeId, target: NodeId): number;
+				payment_path_failed(path: RouteHop[], short_channel_id: number): void;
+				write(): Uint8Array;
 				
             }
 
             class LDKScoreHolder {
                 held: Score;
             }
-	public number channel_penalty_msat(number short_channel_id) {
-		number ret = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id);
+	public number channel_penalty_msat(number short_channel_id, NodeId source, NodeId target) {
+		number ret = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, source == null ? 0 : source.ptr & ~1, target == null ? 0 : target.ptr & ~1);
+		this.ptrs_to.add(source);
+		this.ptrs_to.add(target);
+		return ret;
+	}
+
+	public void payment_path_failed(RouteHop[] path, number short_channel_id) {
+		bindings.Score_payment_path_failed(this.ptr, path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null, short_channel_id);
+	}
+
+	public Uint8Array write() {
+		Uint8Array ret = bindings.Score_write(this.ptr);
 		return ret;
 	}
 

@@ -24,7 +24,7 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 		private Result_InvoiceSemanticErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_InvoiceSemanticErrorZ_get_ok(ptr);
-			Invoice res_hu_conv = new Invoice(null, res);
+			Invoice res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Invoice(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -43,7 +43,7 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 	 */
 	public static Result_InvoiceSemanticErrorZ ok(Invoice o) {
 		long ret = bindings.CResult_InvoiceSemanticErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -53,7 +53,7 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 	 */
 	public static Result_InvoiceSemanticErrorZ err(org.ldk.enums.SemanticError e) {
 		long ret = bindings.CResult_InvoiceSemanticErrorZ_err(e);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -64,7 +64,7 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 	 */
 	public Result_InvoiceSemanticErrorZ clone() {
 		long ret = bindings.CResult_InvoiceSemanticErrorZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSemanticErrorZ ret_hu_conv = Result_InvoiceSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

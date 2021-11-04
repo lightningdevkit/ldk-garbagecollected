@@ -24,7 +24,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 		private Result_TrustedCommitmentTransactionNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_TrustedCommitmentTransactionNoneZ_get_ok(ptr);
-			TrustedCommitmentTransaction res_hu_conv = new TrustedCommitmentTransaction(null, res);
+			TrustedCommitmentTransaction res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new TrustedCommitmentTransaction(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -41,7 +41,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 	 */
 	public static Result_TrustedCommitmentTransactionNoneZ ok(TrustedCommitmentTransaction o) {
 		long ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(o);
 		// Due to rust's strict-ownership memory model, in some cases we need to "move"
@@ -60,7 +60,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 	 */
 	public static Result_TrustedCommitmentTransactionNoneZ err() {
 		long ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_err();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -105,7 +105,7 @@ public class Balance extends CommonBase {
 	 */
 	public Balance clone() {
 		long ret = bindings.Balance_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
@@ -116,7 +116,7 @@ public class Balance extends CommonBase {
 	 */
 	public static Balance claimable_on_channel_close(long claimable_amount_satoshis) {
 		long ret = bindings.Balance_claimable_on_channel_close(claimable_amount_satoshis);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -127,7 +127,7 @@ public class Balance extends CommonBase {
 	 */
 	public static Balance claimable_awaiting_confirmations(long claimable_amount_satoshis, int confirmation_height) {
 		long ret = bindings.Balance_claimable_awaiting_confirmations(claimable_amount_satoshis, confirmation_height);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -138,7 +138,7 @@ public class Balance extends CommonBase {
 	 */
 	public static Balance contentious_claimable(long claimable_amount_satoshis, int timeout_height) {
 		long ret = bindings.Balance_contentious_claimable(claimable_amount_satoshis, timeout_height);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -149,7 +149,7 @@ public class Balance extends CommonBase {
 	 */
 	public static Balance maybe_claimable_htlcawaiting_timeout(long claimable_amount_satoshis, int claimable_height) {
 		long ret = bindings.Balance_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis, claimable_height);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

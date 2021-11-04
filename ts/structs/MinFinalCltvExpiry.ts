@@ -18,6 +18,22 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.MinFinalCltvExpiry_free(this.ptr);
                     }
                 }
+	public number get_a() {
+		number ret = bindings.MinFinalCltvExpiry_get_a(this.ptr);
+		return ret;
+	}
+
+	public void set_a(number val) {
+		bindings.MinFinalCltvExpiry_set_a(this.ptr, val);
+	}
+
+	public static MinFinalCltvExpiry constructor_new(number a_arg) {
+		number ret = bindings.MinFinalCltvExpiry_new(a_arg);
+		const ret_hu_conv: MinFinalCltvExpiry = new MinFinalCltvExpiry(null, ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	public MinFinalCltvExpiry clone() {
 		number ret = bindings.MinFinalCltvExpiry_clone(this.ptr);
 		const ret_hu_conv: MinFinalCltvExpiry = new MinFinalCltvExpiry(null, ret);

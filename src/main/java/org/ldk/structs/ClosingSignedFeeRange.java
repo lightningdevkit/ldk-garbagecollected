@@ -60,8 +60,8 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public static ClosingSignedFeeRange of(long min_fee_satoshis_arg, long max_fee_satoshis_arg) {
 		long ret = bindings.ClosingSignedFeeRange_new(min_fee_satoshis_arg, max_fee_satoshis_arg);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ClosingSignedFeeRange ret_hu_conv = new ClosingSignedFeeRange(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ClosingSignedFeeRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingSignedFeeRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -71,8 +71,8 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public ClosingSignedFeeRange clone() {
 		long ret = bindings.ClosingSignedFeeRange_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ClosingSignedFeeRange ret_hu_conv = new ClosingSignedFeeRange(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ClosingSignedFeeRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingSignedFeeRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -90,7 +90,7 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ClosingSignedFeeRange_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

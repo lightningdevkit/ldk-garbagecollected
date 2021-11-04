@@ -38,7 +38,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	 */
 	public static Result_SignatureNoneZ ok(byte[] o) {
 		long ret = bindings.CResult_SignatureNoneZ_ok(o);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -48,7 +48,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	 */
 	public static Result_SignatureNoneZ err() {
 		long ret = bindings.CResult_SignatureNoneZ_err();
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -59,7 +59,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	 */
 	public Result_SignatureNoneZ clone() {
 		long ret = bindings.CResult_SignatureNoneZ_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

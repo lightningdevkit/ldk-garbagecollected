@@ -87,6 +87,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public boolean is_expired() {
+		boolean ret = bindings.Invoice_is_expired(this.ptr);
+		return ret;
+	}
+
 	public number min_final_cltv_expiry() {
 		number ret = bindings.Invoice_min_final_cltv_expiry(this.ptr);
 		return ret;
@@ -121,8 +126,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public Option_u64Z amount_pico_btc() {
-		number ret = bindings.Invoice_amount_pico_btc(this.ptr);
+	public Option_u64Z amount_milli_satoshis() {
+		number ret = bindings.Invoice_amount_milli_satoshis(this.ptr);
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

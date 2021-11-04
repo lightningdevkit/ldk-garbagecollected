@@ -40,8 +40,8 @@ public class RouteHop extends CommonBase {
 	 */
 	public NodeFeatures get_node_features() {
 		long ret = bindings.RouteHop_get_node_features(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		NodeFeatures ret_hu_conv = new NodeFeatures(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -75,8 +75,8 @@ public class RouteHop extends CommonBase {
 	 */
 	public ChannelFeatures get_channel_features() {
 		long ret = bindings.RouteHop_get_channel_features(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		ChannelFeatures ret_hu_conv = new ChannelFeatures(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ChannelFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -130,8 +130,8 @@ public class RouteHop extends CommonBase {
 	 */
 	public static RouteHop of(byte[] pubkey_arg, NodeFeatures node_features_arg, long short_channel_id_arg, ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
 		long ret = bindings.RouteHop_new(pubkey_arg, node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
-		if (ret >= 0 && ret < 1024) { return null; }
-		RouteHop ret_hu_conv = new RouteHop(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		RouteHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHop(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -141,8 +141,8 @@ public class RouteHop extends CommonBase {
 	 */
 	public RouteHop clone() {
 		long ret = bindings.RouteHop_clone(this.ptr);
-		if (ret >= 0 && ret < 1024) { return null; }
-		RouteHop ret_hu_conv = new RouteHop(null, ret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		RouteHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHop(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -179,7 +179,7 @@ public class RouteHop extends CommonBase {
 	 */
 	public static Result_RouteHopDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.RouteHop_read(ser);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteHopDecodeErrorZ ret_hu_conv = Result_RouteHopDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

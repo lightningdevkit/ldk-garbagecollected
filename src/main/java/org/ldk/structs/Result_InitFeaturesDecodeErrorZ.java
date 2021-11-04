@@ -24,7 +24,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 		private Result_InitFeaturesDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.LDKCResult_InitFeaturesDecodeErrorZ_get_ok(ptr);
-			InitFeatures res_hu_conv = new InitFeatures(null, res);
+			InitFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new InitFeatures(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}
@@ -35,7 +35,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 		private Result_InitFeaturesDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.LDKCResult_InitFeaturesDecodeErrorZ_get_err(ptr);
-			DecodeError err_hu_conv = new DecodeError(null, err);
+			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
@@ -46,7 +46,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_InitFeaturesDecodeErrorZ ok(InitFeatures o) {
 		long ret = bindings.CResult_InitFeaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InitFeaturesDecodeErrorZ ret_hu_conv = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -56,7 +56,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_InitFeaturesDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_InitFeaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
-		if (ret >= 0 && ret < 1024) { return null; }
+		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InitFeaturesDecodeErrorZ ret_hu_conv = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

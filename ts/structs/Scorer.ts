@@ -18,8 +18,8 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.Scorer_free(this.ptr);
                     }
                 }
-	public static Scorer constructor_new(number base_penalty_msat) {
-		number ret = bindings.Scorer_new(base_penalty_msat);
+	public static Scorer constructor_new(number params_base_penalty_msat_arg, number params_failure_penalty_msat_arg, number params_failure_penalty_half_life_arg) {
+		number ret = bindings.Scorer_new(bindings.ScoringParameters_new(params_base_penalty_msat_arg, params_failure_penalty_msat_arg, params_failure_penalty_half_life_arg));
 		const ret_hu_conv: Scorer = new Scorer(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -36,6 +36,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.Scorer_as_Score(this.ptr);
 		Score ret_hu_conv = new Score(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public Uint8Array write() {
+		Uint8Array ret = bindings.Scorer_write(this.ptr);
+		return ret;
+	}
+
+	public static Result_ScorerDecodeErrorZ constructor_read(Uint8Array ser) {
+		number ret = bindings.Scorer_read(ser);
+		Result_ScorerDecodeErrorZ ret_hu_conv = Result_ScorerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
