@@ -68,9 +68,9 @@ public class ChannelManagerConstructor {
      *               Note that if the provided Watch is a ChainWatch and has an associated filter, the previously registered
      *               outputs will be loaded when chain_sync_completed is called.
      */
-    public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized,
-                                     KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor, @Nullable Filter filter,
-                                     @Nullable NetworkGraph net_graph,
+    public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized, UserConfig config,
+                                     KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
+                                     @Nullable Filter filter, @Nullable NetworkGraph net_graph,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
@@ -86,7 +86,7 @@ public class ChannelManagerConstructor {
         }
         Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
                 UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
-                        logger, UserConfig.with_default(), monitors);
+                        logger, config, monitors);
         if (res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err) {
             throw new InvalidSerializedDataException();
         }

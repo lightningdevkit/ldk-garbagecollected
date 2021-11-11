@@ -404,11 +404,13 @@ class HumanObjectPeerTestInstance {
                         filter_nullable = ((Option_FilterZ.Some) this.filter).some;
                     }
                     if (use_ignore_handler) {
-                        this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
-                                this.fee_estimator, this.chain_monitor, filter_nullable, null, this.tx_broadcaster, this.logger);
+                        this.constructor = new ChannelManagerConstructor(serialized, monitors, UserConfig.with_default(),
+                                this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
+                                null, this.tx_broadcaster, this.logger);
                     } else {
-                        this.constructor = new ChannelManagerConstructor(serialized, monitors, this.keys_interface,
-                                this.fee_estimator, this.chain_monitor, filter_nullable, this.router, this.tx_broadcaster, this.logger);
+                        this.constructor = new ChannelManagerConstructor(serialized, monitors, UserConfig.with_default(),
+                                this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
+                                this.router, this.tx_broadcaster, this.logger);
                     }
                     LockableScore scorer = null;
                     if (use_invoice_payer) { scorer = LockableScore.of(Scorer.with_default().as_Score()); }
