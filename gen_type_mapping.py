@@ -371,6 +371,7 @@ class TypeMappingGenerator:
                     # underlying unlike Vecs, and it gives Java more freedom.
                     base_conv = base_conv + "\nFREE((void*)" + ty_info.var_name + ");"
                 if ty_info.rust_obj in self.complex_enums:
+                    to_hu_conv_sfx = ""
                     if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
                         # We really need a full clone here, but for now we just implement
                         # a manual clone explicitly for Option<Trait>s
@@ -378,6 +379,7 @@ class TypeMappingGenerator:
                             assert ty_info.rust_obj.startswith("LDKCOption") # We don't support contained traits for anything else yet
                             optional_ty = ty_info.rust_obj[11:-1]
                             assert "LDK" + optional_ty in self.trait_structs # We don't support contained traits for anything else yet
+                            to_hu_conv_sfx = "this.ptrs_to.add(" + ty_info.var_name + ")"
                             base_conv += "\nif (" + ty_info.var_name + "_conv.tag == " + ty_info.rust_obj + "_Some) {"
                             base_conv += "\n\t// Manually implement clone for Java trait instances"
                             optional_ty_info = self.java_c_types("LDK" + optional_ty + " " + ty_info.var_name, None)
@@ -393,7 +395,7 @@ class TypeMappingGenerator:
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ret_conv, ret_conv_name = ty_info.var_name + "_ref",
                         to_hu_conv = ty_info.java_hu_ty + " " + ty_info.var_name + "_hu_conv = " + ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ");\n" + ty_info.var_name + "_hu_conv.ptrs_to.add(this);",
-                        to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
+                        to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = (ty_info.var_name + ".ptr", to_hu_conv_sfx))
                 if ty_info.rust_obj in self.result_types:
                     if holds_ref:
                         # If we're trying to return a ref, we have to clone.

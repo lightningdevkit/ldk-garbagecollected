@@ -174,7 +174,7 @@ class HumanObjectPeerTestInstance {
         NetGraphMsgHandler route_handler;
         final Watch chain_watch;
         final HashSet<String> filter_additions;
-        final Option_FilterZ filter;
+        Option_FilterZ filter;
         ChannelManager chan_manager;
         PeerManager peer_manager;
         final HashMap<String, ChannelMonitor> monitors; // Wow I forgot just how terrible Java is - we can't put a byte array here.
@@ -387,6 +387,7 @@ class HumanObjectPeerTestInstance {
             }
 
             this.node_id = chan_manager.get_our_node_id();
+            this.filter = null;
             bind_nio();
             System.gc();
         }
@@ -493,6 +494,7 @@ class HumanObjectPeerTestInstance {
                 // the ChannelSigner.
                 this.ptr_to = orig.chan_manager;
             }
+            this.filter = null;
         }
 
         TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] connect_block(Block b, int height, long expected_monitor_update_len) {
