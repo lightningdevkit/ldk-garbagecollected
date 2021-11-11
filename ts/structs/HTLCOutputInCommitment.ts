@@ -51,7 +51,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_payment_hash(Uint8Array val) {
-		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, val);
+		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Option_u32Z get_transaction_output_index() {
@@ -66,10 +66,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static HTLCOutputInCommitment constructor_new(boolean offered_arg, number amount_msat_arg, number cltv_expiry_arg, Uint8Array payment_hash_arg, Option_u32Z transaction_output_index_arg) {
-		number ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, payment_hash_arg, transaction_output_index_arg.ptr);
+		number ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, InternalUtils.check_arr_len(payment_hash_arg, 32), transaction_output_index_arg.ptr);
 		const ret_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.HTLCOutputInCommitment_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public HTLCOutputInCommitment clone() {

@@ -160,6 +160,11 @@ public class CommitmentUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.CommitmentUpdate_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the CommitmentUpdate
 	 */

@@ -9,7 +9,7 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_GossipTimestampFilterDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_GossipTimestampFilterDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_GossipTimestampFilterDecodeErrorZ_is_ok(ptr)) {
 			return new Result_GossipTimestampFilterDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_GossipTimestampFilterDecodeErrorZ_Err(null, ptr);
@@ -47,6 +47,16 @@ public class Result_GossipTimestampFilterDecodeErrorZ extends CommonBase {
 		number ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_GossipTimestampFilterDecodeErrorZ clone() {

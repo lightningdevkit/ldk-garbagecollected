@@ -31,7 +31,7 @@ public class Payee extends CommonBase {
 	 * The node id of the payee.
 	 */
 	public void set_pubkey(byte[] val) {
-		bindings.Payee_set_pubkey(this.ptr, val);
+		bindings.Payee_set_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -111,11 +111,16 @@ public class Payee extends CommonBase {
 	 * Constructs a new Payee given each field
 	 */
 	public static Payee of(byte[] pubkey_arg, InvoiceFeatures features_arg, RouteHint[] route_hints_arg, Option_u64Z expiry_time_arg) {
-		long ret = bindings.Payee_new(pubkey_arg, features_arg == null ? 0 : features_arg.ptr & ~1, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr & ~1).toArray() : null, expiry_time_arg.ptr);
+		long ret = bindings.Payee_new(InternalUtils.check_arr_len(pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, route_hints_arg != null ? Arrays.stream(route_hints_arg).mapToLong(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr & ~1).toArray() : null, expiry_time_arg.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Payee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Payee(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.Payee_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**
@@ -170,7 +175,7 @@ public class Payee extends CommonBase {
 	 * Creates a payee with the node id of the given `pubkey`.
 	 */
 	public static Payee from_node_id(byte[] pubkey) {
-		long ret = bindings.Payee_from_node_id(pubkey);
+		long ret = bindings.Payee_from_node_id(InternalUtils.check_arr_len(pubkey, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Payee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Payee(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -181,7 +186,7 @@ public class Payee extends CommonBase {
 	 * Creates a payee with the node id of the given `pubkey` to use for keysend payments.
 	 */
 	public static Payee for_keysend(byte[] pubkey) {
-		long ret = bindings.Payee_for_keysend(pubkey);
+		long ret = bindings.Payee_for_keysend(InternalUtils.check_arr_len(pubkey, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Payee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Payee(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

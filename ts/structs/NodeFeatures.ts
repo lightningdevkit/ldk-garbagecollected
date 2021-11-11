@@ -24,6 +24,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.NodeFeatures_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public NodeFeatures clone() {
 		number ret = bindings.NodeFeatures_clone(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);

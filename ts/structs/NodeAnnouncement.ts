@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_signature(Uint8Array val) {
-		bindings.NodeAnnouncement_set_signature(this.ptr, val);
+		bindings.NodeAnnouncement_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	public UnsignedNodeAnnouncement get_contents() {
@@ -39,10 +39,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static NodeAnnouncement constructor_new(Uint8Array signature_arg, UnsignedNodeAnnouncement contents_arg) {
-		number ret = bindings.NodeAnnouncement_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
+		number ret = bindings.NodeAnnouncement_new(InternalUtils.check_arr_len(signature_arg, 64), contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.NodeAnnouncement_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public NodeAnnouncement clone() {

@@ -9,7 +9,7 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 	}
 
 	static Result_SecretKeyErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_SecretKeyErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_SecretKeyErrorZ_is_ok(ptr)) {
 			return new Result_SecretKeyErrorZ_OK(null, ptr);
 		} else {
 			return new Result_SecretKeyErrorZ_Err(null, ptr);
@@ -32,7 +32,7 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 	}
 
 	public static Result_SecretKeyErrorZ constructor_ok(Uint8Array o) {
-		number ret = bindings.CResult_SecretKeyErrorZ_ok(o);
+		number ret = bindings.CResult_SecretKeyErrorZ_ok(InternalUtils.check_arr_len(o, 32));
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -41,6 +41,11 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 		number ret = bindings.CResult_SecretKeyErrorZ_err(e);
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_SecretKeyErrorZ_is_ok(this.ptr);
+		return ret;
 	}
 
 }

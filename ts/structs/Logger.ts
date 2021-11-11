@@ -32,8 +32,9 @@ import * as bindings from '../bindings' // TODO: figure out location
                     const impl_holder: LDKLoggerHolder = new LDKLoggerHolder();
                     let structImplementation = <bindings.LDKLogger>{
                         // todo: in-line interface filling
-                        log (record: String): void {
-							arg.log(record);
+                        log (record: number): void {
+							const record_hu_conv: Record = new Record(null, record);
+							arg.log(record_hu_conv);
 						},
 
 						
@@ -43,7 +44,7 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 
             export interface LoggerInterface {
-                log(record: String): void;
+                log(record: Record): void;
 				
             }
 

@@ -84,6 +84,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.SocketDescriptor_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public SocketDescriptor clone() {
 		number ret = bindings.SocketDescriptor_clone(this.ptr);
 		SocketDescriptor ret_hu_conv = new SocketDescriptor(null, ret);

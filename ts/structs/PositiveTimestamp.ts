@@ -24,6 +24,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.PositiveTimestamp_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public PositiveTimestamp clone() {
 		number ret = bindings.PositiveTimestamp_clone(this.ptr);
 		const ret_hu_conv: PositiveTimestamp = new PositiveTimestamp(null, ret);

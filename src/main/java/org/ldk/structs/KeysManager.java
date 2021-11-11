@@ -47,7 +47,7 @@ public class KeysManager extends CommonBase {
 	 * detailed description of the guarantee.
 	 */
 	public static KeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos) {
-		long ret = bindings.KeysManager_new(seed, starting_time_secs, starting_time_nanos);
+		long ret = bindings.KeysManager_new(InternalUtils.check_arr_len(seed, 32), starting_time_secs, starting_time_nanos);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		KeysManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new KeysManager(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -62,7 +62,7 @@ public class KeysManager extends CommonBase {
 	 * onchain output detection for which a corresponding delayed_payment_key must be derived.
 	 */
 	public InMemorySigner derive_channel_keys(long channel_value_satoshis, byte[] params) {
-		long ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, params);
+		long ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.check_arr_len(params, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InMemorySigner(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);

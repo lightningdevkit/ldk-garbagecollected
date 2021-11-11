@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_temporary_channel_id(Uint8Array val) {
-		bindings.FundingCreated_set_temporary_channel_id(this.ptr, val);
+		bindings.FundingCreated_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Uint8Array get_funding_txid() {
@@ -33,7 +33,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_funding_txid(Uint8Array val) {
-		bindings.FundingCreated_set_funding_txid(this.ptr, val);
+		bindings.FundingCreated_set_funding_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_funding_output_index() {
@@ -51,14 +51,19 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_signature(Uint8Array val) {
-		bindings.FundingCreated_set_signature(this.ptr, val);
+		bindings.FundingCreated_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	public static FundingCreated constructor_new(Uint8Array temporary_channel_id_arg, Uint8Array funding_txid_arg, number funding_output_index_arg, Uint8Array signature_arg) {
-		number ret = bindings.FundingCreated_new(temporary_channel_id_arg, funding_txid_arg, funding_output_index_arg, signature_arg);
+		number ret = bindings.FundingCreated_new(InternalUtils.check_arr_len(temporary_channel_id_arg, 32), InternalUtils.check_arr_len(funding_txid_arg, 32), funding_output_index_arg, InternalUtils.check_arr_len(signature_arg, 64));
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.FundingCreated_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public FundingCreated clone() {

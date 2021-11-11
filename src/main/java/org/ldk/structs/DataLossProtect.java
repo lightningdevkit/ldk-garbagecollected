@@ -36,7 +36,7 @@ public class DataLossProtect extends CommonBase {
 	 * belonging to the recipient
 	 */
 	public void set_your_last_per_commitment_secret(byte[] val) {
-		bindings.DataLossProtect_set_your_last_per_commitment_secret(this.ptr, val);
+		bindings.DataLossProtect_set_your_last_per_commitment_secret(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -51,18 +51,23 @@ public class DataLossProtect extends CommonBase {
 	 * The sender's per-commitment point for their current commitment transaction
 	 */
 	public void set_my_current_per_commitment_point(byte[] val) {
-		bindings.DataLossProtect_set_my_current_per_commitment_point(this.ptr, val);
+		bindings.DataLossProtect_set_my_current_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
 	 * Constructs a new DataLossProtect given each field
 	 */
 	public static DataLossProtect of(byte[] your_last_per_commitment_secret_arg, byte[] my_current_per_commitment_point_arg) {
-		long ret = bindings.DataLossProtect_new(your_last_per_commitment_secret_arg, my_current_per_commitment_point_arg);
+		long ret = bindings.DataLossProtect_new(InternalUtils.check_arr_len(your_last_per_commitment_secret_arg, 32), InternalUtils.check_arr_len(my_current_per_commitment_point_arg, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		DataLossProtect ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DataLossProtect(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.DataLossProtect_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

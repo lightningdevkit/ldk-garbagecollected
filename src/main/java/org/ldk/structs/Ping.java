@@ -62,6 +62,11 @@ public class Ping extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.Ping_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the Ping
 	 */

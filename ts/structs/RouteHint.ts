@@ -41,6 +41,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.RouteHint_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public RouteHint clone() {
 		number ret = bindings.RouteHint_clone(this.ptr);
 		const ret_hu_conv: RouteHint = new RouteHint(null, ret);

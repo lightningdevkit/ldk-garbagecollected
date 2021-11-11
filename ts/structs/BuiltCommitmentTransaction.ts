@@ -33,14 +33,19 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_txid(Uint8Array val) {
-		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, val);
+		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public static BuiltCommitmentTransaction constructor_new(Uint8Array transaction_arg, Uint8Array txid_arg) {
-		number ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, txid_arg);
+		number ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, InternalUtils.check_arr_len(txid_arg, 32));
 		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.BuiltCommitmentTransaction_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public BuiltCommitmentTransaction clone() {
@@ -67,7 +72,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public Uint8Array sign(Uint8Array funding_key, Uint8Array funding_redeemscript, number channel_value_satoshis) {
-		Uint8Array ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, funding_key, funding_redeemscript, channel_value_satoshis);
+		Uint8Array ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
 		return ret;
 	}
 

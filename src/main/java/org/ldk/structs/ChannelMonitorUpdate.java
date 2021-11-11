@@ -55,6 +55,11 @@ public class ChannelMonitorUpdate extends CommonBase {
 		bindings.ChannelMonitorUpdate_set_update_id(this.ptr, val);
 	}
 
+	long clone_ptr() {
+		long ret = bindings.ChannelMonitorUpdate_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the ChannelMonitorUpdate
 	 */

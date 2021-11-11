@@ -32,7 +32,7 @@ public class ChannelCounterparty extends CommonBase {
 	 * The node_id of our counterparty
 	 */
 	public void set_node_id(byte[] val) {
-		bindings.ChannelCounterparty_set_node_id(this.ptr, val);
+		bindings.ChannelCounterparty_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -113,11 +113,16 @@ public class ChannelCounterparty extends CommonBase {
 	 * Constructs a new ChannelCounterparty given each field
 	 */
 	public static ChannelCounterparty of(byte[] node_id_arg, InitFeatures features_arg, long unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg) {
-		long ret = bindings.ChannelCounterparty_new(node_id_arg, features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
+		long ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelCounterparty(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ChannelCounterparty_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

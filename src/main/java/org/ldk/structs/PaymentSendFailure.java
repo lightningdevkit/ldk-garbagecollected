@@ -37,6 +37,11 @@ public class PaymentSendFailure extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * A parameter which was passed to send_payment was invalid, preventing us from attempting to
+	 * send the payment at all. No channel state has been changed or messages sent to peers, and
+	 * once you've changed the parameter at error, you can freely retry the payment in full.
+	 */
 	public final static class ParameterError extends PaymentSendFailure {
 		public final APIError parameter_error;
 		private ParameterError(long ptr, bindings.LDKPaymentSendFailure.ParameterError obj) {
@@ -47,6 +52,15 @@ public class PaymentSendFailure extends CommonBase {
 			this.parameter_error = parameter_error_hu_conv;
 		}
 	}
+	/**
+	 * A parameter in a single path which was passed to send_payment was invalid, preventing us
+	 * from attempting to send the payment at all. No channel state has been changed or messages
+	 * sent to peers, and once you've changed the parameter at error, you can freely retry the
+	 * payment in full.
+	 * 
+	 * The results here are ordered the same as the paths in the route object which was passed to
+	 * send_payment.
+	 */
 	public final static class PathParameterError extends PaymentSendFailure {
 		public final Result_NoneAPIErrorZ[] path_parameter_error;
 		private PathParameterError(long ptr, bindings.LDKPaymentSendFailure.PathParameterError obj) {
@@ -61,6 +75,11 @@ public class PaymentSendFailure extends CommonBase {
 			this.path_parameter_error = path_parameter_error_conv_22_arr;
 		}
 	}
+	/**
+	 * All paths which were attempted failed to send, with no channel state change taking place.
+	 * You can freely retry the payment in full (though you probably want to do so over different
+	 * paths than the ones selected).
+	 */
 	public final static class AllFailedRetrySafe extends PaymentSendFailure {
 		public final APIError[] all_failed_retry_safe;
 		private AllFailedRetrySafe(long ptr, bindings.LDKPaymentSendFailure.AllFailedRetrySafe obj) {
@@ -76,6 +95,20 @@ public class PaymentSendFailure extends CommonBase {
 			this.all_failed_retry_safe = all_failed_retry_safe_conv_10_arr;
 		}
 	}
+	/**
+	 * Some paths which were attempted failed to send, though possibly not all. At least some
+	 * paths have irrevocably committed to the HTLC and retrying the payment in full would result
+	 * in over-/re-payment.
+	 * 
+	 * The results here are ordered the same as the paths in the route object which was passed to
+	 * send_payment, and any Errs which are not APIError::MonitorUpdateFailed can be safely
+	 * retried (though there is currently no API with which to do so).
+	 * 
+	 * Any entries which contain Err(APIError::MonitorUpdateFailed) or Ok(()) MUST NOT be retried
+	 * as they will result in over-/re-payment. These HTLCs all either successfully sent (in the
+	 * case of Ok(())) or will send once channel_monitor_updated is called on the next-hop channel
+	 * with the latest update_id.
+	 */
 	public final static class PartialFailure extends PaymentSendFailure {
 		/**
 		 * The errors themselves, in the same order as the route hops.
@@ -110,6 +143,11 @@ public class PaymentSendFailure extends CommonBase {
 			this.payment_id = obj.payment_id;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.PaymentSendFailure_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the PaymentSendFailure
 	 */
@@ -158,7 +196,7 @@ public class PaymentSendFailure extends CommonBase {
 	 * Utility method to constructs a new PartialFailure-variant PaymentSendFailure
 	 */
 	public static PaymentSendFailure partial_failure(Result_NoneAPIErrorZ[] results, RouteParameters failed_paths_retry, byte[] payment_id) {
-		long ret = bindings.PaymentSendFailure_partial_failure(results != null ? Arrays.stream(results).mapToLong(results_conv_22 -> results_conv_22 != null ? results_conv_22.ptr : 0).toArray() : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr & ~1, payment_id);
+		long ret = bindings.PaymentSendFailure_partial_failure(results != null ? Arrays.stream(results).mapToLong(results_conv_22 -> results_conv_22 != null ? results_conv_22.ptr : 0).toArray() : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

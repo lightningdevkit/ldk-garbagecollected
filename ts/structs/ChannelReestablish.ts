@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_id(Uint8Array val) {
-		bindings.ChannelReestablish_set_channel_id(this.ptr, val);
+		bindings.ChannelReestablish_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_next_local_commitment_number() {
@@ -43,6 +43,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_next_remote_commitment_number(number val) {
 		bindings.ChannelReestablish_set_next_remote_commitment_number(this.ptr, val);
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.ChannelReestablish_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public ChannelReestablish clone() {

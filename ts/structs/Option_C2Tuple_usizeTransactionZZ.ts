@@ -49,6 +49,11 @@ export class None extends COption_C2Tuple_usizeTransactionZZ {
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.COption_C2Tuple_usizeTransactionZZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Option_C2Tuple_usizeTransactionZZ clone() {
 		number ret = bindings.COption_C2Tuple_usizeTransactionZZ_clone(this.ptr);
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);

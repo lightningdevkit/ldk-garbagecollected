@@ -36,6 +36,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.Init_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Init clone() {
 		number ret = bindings.Init_clone(this.ptr);
 		const ret_hu_conv: Init = new Init(null, ret);

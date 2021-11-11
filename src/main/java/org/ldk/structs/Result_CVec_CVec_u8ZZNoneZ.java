@@ -13,7 +13,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	}
 
 	static Result_CVec_CVec_u8ZZNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_CVec_CVec_u8ZZNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_CVec_CVec_u8ZZNoneZ_is_ok(ptr)) {
 			return new Result_CVec_CVec_u8ZZNoneZ_OK(null, ptr);
 		} else {
 			return new Result_CVec_CVec_u8ZZNoneZ_Err(null, ptr);
@@ -51,6 +51,19 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

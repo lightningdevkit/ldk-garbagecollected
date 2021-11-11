@@ -30,7 +30,7 @@ public class BaseSign extends CommonBase {
 	final bindings.LDKBaseSign bindings_instance;
 	BaseSign(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
 	private BaseSign(bindings.LDKBaseSign arg, ChannelPublicKeys pubkeys) {
-		super(bindings.LDKBaseSign_new(arg, pubkeys == null ? 0 : pubkeys.ptr & ~1));
+		super(bindings.LDKBaseSign_new(arg, pubkeys == null ? 0 : pubkeys.clone_ptr()));
 		this.ptrs_to.add(arg);
 		this.bindings_instance = arg;
 	}
@@ -195,66 +195,69 @@ public class BaseSign extends CommonBase {
 		impl_holder.held = new BaseSign(new bindings.LDKBaseSign() {
 			@Override public byte[] get_per_commitment_point(long idx) {
 				byte[] ret = arg.get_per_commitment_point(idx);
-				return ret;
+				byte[] result = InternalUtils.check_arr_len(ret, 33);
+				return result;
 			}
 			@Override public byte[] release_commitment_secret(long idx) {
 				byte[] ret = arg.release_commitment_secret(idx);
-				return ret;
+				byte[] result = InternalUtils.check_arr_len(ret, 32);
+				return result;
 			}
 			@Override public long validate_holder_commitment(long holder_tx) {
 				HolderCommitmentTransaction holder_tx_hu_conv = null; if (holder_tx < 0 || holder_tx > 4096) { holder_tx_hu_conv = new HolderCommitmentTransaction(null, holder_tx); }
 				Result_NoneNoneZ ret = arg.validate_holder_commitment(holder_tx_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public byte[] channel_keys_id() {
 				byte[] ret = arg.channel_keys_id();
-				return ret;
+				byte[] result = InternalUtils.check_arr_len(ret, 32);
+				return result;
 			}
 			@Override public long sign_counterparty_commitment(long commitment_tx) {
 				CommitmentTransaction commitment_tx_hu_conv = null; if (commitment_tx < 0 || commitment_tx > 4096) { commitment_tx_hu_conv = new CommitmentTransaction(null, commitment_tx); }
 				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long validate_counterparty_revocation(long idx, byte[] secret) {
 				Result_NoneNoneZ ret = arg.validate_counterparty_revocation(idx, secret);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_holder_commitment_and_htlcs(long commitment_tx) {
 				HolderCommitmentTransaction commitment_tx_hu_conv = null; if (commitment_tx < 0 || commitment_tx > 4096) { commitment_tx_hu_conv = new HolderCommitmentTransaction(null, commitment_tx); }
 				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
 				Result_SignatureNoneZ ret = arg.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc) {
 				HTLCOutputInCommitment htlc_hu_conv = null; if (htlc < 0 || htlc > 4096) { htlc_hu_conv = new HTLCOutputInCommitment(null, htlc); }
 				Result_SignatureNoneZ ret = arg.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc) {
 				HTLCOutputInCommitment htlc_hu_conv = null; if (htlc < 0 || htlc > 4096) { htlc_hu_conv = new HTLCOutputInCommitment(null, htlc); }
 				Result_SignatureNoneZ ret = arg.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_closing_transaction(long closing_tx) {
 				ClosingTransaction closing_tx_hu_conv = null; if (closing_tx < 0 || closing_tx > 4096) { closing_tx_hu_conv = new ClosingTransaction(null, closing_tx); }
 				Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_channel_announcement(long msg) {
 				UnsignedChannelAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new UnsignedChannelAnnouncement(null, msg); }
 				Result_SignatureNoneZ ret = arg.sign_channel_announcement(msg_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public void ready_channel(long channel_parameters) {
@@ -338,7 +341,7 @@ public class BaseSign extends CommonBase {
 	 * forward and it is safe to sign the next counterparty commitment.
 	 */
 	public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
-		long ret = bindings.BaseSign_validate_counterparty_revocation(this.ptr, idx, secret);
+		long ret = bindings.BaseSign_validate_counterparty_revocation(this.ptr, idx, InternalUtils.check_arr_len(secret, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -382,7 +385,7 @@ public class BaseSign extends CommonBase {
 	 * so).
 	 */
 	public Result_SignatureNoneZ sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
-		long ret = bindings.BaseSign_sign_justice_revoked_output(this.ptr, justice_tx, input, amount, per_commitment_key);
+		long ret = bindings.BaseSign_sign_justice_revoked_output(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -408,7 +411,7 @@ public class BaseSign extends CommonBase {
 	 * (which is committed to in the BIP 143 signatures).
 	 */
 	public Result_SignatureNoneZ sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, HTLCOutputInCommitment htlc) {
-		long ret = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, per_commitment_key, htlc == null ? 0 : htlc.ptr & ~1);
+		long ret = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32), htlc == null ? 0 : htlc.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(htlc);
@@ -435,7 +438,7 @@ public class BaseSign extends CommonBase {
 	 * BIP 143 signature.
 	 */
 	public Result_SignatureNoneZ sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, HTLCOutputInCommitment htlc) {
-		long ret = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, per_commitment_point, htlc == null ? 0 : htlc.ptr & ~1);
+		long ret = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, InternalUtils.check_arr_len(per_commitment_point, 33), htlc == null ? 0 : htlc.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(htlc);

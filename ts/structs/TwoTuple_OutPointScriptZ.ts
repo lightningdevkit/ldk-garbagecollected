@@ -30,6 +30,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.C2Tuple_OutPointScriptZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public TwoTuple_OutPointScriptZ clone() {
 		number ret = bindings.C2Tuple_OutPointScriptZ_clone(this.ptr);
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);

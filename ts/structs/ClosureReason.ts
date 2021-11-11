@@ -74,6 +74,11 @@ export class OutdatedChannelManager extends ClosureReason {
 		super(null, ptr);
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.ClosureReason_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ClosureReason clone() {
 		number ret = bindings.ClosureReason_clone(this.ptr);
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);

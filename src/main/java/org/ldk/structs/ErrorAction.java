@@ -35,6 +35,9 @@ public class ErrorAction extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * The peer took some action which made us think they were useless. Disconnect them.
+	 */
 	public final static class DisconnectPeer extends ErrorAction {
 		/**
 		 * An error message which we should make an effort to send before we disconnect.
@@ -50,11 +53,18 @@ public class ErrorAction extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * The peer did something harmless that we weren't able to process, just log and ignore
+	 */
 	public final static class IgnoreError extends ErrorAction {
 		private IgnoreError(long ptr, bindings.LDKErrorAction.IgnoreError obj) {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * The peer did something harmless that we weren't able to meaningfully process.
+	 * If the error is logged, log it at the given level.
+	 */
 	public final static class IgnoreAndLog extends ErrorAction {
 		public final Level ignore_and_log;
 		private IgnoreAndLog(long ptr, bindings.LDKErrorAction.IgnoreAndLog obj) {
@@ -62,6 +72,9 @@ public class ErrorAction extends CommonBase {
 			this.ignore_and_log = obj.ignore_and_log;
 		}
 	}
+	/**
+	 * The peer did something incorrect. Tell them.
+	 */
 	public final static class SendErrorMessage extends ErrorAction {
 		/**
 		 * The message to send.
@@ -75,6 +88,11 @@ public class ErrorAction extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.ErrorAction_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the ErrorAction
 	 */

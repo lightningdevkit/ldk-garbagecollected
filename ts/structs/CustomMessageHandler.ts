@@ -37,13 +37,13 @@ import * as bindings from '../bindings' // TODO: figure out location
 							Type ret_hu_conv = new Type(null, msg);
 				ret_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_custom_message(ret_hu_conv, sender_node_id);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
 						get_and_clear_pending_msg (): number[] {
 							TwoTuple_PublicKeyTypeZ[] ret = arg.get_and_clear_pending_msg();
-				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_25 -> ret_conv_25 != null ? ret_conv_25.ptr : 0).toArray(number[]::new) : null;
+				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_25 -> ret_conv_25 == null ? 0 : ret_conv_25.clone_ptr()).toArray(number[]::new) : null;
 				return result;
 						},
 
@@ -63,7 +63,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                 held: CustomMessageHandler;
             }
 	public Result_NoneLightningErrorZ handle_custom_message(Type msg, Uint8Array sender_node_id) {
-		number ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr, sender_node_id);
+		number ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr, InternalUtils.check_arr_len(sender_node_id, 33));
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;

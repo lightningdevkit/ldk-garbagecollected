@@ -79,6 +79,11 @@ public class CounterpartyForwardingInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.CounterpartyForwardingInfo_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the CounterpartyForwardingInfo
 	 */

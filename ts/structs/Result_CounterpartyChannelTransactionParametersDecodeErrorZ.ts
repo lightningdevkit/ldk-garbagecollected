@@ -9,7 +9,7 @@ public class Result_CounterpartyChannelTransactionParametersDecodeErrorZ extends
 	}
 
 	static Result_CounterpartyChannelTransactionParametersDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_is_ok(ptr)) {
 			return new Result_CounterpartyChannelTransactionParametersDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_CounterpartyChannelTransactionParametersDecodeErrorZ_Err(null, ptr);
@@ -47,6 +47,16 @@ public class Result_CounterpartyChannelTransactionParametersDecodeErrorZ extends
 		number ret = bindings.CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_CounterpartyChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_CounterpartyChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_CounterpartyChannelTransactionParametersDecodeErrorZ clone() {

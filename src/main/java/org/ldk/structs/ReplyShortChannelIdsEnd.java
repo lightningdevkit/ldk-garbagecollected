@@ -34,7 +34,7 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	 * The genesis hash of the blockchain that was queried
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.ReplyShortChannelIdsEnd_set_chain_hash(this.ptr, val);
+		bindings.ReplyShortChannelIdsEnd_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -58,11 +58,16 @@ public class ReplyShortChannelIdsEnd extends CommonBase {
 	 * Constructs a new ReplyShortChannelIdsEnd given each field
 	 */
 	public static ReplyShortChannelIdsEnd of(byte[] chain_hash_arg, boolean full_information_arg) {
-		long ret = bindings.ReplyShortChannelIdsEnd_new(chain_hash_arg, full_information_arg);
+		long ret = bindings.ReplyShortChannelIdsEnd_new(InternalUtils.check_arr_len(chain_hash_arg, 32), full_information_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ReplyShortChannelIdsEnd ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReplyShortChannelIdsEnd(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ReplyShortChannelIdsEnd_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

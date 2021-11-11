@@ -57,6 +57,11 @@ export class StaticPaymentOutput extends SpendableOutputDescriptor {
 		this.static_payment_output = static_payment_output_hu_conv;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.SpendableOutputDescriptor_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public SpendableOutputDescriptor clone() {
 		number ret = bindings.SpendableOutputDescriptor_clone(this.ptr);
 		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);

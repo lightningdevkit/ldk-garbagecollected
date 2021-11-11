@@ -41,6 +41,7 @@ public class ChainMonitor extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChainMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChainMonitor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		ret_hu_conv.ptrs_to.add(chain_source);
 		ret_hu_conv.ptrs_to.add(broadcaster);
 		ret_hu_conv.ptrs_to.add(logger);
 		ret_hu_conv.ptrs_to.add(feeest);

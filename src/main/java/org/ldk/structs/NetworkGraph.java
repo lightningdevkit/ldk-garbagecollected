@@ -19,6 +19,11 @@ public class NetworkGraph extends CommonBase {
 		if (ptr != 0) { bindings.NetworkGraph_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.NetworkGraph_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the NetworkGraph
 	 */
@@ -52,7 +57,7 @@ public class NetworkGraph extends CommonBase {
 	 * Creates a new, empty, network graph.
 	 */
 	public static NetworkGraph of(byte[] genesis_hash) {
-		long ret = bindings.NetworkGraph_new(genesis_hash);
+		long ret = bindings.NetworkGraph_new(InternalUtils.check_arr_len(genesis_hash, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkGraph ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NetworkGraph(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -115,6 +120,7 @@ public class NetworkGraph extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
+		this.ptrs_to.add(chain_access);
 		return ret_hu_conv;
 	}
 
@@ -131,6 +137,7 @@ public class NetworkGraph extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
+		this.ptrs_to.add(chain_access);
 		return ret_hu_conv;
 	}
 
@@ -148,7 +155,7 @@ public class NetworkGraph extends CommonBase {
 	 * Marks a node in the graph as failed.
 	 */
 	public void fail_node(byte[] _node_id, boolean is_permanent) {
-		bindings.NetworkGraph_fail_node(this.ptr, _node_id, is_permanent);
+		bindings.NetworkGraph_fail_node(this.ptr, InternalUtils.check_arr_len(_node_id, 33), is_permanent);
 	}
 
 	/**

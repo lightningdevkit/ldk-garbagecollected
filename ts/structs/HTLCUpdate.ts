@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.HTLCUpdate_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.HTLCUpdate_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public HTLCUpdate clone() {
 		number ret = bindings.HTLCUpdate_clone(this.ptr);
 		const ret_hu_conv: HTLCUpdate = new HTLCUpdate(null, ret);

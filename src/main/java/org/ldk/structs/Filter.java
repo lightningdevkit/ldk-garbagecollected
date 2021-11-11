@@ -72,7 +72,7 @@ public class Filter extends CommonBase {
 				WatchedOutput output_hu_conv = null; if (output < 0 || output > 4096) { output_hu_conv = new WatchedOutput(null, output); }
 				output_hu_conv.ptrs_to.add(this);
 				Option_C2Tuple_usizeTransactionZZ ret = arg.register_output(output_hu_conv);
-				long result = ret.ptr;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 		});
@@ -83,7 +83,7 @@ public class Filter extends CommonBase {
 	 * a spending condition.
 	 */
 	public void register_tx(byte[] txid, byte[] script_pubkey) {
-		bindings.Filter_register_tx(this.ptr, txid, script_pubkey);
+		bindings.Filter_register_tx(this.ptr, InternalUtils.check_arr_len(txid, 32), script_pubkey);
 	}
 
 	/**

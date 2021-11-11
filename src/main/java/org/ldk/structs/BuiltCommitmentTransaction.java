@@ -52,18 +52,23 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 * multiple times.
 	 */
 	public void set_txid(byte[] val) {
-		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, val);
+		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
 	 * Constructs a new BuiltCommitmentTransaction given each field
 	 */
 	public static BuiltCommitmentTransaction of(byte[] transaction_arg, byte[] txid_arg) {
-		long ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, txid_arg);
+		long ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, InternalUtils.check_arr_len(txid_arg, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BuiltCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BuiltCommitmentTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.BuiltCommitmentTransaction_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**
@@ -110,7 +115,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 * because we are about to broadcast a holder transaction.
 	 */
 	public byte[] sign(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, funding_key, funding_redeemscript, channel_value_satoshis);
+		byte[] ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
 		return ret;
 	}
 

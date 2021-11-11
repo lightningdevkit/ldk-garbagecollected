@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_src_node_id(Uint8Array val) {
-		bindings.RouteHintHop_set_src_node_id(this.ptr, val);
+		bindings.RouteHintHop_set_src_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public number get_short_channel_id() {
@@ -79,10 +79,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static RouteHintHop constructor_new(Uint8Array src_node_id_arg, number short_channel_id_arg, RoutingFees fees_arg, number cltv_expiry_delta_arg, Option_u64Z htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg) {
-		number ret = bindings.RouteHintHop_new(src_node_id_arg, short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
+		number ret = bindings.RouteHintHop_new(InternalUtils.check_arr_len(src_node_id_arg, 33), short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
 		const ret_hu_conv: RouteHintHop = new RouteHintHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.RouteHintHop_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public RouteHintHop clone() {

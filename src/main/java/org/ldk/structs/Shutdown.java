@@ -31,7 +31,7 @@ public class Shutdown extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.Shutdown_set_channel_id(this.ptr, val);
+		bindings.Shutdown_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -55,11 +55,16 @@ public class Shutdown extends CommonBase {
 	 * Constructs a new Shutdown given each field
 	 */
 	public static Shutdown of(byte[] channel_id_arg, byte[] scriptpubkey_arg) {
-		long ret = bindings.Shutdown_new(channel_id_arg, scriptpubkey_arg);
+		long ret = bindings.Shutdown_new(InternalUtils.check_arr_len(channel_id_arg, 32), scriptpubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Shutdown ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Shutdown(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.Shutdown_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

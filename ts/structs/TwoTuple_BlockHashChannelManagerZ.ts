@@ -31,7 +31,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static TwoTuple_BlockHashChannelManagerZ constructor_new(Uint8Array a, FeeEstimator b_fee_est, Watch b_chain_monitor, BroadcasterInterface b_tx_broadcaster, Logger b_logger, KeysInterface b_keys_manager, UserConfig b_config, ChainParameters b_params) {
-		number ret = bindings.C2Tuple_BlockHashChannelManagerZ_new(a, bindings.ChannelManager_new(b_fee_est == null ? 0 : b_fee_est.ptr, b_chain_monitor == null ? 0 : b_chain_monitor.ptr, b_tx_broadcaster == null ? 0 : b_tx_broadcaster.ptr, b_logger == null ? 0 : b_logger.ptr, b_keys_manager == null ? 0 : b_keys_manager.ptr, b_config == null ? 0 : b_config.ptr & ~1, b_params == null ? 0 : b_params.ptr & ~1));
+		number ret = bindings.C2Tuple_BlockHashChannelManagerZ_new(InternalUtils.check_arr_len(a, 32), bindings.ChannelManager_new(b_fee_est == null ? 0 : b_fee_est.ptr, b_chain_monitor == null ? 0 : b_chain_monitor.ptr, b_tx_broadcaster == null ? 0 : b_tx_broadcaster.ptr, b_logger == null ? 0 : b_logger.ptr, b_keys_manager == null ? 0 : b_keys_manager.ptr, b_config == null ? 0 : b_config.ptr & ~1, b_params == null ? 0 : b_params.ptr & ~1));
 		TwoTuple_BlockHashChannelManagerZ ret_hu_conv = new TwoTuple_BlockHashChannelManagerZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(b_fee_est);

@@ -31,7 +31,7 @@ public class UpdateFailHTLC extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.UpdateFailHTLC_set_channel_id(this.ptr, val);
+		bindings.UpdateFailHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -47,6 +47,11 @@ public class UpdateFailHTLC extends CommonBase {
 	 */
 	public void set_htlc_id(long val) {
 		bindings.UpdateFailHTLC_set_htlc_id(this.ptr, val);
+	}
+
+	long clone_ptr() {
+		long ret = bindings.UpdateFailHTLC_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

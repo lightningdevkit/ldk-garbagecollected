@@ -1,9 +1,24 @@
 
             export enum Level {
-                LDKLevel_Trace,
-				LDKLevel_Debug,
-				LDKLevel_Info,
-				LDKLevel_Warn,
-				LDKLevel_Error,
+                /**
+ * Designates very low priority, often extremely verbose, information
+ */
+LDKLevel_Trace,
+				/**
+ * Designates lower priority information
+ */
+LDKLevel_Debug,
+				/**
+ * Designates useful information
+ */
+LDKLevel_Info,
+				/**
+ * Designates hazardous situations
+ */
+LDKLevel_Warn,
+				/**
+ * Designates very serious errors
+ */
+LDKLevel_Error,
 				
             }

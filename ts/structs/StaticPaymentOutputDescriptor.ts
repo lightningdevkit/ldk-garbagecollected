@@ -39,7 +39,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_keys_id(Uint8Array val) {
-		bindings.StaticPaymentOutputDescriptor_set_channel_keys_id(this.ptr, val);
+		bindings.StaticPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_channel_value_satoshis() {
@@ -52,10 +52,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static StaticPaymentOutputDescriptor constructor_new(OutPoint outpoint_arg, TxOut output_arg, Uint8Array channel_keys_id_arg, number channel_value_satoshis_arg) {
-		number ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, output_arg.ptr, channel_keys_id_arg, channel_value_satoshis_arg);
+		number ret = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, output_arg.ptr, InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
 		const ret_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.StaticPaymentOutputDescriptor_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public StaticPaymentOutputDescriptor clone() {

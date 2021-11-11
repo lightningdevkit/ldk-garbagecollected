@@ -82,7 +82,8 @@ public class KeysInterface extends CommonBase {
 		impl_holder.held = new KeysInterface(new bindings.LDKKeysInterface() {
 			@Override public byte[] get_node_secret() {
 				byte[] ret = arg.get_node_secret();
-				return ret;
+				byte[] result = InternalUtils.check_arr_len(ret, 32);
+				return result;
 			}
 			@Override public byte[] get_destination_script() {
 				byte[] ret = arg.get_destination_script();
@@ -90,27 +91,28 @@ public class KeysInterface extends CommonBase {
 			}
 			@Override public long get_shutdown_scriptpubkey() {
 				ShutdownScript ret = arg.get_shutdown_scriptpubkey();
-				long result = ret == null ? 0 : ret.ptr & ~1;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long get_channel_signer(boolean inbound, long channel_value_satoshis) {
 				Sign ret = arg.get_channel_signer(inbound, channel_value_satoshis);
-				long result = ret == null ? 0 : ret.ptr;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				impl_holder.held.ptrs_to.add(ret);
 				return result;
 			}
 			@Override public byte[] get_secure_random_bytes() {
 				byte[] ret = arg.get_secure_random_bytes();
-				return ret;
+				byte[] result = InternalUtils.check_arr_len(ret, 32);
+				return result;
 			}
 			@Override public long read_chan_signer(byte[] reader) {
 				Result_SignDecodeErrorZ ret = arg.read_chan_signer(reader);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_invoice(byte[] invoice_preimage) {
 				Result_RecoverableSignatureNoneZ ret = arg.sign_invoice(invoice_preimage);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 		});

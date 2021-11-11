@@ -49,6 +49,11 @@ export class None extends COption_NetworkUpdateZ {
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.COption_NetworkUpdateZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Option_NetworkUpdateZ clone() {
 		number ret = bindings.COption_NetworkUpdateZ_clone(this.ptr);
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);

@@ -13,7 +13,7 @@ public class Result_InvoiceFeaturesDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_InvoiceFeaturesDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_InvoiceFeaturesDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_InvoiceFeaturesDecodeErrorZ_is_ok(ptr)) {
 			return new Result_InvoiceFeaturesDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_InvoiceFeaturesDecodeErrorZ_Err(null, ptr);
@@ -59,6 +59,14 @@ public class Result_InvoiceFeaturesDecodeErrorZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceFeaturesDecodeErrorZ ret_hu_conv = Result_InvoiceFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_InvoiceFeaturesDecodeErrorZ_is_ok(this.ptr);
+		return ret;
 	}
 
 }

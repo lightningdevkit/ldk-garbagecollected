@@ -31,7 +31,7 @@ public class FundingSigned extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.FundingSigned_set_channel_id(this.ptr, val);
+		bindings.FundingSigned_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -46,18 +46,23 @@ public class FundingSigned extends CommonBase {
 	 * The signature of the channel acceptor (fundee) on the initial commitment transaction
 	 */
 	public void set_signature(byte[] val) {
-		bindings.FundingSigned_set_signature(this.ptr, val);
+		bindings.FundingSigned_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
 	 * Constructs a new FundingSigned given each field
 	 */
 	public static FundingSigned of(byte[] channel_id_arg, byte[] signature_arg) {
-		long ret = bindings.FundingSigned_new(channel_id_arg, signature_arg);
+		long ret = bindings.FundingSigned_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(signature_arg, 64));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FundingSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.FundingSigned_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

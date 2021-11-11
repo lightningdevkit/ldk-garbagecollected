@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.Description_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.Description_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Description clone() {
 		number ret = bindings.Description_clone(this.ptr);
 		const ret_hu_conv: Description = new Description(null, ret);

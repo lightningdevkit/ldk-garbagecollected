@@ -9,7 +9,7 @@ public class Result_InvoiceNoneZ extends CommonBase {
 	}
 
 	static Result_InvoiceNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_InvoiceNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_InvoiceNoneZ_is_ok(ptr)) {
 			return new Result_InvoiceNoneZ_OK(null, ptr);
 		} else {
 			return new Result_InvoiceNoneZ_Err(null, ptr);
@@ -42,6 +42,16 @@ public class Result_InvoiceNoneZ extends CommonBase {
 		number ret = bindings.CResult_InvoiceNoneZ_err();
 		Result_InvoiceNoneZ ret_hu_conv = Result_InvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_InvoiceNoneZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_InvoiceNoneZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_InvoiceNoneZ clone() {

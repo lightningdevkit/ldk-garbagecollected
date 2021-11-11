@@ -29,6 +29,9 @@ public class Option_u32Z extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * When we're in this state, this COption_u32Z contains a u32
+	 */
 	public final static class Some extends Option_u32Z {
 		public final int some;
 		private Some(long ptr, bindings.LDKCOption_u32Z.Some obj) {
@@ -36,6 +39,9 @@ public class Option_u32Z extends CommonBase {
 			this.some = obj.some;
 		}
 	}
+	/**
+	 * When we're in this state, this COption_u32Z contains nothing
+	 */
 	public final static class None extends Option_u32Z {
 		private None(long ptr, bindings.LDKCOption_u32Z.None obj) {
 			super(null, ptr);
@@ -61,6 +67,11 @@ public class Option_u32Z extends CommonBase {
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.COption_u32Z_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

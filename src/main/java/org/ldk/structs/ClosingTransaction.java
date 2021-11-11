@@ -23,6 +23,11 @@ public class ClosingTransaction extends CommonBase {
 		if (ptr != 0) { bindings.ClosingTransaction_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.ClosingTransaction_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the ClosingTransaction
 	 */

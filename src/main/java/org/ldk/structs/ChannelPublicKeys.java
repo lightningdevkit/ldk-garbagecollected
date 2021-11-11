@@ -33,7 +33,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 * on-chain channel lock-in 2-of-2 multisig output.
 	 */
 	public void set_funding_pubkey(byte[] val) {
-		bindings.ChannelPublicKeys_set_funding_pubkey(this.ptr, val);
+		bindings.ChannelPublicKeys_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 * states.
 	 */
 	public void set_revocation_basepoint(byte[] val) {
-		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, val);
+		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 * static across every commitment transaction.
 	 */
 	public void set_payment_point(byte[] val) {
-		bindings.ChannelPublicKeys_set_payment_point(this.ptr, val);
+		bindings.ChannelPublicKeys_set_payment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 * after some delay (or can be claimed via the revocation path).
 	 */
 	public void set_delayed_payment_basepoint(byte[] val) {
-		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, val);
+		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -109,18 +109,23 @@ public class ChannelPublicKeys extends CommonBase {
 	 * which is used to encumber HTLC-in-flight outputs.
 	 */
 	public void set_htlc_basepoint(byte[] val) {
-		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, val);
+		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
 	 * Constructs a new ChannelPublicKeys given each field
 	 */
 	public static ChannelPublicKeys of(byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_point_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg) {
-		long ret = bindings.ChannelPublicKeys_new(funding_pubkey_arg, revocation_basepoint_arg, payment_point_arg, delayed_payment_basepoint_arg, htlc_basepoint_arg);
+		long ret = bindings.ChannelPublicKeys_new(InternalUtils.check_arr_len(funding_pubkey_arg, 33), InternalUtils.check_arr_len(revocation_basepoint_arg, 33), InternalUtils.check_arr_len(payment_point_arg, 33), InternalUtils.check_arr_len(delayed_payment_basepoint_arg, 33), InternalUtils.check_arr_len(htlc_basepoint_arg, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelPublicKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ChannelPublicKeys_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

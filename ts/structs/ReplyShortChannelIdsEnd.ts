@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_chain_hash(Uint8Array val) {
-		bindings.ReplyShortChannelIdsEnd_set_chain_hash(this.ptr, val);
+		bindings.ReplyShortChannelIdsEnd_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public boolean get_full_information() {
@@ -37,10 +37,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static ReplyShortChannelIdsEnd constructor_new(Uint8Array chain_hash_arg, boolean full_information_arg) {
-		number ret = bindings.ReplyShortChannelIdsEnd_new(chain_hash_arg, full_information_arg);
+		number ret = bindings.ReplyShortChannelIdsEnd_new(InternalUtils.check_arr_len(chain_hash_arg, 32), full_information_arg);
 		const ret_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.ReplyShortChannelIdsEnd_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public ReplyShortChannelIdsEnd clone() {

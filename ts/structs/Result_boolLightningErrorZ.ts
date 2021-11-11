@@ -9,7 +9,7 @@ public class Result_boolLightningErrorZ extends CommonBase {
 	}
 
 	static Result_boolLightningErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_boolLightningErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_boolLightningErrorZ_is_ok(ptr)) {
 			return new Result_boolLightningErrorZ_OK(null, ptr);
 		} else {
 			return new Result_boolLightningErrorZ_Err(null, ptr);
@@ -44,6 +44,16 @@ public class Result_boolLightningErrorZ extends CommonBase {
 		number ret = bindings.CResult_boolLightningErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_boolLightningErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_boolLightningErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_boolLightningErrorZ clone() {

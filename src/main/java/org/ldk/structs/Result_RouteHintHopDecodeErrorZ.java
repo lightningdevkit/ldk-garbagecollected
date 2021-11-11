@@ -13,7 +13,7 @@ public class Result_RouteHintHopDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_RouteHintHopDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_RouteHintHopDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_RouteHintHopDecodeErrorZ_is_ok(ptr)) {
 			return new Result_RouteHintHopDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_RouteHintHopDecodeErrorZ_Err(null, ptr);
@@ -59,6 +59,19 @@ public class Result_RouteHintHopDecodeErrorZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteHintHopDecodeErrorZ ret_hu_conv = Result_RouteHintHopDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_RouteHintHopDecodeErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_RouteHintHopDecodeErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

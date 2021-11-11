@@ -1,9 +1,24 @@
 
             export enum Currency {
-                LDKCurrency_Bitcoin,
-				LDKCurrency_BitcoinTestnet,
-				LDKCurrency_Regtest,
-				LDKCurrency_Simnet,
-				LDKCurrency_Signet,
+                /**
+ * Bitcoin mainnet
+ */
+LDKCurrency_Bitcoin,
+				/**
+ * Bitcoin testnet
+ */
+LDKCurrency_BitcoinTestnet,
+				/**
+ * Bitcoin regtest
+ */
+LDKCurrency_Regtest,
+				/**
+ * Bitcoin simnet
+ */
+LDKCurrency_Simnet,
+				/**
+ * Bitcoin signet
+ */
+LDKCurrency_Signet,
 				
             }

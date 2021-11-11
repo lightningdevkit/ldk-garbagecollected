@@ -41,7 +41,7 @@ public class TxCreationKeys extends CommonBase {
 	 * The broadcaster's per-commitment public key which was used to derive the other keys.
 	 */
 	public void set_per_commitment_point(byte[] val) {
-		bindings.TxCreationKeys_set_per_commitment_point(this.ptr, val);
+		bindings.TxCreationKeys_set_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class TxCreationKeys extends CommonBase {
 	 * an old state.
 	 */
 	public void set_revocation_key(byte[] val) {
-		bindings.TxCreationKeys_set_revocation_key(this.ptr, val);
+		bindings.TxCreationKeys_set_revocation_key(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class TxCreationKeys extends CommonBase {
 	 * Broadcaster's HTLC Key
 	 */
 	public void set_broadcaster_htlc_key(byte[] val) {
-		bindings.TxCreationKeys_set_broadcaster_htlc_key(this.ptr, val);
+		bindings.TxCreationKeys_set_broadcaster_htlc_key(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class TxCreationKeys extends CommonBase {
 	 * Countersignatory's HTLC Key
 	 */
 	public void set_countersignatory_htlc_key(byte[] val) {
-		bindings.TxCreationKeys_set_countersignatory_htlc_key(this.ptr, val);
+		bindings.TxCreationKeys_set_countersignatory_htlc_key(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -105,18 +105,23 @@ public class TxCreationKeys extends CommonBase {
 	 * Broadcaster's Payment Key (which isn't allowed to be spent from for some delay)
 	 */
 	public void set_broadcaster_delayed_payment_key(byte[] val) {
-		bindings.TxCreationKeys_set_broadcaster_delayed_payment_key(this.ptr, val);
+		bindings.TxCreationKeys_set_broadcaster_delayed_payment_key(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
 	 * Constructs a new TxCreationKeys given each field
 	 */
 	public static TxCreationKeys of(byte[] per_commitment_point_arg, byte[] revocation_key_arg, byte[] broadcaster_htlc_key_arg, byte[] countersignatory_htlc_key_arg, byte[] broadcaster_delayed_payment_key_arg) {
-		long ret = bindings.TxCreationKeys_new(per_commitment_point_arg, revocation_key_arg, broadcaster_htlc_key_arg, countersignatory_htlc_key_arg, broadcaster_delayed_payment_key_arg);
+		long ret = bindings.TxCreationKeys_new(InternalUtils.check_arr_len(per_commitment_point_arg, 33), InternalUtils.check_arr_len(revocation_key_arg, 33), InternalUtils.check_arr_len(broadcaster_htlc_key_arg, 33), InternalUtils.check_arr_len(countersignatory_htlc_key_arg, 33), InternalUtils.check_arr_len(broadcaster_delayed_payment_key_arg, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new TxCreationKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.TxCreationKeys_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**
@@ -153,7 +158,7 @@ public class TxCreationKeys extends CommonBase {
 	 * Key set is asymmetric and can't be used as part of counter-signatory set of transactions.
 	 */
 	public static Result_TxCreationKeysErrorZ derive_new(byte[] per_commitment_point, byte[] broadcaster_delayed_payment_base, byte[] broadcaster_htlc_base, byte[] countersignatory_revocation_base, byte[] countersignatory_htlc_base) {
-		long ret = bindings.TxCreationKeys_derive_new(per_commitment_point, broadcaster_delayed_payment_base, broadcaster_htlc_base, countersignatory_revocation_base, countersignatory_htlc_base);
+		long ret = bindings.TxCreationKeys_derive_new(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(broadcaster_delayed_payment_base, 33), InternalUtils.check_arr_len(broadcaster_htlc_base, 33), InternalUtils.check_arr_len(countersignatory_revocation_base, 33), InternalUtils.check_arr_len(countersignatory_htlc_base, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -164,7 +169,7 @@ public class TxCreationKeys extends CommonBase {
 	 * Key set is asymmetric and can't be used as part of counter-signatory set of transactions.
 	 */
 	public static Result_TxCreationKeysErrorZ from_channel_static_keys(byte[] per_commitment_point, ChannelPublicKeys broadcaster_keys, ChannelPublicKeys countersignatory_keys) {
-		long ret = bindings.TxCreationKeys_from_channel_static_keys(per_commitment_point, broadcaster_keys == null ? 0 : broadcaster_keys.ptr & ~1, countersignatory_keys == null ? 0 : countersignatory_keys.ptr & ~1);
+		long ret = bindings.TxCreationKeys_from_channel_static_keys(InternalUtils.check_arr_len(per_commitment_point, 33), broadcaster_keys == null ? 0 : broadcaster_keys.ptr & ~1, countersignatory_keys == null ? 0 : countersignatory_keys.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxCreationKeysErrorZ ret_hu_conv = Result_TxCreationKeysErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(broadcaster_keys);

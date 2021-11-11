@@ -9,7 +9,7 @@ public class Result_OutPointDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_OutPointDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_OutPointDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_OutPointDecodeErrorZ_is_ok(ptr)) {
 			return new Result_OutPointDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_OutPointDecodeErrorZ_Err(null, ptr);
@@ -47,6 +47,16 @@ public class Result_OutPointDecodeErrorZ extends CommonBase {
 		number ret = bindings.CResult_OutPointDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_OutPointDecodeErrorZ ret_hu_conv = Result_OutPointDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_OutPointDecodeErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_OutPointDecodeErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_OutPointDecodeErrorZ clone() {

@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_pubkey(Uint8Array val) {
-		bindings.Payee_set_pubkey(this.ptr, val);
+		bindings.Payee_set_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public InvoiceFeatures get_features() {
@@ -66,10 +66,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static Payee constructor_new(Uint8Array pubkey_arg, InvoiceFeatures features_arg, RouteHint[] route_hints_arg, Option_u64Z expiry_time_arg) {
-		number ret = bindings.Payee_new(pubkey_arg, features_arg == null ? 0 : features_arg.ptr & ~1, route_hints_arg != null ? Arrays.stream(route_hints_arg).map(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr & ~1).toArray(number[]::new) : null, expiry_time_arg.ptr);
+		number ret = bindings.Payee_new(InternalUtils.check_arr_len(pubkey_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, route_hints_arg != null ? Arrays.stream(route_hints_arg).map(route_hints_arg_conv_11 -> route_hints_arg_conv_11 == null ? 0 : route_hints_arg_conv_11.ptr & ~1).toArray(number[]::new) : null, expiry_time_arg.ptr);
 		const ret_hu_conv: Payee = new Payee(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.Payee_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Payee clone() {
@@ -102,14 +107,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static Payee constructor_from_node_id(Uint8Array pubkey) {
-		number ret = bindings.Payee_from_node_id(pubkey);
+		number ret = bindings.Payee_from_node_id(InternalUtils.check_arr_len(pubkey, 33));
 		const ret_hu_conv: Payee = new Payee(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static Payee constructor_for_keysend(Uint8Array pubkey) {
-		number ret = bindings.Payee_for_keysend(pubkey);
+		number ret = bindings.Payee_for_keysend(InternalUtils.check_arr_len(pubkey, 33));
 		const ret_hu_conv: Payee = new Payee(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

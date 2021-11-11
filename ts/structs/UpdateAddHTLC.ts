@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_id(Uint8Array val) {
-		bindings.UpdateAddHTLC_set_channel_id(this.ptr, val);
+		bindings.UpdateAddHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_htlc_id() {
@@ -51,7 +51,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_payment_hash(Uint8Array val) {
-		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, val);
+		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_cltv_expiry() {
@@ -61,6 +61,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_cltv_expiry(number val) {
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.UpdateAddHTLC_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public UpdateAddHTLC clone() {

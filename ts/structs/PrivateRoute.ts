@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.PrivateRoute_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.PrivateRoute_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public PrivateRoute clone() {
 		number ret = bindings.PrivateRoute_clone(this.ptr);
 		const ret_hu_conv: PrivateRoute = new PrivateRoute(null, ret);

@@ -60,6 +60,11 @@ export class MaybeClaimableHTLCAwaitingTimeout extends Balance {
 		this.claimable_height = obj.claimable_height;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.Balance_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Balance clone() {
 		number ret = bindings.Balance_clone(this.ptr);
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);

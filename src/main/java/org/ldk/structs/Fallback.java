@@ -57,6 +57,11 @@ public class Fallback extends CommonBase {
 			this.script_hash = obj.script_hash;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.Fallback_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the Fallback
 	 */
@@ -83,7 +88,7 @@ public class Fallback extends CommonBase {
 	 * Utility method to constructs a new PubKeyHash-variant Fallback
 	 */
 	public static Fallback pub_key_hash(byte[] a) {
-		long ret = bindings.Fallback_pub_key_hash(a);
+		long ret = bindings.Fallback_pub_key_hash(InternalUtils.check_arr_len(a, 20));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -94,7 +99,7 @@ public class Fallback extends CommonBase {
 	 * Utility method to constructs a new ScriptHash-variant Fallback
 	 */
 	public static Fallback script_hash(byte[] a) {
-		long ret = bindings.Fallback_script_hash(a);
+		long ret = bindings.Fallback_script_hash(InternalUtils.check_arr_len(a, 20));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

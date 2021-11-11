@@ -40,7 +40,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 							const output_hu_conv: WatchedOutput = new WatchedOutput(null, output);
 				output_hu_conv.ptrs_to.add(this);
 							Option_C2Tuple_usizeTransactionZZ ret = arg.register_output(output_hu_conv);
-				result: number = ret.ptr;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -60,7 +60,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                 held: Filter;
             }
 	public void register_tx(Uint8Array txid, Uint8Array script_pubkey) {
-		bindings.Filter_register_tx(this.ptr, txid, script_pubkey);
+		bindings.Filter_register_tx(this.ptr, InternalUtils.check_arr_len(txid, 32), script_pubkey);
 	}
 
 	public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {

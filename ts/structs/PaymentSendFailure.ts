@@ -86,6 +86,11 @@ export class PartialFailure extends PaymentSendFailure {
 		this.payment_id = obj.payment_id;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.PaymentSendFailure_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public PaymentSendFailure clone() {
 		number ret = bindings.PaymentSendFailure_clone(this.ptr);
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
@@ -115,7 +120,7 @@ export class PartialFailure extends PaymentSendFailure {
 	}
 
 	public static PaymentSendFailure constructor_partial_failure(Result_NoneAPIErrorZ[] results, RouteParameters failed_paths_retry, Uint8Array payment_id) {
-		number ret = bindings.PaymentSendFailure_partial_failure(results != null ? Arrays.stream(results).map(results_conv_22 -> results_conv_22 != null ? results_conv_22.ptr : 0).toArray(number[]::new) : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr & ~1, payment_id);
+		number ret = bindings.PaymentSendFailure_partial_failure(results != null ? Arrays.stream(results).map(results_conv_22 -> results_conv_22 != null ? results_conv_22.ptr : 0).toArray(number[]::new) : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

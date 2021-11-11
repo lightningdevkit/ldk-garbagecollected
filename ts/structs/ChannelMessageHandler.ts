@@ -171,102 +171,102 @@ import * as bindings from '../bindings' // TODO: figure out location
                 held: ChannelMessageHandler;
             }
 	public void handle_open_channel(Uint8Array their_node_id, InitFeatures their_features, OpenChannel msg) {
-		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_accept_channel(Uint8Array their_node_id, InitFeatures their_features, AcceptChannel msg) {
-		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_funding_created(Uint8Array their_node_id, FundingCreated msg) {
-		bindings.ChannelMessageHandler_handle_funding_created(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_funding_created(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_funding_signed(Uint8Array their_node_id, FundingSigned msg) {
-		bindings.ChannelMessageHandler_handle_funding_signed(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_funding_signed(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_funding_locked(Uint8Array their_node_id, FundingLocked msg) {
-		bindings.ChannelMessageHandler_handle_funding_locked(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_funding_locked(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_shutdown(Uint8Array their_node_id, InitFeatures their_features, Shutdown msg) {
-		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, their_node_id, their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), their_features == null ? 0 : their_features.ptr & ~1, msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(their_features);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_closing_signed(Uint8Array their_node_id, ClosingSigned msg) {
-		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_update_add_htlc(Uint8Array their_node_id, UpdateAddHTLC msg) {
-		bindings.ChannelMessageHandler_handle_update_add_htlc(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_update_add_htlc(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_update_fulfill_htlc(Uint8Array their_node_id, UpdateFulfillHTLC msg) {
-		bindings.ChannelMessageHandler_handle_update_fulfill_htlc(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_update_fulfill_htlc(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_update_fail_htlc(Uint8Array their_node_id, UpdateFailHTLC msg) {
-		bindings.ChannelMessageHandler_handle_update_fail_htlc(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_update_fail_htlc(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_update_fail_malformed_htlc(Uint8Array their_node_id, UpdateFailMalformedHTLC msg) {
-		bindings.ChannelMessageHandler_handle_update_fail_malformed_htlc(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_update_fail_malformed_htlc(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_commitment_signed(Uint8Array their_node_id, CommitmentSigned msg) {
-		bindings.ChannelMessageHandler_handle_commitment_signed(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_commitment_signed(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_revoke_and_ack(Uint8Array their_node_id, RevokeAndACK msg) {
-		bindings.ChannelMessageHandler_handle_revoke_and_ack(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_revoke_and_ack(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_update_fee(Uint8Array their_node_id, UpdateFee msg) {
-		bindings.ChannelMessageHandler_handle_update_fee(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_update_fee(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_announcement_signatures(Uint8Array their_node_id, AnnouncementSignatures msg) {
-		bindings.ChannelMessageHandler_handle_announcement_signatures(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_announcement_signatures(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void peer_disconnected(Uint8Array their_node_id, boolean no_connection_possible) {
-		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, their_node_id, no_connection_possible);
+		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), no_connection_possible);
 	}
 
 	public void peer_connected(Uint8Array their_node_id, Init msg) {
-		bindings.ChannelMessageHandler_peer_connected(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_channel_reestablish(Uint8Array their_node_id, ChannelReestablish msg) {
-		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_channel_update(Uint8Array their_node_id, ChannelUpdate msg) {
-		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 
 	public void handle_error(Uint8Array their_node_id, ErrorMessage msg) {
-		bindings.ChannelMessageHandler_handle_error(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		bindings.ChannelMessageHandler_handle_error(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		this.ptrs_to.add(msg);
 	}
 

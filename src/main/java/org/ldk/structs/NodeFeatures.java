@@ -30,6 +30,11 @@ public class NodeFeatures extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.NodeFeatures_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the NodeFeatures
 	 */

@@ -44,7 +44,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_node_id(Uint8Array val) {
-		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, val);
+		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_rgb() {
@@ -53,7 +53,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_rgb(Uint8Array val) {
-		bindings.UnsignedNodeAnnouncement_set_rgb(this.ptr, val);
+		bindings.UnsignedNodeAnnouncement_set_rgb(this.ptr, InternalUtils.check_arr_len(val, 3));
 	}
 
 	public Uint8Array get_alias() {
@@ -62,11 +62,16 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_alias(Uint8Array val) {
-		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, val);
+		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public void set_addresses(NetAddress[] val) {
 		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12.ptr).toArray(number[]::new) : null);
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.UnsignedNodeAnnouncement_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public UnsignedNodeAnnouncement clone() {

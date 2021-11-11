@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_signature(Uint8Array val) {
-		bindings.ChannelUpdate_set_signature(this.ptr, val);
+		bindings.ChannelUpdate_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	public UnsignedChannelUpdate get_contents() {
@@ -39,10 +39,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static ChannelUpdate constructor_new(Uint8Array signature_arg, UnsignedChannelUpdate contents_arg) {
-		number ret = bindings.ChannelUpdate_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
+		number ret = bindings.ChannelUpdate_new(InternalUtils.check_arr_len(signature_arg, 64), contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.ChannelUpdate_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public ChannelUpdate clone() {

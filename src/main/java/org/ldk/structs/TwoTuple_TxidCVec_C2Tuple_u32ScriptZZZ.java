@@ -42,6 +42,11 @@ public class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 		return ret_conv_21_arr;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a new tuple which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
@@ -58,7 +63,7 @@ public class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	 * Creates a new C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ from the contained elements.
 	 */
 	public static TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ of(byte[] a, TwoTuple_u32ScriptZ[] b) {
-		long ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(a, b != null ? Arrays.stream(b).mapToLong(b_conv_21 -> b_conv_21 != null ? b_conv_21.ptr : 0).toArray() : null);
+		long ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(InternalUtils.check_arr_len(a, 32), b != null ? Arrays.stream(b).mapToLong(b_conv_21 -> b_conv_21 != null ? b_conv_21.ptr : 0).toArray() : null);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ ret_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

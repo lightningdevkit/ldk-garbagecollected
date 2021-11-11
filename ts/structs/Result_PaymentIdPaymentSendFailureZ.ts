@@ -9,7 +9,7 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 	}
 
 	static Result_PaymentIdPaymentSendFailureZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_PaymentIdPaymentSendFailureZ_result_ok(ptr)) {
+		if (bindings.CResult_PaymentIdPaymentSendFailureZ_is_ok(ptr)) {
 			return new Result_PaymentIdPaymentSendFailureZ_OK(null, ptr);
 		} else {
 			return new Result_PaymentIdPaymentSendFailureZ_Err(null, ptr);
@@ -35,7 +35,7 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 	}
 
 	public static Result_PaymentIdPaymentSendFailureZ constructor_ok(Uint8Array o) {
-		number ret = bindings.CResult_PaymentIdPaymentSendFailureZ_ok(o);
+		number ret = bindings.CResult_PaymentIdPaymentSendFailureZ_ok(InternalUtils.check_arr_len(o, 32));
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -44,6 +44,16 @@ public class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 		number ret = bindings.CResult_PaymentIdPaymentSendFailureZ_err(e.ptr);
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_PaymentIdPaymentSendFailureZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_PaymentIdPaymentSendFailureZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_PaymentIdPaymentSendFailureZ clone() {

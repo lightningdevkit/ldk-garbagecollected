@@ -40,7 +40,7 @@ public class Access extends CommonBase {
 		impl_holder.held = new Access(new bindings.LDKAccess() {
 			@Override public long get_utxo(byte[] genesis_hash, long short_channel_id) {
 				Result_TxOutAccessErrorZ ret = arg.get_utxo(genesis_hash, short_channel_id);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 		});
@@ -54,7 +54,7 @@ public class Access extends CommonBase {
 	 * [`short_channel_id`]: https://github.com/lightningnetwork/lightning-rfc/blob/master/07-routing-gossip.md#definition-of-short_channel_id
 	 */
 	public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
-		long ret = bindings.Access_get_utxo(this.ptr, genesis_hash, short_channel_id);
+		long ret = bindings.Access_get_utxo(this.ptr, InternalUtils.check_arr_len(genesis_hash, 32), short_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

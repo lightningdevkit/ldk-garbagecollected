@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.CommitmentTransaction_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.CommitmentTransaction_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public CommitmentTransaction clone() {
 		number ret = bindings.CommitmentTransaction_clone(this.ptr);
 		const ret_hu_conv: CommitmentTransaction = new CommitmentTransaction(null, ret);

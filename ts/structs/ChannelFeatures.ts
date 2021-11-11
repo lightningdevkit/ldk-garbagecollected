@@ -24,6 +24,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.ChannelFeatures_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ChannelFeatures clone() {
 		number ret = bindings.ChannelFeatures_clone(this.ptr);
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);

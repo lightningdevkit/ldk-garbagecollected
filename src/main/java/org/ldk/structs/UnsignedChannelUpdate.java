@@ -31,7 +31,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 * The genesis hash of the blockchain where the channel is to be opened
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, val);
+		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -151,6 +151,11 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_fee_proportional_millionths(int val) {
 		bindings.UnsignedChannelUpdate_set_fee_proportional_millionths(this.ptr, val);
+	}
+
+	long clone_ptr() {
+		long ret = bindings.UnsignedChannelUpdate_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

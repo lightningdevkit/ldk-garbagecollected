@@ -18,7 +18,7 @@ public class Sign extends CommonBase {
 	final bindings.LDKSign bindings_instance;
 	Sign(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
 	private Sign(bindings.LDKSign arg, bindings.LDKBaseSign BaseSign, ChannelPublicKeys pubkeys) {
-		super(bindings.LDKSign_new(arg, BaseSign, pubkeys == null ? 0 : pubkeys.ptr & ~1));
+		super(bindings.LDKSign_new(arg, BaseSign, pubkeys == null ? 0 : pubkeys.clone_ptr()));
 		this.ptrs_to.add(arg);
 		this.ptrs_to.add(BaseSign);
 		this.bindings_instance = arg;
@@ -60,6 +60,11 @@ public class Sign extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.Sign_write(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.Sign_clone_ptr(this.ptr);
 		return ret;
 	}
 

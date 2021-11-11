@@ -49,6 +49,11 @@ public class InvalidShutdownScript extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.InvalidShutdownScript_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the InvalidShutdownScript
 	 */

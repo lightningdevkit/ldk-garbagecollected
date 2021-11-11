@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.InvoiceSignature_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.InvoiceSignature_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public InvoiceSignature clone() {
 		number ret = bindings.InvoiceSignature_clone(this.ptr);
 		const ret_hu_conv: InvoiceSignature = new InvoiceSignature(null, ret);

@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_id(Uint8Array val) {
-		bindings.AnnouncementSignatures_set_channel_id(this.ptr, val);
+		bindings.AnnouncementSignatures_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_short_channel_id() {
@@ -42,7 +42,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_node_signature(Uint8Array val) {
-		bindings.AnnouncementSignatures_set_node_signature(this.ptr, val);
+		bindings.AnnouncementSignatures_set_node_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	public Uint8Array get_bitcoin_signature() {
@@ -51,14 +51,19 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_bitcoin_signature(Uint8Array val) {
-		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, val);
+		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	public static AnnouncementSignatures constructor_new(Uint8Array channel_id_arg, number short_channel_id_arg, Uint8Array node_signature_arg, Uint8Array bitcoin_signature_arg) {
-		number ret = bindings.AnnouncementSignatures_new(channel_id_arg, short_channel_id_arg, node_signature_arg, bitcoin_signature_arg);
+		number ret = bindings.AnnouncementSignatures_new(InternalUtils.check_arr_len(channel_id_arg, 32), short_channel_id_arg, InternalUtils.check_arr_len(node_signature_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_arg, 64));
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.AnnouncementSignatures_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public AnnouncementSignatures clone() {

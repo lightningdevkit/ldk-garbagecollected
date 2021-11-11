@@ -31,7 +31,7 @@ public class UpdateFee extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.UpdateFee_set_channel_id(this.ptr, val);
+		bindings.UpdateFee_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -53,11 +53,16 @@ public class UpdateFee extends CommonBase {
 	 * Constructs a new UpdateFee given each field
 	 */
 	public static UpdateFee of(byte[] channel_id_arg, int feerate_per_kw_arg) {
-		long ret = bindings.UpdateFee_new(channel_id_arg, feerate_per_kw_arg);
+		long ret = bindings.UpdateFee_new(InternalUtils.check_arr_len(channel_id_arg, 32), feerate_per_kw_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UpdateFee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFee(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.UpdateFee_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

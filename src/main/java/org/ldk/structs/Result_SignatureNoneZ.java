@@ -13,7 +13,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	}
 
 	static Result_SignatureNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_SignatureNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_SignatureNoneZ_is_ok(ptr)) {
 			return new Result_SignatureNoneZ_OK(null, ptr);
 		} else {
 			return new Result_SignatureNoneZ_Err(null, ptr);
@@ -37,7 +37,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 	 * Creates a new CResult_SignatureNoneZ in the success state.
 	 */
 	public static Result_SignatureNoneZ ok(byte[] o) {
-		long ret = bindings.CResult_SignatureNoneZ_ok(o);
+		long ret = bindings.CResult_SignatureNoneZ_ok(InternalUtils.check_arr_len(o, 64));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -51,6 +51,19 @@ public class Result_SignatureNoneZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_SignatureNoneZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_SignatureNoneZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

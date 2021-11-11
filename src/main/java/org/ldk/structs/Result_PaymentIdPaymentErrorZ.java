@@ -13,7 +13,7 @@ public class Result_PaymentIdPaymentErrorZ extends CommonBase {
 	}
 
 	static Result_PaymentIdPaymentErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_PaymentIdPaymentErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_PaymentIdPaymentErrorZ_is_ok(ptr)) {
 			return new Result_PaymentIdPaymentErrorZ_OK(null, ptr);
 		} else {
 			return new Result_PaymentIdPaymentErrorZ_Err(null, ptr);
@@ -42,7 +42,7 @@ public class Result_PaymentIdPaymentErrorZ extends CommonBase {
 	 * Creates a new CResult_PaymentIdPaymentErrorZ in the success state.
 	 */
 	public static Result_PaymentIdPaymentErrorZ ok(byte[] o) {
-		long ret = bindings.CResult_PaymentIdPaymentErrorZ_ok(o);
+		long ret = bindings.CResult_PaymentIdPaymentErrorZ_ok(InternalUtils.check_arr_len(o, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -56,6 +56,19 @@ public class Result_PaymentIdPaymentErrorZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_PaymentIdPaymentErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_PaymentIdPaymentErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

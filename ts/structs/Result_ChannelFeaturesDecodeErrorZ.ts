@@ -9,7 +9,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_ChannelFeaturesDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_ChannelFeaturesDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_ChannelFeaturesDecodeErrorZ_is_ok(ptr)) {
 			return new Result_ChannelFeaturesDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_ChannelFeaturesDecodeErrorZ_Err(null, ptr);
@@ -47,6 +47,11 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		number ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_ChannelFeaturesDecodeErrorZ_is_ok(this.ptr);
+		return ret;
 	}
 
 }

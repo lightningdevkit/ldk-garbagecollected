@@ -9,7 +9,7 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 	}
 
 	static Result_NonePaymentSendFailureZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(ptr)) {
+		if (bindings.CResult_NonePaymentSendFailureZ_is_ok(ptr)) {
 			return new Result_NonePaymentSendFailureZ_OK(null, ptr);
 		} else {
 			return new Result_NonePaymentSendFailureZ_Err(null, ptr);
@@ -42,6 +42,16 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 		number ret = bindings.CResult_NonePaymentSendFailureZ_err(e.ptr);
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_NonePaymentSendFailureZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_NonePaymentSendFailureZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_NonePaymentSendFailureZ clone() {

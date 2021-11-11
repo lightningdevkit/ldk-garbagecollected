@@ -45,6 +45,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.CounterpartyChannelTransactionParameters_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public CounterpartyChannelTransactionParameters clone() {
 		number ret = bindings.CounterpartyChannelTransactionParameters_clone(this.ptr);
 		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);

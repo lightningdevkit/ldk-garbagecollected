@@ -39,7 +39,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 							const update_id_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, update_id);
 				update_id_hu_conv.ptrs_to.add(this);
 							Result_NoneChannelMonitorUpdateErrZ ret = arg.persist_new_channel(channel_id_hu_conv, data_hu_conv, update_id_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -51,7 +51,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 							const update_id_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, update_id);
 				update_id_hu_conv.ptrs_to.add(this);
 							Result_NoneChannelMonitorUpdateErrZ ret = arg.update_persisted_channel(channel_id_hu_conv, update_hu_conv, data_hu_conv, update_id_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 

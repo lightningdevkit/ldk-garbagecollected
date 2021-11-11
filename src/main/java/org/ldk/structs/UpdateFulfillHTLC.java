@@ -31,7 +31,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, val);
+		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -61,18 +61,23 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 * The pre-image of the payment hash, allowing HTLC redemption
 	 */
 	public void set_payment_preimage(byte[] val) {
-		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, val);
+		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
 	 * Constructs a new UpdateFulfillHTLC given each field
 	 */
 	public static UpdateFulfillHTLC of(byte[] channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg) {
-		long ret = bindings.UpdateFulfillHTLC_new(channel_id_arg, htlc_id_arg, payment_preimage_arg);
+		long ret = bindings.UpdateFulfillHTLC_new(InternalUtils.check_arr_len(channel_id_arg, 32), htlc_id_arg, InternalUtils.check_arr_len(payment_preimage_arg, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UpdateFulfillHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFulfillHTLC(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.UpdateFulfillHTLC_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

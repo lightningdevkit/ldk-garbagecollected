@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_funding_pubkey(Uint8Array val) {
-		bindings.ChannelPublicKeys_set_funding_pubkey(this.ptr, val);
+		bindings.ChannelPublicKeys_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_revocation_basepoint() {
@@ -33,7 +33,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_revocation_basepoint(Uint8Array val) {
-		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, val);
+		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_payment_point() {
@@ -42,7 +42,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_payment_point(Uint8Array val) {
-		bindings.ChannelPublicKeys_set_payment_point(this.ptr, val);
+		bindings.ChannelPublicKeys_set_payment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_delayed_payment_basepoint() {
@@ -51,7 +51,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_delayed_payment_basepoint(Uint8Array val) {
-		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, val);
+		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_htlc_basepoint() {
@@ -60,14 +60,19 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_htlc_basepoint(Uint8Array val) {
-		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, val);
+		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public static ChannelPublicKeys constructor_new(Uint8Array funding_pubkey_arg, Uint8Array revocation_basepoint_arg, Uint8Array payment_point_arg, Uint8Array delayed_payment_basepoint_arg, Uint8Array htlc_basepoint_arg) {
-		number ret = bindings.ChannelPublicKeys_new(funding_pubkey_arg, revocation_basepoint_arg, payment_point_arg, delayed_payment_basepoint_arg, htlc_basepoint_arg);
+		number ret = bindings.ChannelPublicKeys_new(InternalUtils.check_arr_len(funding_pubkey_arg, 33), InternalUtils.check_arr_len(revocation_basepoint_arg, 33), InternalUtils.check_arr_len(payment_point_arg, 33), InternalUtils.check_arr_len(delayed_payment_basepoint_arg, 33), InternalUtils.check_arr_len(htlc_basepoint_arg, 33));
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.ChannelPublicKeys_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public ChannelPublicKeys clone() {

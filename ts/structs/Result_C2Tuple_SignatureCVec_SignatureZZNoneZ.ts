@@ -9,7 +9,7 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 	}
 
 	static Result_C2Tuple_SignatureCVec_SignatureZZNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_is_ok(ptr)) {
 			return new Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_OK(null, ptr);
 		} else {
 			return new Result_C2Tuple_SignatureCVec_SignatureZZNoneZ_Err(null, ptr);
@@ -42,6 +42,16 @@ public class Result_C2Tuple_SignatureCVec_SignatureZZNoneZ extends CommonBase {
 		number ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_err();
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ clone() {

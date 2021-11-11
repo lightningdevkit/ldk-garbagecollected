@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_chain_hash(Uint8Array val) {
-		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, val);
+		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_short_channel_id() {
@@ -88,6 +88,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_fee_proportional_millionths(number val) {
 		bindings.UnsignedChannelUpdate_set_fee_proportional_millionths(this.ptr, val);
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.UnsignedChannelUpdate_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public UnsignedChannelUpdate clone() {

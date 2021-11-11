@@ -41,7 +41,7 @@ public class ChannelManagerPersister extends CommonBase {
 			@Override public long persist_manager(long channel_manager) {
 				ChannelManager channel_manager_hu_conv = null; if (channel_manager < 0 || channel_manager > 4096) { channel_manager_hu_conv = new ChannelManager(null, channel_manager); }
 				Result_NoneErrorZ ret = arg.persist_manager(channel_manager_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 		});

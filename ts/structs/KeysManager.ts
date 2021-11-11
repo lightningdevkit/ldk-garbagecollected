@@ -19,14 +19,14 @@ import * as bindings from '../bindings' // TODO: figure out location
                     }
                 }
 	public static KeysManager constructor_new(Uint8Array seed, number starting_time_secs, number starting_time_nanos) {
-		number ret = bindings.KeysManager_new(seed, starting_time_secs, starting_time_nanos);
+		number ret = bindings.KeysManager_new(InternalUtils.check_arr_len(seed, 32), starting_time_secs, starting_time_nanos);
 		const ret_hu_conv: KeysManager = new KeysManager(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public InMemorySigner derive_channel_keys(number channel_value_satoshis, Uint8Array params) {
-		number ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, params);
+		number ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.check_arr_len(params, 32));
 		const ret_hu_conv: InMemorySigner = new InMemorySigner(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;

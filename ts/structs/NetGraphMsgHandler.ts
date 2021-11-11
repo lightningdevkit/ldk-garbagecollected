@@ -30,12 +30,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 		const ret_hu_conv: NetGraphMsgHandler = new NetGraphMsgHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(network_graph);
+		ret_hu_conv.ptrs_to.add(chain_access);
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}
 
 	public void add_chain_access(Option_AccessZ chain_access) {
 		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access.ptr);
+		this.ptrs_to.add(chain_access);
 	}
 
 	public RoutingMessageHandler as_RoutingMessageHandler() {

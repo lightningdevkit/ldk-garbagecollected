@@ -32,6 +32,9 @@ public class PaymentError extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * An error resulting from the provided [`Invoice`] or payment hash.
+	 */
 	public final static class Invoice extends PaymentError {
 		public final String invoice;
 		private Invoice(long ptr, bindings.LDKPaymentError.Invoice obj) {
@@ -39,6 +42,9 @@ public class PaymentError extends CommonBase {
 			this.invoice = obj.invoice;
 		}
 	}
+	/**
+	 * An error occurring when finding a route.
+	 */
 	public final static class Routing extends PaymentError {
 		public final LightningError routing;
 		private Routing(long ptr, bindings.LDKPaymentError.Routing obj) {
@@ -49,6 +55,9 @@ public class PaymentError extends CommonBase {
 			this.routing = routing_hu_conv;
 		}
 	}
+	/**
+	 * An error occurring when sending a payment.
+	 */
 	public final static class Sending extends PaymentError {
 		public final PaymentSendFailure sending;
 		private Sending(long ptr, bindings.LDKPaymentError.Sending obj) {
@@ -59,6 +68,11 @@ public class PaymentError extends CommonBase {
 			this.sending = sending_hu_conv;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.PaymentError_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the PaymentError
 	 */

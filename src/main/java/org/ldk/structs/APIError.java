@@ -42,6 +42,10 @@ public class APIError extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * Indicates the API was wholly misused (see err for more). Cases where these can be returned
+	 * are documented, but generally indicates some precondition of a function was violated.
+	 */
 	public final static class APIMisuseError extends APIError {
 		/**
 		 * A human-readable error message
@@ -52,6 +56,11 @@ public class APIError extends CommonBase {
 			this.err = obj.err;
 		}
 	}
+	/**
+	 * Due to a high feerate, we were unable to complete the request.
+	 * For example, this may be returned if the feerate implies we cannot open a channel at the
+	 * requested value, but opening a larger channel would succeed.
+	 */
 	public final static class FeeRateTooHigh extends APIError {
 		/**
 		 * A human-readable error message
@@ -67,6 +76,10 @@ public class APIError extends CommonBase {
 			this.feerate = obj.feerate;
 		}
 	}
+	/**
+	 * A malformed Route was provided (eg overflowed value, node id mismatch, overly-looped route,
+	 * too-many-hops, etc).
+	 */
 	public final static class RouteError extends APIError {
 		/**
 		 * A human-readable error message
@@ -77,6 +90,11 @@ public class APIError extends CommonBase {
 			this.err = obj.err;
 		}
 	}
+	/**
+	 * We were unable to complete the request as the Channel required to do so is unable to
+	 * complete the request (or was not found). This can take many forms, including disconnected
+	 * peer, channel at capacity, channel shutting down, etc.
+	 */
 	public final static class ChannelUnavailable extends APIError {
 		/**
 		 * A human-readable error message
@@ -87,11 +105,25 @@ public class APIError extends CommonBase {
 			this.err = obj.err;
 		}
 	}
+	/**
+	 * An attempt to call watch/update_channel returned an Err (ie you did this!), causing the
+	 * attempted action to fail.
+	 */
 	public final static class MonitorUpdateFailed extends APIError {
 		private MonitorUpdateFailed(long ptr, bindings.LDKAPIError.MonitorUpdateFailed obj) {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * [`KeysInterface::get_shutdown_scriptpubkey`] returned a shutdown scriptpubkey incompatible
+	 * with the channel counterparty as negotiated in [`InitFeatures`].
+	 * 
+	 * Using a SegWit v0 script should resolve this issue. If you cannot, you won't be able to open
+	 * a channel or cooperatively close one with this peer (and will have to force-close instead).
+	 * 
+	 * [`KeysInterface::get_shutdown_scriptpubkey`]: crate::chain::keysinterface::KeysInterface::get_shutdown_scriptpubkey
+	 * [`InitFeatures`]: crate::ln::features::InitFeatures
+	 */
 	public final static class IncompatibleShutdownScript extends APIError {
 		/**
 		 * The incompatible shutdown script.
@@ -105,6 +137,11 @@ public class APIError extends CommonBase {
 			this.script = script_hu_conv;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.APIError_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the APIError
 	 */

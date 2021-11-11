@@ -128,7 +128,8 @@ public class Confirm extends CommonBase {
 			}
 			@Override public byte[][] get_relevant_txids() {
 				byte[][] ret = arg.get_relevant_txids();
-				return ret;
+				byte[][] result = ret != null ? Arrays.stream(ret).map(ret_conv_8 -> InternalUtils.check_arr_len(ret_conv_8, 32)).toArray(byte[][]::new) : null;
+				return result;
 			}
 		});
 		return impl_holder.held;
@@ -149,7 +150,7 @@ public class Confirm extends CommonBase {
 	 * [`best_block_updated`]: Self::best_block_updated
 	 */
 	public void transactions_confirmed(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height) {
-		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height);
+		bindings.Confirm_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height);
 	}
 
 	/**
@@ -163,7 +164,7 @@ public class Confirm extends CommonBase {
 	 * [`transactions_confirmed`]: Self::transactions_confirmed
 	 */
 	public void transaction_unconfirmed(byte[] txid) {
-		bindings.Confirm_transaction_unconfirmed(this.ptr, txid);
+		bindings.Confirm_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32));
 	}
 
 	/**
@@ -173,7 +174,7 @@ public class Confirm extends CommonBase {
 	 * if they become available at the same time.
 	 */
 	public void best_block_updated(byte[] header, int height) {
-		bindings.Confirm_best_block_updated(this.ptr, header, height);
+		bindings.Confirm_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height);
 	}
 
 	/**

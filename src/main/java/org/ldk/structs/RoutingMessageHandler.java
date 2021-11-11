@@ -98,29 +98,29 @@ public class RoutingMessageHandler extends CommonBase {
 			@Override public long handle_node_announcement(long msg) {
 				NodeAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new NodeAnnouncement(null, msg); }
 				Result_boolLightningErrorZ ret = arg.handle_node_announcement(msg_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long handle_channel_announcement(long msg) {
 				ChannelAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelAnnouncement(null, msg); }
 				Result_boolLightningErrorZ ret = arg.handle_channel_announcement(msg_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long handle_channel_update(long msg) {
 				ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelUpdate(null, msg); }
 				Result_boolLightningErrorZ ret = arg.handle_channel_update(msg_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 				ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_59 -> ret_conv_59 != null ? ret_conv_59.ptr : 0).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_59 -> ret_conv_59 == null ? 0 : ret_conv_59.clone_ptr()).toArray() : null;
 				return result;
 			}
 			@Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
 				NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.ptr & ~1).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()).toArray() : null;
 				return result;
 			}
 			@Override public void sync_routing_table(byte[] their_node_id, long init) {
@@ -131,28 +131,28 @@ public class RoutingMessageHandler extends CommonBase {
 				ReplyChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ReplyChannelRange(null, msg); }
 				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_reply_channel_range(their_node_id, msg_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long handle_reply_short_channel_ids_end(byte[] their_node_id, long msg) {
 				ReplyShortChannelIdsEnd msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ReplyShortChannelIdsEnd(null, msg); }
 				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_reply_short_channel_ids_end(their_node_id, msg_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long handle_query_channel_range(byte[] their_node_id, long msg) {
 				QueryChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new QueryChannelRange(null, msg); }
 				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_query_channel_range(their_node_id, msg_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long handle_query_short_channel_ids(byte[] their_node_id, long msg) {
 				QueryShortChannelIds msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new QueryShortChannelIds(null, msg); }
 				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_query_short_channel_ids(their_node_id, msg_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 		}, MessageSendEventsProvider.new_impl(MessageSendEventsProvider_impl).bindings_instance);
@@ -230,7 +230,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * Note that starting_point (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public NodeAnnouncement[] get_next_node_announcements(@Nullable byte[] starting_point, byte batch_amount) {
-		long[] ret = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, starting_point, batch_amount);
+		long[] ret = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, InternalUtils.check_arr_len(starting_point, 33), batch_amount);
 		NodeAnnouncement[] ret_conv_18_arr = new NodeAnnouncement[ret.length];
 		for (int s = 0; s < ret.length; s++) {
 			long ret_conv_18 = ret[s];
@@ -247,7 +247,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * implementor.
 	 */
 	public void sync_routing_table(byte[] their_node_id, Init init) {
-		bindings.RoutingMessageHandler_sync_routing_table(this.ptr, their_node_id, init == null ? 0 : init.ptr & ~1);
+		bindings.RoutingMessageHandler_sync_routing_table(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr & ~1);
 		this.ptrs_to.add(init);
 	}
 
@@ -257,7 +257,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * replies to a single query.
 	 */
 	public Result_NoneLightningErrorZ handle_reply_channel_range(byte[] their_node_id, ReplyChannelRange msg) {
-		long ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -270,7 +270,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * gossip messages.
 	 */
 	public Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(byte[] their_node_id, ReplyShortChannelIdsEnd msg) {
-		long ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -281,7 +281,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * for the requested range of blocks.
 	 */
 	public Result_NoneLightningErrorZ handle_query_channel_range(byte[] their_node_id, QueryChannelRange msg) {
-		long ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -292,7 +292,7 @@ public class RoutingMessageHandler extends CommonBase {
 	 * list of short_channel_ids.
 	 */
 	public Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] their_node_id, QueryShortChannelIds msg) {
-		long ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

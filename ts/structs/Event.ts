@@ -179,6 +179,11 @@ export class DiscardFunding extends Event {
 		this.transaction = obj.transaction;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.Event_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Event clone() {
 		number ret = bindings.Event_clone(this.ptr);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
@@ -187,28 +192,28 @@ export class DiscardFunding extends Event {
 	}
 
 	public static Event constructor_funding_generation_ready(Uint8Array temporary_channel_id, number channel_value_satoshis, Uint8Array output_script, number user_channel_id) {
-		number ret = bindings.Event_funding_generation_ready(temporary_channel_id, channel_value_satoshis, output_script, user_channel_id);
+		number ret = bindings.Event_funding_generation_ready(InternalUtils.check_arr_len(temporary_channel_id, 32), channel_value_satoshis, output_script, user_channel_id);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static Event constructor_payment_received(Uint8Array payment_hash, number amt, PaymentPurpose purpose) {
-		number ret = bindings.Event_payment_received(payment_hash, amt, purpose.ptr);
+		number ret = bindings.Event_payment_received(InternalUtils.check_arr_len(payment_hash, 32), amt, purpose.ptr);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static Event constructor_payment_sent(Uint8Array payment_id, Uint8Array payment_preimage, Uint8Array payment_hash, Option_u64Z fee_paid_msat) {
-		number ret = bindings.Event_payment_sent(payment_id, payment_preimage, payment_hash, fee_paid_msat.ptr);
+		number ret = bindings.Event_payment_sent(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_hash, 32), fee_paid_msat.ptr);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static Event constructor_payment_path_failed(Uint8Array payment_id, Uint8Array payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id, RouteParameters retry) {
-		number ret = bindings.Event_payment_path_failed(payment_id, payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr & ~1);
+		number ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr & ~1);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -236,14 +241,14 @@ export class DiscardFunding extends Event {
 	}
 
 	public static Event constructor_channel_closed(Uint8Array channel_id, number user_channel_id, ClosureReason reason) {
-		number ret = bindings.Event_channel_closed(channel_id, user_channel_id, reason.ptr);
+		number ret = bindings.Event_channel_closed(InternalUtils.check_arr_len(channel_id, 32), user_channel_id, reason.ptr);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static Event constructor_discard_funding(Uint8Array channel_id, Uint8Array transaction) {
-		number ret = bindings.Event_discard_funding(channel_id, transaction);
+		number ret = bindings.Event_discard_funding(InternalUtils.check_arr_len(channel_id, 32), transaction);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

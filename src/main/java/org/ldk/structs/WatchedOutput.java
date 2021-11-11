@@ -46,7 +46,7 @@ public class WatchedOutput extends CommonBase {
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public void set_block_hash(@Nullable byte[] val) {
-		bindings.WatchedOutput_set_block_hash(this.ptr, val);
+		bindings.WatchedOutput_set_block_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -86,11 +86,16 @@ public class WatchedOutput extends CommonBase {
 	 * Constructs a new WatchedOutput given each field
 	 */
 	public static WatchedOutput of(byte[] block_hash_arg, OutPoint outpoint_arg, byte[] script_pubkey_arg) {
-		long ret = bindings.WatchedOutput_new(block_hash_arg, outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
+		long ret = bindings.WatchedOutput_new(InternalUtils.check_arr_len(block_hash_arg, 32), outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		WatchedOutput ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new WatchedOutput(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.WatchedOutput_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

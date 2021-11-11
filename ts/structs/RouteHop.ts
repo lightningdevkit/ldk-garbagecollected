@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_pubkey(Uint8Array val) {
-		bindings.RouteHop_set_pubkey(this.ptr, val);
+		bindings.RouteHop_set_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public NodeFeatures get_node_features() {
@@ -77,10 +77,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static RouteHop constructor_new(Uint8Array pubkey_arg, NodeFeatures node_features_arg, number short_channel_id_arg, ChannelFeatures channel_features_arg, number fee_msat_arg, number cltv_expiry_delta_arg) {
-		number ret = bindings.RouteHop_new(pubkey_arg, node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
+		number ret = bindings.RouteHop_new(InternalUtils.check_arr_len(pubkey_arg, 33), node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
 		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.RouteHop_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public RouteHop clone() {

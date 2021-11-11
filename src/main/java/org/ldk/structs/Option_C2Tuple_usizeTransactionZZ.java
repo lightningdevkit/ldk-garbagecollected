@@ -29,6 +29,9 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * When we're in this state, this COption_C2Tuple_usizeTransactionZZ contains a crate::c_types::derived::C2Tuple_usizeTransactionZ
+	 */
 	public final static class Some extends Option_C2Tuple_usizeTransactionZZ {
 		public final TwoTuple_usizeTransactionZ some;
 		private Some(long ptr, bindings.LDKCOption_C2Tuple_usizeTransactionZZ.Some obj) {
@@ -39,6 +42,9 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 			this.some = some_hu_conv;
 		}
 	}
+	/**
+	 * When we're in this state, this COption_C2Tuple_usizeTransactionZZ contains nothing
+	 */
 	public final static class None extends Option_C2Tuple_usizeTransactionZZ {
 		private None(long ptr, bindings.LDKCOption_C2Tuple_usizeTransactionZZ.None obj) {
 			super(null, ptr);
@@ -64,6 +70,11 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

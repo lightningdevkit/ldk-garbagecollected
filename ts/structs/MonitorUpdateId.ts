@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.MonitorUpdateId_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.MonitorUpdateId_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public MonitorUpdateId clone() {
 		number ret = bindings.MonitorUpdateId_clone(this.ptr);
 		const ret_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, ret);

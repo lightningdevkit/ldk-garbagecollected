@@ -31,7 +31,7 @@ public class ChannelUpdate extends CommonBase {
 	 * A signature of the channel update
 	 */
 	public void set_signature(byte[] val) {
-		bindings.ChannelUpdate_set_signature(this.ptr, val);
+		bindings.ChannelUpdate_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
@@ -56,11 +56,16 @@ public class ChannelUpdate extends CommonBase {
 	 * Constructs a new ChannelUpdate given each field
 	 */
 	public static ChannelUpdate of(byte[] signature_arg, UnsignedChannelUpdate contents_arg) {
-		long ret = bindings.ChannelUpdate_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
+		long ret = bindings.ChannelUpdate_new(InternalUtils.check_arr_len(signature_arg, 64), contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ChannelUpdate_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

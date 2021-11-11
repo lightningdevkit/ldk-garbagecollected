@@ -31,7 +31,7 @@ public class AcceptChannel extends CommonBase {
 	 * A temporary channel ID, until the funding outpoint is announced
 	 */
 	public void set_temporary_channel_id(byte[] val) {
-		bindings.AcceptChannel_set_temporary_channel_id(this.ptr, val);
+		bindings.AcceptChannel_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class AcceptChannel extends CommonBase {
 	 * The sender's key controlling the funding transaction
 	 */
 	public void set_funding_pubkey(byte[] val) {
-		bindings.AcceptChannel_set_funding_pubkey(this.ptr, val);
+		bindings.AcceptChannel_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class AcceptChannel extends CommonBase {
 	 * Used to derive a revocation key for transactions broadcast by counterparty
 	 */
 	public void set_revocation_basepoint(byte[] val) {
-		bindings.AcceptChannel_set_revocation_basepoint(this.ptr, val);
+		bindings.AcceptChannel_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class AcceptChannel extends CommonBase {
 	 * A payment key to sender for transactions broadcast by counterparty
 	 */
 	public void set_payment_point(byte[] val) {
-		bindings.AcceptChannel_set_payment_point(this.ptr, val);
+		bindings.AcceptChannel_set_payment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class AcceptChannel extends CommonBase {
 	 * Used to derive a payment key to sender for transactions broadcast by sender
 	 */
 	public void set_delayed_payment_basepoint(byte[] val) {
-		bindings.AcceptChannel_set_delayed_payment_basepoint(this.ptr, val);
+		bindings.AcceptChannel_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class AcceptChannel extends CommonBase {
 	 * Used to derive an HTLC payment key to sender for transactions broadcast by counterparty
 	 */
 	public void set_htlc_basepoint(byte[] val) {
-		bindings.AcceptChannel_set_htlc_basepoint(this.ptr, val);
+		bindings.AcceptChannel_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -226,7 +226,12 @@ public class AcceptChannel extends CommonBase {
 	 * The first to-be-broadcast-by-sender transaction's per commitment point
 	 */
 	public void set_first_per_commitment_point(byte[] val) {
-		bindings.AcceptChannel_set_first_per_commitment_point(this.ptr, val);
+		bindings.AcceptChannel_set_first_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+	}
+
+	long clone_ptr() {
+		long ret = bindings.AcceptChannel_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

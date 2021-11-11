@@ -54,6 +54,13 @@ public class Event extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * Used to indicate that the client should generate a funding transaction with the given
+	 * parameters and then call ChannelManager::funding_transaction_generated.
+	 * Generated in ChannelManager message handling.
+	 * Note that *all inputs* in the funding transaction must spend SegWit outputs or your
+	 * counterparty can steal your funds!
+	 */
 	public final static class FundingGenerationReady extends Event {
 		/**
 		 * The random channel_id we picked which you'll need to pass into
@@ -83,6 +90,19 @@ public class Event extends CommonBase {
 			this.user_channel_id = obj.user_channel_id;
 		}
 	}
+	/**
+	 * Indicates we've received money! Just gotta dig out that payment preimage and feed it to
+	 * [`ChannelManager::claim_funds`] to get it....
+	 * Note that if the preimage is not known, you should call
+	 * [`ChannelManager::fail_htlc_backwards`] to free up resources for this HTLC and avoid
+	 * network congestion.
+	 * If you fail to call either [`ChannelManager::claim_funds`] or
+	 * [`ChannelManager::fail_htlc_backwards`] within the HTLC's timeout, the HTLC will be
+	 * automatically failed.
+	 * 
+	 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
+	 * [`ChannelManager::fail_htlc_backwards`]: crate::ln::channelmanager::ChannelManager::fail_htlc_backwards
+	 */
 	public final static class PaymentReceived extends Event {
 		/**
 		 * The hash for which the preimage should be handed to the ChannelManager.
@@ -107,6 +127,13 @@ public class Event extends CommonBase {
 			this.purpose = purpose_hu_conv;
 		}
 	}
+	/**
+	 * Indicates an outbound payment we made succeeded (i.e. it made it all the way to its target
+	 * and we got back the payment preimage for it).
+	 * 
+	 * Note for MPP payments: in rare cases, this event may be preceded by a `PaymentPathFailed`
+	 * event. In this situation, you SHOULD treat this payment as having succeeded.
+	 */
 	public final static class PaymentSent extends Event {
 		/**
 		 * The id returned by [`ChannelManager::send_payment`] and used with
@@ -153,6 +180,10 @@ public class Event extends CommonBase {
 			this.fee_paid_msat = fee_paid_msat_hu_conv;
 		}
 	}
+	/**
+	 * Indicates an outbound payment we made failed. Probably some intermediary node dropped
+	 * something. You may wish to retry with a different route.
+	 */
 	public final static class PaymentPathFailed extends Event {
 		/**
 		 * The id returned by [`ChannelManager::send_payment`] and used with
@@ -242,6 +273,10 @@ public class Event extends CommonBase {
 			this.retry = retry_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that ChannelManager::process_pending_htlc_forwards should be called at a
+	 * time in the future.
+	 */
 	public final static class PendingHTLCsForwardable extends Event {
 		/**
 		 * The minimum amount of time that should be waited prior to calling
@@ -255,6 +290,13 @@ public class Event extends CommonBase {
 			this.time_forwardable = obj.time_forwardable;
 		}
 	}
+	/**
+	 * Used to indicate that an output which you should know how to spend was confirmed on chain
+	 * and is now spendable.
+	 * Such an output will *not* ever be spent by rust-lightning, and are not at risk of your
+	 * counterparty spending them due to some kind of timeout. Thus, you need to store them
+	 * somewhere and spend them when you create on-chain transactions.
+	 */
 	public final static class SpendableOutputs extends Event {
 		/**
 		 * The outputs which you should store as spendable by you.
@@ -273,6 +315,10 @@ public class Event extends CommonBase {
 			this.outputs = outputs_conv_27_arr;
 		}
 	}
+	/**
+	 * This event is generated when a payment has been successfully forwarded through us and a
+	 * forwarding fee earned.
+	 */
 	public final static class PaymentForwarded extends Event {
 		/**
 		 * The fee, in milli-satoshis, which was earned as a result of the payment.
@@ -304,6 +350,9 @@ public class Event extends CommonBase {
 			this.claim_from_onchain_tx = obj.claim_from_onchain_tx;
 		}
 	}
+	/**
+	 * Used to indicate that a channel with the given `channel_id` is in the process of closure.
+	 */
 	public final static class ChannelClosed extends Event {
 		/**
 		 * The channel_id of the channel which has been closed. Note that on-chain transactions
@@ -332,6 +381,10 @@ public class Event extends CommonBase {
 			this.reason = reason_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate to the user that they can abandon the funding transaction and recycle the
+	 * inputs for another purpose.
+	 */
 	public final static class DiscardFunding extends Event {
 		/**
 		 * The channel_id of the channel which has been closed.
@@ -347,6 +400,11 @@ public class Event extends CommonBase {
 			this.transaction = obj.transaction;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.Event_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the Event
 	 */
@@ -362,7 +420,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new FundingGenerationReady-variant Event
 	 */
 	public static Event funding_generation_ready(byte[] temporary_channel_id, long channel_value_satoshis, byte[] output_script, long user_channel_id) {
-		long ret = bindings.Event_funding_generation_ready(temporary_channel_id, channel_value_satoshis, output_script, user_channel_id);
+		long ret = bindings.Event_funding_generation_ready(InternalUtils.check_arr_len(temporary_channel_id, 32), channel_value_satoshis, output_script, user_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -373,7 +431,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new PaymentReceived-variant Event
 	 */
 	public static Event payment_received(byte[] payment_hash, long amt, PaymentPurpose purpose) {
-		long ret = bindings.Event_payment_received(payment_hash, amt, purpose.ptr);
+		long ret = bindings.Event_payment_received(InternalUtils.check_arr_len(payment_hash, 32), amt, purpose.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -384,7 +442,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new PaymentSent-variant Event
 	 */
 	public static Event payment_sent(byte[] payment_id, byte[] payment_preimage, byte[] payment_hash, Option_u64Z fee_paid_msat) {
-		long ret = bindings.Event_payment_sent(payment_id, payment_preimage, payment_hash, fee_paid_msat.ptr);
+		long ret = bindings.Event_payment_sent(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_hash, 32), fee_paid_msat.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -395,7 +453,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new PaymentPathFailed-variant Event
 	 */
 	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id, RouteParameters retry) {
-		long ret = bindings.Event_payment_path_failed(payment_id, payment_hash, rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr & ~1);
+		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -439,7 +497,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new ChannelClosed-variant Event
 	 */
 	public static Event channel_closed(byte[] channel_id, long user_channel_id, ClosureReason reason) {
-		long ret = bindings.Event_channel_closed(channel_id, user_channel_id, reason.ptr);
+		long ret = bindings.Event_channel_closed(InternalUtils.check_arr_len(channel_id, 32), user_channel_id, reason.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -450,7 +508,7 @@ public class Event extends CommonBase {
 	 * Utility method to constructs a new DiscardFunding-variant Event
 	 */
 	public static Event discard_funding(byte[] channel_id, byte[] transaction) {
-		long ret = bindings.Event_discard_funding(channel_id, transaction);
+		long ret = bindings.Event_discard_funding(InternalUtils.check_arr_len(channel_id, 32), transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

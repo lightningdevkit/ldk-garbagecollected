@@ -34,7 +34,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         read (message_type: number, buffer: Uint8Array): number {
 							Result_COption_TypeZDecodeErrorZ ret = arg.read(message_type, buffer);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 

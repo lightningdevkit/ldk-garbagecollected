@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_id(Uint8Array val) {
-		bindings.Shutdown_set_channel_id(this.ptr, val);
+		bindings.Shutdown_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Uint8Array get_scriptpubkey() {
@@ -37,10 +37,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static Shutdown constructor_new(Uint8Array channel_id_arg, Uint8Array scriptpubkey_arg) {
-		number ret = bindings.Shutdown_new(channel_id_arg, scriptpubkey_arg);
+		number ret = bindings.Shutdown_new(InternalUtils.check_arr_len(channel_id_arg, 32), scriptpubkey_arg);
 		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.Shutdown_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Shutdown clone() {

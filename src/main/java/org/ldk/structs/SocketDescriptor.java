@@ -139,6 +139,11 @@ public class SocketDescriptor extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.SocketDescriptor_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of a SocketDescriptor
 	 */

@@ -24,14 +24,19 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_a(Uint8Array val) {
-		bindings.PayeePubKey_set_a(this.ptr, val);
+		bindings.PayeePubKey_set_a(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public static PayeePubKey constructor_new(Uint8Array a_arg) {
-		number ret = bindings.PayeePubKey_new(a_arg);
+		number ret = bindings.PayeePubKey_new(InternalUtils.check_arr_len(a_arg, 33));
 		const ret_hu_conv: PayeePubKey = new PayeePubKey(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.PayeePubKey_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public PayeePubKey clone() {

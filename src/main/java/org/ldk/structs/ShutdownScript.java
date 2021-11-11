@@ -21,6 +21,11 @@ public class ShutdownScript extends CommonBase {
 		if (ptr != 0) { bindings.ShutdownScript_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.ShutdownScript_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the ShutdownScript
 	 */
@@ -54,7 +59,7 @@ public class ShutdownScript extends CommonBase {
 	 * Generates a P2WPKH script pubkey from the given [`WPubkeyHash`].
 	 */
 	public static ShutdownScript new_p2wpkh(byte[] pubkey_hash) {
-		long ret = bindings.ShutdownScript_new_p2wpkh(pubkey_hash);
+		long ret = bindings.ShutdownScript_new_p2wpkh(InternalUtils.check_arr_len(pubkey_hash, 20));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -65,7 +70,7 @@ public class ShutdownScript extends CommonBase {
 	 * Generates a P2WSH script pubkey from the given [`WScriptHash`].
 	 */
 	public static ShutdownScript new_p2wsh(byte[] script_hash) {
-		long ret = bindings.ShutdownScript_new_p2wsh(script_hash);
+		long ret = bindings.ShutdownScript_new_p2wsh(InternalUtils.check_arr_len(script_hash, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

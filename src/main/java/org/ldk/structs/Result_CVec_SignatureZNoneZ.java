@@ -13,7 +13,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	}
 
 	static Result_CVec_SignatureZNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_CVec_SignatureZNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_CVec_SignatureZNoneZ_is_ok(ptr)) {
 			return new Result_CVec_SignatureZNoneZ_OK(null, ptr);
 		} else {
 			return new Result_CVec_SignatureZNoneZ_Err(null, ptr);
@@ -37,7 +37,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 	 * Creates a new CResult_CVec_SignatureZNoneZ in the success state.
 	 */
 	public static Result_CVec_SignatureZNoneZ ok(byte[][] o) {
-		long ret = bindings.CResult_CVec_SignatureZNoneZ_ok(o);
+		long ret = bindings.CResult_CVec_SignatureZNoneZ_ok(o != null ? Arrays.stream(o).map(o_conv_8 -> InternalUtils.check_arr_len(o_conv_8, 64)).toArray(byte[][]::new) : null);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -51,6 +51,19 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_CVec_SignatureZNoneZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_CVec_SignatureZNoneZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

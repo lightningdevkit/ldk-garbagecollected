@@ -30,6 +30,11 @@ public class InvoiceFeatures extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.InvoiceFeatures_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the InvoiceFeatures
 	 */

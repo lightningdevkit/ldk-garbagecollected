@@ -35,6 +35,9 @@ public class MonitorEvent extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * A monitor event containing an HTLCUpdate.
+	 */
 	public final static class HTLCEvent extends MonitorEvent {
 		public final HTLCUpdate htlc_event;
 		private HTLCEvent(long ptr, bindings.LDKMonitorEvent.HTLCEvent obj) {
@@ -45,6 +48,9 @@ public class MonitorEvent extends CommonBase {
 			this.htlc_event = htlc_event_hu_conv;
 		}
 	}
+	/**
+	 * A monitor event that the Channel's commitment transaction was confirmed.
+	 */
 	public final static class CommitmentTxConfirmed extends MonitorEvent {
 		public final OutPoint commitment_tx_confirmed;
 		private CommitmentTxConfirmed(long ptr, bindings.LDKMonitorEvent.CommitmentTxConfirmed obj) {
@@ -55,6 +61,12 @@ public class MonitorEvent extends CommonBase {
 			this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
 		}
 	}
+	/**
+	 * Indicates a [`ChannelMonitor`] update has completed. See
+	 * [`ChannelMonitorUpdateErr::TemporaryFailure`] for more information on how this is used.
+	 * 
+	 * [`ChannelMonitorUpdateErr::TemporaryFailure`]: super::ChannelMonitorUpdateErr::TemporaryFailure
+	 */
 	public final static class UpdateCompleted extends MonitorEvent {
 		/**
 		 * The funding outpoint of the [`ChannelMonitor`] that was updated
@@ -77,6 +89,12 @@ public class MonitorEvent extends CommonBase {
 			this.monitor_update_id = obj.monitor_update_id;
 		}
 	}
+	/**
+	 * Indicates a [`ChannelMonitor`] update has failed. See
+	 * [`ChannelMonitorUpdateErr::PermanentFailure`] for more information on how this is used.
+	 * 
+	 * [`ChannelMonitorUpdateErr::PermanentFailure`]: super::ChannelMonitorUpdateErr::PermanentFailure
+	 */
 	public final static class UpdateFailed extends MonitorEvent {
 		public final OutPoint update_failed;
 		private UpdateFailed(long ptr, bindings.LDKMonitorEvent.UpdateFailed obj) {
@@ -87,6 +105,11 @@ public class MonitorEvent extends CommonBase {
 			this.update_failed = update_failed_hu_conv;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.MonitorEvent_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the MonitorEvent
 	 */

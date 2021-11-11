@@ -9,7 +9,7 @@ public class Result_ShutdownDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_ShutdownDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_ShutdownDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_ShutdownDecodeErrorZ_is_ok(ptr)) {
 			return new Result_ShutdownDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_ShutdownDecodeErrorZ_Err(null, ptr);
@@ -47,6 +47,16 @@ public class Result_ShutdownDecodeErrorZ extends CommonBase {
 		number ret = bindings.CResult_ShutdownDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_ShutdownDecodeErrorZ ret_hu_conv = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_ShutdownDecodeErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_ShutdownDecodeErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_ShutdownDecodeErrorZ clone() {

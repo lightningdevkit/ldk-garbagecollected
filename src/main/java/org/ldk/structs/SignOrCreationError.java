@@ -30,11 +30,17 @@ public class SignOrCreationError extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * An error occurred during signing
+	 */
 	public final static class SignError extends SignOrCreationError {
 		private SignError(long ptr, bindings.LDKSignOrCreationError.SignError obj) {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * An error occurred while building the transaction
+	 */
 	public final static class CreationError extends SignOrCreationError {
 		public final org.ldk.enums.CreationError creation_error;
 		private CreationError(long ptr, bindings.LDKSignOrCreationError.CreationError obj) {
@@ -42,6 +48,11 @@ public class SignOrCreationError extends CommonBase {
 			this.creation_error = obj.creation_error;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.SignOrCreationError_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the SignOrCreationError
 	 */

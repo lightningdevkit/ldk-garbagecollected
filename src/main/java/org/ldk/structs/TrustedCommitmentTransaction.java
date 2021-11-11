@@ -61,7 +61,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 * The returned Vec has one entry for each HTLC, and in the same order.
 	 */
 	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, DirectedChannelTransactionParameters channel_parameters) {
-		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, htlc_base_key, channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
+		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(channel_parameters);

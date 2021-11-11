@@ -35,6 +35,11 @@ public class PositiveTimestamp extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.PositiveTimestamp_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the PositiveTimestamp
 	 */

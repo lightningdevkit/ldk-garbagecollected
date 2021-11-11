@@ -35,7 +35,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         persist_manager (channel_manager: number): number {
 							const channel_manager_hu_conv: ChannelManager = new ChannelManager(null, channel_manager);
 							Result_NoneErrorZ ret = arg.persist_manager(channel_manager_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 

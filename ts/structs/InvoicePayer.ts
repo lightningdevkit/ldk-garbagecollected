@@ -45,7 +45,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void remove_cached_payment(Uint8Array payment_hash) {
-		bindings.InvoicePayer_remove_cached_payment(this.ptr, payment_hash);
+		bindings.InvoicePayer_remove_cached_payment(this.ptr, InternalUtils.check_arr_len(payment_hash, 32));
 	}
 
 	public EventHandler as_EventHandler() {

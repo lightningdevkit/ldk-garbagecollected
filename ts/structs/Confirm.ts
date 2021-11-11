@@ -53,7 +53,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						get_relevant_txids (): Uint8Array[] {
 							Uint8Array[] ret = arg.get_relevant_txids();
-				return ret;
+				result: Uint8Array[] = ret != null ? Arrays.stream(ret).map(ret_conv_12 -> InternalUtils.check_arr_len(ret_conv_12, 32)).toArray(Uint8Array[]::new) : null;
+				return result;
 						},
 
 						
@@ -74,15 +75,15 @@ import * as bindings from '../bindings' // TODO: figure out location
                 held: Confirm;
             }
 	public void transactions_confirmed(Uint8Array header, TwoTuple_usizeTransactionZ[] txdata, number height) {
-		bindings.Confirm_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).map(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray(number[]::new) : null, height);
+		bindings.Confirm_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).map(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray(number[]::new) : null, height);
 	}
 
 	public void transaction_unconfirmed(Uint8Array txid) {
-		bindings.Confirm_transaction_unconfirmed(this.ptr, txid);
+		bindings.Confirm_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32));
 	}
 
 	public void best_block_updated(Uint8Array header, number height) {
-		bindings.Confirm_best_block_updated(this.ptr, header, height);
+		bindings.Confirm_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height);
 	}
 
 	public Uint8Array[] get_relevant_txids() {

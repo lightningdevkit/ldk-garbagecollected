@@ -34,26 +34,27 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         node_id (): Uint8Array {
 							Uint8Array ret = arg.node_id();
-				return ret;
+				result: Uint8Array = InternalUtils.check_arr_len(ret, 33);
+				return result;
 						},
 
 						first_hops (): number[] {
 							ChannelDetails[] ret = arg.first_hops();
-				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_16 -> ret_conv_16 == null ? 0 : ret_conv_16.ptr & ~1).toArray(number[]::new) : null;
+				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_16 -> ret_conv_16 == null ? 0 : ret_conv_16.clone_ptr()).toArray(number[]::new) : null;
 				return result;
 						},
 
 						send_payment (route: number, payment_hash: Uint8Array, payment_secret: Uint8Array): number {
 							const route_hu_conv: Route = new Route(null, route);
 							Result_PaymentIdPaymentSendFailureZ ret = arg.send_payment(route_hu_conv, payment_hash, payment_secret);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
 						retry_payment (route: number, payment_id: Uint8Array): number {
 							const route_hu_conv: Route = new Route(null, route);
 							Result_NonePaymentSendFailureZ ret = arg.retry_payment(route_hu_conv, payment_id);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -92,14 +93,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, Uint8Array payment_hash, Uint8Array payment_secret) {
-		number ret = bindings.Payer_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_hash, payment_secret);
+		number ret = bindings.Payer_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
 	}
 
 	public Result_NonePaymentSendFailureZ retry_payment(Route route, Uint8Array payment_id) {
-		number ret = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id);
+		number ret = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;

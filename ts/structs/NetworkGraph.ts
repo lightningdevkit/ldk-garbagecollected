@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.NetworkGraph_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.NetworkGraph_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public NetworkGraph clone() {
 		number ret = bindings.NetworkGraph_clone(this.ptr);
 		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
@@ -37,7 +42,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static NetworkGraph constructor_new(Uint8Array genesis_hash) {
-		number ret = bindings.NetworkGraph_new(genesis_hash);
+		number ret = bindings.NetworkGraph_new(InternalUtils.check_arr_len(genesis_hash, 32));
 		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
@@ -68,6 +73,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.NetworkGraph_update_channel_from_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access.ptr);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
+		this.ptrs_to.add(chain_access);
 		return ret_hu_conv;
 	}
 
@@ -75,6 +81,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.NetworkGraph_update_channel_from_unsigned_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1, chain_access.ptr);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
+		this.ptrs_to.add(chain_access);
 		return ret_hu_conv;
 	}
 
@@ -83,7 +90,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void fail_node(Uint8Array _node_id, boolean is_permanent) {
-		bindings.NetworkGraph_fail_node(this.ptr, _node_id, is_permanent);
+		bindings.NetworkGraph_fail_node(this.ptr, InternalUtils.check_arr_len(_node_id, 33), is_permanent);
 	}
 
 	public Result_NoneLightningErrorZ update_channel(ChannelUpdate msg) {

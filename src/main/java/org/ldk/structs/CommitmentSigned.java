@@ -31,7 +31,7 @@ public class CommitmentSigned extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.CommitmentSigned_set_channel_id(this.ptr, val);
+		bindings.CommitmentSigned_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -46,25 +46,30 @@ public class CommitmentSigned extends CommonBase {
 	 * A signature on the commitment transaction
 	 */
 	public void set_signature(byte[] val) {
-		bindings.CommitmentSigned_set_signature(this.ptr, val);
+		bindings.CommitmentSigned_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
 	 * Signatures on the HTLC transactions
 	 */
 	public void set_htlc_signatures(byte[][] val) {
-		bindings.CommitmentSigned_set_htlc_signatures(this.ptr, val);
+		bindings.CommitmentSigned_set_htlc_signatures(this.ptr, val != null ? Arrays.stream(val).map(val_conv_8 -> InternalUtils.check_arr_len(val_conv_8, 64)).toArray(byte[][]::new) : null);
 	}
 
 	/**
 	 * Constructs a new CommitmentSigned given each field
 	 */
 	public static CommitmentSigned of(byte[] channel_id_arg, byte[] signature_arg, byte[][] htlc_signatures_arg) {
-		long ret = bindings.CommitmentSigned_new(channel_id_arg, signature_arg, htlc_signatures_arg);
+		long ret = bindings.CommitmentSigned_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(signature_arg, 64), htlc_signatures_arg != null ? Arrays.stream(htlc_signatures_arg).map(htlc_signatures_arg_conv_8 -> InternalUtils.check_arr_len(htlc_signatures_arg_conv_8, 64)).toArray(byte[][]::new) : null);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CommitmentSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CommitmentSigned_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

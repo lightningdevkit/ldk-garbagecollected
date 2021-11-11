@@ -1,6 +1,12 @@
 
             export enum AccessError {
-                LDKAccessError_UnknownChain,
-				LDKAccessError_UnknownTx,
+                /**
+ * The requested chain is unknown.
+ */
+LDKAccessError_UnknownChain,
+				/**
+ * The requested transaction doesn't exist or hasn't confirmed.
+ */
+LDKAccessError_UnknownTx,
 				
             }

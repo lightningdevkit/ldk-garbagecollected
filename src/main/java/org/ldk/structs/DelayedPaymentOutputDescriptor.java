@@ -50,7 +50,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 * Per commitment point to derive delayed_payment_key by key holder
 	 */
 	public void set_per_commitment_point(byte[] val) {
-		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, val);
+		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 * derive the witnessScript for this output.
 	 */
 	public void set_revocation_pubkey(byte[] val) {
-		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, val);
+		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 * the channel to spend the output.
 	 */
 	public void set_channel_keys_id(byte[] val) {
-		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, val);
+		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -132,11 +132,16 @@ public class DelayedPaymentOutputDescriptor extends CommonBase {
 	 * Constructs a new DelayedPaymentOutputDescriptor given each field
 	 */
 	public static DelayedPaymentOutputDescriptor of(OutPoint outpoint_arg, byte[] per_commitment_point_arg, short to_self_delay_arg, TxOut output_arg, byte[] revocation_pubkey_arg, byte[] channel_keys_id_arg, long channel_value_satoshis_arg) {
-		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, per_commitment_point_arg, to_self_delay_arg, output_arg.ptr, revocation_pubkey_arg, channel_keys_id_arg, channel_value_satoshis_arg);
+		long ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, InternalUtils.check_arr_len(per_commitment_point_arg, 33), to_self_delay_arg, output_arg.ptr, InternalUtils.check_arr_len(revocation_pubkey_arg, 33), InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		DelayedPaymentOutputDescriptor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DelayedPaymentOutputDescriptor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.DelayedPaymentOutputDescriptor_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

@@ -19,6 +19,11 @@ public class NodeId extends CommonBase {
 		if (ptr != 0) { bindings.NodeId_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.NodeId_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the NodeId
 	 */
@@ -34,7 +39,7 @@ public class NodeId extends CommonBase {
 	 * Create a new NodeId from a public key
 	 */
 	public static NodeId from_pubkey(byte[] pubkey) {
-		long ret = bindings.NodeId_from_pubkey(pubkey);
+		long ret = bindings.NodeId_from_pubkey(InternalUtils.check_arr_len(pubkey, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeId(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

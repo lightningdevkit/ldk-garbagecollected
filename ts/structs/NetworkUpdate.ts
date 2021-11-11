@@ -51,6 +51,11 @@ export class NodeFailure extends NetworkUpdate {
 		this.is_permanent = obj.is_permanent;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.NetworkUpdate_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public NetworkUpdate clone() {
 		number ret = bindings.NetworkUpdate_clone(this.ptr);
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
@@ -73,7 +78,7 @@ export class NodeFailure extends NetworkUpdate {
 	}
 
 	public static NetworkUpdate constructor_node_failure(Uint8Array node_id, boolean is_permanent) {
-		number ret = bindings.NetworkUpdate_node_failure(node_id, is_permanent);
+		number ret = bindings.NetworkUpdate_node_failure(InternalUtils.check_arr_len(node_id, 33), is_permanent);
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

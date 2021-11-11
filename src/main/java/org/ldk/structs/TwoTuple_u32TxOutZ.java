@@ -37,6 +37,11 @@ public class TwoTuple_u32TxOutZ extends CommonBase {
 		return ret_conv;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.C2Tuple_u32TxOutZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a new tuple which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
