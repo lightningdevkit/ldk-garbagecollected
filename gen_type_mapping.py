@@ -374,15 +374,16 @@ class TypeMappingGenerator:
                     if needs_full_clone and (ty_info.rust_obj.replace("LDK", "") + "_clone") not in self.clone_fns:
                         # We really need a full clone here, but for now we just implement
                         # a manual clone explicitly for Option<Trait>s
-                        if ty_info.rust_obj.startswith("LDKCOption"):
+                        if ty_info.contains_trait:
+                            assert ty_info.rust_obj.startswith("LDKCOption") # We don't support contained traits for anything else yet
                             optional_ty = ty_info.rust_obj[11:-1]
-                            if "LDK" + optional_ty in self.trait_structs:
-                                base_conv += "\nif (" + ty_info.var_name + "_conv.tag == " + ty_info.rust_obj + "_Some) {"
-                                base_conv += "\n\t// Manually implement clone for Java trait instances"
-                                optional_ty_info = self.java_c_types("LDK" + optional_ty + " " + ty_info.var_name, None)
-                                base_conv += self.consts.trait_struct_inc_refcnt(optional_ty_info).\
-                                    replace("\n", "\n\t").replace(ty_info.var_name + "_conv", ty_info.var_name + "_conv.some")
-                                base_conv += "\n}"
+                            assert "LDK" + optional_ty in self.trait_structs # We don't support contained traits for anything else yet
+                            base_conv += "\nif (" + ty_info.var_name + "_conv.tag == " + ty_info.rust_obj + "_Some) {"
+                            base_conv += "\n\t// Manually implement clone for Java trait instances"
+                            optional_ty_info = self.java_c_types("LDK" + optional_ty + " " + ty_info.var_name, None)
+                            base_conv += self.consts.trait_struct_inc_refcnt(optional_ty_info).\
+                                replace("\n", "\n\t").replace(ty_info.var_name + "_conv", ty_info.var_name + "_conv.some")
+                            base_conv += "\n}"
                     ret_conv = ("uint64_t " + ty_info.var_name + "_ref = ((uint64_t)&", ") | 1;")
                     if not holds_ref:
                         ret_conv = (ty_info.rust_obj + " *" + ty_info.var_name + "_copy = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n", "")
