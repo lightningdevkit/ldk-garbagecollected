@@ -3,12 +3,14 @@ package org.ldk;
 import org.junit.jupiter.api.Test;
 import org.ldk.impl.bindings;
 import org.ldk.enums.*;
+import org.ldk.structs.Record;
 
 public class ManualMsgHandlingPeerTest {
     @Test
     void test_message_handler() {
-        long logger = bindings.LDKLogger_new((String arg)->{
-            System.out.println(arg);
+        long logger = bindings.LDKLogger_new((long arg)->{
+            System.out.println(bindings.Record_get_args(arg));
+            bindings.Record_free(arg);
         });
         long chan_handler = bindings.LDKChannelMessageHandler_new(new bindings.LDKChannelMessageHandler() {
             @Override

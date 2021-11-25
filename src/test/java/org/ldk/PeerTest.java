@@ -37,7 +37,10 @@ public class PeerTest {
         bindings.LDKWatch watcher;
 
         Peer(byte seed) {
-            this.log_trait = (String arg)-> System.out.println(seed + ": " + arg);
+            this.log_trait = (long arg) -> {
+                System.out.println(seed + ": " + bindings.Record_get_args(arg));
+                bindings.Record_free(arg);
+            };
             logger = bindings.LDKLogger_new(this.log_trait);
             this.fee_est = confirmation_target -> 0;
             this.fee_estimator = bindings.LDKFeeEstimator_new(this.fee_est);
