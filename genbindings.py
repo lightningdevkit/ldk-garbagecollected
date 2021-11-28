@@ -672,7 +672,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             out_java_struct.write("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n")
             out_java_struct.write("\t}\n\n")
             out_java_struct.write("\tstatic " + human_ty + " constr_from_ptr(long ptr) {\n")
-            out_java_struct.write("\t\tif (bindings." + struct_name + "_result_ok(ptr)) {\n")
+            out_java_struct.write("\t\tif (bindings." + struct_name.replace("LDK", "") + "_is_ok(ptr)) {\n")
             out_java_struct.write("\t\t\treturn new " + human_ty + "_OK(null, ptr);\n")
             out_java_struct.write("\t\t} else {\n")
             out_java_struct.write("\t\t\treturn new " + human_ty + "_Err(null, ptr);\n")
@@ -686,11 +686,6 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 can_clone = False
             if not err_map.is_native_primitive and (err_map.rust_obj.replace("LDK", "") + "_clone" not in clone_fns):
                 can_clone = False
-
-            out_java.write("\tpublic static native boolean " + struct_name + "_result_ok(long arg);\n")
-            write_c(consts.c_fn_ty_pfx + "jboolean " + consts.c_fn_name_define_pfx(struct_name + "_result_ok", True) + consts.ptr_c_ty + " arg) {\n")
-            write_c("\treturn ((" + struct_name + "*)arg)->result_ok;\n")
-            write_c("}\n")
 
             out_java.write("\tpublic static native " + res_map.java_ty + " " + struct_name + "_get_ok(long arg);\n")
             write_c(consts.c_fn_ty_pfx + res_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_ok", True) + consts.ptr_c_ty + " arg) {\n")
