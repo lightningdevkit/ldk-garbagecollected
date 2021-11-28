@@ -78,7 +78,8 @@ class TraitMethInfo:
         self.docs = docs
 
 class ComplexEnumVariantInfo:
-    def __init__(self, var_name, fields, tuple_variant):
+    def __init__(self, var_name, var_docs, fields, tuple_variant):
         self.var_name = var_name
+        self.var_docs = var_docs
         self.fields = fields
         self.tuple_variant = tuple_variant

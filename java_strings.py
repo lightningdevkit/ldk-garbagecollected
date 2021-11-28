@@ -614,8 +614,10 @@ import javax.annotation.Nullable;
             out_java_enum += "/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
         out_java_enum += "public enum " + struct_name + " {\n"
         ord_v = 0
-        for var in variants:
-            out_java_enum = out_java_enum + "\t" + var + ",\n"
+        for var, var_docs in variants:
+            if var_docs is not None:
+                out_java_enum += "\t/**\n\t * " + var_docs.replace("\n", "\n\t * ") + "\n\t */\n"
+            out_java_enum += "\t" + var + ",\n"
             out_c = out_c + "\t\tcase %d: return %s;\n" % (ord_v, var)
             ord_v = ord_v + 1
         out_java_enum = out_java_enum + "\t; static native void init();\n"
@@ -627,19 +629,19 @@ import javax.annotation.Nullable;
         out_c = out_c + "}\n"
 
         out_c = out_c + "static jclass " + struct_name + "_class = NULL;\n"
-        for var in variants:
+        for var, _ in variants:
             out_c = out_c + "static jfieldID " + struct_name + "_" + var + " = NULL;\n"
         out_c = out_c + self.c_fn_ty_pfx + "void JNICALL Java_org_ldk_enums_" + struct_name.replace("_", "_1") + "_init (" + self.c_fn_args_pfx + ") {\n"
         out_c = out_c + "\t" + struct_name + "_class = (*env)->NewGlobalRef(env, clz);\n"
         out_c = out_c + "\tCHECK(" + struct_name + "_class != NULL);\n"
-        for var in variants:
+        for var, _ in variants:
             out_c = out_c + "\t" + struct_name + "_" + var + " = (*env)->GetStaticFieldID(env, " + struct_name + "_class, \"" + var + "\", \"Lorg/ldk/enums/" + struct_name + ";\");\n"
             out_c = out_c + "\tCHECK(" + struct_name + "_" + var + " != NULL);\n"
         out_c = out_c + "}\n"
         out_c = out_c + "static inline jclass LDK" + struct_name + "_to_java(JNIEnv *env, LDK" + struct_name + " val) {\n"
         out_c = out_c + "\tswitch (val) {\n"
         ord_v = 0
-        for var in variants:
+        for var, _ in variants:
             out_c = out_c + "\t\tcase " + var + ":\n"
             out_c = out_c + "\t\t\treturn (*env)->GetStaticObjectField(env, " + struct_name + "_class, " + struct_name + "_" + var + ");\n"
             ord_v = ord_v + 1
@@ -1049,7 +1051,9 @@ import javax.annotation.Nullable;
         out_java +=  ("\t\tprivate " + struct_name + "() {}\n")
         for var in variant_list:
             out_java +=  ("\t\tpublic final static class " + var.var_name + " extends " + struct_name + " {\n")
-            java_hu_subclasses = java_hu_subclasses + "\tpublic final static class " + var.var_name + " extends " + java_hu_type + " {\n"
+            if var.var_docs is not None:
+                java_hu_subclasses += "\t/**\n\t * " + var.var_docs.replace("\n", "\n\t * ") + "\n\t */\n"
+            java_hu_subclasses += "\tpublic final static class " + var.var_name + " extends " + java_hu_type + " {\n"
             out_java_enum += ("\t\tif (raw_val.getClass() == bindings." + struct_name + "." + var.var_name + ".class) {\n")
             out_java_enum += ("\t\t\treturn new " + var.var_name + "(ptr, (bindings." + struct_name + "." + var.var_name + ")raw_val);\n")
             init_meth_jty_str = ""

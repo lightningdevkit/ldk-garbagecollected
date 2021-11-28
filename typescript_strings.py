@@ -472,9 +472,11 @@ const decodeString = (stringPointer, free = true) => {
 
         out_typescript_enum_fields = ""
 
-        for var in variants:
+        for var, var_docs in variants:
             out_c = out_c + "\t\tcase %d: return %s;\n" % (ord_v, var)
             ord_v = ord_v + 1
+            if var_docs is not None:
+                out_typescript_enum_fields += f"/**\n * {var_docs}\n */\n"
             out_typescript_enum_fields += f"{var},\n\t\t\t\t"
         out_c = out_c + "\t}\n"
         out_c = out_c + "\tabort();\n"
@@ -483,7 +485,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "static inline int32_t LDK" + struct_name + "_to_js(LDK" + struct_name + " val) {\n"
         out_c = out_c + "\tswitch (val) {\n"
         ord_v = 0
-        for var in variants:
+        for var, _ in variants:
             out_c = out_c + "\t\tcase " + var + ": return %d;\n" % ord_v
             ord_v = ord_v + 1
         out_c = out_c + "\t\tdefault: abort();\n"

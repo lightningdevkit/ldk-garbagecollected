@@ -539,7 +539,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 elif idx == len(field_lines) - 1:
                     assert(struct_line == "")
             assert struct_name.startswith("LDK")
-            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [x.strip().strip(",") for x, _ in field_lines[1:-3]], enum_doc_comment)
+            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [(x.strip().strip(","), y) for x, y in field_lines[1:-3]], enum_doc_comment)
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
@@ -550,7 +550,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
         enum_variants = []
         tag_field_lines = union_enum_items["field_lines"]
         contains_trait = False
-        for idx, (struct_line, _) in enumerate(tag_field_lines):
+        for idx, (struct_line, variant_docs) in enumerate(tag_field_lines):
             if idx == 0:
                 assert(struct_line == "typedef enum %s_Tag {" % struct_name)
             elif idx == len(tag_field_lines) - 3:
@@ -573,16 +573,16 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                             else:
                                 field_conv = type_mapping_generator.map_type_with_info(field_ty, False, None, False, True, False)
                             fields.append((field_conv, field_docs))
-                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, False))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, False))
                 elif camel_to_snake(variant_name) in inline_enum_variants:
                     # TODO: If we ever have a rust enum Variant(Option<Struct>) we need to pipe
                     # docs through to there, and then potentially mark the field nullable.
                     mapped = type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True)
                     contains_trait |= mapped.ty_info.contains_trait
                     fields.append((mapped, None))
-                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, True))
                 else:
-                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, True))
         complex_enums[struct_name] = contains_trait
 
         with open(f"{sys.argv[3]}/structs/{java_hu_type}{consts.file_ext}", "w") as out_java_enum:
