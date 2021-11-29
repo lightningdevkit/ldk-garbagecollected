@@ -163,6 +163,7 @@ void __attribute__((constructor)) spawn_stderr_redirection() {
             self.c_file_pfx = self.c_file_pfx + """#define MALLOC(a, _) malloc(a)
 #define FREE(p) if ((uint64_t)(p) > 4096) { free(p); }
 #define CHECK_ACCESS(p)
+#define CHECK_INNER_FIELD_ACCESS_OR_NULL(v)
 """
         if not DEBUG:
             self.c_file_pfx += """#define DO_ASSERT(a) (void)(a)
@@ -319,7 +320,7 @@ void __wrap_free(void* ptr) {
 	__real_free(ptr);
 }
 
-static void CHECK_ACCESS(void* ptr) {
+static void CHECK_ACCESS(const void* ptr) {
 	DO_ASSERT(!pthread_mutex_lock(&allocation_mtx));
 	allocation* it = allocation_ll;
 	while (it->ptr != ptr) {
@@ -336,6 +337,13 @@ static void CHECK_ACCESS(void* ptr) {
 	}
 	DO_ASSERT(!pthread_mutex_unlock(&allocation_mtx));
 }
+#define CHECK_INNER_FIELD_ACCESS_OR_NULL(v) \\
+	if (v.is_owned && v.inner != NULL) { \\
+		const void *p = __unmangle_inner_ptr(v.inner); \\
+		if (p != NULL) { \\
+			CHECK_ACCESS(p); \\
+		} \\
+	}
 
 void* __real_realloc(void* ptr, size_t newlen);
 void* __wrap_realloc(void* ptr, size_t len) {

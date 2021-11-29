@@ -124,6 +124,7 @@ void free(void *ptr);
 #define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
 #define CHECK_ACCESS(p)
+#define CHECK_INNER_FIELD_ACCESS_OR_NULL(v)
 """
         else:
             self.c_file_pfx = self.c_file_pfx + """
@@ -189,6 +190,13 @@ static void CHECK_ACCESS(void* ptr) {
 		}
 	}
 }
+#define CHECK_INNER_FIELD_ACCESS_OR_NULL(v) \\
+	if (v.is_owned && v.inner != NULL) { \\
+		const void *p = __unmangle_inner_ptr(v.inner); \\
+		if (p != NULL) { \\
+			CHECK_ACCESS(p); \\
+		} \\
+	}
 
 void* __wrap_malloc(size_t len) {
 	void* res = __real_malloc(len);

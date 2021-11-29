@@ -402,6 +402,9 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
         method_comma_separated_arguments = re_match.group(3)
         method_arguments = method_comma_separated_arguments.split(',')
 
+        if method_name.startswith("__"):
+            return
+
         is_free = method_name.endswith("_free")
         if method_name.startswith("COption") or method_name.startswith("CResult"):
             struct_meth = method_name.rsplit("Z", 1)[0][1:] + "Z"

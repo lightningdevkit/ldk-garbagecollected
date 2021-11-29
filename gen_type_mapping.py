@@ -257,9 +257,10 @@ class TypeMappingGenerator:
                 opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
                 opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
                 if ty_info.is_ptr and holds_ref:
-                    opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = false;"
+                    opaque_arg_conv += ty_info.var_name + "_conv.is_owned = false;\n"
                 else:
-                    opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);"
+                    opaque_arg_conv += ty_info.var_name + "_conv.is_owned = (" + ty_info.var_name + " & 1) || (" + ty_info.var_name + " == 0);\n"
+                opaque_arg_conv += "CHECK_INNER_FIELD_ACCESS_OR_NULL(" + ty_info.var_name + "_conv);"
                 if not is_free and (not ty_info.is_ptr or not holds_ref or ty_info.requires_clone == True) and ty_info.requires_clone != False:
                     if (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns:
                         # TODO: This is a bit too naive, even with the checks above, we really need to know if rust wants a ref or not, not just if its pass as a ptr.
@@ -290,6 +291,7 @@ class TypeMappingGenerator:
 
                 opaque_ret_conv_suf += indent + "CHECK((((uint64_t)" + ty_info.var_name + "_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.\n"
                 opaque_ret_conv_suf += indent + "CHECK((((uint64_t)&" + ty_info.var_name + "_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.\n"
+                opaque_ret_conv_suf += "CHECK_INNER_FIELD_ACCESS_OR_NULL(" + ty_info.var_name + "_var);\n"
                 if holds_ref:
                     opaque_ret_conv_suf += indent + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_var.inner & ~1;"
                 else:
