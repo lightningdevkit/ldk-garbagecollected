@@ -103,9 +103,10 @@ public class version {
 
         self.util_fn_pfx = """package org.ldk.structs;
 import org.ldk.impl.bindings;
+import org.ldk.enums.*;
+import org.ldk.util.*;
 import java.util.Arrays;
 import javax.annotation.Nullable;
-import org.ldk.enums.*;
 
 public class UtilMethods {
 """
