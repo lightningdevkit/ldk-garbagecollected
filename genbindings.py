@@ -855,7 +855,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                             last_struct_block_comment = block_comment.strip("\n")
                             block_comment = None
                         else:
-                            block_comment = block_comment + "\n" + struct_line.strip(" /*")
+                            block_comment = block_comment + "\n" + struct_line.strip(" /*").replace("…", "...")
                     else:
                         struct_name_match = struct_name_regex.match(struct_line)
                         if struct_name_match is not None:
