@@ -410,10 +410,14 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             struct_meth = method_name.rsplit("Z", 1)[0][1:] + "Z"
             expected_struct = "LDKC" + struct_meth
             struct_meth_name = method_name[len(struct_meth) + 1:].strip("_")
-        elif method_name.startswith("C2Tuple"):
+        elif method_name.startswith("C2Tuple") or method_name.startswith("C3Tuple"):
             tuple_name = method_name.rsplit("Z", 1)[0][2:] + "Z"
-            struct_meth = "Two" + tuple_name
-            expected_struct = "LDKC2" + tuple_name
+            if method_name.startswith("C2Tuple"):
+                struct_meth = "Two" + tuple_name
+                expected_struct = "LDKC2" + tuple_name
+            else:
+                struct_meth = "Three" + tuple_name
+                expected_struct = "LDKC3" + tuple_name
             struct_meth_name = method_name[len(tuple_name) + 2:].strip("_")
         else:
             struct_meth = method_name.split("_")[0]
