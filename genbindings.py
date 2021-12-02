@@ -430,6 +430,15 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
         else:
             return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref)
 
+        if method_name.endswith("_clone") and expected_struct not in unitary_enums:
+            meth_line = "uint64_t " + expected_struct.replace("LDK", "") + "_clone_ptr(" + expected_struct + " *NONNULL_PTR arg)"
+            write_c("static inline " + meth_line + " {\n")
+            write_c("\t" + return_type_info.ret_conv[0].replace("\n", "\n\t"))
+            write_c(method_name + "(arg)")
+            write_c(return_type_info.ret_conv[1])
+            write_c("\n\treturn " + return_type_info.ret_conv_name + ";\n}\n")
+            map_fn(meth_line + ";\n", re.compile("(uint64_t) ([A-Za-z_0-9]*)\((.*)\)").match(meth_line), None, None, None)
+
         argument_types = []
         default_constructor_args = {}
         takes_self = False

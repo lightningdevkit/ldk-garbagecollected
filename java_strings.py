@@ -1201,6 +1201,8 @@ import javax.annotation.Nullable;
                     out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " with_default("
                 else:
                     out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " " + meth_n + "("
+            elif meth_n == "clone_ptr":
+                out_java_struct += ("\t" + return_type_info.java_hu_ty + " " + meth_n + "(")
             else:
                 out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
             for idx, arg in enumerate(argument_types):
