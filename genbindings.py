@@ -911,33 +911,6 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     map_tuple(struct_name, field_lines)
                 elif vec_ty is not None:
                     ty_info = type_mapping_generator.map_type(vec_ty + " arr_elem", False, None, False, False)
-                    if len(ty_info.java_fn_ty_arg) == 1: # ie we're a primitive of some form
-                        out_java.write("\tpublic static native long " + struct_name + "_new(" + ty_info.java_ty + "[] elems);\n")
-                        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_new", True) + ty_info.c_ty + "Array elems) {\n")
-                        write_c("\t" + struct_name + " *ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-                        write_c("\tret->datalen = " + consts.get_native_arr_len_call[0] + "elems" + consts.get_native_arr_len_call[1] + ";\n")
-                        write_c("\tif (ret->datalen == 0) {\n")
-                        write_c("\t\tret->data = NULL;\n")
-                        write_c("\t} else {\n")
-                        write_c("\t\tret->data = MALLOC(sizeof(" + vec_ty + ") * ret->datalen, \"" + struct_name + " Data\");\n")
-                        native_arr_ptr_call = consts.get_native_arr_ptr_call(ty_info.ty_info)
-                        write_c("\t\t" + ty_info.c_ty + " *java_elems = " + native_arr_ptr_call[0] + "elems" + native_arr_ptr_call[1] + ";\n")
-                        write_c("\t\tfor (size_t i = 0; i < ret->datalen; i++) {\n")
-                        if ty_info.arg_conv is not None:
-                            write_c("\t\t\t" + ty_info.c_ty + " arr_elem = java_elems[i];\n")
-                            write_c("\t\t\t" + ty_info.arg_conv.replace("\n", "\n\t\t\t") + "\n")
-                            write_c("\t\t\tret->data[i] = " + ty_info.arg_conv_name + ";\n")
-                            assert ty_info.arg_conv_cleanup is None
-                        else:
-                            write_c("\t\t\tret->data[i] = java_elems[i];\n")
-                        write_c("\t\t}\n")
-                        cleanup = consts.release_native_arr_ptr_call(ty_info.ty_info, "elems", "java_elems")
-                        if cleanup is not None:
-                            write_c("\t\t" + cleanup + ";\n")
-                        write_c("\t}\n")
-                        write_c("\treturn (uint64_t)ret;\n")
-                        write_c("}\n")
-
                     if ty_info.is_native_primitive:
                         clone_fns.add(struct_name.replace("LDK", "") + "_clone")
                         write_c("static inline " + struct_name + " " + struct_name.replace("LDK", "") + "_clone(const " + struct_name + " *orig) {\n")
