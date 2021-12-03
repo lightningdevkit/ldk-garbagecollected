@@ -22,6 +22,11 @@ public class Description extends CommonBase {
 		if (ptr != 0) { bindings.Description_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.Description_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the Description
 	 */

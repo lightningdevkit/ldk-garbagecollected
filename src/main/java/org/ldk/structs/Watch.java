@@ -89,7 +89,7 @@ public class Watch extends CommonBase {
 				ChannelMonitor monitor_hu_conv = null; if (monitor < 0 || monitor > 4096) { monitor_hu_conv = new ChannelMonitor(null, monitor); }
 				monitor_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.watch_channel(funding_txo_hu_conv, monitor_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long update_channel(long funding_txo, long update) {
@@ -98,12 +98,12 @@ public class Watch extends CommonBase {
 				ChannelMonitorUpdate update_hu_conv = null; if (update < 0 || update > 4096) { update_hu_conv = new ChannelMonitorUpdate(null, update); }
 				update_hu_conv.ptrs_to.add(this);
 				Result_NoneChannelMonitorUpdateErrZ ret = arg.update_channel(funding_txo_hu_conv, update_hu_conv);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long[] release_pending_monitor_events() {
 				MonitorEvent[] ret = arg.release_pending_monitor_events();
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_14 -> ret_conv_14.ptr).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_14 -> ret_conv_14 == null ? 0 : ret_conv_14.clone_ptr()).toArray() : null;
 				return result;
 			}
 		});

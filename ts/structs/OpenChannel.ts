@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_chain_hash(Uint8Array val) {
-		bindings.OpenChannel_set_chain_hash(this.ptr, val);
+		bindings.OpenChannel_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Uint8Array get_temporary_channel_id() {
@@ -33,7 +33,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_temporary_channel_id(Uint8Array val) {
-		bindings.OpenChannel_set_temporary_channel_id(this.ptr, val);
+		bindings.OpenChannel_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_funding_satoshis() {
@@ -123,7 +123,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_funding_pubkey(Uint8Array val) {
-		bindings.OpenChannel_set_funding_pubkey(this.ptr, val);
+		bindings.OpenChannel_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_revocation_basepoint() {
@@ -132,7 +132,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_revocation_basepoint(Uint8Array val) {
-		bindings.OpenChannel_set_revocation_basepoint(this.ptr, val);
+		bindings.OpenChannel_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_payment_point() {
@@ -141,7 +141,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_payment_point(Uint8Array val) {
-		bindings.OpenChannel_set_payment_point(this.ptr, val);
+		bindings.OpenChannel_set_payment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_delayed_payment_basepoint() {
@@ -150,7 +150,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_delayed_payment_basepoint(Uint8Array val) {
-		bindings.OpenChannel_set_delayed_payment_basepoint(this.ptr, val);
+		bindings.OpenChannel_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_htlc_basepoint() {
@@ -159,7 +159,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_htlc_basepoint(Uint8Array val) {
-		bindings.OpenChannel_set_htlc_basepoint(this.ptr, val);
+		bindings.OpenChannel_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_first_per_commitment_point() {
@@ -168,7 +168,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_first_per_commitment_point(Uint8Array val) {
-		bindings.OpenChannel_set_first_per_commitment_point(this.ptr, val);
+		bindings.OpenChannel_set_first_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public number get_channel_flags() {
@@ -178,6 +178,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_channel_flags(number val) {
 		bindings.OpenChannel_set_channel_flags(this.ptr, val);
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.OpenChannel_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public OpenChannel clone() {

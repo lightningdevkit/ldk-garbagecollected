@@ -44,6 +44,12 @@ public class ClosureReason extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * Closure generated from receiving a peer error message.
+	 * 
+	 * Our counterparty may have broadcasted their latest commitment state, and we have
+	 * as well.
+	 */
 	public final static class CounterpartyForceClosed extends ClosureReason {
 		/**
 		 * The error which the peer sent us.
@@ -58,21 +64,38 @@ public class ClosureReason extends CommonBase {
 			this.peer_msg = obj.peer_msg;
 		}
 	}
+	/**
+	 * Closure generated from [`ChannelManager::force_close_channel`], called by the user.
+	 * 
+	 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel.
+	 */
 	public final static class HolderForceClosed extends ClosureReason {
 		private HolderForceClosed(long ptr, bindings.LDKClosureReason.HolderForceClosed obj) {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * The channel was closed after negotiating a cooperative close and we've now broadcasted
+	 * the cooperative close transaction. Note the shutdown may have been initiated by us.
+	 */
 	public final static class CooperativeClosure extends ClosureReason {
 		private CooperativeClosure(long ptr, bindings.LDKClosureReason.CooperativeClosure obj) {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * A commitment transaction was confirmed on chain, closing the channel. Most likely this
+	 * commitment transaction came from our counterparty, but it may also have come from
+	 * a copy of our own `ChannelMonitor`.
+	 */
 	public final static class CommitmentTxConfirmed extends ClosureReason {
 		private CommitmentTxConfirmed(long ptr, bindings.LDKClosureReason.CommitmentTxConfirmed obj) {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * Closure generated from processing an event, likely a HTLC forward/relay/reception.
+	 */
 	public final static class ProcessingError extends ClosureReason {
 		/**
 		 * A developer-readable error message which we generated.
@@ -83,16 +106,32 @@ public class ClosureReason extends CommonBase {
 			this.err = obj.err;
 		}
 	}
+	/**
+	 * The `PeerManager` informed us that we've disconnected from the peer. We close channels
+	 * if the `PeerManager` informed us that it is unlikely we'll be able to connect to the
+	 * peer again in the future or if the peer disconnected before we finished negotiating
+	 * the channel open. The first case may be caused by incompatible features which our
+	 * counterparty, or we, require.
+	 */
 	public final static class DisconnectedPeer extends ClosureReason {
 		private DisconnectedPeer(long ptr, bindings.LDKClosureReason.DisconnectedPeer obj) {
 			super(null, ptr);
 		}
 	}
+	/**
+	 * Closure generated from `ChannelManager::read` if the ChannelMonitor is newer than
+	 * the ChannelManager deserialized.
+	 */
 	public final static class OutdatedChannelManager extends ClosureReason {
 		private OutdatedChannelManager(long ptr, bindings.LDKClosureReason.OutdatedChannelManager obj) {
 			super(null, ptr);
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.ClosureReason_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the ClosureReason
 	 */

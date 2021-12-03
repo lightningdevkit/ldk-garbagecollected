@@ -36,33 +36,33 @@ import * as bindings from '../bindings' // TODO: figure out location
                         handle_node_announcement (msg: number): number {
 							const msg_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, msg);
 							Result_boolLightningErrorZ ret = arg.handle_node_announcement(msg_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
 						handle_channel_announcement (msg: number): number {
 							const msg_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, msg);
 							Result_boolLightningErrorZ ret = arg.handle_channel_announcement(msg_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
 						handle_channel_update (msg: number): number {
 							const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 							Result_boolLightningErrorZ ret = arg.handle_channel_update(msg_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
 						get_next_channel_announcements (starting_point: number, batch_amount: number): number[] {
 							ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
-				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_59 -> ret_conv_59 != null ? ret_conv_59.ptr : 0).toArray(number[]::new) : null;
+				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_59 -> ret_conv_59 == null ? 0 : ret_conv_59.clone_ptr()).toArray(number[]::new) : null;
 				return result;
 						},
 
 						get_next_node_announcements (starting_point: Uint8Array, batch_amount: number): number[] {
 							NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
-				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.ptr & ~1).toArray(number[]::new) : null;
+				result: number[] = ret != null ? Arrays.stream(ret).map(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()).toArray(number[]::new) : null;
 				return result;
 						},
 
@@ -75,7 +75,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 							const msg_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, msg);
 				msg_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_reply_channel_range(their_node_id, msg_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -83,7 +83,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 							const msg_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, msg);
 				msg_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_reply_short_channel_ids_end(their_node_id, msg_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -91,7 +91,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 							const msg_hu_conv: QueryChannelRange = new QueryChannelRange(null, msg);
 				msg_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_query_channel_range(their_node_id, msg_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -99,7 +99,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 							const msg_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, msg);
 				msg_hu_conv.ptrs_to.add(this);
 							Result_NoneLightningErrorZ ret = arg.handle_query_short_channel_ids(their_node_id, msg_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -160,7 +160,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public NodeAnnouncement[] get_next_node_announcements(Uint8Array starting_point, number batch_amount) {
-		number[] ret = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, starting_point, batch_amount);
+		number[] ret = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, InternalUtils.check_arr_len(starting_point, 33), batch_amount);
 		NodeAnnouncement[] ret_conv_18_arr = new NodeAnnouncement[ret.length];
 		for (int s = 0; s < ret.length; s++) {
 			number ret_conv_18 = ret[s];
@@ -172,30 +172,30 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void sync_routing_table(Uint8Array their_node_id, Init init) {
-		bindings.RoutingMessageHandler_sync_routing_table(this.ptr, their_node_id, init == null ? 0 : init.ptr & ~1);
+		bindings.RoutingMessageHandler_sync_routing_table(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr & ~1);
 		this.ptrs_to.add(init);
 	}
 
 	public Result_NoneLightningErrorZ handle_reply_channel_range(Uint8Array their_node_id, ReplyChannelRange msg) {
-		number ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		number ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(Uint8Array their_node_id, ReplyShortChannelIdsEnd msg) {
-		number ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		number ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneLightningErrorZ handle_query_channel_range(Uint8Array their_node_id, QueryChannelRange msg) {
-		number ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		number ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneLightningErrorZ handle_query_short_channel_ids(Uint8Array their_node_id, QueryShortChannelIds msg) {
-		number ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, their_node_id, msg == null ? 0 : msg.ptr & ~1);
+		number ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

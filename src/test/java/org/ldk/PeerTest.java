@@ -35,17 +35,18 @@ public class PeerTest {
         bindings.LDKBroadcasterInterface broad_trait;
         bindings.LDKLogger log_trait;
         bindings.LDKWatch watcher;
-        ArrayList<Long> results_to_free;
 
         Peer(byte seed) {
-            this.log_trait = (String arg)-> System.out.println(seed + ": " + arg);
+            this.log_trait = (long arg) -> {
+                System.out.println(seed + ": " + bindings.Record_get_args(arg));
+                bindings.Record_free(arg);
+            };
             logger = bindings.LDKLogger_new(this.log_trait);
             this.fee_est = confirmation_target -> 0;
             this.fee_estimator = bindings.LDKFeeEstimator_new(this.fee_est);
             this.broad_trait = tx -> {
                 // We should broadcast
             };
-            this.results_to_free = new ArrayList<>();
             this.tx_broadcaster = bindings.LDKBroadcasterInterface_new(this.broad_trait);
             this.monitors = new HashMap<>();
             this.watcher = new bindings.LDKWatch() {
@@ -55,9 +56,7 @@ public class PeerTest {
                         assert monitors.put(Arrays.toString(bindings.OutPoint_get_txid(funding_txo)), monitor) == null;
                     }
                     bindings.OutPoint_free(funding_txo);
-                    long res = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
-                    results_to_free.add(res);
-                    return res;
+                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
                 }
 
                 @Override
@@ -66,14 +65,12 @@ public class PeerTest {
                         String txid = Arrays.toString(bindings.OutPoint_get_txid(funding_txo));
                         assert monitors.containsKey(txid);
                         long update_res = bindings.ChannelMonitor_update_monitor(monitors.get(txid), update, tx_broadcaster, fee_estimator, logger);
-                        assert bindings.LDKCResult_NoneMonitorUpdateErrorZ_result_ok(update_res);
+                        assert bindings.CResult_NoneMonitorUpdateErrorZ_is_ok(update_res);
                         bindings.CResult_NoneMonitorUpdateErrorZ_free(update_res);
                     }
                     bindings.OutPoint_free(funding_txo);
                     bindings.ChannelMonitorUpdate_free(update);
-                    long res = bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
-                    results_to_free.add(res);
-                    return res;
+                    return bindings.CResult_NoneChannelMonitorUpdateErrZ_ok();
                 }
 
                 @Override
@@ -154,9 +151,6 @@ public class PeerTest {
                     bindings.ChannelMonitor_free(mon);
                 }
             }
-            for (Long res : results_to_free) {
-                bindings.CResult_NoneChannelMonitorUpdateErrZ_free(res);
-            }
         }
     }
 
@@ -165,7 +159,7 @@ public class PeerTest {
     void do_read_event(ConcurrentLinkedQueue<Thread> list, long pm, long descriptor, byte[] arr) {
         Thread thread = new Thread(() -> {
             long res = bindings.PeerManager_read_event(pm, descriptor, arr);
-            assert bindings.LDKCResult_boolPeerHandleErrorZ_result_ok(res);
+            assert bindings.CResult_boolPeerHandleErrorZ_is_ok(res);
             //assert bindings.deref_bool(bindings.LDKCResult_boolPeerHandleErrorZ_get_inner(res));
             bindings.CResult_boolPeerHandleErrorZ_free(res);
         });
@@ -218,10 +212,10 @@ public class PeerTest {
         descriptor1.val = bindings.LDKSocketDescriptor_new(sock2);
 
         long init_vec = bindings.PeerManager_new_outbound_connection(peer1.peer_manager, peer2.node_id, descriptor1.val);
-        assert(bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_result_ok(init_vec));
+        assert(bindings.CResult_CVec_u8ZPeerHandleErrorZ_is_ok(init_vec));
 
         long con_res = bindings.PeerManager_new_inbound_connection(peer2.peer_manager, descriptor2);
-        assert(bindings.LDKCResult_NonePeerHandleErrorZ_result_ok(con_res));
+        assert(bindings.CResult_NonePeerHandleErrorZ_is_ok(con_res));
         bindings.CResult_NonePeerHandleErrorZ_free(con_res);
         do_read_event(list, peer2.peer_manager, descriptor2, bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(init_vec));
         bindings.CResult_CVec_u8ZPeerHandleErrorZ_free(init_vec);
@@ -229,7 +223,7 @@ public class PeerTest {
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         long cc_res = bindings.ChannelManager_create_channel(peer1.chan_manager, peer2.node_id, 10000, 1000, 42, 0);
-        assert bindings.LDKCResult_NoneAPIErrorZ_result_ok(cc_res);
+        assert bindings.CResult_NoneAPIErrorZ_is_ok(cc_res);
         bindings.CResult_NoneAPIErrorZ_free(cc_res);
 
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
@@ -299,12 +293,12 @@ public class PeerTest {
         bindings.Scorer_free(scorer);
 
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
-        assert bindings.LDKCResult_RouteLightningErrorZ_result_ok(route);
+        assert bindings.CResult_RouteLightningErrorZ_is_ok(route);
         long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route),
                 bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(inbound_payment), bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(inbound_payment));
         bindings.CResult_RouteLightningErrorZ_free(route);
         bindings.C2Tuple_PaymentHashPaymentSecretZ_free(inbound_payment);
-        assert bindings.LDKCResult_NonePaymentSendFailureZ_result_ok(payment_res);
+        assert bindings.CResult_NonePaymentSendFailureZ_is_ok(payment_res);
         bindings.CResult_NonePaymentSendFailureZ_free(payment_res);
 
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);

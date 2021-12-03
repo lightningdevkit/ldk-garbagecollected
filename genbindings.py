@@ -94,7 +94,8 @@ def doc_to_params_ret_nullable(doc):
     return (params, ret_null)
 
 unitary_enums = set()
-complex_enums = set()
+# Map from enum name to "contains trait object"
+complex_enums = {}
 opaque_structs = set()
 trait_structs = {}
 result_types = set()
@@ -225,6 +226,7 @@ def java_c_types(fn_arg, ret_arr_len):
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
 
     is_primitive = False
+    contains_trait = False
     arr_len = None
     mapped_type = []
     java_type_plural = None
@@ -316,6 +318,10 @@ def java_c_types(fn_arg, ret_arr_len):
             fn_ty_arg = "J"
             fn_arg = ma.group(2).strip()
             rust_obj = ma.group(1).strip()
+            if rust_obj in trait_structs:
+                contains_trait = True
+            elif rust_obj in complex_enums:
+                contains_trait = complex_enums[rust_obj]
             take_by_ptr = True
 
     if fn_arg.startswith(" *") or fn_arg.startswith("*"):
@@ -339,15 +345,16 @@ def java_c_types(fn_arg, ret_arr_len):
             if var_is_arr.group(1) == "":
                 return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
                     passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name="arg",
-                    arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False)
+                    arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False, contains_trait=contains_trait)
             return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
                 passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name=var_is_arr.group(1),
-                arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False)
+                arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False, contains_trait=contains_trait)
 
     if java_hu_ty is None:
         java_hu_ty = java_ty
     return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
-        is_const=is_const, is_ptr=is_ptr, nonnull_ptr=nonnull_ptr, var_name=fn_arg, arr_len=arr_len, arr_access=arr_access, is_native_primitive=is_primitive)
+        is_const=is_const, is_ptr=is_ptr, nonnull_ptr=nonnull_ptr, var_name=fn_arg, arr_len=arr_len, arr_access=arr_access, is_native_primitive=is_primitive,
+        contains_trait=contains_trait)
 
 fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
 fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
@@ -395,15 +402,22 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
         method_comma_separated_arguments = re_match.group(3)
         method_arguments = method_comma_separated_arguments.split(',')
 
+        if method_name.startswith("__"):
+            return
+
         is_free = method_name.endswith("_free")
         if method_name.startswith("COption") or method_name.startswith("CResult"):
             struct_meth = method_name.rsplit("Z", 1)[0][1:] + "Z"
             expected_struct = "LDKC" + struct_meth
             struct_meth_name = method_name[len(struct_meth) + 1:].strip("_")
-        elif method_name.startswith("C2Tuple"):
+        elif method_name.startswith("C2Tuple") or method_name.startswith("C3Tuple"):
             tuple_name = method_name.rsplit("Z", 1)[0][2:] + "Z"
-            struct_meth = "Two" + tuple_name
-            expected_struct = "LDKC2" + tuple_name
+            if method_name.startswith("C2Tuple"):
+                struct_meth = "Two" + tuple_name
+                expected_struct = "LDKC2" + tuple_name
+            else:
+                struct_meth = "Three" + tuple_name
+                expected_struct = "LDKC3" + tuple_name
             struct_meth_name = method_name[len(tuple_name) + 2:].strip("_")
         else:
             struct_meth = method_name.split("_")[0]
@@ -415,6 +429,15 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             return_type_info = type_mapping_generator.map_nullable_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref)
         else:
             return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref)
+
+        if method_name.endswith("_clone") and expected_struct not in unitary_enums:
+            meth_line = "uint64_t " + expected_struct.replace("LDK", "") + "_clone_ptr(" + expected_struct + " *NONNULL_PTR arg)"
+            write_c("static inline " + meth_line + " {\n")
+            write_c("\t" + return_type_info.ret_conv[0].replace("\n", "\n\t"))
+            write_c(method_name + "(arg)")
+            write_c(return_type_info.ret_conv[1])
+            write_c("\n\treturn " + return_type_info.ret_conv_name + ";\n}\n")
+            map_fn(meth_line + ";\n", re.compile("(uint64_t) ([A-Za-z_0-9]*)\((.*)\)").match(meth_line), None, None, None)
 
         argument_types = []
         default_constructor_args = {}
@@ -532,18 +555,18 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 elif idx == len(field_lines) - 1:
                     assert(struct_line == "")
             assert struct_name.startswith("LDK")
-            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [x.strip().strip(",") for x, _ in field_lines[1:-3]], enum_doc_comment)
+            (c_out, native_file_out, native_out) = consts.native_c_unitary_enum_map(struct_name[3:], [(x.strip().strip(","), y) for x, y in field_lines[1:-3]], enum_doc_comment)
             write_c(c_out)
             out_java_enum.write(native_file_out)
             out_java.write(native_out)
 
     def map_complex_enum(struct_name, union_enum_items, inline_enum_variants, enum_doc_comment):
         java_hu_type = struct_name.replace("LDK", "").replace("COption", "Option")
-        complex_enums.add(struct_name)
 
         enum_variants = []
         tag_field_lines = union_enum_items["field_lines"]
-        for idx, (struct_line, _) in enumerate(tag_field_lines):
+        contains_trait = False
+        for idx, (struct_line, variant_docs) in enumerate(tag_field_lines):
             if idx == 0:
                 assert(struct_line == "typedef enum %s_Tag {" % struct_name)
             elif idx == len(tag_field_lines) - 3:
@@ -560,19 +583,23 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     for idx, (field, field_docs) in enumerate(enum_var_lines):
                         if idx != 0 and idx < len(enum_var_lines) - 2 and field.strip() != "":
                             field_ty = type_mapping_generator.java_c_types(field.strip(' ;'), None)
+                            contains_trait |= field_ty.contains_trait
                             if field_docs is not None and doc_to_field_nullable(field_docs):
                                 field_conv = type_mapping_generator.map_type_with_info(field_ty, False, None, False, True, True)
                             else:
                                 field_conv = type_mapping_generator.map_type_with_info(field_ty, False, None, False, True, False)
                             fields.append((field_conv, field_docs))
-                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, False))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, False))
                 elif camel_to_snake(variant_name) in inline_enum_variants:
                     # TODO: If we ever have a rust enum Variant(Option<Struct>) we need to pipe
                     # docs through to there, and then potentially mark the field nullable.
-                    fields.append((type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True), None))
-                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
+                    mapped = type_mapping_generator.map_type(inline_enum_variants[camel_to_snake(variant_name)] + " " + camel_to_snake(variant_name), False, None, False, True)
+                    contains_trait |= mapped.ty_info.contains_trait
+                    fields.append((mapped, None))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, True))
                 else:
-                    enum_variants.append(ComplexEnumVariantInfo(variant_name, fields, True))
+                    enum_variants.append(ComplexEnumVariantInfo(variant_name, variant_docs, fields, True))
+        complex_enums[struct_name] = contains_trait
 
         with open(f"{sys.argv[3]}/structs/{java_hu_type}{consts.file_ext}", "w") as out_java_enum:
             (out_java_addendum, out_java_enum_addendum, out_c_addendum) = consts.map_complex_enum(struct_name, enum_variants, camel_to_snake, enum_doc_comment)
@@ -658,7 +685,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             out_java_struct.write("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n")
             out_java_struct.write("\t}\n\n")
             out_java_struct.write("\tstatic " + human_ty + " constr_from_ptr(long ptr) {\n")
-            out_java_struct.write("\t\tif (bindings." + struct_name + "_result_ok(ptr)) {\n")
+            out_java_struct.write("\t\tif (bindings." + struct_name.replace("LDK", "") + "_is_ok(ptr)) {\n")
             out_java_struct.write("\t\t\treturn new " + human_ty + "_OK(null, ptr);\n")
             out_java_struct.write("\t\t} else {\n")
             out_java_struct.write("\t\t\treturn new " + human_ty + "_Err(null, ptr);\n")
@@ -672,11 +699,6 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 can_clone = False
             if not err_map.is_native_primitive and (err_map.rust_obj.replace("LDK", "") + "_clone" not in clone_fns):
                 can_clone = False
-
-            out_java.write("\tpublic static native boolean " + struct_name + "_result_ok(long arg);\n")
-            write_c(consts.c_fn_ty_pfx + "jboolean " + consts.c_fn_name_define_pfx(struct_name + "_result_ok", True) + consts.ptr_c_ty + " arg) {\n")
-            write_c("\treturn ((" + struct_name + "*)arg)->result_ok;\n")
-            write_c("}\n")
 
             out_java.write("\tpublic static native " + res_map.java_ty + " " + struct_name + "_get_ok(long arg);\n")
             write_c(consts.c_fn_ty_pfx + res_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_ok", True) + consts.ptr_c_ty + " arg) {\n")
@@ -833,7 +855,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                             last_struct_block_comment = block_comment.strip("\n")
                             block_comment = None
                         else:
-                            block_comment = block_comment + "\n" + struct_line.strip(" /*")
+                            block_comment = block_comment + "\n" + struct_line.strip(" /*").replace("…", "...")
                     else:
                         struct_name_match = struct_name_regex.match(struct_line)
                         if struct_name_match is not None:
@@ -898,33 +920,6 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     map_tuple(struct_name, field_lines)
                 elif vec_ty is not None:
                     ty_info = type_mapping_generator.map_type(vec_ty + " arr_elem", False, None, False, False)
-                    if len(ty_info.java_fn_ty_arg) == 1: # ie we're a primitive of some form
-                        out_java.write("\tpublic static native long " + struct_name + "_new(" + ty_info.java_ty + "[] elems);\n")
-                        write_c(consts.c_fn_ty_pfx + consts.ptr_c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_new", True) + ty_info.c_ty + "Array elems) {\n")
-                        write_c("\t" + struct_name + " *ret = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n")
-                        write_c("\tret->datalen = " + consts.get_native_arr_len_call[0] + "elems" + consts.get_native_arr_len_call[1] + ";\n")
-                        write_c("\tif (ret->datalen == 0) {\n")
-                        write_c("\t\tret->data = NULL;\n")
-                        write_c("\t} else {\n")
-                        write_c("\t\tret->data = MALLOC(sizeof(" + vec_ty + ") * ret->datalen, \"" + struct_name + " Data\");\n")
-                        native_arr_ptr_call = consts.get_native_arr_ptr_call(ty_info.ty_info)
-                        write_c("\t\t" + ty_info.c_ty + " *java_elems = " + native_arr_ptr_call[0] + "elems" + native_arr_ptr_call[1] + ";\n")
-                        write_c("\t\tfor (size_t i = 0; i < ret->datalen; i++) {\n")
-                        if ty_info.arg_conv is not None:
-                            write_c("\t\t\t" + ty_info.c_ty + " arr_elem = java_elems[i];\n")
-                            write_c("\t\t\t" + ty_info.arg_conv.replace("\n", "\n\t\t\t") + "\n")
-                            write_c("\t\t\tret->data[i] = " + ty_info.arg_conv_name + ";\n")
-                            assert ty_info.arg_conv_cleanup is None
-                        else:
-                            write_c("\t\t\tret->data[i] = java_elems[i];\n")
-                        write_c("\t\t}\n")
-                        cleanup = consts.release_native_arr_ptr_call(ty_info.ty_info, "elems", "java_elems")
-                        if cleanup is not None:
-                            write_c("\t\t" + cleanup + ";\n")
-                        write_c("\t}\n")
-                        write_c("\treturn (uint64_t)ret;\n")
-                        write_c("}\n")
-
                     if ty_info.is_native_primitive:
                         clone_fns.add(struct_name.replace("LDK", "") + "_clone")
                         write_c("static inline " + struct_name + " " + struct_name.replace("LDK", "") + "_clone(const " + struct_name + " *orig) {\n")

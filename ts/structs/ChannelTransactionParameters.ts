@@ -76,6 +76,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.ChannelTransactionParameters_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ChannelTransactionParameters clone() {
 		number ret = bindings.ChannelTransactionParameters_clone(this.ptr);
 		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);

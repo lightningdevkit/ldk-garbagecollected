@@ -30,6 +30,9 @@ public class PaymentPurpose extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * Information for receiving a payment that we generated an invoice for.
+	 */
 	public final static class InvoicePayment extends PaymentPurpose {
 		/**
 		 * The preimage to the payment_hash, if the payment hash (and secret) were fetched via
@@ -73,6 +76,10 @@ public class PaymentPurpose extends CommonBase {
 			this.user_payment_id = obj.user_payment_id;
 		}
 	}
+	/**
+	 * Because this is a spontaneous payment, the payer generated their own preimage rather than us
+	 * (the payee) providing a preimage.
+	 */
 	public final static class SpontaneousPayment extends PaymentPurpose {
 		public final byte[] spontaneous_payment;
 		private SpontaneousPayment(long ptr, bindings.LDKPaymentPurpose.SpontaneousPayment obj) {
@@ -80,6 +87,11 @@ public class PaymentPurpose extends CommonBase {
 			this.spontaneous_payment = obj.spontaneous_payment;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.PaymentPurpose_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the PaymentPurpose
 	 */
@@ -95,7 +107,7 @@ public class PaymentPurpose extends CommonBase {
 	 * Utility method to constructs a new InvoicePayment-variant PaymentPurpose
 	 */
 	public static PaymentPurpose invoice_payment(byte[] payment_preimage, byte[] payment_secret, long user_payment_id) {
-		long ret = bindings.PaymentPurpose_invoice_payment(payment_preimage, payment_secret, user_payment_id);
+		long ret = bindings.PaymentPurpose_invoice_payment(InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_secret, 32), user_payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -106,7 +118,7 @@ public class PaymentPurpose extends CommonBase {
 	 * Utility method to constructs a new SpontaneousPayment-variant PaymentPurpose
 	 */
 	public static PaymentPurpose spontaneous_payment(byte[] a) {
-		long ret = bindings.PaymentPurpose_spontaneous_payment(a);
+		long ret = bindings.PaymentPurpose_spontaneous_payment(InternalUtils.check_arr_len(a, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_id(Uint8Array val) {
-		bindings.UpdateFailHTLC_set_channel_id(this.ptr, val);
+		bindings.UpdateFailHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_htlc_id() {
@@ -34,6 +34,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 	public void set_htlc_id(number val) {
 		bindings.UpdateFailHTLC_set_htlc_id(this.ptr, val);
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.UpdateFailHTLC_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public UpdateFailHTLC clone() {

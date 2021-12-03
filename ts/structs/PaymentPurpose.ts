@@ -38,6 +38,11 @@ export class SpontaneousPayment extends PaymentPurpose {
 		this.spontaneous_payment = obj.spontaneous_payment;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.PaymentPurpose_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public PaymentPurpose clone() {
 		number ret = bindings.PaymentPurpose_clone(this.ptr);
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
@@ -46,14 +51,14 @@ export class SpontaneousPayment extends PaymentPurpose {
 	}
 
 	public static PaymentPurpose constructor_invoice_payment(Uint8Array payment_preimage, Uint8Array payment_secret, number user_payment_id) {
-		number ret = bindings.PaymentPurpose_invoice_payment(payment_preimage, payment_secret, user_payment_id);
+		number ret = bindings.PaymentPurpose_invoice_payment(InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_secret, 32), user_payment_id);
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static PaymentPurpose constructor_spontaneous_payment(Uint8Array a) {
-		number ret = bindings.PaymentPurpose_spontaneous_payment(a);
+		number ret = bindings.PaymentPurpose_spontaneous_payment(InternalUtils.check_arr_len(a, 32));
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

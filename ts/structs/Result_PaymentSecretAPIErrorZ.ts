@@ -9,7 +9,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	}
 
 	static Result_PaymentSecretAPIErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_PaymentSecretAPIErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_PaymentSecretAPIErrorZ_is_ok(ptr)) {
 			return new Result_PaymentSecretAPIErrorZ_OK(null, ptr);
 		} else {
 			return new Result_PaymentSecretAPIErrorZ_Err(null, ptr);
@@ -35,7 +35,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	}
 
 	public static Result_PaymentSecretAPIErrorZ constructor_ok(Uint8Array o) {
-		number ret = bindings.CResult_PaymentSecretAPIErrorZ_ok(o);
+		number ret = bindings.CResult_PaymentSecretAPIErrorZ_ok(InternalUtils.check_arr_len(o, 32));
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -44,6 +44,16 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 		number ret = bindings.CResult_PaymentSecretAPIErrorZ_err(e.ptr);
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_PaymentSecretAPIErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_PaymentSecretAPIErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_PaymentSecretAPIErrorZ clone() {

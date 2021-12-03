@@ -31,7 +31,7 @@ public class ErrorMessage extends CommonBase {
 	 * The channel ID involved in the error
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.ErrorMessage_set_channel_id(this.ptr, val);
+		bindings.ErrorMessage_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -59,11 +59,16 @@ public class ErrorMessage extends CommonBase {
 	 * Constructs a new ErrorMessage given each field
 	 */
 	public static ErrorMessage of(byte[] channel_id_arg, java.lang.String data_arg) {
-		long ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
+		long ret = bindings.ErrorMessage_new(InternalUtils.check_arr_len(channel_id_arg, 32), data_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ErrorMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ErrorMessage(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ErrorMessage_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

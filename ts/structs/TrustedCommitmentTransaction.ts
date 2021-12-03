@@ -38,7 +38,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public Result_CVec_SignatureZNoneZ get_htlc_sigs(Uint8Array htlc_base_key, DirectedChannelTransactionParameters channel_parameters) {
-		number ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, htlc_base_key, channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
+		number ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(channel_parameters);
 		return ret_hu_conv;

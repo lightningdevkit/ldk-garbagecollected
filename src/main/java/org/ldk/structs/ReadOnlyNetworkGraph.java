@@ -25,7 +25,7 @@ public class ReadOnlyNetworkGraph extends CommonBase {
 	 * or if node announcement for the node was never received.
 	 */
 	public Option_CVec_NetAddressZZ get_addresses(byte[] pubkey) {
-		long ret = bindings.ReadOnlyNetworkGraph_get_addresses(this.ptr, pubkey);
+		long ret = bindings.ReadOnlyNetworkGraph_get_addresses(this.ptr, InternalUtils.check_arr_len(pubkey, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);

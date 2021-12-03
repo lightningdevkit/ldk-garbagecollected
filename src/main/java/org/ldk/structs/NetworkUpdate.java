@@ -35,6 +35,10 @@ public class NetworkUpdate extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * An error indicating a `channel_update` messages should be applied via
+	 * [`NetworkGraph::update_channel`].
+	 */
 	public final static class ChannelUpdateMessage extends NetworkUpdate {
 		/**
 		 * The update to apply via [`NetworkGraph::update_channel`].
@@ -48,6 +52,10 @@ public class NetworkUpdate extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * An error indicating only that a channel has been closed, which should be applied via
+	 * [`NetworkGraph::close_channel_from_update`].
+	 */
 	public final static class ChannelClosed extends NetworkUpdate {
 		/**
 		 * The short channel id of the closed channel.
@@ -64,6 +72,10 @@ public class NetworkUpdate extends CommonBase {
 			this.is_permanent = obj.is_permanent;
 		}
 	}
+	/**
+	 * An error indicating only that a node has failed, which should be applied via
+	 * [`NetworkGraph::fail_node`].
+	 */
 	public final static class NodeFailure extends NetworkUpdate {
 		/**
 		 * The node id of the failed node.
@@ -80,6 +92,11 @@ public class NetworkUpdate extends CommonBase {
 			this.is_permanent = obj.is_permanent;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.NetworkUpdate_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the NetworkUpdate
 	 */
@@ -117,7 +134,7 @@ public class NetworkUpdate extends CommonBase {
 	 * Utility method to constructs a new NodeFailure-variant NetworkUpdate
 	 */
 	public static NetworkUpdate node_failure(byte[] node_id, boolean is_permanent) {
-		long ret = bindings.NetworkUpdate_node_failure(node_id, is_permanent);
+		long ret = bindings.NetworkUpdate_node_failure(InternalUtils.check_arr_len(node_id, 33), is_permanent);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

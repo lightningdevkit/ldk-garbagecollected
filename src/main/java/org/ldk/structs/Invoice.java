@@ -35,6 +35,11 @@ public class Invoice extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.Invoice_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the Invoice
 	 */

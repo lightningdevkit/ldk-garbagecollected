@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_chain_hash(Uint8Array val) {
-		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, val);
+		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_first_timestamp() {
@@ -46,10 +46,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static GossipTimestampFilter constructor_new(Uint8Array chain_hash_arg, number first_timestamp_arg, number timestamp_range_arg) {
-		number ret = bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg);
+		number ret = bindings.GossipTimestampFilter_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_timestamp_arg, timestamp_range_arg);
 		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.GossipTimestampFilter_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public GossipTimestampFilter clone() {

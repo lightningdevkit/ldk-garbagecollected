@@ -31,7 +31,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.AnnouncementSignatures_set_channel_id(this.ptr, val);
+		bindings.AnnouncementSignatures_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 * A signature by the node key
 	 */
 	public void set_node_signature(byte[] val) {
-		bindings.AnnouncementSignatures_set_node_signature(this.ptr, val);
+		bindings.AnnouncementSignatures_set_node_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
@@ -76,18 +76,23 @@ public class AnnouncementSignatures extends CommonBase {
 	 * A signature by the funding key
 	 */
 	public void set_bitcoin_signature(byte[] val) {
-		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, val);
+		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
 	 * Constructs a new AnnouncementSignatures given each field
 	 */
 	public static AnnouncementSignatures of(byte[] channel_id_arg, long short_channel_id_arg, byte[] node_signature_arg, byte[] bitcoin_signature_arg) {
-		long ret = bindings.AnnouncementSignatures_new(channel_id_arg, short_channel_id_arg, node_signature_arg, bitcoin_signature_arg);
+		long ret = bindings.AnnouncementSignatures_new(InternalUtils.check_arr_len(channel_id_arg, 32), short_channel_id_arg, InternalUtils.check_arr_len(node_signature_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_arg, 64));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		AnnouncementSignatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new AnnouncementSignatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.AnnouncementSignatures_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

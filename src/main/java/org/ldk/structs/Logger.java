@@ -27,14 +27,15 @@ public class Logger extends CommonBase {
 		/**
 		 * Logs the `Record`
 		 */
-		void log(String record);
+		void log(Record record);
 	}
 	private static class LDKLoggerHolder { Logger held; }
 	public static Logger new_impl(LoggerInterface arg) {
 		final LDKLoggerHolder impl_holder = new LDKLoggerHolder();
 		impl_holder.held = new Logger(new bindings.LDKLogger() {
-			@Override public void log(String record) {
-				arg.log(record);
+			@Override public void log(long record) {
+				Record record_hu_conv = null; if (record < 0 || record > 4096) { record_hu_conv = new Record(null, record); }
+				arg.log(record_hu_conv);
 			}
 		});
 		return impl_holder.held;

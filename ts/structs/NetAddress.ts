@@ -66,6 +66,11 @@ export class OnionV3 extends NetAddress {
 		this.port = obj.port;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.NetAddress_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public NetAddress clone() {
 		number ret = bindings.NetAddress_clone(this.ptr);
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
@@ -74,28 +79,28 @@ export class OnionV3 extends NetAddress {
 	}
 
 	public static NetAddress constructor_ipv4(Uint8Array addr, number port) {
-		number ret = bindings.NetAddress_ipv4(addr, port);
+		number ret = bindings.NetAddress_ipv4(InternalUtils.check_arr_len(addr, 4), port);
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static NetAddress constructor_ipv6(Uint8Array addr, number port) {
-		number ret = bindings.NetAddress_ipv6(addr, port);
+		number ret = bindings.NetAddress_ipv6(InternalUtils.check_arr_len(addr, 16), port);
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static NetAddress constructor_onion_v2(Uint8Array addr, number port) {
-		number ret = bindings.NetAddress_onion_v2(addr, port);
+		number ret = bindings.NetAddress_onion_v2(InternalUtils.check_arr_len(addr, 10), port);
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static NetAddress constructor_onion_v3(Uint8Array ed25519_pubkey, number checksum, number version, number port) {
-		number ret = bindings.NetAddress_onion_v3(ed25519_pubkey, checksum, version, port);
+		number ret = bindings.NetAddress_onion_v3(InternalUtils.check_arr_len(ed25519_pubkey, 32), checksum, version, port);
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

@@ -49,23 +49,24 @@ public class Payer extends CommonBase {
 		impl_holder.held = new Payer(new bindings.LDKPayer() {
 			@Override public byte[] node_id() {
 				byte[] ret = arg.node_id();
-				return ret;
+				byte[] result = InternalUtils.check_arr_len(ret, 33);
+				return result;
 			}
 			@Override public long[] first_hops() {
 				ChannelDetails[] ret = arg.first_hops();
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_16 -> ret_conv_16 == null ? 0 : ret_conv_16.ptr & ~1).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_16 -> ret_conv_16 == null ? 0 : ret_conv_16.clone_ptr()).toArray() : null;
 				return result;
 			}
 			@Override public long send_payment(long route, byte[] payment_hash, byte[] payment_secret) {
 				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
 				Result_PaymentIdPaymentSendFailureZ ret = arg.send_payment(route_hu_conv, payment_hash, payment_secret);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long retry_payment(long route, byte[] payment_id) {
 				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
 				Result_NonePaymentSendFailureZ ret = arg.retry_payment(route_hu_conv, payment_id);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 		});
@@ -100,7 +101,7 @@ public class Payer extends CommonBase {
 	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, byte[] payment_hash, @Nullable byte[] payment_secret) {
-		long ret = bindings.Payer_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_hash, payment_secret);
+		long ret = bindings.Payer_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
@@ -111,7 +112,7 @@ public class Payer extends CommonBase {
 	 * Retries a failed payment path for the [`PaymentId`] using the given [`Route`].
 	 */
 	public Result_NonePaymentSendFailureZ retry_payment(Route route, byte[] payment_id) {
-		long ret = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id);
+		long ret = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);

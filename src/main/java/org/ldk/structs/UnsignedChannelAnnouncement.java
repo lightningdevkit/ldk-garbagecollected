@@ -49,7 +49,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 * The genesis hash of the blockchain where the channel is to be opened
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 * One of the two node_ids which are endpoints of this channel
 	 */
 	public void set_node_id_1(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 * The other of the two node_ids which are endpoints of this channel
 	 */
 	public void set_node_id_2(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 * The funding key for the first node
 	 */
 	public void set_bitcoin_key_1(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -124,7 +124,12 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 * The funding key for the second node
 	 */
 	public void set_bitcoin_key_2(byte[] val) {
-		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, InternalUtils.check_arr_len(val, 33));
+	}
+
+	long clone_ptr() {
+		long ret = bindings.UnsignedChannelAnnouncement_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

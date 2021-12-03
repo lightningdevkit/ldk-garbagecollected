@@ -35,6 +35,11 @@ public class TwoTuple_PaymentHashPaymentIdZ extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.C2Tuple_PaymentHashPaymentIdZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a new tuple which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
@@ -51,7 +56,7 @@ public class TwoTuple_PaymentHashPaymentIdZ extends CommonBase {
 	 * Creates a new C2Tuple_PaymentHashPaymentIdZ from the contained elements.
 	 */
 	public static TwoTuple_PaymentHashPaymentIdZ of(byte[] a, byte[] b) {
-		long ret = bindings.C2Tuple_PaymentHashPaymentIdZ_new(a, b);
+		long ret = bindings.C2Tuple_PaymentHashPaymentIdZ_new(InternalUtils.check_arr_len(a, 32), InternalUtils.check_arr_len(b, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_PaymentHashPaymentIdZ ret_hu_conv = new TwoTuple_PaymentHashPaymentIdZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

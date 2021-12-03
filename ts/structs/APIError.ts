@@ -77,6 +77,11 @@ export class IncompatibleShutdownScript extends APIError {
 		this.script = script_hu_conv;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.APIError_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public APIError clone() {
 		number ret = bindings.APIError_clone(this.ptr);
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);

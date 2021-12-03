@@ -217,7 +217,7 @@ public class NioPeerHandler {
                                     buf.get(read_bytes, 0, read);
                                     long read_result_pointer = bindings.PeerManager_read_event(
                                             peer_manager_raw_pointer, peer.descriptor_raw_pointer, read_bytes);
-                                    if (bindings.LDKCResult_boolPeerHandleErrorZ_result_ok(read_result_pointer)) {
+                                    if (bindings.CResult_boolPeerHandleErrorZ_is_ok(read_result_pointer)) {
                                         if (bindings.LDKCResult_boolPeerHandleErrorZ_get_ok(read_result_pointer)) {
                                             key.interestOps(key.interestOps() & (~SelectionKey.OP_READ));
                                         }

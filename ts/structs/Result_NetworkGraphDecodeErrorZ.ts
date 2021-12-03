@@ -9,7 +9,7 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_NetworkGraphDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_NetworkGraphDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_NetworkGraphDecodeErrorZ_is_ok(ptr)) {
 			return new Result_NetworkGraphDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_NetworkGraphDecodeErrorZ_Err(null, ptr);
@@ -47,6 +47,16 @@ public class Result_NetworkGraphDecodeErrorZ extends CommonBase {
 		number ret = bindings.CResult_NetworkGraphDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_NetworkGraphDecodeErrorZ ret_hu_conv = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_NetworkGraphDecodeErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_NetworkGraphDecodeErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_NetworkGraphDecodeErrorZ clone() {

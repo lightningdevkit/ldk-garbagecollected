@@ -24,6 +24,11 @@ public class CommitmentTransaction extends CommonBase {
 		if (ptr != 0) { bindings.CommitmentTransaction_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.CommitmentTransaction_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the CommitmentTransaction
 	 */

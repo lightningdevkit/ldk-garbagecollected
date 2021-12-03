@@ -9,7 +9,7 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 	}
 
 	static Result_ExpiryTimeCreationErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_ExpiryTimeCreationErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_ExpiryTimeCreationErrorZ_is_ok(ptr)) {
 			return new Result_ExpiryTimeCreationErrorZ_OK(null, ptr);
 		} else {
 			return new Result_ExpiryTimeCreationErrorZ_Err(null, ptr);
@@ -44,6 +44,16 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 		number ret = bindings.CResult_ExpiryTimeCreationErrorZ_err(e);
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_ExpiryTimeCreationErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_ExpiryTimeCreationErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_ExpiryTimeCreationErrorZ clone() {

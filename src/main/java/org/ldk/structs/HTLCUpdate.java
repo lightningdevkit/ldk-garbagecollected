@@ -21,6 +21,11 @@ public class HTLCUpdate extends CommonBase {
 		if (ptr != 0) { bindings.HTLCUpdate_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.HTLCUpdate_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the HTLCUpdate
 	 */

@@ -13,7 +13,7 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_UpdateFeeDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_UpdateFeeDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_UpdateFeeDecodeErrorZ_is_ok(ptr)) {
 			return new Result_UpdateFeeDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_UpdateFeeDecodeErrorZ_Err(null, ptr);
@@ -59,6 +59,19 @@ public class Result_UpdateFeeDecodeErrorZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFeeDecodeErrorZ ret_hu_conv = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_UpdateFeeDecodeErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_UpdateFeeDecodeErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

@@ -19,6 +19,11 @@ public class MonitorUpdateId extends CommonBase {
 		if (ptr != 0) { bindings.MonitorUpdateId_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.MonitorUpdateId_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the MonitorUpdateId
 	 */

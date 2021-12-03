@@ -28,6 +28,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public TwoTuple_SignatureCVec_SignatureZZ clone() {
 		number ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone(this.ptr);
 		TwoTuple_SignatureCVec_SignatureZZ ret_hu_conv = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
@@ -36,7 +41,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static TwoTuple_SignatureCVec_SignatureZZ constructor_new(Uint8Array a, Uint8Array[] b) {
-		number ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(a, b);
+		number ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(InternalUtils.check_arr_len(a, 64), b != null ? Arrays.stream(b).map(b_conv_12 -> InternalUtils.check_arr_len(b_conv_12, 64)).toArray(Uint8Array[]::new) : null);
 		TwoTuple_SignatureCVec_SignatureZZ ret_hu_conv = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

@@ -31,7 +31,7 @@ public class ClosingSigned extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.ClosingSigned_set_channel_id(this.ptr, val);
+		bindings.ClosingSigned_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class ClosingSigned extends CommonBase {
 	 * A signature on the closing transaction
 	 */
 	public void set_signature(byte[] val) {
-		bindings.ClosingSigned_set_signature(this.ptr, val);
+		bindings.ClosingSigned_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
@@ -93,11 +93,16 @@ public class ClosingSigned extends CommonBase {
 	 * Constructs a new ClosingSigned given each field
 	 */
 	public static ClosingSigned of(byte[] channel_id_arg, long fee_satoshis_arg, byte[] signature_arg, ClosingSignedFeeRange fee_range_arg) {
-		long ret = bindings.ClosingSigned_new(channel_id_arg, fee_satoshis_arg, signature_arg, fee_range_arg == null ? 0 : fee_range_arg.ptr & ~1);
+		long ret = bindings.ClosingSigned_new(InternalUtils.check_arr_len(channel_id_arg, 32), fee_satoshis_arg, InternalUtils.check_arr_len(signature_arg, 64), fee_range_arg == null ? 0 : fee_range_arg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ClosingSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ClosingSigned_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

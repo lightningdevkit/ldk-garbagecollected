@@ -9,7 +9,7 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 	}
 
 	static Result_PrivateRouteCreationErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_PrivateRouteCreationErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_PrivateRouteCreationErrorZ_is_ok(ptr)) {
 			return new Result_PrivateRouteCreationErrorZ_OK(null, ptr);
 		} else {
 			return new Result_PrivateRouteCreationErrorZ_Err(null, ptr);
@@ -44,6 +44,16 @@ public class Result_PrivateRouteCreationErrorZ extends CommonBase {
 		number ret = bindings.CResult_PrivateRouteCreationErrorZ_err(e);
 		Result_PrivateRouteCreationErrorZ ret_hu_conv = Result_PrivateRouteCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_PrivateRouteCreationErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_PrivateRouteCreationErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_PrivateRouteCreationErrorZ clone() {

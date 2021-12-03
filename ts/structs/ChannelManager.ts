@@ -38,7 +38,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public Result__u832APIErrorZ create_channel(Uint8Array their_network_key, number channel_value_satoshis, number push_msat, number user_channel_id, UserConfig override_config) {
-		number ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr & ~1);
+		number ret = bindings.ChannelManager_create_channel(this.ptr, InternalUtils.check_arr_len(their_network_key, 33), channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr & ~1);
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -68,19 +68,19 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public Result_NoneAPIErrorZ close_channel(Uint8Array channel_id) {
-		number ret = bindings.ChannelManager_close_channel(this.ptr, channel_id);
+		number ret = bindings.ChannelManager_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32));
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneAPIErrorZ close_channel_with_target_feerate(Uint8Array channel_id, number target_feerate_sats_per_1000_weight) {
-		number ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, channel_id, target_feerate_sats_per_1000_weight);
+		number ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, InternalUtils.check_arr_len(channel_id, 32), target_feerate_sats_per_1000_weight);
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneAPIErrorZ force_close_channel(Uint8Array channel_id) {
-		number ret = bindings.ChannelManager_force_close_channel(this.ptr, channel_id);
+		number ret = bindings.ChannelManager_force_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32));
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -90,34 +90,34 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, Uint8Array payment_hash, Uint8Array payment_secret) {
-		number ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_hash, payment_secret);
+		number ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
 	}
 
 	public Result_NonePaymentSendFailureZ retry_payment(Route route, Uint8Array payment_id) {
-		number ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id);
+		number ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
 	}
 
 	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_spontaneous_payment(Route route, Uint8Array payment_preimage) {
-		number ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_preimage);
+		number ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_preimage, 32));
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
 	}
 
 	public Result_NoneAPIErrorZ funding_transaction_generated(Uint8Array temporary_channel_id, Uint8Array funding_transaction) {
-		number ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_transaction);
+		number ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), funding_transaction);
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public void broadcast_node_announcement(Uint8Array rgb, Uint8Array alias, NetAddress[] addresses) {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, addresses != null ? Arrays.stream(addresses).map(addresses_conv_12 -> addresses_conv_12.ptr).toArray(number[]::new) : null);
+		bindings.ChannelManager_broadcast_node_announcement(this.ptr, InternalUtils.check_arr_len(rgb, 3), InternalUtils.check_arr_len(alias, 32), addresses != null ? Arrays.stream(addresses).map(addresses_conv_12 -> addresses_conv_12.ptr).toArray(number[]::new) : null);
 	}
 
 	public void process_pending_htlc_forwards() {
@@ -129,12 +129,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public boolean fail_htlc_backwards(Uint8Array payment_hash) {
-		boolean ret = bindings.ChannelManager_fail_htlc_backwards(this.ptr, payment_hash);
+		boolean ret = bindings.ChannelManager_fail_htlc_backwards(this.ptr, InternalUtils.check_arr_len(payment_hash, 32));
 		return ret;
 	}
 
 	public boolean claim_funds(Uint8Array payment_preimage) {
-		boolean ret = bindings.ChannelManager_claim_funds(this.ptr, payment_preimage);
+		boolean ret = bindings.ChannelManager_claim_funds(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
 		return ret;
 	}
 
@@ -151,7 +151,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash(Uint8Array payment_hash, Option_u64Z min_value_msat, number invoice_expiry_delta_secs, number user_payment_id) {
-		number ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, payment_hash, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
+		number ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

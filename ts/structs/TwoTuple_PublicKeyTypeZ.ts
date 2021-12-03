@@ -30,6 +30,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.C2Tuple_PublicKeyTypeZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public TwoTuple_PublicKeyTypeZ clone() {
 		number ret = bindings.C2Tuple_PublicKeyTypeZ_clone(this.ptr);
 		TwoTuple_PublicKeyTypeZ ret_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret);
@@ -38,7 +43,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static TwoTuple_PublicKeyTypeZ constructor_new(Uint8Array a, Type b) {
-		number ret = bindings.C2Tuple_PublicKeyTypeZ_new(a, b == null ? 0 : b.ptr);
+		number ret = bindings.C2Tuple_PublicKeyTypeZ_new(InternalUtils.check_arr_len(a, 33), b == null ? 0 : b.ptr);
 		TwoTuple_PublicKeyTypeZ ret_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(b);

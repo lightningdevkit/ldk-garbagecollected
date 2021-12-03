@@ -78,6 +78,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.Type_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Type clone() {
 		number ret = bindings.Type_clone(this.ptr);
 		Type ret_hu_conv = new Type(null, ret);

@@ -9,7 +9,7 @@ public class Result_TrustedClosingTransactionNoneZ extends CommonBase {
 	}
 
 	static Result_TrustedClosingTransactionNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_TrustedClosingTransactionNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_TrustedClosingTransactionNoneZ_is_ok(ptr)) {
 			return new Result_TrustedClosingTransactionNoneZ_OK(null, ptr);
 		} else {
 			return new Result_TrustedClosingTransactionNoneZ_Err(null, ptr);
@@ -51,6 +51,11 @@ public class Result_TrustedClosingTransactionNoneZ extends CommonBase {
 		number ret = bindings.CResult_TrustedClosingTransactionNoneZ_err();
 		Result_TrustedClosingTransactionNoneZ ret_hu_conv = Result_TrustedClosingTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_TrustedClosingTransactionNoneZ_is_ok(this.ptr);
+		return ret;
 	}
 
 }

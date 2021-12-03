@@ -19,6 +19,11 @@ public class Sha256 extends CommonBase {
 		if (ptr != 0) { bindings.Sha256_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.Sha256_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the Sha256
 	 */

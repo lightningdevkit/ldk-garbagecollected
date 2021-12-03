@@ -46,6 +46,11 @@ export class None extends COption_u64Z {
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.COption_u64Z_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Option_u64Z clone() {
 		number ret = bindings.COption_u64Z_clone(this.ptr);
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);

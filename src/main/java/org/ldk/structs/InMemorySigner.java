@@ -34,7 +34,7 @@ public class InMemorySigner extends CommonBase {
 	 * Private key of anchor tx
 	 */
 	public void set_funding_key(byte[] val) {
-		bindings.InMemorySigner_set_funding_key(this.ptr, val);
+		bindings.InMemorySigner_set_funding_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class InMemorySigner extends CommonBase {
 	 * Holder secret key for blinded revocation pubkey
 	 */
 	public void set_revocation_base_key(byte[] val) {
-		bindings.InMemorySigner_set_revocation_base_key(this.ptr, val);
+		bindings.InMemorySigner_set_revocation_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class InMemorySigner extends CommonBase {
 	 * Holder secret key used for our balance in counterparty-broadcasted commitment transactions
 	 */
 	public void set_payment_key(byte[] val) {
-		bindings.InMemorySigner_set_payment_key(this.ptr, val);
+		bindings.InMemorySigner_set_payment_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class InMemorySigner extends CommonBase {
 	 * Holder secret key used in HTLC tx
 	 */
 	public void set_delayed_payment_base_key(byte[] val) {
-		bindings.InMemorySigner_set_delayed_payment_base_key(this.ptr, val);
+		bindings.InMemorySigner_set_delayed_payment_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class InMemorySigner extends CommonBase {
 	 * Holder htlc secret key used in commitment tx htlc outputs
 	 */
 	public void set_htlc_base_key(byte[] val) {
-		bindings.InMemorySigner_set_htlc_base_key(this.ptr, val);
+		bindings.InMemorySigner_set_htlc_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -109,7 +109,12 @@ public class InMemorySigner extends CommonBase {
 	 * Commitment seed
 	 */
 	public void set_commitment_seed(byte[] val) {
-		bindings.InMemorySigner_set_commitment_seed(this.ptr, val);
+		bindings.InMemorySigner_set_commitment_seed(this.ptr, InternalUtils.check_arr_len(val, 32));
+	}
+
+	long clone_ptr() {
+		long ret = bindings.InMemorySigner_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**
@@ -127,7 +132,7 @@ public class InMemorySigner extends CommonBase {
 	 * Create a new InMemorySigner
 	 */
 	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
-		long ret = bindings.InMemorySigner_new(funding_key, revocation_base_key, payment_key, delayed_payment_base_key, htlc_base_key, commitment_seed, channel_value_satoshis, channel_keys_id);
+		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InMemorySigner(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

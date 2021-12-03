@@ -35,6 +35,9 @@ public class NetAddress extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * An IPv4 address/port on which the peer is listening.
+	 */
 	public final static class IPv4 extends NetAddress {
 		/**
 		 * The 4-byte IPv4 address
@@ -50,6 +53,9 @@ public class NetAddress extends CommonBase {
 			this.port = obj.port;
 		}
 	}
+	/**
+	 * An IPv6 address/port on which the peer is listening.
+	 */
 	public final static class IPv6 extends NetAddress {
 		/**
 		 * The 16-byte IPv6 address
@@ -65,6 +71,9 @@ public class NetAddress extends CommonBase {
 			this.port = obj.port;
 		}
 	}
+	/**
+	 * An old-style Tor onion address/port on which the peer is listening.
+	 */
 	public final static class OnionV2 extends NetAddress {
 		/**
 		 * The bytes (usually encoded in base32 with \".onion\" appended)
@@ -80,6 +89,11 @@ public class NetAddress extends CommonBase {
 			this.port = obj.port;
 		}
 	}
+	/**
+	 * A new-style Tor onion address/port on which the peer is listening.
+	 * To create the human-readable \"hostname\", concatenate ed25519_pubkey, checksum, and version,
+	 * wrap as base32 and append \".onion\".
+	 */
 	public final static class OnionV3 extends NetAddress {
 		/**
 		 * The ed25519 long-term public key of the peer
@@ -105,6 +119,11 @@ public class NetAddress extends CommonBase {
 			this.port = obj.port;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.NetAddress_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the NetAddress
 	 */
@@ -120,7 +139,7 @@ public class NetAddress extends CommonBase {
 	 * Utility method to constructs a new IPv4-variant NetAddress
 	 */
 	public static NetAddress ipv4(byte[] addr, short port) {
-		long ret = bindings.NetAddress_ipv4(addr, port);
+		long ret = bindings.NetAddress_ipv4(InternalUtils.check_arr_len(addr, 4), port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -131,7 +150,7 @@ public class NetAddress extends CommonBase {
 	 * Utility method to constructs a new IPv6-variant NetAddress
 	 */
 	public static NetAddress ipv6(byte[] addr, short port) {
-		long ret = bindings.NetAddress_ipv6(addr, port);
+		long ret = bindings.NetAddress_ipv6(InternalUtils.check_arr_len(addr, 16), port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -142,7 +161,7 @@ public class NetAddress extends CommonBase {
 	 * Utility method to constructs a new OnionV2-variant NetAddress
 	 */
 	public static NetAddress onion_v2(byte[] addr, short port) {
-		long ret = bindings.NetAddress_onion_v2(addr, port);
+		long ret = bindings.NetAddress_onion_v2(InternalUtils.check_arr_len(addr, 10), port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -153,7 +172,7 @@ public class NetAddress extends CommonBase {
 	 * Utility method to constructs a new OnionV3-variant NetAddress
 	 */
 	public static NetAddress onion_v3(byte[] ed25519_pubkey, short checksum, byte version, short port) {
-		long ret = bindings.NetAddress_onion_v3(ed25519_pubkey, checksum, version, port);
+		long ret = bindings.NetAddress_onion_v3(InternalUtils.check_arr_len(ed25519_pubkey, 32), checksum, version, port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

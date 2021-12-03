@@ -31,7 +31,7 @@ public class RouteHintHop extends CommonBase {
 	 * The node_id of the non-target end of the route
 	 */
 	public void set_src_node_id(byte[] val) {
-		bindings.RouteHintHop_set_src_node_id(this.ptr, val);
+		bindings.RouteHintHop_set_src_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -122,11 +122,16 @@ public class RouteHintHop extends CommonBase {
 	 * Constructs a new RouteHintHop given each field
 	 */
 	public static RouteHintHop of(byte[] src_node_id_arg, long short_channel_id_arg, RoutingFees fees_arg, short cltv_expiry_delta_arg, Option_u64Z htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg) {
-		long ret = bindings.RouteHintHop_new(src_node_id_arg, short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
+		long ret = bindings.RouteHintHop_new(InternalUtils.check_arr_len(src_node_id_arg, 33), short_channel_id_arg, fees_arg == null ? 0 : fees_arg.ptr & ~1, cltv_expiry_delta_arg, htlc_minimum_msat_arg.ptr, htlc_maximum_msat_arg.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RouteHintHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHintHop(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.RouteHintHop_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

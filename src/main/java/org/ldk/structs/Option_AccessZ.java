@@ -29,6 +29,9 @@ public class Option_AccessZ extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * When we're in this state, this COption_AccessZ contains a crate::lightning::chain::Access
+	 */
 	public final static class Some extends Option_AccessZ {
 		public final Access some;
 		private Some(long ptr, bindings.LDKCOption_AccessZ.Some obj) {
@@ -39,6 +42,9 @@ public class Option_AccessZ extends CommonBase {
 			this.some = ret_hu_conv;
 		}
 	}
+	/**
+	 * When we're in this state, this COption_AccessZ contains nothing
+	 */
 	public final static class None extends Option_AccessZ {
 		private None(long ptr, bindings.LDKCOption_AccessZ.None obj) {
 			super(null, ptr);

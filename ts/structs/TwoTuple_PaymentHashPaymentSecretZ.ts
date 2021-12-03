@@ -28,6 +28,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public TwoTuple_PaymentHashPaymentSecretZ clone() {
 		number ret = bindings.C2Tuple_PaymentHashPaymentSecretZ_clone(this.ptr);
 		TwoTuple_PaymentHashPaymentSecretZ ret_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
@@ -36,7 +41,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static TwoTuple_PaymentHashPaymentSecretZ constructor_new(Uint8Array a, Uint8Array b) {
-		number ret = bindings.C2Tuple_PaymentHashPaymentSecretZ_new(a, b);
+		number ret = bindings.C2Tuple_PaymentHashPaymentSecretZ_new(InternalUtils.check_arr_len(a, 32), InternalUtils.check_arr_len(b, 32));
 		TwoTuple_PaymentHashPaymentSecretZ ret_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

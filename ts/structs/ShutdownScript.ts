@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ShutdownScript_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.ShutdownScript_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ShutdownScript clone() {
 		number ret = bindings.ShutdownScript_clone(this.ptr);
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
@@ -37,14 +42,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static ShutdownScript constructor_new_p2wpkh(Uint8Array pubkey_hash) {
-		number ret = bindings.ShutdownScript_new_p2wpkh(pubkey_hash);
+		number ret = bindings.ShutdownScript_new_p2wpkh(InternalUtils.check_arr_len(pubkey_hash, 20));
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static ShutdownScript constructor_new_p2wsh(Uint8Array script_hash) {
-		number ret = bindings.ShutdownScript_new_p2wsh(script_hash);
+		number ret = bindings.ShutdownScript_new_p2wsh(InternalUtils.check_arr_len(script_hash, 32));
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

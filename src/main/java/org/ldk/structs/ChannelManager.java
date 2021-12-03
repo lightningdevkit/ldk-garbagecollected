@@ -123,7 +123,7 @@ public class ChannelManager extends CommonBase {
 	 * Note that override_config (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result__u832APIErrorZ create_channel(byte[] their_network_key, long channel_value_satoshis, long push_msat, long user_channel_id, @Nullable UserConfig override_config) {
-		long ret = bindings.ChannelManager_create_channel(this.ptr, their_network_key, channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr & ~1);
+		long ret = bindings.ChannelManager_create_channel(this.ptr, InternalUtils.check_arr_len(their_network_key, 33), channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : override_config.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -185,7 +185,7 @@ public class ChannelManager extends CommonBase {
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
 	 */
 	public Result_NoneAPIErrorZ close_channel(byte[] channel_id) {
-		long ret = bindings.ChannelManager_close_channel(this.ptr, channel_id);
+		long ret = bindings.ChannelManager_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -213,7 +213,7 @@ public class ChannelManager extends CommonBase {
 	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
 	 */
 	public Result_NoneAPIErrorZ close_channel_with_target_feerate(byte[] channel_id, int target_feerate_sats_per_1000_weight) {
-		long ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, channel_id, target_feerate_sats_per_1000_weight);
+		long ret = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, InternalUtils.check_arr_len(channel_id, 32), target_feerate_sats_per_1000_weight);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -224,7 +224,7 @@ public class ChannelManager extends CommonBase {
 	 * the chain and rejecting new HTLCs on the given channel. Fails if channel_id is unknown to the manager.
 	 */
 	public Result_NoneAPIErrorZ force_close_channel(byte[] channel_id) {
-		long ret = bindings.ChannelManager_force_close_channel(this.ptr, channel_id);
+		long ret = bindings.ChannelManager_force_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -282,7 +282,7 @@ public class ChannelManager extends CommonBase {
 	 * Note that payment_secret (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, byte[] payment_hash, @Nullable byte[] payment_secret) {
-		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_hash, payment_secret);
+		long ret = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
@@ -300,7 +300,7 @@ public class ChannelManager extends CommonBase {
 	 * [`send_payment`]: [`ChannelManager::send_payment`]
 	 */
 	public Result_NonePaymentSendFailureZ retry_payment(Route route, byte[] payment_id) {
-		long ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_id);
+		long ret = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
@@ -326,7 +326,7 @@ public class ChannelManager extends CommonBase {
 	 * Note that payment_preimage (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_spontaneous_payment(Route route, @Nullable byte[] payment_preimage) {
-		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, payment_preimage);
+		long ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_preimage, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
@@ -356,7 +356,7 @@ public class ChannelManager extends CommonBase {
 	 * [`Event::FundingGenerationReady`]: crate::util::events::Event::FundingGenerationReady
 	 */
 	public Result_NoneAPIErrorZ funding_transaction_generated(byte[] temporary_channel_id, byte[] funding_transaction) {
-		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, temporary_channel_id, funding_transaction);
+		long ret = bindings.ChannelManager_funding_transaction_generated(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), funding_transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -383,7 +383,7 @@ public class ChannelManager extends CommonBase {
 	 * [`get_and_clear_pending_msg_events`]: MessageSendEventsProvider::get_and_clear_pending_msg_events
 	 */
 	public void broadcast_node_announcement(byte[] rgb, byte[] alias, NetAddress[] addresses) {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, rgb, alias, addresses != null ? Arrays.stream(addresses).mapToLong(addresses_conv_12 -> addresses_conv_12.ptr).toArray() : null);
+		bindings.ChannelManager_broadcast_node_announcement(this.ptr, InternalUtils.check_arr_len(rgb, 3), InternalUtils.check_arr_len(alias, 32), addresses != null ? Arrays.stream(addresses).mapToLong(addresses_conv_12 -> addresses_conv_12.ptr).toArray() : null);
 	}
 
 	/**
@@ -420,7 +420,7 @@ public class ChannelManager extends CommonBase {
 	 * HTLC backwards has been started.
 	 */
 	public boolean fail_htlc_backwards(byte[] payment_hash) {
-		boolean ret = bindings.ChannelManager_fail_htlc_backwards(this.ptr, payment_hash);
+		boolean ret = bindings.ChannelManager_fail_htlc_backwards(this.ptr, InternalUtils.check_arr_len(payment_hash, 32));
 		return ret;
 	}
 
@@ -440,7 +440,7 @@ public class ChannelManager extends CommonBase {
 	 * [`create_inbound_payment_for_hash`]: Self::create_inbound_payment_for_hash
 	 */
 	public boolean claim_funds(byte[] payment_preimage) {
-		boolean ret = bindings.ChannelManager_claim_funds(this.ptr, payment_preimage);
+		boolean ret = bindings.ChannelManager_claim_funds(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
 		return ret;
 	}
 
@@ -526,7 +526,7 @@ public class ChannelManager extends CommonBase {
 	 * [`PaymentPurpose::InvoicePayment::user_payment_id`]: events::PaymentPurpose::InvoicePayment::user_payment_id
 	 */
 	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash(byte[] payment_hash, Option_u64Z min_value_msat, int invoice_expiry_delta_secs, long user_payment_id) {
-		long ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, payment_hash, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
+		long ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

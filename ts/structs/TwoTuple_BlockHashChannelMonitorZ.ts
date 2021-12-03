@@ -30,6 +30,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.C2Tuple_BlockHashChannelMonitorZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public TwoTuple_BlockHashChannelMonitorZ clone() {
 		number ret = bindings.C2Tuple_BlockHashChannelMonitorZ_clone(this.ptr);
 		TwoTuple_BlockHashChannelMonitorZ ret_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
@@ -38,7 +43,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static TwoTuple_BlockHashChannelMonitorZ constructor_new(Uint8Array a, ChannelMonitor b) {
-		number ret = bindings.C2Tuple_BlockHashChannelMonitorZ_new(a, b == null ? 0 : b.ptr & ~1);
+		number ret = bindings.C2Tuple_BlockHashChannelMonitorZ_new(InternalUtils.check_arr_len(a, 32), b == null ? 0 : b.ptr & ~1);
 		TwoTuple_BlockHashChannelMonitorZ ret_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

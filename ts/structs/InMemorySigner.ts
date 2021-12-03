@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_funding_key(Uint8Array val) {
-		bindings.InMemorySigner_set_funding_key(this.ptr, val);
+		bindings.InMemorySigner_set_funding_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Uint8Array get_revocation_base_key() {
@@ -33,7 +33,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_revocation_base_key(Uint8Array val) {
-		bindings.InMemorySigner_set_revocation_base_key(this.ptr, val);
+		bindings.InMemorySigner_set_revocation_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Uint8Array get_payment_key() {
@@ -42,7 +42,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_payment_key(Uint8Array val) {
-		bindings.InMemorySigner_set_payment_key(this.ptr, val);
+		bindings.InMemorySigner_set_payment_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Uint8Array get_delayed_payment_base_key() {
@@ -51,7 +51,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_delayed_payment_base_key(Uint8Array val) {
-		bindings.InMemorySigner_set_delayed_payment_base_key(this.ptr, val);
+		bindings.InMemorySigner_set_delayed_payment_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Uint8Array get_htlc_base_key() {
@@ -60,7 +60,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_htlc_base_key(Uint8Array val) {
-		bindings.InMemorySigner_set_htlc_base_key(this.ptr, val);
+		bindings.InMemorySigner_set_htlc_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public Uint8Array get_commitment_seed() {
@@ -69,7 +69,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_commitment_seed(Uint8Array val) {
-		bindings.InMemorySigner_set_commitment_seed(this.ptr, val);
+		bindings.InMemorySigner_set_commitment_seed(this.ptr, InternalUtils.check_arr_len(val, 32));
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.InMemorySigner_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public InMemorySigner clone() {
@@ -80,7 +85,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static InMemorySigner constructor_new(Uint8Array funding_key, Uint8Array revocation_base_key, Uint8Array payment_key, Uint8Array delayed_payment_base_key, Uint8Array htlc_base_key, Uint8Array commitment_seed, number channel_value_satoshis, Uint8Array channel_keys_id) {
-		number ret = bindings.InMemorySigner_new(funding_key, revocation_base_key, payment_key, delayed_payment_base_key, htlc_base_key, commitment_seed, channel_value_satoshis, channel_keys_id);
+		number ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
 		const ret_hu_conv: InMemorySigner = new InMemorySigner(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

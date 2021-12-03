@@ -31,7 +31,7 @@ public class FundingLocked extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.FundingLocked_set_channel_id(this.ptr, val);
+		bindings.FundingLocked_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -46,18 +46,23 @@ public class FundingLocked extends CommonBase {
 	 * The per-commitment point of the second commitment transaction
 	 */
 	public void set_next_per_commitment_point(byte[] val) {
-		bindings.FundingLocked_set_next_per_commitment_point(this.ptr, val);
+		bindings.FundingLocked_set_next_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
 	 * Constructs a new FundingLocked given each field
 	 */
 	public static FundingLocked of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg) {
-		long ret = bindings.FundingLocked_new(channel_id_arg, next_per_commitment_point_arg);
+		long ret = bindings.FundingLocked_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FundingLocked ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingLocked(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.FundingLocked_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

@@ -34,7 +34,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         get_utxo (genesis_hash: Uint8Array, short_channel_id: number): number {
 							Result_TxOutAccessErrorZ ret = arg.get_utxo(genesis_hash, short_channel_id);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -53,7 +53,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                 held: Access;
             }
 	public Result_TxOutAccessErrorZ get_utxo(Uint8Array genesis_hash, number short_channel_id) {
-		number ret = bindings.Access_get_utxo(this.ptr, genesis_hash, short_channel_id);
+		number ret = bindings.Access_get_utxo(this.ptr, InternalUtils.check_arr_len(genesis_hash, 32), short_channel_id);
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

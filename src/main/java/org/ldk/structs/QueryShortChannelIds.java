@@ -38,7 +38,7 @@ public class QueryShortChannelIds extends CommonBase {
 	 * The genesis hash of the blockchain being queried
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.QueryShortChannelIds_set_chain_hash(this.ptr, val);
+		bindings.QueryShortChannelIds_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -52,11 +52,16 @@ public class QueryShortChannelIds extends CommonBase {
 	 * Constructs a new QueryShortChannelIds given each field
 	 */
 	public static QueryShortChannelIds of(byte[] chain_hash_arg, long[] short_channel_ids_arg) {
-		long ret = bindings.QueryShortChannelIds_new(chain_hash_arg, short_channel_ids_arg);
+		long ret = bindings.QueryShortChannelIds_new(InternalUtils.check_arr_len(chain_hash_arg, 32), short_channel_ids_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		QueryShortChannelIds ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new QueryShortChannelIds(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.QueryShortChannelIds_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

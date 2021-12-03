@@ -34,7 +34,8 @@ import * as bindings from '../bindings' // TODO: figure out location
                         // todo: in-line interface filling
                         get_node_secret (): Uint8Array {
 							Uint8Array ret = arg.get_node_secret();
-				return ret;
+				result: Uint8Array = InternalUtils.check_arr_len(ret, 32);
+				return result;
 						},
 
 						get_destination_script (): Uint8Array {
@@ -44,31 +45,32 @@ import * as bindings from '../bindings' // TODO: figure out location
 
 						get_shutdown_scriptpubkey (): number {
 							ShutdownScript ret = arg.get_shutdown_scriptpubkey();
-				result: number = ret == null ? 0 : ret.ptr & ~1;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
 						get_channel_signer (inbound: boolean, channel_value_satoshis: number): number {
 							Sign ret = arg.get_channel_signer(inbound, channel_value_satoshis);
-				result: number = ret == null ? 0 : ret.ptr;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				impl_holder.held.ptrs_to.add(ret);
 				return result;
 						},
 
 						get_secure_random_bytes (): Uint8Array {
 							Uint8Array ret = arg.get_secure_random_bytes();
-				return ret;
+				result: Uint8Array = InternalUtils.check_arr_len(ret, 32);
+				return result;
 						},
 
 						read_chan_signer (reader: Uint8Array): number {
 							Result_SignDecodeErrorZ ret = arg.read_chan_signer(reader);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
 						sign_invoice (invoice_preimage: Uint8Array): number {
 							Result_RecoverableSignatureNoneZ ret = arg.sign_invoice(invoice_preimage);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 

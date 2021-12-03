@@ -35,7 +35,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_chain_hash(Uint8Array val) {
-		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_short_channel_id() {
@@ -53,7 +53,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_node_id_1(Uint8Array val) {
-		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_node_id_2() {
@@ -62,7 +62,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_node_id_2(Uint8Array val) {
-		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_bitcoin_key_1() {
@@ -71,7 +71,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_bitcoin_key_1(Uint8Array val) {
-		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_bitcoin_key_2() {
@@ -80,7 +80,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_bitcoin_key_2(Uint8Array val) {
-		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, val);
+		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, InternalUtils.check_arr_len(val, 33));
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.UnsignedChannelAnnouncement_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public UnsignedChannelAnnouncement clone() {

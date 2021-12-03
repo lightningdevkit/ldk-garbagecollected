@@ -68,6 +68,11 @@ export class UpdateFailed extends MonitorEvent {
 		this.update_failed = update_failed_hu_conv;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.MonitorEvent_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public MonitorEvent clone() {
 		number ret = bindings.MonitorEvent_clone(this.ptr);
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);

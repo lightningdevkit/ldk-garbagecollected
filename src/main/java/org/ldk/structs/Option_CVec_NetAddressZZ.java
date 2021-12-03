@@ -29,6 +29,9 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * When we're in this state, this COption_CVec_NetAddressZZ contains a crate::c_types::derived::CVec_NetAddressZ
+	 */
 	public final static class Some extends Option_CVec_NetAddressZZ {
 		public final NetAddress[] some;
 		private Some(long ptr, bindings.LDKCOption_CVec_NetAddressZZ.Some obj) {
@@ -44,6 +47,9 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 			this.some = some_conv_12_arr;
 		}
 	}
+	/**
+	 * When we're in this state, this COption_CVec_NetAddressZZ contains nothing
+	 */
 	public final static class None extends Option_CVec_NetAddressZZ {
 		private None(long ptr, bindings.LDKCOption_CVec_NetAddressZZ.None obj) {
 			super(null, ptr);
@@ -69,6 +75,11 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.COption_CVec_NetAddressZZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

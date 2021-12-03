@@ -9,7 +9,7 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 	}
 
 	static Result_RevokeAndACKDecodeErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_RevokeAndACKDecodeErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_RevokeAndACKDecodeErrorZ_is_ok(ptr)) {
 			return new Result_RevokeAndACKDecodeErrorZ_OK(null, ptr);
 		} else {
 			return new Result_RevokeAndACKDecodeErrorZ_Err(null, ptr);
@@ -47,6 +47,16 @@ public class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 		number ret = bindings.CResult_RevokeAndACKDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
 		Result_RevokeAndACKDecodeErrorZ ret_hu_conv = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_RevokeAndACKDecodeErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_RevokeAndACKDecodeErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_RevokeAndACKDecodeErrorZ clone() {

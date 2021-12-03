@@ -60,7 +60,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void block_disconnected(Uint8Array header, number height) {
-		bindings.Listen_block_disconnected(this.ptr, header, height);
+		bindings.Listen_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height);
 	}
 
 }

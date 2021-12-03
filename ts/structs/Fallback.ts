@@ -48,6 +48,11 @@ export class ScriptHash extends Fallback {
 		this.script_hash = obj.script_hash;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.Fallback_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Fallback clone() {
 		number ret = bindings.Fallback_clone(this.ptr);
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
@@ -63,14 +68,14 @@ export class ScriptHash extends Fallback {
 	}
 
 	public static Fallback constructor_pub_key_hash(Uint8Array a) {
-		number ret = bindings.Fallback_pub_key_hash(a);
+		number ret = bindings.Fallback_pub_key_hash(InternalUtils.check_arr_len(a, 20));
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static Fallback constructor_script_hash(Uint8Array a) {
-		number ret = bindings.Fallback_script_hash(a);
+		number ret = bindings.Fallback_script_hash(InternalUtils.check_arr_len(a, 20));
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

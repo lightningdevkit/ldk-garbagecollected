@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_txid(Uint8Array val) {
-		bindings.OutPoint_set_txid(this.ptr, val);
+		bindings.OutPoint_set_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_index() {
@@ -37,10 +37,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static OutPoint constructor_new(Uint8Array txid_arg, number index_arg) {
-		number ret = bindings.OutPoint_new(txid_arg, index_arg);
+		number ret = bindings.OutPoint_new(InternalUtils.check_arr_len(txid_arg, 32), index_arg);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.OutPoint_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public OutPoint clone() {

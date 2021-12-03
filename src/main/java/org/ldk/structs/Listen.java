@@ -63,7 +63,7 @@ public class Listen extends CommonBase {
 	 * Notifies the listener that a block was removed at the given height.
 	 */
 	public void block_disconnected(byte[] header, int height) {
-		bindings.Listen_block_disconnected(this.ptr, header, height);
+		bindings.Listen_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height);
 	}
 
 }

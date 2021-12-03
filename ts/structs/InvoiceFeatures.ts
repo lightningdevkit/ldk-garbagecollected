@@ -24,6 +24,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.InvoiceFeatures_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public InvoiceFeatures clone() {
 		number ret = bindings.InvoiceFeatures_clone(this.ptr);
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);

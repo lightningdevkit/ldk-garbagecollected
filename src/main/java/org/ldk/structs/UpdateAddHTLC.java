@@ -31,7 +31,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.UpdateAddHTLC_set_channel_id(this.ptr, val);
+		bindings.UpdateAddHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 * The payment hash, the pre-image of which controls HTLC redemption
 	 */
 	public void set_payment_hash(byte[] val) {
-		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, val);
+		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -92,6 +92,11 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public void set_cltv_expiry(int val) {
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
+	}
+
+	long clone_ptr() {
+		long ret = bindings.UpdateAddHTLC_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

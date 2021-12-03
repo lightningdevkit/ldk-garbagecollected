@@ -9,7 +9,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 	}
 
 	static Result_TrustedCommitmentTransactionNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_TrustedCommitmentTransactionNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_TrustedCommitmentTransactionNoneZ_is_ok(ptr)) {
 			return new Result_TrustedCommitmentTransactionNoneZ_OK(null, ptr);
 		} else {
 			return new Result_TrustedCommitmentTransactionNoneZ_Err(null, ptr);
@@ -51,6 +51,11 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 		number ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_err();
 		Result_TrustedCommitmentTransactionNoneZ ret_hu_conv = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_TrustedCommitmentTransactionNoneZ_is_ok(this.ptr);
+		return ret;
 	}
 
 }

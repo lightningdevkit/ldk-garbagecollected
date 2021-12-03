@@ -15,7 +15,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				        this.bindings_instance = null;
 				    } else {
 				        // TODO: private constructor instantiation
-				        super(bindings.LDKSign_new(arg, baseSign, pubkeys == null ? 0 : pubkeys.ptr & ~1));
+				        super(bindings.LDKSign_new(arg, baseSign, pubkeys == null ? 0 : pubkeys.clone_ptr()));
 				        this.ptrs_to.push(arg);
 				        this.ptrs_to.push(baseSign);
 
@@ -54,6 +54,11 @@ import * as bindings from '../bindings' // TODO: figure out location
             }
 	public Uint8Array write() {
 		Uint8Array ret = bindings.Sign_write(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.Sign_clone_ptr(this.ptr);
 		return ret;
 	}
 

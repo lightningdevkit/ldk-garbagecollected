@@ -35,6 +35,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.RawDataPart_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public RawDataPart clone() {
 		number ret = bindings.RawDataPart_clone(this.ptr);
 		const ret_hu_conv: RawDataPart = new RawDataPart(null, ret);

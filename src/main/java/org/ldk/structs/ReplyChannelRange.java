@@ -37,7 +37,7 @@ public class ReplyChannelRange extends CommonBase {
 	 * The genesis hash of the blockchain being queried
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.ReplyChannelRange_set_chain_hash(this.ptr, val);
+		bindings.ReplyChannelRange_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -96,11 +96,16 @@ public class ReplyChannelRange extends CommonBase {
 	 * Constructs a new ReplyChannelRange given each field
 	 */
 	public static ReplyChannelRange of(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg, boolean sync_complete_arg, long[] short_channel_ids_arg) {
-		long ret = bindings.ReplyChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, short_channel_ids_arg);
+		long ret = bindings.ReplyChannelRange_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, short_channel_ids_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ReplyChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReplyChannelRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ReplyChannelRange_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

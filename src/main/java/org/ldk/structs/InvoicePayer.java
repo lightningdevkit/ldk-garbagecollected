@@ -76,7 +76,7 @@ public class InvoicePayer extends CommonBase {
 	 * [`EventHandler`]. Otherwise, calling this method is unnecessary.
 	 */
 	public void remove_cached_payment(byte[] payment_hash) {
-		bindings.InvoicePayer_remove_cached_payment(this.ptr, payment_hash);
+		bindings.InvoicePayer_remove_cached_payment(this.ptr, InternalUtils.check_arr_len(payment_hash, 32));
 	}
 
 	/**

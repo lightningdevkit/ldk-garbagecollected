@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_block_hash(Uint8Array val) {
-		bindings.WatchedOutput_set_block_hash(this.ptr, val);
+		bindings.WatchedOutput_set_block_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public OutPoint get_outpoint() {
@@ -48,10 +48,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static WatchedOutput constructor_new(Uint8Array block_hash_arg, OutPoint outpoint_arg, Uint8Array script_pubkey_arg) {
-		number ret = bindings.WatchedOutput_new(block_hash_arg, outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
+		number ret = bindings.WatchedOutput_new(InternalUtils.check_arr_len(block_hash_arg, 32), outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, script_pubkey_arg);
 		const ret_hu_conv: WatchedOutput = new WatchedOutput(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.WatchedOutput_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public WatchedOutput clone() {

@@ -44,7 +44,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_rgb(Uint8Array val) {
-		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, val);
+		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, InternalUtils.check_arr_len(val, 3));
 	}
 
 	public Uint8Array get_alias() {
@@ -53,7 +53,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_alias(Uint8Array val) {
-		bindings.NodeAnnouncementInfo_set_alias(this.ptr, val);
+		bindings.NodeAnnouncementInfo_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public void set_addresses(NetAddress[] val) {
@@ -72,10 +72,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static NodeAnnouncementInfo constructor_new(NodeFeatures features_arg, number last_update_arg, Uint8Array rgb_arg, Uint8Array alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
-		number ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, addresses_arg != null ? Arrays.stream(addresses_arg).map(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray(number[]::new) : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+		number ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), InternalUtils.check_arr_len(alias_arg, 32), addresses_arg != null ? Arrays.stream(addresses_arg).map(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray(number[]::new) : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.NodeAnnouncementInfo_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public NodeAnnouncementInfo clone() {

@@ -29,6 +29,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.C2Tuple_u32TxOutZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public TwoTuple_u32TxOutZ clone() {
 		number ret = bindings.C2Tuple_u32TxOutZ_clone(this.ptr);
 		TwoTuple_u32TxOutZ ret_hu_conv = new TwoTuple_u32TxOutZ(null, ret);

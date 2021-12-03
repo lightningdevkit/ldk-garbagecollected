@@ -35,6 +35,11 @@ public class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a new tuple which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
@@ -51,7 +56,7 @@ public class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	 * Creates a new C2Tuple_SignatureCVec_SignatureZZ from the contained elements.
 	 */
 	public static TwoTuple_SignatureCVec_SignatureZZ of(byte[] a, byte[][] b) {
-		long ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(a, b);
+		long ret = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(InternalUtils.check_arr_len(a, 64), b != null ? Arrays.stream(b).map(b_conv_8 -> InternalUtils.check_arr_len(b_conv_8, 64)).toArray(byte[][]::new) : null);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_SignatureCVec_SignatureZZ ret_hu_conv = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

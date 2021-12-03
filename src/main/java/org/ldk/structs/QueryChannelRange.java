@@ -34,7 +34,7 @@ public class QueryChannelRange extends CommonBase {
 	 * The genesis hash of the blockchain being queried
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.QueryChannelRange_set_chain_hash(this.ptr, val);
+		bindings.QueryChannelRange_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -71,11 +71,16 @@ public class QueryChannelRange extends CommonBase {
 	 * Constructs a new QueryChannelRange given each field
 	 */
 	public static QueryChannelRange of(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg) {
-		long ret = bindings.QueryChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg);
+		long ret = bindings.QueryChannelRange_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_blocknum_arg, number_of_blocks_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		QueryChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new QueryChannelRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.QueryChannelRange_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

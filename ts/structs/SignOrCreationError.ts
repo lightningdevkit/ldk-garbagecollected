@@ -32,6 +32,11 @@ export class CreationError extends SignOrCreationError {
 		this.creation_error = obj.creation_error;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.SignOrCreationError_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public SignOrCreationError clone() {
 		number ret = bindings.SignOrCreationError_clone(this.ptr);
 		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);

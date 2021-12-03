@@ -31,7 +31,7 @@ public class FundingCreated extends CommonBase {
 	 * A temporary channel ID, until the funding is established
 	 */
 	public void set_temporary_channel_id(byte[] val) {
-		bindings.FundingCreated_set_temporary_channel_id(this.ptr, val);
+		bindings.FundingCreated_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class FundingCreated extends CommonBase {
 	 * The funding transaction ID
 	 */
 	public void set_funding_txid(byte[] val) {
-		bindings.FundingCreated_set_funding_txid(this.ptr, val);
+		bindings.FundingCreated_set_funding_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -76,18 +76,23 @@ public class FundingCreated extends CommonBase {
 	 * The signature of the channel initiator (funder) on the initial commitment transaction
 	 */
 	public void set_signature(byte[] val) {
-		bindings.FundingCreated_set_signature(this.ptr, val);
+		bindings.FundingCreated_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
 	 * Constructs a new FundingCreated given each field
 	 */
 	public static FundingCreated of(byte[] temporary_channel_id_arg, byte[] funding_txid_arg, short funding_output_index_arg, byte[] signature_arg) {
-		long ret = bindings.FundingCreated_new(temporary_channel_id_arg, funding_txid_arg, funding_output_index_arg, signature_arg);
+		long ret = bindings.FundingCreated_new(InternalUtils.check_arr_len(temporary_channel_id_arg, 32), InternalUtils.check_arr_len(funding_txid_arg, 32), funding_output_index_arg, InternalUtils.check_arr_len(signature_arg, 64));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FundingCreated ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingCreated(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.FundingCreated_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

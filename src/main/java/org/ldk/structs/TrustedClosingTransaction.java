@@ -47,7 +47,7 @@ public class TrustedClosingTransaction extends CommonBase {
 	 * because we are about to broadcast a holder transaction.
 	 */
 	public byte[] sign(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
-		byte[] ret = bindings.TrustedClosingTransaction_sign(this.ptr, funding_key, funding_redeemscript, channel_value_satoshis);
+		byte[] ret = bindings.TrustedClosingTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
 		return ret;
 	}
 

@@ -66,7 +66,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * Color assigned to the node
 	 */
 	public void set_rgb(byte[] val) {
-		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, val);
+		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, InternalUtils.check_arr_len(val, 3));
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * should not be exposed to the user.
 	 */
 	public void set_alias(byte[] val) {
-		bindings.NodeAnnouncementInfo_set_alias(this.ptr, val);
+		bindings.NodeAnnouncementInfo_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -128,11 +128,16 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 * Constructs a new NodeAnnouncementInfo given each field
 	 */
 	public static NodeAnnouncementInfo of(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
-		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, rgb_arg, alias_arg, addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), InternalUtils.check_arr_len(alias_arg, 32), addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeAnnouncementInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncementInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.NodeAnnouncementInfo_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

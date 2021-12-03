@@ -34,6 +34,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.Pong_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Pong clone() {
 		number ret = bindings.Pong_clone(this.ptr);
 		const ret_hu_conv: Pong = new Pong(null, ret);

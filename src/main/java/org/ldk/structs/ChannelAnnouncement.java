@@ -31,7 +31,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 * Authentication of the announcement by the first public node
 	 */
 	public void set_node_signature_1(byte[] val) {
-		bindings.ChannelAnnouncement_set_node_signature_1(this.ptr, val);
+		bindings.ChannelAnnouncement_set_node_signature_1(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 * Authentication of the announcement by the second public node
 	 */
 	public void set_node_signature_2(byte[] val) {
-		bindings.ChannelAnnouncement_set_node_signature_2(this.ptr, val);
+		bindings.ChannelAnnouncement_set_node_signature_2(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 * Proof of funding UTXO ownership by the first public node
 	 */
 	public void set_bitcoin_signature_1(byte[] val) {
-		bindings.ChannelAnnouncement_set_bitcoin_signature_1(this.ptr, val);
+		bindings.ChannelAnnouncement_set_bitcoin_signature_1(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class ChannelAnnouncement extends CommonBase {
 	 * Proof of funding UTXO ownership by the second public node
 	 */
 	public void set_bitcoin_signature_2(byte[] val) {
-		bindings.ChannelAnnouncement_set_bitcoin_signature_2(this.ptr, val);
+		bindings.ChannelAnnouncement_set_bitcoin_signature_2(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
@@ -101,11 +101,16 @@ public class ChannelAnnouncement extends CommonBase {
 	 * Constructs a new ChannelAnnouncement given each field
 	 */
 	public static ChannelAnnouncement of(byte[] node_signature_1_arg, byte[] node_signature_2_arg, byte[] bitcoin_signature_1_arg, byte[] bitcoin_signature_2_arg, UnsignedChannelAnnouncement contents_arg) {
-		long ret = bindings.ChannelAnnouncement_new(node_signature_1_arg, node_signature_2_arg, bitcoin_signature_1_arg, bitcoin_signature_2_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
+		long ret = bindings.ChannelAnnouncement_new(InternalUtils.check_arr_len(node_signature_1_arg, 64), InternalUtils.check_arr_len(node_signature_2_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_1_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_2_arg, 64), contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ChannelAnnouncement_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

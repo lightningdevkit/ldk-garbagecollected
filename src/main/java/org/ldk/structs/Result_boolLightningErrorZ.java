@@ -13,7 +13,7 @@ public class Result_boolLightningErrorZ extends CommonBase {
 	}
 
 	static Result_boolLightningErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_boolLightningErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_boolLightningErrorZ_is_ok(ptr)) {
 			return new Result_boolLightningErrorZ_OK(null, ptr);
 		} else {
 			return new Result_boolLightningErrorZ_Err(null, ptr);
@@ -56,6 +56,19 @@ public class Result_boolLightningErrorZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_boolLightningErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_boolLightningErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

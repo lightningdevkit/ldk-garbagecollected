@@ -78,7 +78,15 @@ if [ "$4" = "true" ]; then
 else
 	./genbindings.py "./lightning.h" src/main/java/org/ldk/impl src/main/java/org/ldk src/main/jni/ $DEBUG_ARG java $4
 fi
-echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > src/main/jni/bindings.c
+rm -f src/main/jni/bindings.c
+if [ "$3" = "true" ]; then
+	echo "#define LDK_DEBUG_BUILD" > src/main/jni/bindings.c
+elif [ "$3" = "leaks" ]; then
+	# For leak checking we use release libldk which doesn't expose
+	# __unmangle_inner_ptr, but the C code expects to be able to call it.
+	echo "#define __unmangle_inner_ptr(a) (a)" > src/main/jni/bindings.c
+fi
+echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> src/main/jni/bindings.c
 echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> src/main/jni/bindings.c
 cat src/main/jni/bindings.c.body >> src/main/jni/bindings.c
 javac -h src/main/jni src/main/java/org/ldk/enums/*.java src/main/java/org/ldk/impl/*.java

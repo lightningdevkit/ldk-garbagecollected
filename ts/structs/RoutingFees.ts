@@ -49,6 +49,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.RoutingFees_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public RoutingFees clone() {
 		number ret = bindings.RoutingFees_clone(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);

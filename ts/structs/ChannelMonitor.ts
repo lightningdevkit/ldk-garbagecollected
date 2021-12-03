@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ChannelMonitor_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.ChannelMonitor_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ChannelMonitor clone() {
 		number ret = bindings.ChannelMonitor_clone(this.ptr);
 		const ret_hu_conv: ChannelMonitor = new ChannelMonitor(null, ret);
@@ -100,7 +105,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] block_connected(Uint8Array header, TwoTuple_usizeTransactionZ[] txdata, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		number[] ret = bindings.ChannelMonitor_block_connected(this.ptr, header, txdata != null ? Arrays.stream(txdata).map(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray(number[]::new) : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		number[] ret = bindings.ChannelMonitor_block_connected(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).map(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray(number[]::new) : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
 		for (int n = 0; n < ret.length; n++) {
 			number ret_conv_39 = ret[n];
@@ -115,14 +120,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void block_disconnected(Uint8Array header, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		bindings.ChannelMonitor_block_disconnected(this.ptr, header, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		bindings.ChannelMonitor_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
 	}
 
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] transactions_confirmed(Uint8Array header, TwoTuple_usizeTransactionZ[] txdata, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		number[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, header, txdata != null ? Arrays.stream(txdata).map(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray(number[]::new) : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		number[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).map(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray(number[]::new) : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
 		for (int n = 0; n < ret.length; n++) {
 			number ret_conv_39 = ret[n];
@@ -137,14 +142,14 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void transaction_unconfirmed(Uint8Array txid, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, txid, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32), broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
 	}
 
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] best_block_updated(Uint8Array header, number height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
-		number[] ret = bindings.ChannelMonitor_best_block_updated(this.ptr, header, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		number[] ret = bindings.ChannelMonitor_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
 		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
 		for (int n = 0; n < ret.length; n++) {
 			number ret_conv_39 = ret[n];

@@ -158,6 +158,11 @@ public class DirectionalChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.DirectionalChannelInfo_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the DirectionalChannelInfo
 	 */

@@ -25,18 +25,23 @@ public class PayeePubKey extends CommonBase {
 	}
 
 	public void set_a(byte[] val) {
-		bindings.PayeePubKey_set_a(this.ptr, val);
+		bindings.PayeePubKey_set_a(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
 	 * Constructs a new PayeePubKey given each field
 	 */
 	public static PayeePubKey of(byte[] a_arg) {
-		long ret = bindings.PayeePubKey_new(a_arg);
+		long ret = bindings.PayeePubKey_new(InternalUtils.check_arr_len(a_arg, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PayeePubKey(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.PayeePubKey_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

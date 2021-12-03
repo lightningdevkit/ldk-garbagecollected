@@ -13,7 +13,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	}
 
 	static Result_TxOutAccessErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_TxOutAccessErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_TxOutAccessErrorZ_is_ok(ptr)) {
 			return new Result_TxOutAccessErrorZ_OK(null, ptr);
 		} else {
 			return new Result_TxOutAccessErrorZ_Err(null, ptr);
@@ -55,6 +55,19 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_TxOutAccessErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_TxOutAccessErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

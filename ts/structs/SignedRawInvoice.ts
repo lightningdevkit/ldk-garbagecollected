@@ -24,6 +24,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.SignedRawInvoice_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public SignedRawInvoice clone() {
 		number ret = bindings.SignedRawInvoice_clone(this.ptr);
 		const ret_hu_conv: SignedRawInvoice = new SignedRawInvoice(null, ret);

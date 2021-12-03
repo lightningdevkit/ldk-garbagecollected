@@ -84,7 +84,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 * The hash of the preimage which unlocks this HTLC.
 	 */
 	public void set_payment_hash(byte[] val) {
-		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, val);
+		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -113,11 +113,16 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 * Constructs a new HTLCOutputInCommitment given each field
 	 */
 	public static HTLCOutputInCommitment of(boolean offered_arg, long amount_msat_arg, int cltv_expiry_arg, byte[] payment_hash_arg, Option_u32Z transaction_output_index_arg) {
-		long ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, payment_hash_arg, transaction_output_index_arg.ptr);
+		long ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, InternalUtils.check_arr_len(payment_hash_arg, 32), transaction_output_index_arg.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		HTLCOutputInCommitment ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new HTLCOutputInCommitment(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.HTLCOutputInCommitment_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

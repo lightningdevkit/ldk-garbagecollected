@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_node_id(Uint8Array val) {
-		bindings.ChannelCounterparty_set_node_id(this.ptr, val);
+		bindings.ChannelCounterparty_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public InitFeatures get_features() {
@@ -59,10 +59,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static ChannelCounterparty constructor_new(Uint8Array node_id_arg, InitFeatures features_arg, number unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg) {
-		number ret = bindings.ChannelCounterparty_new(node_id_arg, features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
+		number ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
 		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.ChannelCounterparty_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public ChannelCounterparty clone() {

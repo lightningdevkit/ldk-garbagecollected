@@ -31,7 +31,7 @@ public class ChannelReestablish extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.ChannelReestablish_set_channel_id(this.ptr, val);
+		bindings.ChannelReestablish_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -62,6 +62,11 @@ public class ChannelReestablish extends CommonBase {
 	 */
 	public void set_next_remote_commitment_number(long val) {
 		bindings.ChannelReestablish_set_next_remote_commitment_number(this.ptr, val);
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ChannelReestablish_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

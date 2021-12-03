@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_chain_hash(Uint8Array val) {
-		bindings.QueryShortChannelIds_set_chain_hash(this.ptr, val);
+		bindings.QueryShortChannelIds_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public void set_short_channel_ids(number[] val) {
@@ -32,10 +32,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static QueryShortChannelIds constructor_new(Uint8Array chain_hash_arg, number[] short_channel_ids_arg) {
-		number ret = bindings.QueryShortChannelIds_new(chain_hash_arg, short_channel_ids_arg);
+		number ret = bindings.QueryShortChannelIds_new(InternalUtils.check_arr_len(chain_hash_arg, 32), short_channel_ids_arg);
 		const ret_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.QueryShortChannelIds_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public QueryShortChannelIds clone() {

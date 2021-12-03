@@ -46,12 +46,12 @@ public class CustomMessageHandler extends CommonBase {
 				Type ret_hu_conv = new Type(null, msg);
 				ret_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_custom_message(ret_hu_conv, sender_node_id);
-				long result = ret != null ? ret.ptr : 0;
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long[] get_and_clear_pending_msg() {
 				TwoTuple_PublicKeyTypeZ[] ret = arg.get_and_clear_pending_msg();
-				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_25 -> ret_conv_25 != null ? ret_conv_25.ptr : 0).toArray() : null;
+				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_25 -> ret_conv_25 == null ? 0 : ret_conv_25.clone_ptr()).toArray() : null;
 				return result;
 			}
 		}, CustomMessageReader.new_impl(CustomMessageReader_impl).bindings_instance);
@@ -72,7 +72,7 @@ public class CustomMessageHandler extends CommonBase {
 	 * Can return a `MessageHandlingError` if the message could not be handled.
 	 */
 	public Result_NoneLightningErrorZ handle_custom_message(Type msg, byte[] sender_node_id) {
-		long ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr, sender_node_id);
+		long ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr, InternalUtils.check_arr_len(sender_node_id, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);

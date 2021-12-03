@@ -9,7 +9,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	}
 
 	static Result_PayeePubKeyErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_PayeePubKeyErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_PayeePubKeyErrorZ_is_ok(ptr)) {
 			return new Result_PayeePubKeyErrorZ_OK(null, ptr);
 		} else {
 			return new Result_PayeePubKeyErrorZ_Err(null, ptr);
@@ -44,6 +44,16 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 		number ret = bindings.CResult_PayeePubKeyErrorZ_err(e);
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_PayeePubKeyErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_PayeePubKeyErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_PayeePubKeyErrorZ clone() {

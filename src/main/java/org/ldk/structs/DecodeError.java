@@ -19,6 +19,11 @@ public class DecodeError extends CommonBase {
 		if (ptr != 0) { bindings.DecodeError_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.DecodeError_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the DecodeError
 	 */

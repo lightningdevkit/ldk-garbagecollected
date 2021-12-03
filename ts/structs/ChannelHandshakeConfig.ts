@@ -52,6 +52,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.ChannelHandshakeConfig_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ChannelHandshakeConfig clone() {
 		number ret = bindings.ChannelHandshakeConfig_clone(this.ptr);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);

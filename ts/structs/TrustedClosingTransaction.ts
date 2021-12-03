@@ -29,7 +29,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public Uint8Array sign(Uint8Array funding_key, Uint8Array funding_redeemscript, number channel_value_satoshis) {
-		Uint8Array ret = bindings.TrustedClosingTransaction_sign(this.ptr, funding_key, funding_redeemscript, channel_value_satoshis);
+		Uint8Array ret = bindings.TrustedClosingTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
 		return ret;
 	}
 

@@ -9,7 +9,7 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 	}
 
 	static Result_RecoverableSignatureNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_RecoverableSignatureNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_RecoverableSignatureNoneZ_is_ok(ptr)) {
 			return new Result_RecoverableSignatureNoneZ_OK(null, ptr);
 		} else {
 			return new Result_RecoverableSignatureNoneZ_Err(null, ptr);
@@ -30,7 +30,7 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 	}
 
 	public static Result_RecoverableSignatureNoneZ constructor_ok(Uint8Array arg) {
-		number ret = bindings.CResult_RecoverableSignatureNoneZ_ok(arg);
+		number ret = bindings.CResult_RecoverableSignatureNoneZ_ok(InternalUtils.check_arr_len(arg, 68));
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -39,6 +39,16 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 		number ret = bindings.CResult_RecoverableSignatureNoneZ_err();
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_RecoverableSignatureNoneZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_RecoverableSignatureNoneZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_RecoverableSignatureNoneZ clone() {

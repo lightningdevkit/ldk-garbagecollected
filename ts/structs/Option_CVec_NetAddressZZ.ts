@@ -54,6 +54,11 @@ export class None extends COption_CVec_NetAddressZZ {
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.COption_CVec_NetAddressZZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Option_CVec_NetAddressZZ clone() {
 		number ret = bindings.COption_CVec_NetAddressZZ_clone(this.ptr);
 		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);

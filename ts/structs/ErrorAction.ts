@@ -58,6 +58,11 @@ export class SendErrorMessage extends ErrorAction {
 		this.msg = msg_hu_conv;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.ErrorAction_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ErrorAction clone() {
 		number ret = bindings.ErrorAction_clone(this.ptr);
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);

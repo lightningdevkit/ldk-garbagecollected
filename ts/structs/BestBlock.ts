@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.BestBlock_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.BestBlock_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public BestBlock clone() {
 		number ret = bindings.BestBlock_clone(this.ptr);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
@@ -33,7 +38,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static BestBlock constructor_new(Uint8Array block_hash, number height) {
-		number ret = bindings.BestBlock_new(block_hash, height);
+		number ret = bindings.BestBlock_new(InternalUtils.check_arr_len(block_hash, 32), height);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

@@ -9,7 +9,7 @@ public class Result_LockedChannelMonitorNoneZ extends CommonBase {
 	}
 
 	static Result_LockedChannelMonitorNoneZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_LockedChannelMonitorNoneZ_result_ok(ptr)) {
+		if (bindings.CResult_LockedChannelMonitorNoneZ_is_ok(ptr)) {
 			return new Result_LockedChannelMonitorNoneZ_OK(null, ptr);
 		} else {
 			return new Result_LockedChannelMonitorNoneZ_Err(null, ptr);
@@ -51,6 +51,11 @@ public class Result_LockedChannelMonitorNoneZ extends CommonBase {
 		number ret = bindings.CResult_LockedChannelMonitorNoneZ_err();
 		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_LockedChannelMonitorNoneZ_is_ok(this.ptr);
+		return ret;
 	}
 
 }

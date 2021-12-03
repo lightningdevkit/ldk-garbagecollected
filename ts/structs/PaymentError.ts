@@ -50,6 +50,11 @@ export class Sending extends PaymentError {
 		this.sending = sending_hu_conv;
 	}
 }
+	public number clone_ptr() {
+		number ret = bindings.PaymentError_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public PaymentError clone() {
 		number ret = bindings.PaymentError_clone(this.ptr);
 		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);

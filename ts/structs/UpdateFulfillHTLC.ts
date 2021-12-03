@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_id(Uint8Array val) {
-		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, val);
+		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_htlc_id() {
@@ -42,14 +42,19 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_payment_preimage(Uint8Array val) {
-		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, val);
+		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public static UpdateFulfillHTLC constructor_new(Uint8Array channel_id_arg, number htlc_id_arg, Uint8Array payment_preimage_arg) {
-		number ret = bindings.UpdateFulfillHTLC_new(channel_id_arg, htlc_id_arg, payment_preimage_arg);
+		number ret = bindings.UpdateFulfillHTLC_new(InternalUtils.check_arr_len(channel_id_arg, 32), htlc_id_arg, InternalUtils.check_arr_len(payment_preimage_arg, 32));
 		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.UpdateFulfillHTLC_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public UpdateFulfillHTLC clone() {

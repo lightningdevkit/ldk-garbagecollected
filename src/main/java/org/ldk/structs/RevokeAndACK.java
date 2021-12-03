@@ -31,7 +31,7 @@ public class RevokeAndACK extends CommonBase {
 	 * The channel ID
 	 */
 	public void set_channel_id(byte[] val) {
-		bindings.RevokeAndACK_set_channel_id(this.ptr, val);
+		bindings.RevokeAndACK_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class RevokeAndACK extends CommonBase {
 	 * The secret corresponding to the per-commitment point
 	 */
 	public void set_per_commitment_secret(byte[] val) {
-		bindings.RevokeAndACK_set_per_commitment_secret(this.ptr, val);
+		bindings.RevokeAndACK_set_per_commitment_secret(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -61,18 +61,23 @@ public class RevokeAndACK extends CommonBase {
 	 * The next sender-broadcast commitment transaction's per-commitment point
 	 */
 	public void set_next_per_commitment_point(byte[] val) {
-		bindings.RevokeAndACK_set_next_per_commitment_point(this.ptr, val);
+		bindings.RevokeAndACK_set_next_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
 	 * Constructs a new RevokeAndACK given each field
 	 */
 	public static RevokeAndACK of(byte[] channel_id_arg, byte[] per_commitment_secret_arg, byte[] next_per_commitment_point_arg) {
-		long ret = bindings.RevokeAndACK_new(channel_id_arg, per_commitment_secret_arg, next_per_commitment_point_arg);
+		long ret = bindings.RevokeAndACK_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(per_commitment_secret_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RevokeAndACK ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RevokeAndACK(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.RevokeAndACK_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

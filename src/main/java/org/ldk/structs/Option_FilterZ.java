@@ -29,6 +29,9 @@ public class Option_FilterZ extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * When we're in this state, this COption_FilterZ contains a crate::lightning::chain::Filter
+	 */
 	public final static class Some extends Option_FilterZ {
 		public final Filter some;
 		private Some(long ptr, bindings.LDKCOption_FilterZ.Some obj) {
@@ -39,6 +42,9 @@ public class Option_FilterZ extends CommonBase {
 			this.some = ret_hu_conv;
 		}
 	}
+	/**
+	 * When we're in this state, this COption_FilterZ contains nothing
+	 */
 	public final static class None extends Option_FilterZ {
 		private None(long ptr, bindings.LDKCOption_FilterZ.None obj) {
 			super(null, ptr);

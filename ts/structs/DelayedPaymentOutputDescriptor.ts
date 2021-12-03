@@ -35,7 +35,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_per_commitment_point(Uint8Array val) {
-		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, val);
+		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public number get_to_self_delay() {
@@ -57,7 +57,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_revocation_pubkey(Uint8Array val) {
-		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, val);
+		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	public Uint8Array get_channel_keys_id() {
@@ -66,7 +66,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_keys_id(Uint8Array val) {
-		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, val);
+		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_channel_value_satoshis() {
@@ -79,10 +79,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static DelayedPaymentOutputDescriptor constructor_new(OutPoint outpoint_arg, Uint8Array per_commitment_point_arg, number to_self_delay_arg, TxOut output_arg, Uint8Array revocation_pubkey_arg, Uint8Array channel_keys_id_arg, number channel_value_satoshis_arg) {
-		number ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, per_commitment_point_arg, to_self_delay_arg, output_arg.ptr, revocation_pubkey_arg, channel_keys_id_arg, channel_value_satoshis_arg);
+		number ret = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : outpoint_arg.ptr & ~1, InternalUtils.check_arr_len(per_commitment_point_arg, 33), to_self_delay_arg, output_arg.ptr, InternalUtils.check_arr_len(revocation_pubkey_arg, 33), InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
 		const ret_hu_conv: DelayedPaymentOutputDescriptor = new DelayedPaymentOutputDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.DelayedPaymentOutputDescriptor_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public DelayedPaymentOutputDescriptor clone() {

@@ -38,6 +38,11 @@ public class Balance extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * The channel is not yet closed (or the commitment or closing transaction has not yet
+	 * appeared in a block). The given balance is claimable (less on-chain fees) if the channel is
+	 * force-closed now.
+	 */
 	public final static class ClaimableOnChannelClose extends Balance {
 		/**
 		 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
@@ -49,6 +54,10 @@ public class Balance extends CommonBase {
 			this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
 		}
 	}
+	/**
+	 * The channel has been closed, and the given balance is ours but awaiting confirmations until
+	 * we consider it spendable.
+	 */
 	public final static class ClaimableAwaitingConfirmations extends Balance {
 		/**
 		 * The amount available to claim, in satoshis, possibly excluding the on-chain fees which
@@ -66,6 +75,15 @@ public class Balance extends CommonBase {
 			this.confirmation_height = obj.confirmation_height;
 		}
 	}
+	/**
+	 * The channel has been closed, and the given balance should be ours but awaiting spending
+	 * transaction confirmation. If the spending transaction does not confirm in time, it is
+	 * possible our counterparty can take the funds by broadcasting an HTLC timeout on-chain.
+	 * 
+	 * Once the spending transaction confirms, before it has reached enough confirmations to be
+	 * considered safe from chain reorganizations, the balance will instead be provided via
+	 * [`Balance::ClaimableAwaitingConfirmations`].
+	 */
 	public final static class ContentiousClaimable extends Balance {
 		/**
 		 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
@@ -83,6 +101,11 @@ public class Balance extends CommonBase {
 			this.timeout_height = obj.timeout_height;
 		}
 	}
+	/**
+	 * HTLCs which we sent to our counterparty which are claimable after a timeout (less on-chain
+	 * fees) if the counterparty does not know the preimage for the HTLCs. These are somewhat
+	 * likely to be claimed by our counterparty before we do.
+	 */
 	public final static class MaybeClaimableHTLCAwaitingTimeout extends Balance {
 		/**
 		 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
@@ -100,6 +123,11 @@ public class Balance extends CommonBase {
 			this.claimable_height = obj.claimable_height;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.Balance_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the Balance
 	 */

@@ -1,8 +1,20 @@
 
             export enum Network {
-                LDKNetwork_Bitcoin,
-				LDKNetwork_Testnet,
-				LDKNetwork_Regtest,
-				LDKNetwork_Signet,
+                /**
+ * The main Bitcoin blockchain.
+ */
+LDKNetwork_Bitcoin,
+				/**
+ * The testnet3 blockchain.
+ */
+LDKNetwork_Testnet,
+				/**
+ * A local test blockchain.
+ */
+LDKNetwork_Regtest,
+				/**
+ * A blockchain on which blocks are signed instead of mined.
+ */
+LDKNetwork_Signet,
 				
             }

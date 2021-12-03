@@ -31,7 +31,7 @@ public class RouteHop extends CommonBase {
 	 * The node_id of the node at this hop.
 	 */
 	public void set_pubkey(byte[] val) {
-		bindings.RouteHop_set_pubkey(this.ptr, val);
+		bindings.RouteHop_set_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -129,11 +129,16 @@ public class RouteHop extends CommonBase {
 	 * Constructs a new RouteHop given each field
 	 */
 	public static RouteHop of(byte[] pubkey_arg, NodeFeatures node_features_arg, long short_channel_id_arg, ChannelFeatures channel_features_arg, long fee_msat_arg, int cltv_expiry_delta_arg) {
-		long ret = bindings.RouteHop_new(pubkey_arg, node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
+		long ret = bindings.RouteHop_new(InternalUtils.check_arr_len(pubkey_arg, 33), node_features_arg == null ? 0 : node_features_arg.ptr & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : channel_features_arg.ptr & ~1, fee_msat_arg, cltv_expiry_delta_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RouteHop ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHop(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.RouteHop_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

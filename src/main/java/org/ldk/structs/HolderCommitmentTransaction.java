@@ -33,14 +33,19 @@ public class HolderCommitmentTransaction extends CommonBase {
 	 * Our counterparty's signature for the transaction
 	 */
 	public void set_counterparty_sig(byte[] val) {
-		bindings.HolderCommitmentTransaction_set_counterparty_sig(this.ptr, val);
+		bindings.HolderCommitmentTransaction_set_counterparty_sig(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
 	 * All non-dust counterparty HTLC signatures, in the order they appear in the transaction
 	 */
 	public void set_counterparty_htlc_sigs(byte[][] val) {
-		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, val);
+		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, val != null ? Arrays.stream(val).map(val_conv_8 -> InternalUtils.check_arr_len(val_conv_8, 64)).toArray(byte[][]::new) : null);
+	}
+
+	long clone_ptr() {
+		long ret = bindings.HolderCommitmentTransaction_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**
@@ -77,7 +82,7 @@ public class HolderCommitmentTransaction extends CommonBase {
 	 * The funding keys are used to figure out which signature should go first when building the transaction for broadcast.
 	 */
 	public static HolderCommitmentTransaction of(CommitmentTransaction commitment_tx, byte[] counterparty_sig, byte[][] counterparty_htlc_sigs, byte[] holder_funding_key, byte[] counterparty_funding_key) {
-		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, counterparty_sig, counterparty_htlc_sigs, holder_funding_key, counterparty_funding_key);
+		long ret = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : commitment_tx.ptr & ~1, InternalUtils.check_arr_len(counterparty_sig, 64), counterparty_htlc_sigs != null ? Arrays.stream(counterparty_htlc_sigs).map(counterparty_htlc_sigs_conv_8 -> InternalUtils.check_arr_len(counterparty_htlc_sigs_conv_8, 64)).toArray(byte[][]::new) : null, InternalUtils.check_arr_len(holder_funding_key, 33), InternalUtils.check_arr_len(counterparty_funding_key, 33));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		HolderCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new HolderCommitmentTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

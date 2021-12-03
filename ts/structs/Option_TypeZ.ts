@@ -50,6 +50,11 @@ export class None extends COption_TypeZ {
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.COption_TypeZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Option_TypeZ clone() {
 		number ret = bindings.COption_TypeZ_clone(this.ptr);
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);

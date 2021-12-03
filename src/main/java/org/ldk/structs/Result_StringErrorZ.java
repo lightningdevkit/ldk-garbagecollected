@@ -13,7 +13,7 @@ public class Result_StringErrorZ extends CommonBase {
 	}
 
 	static Result_StringErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_StringErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_StringErrorZ_is_ok(ptr)) {
 			return new Result_StringErrorZ_OK(null, ptr);
 		} else {
 			return new Result_StringErrorZ_Err(null, ptr);
@@ -53,6 +53,14 @@ public class Result_StringErrorZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_StringErrorZ_is_ok(this.ptr);
+		return ret;
 	}
 
 }

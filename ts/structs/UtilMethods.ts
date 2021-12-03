@@ -1,5 +1,17 @@
+	public static Result_COption_ClosureReasonZDecodeErrorZ constructor_ClosureReason_read(Uint8Array ser) {
+		number ret = bindings.ClosureReason_read(ser);
+		Result_COption_ClosureReasonZDecodeErrorZ ret_hu_conv = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public static Result_COption_EventZDecodeErrorZ constructor_Event_read(Uint8Array ser) {
+		number ret = bindings.Event_read(ser);
+		Result_COption_EventZDecodeErrorZ ret_hu_conv = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 	public static Result_StringErrorZ constructor_sign(Uint8Array msg, Uint8Array sk) {
-		number ret = bindings.sign(msg, sk);
+		number ret = bindings.sign(msg, InternalUtils.check_arr_len(sk, 32));
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -11,8 +23,14 @@
 	}
 
 	public static boolean constructor_verify(Uint8Array msg, String sig, Uint8Array pk) {
-		boolean ret = bindings.verify(msg, sig, pk);
+		boolean ret = bindings.verify(msg, sig, InternalUtils.check_arr_len(pk, 33));
 		return ret;
+	}
+
+	public static Result_COption_MonitorEventZDecodeErrorZ constructor_MonitorEvent_read(Uint8Array ser) {
+		number ret = bindings.MonitorEvent_read(ser);
+		Result_COption_MonitorEventZDecodeErrorZ ret_hu_conv = Result_COption_MonitorEventZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ constructor_C2Tuple_BlockHashChannelMonitorZ_read(Uint8Array ser, KeysInterface arg) {
@@ -36,7 +54,7 @@
 	}
 
 	public static Uint8Array constructor_build_commitment_secret(Uint8Array commitment_seed, number idx) {
-		Uint8Array ret = bindings.build_commitment_secret(commitment_seed, idx);
+		Uint8Array ret = bindings.build_commitment_secret(InternalUtils.check_arr_len(commitment_seed, 32), idx);
 		return ret;
 	}
 
@@ -46,31 +64,31 @@
 	}
 
 	public static Result_SecretKeyErrorZ constructor_derive_private_key(Uint8Array per_commitment_point, Uint8Array base_secret) {
-		number ret = bindings.derive_private_key(per_commitment_point, base_secret);
+		number ret = bindings.derive_private_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_secret, 32));
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static Result_PublicKeyErrorZ constructor_derive_public_key(Uint8Array per_commitment_point, Uint8Array base_point) {
-		number ret = bindings.derive_public_key(per_commitment_point, base_point);
+		number ret = bindings.derive_public_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_point, 33));
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static Result_SecretKeyErrorZ constructor_derive_private_revocation_key(Uint8Array per_commitment_secret, Uint8Array countersignatory_revocation_base_secret) {
-		number ret = bindings.derive_private_revocation_key(per_commitment_secret, countersignatory_revocation_base_secret);
+		number ret = bindings.derive_private_revocation_key(InternalUtils.check_arr_len(per_commitment_secret, 32), InternalUtils.check_arr_len(countersignatory_revocation_base_secret, 32));
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static Result_PublicKeyErrorZ constructor_derive_public_revocation_key(Uint8Array per_commitment_point, Uint8Array countersignatory_revocation_base_point) {
-		number ret = bindings.derive_public_revocation_key(per_commitment_point, countersignatory_revocation_base_point);
+		number ret = bindings.derive_public_revocation_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(countersignatory_revocation_base_point, 33));
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static Uint8Array constructor_get_revokeable_redeemscript(Uint8Array revocation_key, number contest_delay, Uint8Array broadcaster_delayed_payment_key) {
-		Uint8Array ret = bindings.get_revokeable_redeemscript(revocation_key, contest_delay, broadcaster_delayed_payment_key);
+		Uint8Array ret = bindings.get_revokeable_redeemscript(InternalUtils.check_arr_len(revocation_key, 33), contest_delay, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33));
 		return ret;
 	}
 
@@ -82,23 +100,29 @@
 	}
 
 	public static Uint8Array constructor_make_funding_redeemscript(Uint8Array broadcaster, Uint8Array countersignatory) {
-		Uint8Array ret = bindings.make_funding_redeemscript(broadcaster, countersignatory);
+		Uint8Array ret = bindings.make_funding_redeemscript(InternalUtils.check_arr_len(broadcaster, 33), InternalUtils.check_arr_len(countersignatory, 33));
 		return ret;
 	}
 
 	public static Uint8Array constructor_build_htlc_transaction(Uint8Array commitment_txid, number feerate_per_kw, number contest_delay, HTLCOutputInCommitment htlc, Uint8Array broadcaster_delayed_payment_key, Uint8Array revocation_key) {
-		Uint8Array ret = bindings.build_htlc_transaction(commitment_txid, feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr & ~1, broadcaster_delayed_payment_key, revocation_key);
+		Uint8Array ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr & ~1, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
 		// this.ptrs_to.add(htlc);
 		return ret;
 	}
 
 	public static number constructor_get_commitment_transaction_number_obscure_factor(Uint8Array broadcaster_payment_basepoint, Uint8Array countersignatory_payment_basepoint, boolean outbound_from_broadcaster) {
-		number ret = bindings.get_commitment_transaction_number_obscure_factor(broadcaster_payment_basepoint, countersignatory_payment_basepoint, outbound_from_broadcaster);
+		number ret = bindings.get_commitment_transaction_number_obscure_factor(InternalUtils.check_arr_len(broadcaster_payment_basepoint, 33), InternalUtils.check_arr_len(countersignatory_payment_basepoint, 33), outbound_from_broadcaster);
 		return ret;
 	}
 
+	public static Result_COption_NetworkUpdateZDecodeErrorZ constructor_NetworkUpdate_read(Uint8Array ser) {
+		number ret = bindings.NetworkUpdate_read(ser);
+		Result_COption_NetworkUpdateZDecodeErrorZ ret_hu_conv = Result_COption_NetworkUpdateZDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 	public static Result_RouteLightningErrorZ constructor_find_route(Uint8Array our_node_pubkey, RouteParameters params, NetworkGraph network, ChannelDetails[] first_hops, Logger logger, Score scorer) {
-		number ret = bindings.find_route(our_node_pubkey, params == null ? 0 : params.ptr & ~1, network == null ? 0 : network.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
+		number ret = bindings.find_route(InternalUtils.check_arr_len(our_node_pubkey, 33), params == null ? 0 : params.ptr & ~1, network == null ? 0 : network.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(params);
 		ret_hu_conv.ptrs_to.add(network);

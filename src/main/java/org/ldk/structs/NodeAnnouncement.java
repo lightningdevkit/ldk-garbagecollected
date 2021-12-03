@@ -31,7 +31,7 @@ public class NodeAnnouncement extends CommonBase {
 	 * The signature by the node key
 	 */
 	public void set_signature(byte[] val) {
-		bindings.NodeAnnouncement_set_signature(this.ptr, val);
+		bindings.NodeAnnouncement_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	/**
@@ -56,11 +56,16 @@ public class NodeAnnouncement extends CommonBase {
 	 * Constructs a new NodeAnnouncement given each field
 	 */
 	public static NodeAnnouncement of(byte[] signature_arg, UnsignedNodeAnnouncement contents_arg) {
-		long ret = bindings.NodeAnnouncement_new(signature_arg, contents_arg == null ? 0 : contents_arg.ptr & ~1);
+		long ret = bindings.NodeAnnouncement_new(InternalUtils.check_arr_len(signature_arg, 64), contents_arg == null ? 0 : contents_arg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.NodeAnnouncement_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

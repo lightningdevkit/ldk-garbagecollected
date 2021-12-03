@@ -9,7 +9,7 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 	}
 
 	static Result_InvoiceSignOrCreationErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_InvoiceSignOrCreationErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_InvoiceSignOrCreationErrorZ_is_ok(ptr)) {
 			return new Result_InvoiceSignOrCreationErrorZ_OK(null, ptr);
 		} else {
 			return new Result_InvoiceSignOrCreationErrorZ_Err(null, ptr);
@@ -47,6 +47,16 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 		number ret = bindings.CResult_InvoiceSignOrCreationErrorZ_err(e.ptr);
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_InvoiceSignOrCreationErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_InvoiceSignOrCreationErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_InvoiceSignOrCreationErrorZ clone() {

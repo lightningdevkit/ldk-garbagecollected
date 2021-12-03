@@ -44,7 +44,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 							Score ret_hu_conv = new Score(null, scorer);
 				ret_hu_conv.ptrs_to.add(this);
 							Result_RouteLightningErrorZ ret = arg.find_route(payer, params_hu_conv, first_hops_conv_16_arr, ret_hu_conv);
-				result: number = ret != null ? ret.ptr : 0;
+				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 						},
 
@@ -63,7 +63,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                 held: Router;
             }
 	public Result_RouteLightningErrorZ find_route(Uint8Array payer, RouteParameters params, ChannelDetails[] first_hops, Score scorer) {
-		number ret = bindings.Router_find_route(this.ptr, payer, params == null ? 0 : params.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, scorer == null ? 0 : scorer.ptr);
+		number ret = bindings.Router_find_route(this.ptr, InternalUtils.check_arr_len(payer, 33), params == null ? 0 : params.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).map(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray(number[]::new) : null, scorer == null ? 0 : scorer.ptr);
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(params);
 		for (ChannelDetails first_hops_conv_16: first_hops) { this.ptrs_to.add(first_hops_conv_16); };

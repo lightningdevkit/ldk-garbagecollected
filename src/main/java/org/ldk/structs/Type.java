@@ -82,6 +82,11 @@ public class Type extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.Type_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of a Type
 	 */

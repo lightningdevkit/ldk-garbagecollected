@@ -30,6 +30,11 @@ public class InitFeatures extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.InitFeatures_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the InitFeatures
 	 */

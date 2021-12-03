@@ -125,6 +125,11 @@ public class ChannelHandshakeConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.ChannelHandshakeConfig_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the ChannelHandshakeConfig
 	 */

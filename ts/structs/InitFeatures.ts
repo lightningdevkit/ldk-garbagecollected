@@ -24,6 +24,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.InitFeatures_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public InitFeatures clone() {
 		number ret = bindings.InitFeatures_clone(this.ptr);
 		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);

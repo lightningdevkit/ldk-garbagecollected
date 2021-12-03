@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.NodeId_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.NodeId_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public NodeId clone() {
 		number ret = bindings.NodeId_clone(this.ptr);
 		const ret_hu_conv: NodeId = new NodeId(null, ret);
@@ -26,7 +31,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static NodeId constructor_from_pubkey(Uint8Array pubkey) {
-		number ret = bindings.NodeId_from_pubkey(pubkey);
+		number ret = bindings.NodeId_from_pubkey(InternalUtils.check_arr_len(pubkey, 33));
 		const ret_hu_conv: NodeId = new NodeId(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

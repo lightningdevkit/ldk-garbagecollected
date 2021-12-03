@@ -82,6 +82,10 @@ public class MessageSendEvent extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * Used to indicate that we've accepted a channel open and should send the accept_channel
+	 * message provided to the given peer.
+	 */
 	public final static class SendAcceptChannel extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -100,6 +104,10 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that we've initiated a channel open and should send the open_channel
+	 * message provided to the given peer.
+	 */
 	public final static class SendOpenChannel extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -118,6 +126,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a funding_created message should be sent to the peer with the given node_id.
+	 */
 	public final static class SendFundingCreated extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -136,6 +147,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a funding_signed message should be sent to the peer with the given node_id.
+	 */
 	public final static class SendFundingSigned extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -154,6 +168,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a funding_locked message should be sent to the peer with the given node_id.
+	 */
 	public final static class SendFundingLocked extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive these message(s)
@@ -172,6 +189,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that an announcement_signatures message should be sent to the peer with the given node_id.
+	 */
 	public final static class SendAnnouncementSignatures extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive these message(s)
@@ -190,6 +210,10 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a series of HTLC update messages, as well as a commitment_signed
+	 * message should be sent to the peer with the given node_id.
+	 */
 	public final static class UpdateHTLCs extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive these message(s)
@@ -208,6 +232,9 @@ public class MessageSendEvent extends CommonBase {
 			this.updates = updates_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a revoke_and_ack message should be sent to the peer with the given node_id.
+	 */
 	public final static class SendRevokeAndACK extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -226,6 +253,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a closing_signed message should be sent to the peer with the given node_id.
+	 */
 	public final static class SendClosingSigned extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -244,6 +274,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a shutdown message should be sent to the peer with the given node_id.
+	 */
 	public final static class SendShutdown extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -262,6 +295,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a channel_reestablish message should be sent to the peer with the given node_id.
+	 */
 	public final static class SendChannelReestablish extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -280,6 +316,16 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a channel_announcement and channel_update should be broadcast to all
+	 * peers (except the peer with node_id either msg.contents.node_id_1 or msg.contents.node_id_2).
+	 * 
+	 * Note that after doing so, you very likely (unless you did so very recently) want to call
+	 * ChannelManager::broadcast_node_announcement to trigger a BroadcastNodeAnnouncement event.
+	 * This ensures that any nodes which see our channel_announcement also have a relevant
+	 * node_announcement, including relevant feature flags which may be important for routing
+	 * through or to us.
+	 */
 	public final static class BroadcastChannelAnnouncement extends MessageSendEvent {
 		/**
 		 * The channel_announcement which should be sent.
@@ -301,6 +347,9 @@ public class MessageSendEvent extends CommonBase {
 			this.update_msg = update_msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a node_announcement should be broadcast to all peers.
+	 */
 	public final static class BroadcastNodeAnnouncement extends MessageSendEvent {
 		/**
 		 * The node_announcement which should be sent.
@@ -314,6 +363,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a channel_update should be broadcast to all peers.
+	 */
 	public final static class BroadcastChannelUpdate extends MessageSendEvent {
 		/**
 		 * The channel_update which should be sent.
@@ -327,6 +379,11 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Used to indicate that a channel_update should be sent to a single peer.
+	 * In contrast to [`Self::BroadcastChannelUpdate`], this is used when the channel is a
+	 * private channel and we shouldn't be informing all of our peers of channel parameters.
+	 */
 	public final static class SendChannelUpdate extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -345,6 +402,9 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Broadcast an error downstream to be handled
+	 */
 	public final static class HandleError extends MessageSendEvent {
 		/**
 		 * The node_id of the node which should receive this message
@@ -363,6 +423,9 @@ public class MessageSendEvent extends CommonBase {
 			this.action = action_hu_conv;
 		}
 	}
+	/**
+	 * Query a peer for channels with funding transaction UTXOs in a block range.
+	 */
 	public final static class SendChannelRangeQuery extends MessageSendEvent {
 		/**
 		 * The node_id of this message recipient
@@ -381,6 +444,10 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Request routing gossip messages from a peer for a list of channels identified by
+	 * their short_channel_ids.
+	 */
 	public final static class SendShortIdsQuery extends MessageSendEvent {
 		/**
 		 * The node_id of this message recipient
@@ -399,6 +466,10 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	/**
+	 * Sends a reply to a channel range query. This may be one of several SendReplyChannelRange events
+	 * emitted during processing of the query.
+	 */
 	public final static class SendReplyChannelRange extends MessageSendEvent {
 		/**
 		 * The node_id of this message recipient
@@ -417,6 +488,11 @@ public class MessageSendEvent extends CommonBase {
 			this.msg = msg_hu_conv;
 		}
 	}
+	long clone_ptr() {
+		long ret = bindings.MessageSendEvent_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the MessageSendEvent
 	 */
@@ -432,7 +508,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendAcceptChannel-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_accept_channel(byte[] node_id, AcceptChannel msg) {
-		long ret = bindings.MessageSendEvent_send_accept_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_accept_channel(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -443,7 +519,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendOpenChannel-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_open_channel(byte[] node_id, OpenChannel msg) {
-		long ret = bindings.MessageSendEvent_send_open_channel(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_open_channel(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -454,7 +530,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendFundingCreated-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_funding_created(byte[] node_id, FundingCreated msg) {
-		long ret = bindings.MessageSendEvent_send_funding_created(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_funding_created(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -465,7 +541,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendFundingSigned-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_funding_signed(byte[] node_id, FundingSigned msg) {
-		long ret = bindings.MessageSendEvent_send_funding_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_funding_signed(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -476,7 +552,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendFundingLocked-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_funding_locked(byte[] node_id, FundingLocked msg) {
-		long ret = bindings.MessageSendEvent_send_funding_locked(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_funding_locked(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -487,7 +563,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendAnnouncementSignatures-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_announcement_signatures(byte[] node_id, AnnouncementSignatures msg) {
-		long ret = bindings.MessageSendEvent_send_announcement_signatures(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_announcement_signatures(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -498,7 +574,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new UpdateHTLCs-variant MessageSendEvent
 	 */
 	public static MessageSendEvent update_htlcs(byte[] node_id, CommitmentUpdate updates) {
-		long ret = bindings.MessageSendEvent_update_htlcs(node_id, updates == null ? 0 : updates.ptr & ~1);
+		long ret = bindings.MessageSendEvent_update_htlcs(InternalUtils.check_arr_len(node_id, 33), updates == null ? 0 : updates.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -509,7 +585,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendRevokeAndACK-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_revoke_and_ack(byte[] node_id, RevokeAndACK msg) {
-		long ret = bindings.MessageSendEvent_send_revoke_and_ack(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_revoke_and_ack(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -520,7 +596,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendClosingSigned-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_closing_signed(byte[] node_id, ClosingSigned msg) {
-		long ret = bindings.MessageSendEvent_send_closing_signed(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_closing_signed(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -531,7 +607,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendShutdown-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_shutdown(byte[] node_id, Shutdown msg) {
-		long ret = bindings.MessageSendEvent_send_shutdown(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_shutdown(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -542,7 +618,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendChannelReestablish-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_channel_reestablish(byte[] node_id, ChannelReestablish msg) {
-		long ret = bindings.MessageSendEvent_send_channel_reestablish(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_channel_reestablish(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -586,7 +662,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendChannelUpdate-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_channel_update(byte[] node_id, ChannelUpdate msg) {
-		long ret = bindings.MessageSendEvent_send_channel_update(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_channel_update(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -597,7 +673,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new HandleError-variant MessageSendEvent
 	 */
 	public static MessageSendEvent handle_error(byte[] node_id, ErrorAction action) {
-		long ret = bindings.MessageSendEvent_handle_error(node_id, action.ptr);
+		long ret = bindings.MessageSendEvent_handle_error(InternalUtils.check_arr_len(node_id, 33), action.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -608,7 +684,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendChannelRangeQuery-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_channel_range_query(byte[] node_id, QueryChannelRange msg) {
-		long ret = bindings.MessageSendEvent_send_channel_range_query(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_channel_range_query(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -619,7 +695,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendShortIdsQuery-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_short_ids_query(byte[] node_id, QueryShortChannelIds msg) {
-		long ret = bindings.MessageSendEvent_send_short_ids_query(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_short_ids_query(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -630,7 +706,7 @@ public class MessageSendEvent extends CommonBase {
 	 * Utility method to constructs a new SendReplyChannelRange-variant MessageSendEvent
 	 */
 	public static MessageSendEvent send_reply_channel_range(byte[] node_id, ReplyChannelRange msg) {
-		long ret = bindings.MessageSendEvent_send_reply_channel_range(node_id, msg == null ? 0 : msg.ptr & ~1);
+		long ret = bindings.MessageSendEvent_send_reply_channel_range(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

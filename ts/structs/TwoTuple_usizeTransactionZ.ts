@@ -28,6 +28,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.C2Tuple_usizeTransactionZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public TwoTuple_usizeTransactionZ clone() {
 		number ret = bindings.C2Tuple_usizeTransactionZ_clone(this.ptr);
 		TwoTuple_usizeTransactionZ ret_hu_conv = new TwoTuple_usizeTransactionZ(null, ret);

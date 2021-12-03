@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.Sha256_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.Sha256_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public Sha256 clone() {
 		number ret = bindings.Sha256_clone(this.ptr);
 		const ret_hu_conv: Sha256 = new Sha256(null, ret);

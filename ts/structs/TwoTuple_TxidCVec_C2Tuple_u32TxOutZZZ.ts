@@ -35,6 +35,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_conv_20_arr;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ clone() {
 		number ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(this.ptr);
 		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret);
@@ -43,7 +48,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ constructor_new(Uint8Array a, TwoTuple_u32TxOutZ[] b) {
-		number ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(a, b != null ? Arrays.stream(b).map(b_conv_20 -> b_conv_20 != null ? b_conv_20.ptr : 0).toArray(number[]::new) : null);
+		number ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(InternalUtils.check_arr_len(a, 32), b != null ? Arrays.stream(b).map(b_conv_20 -> b_conv_20 != null ? b_conv_20.ptr : 0).toArray(number[]::new) : null);
 		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

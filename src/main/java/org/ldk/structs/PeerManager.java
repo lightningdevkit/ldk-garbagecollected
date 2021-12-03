@@ -43,7 +43,7 @@ public class PeerManager extends CommonBase {
 	 * cryptographically secure random bytes.
 	 */
 	public static PeerManager of(ChannelMessageHandler message_handler_chan_handler_arg, RoutingMessageHandler message_handler_route_handler_arg, byte[] our_node_secret, byte[] ephemeral_random_data, Logger logger, CustomMessageHandler custom_message_handler) {
-		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr), our_node_secret, ephemeral_random_data, logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr);
+		long ret = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : message_handler_chan_handler_arg.ptr, message_handler_route_handler_arg == null ? 0 : message_handler_route_handler_arg.ptr), InternalUtils.check_arr_len(our_node_secret, 32), InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : logger.ptr, custom_message_handler == null ? 0 : custom_message_handler.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PeerManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PeerManager(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -79,7 +79,7 @@ public class PeerManager extends CommonBase {
 	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
 	 */
 	public Result_CVec_u8ZPeerHandleErrorZ new_outbound_connection(byte[] their_node_id, SocketDescriptor descriptor) {
-		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, their_node_id, descriptor == null ? 0 : descriptor.ptr);
+		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor == null ? 0 : descriptor.ptr);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(descriptor);
@@ -189,7 +189,7 @@ public class PeerManager extends CommonBase {
 	 * [`disconnect_socket`]: SocketDescriptor::disconnect_socket
 	 */
 	public void disconnect_by_node_id(byte[] node_id, boolean no_connection_possible) {
-		bindings.PeerManager_disconnect_by_node_id(this.ptr, node_id, no_connection_possible);
+		bindings.PeerManager_disconnect_by_node_id(this.ptr, InternalUtils.check_arr_len(node_id, 33), no_connection_possible);
 	}
 
 	/**

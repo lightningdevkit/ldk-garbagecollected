@@ -66,7 +66,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * to this node).
 	 */
 	public void set_node_id(byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, val);
+		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * An RGB color for UI purposes
 	 */
 	public void set_rgb(byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_rgb(this.ptr, val);
+		bindings.UnsignedNodeAnnouncement_set_rgb(this.ptr, InternalUtils.check_arr_len(val, 3));
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 * of uniqueness.
 	 */
 	public void set_alias(byte[] val) {
-		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, val);
+		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -106,6 +106,11 @@ public class UnsignedNodeAnnouncement extends CommonBase {
 	 */
 	public void set_addresses(NetAddress[] val) {
 		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
+	}
+
+	long clone_ptr() {
+		long ret = bindings.UnsignedNodeAnnouncement_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

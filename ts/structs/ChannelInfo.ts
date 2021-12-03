@@ -102,6 +102,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public number clone_ptr() {
+		number ret = bindings.ChannelInfo_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ChannelInfo clone() {
 		number ret = bindings.ChannelInfo_clone(this.ptr);
 		const ret_hu_conv: ChannelInfo = new ChannelInfo(null, ret);

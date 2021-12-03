@@ -13,7 +13,7 @@ public class Result__u832APIErrorZ extends CommonBase {
 	}
 
 	static Result__u832APIErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult__u832APIErrorZ_result_ok(ptr)) {
+		if (bindings.CResult__u832APIErrorZ_is_ok(ptr)) {
 			return new Result__u832APIErrorZ_OK(null, ptr);
 		} else {
 			return new Result__u832APIErrorZ_Err(null, ptr);
@@ -42,7 +42,7 @@ public class Result__u832APIErrorZ extends CommonBase {
 	 * Creates a new CResult__u832APIErrorZ in the success state.
 	 */
 	public static Result__u832APIErrorZ ok(byte[] o) {
-		long ret = bindings.CResult__u832APIErrorZ_ok(o);
+		long ret = bindings.CResult__u832APIErrorZ_ok(InternalUtils.check_arr_len(o, 32));
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -56,6 +56,19 @@ public class Result__u832APIErrorZ extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result__u832APIErrorZ ret_hu_conv = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
+	public boolean is_ok() {
+		boolean ret = bindings.CResult__u832APIErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult__u832APIErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

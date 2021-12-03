@@ -18,6 +18,11 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.ExpiryTime_free(this.ptr);
                     }
                 }
+	public number clone_ptr() {
+		number ret = bindings.ExpiryTime_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	public ExpiryTime clone() {
 		number ret = bindings.ExpiryTime_clone(this.ptr);
 		const ret_hu_conv: ExpiryTime = new ExpiryTime(null, ret);

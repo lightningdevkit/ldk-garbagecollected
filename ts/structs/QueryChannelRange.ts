@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_chain_hash(Uint8Array val) {
-		bindings.QueryChannelRange_set_chain_hash(this.ptr, val);
+		bindings.QueryChannelRange_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_first_blocknum() {
@@ -46,10 +46,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static QueryChannelRange constructor_new(Uint8Array chain_hash_arg, number first_blocknum_arg, number number_of_blocks_arg) {
-		number ret = bindings.QueryChannelRange_new(chain_hash_arg, first_blocknum_arg, number_of_blocks_arg);
+		number ret = bindings.QueryChannelRange_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_blocknum_arg, number_of_blocks_arg);
 		const ret_hu_conv: QueryChannelRange = new QueryChannelRange(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.QueryChannelRange_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public QueryChannelRange clone() {

@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_id(Uint8Array val) {
-		bindings.ErrorMessage_set_channel_id(this.ptr, val);
+		bindings.ErrorMessage_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public String get_data() {
@@ -37,10 +37,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static ErrorMessage constructor_new(Uint8Array channel_id_arg, String data_arg) {
-		number ret = bindings.ErrorMessage_new(channel_id_arg, data_arg);
+		number ret = bindings.ErrorMessage_new(InternalUtils.check_arr_len(channel_id_arg, 32), data_arg);
 		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.ErrorMessage_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public ErrorMessage clone() {

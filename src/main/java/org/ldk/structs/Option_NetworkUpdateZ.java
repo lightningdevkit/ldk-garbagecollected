@@ -29,6 +29,9 @@ public class Option_NetworkUpdateZ extends CommonBase {
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
+	/**
+	 * When we're in this state, this COption_NetworkUpdateZ contains a crate::lightning::routing::network_graph::NetworkUpdate
+	 */
 	public final static class Some extends Option_NetworkUpdateZ {
 		public final NetworkUpdate some;
 		private Some(long ptr, bindings.LDKCOption_NetworkUpdateZ.Some obj) {
@@ -39,6 +42,9 @@ public class Option_NetworkUpdateZ extends CommonBase {
 			this.some = some_hu_conv;
 		}
 	}
+	/**
+	 * When we're in this state, this COption_NetworkUpdateZ contains nothing
+	 */
 	public final static class None extends Option_NetworkUpdateZ {
 		private None(long ptr, bindings.LDKCOption_NetworkUpdateZ.None obj) {
 			super(null, ptr);
@@ -64,6 +70,11 @@ public class Option_NetworkUpdateZ extends CommonBase {
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.COption_NetworkUpdateZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

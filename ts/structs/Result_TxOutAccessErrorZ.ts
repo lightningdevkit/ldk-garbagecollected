@@ -9,7 +9,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	}
 
 	static Result_TxOutAccessErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_TxOutAccessErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_TxOutAccessErrorZ_is_ok(ptr)) {
 			return new Result_TxOutAccessErrorZ_OK(null, ptr);
 		} else {
 			return new Result_TxOutAccessErrorZ_Err(null, ptr);
@@ -43,6 +43,16 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 		number ret = bindings.CResult_TxOutAccessErrorZ_err(e);
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_TxOutAccessErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_TxOutAccessErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_TxOutAccessErrorZ clone() {

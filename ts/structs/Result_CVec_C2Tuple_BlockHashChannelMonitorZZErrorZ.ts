@@ -9,7 +9,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 	}
 
 	static Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ constr_from_ptr(long ptr) {
-		if (bindings.LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_result_ok(ptr)) {
+		if (bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_is_ok(ptr)) {
 			return new Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_OK(null, ptr);
 		} else {
 			return new Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_Err(null, ptr);
@@ -49,6 +49,16 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 		number ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_err(e);
 		Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ ret_hu_conv = Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public boolean is_ok() {
+		boolean ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_is_ok(this.ptr);
+		return ret;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ clone() {

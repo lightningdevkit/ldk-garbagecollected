@@ -35,6 +35,11 @@ public class TwoTuple_usizeTransactionZ extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.C2Tuple_usizeTransactionZ_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a new tuple which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.

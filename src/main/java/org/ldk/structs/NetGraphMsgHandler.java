@@ -51,6 +51,7 @@ public class NetGraphMsgHandler extends CommonBase {
 		NetGraphMsgHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NetGraphMsgHandler(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(network_graph);
+		ret_hu_conv.ptrs_to.add(chain_access);
 		ret_hu_conv.ptrs_to.add(logger);
 		return ret_hu_conv;
 	}
@@ -62,6 +63,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public void add_chain_access(Option_AccessZ chain_access) {
 		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access.ptr);
+		this.ptrs_to.add(chain_access);
 	}
 
 	/**

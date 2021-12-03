@@ -33,7 +33,7 @@ public class GossipTimestampFilter extends CommonBase {
 	 * The genesis hash of the blockchain for channel and node information
 	 */
 	public void set_chain_hash(byte[] val) {
-		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, val);
+		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	/**
@@ -70,11 +70,16 @@ public class GossipTimestampFilter extends CommonBase {
 	 * Constructs a new GossipTimestampFilter given each field
 	 */
 	public static GossipTimestampFilter of(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg) {
-		long ret = bindings.GossipTimestampFilter_new(chain_hash_arg, first_timestamp_arg, timestamp_range_arg);
+		long ret = bindings.GossipTimestampFilter_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_timestamp_arg, timestamp_range_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		GossipTimestampFilter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new GossipTimestampFilter(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.GossipTimestampFilter_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	/**

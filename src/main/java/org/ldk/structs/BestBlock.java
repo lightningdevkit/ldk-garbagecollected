@@ -19,6 +19,11 @@ public class BestBlock extends CommonBase {
 		if (ptr != 0) { bindings.BestBlock_free(ptr); }
 	}
 
+	long clone_ptr() {
+		long ret = bindings.BestBlock_clone_ptr(this.ptr);
+		return ret;
+	}
+
 	/**
 	 * Creates a copy of the BestBlock
 	 */
@@ -46,7 +51,7 @@ public class BestBlock extends CommonBase {
 	 * Returns a `BestBlock` as identified by the given block hash and height.
 	 */
 	public static BestBlock of(byte[] block_hash, int height) {
-		long ret = bindings.BestBlock_new(block_hash, height);
+		long ret = bindings.BestBlock_new(InternalUtils.check_arr_len(block_hash, 32), height);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

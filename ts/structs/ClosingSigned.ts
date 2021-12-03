@@ -24,7 +24,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_channel_id(Uint8Array val) {
-		bindings.ClosingSigned_set_channel_id(this.ptr, val);
+		bindings.ClosingSigned_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
 	}
 
 	public number get_fee_satoshis() {
@@ -42,7 +42,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public void set_signature(Uint8Array val) {
-		bindings.ClosingSigned_set_signature(this.ptr, val);
+		bindings.ClosingSigned_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
 	}
 
 	public ClosingSignedFeeRange get_fee_range() {
@@ -57,10 +57,15 @@ import * as bindings from '../bindings' // TODO: figure out location
 	}
 
 	public static ClosingSigned constructor_new(Uint8Array channel_id_arg, number fee_satoshis_arg, Uint8Array signature_arg, ClosingSignedFeeRange fee_range_arg) {
-		number ret = bindings.ClosingSigned_new(channel_id_arg, fee_satoshis_arg, signature_arg, fee_range_arg == null ? 0 : fee_range_arg.ptr & ~1);
+		number ret = bindings.ClosingSigned_new(InternalUtils.check_arr_len(channel_id_arg, 32), fee_satoshis_arg, InternalUtils.check_arr_len(signature_arg, 64), fee_range_arg == null ? 0 : fee_range_arg.ptr & ~1);
 		const ret_hu_conv: ClosingSigned = new ClosingSigned(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
+	}
+
+	public number clone_ptr() {
+		number ret = bindings.ClosingSigned_clone_ptr(this.ptr);
+		return ret;
 	}
 
 	public ClosingSigned clone() {
