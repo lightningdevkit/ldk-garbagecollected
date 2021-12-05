@@ -6,6 +6,7 @@ import org.ldk.structs.*;
 import org.ldk.util.TwoTuple;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 
 /**
@@ -19,7 +20,11 @@ public class ChannelManagerConstructor {
      * An Exception that indicates the serialized data is invalid and has been corrupted on disk. You should attempt to
      * restore from a backup if there is one which is known to be current. Otherwise, funds may have been lost.
      */
-    public static class InvalidSerializedDataException extends Exception {}
+    public static class InvalidSerializedDataException extends Exception {
+        InvalidSerializedDataException(String reason) {
+            super(reason);
+        }
+    }
 
     /**
      * The ChannelManager either deserialized or newly-constructed.
@@ -75,20 +80,23 @@ public class ChannelManagerConstructor {
         final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
         this.channel_monitors = new TwoTuple_BlockHashChannelMonitorZ[monitors.length];
+        HashSet<OutPoint> monitor_funding_set = new HashSet();
         for (int i = 0; i < monitors.length; i++) {
             Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ res = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(channel_monitors_serialized[i], keys_interface);
             if (res instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_Err) {
-                throw new InvalidSerializedDataException();
+                throw new InvalidSerializedDataException("Serialized ChannelMonitor was corrupt");
             }
             byte[] block_hash = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK)res).res.get_a();
             monitors[i] = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) res).res.get_b();
             this.channel_monitors[i] = TwoTuple_BlockHashChannelMonitorZ.of(block_hash, monitors[i]);
+            if (!monitor_funding_set.add(monitors[i].get_funding_txo().get_a()))
+                throw new InvalidSerializedDataException("Set of ChannelMonitors contained duplicates (ie the same funding_txo was set on multiple monitors)");
         }
         Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
                 UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
                         logger, config, monitors);
         if (res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err) {
-            throw new InvalidSerializedDataException();
+            throw new InvalidSerializedDataException("Serialized ChannelManager was corrupt");
         }
         this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.get_b();
         this.channel_manager_latest_block_hash = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.get_a();

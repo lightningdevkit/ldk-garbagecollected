@@ -417,6 +417,16 @@ class HumanObjectPeerTestInstance {
                         this.constructor = new ChannelManagerConstructor(serialized, monitors, UserConfig.with_default(),
                                 this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
                                 this.router, this.tx_broadcaster, this.logger);
+                        try {
+                            // Test that ChannelManagerConstructor correctly rejects duplicate ChannelMonitors
+                            byte[][] monitors_dupd = new byte[2][];
+                            monitors_dupd[0] = monitors[0];
+                            monitors_dupd[1] = monitors[0];
+                            ChannelManagerConstructor constr = this.constructor = new ChannelManagerConstructor(serialized, monitors_dupd, UserConfig.with_default(),
+                                    this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
+                                    null, this.tx_broadcaster, this.logger);
+                            assert false;
+                        } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {}
                     }
                     LockableScore scorer = null;
                     if (use_invoice_payer) { scorer = LockableScore.of(Scorer.with_default().as_Score()); }
