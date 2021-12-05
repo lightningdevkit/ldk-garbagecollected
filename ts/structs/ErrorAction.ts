@@ -19,6 +19,9 @@ export default class ErrorAction extends CommonBase {
 		if (raw_val instanceof bindings.LDKErrorAction.IgnoreAndLog) {
 			return new IgnoreAndLog(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKErrorAction.IgnoreDuplicateGossip) {
+			return new IgnoreDuplicateGossip(this.ptr, raw_val);
+		}
 		if (raw_val instanceof bindings.LDKErrorAction.SendErrorMessage) {
 			return new SendErrorMessage(this.ptr, raw_val);
 		}
@@ -46,6 +49,11 @@ export class IgnoreAndLog extends ErrorAction {
 	private constructor(ptr: number, obj: bindings.LDKErrorAction.IgnoreAndLog) {
 		super(null, ptr);
 		this.ignore_and_log = obj.ignore_and_log;
+	}
+}
+export class IgnoreDuplicateGossip extends ErrorAction {
+	private constructor(ptr: number, obj: bindings.LDKErrorAction.IgnoreDuplicateGossip) {
+		super(null, ptr);
 	}
 }
 export class SendErrorMessage extends ErrorAction {
@@ -86,6 +94,13 @@ export class SendErrorMessage extends ErrorAction {
 
 	public static ErrorAction constructor_ignore_and_log(Level a) {
 		number ret = bindings.ErrorAction_ignore_and_log(a);
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static ErrorAction constructor_ignore_duplicate_gossip() {
+		number ret = bindings.ErrorAction_ignore_duplicate_gossip();
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

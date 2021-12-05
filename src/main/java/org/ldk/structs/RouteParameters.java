@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -29,6 +30,7 @@ public class RouteParameters extends CommonBase {
 	 */
 	public Payee get_payee() {
 		long ret = bindings.RouteParameters_get_payee(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Payee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Payee(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -40,6 +42,8 @@ public class RouteParameters extends CommonBase {
 	 */
 	public void set_payee(Payee val) {
 		bindings.RouteParameters_set_payee(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -47,6 +51,7 @@ public class RouteParameters extends CommonBase {
 	 */
 	public long get_final_value_msat() {
 		long ret = bindings.RouteParameters_get_final_value_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -55,6 +60,8 @@ public class RouteParameters extends CommonBase {
 	 */
 	public void set_final_value_msat(long val) {
 		bindings.RouteParameters_set_final_value_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -62,6 +69,7 @@ public class RouteParameters extends CommonBase {
 	 */
 	public int get_final_cltv_expiry_delta() {
 		int ret = bindings.RouteParameters_get_final_cltv_expiry_delta(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -70,6 +78,8 @@ public class RouteParameters extends CommonBase {
 	 */
 	public void set_final_cltv_expiry_delta(int val) {
 		bindings.RouteParameters_set_final_cltv_expiry_delta(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -77,6 +87,9 @@ public class RouteParameters extends CommonBase {
 	 */
 	public static RouteParameters of(Payee payee_arg, long final_value_msat_arg, int final_cltv_expiry_delta_arg) {
 		long ret = bindings.RouteParameters_new(payee_arg == null ? 0 : payee_arg.ptr & ~1, final_value_msat_arg, final_cltv_expiry_delta_arg);
+		Reference.reachabilityFence(payee_arg);
+		Reference.reachabilityFence(final_value_msat_arg);
+		Reference.reachabilityFence(final_cltv_expiry_delta_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RouteParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -85,6 +98,7 @@ public class RouteParameters extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.RouteParameters_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -93,6 +107,7 @@ public class RouteParameters extends CommonBase {
 	 */
 	public RouteParameters clone() {
 		long ret = bindings.RouteParameters_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RouteParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -104,6 +119,7 @@ public class RouteParameters extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.RouteParameters_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -112,6 +128,7 @@ public class RouteParameters extends CommonBase {
 	 */
 	public static Result_RouteParametersDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.RouteParameters_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteParametersDecodeErrorZ ret_hu_conv = Result_RouteParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

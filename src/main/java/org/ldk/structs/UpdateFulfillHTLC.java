@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public void set_channel_id(byte[] val) {
 		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public long get_htlc_id() {
 		long ret = bindings.UpdateFulfillHTLC_get_htlc_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -47,6 +52,8 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public void set_htlc_id(long val) {
 		bindings.UpdateFulfillHTLC_set_htlc_id(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -54,6 +61,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public byte[] get_payment_preimage() {
 		byte[] ret = bindings.UpdateFulfillHTLC_get_payment_preimage(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,6 +70,8 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public void set_payment_preimage(byte[] val) {
 		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -69,6 +79,9 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public static UpdateFulfillHTLC of(byte[] channel_id_arg, long htlc_id_arg, byte[] payment_preimage_arg) {
 		long ret = bindings.UpdateFulfillHTLC_new(InternalUtils.check_arr_len(channel_id_arg, 32), htlc_id_arg, InternalUtils.check_arr_len(payment_preimage_arg, 32));
+		Reference.reachabilityFence(channel_id_arg);
+		Reference.reachabilityFence(htlc_id_arg);
+		Reference.reachabilityFence(payment_preimage_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UpdateFulfillHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFulfillHTLC(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -77,6 +90,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.UpdateFulfillHTLC_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -85,6 +99,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public UpdateFulfillHTLC clone() {
 		long ret = bindings.UpdateFulfillHTLC_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UpdateFulfillHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFulfillHTLC(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -96,6 +111,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.UpdateFulfillHTLC_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -104,6 +120,7 @@ public class UpdateFulfillHTLC extends CommonBase {
 	 */
 	public static Result_UpdateFulfillHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateFulfillHTLC_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFulfillHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFulfillHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

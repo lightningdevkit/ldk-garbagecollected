@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -145,6 +146,7 @@ public class PaymentSendFailure extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.PaymentSendFailure_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -153,6 +155,7 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public PaymentSendFailure clone() {
 		long ret = bindings.PaymentSendFailure_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -164,6 +167,7 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public static PaymentSendFailure parameter_error(APIError a) {
 		long ret = bindings.PaymentSendFailure_parameter_error(a.ptr);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -175,6 +179,7 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public static PaymentSendFailure path_parameter_error(Result_NoneAPIErrorZ[] a) {
 		long ret = bindings.PaymentSendFailure_path_parameter_error(a != null ? Arrays.stream(a).mapToLong(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray() : null);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -186,6 +191,7 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public static PaymentSendFailure all_failed_retry_safe(APIError[] a) {
 		long ret = bindings.PaymentSendFailure_all_failed_retry_safe(a != null ? Arrays.stream(a).mapToLong(a_conv_10 -> a_conv_10.ptr).toArray() : null);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -197,6 +203,9 @@ public class PaymentSendFailure extends CommonBase {
 	 */
 	public static PaymentSendFailure partial_failure(Result_NoneAPIErrorZ[] results, RouteParameters failed_paths_retry, byte[] payment_id) {
 		long ret = bindings.PaymentSendFailure_partial_failure(results != null ? Arrays.stream(results).mapToLong(results_conv_22 -> results_conv_22 != null ? results_conv_22.ptr : 0).toArray() : null, failed_paths_retry == null ? 0 : failed_paths_retry.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
+		Reference.reachabilityFence(results);
+		Reference.reachabilityFence(failed_paths_retry);
+		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

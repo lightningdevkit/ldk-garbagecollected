@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public byte[] get_signature() {
 		byte[] ret = bindings.NodeAnnouncement_get_signature(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public void set_signature(byte[] val) {
 		bindings.NodeAnnouncement_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public UnsignedNodeAnnouncement get_contents() {
 		long ret = bindings.NodeAnnouncement_get_contents(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UnsignedNodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UnsignedNodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -50,6 +55,8 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public void set_contents(UnsignedNodeAnnouncement val) {
 		bindings.NodeAnnouncement_set_contents(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -57,6 +64,8 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public static NodeAnnouncement of(byte[] signature_arg, UnsignedNodeAnnouncement contents_arg) {
 		long ret = bindings.NodeAnnouncement_new(InternalUtils.check_arr_len(signature_arg, 64), contents_arg == null ? 0 : contents_arg.ptr & ~1);
+		Reference.reachabilityFence(signature_arg);
+		Reference.reachabilityFence(contents_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -65,6 +74,7 @@ public class NodeAnnouncement extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.NodeAnnouncement_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -73,6 +83,7 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public NodeAnnouncement clone() {
 		long ret = bindings.NodeAnnouncement_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -84,6 +95,7 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.NodeAnnouncement_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -92,6 +104,7 @@ public class NodeAnnouncement extends CommonBase {
 	 */
 	public static Result_NodeAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeAnnouncement_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NodeAnnouncementDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 */
 	public ChannelAnnouncement get_a() {
 		long ret = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -35,6 +37,7 @@ public class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 */
 	public ChannelUpdate get_b() {
 		long ret = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -46,6 +49,7 @@ public class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 */
 	public ChannelUpdate get_c() {
 		long ret = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -54,6 +58,7 @@ public class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 
 	long clone_ptr() {
 		long ret = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -63,6 +68,7 @@ public class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 */
 	public ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ clone() {
 		long ret = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret_hu_conv = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -74,6 +80,9 @@ public class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 	 */
 	public static ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ of(ChannelAnnouncement a, ChannelUpdate b, ChannelUpdate c) {
 		long ret = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a == null ? 0 : a.ptr & ~1, b == null ? 0 : b.ptr & ~1, c == null ? 0 : c.ptr & ~1);
+		Reference.reachabilityFence(a);
+		Reference.reachabilityFence(b);
+		Reference.reachabilityFence(c);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret_hu_conv = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

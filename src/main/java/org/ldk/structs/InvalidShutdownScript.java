@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -26,6 +27,7 @@ public class InvalidShutdownScript extends CommonBase {
 	 */
 	public byte[] get_script() {
 		byte[] ret = bindings.InvalidShutdownScript_get_script(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -36,6 +38,8 @@ public class InvalidShutdownScript extends CommonBase {
 	 */
 	public void set_script(byte[] val) {
 		bindings.InvalidShutdownScript_set_script(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -43,6 +47,7 @@ public class InvalidShutdownScript extends CommonBase {
 	 */
 	public static InvalidShutdownScript of(byte[] script_arg) {
 		long ret = bindings.InvalidShutdownScript_new(script_arg);
+		Reference.reachabilityFence(script_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvalidShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -51,6 +56,7 @@ public class InvalidShutdownScript extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.InvalidShutdownScript_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -59,6 +65,7 @@ public class InvalidShutdownScript extends CommonBase {
 	 */
 	public InvalidShutdownScript clone() {
 		long ret = bindings.InvalidShutdownScript_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InvalidShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvalidShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);

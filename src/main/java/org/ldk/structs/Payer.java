@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -39,9 +40,17 @@ public class Payer extends CommonBase {
 		 */
 		Result_PaymentIdPaymentSendFailureZ send_payment(Route route, byte[] payment_hash, byte[] payment_secret);
 		/**
+		 * Sends a spontaneous payment over the Lightning Network using the given [`Route`].
+		 */
+		Result_PaymentIdPaymentSendFailureZ send_spontaneous_payment(Route route, byte[] payment_preimage);
+		/**
 		 * Retries a failed payment path for the [`PaymentId`] using the given [`Route`].
 		 */
 		Result_NonePaymentSendFailureZ retry_payment(Route route, byte[] payment_id);
+		/**
+		 * Signals that no further retries for the given payment will occur.
+		 */
+		void abandon_payment(byte[] payment_id);
 	}
 	private static class LDKPayerHolder { Payer held; }
 	public static Payer new_impl(PayerInterface arg) {
@@ -63,11 +72,20 @@ public class Payer extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
+			@Override public long send_spontaneous_payment(long route, byte[] payment_preimage) {
+				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
+				Result_PaymentIdPaymentSendFailureZ ret = arg.send_spontaneous_payment(route_hu_conv, payment_preimage);
+				long result = ret == null ? 0 : ret.clone_ptr();
+				return result;
+			}
 			@Override public long retry_payment(long route, byte[] payment_id) {
 				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
 				Result_NonePaymentSendFailureZ ret = arg.retry_payment(route_hu_conv, payment_id);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
+			}
+			@Override public void abandon_payment(byte[] payment_id) {
+				arg.abandon_payment(payment_id);
 			}
 		});
 		return impl_holder.held;
@@ -77,6 +95,7 @@ public class Payer extends CommonBase {
 	 */
 	public byte[] node_id() {
 		byte[] ret = bindings.Payer_node_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -85,6 +104,7 @@ public class Payer extends CommonBase {
 	 */
 	public ChannelDetails[] first_hops() {
 		long[] ret = bindings.Payer_first_hops(this.ptr);
+		Reference.reachabilityFence(this);
 		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
 		for (int q = 0; q < ret.length; q++) {
 			long ret_conv_16 = ret[q];
@@ -102,6 +122,24 @@ public class Payer extends CommonBase {
 	 */
 	public Result_PaymentIdPaymentSendFailureZ send_payment(Route route, byte[] payment_hash, @Nullable byte[] payment_secret) {
 		long ret = bindings.Payer_send_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(route);
+		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(payment_secret);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
+		this.ptrs_to.add(route);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Sends a spontaneous payment over the Lightning Network using the given [`Route`].
+	 */
+	public Result_PaymentIdPaymentSendFailureZ send_spontaneous_payment(Route route, byte[] payment_preimage) {
+		long ret = bindings.Payer_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_preimage, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(route);
+		Reference.reachabilityFence(payment_preimage);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
@@ -113,10 +151,22 @@ public class Payer extends CommonBase {
 	 */
 	public Result_NonePaymentSendFailureZ retry_payment(Route route, byte[] payment_id) {
 		long ret = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(route);
+		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Signals that no further retries for the given payment will occur.
+	 */
+	public void abandon_payment(byte[] payment_id) {
+		bindings.Payer_abandon_payment(this.ptr, InternalUtils.check_arr_len(payment_id, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(payment_id);
 	}
 
 }

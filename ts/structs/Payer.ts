@@ -51,11 +51,22 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return result;
 						},
 
+						send_spontaneous_payment (route: number, payment_preimage: Uint8Array): number {
+							const route_hu_conv: Route = new Route(null, route);
+							Result_PaymentIdPaymentSendFailureZ ret = arg.send_spontaneous_payment(route_hu_conv, payment_preimage);
+				result: number = ret == null ? 0 : ret.clone_ptr();
+				return result;
+						},
+
 						retry_payment (route: number, payment_id: Uint8Array): number {
 							const route_hu_conv: Route = new Route(null, route);
 							Result_NonePaymentSendFailureZ ret = arg.retry_payment(route_hu_conv, payment_id);
 				result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
+						},
+
+						abandon_payment (payment_id: Uint8Array): void {
+							arg.abandon_payment(payment_id);
 						},
 
 						
@@ -68,7 +79,9 @@ import * as bindings from '../bindings' // TODO: figure out location
                 node_id(): Uint8Array;
 				first_hops(): ChannelDetails[];
 				send_payment(route: Route, payment_hash: Uint8Array, payment_secret: Uint8Array): Result_PaymentIdPaymentSendFailureZ;
+				send_spontaneous_payment(route: Route, payment_preimage: Uint8Array): Result_PaymentIdPaymentSendFailureZ;
 				retry_payment(route: Route, payment_id: Uint8Array): Result_NonePaymentSendFailureZ;
+				abandon_payment(payment_id: Uint8Array): void;
 				
             }
 
@@ -99,11 +112,22 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public Result_PaymentIdPaymentSendFailureZ send_spontaneous_payment(Route route, Uint8Array payment_preimage) {
+		number ret = bindings.Payer_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_preimage, 32));
+		Result_PaymentIdPaymentSendFailureZ ret_hu_conv = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
+		this.ptrs_to.add(route);
+		return ret_hu_conv;
+	}
+
 	public Result_NonePaymentSendFailureZ retry_payment(Route route, Uint8Array payment_id) {
 		number ret = bindings.Payer_retry_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_id, 32));
 		Result_NonePaymentSendFailureZ ret_hu_conv = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		this.ptrs_to.add(route);
 		return ret_hu_conv;
+	}
+
+	public void abandon_payment(Uint8Array payment_id) {
+		bindings.Payer_abandon_payment(this.ptr, InternalUtils.check_arr_len(payment_id, 32));
 	}
 
 }

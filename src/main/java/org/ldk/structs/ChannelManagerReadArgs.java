@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -57,6 +58,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public KeysInterface get_keys_manager() {
 		long ret = bindings.ChannelManagerReadArgs_get_keys_manager(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -70,6 +72,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public void set_keys_manager(KeysInterface val) {
 		bindings.ChannelManagerReadArgs_set_keys_manager(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 		this.ptrs_to.add(val);
 	}
 
@@ -80,6 +84,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public FeeEstimator get_fee_estimator() {
 		long ret = bindings.ChannelManagerReadArgs_get_fee_estimator(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FeeEstimator ret_hu_conv = new FeeEstimator(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -93,6 +98,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public void set_fee_estimator(FeeEstimator val) {
 		bindings.ChannelManagerReadArgs_set_fee_estimator(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 		this.ptrs_to.add(val);
 	}
 
@@ -105,6 +112,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public Watch get_chain_monitor() {
 		long ret = bindings.ChannelManagerReadArgs_get_chain_monitor(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Watch ret_hu_conv = new Watch(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -120,6 +128,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public void set_chain_monitor(Watch val) {
 		bindings.ChannelManagerReadArgs_set_chain_monitor(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 		this.ptrs_to.add(val);
 	}
 
@@ -130,6 +140,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public BroadcasterInterface get_tx_broadcaster() {
 		long ret = bindings.ChannelManagerReadArgs_get_tx_broadcaster(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BroadcasterInterface ret_hu_conv = new BroadcasterInterface(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -143,6 +154,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public void set_tx_broadcaster(BroadcasterInterface val) {
 		bindings.ChannelManagerReadArgs_set_tx_broadcaster(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 		this.ptrs_to.add(val);
 	}
 
@@ -152,6 +165,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public Logger get_logger() {
 		long ret = bindings.ChannelManagerReadArgs_get_logger(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Logger ret_hu_conv = new Logger(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -164,6 +178,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public void set_logger(Logger val) {
 		bindings.ChannelManagerReadArgs_set_logger(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 		this.ptrs_to.add(val);
 	}
 
@@ -173,6 +189,7 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public UserConfig get_default_config() {
 		long ret = bindings.ChannelManagerReadArgs_get_default_config(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UserConfig(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -185,6 +202,8 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public void set_default_config(UserConfig val) {
 		bindings.ChannelManagerReadArgs_set_default_config(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -194,6 +213,13 @@ public class ChannelManagerReadArgs extends CommonBase {
 	 */
 	public static ChannelManagerReadArgs of(KeysInterface keys_manager, FeeEstimator fee_estimator, Watch chain_monitor, BroadcasterInterface tx_broadcaster, Logger logger, UserConfig default_config, ChannelMonitor[] channel_monitors) {
 		long ret = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : keys_manager.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, chain_monitor == null ? 0 : chain_monitor.ptr, tx_broadcaster == null ? 0 : tx_broadcaster.ptr, logger == null ? 0 : logger.ptr, default_config == null ? 0 : default_config.ptr & ~1, channel_monitors != null ? Arrays.stream(channel_monitors).mapToLong(channel_monitors_conv_16 -> channel_monitors_conv_16 == null ? 0 : channel_monitors_conv_16.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(fee_estimator);
+		Reference.reachabilityFence(chain_monitor);
+		Reference.reachabilityFence(tx_broadcaster);
+		Reference.reachabilityFence(logger);
+		Reference.reachabilityFence(default_config);
+		Reference.reachabilityFence(channel_monitors);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelManagerReadArgs ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelManagerReadArgs(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

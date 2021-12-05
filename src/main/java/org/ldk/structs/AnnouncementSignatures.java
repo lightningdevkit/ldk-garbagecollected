@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.AnnouncementSignatures_get_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public void set_channel_id(byte[] val) {
 		bindings.AnnouncementSignatures_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public long get_short_channel_id() {
 		long ret = bindings.AnnouncementSignatures_get_short_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -47,6 +52,8 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public void set_short_channel_id(long val) {
 		bindings.AnnouncementSignatures_set_short_channel_id(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -54,6 +61,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public byte[] get_node_signature() {
 		byte[] ret = bindings.AnnouncementSignatures_get_node_signature(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,6 +70,8 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public void set_node_signature(byte[] val) {
 		bindings.AnnouncementSignatures_set_node_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -69,6 +79,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public byte[] get_bitcoin_signature() {
 		byte[] ret = bindings.AnnouncementSignatures_get_bitcoin_signature(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -77,6 +88,8 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public void set_bitcoin_signature(byte[] val) {
 		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -84,6 +97,10 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public static AnnouncementSignatures of(byte[] channel_id_arg, long short_channel_id_arg, byte[] node_signature_arg, byte[] bitcoin_signature_arg) {
 		long ret = bindings.AnnouncementSignatures_new(InternalUtils.check_arr_len(channel_id_arg, 32), short_channel_id_arg, InternalUtils.check_arr_len(node_signature_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_arg, 64));
+		Reference.reachabilityFence(channel_id_arg);
+		Reference.reachabilityFence(short_channel_id_arg);
+		Reference.reachabilityFence(node_signature_arg);
+		Reference.reachabilityFence(bitcoin_signature_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		AnnouncementSignatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new AnnouncementSignatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -92,6 +109,7 @@ public class AnnouncementSignatures extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.AnnouncementSignatures_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -100,6 +118,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public AnnouncementSignatures clone() {
 		long ret = bindings.AnnouncementSignatures_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		AnnouncementSignatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new AnnouncementSignatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -111,6 +130,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.AnnouncementSignatures_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -119,6 +139,7 @@ public class AnnouncementSignatures extends CommonBase {
 	 */
 	public static Result_AnnouncementSignaturesDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.AnnouncementSignatures_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_AnnouncementSignaturesDecodeErrorZ ret_hu_conv = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

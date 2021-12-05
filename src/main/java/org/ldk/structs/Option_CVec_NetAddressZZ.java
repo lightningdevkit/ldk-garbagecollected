@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -60,6 +61,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 	 */
 	public static Option_CVec_NetAddressZZ some(NetAddress[] o) {
 		long ret = bindings.COption_CVec_NetAddressZZ_some(o != null ? Arrays.stream(o).mapToLong(o_conv_12 -> o_conv_12.ptr).toArray() : null);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -79,6 +81,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.COption_CVec_NetAddressZZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -88,6 +91,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 	 */
 	public Option_CVec_NetAddressZZ clone() {
 		long ret = bindings.COption_CVec_NetAddressZZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -30,6 +31,7 @@ public class Route extends CommonBase {
 	 */
 	public RouteHop[][] get_paths() {
 		long[][] ret = bindings.Route_get_paths(this.ptr);
+		Reference.reachabilityFence(this);
 		RouteHop[][] ret_conv_12_arr = new RouteHop[ret.length][];
 		for (int m = 0; m < ret.length; m++) {
 			long[] ret_conv_12 = ret[m];
@@ -55,6 +57,8 @@ public class Route extends CommonBase {
 	 */
 	public void set_paths(RouteHop[][] val) {
 		bindings.Route_set_paths(this.ptr, val != null ? Arrays.stream(val).map(val_conv_12 -> val_conv_12 != null ? Arrays.stream(val_conv_12).mapToLong(val_conv_12_conv_10 -> val_conv_12_conv_10 == null ? 0 : val_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -69,6 +73,7 @@ public class Route extends CommonBase {
 	@Nullable
 	public Payee get_payee() {
 		long ret = bindings.Route_get_payee(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Payee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Payee(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -86,6 +91,8 @@ public class Route extends CommonBase {
 	 */
 	public void set_payee(@Nullable Payee val) {
 		bindings.Route_set_payee(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -93,6 +100,8 @@ public class Route extends CommonBase {
 	 */
 	public static Route of(RouteHop[][] paths_arg, Payee payee_arg) {
 		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null, payee_arg == null ? 0 : payee_arg.ptr & ~1);
+		Reference.reachabilityFence(paths_arg);
+		Reference.reachabilityFence(payee_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Route(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -101,6 +110,7 @@ public class Route extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.Route_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -109,6 +119,7 @@ public class Route extends CommonBase {
 	 */
 	public Route clone() {
 		long ret = bindings.Route_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Route(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -120,9 +131,13 @@ public class Route extends CommonBase {
 	 */
 	public long hash() {
 		long ret = bindings.Route_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 	/**
 	 * Checks if two Routes contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
@@ -130,10 +145,16 @@ public class Route extends CommonBase {
 	 */
 	public boolean eq(Route b) {
 		boolean ret = bindings.Route_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof Route)) return false;
+		return this.eq((Route)o);
+	}
 	/**
 	 * Returns the total amount of fees paid on this [`Route`].
 	 * 
@@ -142,6 +163,7 @@ public class Route extends CommonBase {
 	 */
 	public long get_total_fees() {
 		long ret = bindings.Route_get_total_fees(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -150,6 +172,7 @@ public class Route extends CommonBase {
 	 */
 	public long get_total_amount() {
 		long ret = bindings.Route_get_total_amount(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -158,6 +181,7 @@ public class Route extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.Route_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -166,6 +190,7 @@ public class Route extends CommonBase {
 	 */
 	public static Result_RouteDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Route_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteDecodeErrorZ ret_hu_conv = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

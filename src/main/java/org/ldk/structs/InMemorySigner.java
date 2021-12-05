@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -27,6 +28,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public byte[] get_funding_key() {
 		byte[] ret = bindings.InMemorySigner_get_funding_key(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -35,6 +37,8 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public void set_funding_key(byte[] val) {
 		bindings.InMemorySigner_set_funding_key(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public byte[] get_revocation_base_key() {
 		byte[] ret = bindings.InMemorySigner_get_revocation_base_key(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -50,6 +55,8 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public void set_revocation_base_key(byte[] val) {
 		bindings.InMemorySigner_set_revocation_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -57,6 +64,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public byte[] get_payment_key() {
 		byte[] ret = bindings.InMemorySigner_get_payment_key(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -65,6 +73,8 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public void set_payment_key(byte[] val) {
 		bindings.InMemorySigner_set_payment_key(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -72,6 +82,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public byte[] get_delayed_payment_base_key() {
 		byte[] ret = bindings.InMemorySigner_get_delayed_payment_base_key(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -80,6 +91,8 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public void set_delayed_payment_base_key(byte[] val) {
 		bindings.InMemorySigner_set_delayed_payment_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -87,6 +100,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public byte[] get_htlc_base_key() {
 		byte[] ret = bindings.InMemorySigner_get_htlc_base_key(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -95,6 +109,8 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public void set_htlc_base_key(byte[] val) {
 		bindings.InMemorySigner_set_htlc_base_key(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -102,6 +118,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public byte[] get_commitment_seed() {
 		byte[] ret = bindings.InMemorySigner_get_commitment_seed(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -110,10 +127,13 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public void set_commitment_seed(byte[] val) {
 		bindings.InMemorySigner_set_commitment_seed(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
 		long ret = bindings.InMemorySigner_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -122,6 +142,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public InMemorySigner clone() {
 		long ret = bindings.InMemorySigner_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InMemorySigner(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -133,6 +154,14 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
 		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
+		Reference.reachabilityFence(funding_key);
+		Reference.reachabilityFence(revocation_base_key);
+		Reference.reachabilityFence(payment_key);
+		Reference.reachabilityFence(delayed_payment_base_key);
+		Reference.reachabilityFence(htlc_base_key);
+		Reference.reachabilityFence(commitment_seed);
+		Reference.reachabilityFence(channel_value_satoshis);
+		Reference.reachabilityFence(channel_keys_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InMemorySigner(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -145,6 +174,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public ChannelPublicKeys counterparty_pubkeys() {
 		long ret = bindings.InMemorySigner_counterparty_pubkeys(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelPublicKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -159,6 +189,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public short counterparty_selected_contest_delay() {
 		short ret = bindings.InMemorySigner_counterparty_selected_contest_delay(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -170,6 +201,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public short holder_selected_contest_delay() {
 		short ret = bindings.InMemorySigner_holder_selected_contest_delay(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -179,6 +211,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public boolean is_outbound() {
 		boolean ret = bindings.InMemorySigner_is_outbound(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -188,6 +221,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public OutPoint funding_outpoint() {
 		long ret = bindings.InMemorySigner_funding_outpoint(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new OutPoint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -202,10 +236,21 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public ChannelTransactionParameters get_channel_parameters() {
 		long ret = bindings.InMemorySigner_get_channel_parameters(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Whether anchors should be used.
+	 * Will panic if ready_channel wasn't called.
+	 */
+	public boolean opt_anchors() {
+		boolean ret = bindings.InMemorySigner_opt_anchors(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 	/**
@@ -217,6 +262,10 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ sign_counterparty_payment_input(byte[] spend_tx, long input_idx, StaticPaymentOutputDescriptor descriptor) {
 		long ret = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(spend_tx);
+		Reference.reachabilityFence(input_idx);
+		Reference.reachabilityFence(descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(descriptor);
@@ -233,6 +282,10 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ sign_dynamic_p2wsh_input(byte[] spend_tx, long input_idx, DelayedPaymentOutputDescriptor descriptor) {
 		long ret = bindings.InMemorySigner_sign_dynamic_p2wsh_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(spend_tx);
+		Reference.reachabilityFence(input_idx);
+		Reference.reachabilityFence(descriptor);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(descriptor);
@@ -245,6 +298,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public BaseSign as_BaseSign() {
 		long ret = bindings.InMemorySigner_as_BaseSign(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BaseSign ret_hu_conv = new BaseSign(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -257,6 +311,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public Sign as_Sign() {
 		long ret = bindings.InMemorySigner_as_Sign(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Sign ret_hu_conv = new Sign(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -268,6 +323,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.InMemorySigner_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -276,6 +332,7 @@ public class InMemorySigner extends CommonBase {
 	 */
 	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.InMemorySigner_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

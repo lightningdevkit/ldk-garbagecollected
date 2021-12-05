@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -174,6 +175,8 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public Result_boolLightningErrorZ handle_node_announcement(NodeAnnouncement msg) {
 		long ret = bindings.RoutingMessageHandler_handle_node_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
@@ -186,6 +189,8 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public Result_boolLightningErrorZ handle_channel_announcement(ChannelAnnouncement msg) {
 		long ret = bindings.RoutingMessageHandler_handle_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
@@ -198,6 +203,8 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public Result_boolLightningErrorZ handle_channel_update(ChannelUpdate msg) {
 		long ret = bindings.RoutingMessageHandler_handle_channel_update(this.ptr, msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_boolLightningErrorZ ret_hu_conv = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
@@ -211,6 +218,9 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_channel_announcements(this.ptr, starting_point, batch_amount);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(starting_point);
+		Reference.reachabilityFence(batch_amount);
 		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret_conv_59_arr = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[ret.length];
 		for (int h = 0; h < ret.length; h++) {
 			long ret_conv_59 = ret[h];
@@ -231,6 +241,9 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public NodeAnnouncement[] get_next_node_announcements(@Nullable byte[] starting_point, byte batch_amount) {
 		long[] ret = bindings.RoutingMessageHandler_get_next_node_announcements(this.ptr, InternalUtils.check_arr_len(starting_point, 33), batch_amount);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(starting_point);
+		Reference.reachabilityFence(batch_amount);
 		NodeAnnouncement[] ret_conv_18_arr = new NodeAnnouncement[ret.length];
 		for (int s = 0; s < ret.length; s++) {
 			long ret_conv_18 = ret[s];
@@ -248,6 +261,9 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public void sync_routing_table(byte[] their_node_id, Init init) {
 		bindings.RoutingMessageHandler_sync_routing_table(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(init);
 		this.ptrs_to.add(init);
 	}
 
@@ -258,6 +274,9 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ handle_reply_channel_range(byte[] their_node_id, ReplyChannelRange msg) {
 		long ret = bindings.RoutingMessageHandler_handle_reply_channel_range(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -271,6 +290,9 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ handle_reply_short_channel_ids_end(byte[] their_node_id, ReplyShortChannelIdsEnd msg) {
 		long ret = bindings.RoutingMessageHandler_handle_reply_short_channel_ids_end(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -282,6 +304,9 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ handle_query_channel_range(byte[] their_node_id, QueryChannelRange msg) {
 		long ret = bindings.RoutingMessageHandler_handle_query_channel_range(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -293,6 +318,9 @@ public class RoutingMessageHandler extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ handle_query_short_channel_ids(byte[] their_node_id, QueryShortChannelIds msg) {
 		long ret = bindings.RoutingMessageHandler_handle_query_short_channel_ids(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(their_node_id);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.UpdateAddHTLC_get_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public void set_channel_id(byte[] val) {
 		bindings.UpdateAddHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public long get_htlc_id() {
 		long ret = bindings.UpdateAddHTLC_get_htlc_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -47,6 +52,8 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public void set_htlc_id(long val) {
 		bindings.UpdateAddHTLC_set_htlc_id(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -54,6 +61,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public long get_amount_msat() {
 		long ret = bindings.UpdateAddHTLC_get_amount_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,6 +70,8 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public void set_amount_msat(long val) {
 		bindings.UpdateAddHTLC_set_amount_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -69,6 +79,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public byte[] get_payment_hash() {
 		byte[] ret = bindings.UpdateAddHTLC_get_payment_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -77,6 +88,8 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public void set_payment_hash(byte[] val) {
 		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -84,6 +97,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public int get_cltv_expiry() {
 		int ret = bindings.UpdateAddHTLC_get_cltv_expiry(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -92,10 +106,13 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public void set_cltv_expiry(int val) {
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
 		long ret = bindings.UpdateAddHTLC_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -104,6 +121,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public UpdateAddHTLC clone() {
 		long ret = bindings.UpdateAddHTLC_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UpdateAddHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateAddHTLC(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -115,6 +133,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.UpdateAddHTLC_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -123,6 +142,7 @@ public class UpdateAddHTLC extends CommonBase {
 	 */
 	public static Result_UpdateAddHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateAddHTLC_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateAddHTLCDecodeErrorZ ret_hu_conv = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -125,6 +126,9 @@ public class Watch extends CommonBase {
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ watch_channel(OutPoint funding_txo, ChannelMonitor monitor) {
 		long ret = bindings.Watch_watch_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, monitor == null ? 0 : monitor.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(funding_txo);
+		Reference.reachabilityFence(monitor);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -140,6 +144,9 @@ public class Watch extends CommonBase {
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ update_channel(OutPoint funding_txo, ChannelMonitorUpdate update) {
 		long ret = bindings.Watch_update_channel(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, update == null ? 0 : update.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(funding_txo);
+		Reference.reachabilityFence(update);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -158,6 +165,7 @@ public class Watch extends CommonBase {
 	 */
 	public MonitorEvent[] release_pending_monitor_events() {
 		long[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);
+		Reference.reachabilityFence(this);
 		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret.length];
 		for (int o = 0; o < ret.length; o++) {
 			long ret_conv_14 = ret[o];

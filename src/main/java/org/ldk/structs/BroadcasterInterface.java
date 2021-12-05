@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -44,6 +45,8 @@ public class BroadcasterInterface extends CommonBase {
 	 */
 	public void broadcast_transaction(byte[] tx) {
 		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, tx);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(tx);
 	}
 
 }

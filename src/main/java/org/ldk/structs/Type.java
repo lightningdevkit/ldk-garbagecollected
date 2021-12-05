@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -63,6 +64,7 @@ public class Type extends CommonBase {
 	 */
 	public short type_id() {
 		short ret = bindings.Type_type_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -71,6 +73,7 @@ public class Type extends CommonBase {
 	 */
 	public String debug_str() {
 		String ret = bindings.Type_debug_str(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -79,11 +82,13 @@ public class Type extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.Type_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	long clone_ptr() {
 		long ret = bindings.Type_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -92,6 +97,7 @@ public class Type extends CommonBase {
 	 */
 	public Type clone() {
 		long ret = bindings.Type_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Type ret_hu_conv = new Type(null, ret);
 		ret_hu_conv.ptrs_to.add(this);

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_TxOutAccessErrorZ extends CommonBase {
@@ -42,6 +43,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public static Result_TxOutAccessErrorZ ok(TxOut o) {
 		long ret = bindings.CResult_TxOutAccessErrorZ_ok(o.ptr);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -52,6 +54,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public static Result_TxOutAccessErrorZ err(org.ldk.enums.AccessError e) {
 		long ret = bindings.CResult_TxOutAccessErrorZ_err(e);
+		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -62,11 +65,13 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_TxOutAccessErrorZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	long clone_ptr() {
 		long ret = bindings.CResult_TxOutAccessErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -76,6 +81,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 	 */
 	public Result_TxOutAccessErrorZ clone() {
 		long ret = bindings.CResult_TxOutAccessErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

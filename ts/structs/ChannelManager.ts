@@ -103,6 +103,10 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public void abandon_payment(Uint8Array payment_id) {
+		bindings.ChannelManager_abandon_payment(this.ptr, InternalUtils.check_arr_len(payment_id, 32));
+	}
+
 	public Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ send_spontaneous_payment(Route route, Uint8Array payment_preimage) {
 		number ret = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : route.ptr & ~1, InternalUtils.check_arr_len(payment_preimage, 32));
 		Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
@@ -143,16 +147,33 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public TwoTuple_PaymentHashPaymentSecretZ create_inbound_payment(Option_u64Z min_value_msat, number invoice_expiry_delta_secs, number user_payment_id) {
-		number ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
-		TwoTuple_PaymentHashPaymentSecretZ ret_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
-		ret_hu_conv.ptrs_to.add(this);
+	public Result_C2Tuple_PaymentHashPaymentSecretZNoneZ create_inbound_payment(Option_u64Z min_value_msat, number invoice_expiry_delta_secs) {
+		number ret = bindings.ChannelManager_create_inbound_payment(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs);
+		Result_C2Tuple_PaymentHashPaymentSecretZNoneZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash(Uint8Array payment_hash, Option_u64Z min_value_msat, number invoice_expiry_delta_secs, number user_payment_id) {
-		number ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs, user_payment_id);
+	public Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ create_inbound_payment_legacy(Option_u64Z min_value_msat, number invoice_expiry_delta_secs) {
+		number ret = bindings.ChannelManager_create_inbound_payment_legacy(this.ptr, min_value_msat.ptr, invoice_expiry_delta_secs);
+		Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ ret_hu_conv = Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_PaymentSecretNoneZ create_inbound_payment_for_hash(Uint8Array payment_hash, Option_u64Z min_value_msat, number invoice_expiry_delta_secs) {
+		number ret = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs);
+		Result_PaymentSecretNoneZ ret_hu_conv = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_PaymentSecretAPIErrorZ create_inbound_payment_for_hash_legacy(Uint8Array payment_hash, Option_u64Z min_value_msat, number invoice_expiry_delta_secs) {
+		number ret = bindings.ChannelManager_create_inbound_payment_for_hash_legacy(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), min_value_msat.ptr, invoice_expiry_delta_secs);
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	public Result_PaymentPreimageAPIErrorZ get_payment_preimage(Uint8Array payment_hash, Uint8Array payment_secret) {
+		number ret = bindings.ChannelManager_get_payment_preimage(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
+		Result_PaymentPreimageAPIErrorZ ret_hu_conv = Result_PaymentPreimageAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

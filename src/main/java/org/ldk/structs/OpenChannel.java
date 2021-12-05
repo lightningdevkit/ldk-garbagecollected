@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.OpenChannel_get_chain_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_chain_hash(byte[] val) {
 		bindings.OpenChannel_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] get_temporary_channel_id() {
 		byte[] ret = bindings.OpenChannel_get_temporary_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -47,6 +52,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_temporary_channel_id(byte[] val) {
 		bindings.OpenChannel_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -54,6 +61,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public long get_funding_satoshis() {
 		long ret = bindings.OpenChannel_get_funding_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,6 +70,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_funding_satoshis(long val) {
 		bindings.OpenChannel_set_funding_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -69,6 +79,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public long get_push_msat() {
 		long ret = bindings.OpenChannel_get_push_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -77,6 +88,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_push_msat(long val) {
 		bindings.OpenChannel_set_push_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -84,6 +97,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public long get_dust_limit_satoshis() {
 		long ret = bindings.OpenChannel_get_dust_limit_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -92,6 +106,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_dust_limit_satoshis(long val) {
 		bindings.OpenChannel_set_dust_limit_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -99,6 +115,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public long get_max_htlc_value_in_flight_msat() {
 		long ret = bindings.OpenChannel_get_max_htlc_value_in_flight_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -107,6 +124,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_max_htlc_value_in_flight_msat(long val) {
 		bindings.OpenChannel_set_max_htlc_value_in_flight_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -114,6 +133,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public long get_channel_reserve_satoshis() {
 		long ret = bindings.OpenChannel_get_channel_reserve_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -122,6 +142,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_channel_reserve_satoshis(long val) {
 		bindings.OpenChannel_set_channel_reserve_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -129,6 +151,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public long get_htlc_minimum_msat() {
 		long ret = bindings.OpenChannel_get_htlc_minimum_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -137,6 +160,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_htlc_minimum_msat(long val) {
 		bindings.OpenChannel_set_htlc_minimum_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -144,6 +169,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public int get_feerate_per_kw() {
 		int ret = bindings.OpenChannel_get_feerate_per_kw(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -152,6 +178,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_feerate_per_kw(int val) {
 		bindings.OpenChannel_set_feerate_per_kw(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -159,6 +187,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public short get_to_self_delay() {
 		short ret = bindings.OpenChannel_get_to_self_delay(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -167,6 +196,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_to_self_delay(short val) {
 		bindings.OpenChannel_set_to_self_delay(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -174,6 +205,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public short get_max_accepted_htlcs() {
 		short ret = bindings.OpenChannel_get_max_accepted_htlcs(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -182,6 +214,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_max_accepted_htlcs(short val) {
 		bindings.OpenChannel_set_max_accepted_htlcs(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -189,6 +223,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] get_funding_pubkey() {
 		byte[] ret = bindings.OpenChannel_get_funding_pubkey(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -197,6 +232,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_funding_pubkey(byte[] val) {
 		bindings.OpenChannel_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -204,6 +241,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] get_revocation_basepoint() {
 		byte[] ret = bindings.OpenChannel_get_revocation_basepoint(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -212,6 +250,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_revocation_basepoint(byte[] val) {
 		bindings.OpenChannel_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -219,6 +259,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] get_payment_point() {
 		byte[] ret = bindings.OpenChannel_get_payment_point(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -227,6 +268,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_payment_point(byte[] val) {
 		bindings.OpenChannel_set_payment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -234,6 +277,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] get_delayed_payment_basepoint() {
 		byte[] ret = bindings.OpenChannel_get_delayed_payment_basepoint(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -242,6 +286,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_delayed_payment_basepoint(byte[] val) {
 		bindings.OpenChannel_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -249,6 +295,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] get_htlc_basepoint() {
 		byte[] ret = bindings.OpenChannel_get_htlc_basepoint(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -257,6 +304,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_htlc_basepoint(byte[] val) {
 		bindings.OpenChannel_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -264,6 +313,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] get_first_per_commitment_point() {
 		byte[] ret = bindings.OpenChannel_get_first_per_commitment_point(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -272,6 +322,8 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_first_per_commitment_point(byte[] val) {
 		bindings.OpenChannel_set_first_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -279,6 +331,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte get_channel_flags() {
 		byte ret = bindings.OpenChannel_get_channel_flags(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -287,10 +340,43 @@ public class OpenChannel extends CommonBase {
 	 */
 	public void set_channel_flags(byte val) {
 		bindings.OpenChannel_set_channel_flags(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * The channel type that this channel will represent. If none is set, we derive the channel
+	 * type from the intersection of our feature bits with our counterparty's feature bits from
+	 * the Init message.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public ChannelTypeFeatures get_channel_type() {
+		long ret = bindings.OpenChannel_get_channel_type(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelTypeFeatures(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The channel type that this channel will represent. If none is set, we derive the channel
+	 * type from the intersection of our feature bits with our counterparty's feature bits from
+	 * the Init message.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_channel_type(@Nullable ChannelTypeFeatures val) {
+		bindings.OpenChannel_set_channel_type(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
 		long ret = bindings.OpenChannel_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -299,6 +385,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public OpenChannel clone() {
 		long ret = bindings.OpenChannel_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		OpenChannel ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new OpenChannel(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -310,6 +397,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.OpenChannel_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -318,6 +406,7 @@ public class OpenChannel extends CommonBase {
 	 */
 	public static Result_OpenChannelDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.OpenChannel_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_OpenChannelDecodeErrorZ ret_hu_conv = Result_OpenChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

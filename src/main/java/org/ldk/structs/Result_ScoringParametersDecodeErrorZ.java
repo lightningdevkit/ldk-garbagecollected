@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_ScoringParametersDecodeErrorZ extends CommonBase {
@@ -44,8 +45,13 @@ public class Result_ScoringParametersDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ScoringParametersDecodeErrorZ in the success state.
 	 */
-	public static Result_ScoringParametersDecodeErrorZ ok(long o_base_penalty_msat_arg, long o_failure_penalty_msat_arg, long o_failure_penalty_half_life_arg) {
-		long ret = bindings.CResult_ScoringParametersDecodeErrorZ_ok(bindings.ScoringParameters_new(o_base_penalty_msat_arg, o_failure_penalty_msat_arg, o_failure_penalty_half_life_arg));
+	public static Result_ScoringParametersDecodeErrorZ ok(long o_base_penalty_msat_arg, long o_failure_penalty_msat_arg, short o_overuse_penalty_start_1024th_arg, long o_overuse_penalty_msat_per_1024th_arg, long o_failure_penalty_half_life_arg) {
+		long ret = bindings.CResult_ScoringParametersDecodeErrorZ_ok(bindings.ScoringParameters_new(o_base_penalty_msat_arg, o_failure_penalty_msat_arg, o_overuse_penalty_start_1024th_arg, o_overuse_penalty_msat_per_1024th_arg, o_failure_penalty_half_life_arg));
+		Reference.reachabilityFence(o_base_penalty_msat_arg);
+		Reference.reachabilityFence(o_failure_penalty_msat_arg);
+		Reference.reachabilityFence(o_overuse_penalty_start_1024th_arg);
+		Reference.reachabilityFence(o_overuse_penalty_msat_per_1024th_arg);
+		Reference.reachabilityFence(o_failure_penalty_half_life_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ScoringParametersDecodeErrorZ ret_hu_conv = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -56,6 +62,7 @@ public class Result_ScoringParametersDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_ScoringParametersDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_ScoringParametersDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ScoringParametersDecodeErrorZ ret_hu_conv = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -66,6 +73,7 @@ public class Result_ScoringParametersDecodeErrorZ extends CommonBase {
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_ScoringParametersDecodeErrorZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

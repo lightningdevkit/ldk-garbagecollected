@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -25,6 +26,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public byte[] get_node_id() {
 		byte[] ret = bindings.ChannelCounterparty_get_node_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -33,6 +35,8 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public void set_node_id(byte[] val) {
 		bindings.ChannelCounterparty_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public InitFeatures get_features() {
 		long ret = bindings.ChannelCounterparty_get_features(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InitFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InitFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -55,6 +60,8 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public void set_features(InitFeatures val) {
 		bindings.ChannelCounterparty_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -68,6 +75,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public long get_unspendable_punishment_reserve() {
 		long ret = bindings.ChannelCounterparty_get_unspendable_punishment_reserve(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -82,6 +90,8 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public void set_unspendable_punishment_reserve(long val) {
 		bindings.ChannelCounterparty_set_unspendable_punishment_reserve(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -93,6 +103,7 @@ public class ChannelCounterparty extends CommonBase {
 	@Nullable
 	public CounterpartyForwardingInfo get_forwarding_info() {
 		long ret = bindings.ChannelCounterparty_get_forwarding_info(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CounterpartyForwardingInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CounterpartyForwardingInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -107,6 +118,8 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public void set_forwarding_info(@Nullable CounterpartyForwardingInfo val) {
 		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -114,6 +127,10 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public static ChannelCounterparty of(byte[] node_id_arg, InitFeatures features_arg, long unspendable_punishment_reserve_arg, CounterpartyForwardingInfo forwarding_info_arg) {
 		long ret = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : features_arg.ptr & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : forwarding_info_arg.ptr & ~1);
+		Reference.reachabilityFence(node_id_arg);
+		Reference.reachabilityFence(features_arg);
+		Reference.reachabilityFence(unspendable_punishment_reserve_arg);
+		Reference.reachabilityFence(forwarding_info_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelCounterparty(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -122,6 +139,7 @@ public class ChannelCounterparty extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ChannelCounterparty_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -130,6 +148,7 @@ public class ChannelCounterparty extends CommonBase {
 	 */
 	public ChannelCounterparty clone() {
 		long ret = bindings.ChannelCounterparty_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelCounterparty(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -107,6 +108,7 @@ public class MonitorEvent extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.MonitorEvent_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -115,6 +117,7 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public MonitorEvent clone() {
 		long ret = bindings.MonitorEvent_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -126,6 +129,7 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public static MonitorEvent htlcevent(HTLCUpdate a) {
 		long ret = bindings.MonitorEvent_htlcevent(a == null ? 0 : a.ptr & ~1);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -137,6 +141,7 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public static MonitorEvent commitment_tx_confirmed(OutPoint a) {
 		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr & ~1);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -148,6 +153,8 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public static MonitorEvent update_completed(OutPoint funding_txo, long monitor_update_id) {
 		long ret = bindings.MonitorEvent_update_completed(funding_txo == null ? 0 : funding_txo.ptr & ~1, monitor_update_id);
+		Reference.reachabilityFence(funding_txo);
+		Reference.reachabilityFence(monitor_update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -159,6 +166,7 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public static MonitorEvent update_failed(OutPoint a) {
 		long ret = bindings.MonitorEvent_update_failed(a == null ? 0 : a.ptr & ~1);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -170,6 +178,7 @@ public class MonitorEvent extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.MonitorEvent_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

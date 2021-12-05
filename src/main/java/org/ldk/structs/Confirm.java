@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -151,6 +152,10 @@ public class Confirm extends CommonBase {
 	 */
 	public void transactions_confirmed(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height) {
 		bindings.Confirm_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(header);
+		Reference.reachabilityFence(txdata);
+		Reference.reachabilityFence(height);
 	}
 
 	/**
@@ -165,6 +170,8 @@ public class Confirm extends CommonBase {
 	 */
 	public void transaction_unconfirmed(byte[] txid) {
 		bindings.Confirm_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(txid);
 	}
 
 	/**
@@ -175,6 +182,9 @@ public class Confirm extends CommonBase {
 	 */
 	public void best_block_updated(byte[] header, int height) {
 		bindings.Confirm_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(header);
+		Reference.reachabilityFence(height);
 	}
 
 	/**
@@ -194,6 +204,7 @@ public class Confirm extends CommonBase {
 	 */
 	public byte[][] get_relevant_txids() {
 		byte[][] ret = bindings.Confirm_get_relevant_txids(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

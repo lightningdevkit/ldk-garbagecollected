@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class RawDataPart extends CommonBase {
 	 */
 	public PositiveTimestamp get_timestamp() {
 		long ret = bindings.RawDataPart_get_timestamp(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PositiveTimestamp ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PositiveTimestamp(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -35,6 +37,8 @@ public class RawDataPart extends CommonBase {
 	 */
 	public void set_timestamp(PositiveTimestamp val) {
 		bindings.RawDataPart_set_timestamp(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -44,12 +48,19 @@ public class RawDataPart extends CommonBase {
 	 */
 	public boolean eq(RawDataPart b) {
 		boolean ret = bindings.RawDataPart_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof RawDataPart)) return false;
+		return this.eq((RawDataPart)o);
+	}
 	long clone_ptr() {
 		long ret = bindings.RawDataPart_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -58,6 +69,7 @@ public class RawDataPart extends CommonBase {
 	 */
 	public RawDataPart clone() {
 		long ret = bindings.RawDataPart_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RawDataPart ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RawDataPart(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -27,6 +28,7 @@ public class MessageHandler extends CommonBase {
 	 */
 	public ChannelMessageHandler get_chan_handler() {
 		long ret = bindings.MessageHandler_get_chan_handler(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelMessageHandler ret_hu_conv = new ChannelMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -41,6 +43,8 @@ public class MessageHandler extends CommonBase {
 	 */
 	public void set_chan_handler(ChannelMessageHandler val) {
 		bindings.MessageHandler_set_chan_handler(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 		this.ptrs_to.add(val);
 	}
 
@@ -53,6 +57,7 @@ public class MessageHandler extends CommonBase {
 	 */
 	public RoutingMessageHandler get_route_handler() {
 		long ret = bindings.MessageHandler_get_route_handler(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -68,6 +73,8 @@ public class MessageHandler extends CommonBase {
 	 */
 	public void set_route_handler(RoutingMessageHandler val) {
 		bindings.MessageHandler_set_route_handler(this.ptr, val == null ? 0 : val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 		this.ptrs_to.add(val);
 	}
 
@@ -76,6 +83,8 @@ public class MessageHandler extends CommonBase {
 	 */
 	public static MessageHandler of(ChannelMessageHandler chan_handler_arg, RoutingMessageHandler route_handler_arg) {
 		long ret = bindings.MessageHandler_new(chan_handler_arg == null ? 0 : chan_handler_arg.ptr, route_handler_arg == null ? 0 : route_handler_arg.ptr);
+		Reference.reachabilityFence(chan_handler_arg);
+		Reference.reachabilityFence(route_handler_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new MessageHandler(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

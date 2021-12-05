@@ -37,8 +37,8 @@ public class Result_ScoringParametersDecodeErrorZ extends CommonBase {
 		}
 	}
 
-	public static Result_ScoringParametersDecodeErrorZ constructor_ok(number o_base_penalty_msat_arg, number o_failure_penalty_msat_arg, number o_failure_penalty_half_life_arg) {
-		number ret = bindings.CResult_ScoringParametersDecodeErrorZ_ok(bindings.ScoringParameters_new(o_base_penalty_msat_arg, o_failure_penalty_msat_arg, o_failure_penalty_half_life_arg));
+	public static Result_ScoringParametersDecodeErrorZ constructor_ok(number o_base_penalty_msat_arg, number o_failure_penalty_msat_arg, number o_overuse_penalty_start_1024th_arg, number o_overuse_penalty_msat_per_1024th_arg, number o_failure_penalty_half_life_arg) {
+		number ret = bindings.CResult_ScoringParametersDecodeErrorZ_ok(bindings.ScoringParameters_new(o_base_penalty_msat_arg, o_failure_penalty_msat_arg, o_overuse_penalty_start_1024th_arg, o_overuse_penalty_msat_per_1024th_arg, o_failure_penalty_half_life_arg));
 		Result_ScoringParametersDecodeErrorZ ret_hu_conv = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

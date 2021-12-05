@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -38,6 +39,11 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public static ChainMonitor of(Option_FilterZ chain_source, BroadcasterInterface broadcaster, Logger logger, FeeEstimator feeest, Persist persister) {
 		long ret = bindings.ChainMonitor_new(chain_source.ptr, broadcaster == null ? 0 : broadcaster.ptr, logger == null ? 0 : logger.ptr, feeest == null ? 0 : feeest.ptr, persister == null ? 0 : persister.ptr);
+		Reference.reachabilityFence(chain_source);
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(logger);
+		Reference.reachabilityFence(feeest);
+		Reference.reachabilityFence(persister);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChainMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChainMonitor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -62,6 +68,8 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Balance[] get_claimable_balances(ChannelDetails[] ignored_channels) {
 		long[] ret = bindings.ChainMonitor_get_claimable_balances(this.ptr, ignored_channels != null ? Arrays.stream(ignored_channels).mapToLong(ignored_channels_conv_16 -> ignored_channels_conv_16 == null ? 0 : ignored_channels_conv_16.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(ignored_channels);
 		Balance[] ret_conv_9_arr = new Balance[ret.length];
 		for (int j = 0; j < ret.length; j++) {
 			long ret_conv_9 = ret[j];
@@ -81,6 +89,8 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Result_LockedChannelMonitorNoneZ get_monitor(OutPoint funding_txo) {
 		long ret = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(funding_txo);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_LockedChannelMonitorNoneZ ret_hu_conv = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -94,6 +104,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public OutPoint[] list_monitors() {
 		long[] ret = bindings.ChainMonitor_list_monitors(this.ptr);
+		Reference.reachabilityFence(this);
 		OutPoint[] ret_conv_10_arr = new OutPoint[ret.length];
 		for (int k = 0; k < ret.length; k++) {
 			long ret_conv_10 = ret[k];
@@ -121,6 +132,9 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Result_NoneAPIErrorZ channel_monitor_updated(OutPoint funding_txo, MonitorUpdateId completed_update_id) {
 		long ret = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : funding_txo.ptr & ~1, completed_update_id == null ? 0 : completed_update_id.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(funding_txo);
+		Reference.reachabilityFence(completed_update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -132,6 +146,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Listen as_Listen() {
 		long ret = bindings.ChainMonitor_as_Listen(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Listen ret_hu_conv = new Listen(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -144,6 +159,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Confirm as_Confirm() {
 		long ret = bindings.ChainMonitor_as_Confirm(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Confirm ret_hu_conv = new Confirm(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -156,6 +172,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public Watch as_Watch() {
 		long ret = bindings.ChainMonitor_as_Watch(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Watch ret_hu_conv = new Watch(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -168,6 +185,7 @@ public class ChainMonitor extends CommonBase {
 	 */
 	public EventsProvider as_EventsProvider() {
 		long ret = bindings.ChainMonitor_as_EventsProvider(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		EventsProvider ret_hu_conv = new EventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);

@@ -1,6 +1,10 @@
 
             export enum Level {
                 /**
+ * Designates extremely verbose information, including gossip-induced messages
+ */
+LDKLevel_Gossip,
+				/**
  * Designates very low priority, often extremely verbose, information
  */
 LDKLevel_Trace,

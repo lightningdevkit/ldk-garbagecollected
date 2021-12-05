@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -28,6 +29,7 @@ public class RawInvoice extends CommonBase {
 	 */
 	public RawDataPart get_data() {
 		long ret = bindings.RawInvoice_get_data(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RawDataPart ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RawDataPart(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -39,6 +41,8 @@ public class RawInvoice extends CommonBase {
 	 */
 	public void set_data(RawDataPart val) {
 		bindings.RawInvoice_set_data(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -48,12 +52,19 @@ public class RawInvoice extends CommonBase {
 	 */
 	public boolean eq(RawInvoice b) {
 		boolean ret = bindings.RawInvoice_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof RawInvoice)) return false;
+		return this.eq((RawInvoice)o);
+	}
 	long clone_ptr() {
 		long ret = bindings.RawInvoice_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,6 +73,7 @@ public class RawInvoice extends CommonBase {
 	 */
 	public RawInvoice clone() {
 		long ret = bindings.RawInvoice_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RawInvoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RawInvoice(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -73,6 +85,7 @@ public class RawInvoice extends CommonBase {
 	 */
 	public byte[] hash() {
 		byte[] ret = bindings.RawInvoice_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -82,6 +95,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public Sha256 payment_hash() {
 		long ret = bindings.RawInvoice_payment_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Sha256 ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Sha256(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -94,6 +108,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public Description description() {
 		long ret = bindings.RawInvoice_description(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Description ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Description(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -106,6 +121,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public PayeePubKey payee_pub_key() {
 		long ret = bindings.RawInvoice_payee_pub_key(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PayeePubKey ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PayeePubKey(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -118,6 +134,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public Sha256 description_hash() {
 		long ret = bindings.RawInvoice_description_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Sha256 ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Sha256(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -130,6 +147,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public ExpiryTime expiry_time() {
 		long ret = bindings.RawInvoice_expiry_time(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ExpiryTime(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -142,6 +160,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public MinFinalCltvExpiry min_final_cltv_expiry() {
 		long ret = bindings.RawInvoice_min_final_cltv_expiry(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MinFinalCltvExpiry ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new MinFinalCltvExpiry(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -154,6 +173,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public byte[] payment_secret() {
 		byte[] ret = bindings.RawInvoice_payment_secret(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -163,6 +183,7 @@ public class RawInvoice extends CommonBase {
 	@Nullable
 	public InvoiceFeatures features() {
 		long ret = bindings.RawInvoice_features(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InvoiceFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -171,6 +192,7 @@ public class RawInvoice extends CommonBase {
 
 	public PrivateRoute[] private_routes() {
 		long[] ret = bindings.RawInvoice_private_routes(this.ptr);
+		Reference.reachabilityFence(this);
 		PrivateRoute[] ret_conv_14_arr = new PrivateRoute[ret.length];
 		for (int o = 0; o < ret.length; o++) {
 			long ret_conv_14 = ret[o];
@@ -183,6 +205,7 @@ public class RawInvoice extends CommonBase {
 
 	public Option_u64Z amount_pico_btc() {
 		long ret = bindings.RawInvoice_amount_pico_btc(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -191,6 +214,7 @@ public class RawInvoice extends CommonBase {
 
 	public Currency currency() {
 		Currency ret = bindings.RawInvoice_currency(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

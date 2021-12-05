@@ -4,8 +4,8 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
-
 
 /**
  * A scorer that is accessed under a lock.
@@ -19,31 +19,47 @@ import javax.annotation.Nullable;
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class LockableScore extends CommonBase {
-	LockableScore(Object _dummy, long ptr) { super(ptr); }
+	final bindings.LDKLockableScore bindings_instance;
+	LockableScore(Object _dummy, long ptr) { super(ptr); bindings_instance = null; }
+	private LockableScore(bindings.LDKLockableScore arg) {
+		super(bindings.LDKLockableScore_new(arg));
+		this.ptrs_to.add(arg);
+		this.bindings_instance = arg;
+	}
 	@Override @SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
-		super.finalize();
-		if (ptr != 0) { bindings.LockableScore_free(ptr); }
+		if (ptr != 0) { bindings.LockableScore_free(ptr); } super.finalize();
 	}
 
+	public static interface LockableScoreInterface {
+		/**
+		 * Returns the locked scorer.
+		 */
+		Score lock();
+	}
+	private static class LDKLockableScoreHolder { LockableScore held; }
+	public static LockableScore new_impl(LockableScoreInterface arg) {
+		final LDKLockableScoreHolder impl_holder = new LDKLockableScoreHolder();
+		impl_holder.held = new LockableScore(new bindings.LDKLockableScore() {
+			@Override public long lock() {
+				Score ret = arg.lock();
+				long result = ret == null ? 0 : ret.ptr;
+				impl_holder.held.ptrs_to.add(ret);
+				return result;
+			}
+		});
+		return impl_holder.held;
+	}
 	/**
-	 * Constructs a new LockableScore from a Score
+	 * Returns the locked scorer.
 	 */
-	public static LockableScore of(Score score) {
-		long ret = bindings.LockableScore_new(score == null ? 0 : score.ptr);
+	public Score lock() {
+		long ret = bindings.LockableScore_lock(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		LockableScore ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new LockableScore(null, ret); }
-		ret_hu_conv.ptrs_to.add(ret_hu_conv);
-		ret_hu_conv.ptrs_to.add(score);
+		Score ret_hu_conv = new Score(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Serialize the LockableScore object into a byte array which can be read by LockableScore_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.LockableScore_write(this.ptr);
-		return ret;
 	}
 
 }

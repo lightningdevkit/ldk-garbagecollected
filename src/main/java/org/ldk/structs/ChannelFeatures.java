@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -26,12 +27,19 @@ public class ChannelFeatures extends CommonBase {
 	 */
 	public boolean eq(ChannelFeatures b) {
 		boolean ret = bindings.ChannelFeatures_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof ChannelFeatures)) return false;
+		return this.eq((ChannelFeatures)o);
+	}
 	long clone_ptr() {
 		long ret = bindings.ChannelFeatures_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -40,6 +48,7 @@ public class ChannelFeatures extends CommonBase {
 	 */
 	public ChannelFeatures clone() {
 		long ret = bindings.ChannelFeatures_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -74,6 +83,7 @@ public class ChannelFeatures extends CommonBase {
 	 */
 	public boolean requires_unknown_bits() {
 		boolean ret = bindings.ChannelFeatures_requires_unknown_bits(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -82,6 +92,7 @@ public class ChannelFeatures extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ChannelFeatures_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -90,6 +101,7 @@ public class ChannelFeatures extends CommonBase {
 	 */
 	public static Result_ChannelFeaturesDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelFeatures_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelFeaturesDecodeErrorZ ret_hu_conv = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -22,6 +22,9 @@ export default class Event extends CommonBase {
 		if (raw_val instanceof bindings.LDKEvent.PaymentPathFailed) {
 			return new PaymentPathFailed(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKEvent.PaymentFailed) {
+			return new PaymentFailed(this.ptr, raw_val);
+		}
 		if (raw_val instanceof bindings.LDKEvent.PendingHTLCsForwardable) {
 			return new PendingHTLCsForwardable(this.ptr, raw_val);
 		}
@@ -36,6 +39,9 @@ export default class Event extends CommonBase {
 		}
 		if (raw_val instanceof bindings.LDKEvent.DiscardFunding) {
 			return new DiscardFunding(this.ptr, raw_val);
+		}
+		if (raw_val instanceof bindings.LDKEvent.PaymentPathSuccessful) {
+			return new PaymentPathSuccessful(this.ptr, raw_val);
 		}
 		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
@@ -122,6 +128,15 @@ export class PaymentPathFailed extends Event {
 		this.retry = retry_hu_conv;
 	}
 }
+export class PaymentFailed extends Event {
+	public payment_id: Uint8Array;
+	public payment_hash: Uint8Array;
+	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentFailed) {
+		super(null, ptr);
+		this.payment_id = obj.payment_id;
+		this.payment_hash = obj.payment_hash;
+	}
+}
 export class PendingHTLCsForwardable extends Event {
 	public time_forwardable: number;
 	private constructor(ptr: number, obj: bindings.LDKEvent.PendingHTLCsForwardable) {
@@ -179,6 +194,25 @@ export class DiscardFunding extends Event {
 		this.transaction = obj.transaction;
 	}
 }
+export class PaymentPathSuccessful extends Event {
+	public payment_id: Uint8Array;
+	public payment_hash: Uint8Array;
+	public path: RouteHop[];
+	private constructor(ptr: number, obj: bindings.LDKEvent.PaymentPathSuccessful) {
+		super(null, ptr);
+		this.payment_id = obj.payment_id;
+		this.payment_hash = obj.payment_hash;
+		const path: number[] = obj.path;
+		RouteHop[] path_conv_10_arr = new RouteHop[path.length];
+			for (int k = 0; k < path.length; k++) {
+				number path_conv_10 = path[k];
+				const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
+				path_conv_10_hu_conv.ptrs_to.add(this);
+				path_conv_10_arr[k] = path_conv_10_hu_conv;
+			}
+		this.path = path_conv_10_arr;
+	}
+}
 	public number clone_ptr() {
 		number ret = bindings.Event_clone_ptr(this.ptr);
 		return ret;
@@ -219,6 +253,13 @@ export class DiscardFunding extends Event {
 		return ret_hu_conv;
 	}
 
+	public static Event constructor_payment_failed(Uint8Array payment_id, Uint8Array payment_hash) {
+		number ret = bindings.Event_payment_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32));
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
 	public static Event constructor_pending_htlcs_forwardable(number time_forwardable) {
 		number ret = bindings.Event_pending_htlcs_forwardable(time_forwardable);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
@@ -249,6 +290,13 @@ export class DiscardFunding extends Event {
 
 	public static Event constructor_discard_funding(Uint8Array channel_id, Uint8Array transaction) {
 		number ret = bindings.Event_discard_funding(InternalUtils.check_arr_len(channel_id, 32), transaction);
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static Event constructor_payment_path_successful(Uint8Array payment_id, Uint8Array payment_hash, RouteHop[] path) {
+		number ret = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).map(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray(number[]::new) : null);
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

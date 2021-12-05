@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -53,6 +54,9 @@ public class CustomMessageReader extends CommonBase {
 	 */
 	public Result_COption_TypeZDecodeErrorZ read(short message_type, byte[] buffer) {
 		long ret = bindings.CustomMessageReader_read(this.ptr, message_type, buffer);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(message_type);
+		Reference.reachabilityFence(buffer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_COption_TypeZDecodeErrorZ ret_hu_conv = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

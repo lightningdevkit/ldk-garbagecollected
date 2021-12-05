@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -28,6 +29,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelPublicKeys get_holder_pubkeys() {
 		long ret = bindings.ChannelTransactionParameters_get_holder_pubkeys(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelPublicKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -39,6 +41,8 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_holder_pubkeys(ChannelPublicKeys val) {
 		bindings.ChannelTransactionParameters_set_holder_pubkeys(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -46,6 +50,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public short get_holder_selected_contest_delay() {
 		short ret = bindings.ChannelTransactionParameters_get_holder_selected_contest_delay(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -54,6 +59,8 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_holder_selected_contest_delay(short val) {
 		bindings.ChannelTransactionParameters_set_holder_selected_contest_delay(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -62,6 +69,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public boolean get_is_outbound_from_holder() {
 		boolean ret = bindings.ChannelTransactionParameters_get_is_outbound_from_holder(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -71,6 +79,8 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_is_outbound_from_holder(boolean val) {
 		bindings.ChannelTransactionParameters_set_is_outbound_from_holder(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -82,6 +92,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	@Nullable
 	public CounterpartyChannelTransactionParameters get_counterparty_parameters() {
 		long ret = bindings.ChannelTransactionParameters_get_counterparty_parameters(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CounterpartyChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -96,6 +107,8 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_counterparty_parameters(@Nullable CounterpartyChannelTransactionParameters val) {
 		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -106,6 +119,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	@Nullable
 	public OutPoint get_funding_outpoint() {
 		long ret = bindings.ChannelTransactionParameters_get_funding_outpoint(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new OutPoint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -119,13 +133,39 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_funding_outpoint(@Nullable OutPoint val) {
 		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * Are anchors used for this channel.  Boolean is serialization backwards-compatible
+	 */
+	public COption_NoneZ get_opt_anchors() {
+		COption_NoneZ ret = bindings.ChannelTransactionParameters_get_opt_anchors(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Are anchors used for this channel.  Boolean is serialization backwards-compatible
+	 */
+	public void set_opt_anchors(org.ldk.enums.COption_NoneZ val) {
+		bindings.ChannelTransactionParameters_set_opt_anchors(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
 	 * Constructs a new ChannelTransactionParameters given each field
 	 */
-	public static ChannelTransactionParameters of(ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg) {
-		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr & ~1, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr & ~1);
+	public static ChannelTransactionParameters of(ChannelPublicKeys holder_pubkeys_arg, short holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg, org.ldk.enums.COption_NoneZ opt_anchors_arg) {
+		long ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr & ~1, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr & ~1, opt_anchors_arg);
+		Reference.reachabilityFence(holder_pubkeys_arg);
+		Reference.reachabilityFence(holder_selected_contest_delay_arg);
+		Reference.reachabilityFence(is_outbound_from_holder_arg);
+		Reference.reachabilityFence(counterparty_parameters_arg);
+		Reference.reachabilityFence(funding_outpoint_arg);
+		Reference.reachabilityFence(opt_anchors_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -134,6 +174,7 @@ public class ChannelTransactionParameters extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ChannelTransactionParameters_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -142,6 +183,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelTransactionParameters clone() {
 		long ret = bindings.ChannelTransactionParameters_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -153,6 +195,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public boolean is_populated() {
 		boolean ret = bindings.ChannelTransactionParameters_is_populated(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -164,6 +207,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public DirectedChannelTransactionParameters as_holder_broadcastable() {
 		long ret = bindings.ChannelTransactionParameters_as_holder_broadcastable(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		DirectedChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DirectedChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -178,6 +222,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public DirectedChannelTransactionParameters as_counterparty_broadcastable() {
 		long ret = bindings.ChannelTransactionParameters_as_counterparty_broadcastable(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		DirectedChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DirectedChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -189,6 +234,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ChannelTransactionParameters_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -197,6 +243,7 @@ public class ChannelTransactionParameters extends CommonBase {
 	 */
 	public static Result_ChannelTransactionParametersDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelTransactionParameters_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

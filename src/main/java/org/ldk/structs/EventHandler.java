@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -49,6 +50,8 @@ public class EventHandler extends CommonBase {
 	 */
 	public void handle_event(Event event) {
 		bindings.EventHandler_handle_event(this.ptr, event == null ? 0 : event.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(event);
 	}
 
 }

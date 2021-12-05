@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -21,6 +22,7 @@ public class InvoiceSignature extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.InvoiceSignature_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -29,6 +31,7 @@ public class InvoiceSignature extends CommonBase {
 	 */
 	public InvoiceSignature clone() {
 		long ret = bindings.InvoiceSignature_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InvoiceSignature ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceSignature(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -42,8 +45,14 @@ public class InvoiceSignature extends CommonBase {
 	 */
 	public boolean eq(InvoiceSignature b) {
 		boolean ret = bindings.InvoiceSignature_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof InvoiceSignature)) return false;
+		return this.eq((InvoiceSignature)o);
+	}
 }

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -50,6 +51,7 @@ public class SignOrCreationError extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.SignOrCreationError_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -58,6 +60,7 @@ public class SignOrCreationError extends CommonBase {
 	 */
 	public SignOrCreationError clone() {
 		long ret = bindings.SignOrCreationError_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -80,6 +83,7 @@ public class SignOrCreationError extends CommonBase {
 	 */
 	public static SignOrCreationError creation_error(org.ldk.enums.CreationError a) {
 		long ret = bindings.SignOrCreationError_creation_error(a);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -92,14 +96,21 @@ public class SignOrCreationError extends CommonBase {
 	 */
 	public boolean eq(SignOrCreationError b) {
 		boolean ret = bindings.SignOrCreationError_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof SignOrCreationError)) return false;
+		return this.eq((SignOrCreationError)o);
+	}
 	/**
 	 * Get the string representation of a SignOrCreationError object
 	 */
 	public String to_str() {
 		String ret = bindings.SignOrCreationError_to_str(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

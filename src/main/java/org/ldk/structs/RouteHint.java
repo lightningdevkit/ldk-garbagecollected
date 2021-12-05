@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -21,6 +22,7 @@ public class RouteHint extends CommonBase {
 
 	public RouteHintHop[] get_a() {
 		long[] ret = bindings.RouteHint_get_a(this.ptr);
+		Reference.reachabilityFence(this);
 		RouteHintHop[] ret_conv_14_arr = new RouteHintHop[ret.length];
 		for (int o = 0; o < ret.length; o++) {
 			long ret_conv_14 = ret[o];
@@ -33,6 +35,8 @@ public class RouteHint extends CommonBase {
 
 	public void set_a(RouteHintHop[] val) {
 		bindings.RouteHint_set_a(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_14 -> val_conv_14 == null ? 0 : val_conv_14.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -40,6 +44,7 @@ public class RouteHint extends CommonBase {
 	 */
 	public static RouteHint of(RouteHintHop[] a_arg) {
 		long ret = bindings.RouteHint_new(a_arg != null ? Arrays.stream(a_arg).mapToLong(a_arg_conv_14 -> a_arg_conv_14 == null ? 0 : a_arg_conv_14.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(a_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHint(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -48,6 +53,7 @@ public class RouteHint extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.RouteHint_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -56,6 +62,7 @@ public class RouteHint extends CommonBase {
 	 */
 	public RouteHint clone() {
 		long ret = bindings.RouteHint_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RouteHint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RouteHint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -67,9 +74,13 @@ public class RouteHint extends CommonBase {
 	 */
 	public long hash() {
 		long ret = bindings.RouteHint_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 	/**
 	 * Checks if two RouteHints contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
@@ -77,15 +88,22 @@ public class RouteHint extends CommonBase {
 	 */
 	public boolean eq(RouteHint b) {
 		boolean ret = bindings.RouteHint_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof RouteHint)) return false;
+		return this.eq((RouteHint)o);
+	}
 	/**
 	 * Serialize the RouteHint object into a byte array which can be read by RouteHint_read
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.RouteHint_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -94,6 +112,7 @@ public class RouteHint extends CommonBase {
 	 */
 	public static Result_RouteHintDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.RouteHint_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteHintDecodeErrorZ ret_hu_conv = Result_RouteHintDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -125,6 +126,7 @@ public class Balance extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.Balance_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -133,6 +135,7 @@ public class Balance extends CommonBase {
 	 */
 	public Balance clone() {
 		long ret = bindings.Balance_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -144,6 +147,7 @@ public class Balance extends CommonBase {
 	 */
 	public static Balance claimable_on_channel_close(long claimable_amount_satoshis) {
 		long ret = bindings.Balance_claimable_on_channel_close(claimable_amount_satoshis);
+		Reference.reachabilityFence(claimable_amount_satoshis);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -155,6 +159,8 @@ public class Balance extends CommonBase {
 	 */
 	public static Balance claimable_awaiting_confirmations(long claimable_amount_satoshis, int confirmation_height) {
 		long ret = bindings.Balance_claimable_awaiting_confirmations(claimable_amount_satoshis, confirmation_height);
+		Reference.reachabilityFence(claimable_amount_satoshis);
+		Reference.reachabilityFence(confirmation_height);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -166,6 +172,8 @@ public class Balance extends CommonBase {
 	 */
 	public static Balance contentious_claimable(long claimable_amount_satoshis, int timeout_height) {
 		long ret = bindings.Balance_contentious_claimable(claimable_amount_satoshis, timeout_height);
+		Reference.reachabilityFence(claimable_amount_satoshis);
+		Reference.reachabilityFence(timeout_height);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -177,6 +185,8 @@ public class Balance extends CommonBase {
 	 */
 	public static Balance maybe_claimable_htlcawaiting_timeout(long claimable_amount_satoshis, int claimable_height) {
 		long ret = bindings.Balance_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis, claimable_height);
+		Reference.reachabilityFence(claimable_amount_satoshis);
+		Reference.reachabilityFence(claimable_height);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -189,7 +199,13 @@ public class Balance extends CommonBase {
 	 */
 	public boolean eq(Balance b) {
 		boolean ret = bindings.Balance_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof Balance)) return false;
+		return this.eq((Balance)o);
+	}
 }
