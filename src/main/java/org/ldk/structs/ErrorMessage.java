@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.ErrorMessage_get_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public void set_channel_id(byte[] val) {
 		bindings.ErrorMessage_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public String get_data() {
 		String ret = bindings.ErrorMessage_get_data(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -53,6 +58,8 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public void set_data(java.lang.String val) {
 		bindings.ErrorMessage_set_data(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -60,6 +67,8 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public static ErrorMessage of(byte[] channel_id_arg, java.lang.String data_arg) {
 		long ret = bindings.ErrorMessage_new(InternalUtils.check_arr_len(channel_id_arg, 32), data_arg);
+		Reference.reachabilityFence(channel_id_arg);
+		Reference.reachabilityFence(data_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ErrorMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ErrorMessage(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -68,6 +77,7 @@ public class ErrorMessage extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ErrorMessage_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -76,6 +86,7 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public ErrorMessage clone() {
 		long ret = bindings.ErrorMessage_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ErrorMessage ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ErrorMessage(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -87,6 +98,7 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ErrorMessage_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -95,6 +107,7 @@ public class ErrorMessage extends CommonBase {
 	 */
 	public static Result_ErrorMessageDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ErrorMessage_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ErrorMessageDecodeErrorZ ret_hu_conv = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

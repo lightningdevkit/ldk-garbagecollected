@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -27,6 +28,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.ChannelDetails_get_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -38,6 +40,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_channel_id(byte[] val) {
 		bindings.ChannelDetails_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -45,6 +49,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public ChannelCounterparty get_counterparty() {
 		long ret = bindings.ChannelDetails_get_counterparty(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelCounterparty ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelCounterparty(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -56,6 +61,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_counterparty(ChannelCounterparty val) {
 		bindings.ChannelDetails_set_counterparty(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -70,6 +77,7 @@ public class ChannelDetails extends CommonBase {
 	@Nullable
 	public OutPoint get_funding_txo() {
 		long ret = bindings.ChannelDetails_get_funding_txo(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new OutPoint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -87,6 +95,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_funding_txo(@Nullable OutPoint val) {
 		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -95,6 +105,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public Option_u64Z get_short_channel_id() {
 		long ret = bindings.ChannelDetails_get_short_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -107,6 +118,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_short_channel_id(Option_u64Z val) {
 		bindings.ChannelDetails_set_short_channel_id(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -114,6 +127,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public long get_channel_value_satoshis() {
 		long ret = bindings.ChannelDetails_get_channel_value_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -122,6 +136,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_channel_value_satoshis(long val) {
 		bindings.ChannelDetails_set_channel_value_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -137,6 +153,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public Option_u64Z get_unspendable_punishment_reserve() {
 		long ret = bindings.ChannelDetails_get_unspendable_punishment_reserve(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -156,6 +173,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_unspendable_punishment_reserve(Option_u64Z val) {
 		bindings.ChannelDetails_set_unspendable_punishment_reserve(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -163,6 +182,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public long get_user_channel_id() {
 		long ret = bindings.ChannelDetails_get_user_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -171,13 +191,53 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_user_channel_id(long val) {
 		bindings.ChannelDetails_set_user_channel_id(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * Our total balance.  This is the amount we would get if we close the channel.
+	 * This value is not exact. Due to various in-flight changes and feerate changes, exactly this
+	 * amount is not likely to be recoverable on close.
+	 * 
+	 * This does not include any pending HTLCs which are not yet fully resolved (and, thus, whose
+	 * balance is not available for inclusion in new outbound HTLCs). This further does not include
+	 * any pending outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * This does not consider any on-chain fees.
+	 * 
+	 * See also [`ChannelDetails::outbound_capacity_msat`]
+	 */
+	public long get_balance_msat() {
+		long ret = bindings.ChannelDetails_get_balance_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Our total balance.  This is the amount we would get if we close the channel.
+	 * This value is not exact. Due to various in-flight changes and feerate changes, exactly this
+	 * amount is not likely to be recoverable on close.
+	 * 
+	 * This does not include any pending HTLCs which are not yet fully resolved (and, thus, whose
+	 * balance is not available for inclusion in new outbound HTLCs). This further does not include
+	 * any pending outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * This does not consider any on-chain fees.
+	 * 
+	 * See also [`ChannelDetails::outbound_capacity_msat`]
+	 */
+	public void set_balance_msat(long val) {
+		bindings.ChannelDetails_set_balance_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
 	 * The available outbound capacity for sending HTLCs to the remote peer. This does not include
-	 * any pending HTLCs which are not yet fully resolved (and, thus, who's balance is not
+	 * any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
 	 * available for inclusion in new outbound HTLCs). This further does not include any pending
 	 * outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * 
+	 * See also [`ChannelDetails::balance_msat`]
 	 * 
 	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
 	 * conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
@@ -185,14 +245,17 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public long get_outbound_capacity_msat() {
 		long ret = bindings.ChannelDetails_get_outbound_capacity_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	/**
 	 * The available outbound capacity for sending HTLCs to the remote peer. This does not include
-	 * any pending HTLCs which are not yet fully resolved (and, thus, who's balance is not
+	 * any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
 	 * available for inclusion in new outbound HTLCs). This further does not include any pending
 	 * outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * 
+	 * See also [`ChannelDetails::balance_msat`]
 	 * 
 	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
 	 * conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
@@ -200,11 +263,13 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_outbound_capacity_msat(long val) {
 		bindings.ChannelDetails_set_outbound_capacity_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
 	 * The available inbound capacity for the remote peer to send HTLCs to us. This does not
-	 * include any pending HTLCs which are not yet fully resolved (and, thus, who's balance is not
+	 * include any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
 	 * available for inclusion in new inbound HTLCs).
 	 * Note that there are some corner cases not fully handled here, so the actual available
 	 * inbound capacity may be slightly higher than this.
@@ -215,12 +280,13 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public long get_inbound_capacity_msat() {
 		long ret = bindings.ChannelDetails_get_inbound_capacity_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	/**
 	 * The available inbound capacity for the remote peer to send HTLCs to us. This does not
-	 * include any pending HTLCs which are not yet fully resolved (and, thus, who's balance is not
+	 * include any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
 	 * available for inclusion in new inbound HTLCs).
 	 * Note that there are some corner cases not fully handled here, so the actual available
 	 * inbound capacity may be slightly higher than this.
@@ -231,6 +297,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_inbound_capacity_msat(long val) {
 		bindings.ChannelDetails_set_inbound_capacity_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -248,6 +316,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public Option_u32Z get_confirmations_required() {
 		long ret = bindings.ChannelDetails_get_confirmations_required(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -269,6 +338,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_confirmations_required(Option_u32Z val) {
 		bindings.ChannelDetails_set_confirmations_required(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -282,6 +353,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public Option_u16Z get_force_close_spend_delay() {
 		long ret = bindings.ChannelDetails_get_force_close_spend_delay(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_u16Z ret_hu_conv = Option_u16Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -299,6 +371,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_force_close_spend_delay(Option_u16Z val) {
 		bindings.ChannelDetails_set_force_close_spend_delay(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -306,6 +380,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public boolean get_is_outbound() {
 		boolean ret = bindings.ChannelDetails_get_is_outbound(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -314,6 +389,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_is_outbound(boolean val) {
 		bindings.ChannelDetails_set_is_outbound(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -327,6 +404,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public boolean get_is_funding_locked() {
 		boolean ret = bindings.ChannelDetails_get_is_funding_locked(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -341,6 +419,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_is_funding_locked(boolean val) {
 		bindings.ChannelDetails_set_is_funding_locked(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -351,6 +431,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public boolean get_is_usable() {
 		boolean ret = bindings.ChannelDetails_get_is_usable(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -362,6 +443,8 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_is_usable(boolean val) {
 		bindings.ChannelDetails_set_is_usable(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -369,6 +452,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public boolean get_is_public() {
 		boolean ret = bindings.ChannelDetails_get_is_public(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -377,13 +461,31 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public void set_is_public(boolean val) {
 		bindings.ChannelDetails_set_is_public(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
 	 * Constructs a new ChannelDetails given each field
 	 */
-	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, Option_u64Z short_channel_id_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_channel_id_arg, long outbound_capacity_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_funding_locked_arg, boolean is_usable_arg, boolean is_public_arg) {
-		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+	public static ChannelDetails of(byte[] channel_id_arg, ChannelCounterparty counterparty_arg, OutPoint funding_txo_arg, Option_u64Z short_channel_id_arg, long channel_value_satoshis_arg, Option_u64Z unspendable_punishment_reserve_arg, long user_channel_id_arg, long balance_msat_arg, long outbound_capacity_msat_arg, long inbound_capacity_msat_arg, Option_u32Z confirmations_required_arg, Option_u16Z force_close_spend_delay_arg, boolean is_outbound_arg, boolean is_funding_locked_arg, boolean is_usable_arg, boolean is_public_arg) {
+		long ret = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : counterparty_arg.ptr & ~1, funding_txo_arg == null ? 0 : funding_txo_arg.ptr & ~1, short_channel_id_arg.ptr, channel_value_satoshis_arg, unspendable_punishment_reserve_arg.ptr, user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, confirmations_required_arg.ptr, force_close_spend_delay_arg.ptr, is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+		Reference.reachabilityFence(channel_id_arg);
+		Reference.reachabilityFence(counterparty_arg);
+		Reference.reachabilityFence(funding_txo_arg);
+		Reference.reachabilityFence(short_channel_id_arg);
+		Reference.reachabilityFence(channel_value_satoshis_arg);
+		Reference.reachabilityFence(unspendable_punishment_reserve_arg);
+		Reference.reachabilityFence(user_channel_id_arg);
+		Reference.reachabilityFence(balance_msat_arg);
+		Reference.reachabilityFence(outbound_capacity_msat_arg);
+		Reference.reachabilityFence(inbound_capacity_msat_arg);
+		Reference.reachabilityFence(confirmations_required_arg);
+		Reference.reachabilityFence(force_close_spend_delay_arg);
+		Reference.reachabilityFence(is_outbound_arg);
+		Reference.reachabilityFence(is_funding_locked_arg);
+		Reference.reachabilityFence(is_usable_arg);
+		Reference.reachabilityFence(is_public_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelDetails ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelDetails(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -392,6 +494,7 @@ public class ChannelDetails extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ChannelDetails_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -400,6 +503,7 @@ public class ChannelDetails extends CommonBase {
 	 */
 	public ChannelDetails clone() {
 		long ret = bindings.ChannelDetails_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelDetails ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelDetails(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);

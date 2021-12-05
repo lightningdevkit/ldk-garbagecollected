@@ -49,4 +49,9 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public boolean opt_anchors() {
+		boolean ret = bindings.DirectedChannelTransactionParameters_opt_anchors(this.ptr);
+		return ret;
+	}
+
 }

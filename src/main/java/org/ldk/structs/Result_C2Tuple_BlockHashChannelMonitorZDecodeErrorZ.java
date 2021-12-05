@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonBase {
@@ -46,6 +47,7 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 	 */
 	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ok(TwoTuple_BlockHashChannelMonitorZ o) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(o != null ? o.ptr : 0);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -56,6 +58,7 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 	 */
 	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -66,11 +69,13 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	long clone_ptr() {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -80,6 +85,7 @@ public class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 	 */
 	public Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ clone() {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

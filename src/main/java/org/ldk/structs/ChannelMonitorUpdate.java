@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -35,6 +36,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 */
 	public long get_update_id() {
 		long ret = bindings.ChannelMonitorUpdate_get_update_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -53,10 +55,13 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 */
 	public void set_update_id(long val) {
 		bindings.ChannelMonitorUpdate_set_update_id(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
 		long ret = bindings.ChannelMonitorUpdate_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -65,6 +70,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 */
 	public ChannelMonitorUpdate clone() {
 		long ret = bindings.ChannelMonitorUpdate_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelMonitorUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelMonitorUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -76,6 +82,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ChannelMonitorUpdate_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -84,6 +91,7 @@ public class ChannelMonitorUpdate extends CommonBase {
 	 */
 	public static Result_ChannelMonitorUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelMonitorUpdate_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelMonitorUpdateDecodeErrorZ ret_hu_conv = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

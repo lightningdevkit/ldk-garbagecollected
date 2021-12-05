@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -84,6 +85,9 @@ public class Filter extends CommonBase {
 	 */
 	public void register_tx(byte[] txid, byte[] script_pubkey) {
 		bindings.Filter_register_tx(this.ptr, InternalUtils.check_arr_len(txid, 32), script_pubkey);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(txid);
+		Reference.reachabilityFence(script_pubkey);
 	}
 
 	/**
@@ -99,6 +103,8 @@ public class Filter extends CommonBase {
 	 */
 	public Option_C2Tuple_usizeTransactionZZ register_output(WatchedOutput output) {
 		long ret = bindings.Filter_register_output(this.ptr, output == null ? 0 : output.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(output);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);

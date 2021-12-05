@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -37,6 +38,7 @@ public class IgnoringMessageHandler extends CommonBase {
 	 */
 	public MessageSendEventsProvider as_MessageSendEventsProvider() {
 		long ret = bindings.IgnoringMessageHandler_as_MessageSendEventsProvider(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -49,6 +51,7 @@ public class IgnoringMessageHandler extends CommonBase {
 	 */
 	public RoutingMessageHandler as_RoutingMessageHandler() {
 		long ret = bindings.IgnoringMessageHandler_as_RoutingMessageHandler(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -61,6 +64,7 @@ public class IgnoringMessageHandler extends CommonBase {
 	 */
 	public CustomMessageReader as_CustomMessageReader() {
 		long ret = bindings.IgnoringMessageHandler_as_CustomMessageReader(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CustomMessageReader ret_hu_conv = new CustomMessageReader(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -73,6 +77,7 @@ public class IgnoringMessageHandler extends CommonBase {
 	 */
 	public CustomMessageHandler as_CustomMessageHandler() {
 		long ret = bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CustomMessageHandler ret_hu_conv = new CustomMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);

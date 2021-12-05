@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public NodeFeatures get_features() {
 		long ret = bindings.NodeAnnouncementInfo_get_features(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -35,6 +37,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_features(NodeFeatures val) {
 		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -43,6 +47,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public int get_last_update() {
 		int ret = bindings.NodeAnnouncementInfo_get_last_update(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -52,6 +57,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_last_update(int val) {
 		bindings.NodeAnnouncementInfo_set_last_update(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -59,6 +66,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public byte[] get_rgb() {
 		byte[] ret = bindings.NodeAnnouncementInfo_get_rgb(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -67,6 +75,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_rgb(byte[] val) {
 		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, InternalUtils.check_arr_len(val, 3));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -76,6 +86,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public byte[] get_alias() {
 		byte[] ret = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -86,6 +97,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_alias(byte[] val) {
 		bindings.NodeAnnouncementInfo_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -93,6 +106,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_addresses(NetAddress[] val) {
 		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_12 -> val_conv_12.ptr).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -106,6 +121,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	@Nullable
 	public NodeAnnouncement get_announcement_message() {
 		long ret = bindings.NodeAnnouncementInfo_get_announcement_message(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -122,6 +138,8 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public void set_announcement_message(@Nullable NodeAnnouncement val) {
 		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -129,6 +147,12 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public static NodeAnnouncementInfo of(NodeFeatures features_arg, int last_update_arg, byte[] rgb_arg, byte[] alias_arg, NetAddress[] addresses_arg, NodeAnnouncement announcement_message_arg) {
 		long ret = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : features_arg.ptr & ~1, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), InternalUtils.check_arr_len(alias_arg, 32), addresses_arg != null ? Arrays.stream(addresses_arg).mapToLong(addresses_arg_conv_12 -> addresses_arg_conv_12.ptr).toArray() : null, announcement_message_arg == null ? 0 : announcement_message_arg.ptr & ~1);
+		Reference.reachabilityFence(features_arg);
+		Reference.reachabilityFence(last_update_arg);
+		Reference.reachabilityFence(rgb_arg);
+		Reference.reachabilityFence(alias_arg);
+		Reference.reachabilityFence(addresses_arg);
+		Reference.reachabilityFence(announcement_message_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeAnnouncementInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncementInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -137,6 +161,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.NodeAnnouncementInfo_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -145,6 +170,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public NodeAnnouncementInfo clone() {
 		long ret = bindings.NodeAnnouncementInfo_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NodeAnnouncementInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NodeAnnouncementInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -156,6 +182,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.NodeAnnouncementInfo_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -164,6 +191,7 @@ public class NodeAnnouncementInfo extends CommonBase {
 	 */
 	public static Result_NodeAnnouncementInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NodeAnnouncementInfo_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NodeAnnouncementInfoDecodeErrorZ ret_hu_conv = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

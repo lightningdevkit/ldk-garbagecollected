@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -28,6 +29,9 @@ public class ErrorAction extends CommonBase {
 		}
 		if (raw_val.getClass() == bindings.LDKErrorAction.IgnoreAndLog.class) {
 			return new IgnoreAndLog(ptr, (bindings.LDKErrorAction.IgnoreAndLog)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKErrorAction.IgnoreDuplicateGossip.class) {
+			return new IgnoreDuplicateGossip(ptr, (bindings.LDKErrorAction.IgnoreDuplicateGossip)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKErrorAction.SendErrorMessage.class) {
 			return new SendErrorMessage(ptr, (bindings.LDKErrorAction.SendErrorMessage)raw_val);
@@ -73,6 +77,16 @@ public class ErrorAction extends CommonBase {
 		}
 	}
 	/**
+	 * The peer provided us with a gossip message which we'd already seen. In most cases this
+	 * should be ignored, but it may result in the message being forwarded if it is a duplicate of
+	 * our own channel announcements.
+	 */
+	public final static class IgnoreDuplicateGossip extends ErrorAction {
+		private IgnoreDuplicateGossip(long ptr, bindings.LDKErrorAction.IgnoreDuplicateGossip obj) {
+			super(null, ptr);
+		}
+	}
+	/**
 	 * The peer did something incorrect. Tell them.
 	 */
 	public final static class SendErrorMessage extends ErrorAction {
@@ -90,6 +104,7 @@ public class ErrorAction extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.ErrorAction_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -98,6 +113,7 @@ public class ErrorAction extends CommonBase {
 	 */
 	public ErrorAction clone() {
 		long ret = bindings.ErrorAction_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -109,6 +125,7 @@ public class ErrorAction extends CommonBase {
 	 */
 	public static ErrorAction disconnect_peer(ErrorMessage msg) {
 		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -131,6 +148,18 @@ public class ErrorAction extends CommonBase {
 	 */
 	public static ErrorAction ignore_and_log(org.ldk.enums.Level a) {
 		long ret = bindings.ErrorAction_ignore_and_log(a);
+		Reference.reachabilityFence(a);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new IgnoreDuplicateGossip-variant ErrorAction
+	 */
+	public static ErrorAction ignore_duplicate_gossip() {
+		long ret = bindings.ErrorAction_ignore_duplicate_gossip();
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -142,6 +171,7 @@ public class ErrorAction extends CommonBase {
 	 */
 	public static ErrorAction send_error_message(ErrorMessage msg) {
 		long ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

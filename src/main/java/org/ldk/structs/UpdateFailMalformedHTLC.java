@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public void set_channel_id(byte[] val) {
 		bindings.UpdateFailMalformedHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public long get_htlc_id() {
 		long ret = bindings.UpdateFailMalformedHTLC_get_htlc_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -47,6 +52,8 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public void set_htlc_id(long val) {
 		bindings.UpdateFailMalformedHTLC_set_htlc_id(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -54,6 +61,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public short get_failure_code() {
 		short ret = bindings.UpdateFailMalformedHTLC_get_failure_code(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,10 +70,13 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public void set_failure_code(short val) {
 		bindings.UpdateFailMalformedHTLC_set_failure_code(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
 		long ret = bindings.UpdateFailMalformedHTLC_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -74,6 +85,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public UpdateFailMalformedHTLC clone() {
 		long ret = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UpdateFailMalformedHTLC ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFailMalformedHTLC(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -85,6 +97,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.UpdateFailMalformedHTLC_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -93,6 +106,7 @@ public class UpdateFailMalformedHTLC extends CommonBase {
 	 */
 	public static Result_UpdateFailMalformedHTLCDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UpdateFailMalformedHTLC_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UpdateFailMalformedHTLCDecodeErrorZ ret_hu_conv = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

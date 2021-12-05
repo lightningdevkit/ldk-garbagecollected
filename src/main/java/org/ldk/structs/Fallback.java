@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -59,6 +60,7 @@ public class Fallback extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.Fallback_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -67,6 +69,7 @@ public class Fallback extends CommonBase {
 	 */
 	public Fallback clone() {
 		long ret = bindings.Fallback_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -78,6 +81,8 @@ public class Fallback extends CommonBase {
 	 */
 	public static Fallback seg_wit_program(UInt5 version, byte[] program) {
 		long ret = bindings.Fallback_seg_wit_program(version.getVal(), program);
+		Reference.reachabilityFence(version);
+		Reference.reachabilityFence(program);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -89,6 +94,7 @@ public class Fallback extends CommonBase {
 	 */
 	public static Fallback pub_key_hash(byte[] a) {
 		long ret = bindings.Fallback_pub_key_hash(InternalUtils.check_arr_len(a, 20));
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -100,6 +106,7 @@ public class Fallback extends CommonBase {
 	 */
 	public static Fallback script_hash(byte[] a) {
 		long ret = bindings.Fallback_script_hash(InternalUtils.check_arr_len(a, 20));
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -111,16 +118,26 @@ public class Fallback extends CommonBase {
 	 */
 	public long hash() {
 		long ret = bindings.Fallback_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 	/**
 	 * Checks if two Fallbacks contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
 	 */
 	public boolean eq(Fallback b) {
 		boolean ret = bindings.Fallback_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof Fallback)) return false;
+		return this.eq((Fallback)o);
+	}
 }

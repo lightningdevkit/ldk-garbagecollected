@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -75,6 +76,12 @@ public class KeysInterface extends CommonBase {
 		 * blindly signing the hash.
 		 */
 		Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage);
+		/**
+		 * Get secret key material as bytes for use in encrypting and decrypting inbound payment data.
+		 * 
+		 * This method must return the same value each time it is called.
+		 */
+		byte[] get_inbound_payment_key_material();
 	}
 	private static class LDKKeysInterfaceHolder { KeysInterface held; }
 	public static KeysInterface new_impl(KeysInterfaceInterface arg) {
@@ -115,6 +122,11 @@ public class KeysInterface extends CommonBase {
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
+			@Override public byte[] get_inbound_payment_key_material() {
+				byte[] ret = arg.get_inbound_payment_key_material();
+				byte[] result = InternalUtils.check_arr_len(ret, 32);
+				return result;
+			}
 		});
 		return impl_holder.held;
 	}
@@ -125,6 +137,7 @@ public class KeysInterface extends CommonBase {
 	 */
 	public byte[] get_node_secret() {
 		byte[] ret = bindings.KeysInterface_get_node_secret(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -136,6 +149,7 @@ public class KeysInterface extends CommonBase {
 	 */
 	public byte[] get_destination_script() {
 		byte[] ret = bindings.KeysInterface_get_destination_script(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -147,6 +161,7 @@ public class KeysInterface extends CommonBase {
 	 */
 	public ShutdownScript get_shutdown_scriptpubkey() {
 		long ret = bindings.KeysInterface_get_shutdown_scriptpubkey(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -161,6 +176,9 @@ public class KeysInterface extends CommonBase {
 	 */
 	public Sign get_channel_signer(boolean inbound, long channel_value_satoshis) {
 		long ret = bindings.KeysInterface_get_channel_signer(this.ptr, inbound, channel_value_satoshis);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(inbound);
+		Reference.reachabilityFence(channel_value_satoshis);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Sign ret_hu_conv = new Sign(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -176,6 +194,7 @@ public class KeysInterface extends CommonBase {
 	 */
 	public byte[] get_secure_random_bytes() {
 		byte[] ret = bindings.KeysInterface_get_secure_random_bytes(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -189,6 +208,8 @@ public class KeysInterface extends CommonBase {
 	 */
 	public Result_SignDecodeErrorZ read_chan_signer(byte[] reader) {
 		long ret = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(reader);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignDecodeErrorZ ret_hu_conv = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -202,9 +223,22 @@ public class KeysInterface extends CommonBase {
 	 */
 	public Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage) {
 		long ret = bindings.KeysInterface_sign_invoice(this.ptr, invoice_preimage);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(invoice_preimage);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Get secret key material as bytes for use in encrypting and decrypting inbound payment data.
+	 * 
+	 * This method must return the same value each time it is called.
+	 */
+	public byte[] get_inbound_payment_key_material() {
+		byte[] ret = bindings.KeysInterface_get_inbound_payment_key_material(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 }

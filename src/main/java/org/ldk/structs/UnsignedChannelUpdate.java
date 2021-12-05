@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_chain_hash(byte[] val) {
 		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public long get_short_channel_id() {
 		long ret = bindings.UnsignedChannelUpdate_get_short_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -47,6 +52,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_short_channel_id(long val) {
 		bindings.UnsignedChannelUpdate_set_short_channel_id(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -54,6 +61,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public int get_timestamp() {
 		int ret = bindings.UnsignedChannelUpdate_get_timestamp(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,6 +70,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_timestamp(int val) {
 		bindings.UnsignedChannelUpdate_set_timestamp(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -69,6 +79,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public byte get_flags() {
 		byte ret = bindings.UnsignedChannelUpdate_get_flags(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -77,6 +88,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_flags(byte val) {
 		bindings.UnsignedChannelUpdate_set_flags(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -91,6 +104,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public short get_cltv_expiry_delta() {
 		short ret = bindings.UnsignedChannelUpdate_get_cltv_expiry_delta(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -106,6 +120,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_cltv_expiry_delta(short val) {
 		bindings.UnsignedChannelUpdate_set_cltv_expiry_delta(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -113,6 +129,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public long get_htlc_minimum_msat() {
 		long ret = bindings.UnsignedChannelUpdate_get_htlc_minimum_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -121,6 +138,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_htlc_minimum_msat(long val) {
 		bindings.UnsignedChannelUpdate_set_htlc_minimum_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -128,6 +147,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public int get_fee_base_msat() {
 		int ret = bindings.UnsignedChannelUpdate_get_fee_base_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -136,6 +156,8 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_fee_base_msat(int val) {
 		bindings.UnsignedChannelUpdate_set_fee_base_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -143,6 +165,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public int get_fee_proportional_millionths() {
 		int ret = bindings.UnsignedChannelUpdate_get_fee_proportional_millionths(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -151,10 +174,13 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public void set_fee_proportional_millionths(int val) {
 		bindings.UnsignedChannelUpdate_set_fee_proportional_millionths(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
 		long ret = bindings.UnsignedChannelUpdate_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -163,6 +189,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public UnsignedChannelUpdate clone() {
 		long ret = bindings.UnsignedChannelUpdate_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UnsignedChannelUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UnsignedChannelUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -174,6 +201,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.UnsignedChannelUpdate_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -182,6 +210,7 @@ public class UnsignedChannelUpdate extends CommonBase {
 	 */
 	public static Result_UnsignedChannelUpdateDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UnsignedChannelUpdate_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UnsignedChannelUpdateDecodeErrorZ ret_hu_conv = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

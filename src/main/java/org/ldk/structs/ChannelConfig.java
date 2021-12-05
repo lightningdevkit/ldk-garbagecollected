@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -30,6 +31,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public int get_forwarding_fee_proportional_millionths() {
 		int ret = bindings.ChannelConfig_get_forwarding_fee_proportional_millionths(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -43,6 +45,8 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public void set_forwarding_fee_proportional_millionths(int val) {
 		bindings.ChannelConfig_set_forwarding_fee_proportional_millionths(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -61,6 +65,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public int get_forwarding_fee_base_msat() {
 		int ret = bindings.ChannelConfig_get_forwarding_fee_base_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -80,6 +85,8 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public void set_forwarding_fee_base_msat(int val) {
 		bindings.ChannelConfig_set_forwarding_fee_base_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -105,6 +112,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public short get_cltv_expiry_delta() {
 		short ret = bindings.ChannelConfig_get_cltv_expiry_delta(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -131,6 +139,8 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public void set_cltv_expiry_delta(short val) {
 		bindings.ChannelConfig_set_cltv_expiry_delta(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -148,6 +158,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public boolean get_announced_channel() {
 		boolean ret = bindings.ChannelConfig_get_announced_channel(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -166,6 +177,8 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public void set_announced_channel(boolean val) {
 		bindings.ChannelConfig_set_announced_channel(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -183,6 +196,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public boolean get_commit_upfront_shutdown_pubkey() {
 		boolean ret = bindings.ChannelConfig_get_commit_upfront_shutdown_pubkey(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -201,6 +215,8 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public void set_commit_upfront_shutdown_pubkey(boolean val) {
 		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -222,6 +238,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public long get_max_dust_htlc_exposure_msat() {
 		long ret = bindings.ChannelConfig_get_max_dust_htlc_exposure_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -244,6 +261,8 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public void set_max_dust_htlc_exposure_msat(long val) {
 		bindings.ChannelConfig_set_max_dust_htlc_exposure_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -272,6 +291,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public long get_force_close_avoidance_max_fee_satoshis() {
 		long ret = bindings.ChannelConfig_get_force_close_avoidance_max_fee_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -301,6 +321,8 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public void set_force_close_avoidance_max_fee_satoshis(long val) {
 		bindings.ChannelConfig_set_force_close_avoidance_max_fee_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -308,6 +330,13 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public static ChannelConfig of(int forwarding_fee_proportional_millionths_arg, int forwarding_fee_base_msat_arg, short cltv_expiry_delta_arg, boolean announced_channel_arg, boolean commit_upfront_shutdown_pubkey_arg, long max_dust_htlc_exposure_msat_arg, long force_close_avoidance_max_fee_satoshis_arg) {
 		long ret = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
+		Reference.reachabilityFence(forwarding_fee_proportional_millionths_arg);
+		Reference.reachabilityFence(forwarding_fee_base_msat_arg);
+		Reference.reachabilityFence(cltv_expiry_delta_arg);
+		Reference.reachabilityFence(announced_channel_arg);
+		Reference.reachabilityFence(commit_upfront_shutdown_pubkey_arg);
+		Reference.reachabilityFence(max_dust_htlc_exposure_msat_arg);
+		Reference.reachabilityFence(force_close_avoidance_max_fee_satoshis_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelConfig(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -316,6 +345,7 @@ public class ChannelConfig extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ChannelConfig_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -324,6 +354,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public ChannelConfig clone() {
 		long ret = bindings.ChannelConfig_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelConfig(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -346,6 +377,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ChannelConfig_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -354,6 +386,7 @@ public class ChannelConfig extends CommonBase {
 	 */
 	public static Result_ChannelConfigDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelConfig_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelConfigDecodeErrorZ ret_hu_conv = Result_ChannelConfigDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

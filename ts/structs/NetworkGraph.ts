@@ -93,6 +93,10 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.NetworkGraph_fail_node(this.ptr, InternalUtils.check_arr_len(_node_id, 33), is_permanent);
 	}
 
+	public void remove_stale_channels_with_time(number current_time_unix) {
+		bindings.NetworkGraph_remove_stale_channels_with_time(this.ptr, current_time_unix);
+	}
+
 	public Result_NoneLightningErrorZ update_channel(ChannelUpdate msg) {
 		number ret = bindings.NetworkGraph_update_channel(this.ptr, msg == null ? 0 : msg.ptr & ~1);
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);

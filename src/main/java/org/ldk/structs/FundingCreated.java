@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public byte[] get_temporary_channel_id() {
 		byte[] ret = bindings.FundingCreated_get_temporary_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class FundingCreated extends CommonBase {
 	 */
 	public void set_temporary_channel_id(byte[] val) {
 		bindings.FundingCreated_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public byte[] get_funding_txid() {
 		byte[] ret = bindings.FundingCreated_get_funding_txid(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -47,6 +52,8 @@ public class FundingCreated extends CommonBase {
 	 */
 	public void set_funding_txid(byte[] val) {
 		bindings.FundingCreated_set_funding_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -54,6 +61,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public short get_funding_output_index() {
 		short ret = bindings.FundingCreated_get_funding_output_index(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,6 +70,8 @@ public class FundingCreated extends CommonBase {
 	 */
 	public void set_funding_output_index(short val) {
 		bindings.FundingCreated_set_funding_output_index(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -69,6 +79,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public byte[] get_signature() {
 		byte[] ret = bindings.FundingCreated_get_signature(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -77,6 +88,8 @@ public class FundingCreated extends CommonBase {
 	 */
 	public void set_signature(byte[] val) {
 		bindings.FundingCreated_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -84,6 +97,10 @@ public class FundingCreated extends CommonBase {
 	 */
 	public static FundingCreated of(byte[] temporary_channel_id_arg, byte[] funding_txid_arg, short funding_output_index_arg, byte[] signature_arg) {
 		long ret = bindings.FundingCreated_new(InternalUtils.check_arr_len(temporary_channel_id_arg, 32), InternalUtils.check_arr_len(funding_txid_arg, 32), funding_output_index_arg, InternalUtils.check_arr_len(signature_arg, 64));
+		Reference.reachabilityFence(temporary_channel_id_arg);
+		Reference.reachabilityFence(funding_txid_arg);
+		Reference.reachabilityFence(funding_output_index_arg);
+		Reference.reachabilityFence(signature_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FundingCreated ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingCreated(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -92,6 +109,7 @@ public class FundingCreated extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.FundingCreated_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -100,6 +118,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public FundingCreated clone() {
 		long ret = bindings.FundingCreated_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FundingCreated ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingCreated(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -111,6 +130,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.FundingCreated_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -119,6 +139,7 @@ public class FundingCreated extends CommonBase {
 	 */
 	public static Result_FundingCreatedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.FundingCreated_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_FundingCreatedDecodeErrorZ ret_hu_conv = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

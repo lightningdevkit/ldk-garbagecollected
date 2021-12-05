@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -32,6 +33,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public EventHandler as_EventHandler() {
 		long ret = bindings.NetGraphMsgHandler_as_EventHandler(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		EventHandler ret_hu_conv = new EventHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -47,6 +49,9 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public static NetGraphMsgHandler of(NetworkGraph network_graph, Option_AccessZ chain_access, Logger logger) {
 		long ret = bindings.NetGraphMsgHandler_new(network_graph == null ? 0 : network_graph.ptr & ~1, chain_access.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(network_graph);
+		Reference.reachabilityFence(chain_access);
+		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetGraphMsgHandler ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new NetGraphMsgHandler(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -63,6 +68,8 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public void add_chain_access(Option_AccessZ chain_access) {
 		bindings.NetGraphMsgHandler_add_chain_access(this.ptr, chain_access.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(chain_access);
 		this.ptrs_to.add(chain_access);
 	}
 
@@ -72,6 +79,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public RoutingMessageHandler as_RoutingMessageHandler() {
 		long ret = bindings.NetGraphMsgHandler_as_RoutingMessageHandler(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingMessageHandler ret_hu_conv = new RoutingMessageHandler(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -84,6 +92,7 @@ public class NetGraphMsgHandler extends CommonBase {
 	 */
 	public MessageSendEventsProvider as_MessageSendEventsProvider() {
 		long ret = bindings.NetGraphMsgHandler_as_MessageSendEventsProvider(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MessageSendEventsProvider ret_hu_conv = new MessageSendEventsProvider(null, ret);
 		ret_hu_conv.ptrs_to.add(this);

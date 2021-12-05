@@ -22,6 +22,9 @@ export default class ClosureReason extends CommonBase {
 		if (raw_val instanceof bindings.LDKClosureReason.CommitmentTxConfirmed) {
 			return new CommitmentTxConfirmed(this.ptr, raw_val);
 		}
+		if (raw_val instanceof bindings.LDKClosureReason.FundingTimedOut) {
+			return new FundingTimedOut(this.ptr, raw_val);
+		}
 		if (raw_val instanceof bindings.LDKClosureReason.ProcessingError) {
 			return new ProcessingError(this.ptr, raw_val);
 		}
@@ -54,6 +57,11 @@ export class CooperativeClosure extends ClosureReason {
 }
 export class CommitmentTxConfirmed extends ClosureReason {
 	private constructor(ptr: number, obj: bindings.LDKClosureReason.CommitmentTxConfirmed) {
+		super(null, ptr);
+	}
+}
+export class FundingTimedOut extends ClosureReason {
+	private constructor(ptr: number, obj: bindings.LDKClosureReason.FundingTimedOut) {
 		super(null, ptr);
 	}
 }
@@ -109,6 +117,13 @@ export class OutdatedChannelManager extends ClosureReason {
 
 	public static ClosureReason constructor_commitment_tx_confirmed() {
 		number ret = bindings.ClosureReason_commitment_tx_confirmed();
+		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	public static ClosureReason constructor_funding_timed_out() {
+		number ret = bindings.ClosureReason_funding_timed_out();
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

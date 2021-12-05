@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -48,6 +49,7 @@ public class MessageSendEventsProvider extends CommonBase {
 	 */
 	public MessageSendEvent[] get_and_clear_pending_msg_events() {
 		long[] ret = bindings.MessageSendEventsProvider_get_and_clear_pending_msg_events(this.ptr);
+		Reference.reachabilityFence(this);
 		MessageSendEvent[] ret_conv_18_arr = new MessageSendEvent[ret.length];
 		for (int s = 0; s < ret.length; s++) {
 			long ret_conv_18 = ret[s];

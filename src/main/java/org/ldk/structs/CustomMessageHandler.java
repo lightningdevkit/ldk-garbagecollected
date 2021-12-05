@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -73,6 +74,9 @@ public class CustomMessageHandler extends CommonBase {
 	 */
 	public Result_NoneLightningErrorZ handle_custom_message(Type msg, byte[] sender_node_id) {
 		long ret = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : msg.ptr, InternalUtils.check_arr_len(sender_node_id, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(msg);
+		Reference.reachabilityFence(sender_node_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneLightningErrorZ ret_hu_conv = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
@@ -87,6 +91,7 @@ public class CustomMessageHandler extends CommonBase {
 	 */
 	public TwoTuple_PublicKeyTypeZ[] get_and_clear_pending_msg() {
 		long[] ret = bindings.CustomMessageHandler_get_and_clear_pending_msg(this.ptr);
+		Reference.reachabilityFence(this);
 		TwoTuple_PublicKeyTypeZ[] ret_conv_25_arr = new TwoTuple_PublicKeyTypeZ[ret.length];
 		for (int z = 0; z < ret.length; z++) {
 			long ret_conv_25 = ret[z];

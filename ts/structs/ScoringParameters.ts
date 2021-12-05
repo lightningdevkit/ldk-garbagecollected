@@ -36,6 +36,24 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ScoringParameters_set_failure_penalty_msat(this.ptr, val);
 	}
 
+	public number get_overuse_penalty_start_1024th() {
+		number ret = bindings.ScoringParameters_get_overuse_penalty_start_1024th(this.ptr);
+		return ret;
+	}
+
+	public void set_overuse_penalty_start_1024th(number val) {
+		bindings.ScoringParameters_set_overuse_penalty_start_1024th(this.ptr, val);
+	}
+
+	public number get_overuse_penalty_msat_per_1024th() {
+		number ret = bindings.ScoringParameters_get_overuse_penalty_msat_per_1024th(this.ptr);
+		return ret;
+	}
+
+	public void set_overuse_penalty_msat_per_1024th(number val) {
+		bindings.ScoringParameters_set_overuse_penalty_msat_per_1024th(this.ptr, val);
+	}
+
 	public number get_failure_penalty_half_life() {
 		number ret = bindings.ScoringParameters_get_failure_penalty_half_life(this.ptr);
 		return ret;
@@ -45,8 +63,8 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ScoringParameters_set_failure_penalty_half_life(this.ptr, val);
 	}
 
-	public static ScoringParameters constructor_new(number base_penalty_msat_arg, number failure_penalty_msat_arg, number failure_penalty_half_life_arg) {
-		number ret = bindings.ScoringParameters_new(base_penalty_msat_arg, failure_penalty_msat_arg, failure_penalty_half_life_arg);
+	public static ScoringParameters constructor_new(number base_penalty_msat_arg, number failure_penalty_msat_arg, number overuse_penalty_start_1024th_arg, number overuse_penalty_msat_per_1024th_arg, number failure_penalty_half_life_arg) {
+		number ret = bindings.ScoringParameters_new(base_penalty_msat_arg, failure_penalty_msat_arg, overuse_penalty_start_1024th_arg, overuse_penalty_msat_per_1024th_arg, failure_penalty_half_life_arg);
 		const ret_hu_conv: ScoringParameters = new ScoringParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

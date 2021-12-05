@@ -1,3 +1,13 @@
+	public static COption_NoneZ constructor_COption_NoneZ_some() {
+		COption_NoneZ ret = bindings.COption_NoneZ_some();
+		return ret;
+	}
+
+	public static COption_NoneZ constructor_COption_NoneZ_none() {
+		COption_NoneZ ret = bindings.COption_NoneZ_none();
+		return ret;
+	}
+
 	public static Result_COption_ClosureReasonZDecodeErrorZ constructor_ClosureReason_read(Uint8Array ser) {
 		number ret = bindings.ClosureReason_read(ser);
 		Result_COption_ClosureReasonZDecodeErrorZ ret_hu_conv = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
@@ -53,6 +63,16 @@
 		return ret_hu_conv;
 	}
 
+	public static number constructor_htlc_success_tx_weight(boolean opt_anchors) {
+		number ret = bindings.htlc_success_tx_weight(opt_anchors);
+		return ret;
+	}
+
+	public static number constructor_htlc_timeout_tx_weight(boolean opt_anchors) {
+		number ret = bindings.htlc_timeout_tx_weight(opt_anchors);
+		return ret;
+	}
+
 	public static Uint8Array constructor_build_commitment_secret(Uint8Array commitment_seed, number idx) {
 		Uint8Array ret = bindings.build_commitment_secret(InternalUtils.check_arr_len(commitment_seed, 32), idx);
 		return ret;
@@ -92,8 +112,8 @@
 		return ret;
 	}
 
-	public static Uint8Array constructor_get_htlc_redeemscript(HTLCOutputInCommitment htlc, TxCreationKeys keys) {
-		Uint8Array ret = bindings.get_htlc_redeemscript(htlc == null ? 0 : htlc.ptr & ~1, keys == null ? 0 : keys.ptr & ~1);
+	public static Uint8Array constructor_get_htlc_redeemscript(HTLCOutputInCommitment htlc, boolean opt_anchors, TxCreationKeys keys) {
+		Uint8Array ret = bindings.get_htlc_redeemscript(htlc == null ? 0 : htlc.ptr & ~1, opt_anchors, keys == null ? 0 : keys.ptr & ~1);
 		// this.ptrs_to.add(htlc);
 		// this.ptrs_to.add(keys);
 		return ret;
@@ -104,9 +124,14 @@
 		return ret;
 	}
 
-	public static Uint8Array constructor_build_htlc_transaction(Uint8Array commitment_txid, number feerate_per_kw, number contest_delay, HTLCOutputInCommitment htlc, Uint8Array broadcaster_delayed_payment_key, Uint8Array revocation_key) {
-		Uint8Array ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr & ~1, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
+	public static Uint8Array constructor_build_htlc_transaction(Uint8Array commitment_txid, number feerate_per_kw, number contest_delay, HTLCOutputInCommitment htlc, boolean opt_anchors, Uint8Array broadcaster_delayed_payment_key, Uint8Array revocation_key) {
+		Uint8Array ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr & ~1, opt_anchors, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
 		// this.ptrs_to.add(htlc);
+		return ret;
+	}
+
+	public static Uint8Array constructor_get_anchor_redeemscript(Uint8Array funding_pubkey) {
+		Uint8Array ret = bindings.get_anchor_redeemscript(InternalUtils.check_arr_len(funding_pubkey, 33));
 		return ret;
 	}
 

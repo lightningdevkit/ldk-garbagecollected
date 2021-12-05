@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -57,6 +58,9 @@ public class Listen extends CommonBase {
 	 */
 	public void block_connected(byte[] block, int height) {
 		bindings.Listen_block_connected(this.ptr, block, height);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(block);
+		Reference.reachabilityFence(height);
 	}
 
 	/**
@@ -64,6 +68,9 @@ public class Listen extends CommonBase {
 	 */
 	public void block_disconnected(byte[] header, int height) {
 		bindings.Listen_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(header);
+		Reference.reachabilityFence(height);
 	}
 
 }

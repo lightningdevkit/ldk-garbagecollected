@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonBase {
@@ -46,6 +47,7 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	 */
 	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ok(TwoTuple_BlockHashChannelManagerZ o) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_ok(o != null ? o.ptr : 0);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -56,6 +58,7 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	 */
 	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -66,6 +69,7 @@ public class Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ extends CommonB
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

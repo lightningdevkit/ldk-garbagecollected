@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -28,6 +29,7 @@ public class DirectedChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelPublicKeys broadcaster_pubkeys() {
 		long ret = bindings.DirectedChannelTransactionParameters_broadcaster_pubkeys(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelPublicKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -39,6 +41,7 @@ public class DirectedChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelPublicKeys countersignatory_pubkeys() {
 		long ret = bindings.DirectedChannelTransactionParameters_countersignatory_pubkeys(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelPublicKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -51,6 +54,7 @@ public class DirectedChannelTransactionParameters extends CommonBase {
 	 */
 	public short contest_delay() {
 		short ret = bindings.DirectedChannelTransactionParameters_contest_delay(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -62,6 +66,7 @@ public class DirectedChannelTransactionParameters extends CommonBase {
 	 */
 	public boolean is_outbound() {
 		boolean ret = bindings.DirectedChannelTransactionParameters_is_outbound(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -70,10 +75,20 @@ public class DirectedChannelTransactionParameters extends CommonBase {
 	 */
 	public OutPoint funding_outpoint() {
 		long ret = bindings.DirectedChannelTransactionParameters_funding_outpoint(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		OutPoint ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new OutPoint(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Whether to use anchors for this channel
+	 */
+	public boolean opt_anchors() {
+		boolean ret = bindings.DirectedChannelTransactionParameters_opt_anchors(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 }

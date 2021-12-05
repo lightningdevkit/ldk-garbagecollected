@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public byte[] get_transaction() {
 		byte[] ret = bindings.BuiltCommitmentTransaction_get_transaction(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public void set_transaction(byte[] val) {
 		bindings.BuiltCommitmentTransaction_set_transaction(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public byte[] get_txid() {
 		byte[] ret = bindings.BuiltCommitmentTransaction_get_txid(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -53,6 +58,8 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public void set_txid(byte[] val) {
 		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -60,6 +67,8 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public static BuiltCommitmentTransaction of(byte[] transaction_arg, byte[] txid_arg) {
 		long ret = bindings.BuiltCommitmentTransaction_new(transaction_arg, InternalUtils.check_arr_len(txid_arg, 32));
+		Reference.reachabilityFence(transaction_arg);
+		Reference.reachabilityFence(txid_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BuiltCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BuiltCommitmentTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -68,6 +77,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.BuiltCommitmentTransaction_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -76,6 +86,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public BuiltCommitmentTransaction clone() {
 		long ret = bindings.BuiltCommitmentTransaction_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BuiltCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BuiltCommitmentTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -87,6 +98,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.BuiltCommitmentTransaction_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -95,6 +107,7 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public static Result_BuiltCommitmentTransactionDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.BuiltCommitmentTransaction_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_BuiltCommitmentTransactionDecodeErrorZ ret_hu_conv = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -107,6 +120,9 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public byte[] get_sighash_all(byte[] funding_redeemscript, long channel_value_satoshis) {
 		byte[] ret = bindings.BuiltCommitmentTransaction_get_sighash_all(this.ptr, funding_redeemscript, channel_value_satoshis);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(funding_redeemscript);
+		Reference.reachabilityFence(channel_value_satoshis);
 		return ret;
 	}
 
@@ -116,6 +132,10 @@ public class BuiltCommitmentTransaction extends CommonBase {
 	 */
 	public byte[] sign(byte[] funding_key, byte[] funding_redeemscript, long channel_value_satoshis) {
 		byte[] ret = bindings.BuiltCommitmentTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(funding_key);
+		Reference.reachabilityFence(funding_redeemscript);
+		Reference.reachabilityFence(channel_value_satoshis);
 		return ret;
 	}
 

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -94,6 +95,7 @@ public class NetworkUpdate extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.NetworkUpdate_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -102,6 +104,7 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public NetworkUpdate clone() {
 		long ret = bindings.NetworkUpdate_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -113,6 +116,7 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public static NetworkUpdate channel_update_message(ChannelUpdate msg) {
 		long ret = bindings.NetworkUpdate_channel_update_message(msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -124,6 +128,8 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public static NetworkUpdate channel_closed(long short_channel_id, boolean is_permanent) {
 		long ret = bindings.NetworkUpdate_channel_closed(short_channel_id, is_permanent);
+		Reference.reachabilityFence(short_channel_id);
+		Reference.reachabilityFence(is_permanent);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -135,6 +141,8 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public static NetworkUpdate node_failure(byte[] node_id, boolean is_permanent) {
 		long ret = bindings.NetworkUpdate_node_failure(InternalUtils.check_arr_len(node_id, 33), is_permanent);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(is_permanent);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetworkUpdate ret_hu_conv = NetworkUpdate.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -146,6 +154,7 @@ public class NetworkUpdate extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.NetworkUpdate_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

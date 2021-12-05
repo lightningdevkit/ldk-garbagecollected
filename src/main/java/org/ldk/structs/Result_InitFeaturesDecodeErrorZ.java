@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
@@ -46,6 +47,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_InitFeaturesDecodeErrorZ ok(InitFeatures o) {
 		long ret = bindings.CResult_InitFeaturesDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InitFeaturesDecodeErrorZ ret_hu_conv = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -56,6 +58,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public static Result_InitFeaturesDecodeErrorZ err(DecodeError e) {
 		long ret = bindings.CResult_InitFeaturesDecodeErrorZ_err(e == null ? 0 : e.ptr & ~1);
+		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InitFeaturesDecodeErrorZ ret_hu_conv = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -66,6 +69,7 @@ public class Result_InitFeaturesDecodeErrorZ extends CommonBase {
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_InitFeaturesDecodeErrorZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

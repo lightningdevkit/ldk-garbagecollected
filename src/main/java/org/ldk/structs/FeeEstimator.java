@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -31,12 +32,12 @@ public class FeeEstimator extends CommonBase {
 		/**
 		 * Gets estimated satoshis of fee required per 1000 Weight-Units.
 		 * 
-		 * Must be no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later round-downs
-		 * don't put us below 1 satoshi-per-byte).
+		 * Must return a value no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later
+		 * round-downs don't put us below 1 satoshi-per-byte).
 		 * 
-		 * This translates to:
-		 * satoshis-per-byte * 250
-		 * ceil(satoshis-per-kbyte / 4)
+		 * This method can be implemented with the following unit conversions:
+		 * max(satoshis-per-byte * 250, 253)
+		 * max(satoshis-per-kbyte / 4, 253)
 		 */
 		int get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target);
 	}
@@ -54,15 +55,17 @@ public class FeeEstimator extends CommonBase {
 	/**
 	 * Gets estimated satoshis of fee required per 1000 Weight-Units.
 	 * 
-	 * Must be no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later round-downs
-	 * don't put us below 1 satoshi-per-byte).
+	 * Must return a value no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later
+	 * round-downs don't put us below 1 satoshi-per-byte).
 	 * 
-	 * This translates to:
-	 * satoshis-per-byte * 250
-	 * ceil(satoshis-per-kbyte / 4)
+	 * This method can be implemented with the following unit conversions:
+	 * max(satoshis-per-byte * 250, 253)
+	 * max(satoshis-per-kbyte / 4, 253)
 	 */
 	public int get_est_sat_per_1000_weight(org.ldk.enums.ConfirmationTarget confirmation_target) {
 		int ret = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(confirmation_target);
 		return ret;
 	}
 

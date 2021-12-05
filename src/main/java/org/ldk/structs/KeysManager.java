@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -48,6 +49,9 @@ public class KeysManager extends CommonBase {
 	 */
 	public static KeysManager of(byte[] seed, long starting_time_secs, int starting_time_nanos) {
 		long ret = bindings.KeysManager_new(InternalUtils.check_arr_len(seed, 32), starting_time_secs, starting_time_nanos);
+		Reference.reachabilityFence(seed);
+		Reference.reachabilityFence(starting_time_secs);
+		Reference.reachabilityFence(starting_time_nanos);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		KeysManager ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new KeysManager(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -63,6 +67,9 @@ public class KeysManager extends CommonBase {
 	 */
 	public InMemorySigner derive_channel_keys(long channel_value_satoshis, byte[] params) {
 		long ret = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.check_arr_len(params, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_value_satoshis);
+		Reference.reachabilityFence(params);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InMemorySigner ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InMemorySigner(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -84,6 +91,11 @@ public class KeysManager extends CommonBase {
 	 */
 	public Result_TransactionNoneZ spend_spendable_outputs(SpendableOutputDescriptor[] descriptors, TxOut[] outputs, byte[] change_destination_script, int feerate_sat_per_1000_weight) {
 		long ret = bindings.KeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? Arrays.stream(descriptors).mapToLong(descriptors_conv_27 -> descriptors_conv_27.ptr).toArray() : null, outputs != null ? Arrays.stream(outputs).mapToLong(outputs_conv_7 -> outputs_conv_7.ptr).toArray() : null, change_destination_script, feerate_sat_per_1000_weight);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(descriptors);
+		Reference.reachabilityFence(outputs);
+		Reference.reachabilityFence(change_destination_script);
+		Reference.reachabilityFence(feerate_sat_per_1000_weight);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TransactionNoneZ ret_hu_conv = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -95,6 +107,7 @@ public class KeysManager extends CommonBase {
 	 */
 	public KeysInterface as_KeysInterface() {
 		long ret = bindings.KeysManager_as_KeysInterface(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		KeysInterface ret_hu_conv = new KeysInterface(null, ret);
 		ret_hu_conv.ptrs_to.add(this);

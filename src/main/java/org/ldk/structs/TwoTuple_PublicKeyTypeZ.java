@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	 */
 	public byte[] get_a() {
 		byte[] ret = bindings.C2Tuple_PublicKeyTypeZ_get_a(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,7 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	 */
 	public Type get_b() {
 		long ret = bindings.C2Tuple_PublicKeyTypeZ_get_b(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Type ret_hu_conv = new Type(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -40,6 +43,7 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.C2Tuple_PublicKeyTypeZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -49,6 +53,7 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	 */
 	public TwoTuple_PublicKeyTypeZ clone() {
 		long ret = bindings.C2Tuple_PublicKeyTypeZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_PublicKeyTypeZ ret_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -60,6 +65,8 @@ public class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	 */
 	public static TwoTuple_PublicKeyTypeZ of(byte[] a, Type b) {
 		long ret = bindings.C2Tuple_PublicKeyTypeZ_new(InternalUtils.check_arr_len(a, 33), b == null ? 0 : b.ptr);
+		Reference.reachabilityFence(a);
+		Reference.reachabilityFence(b);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_PublicKeyTypeZ ret_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

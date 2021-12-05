@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -55,6 +56,8 @@ public class ChannelManagerPersister extends CommonBase {
 	 */
 	public Result_NoneErrorZ persist_manager(ChannelManager channel_manager) {
 		long ret = bindings.ChannelManagerPersister_persist_manager(this.ptr, channel_manager == null ? 0 : channel_manager.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_manager);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(channel_manager);

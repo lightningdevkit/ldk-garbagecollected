@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -25,6 +26,7 @@ public class Pong extends CommonBase {
 	 */
 	public short get_byteslen() {
 		short ret = bindings.Pong_get_byteslen(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -34,6 +36,8 @@ public class Pong extends CommonBase {
 	 */
 	public void set_byteslen(short val) {
 		bindings.Pong_set_byteslen(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -41,6 +45,7 @@ public class Pong extends CommonBase {
 	 */
 	public static Pong of(short byteslen_arg) {
 		long ret = bindings.Pong_new(byteslen_arg);
+		Reference.reachabilityFence(byteslen_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Pong ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Pong(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -49,6 +54,7 @@ public class Pong extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.Pong_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -57,6 +63,7 @@ public class Pong extends CommonBase {
 	 */
 	public Pong clone() {
 		long ret = bindings.Pong_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Pong ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Pong(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -68,6 +75,7 @@ public class Pong extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.Pong_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -76,6 +84,7 @@ public class Pong extends CommonBase {
 	 */
 	public static Result_PongDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.Pong_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PongDecodeErrorZ ret_hu_conv = Result_PongDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

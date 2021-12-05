@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -26,6 +27,7 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.GossipTimestampFilter_get_chain_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -34,6 +36,8 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public void set_chain_hash(byte[] val) {
 		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -41,6 +45,7 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public int get_first_timestamp() {
 		int ret = bindings.GossipTimestampFilter_get_first_timestamp(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -49,6 +54,8 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public void set_first_timestamp(int val) {
 		bindings.GossipTimestampFilter_set_first_timestamp(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -56,6 +63,7 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public int get_timestamp_range() {
 		int ret = bindings.GossipTimestampFilter_get_timestamp_range(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -64,6 +72,8 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public void set_timestamp_range(int val) {
 		bindings.GossipTimestampFilter_set_timestamp_range(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -71,6 +81,9 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public static GossipTimestampFilter of(byte[] chain_hash_arg, int first_timestamp_arg, int timestamp_range_arg) {
 		long ret = bindings.GossipTimestampFilter_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_timestamp_arg, timestamp_range_arg);
+		Reference.reachabilityFence(chain_hash_arg);
+		Reference.reachabilityFence(first_timestamp_arg);
+		Reference.reachabilityFence(timestamp_range_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		GossipTimestampFilter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new GossipTimestampFilter(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -79,6 +92,7 @@ public class GossipTimestampFilter extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.GossipTimestampFilter_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -87,6 +101,7 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public GossipTimestampFilter clone() {
 		long ret = bindings.GossipTimestampFilter_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		GossipTimestampFilter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new GossipTimestampFilter(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -98,6 +113,7 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.GossipTimestampFilter_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -106,6 +122,7 @@ public class GossipTimestampFilter extends CommonBase {
 	 */
 	public static Result_GossipTimestampFilterDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.GossipTimestampFilter_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_GossipTimestampFilterDecodeErrorZ ret_hu_conv = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

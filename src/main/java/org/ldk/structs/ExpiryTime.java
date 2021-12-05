@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -27,6 +28,7 @@ public class ExpiryTime extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ExpiryTime_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -35,6 +37,7 @@ public class ExpiryTime extends CommonBase {
 	 */
 	public ExpiryTime clone() {
 		long ret = bindings.ExpiryTime_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ExpiryTime(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -46,9 +49,13 @@ public class ExpiryTime extends CommonBase {
 	 */
 	public long hash() {
 		long ret = bindings.ExpiryTime_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 	/**
 	 * Checks if two ExpiryTimes contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
@@ -56,10 +63,16 @@ public class ExpiryTime extends CommonBase {
 	 */
 	public boolean eq(ExpiryTime b) {
 		boolean ret = bindings.ExpiryTime_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof ExpiryTime)) return false;
+		return this.eq((ExpiryTime)o);
+	}
 	/**
 	 * Construct an `ExpiryTime` from seconds. If there exists a `PositiveTimestamp` which would
 	 * overflow on adding the `EpiryTime` to it then this function will return a
@@ -67,6 +80,7 @@ public class ExpiryTime extends CommonBase {
 	 */
 	public static Result_ExpiryTimeCreationErrorZ from_seconds(long seconds) {
 		long ret = bindings.ExpiryTime_from_seconds(seconds);
+		Reference.reachabilityFence(seconds);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -79,6 +93,7 @@ public class ExpiryTime extends CommonBase {
 	 */
 	public static Result_ExpiryTimeCreationErrorZ from_duration(long duration) {
 		long ret = bindings.ExpiryTime_from_duration(duration);
+		Reference.reachabilityFence(duration);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -89,6 +104,7 @@ public class ExpiryTime extends CommonBase {
 	 */
 	public long as_seconds() {
 		long ret = bindings.ExpiryTime_as_seconds(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -97,6 +113,7 @@ public class ExpiryTime extends CommonBase {
 	 */
 	public long as_duration() {
 		long ret = bindings.ExpiryTime_as_duration(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -77,6 +78,8 @@ public class EventsProvider extends CommonBase {
 	 */
 	public void process_pending_events(EventHandler handler) {
 		bindings.EventsProvider_process_pending_events(this.ptr, handler == null ? 0 : handler.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(handler);
 		this.ptrs_to.add(handler);
 	}
 

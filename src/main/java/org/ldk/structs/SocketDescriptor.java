@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -117,6 +118,9 @@ public class SocketDescriptor extends CommonBase {
 	 */
 	public long send_data(byte[] data, boolean resume_read) {
 		long ret = bindings.SocketDescriptor_send_data(this.ptr, data, resume_read);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(data);
+		Reference.reachabilityFence(resume_read);
 		return ret;
 	}
 
@@ -128,6 +132,7 @@ public class SocketDescriptor extends CommonBase {
 	 */
 	public void disconnect_socket() {
 		bindings.SocketDescriptor_disconnect_socket(this.ptr);
+		Reference.reachabilityFence(this);
 	}
 
 	/**
@@ -136,11 +141,16 @@ public class SocketDescriptor extends CommonBase {
 	 */
 	public long hash() {
 		long ret = bindings.SocketDescriptor_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 	long clone_ptr() {
 		long ret = bindings.SocketDescriptor_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -149,6 +159,7 @@ public class SocketDescriptor extends CommonBase {
 	 */
 	public SocketDescriptor clone() {
 		long ret = bindings.SocketDescriptor_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		SocketDescriptor ret_hu_conv = new SocketDescriptor(null, ret);
 		ret_hu_conv.ptrs_to.add(this);

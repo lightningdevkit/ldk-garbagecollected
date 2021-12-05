@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
@@ -38,6 +39,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public static Result_CVec_CVec_u8ZZNoneZ ok(byte[][] o) {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(o);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -58,11 +60,13 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	long clone_ptr() {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -72,6 +76,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ clone() {
 		long ret = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

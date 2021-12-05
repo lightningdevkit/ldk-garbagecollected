@@ -55,11 +55,6 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret;
 	}
 
-	public boolean supports_payment_secret() {
-		boolean ret = bindings.InvoiceFeatures_supports_payment_secret(this.ptr);
-		return ret;
-	}
-
 	public Uint8Array write() {
 		Uint8Array ret = bindings.InvoiceFeatures_write(this.ptr);
 		return ret;

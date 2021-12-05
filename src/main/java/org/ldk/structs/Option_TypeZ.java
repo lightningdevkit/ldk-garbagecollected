@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -55,6 +56,7 @@ public class Option_TypeZ extends CommonBase {
 	 */
 	public static Option_TypeZ some(Type o) {
 		long ret = bindings.COption_TypeZ_some(o == null ? 0 : o.ptr);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -75,6 +77,7 @@ public class Option_TypeZ extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.COption_TypeZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -84,6 +87,7 @@ public class Option_TypeZ extends CommonBase {
 	 */
 	public Option_TypeZ clone() {
 		long ret = bindings.COption_TypeZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
