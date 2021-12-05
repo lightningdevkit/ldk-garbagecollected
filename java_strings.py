@@ -1187,6 +1187,7 @@ import javax.annotation.Nullable;
                 out_java += (arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
 
         out_java_struct = ""
+        extra_java_struct_out = ""
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
@@ -1204,6 +1205,15 @@ import javax.annotation.Nullable;
             elif meth_n == "clone_ptr":
                 out_java_struct += ("\t" + return_type_info.java_hu_ty + " " + meth_n + "(")
             else:
+                if meth_n == "hash" and return_type_info.java_hu_ty == "long":
+                    extra_java_struct_out = "\t@Override public int hashCode() {\n"
+                    extra_java_struct_out += "\t\treturn (int)this.hash();\n"
+                    extra_java_struct_out += "\t}\n"
+                elif meth_n == "eq" and return_type_info.java_hu_ty == "boolean":
+                    extra_java_struct_out = "\t@Override public boolean equals(Object o) {\n"
+                    extra_java_struct_out += "\t\tif (!(o instanceof " + struct_meth + ")) return false;\n"
+                    extra_java_struct_out += "\t\treturn this.eq((" + struct_meth + ")o);\n"
+                    extra_java_struct_out += "\t}\n"
                 out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
             for idx, arg in enumerate(argument_types):
                 if idx != 0:
@@ -1326,4 +1336,4 @@ import javax.annotation.Nullable;
                 out_java_struct += ("\t\treturn ret;\n")
             out_java_struct += ("\t}\n\n")
 
-        return (out_java, out_c, out_java_struct)
+        return (out_java, out_c, out_java_struct + extra_java_struct_out)
