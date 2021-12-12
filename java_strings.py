@@ -129,6 +129,9 @@ class CommonBase {
 #include <stdatomic.h>
 #include <stdlib.h>
 
+#define LIKELY(v) __builtin_expect(!!(v), 1)
+#define UNLIKELY(v) __builtin_expect(!!(v), 0)
+
 """
 
         if self.target == Target.ANDROID:
@@ -616,8 +619,13 @@ import javax.annotation.Nullable;
         out_java_enum = "package org.ldk.enums;\n\n"
         out_java = ""
         out_c = ""
-        out_c = out_c + "static inline LDK" + struct_name + " LDK" + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
-        out_c = out_c + "\tswitch ((*env)->CallIntMethod(env, clz, ordinal_meth)) {\n"
+        out_c += "static inline LDK" + struct_name + " LDK" + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
+        out_c += "\tjint ord = (*env)->CallIntMethod(env, clz, ordinal_meth);\n"
+        out_c += "\tif (UNLIKELY((*env)->ExceptionCheck(env))) {\n"
+        out_c += "\t\t(*env)->ExceptionDescribe(env);\n"
+        out_c += "\t\t(*env)->FatalError(env, \"A call to " + struct_name + ".ordinal() from rust threw an exception.\");\n"
+        out_c += "\t}\n"
+        out_c += "\tswitch (ord) {\n"
 
         if enum_doc_comment is not None:
             out_java_enum += "/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
@@ -633,9 +641,10 @@ import javax.annotation.Nullable;
         out_java_enum = out_java_enum + "\tstatic { init(); }\n"
         out_java_enum = out_java_enum + "}"
         out_java = out_java + "\tstatic { " + struct_name + ".values(); /* Force enum statics to run */ }\n"
-        out_c = out_c + "\t}\n"
-        out_c = out_c + "\tabort();\n"
-        out_c = out_c + "}\n"
+        out_c += "\t}\n"
+        out_c += "\t(*env)->FatalError(env, \"A call to " + struct_name + ".ordinal() from rust returned an invalid value.\");\n"
+        out_c += "\tabort(); // Unreachable, but will let the compiler know we don't return here\n"
+        out_c += "}\n"
 
         out_c = out_c + "static jclass " + struct_name + "_class = NULL;\n"
         for var, _ in variants:
@@ -901,7 +910,7 @@ import javax.annotation.Nullable;
                         out_c = out_c + ", " + arg_info.arg_name
                 out_c = out_c + ");\n"
 
-                out_c += "\tif ((*env)->ExceptionCheck(env)) {\n"
+                out_c += "\tif (UNLIKELY((*env)->ExceptionCheck(env))) {\n"
                 out_c += "\t\t(*env)->ExceptionDescribe(env);\n"
                 out_c += "\t\t(*env)->FatalError(env, \"A call to " + fn_line.fn_name + " in " + struct_name + " from rust threw an exception.\");\n"
                 out_c += "\t}\n"
