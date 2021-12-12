@@ -681,14 +681,11 @@ import javax.annotation.Nullable;
             out_c = out_c + "static jmethodID " + struct_name + "_" + var + "_meth = NULL;\n"
         out_c = out_c + self.c_fn_ty_pfx + "void JNICALL Java_org_ldk_impl_bindings_00024" + struct_name.replace("_", "_1") + "_init (" + self.c_fn_args_pfx + ") {\n"
         for var_name in variants:
-            out_c = out_c + "\t" + struct_name + "_" + var_name + "_class =\n"
-            if self.target == Target.ANDROID:
-                out_c = out_c + "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"org/ldk/impl/bindings$" + struct_name + "$" + var_name + "\"));\n"
-            else:
-                out_c = out_c + "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"Lorg/ldk/impl/bindings$" + struct_name + "$" + var_name + ";\"));\n"
-            out_c = out_c + "\tCHECK(" + struct_name + "_" + var_name + "_class != NULL);\n"
-            out_c = out_c + "\t" + struct_name + "_" + var_name + "_meth = (*env)->GetMethodID(env, " + struct_name + "_" + var_name + "_class, \"<init>\", \"(" + init_meth_jty_strs[var_name] + ")V\");\n"
-            out_c = out_c + "\tCHECK(" + struct_name + "_" + var_name + "_meth != NULL);\n"
+            out_c += "\t" + struct_name + "_" + var_name + "_class =\n"
+            out_c += "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"org/ldk/impl/bindings$" + struct_name + "$" + var_name + "\"));\n"
+            out_c += "\tCHECK(" + struct_name + "_" + var_name + "_class != NULL);\n"
+            out_c += "\t" + struct_name + "_" + var_name + "_meth = (*env)->GetMethodID(env, " + struct_name + "_" + var_name + "_class, \"<init>\", \"(" + init_meth_jty_strs[var_name] + ")V\");\n"
+            out_c += "\tCHECK(" + struct_name + "_" + var_name + "_meth != NULL);\n"
         out_c = out_c + "}\n"
         return out_c
 
