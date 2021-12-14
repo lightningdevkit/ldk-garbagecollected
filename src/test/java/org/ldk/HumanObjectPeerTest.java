@@ -190,15 +190,19 @@ class HumanObjectPeerTestInstance {
         InvoicePayer payer = null;
         GcCheck obj = new GcCheck();
 
-        private TwoTuple_OutPointScriptZ test_mon_roundtrip(ChannelMonitor mon) {
+        private ChannelMonitor test_mon_roundtrip(OutPoint expected_id, byte[] data) {
             // Because get_funding_txo() returns an OutPoint in a tuple that is a reference to an OutPoint inside the
             // ChannelMonitor, its a good test to ensure that the OutPoint isn't freed (or is cloned) before the
             // ChannelMonitor is. This used to be broken.
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(mon.write(), keys_interface);
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(data, keys_interface);
             assert roundtrip_monitor instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
             TwoTuple_OutPointScriptZ funding_txo = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.get_b().get_funding_txo();
             System.gc(); System.runFinalization(); // Give the GC a chance to run.
-            return funding_txo;
+            assert Arrays.equals(funding_txo.get_a().get_txid(), expected_id.get_txid());
+            assert funding_txo.get_a().get_index() == expected_id.get_index();
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_two = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(data, keys_interface);
+            assert roundtrip_two instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
+            return ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res.get_b();
         }
 
         private Peer(Object _dummy, byte seed) {
@@ -222,10 +226,8 @@ class HumanObjectPeerTestInstance {
                 public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data, MonitorUpdateId update_id) {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
-                        assert monitors.put(key, data) == null;
-                        TwoTuple_OutPointScriptZ res = test_mon_roundtrip(data);
-                        assert Arrays.equals(res.get_a().get_txid(), id.get_txid());
-                        assert res.get_a().get_index() == id.get_index();
+                        ChannelMonitor res = test_mon_roundtrip(id, data.write());
+                        assert monitors.put(key, res) == null;
                     }
                     return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
@@ -234,10 +236,10 @@ class HumanObjectPeerTestInstance {
                 public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
-                        assert monitors.put(key, data) != null;
-                        TwoTuple_OutPointScriptZ res = test_mon_roundtrip(data);
-                        assert Arrays.equals(res.get_a().get_txid(), id.get_txid());
-                        assert res.get_a().get_index() == id.get_index();
+                        ChannelMonitor res = test_mon_roundtrip(id, data.write());
+                        // Note that we use a serialization-roundtrip copy of data here, not the original, as this can
+                        // expose the JVM JIT bug where it finalize()s things still being called.
+                        assert monitors.put(key, res) != null;
                     }
                     return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
@@ -1080,6 +1082,14 @@ public class HumanObjectPeerTest {
     }
     @Test
     public void test_message_handler() throws InterruptedException {
+        Thread gc_thread = new Thread(() -> {
+            while (true) {
+                System.gc();
+                System.runFinalization();
+                try { Thread.sleep(0, 1); } catch (InterruptedException e) { break; }
+            }
+        }, "Test GC Thread");
+        gc_thread.start();
         for (int i = 0; i < (1 << 9) - 1; i++) {
             boolean nice_close =                   (i & (1 << 0)) != 0;
             boolean use_km_wrapper =               (i & (1 << 1)) != 0;
@@ -1112,6 +1122,8 @@ public class HumanObjectPeerTest {
             System.err.println("Running test with flags " + i);
             do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         }
+        gc_thread.interrupt();
+        gc_thread.join();
     }
 
     // This is used in the test jar to test the built jar is runnable
