@@ -515,6 +515,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 """
@@ -1307,6 +1308,45 @@ import javax.annotation.Nullable;
                 else:
                     out_java_struct += (info.arg_name)
             out_java_struct += (");\n")
+
+            # This is completely nuts. The OpenJDK JRE JIT will optimize out a object which is on
+            # the stack, calling its finalizer immediately even if member methods are *actively
+            # executing* on the same object, as long as said object is on the stack. There is no
+            # concrete specification for when the optimizer is allowed to do this, and when it is
+            # not, so there is absolutely no way to be certain that this fix suffices.
+            #
+            # Instead, the "Java Language Specification" says only that an object is reachable
+            # (i.e. will not yet be finalized) if it "can be accessed in any potential continuing
+            # computation from any live thread". To any sensible reader this would mean actively
+            # executing a member function on an object would make it not eligible for finalization.
+            # But, no, dear reader, this statement does not say that. Well, okay, it says that,
+            # very explicitly in fact, but those are just, like, words, man.
+            #
+            # In the seemingly non-normative text further down, a few examples of things the
+            # optimizer can do are given, including "if the values in an object's fields are
+            # stored in registers[, t]he may then access the registers instead of the object, and
+            # never access the object again[, implying] that the object is garbage". This appears
+            # to fully contradict both the above statement, the API documentation in java.lang.ref
+            # regarding when a reference is "strongly reachable", and basic common sense. There is
+            # no concrete set of limitations stated, however, seemingly implying the JIT could
+            # decide your code would run faster by simply garbage collecting everything
+            # immediately, ensuring your code finishes soon, just by SEGFAULT. Thus, we're really
+            # entirely flying blind here. We add some fences and hope that its sufficient, but
+            # with no specification to rely on, we cannot be certain of anything.
+            #
+            # TL;DR: The Java Language "Specification" provides no real guarantees on when an
+            # object will be considered available for garbage collection once the JIT kicks in, so
+            # we put in some fences and hope to god the JIT doesn't get smarter/more broken.
+            for idx, info in enumerate(argument_types):
+                if idx == 0 and takes_self:
+                    out_java_struct += ("\t\tReference.reachabilityFence(this);\n")
+                elif info.arg_name in default_constructor_args:
+                    for explode_idx, explode_arg in enumerate(default_constructor_args[info.arg_name]):
+                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
+                        out_java_struct += ("\t\tReference.reachabilityFence(" + expl_arg_name + ");\n")
+                elif info.c_ty != "void":
+                    out_java_struct += ("\t\tReference.reachabilityFence(" + info.arg_name + ");\n")
+
             if return_type_info.java_ty == "long" and return_type_info.java_hu_ty != "long":
                 out_java_struct += "\t\tif (ret >= 0 && ret <= 4096) { return null; }\n"
 

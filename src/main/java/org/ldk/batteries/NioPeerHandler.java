@@ -5,6 +5,7 @@ import org.ldk.structs.*;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.ref.Reference;
 import java.util.LinkedList;
 import java.net.SocketAddress;
 import java.net.StandardSocketOptions;
@@ -339,6 +340,7 @@ public class NioPeerHandler {
                 }
             } catch (IOException ignored) {}
         }
+        Reference.reachabilityFence(this.peer_manager); // Almost certainly overkill, but no harm in it
     }
 
     /**
