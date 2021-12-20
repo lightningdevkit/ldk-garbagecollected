@@ -123,6 +123,11 @@ class HumanObjectPeerTestInstance {
                 public Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage) {
                     return underlying_if.sign_invoice(invoice_preimage);
                 }
+
+                @Override
+                public byte[] get_inbound_payment_key_material() {
+                    return underlying_if.get_inbound_payment_key_material();
+                }
             });
         }
 
@@ -139,8 +144,8 @@ class HumanObjectPeerTestInstance {
                     synchronized (monitors) {
                         String txid = Arrays.toString(funding_txo.get_txid());
                         assert monitors.containsKey(txid);
-                        Result_NoneMonitorUpdateErrorZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
-                        assert update_res instanceof Result_NoneMonitorUpdateErrorZ.Result_NoneMonitorUpdateErrorZ_OK;
+                        Result_NoneNoneZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
+                        assert update_res instanceof Result_NoneNoneZ.Result_NoneNoneZ_OK;
                     }
                     return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
@@ -353,8 +358,8 @@ class HumanObjectPeerTestInstance {
                     this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
 							this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
                 }
-                LockableScore scorer = null;
-                if (use_invoice_payer) { scorer = LockableScore.of(Scorer.with_default().as_Score()); }
+                MultiThreadedLockableScore scorer = null;
+                if (use_invoice_payer) { scorer = MultiThreadedLockableScore.of(Scorer.with_default().as_Score()); }
                 constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                     @Override public void handle_event(Event event) {
                         synchronized (pending_manager_events) {
@@ -376,12 +381,13 @@ class HumanObjectPeerTestInstance {
                 if (use_invoice_payer) {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
-                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, Score scorer) {
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, Score scorer) {
                             return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
                         }
-                    }), LockableScore.of(Score.new_impl(new Score.ScoreInterface() {
+                    }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
-                        @Override public long channel_penalty_msat(long scid, NodeId src, NodeId dst) { return 0; }
+                        @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, Option_u64Z channel_capacity_msat, NodeId source, NodeId target) { return 0; }
+                        @Override public void payment_path_successful(RouteHop[] path) {}
                         @Override public byte[] write() { assert false; return null; }
                     })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
                         @Override public void handle_event(Event event) {
@@ -430,8 +436,8 @@ class HumanObjectPeerTestInstance {
                             assert false;
                         } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {}
                     }
-                    LockableScore scorer = null;
-                    if (use_invoice_payer) { scorer = LockableScore.of(Scorer.with_default().as_Score()); }
+                    MultiThreadedLockableScore scorer = null;
+                    if (use_invoice_payer) { scorer = MultiThreadedLockableScore.of(Scorer.with_default().as_Score()); }
                     constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
@@ -484,12 +490,13 @@ class HumanObjectPeerTestInstance {
                 if (use_invoice_payer) {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
-                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, Score scorer) {
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] _payment_hash, ChannelDetails[] first_hops, Score scorer) {
                             return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
                         }
-                    }), LockableScore.of(Score.new_impl(new Score.ScoreInterface() {
+                    }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
+                        @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, Option_u64Z channel_capacity_msat, NodeId source, NodeId target) { return 0; }
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
-                        @Override public long channel_penalty_msat(long scid, NodeId src, NodeId dst) { return 0; }
+                        @Override public void payment_path_successful(RouteHop[] path) {}
                         @Override public byte[] write() { assert false; return null; }
                     })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
                         @Override public void handle_event(Event event) {
@@ -593,9 +600,11 @@ class HumanObjectPeerTestInstance {
             if (use_chan_manager_constructor) {
                 while (res.length < expected_len) {
                     synchronized (this.pending_manager_events) {
-                        res = this.pending_manager_events.toArray(res);
-                        assert res.length == expected_len || res.length == 0; // We don't handle partial results
-                        this.pending_manager_events.clear();
+                        if (this.pending_manager_events.size() >= expected_len) {
+                            res = this.pending_manager_events.toArray(res);
+                            assert res.length == expected_len;
+                            this.pending_manager_events.clear();
+                        }
                         if (res.length < expected_len) {
                             try { this.pending_manager_events.wait(); } catch (InterruptedException e) { assert false; }
                         }
@@ -610,7 +619,6 @@ class HumanObjectPeerTestInstance {
                         peer2.nio_peer_handler.check_events();
                     }
                     chan_manager.as_EventsProvider().process_pending_events(EventHandler.new_impl(l::add));
-                    assert l.size() == expected_len || l.size() == 0; // We don't handle partial results
                 }
                 return l.toArray(new Event[0]);
             }
@@ -900,9 +908,11 @@ class HumanObjectPeerTestInstance {
         assert !Arrays.equals(payment_preimage, new byte[32]);
         state.peer2.chan_manager.claim_funds(payment_preimage);
 
-        events = state.peer1.get_manager_events(1, state.peer1, state.peer2);
+        events = state.peer1.get_manager_events(2, state.peer1, state.peer2);
         assert events[0] instanceof Event.PaymentSent;
         assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
+        assert events[1] instanceof Event.PaymentPathSuccessful;
+        assert Arrays.equals(((Event.PaymentPathSuccessful) events[1]).payment_hash, ((Event.PaymentSent) events[0]).payment_hash);
 
         if (use_nio_peer_handler) {
             // We receive PaymentSent immediately upon receipt of the payment preimage, but we expect to not have an
