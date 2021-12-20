@@ -65,8 +65,8 @@ public class PeerTest {
                         String txid = Arrays.toString(bindings.OutPoint_get_txid(funding_txo));
                         assert monitors.containsKey(txid);
                         long update_res = bindings.ChannelMonitor_update_monitor(monitors.get(txid), update, tx_broadcaster, fee_estimator, logger);
-                        assert bindings.CResult_NoneMonitorUpdateErrorZ_is_ok(update_res);
-                        bindings.CResult_NoneMonitorUpdateErrorZ_free(update_res);
+                        assert bindings.CResult_NoneNoneZ_is_ok(update_res);
+                        bindings.CResult_NoneNoneZ_free(update_res);
                     }
                     bindings.OutPoint_free(funding_txo);
                     bindings.ChannelMonitorUpdate_free(update);
@@ -274,7 +274,9 @@ public class PeerTest {
         for (long chan : peer2_chans) bindings.ChannelDetails_free(chan);
 
         long no_min_val = bindings.COption_u64Z_none();
-        long inbound_payment = bindings.ChannelManager_create_inbound_payment(peer2.chan_manager, no_min_val, 7200, 42);
+        long inbound_payment = bindings.ChannelManager_create_inbound_payment(peer2.chan_manager, no_min_val, 7200);
+        assert bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(inbound_payment);
+        long payment_tuple = bindings.LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_get_ok(inbound_payment);
         bindings.COption_u64Z_free(no_min_val);
         long scorer = bindings.Scorer_default();
         long scorer_interface = bindings.Scorer_as_Score(scorer);
@@ -295,9 +297,9 @@ public class PeerTest {
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.CResult_RouteLightningErrorZ_is_ok(route);
         long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route),
-                bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(inbound_payment), bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(inbound_payment));
+                bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(payment_tuple), bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(payment_tuple));
         bindings.CResult_RouteLightningErrorZ_free(route);
-        bindings.C2Tuple_PaymentHashPaymentSecretZ_free(inbound_payment);
+        bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(inbound_payment);
         assert bindings.CResult_NonePaymentSendFailureZ_is_ok(payment_res);
         bindings.CResult_NonePaymentSendFailureZ_free(payment_res);
 
@@ -322,9 +324,12 @@ public class PeerTest {
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         bindings.EventsProvider_process_pending_events(peer1.chan_manager_events, handler);
-        assert events.size() == 1;
+        assert events.size() == 2;
         bindings.LDKEvent sent = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert sent instanceof bindings.LDKEvent.PaymentSent;
+        bindings.Event_free(events.remove(0));
+        bindings.LDKEvent sent_path = bindings.LDKEvent_ref_from_ptr(events.get(0));
+        assert sent_path instanceof bindings.LDKEvent.PaymentPathSuccessful;
         bindings.Event_free(events.remove(0));
 
         bindings.EventHandler_free(handler);

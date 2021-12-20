@@ -184,7 +184,7 @@ public class ChannelManagerConstructor {
      * This also spawns a background thread which will call the appropriate methods on the provided
      * EventHandler as required.
      */
-    public void chain_sync_completed(EventHandler event_handler, @Nullable LockableScore scorer) {
+    public void chain_sync_completed(EventHandler event_handler, @Nullable MultiThreadedLockableScore scorer) {
         if (background_processor != null) { return; }
         for (TwoTuple_BlockHashChannelMonitorZ monitor: channel_monitors) {
             this.chain_monitor.as_Watch().watch_channel(monitor.get_b().get_funding_txo().get_a(), monitor.get_b());

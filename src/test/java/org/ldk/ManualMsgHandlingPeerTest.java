@@ -165,7 +165,7 @@ public class ManualMsgHandlingPeerTest {
                 bindings.IgnoringMessageHandler_as_CustomMessageHandler(ignoring_message_handler));
 
         // Test Level_max() since its the only place we create a java object from a Rust-returned enum.
-        assert bindings.Level_max() == Level.LDKLevel_Trace;
+        assert bindings.Level_max() == Level.LDKLevel_Gossip;
 
         // Note that we can't rely on finalizer order, so don't bother trying to rely on it here
         bindings.Logger_free(logger);
