@@ -49,7 +49,7 @@ for IDX in ${!EXTRA_TARGETS[@]}; do
 	${STRIPS[$IDX]} liblightningjni_release_${LDK_TARGET}.so
 done
 
-export LANG=C
+export LC_ALL=C
 
 echo "Need local deterministic ldk-java-classes.jar"
 ls ldk-java-classes.jar
