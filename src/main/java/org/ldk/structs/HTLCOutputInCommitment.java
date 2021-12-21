@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -27,6 +28,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public boolean get_offered() {
 		boolean ret = bindings.HTLCOutputInCommitment_get_offered(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -38,6 +40,8 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public void set_offered(boolean val) {
 		bindings.HTLCOutputInCommitment_set_offered(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -46,6 +50,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public long get_amount_msat() {
 		long ret = bindings.HTLCOutputInCommitment_get_amount_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -55,6 +60,8 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public void set_amount_msat(long val) {
 		bindings.HTLCOutputInCommitment_set_amount_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -62,6 +69,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public int get_cltv_expiry() {
 		int ret = bindings.HTLCOutputInCommitment_get_cltv_expiry(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -70,6 +78,8 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public void set_cltv_expiry(int val) {
 		bindings.HTLCOutputInCommitment_set_cltv_expiry(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -77,6 +87,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public byte[] get_payment_hash() {
 		byte[] ret = bindings.HTLCOutputInCommitment_get_payment_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -85,6 +96,8 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public void set_payment_hash(byte[] val) {
 		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -94,6 +107,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public Option_u32Z get_transaction_output_index() {
 		long ret = bindings.HTLCOutputInCommitment_get_transaction_output_index(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -107,6 +121,8 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public void set_transaction_output_index(Option_u32Z val) {
 		bindings.HTLCOutputInCommitment_set_transaction_output_index(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -114,6 +130,11 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public static HTLCOutputInCommitment of(boolean offered_arg, long amount_msat_arg, int cltv_expiry_arg, byte[] payment_hash_arg, Option_u32Z transaction_output_index_arg) {
 		long ret = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, InternalUtils.check_arr_len(payment_hash_arg, 32), transaction_output_index_arg.ptr);
+		Reference.reachabilityFence(offered_arg);
+		Reference.reachabilityFence(amount_msat_arg);
+		Reference.reachabilityFence(cltv_expiry_arg);
+		Reference.reachabilityFence(payment_hash_arg);
+		Reference.reachabilityFence(transaction_output_index_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		HTLCOutputInCommitment ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new HTLCOutputInCommitment(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -122,6 +143,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.HTLCOutputInCommitment_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -130,6 +152,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public HTLCOutputInCommitment clone() {
 		long ret = bindings.HTLCOutputInCommitment_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		HTLCOutputInCommitment ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new HTLCOutputInCommitment(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -141,6 +164,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.HTLCOutputInCommitment_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -149,6 +173,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 	 */
 	public static Result_HTLCOutputInCommitmentDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.HTLCOutputInCommitment_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_HTLCOutputInCommitmentDecodeErrorZ ret_hu_conv = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

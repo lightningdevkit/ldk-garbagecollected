@@ -106,6 +106,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class UtilMethods {
@@ -128,6 +129,9 @@ class CommonBase {
 #include <string.h>
 #include <stdatomic.h>
 #include <stdlib.h>
+
+#define LIKELY(v) __builtin_expect(!!(v), 1)
+#define UNLIKELY(v) __builtin_expect(!!(v), 0)
 
 """
 
@@ -512,6 +516,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 """
@@ -616,8 +621,13 @@ import javax.annotation.Nullable;
         out_java_enum = "package org.ldk.enums;\n\n"
         out_java = ""
         out_c = ""
-        out_c = out_c + "static inline LDK" + struct_name + " LDK" + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
-        out_c = out_c + "\tswitch ((*env)->CallIntMethod(env, clz, ordinal_meth)) {\n"
+        out_c += "static inline LDK" + struct_name + " LDK" + struct_name + "_from_java(" + self.c_fn_args_pfx + ") {\n"
+        out_c += "\tjint ord = (*env)->CallIntMethod(env, clz, ordinal_meth);\n"
+        out_c += "\tif (UNLIKELY((*env)->ExceptionCheck(env))) {\n"
+        out_c += "\t\t(*env)->ExceptionDescribe(env);\n"
+        out_c += "\t\t(*env)->FatalError(env, \"A call to " + struct_name + ".ordinal() from rust threw an exception.\");\n"
+        out_c += "\t}\n"
+        out_c += "\tswitch (ord) {\n"
 
         if enum_doc_comment is not None:
             out_java_enum += "/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
@@ -633,9 +643,10 @@ import javax.annotation.Nullable;
         out_java_enum = out_java_enum + "\tstatic { init(); }\n"
         out_java_enum = out_java_enum + "}"
         out_java = out_java + "\tstatic { " + struct_name + ".values(); /* Force enum statics to run */ }\n"
-        out_c = out_c + "\t}\n"
-        out_c = out_c + "\tabort();\n"
-        out_c = out_c + "}\n"
+        out_c += "\t}\n"
+        out_c += "\t(*env)->FatalError(env, \"A call to " + struct_name + ".ordinal() from rust returned an invalid value.\");\n"
+        out_c += "\tabort(); // Unreachable, but will let the compiler know we don't return here\n"
+        out_c += "}\n"
 
         out_c = out_c + "static jclass " + struct_name + "_class = NULL;\n"
         for var, _ in variants:
@@ -672,14 +683,11 @@ import javax.annotation.Nullable;
             out_c = out_c + "static jmethodID " + struct_name + "_" + var + "_meth = NULL;\n"
         out_c = out_c + self.c_fn_ty_pfx + "void JNICALL Java_org_ldk_impl_bindings_00024" + struct_name.replace("_", "_1") + "_init (" + self.c_fn_args_pfx + ") {\n"
         for var_name in variants:
-            out_c = out_c + "\t" + struct_name + "_" + var_name + "_class =\n"
-            if self.target == Target.ANDROID:
-                out_c = out_c + "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"org/ldk/impl/bindings$" + struct_name + "$" + var_name + "\"));\n"
-            else:
-                out_c = out_c + "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"Lorg/ldk/impl/bindings$" + struct_name + "$" + var_name + ";\"));\n"
-            out_c = out_c + "\tCHECK(" + struct_name + "_" + var_name + "_class != NULL);\n"
-            out_c = out_c + "\t" + struct_name + "_" + var_name + "_meth = (*env)->GetMethodID(env, " + struct_name + "_" + var_name + "_class, \"<init>\", \"(" + init_meth_jty_strs[var_name] + ")V\");\n"
-            out_c = out_c + "\tCHECK(" + struct_name + "_" + var_name + "_meth != NULL);\n"
+            out_c += "\t" + struct_name + "_" + var_name + "_class =\n"
+            out_c += "\t\t(*env)->NewGlobalRef(env, (*env)->FindClass(env, \"org/ldk/impl/bindings$" + struct_name + "$" + var_name + "\"));\n"
+            out_c += "\tCHECK(" + struct_name + "_" + var_name + "_class != NULL);\n"
+            out_c += "\t" + struct_name + "_" + var_name + "_meth = (*env)->GetMethodID(env, " + struct_name + "_" + var_name + "_class, \"<init>\", \"(" + init_meth_jty_strs[var_name] + ")V\");\n"
+            out_c += "\tCHECK(" + struct_name + "_" + var_name + "_meth != NULL);\n"
         out_c = out_c + "}\n"
         return out_c
 
@@ -901,7 +909,7 @@ import javax.annotation.Nullable;
                         out_c = out_c + ", " + arg_info.arg_name
                 out_c = out_c + ");\n"
 
-                out_c += "\tif ((*env)->ExceptionCheck(env)) {\n"
+                out_c += "\tif (UNLIKELY((*env)->ExceptionCheck(env))) {\n"
                 out_c += "\t\t(*env)->ExceptionDescribe(env);\n"
                 out_c += "\t\t(*env)->FatalError(env, \"A call to " + fn_line.fn_name + " in " + struct_name + " from rust threw an exception.\");\n"
                 out_c += "\t}\n"
@@ -1187,6 +1195,7 @@ import javax.annotation.Nullable;
                 out_java += (arg_conv_info.java_ty + " " + arg_conv_info.arg_name)
 
         out_java_struct = ""
+        extra_java_struct_out = ""
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
@@ -1204,6 +1213,15 @@ import javax.annotation.Nullable;
             elif meth_n == "clone_ptr":
                 out_java_struct += ("\t" + return_type_info.java_hu_ty + " " + meth_n + "(")
             else:
+                if meth_n == "hash" and return_type_info.java_hu_ty == "long":
+                    extra_java_struct_out = "\t@Override public int hashCode() {\n"
+                    extra_java_struct_out += "\t\treturn (int)this.hash();\n"
+                    extra_java_struct_out += "\t}\n"
+                elif meth_n == "eq" and return_type_info.java_hu_ty == "boolean":
+                    extra_java_struct_out = "\t@Override public boolean equals(Object o) {\n"
+                    extra_java_struct_out += "\t\tif (!(o instanceof " + struct_meth + ")) return false;\n"
+                    extra_java_struct_out += "\t\treturn this.eq((" + struct_meth + ")o);\n"
+                    extra_java_struct_out += "\t}\n"
                 out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
             for idx, arg in enumerate(argument_types):
                 if idx != 0:
@@ -1291,6 +1309,45 @@ import javax.annotation.Nullable;
                 else:
                     out_java_struct += (info.arg_name)
             out_java_struct += (");\n")
+
+            # This is completely nuts. The OpenJDK JRE JIT will optimize out a object which is on
+            # the stack, calling its finalizer immediately even if member methods are *actively
+            # executing* on the same object, as long as said object is on the stack. There is no
+            # concrete specification for when the optimizer is allowed to do this, and when it is
+            # not, so there is absolutely no way to be certain that this fix suffices.
+            #
+            # Instead, the "Java Language Specification" says only that an object is reachable
+            # (i.e. will not yet be finalized) if it "can be accessed in any potential continuing
+            # computation from any live thread". To any sensible reader this would mean actively
+            # executing a member function on an object would make it not eligible for finalization.
+            # But, no, dear reader, this statement does not say that. Well, okay, it says that,
+            # very explicitly in fact, but those are just, like, words, man.
+            #
+            # In the seemingly non-normative text further down, a few examples of things the
+            # optimizer can do are given, including "if the values in an object's fields are
+            # stored in registers[, t]he may then access the registers instead of the object, and
+            # never access the object again[, implying] that the object is garbage". This appears
+            # to fully contradict both the above statement, the API documentation in java.lang.ref
+            # regarding when a reference is "strongly reachable", and basic common sense. There is
+            # no concrete set of limitations stated, however, seemingly implying the JIT could
+            # decide your code would run faster by simply garbage collecting everything
+            # immediately, ensuring your code finishes soon, just by SEGFAULT. Thus, we're really
+            # entirely flying blind here. We add some fences and hope that its sufficient, but
+            # with no specification to rely on, we cannot be certain of anything.
+            #
+            # TL;DR: The Java Language "Specification" provides no real guarantees on when an
+            # object will be considered available for garbage collection once the JIT kicks in, so
+            # we put in some fences and hope to god the JIT doesn't get smarter/more broken.
+            for idx, info in enumerate(argument_types):
+                if idx == 0 and takes_self:
+                    out_java_struct += ("\t\tReference.reachabilityFence(this);\n")
+                elif info.arg_name in default_constructor_args:
+                    for explode_idx, explode_arg in enumerate(default_constructor_args[info.arg_name]):
+                        expl_arg_name = info.arg_name + "_" + explode_arg.arg_name
+                        out_java_struct += ("\t\tReference.reachabilityFence(" + expl_arg_name + ");\n")
+                elif info.c_ty != "void":
+                    out_java_struct += ("\t\tReference.reachabilityFence(" + info.arg_name + ");\n")
+
             if return_type_info.java_ty == "long" and return_type_info.java_hu_ty != "long":
                 out_java_struct += "\t\tif (ret >= 0 && ret <= 4096) { return null; }\n"
 
@@ -1326,4 +1383,4 @@ import javax.annotation.Nullable;
                 out_java_struct += ("\t\treturn ret;\n")
             out_java_struct += ("\t}\n\n")
 
-        return (out_java, out_c, out_java_struct)
+        return (out_java, out_c, out_java_struct + extra_java_struct_out)

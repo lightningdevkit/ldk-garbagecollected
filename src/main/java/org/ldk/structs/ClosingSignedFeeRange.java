@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -27,6 +28,7 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public long get_min_fee_satoshis() {
 		long ret = bindings.ClosingSignedFeeRange_get_min_fee_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -36,6 +38,8 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public void set_min_fee_satoshis(long val) {
 		bindings.ClosingSignedFeeRange_set_min_fee_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -44,6 +48,7 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public long get_max_fee_satoshis() {
 		long ret = bindings.ClosingSignedFeeRange_get_max_fee_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -53,6 +58,8 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public void set_max_fee_satoshis(long val) {
 		bindings.ClosingSignedFeeRange_set_max_fee_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -60,6 +67,8 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public static ClosingSignedFeeRange of(long min_fee_satoshis_arg, long max_fee_satoshis_arg) {
 		long ret = bindings.ClosingSignedFeeRange_new(min_fee_satoshis_arg, max_fee_satoshis_arg);
+		Reference.reachabilityFence(min_fee_satoshis_arg);
+		Reference.reachabilityFence(max_fee_satoshis_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ClosingSignedFeeRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingSignedFeeRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -68,6 +77,7 @@ public class ClosingSignedFeeRange extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ClosingSignedFeeRange_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -76,6 +86,7 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public ClosingSignedFeeRange clone() {
 		long ret = bindings.ClosingSignedFeeRange_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ClosingSignedFeeRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ClosingSignedFeeRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -87,6 +98,7 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ClosingSignedFeeRange_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -95,6 +107,7 @@ public class ClosingSignedFeeRange extends CommonBase {
 	 */
 	public static Result_ClosingSignedFeeRangeDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ClosingSignedFeeRange_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ClosingSignedFeeRangeDecodeErrorZ ret_hu_conv = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

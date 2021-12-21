@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -31,6 +32,7 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.QueryShortChannelIds_get_chain_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -39,6 +41,8 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public void set_chain_hash(byte[] val) {
 		bindings.QueryShortChannelIds_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -46,6 +50,8 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public void set_short_channel_ids(long[] val) {
 		bindings.QueryShortChannelIds_set_short_channel_ids(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -53,6 +59,8 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public static QueryShortChannelIds of(byte[] chain_hash_arg, long[] short_channel_ids_arg) {
 		long ret = bindings.QueryShortChannelIds_new(InternalUtils.check_arr_len(chain_hash_arg, 32), short_channel_ids_arg);
+		Reference.reachabilityFence(chain_hash_arg);
+		Reference.reachabilityFence(short_channel_ids_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		QueryShortChannelIds ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new QueryShortChannelIds(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -61,6 +69,7 @@ public class QueryShortChannelIds extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.QueryShortChannelIds_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -69,6 +78,7 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public QueryShortChannelIds clone() {
 		long ret = bindings.QueryShortChannelIds_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		QueryShortChannelIds ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new QueryShortChannelIds(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -80,6 +90,7 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public static Result_QueryShortChannelIdsDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.QueryShortChannelIds_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_QueryShortChannelIdsDecodeErrorZ ret_hu_conv = Result_QueryShortChannelIdsDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -90,6 +101,7 @@ public class QueryShortChannelIds extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.QueryShortChannelIds_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

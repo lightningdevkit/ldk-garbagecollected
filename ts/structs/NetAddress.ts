@@ -45,12 +45,10 @@ export class IPv6 extends NetAddress {
 	}
 }
 export class OnionV2 extends NetAddress {
-	public addr: Uint8Array;
-	public port: number;
+	public onion_v2: Uint8Array;
 	private constructor(ptr: number, obj: bindings.LDKNetAddress.OnionV2) {
 		super(null, ptr);
-		this.addr = obj.addr;
-		this.port = obj.port;
+		this.onion_v2 = obj.onion_v2;
 	}
 }
 export class OnionV3 extends NetAddress {
@@ -92,8 +90,8 @@ export class OnionV3 extends NetAddress {
 		return ret_hu_conv;
 	}
 
-	public static NetAddress constructor_onion_v2(Uint8Array addr, number port) {
-		number ret = bindings.NetAddress_onion_v2(InternalUtils.check_arr_len(addr, 10), port);
+	public static NetAddress constructor_onion_v2(Uint8Array a) {
+		number ret = bindings.NetAddress_onion_v2(InternalUtils.check_arr_len(a, 12));
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

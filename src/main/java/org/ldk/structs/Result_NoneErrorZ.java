@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_NoneErrorZ extends CommonBase {
@@ -48,6 +49,7 @@ public class Result_NoneErrorZ extends CommonBase {
 	 */
 	public static Result_NoneErrorZ err(org.ldk.enums.IOError e) {
 		long ret = bindings.CResult_NoneErrorZ_err(e);
+		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -58,11 +60,13 @@ public class Result_NoneErrorZ extends CommonBase {
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_NoneErrorZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	long clone_ptr() {
 		long ret = bindings.CResult_NoneErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -72,6 +76,7 @@ public class Result_NoneErrorZ extends CommonBase {
 	 */
 	public Result_NoneErrorZ clone() {
 		long ret = bindings.CResult_NoneErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

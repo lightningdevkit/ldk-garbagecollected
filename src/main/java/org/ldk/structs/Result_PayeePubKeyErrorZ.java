@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_PayeePubKeyErrorZ extends CommonBase {
@@ -43,6 +44,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	 */
 	public static Result_PayeePubKeyErrorZ ok(PayeePubKey o) {
 		long ret = bindings.CResult_PayeePubKeyErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -53,6 +55,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	 */
 	public static Result_PayeePubKeyErrorZ err(org.ldk.enums.Secp256k1Error e) {
 		long ret = bindings.CResult_PayeePubKeyErrorZ_err(e);
+		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -63,11 +66,13 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_PayeePubKeyErrorZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	long clone_ptr() {
 		long ret = bindings.CResult_PayeePubKeyErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -77,6 +82,7 @@ public class Result_PayeePubKeyErrorZ extends CommonBase {
 	 */
 	public Result_PayeePubKeyErrorZ clone() {
 		long ret = bindings.CResult_PayeePubKeyErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

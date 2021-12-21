@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -23,6 +24,7 @@ public class ShutdownScript extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ShutdownScript_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -31,6 +33,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public ShutdownScript clone() {
 		long ret = bindings.ShutdownScript_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -42,6 +45,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ShutdownScript_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -50,6 +54,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static Result_ShutdownScriptDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ShutdownScript_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ShutdownScriptDecodeErrorZ ret_hu_conv = Result_ShutdownScriptDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -60,6 +65,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static ShutdownScript new_p2wpkh(byte[] pubkey_hash) {
 		long ret = bindings.ShutdownScript_new_p2wpkh(InternalUtils.check_arr_len(pubkey_hash, 20));
+		Reference.reachabilityFence(pubkey_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -71,6 +77,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static ShutdownScript new_p2wsh(byte[] script_hash) {
 		long ret = bindings.ShutdownScript_new_p2wsh(InternalUtils.check_arr_len(script_hash, 32));
+		Reference.reachabilityFence(script_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ShutdownScript ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ShutdownScript(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -89,6 +96,8 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public static Result_ShutdownScriptInvalidShutdownScriptZ new_witness_program(byte version, byte[] program) {
 		long ret = bindings.ShutdownScript_new_witness_program(version, program);
+		Reference.reachabilityFence(version);
+		Reference.reachabilityFence(program);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ShutdownScriptInvalidShutdownScriptZ ret_hu_conv = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -99,6 +108,7 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public byte[] into_inner() {
 		byte[] ret = bindings.ShutdownScript_into_inner(this.ptr);
+		Reference.reachabilityFence(this);
 		;
 		return ret;
 	}
@@ -111,6 +121,7 @@ public class ShutdownScript extends CommonBase {
 	@Nullable
 	public byte[] as_legacy_pubkey() {
 		byte[] ret = bindings.ShutdownScript_as_legacy_pubkey(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -121,6 +132,8 @@ public class ShutdownScript extends CommonBase {
 	 */
 	public boolean is_compatible(InitFeatures features) {
 		boolean ret = bindings.ShutdownScript_is_compatible(this.ptr, features == null ? 0 : features.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(features);
 		this.ptrs_to.add(features);
 		return ret;
 	}

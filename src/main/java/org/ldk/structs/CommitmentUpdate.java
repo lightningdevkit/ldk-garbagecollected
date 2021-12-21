@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -25,6 +26,7 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public UpdateAddHTLC[] get_update_add_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_add_htlcs(this.ptr);
+		Reference.reachabilityFence(this);
 		UpdateAddHTLC[] ret_conv_15_arr = new UpdateAddHTLC[ret.length];
 		for (int p = 0; p < ret.length; p++) {
 			long ret_conv_15 = ret[p];
@@ -40,6 +42,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public void set_update_add_htlcs(UpdateAddHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_add_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_15 -> val_conv_15 == null ? 0 : val_conv_15.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -47,6 +51,7 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public UpdateFulfillHTLC[] get_update_fulfill_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fulfill_htlcs(this.ptr);
+		Reference.reachabilityFence(this);
 		UpdateFulfillHTLC[] ret_conv_19_arr = new UpdateFulfillHTLC[ret.length];
 		for (int t = 0; t < ret.length; t++) {
 			long ret_conv_19 = ret[t];
@@ -62,6 +67,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public void set_update_fulfill_htlcs(UpdateFulfillHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_fulfill_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_19 -> val_conv_19 == null ? 0 : val_conv_19.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -69,6 +76,7 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public UpdateFailHTLC[] get_update_fail_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fail_htlcs(this.ptr);
+		Reference.reachabilityFence(this);
 		UpdateFailHTLC[] ret_conv_16_arr = new UpdateFailHTLC[ret.length];
 		for (int q = 0; q < ret.length; q++) {
 			long ret_conv_16 = ret[q];
@@ -84,6 +92,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public void set_update_fail_htlcs(UpdateFailHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_fail_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_16 -> val_conv_16 == null ? 0 : val_conv_16.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -91,6 +101,7 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public UpdateFailMalformedHTLC[] get_update_fail_malformed_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fail_malformed_htlcs(this.ptr);
+		Reference.reachabilityFence(this);
 		UpdateFailMalformedHTLC[] ret_conv_25_arr = new UpdateFailMalformedHTLC[ret.length];
 		for (int z = 0; z < ret.length; z++) {
 			long ret_conv_25 = ret[z];
@@ -106,6 +117,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public void set_update_fail_malformed_htlcs(UpdateFailMalformedHTLC[] val) {
 		bindings.CommitmentUpdate_set_update_fail_malformed_htlcs(this.ptr, val != null ? Arrays.stream(val).mapToLong(val_conv_25 -> val_conv_25 == null ? 0 : val_conv_25.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -116,6 +129,7 @@ public class CommitmentUpdate extends CommonBase {
 	@Nullable
 	public UpdateFee get_update_fee() {
 		long ret = bindings.CommitmentUpdate_get_update_fee(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UpdateFee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UpdateFee(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -129,6 +143,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public void set_update_fee(@Nullable UpdateFee val) {
 		bindings.CommitmentUpdate_set_update_fee(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -136,6 +152,7 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public CommitmentSigned get_commitment_signed() {
 		long ret = bindings.CommitmentUpdate_get_commitment_signed(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CommitmentSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -147,6 +164,8 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public void set_commitment_signed(CommitmentSigned val) {
 		bindings.CommitmentUpdate_set_commitment_signed(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -154,6 +173,12 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public static CommitmentUpdate of(UpdateAddHTLC[] update_add_htlcs_arg, UpdateFulfillHTLC[] update_fulfill_htlcs_arg, UpdateFailHTLC[] update_fail_htlcs_arg, UpdateFailMalformedHTLC[] update_fail_malformed_htlcs_arg, UpdateFee update_fee_arg, CommitmentSigned commitment_signed_arg) {
 		long ret = bindings.CommitmentUpdate_new(update_add_htlcs_arg != null ? Arrays.stream(update_add_htlcs_arg).mapToLong(update_add_htlcs_arg_conv_15 -> update_add_htlcs_arg_conv_15 == null ? 0 : update_add_htlcs_arg_conv_15.ptr & ~1).toArray() : null, update_fulfill_htlcs_arg != null ? Arrays.stream(update_fulfill_htlcs_arg).mapToLong(update_fulfill_htlcs_arg_conv_19 -> update_fulfill_htlcs_arg_conv_19 == null ? 0 : update_fulfill_htlcs_arg_conv_19.ptr & ~1).toArray() : null, update_fail_htlcs_arg != null ? Arrays.stream(update_fail_htlcs_arg).mapToLong(update_fail_htlcs_arg_conv_16 -> update_fail_htlcs_arg_conv_16 == null ? 0 : update_fail_htlcs_arg_conv_16.ptr & ~1).toArray() : null, update_fail_malformed_htlcs_arg != null ? Arrays.stream(update_fail_malformed_htlcs_arg).mapToLong(update_fail_malformed_htlcs_arg_conv_25 -> update_fail_malformed_htlcs_arg_conv_25 == null ? 0 : update_fail_malformed_htlcs_arg_conv_25.ptr & ~1).toArray() : null, update_fee_arg == null ? 0 : update_fee_arg.ptr & ~1, commitment_signed_arg == null ? 0 : commitment_signed_arg.ptr & ~1);
+		Reference.reachabilityFence(update_add_htlcs_arg);
+		Reference.reachabilityFence(update_fulfill_htlcs_arg);
+		Reference.reachabilityFence(update_fail_htlcs_arg);
+		Reference.reachabilityFence(update_fail_malformed_htlcs_arg);
+		Reference.reachabilityFence(update_fee_arg);
+		Reference.reachabilityFence(commitment_signed_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CommitmentUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -162,6 +187,7 @@ public class CommitmentUpdate extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.CommitmentUpdate_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -170,6 +196,7 @@ public class CommitmentUpdate extends CommonBase {
 	 */
 	public CommitmentUpdate clone() {
 		long ret = bindings.CommitmentUpdate_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CommitmentUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CommitmentUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);

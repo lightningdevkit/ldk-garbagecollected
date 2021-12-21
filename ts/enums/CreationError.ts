@@ -16,5 +16,9 @@ LDKCreationError_TimestampOutOfBounds,
  * The supplied expiry time could cause an overflow if added to a `PositiveTimestamp`
  */
 LDKCreationError_ExpiryTimeOutOfBounds,
+				/**
+ * The supplied millisatoshi amount was greater than the total bitcoin supply.
+ */
+LDKCreationError_InvalidAmount,
 				
             }

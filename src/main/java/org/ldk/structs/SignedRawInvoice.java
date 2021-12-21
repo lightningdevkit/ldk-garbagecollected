@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -30,12 +31,19 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public boolean eq(SignedRawInvoice b) {
 		boolean ret = bindings.SignedRawInvoice_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof SignedRawInvoice)) return false;
+		return this.eq((SignedRawInvoice)o);
+	}
 	long clone_ptr() {
 		long ret = bindings.SignedRawInvoice_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -44,6 +52,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public SignedRawInvoice clone() {
 		long ret = bindings.SignedRawInvoice_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		SignedRawInvoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new SignedRawInvoice(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -58,6 +67,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public ThreeTuple_RawInvoice_u832InvoiceSignatureZ into_parts() {
 		long ret = bindings.SignedRawInvoice_into_parts(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ThreeTuple_RawInvoice_u832InvoiceSignatureZ ret_hu_conv = new ThreeTuple_RawInvoice_u832InvoiceSignatureZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -70,6 +80,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public RawInvoice raw_invoice() {
 		long ret = bindings.SignedRawInvoice_raw_invoice(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RawInvoice ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RawInvoice(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -81,6 +92,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public byte[] hash() {
 		byte[] ret = bindings.SignedRawInvoice_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -89,6 +101,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public InvoiceSignature signature() {
 		long ret = bindings.SignedRawInvoice_signature(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		InvoiceSignature ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new InvoiceSignature(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -100,6 +113,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public Result_PayeePubKeyErrorZ recover_payee_pub_key() {
 		long ret = bindings.SignedRawInvoice_recover_payee_pub_key(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PayeePubKeyErrorZ ret_hu_conv = Result_PayeePubKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -111,6 +125,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public boolean check_signature() {
 		boolean ret = bindings.SignedRawInvoice_check_signature(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -119,6 +134,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public static Result_SignedRawInvoiceNoneZ from_str(java.lang.String s) {
 		long ret = bindings.SignedRawInvoice_from_str(s);
+		Reference.reachabilityFence(s);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SignedRawInvoiceNoneZ ret_hu_conv = Result_SignedRawInvoiceNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -129,6 +145,7 @@ public class SignedRawInvoice extends CommonBase {
 	 */
 	public String to_str() {
 		String ret = bindings.SignedRawInvoice_to_str(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

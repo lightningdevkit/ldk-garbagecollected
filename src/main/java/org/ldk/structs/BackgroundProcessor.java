@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -17,6 +18,8 @@ import javax.annotation.Nullable;
  * [`ChannelManager`] persistence should be done in the background.
  * Calling [`ChannelManager::timer_tick_occurred`] and [`PeerManager::timer_tick_occurred`]
  * at the appropriate intervals.
+ * Calling [`NetworkGraph::remove_stale_channels`] (if a [`NetGraphMsgHandler`] is provided to
+ * [`BackgroundProcessor::start`]).
  * 
  * It will also call [`PeerManager::process_events`] periodically though this shouldn't be relied
  * upon as doing so may result in high latency.
@@ -67,7 +70,7 @@ public class BackgroundProcessor extends CommonBase {
 	 * functionality implemented by other handlers.
 	 * [`NetGraphMsgHandler`] if given will update the [`NetworkGraph`] based on payment failures.
 	 * 
-	 * [top-level documentation]: Self
+	 * [top-level documentation]: BackgroundProcessor
 	 * [`join`]: Self::join
 	 * [`stop`]: Self::stop
 	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
@@ -79,6 +82,13 @@ public class BackgroundProcessor extends CommonBase {
 	 */
 	public static BackgroundProcessor start(ChannelManagerPersister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, @Nullable NetGraphMsgHandler net_graph_msg_handler, PeerManager peer_manager, Logger logger) {
 		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr & ~1, channel_manager == null ? 0 : channel_manager.ptr & ~1, net_graph_msg_handler == null ? 0 : net_graph_msg_handler.ptr & ~1, peer_manager == null ? 0 : peer_manager.ptr & ~1, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(persister);
+		Reference.reachabilityFence(event_handler);
+		Reference.reachabilityFence(chain_monitor);
+		Reference.reachabilityFence(channel_manager);
+		Reference.reachabilityFence(net_graph_msg_handler);
+		Reference.reachabilityFence(peer_manager);
+		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BackgroundProcessor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BackgroundProcessor(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -105,6 +115,7 @@ public class BackgroundProcessor extends CommonBase {
 	 */
 	public Result_NoneErrorZ join() {
 		long ret = bindings.BackgroundProcessor_join(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(this);
@@ -132,6 +143,7 @@ public class BackgroundProcessor extends CommonBase {
 	 */
 	public Result_NoneErrorZ stop() {
 		long ret = bindings.BackgroundProcessor_stop(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(this);

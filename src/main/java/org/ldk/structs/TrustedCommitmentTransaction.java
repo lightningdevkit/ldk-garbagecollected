@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -29,6 +30,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 */
 	public byte[] txid() {
 		byte[] ret = bindings.TrustedCommitmentTransaction_txid(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -37,6 +39,7 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 */
 	public BuiltCommitmentTransaction built_transaction() {
 		long ret = bindings.TrustedCommitmentTransaction_built_transaction(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BuiltCommitmentTransaction ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BuiltCommitmentTransaction(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -48,10 +51,20 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 */
 	public TxCreationKeys keys() {
 		long ret = bindings.TrustedCommitmentTransaction_keys(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TxCreationKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new TxCreationKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
+	}
+
+	/**
+	 * Should anchors be used.
+	 */
+	public boolean opt_anchors() {
+		boolean ret = bindings.TrustedCommitmentTransaction_opt_anchors(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
 	}
 
 	/**
@@ -62,6 +75,9 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 */
 	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, DirectedChannelTransactionParameters channel_parameters) {
 		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(htlc_base_key);
+		Reference.reachabilityFence(channel_parameters);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(channel_parameters);

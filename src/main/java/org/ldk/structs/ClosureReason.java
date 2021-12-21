@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -31,6 +32,9 @@ public class ClosureReason extends CommonBase {
 		}
 		if (raw_val.getClass() == bindings.LDKClosureReason.CommitmentTxConfirmed.class) {
 			return new CommitmentTxConfirmed(ptr, (bindings.LDKClosureReason.CommitmentTxConfirmed)raw_val);
+		}
+		if (raw_val.getClass() == bindings.LDKClosureReason.FundingTimedOut.class) {
+			return new FundingTimedOut(ptr, (bindings.LDKClosureReason.FundingTimedOut)raw_val);
 		}
 		if (raw_val.getClass() == bindings.LDKClosureReason.ProcessingError.class) {
 			return new ProcessingError(ptr, (bindings.LDKClosureReason.ProcessingError)raw_val);
@@ -94,6 +98,14 @@ public class ClosureReason extends CommonBase {
 		}
 	}
 	/**
+	 * The funding transaction failed to confirm in a timely manner on an inbound channel.
+	 */
+	public final static class FundingTimedOut extends ClosureReason {
+		private FundingTimedOut(long ptr, bindings.LDKClosureReason.FundingTimedOut obj) {
+			super(null, ptr);
+		}
+	}
+	/**
 	 * Closure generated from processing an event, likely a HTLC forward/relay/reception.
 	 */
 	public final static class ProcessingError extends ClosureReason {
@@ -129,6 +141,7 @@ public class ClosureReason extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.ClosureReason_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -137,6 +150,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public ClosureReason clone() {
 		long ret = bindings.ClosureReason_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -148,6 +162,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public static ClosureReason counterparty_force_closed(java.lang.String peer_msg) {
 		long ret = bindings.ClosureReason_counterparty_force_closed(peer_msg);
+		Reference.reachabilityFence(peer_msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -188,10 +203,22 @@ public class ClosureReason extends CommonBase {
 	}
 
 	/**
+	 * Utility method to constructs a new FundingTimedOut-variant ClosureReason
+	 */
+	public static ClosureReason funding_timed_out() {
+		long ret = bindings.ClosureReason_funding_timed_out();
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility method to constructs a new ProcessingError-variant ClosureReason
 	 */
 	public static ClosureReason processing_error(java.lang.String err) {
 		long ret = bindings.ClosureReason_processing_error(err);
+		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -225,6 +252,7 @@ public class ClosureReason extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ClosureReason_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

@@ -18,8 +18,8 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.Scorer_free(this.ptr);
                     }
                 }
-	public static Scorer constructor_new(number params_base_penalty_msat_arg, number params_failure_penalty_msat_arg, number params_failure_penalty_half_life_arg) {
-		number ret = bindings.Scorer_new(bindings.ScoringParameters_new(params_base_penalty_msat_arg, params_failure_penalty_msat_arg, params_failure_penalty_half_life_arg));
+	public static Scorer constructor_new(number params_base_penalty_msat_arg, number params_failure_penalty_msat_arg, number params_overuse_penalty_start_1024th_arg, number params_overuse_penalty_msat_per_1024th_arg, number params_failure_penalty_half_life_arg) {
+		number ret = bindings.Scorer_new(bindings.ScoringParameters_new(params_base_penalty_msat_arg, params_failure_penalty_msat_arg, params_overuse_penalty_start_1024th_arg, params_overuse_penalty_msat_per_1024th_arg, params_failure_penalty_half_life_arg));
 		const ret_hu_conv: Scorer = new Scorer(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

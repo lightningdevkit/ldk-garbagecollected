@@ -3,14 +3,32 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class UtilMethods {
+	/**
+	 * Constructs a new COption_NoneZ containing a
+	 */
+	public static COption_NoneZ COption_NoneZ_some() {
+		COption_NoneZ ret = bindings.COption_NoneZ_some();
+		return ret;
+	}
+
+	/**
+	 * Constructs a new COption_NoneZ containing nothing
+	 */
+	public static COption_NoneZ COption_NoneZ_none() {
+		COption_NoneZ ret = bindings.COption_NoneZ_none();
+		return ret;
+	}
+
 	/**
 	 * Read a ClosureReason from a byte array, created by ClosureReason_write
 	 */
 	public static Result_COption_ClosureReasonZDecodeErrorZ ClosureReason_read(byte[] ser) {
 		long ret = bindings.ClosureReason_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_COption_ClosureReasonZDecodeErrorZ ret_hu_conv = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -21,6 +39,7 @@ public class UtilMethods {
 	 */
 	public static Result_COption_EventZDecodeErrorZ Event_read(byte[] ser) {
 		long ret = bindings.Event_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_COption_EventZDecodeErrorZ ret_hu_conv = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -33,6 +52,8 @@ public class UtilMethods {
 	 */
 	public static Result_StringErrorZ sign(byte[] msg, byte[] sk) {
 		long ret = bindings.sign(msg, InternalUtils.check_arr_len(sk, 32));
+		Reference.reachabilityFence(msg);
+		Reference.reachabilityFence(sk);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_StringErrorZ ret_hu_conv = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -43,6 +64,8 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ recover_pk(byte[] msg, java.lang.String sig) {
 		long ret = bindings.recover_pk(msg, sig);
+		Reference.reachabilityFence(msg);
+		Reference.reachabilityFence(sig);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -54,6 +77,9 @@ public class UtilMethods {
 	 */
 	public static boolean verify(byte[] msg, java.lang.String sig, byte[] pk) {
 		boolean ret = bindings.verify(msg, sig, InternalUtils.check_arr_len(pk, 33));
+		Reference.reachabilityFence(msg);
+		Reference.reachabilityFence(sig);
+		Reference.reachabilityFence(pk);
 		return ret;
 	}
 
@@ -62,6 +88,7 @@ public class UtilMethods {
 	 */
 	public static Result_COption_MonitorEventZDecodeErrorZ MonitorEvent_read(byte[] ser) {
 		long ret = bindings.MonitorEvent_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_COption_MonitorEventZDecodeErrorZ ret_hu_conv = Result_COption_MonitorEventZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -72,6 +99,8 @@ public class UtilMethods {
 	 */
 	public static Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ C2Tuple_BlockHashChannelMonitorZ_read(byte[] ser, KeysInterface arg) {
 		long ret = bindings.C2Tuple_BlockHashChannelMonitorZ_read(ser, arg == null ? 0 : arg.ptr);
+		Reference.reachabilityFence(ser);
+		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(arg);
@@ -83,6 +112,14 @@ public class UtilMethods {
 	 */
 	public static Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ C2Tuple_BlockHashChannelManagerZ_read(byte[] ser, KeysInterface arg_keys_manager, FeeEstimator arg_fee_estimator, Watch arg_chain_monitor, BroadcasterInterface arg_tx_broadcaster, Logger arg_logger, UserConfig arg_default_config, ChannelMonitor[] arg_channel_monitors) {
 		long ret = bindings.C2Tuple_BlockHashChannelManagerZ_read(ser, bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : arg_keys_manager.ptr, arg_fee_estimator == null ? 0 : arg_fee_estimator.ptr, arg_chain_monitor == null ? 0 : arg_chain_monitor.ptr, arg_tx_broadcaster == null ? 0 : arg_tx_broadcaster.ptr, arg_logger == null ? 0 : arg_logger.ptr, arg_default_config == null ? 0 : arg_default_config.ptr & ~1, arg_channel_monitors != null ? Arrays.stream(arg_channel_monitors).mapToLong(arg_channel_monitors_conv_16 -> arg_channel_monitors_conv_16 == null ? 0 : arg_channel_monitors_conv_16.ptr & ~1).toArray() : null));
+		Reference.reachabilityFence(ser);
+		Reference.reachabilityFence(arg_keys_manager);
+		Reference.reachabilityFence(arg_fee_estimator);
+		Reference.reachabilityFence(arg_chain_monitor);
+		Reference.reachabilityFence(arg_tx_broadcaster);
+		Reference.reachabilityFence(arg_logger);
+		Reference.reachabilityFence(arg_default_config);
+		Reference.reachabilityFence(arg_channel_monitors);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ ret_hu_conv = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(arg_keys_manager);
@@ -96,10 +133,30 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Gets the weight for an HTLC-Success transaction.
+	 */
+	public static long htlc_success_tx_weight(boolean opt_anchors) {
+		long ret = bindings.htlc_success_tx_weight(opt_anchors);
+		Reference.reachabilityFence(opt_anchors);
+		return ret;
+	}
+
+	/**
+	 * Gets the weight for an HTLC-Timeout transaction.
+	 */
+	public static long htlc_timeout_tx_weight(boolean opt_anchors) {
+		long ret = bindings.htlc_timeout_tx_weight(opt_anchors);
+		Reference.reachabilityFence(opt_anchors);
+		return ret;
+	}
+
+	/**
 	 * Build the commitment secret from the seed and the commitment number
 	 */
 	public static byte[] build_commitment_secret(byte[] commitment_seed, long idx) {
 		byte[] ret = bindings.build_commitment_secret(InternalUtils.check_arr_len(commitment_seed, 32), idx);
+		Reference.reachabilityFence(commitment_seed);
+		Reference.reachabilityFence(idx);
 		return ret;
 	}
 
@@ -108,6 +165,11 @@ public class UtilMethods {
 	 */
 	public static byte[] build_closing_transaction(long to_holder_value_sat, long to_counterparty_value_sat, byte[] to_holder_script, byte[] to_counterparty_script, OutPoint funding_outpoint) {
 		byte[] ret = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : funding_outpoint.ptr & ~1);
+		Reference.reachabilityFence(to_holder_value_sat);
+		Reference.reachabilityFence(to_counterparty_value_sat);
+		Reference.reachabilityFence(to_holder_script);
+		Reference.reachabilityFence(to_counterparty_script);
+		Reference.reachabilityFence(funding_outpoint);
 		return ret;
 	}
 
@@ -120,6 +182,8 @@ public class UtilMethods {
 	 */
 	public static Result_SecretKeyErrorZ derive_private_key(byte[] per_commitment_point, byte[] base_secret) {
 		long ret = bindings.derive_private_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_secret, 32));
+		Reference.reachabilityFence(per_commitment_point);
+		Reference.reachabilityFence(base_secret);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -135,6 +199,8 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ derive_public_key(byte[] per_commitment_point, byte[] base_point) {
 		long ret = bindings.derive_public_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_point, 33));
+		Reference.reachabilityFence(per_commitment_point);
+		Reference.reachabilityFence(base_point);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -153,6 +219,8 @@ public class UtilMethods {
 	 */
 	public static Result_SecretKeyErrorZ derive_private_revocation_key(byte[] per_commitment_secret, byte[] countersignatory_revocation_base_secret) {
 		long ret = bindings.derive_private_revocation_key(InternalUtils.check_arr_len(per_commitment_secret, 32), InternalUtils.check_arr_len(countersignatory_revocation_base_secret, 32));
+		Reference.reachabilityFence(per_commitment_secret);
+		Reference.reachabilityFence(countersignatory_revocation_base_secret);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -173,6 +241,8 @@ public class UtilMethods {
 	 */
 	public static Result_PublicKeyErrorZ derive_public_revocation_key(byte[] per_commitment_point, byte[] countersignatory_revocation_base_point) {
 		long ret = bindings.derive_public_revocation_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(countersignatory_revocation_base_point, 33));
+		Reference.reachabilityFence(per_commitment_point);
+		Reference.reachabilityFence(countersignatory_revocation_base_point);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PublicKeyErrorZ ret_hu_conv = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -185,6 +255,9 @@ public class UtilMethods {
 	 */
 	public static byte[] get_revokeable_redeemscript(byte[] revocation_key, short contest_delay, byte[] broadcaster_delayed_payment_key) {
 		byte[] ret = bindings.get_revokeable_redeemscript(InternalUtils.check_arr_len(revocation_key, 33), contest_delay, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33));
+		Reference.reachabilityFence(revocation_key);
+		Reference.reachabilityFence(contest_delay);
+		Reference.reachabilityFence(broadcaster_delayed_payment_key);
 		return ret;
 	}
 
@@ -192,8 +265,11 @@ public class UtilMethods {
 	 * Gets the witness redeemscript for an HTLC output in a commitment transaction. Note that htlc
 	 * does not need to have its previous_output_index filled.
 	 */
-	public static byte[] get_htlc_redeemscript(HTLCOutputInCommitment htlc, TxCreationKeys keys) {
-		byte[] ret = bindings.get_htlc_redeemscript(htlc == null ? 0 : htlc.ptr & ~1, keys == null ? 0 : keys.ptr & ~1);
+	public static byte[] get_htlc_redeemscript(HTLCOutputInCommitment htlc, boolean opt_anchors, TxCreationKeys keys) {
+		byte[] ret = bindings.get_htlc_redeemscript(htlc == null ? 0 : htlc.ptr & ~1, opt_anchors, keys == null ? 0 : keys.ptr & ~1);
+		Reference.reachabilityFence(htlc);
+		Reference.reachabilityFence(opt_anchors);
+		Reference.reachabilityFence(keys);
 		// this.ptrs_to.add(htlc);
 		// this.ptrs_to.add(keys);
 		return ret;
@@ -205,6 +281,8 @@ public class UtilMethods {
 	 */
 	public static byte[] make_funding_redeemscript(byte[] broadcaster, byte[] countersignatory) {
 		byte[] ret = bindings.make_funding_redeemscript(InternalUtils.check_arr_len(broadcaster, 33), InternalUtils.check_arr_len(countersignatory, 33));
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(countersignatory);
 		return ret;
 	}
 
@@ -217,9 +295,30 @@ public class UtilMethods {
 	 * Panics if htlc.transaction_output_index.is_none() (as such HTLCs do not appear in the
 	 * commitment transaction).
 	 */
-	public static byte[] build_htlc_transaction(byte[] commitment_txid, int feerate_per_kw, short contest_delay, HTLCOutputInCommitment htlc, byte[] broadcaster_delayed_payment_key, byte[] revocation_key) {
-		byte[] ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr & ~1, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
+	public static byte[] build_htlc_transaction(byte[] commitment_txid, int feerate_per_kw, short contest_delay, HTLCOutputInCommitment htlc, boolean opt_anchors, byte[] broadcaster_delayed_payment_key, byte[] revocation_key) {
+		byte[] ret = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : htlc.ptr & ~1, opt_anchors, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
+		Reference.reachabilityFence(commitment_txid);
+		Reference.reachabilityFence(feerate_per_kw);
+		Reference.reachabilityFence(contest_delay);
+		Reference.reachabilityFence(htlc);
+		Reference.reachabilityFence(opt_anchors);
+		Reference.reachabilityFence(broadcaster_delayed_payment_key);
+		Reference.reachabilityFence(revocation_key);
 		// this.ptrs_to.add(htlc);
+		return ret;
+	}
+
+	/**
+	 * Gets the witnessScript for an anchor output from the funding public key.
+	 * The witness in the spending input must be:
+	 * <BIP 143 funding_signature>
+	 * After 16 blocks of confirmation, an alternative satisfying witness could be:
+	 * <>
+	 * (empty vector required to satisfy compliance with MINIMALIF-standard rule)
+	 */
+	public static byte[] get_anchor_redeemscript(byte[] funding_pubkey) {
+		byte[] ret = bindings.get_anchor_redeemscript(InternalUtils.check_arr_len(funding_pubkey, 33));
+		Reference.reachabilityFence(funding_pubkey);
 		return ret;
 	}
 
@@ -233,6 +332,9 @@ public class UtilMethods {
 	 */
 	public static long get_commitment_transaction_number_obscure_factor(byte[] broadcaster_payment_basepoint, byte[] countersignatory_payment_basepoint, boolean outbound_from_broadcaster) {
 		long ret = bindings.get_commitment_transaction_number_obscure_factor(InternalUtils.check_arr_len(broadcaster_payment_basepoint, 33), InternalUtils.check_arr_len(countersignatory_payment_basepoint, 33), outbound_from_broadcaster);
+		Reference.reachabilityFence(broadcaster_payment_basepoint);
+		Reference.reachabilityFence(countersignatory_payment_basepoint);
+		Reference.reachabilityFence(outbound_from_broadcaster);
 		return ret;
 	}
 
@@ -241,6 +343,7 @@ public class UtilMethods {
 	 */
 	public static Result_COption_NetworkUpdateZDecodeErrorZ NetworkUpdate_read(byte[] ser) {
 		long ret = bindings.NetworkUpdate_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_COption_NetworkUpdateZDecodeErrorZ ret_hu_conv = Result_COption_NetworkUpdateZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -280,6 +383,12 @@ public class UtilMethods {
 	 */
 	public static Result_RouteLightningErrorZ find_route(byte[] our_node_pubkey, RouteParameters params, NetworkGraph network, @Nullable ChannelDetails[] first_hops, Logger logger, Score scorer) {
 		long ret = bindings.find_route(InternalUtils.check_arr_len(our_node_pubkey, 33), params == null ? 0 : params.ptr & ~1, network == null ? 0 : network.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
+		Reference.reachabilityFence(our_node_pubkey);
+		Reference.reachabilityFence(params);
+		Reference.reachabilityFence(network);
+		Reference.reachabilityFence(first_hops);
+		Reference.reachabilityFence(logger);
+		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(params);
@@ -296,6 +405,8 @@ public class UtilMethods {
 	 */
 	public static Result_NoneErrorZ FilesystemPersister_persist_manager(java.lang.String data_dir, ChannelManager manager) {
 		long ret = bindings.FilesystemPersister_persist_manager(data_dir, manager == null ? 0 : manager.ptr & ~1);
+		Reference.reachabilityFence(data_dir);
+		Reference.reachabilityFence(manager);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneErrorZ ret_hu_conv = Result_NoneErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(manager);
@@ -311,6 +422,11 @@ public class UtilMethods {
 	 */
 	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager(ChannelManager channelmanager, KeysInterface keys_manager, org.ldk.enums.Currency network, Option_u64Z amt_msat, java.lang.String description) {
 		long ret = bindings.create_invoice_from_channelmanager(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description);
+		Reference.reachabilityFence(channelmanager);
+		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(network);
+		Reference.reachabilityFence(amt_msat);
+		Reference.reachabilityFence(description);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(channelmanager);

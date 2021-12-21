@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -36,6 +37,9 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentPathFailed.class) {
 			return new PaymentPathFailed(ptr, (bindings.LDKEvent.PaymentPathFailed)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.PaymentFailed.class) {
+			return new PaymentFailed(ptr, (bindings.LDKEvent.PaymentFailed)raw_val);
+		}
 		if (raw_val.getClass() == bindings.LDKEvent.PendingHTLCsForwardable.class) {
 			return new PendingHTLCsForwardable(ptr, (bindings.LDKEvent.PendingHTLCsForwardable)raw_val);
 		}
@@ -51,15 +55,21 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.DiscardFunding.class) {
 			return new DiscardFunding(ptr, (bindings.LDKEvent.DiscardFunding)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.PaymentPathSuccessful.class) {
+			return new PaymentPathSuccessful(ptr, (bindings.LDKEvent.PaymentPathSuccessful)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
 	/**
 	 * Used to indicate that the client should generate a funding transaction with the given
-	 * parameters and then call ChannelManager::funding_transaction_generated.
-	 * Generated in ChannelManager message handling.
+	 * parameters and then call [`ChannelManager::funding_transaction_generated`].
+	 * Generated in [`ChannelManager`] message handling.
 	 * Note that *all inputs* in the funding transaction must spend SegWit outputs or your
 	 * counterparty can steal your funds!
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 * [`ChannelManager::funding_transaction_generated`]: crate::ln::channelmanager::ChannelManager::funding_transaction_generated
 	 */
 	public final static class FundingGenerationReady extends Event {
 		/**
@@ -100,12 +110,17 @@ public class Event extends CommonBase {
 	 * [`ChannelManager::fail_htlc_backwards`] within the HTLC's timeout, the HTLC will be
 	 * automatically failed.
 	 * 
+	 * # Note
+	 * LDK will not stop an inbound payment from being paid multiple times, so multiple
+	 * `PaymentReceived` events may be generated for the same payment.
+	 * 
 	 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
 	 * [`ChannelManager::fail_htlc_backwards`]: crate::ln::channelmanager::ChannelManager::fail_htlc_backwards
 	 */
 	public final static class PaymentReceived extends Event {
 		/**
-		 * The hash for which the preimage should be handed to the ChannelManager.
+		 * The hash for which the preimage should be handed to the ChannelManager. Note that LDK will
+		 * not stop you from registering duplicate payment hashes for inbound payments.
 		*/
 		public final byte[] payment_hash;
 		/**
@@ -152,7 +167,7 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] payment_preimage;
 		/**
-		 * The hash which was given to [`ChannelManager::send_payment`].
+		 * The hash that was given to [`ChannelManager::send_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 		*/
@@ -181,22 +196,30 @@ public class Event extends CommonBase {
 		}
 	}
 	/**
-	 * Indicates an outbound payment we made failed. Probably some intermediary node dropped
+	 * Indicates an outbound HTLC we sent failed. Probably some intermediary node dropped
 	 * something. You may wish to retry with a different route.
+	 * 
+	 * Note that this does *not* indicate that all paths for an MPP payment have failed, see
+	 * [`Event::PaymentFailed`] and [`all_paths_failed`].
+	 * 
+	 * [`all_paths_failed`]: Self::all_paths_failed
 	 */
 	public final static class PaymentPathFailed extends Event {
 		/**
 		 * The id returned by [`ChannelManager::send_payment`] and used with
-		 * [`ChannelManager::retry_payment`].
+		 * [`ChannelManager::retry_payment`] and [`ChannelManager::abandon_payment`].
 		 * 
 		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+		 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
 		@Nullable public final byte[] payment_id;
 		/**
-		 * The hash which was given to ChannelManager::send_payment.
+		 * The hash that was given to [`ChannelManager::send_payment`].
+		 * 
+		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
 		*/
 		public final byte[] payment_hash;
 		/**
@@ -220,6 +243,20 @@ public class Event extends CommonBase {
 		 * For both single-path and multi-path payments, this is set if all paths of the payment have
 		 * failed. This will be set to false if (1) this is an MPP payment and (2) other parts of the
 		 * larger MPP payment were still in flight when this event was generated.
+		 * 
+		 * Note that if you are retrying individual MPP parts, using this value to determine if a
+		 * payment has fully failed is race-y. Because multiple failures can happen prior to events
+		 * being processed, you may retry in response to a first failure, with a second failure
+		 * (with `all_paths_failed` set) still pending. Then, when the second failure is processed
+		 * you will see `all_paths_failed` set even though the retry of the first failure still
+		 * has an associated in-flight HTLC. See (1) for an example of such a failure.
+		 * 
+		 * If you wish to retry individual MPP parts and learn when a payment has failed, you must
+		 * call [`ChannelManager::abandon_payment`] and wait for a [`Event::PaymentFailed`] event.
+		 * 
+		 * (1) <https://github.com/lightningdevkit/rust-lightning/issues/1164>
+		 * 
+		 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
 		*/
 		public final boolean all_paths_failed;
 		/**
@@ -274,8 +311,42 @@ public class Event extends CommonBase {
 		}
 	}
 	/**
-	 * Used to indicate that ChannelManager::process_pending_htlc_forwards should be called at a
-	 * time in the future.
+	 * Indicates an outbound payment failed. Individual [`Event::PaymentPathFailed`] events
+	 * provide failure information for each MPP part in the payment.
+	 * 
+	 * This event is provided once there are no further pending HTLCs for the payment and the
+	 * payment is no longer retryable, either due to a several-block timeout or because
+	 * [`ChannelManager::abandon_payment`] was previously called for the corresponding payment.
+	 * 
+	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
+	 */
+	public final static class PaymentFailed extends Event {
+		/**
+		 * The id returned by [`ChannelManager::send_payment`] and used with
+		 * [`ChannelManager::retry_payment`] and [`ChannelManager::abandon_payment`].
+		 * 
+		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+		 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
+		*/
+		public final byte[] payment_id;
+		/**
+		 * The hash that was given to [`ChannelManager::send_payment`].
+		 * 
+		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+		*/
+		public final byte[] payment_hash;
+		private PaymentFailed(long ptr, bindings.LDKEvent.PaymentFailed obj) {
+			super(null, ptr);
+			this.payment_id = obj.payment_id;
+			this.payment_hash = obj.payment_hash;
+		}
+	}
+	/**
+	 * Used to indicate that [`ChannelManager::process_pending_htlc_forwards`] should be called at
+	 * a time in the future.
+	 * 
+	 * [`ChannelManager::process_pending_htlc_forwards`]: crate::ln::channelmanager::ChannelManager::process_pending_htlc_forwards
 	 */
 	public final static class PendingHTLCsForwardable extends Event {
 		/**
@@ -400,8 +471,53 @@ public class Event extends CommonBase {
 			this.transaction = obj.transaction;
 		}
 	}
+	/**
+	 * Indicates that a path for an outbound payment was successful.
+	 * 
+	 * Always generated after [`Event::PaymentSent`] and thus useful for scoring channels. See
+	 * [`Event::PaymentSent`] for obtaining the payment preimage.
+	 */
+	public final static class PaymentPathSuccessful extends Event {
+		/**
+		 * The id returned by [`ChannelManager::send_payment`] and used with
+		 * [`ChannelManager::retry_payment`].
+		 * 
+		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+		 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+		*/
+		public final byte[] payment_id;
+		/**
+		 * The hash that was given to [`ChannelManager::send_payment`].
+		 * 
+		 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+		 * 
+		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+		*/
+		@Nullable public final byte[] payment_hash;
+		/**
+		 * The payment path that was successful.
+		 * 
+		 * May contain a closed channel if the HTLC sent along the path was fulfilled on chain.
+		*/
+		public final RouteHop[] path;
+		private PaymentPathSuccessful(long ptr, bindings.LDKEvent.PaymentPathSuccessful obj) {
+			super(null, ptr);
+			this.payment_id = obj.payment_id;
+			this.payment_hash = obj.payment_hash;
+			long[] path = obj.path;
+			RouteHop[] path_conv_10_arr = new RouteHop[path.length];
+			for (int k = 0; k < path.length; k++) {
+				long path_conv_10 = path[k];
+				RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new RouteHop(null, path_conv_10); }
+				path_conv_10_hu_conv.ptrs_to.add(this);
+				path_conv_10_arr[k] = path_conv_10_hu_conv;
+			}
+			this.path = path_conv_10_arr;
+		}
+	}
 	long clone_ptr() {
 		long ret = bindings.Event_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -410,6 +526,7 @@ public class Event extends CommonBase {
 	 */
 	public Event clone() {
 		long ret = bindings.Event_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -421,6 +538,10 @@ public class Event extends CommonBase {
 	 */
 	public static Event funding_generation_ready(byte[] temporary_channel_id, long channel_value_satoshis, byte[] output_script, long user_channel_id) {
 		long ret = bindings.Event_funding_generation_ready(InternalUtils.check_arr_len(temporary_channel_id, 32), channel_value_satoshis, output_script, user_channel_id);
+		Reference.reachabilityFence(temporary_channel_id);
+		Reference.reachabilityFence(channel_value_satoshis);
+		Reference.reachabilityFence(output_script);
+		Reference.reachabilityFence(user_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -432,6 +553,9 @@ public class Event extends CommonBase {
 	 */
 	public static Event payment_received(byte[] payment_hash, long amt, PaymentPurpose purpose) {
 		long ret = bindings.Event_payment_received(InternalUtils.check_arr_len(payment_hash, 32), amt, purpose.ptr);
+		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(amt);
+		Reference.reachabilityFence(purpose);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -443,6 +567,10 @@ public class Event extends CommonBase {
 	 */
 	public static Event payment_sent(byte[] payment_id, byte[] payment_preimage, byte[] payment_hash, Option_u64Z fee_paid_msat) {
 		long ret = bindings.Event_payment_sent(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_hash, 32), fee_paid_msat.ptr);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(payment_preimage);
+		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(fee_paid_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -454,6 +582,27 @@ public class Event extends CommonBase {
 	 */
 	public static Event payment_path_failed(byte[] payment_id, byte[] payment_hash, boolean rejected_by_dest, Option_NetworkUpdateZ network_update, boolean all_paths_failed, RouteHop[] path, Option_u64Z short_channel_id, RouteParameters retry) {
 		long ret = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), rejected_by_dest, network_update.ptr, all_paths_failed, path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null, short_channel_id.ptr, retry == null ? 0 : retry.ptr & ~1);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(rejected_by_dest);
+		Reference.reachabilityFence(network_update);
+		Reference.reachabilityFence(all_paths_failed);
+		Reference.reachabilityFence(path);
+		Reference.reachabilityFence(short_channel_id);
+		Reference.reachabilityFence(retry);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PaymentFailed-variant Event
+	 */
+	public static Event payment_failed(byte[] payment_id, byte[] payment_hash) {
+		long ret = bindings.Event_payment_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32));
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -465,6 +614,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event pending_htlcs_forwardable(long time_forwardable) {
 		long ret = bindings.Event_pending_htlcs_forwardable(time_forwardable);
+		Reference.reachabilityFence(time_forwardable);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -476,6 +626,7 @@ public class Event extends CommonBase {
 	 */
 	public static Event spendable_outputs(SpendableOutputDescriptor[] outputs) {
 		long ret = bindings.Event_spendable_outputs(outputs != null ? Arrays.stream(outputs).mapToLong(outputs_conv_27 -> outputs_conv_27.ptr).toArray() : null);
+		Reference.reachabilityFence(outputs);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -487,6 +638,8 @@ public class Event extends CommonBase {
 	 */
 	public static Event payment_forwarded(Option_u64Z fee_earned_msat, boolean claim_from_onchain_tx) {
 		long ret = bindings.Event_payment_forwarded(fee_earned_msat.ptr, claim_from_onchain_tx);
+		Reference.reachabilityFence(fee_earned_msat);
+		Reference.reachabilityFence(claim_from_onchain_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -498,6 +651,9 @@ public class Event extends CommonBase {
 	 */
 	public static Event channel_closed(byte[] channel_id, long user_channel_id, ClosureReason reason) {
 		long ret = bindings.Event_channel_closed(InternalUtils.check_arr_len(channel_id, 32), user_channel_id, reason.ptr);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(user_channel_id);
+		Reference.reachabilityFence(reason);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -509,6 +665,22 @@ public class Event extends CommonBase {
 	 */
 	public static Event discard_funding(byte[] channel_id, byte[] transaction) {
 		long ret = bindings.Event_discard_funding(InternalUtils.check_arr_len(channel_id, 32), transaction);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(transaction);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PaymentPathSuccessful-variant Event
+	 */
+	public static Event payment_path_successful(byte[] payment_id, byte[] payment_hash, RouteHop[] path) {
+		long ret = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? Arrays.stream(path).mapToLong(path_conv_10 -> path_conv_10 == null ? 0 : path_conv_10.ptr & ~1).toArray() : null);
+		Reference.reachabilityFence(payment_id);
+		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -520,6 +692,7 @@ public class Event extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.Event_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -73,20 +74,15 @@ public class NetAddress extends CommonBase {
 	}
 	/**
 	 * An old-style Tor onion address/port on which the peer is listening.
+	 * 
+	 * This field is deprecated and the Tor network generally no longer supports V2 Onion
+	 * addresses. Thus, the details are not parsed here.
 	 */
 	public final static class OnionV2 extends NetAddress {
-		/**
-		 * The bytes (usually encoded in base32 with \".onion\" appended)
-		*/
-		public final byte[] addr;
-		/**
-		 * The port on which the node is listening
-		*/
-		public final short port;
+		public final byte[] onion_v2;
 		private OnionV2(long ptr, bindings.LDKNetAddress.OnionV2 obj) {
 			super(null, ptr);
-			this.addr = obj.addr;
-			this.port = obj.port;
+			this.onion_v2 = obj.onion_v2;
 		}
 	}
 	/**
@@ -121,6 +117,7 @@ public class NetAddress extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.NetAddress_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -129,6 +126,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public NetAddress clone() {
 		long ret = bindings.NetAddress_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -140,6 +138,8 @@ public class NetAddress extends CommonBase {
 	 */
 	public static NetAddress ipv4(byte[] addr, short port) {
 		long ret = bindings.NetAddress_ipv4(InternalUtils.check_arr_len(addr, 4), port);
+		Reference.reachabilityFence(addr);
+		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -151,6 +151,8 @@ public class NetAddress extends CommonBase {
 	 */
 	public static NetAddress ipv6(byte[] addr, short port) {
 		long ret = bindings.NetAddress_ipv6(InternalUtils.check_arr_len(addr, 16), port);
+		Reference.reachabilityFence(addr);
+		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -160,8 +162,9 @@ public class NetAddress extends CommonBase {
 	/**
 	 * Utility method to constructs a new OnionV2-variant NetAddress
 	 */
-	public static NetAddress onion_v2(byte[] addr, short port) {
-		long ret = bindings.NetAddress_onion_v2(InternalUtils.check_arr_len(addr, 10), port);
+	public static NetAddress onion_v2(byte[] a) {
+		long ret = bindings.NetAddress_onion_v2(InternalUtils.check_arr_len(a, 12));
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -173,6 +176,10 @@ public class NetAddress extends CommonBase {
 	 */
 	public static NetAddress onion_v3(byte[] ed25519_pubkey, short checksum, byte version, short port) {
 		long ret = bindings.NetAddress_onion_v3(InternalUtils.check_arr_len(ed25519_pubkey, 32), checksum, version, port);
+		Reference.reachabilityFence(ed25519_pubkey);
+		Reference.reachabilityFence(checksum);
+		Reference.reachabilityFence(version);
+		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -184,6 +191,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.NetAddress_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -192,6 +200,7 @@ public class NetAddress extends CommonBase {
 	 */
 	public static Result_NetAddressDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.NetAddress_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NetAddressDecodeErrorZ ret_hu_conv = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

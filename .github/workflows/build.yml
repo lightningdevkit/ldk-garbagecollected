@@ -35,7 +35,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.103
+          git checkout 0.0.104
       - name: Rebuild C bindings without STD for WASM
         run: |
           cd ldk-c-bindings
@@ -161,7 +161,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.103
+          git checkout 0.0.104
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
@@ -243,7 +243,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.103
+          git checkout 0.0.104
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -258,8 +258,6 @@ jobs:
             exit 1
           fi
           tar xvvf openjdk-16.0.1_osx-x64_bin.tar.gz
-          export JAVA_HOME=`pwd`/jdk-16.0.1.jdk/Contents/Home
-          export PATH=$JAVA_HOME/bin:$PATH
       - name: Checkout latest Linux binaries
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -277,6 +275,8 @@ jobs:
       - name: Build Java/TS Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+          export JAVA_HOME=`pwd`/jdk-16.0.1.jdk/Contents/Home
+          export PATH=$JAVA_HOME/bin:$PATH
           # genbindings.sh always fails as there is no wasm32-wasi library
           # available, so instead we check that the expected JNI library
           # is created.
@@ -304,7 +304,9 @@ jobs:
           export PATH=apache-maven-3.8.4/bin:$PATH
       - name: Run Java Tests against built jar
         run: |
-          mvn -q -B -DskipTests=true package
+          export JAVA_HOME=`pwd`/jdk-16.0.1.jdk/Contents/Home
+          export PATH=$JAVA_HOME/bin:$PATH
+          mvn -DskipTests=true package
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           JAR_VERSION=${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:1:100}
           mvn install:install-file -Dfile=target/ldk-java-${JAR_VERSION}.jar -DgroupId=org.lightningdevkit -DartifactId=ldk-java -Dversion=1.0-SNAPSHOT -Dpackaging=jar
@@ -324,6 +326,8 @@ jobs:
         run: |
           if [ "${{ matrix.platform }}" != "macos-11" ]; then
             export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
+            export JAVA_HOME=`pwd`/jdk-16.0.1.jdk/Contents/Home
+            export PATH=$JAVA_HOME/bin:$PATH
             cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-{x86_64,aarch64}.nativelib src/main/resources/
             mvn clean
             mvn -q -B -DskipTests=true package

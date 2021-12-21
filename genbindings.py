@@ -174,10 +174,10 @@ def java_c_types(fn_arg, ret_arr_len):
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKTwentyBytes"
         arr_access = "data"
-    elif fn_arg.startswith("LDKTenBytes"):
-        fn_arg = "uint8_t (*" + fn_arg[12:] + ")[10]"
+    elif fn_arg.startswith("LDKTwelveBytes"):
+        fn_arg = "uint8_t (*" + fn_arg[15:] + ")[12]"
         assert var_is_arr_regex.match(fn_arg[8:])
-        rust_obj = "LDKTenBytes"
+        rust_obj = "LDKTwelveBytes"
         arr_access = "data"
     elif fn_arg.startswith("LDKu8slice"):
         fn_arg = "uint8_t (*" + fn_arg[11:] + ")[datalen]"

@@ -69,8 +69,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : val.ptr & ~1);
 	}
 
-	public static ChannelTransactionParameters constructor_new(ChannelPublicKeys holder_pubkeys_arg, number holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg) {
-		number ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr & ~1, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr & ~1);
+	public COption_NoneZ get_opt_anchors() {
+		COption_NoneZ ret = bindings.ChannelTransactionParameters_get_opt_anchors(this.ptr);
+		return ret;
+	}
+
+	public void set_opt_anchors(COption_NoneZ val) {
+		bindings.ChannelTransactionParameters_set_opt_anchors(this.ptr, val);
+	}
+
+	public static ChannelTransactionParameters constructor_new(ChannelPublicKeys holder_pubkeys_arg, number holder_selected_contest_delay_arg, boolean is_outbound_from_holder_arg, CounterpartyChannelTransactionParameters counterparty_parameters_arg, OutPoint funding_outpoint_arg, COption_NoneZ opt_anchors_arg) {
+		number ret = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : holder_pubkeys_arg.ptr & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : counterparty_parameters_arg.ptr & ~1, funding_outpoint_arg == null ? 0 : funding_outpoint_arg.ptr & ~1, opt_anchors_arg);
 		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

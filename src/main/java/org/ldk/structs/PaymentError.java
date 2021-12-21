@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -70,6 +71,7 @@ public class PaymentError extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.PaymentError_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -78,6 +80,7 @@ public class PaymentError extends CommonBase {
 	 */
 	public PaymentError clone() {
 		long ret = bindings.PaymentError_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -89,6 +92,7 @@ public class PaymentError extends CommonBase {
 	 */
 	public static PaymentError invoice(java.lang.String a) {
 		long ret = bindings.PaymentError_invoice(a);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -100,6 +104,7 @@ public class PaymentError extends CommonBase {
 	 */
 	public static PaymentError routing(LightningError a) {
 		long ret = bindings.PaymentError_routing(a == null ? 0 : a.ptr & ~1);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -111,6 +116,7 @@ public class PaymentError extends CommonBase {
 	 */
 	public static PaymentError sending(PaymentSendFailure a) {
 		long ret = bindings.PaymentError_sending(a.ptr);
+		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

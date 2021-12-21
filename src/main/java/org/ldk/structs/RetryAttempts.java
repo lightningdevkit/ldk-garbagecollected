@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -25,11 +26,14 @@ public class RetryAttempts extends CommonBase {
 
 	public long get_a() {
 		long ret = bindings.RetryAttempts_get_a(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	public void set_a(long val) {
 		bindings.RetryAttempts_set_a(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -37,6 +41,7 @@ public class RetryAttempts extends CommonBase {
 	 */
 	public static RetryAttempts of(long a_arg) {
 		long ret = bindings.RetryAttempts_new(a_arg);
+		Reference.reachabilityFence(a_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RetryAttempts ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RetryAttempts(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -45,6 +50,7 @@ public class RetryAttempts extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.RetryAttempts_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -53,6 +59,7 @@ public class RetryAttempts extends CommonBase {
 	 */
 	public RetryAttempts clone() {
 		long ret = bindings.RetryAttempts_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RetryAttempts ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RetryAttempts(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -66,16 +73,26 @@ public class RetryAttempts extends CommonBase {
 	 */
 	public boolean eq(RetryAttempts b) {
 		boolean ret = bindings.RetryAttempts_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof RetryAttempts)) return false;
+		return this.eq((RetryAttempts)o);
+	}
 	/**
 	 * Checks if two RetryAttemptss contain equal inner contents.
 	 */
 	public long hash() {
 		long ret = bindings.RetryAttempts_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 }

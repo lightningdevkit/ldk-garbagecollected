@@ -18,7 +18,7 @@ import * as bindings from '../bindings' // TODO: figure out location
                         bindings.InvoicePayer_free(this.ptr);
                     }
                 }
-	public static InvoicePayer constructor_new(Payer payer, Router router, LockableScore scorer, Logger logger, EventHandler event_handler, RetryAttempts retry_attempts) {
+	public static InvoicePayer constructor_new(Payer payer, Router router, MultiThreadedLockableScore scorer, Logger logger, EventHandler event_handler, RetryAttempts retry_attempts) {
 		number ret = bindings.InvoicePayer_new(payer == null ? 0 : payer.ptr, router == null ? 0 : router.ptr, scorer == null ? 0 : scorer.ptr & ~1, logger == null ? 0 : logger.ptr, event_handler == null ? 0 : event_handler.ptr, retry_attempts == null ? 0 : retry_attempts.ptr & ~1);
 		const ret_hu_conv: InvoicePayer = new InvoicePayer(null, ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -41,6 +41,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.InvoicePayer_pay_zero_value_invoice(this.ptr, invoice == null ? 0 : invoice.ptr & ~1, amount_msats);
 		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(invoice);
+		return ret_hu_conv;
+	}
+
+	public Result_PaymentIdPaymentErrorZ pay_pubkey(Uint8Array pubkey, Uint8Array payment_preimage, number amount_msats, number final_cltv_expiry_delta) {
+		number ret = bindings.InvoicePayer_pay_pubkey(this.ptr, InternalUtils.check_arr_len(pubkey, 33), InternalUtils.check_arr_len(payment_preimage, 32), amount_msats, final_cltv_expiry_delta);
+		Result_PaymentIdPaymentErrorZ ret_hu_conv = Result_PaymentIdPaymentErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

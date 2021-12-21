@@ -180,6 +180,17 @@ import * as bindings from '../bindings' // TODO: figure out location
 		bindings.OpenChannel_set_channel_flags(this.ptr, val);
 	}
 
+	public ChannelTypeFeatures get_channel_type() {
+		number ret = bindings.OpenChannel_get_channel_type(this.ptr);
+		const ret_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	public void set_channel_type(ChannelTypeFeatures val) {
+		bindings.OpenChannel_set_channel_type(this.ptr, val == null ? 0 : val.ptr & ~1);
+	}
+
 	public number clone_ptr() {
 		number ret = bindings.OpenChannel_clone_ptr(this.ptr);
 		return ret;

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -37,6 +38,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public long get_min_funding_satoshis() {
 		long ret = bindings.ChannelHandshakeLimits_get_min_funding_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -48,6 +50,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public void set_min_funding_satoshis(long val) {
 		bindings.ChannelHandshakeLimits_set_min_funding_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -58,6 +62,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public long get_max_htlc_minimum_msat() {
 		long ret = bindings.ChannelHandshakeLimits_get_max_htlc_minimum_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -69,6 +74,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public void set_max_htlc_minimum_msat(long val) {
 		bindings.ChannelHandshakeLimits_set_max_htlc_minimum_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -79,6 +86,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public long get_min_max_htlc_value_in_flight_msat() {
 		long ret = bindings.ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -90,6 +98,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public void set_min_max_htlc_value_in_flight_msat(long val) {
 		bindings.ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -101,6 +111,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public long get_max_channel_reserve_satoshis() {
 		long ret = bindings.ChannelHandshakeLimits_get_max_channel_reserve_satoshis(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -113,6 +124,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public void set_max_channel_reserve_satoshis(long val) {
 		bindings.ChannelHandshakeLimits_set_max_channel_reserve_satoshis(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -123,6 +136,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public short get_min_max_accepted_htlcs() {
 		short ret = bindings.ChannelHandshakeLimits_get_min_max_accepted_htlcs(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -134,6 +148,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public void set_min_max_accepted_htlcs(short val) {
 		bindings.ChannelHandshakeLimits_set_min_max_accepted_htlcs(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -146,6 +162,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public int get_max_minimum_depth() {
 		int ret = bindings.ChannelHandshakeLimits_get_max_minimum_depth(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -159,6 +176,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public void set_max_minimum_depth(int val) {
 		bindings.ChannelHandshakeLimits_set_max_minimum_depth(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -173,6 +192,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public boolean get_force_announced_channel_preference() {
 		boolean ret = bindings.ChannelHandshakeLimits_get_force_announced_channel_preference(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -188,6 +208,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public void set_force_announced_channel_preference(boolean val) {
 		bindings.ChannelHandshakeLimits_set_force_announced_channel_preference(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -201,6 +223,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public short get_their_to_self_delay() {
 		short ret = bindings.ChannelHandshakeLimits_get_their_to_self_delay(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -215,6 +238,8 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public void set_their_to_self_delay(short val) {
 		bindings.ChannelHandshakeLimits_set_their_to_self_delay(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -222,6 +247,14 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public static ChannelHandshakeLimits of(long min_funding_satoshis_arg, long max_htlc_minimum_msat_arg, long min_max_htlc_value_in_flight_msat_arg, long max_channel_reserve_satoshis_arg, short min_max_accepted_htlcs_arg, int max_minimum_depth_arg, boolean force_announced_channel_preference_arg, short their_to_self_delay_arg) {
 		long ret = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
+		Reference.reachabilityFence(min_funding_satoshis_arg);
+		Reference.reachabilityFence(max_htlc_minimum_msat_arg);
+		Reference.reachabilityFence(min_max_htlc_value_in_flight_msat_arg);
+		Reference.reachabilityFence(max_channel_reserve_satoshis_arg);
+		Reference.reachabilityFence(min_max_accepted_htlcs_arg);
+		Reference.reachabilityFence(max_minimum_depth_arg);
+		Reference.reachabilityFence(force_announced_channel_preference_arg);
+		Reference.reachabilityFence(their_to_self_delay_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelHandshakeLimits ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelHandshakeLimits(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -230,6 +263,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ChannelHandshakeLimits_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -238,6 +272,7 @@ public class ChannelHandshakeLimits extends CommonBase {
 	 */
 	public ChannelHandshakeLimits clone() {
 		long ret = bindings.ChannelHandshakeLimits_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelHandshakeLimits ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelHandshakeLimits(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);

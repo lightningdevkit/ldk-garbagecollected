@@ -74,6 +74,12 @@ import * as bindings from '../bindings' // TODO: figure out location
 				return result;
 						},
 
+						get_inbound_payment_key_material (): Uint8Array {
+							Uint8Array ret = arg.get_inbound_payment_key_material();
+				result: Uint8Array = InternalUtils.check_arr_len(ret, 32);
+				return result;
+						},
+
 						
                     };
                     impl_holder.held = new KeysInterface (null, structImplementation);
@@ -88,6 +94,7 @@ import * as bindings from '../bindings' // TODO: figure out location
 				get_secure_random_bytes(): Uint8Array;
 				read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ;
 				sign_invoice(invoice_preimage: Uint8Array): Result_RecoverableSignatureNoneZ;
+				get_inbound_payment_key_material(): Uint8Array;
 				
             }
 
@@ -133,6 +140,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		number ret = bindings.KeysInterface_sign_invoice(this.ptr, invoice_preimage);
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
+	}
+
+	public Uint8Array get_inbound_payment_key_material() {
+		Uint8Array ret = bindings.KeysInterface_get_inbound_payment_key_material(this.ptr);
+		return ret;
 	}
 
 }

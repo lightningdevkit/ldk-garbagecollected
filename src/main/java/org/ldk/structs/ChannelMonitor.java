@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -36,6 +37,7 @@ public class ChannelMonitor extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ChannelMonitor_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -44,6 +46,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public ChannelMonitor clone() {
 		long ret = bindings.ChannelMonitor_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelMonitor ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelMonitor(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -55,6 +58,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ChannelMonitor_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -64,10 +68,15 @@ public class ChannelMonitor extends CommonBase {
 	 * 
 	 * panics if the given update is not the next update by update_id.
 	 */
-	public Result_NoneMonitorUpdateErrorZ update_monitor(ChannelMonitorUpdate updates, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
+	public Result_NoneNoneZ update_monitor(ChannelMonitorUpdate updates, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
 		long ret = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : updates.ptr & ~1, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(updates);
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(fee_estimator);
+		Reference.reachabilityFence(logger);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_NoneMonitorUpdateErrorZ ret_hu_conv = Result_NoneMonitorUpdateErrorZ.constr_from_ptr(ret);
+		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(updates);
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
@@ -81,6 +90,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public long get_latest_update_id() {
 		long ret = bindings.ChannelMonitor_get_latest_update_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -89,6 +99,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public TwoTuple_OutPointScriptZ get_funding_txo() {
 		long ret = bindings.ChannelMonitor_get_funding_txo(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		TwoTuple_OutPointScriptZ ret_hu_conv = new TwoTuple_OutPointScriptZ(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -101,6 +112,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[] get_outputs_to_watch() {
 		long[] ret = bindings.ChannelMonitor_get_outputs_to_watch(this.ptr);
+		Reference.reachabilityFence(this);
 		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[] ret_conv_40_arr = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[ret.length];
 		for (int o = 0; o < ret.length; o++) {
 			long ret_conv_40 = ret[o];
@@ -118,6 +130,8 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public void load_outputs_to_watch(Filter filter) {
 		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter == null ? 0 : filter.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(filter);
 		this.ptrs_to.add(filter);
 	}
 
@@ -127,6 +141,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public MonitorEvent[] get_and_clear_pending_monitor_events() {
 		long[] ret = bindings.ChannelMonitor_get_and_clear_pending_monitor_events(this.ptr);
+		Reference.reachabilityFence(this);
 		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret.length];
 		for (int o = 0; o < ret.length; o++) {
 			long ret_conv_14 = ret[o];
@@ -147,6 +162,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public Event[] get_and_clear_pending_events() {
 		long[] ret = bindings.ChannelMonitor_get_and_clear_pending_events(this.ptr);
+		Reference.reachabilityFence(this);
 		Event[] ret_conv_7_arr = new Event[ret.length];
 		for (int h = 0; h < ret.length; h++) {
 			long ret_conv_7 = ret[h];
@@ -170,6 +186,8 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public byte[][] get_latest_holder_commitment_txn(Logger logger) {
 		byte[][] ret = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(logger);
 		this.ptrs_to.add(logger);
 		return ret;
 	}
@@ -189,6 +207,13 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] block_connected(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
 		long[] ret = bindings.ChannelMonitor_block_connected(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(header);
+		Reference.reachabilityFence(txdata);
+		Reference.reachabilityFence(height);
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(fee_estimator);
+		Reference.reachabilityFence(logger);
 		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
 		for (int n = 0; n < ret.length; n++) {
 			long ret_conv_39 = ret[n];
@@ -208,6 +233,12 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public void block_disconnected(byte[] header, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
 		bindings.ChannelMonitor_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(header);
+		Reference.reachabilityFence(height);
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(fee_estimator);
+		Reference.reachabilityFence(logger);
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
@@ -224,6 +255,13 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] transactions_confirmed(byte[] header, TwoTuple_usizeTransactionZ[] txdata, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
 		long[] ret = bindings.ChannelMonitor_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? Arrays.stream(txdata).mapToLong(txdata_conv_28 -> txdata_conv_28 != null ? txdata_conv_28.ptr : 0).toArray() : null, height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(header);
+		Reference.reachabilityFence(txdata);
+		Reference.reachabilityFence(height);
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(fee_estimator);
+		Reference.reachabilityFence(logger);
 		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
 		for (int n = 0; n < ret.length; n++) {
 			long ret_conv_39 = ret[n];
@@ -247,6 +285,11 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public void transaction_unconfirmed(byte[] txid, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
 		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32), broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(txid);
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(fee_estimator);
+		Reference.reachabilityFence(logger);
 		this.ptrs_to.add(broadcaster);
 		this.ptrs_to.add(fee_estimator);
 		this.ptrs_to.add(logger);
@@ -263,6 +306,12 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] best_block_updated(byte[] header, int height, BroadcasterInterface broadcaster, FeeEstimator fee_estimator, Logger logger) {
 		long[] ret = bindings.ChannelMonitor_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height, broadcaster == null ? 0 : broadcaster.ptr, fee_estimator == null ? 0 : fee_estimator.ptr, logger == null ? 0 : logger.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(header);
+		Reference.reachabilityFence(height);
+		Reference.reachabilityFence(broadcaster);
+		Reference.reachabilityFence(fee_estimator);
+		Reference.reachabilityFence(logger);
 		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
 		for (int n = 0; n < ret.length; n++) {
 			long ret_conv_39 = ret[n];
@@ -281,6 +330,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public byte[][] get_relevant_txids() {
 		byte[][] ret = bindings.ChannelMonitor_get_relevant_txids(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -290,6 +340,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public BestBlock current_best_block() {
 		long ret = bindings.ChannelMonitor_current_best_block(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		BestBlock ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new BestBlock(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -314,6 +365,7 @@ public class ChannelMonitor extends CommonBase {
 	 */
 	public Balance[] get_claimable_balances() {
 		long[] ret = bindings.ChannelMonitor_get_claimable_balances(this.ptr);
+		Reference.reachabilityFence(this);
 		Balance[] ret_conv_9_arr = new Balance[ret.length];
 		for (int j = 0; j < ret.length; j++) {
 			long ret_conv_9 = ret[j];

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class FundingSigned extends CommonBase {
 	 */
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.FundingSigned_get_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -32,6 +34,8 @@ public class FundingSigned extends CommonBase {
 	 */
 	public void set_channel_id(byte[] val) {
 		bindings.FundingSigned_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -39,6 +43,7 @@ public class FundingSigned extends CommonBase {
 	 */
 	public byte[] get_signature() {
 		byte[] ret = bindings.FundingSigned_get_signature(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -47,6 +52,8 @@ public class FundingSigned extends CommonBase {
 	 */
 	public void set_signature(byte[] val) {
 		bindings.FundingSigned_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -54,6 +61,8 @@ public class FundingSigned extends CommonBase {
 	 */
 	public static FundingSigned of(byte[] channel_id_arg, byte[] signature_arg) {
 		long ret = bindings.FundingSigned_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(signature_arg, 64));
+		Reference.reachabilityFence(channel_id_arg);
+		Reference.reachabilityFence(signature_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FundingSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -62,6 +71,7 @@ public class FundingSigned extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.FundingSigned_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -70,6 +80,7 @@ public class FundingSigned extends CommonBase {
 	 */
 	public FundingSigned clone() {
 		long ret = bindings.FundingSigned_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FundingSigned ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingSigned(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -81,6 +92,7 @@ public class FundingSigned extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.FundingSigned_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -89,6 +101,7 @@ public class FundingSigned extends CommonBase {
 	 */
 	public static Result_FundingSignedDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.FundingSigned_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_FundingSignedDecodeErrorZ ret_hu_conv = Result_FundingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

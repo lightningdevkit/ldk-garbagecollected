@@ -127,6 +127,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public boolean opt_anchors() {
+		boolean ret = bindings.InMemorySigner_opt_anchors(this.ptr);
+		return ret;
+	}
+
 	public Result_CVec_CVec_u8ZZNoneZ sign_counterparty_payment_input(Uint8Array spend_tx, number input_idx, StaticPaymentOutputDescriptor descriptor) {
 		number ret = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr & ~1);
 		Result_CVec_CVec_u8ZZNoneZ ret_hu_conv = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);

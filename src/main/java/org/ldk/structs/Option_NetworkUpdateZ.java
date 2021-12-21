@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -55,6 +56,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	 */
 	public static Option_NetworkUpdateZ some(NetworkUpdate o) {
 		long ret = bindings.COption_NetworkUpdateZ_some(o.ptr);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -74,6 +76,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.COption_NetworkUpdateZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -83,6 +86,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	 */
 	public Option_NetworkUpdateZ clone() {
 		long ret = bindings.COption_NetworkUpdateZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);

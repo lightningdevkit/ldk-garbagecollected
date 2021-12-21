@@ -23,12 +23,10 @@ export default class PaymentPurpose extends CommonBase {
 export class InvoicePayment extends PaymentPurpose {
 	public payment_preimage: Uint8Array;
 	public payment_secret: Uint8Array;
-	public user_payment_id: number;
 	private constructor(ptr: number, obj: bindings.LDKPaymentPurpose.InvoicePayment) {
 		super(null, ptr);
 		this.payment_preimage = obj.payment_preimage;
 		this.payment_secret = obj.payment_secret;
-		this.user_payment_id = obj.user_payment_id;
 	}
 }
 export class SpontaneousPayment extends PaymentPurpose {
@@ -50,8 +48,8 @@ export class SpontaneousPayment extends PaymentPurpose {
 		return ret_hu_conv;
 	}
 
-	public static PaymentPurpose constructor_invoice_payment(Uint8Array payment_preimage, Uint8Array payment_secret, number user_payment_id) {
-		number ret = bindings.PaymentPurpose_invoice_payment(InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_secret, 32), user_payment_id);
+	public static PaymentPurpose constructor_invoice_payment(Uint8Array payment_preimage, Uint8Array payment_secret) {
+		number ret = bindings.PaymentPurpose_invoice_payment(InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_secret, 32));
 		PaymentPurpose ret_hu_conv = PaymentPurpose.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;

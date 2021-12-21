@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 public class Result_PaymentSecretAPIErrorZ extends CommonBase {
@@ -43,6 +44,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	 */
 	public static Result_PaymentSecretAPIErrorZ ok(byte[] o) {
 		long ret = bindings.CResult_PaymentSecretAPIErrorZ_ok(InternalUtils.check_arr_len(o, 32));
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -53,6 +55,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	 */
 	public static Result_PaymentSecretAPIErrorZ err(APIError e) {
 		long ret = bindings.CResult_PaymentSecretAPIErrorZ_err(e.ptr);
+		Reference.reachabilityFence(e);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -63,11 +66,13 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	 */
 	public boolean is_ok() {
 		boolean ret = bindings.CResult_PaymentSecretAPIErrorZ_is_ok(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
 	long clone_ptr() {
 		long ret = bindings.CResult_PaymentSecretAPIErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -77,6 +82,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 	 */
 	public Result_PaymentSecretAPIErrorZ clone() {
 		long ret = bindings.CResult_PaymentSecretAPIErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentSecretAPIErrorZ ret_hu_conv = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

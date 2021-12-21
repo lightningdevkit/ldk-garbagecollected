@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -25,6 +26,7 @@ public class Record extends CommonBase {
 	 */
 	public Level get_level() {
 		Level ret = bindings.Record_get_level(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -33,6 +35,8 @@ public class Record extends CommonBase {
 	 */
 	public void set_level(org.ldk.enums.Level val) {
 		bindings.Record_set_level(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -40,6 +44,7 @@ public class Record extends CommonBase {
 	 */
 	public String get_args() {
 		String ret = bindings.Record_get_args(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -48,6 +53,8 @@ public class Record extends CommonBase {
 	 */
 	public void set_args(java.lang.String val) {
 		bindings.Record_set_args(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -55,6 +62,7 @@ public class Record extends CommonBase {
 	 */
 	public String get_module_path() {
 		String ret = bindings.Record_get_module_path(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -63,6 +71,8 @@ public class Record extends CommonBase {
 	 */
 	public void set_module_path(java.lang.String val) {
 		bindings.Record_set_module_path(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -70,6 +80,7 @@ public class Record extends CommonBase {
 	 */
 	public String get_file() {
 		String ret = bindings.Record_get_file(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -78,6 +89,8 @@ public class Record extends CommonBase {
 	 */
 	public void set_file(java.lang.String val) {
 		bindings.Record_set_file(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -85,6 +98,7 @@ public class Record extends CommonBase {
 	 */
 	public int get_line() {
 		int ret = bindings.Record_get_line(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -93,10 +107,13 @@ public class Record extends CommonBase {
 	 */
 	public void set_line(int val) {
 		bindings.Record_set_line(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
 		long ret = bindings.Record_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -105,6 +122,7 @@ public class Record extends CommonBase {
 	 */
 	public Record clone() {
 		long ret = bindings.Record_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Record ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Record(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);

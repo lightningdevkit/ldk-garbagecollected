@@ -123,6 +123,11 @@ class HumanObjectPeerTestInstance {
                 public Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage) {
                     return underlying_if.sign_invoice(invoice_preimage);
                 }
+
+                @Override
+                public byte[] get_inbound_payment_key_material() {
+                    return underlying_if.get_inbound_payment_key_material();
+                }
             });
         }
 
@@ -139,8 +144,8 @@ class HumanObjectPeerTestInstance {
                     synchronized (monitors) {
                         String txid = Arrays.toString(funding_txo.get_txid());
                         assert monitors.containsKey(txid);
-                        Result_NoneMonitorUpdateErrorZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
-                        assert update_res instanceof Result_NoneMonitorUpdateErrorZ.Result_NoneMonitorUpdateErrorZ_OK;
+                        Result_NoneNoneZ update_res = monitors.get(txid).update_monitor(update, tx_broadcaster, fee_estimator, logger);
+                        assert update_res instanceof Result_NoneNoneZ.Result_NoneNoneZ_OK;
                     }
                     return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
@@ -190,19 +195,23 @@ class HumanObjectPeerTestInstance {
         InvoicePayer payer = null;
         GcCheck obj = new GcCheck();
 
-        private TwoTuple_OutPointScriptZ test_mon_roundtrip(ChannelMonitor mon) {
+        private ChannelMonitor test_mon_roundtrip(OutPoint expected_id, byte[] data) {
             // Because get_funding_txo() returns an OutPoint in a tuple that is a reference to an OutPoint inside the
             // ChannelMonitor, its a good test to ensure that the OutPoint isn't freed (or is cloned) before the
             // ChannelMonitor is. This used to be broken.
-            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(mon.write(), keys_interface);
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_monitor = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(data, keys_interface);
             assert roundtrip_monitor instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
             TwoTuple_OutPointScriptZ funding_txo = ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_monitor).res.get_b().get_funding_txo();
             System.gc(); System.runFinalization(); // Give the GC a chance to run.
-            return funding_txo;
+            assert Arrays.equals(funding_txo.get_a().get_txid(), expected_id.get_txid());
+            assert funding_txo.get_a().get_index() == expected_id.get_index();
+            Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ roundtrip_two = UtilMethods.C2Tuple_BlockHashChannelMonitorZ_read(data, keys_interface);
+            assert roundtrip_two instanceof Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK;
+            return ((Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_OK) roundtrip_two).res.get_b();
         }
 
         private Peer(Object _dummy, byte seed) {
-            logger = Logger.new_impl((Record arg)->{
+            logger = Logger.new_impl((org.ldk.structs.Record arg)->{
                 if (arg.get_level() == Level.LDKLevel_Error)
                     System.err.println(seed + ": " + arg.get_module_path() + " - " + arg.get_args());
                 else
@@ -222,10 +231,8 @@ class HumanObjectPeerTestInstance {
                 public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint id, ChannelMonitor data, MonitorUpdateId update_id) {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
-                        assert monitors.put(key, data) == null;
-                        TwoTuple_OutPointScriptZ res = test_mon_roundtrip(data);
-                        assert Arrays.equals(res.get_a().get_txid(), id.get_txid());
-                        assert res.get_a().get_index() == id.get_index();
+                        ChannelMonitor res = test_mon_roundtrip(id, data.write());
+                        assert monitors.put(key, res) == null;
                     }
                     return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
@@ -234,10 +241,10 @@ class HumanObjectPeerTestInstance {
                 public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint id, ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
                     synchronized (monitors) {
                         String key = Arrays.toString(id.to_channel_id());
-                        assert monitors.put(key, data) != null;
-                        TwoTuple_OutPointScriptZ res = test_mon_roundtrip(data);
-                        assert Arrays.equals(res.get_a().get_txid(), id.get_txid());
-                        assert res.get_a().get_index() == id.get_index();
+                        ChannelMonitor res = test_mon_roundtrip(id, data.write());
+                        // Note that we use a serialization-roundtrip copy of data here, not the original, as this can
+                        // expose the JVM JIT bug where it finalize()s things still being called.
+                        assert monitors.put(key, res) != null;
                     }
                     return Result_NoneChannelMonitorUpdateErrZ.ok();
                 }
@@ -351,8 +358,8 @@ class HumanObjectPeerTestInstance {
                     this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
 							this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
                 }
-                LockableScore scorer = null;
-                if (use_invoice_payer) { scorer = LockableScore.of(Scorer.with_default().as_Score()); }
+                MultiThreadedLockableScore scorer = null;
+                if (use_invoice_payer) { scorer = MultiThreadedLockableScore.of(Scorer.with_default().as_Score()); }
                 constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                     @Override public void handle_event(Event event) {
                         synchronized (pending_manager_events) {
@@ -374,12 +381,13 @@ class HumanObjectPeerTestInstance {
                 if (use_invoice_payer) {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
-                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, Score scorer) {
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, Score scorer) {
                             return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
                         }
-                    }), LockableScore.of(Score.new_impl(new Score.ScoreInterface() {
+                    }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
-                        @Override public long channel_penalty_msat(long scid, NodeId src, NodeId dst) { return 0; }
+                        @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, Option_u64Z channel_capacity_msat, NodeId source, NodeId target) { return 0; }
+                        @Override public void payment_path_successful(RouteHop[] path) {}
                         @Override public byte[] write() { assert false; return null; }
                     })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
                         @Override public void handle_event(Event event) {
@@ -417,9 +425,19 @@ class HumanObjectPeerTestInstance {
                         this.constructor = new ChannelManagerConstructor(serialized, monitors, UserConfig.with_default(),
                                 this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
                                 this.router, this.tx_broadcaster, this.logger);
+                        try {
+                            // Test that ChannelManagerConstructor correctly rejects duplicate ChannelMonitors
+                            byte[][] monitors_dupd = new byte[2][];
+                            monitors_dupd[0] = monitors[0];
+                            monitors_dupd[1] = monitors[0];
+                            ChannelManagerConstructor constr = this.constructor = new ChannelManagerConstructor(serialized, monitors_dupd, UserConfig.with_default(),
+                                    this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
+                                    null, this.tx_broadcaster, this.logger);
+                            assert false;
+                        } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {}
                     }
-                    LockableScore scorer = null;
-                    if (use_invoice_payer) { scorer = LockableScore.of(Scorer.with_default().as_Score()); }
+                    MultiThreadedLockableScore scorer = null;
+                    if (use_invoice_payer) { scorer = MultiThreadedLockableScore.of(Scorer.with_default().as_Score()); }
                     constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
@@ -472,12 +490,13 @@ class HumanObjectPeerTestInstance {
                 if (use_invoice_payer) {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
-                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, ChannelDetails[] first_hops, Score scorer) {
+                        public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] _payment_hash, ChannelDetails[] first_hops, Score scorer) {
                             return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
                         }
-                    }), LockableScore.of(Score.new_impl(new Score.ScoreInterface() {
+                    }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
+                        @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, Option_u64Z channel_capacity_msat, NodeId source, NodeId target) { return 0; }
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
-                        @Override public long channel_penalty_msat(long scid, NodeId src, NodeId dst) { return 0; }
+                        @Override public void payment_path_successful(RouteHop[] path) {}
                         @Override public byte[] write() { assert false; return null; }
                     })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
                         @Override public void handle_event(Event event) {
@@ -581,9 +600,11 @@ class HumanObjectPeerTestInstance {
             if (use_chan_manager_constructor) {
                 while (res.length < expected_len) {
                     synchronized (this.pending_manager_events) {
-                        res = this.pending_manager_events.toArray(res);
-                        assert res.length == expected_len || res.length == 0; // We don't handle partial results
-                        this.pending_manager_events.clear();
+                        if (this.pending_manager_events.size() >= expected_len) {
+                            res = this.pending_manager_events.toArray(res);
+                            assert res.length == expected_len;
+                            this.pending_manager_events.clear();
+                        }
                         if (res.length < expected_len) {
                             try { this.pending_manager_events.wait(); } catch (InterruptedException e) { assert false; }
                         }
@@ -598,7 +619,6 @@ class HumanObjectPeerTestInstance {
                         peer2.nio_peer_handler.check_events();
                     }
                     chan_manager.as_EventsProvider().process_pending_events(EventHandler.new_impl(l::add));
-                    assert l.size() == expected_len || l.size() == 0; // We don't handle partial results
                 }
                 return l.toArray(new Event[0]);
             }
@@ -888,9 +908,11 @@ class HumanObjectPeerTestInstance {
         assert !Arrays.equals(payment_preimage, new byte[32]);
         state.peer2.chan_manager.claim_funds(payment_preimage);
 
-        events = state.peer1.get_manager_events(1, state.peer1, state.peer2);
+        events = state.peer1.get_manager_events(2, state.peer1, state.peer2);
         assert events[0] instanceof Event.PaymentSent;
         assert Arrays.equals(((Event.PaymentSent) events[0]).payment_preimage, payment_preimage);
+        assert events[1] instanceof Event.PaymentPathSuccessful;
+        assert Arrays.equals(((Event.PaymentPathSuccessful) events[1]).payment_hash, ((Event.PaymentSent) events[0]).payment_hash);
 
         if (use_nio_peer_handler) {
             // We receive PaymentSent immediately upon receipt of the payment preimage, but we expect to not have an
@@ -1070,6 +1092,14 @@ public class HumanObjectPeerTest {
     }
     @Test
     public void test_message_handler() throws InterruptedException {
+        Thread gc_thread = new Thread(() -> {
+            while (true) {
+                System.gc();
+                System.runFinalization();
+                try { Thread.sleep(0, 1); } catch (InterruptedException e) { break; }
+            }
+        }, "Test GC Thread");
+        gc_thread.start();
         for (int i = 0; i < (1 << 9) - 1; i++) {
             boolean nice_close =                   (i & (1 << 0)) != 0;
             boolean use_km_wrapper =               (i & (1 << 1)) != 0;
@@ -1102,6 +1132,8 @@ public class HumanObjectPeerTest {
             System.err.println("Running test with flags " + i);
             do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         }
+        gc_thread.interrupt();
+        gc_thread.join();
     }
 
     // This is used in the test jar to test the built jar is runnable

@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -26,6 +27,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public int get_last_update() {
 		int ret = bindings.DirectionalChannelInfo_get_last_update(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -35,6 +37,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_last_update(int val) {
 		bindings.DirectionalChannelInfo_set_last_update(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public boolean get_enabled() {
 		boolean ret = bindings.DirectionalChannelInfo_get_enabled(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -50,6 +55,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_enabled(boolean val) {
 		bindings.DirectionalChannelInfo_set_enabled(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -57,6 +64,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public short get_cltv_expiry_delta() {
 		short ret = bindings.DirectionalChannelInfo_get_cltv_expiry_delta(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -65,6 +73,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_cltv_expiry_delta(short val) {
 		bindings.DirectionalChannelInfo_set_cltv_expiry_delta(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -72,6 +82,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public long get_htlc_minimum_msat() {
 		long ret = bindings.DirectionalChannelInfo_get_htlc_minimum_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -80,6 +91,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_htlc_minimum_msat(long val) {
 		bindings.DirectionalChannelInfo_set_htlc_minimum_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -87,6 +100,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public Option_u64Z get_htlc_maximum_msat() {
 		long ret = bindings.DirectionalChannelInfo_get_htlc_maximum_msat(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -98,6 +112,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_htlc_maximum_msat(Option_u64Z val) {
 		bindings.DirectionalChannelInfo_set_htlc_maximum_msat(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -105,6 +121,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public RoutingFees get_fees() {
 		long ret = bindings.DirectionalChannelInfo_get_fees(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		RoutingFees ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new RoutingFees(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -116,6 +133,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_fees(RoutingFees val) {
 		bindings.DirectionalChannelInfo_set_fees(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -129,6 +148,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	@Nullable
 	public ChannelUpdate get_last_update_message() {
 		long ret = bindings.DirectionalChannelInfo_get_last_update_message(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelUpdate ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdate(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -145,6 +165,8 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public void set_last_update_message(@Nullable ChannelUpdate val) {
 		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -152,6 +174,13 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public static DirectionalChannelInfo of(int last_update_arg, boolean enabled_arg, short cltv_expiry_delta_arg, long htlc_minimum_msat_arg, Option_u64Z htlc_maximum_msat_arg, RoutingFees fees_arg, ChannelUpdate last_update_message_arg) {
 		long ret = bindings.DirectionalChannelInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, htlc_maximum_msat_arg.ptr, fees_arg == null ? 0 : fees_arg.ptr & ~1, last_update_message_arg == null ? 0 : last_update_message_arg.ptr & ~1);
+		Reference.reachabilityFence(last_update_arg);
+		Reference.reachabilityFence(enabled_arg);
+		Reference.reachabilityFence(cltv_expiry_delta_arg);
+		Reference.reachabilityFence(htlc_minimum_msat_arg);
+		Reference.reachabilityFence(htlc_maximum_msat_arg);
+		Reference.reachabilityFence(fees_arg);
+		Reference.reachabilityFence(last_update_message_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		DirectionalChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DirectionalChannelInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -160,6 +189,7 @@ public class DirectionalChannelInfo extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.DirectionalChannelInfo_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -168,6 +198,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public DirectionalChannelInfo clone() {
 		long ret = bindings.DirectionalChannelInfo_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		DirectionalChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DirectionalChannelInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -179,6 +210,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.DirectionalChannelInfo_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -187,6 +219,7 @@ public class DirectionalChannelInfo extends CommonBase {
 	 */
 	public static Result_DirectionalChannelInfoDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.DirectionalChannelInfo_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_DirectionalChannelInfoDecodeErrorZ ret_hu_conv = Result_DirectionalChannelInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

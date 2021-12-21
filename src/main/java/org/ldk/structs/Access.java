@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -55,6 +56,9 @@ public class Access extends CommonBase {
 	 */
 	public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
 		long ret = bindings.Access_get_utxo(this.ptr, InternalUtils.check_arr_len(genesis_hash, 32), short_channel_id);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(genesis_hash);
+		Reference.reachabilityFence(short_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_TxOutAccessErrorZ ret_hu_conv = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

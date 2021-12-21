@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public ChannelFeatures get_features() {
 		long ret = bindings.UnsignedChannelAnnouncement_get_features(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelFeatures(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -35,6 +37,8 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public void set_features(ChannelFeatures val) {
 		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -50,6 +55,8 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public void set_chain_hash(byte[] val) {
 		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -57,6 +64,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public long get_short_channel_id() {
 		long ret = bindings.UnsignedChannelAnnouncement_get_short_channel_id(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -65,6 +73,8 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public void set_short_channel_id(long val) {
 		bindings.UnsignedChannelAnnouncement_set_short_channel_id(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -72,6 +82,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public byte[] get_node_id_1() {
 		byte[] ret = bindings.UnsignedChannelAnnouncement_get_node_id_1(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -80,6 +91,8 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public void set_node_id_1(byte[] val) {
 		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -87,6 +100,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public byte[] get_node_id_2() {
 		byte[] ret = bindings.UnsignedChannelAnnouncement_get_node_id_2(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -95,6 +109,8 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public void set_node_id_2(byte[] val) {
 		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -102,6 +118,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public byte[] get_bitcoin_key_1() {
 		byte[] ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_1(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -110,6 +127,8 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public void set_bitcoin_key_1(byte[] val) {
 		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -117,6 +136,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public byte[] get_bitcoin_key_2() {
 		byte[] ret = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_2(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -125,10 +145,13 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public void set_bitcoin_key_2(byte[] val) {
 		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	long clone_ptr() {
 		long ret = bindings.UnsignedChannelAnnouncement_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -137,6 +160,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public UnsignedChannelAnnouncement clone() {
 		long ret = bindings.UnsignedChannelAnnouncement_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UnsignedChannelAnnouncement ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UnsignedChannelAnnouncement(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -148,6 +172,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.UnsignedChannelAnnouncement_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -156,6 +181,7 @@ public class UnsignedChannelAnnouncement extends CommonBase {
 	 */
 	public static Result_UnsignedChannelAnnouncementDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.UnsignedChannelAnnouncement_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_UnsignedChannelAnnouncementDecodeErrorZ ret_hu_conv = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

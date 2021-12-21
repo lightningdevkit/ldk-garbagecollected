@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 /**
@@ -146,6 +147,10 @@ public class Persist extends CommonBase {
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ persist_new_channel(OutPoint channel_id, ChannelMonitor data, MonitorUpdateId update_id) {
 		long ret = bindings.Persist_persist_new_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr & ~1, data == null ? 0 : data.ptr & ~1, update_id == null ? 0 : update_id.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(data);
+		Reference.reachabilityFence(update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		this.ptrs_to.add(data);
@@ -191,6 +196,11 @@ public class Persist extends CommonBase {
 	 */
 	public Result_NoneChannelMonitorUpdateErrZ update_persisted_channel(OutPoint channel_id, @Nullable ChannelMonitorUpdate update, ChannelMonitor data, MonitorUpdateId update_id) {
 		long ret = bindings.Persist_update_persisted_channel(this.ptr, channel_id == null ? 0 : channel_id.ptr & ~1, update == null ? 0 : update.ptr & ~1, data == null ? 0 : data.ptr & ~1, update_id == null ? 0 : update_id.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(channel_id);
+		Reference.reachabilityFence(update);
+		Reference.reachabilityFence(data);
+		Reference.reachabilityFence(update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneChannelMonitorUpdateErrZ ret_hu_conv = Result_NoneChannelMonitorUpdateErrZ.constr_from_ptr(ret);
 		this.ptrs_to.add(update);

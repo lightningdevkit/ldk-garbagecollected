@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -139,6 +140,7 @@ public class APIError extends CommonBase {
 	}
 	long clone_ptr() {
 		long ret = bindings.APIError_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -147,6 +149,7 @@ public class APIError extends CommonBase {
 	 */
 	public APIError clone() {
 		long ret = bindings.APIError_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
@@ -158,6 +161,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError apimisuse_error(java.lang.String err) {
 		long ret = bindings.APIError_apimisuse_error(err);
+		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -169,6 +173,8 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError fee_rate_too_high(java.lang.String err, int feerate) {
 		long ret = bindings.APIError_fee_rate_too_high(err, feerate);
+		Reference.reachabilityFence(err);
+		Reference.reachabilityFence(feerate);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -180,6 +186,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError route_error(java.lang.String err) {
 		long ret = bindings.APIError_route_error(err);
+		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -191,6 +198,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError channel_unavailable(java.lang.String err) {
 		long ret = bindings.APIError_channel_unavailable(err);
+		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -213,6 +221,7 @@ public class APIError extends CommonBase {
 	 */
 	public static APIError incompatible_shutdown_script(ShutdownScript script) {
 		long ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr & ~1);
+		Reference.reachabilityFence(script);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

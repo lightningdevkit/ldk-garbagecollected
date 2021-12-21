@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -30,6 +31,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public byte[] get_chain_hash() {
 		byte[] ret = bindings.ReplyChannelRange_get_chain_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -38,6 +40,8 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public void set_chain_hash(byte[] val) {
 		bindings.ReplyChannelRange_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -45,6 +49,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public int get_first_blocknum() {
 		int ret = bindings.ReplyChannelRange_get_first_blocknum(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -53,6 +58,8 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public void set_first_blocknum(int val) {
 		bindings.ReplyChannelRange_set_first_blocknum(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -60,6 +67,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public int get_number_of_blocks() {
 		int ret = bindings.ReplyChannelRange_get_number_of_blocks(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -68,6 +76,8 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public void set_number_of_blocks(int val) {
 		bindings.ReplyChannelRange_set_number_of_blocks(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -75,6 +85,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public boolean get_sync_complete() {
 		boolean ret = bindings.ReplyChannelRange_get_sync_complete(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -83,6 +94,8 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public void set_sync_complete(boolean val) {
 		bindings.ReplyChannelRange_set_sync_complete(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -90,6 +103,8 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public void set_short_channel_ids(long[] val) {
 		bindings.ReplyChannelRange_set_short_channel_ids(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -97,6 +112,11 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public static ReplyChannelRange of(byte[] chain_hash_arg, int first_blocknum_arg, int number_of_blocks_arg, boolean sync_complete_arg, long[] short_channel_ids_arg) {
 		long ret = bindings.ReplyChannelRange_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, short_channel_ids_arg);
+		Reference.reachabilityFence(chain_hash_arg);
+		Reference.reachabilityFence(first_blocknum_arg);
+		Reference.reachabilityFence(number_of_blocks_arg);
+		Reference.reachabilityFence(sync_complete_arg);
+		Reference.reachabilityFence(short_channel_ids_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ReplyChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReplyChannelRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -105,6 +125,7 @@ public class ReplyChannelRange extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ReplyChannelRange_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -113,6 +134,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public ReplyChannelRange clone() {
 		long ret = bindings.ReplyChannelRange_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ReplyChannelRange ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ReplyChannelRange(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -124,6 +146,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public static Result_ReplyChannelRangeDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ReplyChannelRange_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ReplyChannelRangeDecodeErrorZ ret_hu_conv = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -134,6 +157,7 @@ public class ReplyChannelRange extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ReplyChannelRange_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 

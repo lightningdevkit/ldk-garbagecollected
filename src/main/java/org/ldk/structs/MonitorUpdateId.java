@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -21,6 +22,7 @@ public class MonitorUpdateId extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.MonitorUpdateId_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -29,6 +31,7 @@ public class MonitorUpdateId extends CommonBase {
 	 */
 	public MonitorUpdateId clone() {
 		long ret = bindings.MonitorUpdateId_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		MonitorUpdateId ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new MonitorUpdateId(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -40,9 +43,13 @@ public class MonitorUpdateId extends CommonBase {
 	 */
 	public long hash() {
 		long ret = bindings.MonitorUpdateId_hash(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
+	@Override public int hashCode() {
+		return (int)this.hash();
+	}
 	/**
 	 * Checks if two MonitorUpdateIds contain equal inner contents.
 	 * This ignores pointers and is_owned flags and looks at the values in fields.
@@ -50,8 +57,14 @@ public class MonitorUpdateId extends CommonBase {
 	 */
 	public boolean eq(MonitorUpdateId b) {
 		boolean ret = bindings.MonitorUpdateId_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof MonitorUpdateId)) return false;
+		return this.eq((MonitorUpdateId)o);
+	}
 }

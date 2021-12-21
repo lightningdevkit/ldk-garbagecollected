@@ -37,6 +37,11 @@ import * as bindings from '../bindings' // TODO: figure out location
 		return ret_hu_conv;
 	}
 
+	public boolean opt_anchors() {
+		boolean ret = bindings.TrustedCommitmentTransaction_opt_anchors(this.ptr);
+		return ret;
+	}
+
 	public Result_CVec_SignatureZNoneZ get_htlc_sigs(Uint8Array htlc_base_key, DirectedChannelTransactionParameters channel_parameters) {
 		number ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr & ~1);
 		Result_CVec_SignatureZNoneZ ret_hu_conv = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);

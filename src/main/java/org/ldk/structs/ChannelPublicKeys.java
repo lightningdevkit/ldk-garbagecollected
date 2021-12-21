@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -25,6 +26,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public byte[] get_funding_pubkey() {
 		byte[] ret = bindings.ChannelPublicKeys_get_funding_pubkey(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -34,6 +36,8 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public void set_funding_pubkey(byte[] val) {
 		bindings.ChannelPublicKeys_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -44,6 +48,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public byte[] get_revocation_basepoint() {
 		byte[] ret = bindings.ChannelPublicKeys_get_revocation_basepoint(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -55,6 +60,8 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public void set_revocation_basepoint(byte[] val) {
 		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -64,6 +71,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public byte[] get_payment_point() {
 		byte[] ret = bindings.ChannelPublicKeys_get_payment_point(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -74,6 +82,8 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public void set_payment_point(byte[] val) {
 		bindings.ChannelPublicKeys_set_payment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -83,6 +93,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public byte[] get_delayed_payment_basepoint() {
 		byte[] ret = bindings.ChannelPublicKeys_get_delayed_payment_basepoint(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -93,6 +104,8 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public void set_delayed_payment_basepoint(byte[] val) {
 		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -101,6 +114,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public byte[] get_htlc_basepoint() {
 		byte[] ret = bindings.ChannelPublicKeys_get_htlc_basepoint(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -110,6 +124,8 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public void set_htlc_basepoint(byte[] val) {
 		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -117,6 +133,11 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public static ChannelPublicKeys of(byte[] funding_pubkey_arg, byte[] revocation_basepoint_arg, byte[] payment_point_arg, byte[] delayed_payment_basepoint_arg, byte[] htlc_basepoint_arg) {
 		long ret = bindings.ChannelPublicKeys_new(InternalUtils.check_arr_len(funding_pubkey_arg, 33), InternalUtils.check_arr_len(revocation_basepoint_arg, 33), InternalUtils.check_arr_len(payment_point_arg, 33), InternalUtils.check_arr_len(delayed_payment_basepoint_arg, 33), InternalUtils.check_arr_len(htlc_basepoint_arg, 33));
+		Reference.reachabilityFence(funding_pubkey_arg);
+		Reference.reachabilityFence(revocation_basepoint_arg);
+		Reference.reachabilityFence(payment_point_arg);
+		Reference.reachabilityFence(delayed_payment_basepoint_arg);
+		Reference.reachabilityFence(htlc_basepoint_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelPublicKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -125,6 +146,7 @@ public class ChannelPublicKeys extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.ChannelPublicKeys_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -133,6 +155,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public ChannelPublicKeys clone() {
 		long ret = bindings.ChannelPublicKeys_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelPublicKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -144,6 +167,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.ChannelPublicKeys_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -152,6 +176,7 @@ public class ChannelPublicKeys extends CommonBase {
 	 */
 	public static Result_ChannelPublicKeysDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.ChannelPublicKeys_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ChannelPublicKeysDecodeErrorZ ret_hu_conv = Result_ChannelPublicKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

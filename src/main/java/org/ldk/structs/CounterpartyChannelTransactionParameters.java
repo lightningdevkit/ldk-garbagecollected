@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -24,6 +25,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public ChannelPublicKeys get_pubkeys() {
 		long ret = bindings.CounterpartyChannelTransactionParameters_get_pubkeys(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelPublicKeys ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelPublicKeys(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -35,6 +37,8 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_pubkeys(ChannelPublicKeys val) {
 		bindings.CounterpartyChannelTransactionParameters_set_pubkeys(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public short get_selected_contest_delay() {
 		short ret = bindings.CounterpartyChannelTransactionParameters_get_selected_contest_delay(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -50,6 +55,8 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public void set_selected_contest_delay(short val) {
 		bindings.CounterpartyChannelTransactionParameters_set_selected_contest_delay(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
 	}
 
 	/**
@@ -57,6 +64,8 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public static CounterpartyChannelTransactionParameters of(ChannelPublicKeys pubkeys_arg, short selected_contest_delay_arg) {
 		long ret = bindings.CounterpartyChannelTransactionParameters_new(pubkeys_arg == null ? 0 : pubkeys_arg.ptr & ~1, selected_contest_delay_arg);
+		Reference.reachabilityFence(pubkeys_arg);
+		Reference.reachabilityFence(selected_contest_delay_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CounterpartyChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -65,6 +74,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 
 	long clone_ptr() {
 		long ret = bindings.CounterpartyChannelTransactionParameters_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -73,6 +83,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public CounterpartyChannelTransactionParameters clone() {
 		long ret = bindings.CounterpartyChannelTransactionParameters_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		CounterpartyChannelTransactionParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new CounterpartyChannelTransactionParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -84,6 +95,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public byte[] write() {
 		byte[] ret = bindings.CounterpartyChannelTransactionParameters_write(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -92,6 +104,7 @@ public class CounterpartyChannelTransactionParameters extends CommonBase {
 	 */
 	public static Result_CounterpartyChannelTransactionParametersDecodeErrorZ read(byte[] ser) {
 		long ret = bindings.CounterpartyChannelTransactionParameters_read(ser);
+		Reference.reachabilityFence(ser);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CounterpartyChannelTransactionParametersDecodeErrorZ ret_hu_conv = Result_CounterpartyChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

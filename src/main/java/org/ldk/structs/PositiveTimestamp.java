@@ -4,6 +4,7 @@ import org.ldk.impl.bindings;
 import org.ldk.enums.*;
 import org.ldk.util.*;
 import java.util.Arrays;
+import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
 
@@ -31,12 +32,19 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public boolean eq(PositiveTimestamp b) {
 		boolean ret = bindings.PositiveTimestamp_eq(this.ptr, b == null ? 0 : b.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(b);
 		this.ptrs_to.add(b);
 		return ret;
 	}
 
+	@Override public boolean equals(Object o) {
+		if (!(o instanceof PositiveTimestamp)) return false;
+		return this.eq((PositiveTimestamp)o);
+	}
 	long clone_ptr() {
 		long ret = bindings.PositiveTimestamp_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -45,6 +53,7 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public PositiveTimestamp clone() {
 		long ret = bindings.PositiveTimestamp_clone(this.ptr);
+		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		PositiveTimestamp ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PositiveTimestamp(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
@@ -58,6 +67,7 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public static Result_PositiveTimestampCreationErrorZ from_unix_timestamp(long unix_seconds) {
 		long ret = bindings.PositiveTimestamp_from_unix_timestamp(unix_seconds);
+		Reference.reachabilityFence(unix_seconds);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -70,6 +80,7 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public static Result_PositiveTimestampCreationErrorZ from_system_time(long time) {
 		long ret = bindings.PositiveTimestamp_from_system_time(time);
+		Reference.reachabilityFence(time);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -80,6 +91,7 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public long as_unix_timestamp() {
 		long ret = bindings.PositiveTimestamp_as_unix_timestamp(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
@@ -88,6 +100,7 @@ public class PositiveTimestamp extends CommonBase {
 	 */
 	public long as_time() {
 		long ret = bindings.PositiveTimestamp_as_time(this.ptr);
+		Reference.reachabilityFence(this);
 		return ret;
 	}
 
