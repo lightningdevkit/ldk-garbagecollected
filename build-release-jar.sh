@@ -9,7 +9,7 @@ ls src/main/resources/liblightningjni_Linux-amd64.nativelib
 ls src/main/resources/liblightningjni_MacOSX-x86_64.nativelib
 ls src/main/resources/liblightningjni_MacOSX-aarch64.nativelib
 
-export LANG=C
+export LC_ALL=C
 
 # We need to fetch dependencies first as faketime will break PKI cert checks!
 mvn -DskipTests=true -Dorg.lightningdevkit.skipdocs=false package
