@@ -42,19 +42,16 @@ Status
 The TypeScript Bindings are still in early development and generated code contains syntax errors.
 
 While the underlying library and C bindings are relatively mature, the Java bindings should be
-considered alpha quality and some memory management issues may still appear. Specifically, because
-the Java bindings map between two very different memory models - Rust's strict ownership model and
-Java's reference cloning and garbage collection - a lot of work occurs in the background to keep
-the Java GC informed of Rust ownership semantics.
+considered beta quality and some issues may still appear. Specifically, because the Java bindings
+map between two very different memory models - Rust's strict ownership model and Java's reference
+cloning and garbage collection - a lot of work occurs in the background to keep the Java GC
+informed of Rust ownership semantics.
 
-There are some known memory leaks, which are relatively modest in the existing test suite (around
-1MB for 128 node constructions and 64 full channel constructions and payments sent), but which may
-be less moderate in certain usages. The debug-mode build includes memory leak tracking and will
-print all loose objects when the program exists, though without calls to
-`System.gc(); System.runFinalization();` immediately before exit there will likely be many false
-positives. While it will require some complicated usage, there are likely some use-after-free or
-unkonwn-free bugs remaining. The debug-mode build links LLVM address sanitizer and will print
-diagnostic information in case of such issues.
+The debug-mode build includes memory leak tracking and will print all loose objects when the
+program exists, though without calls to `System.gc(); System.runFinalization();` immediately before
+exit there will likely be many false positives. While it will require some complicated usage, there
+are likely some use-after-free or unkonwn-free bugs remaining. The debug-mode build links LLVM
+address sanitizer and will print diagnostic information in case of such issues.
 
 The only known issue resulting in a use-after-free bug requires custom a custom ChannelKeys instance
 created as a part of a new channel. After the channel is created, the ChannelKeys object will not
