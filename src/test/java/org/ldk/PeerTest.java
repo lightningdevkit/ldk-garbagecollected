@@ -217,7 +217,7 @@ public class PeerTest {
         long con_res = bindings.PeerManager_new_inbound_connection(peer2.peer_manager, descriptor2);
         assert(bindings.CResult_NonePeerHandleErrorZ_is_ok(con_res));
         bindings.CResult_NonePeerHandleErrorZ_free(con_res);
-        do_read_event(list, peer2.peer_manager, descriptor2, bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(init_vec));
+        do_read_event(list, peer2.peer_manager, descriptor2, bindings.CResult_CVec_u8ZPeerHandleErrorZ_get_ok(init_vec));
         bindings.CResult_CVec_u8ZPeerHandleErrorZ_free(init_vec);
 
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
@@ -276,7 +276,7 @@ public class PeerTest {
         long no_min_val = bindings.COption_u64Z_none();
         long inbound_payment = bindings.ChannelManager_create_inbound_payment(peer2.chan_manager, no_min_val, 7200);
         assert bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(inbound_payment);
-        long payment_tuple = bindings.LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_get_ok(inbound_payment);
+        long payment_tuple = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_get_ok(inbound_payment);
         bindings.COption_u64Z_free(no_min_val);
         long scorer = bindings.Scorer_default();
         long scorer_interface = bindings.Scorer_as_Score(scorer);
@@ -296,7 +296,7 @@ public class PeerTest {
 
         for (long chan : peer1_chans) bindings.ChannelDetails_free(chan);
         assert bindings.CResult_RouteLightningErrorZ_is_ok(route);
-        long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.LDKCResult_RouteLightningErrorZ_get_ok(route),
+        long payment_res = bindings.ChannelManager_send_payment(peer1.chan_manager, bindings.CResult_RouteLightningErrorZ_get_ok(route),
                 bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(payment_tuple), bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(payment_tuple));
         bindings.CResult_RouteLightningErrorZ_free(route);
         bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(inbound_payment);
