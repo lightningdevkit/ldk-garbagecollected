@@ -863,18 +863,17 @@ const decodeString = (stringPointer, free = true) => {
         out_java_enum += (f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n")
         java_hu_subclasses = ""
 
-        out_java +=  ("\tpublic static class " + struct_name + " {\n")
-        out_java +=  ("\t\tprivate " + struct_name + "() {}\n")
+        out_java += "\texport class " + struct_name + " {\n"
+        out_java += "\t\tprotected constructor() {}\n"
+        java_subclasses = ""
         for var in variant_list:
-            out_java +=  ("\t\texport class " + var.var_name + " extends " + struct_name + " {\n")
+            java_subclasses += "\texport class " + struct_name + "_" + var.var_name + " extends " + struct_name + " {\n"
             java_hu_subclasses = java_hu_subclasses + "export class " + var.var_name + " extends " + java_hu_type + " {\n"
             out_java_enum += ("\t\tif (raw_val instanceof bindings." + struct_name + "." + var.var_name + ") {\n")
             out_java_enum += ("\t\t\treturn new " + var.var_name + "(this.ptr, raw_val);\n")
             init_meth_params = ""
-            init_meth_body = ""
             hu_conv_body = ""
             for idx, (field_ty, field_docs) in enumerate(var.fields):
-                out_java += ("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
                 java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
                 if field_ty.to_hu_conv is not None:
                     hu_conv_body = hu_conv_body + "\t\tconst " + field_ty.arg_name + f": {field_ty.java_ty} = obj." + field_ty.arg_name + ";\n"
@@ -883,22 +882,18 @@ const decodeString = (stringPointer, free = true) => {
                 else:
                     hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
                 if idx > 0:
-                    init_meth_params = init_meth_params + ", "
-                init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
-                init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
-            out_java +=  ("\t\t\t" + var.var_name + "(" + init_meth_params + ") { ")
-            out_java +=  (init_meth_body)
-            out_java +=  ("}\n")
-            out_java += ("\t\t}\n")
+                    init_meth_params += ", "
+                init_meth_params += "public " + field_ty.arg_name + ": " + field_ty.java_ty
+            java_subclasses += "\t\tconstructor(" + init_meth_params + ") { super(); }\n"
+            java_subclasses += "\t}\n"
             out_java_enum += ("\t\t}\n")
             java_hu_subclasses = java_hu_subclasses + "\tprivate constructor(ptr: number, obj: bindings." + struct_name + "." + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
             java_hu_subclasses = java_hu_subclasses + hu_conv_body
             java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
-        out_java += ("\t\tstatic native void init();\n")
         out_java += ("\t}\n")
+        out_java += java_subclasses
         out_java_enum += ("\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n")
-        out_java += ("\tstatic { " + struct_name + ".init(); }\n")
-        out_java += ("\tpublic static native " + struct_name + " " + struct_name + "_ref_from_ptr(long ptr);\n");
+        out_java += self.fn_call_body(struct_name + "_ref_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
 
         out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
         out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n")
@@ -961,12 +956,30 @@ const decodeString = (stringPointer, free = true) => {
     def map_tuple(self, struct_name):
         return self.map_opaque_struct(struct_name, "A Tuple")
 
+    def fn_call_body(self, method_name, return_c_ty, return_java_ty, method_argument_string, native_call_argument_string):
+        has_return_value = return_c_ty != 'void'
+        needs_decoding = return_c_ty in self.wasm_decoding_map
+        return_statement = 'return nativeResponseValue;'
+        if not has_return_value:
+            return_statement = '// debug statements here'
+        elif needs_decoding:
+            converter = self.wasm_decoding_map[return_c_ty]
+            return_statement = f"return {converter}(nativeResponseValue);"
+
+        return f"""\texport function {method_name}({method_argument_string}): {return_java_ty} {{
+		if(!isWasmInitialized) {{
+			throw new Error("initializeWasm() must be awaited first!");
+		}}
+		const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
+		{return_statement}
+	}}
+"""
     def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None
 
-        out_java += ("\tpublic static native ")
+        out_java += ("\t")
         out_c += (self.c_fn_ty_pfx)
         out_c += (return_type_info.c_ty)
         out_java += (return_type_info.java_ty)
@@ -991,24 +1004,7 @@ const decodeString = (stringPointer, free = true) => {
                     native_argument = f"{converter}({arg_conv_info.arg_name})"
                 method_argument_string += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
                 native_call_argument_string += native_argument
-
-        has_return_value = return_type_info.c_ty != 'void'
-        needs_decoding = return_type_info.c_ty in self.wasm_decoding_map
-        return_statement = 'return nativeResponseValue;'
-        if not has_return_value:
-            return_statement = '// debug statements here'
-        elif needs_decoding:
-            converter = self.wasm_decoding_map[return_type_info.c_ty]
-            return_statement = f"return {converter}(nativeResponseValue);"
-
-        out_java = f"""\texport function {method_name}({method_argument_string}): {return_type_info.java_ty} {{
-		if(!isWasmInitialized) {{
-			throw new Error("initializeWasm() must be awaited first!");
-		}}
-		const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
-		{return_statement}
-	}}
-"""
+        out_java = self.fn_call_body(method_name, return_type_info.c_ty, return_type_info.java_ty, method_argument_string, native_call_argument_string)
 
         out_java_struct = ""
         if not args_known:
