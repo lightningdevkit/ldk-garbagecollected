@@ -175,7 +175,15 @@ echo "Creating TS bindings..."
 mkdir -p ts/{enums,structs}
 rm -f ts/{enums,structs}/*.ts
 ./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript
-echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" > ts/bindings.c
+rm -f ts/bindings.c
+if [ "$3" = "true" ]; then
+	echo "#define LDK_DEBUG_BUILD" > ts/bindings.c
+elif [ "$3" = "leaks" ]; then
+	# For leak checking we use release libldk which doesn't expose
+	# __unmangle_inner_ptr, but the C code expects to be able to call it.
+	echo "#define __unmangle_inner_ptr(a) (a)" > ts/bindings.c
+fi
+echo "#define LDKCVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ LDKCVec_TransactionOutputsZ" >> ts/bindings.c
 echo "#define CVec_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZZ_free CVec_TransactionOutputsZ_free" >> ts/bindings.c
 cat ts/bindings.c.body >> ts/bindings.c
 

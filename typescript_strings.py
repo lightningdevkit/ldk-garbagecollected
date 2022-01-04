@@ -181,7 +181,7 @@ static void FREE(void* ptr) {
 	__real_free(ptr);
 }
 
-static void CHECK_ACCESS(void* ptr) {
+static void CHECK_ACCESS(const void* ptr) {
 	allocation* it = allocation_ll;
 	while (it->ptr != ptr) {
 		it = it->next;
@@ -241,32 +241,37 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
-typedef uint32_t int64_tArray;
-typedef uint32_t int8_tArray;
-typedef uint32_t uint32_tArray;
-typedef uint32_t ptrArray;
-typedef uint32_t jstring;
+#define DECL_ARR_TYPE(ty, name) \\
+	struct name##array { \\
+		uint32_t arr_len; \\
+		ty elems[]; \\
+	}; \\
+	typedef struct name##array * name##Array; \\
+	static inline name##Array init_##name##Array(size_t arr_len) { \\
+		name##Array arr = (name##Array)MALLOC(arr_len * sizeof(ty) + sizeof(uint32_t), "##name array init"); \\
+		arr->arr_len = arr_len; \\
+		return arr; \\
+	}
 
-static inline uint32_t init_arr(size_t arr_len, size_t elem_size, const char *type_desc) {
-	uint32_t *elems = (uint32_t*)MALLOC(arr_len * elem_size + 4, type_desc);
-	elems[0] = arr_len;
-	return (uint32_t)elems;
-}
+DECL_ARR_TYPE(int64_t, int64_t);
+DECL_ARR_TYPE(int8_t, int8_t);
+DECL_ARR_TYPE(uint32_t, uint32_t);
+DECL_ARR_TYPE(void*, ptr);
+DECL_ARR_TYPE(char, char);
+typedef charArray jstring;
 
 static inline jstring str_ref_to_ts(const char* chars, size_t len) {
-	char* err_buf = MALLOC(len + 4, "str conv buf");
-	*((uint32_t*)err_buf) = len;
-	memcpy(err_buf + 4, chars, len);
-	return (uint32_t) err_buf;
+	charArray arr = init_charArray(len);
+	memcpy(arr->elems, chars, len);
+	return arr;
 }
-static inline LDKStr str_ref_to_owned_c(jstring str) {
-	uint32_t *str_len = (uint32_t*)str;
-	char* newchars = MALLOC(*str_len + 1, "String chars");
-	memcpy(newchars, (const char*)(str + 4), *str_len);
-	newchars[*str_len] = 0;
-	LDKStr res= {
+static inline LDKStr str_ref_to_owned_c(const jstring str) {
+	char* newchars = MALLOC(str->arr_len + 1, "String chars");
+	memcpy(newchars, str->elems, str->arr_len);
+	newchars[str->arr_len] = 0;
+	LDKStr res = {
 		.chars = newchars,
-		.len = *str_len,
+		.len = str->arr_len,
 		.chars_is_owned = true
 	};
 	return res;
@@ -296,36 +301,28 @@ import * as bindings from '../bindings' // TODO: figure out location
         self.result_c_ty = "uint32_t"
         self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != 0")
-        self.get_native_arr_len_call = ("*((uint32_t*)", ")")
+        self.get_native_arr_len_call = ("", "->arr_len")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
     def create_native_arr_call(self, arr_len, ty_info):
-        if ty_info.c_ty == "int8_tArray":
-            return "init_arr(" + arr_len + ", sizeof(uint8_t), \"Native int8_tArray Bytes\")"
-        elif ty_info.c_ty == "int64_tArray":
-            return "init_arr(" + arr_len + ", sizeof(uint64_t), \"Native int64_tArray Bytes\")"
-        elif ty_info.c_ty == "uint32_tArray":
-            return "init_arr(" + arr_len + ", sizeof(uint32_t), \"Native uint32_tArray Bytes\")"
-        elif ty_info.c_ty == "ptrArray":
+        if ty_info.c_ty == "ptrArray":
             assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
-            return "init_arr(" + arr_len + ", sizeof(uint32_t), \"Native ptrArray Bytes\")"
-        else:
-            print("Need to create arr!", ty_info.c_ty)
-            return ty_info.c_ty
+        return "init_" + ty_info.c_ty + "(" + arr_len + ")"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return ("memcpy((uint8_t*)(" + arr_name + " + 4), ", ", " + arr_len + ")")
+            return ("memcpy(" + arr_name + "->elems, ", ", " + arr_len + ")")
         else:
             assert False
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
         if ty_info.c_ty == "int8_tArray":
             if copy:
-                return "memcpy(" + dest_name + ", (uint8_t*)(" + arr_name + " + 4), " + arr_len + ")"
-            else:
-                return "(int8_t*)(" + arr_name + " + 4)"
+                return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + ")"
+        if ty_info.c_ty == "ptrArray":
+            return "(void*) " + arr_name + "->elems"
         else:
-            return "(" + ty_info.subty.c_ty + "*)(" + arr_name + " + 4)"
+            assert not copy
+            return arr_name + "->elems"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
@@ -742,11 +739,12 @@ const decodeString = (stringPointer, free = true) => {
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (" + fn_line.ret_ty_info.c_ty + ")"
+                    out_c += "js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.java_ty == "void":
                     out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.java_ty == "String":
-                    out_c = out_c + "\tuint32_t ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\tjstring ret = (jstring)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
                     out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 else:
@@ -754,9 +752,9 @@ const decodeString = (stringPointer, free = true) => {
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
-                        out_c = out_c + ", " + arg_info.ret_conv_name
+                        out_c = out_c + ", (uint32_t)" + arg_info.ret_conv_name
                     else:
-                        out_c = out_c + ", " + arg_info.arg_name
+                        out_c = out_c + ", (uint32_t)" + arg_info.arg_name
                 out_c = out_c + ");\n"
                 if fn_line.ret_ty_info.arg_conv is not None:
                     out_c = out_c + "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
