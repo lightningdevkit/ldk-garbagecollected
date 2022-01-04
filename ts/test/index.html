@@ -43,7 +43,7 @@
 			console.log('integer passed from wasm:', argument);
 		};
 		imports.env["js_invoke_function"] = function(fn, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
-			console.log('integer passed from wasm:', argument);
+			console.log('function called from wasm:', fn);
 		};
 
 		const stream = fetch('../../liblightningjs.wasm');
@@ -93,21 +93,21 @@
 		}
 
 		const result = wasm.TS_CResult_boolLightningErrorZ_ok(true);
-		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_result_ok(result));
+		console.assert(wasm.TS_CResult_boolLightningErrorZ_is_ok(result));
 		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_get_ok(result));
 		wasm.TS_CResult_boolLightningErrorZ_free(result);
 		console.assert(wasm.TS_CResult_boolLightningErrorZ_ok(false) == result); // malloc doesn't need to guarantee this, but currently does
-		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_result_ok(result));
+		console.assert(wasm.TS_CResult_boolLightningErrorZ_is_ok(result));
 		console.assert(!wasm.TS_LDKCResult_boolLightningErrorZ_get_ok(result));
 		wasm.TS_CResult_boolLightningErrorZ_free(result);
 
 		var pk_arr = [];
 		for (var i = 0; i < 33; i++) { pk_arr[i] = 42; }
 		const pk_bytes = encodeUint8Array(pk_arr);
-		const pk_res = wasm.TS_CResult_PublicKeySecpErrorZ_ok(pk_bytes);
-		console.assert(wasm.TS_LDKCResult_PublicKeySecpErrorZ_result_ok(pk_res));
-		const pk_res_bytes = wasm.TS_LDKCResult_PublicKeySecpErrorZ_get_ok(pk_res);
-		wasm.TS_LDKCResult_PublicKeySecpErrorZ_free(pk_res);
+		const pk_res = wasm.TS_CResult_PublicKeyErrorZ_ok(pk_bytes);
+		console.assert(wasm.TS_CResult_PublicKeyErrorZ_is_ok(pk_res));
+		const pk_res_bytes = wasm.TS_LDKCResult_PublicKeyErrorZ_get_ok(pk_res);
+		wasm.TS_CResult_PublicKeyErrorZ_free(pk_res);
 
 		console.log("pass");
 	})();
