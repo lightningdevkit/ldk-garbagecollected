@@ -21,11 +21,11 @@ class Consts:
         )
 
         self.wasm_decoding_map = dict(
-            int8_tArray = 'decodeArray'
+            int8_tArray = 'decodeUint8Array'
         )
 
         self.wasm_encoding_map = dict(
-            int8_tArray = 'encodeArray',
+            int8_tArray = 'encodeUint8Array',
         )
 
         self.to_hu_conv_templates = dict(
@@ -73,16 +73,7 @@ public static native long new_empty_slice_vec();
 
         self.bindings_version_file = ""
 
-        self.bindings_footer = """
-        export async function initializeWasm(allowDoubleInitialization: boolean = false): Promise<void> {
-            if(isWasmInitialized && !allowDoubleInitialization) {
-                return;
-            }
-            const wasmInstance = await WebAssembly.instantiate(wasmModule, imports)
-            wasm = wasmInstance.exports;
-            isWasmInitialized = true;
-        }
-        """
+        self.bindings_footer = ""
 
         self.util_fn_pfx = ""
         self.util_fn_sfx = ""
@@ -346,13 +337,10 @@ import * as bindings from '../bindings' // TODO: figure out location
         return " __attribute__((visibility(\"default\"))) TS_" + fn_name + "("
 
     def wasm_import_header(self, target):
-        if target == Target.NODEJS:
-            return """
-import * as fs from 'fs';
-const source = fs.readFileSync('./ldk.wasm');
-
+        res = """
+function freer(f: () => void) { f() }
+const finalizer = new FinalizationRegistry(freer);
 const memory = new WebAssembly.Memory({initial: 256});
-const wasmModule = new WebAssembly.Module(source);
 
 const imports: any = {};
 imports.env = {};
@@ -363,23 +351,70 @@ imports.env.tableBase = 0;
 imports.env.table = new WebAssembly.Table({initial: 4, element: 'anyfunc'});
 
 imports.env["abort"] = function () {
-    console.error("ABORT");
+	console.error("ABORT");
+};
+imports.env["js_invoke_function"] = function(fn: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number) {
+	console.log('function called from wasm:', fn, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+};
+imports.env["js_free_function_ptr"] = function(fn: number) {
+	console.log("function ptr free'd from wasm:", fn);
 };
 
-let wasm = null;
+imports.wasi_snapshot_preview1 = {
+	"fd_write" : () => {
+		console.log("ABORT");
+	},
+	"random_get" : () => {
+		console.log("RAND GET");
+	},
+	"environ_sizes_get" : () => {
+		console.log("wasi_snapshot_preview1:environ_sizes_get");
+	},
+	"proc_exit" : () => {
+		console.log("wasi_snapshot_preview1:proc_exit");
+	},
+	"environ_get" : () => {
+		console.log("wasi_snapshot_preview1:environ_get");
+	},
+};
+
+var wasm = null;
 let isWasmInitialized: boolean = false;
+"""
+
+        if target == Target.NODEJS:
+            res += """import * as fs from 'fs';
+export async function initializeWasm(path) {
+	const source = fs.readFileSync(path);
+	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);
+	wasm = wasmInstance.exports;
+	isWasmInitialized = true;
+};
+"""
+        else:
+            res += """
+export async function initializeWasm(uri) {
+	const stream = fetch(uri);
+	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
+	wasm = wasmInstance.exports;
+	isWasmInitialized = true;
+};
+
+"""
+
+        return res + """
 
 
 // WASM CODEC
 
 const nextMultipleOfFour = (value: number) => {
-    return Math.ceil(value / 4) * 4;
+	return Math.ceil(value / 4) * 4;
 }
 
 const encodeUint8Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
 	const arrayLengthView = new Uint32Array(memory.buffer, cArrayPointer, 1);
-    arrayLengthView[0] = inputArray.length;
+	arrayLengthView[0] = inputArray.length;
 	const arrayMemoryView = new Uint8Array(memory.buffer, cArrayPointer + 4, inputArray.length);
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
@@ -389,7 +424,7 @@ const encodeUint32Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
 	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
-    arrayMemoryView[0] = inputArray.length;
+	arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
 }
 
@@ -433,39 +468,38 @@ const decodeUint32Array = (arrayPointer, free = true) => {
 }
 
 const encodeString = (string) => {
-    // make malloc count divisible by 4
-    const memoryNeed = nextMultipleOfFour(string.length + 1);
-    const stringPointer = wasm.TS_malloc(memoryNeed);
-    const stringMemoryView = new Uint8Array(
-        memory.buffer, // value
-        stringPointer, // offset
-        string.length + 1 // length
-    );
-    for (let i = 0; i < string.length; i++) {
-        stringMemoryView[i] = string.charCodeAt(i);
-    }
-    stringMemoryView[string.length] = 0;
-    return stringPointer;
+	// make malloc count divisible by 4
+	const memoryNeed = nextMultipleOfFour(string.length + 1);
+	const stringPointer = wasm.TS_malloc(memoryNeed);
+	const stringMemoryView = new Uint8Array(
+		memory.buffer, // value
+		stringPointer, // offset
+		string.length + 1 // length
+	);
+	for (let i = 0; i < string.length; i++) {
+		stringMemoryView[i] = string.charCodeAt(i);
+	}
+	stringMemoryView[string.length] = 0;
+	return stringPointer;
 }
 
 const decodeString = (stringPointer, free = true) => {
-    const memoryView = new Uint8Array(memory.buffer, stringPointer);
-    let cursor = 0;
-    let result = '';
+	const memoryView = new Uint8Array(memory.buffer, stringPointer);
+	let cursor = 0;
+	let result = '';
 
-    while (memoryView[cursor] !== 0) {
-        result += String.fromCharCode(memoryView[cursor]);
-        cursor++;
-    }
+	while (memoryView[cursor] !== 0) {
+		result += String.fromCharCode(memoryView[cursor]);
+		cursor++;
+	}
 
-    if (free) {
-        wasm.wasm_free(stringPointer);
-    }
+	if (free) {
+		wasm.wasm_free(stringPointer);
+	}
 
-    return result;
+	return result;
 };
 """
-        return ''
 
     def init_str(self):
         return ""
@@ -497,13 +531,13 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\t}\n"
         out_c = out_c + "}\n"
 
-        out_typescript_enum = f"""
+        out_typescript = f"""
             export enum {struct_name} {{
                 {out_typescript_enum_fields}
             }}
 """
-
-        return (out_c, out_typescript_enum, "")
+        out_typescript_enum = f"export {{ {struct_name} }} from \"../bindings.mjs\";"
+        return (out_c, out_typescript_enum, out_typescript)
 
     def c_unitary_enum_to_native_call(self, ty_info):
         return (ty_info.rust_obj + "_to_js(", ")")
@@ -713,7 +747,7 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
                 for fn in field_function_lines:
                     if fn.fn_name != "free" and fn.fn_name != "cloned":
-                        out_c = out_c + "\t\tjs_free(j_calls->" + fn.fn_name + "_meth);\n"
+                        out_c = out_c + "\t\tjs_free_function_ptr(j_calls->" + fn.fn_name + "_meth);\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -970,7 +1004,7 @@ const decodeString = (stringPointer, free = true) => {
 		if(!isWasmInitialized) {{
 			throw new Error("initializeWasm() must be awaited first!");
 		}}
-		const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
+		const nativeResponseValue = wasm.TS_{method_name}({native_call_argument_string});
 		{return_statement}
 	}}
 """
