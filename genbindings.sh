@@ -1,15 +1,17 @@
 #!/bin/bash
 usage() {
-	echo "USAGE: path/to/ldk-c-bindings \"JNI_CFLAGS\" debug android"
+	echo "USAGE: path/to/ldk-c-bindings \"JNI_CFLAGS\" debug android web"
 	echo "For JNI_CFLAGS you probably want -I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/"
 	echo "debug should either be true, false, or leaks"
 	echo "debug of leaks turns on leak tracking on an optimized release bianry"
 	echo "android should either be true or false"
+	echo "web should either be true or false"
 	exit 1
 }
 [ "$1" = "" ] && usage
 [ "$3" != "true" -a "$3" != "false" -a "$3" != "leaks" ] && usage
 [ "$4" != "true" -a "$4" != "false" ] && usage
+[ "$5" != "true" -a "$5" != "false" ] && usage
 
 set -x
 
@@ -173,8 +175,12 @@ fi
 
 echo "Creating TS bindings..."
 mkdir -p ts/{enums,structs}
-rm -f ts/{enums,structs}/*.ts
-./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript
+rm -f ts/{enums,structs,}/*.{mjs,mts}
+if [ "$5" = "true" ]; then
+	./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript node
+else
+	./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript browser
+fi
 rm -f ts/bindings.c
 if [ "$3" = "true" ]; then
 	echo "#define LDK_DEBUG_BUILD" > ts/bindings.c
@@ -197,4 +203,21 @@ if [ "$3" = "true" ]; then
 	$COMPILE -o liblightningjs_debug.wasm -g -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
 else
 	$COMPILE -o liblightningjs_release.wasm -s -Os -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
+fi
+
+if [ -x "$(which tsc)" ]; then
+	cd ts
+rm -r structs # TODO: Make the human-types compile
+	if [ "$5" = "false" ]; then
+		tsc
+	else
+		tsc --types node --typeRoots .
+		cd ..
+		if [ -x "$(which node)" ]; then
+			NODE_V="$(node --version)"
+			if [ "${NODE_V:1:2}" -gt 14 ]; then
+				node ts/test/
+			fi
+		fi
+	fi
 fi

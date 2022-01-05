@@ -282,11 +282,11 @@ void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
 
         self.hu_struct_file_prefix = f"""
 import CommonBase from './CommonBase';
-import * as bindings from '../bindings' // TODO: figure out location
+import * as bindings from '../bindings.mjs'
 
 """
         self.c_fn_ty_pfx = ""
-        self.file_ext = ".ts"
+        self.file_ext = ".mts"
         self.ptr_c_ty = "uint32_t"
         self.ptr_native_ty = "number"
         self.result_c_ty = "uint32_t"
