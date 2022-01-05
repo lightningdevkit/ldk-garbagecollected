@@ -1,0 +1,1 @@
+export { Secp256k1Error } from "../bindings.mjs";
