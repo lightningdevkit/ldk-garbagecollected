@@ -1,6 +1,7 @@
 import * as ldk from "../bindings.mjs";
-async function run_tests() {
-	await ldk.initializeWasm("../../liblightningjs.wasm");
+
+export async function run_tests(wasm_path) {
+	await ldk.initializeWasm(wasm_path);
 	const result = ldk.CResult_boolLightningErrorZ_ok(true);
 	console.assert(ldk.CResult_boolLightningErrorZ_is_ok(result));
 	console.assert(ldk.CResult_boolLightningErrorZ_get_ok(result));
@@ -19,6 +20,5 @@ async function run_tests() {
 	wasm.TS_CResult_PublicKeyErrorZ_free(pk_res);*/
 
 	console.log("pass");
+	return true;
 }
-
-run_tests();

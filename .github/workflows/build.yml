@@ -3,21 +3,24 @@ name: Continuous Integration Checks
 on: [push, pull_request]
 
 jobs:
-  check_bindings:
+  wasm_bindings:
     runs-on: ubuntu-latest
-    # Ubuntu's version of rustc uses its own LLVM instead of being a real native package.
-    # This leaves us with an incompatible LLVM version when linking. Instead, use a real OS.
-    container: debian:bullseye
-    env:
-      TOOLCHAIN: stable
+    # Ubuntu's version of clang doesn't support....anything that should work.
+    # Ubuntu is an utter trash OS and should generally never be used for anything.
+    # We also require at least rustc 1.51 (ie https://github.com/rust-lang/rust/pull/79998),
+    # so we use debian testing
+    container: debian:bookworm
     strategy:
       fail-fast: false
     steps:
-      - name: Install native Rust toolchain, Valgrind, and build utilitis
+      - name: Install build utilities and test that clang can build for wasm
         run: |
           apt-get update
           apt-get -y dist-upgrade
-          apt-get -y install cargo libstd-rust-dev-wasm32 valgrind lld git g++ clang openjdk-11-jdk maven faketime zip unzip llvm curl
+          apt-get -y install cargo libstd-rust-dev-wasm32 lld git g++ clang curl node-typescript npm python3
+          echo "int main() {}" > genbindings_wasm_test_file.c
+          clang -nostdlib -o /dev/null --target=wasm32-wasi -Wl,--no-entry genbindings_wasm_test_file.c
+          rm genbindings_wasm_test_file.c
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
@@ -36,21 +39,75 @@ jobs:
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
           git checkout 0.0.104
-      - name: Rebuild C bindings without STD for WASM
+      - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
           ./genbindings.sh ../rust-lightning false
-          mv lightning-c-bindings/target/wasm32-wasi ./
+      - name: Build and Test TS Bindings for Node
+        run: |
+          # We need FinalizationRegistry and top-level await support, which requires node 14.6/8,
+          # however Debian ships with Node 12
+          # Thus, we install the binary nodejs from nodejs.org and test with that.
+          curl https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-x64.tar.xz > nodejs.tar.xz
+          tar xvvf nodejs.tar.xz
+          export PATH=$(echo node-*/bin):$PATH
+          ./genbindings.sh ./ldk-c-bindings/ wasm false false
+      - name: Build and Test TS Bindings for Web
+        run: |
+          export PATH=$(echo node-*/bin):$PATH
+          ./genbindings.sh ./ldk-c-bindings/ wasm false true
+          export HOME=/root/ # Github actions is apparently broken
+          npm i -D playwright
+          # npx playwright install-deps is broken so we do it manually, see https://github.com/microsoft/playwright/issues/11165
+          apt-get install -y --no-install-recommends fonts-liberation libenchant-2-2 libicu67 libjpeg62-turbo libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libcairo2 libcups2 libdbus-1-3 libdrm2 libegl1 libgbm1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libxshmfence1 xvfb fonts-noto-color-emoji fonts-unifont libfontconfig libfreetype6 xfonts-scalable fonts-ipafont-gothic fonts-wqy-zenhei fonts-tlwg-loma-otf ffmpeg libcairo-gobject2 libdbus-glib-1-2 libfontconfig1 libgdk-pixbuf2.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 libxcb-shm0 libxcursor1 libxi6 libxrender1 libxt6 gstreamer1.0-libav gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good libepoxy0 libevdev2 libgl1 libgles2 libgstreamer-gl1.0-0 libgstreamer1.0-0 libharfbuzz-icu0 libharfbuzz0b libhyphen0 libnotify4 libopenjp2-7 libopus0 libpng16-16 libsecret-1-0 libsoup2.4-1 libwayland-client0 libwayland-egl1 libwayland-server0 libwebp6 libwebpdemux2 libwoff1 libxkbcommon0 libxml2 libxslt1.1
+          mkdir -p $HOME/.cache/ms-playwright # `playwright install` is too dumb to create this for us
+          chmod -R 777 $HOME/
+          npx playwright install
+          export PATH=$(echo node-*/bin):$PATH
+          python3 -m http.server &
+          node ts/test/browser.mjs
+      - name: Check latest TS files are in git
+        run: |
+          git diff --exit-code
+
+  java_bindings:
+    runs-on: ubuntu-latest
+    # Ubuntu's version of rustc uses its own LLVM instead of being a real native package.
+    # This leaves us with an incompatible LLVM version when linking. Instead, use a real OS.
+    container: debian:bullseye
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Install native Rust toolchain, Valgrind, and build utilitis
+        run: |
+          apt-get update
+          apt-get -y dist-upgrade
+          apt-get -y install cargo valgrind lld git g++ clang openjdk-11-jdk maven faketime zip unzip llvm curl
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install cbindgen
+        run: cargo install --force cbindgen
+      - name: Checkout Rust-Lightning and LDK-C-Bindings git
+        run: |
+          git config --global user.email "ldk-ci@example.com"
+          git config --global user.name "LDK CI"
+          # Note this is a different endpoint, as we need one non-upstream commit!
+          git clone https://git.bitcoin.ninja/rust-lightning
+          cd rust-lightning
+          git checkout origin/2021-03-java-bindings-base
           cd ..
+          git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.104
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
           # Reset the Cargo.toml file so that git describe doesn't think we're "-dirty"
           git checkout lightning-c-bindings/Cargo.toml
           ./genbindings.sh ../rust-lightning true
-          mv wasm32-wasi lightning-c-bindings/target/
-          cd ..
-      - name: Build Java/TS Debug Bindings
+      - name: Build Java Debug Bindings
         run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" true false
       - name: Run Java Tests against Debug Bindings
         run: |
@@ -72,7 +129,7 @@ jobs:
           cd ../..
           mkdir -p src/main/resources/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"* src/main/resources/
-      - name: Build Java/TS Release Bindings
+      - name: Build Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
@@ -116,8 +173,6 @@ jobs:
     runs-on: ubuntu-latest
     # Frankly, I'm not really sure why debian and ubuntu differ in the results here, they really shouldn't
     container: debian:bullseye
-    env:
-      TOOLCHAIN: stable
     strategy:
       fail-fast: false
     steps:
@@ -211,8 +266,6 @@ jobs:
           - platform: macos-11
       fail-fast: false
     runs-on: ${{ matrix.platform }}
-    env:
-      TOOLCHAIN: stable
     steps:
       - name: Install other Rust platforms
         run: rustup target install aarch64-apple-darwin
@@ -272,22 +325,18 @@ jobs:
           cd ../..
           mkdir -p src/main/resources/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_Linux-"* src/main/resources/
-      - name: Build Java/TS Release Bindings
+      - name: Build Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           export JAVA_HOME=`pwd`/jdk-16.0.1.jdk/Contents/Home
           export PATH=$JAVA_HOME/bin:$PATH
-          # genbindings.sh always fails as there is no wasm32-wasi library
-          # available, so instead we check that the expected JNI library
-          # is created.
           export PATH=`pwd`/clang+llvm-13.0.0-x86_64-apple-darwin/bin:$PATH
-          ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false || echo
-          cat src/main/resources/liblightningjni_MacOSX-x86_64.nativelib > /dev/null
+          ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
             export CC="clang --target=aarch64-apple-darwin"
             export LDK_TARGET=aarch64-apple-darwin
             export LDK_TARGET_CPU=apple-a14
-            ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false || echo
+            ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false
             cat src/main/resources/liblightningjni_MacOSX-aarch64.nativelib > /dev/null
           fi
       - name: Fetch Maven 3.8.4

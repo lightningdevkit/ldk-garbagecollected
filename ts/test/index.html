@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<!-- add.html -->
 <html>
 <head></head>
 <body>
-<script type="module" src="test.mjs">
+<script type="text/javascript">
+	var test_runner;
+</script>
+<script type="module">
+	import { run_tests } from './tests.mjs';
+	run_tests('../../liblightningjs.wasm');
+	test_runner = run_tests;
 </script>
 </body>
 </html>
