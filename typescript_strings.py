@@ -80,15 +80,25 @@ public static native long new_empty_slice_vec();
         self.util_fn_sfx = ""
 
         self.common_base = """
-            export default class CommonBase {
-                protected ptr: number;
-                protected ptrs_to: object[] = [];
-                protected constructor(ptr: number) { this.ptr = ptr; }
-                public _test_only_get_ptr(): number { return this.ptr; }
-                protected finalize() {
-                    // TODO: finalize myself
-                }
-            }
+function freer(f: () => void) { f() }
+const finalizer = new FinalizationRegistry(freer);
+function get_freeer(ptr: number, free_fn: (number) => void) {
+	return () => {
+		free_fn(ptr);
+	}
+}
+
+export default class CommonBase {
+	protected ptr: number;
+	protected ptrs_to: object[] = [];
+	protected constructor(ptr: number, free_fn: (ptr: number) => void) {
+		this.ptr = ptr;
+		if (Number.isFinite(ptr) && ptr != 0){
+			finalizer.register(this, get_freeer(ptr, free_fn));
+		}
+	}
+	public _test_only_get_ptr(): number { return this.ptr; }
+}
 """
 
         self.c_file_pfx = """#include "js-wasm.h"
@@ -281,8 +291,8 @@ void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
 
         self.c_version_file = ""
 
-        self.hu_struct_file_prefix = f"""
-import CommonBase from './CommonBase';
+        self.hu_struct_file_prefix = """
+import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 """
@@ -339,8 +349,6 @@ import * as bindings from '../bindings.mjs'
 
     def wasm_import_header(self, target):
         res = """
-function freer(f: () => void) { f() }
-const finalizer = new FinalizationRegistry(freer);
 const memory = new WebAssembly.Memory({initial: 256});
 
 const imports: any = {};
@@ -656,48 +664,40 @@ const decodeString = (stringPointer, free = true) => {
                         trait_constructor_arguments += ", " + suparg[1]
 
         out_typescript_human = f"""
-            {self.hu_struct_file_prefix}
+{self.hu_struct_file_prefix}
 
-            export class {struct_name.replace("LDK","")} extends CommonBase {{
+{struct_name.replace("LDK","")} extends CommonBase {{
 
-                bindings_instance?: bindings.{struct_name};
+	bindings_instance?: bindings.{struct_name};
 
-                constructor(ptr?: number, arg?: bindings.{struct_name}{constructor_arguments}) {{
-                    if (Number.isFinite(ptr)) {{
-				        super(ptr);
-				        this.bindings_instance = null;
-				    }} else {{
-				        // TODO: private constructor instantiation
-				        super(bindings.{struct_name}_new(arg{super_instantiator}));
-				        this.ptrs_to.push(arg);
-				        {pointer_to_adder}
-				    }}
-                }}
+	constructor(ptr?: number, arg?: bindings.{struct_name}{constructor_arguments}) {{
+		if (Number.isFinite(ptr)) {{
+			super(ptr, bindings.{struct_name.replace("LDK","")}_free);
+			this.bindings_instance = null;
+		}} else {{
+			// TODO: private constructor instantiation
+			super(bindings.{struct_name}_new(arg{super_instantiator}));
+			this.ptrs_to.push(arg);
+			{pointer_to_adder}
+		}}
+	}}
 
-                protected finalize() {{
-                    if (this.ptr != 0) {{
-                        bindings.{struct_name.replace("LDK","")}_free(this.ptr);
-                    }}
-                    super.finalize();
-                }}
+	static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
+		const impl_holder: {struct_name}Holder = new {struct_name}Holder();
+		let structImplementation = <bindings.{struct_name}>{{
+			// todo: in-line interface filling
+			{out_interface_implementation_overrides}
+		}};
+		impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation{trait_constructor_arguments});
+	}}
 
-                static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
-                    const impl_holder: {struct_name}Holder = new {struct_name}Holder();
-                    let structImplementation = <bindings.{struct_name}>{{
-                        // todo: in-line interface filling
-                        {out_interface_implementation_overrides}
-                    }};
-                    impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation{trait_constructor_arguments});
-                }}
-            }}
+	export interface {struct_name.replace("LDK", "")}Interface {{
+		{out_java_interface}
+	}}
 
-            export interface {struct_name.replace("LDK", "")}Interface {{
-                {out_java_interface}
-            }}
-
-            class {struct_name}Holder {{
-                held: {struct_name.replace("LDK", "")};
-            }}
+	class {struct_name}Holder {{
+		held: {struct_name.replace("LDK", "")};
+	}}
 """
 
         out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
@@ -894,12 +894,8 @@ const decodeString = (stringPointer, free = true) => {
         out_java_enum += (self.hu_struct_file_prefix)
 
         java_hu_class = ""
-        java_hu_class += "export default class " + java_hu_type + " extends CommonBase {\n"
-        java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr); }\n"
-        java_hu_class += "\tprotected finalize() {\n"
-        java_hu_class += "\t\tsuper.finalize();\n"
-        java_hu_class += "\t\tif (this.ptr != 0) { bindings." + java_hu_type + "_free(this.ptr); }\n"
-        java_hu_class += "\t}\n"
+        java_hu_class += "export class " + java_hu_type + " extends CommonBase {\n"
+        java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr, bindings." + bindings_type + "_free); }\n"
         java_hu_class += "\t/* @internal */\n"
         java_hu_class += f"\tpublic static constr_from_ptr(ptr: number): {java_hu_type} {{\n"
         java_hu_class += f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n"
@@ -970,30 +966,17 @@ const decodeString = (stringPointer, free = true) => {
         implementations = ""
         method_header = ""
         if struct_name.startswith("LDKLocked"):
-            implementations += "implements AutoCloseable "
-            method_header = """
-                public close() {
-"""
-        else:
-            method_header = """
-                protected finalize() {
-                    super.finalize();
-"""
+            return "NOT IMPLEMENTED"
 
-        out_opaque_struct_human = f"""
-            {self.hu_struct_file_prefix}
+        hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
+        out_opaque_struct_human = f"""{self.hu_struct_file_prefix}
 
-            export default class {struct_name.replace("LDK","")} extends CommonBase {implementations}{{
-                /* @internal */
-                public constructor(_dummy: object, ptr: number) {{
-                    super(ptr);
-                }}
+export class {hu_name} extends CommonBase {implementations}{{
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {{
+		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
+	}}
 
-                {method_header}
-                    if (this.ptr != 0) {{
-                        bindings.{struct_name.replace("LDK","")}_free(this.ptr);
-                    }}
-                }}
 """
         return out_opaque_struct_human
 
