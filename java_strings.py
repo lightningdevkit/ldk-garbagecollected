@@ -620,6 +620,9 @@ import javax.annotation.Nullable;
     def var_decl_statement(self, ty_string, var_name, statement):
         return ty_string + " " + var_name + " = " + statement
 
+    def add_ref(self, holder, referent):
+        return holder + ".ptrs_to.add(" + referent + ")"
+
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_java_enum = "package org.ldk.enums;\n\n"
         out_java = ""

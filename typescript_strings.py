@@ -97,6 +97,9 @@ export default class CommonBase {
 			finalizer.register(this, get_freeer(ptr, free_fn));
 		}
 	}
+	protected static add_ref_from(holder: CommonBase, referent: object) {
+		holder.ptrs_to.push(referent);
+	}
 	public _test_only_get_ptr(): number { return this.ptr; }
 }
 """
@@ -515,6 +518,9 @@ const decodeString = (stringPointer, free = true) => {
 
     def var_decl_statement(self, ty_string, var_name, statement):
         return "const " + var_name + ": " + ty_string + " = " + statement
+
+    def add_ref(self, holder, referent):
+        return "CommonBase.add_ref_from(" + holder + ", " + referent + ")"
 
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_c = "static inline LDK" + struct_name + " LDK" + struct_name + "_from_js(int32_t ord) {\n"
