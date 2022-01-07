@@ -11,8 +11,8 @@ class Target(Enum):
     BROWSER = 2
 
 class Consts:
-    def __init__(self, DEBUG: bool, target: Target, **kwargs):
-
+    def __init__(self, DEBUG: bool, target: Target, outdir: str, **kwargs):
+        self.outdir = outdir
         self.c_type_map = dict(
             uint8_t = ['number', 'Uint8Array'],
             uint16_t = ['number', 'Uint16Array'],
@@ -1160,3 +1160,6 @@ const decodeString = (stringPointer, free = true) => {
             out_java_struct += ("\t}\n\n")
 
         return (out_java, out_c, out_java_struct)
+
+    def cleanup(self):
+        pass

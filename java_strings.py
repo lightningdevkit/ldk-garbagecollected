@@ -1384,3 +1384,6 @@ import javax.annotation.Nullable;
             out_java_struct += ("\t}\n\n")
 
         return (out_java, out_c, out_java_struct + extra_java_struct_out)
+
+    def cleanup(self):
+        pass

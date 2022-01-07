@@ -31,7 +31,7 @@ else:
     sys.exit(1)
 
 
-consts = Consts(DEBUG, target=target)
+consts = Consts(DEBUG, target=target, outdir=sys.argv[4])
 
 local_git_version = os.getenv("LDK_GARBAGECOLLECTED_GIT_OVERRIDE")
 if local_git_version is None:
@@ -1058,3 +1058,4 @@ with open(f"{sys.argv[4]}/version.c", "w") as out_c:
     out_c.write(consts.c_version_file.replace('<git_version_ldk_garbagecollected>', local_git_version))
 with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:
     util.write(consts.util_fn_sfx)
+consts.cleanup()
