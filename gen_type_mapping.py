@@ -257,7 +257,7 @@ class TypeMappingGenerator:
                 ty_info.var_name = "ret"
 
             if ty_info.rust_obj in self.opaque_structs:
-                from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", self.consts.add_ref("this", ty_info.var_name))
+                from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name) + " & ~1", self.consts.add_ref("this", ty_info.var_name))
                 opaque_arg_conv = ty_info.rust_obj + " " + ty_info.var_name + "_conv;\n"
                 opaque_arg_conv = opaque_arg_conv + ty_info.var_name + "_conv.inner = (void*)(" + ty_info.var_name + " & (~1));\n"
                 if ty_info.is_ptr and holds_ref:
@@ -287,7 +287,7 @@ class TypeMappingGenerator:
                             "// at the FFI layer, creating a new object which Rust can claim ownership of\n" +
                             "// However, in some cases (eg here), there is no way to clone an object, and thus\n" +
                             "// we actually have to pass full ownership to Rust.\n" +
-                            "// Thus, after this call, " + ty_info.var_name + " is reset to null and is now a dummy object.\n" + ty_info.var_name + ".ptr = 0")
+                            "// Thus, after this call, " + ty_info.var_name + " is reset to null and is now a dummy object.\n" + self.consts.set_null_skip_free(ty_info.var_name))
 
                 opaque_ret_conv_suf = ";\n"
                 opaque_ret_conv_suf += "uint64_t " + ty_info.var_name + "_ref = 0;\n"
@@ -375,7 +375,7 @@ class TypeMappingGenerator:
                     else:
                         base_conv = base_conv + "\n" + "FREE((void*)" + ty_info.var_name + ");"
                     if from_hu_conv is None:
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", "")
+                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), "")
                     from_hu_conv = (from_hu_conv[0], self.consts.add_ref("this", ty_info.var_name))
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
@@ -424,7 +424,7 @@ class TypeMappingGenerator:
                         ret_conv = (ret_conv[0] + "*" + ty_info.var_name + "_copy = ", "")
                         ret_conv = (ret_conv[0], ";\nuint64_t " + ty_info.var_name + "_ref = (uint64_t)" + ty_info.var_name + "_copy;")
                     if from_hu_conv is None:
-                        from_hu_conv = (ty_info.var_name + ".ptr", "")
+                        from_hu_conv = (self.consts.get_ptr(ty_info.var_name), "")
                     from_hu_conv = (from_hu_conv[0], to_hu_conv_sfx)
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
@@ -440,7 +440,7 @@ class TypeMappingGenerator:
                     else:
                         ret_conv = (ty_info.rust_obj + "* " + ty_info.var_name + "_conv = MALLOC(sizeof(" + ty_info.rust_obj + "), \"" + ty_info.rust_obj + "\");\n*" + ty_info.var_name + "_conv = ", ";")
                     if from_hu_conv is None:
-                        from_hu_conv = (ty_info.var_name + " != null ? " + ty_info.var_name + ".ptr : 0", "")
+                        from_hu_conv = (ty_info.var_name + " != null ? " + self.consts.get_ptr(ty_info.var_name) + " : 0", "")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ret_conv, ret_conv_name = "(uint64_t)" + ty_info.var_name + "_conv",
@@ -464,7 +464,7 @@ class TypeMappingGenerator:
                     else:
                         to_hu_conv_sfx = ""
                     if from_hu_conv is None:
-                        from_hu_conv = (ty_info.var_name + " != null ? " + ty_info.var_name + ".ptr : 0", "")
+                        from_hu_conv = (ty_info.var_name + " != null ? " + self.consts.get_ptr(ty_info.var_name) + " : 0", "")
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ret_conv, ret_conv_name = ret_conv_name,
@@ -489,7 +489,7 @@ class TypeMappingGenerator:
                     arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                     ret_conv = ret_conv, ret_conv_name = "(uint64_t)" + ty_info.var_name + "_ref",
                     to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_conv", "new " +ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";",
-                    to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (ty_info.var_name + ".ptr", ""))
+                    to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = (self.consts.get_ptr(ty_info.var_name), ""))
             elif ty_info.is_ptr:
                 assert(not is_free)
                 if ty_info.rust_obj in self.complex_enums:
@@ -506,7 +506,7 @@ class TypeMappingGenerator:
                         ret_conv = ret_conv, ret_conv_name = "(uint64_t)ret_" + ty_info.var_name,
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_hu_conv", ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ")") + ";",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv",
-                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr & ~1", from_hu_sfx))
+                        from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name) + " & ~1", from_hu_sfx))
                 elif ty_info.rust_obj in self.trait_structs:
                     if ty_info.nonnull_ptr:
                         arg_conv = "void* " + ty_info.var_name + "_ptr = (void*)(((uint64_t)" + ty_info.var_name + ") & ~1);\n"
@@ -535,7 +535,7 @@ class TypeMappingGenerator:
                             ret_conv_name = "(uint64_t)" + ty_info.var_name + "_clone",
                             to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, "ret_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";\n" + self.consts.add_ref("ret_hu_conv", "this") + ";",
                             to_hu_conv_name = "ret_hu_conv",
-                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", ""))
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), ""))
                     else:
                         return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                             arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = None,
@@ -543,7 +543,7 @@ class TypeMappingGenerator:
                             ret_conv_name = "ret_" + ty_info.var_name,
                             to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, "ret_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";\n" + self.consts.add_ref("ret_hu_conv", "this") + ";",
                             to_hu_conv_name = "ret_hu_conv",
-                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + ty_info.var_name + ".ptr", self.consts.add_ref("this", ty_info.var_name)))
+                            from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), self.consts.add_ref("this", ty_info.var_name)))
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)(" + ty_info.var_name + " & ~1);",
                     arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,

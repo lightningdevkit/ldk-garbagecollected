@@ -97,10 +97,19 @@ export default class CommonBase {
 			finalizer.register(this, get_freeer(ptr, free_fn));
 		}
 	}
+	// In Java, protected means "any subclass can access fields on any other subclass'"
+	// In TypeScript, protected means "any subclass can access parent fields on instances of itself"
+	// To work around this, we add accessors for other instances' protected fields here.
 	protected static add_ref_from(holder: CommonBase, referent: object) {
 		holder.ptrs_to.push(referent);
 	}
-	public _test_only_get_ptr(): number { return this.ptr; }
+	protected static get_ptr_of(o: CommonBase) {
+		return o.ptr;
+	}
+	protected static set_null_skip_free(o: CommonBase) {
+		o.ptr = 0;
+		finalizer.unregister(o);
+	}
 }
 """
 
@@ -525,6 +534,11 @@ const decodeString = (stringPointer, free = true) => {
 
     def var_decl_statement(self, ty_string, var_name, statement):
         return "const " + var_name + ": " + ty_string + " = " + statement
+
+    def get_ptr(self, var):
+        return "CommonBase.get_ptr_of(" + var + ")"
+    def set_null_skip_free(self, var):
+        return "CommonBase.set_null_skip_free(" + var + ");"
 
     def add_ref(self, holder, referent):
         return "CommonBase.add_ref_from(" + holder + ", " + referent + ")"

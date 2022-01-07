@@ -620,6 +620,11 @@ import javax.annotation.Nullable;
     def var_decl_statement(self, ty_string, var_name, statement):
         return ty_string + " " + var_name + " = " + statement
 
+    def get_ptr(self, var):
+        return var + ".ptr"
+    def set_null_skip_free(self, var):
+        return var + ".ptr" + " = 0;"
+
     def add_ref(self, holder, referent):
         return holder + ".ptrs_to.add(" + referent + ")"
 
