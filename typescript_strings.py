@@ -368,13 +368,9 @@ import * as InternalUtils from '../InternalUtils.mjs'
 
     def wasm_import_header(self, target):
         res = """
-const memory = new WebAssembly.Memory({initial: 256});
-
 const imports: any = {};
 imports.env = {};
 
-imports.env.memoryBase = 0;
-imports.env.memory = memory;
 imports.env.tableBase = 0;
 imports.env.table = new WebAssembly.Table({initial: 4, element: 'anyfunc'});
 
@@ -441,16 +437,16 @@ const nextMultipleOfFour = (value: number) => {
 
 const encodeUint8Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-	const arrayLengthView = new Uint32Array(memory.buffer, cArrayPointer, 1);
+	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new Uint8Array(memory.buffer, cArrayPointer + 4, inputArray.length);
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 
 const encodeUint32Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
+	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
 	arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
@@ -458,7 +454,7 @@ const encodeUint32Array = (inputArray) => {
 
 const getArrayLength = (arrayPointer) => {
 	const arraySizeViewer = new Uint32Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer, // offset
 		1 // one int
 	);
@@ -467,7 +463,7 @@ const getArrayLength = (arrayPointer) => {
 const decodeUint8Array = (arrayPointer, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint8Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer + 4, // offset (ignoring length bytes)
 		arraySize // uint8 count
 	);
@@ -482,7 +478,7 @@ const decodeUint8Array = (arrayPointer, free = true) => {
 const decodeUint32Array = (arrayPointer, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint32Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer + 4, // offset (ignoring length bytes)
 		arraySize // uint32 count
 	);
@@ -500,7 +496,7 @@ const encodeString = (string) => {
 	const memoryNeed = nextMultipleOfFour(string.length + 1);
 	const stringPointer = wasm.TS_malloc(memoryNeed);
 	const stringMemoryView = new Uint8Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		stringPointer, // offset
 		string.length + 1 // length
 	);
@@ -512,7 +508,7 @@ const encodeString = (string) => {
 }
 
 const decodeString = (stringPointer, free = true) => {
-	const memoryView = new Uint8Array(memory.buffer, stringPointer);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer);
 	let cursor = 0;
 	let result = '';
 
