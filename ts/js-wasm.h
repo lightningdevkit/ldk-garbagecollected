@@ -1,13 +1,8 @@
-#ifndef export
-#define export __attribute__((visibility("default")))
-#endif
-
 #ifndef JS_H
 #include <stdint.h>
 #include <stddef.h>
 
-size_t strlen(const char *str)
-{
+static inline size_t strlen(const char *str) {
 	const char *s;
 	for (s = str; *s; ++s) ;
 	return (s - str);
@@ -15,7 +10,7 @@ size_t strlen(const char *str)
 
 typedef uint32_t JSValue;
 extern JSValue js_invoke_function(JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue);
-extern void js_free(JSValue);
+extern void js_free_function_ptr(JSValue);
 
 static inline JSValue js_invoke_function_0(JSValue fn){
   return js_invoke_function(fn,0,0,0,0,0,0,0,0,0,0);

@@ -1,116 +1,14 @@
 <!DOCTYPE html>
-<!-- add.html -->
 <html>
 <head></head>
 <body>
+<script type="text/javascript">
+	var test_runner;
+</script>
 <script type="module">
-	(async() => {
-		const imports = {};
-		imports.wasi_snapshot_preview1 = {
-			"fd_write" : () => {
-				console.log("ABORT");
-			},
-			"random_get" : () => {
-				console.log("ABORT");
-			},
-			"environ_sizes_get" : () => {
-				console.log("wasi_snapshot_preview1:environ_sizes_get");
-			},
-			"proc_exit" : () => {
-				console.log("wasi_snapshot_preview1:proc_exit");
-			},
-			"environ_get" : () => {
-				console.log("wasi_snapshot_preview1:environ_get");
-			},
-		};
-		imports.env = {};
-
-		const memory = new WebAssembly.Memory({initial: 256});
-		imports.env.memoryBase = 0;
-		imports.env.memory = memory;
-		imports.env.tableBase = 0;
-		imports.env.table = new WebAssembly.Table({ initial: 4, element: 'anyfunc' });
-
-		imports.env["abort"] = function() {
-			console.error("ABORT");
-		};
-		imports.env["js_log"] = function(argument) {
-			console.log("HI");
-			const res = decodeUint8Array(argument, false);
-			console.log(res);
-		};
-		imports.env["js_free"] = function(argument) {
-			console.log('integer passed from wasm:', argument);
-		};
-		imports.env["js_invoke_function"] = function(fn, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
-			console.log('integer passed from wasm:', argument);
-		};
-
-		const stream = fetch('../../liblightningjs.wasm');
-		const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
-		const wasm = wasmInstance.exports;
-
-
-		const encodeUint8Array = (inputArray) => {
-			const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-			const arrayLengthView = new Uint32Array(memory.buffer, cArrayPointer, 1);
-			arrayLengthView[0] = inputArray.length;
-			const arrayMemoryView = new Uint8Array(memory.buffer, cArrayPointer + 4, inputArray.length);
-			arrayMemoryView.set(inputArray);
-			return cArrayPointer;
-		}
-
-		const encodeUint32Array = (inputArray) => {
-			const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-			const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
-			arrayMemoryView[0] = inputArray.length;
-			arrayMemoryView.set(inputArray, 1);
-			return cArrayPointer;
-		}
-
-		const getArrayLength = (arrayPointer) => {
-			const arraySizeViewer = new Uint32Array(
-				memory.buffer, // value
-				arrayPointer, // offset
-				1 // one int
-			);
-			return arraySizeViewer[0];
-		}
-		const decodeUint8Array = (arrayPointer, free = true) => {
-			const arraySize = getArrayLength(arrayPointer);
-			const actualArrayViewer = new Uint8Array(
-				memory.buffer, // value
-				arrayPointer + 4, // offset (ignoring length bytes)
-				arraySize // uint8 count
-			);
-			// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
-			// will free the underlying memory when it becomes unreachable instead of copying here.
-			const actualArray = actualArrayViewer.slice(0, arraySize);
-			if (free) {
-				wasm.TS_free(arrayPointer);
-			}
-			return actualArray;
-		}
-
-		const result = wasm.TS_CResult_boolLightningErrorZ_ok(true);
-		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_result_ok(result));
-		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_get_ok(result));
-		wasm.TS_CResult_boolLightningErrorZ_free(result);
-		console.assert(wasm.TS_CResult_boolLightningErrorZ_ok(false) == result); // malloc doesn't need to guarantee this, but currently does
-		console.assert(wasm.TS_LDKCResult_boolLightningErrorZ_result_ok(result));
-		console.assert(!wasm.TS_LDKCResult_boolLightningErrorZ_get_ok(result));
-		wasm.TS_CResult_boolLightningErrorZ_free(result);
-
-		var pk_arr = [];
-		for (var i = 0; i < 33; i++) { pk_arr[i] = 42; }
-		const pk_bytes = encodeUint8Array(pk_arr);
-		const pk_res = wasm.TS_CResult_PublicKeySecpErrorZ_ok(pk_bytes);
-		console.assert(wasm.TS_LDKCResult_PublicKeySecpErrorZ_result_ok(pk_res));
-		const pk_res_bytes = wasm.TS_LDKCResult_PublicKeySecpErrorZ_get_ok(pk_res);
-		wasm.TS_LDKCResult_PublicKeySecpErrorZ_free(pk_res);
-
-		console.log("pass");
-	})();
+	import { run_tests } from './tests.mjs';
+	run_tests('../../liblightningjs.wasm');
+	test_runner = run_tests;
 </script>
 </body>
 </html>

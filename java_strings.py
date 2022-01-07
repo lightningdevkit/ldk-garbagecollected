@@ -1210,7 +1210,7 @@ import javax.annotation.Nullable;
                     out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " with_default("
                 else:
                     out_java_struct += "\tpublic static " + return_type_info.java_hu_ty + " " + meth_n + "("
-            elif meth_n == "clone_ptr":
+            elif meth_n == "clone_ptr" or (struct_meth.startswith("LDKCResult") and (meth_n == "get_ok" or meth_n == "get_err")):
                 out_java_struct += ("\t" + return_type_info.java_hu_ty + " " + meth_n + "(")
             else:
                 if meth_n == "hash" and return_type_info.java_hu_ty == "long":

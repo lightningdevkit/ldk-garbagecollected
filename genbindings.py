@@ -700,17 +700,10 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             if not err_map.is_native_primitive and (err_map.rust_obj.replace("LDK", "") + "_clone" not in clone_fns):
                 can_clone = False
 
-            out_java.write("\tpublic static native " + res_map.java_ty + " " + struct_name + "_get_ok(long arg);\n")
-            write_c(consts.c_fn_ty_pfx + res_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_ok", True) + consts.ptr_c_ty + " arg) {\n")
-            write_c("\t" + struct_name + " *val = (" + struct_name + "*)(arg & ~1);\n")
-            write_c("\tCHECK(val->result_ok);\n\t")
+            create_getter(struct_name, res_ty, "ok", ("*", "->contents.result"), ("", "->result_ok"))
+            create_getter(struct_name, err_ty, "err", ("*", "->contents.err"), ("!", "->result_ok"))
+
             out_java_struct.write("\tpublic static final class " + human_ty + "_OK extends " + human_ty + " {\n")
-            if res_map.ret_conv is not None:
-                write_c(res_map.ret_conv[0].replace("\n", "\n\t") + "(*val->contents.result)")
-                write_c(res_map.ret_conv[1].replace("\n", "\n\t") + "\n\treturn " + res_map.ret_conv_name)
-            else:
-                write_c("return *val->contents.result")
-            write_c(";\n}\n")
 
             if res_map.java_hu_ty != "void":
                 out_java_struct.write("\t\tpublic final " + res_map.java_hu_ty + " res;\n")
@@ -719,26 +712,15 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             if res_map.java_hu_ty == "void":
                 pass
             elif res_map.to_hu_conv is not None:
-                out_java_struct.write("\t\t\t" + res_map.java_ty + " res = bindings." + struct_name + "_get_ok(ptr);\n")
+                out_java_struct.write("\t\t\t" + res_map.java_ty + " res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n")
                 out_java_struct.write("\t\t\t" + res_map.to_hu_conv.replace("\n", "\n\t\t\t"))
                 out_java_struct.write("\n\t\t\tthis.res = " + res_map.to_hu_conv_name + ";\n")
             else:
-                out_java_struct.write("\t\t\tthis.res = bindings." + struct_name + "_get_ok(ptr);\n")
+                out_java_struct.write("\t\t\tthis.res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n")
             out_java_struct.write("\t\t}\n")
             out_java_struct.write("\t}\n\n")
 
-            out_java.write("\tpublic static native " + err_map.java_ty + " " + struct_name + "_get_err(long arg);\n")
-            write_c(consts.c_fn_ty_pfx + err_map.c_ty + " " + consts.c_fn_name_define_pfx(struct_name + "_get_err", True) + consts.ptr_c_ty + " arg) {\n")
-            write_c("\t" + struct_name + " *val = (" + struct_name + "*)(arg & ~1);\n")
-            write_c("\tCHECK(!val->result_ok);\n\t")
             out_java_struct.write("\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n")
-            if err_map.ret_conv is not None:
-                write_c(err_map.ret_conv[0].replace("\n", "\n\t") + "(*val->contents.err)")
-                write_c(err_map.ret_conv[1].replace("\n", "\n\t") + "\n\treturn " + err_map.ret_conv_name)
-            else:
-                write_c("return *val->contents.err")
-            write_c(";\n}\n")
-
             if err_map.java_hu_ty != "void":
                 out_java_struct.write("\t\tpublic final " + err_map.java_hu_ty + " err;\n")
             out_java_struct.write("\t\tprivate " + human_ty + "_Err(Object _dummy, long ptr) {\n")
@@ -746,14 +728,43 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             if err_map.java_hu_ty == "void":
                 pass
             elif err_map.to_hu_conv is not None:
-                out_java_struct.write("\t\t\t" + err_map.java_ty + " err = bindings." + struct_name + "_get_err(ptr);\n")
+                out_java_struct.write("\t\t\t" + err_map.java_ty + " err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n")
                 out_java_struct.write("\t\t\t" + err_map.to_hu_conv.replace("\n", "\n\t\t\t"))
                 out_java_struct.write("\n\t\t\tthis.err = " + err_map.to_hu_conv_name + ";\n")
             else:
-                out_java_struct.write("\t\t\tthis.err = bindings." + struct_name + "_get_err(ptr);\n")
+                out_java_struct.write("\t\t\tthis.err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n")
             out_java_struct.write("\t\t}\n")
 
             out_java_struct.write("\t}\n\n")
+
+    def create_getter(struct_name, field_decl, field_name, accessor, check_sfx):
+        field_ty = java_c_types(field_decl + " " + field_name, None)
+        ptr_fn_defn = field_decl + " *" + struct_name.replace("LDK", "") + "_get_" + field_name + "(" + struct_name + " *NONNULL_PTR owner)"
+        owned_fn_defn = field_decl + " " + struct_name.replace("LDK", "") + "_get_" + field_name + "(" + struct_name + " *NONNULL_PTR owner)"
+
+        holds_ref = False
+        if field_ty.rust_obj is not None and field_ty.rust_obj.replace("LDK", "") + "_clone" in clone_fns:
+            fn_defn = owned_fn_defn
+            write_c("static inline " + fn_defn + "{\n")
+            if check_sfx is not None:
+                write_c("CHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
+            write_c("\treturn " + field_ty.rust_obj.replace("LDK", "") + "_clone(&" + accessor[0] + "owner" + accessor[1] + ");\n")
+        elif field_ty.arr_len is not None or field_ty.is_native_primitive or field_ty.rust_obj in unitary_enums:
+            fn_defn = owned_fn_defn
+            write_c("static inline " + fn_defn + "{\n")
+            if check_sfx is not None:
+                write_c("CHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
+            write_c("\treturn " + accessor[0] + "owner" + accessor[1] + ";\n")
+        else:
+            fn_defn = ptr_fn_defn
+            write_c("static inline " + fn_defn + "{\n")
+            if check_sfx is not None:
+                write_c("CHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
+            write_c("\treturn &" + accessor[0] + "owner" + accessor[1] + ";\n")
+            holds_ref = True
+        write_c("}\n")
+        dummy_line = fn_defn + ";\n"
+        map_fn_with_ref_option(dummy_line, reg_fn_regex.match(dummy_line), None, None, "", holds_ref)
 
     def map_tuple(struct_name, field_lines):
         human_ty = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple")
@@ -770,27 +781,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             if idx != 0 and idx < len(field_lines) - 2:
                 field_name = chr(ord('a') + idx - 1)
                 assert line.endswith(" " + field_name + ";")
-                field_ty = java_c_types(line[:-1], None)
-                ptr_fn_defn = line[:-3].strip() + " *" + struct_name.replace("LDK", "") + "_get_" + field_name + "(" + struct_name + " *NONNULL_PTR tuple)"
-                owned_fn_defn = line[:-3].strip() + " " + struct_name.replace("LDK", "") + "_get_" + field_name + "(" + struct_name + " *NONNULL_PTR tuple)"
-
-                holds_ref = False
-                if field_ty.rust_obj is not None and field_ty.rust_obj.replace("LDK", "") + "_clone" in clone_fns:
-                    fn_defn = owned_fn_defn
-                    write_c("static inline " + fn_defn + "{\n")
-                    write_c("\treturn " + field_ty.rust_obj.replace("LDK", "") + "_clone(&tuple->" + field_name + ");\n")
-                elif field_ty.arr_len is not None or field_ty.is_native_primitive:
-                    fn_defn = owned_fn_defn
-                    write_c("static inline " + fn_defn + "{\n")
-                    write_c("\treturn tuple->" + field_name + ";\n")
-                else:
-                    fn_defn = ptr_fn_defn
-                    write_c("static inline " + fn_defn + "{\n")
-                    write_c("\treturn &tuple->" + field_name + ";\n")
-                    holds_ref = True
-                write_c("}\n")
-                dummy_line = fn_defn + ";\n"
-                map_fn_with_ref_option(dummy_line, reg_fn_regex.match(dummy_line), None, None, "", holds_ref)
+                create_getter(struct_name, line[:-3].strip(), field_name, ("", "->" + field_name), None)
 
     out_java.write(consts.bindings_header)
     with open(f"{sys.argv[2]}/version{consts.file_ext}", "w") as out_java_version:

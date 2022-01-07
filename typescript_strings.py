@@ -21,11 +21,11 @@ class Consts:
         )
 
         self.wasm_decoding_map = dict(
-            int8_tArray = 'decodeArray'
+            int8_tArray = 'decodeUint8Array'
         )
 
         self.wasm_encoding_map = dict(
-            int8_tArray = 'encodeArray',
+            int8_tArray = 'encodeUint8Array',
         )
 
         self.to_hu_conv_templates = dict(
@@ -73,16 +73,7 @@ public static native long new_empty_slice_vec();
 
         self.bindings_version_file = ""
 
-        self.bindings_footer = """
-        export async function initializeWasm(allowDoubleInitialization: boolean = false): Promise<void> {
-            if(isWasmInitialized && !allowDoubleInitialization) {
-                return;
-            }
-            const wasmInstance = await WebAssembly.instantiate(wasmModule, imports)
-            wasm = wasmInstance.exports;
-            isWasmInitialized = true;
-        }
-        """
+        self.bindings_footer = ""
 
         self.util_fn_pfx = ""
         self.util_fn_sfx = ""
@@ -181,7 +172,7 @@ static void FREE(void* ptr) {
 	__real_free(ptr);
 }
 
-static void CHECK_ACCESS(void* ptr) {
+static void CHECK_ACCESS(const void* ptr) {
 	allocation* it = allocation_ll;
 	while (it->ptr != ptr) {
 		it = it->next;
@@ -241,32 +232,37 @@ _Static_assert(offsetof(LDKCVec_u8Z, datalen) == offsetof(LDKu8slice, datalen), 
 
 _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 
-typedef uint32_t int64_tArray;
-typedef uint32_t int8_tArray;
-typedef uint32_t uint32_tArray;
-typedef uint32_t ptrArray;
-typedef uint32_t jstring;
+#define DECL_ARR_TYPE(ty, name) \\
+	struct name##array { \\
+		uint32_t arr_len; \\
+		ty elems[]; \\
+	}; \\
+	typedef struct name##array * name##Array; \\
+	static inline name##Array init_##name##Array(size_t arr_len) { \\
+		name##Array arr = (name##Array)MALLOC(arr_len * sizeof(ty) + sizeof(uint32_t), "##name array init"); \\
+		arr->arr_len = arr_len; \\
+		return arr; \\
+	}
 
-static inline uint32_t init_arr(size_t arr_len, size_t elem_size, const char *type_desc) {
-	uint32_t *elems = (uint32_t*)MALLOC(arr_len * elem_size + 4, type_desc);
-	elems[0] = arr_len;
-	return (uint32_t)elems;
-}
+DECL_ARR_TYPE(int64_t, int64_t);
+DECL_ARR_TYPE(int8_t, int8_t);
+DECL_ARR_TYPE(uint32_t, uint32_t);
+DECL_ARR_TYPE(void*, ptr);
+DECL_ARR_TYPE(char, char);
+typedef charArray jstring;
 
 static inline jstring str_ref_to_ts(const char* chars, size_t len) {
-	char* err_buf = MALLOC(len + 4, "str conv buf");
-	*((uint32_t*)err_buf) = len;
-	memcpy(err_buf + 4, chars, len);
-	return (uint32_t) err_buf;
+	charArray arr = init_charArray(len);
+	memcpy(arr->elems, chars, len);
+	return arr;
 }
-static inline LDKStr str_ref_to_owned_c(jstring str) {
-	uint32_t *str_len = (uint32_t*)str;
-	char* newchars = MALLOC(*str_len + 1, "String chars");
-	memcpy(newchars, (const char*)(str + 4), *str_len);
-	newchars[*str_len] = 0;
-	LDKStr res= {
+static inline LDKStr str_ref_to_owned_c(const jstring str) {
+	char* newchars = MALLOC(str->arr_len + 1, "String chars");
+	memcpy(newchars, str->elems, str->arr_len);
+	newchars[str->arr_len] = 0;
+	LDKStr res = {
 		.chars = newchars,
-		.len = *str_len,
+		.len = str->arr_len,
 		.chars_is_owned = true
 	};
 	return res;
@@ -286,46 +282,38 @@ void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
 
         self.hu_struct_file_prefix = f"""
 import CommonBase from './CommonBase';
-import * as bindings from '../bindings' // TODO: figure out location
+import * as bindings from '../bindings.mjs'
 
 """
         self.c_fn_ty_pfx = ""
-        self.file_ext = ".ts"
+        self.file_ext = ".mts"
         self.ptr_c_ty = "uint32_t"
         self.ptr_native_ty = "number"
         self.result_c_ty = "uint32_t"
         self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != 0")
-        self.get_native_arr_len_call = ("*((uint32_t*)", ")")
+        self.get_native_arr_len_call = ("", "->arr_len")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
     def create_native_arr_call(self, arr_len, ty_info):
-        if ty_info.c_ty == "int8_tArray":
-            return "init_arr(" + arr_len + ", sizeof(uint8_t), \"Native int8_tArray Bytes\")"
-        elif ty_info.c_ty == "int64_tArray":
-            return "init_arr(" + arr_len + ", sizeof(uint64_t), \"Native int64_tArray Bytes\")"
-        elif ty_info.c_ty == "uint32_tArray":
-            return "init_arr(" + arr_len + ", sizeof(uint32_t), \"Native uint32_tArray Bytes\")"
-        elif ty_info.c_ty == "ptrArray":
+        if ty_info.c_ty == "ptrArray":
             assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
-            return "init_arr(" + arr_len + ", sizeof(uint32_t), \"Native ptrArray Bytes\")"
-        else:
-            print("Need to create arr!", ty_info.c_ty)
-            return ty_info.c_ty
+        return "init_" + ty_info.c_ty + "(" + arr_len + ")"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
-            return ("memcpy((uint8_t*)(" + arr_name + " + 4), ", ", " + arr_len + ")")
+            return ("memcpy(" + arr_name + "->elems, ", ", " + arr_len + ")")
         else:
             assert False
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
         if ty_info.c_ty == "int8_tArray":
             if copy:
-                return "memcpy(" + dest_name + ", (uint8_t*)(" + arr_name + " + 4), " + arr_len + ")"
-            else:
-                return "(int8_t*)(" + arr_name + " + 4)"
+                return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + ")"
+        if ty_info.c_ty == "ptrArray":
+            return "(void*) " + arr_name + "->elems"
         else:
-            return "(" + ty_info.subty.c_ty + "*)(" + arr_name + " + 4)"
+            assert not copy
+            return arr_name + "->elems"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
@@ -349,13 +337,10 @@ import * as bindings from '../bindings' // TODO: figure out location
         return " __attribute__((visibility(\"default\"))) TS_" + fn_name + "("
 
     def wasm_import_header(self, target):
-        if target == Target.NODEJS:
-            return """
-import * as fs from 'fs';
-const source = fs.readFileSync('./ldk.wasm');
-
+        res = """
+function freer(f: () => void) { f() }
+const finalizer = new FinalizationRegistry(freer);
 const memory = new WebAssembly.Memory({initial: 256});
-const wasmModule = new WebAssembly.Module(source);
 
 const imports: any = {};
 imports.env = {};
@@ -366,23 +351,70 @@ imports.env.tableBase = 0;
 imports.env.table = new WebAssembly.Table({initial: 4, element: 'anyfunc'});
 
 imports.env["abort"] = function () {
-    console.error("ABORT");
+	console.error("ABORT");
+};
+imports.env["js_invoke_function"] = function(fn: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number) {
+	console.log('function called from wasm:', fn, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+};
+imports.env["js_free_function_ptr"] = function(fn: number) {
+	console.log("function ptr free'd from wasm:", fn);
 };
 
-let wasm = null;
+imports.wasi_snapshot_preview1 = {
+	"fd_write" : () => {
+		console.log("ABORT");
+	},
+	"random_get" : () => {
+		console.log("RAND GET");
+	},
+	"environ_sizes_get" : () => {
+		console.log("wasi_snapshot_preview1:environ_sizes_get");
+	},
+	"proc_exit" : () => {
+		console.log("wasi_snapshot_preview1:proc_exit");
+	},
+	"environ_get" : () => {
+		console.log("wasi_snapshot_preview1:environ_get");
+	},
+};
+
+var wasm = null;
 let isWasmInitialized: boolean = false;
+"""
+
+        if target == Target.NODEJS:
+            res += """import * as fs from 'fs';
+export async function initializeWasm(path) {
+	const source = fs.readFileSync(path);
+	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);
+	wasm = wasmInstance.exports;
+	isWasmInitialized = true;
+};
+"""
+        else:
+            res += """
+export async function initializeWasm(uri) {
+	const stream = fetch(uri);
+	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
+	wasm = wasmInstance.exports;
+	isWasmInitialized = true;
+};
+
+"""
+
+        return res + """
 
 
 // WASM CODEC
 
 const nextMultipleOfFour = (value: number) => {
-    return Math.ceil(value / 4) * 4;
+	return Math.ceil(value / 4) * 4;
 }
 
 const encodeUint8Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
 	const arrayLengthView = new Uint32Array(memory.buffer, cArrayPointer, 1);
-    arrayLengthView[0] = inputArray.length;
+	arrayLengthView[0] = inputArray.length;
 	const arrayMemoryView = new Uint8Array(memory.buffer, cArrayPointer + 4, inputArray.length);
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
@@ -392,7 +424,7 @@ const encodeUint32Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
 	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
-    arrayMemoryView[0] = inputArray.length;
+	arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
 }
 
@@ -436,39 +468,38 @@ const decodeUint32Array = (arrayPointer, free = true) => {
 }
 
 const encodeString = (string) => {
-    // make malloc count divisible by 4
-    const memoryNeed = nextMultipleOfFour(string.length + 1);
-    const stringPointer = wasm.TS_malloc(memoryNeed);
-    const stringMemoryView = new Uint8Array(
-        memory.buffer, // value
-        stringPointer, // offset
-        string.length + 1 // length
-    );
-    for (let i = 0; i < string.length; i++) {
-        stringMemoryView[i] = string.charCodeAt(i);
-    }
-    stringMemoryView[string.length] = 0;
-    return stringPointer;
+	// make malloc count divisible by 4
+	const memoryNeed = nextMultipleOfFour(string.length + 1);
+	const stringPointer = wasm.TS_malloc(memoryNeed);
+	const stringMemoryView = new Uint8Array(
+		memory.buffer, // value
+		stringPointer, // offset
+		string.length + 1 // length
+	);
+	for (let i = 0; i < string.length; i++) {
+		stringMemoryView[i] = string.charCodeAt(i);
+	}
+	stringMemoryView[string.length] = 0;
+	return stringPointer;
 }
 
 const decodeString = (stringPointer, free = true) => {
-    const memoryView = new Uint8Array(memory.buffer, stringPointer);
-    let cursor = 0;
-    let result = '';
+	const memoryView = new Uint8Array(memory.buffer, stringPointer);
+	let cursor = 0;
+	let result = '';
 
-    while (memoryView[cursor] !== 0) {
-        result += String.fromCharCode(memoryView[cursor]);
-        cursor++;
-    }
+	while (memoryView[cursor] !== 0) {
+		result += String.fromCharCode(memoryView[cursor]);
+		cursor++;
+	}
 
-    if (free) {
-        wasm.wasm_free(stringPointer);
-    }
+	if (free) {
+		wasm.wasm_free(stringPointer);
+	}
 
-    return result;
+	return result;
 };
 """
-        return ''
 
     def init_str(self):
         return ""
@@ -500,13 +531,13 @@ const decodeString = (stringPointer, free = true) => {
         out_c = out_c + "\t}\n"
         out_c = out_c + "}\n"
 
-        out_typescript_enum = f"""
+        out_typescript = f"""
             export enum {struct_name} {{
                 {out_typescript_enum_fields}
             }}
 """
-
-        return (out_c, out_typescript_enum, "")
+        out_typescript_enum = f"export {{ {struct_name} }} from \"../bindings.mjs\";"
+        return (out_c, out_typescript_enum, out_typescript)
 
     def c_unitary_enum_to_native_call(self, ty_info):
         return (ty_info.rust_obj + "_to_js(", ")")
@@ -716,7 +747,7 @@ const decodeString = (stringPointer, free = true) => {
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
                 for fn in field_function_lines:
                     if fn.fn_name != "free" and fn.fn_name != "cloned":
-                        out_c = out_c + "\t\tjs_free(j_calls->" + fn.fn_name + "_meth);\n"
+                        out_c = out_c + "\t\tjs_free_function_ptr(j_calls->" + fn.fn_name + "_meth);\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -742,11 +773,12 @@ const decodeString = (stringPointer, free = true) => {
                         out_c = out_c + arg_info.ret_conv[1].replace('\n', '\n\t') + "\n"
 
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
-                    out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (" + fn_line.ret_ty_info.c_ty + ")"
+                    out_c += "js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.java_ty == "void":
                     out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.java_ty == "String":
-                    out_c = out_c + "\tuint32_t ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\tjstring ret = (jstring)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:
                     out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
                 else:
@@ -754,9 +786,9 @@ const decodeString = (stringPointer, free = true) => {
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
-                        out_c = out_c + ", " + arg_info.ret_conv_name
+                        out_c = out_c + ", (uint32_t)" + arg_info.ret_conv_name
                     else:
-                        out_c = out_c + ", " + arg_info.arg_name
+                        out_c = out_c + ", (uint32_t)" + arg_info.arg_name
                 out_c = out_c + ");\n"
                 if fn_line.ret_ty_info.arg_conv is not None:
                     out_c = out_c + "\t" + fn_line.ret_ty_info.arg_conv.replace("\n", "\n\t") + "\n\treturn " + fn_line.ret_ty_info.arg_conv_name + ";\n"
@@ -865,18 +897,17 @@ const decodeString = (stringPointer, free = true) => {
         out_java_enum += (f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n")
         java_hu_subclasses = ""
 
-        out_java +=  ("\tpublic static class " + struct_name + " {\n")
-        out_java +=  ("\t\tprivate " + struct_name + "() {}\n")
+        out_java += "\texport class " + struct_name + " {\n"
+        out_java += "\t\tprotected constructor() {}\n"
+        java_subclasses = ""
         for var in variant_list:
-            out_java +=  ("\t\texport class " + var.var_name + " extends " + struct_name + " {\n")
+            java_subclasses += "\texport class " + struct_name + "_" + var.var_name + " extends " + struct_name + " {\n"
             java_hu_subclasses = java_hu_subclasses + "export class " + var.var_name + " extends " + java_hu_type + " {\n"
             out_java_enum += ("\t\tif (raw_val instanceof bindings." + struct_name + "." + var.var_name + ") {\n")
             out_java_enum += ("\t\t\treturn new " + var.var_name + "(this.ptr, raw_val);\n")
             init_meth_params = ""
-            init_meth_body = ""
             hu_conv_body = ""
             for idx, (field_ty, field_docs) in enumerate(var.fields):
-                out_java += ("\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n")
                 java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
                 if field_ty.to_hu_conv is not None:
                     hu_conv_body = hu_conv_body + "\t\tconst " + field_ty.arg_name + f": {field_ty.java_ty} = obj." + field_ty.arg_name + ";\n"
@@ -885,22 +916,18 @@ const decodeString = (stringPointer, free = true) => {
                 else:
                     hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
                 if idx > 0:
-                    init_meth_params = init_meth_params + ", "
-                init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
-                init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
-            out_java +=  ("\t\t\t" + var.var_name + "(" + init_meth_params + ") { ")
-            out_java +=  (init_meth_body)
-            out_java +=  ("}\n")
-            out_java += ("\t\t}\n")
+                    init_meth_params += ", "
+                init_meth_params += "public " + field_ty.arg_name + ": " + field_ty.java_ty
+            java_subclasses += "\t\tconstructor(" + init_meth_params + ") { super(); }\n"
+            java_subclasses += "\t}\n"
             out_java_enum += ("\t\t}\n")
             java_hu_subclasses = java_hu_subclasses + "\tprivate constructor(ptr: number, obj: bindings." + struct_name + "." + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
             java_hu_subclasses = java_hu_subclasses + hu_conv_body
             java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
-        out_java += ("\t\tstatic native void init();\n")
         out_java += ("\t}\n")
+        out_java += java_subclasses
         out_java_enum += ("\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n")
-        out_java += ("\tstatic { " + struct_name + ".init(); }\n")
-        out_java += ("\tpublic static native " + struct_name + " " + struct_name + "_ref_from_ptr(long ptr);\n");
+        out_java += self.fn_call_body(struct_name + "_ref_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
 
         out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
         out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n")
@@ -963,12 +990,30 @@ const decodeString = (stringPointer, free = true) => {
     def map_tuple(self, struct_name):
         return self.map_opaque_struct(struct_name, "A Tuple")
 
+    def fn_call_body(self, method_name, return_c_ty, return_java_ty, method_argument_string, native_call_argument_string):
+        has_return_value = return_c_ty != 'void'
+        needs_decoding = return_c_ty in self.wasm_decoding_map
+        return_statement = 'return nativeResponseValue;'
+        if not has_return_value:
+            return_statement = '// debug statements here'
+        elif needs_decoding:
+            converter = self.wasm_decoding_map[return_c_ty]
+            return_statement = f"return {converter}(nativeResponseValue);"
+
+        return f"""\texport function {method_name}({method_argument_string}): {return_java_ty} {{
+		if(!isWasmInitialized) {{
+			throw new Error("initializeWasm() must be awaited first!");
+		}}
+		const nativeResponseValue = wasm.TS_{method_name}({native_call_argument_string});
+		{return_statement}
+	}}
+"""
     def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
         out_java_struct = None
 
-        out_java += ("\tpublic static native ")
+        out_java += ("\t")
         out_c += (self.c_fn_ty_pfx)
         out_c += (return_type_info.c_ty)
         out_java += (return_type_info.java_ty)
@@ -993,24 +1038,7 @@ const decodeString = (stringPointer, free = true) => {
                     native_argument = f"{converter}({arg_conv_info.arg_name})"
                 method_argument_string += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
                 native_call_argument_string += native_argument
-
-        has_return_value = return_type_info.c_ty != 'void'
-        needs_decoding = return_type_info.c_ty in self.wasm_decoding_map
-        return_statement = 'return nativeResponseValue;'
-        if not has_return_value:
-            return_statement = '// debug statements here'
-        elif needs_decoding:
-            converter = self.wasm_decoding_map[return_type_info.c_ty]
-            return_statement = f"return {converter}(nativeResponseValue);"
-
-        out_java = f"""\texport function {method_name}({method_argument_string}): {return_type_info.java_ty} {{
-		if(!isWasmInitialized) {{
-			throw new Error("initializeWasm() must be awaited first!");
-		}}
-		const nativeResponseValue = wasm.{method_name}({native_call_argument_string});
-		{return_statement}
-	}}
-"""
+        out_java = self.fn_call_body(method_name, return_type_info.c_ty, return_type_info.java_ty, method_argument_string, native_call_argument_string)
 
         out_java_struct = ""
         if not args_known:
