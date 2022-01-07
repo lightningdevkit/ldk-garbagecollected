@@ -617,13 +617,13 @@ const decodeString = (stringPointer, free = true) => {
                 if var.from_hu_conv is not None:
                     super_instantiator += ", " + var.from_hu_conv[0]
                     if var.from_hu_conv[1] != "":
-                        pointer_to_adder += var.from_hu_conv[1] + ";\n"
+                        pointer_to_adder += "\t\t\t" + var.from_hu_conv[1] + ";\n"
                 else:
                     super_instantiator += ", " + first_to_lower(var.arg_name)
             else:
                 constructor_arguments += f", {first_to_lower(var[1])}?: bindings.{var[0]}"
                 super_instantiator += ", " + first_to_lower(var[1])
-                pointer_to_adder += "this.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
+                pointer_to_adder += "\t\t\tthis.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
                 impl_constructor_arguments += f", {first_to_lower(var[1])}_impl: {var[0].replace('LDK', '')}.{var[0].replace('LDK', '')}Interface"
 
         # BUILD INTERFACE METHODS
@@ -633,8 +633,8 @@ const decodeString = (stringPointer, free = true) => {
         for fn_line in field_function_lines:
             java_method_descriptor = ""
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
-                out_java_interface += fn_line.fn_name + "("
-                out_interface_implementation_overrides += f"{fn_line.fn_name} ("
+                out_java_interface += "\t" + fn_line.fn_name + "("
+                out_interface_implementation_overrides += f"\t\t\t{fn_line.fn_name} ("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
@@ -643,22 +643,20 @@ const decodeString = (stringPointer, free = true) => {
                     out_java_interface += f"{arg_conv_info.arg_name}: {arg_conv_info.java_hu_ty}"
                     out_interface_implementation_overrides += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
                     java_method_descriptor += arg_conv_info.java_fn_ty_arg
-                out_java_interface += f"): {fn_line.ret_ty_info.java_hu_ty};\n\t\t\t\t"
+                out_java_interface += f"): {fn_line.ret_ty_info.java_hu_ty};\n"
                 java_method_descriptor += ")" + fn_line.ret_ty_info.java_fn_ty_arg
                 java_methods.append((fn_line.fn_name, java_method_descriptor))
 
                 out_interface_implementation_overrides += f"): {fn_line.ret_ty_info.java_ty} {{\n"
 
-                interface_method_override_inset = "\t\t\t\t\t\t"
-                interface_implementation_inset = "\t\t\t\t\t\t\t"
                 for arg_info in fn_line.args_ty:
                     if arg_info.to_hu_conv is not None:
-                        out_interface_implementation_overrides += interface_implementation_inset + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
+                        out_interface_implementation_overrides += "\t\t\t\t" + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
 
                 if fn_line.ret_ty_info.java_ty != "void":
-                    out_interface_implementation_overrides += interface_implementation_inset + fn_line.ret_ty_info.java_hu_ty + " ret = arg." + fn_line.fn_name + "("
+                    out_interface_implementation_overrides += "\t\t\t\tconst ret: " + fn_line.ret_ty_info.java_hu_ty + " = arg." + fn_line.fn_name + "("
                 else:
-                    out_interface_implementation_overrides += f"{interface_implementation_inset}arg." + fn_line.fn_name + "("
+                    out_interface_implementation_overrides += f"\t\t\t\targ." + fn_line.fn_name + "("
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if idx != 0:
@@ -671,17 +669,17 @@ const decodeString = (stringPointer, free = true) => {
                 out_interface_implementation_overrides += ");\n"
                 if fn_line.ret_ty_info.java_ty != "void":
                     if fn_line.ret_ty_info.from_hu_conv is not None:
-                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\t" + f"result: {fn_line.ret_ty_info.java_ty} = " + fn_line.ret_ty_info.from_hu_conv[0] + ";\n"
+                        out_interface_implementation_overrides += "\t\t\t\t" + f"const result: {fn_line.ret_ty_info.java_ty} = " + fn_line.ret_ty_info.from_hu_conv[0].replace("\n", "\n\t\t\t\t") + ";\n"
                         if fn_line.ret_ty_info.from_hu_conv[1] != "":
-                            out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\t" + fn_line.ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held") + ";\n"
+                            out_interface_implementation_overrides += "\t\t\t\t" + fn_line.ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held").replace("\n", "\n\t\t\t\t") + ";\n"
                         #if fn_line.ret_ty_info.rust_obj in result_types:
                         # XXX: We need to handle this in conversion logic so that its cross-language!
                         # Avoid double-free by breaking the result - we should learn to clone these and then we can be safe instead
                         #    out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\tret.ptr = 0;\n"
-                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\treturn result;\n"
+                        out_interface_implementation_overrides += "\t\t\t\treturn result;\n"
                     else:
-                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\treturn ret;\n"
-                out_interface_implementation_overrides += f"{interface_method_override_inset}}},\n\n{interface_method_override_inset}"
+                        out_interface_implementation_overrides += "\t\t\t\treturn ret;\n"
+                out_interface_implementation_overrides += f"\t\t\t}},\n"
 
         trait_constructor_arguments = ""
         for var in field_var_conversions:
@@ -704,9 +702,15 @@ const decodeString = (stringPointer, free = true) => {
         out_typescript_human = f"""
 {self.hu_struct_file_prefix}
 
-{struct_name.replace("LDK","")} extends CommonBase {{
+export interface {struct_name.replace("LDK", "")}Interface {{
+{out_java_interface}}}
 
-	bindings_instance?: bindings.{struct_name};
+class {struct_name}Holder {{
+	held: {struct_name.replace("LDK", "")};
+}}
+
+export class {struct_name.replace("LDK","")} extends CommonBase {{
+	private bindings_instance?: bindings.{struct_name};
 
 	constructor(ptr?: number, arg?: bindings.{struct_name}{constructor_arguments}) {{
 		if (Number.isFinite(ptr)) {{
@@ -714,27 +718,17 @@ const decodeString = (stringPointer, free = true) => {
 			this.bindings_instance = null;
 		}} else {{
 			// TODO: private constructor instantiation
-			super(bindings.{struct_name}_new(arg{super_instantiator}));
+			super(bindings.{struct_name}_new(arg{super_instantiator}), bindings.{struct_name.replace("LDK","")}_free);
 			this.ptrs_to.push(arg);
-			{pointer_to_adder}
-		}}
+{pointer_to_adder}		}}
 	}}
 
 	static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
 		const impl_holder: {struct_name}Holder = new {struct_name}Holder();
-		let structImplementation = <bindings.{struct_name}>{{
-			// todo: in-line interface filling
-			{out_interface_implementation_overrides}
-		}};
+		let structImplementation = {{
+{out_interface_implementation_overrides}		}} as bindings.{struct_name};
 		impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation{trait_constructor_arguments});
-	}}
-
-	export interface {struct_name.replace("LDK", "")}Interface {{
-		{out_java_interface}
-	}}
-
-	class {struct_name}Holder {{
-		held: {struct_name.replace("LDK", "")};
+		return impl_holder.held;
 	}}
 """
 
@@ -761,8 +755,8 @@ const decodeString = (stringPointer, free = true) => {
                 out_typescript_bindings += f", {var[1]}: {var[0]}"
 
         out_typescript_bindings += f"""): number {{
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }}
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}}
 """
 
         out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
