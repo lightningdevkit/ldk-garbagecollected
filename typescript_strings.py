@@ -522,6 +522,12 @@ const decodeString = (stringPointer, free = true) => {
     def add_ref(self, holder, referent):
         return "CommonBase.add_ref_from(" + holder + ", " + referent + ")"
 
+    def obj_defined(self, struct_names, folder):
+        with open(self.outdir + "/index.mts", 'a') as index:
+            index.write(f"export * from './{folder}/{struct_names[0]}.mjs';\n")
+        with open(self.outdir + "/imports.mts.part", 'a') as imports:
+            imports.write(f"import {{ {', '.join(struct_names)} }} from '../{folder}/{struct_names[0]}.mjs';\n")
+
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_c = "static inline LDK" + struct_name + " LDK" + struct_name + "_from_js(int32_t ord) {\n"
         out_c = out_c + "\tswitch (ord) {\n"
@@ -555,6 +561,7 @@ const decodeString = (stringPointer, free = true) => {
             }}
 """
         out_typescript_enum = f"export {{ {struct_name} }} from \"../bindings.mjs\";"
+        self.obj_defined([struct_name], "enums")
         return (out_c, out_typescript_enum, out_typescript)
 
     def c_unitary_enum_to_native_call(self, ty_info):
@@ -966,6 +973,7 @@ const decodeString = (stringPointer, free = true) => {
         out_c += ("\t}\n}\n")
         out_java_enum += java_hu_class
         self.struct_file_suffixes[java_hu_type] = java_hu_subclasses
+        self.obj_defined([java_hu_type], "structs")
         return (out_java, out_java_enum, out_c)
 
     def map_opaque_struct(self, struct_name, struct_doc_comment):
@@ -984,6 +992,7 @@ export class {hu_name} extends CommonBase {implementations}{{
 	}}
 
 """
+        self.obj_defined([hu_name], "structs")
         return out_opaque_struct_human
 
     def map_tuple(self, struct_name):

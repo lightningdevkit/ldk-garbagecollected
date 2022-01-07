@@ -180,7 +180,7 @@ if [ "$2" != "wasm" ]; then
 else
 	echo "Creating TS bindings..."
 	mkdir -p ts/{enums,structs}
-	rm -f ts/{enums,structs,}/*.{mjs,mts}
+	rm -f ts/{enums,structs,}/*.{mjs,mts,mts.part}
 	if [ "$4" = "false" ]; then
 		./genbindings.py "./lightning.h" ts ts ts $DEBUG_ARG typescript node
 	else
@@ -214,7 +214,11 @@ else
 
 	if [ -x "$(which tsc)" ]; then
 		cd ts
-	rm -r structs # TODO: Make the human-types compile
+		for F in structs/*; do
+			cat imports.mts.part | grep -v " $(basename -s .mts $F)[ ,]" | cat - $F > $F.tmp
+			mv $F.tmp $F
+		done
+		rm imports.mts.part
 		if [ "$4" = "true" ]; then
 			tsc
 		else
