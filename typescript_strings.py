@@ -13,6 +13,7 @@ class Target(Enum):
 class Consts:
     def __init__(self, DEBUG: bool, target: Target, outdir: str, **kwargs):
         self.outdir = outdir
+        self.struct_file_suffixes = {}
         self.c_type_map = dict(
             uint8_t = ['number', 'Uint8Array'],
             uint16_t = ['number', 'Uint16Array'],
@@ -80,8 +81,8 @@ public static native long new_empty_slice_vec();
 
         self.common_base = """
             export default class CommonBase {
-                ptr: number;
-                ptrs_to: object[] = []; // new LinkedList(); TODO: build linked list implementation
+                protected ptr: number;
+                protected ptrs_to: object[] = [];
                 protected constructor(ptr: number) { this.ptr = ptr; }
                 public _test_only_get_ptr(): number { return this.ptr; }
                 protected finalize() {
@@ -880,21 +881,25 @@ const decodeString = (stringPointer, free = true) => {
         return ""
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake, enum_doc_comment):
-        java_hu_type = struct_name.replace("LDK", "")
+        bindings_type = struct_name.replace("LDK", "")
+        java_hu_type = struct_name.replace("LDK", "").replace("COption", "Option")
 
         out_java_enum = ""
         out_java = ""
         out_c = ""
 
         out_java_enum += (self.hu_struct_file_prefix)
-        out_java_enum += ("export default class " + java_hu_type + " extends CommonBase {\n")
-        out_java_enum += ("\tprotected constructor(_dummy: object, ptr: number) { super(ptr); }\n")
-        out_java_enum += ("\tprotected finalize() {\n")
-        out_java_enum += ("\t\tsuper.finalize();\n")
-        out_java_enum += ("\t\tif (this.ptr != 0) { bindings." + java_hu_type + "_free(this.ptr); }\n")
-        out_java_enum += ("\t}\n")
-        out_java_enum += f"\tstatic constr_from_ptr(ptr: number): {java_hu_type} {{\n"
-        out_java_enum += (f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n")
+
+        java_hu_class = ""
+        java_hu_class += "export default class " + java_hu_type + " extends CommonBase {\n"
+        java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr); }\n"
+        java_hu_class += "\tprotected finalize() {\n"
+        java_hu_class += "\t\tsuper.finalize();\n"
+        java_hu_class += "\t\tif (this.ptr != 0) { bindings." + java_hu_type + "_free(this.ptr); }\n"
+        java_hu_class += "\t}\n"
+        java_hu_class += "\t/* @internal */\n"
+        java_hu_class += f"\tpublic static constr_from_ptr(ptr: number): {java_hu_type} {{\n"
+        java_hu_class += f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n"
         java_hu_subclasses = ""
 
         out_java += "\texport class " + struct_name + " {\n"
@@ -902,9 +907,9 @@ const decodeString = (stringPointer, free = true) => {
         java_subclasses = ""
         for var in variant_list:
             java_subclasses += "\texport class " + struct_name + "_" + var.var_name + " extends " + struct_name + " {\n"
-            java_hu_subclasses = java_hu_subclasses + "export class " + var.var_name + " extends " + java_hu_type + " {\n"
-            out_java_enum += ("\t\tif (raw_val instanceof bindings." + struct_name + "." + var.var_name + ") {\n")
-            out_java_enum += ("\t\t\treturn new " + var.var_name + "(this.ptr, raw_val);\n")
+            java_hu_subclasses = java_hu_subclasses + "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
+            java_hu_class += "\t\tif (raw_val instanceof bindings." + struct_name + "_" + var.var_name + ") {\n"
+            java_hu_class += "\t\t\treturn new " + java_hu_type + "_" + var.var_name + "(ptr, raw_val);\n"
             init_meth_params = ""
             hu_conv_body = ""
             for idx, (field_ty, field_docs) in enumerate(var.fields):
@@ -920,13 +925,14 @@ const decodeString = (stringPointer, free = true) => {
                 init_meth_params += "public " + field_ty.arg_name + ": " + field_ty.java_ty
             java_subclasses += "\t\tconstructor(" + init_meth_params + ") { super(); }\n"
             java_subclasses += "\t}\n"
-            out_java_enum += ("\t\t}\n")
-            java_hu_subclasses = java_hu_subclasses + "\tprivate constructor(ptr: number, obj: bindings." + struct_name + "." + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
+            java_hu_class += "\t\t}\n"
+            java_hu_subclasses += "\t/* @internal */\n"
+            java_hu_subclasses += "\tpublic constructor(ptr: number, obj: bindings." + struct_name + "_" + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
             java_hu_subclasses = java_hu_subclasses + hu_conv_body
             java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
         out_java += ("\t}\n")
         out_java += java_subclasses
-        out_java_enum += ("\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n")
+        java_hu_class += "\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n"
         out_java += self.fn_call_body(struct_name + "_ref_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
 
         out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
@@ -953,8 +959,8 @@ const decodeString = (stringPointer, free = true) => {
             out_c += ("\t\t}\n")
         out_c += ("\t\tdefault: abort();\n")
         out_c += ("\t}\n}\n")
-        out_java_enum += ("}\n")
-        out_java_enum += (java_hu_subclasses)
+        out_java_enum += java_hu_class
+        self.struct_file_suffixes[java_hu_type] = java_hu_subclasses
         return (out_java, out_java_enum, out_c)
 
     def map_opaque_struct(self, struct_name, struct_doc_comment):
@@ -975,7 +981,8 @@ const decodeString = (stringPointer, free = true) => {
             {self.hu_struct_file_prefix}
 
             export default class {struct_name.replace("LDK","")} extends CommonBase {implementations}{{
-                constructor(_dummy: object, ptr: number) {{
+                /* @internal */
+                public constructor(_dummy: object, ptr: number) {{
                     super(ptr);
                 }}
 
@@ -1046,9 +1053,9 @@ const decodeString = (stringPointer, free = true) => {
         else:
             if not takes_self:
                 out_java_struct += (
-                        "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
+                        "\tpublic static constructor_" + meth_n + "(")
             else:
-                out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
+                out_java_struct += ("\tpublic " + meth_n + "(")
             for idx, arg in enumerate(argument_types):
                 if idx != 0:
                     if not takes_self or idx > 1:
@@ -1060,14 +1067,13 @@ const decodeString = (stringPointer, free = true) => {
                         for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
                             if explode_idx != 0:
                                 out_java_struct += (", ")
-                            out_java_struct += (
-                                    explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
+                            out_java_struct += arg.arg_name + "_" + explode_arg.arg_name + ": " + explode_arg.java_hu_ty
                     else:
-                        out_java_struct += (arg.java_hu_ty + " " + arg.arg_name)
+                        out_java_struct += arg.arg_name + ": " + arg.java_hu_ty
 
         out_c += (") {\n")
         if out_java_struct is not None:
-            out_java_struct += (") {\n")
+            out_java_struct += "): " + return_type_info.java_hu_ty + " {\n"
         for info in argument_types:
             if info.arg_conv is not None:
                 out_c += ("\t" + info.arg_conv.replace('\n', "\n\t") + "\n")
@@ -1105,7 +1111,7 @@ const decodeString = (stringPointer, free = true) => {
         if args_known:
             out_java_struct += ("\t\t")
             if return_type_info.java_ty != "void":
-                out_java_struct += (return_type_info.java_ty + " ret = ")
+                out_java_struct += "const ret: " + return_type_info.java_ty + " = "
             out_java_struct += ("bindings." + method_name + "(")
             for idx, info in enumerate(argument_types):
                 if idx != 0:
@@ -1162,4 +1168,6 @@ const decodeString = (stringPointer, free = true) => {
         return (out_java, out_c, out_java_struct)
 
     def cleanup(self):
-        pass
+        for struct in self.struct_file_suffixes:
+            with open(self.outdir + "/structs/" + struct + self.file_ext, "a") as src:
+                src.write(self.struct_file_suffixes[struct])
