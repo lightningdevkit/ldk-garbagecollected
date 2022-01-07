@@ -198,14 +198,7 @@ class TypeMappingGenerator:
                     hu_conv_b = ""
                     if subty.from_hu_conv[1] != "":
                         hu_conv_b = "for (" + subty.java_hu_ty + " " + conv_name + ": " + arr_name + ") { " + subty.from_hu_conv[1] + "; }"
-                    if subty.java_ty == "long" and subty.java_hu_ty != "long":
-                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null",
-                            hu_conv_b)
-                    elif subty.java_ty == "long":
-                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray() : null", "/* TODO 2 " + subty.java_hu_ty + "  */")
-                    else:
-                        from_hu_conv = (arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + subty.from_hu_conv[0] + ").toArray(" + ty_info.java_ty + "::new) : null",
-                            hu_conv_b)
+                    from_hu_conv = (self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty), hu_conv_b)
 
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = arg_conv_cleanup,

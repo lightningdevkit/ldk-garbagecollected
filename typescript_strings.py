@@ -358,6 +358,9 @@ import * as InternalUtils from '../InternalUtils.mjs'
         else:
             return None
 
+    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+        return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
+
     def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
     def str_ref_to_c_call(self, var_name):
