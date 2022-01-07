@@ -628,6 +628,11 @@ import javax.annotation.Nullable;
     def var_decl_statement(self, ty_string, var_name, statement):
         return ty_string + " " + var_name + " = " + statement
 
+    def for_n_in_range(self, n, minimum, maximum):
+        return "for (int " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
+    def for_n_in_arr(self, n, arr_name, arr_elem_ty):
+        return ("for (" + arr_elem_ty.java_hu_ty + " " + n + ": " + arr_name + ") { ", " }")
+
     def get_ptr(self, var):
         return var + ".ptr"
     def set_null_skip_free(self, var):

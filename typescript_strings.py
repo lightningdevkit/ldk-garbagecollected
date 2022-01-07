@@ -534,6 +534,11 @@ const decodeString = (stringPointer, free = true) => {
     def var_decl_statement(self, ty_string, var_name, statement):
         return "const " + var_name + ": " + ty_string + " = " + statement
 
+    def for_n_in_range(self, n, minimum, maximum):
+        return "for (var " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
+    def for_n_in_arr(self, n, arr_name, arr_elem_ty):
+        return (arr_name + ".forEach((" + n + ": " + arr_elem_ty.java_hu_ty + ") => { ", " })")
+
     def get_ptr(self, var):
         return "CommonBase.get_ptr_of(" + var + ")"
     def set_null_skip_free(self, var):

@@ -188,7 +188,7 @@ class TypeMappingGenerator:
                     if "[" in ty_info.subty.java_hu_ty.split("<")[0]:
                         # Do a bit of a dance to move any excess [] to the end
                         to_hu_conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
-                    to_hu_conv += ";\nfor (int " + idxc + " = 0; " + idxc + " < " + arr_name + ".length; " + idxc + "++) {\n"
+                    to_hu_conv += ";\n" + self.consts.for_n_in_range(idxc, "0", arr_name + ".length") + "\n"
                     to_hu_conv += "\t" + self.consts.var_decl_statement(subty.java_ty, conv_name, arr_name + "[" + idxc + "]") + ";\n"
                     to_hu_conv += "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"
                     to_hu_conv += "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n}"
@@ -197,7 +197,8 @@ class TypeMappingGenerator:
                 if subty.from_hu_conv is not None:
                     hu_conv_b = ""
                     if subty.from_hu_conv[1] != "":
-                        hu_conv_b = "for (" + subty.java_hu_ty + " " + conv_name + ": " + arr_name + ") { " + subty.from_hu_conv[1] + "; }"
+                        iterator = self.consts.for_n_in_arr(conv_name, arr_name, subty)
+                        hu_conv_b = iterator[0] + subty.from_hu_conv[1] + ";" + iterator[1]
                     from_hu_conv = (self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty), hu_conv_b)
 
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
