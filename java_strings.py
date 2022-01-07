@@ -617,6 +617,9 @@ import javax.annotation.Nullable;
         res = res + "}\n"
         return res
 
+    def var_decl_statement(self, ty_string, var_name, statement):
+        return ty_string + " " + var_name + " = " + statement
+
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_java_enum = "package org.ldk.enums;\n\n"
         out_java = ""

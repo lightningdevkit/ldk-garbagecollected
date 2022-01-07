@@ -505,6 +505,9 @@ const decodeString = (stringPointer, free = true) => {
     def init_str(self):
         return ""
 
+    def var_decl_statement(self, ty_string, var_name, statement):
+        return "const " + var_name + ": " + ty_string + " = " + statement
+
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_c = "static inline LDK" + struct_name + " LDK" + struct_name + "_from_js(int32_t ord) {\n"
         out_c = out_c + "\tswitch (ord) {\n"
