@@ -76,9 +76,6 @@ public static native long new_empty_slice_vec();
 
         self.bindings_footer = ""
 
-        self.util_fn_pfx = ""
-        self.util_fn_sfx = ""
-
         self.common_base = """
 function freer(f: () => void) { f() }
 const finalizer = new FinalizationRegistry(freer);
@@ -112,6 +109,24 @@ export default class CommonBase {
 	}
 }
 """
+
+        self.txout_defn = """export class TxOut extends CommonBase {
+	/** The script_pubkey in this output */
+	public script_pubkey: Uint8Array;
+	/** The value, in satoshis, of this output */
+	public value: number;
+
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {
+		super(ptr, bindings.TxOut_free);
+		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.value = bindings.TxOut_get_value(ptr);
+	}
+	public constructor_new(value: number, script_pubkey: Uint8Array): TxOut {
+		return new TxOut(null, bindings.TxOut_new(script_pubkey, value));
+	}
+}"""
+        self.obj_defined(["TxOut"], "structs")
 
         self.c_file_pfx = """#include "js-wasm.h"
 #include <stdatomic.h>
@@ -309,6 +324,8 @@ import * as bindings from '../bindings.mjs'
 import * as InternalUtils from '../InternalUtils.mjs'
 
 """
+        self.util_fn_pfx = self.hu_struct_file_prefix + "\nexport class UtilMethods extends CommonBase {\n"
+        self.util_fn_sfx = "}"
         self.c_fn_ty_pfx = ""
         self.file_ext = ".mts"
         self.ptr_c_ty = "uint32_t"
