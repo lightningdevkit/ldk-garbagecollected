@@ -297,6 +297,7 @@ void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
         self.hu_struct_file_prefix = """
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
+import * as InternalUtils from '../InternalUtils.mjs'
 
 """
         self.c_fn_ty_pfx = ""
@@ -307,6 +308,12 @@ import * as bindings from '../bindings.mjs'
         self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != 0")
         self.get_native_arr_len_call = ("", "->arr_len")
+
+        with open(outdir + "/InternalUtils.mts", "w") as f:
+            f.write("export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {\n")
+            f.write("\tif (arr.length != len) { throw new Error(\"Expected array of length \" + len + \"got \" + arr.length); }\n")
+            f.write("\treturn arr;\n")
+            f.write("}")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
