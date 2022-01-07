@@ -1005,6 +1005,64 @@ export class {hu_name} extends CommonBase {implementations}{{
     def map_tuple(self, struct_name):
         return self.map_opaque_struct(struct_name, "A Tuple")
 
+    def map_result(self, struct_name, res_map, err_map):
+        human_ty = struct_name.replace("LDKCResult", "Result")
+
+        suffixes = f"export class {human_ty}_OK extends {human_ty} {{\n"
+        if res_map.java_hu_ty != "void":
+            suffixes += "\tpublic res: " + res_map.java_hu_ty + ";\n"
+        suffixes += f"""
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {{
+		super(_dummy, ptr);
+"""
+        if res_map.java_hu_ty == "void":
+            pass
+        elif res_map.to_hu_conv is not None:
+            suffixes += "\t\tconst res: " + res_map.java_ty + " = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n"
+            suffixes += "\t\t" + res_map.to_hu_conv.replace("\n", "\n\t\t")
+            suffixes += "\n\t\tthis.res = " + res_map.to_hu_conv_name + ";\n"
+        else:
+            suffixes += "\t\tthis.res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n"
+        suffixes += "\t}\n}\n"
+
+        suffixes += f"export class {human_ty}_Err extends {human_ty} {{\n"
+        if err_map.java_hu_ty != "void":
+            suffixes += "\tpublic err: " + err_map.java_hu_ty + ";\n"
+        suffixes += f"""
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {{
+		super(_dummy, ptr);
+"""
+        if err_map.java_hu_ty == "void":
+            pass
+        elif err_map.to_hu_conv is not None:
+            suffixes += "\t\tconst err: " + err_map.java_ty + " = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n"
+            suffixes += "\t\t" + err_map.to_hu_conv.replace("\n", "\n\t\t")
+            suffixes += "\n\t\tthis.err = " + err_map.to_hu_conv_name + ";\n"
+        else:
+            suffixes += "\t\tthis.err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n"
+        suffixes += "\t}\n}"
+
+        self.struct_file_suffixes[human_ty] = suffixes
+        self.obj_defined([human_ty], "structs")
+
+        return f"""{self.hu_struct_file_prefix}
+
+export class {human_ty} extends CommonBase {{
+	protected constructor(_dummy: object, ptr: number) {{
+		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
+	}}
+	/* @internal */
+	public static constr_from_ptr(ptr: number): {human_ty} {{
+		if (bindings.{struct_name.replace("LDK", "")}_is_ok(ptr)) {{
+			return new {human_ty}_OK(null, ptr);
+		}} else {{
+			return new {human_ty}_Err(null, ptr);
+		}}
+	}}
+"""
+
     def fn_call_body(self, method_name, return_c_ty, return_java_ty, method_argument_string, native_call_argument_string):
         has_return_value = return_c_ty != 'void'
         needs_decoding = return_c_ty in self.wasm_decoding_map

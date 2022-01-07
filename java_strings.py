@@ -1177,6 +1177,58 @@ import javax.annotation.Nullable;
     def map_tuple(self, struct_name):
         return self.map_opaque_struct(struct_name, "A Tuple")
 
+    def map_result(self, struct_name, res_map, err_map):
+        human_ty = struct_name.replace("LDKCResult", "Result")
+        java_hu_struct = ""
+        java_hu_struct += self.hu_struct_file_prefix
+        java_hu_struct += "public class " + human_ty + " extends CommonBase {\n"
+        java_hu_struct += "\tprivate " + human_ty + "(Object _dummy, long ptr) { super(ptr); }\n"
+        java_hu_struct += "\tprotected void finalize() throws Throwable {\n"
+        java_hu_struct += "\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n"
+        java_hu_struct += "\t}\n\n"
+        java_hu_struct += "\tstatic " + human_ty + " constr_from_ptr(long ptr) {\n"
+        java_hu_struct += "\t\tif (bindings." + struct_name.replace("LDK", "") + "_is_ok(ptr)) {\n"
+        java_hu_struct += "\t\t\treturn new " + human_ty + "_OK(null, ptr);\n"
+        java_hu_struct += "\t\t} else {\n"
+        java_hu_struct += "\t\t\treturn new " + human_ty + "_Err(null, ptr);\n"
+        java_hu_struct += "\t\t}\n"
+        java_hu_struct += "\t}\n"
+
+        java_hu_struct += "\tpublic static final class " + human_ty + "_OK extends " + human_ty + " {\n"
+
+        if res_map.java_hu_ty != "void":
+            java_hu_struct += "\t\tpublic final " + res_map.java_hu_ty + " res;\n"
+        java_hu_struct += "\t\tprivate " + human_ty + "_OK(Object _dummy, long ptr) {\n"
+        java_hu_struct += "\t\t\tsuper(_dummy, ptr);\n"
+        if res_map.java_hu_ty == "void":
+            pass
+        elif res_map.to_hu_conv is not None:
+            java_hu_struct += "\t\t\t" + res_map.java_ty + " res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n"
+            java_hu_struct += "\t\t\t" + res_map.to_hu_conv.replace("\n", "\n\t\t\t")
+            java_hu_struct += "\n\t\t\tthis.res = " + res_map.to_hu_conv_name + ";\n"
+        else:
+            java_hu_struct += "\t\t\tthis.res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n"
+        java_hu_struct += "\t\t}\n"
+        java_hu_struct += "\t}\n\n"
+
+        java_hu_struct += "\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n"
+        if err_map.java_hu_ty != "void":
+            java_hu_struct += "\t\tpublic final " + err_map.java_hu_ty + " err;\n"
+        java_hu_struct += "\t\tprivate " + human_ty + "_Err(Object _dummy, long ptr) {\n"
+        java_hu_struct += "\t\t\tsuper(_dummy, ptr);\n"
+        if err_map.java_hu_ty == "void":
+            pass
+        elif err_map.to_hu_conv is not None:
+            java_hu_struct += "\t\t\t" + err_map.java_ty + " err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n"
+            java_hu_struct += "\t\t\t" + err_map.to_hu_conv.replace("\n", "\n\t\t\t")
+            java_hu_struct += "\n\t\t\tthis.err = " + err_map.to_hu_conv_name + ";\n"
+        else:
+            java_hu_struct += "\t\t\tthis.err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n"
+        java_hu_struct += "\t\t}\n"
+
+        java_hu_struct += "\t}\n\n"
+        return java_hu_struct
+
     def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
