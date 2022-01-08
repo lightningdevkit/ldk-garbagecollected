@@ -1014,12 +1014,12 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
     def map_opaque_struct(self, struct_name, struct_doc_comment):
         implementations = ""
         method_header = ""
-        if struct_name.startswith("LDKLocked"):
-            return "NOT IMPLEMENTED"
 
         hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
-        out_opaque_struct_human = f"""{self.hu_struct_file_prefix}
-
+        out_opaque_struct_human = f"{self.hu_struct_file_prefix}"
+        if struct_name.startswith("LDKLocked"):
+            out_opaque_struct_human += "/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */"
+        out_opaque_struct_human += f"""
 export class {hu_name} extends CommonBase {implementations}{{
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {{
