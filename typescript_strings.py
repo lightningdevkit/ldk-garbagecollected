@@ -623,25 +623,39 @@ const decodeString = (stringPointer, free = true) => {
     def native_c_map_trait(self, struct_name, field_var_conversions, flattened_field_var_conversions, field_function_lines, trait_doc_comment):
         out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
 
-        constructor_arguments = ""
         super_instantiator = ""
+        bindings_instantiator = ""
         pointer_to_adder = ""
         impl_constructor_arguments = ""
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
-                constructor_arguments += f", {first_to_lower(var.arg_name)}?: {var.java_hu_ty}"
                 impl_constructor_arguments += f", {var.arg_name}: {var.java_hu_ty}"
+                super_instantiator += first_to_lower(var.arg_name) + ", "
                 if var.from_hu_conv is not None:
-                    super_instantiator += ", " + var.from_hu_conv[0]
+                    bindings_instantiator += ", " + var.from_hu_conv[0]
                     if var.from_hu_conv[1] != "":
                         pointer_to_adder += "\t\t\t" + var.from_hu_conv[1] + ";\n"
                 else:
-                    super_instantiator += ", " + first_to_lower(var.arg_name)
+                    bindings_instantiator += ", " + first_to_lower(var.arg_name)
             else:
-                constructor_arguments += f", {first_to_lower(var[1])}?: bindings.{var[0]}"
-                super_instantiator += ", " + first_to_lower(var[1])
-                pointer_to_adder += "\t\t\tthis.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
-                impl_constructor_arguments += f", {first_to_lower(var[1])}_impl: {var[0].replace('LDK', '')}.{var[0].replace('LDK', '')}Interface"
+                bindings_instantiator += ", " + first_to_lower(var[1]) + ".bindings_instance"
+                super_instantiator += first_to_lower(var[1]) + "_impl, "
+                pointer_to_adder += "\t\timpl_holder.held.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
+                impl_constructor_arguments += f", {first_to_lower(var[1])}_impl: {var[0].replace('LDK', '')}Interface"
+
+        super_constructor_statements = ""
+        trait_constructor_arguments = ""
+        for var in field_var_conversions:
+            if isinstance(var, ConvInfo):
+                trait_constructor_arguments += ", " + var.arg_name
+            else:
+                super_constructor_statements += "\t\tconst " + first_to_lower(var[1]) + " = " + var[1] + ".new_impl(" + super_instantiator + ");\n"
+                trait_constructor_arguments += ", " + first_to_lower(var[1]) + ".bindings_instance"
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        trait_constructor_arguments += ", " + suparg.arg_name
+                    else:
+                        trait_constructor_arguments += ", " + suparg[1]
 
         # BUILD INTERFACE METHODS
         out_java_interface = ""
@@ -698,24 +712,6 @@ const decodeString = (stringPointer, free = true) => {
                         out_interface_implementation_overrides += "\t\t\t\treturn ret;\n"
                 out_interface_implementation_overrides += f"\t\t\t}},\n"
 
-        trait_constructor_arguments = ""
-        for var in field_var_conversions:
-            if isinstance(var, ConvInfo):
-                trait_constructor_arguments += ", " + var.arg_name
-            else:
-                trait_constructor_arguments += ", " + var[1] + ".new_impl(" + var[1] + "_impl"
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        trait_constructor_arguments += ", " + suparg.arg_name
-                    else:
-                        trait_constructor_arguments += ", " + suparg[1]
-                trait_constructor_arguments += ").bindings_instance"
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        trait_constructor_arguments += ", " + suparg.arg_name
-                    else:
-                        trait_constructor_arguments += ", " + suparg[1]
-
         out_typescript_human = f"""
 {self.hu_struct_file_prefix}
 
@@ -727,27 +723,27 @@ class {struct_name}Holder {{
 }}
 
 export class {struct_name.replace("LDK","")} extends CommonBase {{
-	private bindings_instance?: bindings.{struct_name};
+	/* @internal */
+	public bindings_instance?: bindings.{struct_name};
 
-	constructor(ptr?: number, arg?: bindings.{struct_name}{constructor_arguments}) {{
-		if (Number.isFinite(ptr)) {{
-			super(ptr, bindings.{struct_name.replace("LDK","")}_free);
-			this.bindings_instance = null;
-		}} else {{
-			// TODO: private constructor instantiation
-			super(bindings.{struct_name}_new(arg{super_instantiator}), bindings.{struct_name.replace("LDK","")}_free);
-			this.ptrs_to.push(arg);
-{pointer_to_adder}		}}
+	/* @internal */
+	constructor(_dummy: object, ptr: number) {{
+		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
+		this.bindings_instance = null;
 	}}
 
 	static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
 		const impl_holder: {struct_name}Holder = new {struct_name}Holder();
 		let structImplementation = {{
 {out_interface_implementation_overrides}		}} as bindings.{struct_name};
-		impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation{trait_constructor_arguments});
-		return impl_holder.held;
+{super_constructor_statements}		const ptr: number = bindings.{struct_name}_new(structImplementation{bindings_instantiator});
+
+		impl_holder.held = new {struct_name.replace("LDK", "")}(null, ptr);
+		impl_holder.held.bindings_instance = structImplementation;
+{pointer_to_adder}		return impl_holder.held;
 	}}
 """
+        self.obj_defined([struct_name.replace("LDK", ""), struct_name.replace("LDK", "") + "Interface"], "structs")
 
         out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
         java_meths = []
