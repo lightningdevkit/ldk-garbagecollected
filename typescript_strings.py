@@ -393,17 +393,10 @@ import * as InternalUtils from '../InternalUtils.mjs'
 const imports: any = {};
 imports.env = {};
 
-imports.env.tableBase = 0;
-imports.env.table = new WebAssembly.Table({initial: 4, element: 'anyfunc'});
-
+var js_objs: Array<WeakRef<object>> = [];
+var js_invoke: Function;
 imports.env["abort"] = function () {
 	console.error("ABORT");
-};
-imports.env["js_invoke_function"] = function(fn: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number) {
-	console.log('function called from wasm:', fn, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-};
-imports.env["js_free_function_ptr"] = function(fn: number) {
-	console.log("function ptr free'd from wasm:", fn);
 };
 
 imports.wasi_snapshot_preview1 = {
@@ -432,6 +425,7 @@ let isWasmInitialized: boolean = false;
             res += """import * as fs from 'fs';
 export async function initializeWasm(path: string) {
 	const source = fs.readFileSync(path);
+	imports.env["js_invoke_function"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);
 	wasm = wasmInstance.exports;
 	isWasmInitialized = true;
@@ -441,6 +435,7 @@ export async function initializeWasm(path: string) {
             res += """
 export async function initializeWasm(uri: string) {
 	const stream = fetch(uri);
+	imports.env["js_invoke_function"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	wasm = wasmInstance.exports;
 	isWasmInitialized = true;
@@ -773,15 +768,24 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 out_typescript_bindings += f", {var[1]}: {var[0]}"
 
         out_typescript_bindings += f"""): number {{
-			throw new Error('unimplemented'); // TODO: bind to WASM
-		}}
+	if(!isWasmInitialized) {{
+		throw new Error("initializeWasm() must be awaited first!");
+	}}
+	var new_obj_idx = js_objs.length;
+	for (var i = 0; i < js_objs.length; i++) {{
+		if (js_objs[i] == null || js_objs[i] == undefined) {{ new_obj_idx = i; break; }}
+	}}
+	js_objs[i] = new WeakRef(impl);
+	return wasm.TS_{struct_name}_new(i);
+}}
 """
 
         out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
 
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
-        out_c = out_c + "\tatomic_size_t refcnt;\n"
+        out_c += "\tatomic_size_t refcnt;\n"
+        out_c += "\tuint32_t instance_ptr;\n"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 # We're a regular ol' field
@@ -789,9 +793,6 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
             else:
                 # We're a supertrait
                 out_c = out_c + "\t" + var[0] + "_JCalls* " + var[1] + ";\n"
-        for fn in field_function_lines:
-            if fn.fn_name != "free" and fn.fn_name != "cloned":
-                out_c = out_c + "\tuint32_t " + fn.fn_name + "_meth;\n"
         out_c = out_c + "} " + struct_name + "_JCalls;\n"
 
         for fn_line in field_function_lines:
@@ -799,9 +800,6 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 out_c = out_c + "static void " + struct_name + "_JCalls_free(void* this_arg) {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
-                for fn in field_function_lines:
-                    if fn.fn_name != "free" and fn.fn_name != "cloned":
-                        out_c = out_c + "\t\tjs_free_function_ptr(j_calls->" + fn.fn_name + "_meth);\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -828,15 +826,18 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (" + fn_line.ret_ty_info.c_ty + ")"
-                    out_c += "js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c += "js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif fn_line.ret_ty_info.java_ty == "void":
-                    out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif fn_line.ret_ty_info.java_ty == "String":
-                    out_c = out_c + "\tjstring ret = (jstring)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\tjstring ret = (jstring)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 else:
-                    out_c = out_c + "\tuint32_t ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\tuint32_t ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+
+                self.function_ptrs[self.function_ptr_counter] = (struct_name, fn_line.fn_name)
+                self.function_ptr_counter += 1
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
@@ -858,17 +859,17 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (/*TODO: JS Object Reference */void* o"
+        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (JSValue o"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", /*TODO: JS Object Reference */void* " + var[1]
+                out_c = out_c + ", JSValue " + var[1]
         out_c = out_c + ") {\n"
 
         out_c = out_c + "\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n"
         out_c = out_c + "\tatomic_init(&calls->refcnt, 1);\n"
-        out_c = out_c + "\t//TODO: Assign calls->o from o\n"
+        out_c = out_c + "\tcalls->instance_ptr = o;\n"
 
         for (fn_name, java_meth_descr) in java_meths:
             if fn_name != "free" and fn_name != "cloned":
@@ -910,12 +911,12 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "/*TODO: JS Object Reference */void* o"
+        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "JSValue o"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", /*TODO: JS Object Reference */ void* " + var[1]
+                out_c = out_c + ", JSValue " + var[1]
         out_c = out_c + ") {\n"
         out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
         out_c = out_c + "\t*res_ptr = " + struct_name + "_init(o"
@@ -1267,3 +1268,34 @@ export class {human_ty} extends CommonBase {{
         for struct in self.struct_file_suffixes:
             with open(self.outdir + "/structs/" + struct + self.file_ext, "a") as src:
                 src.write(self.struct_file_suffixes[struct])
+
+        with open(self.outdir + "/bindings.mts", "a") as bindings:
+            bindings.write("""
+
+js_invoke = function(obj_ptr: number, fn_id: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number) {
+	const weak: WeakRef<object> = js_objs[obj_ptr];
+	if (weak == null || weak == undefined) {
+		console.error("Got function call on unknown/free'd JS object!");
+		throw new Error("Got function call on unknown/free'd JS object!");
+	}
+	const obj: object = weak.deref();
+	if (obj == null || obj == undefined) {
+		console.error("Got function call on GC'd JS object!");
+		throw new Error("Got function call on GC'd JS object!");
+	}
+	var fn;
+""")
+            bindings.write("\tswitch (fn_id) {\n")
+            for f in self.function_ptrs:
+                bindings.write(f"\t\tcase {str(f)}: fn = Object.getOwnPropertyDescriptor(obj, \"{self.function_ptrs[f][1]}\"); break;\n")
+
+            bindings.write("""\t\tdefault:
+			console.error("Got unknown function call from C!");
+			throw new Error("Got unknown function call from C!");
+	}
+	if (fn == null || fn == undefined) {
+		console.error("Got function call on incorrect JS object!");
+		throw new Error("Got function call on incorrect JS object!");
+	}
+	return fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+}""")
