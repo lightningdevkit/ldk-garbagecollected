@@ -14,6 +14,8 @@ class Consts:
     def __init__(self, DEBUG: bool, target: Target, outdir: str, **kwargs):
         self.outdir = outdir
         self.struct_file_suffixes = {}
+        self.function_ptr_counter = 0
+        self.function_ptrs = {}
         self.c_type_map = dict(
             uint8_t = ['number', 'Uint8Array'],
             uint16_t = ['number', 'Uint16Array'],
@@ -79,7 +81,7 @@ public static native long new_empty_slice_vec();
         self.common_base = """
 function freer(f: () => void) { f() }
 const finalizer = new FinalizationRegistry(freer);
-function get_freeer(ptr: number, free_fn: (number) => void) {
+function get_freeer(ptr: number, free_fn: (ptr: number) => void) {
 	return () => {
 		free_fn(ptr);
 	}
@@ -422,13 +424,13 @@ imports.wasi_snapshot_preview1 = {
 	},
 };
 
-var wasm = null;
+var wasm: any = null;
 let isWasmInitialized: boolean = false;
 """
 
         if target == Target.NODEJS:
             res += """import * as fs from 'fs';
-export async function initializeWasm(path) {
+export async function initializeWasm(path: string) {
 	const source = fs.readFileSync(path);
 	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);
 	wasm = wasmInstance.exports;
@@ -437,7 +439,7 @@ export async function initializeWasm(path) {
 """
         else:
             res += """
-export async function initializeWasm(uri) {
+export async function initializeWasm(uri: string) {
 	const stream = fetch(uri);
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	wasm = wasmInstance.exports;
@@ -455,7 +457,7 @@ const nextMultipleOfFour = (value: number) => {
 	return Math.ceil(value / 4) * 4;
 }
 
-const encodeUint8Array = (inputArray) => {
+const encodeUint8Array = (inputArray: Uint8Array) => {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
 	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = inputArray.length;
@@ -464,7 +466,7 @@ const encodeUint8Array = (inputArray) => {
 	return cArrayPointer;
 }
 
-const encodeUint32Array = (inputArray) => {
+const encodeUint32Array = (inputArray: Uint32Array) => {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
 	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
@@ -472,7 +474,7 @@ const encodeUint32Array = (inputArray) => {
 	return cArrayPointer;
 }
 
-const getArrayLength = (arrayPointer) => {
+const getArrayLength = (arrayPointer: number) => {
 	const arraySizeViewer = new Uint32Array(
 		wasm.memory.buffer, // value
 		arrayPointer, // offset
@@ -480,7 +482,7 @@ const getArrayLength = (arrayPointer) => {
 	);
 	return arraySizeViewer[0];
 }
-const decodeUint8Array = (arrayPointer, free = true) => {
+const decodeUint8Array = (arrayPointer: number, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint8Array(
 		wasm.memory.buffer, // value
@@ -495,7 +497,7 @@ const decodeUint8Array = (arrayPointer, free = true) => {
 	}
 	return actualArray;
 }
-const decodeUint32Array = (arrayPointer, free = true) => {
+const decodeUint32Array = (arrayPointer: number, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint32Array(
 		wasm.memory.buffer, // value
@@ -511,7 +513,7 @@ const decodeUint32Array = (arrayPointer, free = true) => {
 	return actualArray;
 }
 
-const encodeString = (string) => {
+const encodeString = (string: string) => {
 	// make malloc count divisible by 4
 	const memoryNeed = nextMultipleOfFour(string.length + 1);
 	const stringPointer = wasm.TS_malloc(memoryNeed);
@@ -527,7 +529,7 @@ const encodeString = (string) => {
 	return stringPointer;
 }
 
-const decodeString = (stringPointer, free = true) => {
+const decodeString = (stringPointer: number, free = true) => {
 	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer);
 	let cursor = 0;
 	let result = '';
@@ -748,11 +750,11 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 """
         self.obj_defined([struct_name.replace("LDK", ""), struct_name.replace("LDK", "") + "Interface"], "structs")
 
-        out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
+        out_typescript_bindings += "export interface " + struct_name + " {\n"
         java_meths = []
         for fn_line in field_function_lines:
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
-                out_typescript_bindings += f"\t\t\t{fn_line.fn_name} ("
+                out_typescript_bindings += f"\t{fn_line.fn_name} ("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
@@ -761,9 +763,9 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
                 out_typescript_bindings += f"): {fn_line.ret_ty_info.java_ty};\n"
 
-        out_typescript_bindings = out_typescript_bindings + "\t\t}\n\n"
+        out_typescript_bindings += "}\n\n"
 
-        out_typescript_bindings += f"\t\texport function {struct_name}_new(impl: {struct_name}"
+        out_typescript_bindings += f"export function {struct_name}_new(impl: {struct_name}"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_typescript_bindings += f", {var.arg_name}: {var.java_ty}"
@@ -1101,13 +1103,13 @@ export class {human_ty} extends CommonBase {{
             converter = self.wasm_decoding_map[return_c_ty]
             return_statement = f"return {converter}(nativeResponseValue);"
 
-        return f"""\texport function {method_name}({method_argument_string}): {return_java_ty} {{
-		if(!isWasmInitialized) {{
-			throw new Error("initializeWasm() must be awaited first!");
-		}}
-		const nativeResponseValue = wasm.TS_{method_name}({native_call_argument_string});
-		{return_statement}
+        return f"""export function {method_name}({method_argument_string}): {return_java_ty} {{
+	if(!isWasmInitialized) {{
+		throw new Error("initializeWasm() must be awaited first!");
 	}}
+	const nativeResponseValue = wasm.TS_{method_name}({native_call_argument_string});
+	{return_statement}
+}}
 """
     def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""

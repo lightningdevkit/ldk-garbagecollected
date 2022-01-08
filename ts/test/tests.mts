@@ -1,7 +1,7 @@
 import * as rawldk from "../bindings.mjs";
 import * as ldk from "../index.mjs";
 
-const tests = [];
+const tests: Array<Function> = [];
 
 tests.push(async () => {
 	const result = rawldk.CResult_boolLightningErrorZ_ok(true);
@@ -45,7 +45,7 @@ tests.push(async () => {
 	return true;
 });
 
-export async function run_tests(wasm_path) {
+export async function run_tests(wasm_path: string) {
 	await rawldk.initializeWasm(wasm_path);
 
 	var test_runs = [];

@@ -5,7 +5,7 @@
     "forceConsistentCasingInFileNames": true,
 
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictNullChecks": false,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
