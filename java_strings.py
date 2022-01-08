@@ -652,6 +652,14 @@ import javax.annotation.Nullable;
     def var_decl_statement(self, ty_string, var_name, statement):
         return ty_string + " " + var_name + " = " + statement
 
+    def constr_hu_array(self, ty_info, arr_len):
+        base_ty = ty_info.subty.java_hu_ty.split("[")[0].split("<")[0]
+        conv = "new " + base_ty + "[" + arr_len + "]"
+        if "[" in ty_info.subty.java_hu_ty.split("<")[0]:
+            # Do a bit of a dance to move any excess [] to the end
+            conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
+        return conv
+
     def for_n_in_range(self, n, minimum, maximum):
         return "for (int " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
     def for_n_in_arr(self, n, arr_name, arr_elem_ty):

@@ -183,11 +183,7 @@ class TypeMappingGenerator:
                 to_hu_conv = None
                 to_hu_conv_name = None
                 if subty.to_hu_conv is not None:
-                    base_ty = ty_info.subty.java_hu_ty.split("[")[0].split("<")[0]
-                    to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, conv_name + "_arr", "new " + base_ty + "[" + arr_name + ".length]")
-                    if "[" in ty_info.subty.java_hu_ty.split("<")[0]:
-                        # Do a bit of a dance to move any excess [] to the end
-                        to_hu_conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
+                    to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, conv_name + "_arr", self.consts.constr_hu_array(ty_info, arr_name + ".length"))
                     to_hu_conv += ";\n" + self.consts.for_n_in_range(idxc, "0", arr_name + ".length") + "\n"
                     to_hu_conv += "\t" + self.consts.var_decl_statement(subty.java_ty, conv_name, arr_name + "[" + idxc + "]") + ";\n"
                     to_hu_conv += "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"

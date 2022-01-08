@@ -548,6 +548,9 @@ const decodeString = (stringPointer, free = true) => {
     def init_str(self):
         return ""
 
+    def constr_hu_array(self, ty_info, arr_len):
+        return "new Array(" + arr_len + ").fill(null)"
+
     def var_decl_statement(self, ty_string, var_name, statement):
         return "const " + var_name + ": " + ty_string + " = " + statement
 
