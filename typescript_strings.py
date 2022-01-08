@@ -949,11 +949,11 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         java_hu_class += f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n"
         java_hu_subclasses = ""
 
-        out_java += "\texport class " + struct_name + " {\n"
-        out_java += "\t\tprotected constructor() {}\n"
+        out_java += "export class " + struct_name + " {\n"
+        out_java += "\tprotected constructor() {}\n"
         java_subclasses = ""
         for var in variant_list:
-            java_subclasses += "\texport class " + struct_name + "_" + var.var_name + " extends " + struct_name + " {\n"
+            java_subclasses += "export class " + struct_name + "_" + var.var_name + " extends " + struct_name + " {\n"
             java_hu_subclasses = java_hu_subclasses + "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
             java_hu_class += "\t\tif (raw_val instanceof bindings." + struct_name + "_" + var.var_name + ") {\n"
             java_hu_class += "\t\t\treturn new " + java_hu_type + "_" + var.var_name + "(ptr, raw_val);\n"
@@ -970,14 +970,14 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 if idx > 0:
                     init_meth_params += ", "
                 init_meth_params += "public " + field_ty.arg_name + ": " + field_ty.java_ty
-            java_subclasses += "\t\tconstructor(" + init_meth_params + ") { super(); }\n"
-            java_subclasses += "\t}\n"
+            java_subclasses += "\tconstructor(" + init_meth_params + ") { super(); }\n"
+            java_subclasses += "}\n"
             java_hu_class += "\t\t}\n"
             java_hu_subclasses += "\t/* @internal */\n"
             java_hu_subclasses += "\tpublic constructor(ptr: number, obj: bindings." + struct_name + "_" + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
             java_hu_subclasses = java_hu_subclasses + hu_conv_body
             java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
-        out_java += ("\t}\n")
+        out_java += "}\n"
         out_java += java_subclasses
         java_hu_class += "\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n"
         out_java += self.fn_call_body(struct_name + "_ref_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
