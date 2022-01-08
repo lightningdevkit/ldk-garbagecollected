@@ -11,8 +11,9 @@ class Target(Enum):
     BROWSER = 2
 
 class Consts:
-    def __init__(self, DEBUG: bool, target: Target, **kwargs):
-
+    def __init__(self, DEBUG: bool, target: Target, outdir: str, **kwargs):
+        self.outdir = outdir
+        self.struct_file_suffixes = {}
         self.c_type_map = dict(
             uint8_t = ['number', 'Uint8Array'],
             uint16_t = ['number', 'Uint16Array'],
@@ -75,20 +76,57 @@ public static native long new_empty_slice_vec();
 
         self.bindings_footer = ""
 
-        self.util_fn_pfx = ""
-        self.util_fn_sfx = ""
-
         self.common_base = """
-            export default class CommonBase {
-                ptr: number;
-                ptrs_to: object[] = []; // new LinkedList(); TODO: build linked list implementation
-                protected constructor(ptr: number) { this.ptr = ptr; }
-                public _test_only_get_ptr(): number { return this.ptr; }
-                protected finalize() {
-                    // TODO: finalize myself
-                }
-            }
+function freer(f: () => void) { f() }
+const finalizer = new FinalizationRegistry(freer);
+function get_freeer(ptr: number, free_fn: (number) => void) {
+	return () => {
+		free_fn(ptr);
+	}
+}
+
+export default class CommonBase {
+	protected ptr: number;
+	protected ptrs_to: object[] = [];
+	protected constructor(ptr: number, free_fn: (ptr: number) => void) {
+		this.ptr = ptr;
+		if (Number.isFinite(ptr) && ptr != 0){
+			finalizer.register(this, get_freeer(ptr, free_fn));
+		}
+	}
+	// In Java, protected means "any subclass can access fields on any other subclass'"
+	// In TypeScript, protected means "any subclass can access parent fields on instances of itself"
+	// To work around this, we add accessors for other instances' protected fields here.
+	protected static add_ref_from(holder: CommonBase, referent: object) {
+		holder.ptrs_to.push(referent);
+	}
+	protected static get_ptr_of(o: CommonBase) {
+		return o.ptr;
+	}
+	protected static set_null_skip_free(o: CommonBase) {
+		o.ptr = 0;
+		finalizer.unregister(o);
+	}
+}
 """
+
+        self.txout_defn = """export class TxOut extends CommonBase {
+	/** The script_pubkey in this output */
+	public script_pubkey: Uint8Array;
+	/** The value, in satoshis, of this output */
+	public value: number;
+
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {
+		super(ptr, bindings.TxOut_free);
+		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.value = bindings.TxOut_get_value(ptr);
+	}
+	public constructor_new(value: number, script_pubkey: Uint8Array): TxOut {
+		return new TxOut(null, bindings.TxOut_new(script_pubkey, value));
+	}
+}"""
+        self.obj_defined(["TxOut"], "structs")
 
         self.c_file_pfx = """#include "js-wasm.h"
 #include <stdatomic.h>
@@ -280,11 +318,14 @@ void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
 
         self.c_version_file = ""
 
-        self.hu_struct_file_prefix = f"""
-import CommonBase from './CommonBase';
+        self.hu_struct_file_prefix = """
+import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
+import * as InternalUtils from '../InternalUtils.mjs'
 
 """
+        self.util_fn_pfx = self.hu_struct_file_prefix + "\nexport class UtilMethods extends CommonBase {\n"
+        self.util_fn_sfx = "}"
         self.c_fn_ty_pfx = ""
         self.file_ext = ".mts"
         self.ptr_c_ty = "uint32_t"
@@ -293,6 +334,12 @@ import * as bindings from '../bindings.mjs'
         self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != 0")
         self.get_native_arr_len_call = ("", "->arr_len")
+
+        with open(outdir + "/InternalUtils.mts", "w") as f:
+            f.write("export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {\n")
+            f.write("\tif (arr.length != len) { throw new Error(\"Expected array of length \" + len + \"got \" + arr.length); }\n")
+            f.write("\treturn arr;\n")
+            f.write("}")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
@@ -328,6 +375,9 @@ import * as bindings from '../bindings.mjs'
         else:
             return None
 
+    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+        return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
+
     def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
     def str_ref_to_c_call(self, var_name):
@@ -338,15 +388,9 @@ import * as bindings from '../bindings.mjs'
 
     def wasm_import_header(self, target):
         res = """
-function freer(f: () => void) { f() }
-const finalizer = new FinalizationRegistry(freer);
-const memory = new WebAssembly.Memory({initial: 256});
-
 const imports: any = {};
 imports.env = {};
 
-imports.env.memoryBase = 0;
-imports.env.memory = memory;
 imports.env.tableBase = 0;
 imports.env.table = new WebAssembly.Table({initial: 4, element: 'anyfunc'});
 
@@ -413,16 +457,16 @@ const nextMultipleOfFour = (value: number) => {
 
 const encodeUint8Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-	const arrayLengthView = new Uint32Array(memory.buffer, cArrayPointer, 1);
+	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new Uint8Array(memory.buffer, cArrayPointer + 4, inputArray.length);
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 
 const encodeUint32Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
+	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
 	arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
@@ -430,7 +474,7 @@ const encodeUint32Array = (inputArray) => {
 
 const getArrayLength = (arrayPointer) => {
 	const arraySizeViewer = new Uint32Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer, // offset
 		1 // one int
 	);
@@ -439,7 +483,7 @@ const getArrayLength = (arrayPointer) => {
 const decodeUint8Array = (arrayPointer, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint8Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer + 4, // offset (ignoring length bytes)
 		arraySize // uint8 count
 	);
@@ -454,7 +498,7 @@ const decodeUint8Array = (arrayPointer, free = true) => {
 const decodeUint32Array = (arrayPointer, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint32Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer + 4, // offset (ignoring length bytes)
 		arraySize // uint32 count
 	);
@@ -472,7 +516,7 @@ const encodeString = (string) => {
 	const memoryNeed = nextMultipleOfFour(string.length + 1);
 	const stringPointer = wasm.TS_malloc(memoryNeed);
 	const stringMemoryView = new Uint8Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		stringPointer, // offset
 		string.length + 1 // length
 	);
@@ -484,7 +528,7 @@ const encodeString = (string) => {
 }
 
 const decodeString = (stringPointer, free = true) => {
-	const memoryView = new Uint8Array(memory.buffer, stringPointer);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer);
 	let cursor = 0;
 	let result = '';
 
@@ -503,6 +547,31 @@ const decodeString = (stringPointer, free = true) => {
 
     def init_str(self):
         return ""
+
+    def constr_hu_array(self, ty_info, arr_len):
+        return "new Array(" + arr_len + ").fill(null)"
+
+    def var_decl_statement(self, ty_string, var_name, statement):
+        return "const " + var_name + ": " + ty_string + " = " + statement
+
+    def for_n_in_range(self, n, minimum, maximum):
+        return "for (var " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
+    def for_n_in_arr(self, n, arr_name, arr_elem_ty):
+        return (arr_name + ".forEach((" + n + ": " + arr_elem_ty.java_hu_ty + ") => { ", " })")
+
+    def get_ptr(self, var):
+        return "CommonBase.get_ptr_of(" + var + ")"
+    def set_null_skip_free(self, var):
+        return "CommonBase.set_null_skip_free(" + var + ");"
+
+    def add_ref(self, holder, referent):
+        return "CommonBase.add_ref_from(" + holder + ", " + referent + ")"
+
+    def obj_defined(self, struct_names, folder):
+        with open(self.outdir + "/index.mts", 'a') as index:
+            index.write(f"export * from './{folder}/{struct_names[0]}.mjs';\n")
+        with open(self.outdir + "/imports.mts.part", 'a') as imports:
+            imports.write(f"import {{ {', '.join(struct_names)} }} from '../{folder}/{struct_names[0]}.mjs';\n")
 
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_c = "static inline LDK" + struct_name + " LDK" + struct_name + "_from_js(int32_t ord) {\n"
@@ -537,6 +606,7 @@ const decodeString = (stringPointer, free = true) => {
             }}
 """
         out_typescript_enum = f"export {{ {struct_name} }} from \"../bindings.mjs\";"
+        self.obj_defined([struct_name], "enums")
         return (out_c, out_typescript_enum, out_typescript)
 
     def c_unitary_enum_to_native_call(self, ty_info):
@@ -556,25 +626,39 @@ const decodeString = (stringPointer, free = true) => {
     def native_c_map_trait(self, struct_name, field_var_conversions, flattened_field_var_conversions, field_function_lines, trait_doc_comment):
         out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
 
-        constructor_arguments = ""
         super_instantiator = ""
+        bindings_instantiator = ""
         pointer_to_adder = ""
         impl_constructor_arguments = ""
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
-                constructor_arguments += f", {first_to_lower(var.arg_name)}?: {var.java_hu_ty}"
                 impl_constructor_arguments += f", {var.arg_name}: {var.java_hu_ty}"
+                super_instantiator += first_to_lower(var.arg_name) + ", "
                 if var.from_hu_conv is not None:
-                    super_instantiator += ", " + var.from_hu_conv[0]
+                    bindings_instantiator += ", " + var.from_hu_conv[0]
                     if var.from_hu_conv[1] != "":
-                        pointer_to_adder += var.from_hu_conv[1] + ";\n"
+                        pointer_to_adder += "\t\t\t" + var.from_hu_conv[1] + ";\n"
                 else:
-                    super_instantiator += ", " + first_to_lower(var.arg_name)
+                    bindings_instantiator += ", " + first_to_lower(var.arg_name)
             else:
-                constructor_arguments += f", {first_to_lower(var[1])}?: bindings.{var[0]}"
-                super_instantiator += ", " + first_to_lower(var[1])
-                pointer_to_adder += "this.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
-                impl_constructor_arguments += f", {first_to_lower(var[1])}_impl: {var[0].replace('LDK', '')}.{var[0].replace('LDK', '')}Interface"
+                bindings_instantiator += ", " + first_to_lower(var[1]) + ".bindings_instance"
+                super_instantiator += first_to_lower(var[1]) + "_impl, "
+                pointer_to_adder += "\t\timpl_holder.held.ptrs_to.push(" + first_to_lower(var[1]) + ");\n"
+                impl_constructor_arguments += f", {first_to_lower(var[1])}_impl: {var[0].replace('LDK', '')}Interface"
+
+        super_constructor_statements = ""
+        trait_constructor_arguments = ""
+        for var in field_var_conversions:
+            if isinstance(var, ConvInfo):
+                trait_constructor_arguments += ", " + var.arg_name
+            else:
+                super_constructor_statements += "\t\tconst " + first_to_lower(var[1]) + " = " + var[1] + ".new_impl(" + super_instantiator + ");\n"
+                trait_constructor_arguments += ", " + first_to_lower(var[1]) + ".bindings_instance"
+                for suparg in var[2]:
+                    if isinstance(suparg, ConvInfo):
+                        trait_constructor_arguments += ", " + suparg.arg_name
+                    else:
+                        trait_constructor_arguments += ", " + suparg[1]
 
         # BUILD INTERFACE METHODS
         out_java_interface = ""
@@ -583,8 +667,8 @@ const decodeString = (stringPointer, free = true) => {
         for fn_line in field_function_lines:
             java_method_descriptor = ""
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
-                out_java_interface += fn_line.fn_name + "("
-                out_interface_implementation_overrides += f"{fn_line.fn_name} ("
+                out_java_interface += "\t" + fn_line.fn_name + "("
+                out_interface_implementation_overrides += f"\t\t\t{fn_line.fn_name} ("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
@@ -593,22 +677,20 @@ const decodeString = (stringPointer, free = true) => {
                     out_java_interface += f"{arg_conv_info.arg_name}: {arg_conv_info.java_hu_ty}"
                     out_interface_implementation_overrides += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
                     java_method_descriptor += arg_conv_info.java_fn_ty_arg
-                out_java_interface += f"): {fn_line.ret_ty_info.java_hu_ty};\n\t\t\t\t"
+                out_java_interface += f"): {fn_line.ret_ty_info.java_hu_ty};\n"
                 java_method_descriptor += ")" + fn_line.ret_ty_info.java_fn_ty_arg
                 java_methods.append((fn_line.fn_name, java_method_descriptor))
 
                 out_interface_implementation_overrides += f"): {fn_line.ret_ty_info.java_ty} {{\n"
 
-                interface_method_override_inset = "\t\t\t\t\t\t"
-                interface_implementation_inset = "\t\t\t\t\t\t\t"
                 for arg_info in fn_line.args_ty:
                     if arg_info.to_hu_conv is not None:
-                        out_interface_implementation_overrides += interface_implementation_inset + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
+                        out_interface_implementation_overrides += "\t\t\t\t" + arg_info.to_hu_conv.replace("\n", "\n\t\t\t\t") + "\n"
 
                 if fn_line.ret_ty_info.java_ty != "void":
-                    out_interface_implementation_overrides += interface_implementation_inset + fn_line.ret_ty_info.java_hu_ty + " ret = arg." + fn_line.fn_name + "("
+                    out_interface_implementation_overrides += "\t\t\t\tconst ret: " + fn_line.ret_ty_info.java_hu_ty + " = arg." + fn_line.fn_name + "("
                 else:
-                    out_interface_implementation_overrides += f"{interface_implementation_inset}arg." + fn_line.fn_name + "("
+                    out_interface_implementation_overrides += f"\t\t\t\targ." + fn_line.fn_name + "("
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if idx != 0:
@@ -621,80 +703,50 @@ const decodeString = (stringPointer, free = true) => {
                 out_interface_implementation_overrides += ");\n"
                 if fn_line.ret_ty_info.java_ty != "void":
                     if fn_line.ret_ty_info.from_hu_conv is not None:
-                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\t" + f"result: {fn_line.ret_ty_info.java_ty} = " + fn_line.ret_ty_info.from_hu_conv[0] + ";\n"
+                        out_interface_implementation_overrides += "\t\t\t\t" + f"const result: {fn_line.ret_ty_info.java_ty} = " + fn_line.ret_ty_info.from_hu_conv[0].replace("\n", "\n\t\t\t\t") + ";\n"
                         if fn_line.ret_ty_info.from_hu_conv[1] != "":
-                            out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\t" + fn_line.ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held") + ";\n"
+                            out_interface_implementation_overrides += "\t\t\t\t" + fn_line.ret_ty_info.from_hu_conv[1].replace("this", "impl_holder.held").replace("\n", "\n\t\t\t\t") + ";\n"
                         #if fn_line.ret_ty_info.rust_obj in result_types:
                         # XXX: We need to handle this in conversion logic so that its cross-language!
                         # Avoid double-free by breaking the result - we should learn to clone these and then we can be safe instead
                         #    out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\tret.ptr = 0;\n"
-                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\treturn result;\n"
+                        out_interface_implementation_overrides += "\t\t\t\treturn result;\n"
                     else:
-                        out_interface_implementation_overrides = out_interface_implementation_overrides + "\t\t\t\treturn ret;\n"
-                out_interface_implementation_overrides += f"{interface_method_override_inset}}},\n\n{interface_method_override_inset}"
-
-        trait_constructor_arguments = ""
-        for var in field_var_conversions:
-            if isinstance(var, ConvInfo):
-                trait_constructor_arguments += ", " + var.arg_name
-            else:
-                trait_constructor_arguments += ", " + var[1] + ".new_impl(" + var[1] + "_impl"
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        trait_constructor_arguments += ", " + suparg.arg_name
-                    else:
-                        trait_constructor_arguments += ", " + suparg[1]
-                trait_constructor_arguments += ").bindings_instance"
-                for suparg in var[2]:
-                    if isinstance(suparg, ConvInfo):
-                        trait_constructor_arguments += ", " + suparg.arg_name
-                    else:
-                        trait_constructor_arguments += ", " + suparg[1]
+                        out_interface_implementation_overrides += "\t\t\t\treturn ret;\n"
+                out_interface_implementation_overrides += f"\t\t\t}},\n"
 
         out_typescript_human = f"""
-            {self.hu_struct_file_prefix}
+{self.hu_struct_file_prefix}
 
-            export class {struct_name.replace("LDK","")} extends CommonBase {{
+export interface {struct_name.replace("LDK", "")}Interface {{
+{out_java_interface}}}
 
-                bindings_instance?: bindings.{struct_name};
+class {struct_name}Holder {{
+	held: {struct_name.replace("LDK", "")};
+}}
 
-                constructor(ptr?: number, arg?: bindings.{struct_name}{constructor_arguments}) {{
-                    if (Number.isFinite(ptr)) {{
-				        super(ptr);
-				        this.bindings_instance = null;
-				    }} else {{
-				        // TODO: private constructor instantiation
-				        super(bindings.{struct_name}_new(arg{super_instantiator}));
-				        this.ptrs_to.push(arg);
-				        {pointer_to_adder}
-				    }}
-                }}
+export class {struct_name.replace("LDK","")} extends CommonBase {{
+	/* @internal */
+	public bindings_instance?: bindings.{struct_name};
 
-                protected finalize() {{
-                    if (this.ptr != 0) {{
-                        bindings.{struct_name.replace("LDK","")}_free(this.ptr);
-                    }}
-                    super.finalize();
-                }}
+	/* @internal */
+	constructor(_dummy: object, ptr: number) {{
+		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
+		this.bindings_instance = null;
+	}}
 
-                static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
-                    const impl_holder: {struct_name}Holder = new {struct_name}Holder();
-                    let structImplementation = <bindings.{struct_name}>{{
-                        // todo: in-line interface filling
-                        {out_interface_implementation_overrides}
-                    }};
-                    impl_holder.held = new {struct_name.replace("LDK", "")} (null, structImplementation{trait_constructor_arguments});
-                }}
-            }}
+	static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
+		const impl_holder: {struct_name}Holder = new {struct_name}Holder();
+		let structImplementation = {{
+{out_interface_implementation_overrides}		}} as bindings.{struct_name};
+{super_constructor_statements}		const ptr: number = bindings.{struct_name}_new(structImplementation{bindings_instantiator});
 
-            export interface {struct_name.replace("LDK", "")}Interface {{
-                {out_java_interface}
-            }}
-
-            class {struct_name}Holder {{
-                held: {struct_name.replace("LDK", "")};
-            }}
+		impl_holder.held = new {struct_name.replace("LDK", "")}(null, ptr);
+		impl_holder.held.bindings_instance = structImplementation;
+{pointer_to_adder}		return impl_holder.held;
+	}}
 """
+        self.obj_defined([struct_name.replace("LDK", ""), struct_name.replace("LDK", "") + "Interface"], "structs")
 
         out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
         java_meths = []
@@ -719,8 +771,8 @@ const decodeString = (stringPointer, free = true) => {
                 out_typescript_bindings += f", {var[1]}: {var[0]}"
 
         out_typescript_bindings += f"""): number {{
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }}
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}}
 """
 
         out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
@@ -880,21 +932,21 @@ const decodeString = (stringPointer, free = true) => {
         return ""
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake, enum_doc_comment):
-        java_hu_type = struct_name.replace("LDK", "")
+        bindings_type = struct_name.replace("LDK", "")
+        java_hu_type = struct_name.replace("LDK", "").replace("COption", "Option")
 
         out_java_enum = ""
         out_java = ""
         out_c = ""
 
         out_java_enum += (self.hu_struct_file_prefix)
-        out_java_enum += ("export default class " + java_hu_type + " extends CommonBase {\n")
-        out_java_enum += ("\tprotected constructor(_dummy: object, ptr: number) { super(ptr); }\n")
-        out_java_enum += ("\tprotected finalize() {\n")
-        out_java_enum += ("\t\tsuper.finalize();\n")
-        out_java_enum += ("\t\tif (this.ptr != 0) { bindings." + java_hu_type + "_free(this.ptr); }\n")
-        out_java_enum += ("\t}\n")
-        out_java_enum += f"\tstatic constr_from_ptr(ptr: number): {java_hu_type} {{\n"
-        out_java_enum += (f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n")
+
+        java_hu_class = ""
+        java_hu_class += "export class " + java_hu_type + " extends CommonBase {\n"
+        java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr, bindings." + bindings_type + "_free); }\n"
+        java_hu_class += "\t/* @internal */\n"
+        java_hu_class += f"\tpublic static constr_from_ptr(ptr: number): {java_hu_type} {{\n"
+        java_hu_class += f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n"
         java_hu_subclasses = ""
 
         out_java += "\texport class " + struct_name + " {\n"
@@ -902,9 +954,9 @@ const decodeString = (stringPointer, free = true) => {
         java_subclasses = ""
         for var in variant_list:
             java_subclasses += "\texport class " + struct_name + "_" + var.var_name + " extends " + struct_name + " {\n"
-            java_hu_subclasses = java_hu_subclasses + "export class " + var.var_name + " extends " + java_hu_type + " {\n"
-            out_java_enum += ("\t\tif (raw_val instanceof bindings." + struct_name + "." + var.var_name + ") {\n")
-            out_java_enum += ("\t\t\treturn new " + var.var_name + "(this.ptr, raw_val);\n")
+            java_hu_subclasses = java_hu_subclasses + "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
+            java_hu_class += "\t\tif (raw_val instanceof bindings." + struct_name + "_" + var.var_name + ") {\n"
+            java_hu_class += "\t\t\treturn new " + java_hu_type + "_" + var.var_name + "(ptr, raw_val);\n"
             init_meth_params = ""
             hu_conv_body = ""
             for idx, (field_ty, field_docs) in enumerate(var.fields):
@@ -920,13 +972,14 @@ const decodeString = (stringPointer, free = true) => {
                 init_meth_params += "public " + field_ty.arg_name + ": " + field_ty.java_ty
             java_subclasses += "\t\tconstructor(" + init_meth_params + ") { super(); }\n"
             java_subclasses += "\t}\n"
-            out_java_enum += ("\t\t}\n")
-            java_hu_subclasses = java_hu_subclasses + "\tprivate constructor(ptr: number, obj: bindings." + struct_name + "." + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
+            java_hu_class += "\t\t}\n"
+            java_hu_subclasses += "\t/* @internal */\n"
+            java_hu_subclasses += "\tpublic constructor(ptr: number, obj: bindings." + struct_name + "_" + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
             java_hu_subclasses = java_hu_subclasses + hu_conv_body
             java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
         out_java += ("\t}\n")
         out_java += java_subclasses
-        out_java_enum += ("\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n")
+        java_hu_class += "\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n"
         out_java += self.fn_call_body(struct_name + "_ref_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
 
         out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
@@ -953,42 +1006,90 @@ const decodeString = (stringPointer, free = true) => {
             out_c += ("\t\t}\n")
         out_c += ("\t\tdefault: abort();\n")
         out_c += ("\t}\n}\n")
-        out_java_enum += ("}\n")
-        out_java_enum += (java_hu_subclasses)
+        out_java_enum += java_hu_class
+        self.struct_file_suffixes[java_hu_type] = java_hu_subclasses
+        self.obj_defined([java_hu_type], "structs")
         return (out_java, out_java_enum, out_c)
 
     def map_opaque_struct(self, struct_name, struct_doc_comment):
         implementations = ""
         method_header = ""
+
+        hu_name = struct_name.replace("LDKC2Tuple", "TwoTuple").replace("LDKC3Tuple", "ThreeTuple").replace("LDK", "")
+        out_opaque_struct_human = f"{self.hu_struct_file_prefix}"
         if struct_name.startswith("LDKLocked"):
-            implementations += "implements AutoCloseable "
-            method_header = """
-                public close() {
-"""
-        else:
-            method_header = """
-                protected finalize() {
-                    super.finalize();
-"""
+            out_opaque_struct_human += "/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */"
+        out_opaque_struct_human += f"""
+export class {hu_name} extends CommonBase {implementations}{{
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {{
+		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
+	}}
 
-        out_opaque_struct_human = f"""
-            {self.hu_struct_file_prefix}
-
-            export default class {struct_name.replace("LDK","")} extends CommonBase {implementations}{{
-                constructor(_dummy: object, ptr: number) {{
-                    super(ptr);
-                }}
-
-                {method_header}
-                    if (this.ptr != 0) {{
-                        bindings.{struct_name.replace("LDK","")}_free(this.ptr);
-                    }}
-                }}
 """
+        self.obj_defined([hu_name], "structs")
         return out_opaque_struct_human
 
     def map_tuple(self, struct_name):
         return self.map_opaque_struct(struct_name, "A Tuple")
+
+    def map_result(self, struct_name, res_map, err_map):
+        human_ty = struct_name.replace("LDKCResult", "Result")
+
+        suffixes = f"export class {human_ty}_OK extends {human_ty} {{\n"
+        if res_map.java_hu_ty != "void":
+            suffixes += "\tpublic res: " + res_map.java_hu_ty + ";\n"
+        suffixes += f"""
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {{
+		super(_dummy, ptr);
+"""
+        if res_map.java_hu_ty == "void":
+            pass
+        elif res_map.to_hu_conv is not None:
+            suffixes += "\t\tconst res: " + res_map.java_ty + " = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n"
+            suffixes += "\t\t" + res_map.to_hu_conv.replace("\n", "\n\t\t")
+            suffixes += "\n\t\tthis.res = " + res_map.to_hu_conv_name + ";\n"
+        else:
+            suffixes += "\t\tthis.res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n"
+        suffixes += "\t}\n}\n"
+
+        suffixes += f"export class {human_ty}_Err extends {human_ty} {{\n"
+        if err_map.java_hu_ty != "void":
+            suffixes += "\tpublic err: " + err_map.java_hu_ty + ";\n"
+        suffixes += f"""
+	/* @internal */
+	public constructor(_dummy: object, ptr: number) {{
+		super(_dummy, ptr);
+"""
+        if err_map.java_hu_ty == "void":
+            pass
+        elif err_map.to_hu_conv is not None:
+            suffixes += "\t\tconst err: " + err_map.java_ty + " = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n"
+            suffixes += "\t\t" + err_map.to_hu_conv.replace("\n", "\n\t\t")
+            suffixes += "\n\t\tthis.err = " + err_map.to_hu_conv_name + ";\n"
+        else:
+            suffixes += "\t\tthis.err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n"
+        suffixes += "\t}\n}"
+
+        self.struct_file_suffixes[human_ty] = suffixes
+        self.obj_defined([human_ty], "structs")
+
+        return f"""{self.hu_struct_file_prefix}
+
+export class {human_ty} extends CommonBase {{
+	protected constructor(_dummy: object, ptr: number) {{
+		super(ptr, bindings.{struct_name.replace("LDK","")}_free);
+	}}
+	/* @internal */
+	public static constr_from_ptr(ptr: number): {human_ty} {{
+		if (bindings.{struct_name.replace("LDK", "")}_is_ok(ptr)) {{
+			return new {human_ty}_OK(null, ptr);
+		}} else {{
+			return new {human_ty}_Err(null, ptr);
+		}}
+	}}
+"""
 
     def fn_call_body(self, method_name, return_c_ty, return_java_ty, method_argument_string, native_call_argument_string):
         has_return_value = return_c_ty != 'void'
@@ -1046,9 +1147,9 @@ const decodeString = (stringPointer, free = true) => {
         else:
             if not takes_self:
                 out_java_struct += (
-                        "\tpublic static " + return_type_info.java_hu_ty + " constructor_" + meth_n + "(")
+                        "\tpublic static constructor_" + meth_n + "(")
             else:
-                out_java_struct += ("\tpublic " + return_type_info.java_hu_ty + " " + meth_n + "(")
+                out_java_struct += ("\tpublic " + meth_n + "(")
             for idx, arg in enumerate(argument_types):
                 if idx != 0:
                     if not takes_self or idx > 1:
@@ -1060,14 +1161,13 @@ const decodeString = (stringPointer, free = true) => {
                         for explode_idx, explode_arg in enumerate(default_constructor_args[arg.arg_name]):
                             if explode_idx != 0:
                                 out_java_struct += (", ")
-                            out_java_struct += (
-                                    explode_arg.java_hu_ty + " " + arg.arg_name + "_" + explode_arg.arg_name)
+                            out_java_struct += arg.arg_name + "_" + explode_arg.arg_name + ": " + explode_arg.java_hu_ty
                     else:
-                        out_java_struct += (arg.java_hu_ty + " " + arg.arg_name)
+                        out_java_struct += arg.arg_name + ": " + arg.java_hu_ty
 
         out_c += (") {\n")
         if out_java_struct is not None:
-            out_java_struct += (") {\n")
+            out_java_struct += "): " + return_type_info.java_hu_ty + " {\n"
         for info in argument_types:
             if info.arg_conv is not None:
                 out_c += ("\t" + info.arg_conv.replace('\n', "\n\t") + "\n")
@@ -1105,7 +1205,7 @@ const decodeString = (stringPointer, free = true) => {
         if args_known:
             out_java_struct += ("\t\t")
             if return_type_info.java_ty != "void":
-                out_java_struct += (return_type_info.java_ty + " ret = ")
+                out_java_struct += "const ret: " + return_type_info.java_ty + " = "
             out_java_struct += ("bindings." + method_name + "(")
             for idx, info in enumerate(argument_types):
                 if idx != 0:
@@ -1160,3 +1260,8 @@ const decodeString = (stringPointer, free = true) => {
             out_java_struct += ("\t}\n\n")
 
         return (out_java, out_c, out_java_struct)
+
+    def cleanup(self):
+        for struct in self.struct_file_suffixes:
+            with open(self.outdir + "/structs/" + struct + self.file_ext, "a") as src:
+                src.write(self.struct_file_suffixes[struct])

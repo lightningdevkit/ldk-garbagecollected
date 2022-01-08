@@ -31,7 +31,7 @@ else:
     sys.exit(1)
 
 
-consts = Consts(DEBUG, target=target)
+consts = Consts(DEBUG, target=target, outdir=sys.argv[4])
 
 local_git_version = os.getenv("LDK_GARBAGECOLLECTED_GIT_OVERRIDE")
 if local_git_version is None:
@@ -536,7 +536,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                   or method_name.endswith("_read"))):
             out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
             for line in out_java_struct_delta.splitlines():
-                if not line.strip().startswith("this."):
+                if "this" not in line:
                     out_java_struct.write(line + "\n")
                 else:
                     out_java_struct.write("\t\t// " + line.strip() + "\n")
@@ -677,65 +677,13 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
     def map_result(struct_name, res_ty, err_ty):
         result_types.add(struct_name)
         human_ty = struct_name.replace("LDKCResult", "Result")
+        res_map = type_mapping_generator.map_type(res_ty + " res", True, None, False, True)
+        err_map = type_mapping_generator.map_type(err_ty + " err", True, None, False, True)
+        java_hu_struct = consts.map_result(struct_name, res_map, err_map)
+        create_getter(struct_name, res_ty, "ok", ("*", "->contents.result"), ("", "->result_ok"))
+        create_getter(struct_name, err_ty, "err", ("*", "->contents.err"), ("!", "->result_ok"))
         with open(f"{sys.argv[3]}/structs/{human_ty}{consts.file_ext}", "w") as out_java_struct:
-            out_java_struct.write(consts.hu_struct_file_prefix)
-            out_java_struct.write("public class " + human_ty + " extends CommonBase {\n")
-            out_java_struct.write("\tprivate " + human_ty + "(Object _dummy, long ptr) { super(ptr); }\n")
-            out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
-            out_java_struct.write("\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n")
-            out_java_struct.write("\t}\n\n")
-            out_java_struct.write("\tstatic " + human_ty + " constr_from_ptr(long ptr) {\n")
-            out_java_struct.write("\t\tif (bindings." + struct_name.replace("LDK", "") + "_is_ok(ptr)) {\n")
-            out_java_struct.write("\t\t\treturn new " + human_ty + "_OK(null, ptr);\n")
-            out_java_struct.write("\t\t} else {\n")
-            out_java_struct.write("\t\t\treturn new " + human_ty + "_Err(null, ptr);\n")
-            out_java_struct.write("\t\t}\n")
-            out_java_struct.write("\t}\n")
-
-            res_map = type_mapping_generator.map_type(res_ty + " res", True, None, False, True)
-            err_map = type_mapping_generator.map_type(err_ty + " err", True, None, False, True)
-            can_clone = True
-            if not res_map.is_native_primitive and (res_map.rust_obj.replace("LDK", "") + "_clone" not in clone_fns):
-                can_clone = False
-            if not err_map.is_native_primitive and (err_map.rust_obj.replace("LDK", "") + "_clone" not in clone_fns):
-                can_clone = False
-
-            create_getter(struct_name, res_ty, "ok", ("*", "->contents.result"), ("", "->result_ok"))
-            create_getter(struct_name, err_ty, "err", ("*", "->contents.err"), ("!", "->result_ok"))
-
-            out_java_struct.write("\tpublic static final class " + human_ty + "_OK extends " + human_ty + " {\n")
-
-            if res_map.java_hu_ty != "void":
-                out_java_struct.write("\t\tpublic final " + res_map.java_hu_ty + " res;\n")
-            out_java_struct.write("\t\tprivate " + human_ty + "_OK(Object _dummy, long ptr) {\n")
-            out_java_struct.write("\t\t\tsuper(_dummy, ptr);\n")
-            if res_map.java_hu_ty == "void":
-                pass
-            elif res_map.to_hu_conv is not None:
-                out_java_struct.write("\t\t\t" + res_map.java_ty + " res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n")
-                out_java_struct.write("\t\t\t" + res_map.to_hu_conv.replace("\n", "\n\t\t\t"))
-                out_java_struct.write("\n\t\t\tthis.res = " + res_map.to_hu_conv_name + ";\n")
-            else:
-                out_java_struct.write("\t\t\tthis.res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n")
-            out_java_struct.write("\t\t}\n")
-            out_java_struct.write("\t}\n\n")
-
-            out_java_struct.write("\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n")
-            if err_map.java_hu_ty != "void":
-                out_java_struct.write("\t\tpublic final " + err_map.java_hu_ty + " err;\n")
-            out_java_struct.write("\t\tprivate " + human_ty + "_Err(Object _dummy, long ptr) {\n")
-            out_java_struct.write("\t\t\tsuper(_dummy, ptr);\n")
-            if err_map.java_hu_ty == "void":
-                pass
-            elif err_map.to_hu_conv is not None:
-                out_java_struct.write("\t\t\t" + err_map.java_ty + " err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n")
-                out_java_struct.write("\t\t\t" + err_map.to_hu_conv.replace("\n", "\n\t\t\t"))
-                out_java_struct.write("\n\t\t\tthis.err = " + err_map.to_hu_conv_name + ";\n")
-            else:
-                out_java_struct.write("\t\t\tthis.err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n")
-            out_java_struct.write("\t\t}\n")
-
-            out_java_struct.write("\t}\n\n")
+            out_java_struct.write(java_hu_struct)
 
     def create_getter(struct_name, field_decl, field_name, accessor, check_sfx):
         field_ty = java_c_types(field_decl + " " + field_name, None)
@@ -963,30 +911,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                 elif struct_name == "LDKTxOut":
                     with open(f"{sys.argv[3]}/structs/TxOut{consts.file_ext}", "w") as out_java_struct:
                         out_java_struct.write(consts.hu_struct_file_prefix)
-                        out_java_struct.write("public class TxOut extends CommonBase{\n")
-                        out_java_struct.write("\t/** The script_pubkey in this output */\n")
-                        out_java_struct.write("\tpublic final byte[] script_pubkey;\n")
-                        out_java_struct.write("\t/** The value, in satoshis, of this output */\n")
-                        out_java_struct.write("\tpublic final long value;\n")
-                        out_java_struct.write("\n")
-                        out_java_struct.write("\tTxOut(java.lang.Object _dummy, long ptr) {\n")
-                        out_java_struct.write("\t\tsuper(ptr);\n")
-                        out_java_struct.write("\t\tthis.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);\n")
-                        out_java_struct.write("\t\tthis.value = bindings.TxOut_get_value(ptr);\n")
-                        out_java_struct.write("\t}\n")
-                        out_java_struct.write("\tpublic TxOut(long value, byte[] script_pubkey) {\n")
-                        out_java_struct.write("\t\tsuper(bindings.TxOut_new(script_pubkey, value));\n")
-                        out_java_struct.write("\t\tthis.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);\n")
-                        out_java_struct.write("\t\tthis.value = bindings.TxOut_get_value(ptr);\n")
-                        out_java_struct.write("\t}\n")
-                        out_java_struct.write("\n")
-                        out_java_struct.write("\t@Override @SuppressWarnings(\"deprecation\")\n")
-                        out_java_struct.write("\tprotected void finalize() throws Throwable {\n")
-                        out_java_struct.write("\t\tsuper.finalize();\n")
-                        out_java_struct.write("\t\tif (ptr != 0) { bindings.TxOut_free(ptr); }\n")
-                        out_java_struct.write("\t}\n")
-                        out_java_struct.write("\n")
-                        out_java_struct.write("}")
+                        out_java_struct.write(consts.txout_defn)
                         fn_line = "struct LDKCVec_u8Z TxOut_get_script_pubkey (struct LDKTxOut* thing)"
                         write_c(fn_line + " {")
                         write_c("\treturn CVec_u8Z_clone(&thing->script_pubkey);")
@@ -1058,3 +983,4 @@ with open(f"{sys.argv[4]}/version.c", "w") as out_c:
     out_c.write(consts.c_version_file.replace('<git_version_ldk_garbagecollected>', local_git_version))
 with open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a") as util:
     util.write(consts.util_fn_sfx)
+consts.cleanup()

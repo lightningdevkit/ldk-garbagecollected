@@ -1,13 +1,7 @@
 
-function freer(f: () => void) { f() }
-const finalizer = new FinalizationRegistry(freer);
-const memory = new WebAssembly.Memory({initial: 256});
-
 const imports: any = {};
 imports.env = {};
 
-imports.env.memoryBase = 0;
-imports.env.memory = memory;
 imports.env.tableBase = 0;
 imports.env.table = new WebAssembly.Table({initial: 4, element: 'anyfunc'});
 
@@ -60,16 +54,16 @@ const nextMultipleOfFour = (value: number) => {
 
 const encodeUint8Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-	const arrayLengthView = new Uint32Array(memory.buffer, cArrayPointer, 1);
+	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new Uint8Array(memory.buffer, cArrayPointer + 4, inputArray.length);
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
 
 const encodeUint32Array = (inputArray) => {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(memory.buffer, cArrayPointer, inputArray.length);
+	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
 	arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
@@ -77,7 +71,7 @@ const encodeUint32Array = (inputArray) => {
 
 const getArrayLength = (arrayPointer) => {
 	const arraySizeViewer = new Uint32Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer, // offset
 		1 // one int
 	);
@@ -86,7 +80,7 @@ const getArrayLength = (arrayPointer) => {
 const decodeUint8Array = (arrayPointer, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint8Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer + 4, // offset (ignoring length bytes)
 		arraySize // uint8 count
 	);
@@ -101,7 +95,7 @@ const decodeUint8Array = (arrayPointer, free = true) => {
 const decodeUint32Array = (arrayPointer, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint32Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		arrayPointer + 4, // offset (ignoring length bytes)
 		arraySize // uint32 count
 	);
@@ -119,7 +113,7 @@ const encodeString = (string) => {
 	const memoryNeed = nextMultipleOfFour(string.length + 1);
 	const stringPointer = wasm.TS_malloc(memoryNeed);
 	const stringMemoryView = new Uint8Array(
-		memory.buffer, // value
+		wasm.memory.buffer, // value
 		stringPointer, // offset
 		string.length + 1 // length
 	);
@@ -131,7 +125,7 @@ const encodeString = (string) => {
 }
 
 const decodeString = (stringPointer, free = true) => {
-	const memoryView = new Uint8Array(memory.buffer, stringPointer);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer);
 	let cursor = 0;
 	let result = '';
 
@@ -710,8 +704,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKType_new(impl: LDKType): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -1241,8 +1235,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKBaseSign_new(impl: LDKBaseSign, pubkeys: number): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -1369,8 +1363,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKSign_new(impl: LDKSign, BaseSign: LDKBaseSign, pubkeys: number): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -1893,8 +1887,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKAccess_new(impl: LDKAccess): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -2820,8 +2814,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKFilter_new(impl: LDKFilter): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3144,8 +3138,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKWatch_new(impl: LDKWatch): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3184,8 +3178,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKBroadcasterInterface_new(impl: LDKBroadcasterInterface): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3215,8 +3209,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKKeysInterface_new(impl: LDKKeysInterface): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3295,8 +3289,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKFeeEstimator_new(impl: LDKFeeEstimator): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3319,8 +3313,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKLogger_new(impl: LDKLogger): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3367,8 +3361,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKMessageSendEventsProvider_new(impl: LDKMessageSendEventsProvider): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3391,8 +3385,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKEventHandler_new(impl: LDKEventHandler): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3415,8 +3409,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKEventsProvider_new(impl: LDKEventsProvider): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3440,8 +3434,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKListen_new(impl: LDKListen): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3475,8 +3469,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKConfirm_new(impl: LDKConfirm): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3524,8 +3518,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKPersist_new(impl: LDKPersist): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3575,8 +3569,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKChannelMessageHandler_new(impl: LDKChannelMessageHandler, MessageSendEventsProvider: LDKMessageSendEventsProvider): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3760,8 +3754,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKRoutingMessageHandler_new(impl: LDKRoutingMessageHandler, MessageSendEventsProvider: LDKMessageSendEventsProvider): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3856,8 +3850,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKCustomMessageReader_new(impl: LDKCustomMessageReader): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3881,8 +3875,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKCustomMessageHandler_new(impl: LDKCustomMessageHandler, CustomMessageReader: LDKCustomMessageReader): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3916,8 +3910,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKSocketDescriptor_new(impl: LDKSocketDescriptor): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -3959,8 +3953,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKScore_new(impl: LDKScore): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 
@@ -4007,8 +4001,8 @@ LDKSecp256k1Error_NotEnoughMemory,
 		}
 
 		export function LDKLockableScore_new(impl: LDKLockableScore): number {
-            throw new Error('unimplemented'); // TODO: bind to WASM
-        }
+			throw new Error('unimplemented'); // TODO: bind to WASM
+		}
 
 // OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END
 

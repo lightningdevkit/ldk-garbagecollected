@@ -121,6 +121,30 @@ class CommonBase {
 }
 """
 
+        self.txout_defn = """public class TxOut extends CommonBase {
+	/** The script_pubkey in this output */
+	public final byte[] script_pubkey;
+	/** The value, in satoshis, of this output */
+	public final long value;
+
+	TxOut(java.lang.Object _dummy, long ptr) {
+		super(ptr);
+		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.value = bindings.TxOut_get_value(ptr);
+	}
+	public TxOut(long value, byte[] script_pubkey) {
+		super(bindings.TxOut_new(script_pubkey, value));
+		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.value = bindings.TxOut_get_value(ptr);
+	}
+
+	@Override @SuppressWarnings(\"deprecation\")
+	protected void finalize() throws Throwable {
+		super.finalize();
+		if (ptr != 0) { bindings.TxOut_free(ptr); }
+	}
+}"""
+
         self.c_file_pfx = """#include <jni.h>
 // On OSX jlong (ie long long) is not equivalent to int64_t, so we override here
 #define int64_t jlong
@@ -595,6 +619,14 @@ import javax.annotation.Nullable;
         else:
             return "(*env)->Release" + ty_info.java_ty.strip("[]").title() + "ArrayElements(env, " + arr_name + ", " + dest_name + ", 0)"
 
+    def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+        if elem_ty.java_ty == "long" and elem_ty.java_hu_ty != "long":
+            return arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray() : null"
+        elif elem_ty.java_ty == "long":
+            return arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray() : null"
+        else:
+            return arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray(" + arr_ty.java_ty + "::new) : null"
+
     def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_java(env, " + var_name + ", " + str_len + ")"
     def str_ref_to_c_call(self, var_name):
@@ -616,6 +648,30 @@ import javax.annotation.Nullable;
             res = res + "\t" + ty + "_clz = (*env)->NewGlobalRef(env, " + ty + "_clz);\n"
         res = res + "}\n"
         return res
+
+    def var_decl_statement(self, ty_string, var_name, statement):
+        return ty_string + " " + var_name + " = " + statement
+
+    def constr_hu_array(self, ty_info, arr_len):
+        base_ty = ty_info.subty.java_hu_ty.split("[")[0].split("<")[0]
+        conv = "new " + base_ty + "[" + arr_len + "]"
+        if "[" in ty_info.subty.java_hu_ty.split("<")[0]:
+            # Do a bit of a dance to move any excess [] to the end
+            conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
+        return conv
+
+    def for_n_in_range(self, n, minimum, maximum):
+        return "for (int " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
+    def for_n_in_arr(self, n, arr_name, arr_elem_ty):
+        return ("for (" + arr_elem_ty.java_hu_ty + " " + n + ": " + arr_name + ") { ", " }")
+
+    def get_ptr(self, var):
+        return var + ".ptr"
+    def set_null_skip_free(self, var):
+        return var + ".ptr" + " = 0;"
+
+    def add_ref(self, holder, referent):
+        return holder + ".ptrs_to.add(" + referent + ")"
 
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_java_enum = "package org.ldk.enums;\n\n"
@@ -1171,6 +1227,58 @@ import javax.annotation.Nullable;
     def map_tuple(self, struct_name):
         return self.map_opaque_struct(struct_name, "A Tuple")
 
+    def map_result(self, struct_name, res_map, err_map):
+        human_ty = struct_name.replace("LDKCResult", "Result")
+        java_hu_struct = ""
+        java_hu_struct += self.hu_struct_file_prefix
+        java_hu_struct += "public class " + human_ty + " extends CommonBase {\n"
+        java_hu_struct += "\tprivate " + human_ty + "(Object _dummy, long ptr) { super(ptr); }\n"
+        java_hu_struct += "\tprotected void finalize() throws Throwable {\n"
+        java_hu_struct += "\t\tif (ptr != 0) { bindings." + struct_name.replace("LDK","") + "_free(ptr); } super.finalize();\n"
+        java_hu_struct += "\t}\n\n"
+        java_hu_struct += "\tstatic " + human_ty + " constr_from_ptr(long ptr) {\n"
+        java_hu_struct += "\t\tif (bindings." + struct_name.replace("LDK", "") + "_is_ok(ptr)) {\n"
+        java_hu_struct += "\t\t\treturn new " + human_ty + "_OK(null, ptr);\n"
+        java_hu_struct += "\t\t} else {\n"
+        java_hu_struct += "\t\t\treturn new " + human_ty + "_Err(null, ptr);\n"
+        java_hu_struct += "\t\t}\n"
+        java_hu_struct += "\t}\n"
+
+        java_hu_struct += "\tpublic static final class " + human_ty + "_OK extends " + human_ty + " {\n"
+
+        if res_map.java_hu_ty != "void":
+            java_hu_struct += "\t\tpublic final " + res_map.java_hu_ty + " res;\n"
+        java_hu_struct += "\t\tprivate " + human_ty + "_OK(Object _dummy, long ptr) {\n"
+        java_hu_struct += "\t\t\tsuper(_dummy, ptr);\n"
+        if res_map.java_hu_ty == "void":
+            pass
+        elif res_map.to_hu_conv is not None:
+            java_hu_struct += "\t\t\t" + res_map.java_ty + " res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n"
+            java_hu_struct += "\t\t\t" + res_map.to_hu_conv.replace("\n", "\n\t\t\t")
+            java_hu_struct += "\n\t\t\tthis.res = " + res_map.to_hu_conv_name + ";\n"
+        else:
+            java_hu_struct += "\t\t\tthis.res = bindings." + struct_name.replace("LDK", "") + "_get_ok(ptr);\n"
+        java_hu_struct += "\t\t}\n"
+        java_hu_struct += "\t}\n\n"
+
+        java_hu_struct += "\tpublic static final class " + human_ty + "_Err extends " + human_ty + " {\n"
+        if err_map.java_hu_ty != "void":
+            java_hu_struct += "\t\tpublic final " + err_map.java_hu_ty + " err;\n"
+        java_hu_struct += "\t\tprivate " + human_ty + "_Err(Object _dummy, long ptr) {\n"
+        java_hu_struct += "\t\t\tsuper(_dummy, ptr);\n"
+        if err_map.java_hu_ty == "void":
+            pass
+        elif err_map.to_hu_conv is not None:
+            java_hu_struct += "\t\t\t" + err_map.java_ty + " err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n"
+            java_hu_struct += "\t\t\t" + err_map.to_hu_conv.replace("\n", "\n\t\t\t")
+            java_hu_struct += "\n\t\t\tthis.err = " + err_map.to_hu_conv_name + ";\n"
+        else:
+            java_hu_struct += "\t\t\tthis.err = bindings." + struct_name.replace("LDK", "") + "_get_err(ptr);\n"
+        java_hu_struct += "\t\t}\n"
+
+        java_hu_struct += "\t}\n\n"
+        return java_hu_struct
+
     def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
         out_c = ""
@@ -1384,3 +1492,6 @@ import javax.annotation.Nullable;
             out_java_struct += ("\t}\n\n")
 
         return (out_java, out_c, out_java_struct + extra_java_struct_out)
+
+    def cleanup(self):
+        pass
