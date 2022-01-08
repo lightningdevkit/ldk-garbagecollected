@@ -536,7 +536,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                   or method_name.endswith("_read"))):
             out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
             for line in out_java_struct_delta.splitlines():
-                if not line.strip().startswith("this."):
+                if "this" not in line:
                     out_java_struct.write(line + "\n")
                 else:
                     out_java_struct.write("\t\t// " + line.strip() + "\n")
