@@ -199,7 +199,7 @@ else
 	cat ts/bindings.c.body >> ts/bindings.c
 
 	echo "Building TS bindings..."
-	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -Wl,--export-dynamic -Wl,-allow-undefined -nostdlib --target=wasm32-wasi"
+	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi"
 	# We only need malloc and assert/abort, but for now just use WASI for those:
 	#EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 	EXTRA_LINK=

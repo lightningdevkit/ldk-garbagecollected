@@ -103,12 +103,12 @@ void *memset(void *s, int c, size_t n);
 void *memcpy(void *dest, const void *src, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
 
-void __attribute__((noreturn)) abort(void);
+extern void __attribute__((noreturn)) abort(void);
 static inline void assert(bool expression) {
 	if (!expression) { abort(); }
 }
 
-uint32_t __attribute__((visibility("default"))) test_bigint_pass_deadbeef0badf00d(uint64_t val) {
+uint32_t __attribute__((export_name("test_bigint_pass_deadbeef0badf00d"))) test_bigint_pass_deadbeef0badf00d(uint64_t val) {
 	return val == 0xdeadbeef0badf00dULL;
 }
 
@@ -279,10 +279,10 @@ static inline LDKStr str_ref_to_owned_c(const jstring str) {
 
 typedef bool jboolean;
 
-uint32_t __attribute__((visibility("default"))) TS_malloc(uint32_t size) {
+uint32_t __attribute__((export_name("TS_malloc"))) TS_malloc(uint32_t size) {
 	return (uint32_t)MALLOC(size, "JS-Called malloc");
 }
-void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
+void __attribute__((export_name("TS_free"))) TS_free(uint32_t ptr) {
 	FREE((void*)ptr);
 }
 """
@@ -355,7 +355,7 @@ import * as InternalUtils from '../InternalUtils.mjs'
         return "str_ref_to_owned_c(" + var_name + ")"
 
     def c_fn_name_define_pfx(self, fn_name, have_args):
-        return " __attribute__((visibility(\"default\"))) TS_" + fn_name + "("
+        return " __attribute__((export_name(\"TS_" + fn_name + "\"))) TS_" + fn_name + "("
 
     def wasm_import_header(self, target):
         res = """
@@ -364,9 +364,6 @@ imports.env = {};
 
 var js_objs: Array<WeakRef<object>> = [];
 var js_invoke: Function;
-imports.env["abort"] = function () {
-	console.error("ABORT");
-};
 
 imports.wasi_snapshot_preview1 = {
 	"fd_write" : () => {

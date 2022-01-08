@@ -2,14 +2,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
-static inline size_t strlen(const char *str) {
-	const char *s;
-	for (s = str; *s; ++s) ;
-	return (s - str);
-}
+extern size_t strlen(const char *s);
 
 typedef uint32_t JSValue;
-extern JSValue js_invoke_function(JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue);
+extern JSValue js_invoke_function(JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue,JSValue) __attribute__((import_name("js_invoke_function")));
 
 static inline JSValue js_invoke_function_0(JSValue obj, JSValue fn){
   return js_invoke_function(obj,fn,0,0,0,0,0,0,0,0,0,0);
