@@ -39,7 +39,7 @@ To build for Apple M1 (ie aarch64-apple-darwin), you probably want something lik
 Status
 ======
 
-The TypeScript Bindings are still in early development and generated code contains syntax errors.
+## Java
 
 While the underlying library and C bindings are relatively mature, the Java bindings should be
 considered beta quality and some issues may still appear. Specifically, because the Java bindings
@@ -52,6 +52,17 @@ program exists, though without calls to `System.gc(); System.runFinalization();`
 exit there will likely be many false positives. While it will require some complicated usage, there
 are likely some use-after-free or unkonwn-free bugs remaining. The debug-mode build links LLVM
 address sanitizer and will print diagnostic information in case of such issues.
+
+## TypeScript
+
+The TypeScript bindings are functionally complete, but should be considered early alpha quality.
+Some functions may error spuriously due to oversights or missing implementations.
+
+The TypeScript bindings require modern web standards, including support for `FinalizationRegistry`
+and `WeakRef` (Chrome 84, Firefox 79, Safari 14.1/iOS 14.5 and Node 14.6) and WASM BigInt support
+(Chrome 85, Firefox 78, Safari 14.1/iOS 14.5, and Node ??).
+
+## General
 
 The only known issue resulting in a use-after-free bug requires custom a custom ChannelKeys instance
 created as a part of a new channel. After the channel is created, the ChannelKeys object will not
