@@ -366,20 +366,43 @@ var js_objs: Array<WeakRef<object>> = [];
 var js_invoke: Function;
 
 imports.wasi_snapshot_preview1 = {
-	"fd_write" : () => {
-		console.log("ABORT");
+	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
+		// This should generally only be used to print panic messages
+		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
+		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
+		for (var i = 0; i < iovec_array_len; i++) {
+			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
+			console.log(String.fromCharCode(...bytes_view));
+		}
+		return 0;
 	},
-	"random_get" : () => {
-		console.log("RAND GET");
+	"random_get": (buf_ptr: number, buf_len: number) => {
+		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
+		crypto.getRandomValues(buf);
+		return 0;
 	},
-	"environ_sizes_get" : () => {
+	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
+		// This is called before fd_write to format + print panic messages
 		console.log("wasi_snapshot_preview1:environ_sizes_get");
+		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
+		out_count_view[0] = 1;
+		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
+		out_len_view[0] = "RUST_BACKTRACE=1".length + 1; // Note that string must be NULL-terminated
+		return 0;
+	},
+	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
+		// This is called before fd_write to format + print panic messages
+		console.log("wasi_snapshot_preview1:environ_get");
+		const out_ptrs = new Uint32Array(wasm.memory.buffer, environ_ptr, 2);
+		out_ptrs[0] = environ_buf_ptr;
+		out_ptrs[1] = "RUST_BACKTRACE=1".length;
+		const out_environ = new Uint8Array(wasm.memory.buffer, environ_buf_ptr, out_ptrs[1]);
+		for (var i = 0; i < out_ptrs[1]; i++) { out_environ[i] = "RUST_BACKTRACE=1".codePointAt(i); }
+		out_environ[out_ptrs[1]] = 0;
+		return 0;
 	},
 	"proc_exit" : () => {
 		console.log("wasi_snapshot_preview1:proc_exit");
-	},
-	"environ_get" : () => {
-		console.log("wasi_snapshot_preview1:environ_get");
 	},
 };
 
@@ -389,6 +412,7 @@ let isWasmInitialized: boolean = false;
 
         if target == Target.NODEJS:
             res += """import * as fs from 'fs';
+import { webcrypto as crypto } from 'crypto';
 export async function initializeWasm(path: string) {
 	const source = fs.readFileSync(path);
 	imports.env["js_invoke_function"] = js_invoke;
