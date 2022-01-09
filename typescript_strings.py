@@ -583,15 +583,6 @@ const decodeString = (stringPointer: number, free = true) => {
     def native_unitary_enum_to_c_call(self, ty_info):
         return (ty_info.rust_obj + "_from_js(", ")")
 
-    def c_complex_enum_pass_ty(self, struct_name):
-        return "uint32_t"
-
-    def c_constr_native_complex_enum(self, struct_name, variant, c_params):
-        ret = "0 /* " + struct_name + " - " + variant + " */"
-        for param in c_params:
-            ret = ret + "; (void) " + param
-        return ret
-
     def native_c_map_trait(self, struct_name, field_var_conversions, flattened_field_var_conversions, field_function_lines, trait_doc_comment):
         out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
 
@@ -921,49 +912,47 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr, bindings." + bindings_type + "_free); }\n"
         java_hu_class += "\t/* @internal */\n"
         java_hu_class += f"\tpublic static constr_from_ptr(ptr: number): {java_hu_type} {{\n"
-        java_hu_class += f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n"
+        java_hu_class += f"\t\tconst raw_ty: number = bindings." + struct_name + "_ty_from_ptr(ptr);\n"
+        out_c += self.c_fn_ty_pfx + "uint32_t" + self.c_fn_name_define_pfx(struct_name + "_ty_from_ptr", True) + self.ptr_c_ty + " ptr) {\n"
+        out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n"
+        out_c += "\tswitch(obj->tag) {\n"
+        java_hu_class += "\t\tswitch (raw_ty) {\n"
         java_hu_subclasses = ""
 
         out_java += "export class " + struct_name + " {\n"
         out_java += "\tprotected constructor() {}\n"
-        java_subclasses = ""
+        var_idx = 0
         for var in variant_list:
-            java_subclasses += "export class " + struct_name + "_" + var.var_name + " extends " + struct_name + " {\n"
             java_hu_subclasses = java_hu_subclasses + "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
-            java_hu_class += "\t\tif (raw_val instanceof bindings." + struct_name + "_" + var.var_name + ") {\n"
-            java_hu_class += "\t\t\treturn new " + java_hu_type + "_" + var.var_name + "(ptr, raw_val);\n"
-            init_meth_params = ""
+            java_hu_class += f"\t\t\tcase {var_idx}: "
+            java_hu_class += "return new " + java_hu_type + "_" + var.var_name + "(ptr);\n"
+            out_c += f"\t\tcase {struct_name}_{var.var_name}: return {var_idx};\n"
             hu_conv_body = ""
             for idx, (field_ty, field_docs) in enumerate(var.fields):
                 java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
                 if field_ty.to_hu_conv is not None:
-                    hu_conv_body = hu_conv_body + "\t\tconst " + field_ty.arg_name + f": {field_ty.java_ty} = obj." + field_ty.arg_name + ";\n"
-                    hu_conv_body = hu_conv_body + "\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
-                    hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = " + field_ty.to_hu_conv_name + ";\n"
+                    hu_conv_body += f"\t\tconst {field_ty.arg_name}: {field_ty.java_ty} = bindings.{struct_name}_{var.var_name}_get_{field_ty.arg_name}(ptr);\n"
+                    hu_conv_body += f"\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
+                    hu_conv_body += f"\t\tthis." + field_ty.arg_name + " = " + field_ty.to_hu_conv_name + ";\n"
                 else:
-                    hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
-                if idx > 0:
-                    init_meth_params += ", "
-                init_meth_params += "public " + field_ty.arg_name + ": " + field_ty.java_ty
-            java_subclasses += "\tconstructor(" + init_meth_params + ") { super(); }\n"
-            java_subclasses += "}\n"
-            java_hu_class += "\t\t}\n"
+                    hu_conv_body += f"\t\tthis.{field_ty.arg_name} = bindings.{struct_name}_{var.var_name}_get_{field_ty.arg_name}(ptr);\n"
             java_hu_subclasses += "\t/* @internal */\n"
-            java_hu_subclasses += "\tpublic constructor(ptr: number, obj: bindings." + struct_name + "_" + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
+            java_hu_subclasses += "\tpublic constructor(ptr: number) {\n\t\tsuper(null, ptr);\n"
             java_hu_subclasses = java_hu_subclasses + hu_conv_body
             java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
+            var_idx += 1
         out_java += "}\n"
-        out_java += java_subclasses
-        java_hu_class += "\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n"
-        out_java += self.fn_call_body(struct_name + "_ref_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
+        java_hu_class += "\t\t\tdefault:\n\t\t\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t\t}\n\t}\n\n"
+        out_java += self.fn_call_body(struct_name + "_ty_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
+        out_c += ("\t\tdefault: abort();\n")
+        out_c += ("\t}\n}\n")
 
-        out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
-        out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n")
-        out_c += ("\tswitch(obj->tag) {\n")
         for var in variant_list:
-            out_c += ("\t\tcase " + struct_name + "_" + var.var_name + ": {\n")
-            c_params = []
             for idx, (field_map, _) in enumerate(var.fields):
+                fn_name = f"{struct_name}_{var.var_name}_get_{field_map.arg_name}"
+                out_c += self.c_fn_ty_pfx + field_map.c_ty + self.c_fn_name_define_pfx(fn_name, True) + self.ptr_c_ty + " ptr) {\n"
+                out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n"
+                out_c += f"\tassert(obj->tag == {struct_name}_{var.var_name});\n"
                 if field_map.ret_conv is not None:
                     out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
                     if var.tuple_variant:
@@ -971,16 +960,14 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                     else:
                         out_c += "obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name
                     out_c += (field_map.ret_conv[1].replace("\n", "\n\t\t\t") + "\n")
-                    c_params.append(field_map.ret_conv_name)
+                    out_c += "\treturn " + field_map.ret_conv_name + ";\n"
                 else:
                     if var.tuple_variant:
-                        c_params.append("obj->" + camel_to_snake(var.var_name))
+                        out_c += "\treturn " + "obj->" + camel_to_snake(var.var_name) + ";\n"
                     else:
-                        c_params.append("obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name)
-            out_c += ("\t\t\treturn " + self.c_constr_native_complex_enum(struct_name, var.var_name, c_params) + ";\n")
-            out_c += ("\t\t}\n")
-        out_c += ("\t\tdefault: abort();\n")
-        out_c += ("\t}\n}\n")
+                        out_c += "\treturn " + "obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name + ";\n"
+                out_c += "}\n"
+                out_java += self.fn_call_body(fn_name, field_map.c_ty, field_map.java_ty, "ptr: number", "ptr")
         out_java_enum += java_hu_class
         self.struct_file_suffixes[java_hu_type] = java_hu_subclasses
         self.obj_defined([java_hu_type], "structs")
