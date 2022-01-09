@@ -16,6 +16,12 @@ class Consts:
             uint32_t = ['int'],
             uint64_t = ['long'],
         )
+        self.java_type_map = dict(
+            String = "String"
+        )
+        self.java_hu_type_map = dict(
+            String = "String"
+        )
 
         self.to_hu_conv_templates = dict(
             ptr = '{human_type} {var_name}_hu_conv = null; if ({var_name} < 0 || {var_name} > 4096) { {var_name}_hu_conv = new {human_type}(null, {var_name}); }',
@@ -631,6 +637,10 @@ import javax.annotation.Nullable;
         return "str_ref_to_java(env, " + var_name + ", " + str_len + ")"
     def str_ref_to_c_call(self, var_name):
         return "java_to_owned_str(env, " + var_name + ")"
+    def str_to_hu_conv(self, var_name):
+        return None
+    def str_from_hu_conv(self, var_name):
+        return None
 
     def c_fn_name_define_pfx(self, fn_name, has_args):
         if has_args:
@@ -950,7 +960,7 @@ import javax.annotation.Nullable;
                     out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.c_ty == "void":
                     out_c += "\t(*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
-                elif fn_line.ret_ty_info.java_ty == "String":
+                elif fn_line.ret_ty_info.java_hu_ty == "String":
                     # Manually write out String methods as they're just an Object
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:

@@ -22,6 +22,12 @@ class Consts:
             uint32_t = ['number', 'Uint32Array'],
             uint64_t = ['BigInt'],
         )
+        self.java_type_map = dict(
+            String = "number"
+        )
+        self.java_hu_type_map = dict(
+            String = "string"
+        )
 
         self.wasm_decoding_map = dict(
             int8_tArray = 'decodeUint8Array'
@@ -353,6 +359,10 @@ import * as InternalUtils from '../InternalUtils.mjs'
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
     def str_ref_to_c_call(self, var_name):
         return "str_ref_to_owned_c(" + var_name + ")"
+    def str_to_hu_conv(self, var_name):
+        return "const " + var_name + "_conv: string = bindings.decodeString(" + var_name + ");"
+    def str_from_hu_conv(self, var_name):
+        return ("bindings.encodeString(" + var_name + ")", "")
 
     def c_fn_name_define_pfx(self, fn_name, have_args):
         return " __attribute__((export_name(\"TS_" + fn_name + "\"))) TS_" + fn_name + "("
@@ -504,38 +514,22 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	return actualArray;
 }
 
-const encodeString = (string: string) => {
-	// make malloc count divisible by 4
-	const memoryNeed = nextMultipleOfFour(string.length + 1);
-	const stringPointer = wasm.TS_malloc(memoryNeed);
-	const stringMemoryView = new Uint8Array(
-		wasm.memory.buffer, // value
-		stringPointer, // offset
-		string.length + 1 // length
-	);
-	for (let i = 0; i < string.length; i++) {
-		stringMemoryView[i] = string.charCodeAt(i);
-	}
-	stringMemoryView[string.length] = 0;
-	return stringPointer;
+export function encodeString(str: string): number {
+	const charArray = new TextEncoder().encode(str);
+	return encodeUint8Array(charArray);
 }
 
-const decodeString = (stringPointer: number, free = true) => {
-	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer);
-	let cursor = 0;
-	let result = '';
-
-	while (memoryView[cursor] !== 0) {
-		result += String.fromCharCode(memoryView[cursor]);
-		cursor++;
-	}
+export function decodeString(stringPointer: number, free = true): string {
+	const arraySize = getArrayLength(stringPointer);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
+	const result = new TextDecoder("utf-8").decode(memoryView);
 
 	if (free) {
-		wasm.wasm_free(stringPointer);
+		wasm.TS_free(stringPointer);
 	}
 
 	return result;
-};
+}
 """
 
     def init_str(self):
@@ -816,7 +810,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                     out_c += "js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif fn_line.ret_ty_info.java_ty == "void":
                     out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
-                elif fn_line.ret_ty_info.java_ty == "String":
+                elif fn_line.ret_ty_info.java_hu_ty == "string":
                     out_c = out_c + "\tjstring ret = (jstring)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif not fn_line.ret_ty_info.passed_as_ptr:
                     out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)

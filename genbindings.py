@@ -285,13 +285,15 @@ def java_c_types(fn_arg, ret_arr_len):
             fn_arg = fn_arg[9:].strip()
         is_primitive = True
     elif is_const and fn_arg.startswith("char *"):
-        java_ty = "String"
+        java_ty = consts.java_type_map["String"]
+        java_hu_ty = consts.java_hu_type_map["String"]
         c_ty = "const char*"
         fn_ty_arg = "Ljava/lang/String;"
         fn_arg = fn_arg[6:].strip()
     elif fn_arg.startswith("LDKStr"):
         rust_obj = "LDKStr"
-        java_ty = "String"
+        java_ty = consts.java_type_map["String"]
+        java_hu_ty = consts.java_hu_type_map["String"]
         c_ty = "jstring"
         fn_ty_arg = "Ljava/lang/String;"
         fn_arg = fn_arg[6:].strip()
