@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -308,25 +307,29 @@ export class Confirm extends CommonBase {
 	static new_impl(arg: ConfirmInterface): Confirm {
 		const impl_holder: LDKConfirmHolder = new LDKConfirmHolder();
 		let structImplementation = {
-			transactions_confirmed (header: Uint8Array, txdata: number[], height: number): void {
-				const txdata_conv_28_arr: TwoTuple_usizeTransactionZ[] = new Array(txdata.length).fill(null);
-				for (var c = 0; c < txdata.length; c++) {
-					const txdata_conv_28: number = txdata[c];
+			transactions_confirmed (header: number, txdata: number, height: number): void {
+				const header_conv: Uint8Array = bindings.decodeUint8Array(header);
+				const txdata_conv_28_len: number = bindings.getArrayLength(txdata);
+				const txdata_conv_28_arr: TwoTuple_usizeTransactionZ[] = new Array(txdata_conv_28_len).fill(null);
+				for (var c = 0; c < txdata_conv_28_len; c++) {
+					const txdata_conv_28: number = bindings.getU32ArrayElem(txdata, c);
 					const txdata_conv_28_hu_conv: TwoTuple_usizeTransactionZ = new TwoTuple_usizeTransactionZ(null, txdata_conv_28);
 					CommonBase.add_ref_from(txdata_conv_28_hu_conv, this);
 					txdata_conv_28_arr[c] = txdata_conv_28_hu_conv;
 				}
-				arg.transactions_confirmed(header, txdata_conv_28_arr, height);
+				arg.transactions_confirmed(header_conv, txdata_conv_28_arr, height);
 			},
-			transaction_unconfirmed (txid: Uint8Array): void {
-				arg.transaction_unconfirmed(txid);
+			transaction_unconfirmed (txid: number): void {
+				const txid_conv: Uint8Array = bindings.decodeUint8Array(txid);
+				arg.transaction_unconfirmed(txid_conv);
 			},
-			best_block_updated (header: Uint8Array, height: number): void {
-				arg.best_block_updated(header, height);
+			best_block_updated (header: number, height: number): void {
+				const header_conv: Uint8Array = bindings.decodeUint8Array(header);
+				arg.best_block_updated(header_conv, height);
 			},
-			get_relevant_txids (): Uint8Array[] {
+			get_relevant_txids (): number {
 				const ret: Uint8Array[] = arg.get_relevant_txids();
-				const result: Uint8Array[] = ret != null ? ret.map(ret_conv_12 => InternalUtils.check_arr_len(ret_conv_12, 32)) : null;
+				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(ret_conv_12, 32))) : null);
 				return result;
 			},
 		} as bindings.LDKConfirm;
@@ -337,20 +340,27 @@ export class Confirm extends CommonBase {
 		return impl_holder.held;
 	}
 	public transactions_confirmed(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number): void {
-		bindings.Confirm_transactions_confirmed(this.ptr, InternalUtils.check_arr_len(header, 80), txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0) : null, height);
+		bindings.Confirm_transactions_confirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint32Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0) : null), height);
 	}
 
 	public transaction_unconfirmed(txid: Uint8Array): void {
-		bindings.Confirm_transaction_unconfirmed(this.ptr, InternalUtils.check_arr_len(txid, 32));
+		bindings.Confirm_transaction_unconfirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(txid, 32)));
 	}
 
 	public best_block_updated(header: Uint8Array, height: number): void {
-		bindings.Confirm_best_block_updated(this.ptr, InternalUtils.check_arr_len(header, 80), height);
+		bindings.Confirm_best_block_updated(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height);
 	}
 
 	public get_relevant_txids(): Uint8Array[] {
-		const ret: Uint8Array[] = bindings.Confirm_get_relevant_txids(this.ptr);
-		return ret;
+		const ret: number = bindings.Confirm_get_relevant_txids(this.ptr);
+		const ret_conv_12_len: number = bindings.getArrayLength(ret);
+		const ret_conv_12_arr: Uint8Array[] = new Array(ret_conv_12_len).fill(null);
+		for (var m = 0; m < ret_conv_12_len; m++) {
+			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
+			ret_conv_12_arr[m] = ret_conv_12_conv;
+		}
+		return ret_conv_12_arr;
 	}
 
 }

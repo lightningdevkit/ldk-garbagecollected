@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
@@ -289,15 +288,17 @@ export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	}
 
 	public get_a(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_b(): TwoTuple_u32ScriptZ[] {
-		const ret: number[] = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(this.ptr);
-		const ret_conv_21_arr: TwoTuple_u32ScriptZ[] = new Array(ret.length).fill(null);
-		for (var v = 0; v < ret.length; v++) {
-			const ret_conv_21: number = ret[v];
+		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(this.ptr);
+		const ret_conv_21_len: number = bindings.getArrayLength(ret);
+		const ret_conv_21_arr: TwoTuple_u32ScriptZ[] = new Array(ret_conv_21_len).fill(null);
+		for (var v = 0; v < ret_conv_21_len; v++) {
+			const ret_conv_21: number = bindings.getU32ArrayElem(ret, v);
 			const ret_conv_21_hu_conv: TwoTuple_u32ScriptZ = new TwoTuple_u32ScriptZ(null, ret_conv_21);
 			CommonBase.add_ref_from(ret_conv_21_hu_conv, this);
 			ret_conv_21_arr[v] = ret_conv_21_hu_conv;
@@ -306,7 +307,7 @@ export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	}
 
 	public static constructor_new(a: Uint8Array, b: TwoTuple_u32ScriptZ[]): TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ {
-		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(InternalUtils.check_arr_len(a, 32), b != null ? b.map(b_conv_21 => b_conv_21 != null ? CommonBase.get_ptr_of(b_conv_21) : 0) : null);
+		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.encodeUint32Array(b != null ? b.map(b_conv_21 => b_conv_21 != null ? CommonBase.get_ptr_of(b_conv_21) : 0) : null));
 		const ret_hu_conv: TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

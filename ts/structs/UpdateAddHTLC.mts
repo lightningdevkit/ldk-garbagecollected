@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class UpdateAddHTLC extends CommonBase {
@@ -289,39 +288,41 @@ export class UpdateAddHTLC extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.UpdateAddHTLC_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.UpdateAddHTLC_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.UpdateAddHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateAddHTLC_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_htlc_id(): number {
-		const ret: number = bindings.UpdateAddHTLC_get_htlc_id(this.ptr);
+	public get_htlc_id(): bigint {
+		const ret: bigint = bindings.UpdateAddHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
-	public set_htlc_id(val: number): void {
+	public set_htlc_id(val: bigint): void {
 		bindings.UpdateAddHTLC_set_htlc_id(this.ptr, val);
 	}
 
-	public get_amount_msat(): number {
-		const ret: number = bindings.UpdateAddHTLC_get_amount_msat(this.ptr);
+	public get_amount_msat(): bigint {
+		const ret: bigint = bindings.UpdateAddHTLC_get_amount_msat(this.ptr);
 		return ret;
 	}
 
-	public set_amount_msat(val: number): void {
+	public set_amount_msat(val: bigint): void {
 		bindings.UpdateAddHTLC_set_amount_msat(this.ptr, val);
 	}
 
 	public get_payment_hash(): Uint8Array {
-		const ret: Uint8Array = bindings.UpdateAddHTLC_get_payment_hash(this.ptr);
-		return ret;
+		const ret: number = bindings.UpdateAddHTLC_get_payment_hash(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_payment_hash(val: Uint8Array): void {
-		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_cltv_expiry(): number {
@@ -346,12 +347,13 @@ export class UpdateAddHTLC extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.UpdateAddHTLC_write(this.ptr);
-		return ret;
+		const ret: number = bindings.UpdateAddHTLC_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_UpdateAddHTLCDecodeErrorZ {
-		const ret: number = bindings.UpdateAddHTLC_read(ser);
+		const ret: number = bindings.UpdateAddHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateAddHTLCDecodeErrorZ = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

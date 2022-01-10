@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ShutdownScript extends CommonBase {
@@ -301,44 +300,47 @@ export class ShutdownScript extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ShutdownScript_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ShutdownScript_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ShutdownScriptDecodeErrorZ {
-		const ret: number = bindings.ShutdownScript_read(ser);
+		const ret: number = bindings.ShutdownScript_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ShutdownScriptDecodeErrorZ = Result_ShutdownScriptDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_new_p2wpkh(pubkey_hash: Uint8Array): ShutdownScript {
-		const ret: number = bindings.ShutdownScript_new_p2wpkh(InternalUtils.check_arr_len(pubkey_hash, 20));
+		const ret: number = bindings.ShutdownScript_new_p2wpkh(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_hash, 20)));
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_new_p2wsh(script_hash: Uint8Array): ShutdownScript {
-		const ret: number = bindings.ShutdownScript_new_p2wsh(InternalUtils.check_arr_len(script_hash, 32));
+		const ret: number = bindings.ShutdownScript_new_p2wsh(bindings.encodeUint8Array(bindings.check_arr_len(script_hash, 32)));
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_new_witness_program(version: number, program: Uint8Array): Result_ShutdownScriptInvalidShutdownScriptZ {
-		const ret: number = bindings.ShutdownScript_new_witness_program(version, program);
+		const ret: number = bindings.ShutdownScript_new_witness_program(version, bindings.encodeUint8Array(program));
 		const ret_hu_conv: Result_ShutdownScriptInvalidShutdownScriptZ = Result_ShutdownScriptInvalidShutdownScriptZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public into_inner(): Uint8Array {
-		const ret: Uint8Array = bindings.ShutdownScript_into_inner(this.ptr);
-		return ret;
+		const ret: number = bindings.ShutdownScript_into_inner(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public as_legacy_pubkey(): Uint8Array {
-		const ret: Uint8Array = bindings.ShutdownScript_as_legacy_pubkey(this.ptr);
-		return ret;
+		const ret: number = bindings.ShutdownScript_as_legacy_pubkey(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public is_compatible(features: InitFeatures): boolean {

@@ -280,21 +280,20 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
 export interface BaseSignInterface {
-	get_per_commitment_point(idx: number): Uint8Array;
-	release_commitment_secret(idx: number): Uint8Array;
+	get_per_commitment_point(idx: bigint): Uint8Array;
+	release_commitment_secret(idx: bigint): Uint8Array;
 	validate_holder_commitment(holder_tx: HolderCommitmentTransaction): Result_NoneNoneZ;
 	channel_keys_id(): Uint8Array;
 	sign_counterparty_commitment(commitment_tx: CommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
-	validate_counterparty_revocation(idx: number, secret: Uint8Array): Result_NoneNoneZ;
+	validate_counterparty_revocation(idx: bigint, secret: Uint8Array): Result_NoneNoneZ;
 	sign_holder_commitment_and_htlcs(commitment_tx: HolderCommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ;
-	sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array): Result_SignatureNoneZ;
-	sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
-	sign_counterparty_htlc_transaction(htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
+	sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array): Result_SignatureNoneZ;
+	sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
+	sign_counterparty_htlc_transaction(htlc_tx: Uint8Array, input: number, amount: bigint, per_commitment_point: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ;
 	sign_closing_transaction(closing_tx: ClosingTransaction): Result_SignatureNoneZ;
 	sign_channel_announcement(msg: UnsignedChannelAnnouncement): Result_SignatureNoneZ;
 	ready_channel(channel_parameters: ChannelTransactionParameters): void;
@@ -317,14 +316,14 @@ export class BaseSign extends CommonBase {
 	static new_impl(arg: BaseSignInterface, pubkeys: ChannelPublicKeys): BaseSign {
 		const impl_holder: LDKBaseSignHolder = new LDKBaseSignHolder();
 		let structImplementation = {
-			get_per_commitment_point (idx: number): Uint8Array {
+			get_per_commitment_point (idx: bigint): number {
 				const ret: Uint8Array = arg.get_per_commitment_point(idx);
-				const result: Uint8Array = InternalUtils.check_arr_len(ret, 33);
+				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 33));
 				return result;
 			},
-			release_commitment_secret (idx: number): Uint8Array {
+			release_commitment_secret (idx: bigint): number {
 				const ret: Uint8Array = arg.release_commitment_secret(idx);
-				const result: Uint8Array = InternalUtils.check_arr_len(ret, 32);
+				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
 				return result;
 			},
 			validate_holder_commitment (holder_tx: number): number {
@@ -333,9 +332,9 @@ export class BaseSign extends CommonBase {
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			channel_keys_id (): Uint8Array {
+			channel_keys_id (): number {
 				const ret: Uint8Array = arg.channel_keys_id();
-				const result: Uint8Array = InternalUtils.check_arr_len(ret, 32);
+				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
 				return result;
 			},
 			sign_counterparty_commitment (commitment_tx: number): number {
@@ -344,8 +343,9 @@ export class BaseSign extends CommonBase {
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			validate_counterparty_revocation (idx: number, secret: Uint8Array): number {
-				const ret: Result_NoneNoneZ = arg.validate_counterparty_revocation(idx, secret);
+			validate_counterparty_revocation (idx: bigint, secret: number): number {
+				const secret_conv: Uint8Array = bindings.decodeUint8Array(secret);
+				const ret: Result_NoneNoneZ = arg.validate_counterparty_revocation(idx, secret_conv);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
@@ -355,20 +355,26 @@ export class BaseSign extends CommonBase {
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			sign_justice_revoked_output (justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array): number {
-				const ret: Result_SignatureNoneZ = arg.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
+			sign_justice_revoked_output (justice_tx: number, input: number, amount: bigint, per_commitment_key: number): number {
+				const justice_tx_conv: Uint8Array = bindings.decodeUint8Array(justice_tx);
+				const per_commitment_key_conv: Uint8Array = bindings.decodeUint8Array(per_commitment_key);
+				const ret: Result_SignatureNoneZ = arg.sign_justice_revoked_output(justice_tx_conv, input, amount, per_commitment_key_conv);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			sign_justice_revoked_htlc (justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: number): number {
+			sign_justice_revoked_htlc (justice_tx: number, input: number, amount: bigint, per_commitment_key: number, htlc: number): number {
+				const justice_tx_conv: Uint8Array = bindings.decodeUint8Array(justice_tx);
+				const per_commitment_key_conv: Uint8Array = bindings.decodeUint8Array(per_commitment_key);
 				const htlc_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, htlc);
-				const ret: Result_SignatureNoneZ = arg.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
+				const ret: Result_SignatureNoneZ = arg.sign_justice_revoked_htlc(justice_tx_conv, input, amount, per_commitment_key_conv, htlc_hu_conv);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			sign_counterparty_htlc_transaction (htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: number): number {
+			sign_counterparty_htlc_transaction (htlc_tx: number, input: number, amount: bigint, per_commitment_point: number, htlc: number): number {
+				const htlc_tx_conv: Uint8Array = bindings.decodeUint8Array(htlc_tx);
+				const per_commitment_point_conv: Uint8Array = bindings.decodeUint8Array(per_commitment_point);
 				const htlc_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, htlc);
-				const ret: Result_SignatureNoneZ = arg.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc_hu_conv);
+				const ret: Result_SignatureNoneZ = arg.sign_counterparty_htlc_transaction(htlc_tx_conv, input, amount, per_commitment_point_conv, htlc_hu_conv);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
@@ -395,14 +401,16 @@ export class BaseSign extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
-	public get_per_commitment_point(idx: number): Uint8Array {
-		const ret: Uint8Array = bindings.BaseSign_get_per_commitment_point(this.ptr, idx);
-		return ret;
+	public get_per_commitment_point(idx: bigint): Uint8Array {
+		const ret: number = bindings.BaseSign_get_per_commitment_point(this.ptr, idx);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
-	public release_commitment_secret(idx: number): Uint8Array {
-		const ret: Uint8Array = bindings.BaseSign_release_commitment_secret(this.ptr, idx);
-		return ret;
+	public release_commitment_secret(idx: bigint): Uint8Array {
+		const ret: number = bindings.BaseSign_release_commitment_secret(this.ptr, idx);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public validate_holder_commitment(holder_tx: HolderCommitmentTransaction): Result_NoneNoneZ {
@@ -413,8 +421,9 @@ export class BaseSign extends CommonBase {
 	}
 
 	public channel_keys_id(): Uint8Array {
-		const ret: Uint8Array = bindings.BaseSign_channel_keys_id(this.ptr);
-		return ret;
+		const ret: number = bindings.BaseSign_channel_keys_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public sign_counterparty_commitment(commitment_tx: CommitmentTransaction): Result_C2Tuple_SignatureCVec_SignatureZZNoneZ {
@@ -424,8 +433,8 @@ export class BaseSign extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public validate_counterparty_revocation(idx: number, secret: Uint8Array): Result_NoneNoneZ {
-		const ret: number = bindings.BaseSign_validate_counterparty_revocation(this.ptr, idx, InternalUtils.check_arr_len(secret, 32));
+	public validate_counterparty_revocation(idx: bigint, secret: Uint8Array): Result_NoneNoneZ {
+		const ret: number = bindings.BaseSign_validate_counterparty_revocation(this.ptr, idx, bindings.encodeUint8Array(bindings.check_arr_len(secret, 32)));
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -437,21 +446,21 @@ export class BaseSign extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array): Result_SignatureNoneZ {
-		const ret: number = bindings.BaseSign_sign_justice_revoked_output(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32));
+	public sign_justice_revoked_output(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array): Result_SignatureNoneZ {
+		const ret: number = bindings.BaseSign_sign_justice_revoked_output(this.ptr, bindings.encodeUint8Array(justice_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_key, 32)));
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: number, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ {
-		const ret: number = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, justice_tx, input, amount, InternalUtils.check_arr_len(per_commitment_key, 32), htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1);
+	public sign_justice_revoked_htlc(justice_tx: Uint8Array, input: number, amount: bigint, per_commitment_key: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ {
+		const ret: number = bindings.BaseSign_sign_justice_revoked_htlc(this.ptr, bindings.encodeUint8Array(justice_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_key, 32)), htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1);
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, htlc);
 		return ret_hu_conv;
 	}
 
-	public sign_counterparty_htlc_transaction(htlc_tx: Uint8Array, input: number, amount: number, per_commitment_point: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ {
-		const ret: number = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, htlc_tx, input, amount, InternalUtils.check_arr_len(per_commitment_point, 33), htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1);
+	public sign_counterparty_htlc_transaction(htlc_tx: Uint8Array, input: number, amount: bigint, per_commitment_point: Uint8Array, htlc: HTLCOutputInCommitment): Result_SignatureNoneZ {
+		const ret: number = bindings.BaseSign_sign_counterparty_htlc_transaction(this.ptr, bindings.encodeUint8Array(htlc_tx), input, amount, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1);
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, htlc);
 		return ret_hu_conv;

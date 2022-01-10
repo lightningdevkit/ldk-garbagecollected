@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelAnnouncement extends CommonBase {
@@ -289,39 +288,43 @@ export class ChannelAnnouncement extends CommonBase {
 	}
 
 	public get_node_signature_1(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelAnnouncement_get_node_signature_1(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelAnnouncement_get_node_signature_1(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_node_signature_1(val: Uint8Array): void {
-		bindings.ChannelAnnouncement_set_node_signature_1(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.ChannelAnnouncement_set_node_signature_1(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public get_node_signature_2(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelAnnouncement_get_node_signature_2(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelAnnouncement_get_node_signature_2(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_node_signature_2(val: Uint8Array): void {
-		bindings.ChannelAnnouncement_set_node_signature_2(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.ChannelAnnouncement_set_node_signature_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public get_bitcoin_signature_1(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelAnnouncement_get_bitcoin_signature_1(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelAnnouncement_get_bitcoin_signature_1(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_bitcoin_signature_1(val: Uint8Array): void {
-		bindings.ChannelAnnouncement_set_bitcoin_signature_1(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.ChannelAnnouncement_set_bitcoin_signature_1(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public get_bitcoin_signature_2(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelAnnouncement_get_bitcoin_signature_2(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelAnnouncement_get_bitcoin_signature_2(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_bitcoin_signature_2(val: Uint8Array): void {
-		bindings.ChannelAnnouncement_set_bitcoin_signature_2(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.ChannelAnnouncement_set_bitcoin_signature_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public get_contents(): UnsignedChannelAnnouncement {
@@ -336,7 +339,7 @@ export class ChannelAnnouncement extends CommonBase {
 	}
 
 	public static constructor_new(node_signature_1_arg: Uint8Array, node_signature_2_arg: Uint8Array, bitcoin_signature_1_arg: Uint8Array, bitcoin_signature_2_arg: Uint8Array, contents_arg: UnsignedChannelAnnouncement): ChannelAnnouncement {
-		const ret: number = bindings.ChannelAnnouncement_new(InternalUtils.check_arr_len(node_signature_1_arg, 64), InternalUtils.check_arr_len(node_signature_2_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_1_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_2_arg, 64), contents_arg == null ? 0 : CommonBase.get_ptr_of(contents_arg) & ~1);
+		const ret: number = bindings.ChannelAnnouncement_new(bindings.encodeUint8Array(bindings.check_arr_len(node_signature_1_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(node_signature_2_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(bitcoin_signature_1_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(bitcoin_signature_2_arg, 64)), contents_arg == null ? 0 : CommonBase.get_ptr_of(contents_arg) & ~1);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -355,12 +358,13 @@ export class ChannelAnnouncement extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelAnnouncement_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelAnnouncement_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ChannelAnnouncementDecodeErrorZ {
-		const ret: number = bindings.ChannelAnnouncement_read(ser);
+		const ret: number = bindings.ChannelAnnouncement_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelAnnouncementDecodeErrorZ = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

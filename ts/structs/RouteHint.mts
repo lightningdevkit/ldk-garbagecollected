@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class RouteHint extends CommonBase {
@@ -289,10 +288,11 @@ export class RouteHint extends CommonBase {
 	}
 
 	public get_a(): RouteHintHop[] {
-		const ret: number[] = bindings.RouteHint_get_a(this.ptr);
-		const ret_conv_14_arr: RouteHintHop[] = new Array(ret.length).fill(null);
-		for (var o = 0; o < ret.length; o++) {
-			const ret_conv_14: number = ret[o];
+		const ret: number = bindings.RouteHint_get_a(this.ptr);
+		const ret_conv_14_len: number = bindings.getArrayLength(ret);
+		const ret_conv_14_arr: RouteHintHop[] = new Array(ret_conv_14_len).fill(null);
+		for (var o = 0; o < ret_conv_14_len; o++) {
+			const ret_conv_14: number = bindings.getU32ArrayElem(ret, o);
 			const ret_conv_14_hu_conv: RouteHintHop = new RouteHintHop(null, ret_conv_14);
 			CommonBase.add_ref_from(ret_conv_14_hu_conv, this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
@@ -301,11 +301,11 @@ export class RouteHint extends CommonBase {
 	}
 
 	public set_a(val: RouteHintHop[]): void {
-		bindings.RouteHint_set_a(this.ptr, val != null ? val.map(val_conv_14 => val_conv_14 == null ? 0 : CommonBase.get_ptr_of(val_conv_14) & ~1) : null);
+		bindings.RouteHint_set_a(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_14 => val_conv_14 == null ? 0 : CommonBase.get_ptr_of(val_conv_14) & ~1) : null));
 	}
 
 	public static constructor_new(a_arg: RouteHintHop[]): RouteHint {
-		const ret: number = bindings.RouteHint_new(a_arg != null ? a_arg.map(a_arg_conv_14 => a_arg_conv_14 == null ? 0 : CommonBase.get_ptr_of(a_arg_conv_14) & ~1) : null);
+		const ret: number = bindings.RouteHint_new(bindings.encodeUint32Array(a_arg != null ? a_arg.map(a_arg_conv_14 => a_arg_conv_14 == null ? 0 : CommonBase.get_ptr_of(a_arg_conv_14) & ~1) : null));
 		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -323,8 +323,8 @@ export class RouteHint extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.RouteHint_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.RouteHint_hash(this.ptr);
 		return ret;
 	}
 
@@ -335,12 +335,13 @@ export class RouteHint extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.RouteHint_write(this.ptr);
-		return ret;
+		const ret: number = bindings.RouteHint_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_RouteHintDecodeErrorZ {
-		const ret: number = bindings.RouteHint_read(ser);
+		const ret: number = bindings.RouteHint_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteHintDecodeErrorZ = Result_RouteHintDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

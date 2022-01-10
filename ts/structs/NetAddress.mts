@@ -279,26 +279,20 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class NetAddress extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.NetAddress_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): NetAddress {
-		const raw_val: bindings.LDKNetAddress = bindings.LDKNetAddress_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKNetAddress_IPv4) {
-			return new NetAddress_IPv4(ptr, raw_val);
+		const raw_ty: number = bindings.LDKNetAddress_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new NetAddress_IPv4(ptr);
+			case 1: return new NetAddress_IPv6(ptr);
+			case 2: return new NetAddress_OnionV2(ptr);
+			case 3: return new NetAddress_OnionV3(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKNetAddress_IPv6) {
-			return new NetAddress_IPv6(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKNetAddress_OnionV2) {
-			return new NetAddress_OnionV2(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKNetAddress_OnionV3) {
-			return new NetAddress_OnionV3(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -314,40 +308,41 @@ export class NetAddress extends CommonBase {
 	}
 
 	public static constructor_ipv4(addr: Uint8Array, port: number): NetAddress {
-		const ret: number = bindings.NetAddress_ipv4(InternalUtils.check_arr_len(addr, 4), port);
+		const ret: number = bindings.NetAddress_ipv4(bindings.encodeUint8Array(bindings.check_arr_len(addr, 4)), port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_ipv6(addr: Uint8Array, port: number): NetAddress {
-		const ret: number = bindings.NetAddress_ipv6(InternalUtils.check_arr_len(addr, 16), port);
+		const ret: number = bindings.NetAddress_ipv6(bindings.encodeUint8Array(bindings.check_arr_len(addr, 16)), port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_onion_v2(a: Uint8Array): NetAddress {
-		const ret: number = bindings.NetAddress_onion_v2(InternalUtils.check_arr_len(a, 12));
+		const ret: number = bindings.NetAddress_onion_v2(bindings.encodeUint8Array(bindings.check_arr_len(a, 12)));
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_onion_v3(ed25519_pubkey: Uint8Array, checksum: number, version: number, port: number): NetAddress {
-		const ret: number = bindings.NetAddress_onion_v3(InternalUtils.check_arr_len(ed25519_pubkey, 32), checksum, version, port);
+		const ret: number = bindings.NetAddress_onion_v3(bindings.encodeUint8Array(bindings.check_arr_len(ed25519_pubkey, 32)), checksum, version, port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.NetAddress_write(this.ptr);
-		return ret;
+		const ret: number = bindings.NetAddress_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_NetAddressDecodeErrorZ {
-		const ret: number = bindings.NetAddress_read(ser);
+		const ret: number = bindings.NetAddress_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NetAddressDecodeErrorZ = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -357,28 +352,34 @@ export class NetAddress_IPv4 extends NetAddress {
 	public addr: Uint8Array;
 	public port: number;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKNetAddress_IPv4) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.addr = obj.addr;
-		this.port = obj.port;
+		const addr: number = bindings.LDKNetAddress_IPv4_get_addr(ptr);
+		const addr_conv: Uint8Array = bindings.decodeUint8Array(addr);
+		this.addr = addr_conv;
+		this.port = bindings.LDKNetAddress_IPv4_get_port(ptr);
 	}
 }
 export class NetAddress_IPv6 extends NetAddress {
 	public addr: Uint8Array;
 	public port: number;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKNetAddress_IPv6) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.addr = obj.addr;
-		this.port = obj.port;
+		const addr: number = bindings.LDKNetAddress_IPv6_get_addr(ptr);
+		const addr_conv: Uint8Array = bindings.decodeUint8Array(addr);
+		this.addr = addr_conv;
+		this.port = bindings.LDKNetAddress_IPv6_get_port(ptr);
 	}
 }
 export class NetAddress_OnionV2 extends NetAddress {
 	public onion_v2: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKNetAddress_OnionV2) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.onion_v2 = obj.onion_v2;
+		const onion_v2: number = bindings.LDKNetAddress_OnionV2_get_onion_v2(ptr);
+		const onion_v2_conv: Uint8Array = bindings.decodeUint8Array(onion_v2);
+		this.onion_v2 = onion_v2_conv;
 	}
 }
 export class NetAddress_OnionV3 extends NetAddress {
@@ -387,11 +388,13 @@ export class NetAddress_OnionV3 extends NetAddress {
 	public version: number;
 	public port: number;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKNetAddress_OnionV3) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.ed25519_pubkey = obj.ed25519_pubkey;
-		this.checksum = obj.checksum;
-		this.version = obj.version;
-		this.port = obj.port;
+		const ed25519_pubkey: number = bindings.LDKNetAddress_OnionV3_get_ed25519_pubkey(ptr);
+		const ed25519_pubkey_conv: Uint8Array = bindings.decodeUint8Array(ed25519_pubkey);
+		this.ed25519_pubkey = ed25519_pubkey_conv;
+		this.checksum = bindings.LDKNetAddress_OnionV3_get_checksum(ptr);
+		this.version = bindings.LDKNetAddress_OnionV3_get_version(ptr);
+		this.port = bindings.LDKNetAddress_OnionV3_get_port(ptr);
 	}
 }

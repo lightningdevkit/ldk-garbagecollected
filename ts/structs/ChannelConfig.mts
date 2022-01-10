@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelConfig extends CommonBase {
@@ -333,25 +332,25 @@ export class ChannelConfig extends CommonBase {
 		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
 	}
 
-	public get_max_dust_htlc_exposure_msat(): number {
-		const ret: number = bindings.ChannelConfig_get_max_dust_htlc_exposure_msat(this.ptr);
+	public get_max_dust_htlc_exposure_msat(): bigint {
+		const ret: bigint = bindings.ChannelConfig_get_max_dust_htlc_exposure_msat(this.ptr);
 		return ret;
 	}
 
-	public set_max_dust_htlc_exposure_msat(val: number): void {
+	public set_max_dust_htlc_exposure_msat(val: bigint): void {
 		bindings.ChannelConfig_set_max_dust_htlc_exposure_msat(this.ptr, val);
 	}
 
-	public get_force_close_avoidance_max_fee_satoshis(): number {
-		const ret: number = bindings.ChannelConfig_get_force_close_avoidance_max_fee_satoshis(this.ptr);
+	public get_force_close_avoidance_max_fee_satoshis(): bigint {
+		const ret: bigint = bindings.ChannelConfig_get_force_close_avoidance_max_fee_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_force_close_avoidance_max_fee_satoshis(val: number): void {
+	public set_force_close_avoidance_max_fee_satoshis(val: bigint): void {
 		bindings.ChannelConfig_set_force_close_avoidance_max_fee_satoshis(this.ptr, val);
 	}
 
-	public static constructor_new(forwarding_fee_proportional_millionths_arg: number, forwarding_fee_base_msat_arg: number, cltv_expiry_delta_arg: number, announced_channel_arg: boolean, commit_upfront_shutdown_pubkey_arg: boolean, max_dust_htlc_exposure_msat_arg: number, force_close_avoidance_max_fee_satoshis_arg: number): ChannelConfig {
+	public static constructor_new(forwarding_fee_proportional_millionths_arg: number, forwarding_fee_base_msat_arg: number, cltv_expiry_delta_arg: number, announced_channel_arg: boolean, commit_upfront_shutdown_pubkey_arg: boolean, max_dust_htlc_exposure_msat_arg: bigint, force_close_avoidance_max_fee_satoshis_arg: bigint): ChannelConfig {
 		const ret: number = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -378,12 +377,13 @@ export class ChannelConfig extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelConfig_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelConfig_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ChannelConfigDecodeErrorZ {
-		const ret: number = bindings.ChannelConfig_read(ser);
+		const ret: number = bindings.ChannelConfig_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelConfigDecodeErrorZ = Result_ChannelConfigDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

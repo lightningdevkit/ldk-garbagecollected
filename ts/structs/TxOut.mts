@@ -279,21 +279,20 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class TxOut extends CommonBase {
 	/** The script_pubkey in this output */
 	public script_pubkey: Uint8Array;
 	/** The value, in satoshis, of this output */
-	public value: number;
+	public value: bigint;
 
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.TxOut_free);
-		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.script_pubkey = bindings.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-	public constructor_new(value: number, script_pubkey: Uint8Array): TxOut {
-		return new TxOut(null, bindings.TxOut_new(script_pubkey, value));
+	public constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
+		return new TxOut(null, bindings.TxOut_new(bindings.encodeUint8Array(script_pubkey), value));
 	}
 }

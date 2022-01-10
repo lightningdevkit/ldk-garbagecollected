@@ -279,7 +279,6 @@ import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class MultiThreadedLockableScore extends CommonBase {

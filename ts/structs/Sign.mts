@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -305,9 +304,10 @@ export class Sign extends CommonBase {
 	static new_impl(arg: SignInterface, baseSign_impl: BaseSignInterface, pubkeys: ChannelPublicKeys): Sign {
 		const impl_holder: LDKSignHolder = new LDKSignHolder();
 		let structImplementation = {
-			write (): Uint8Array {
+			write (): number {
 				const ret: Uint8Array = arg.write();
-				return ret;
+				const result: number = bindings.encodeUint8Array(ret);
+				return result;
 			},
 		} as bindings.LDKSign;
 		const baseSign = BaseSign.new_impl(baseSign_impl, pubkeys, );
@@ -319,8 +319,9 @@ export class Sign extends CommonBase {
 		return impl_holder.held;
 	}
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.Sign_write(this.ptr);
-		return ret;
+		const ret: number = bindings.Sign_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public clone_ptr(): number {

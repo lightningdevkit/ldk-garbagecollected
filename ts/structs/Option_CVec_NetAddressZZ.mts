@@ -279,24 +279,22 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Option_CVec_NetAddressZZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_CVec_NetAddressZZ_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Option_CVec_NetAddressZZ {
-		const raw_val: bindings.LDKCOption_CVec_NetAddressZZ = bindings.LDKCOption_CVec_NetAddressZZ_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKCOption_CVec_NetAddressZZ_Some) {
-			return new Option_CVec_NetAddressZZ_Some(ptr, raw_val);
+		const raw_ty: number = bindings.LDKCOption_CVec_NetAddressZZ_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Option_CVec_NetAddressZZ_Some(ptr);
+			case 1: return new Option_CVec_NetAddressZZ_None(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKCOption_CVec_NetAddressZZ_None) {
-			return new Option_CVec_NetAddressZZ_None(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public static constructor_some(o: NetAddress[]): Option_CVec_NetAddressZZ {
-		const ret: number = bindings.COption_CVec_NetAddressZZ_some(o != null ? o.map(o_conv_12 => CommonBase.get_ptr_of(o_conv_12)) : null);
+		const ret: number = bindings.COption_CVec_NetAddressZZ_some(bindings.encodeUint32Array(o != null ? o.map(o_conv_12 => CommonBase.get_ptr_of(o_conv_12)) : null));
 		const ret_hu_conv: Option_CVec_NetAddressZZ = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -325,12 +323,13 @@ export class Option_CVec_NetAddressZZ extends CommonBase {
 export class Option_CVec_NetAddressZZ_Some extends Option_CVec_NetAddressZZ {
 	public some: NetAddress[];
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_CVec_NetAddressZZ_Some) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const some: number[] = obj.some;
-		const some_conv_12_arr: NetAddress[] = new Array(some.length).fill(null);
-			for (var m = 0; m < some.length; m++) {
-				const some_conv_12: number = some[m];
+		const some: number = bindings.LDKCOption_CVec_NetAddressZZ_Some_get_some(ptr);
+		const some_conv_12_len: number = bindings.getArrayLength(some);
+			const some_conv_12_arr: NetAddress[] = new Array(some_conv_12_len).fill(null);
+			for (var m = 0; m < some_conv_12_len; m++) {
+				const some_conv_12: number = bindings.getU32ArrayElem(some, m);
 				const some_conv_12_hu_conv: NetAddress = NetAddress.constr_from_ptr(some_conv_12);
 				CommonBase.add_ref_from(some_conv_12_hu_conv, this);
 				some_conv_12_arr[m] = some_conv_12_hu_conv;
@@ -340,7 +339,7 @@ export class Option_CVec_NetAddressZZ_Some extends Option_CVec_NetAddressZZ {
 }
 export class Option_CVec_NetAddressZZ_None extends Option_CVec_NetAddressZZ {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_CVec_NetAddressZZ_None) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }

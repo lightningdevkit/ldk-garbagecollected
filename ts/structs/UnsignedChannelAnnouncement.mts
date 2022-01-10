@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class UnsignedChannelAnnouncement extends CommonBase {
@@ -300,57 +299,62 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 	}
 
 	public get_chain_hash(): Uint8Array {
-		const ret: Uint8Array = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
-		return ret;
+		const ret: number = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_chain_hash(val: Uint8Array): void {
-		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_short_channel_id(): number {
-		const ret: number = bindings.UnsignedChannelAnnouncement_get_short_channel_id(this.ptr);
+	public get_short_channel_id(): bigint {
+		const ret: bigint = bindings.UnsignedChannelAnnouncement_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
-	public set_short_channel_id(val: number): void {
+	public set_short_channel_id(val: bigint): void {
 		bindings.UnsignedChannelAnnouncement_set_short_channel_id(this.ptr, val);
 	}
 
 	public get_node_id_1(): Uint8Array {
-		const ret: Uint8Array = bindings.UnsignedChannelAnnouncement_get_node_id_1(this.ptr);
-		return ret;
+		const ret: number = bindings.UnsignedChannelAnnouncement_get_node_id_1(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_node_id_1(val: Uint8Array): void {
-		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_node_id_2(): Uint8Array {
-		const ret: Uint8Array = bindings.UnsignedChannelAnnouncement_get_node_id_2(this.ptr);
-		return ret;
+		const ret: number = bindings.UnsignedChannelAnnouncement_get_node_id_2(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_node_id_2(val: Uint8Array): void {
-		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_bitcoin_key_1(): Uint8Array {
-		const ret: Uint8Array = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_1(this.ptr);
-		return ret;
+		const ret: number = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_1(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_bitcoin_key_1(val: Uint8Array): void {
-		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_bitcoin_key_2(): Uint8Array {
-		const ret: Uint8Array = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_2(this.ptr);
-		return ret;
+		const ret: number = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_2(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_bitcoin_key_2(val: Uint8Array): void {
-		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public clone_ptr(): number {
@@ -366,12 +370,13 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.UnsignedChannelAnnouncement_write(this.ptr);
-		return ret;
+		const ret: number = bindings.UnsignedChannelAnnouncement_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_UnsignedChannelAnnouncementDecodeErrorZ {
-		const ret: number = bindings.UnsignedChannelAnnouncement_read(ser);
+		const ret: number = bindings.UnsignedChannelAnnouncement_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UnsignedChannelAnnouncementDecodeErrorZ = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

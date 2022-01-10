@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChainMonitor extends CommonBase {
@@ -301,10 +300,11 @@ export class ChainMonitor extends CommonBase {
 	}
 
 	public get_claimable_balances(ignored_channels: ChannelDetails[]): Balance[] {
-		const ret: number[] = bindings.ChainMonitor_get_claimable_balances(this.ptr, ignored_channels != null ? ignored_channels.map(ignored_channels_conv_16 => ignored_channels_conv_16 == null ? 0 : CommonBase.get_ptr_of(ignored_channels_conv_16) & ~1) : null);
-		const ret_conv_9_arr: Balance[] = new Array(ret.length).fill(null);
-		for (var j = 0; j < ret.length; j++) {
-			const ret_conv_9: number = ret[j];
+		const ret: number = bindings.ChainMonitor_get_claimable_balances(this.ptr, bindings.encodeUint32Array(ignored_channels != null ? ignored_channels.map(ignored_channels_conv_16 => ignored_channels_conv_16 == null ? 0 : CommonBase.get_ptr_of(ignored_channels_conv_16) & ~1) : null));
+		const ret_conv_9_len: number = bindings.getArrayLength(ret);
+		const ret_conv_9_arr: Balance[] = new Array(ret_conv_9_len).fill(null);
+		for (var j = 0; j < ret_conv_9_len; j++) {
+			const ret_conv_9: number = bindings.getU32ArrayElem(ret, j);
 			const ret_conv_9_hu_conv: Balance = Balance.constr_from_ptr(ret_conv_9);
 			CommonBase.add_ref_from(ret_conv_9_hu_conv, this);
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
@@ -319,10 +319,11 @@ export class ChainMonitor extends CommonBase {
 	}
 
 	public list_monitors(): OutPoint[] {
-		const ret: number[] = bindings.ChainMonitor_list_monitors(this.ptr);
-		const ret_conv_10_arr: OutPoint[] = new Array(ret.length).fill(null);
-		for (var k = 0; k < ret.length; k++) {
-			const ret_conv_10: number = ret[k];
+		const ret: number = bindings.ChainMonitor_list_monitors(this.ptr);
+		const ret_conv_10_len: number = bindings.getArrayLength(ret);
+		const ret_conv_10_arr: OutPoint[] = new Array(ret_conv_10_len).fill(null);
+		for (var k = 0; k < ret_conv_10_len; k++) {
+			const ret_conv_10: number = bindings.getU32ArrayElem(ret, k);
 			const ret_conv_10_hu_conv: OutPoint = new OutPoint(null, ret_conv_10);
 			CommonBase.add_ref_from(ret_conv_10_hu_conv, this);
 			ret_conv_10_arr[k] = ret_conv_10_hu_conv;

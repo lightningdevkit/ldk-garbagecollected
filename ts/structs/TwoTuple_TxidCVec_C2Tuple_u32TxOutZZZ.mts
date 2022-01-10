@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ extends CommonBase {
@@ -289,15 +288,17 @@ export class TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ extends CommonBase {
 	}
 
 	public get_a(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_b(): TwoTuple_u32TxOutZ[] {
-		const ret: number[] = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(this.ptr);
-		const ret_conv_20_arr: TwoTuple_u32TxOutZ[] = new Array(ret.length).fill(null);
-		for (var u = 0; u < ret.length; u++) {
-			const ret_conv_20: number = ret[u];
+		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(this.ptr);
+		const ret_conv_20_len: number = bindings.getArrayLength(ret);
+		const ret_conv_20_arr: TwoTuple_u32TxOutZ[] = new Array(ret_conv_20_len).fill(null);
+		for (var u = 0; u < ret_conv_20_len; u++) {
+			const ret_conv_20: number = bindings.getU32ArrayElem(ret, u);
 			const ret_conv_20_hu_conv: TwoTuple_u32TxOutZ = new TwoTuple_u32TxOutZ(null, ret_conv_20);
 			CommonBase.add_ref_from(ret_conv_20_hu_conv, this);
 			ret_conv_20_arr[u] = ret_conv_20_hu_conv;
@@ -318,7 +319,7 @@ export class TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ extends CommonBase {
 	}
 
 	public static constructor_new(a: Uint8Array, b: TwoTuple_u32TxOutZ[]): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ {
-		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(InternalUtils.check_arr_len(a, 32), b != null ? b.map(b_conv_20 => b_conv_20 != null ? CommonBase.get_ptr_of(b_conv_20) : 0) : null);
+		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.encodeUint32Array(b != null ? b.map(b_conv_20 => b_conv_20 != null ? CommonBase.get_ptr_of(b_conv_20) : 0) : null));
 		const ret_hu_conv: TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

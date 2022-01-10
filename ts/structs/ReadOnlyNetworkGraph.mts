@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ReadOnlyNetworkGraph extends CommonBase {
@@ -289,7 +288,7 @@ export class ReadOnlyNetworkGraph extends CommonBase {
 	}
 
 	public get_addresses(pubkey: Uint8Array): Option_CVec_NetAddressZZ {
-		const ret: number = bindings.ReadOnlyNetworkGraph_get_addresses(this.ptr, InternalUtils.check_arr_len(pubkey, 33));
+		const ret: number = bindings.ReadOnlyNetworkGraph_get_addresses(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
 		const ret_hu_conv: Option_CVec_NetAddressZZ = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class BuiltCommitmentTransaction extends CommonBase {
@@ -289,25 +288,27 @@ export class BuiltCommitmentTransaction extends CommonBase {
 	}
 
 	public get_transaction(): Uint8Array {
-		const ret: Uint8Array = bindings.BuiltCommitmentTransaction_get_transaction(this.ptr);
-		return ret;
+		const ret: number = bindings.BuiltCommitmentTransaction_get_transaction(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_transaction(val: Uint8Array): void {
-		bindings.BuiltCommitmentTransaction_set_transaction(this.ptr, val);
+		bindings.BuiltCommitmentTransaction_set_transaction(this.ptr, bindings.encodeUint8Array(val));
 	}
 
 	public get_txid(): Uint8Array {
-		const ret: Uint8Array = bindings.BuiltCommitmentTransaction_get_txid(this.ptr);
-		return ret;
+		const ret: number = bindings.BuiltCommitmentTransaction_get_txid(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_txid(val: Uint8Array): void {
-		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public static constructor_new(transaction_arg: Uint8Array, txid_arg: Uint8Array): BuiltCommitmentTransaction {
-		const ret: number = bindings.BuiltCommitmentTransaction_new(transaction_arg, InternalUtils.check_arr_len(txid_arg, 32));
+		const ret: number = bindings.BuiltCommitmentTransaction_new(bindings.encodeUint8Array(transaction_arg), bindings.encodeUint8Array(bindings.check_arr_len(txid_arg, 32)));
 		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -326,24 +327,27 @@ export class BuiltCommitmentTransaction extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.BuiltCommitmentTransaction_write(this.ptr);
-		return ret;
+		const ret: number = bindings.BuiltCommitmentTransaction_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_BuiltCommitmentTransactionDecodeErrorZ {
-		const ret: number = bindings.BuiltCommitmentTransaction_read(ser);
+		const ret: number = bindings.BuiltCommitmentTransaction_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_BuiltCommitmentTransactionDecodeErrorZ = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public get_sighash_all(funding_redeemscript: Uint8Array, channel_value_satoshis: number): Uint8Array {
-		const ret: Uint8Array = bindings.BuiltCommitmentTransaction_get_sighash_all(this.ptr, funding_redeemscript, channel_value_satoshis);
-		return ret;
+	public get_sighash_all(funding_redeemscript: Uint8Array, channel_value_satoshis: bigint): Uint8Array {
+		const ret: number = bindings.BuiltCommitmentTransaction_get_sighash_all(this.ptr, bindings.encodeUint8Array(funding_redeemscript), channel_value_satoshis);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
-	public sign(funding_key: Uint8Array, funding_redeemscript: Uint8Array, channel_value_satoshis: number): Uint8Array {
-		const ret: Uint8Array = bindings.BuiltCommitmentTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
-		return ret;
+	public sign(funding_key: Uint8Array, funding_redeemscript: Uint8Array, channel_value_satoshis: bigint): Uint8Array {
+		const ret: number = bindings.BuiltCommitmentTransaction_sign(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(funding_key, 32)), bindings.encodeUint8Array(funding_redeemscript), channel_value_satoshis);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

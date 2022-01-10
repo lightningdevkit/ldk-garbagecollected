@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class FundingCreated extends CommonBase {
@@ -289,21 +288,23 @@ export class FundingCreated extends CommonBase {
 	}
 
 	public get_temporary_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.FundingCreated_get_temporary_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.FundingCreated_get_temporary_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_temporary_channel_id(val: Uint8Array): void {
-		bindings.FundingCreated_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.FundingCreated_set_temporary_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_funding_txid(): Uint8Array {
-		const ret: Uint8Array = bindings.FundingCreated_get_funding_txid(this.ptr);
-		return ret;
+		const ret: number = bindings.FundingCreated_get_funding_txid(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_funding_txid(val: Uint8Array): void {
-		bindings.FundingCreated_set_funding_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.FundingCreated_set_funding_txid(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_funding_output_index(): number {
@@ -316,16 +317,17 @@ export class FundingCreated extends CommonBase {
 	}
 
 	public get_signature(): Uint8Array {
-		const ret: Uint8Array = bindings.FundingCreated_get_signature(this.ptr);
-		return ret;
+		const ret: number = bindings.FundingCreated_get_signature(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_signature(val: Uint8Array): void {
-		bindings.FundingCreated_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.FundingCreated_set_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public static constructor_new(temporary_channel_id_arg: Uint8Array, funding_txid_arg: Uint8Array, funding_output_index_arg: number, signature_arg: Uint8Array): FundingCreated {
-		const ret: number = bindings.FundingCreated_new(InternalUtils.check_arr_len(temporary_channel_id_arg, 32), InternalUtils.check_arr_len(funding_txid_arg, 32), funding_output_index_arg, InternalUtils.check_arr_len(signature_arg, 64));
+		const ret: number = bindings.FundingCreated_new(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(funding_txid_arg, 32)), funding_output_index_arg, bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)));
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -344,12 +346,13 @@ export class FundingCreated extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.FundingCreated_write(this.ptr);
-		return ret;
+		const ret: number = bindings.FundingCreated_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_FundingCreatedDecodeErrorZ {
-		const ret: number = bindings.FundingCreated_read(ser);
+		const ret: number = bindings.FundingCreated_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_FundingCreatedDecodeErrorZ = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

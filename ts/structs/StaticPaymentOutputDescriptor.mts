@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class StaticPaymentOutputDescriptor extends CommonBase {
@@ -304,25 +303,26 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	public get_channel_keys_id(): Uint8Array {
-		const ret: Uint8Array = bindings.StaticPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
-		return ret;
+		const ret: number = bindings.StaticPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_keys_id(val: Uint8Array): void {
-		bindings.StaticPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.StaticPaymentOutputDescriptor_set_channel_keys_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_channel_value_satoshis(): number {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_get_channel_value_satoshis(this.ptr);
+	public get_channel_value_satoshis(): bigint {
+		const ret: bigint = bindings.StaticPaymentOutputDescriptor_get_channel_value_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_channel_value_satoshis(val: number): void {
+	public set_channel_value_satoshis(val: bigint): void {
 		bindings.StaticPaymentOutputDescriptor_set_channel_value_satoshis(this.ptr, val);
 	}
 
-	public static constructor_new(outpoint_arg: OutPoint, output_arg: TxOut, channel_keys_id_arg: Uint8Array, channel_value_satoshis_arg: number): StaticPaymentOutputDescriptor {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, CommonBase.get_ptr_of(output_arg), InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
+	public static constructor_new(outpoint_arg: OutPoint, output_arg: TxOut, channel_keys_id_arg: Uint8Array, channel_value_satoshis_arg: bigint): StaticPaymentOutputDescriptor {
+		const ret: number = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, CommonBase.get_ptr_of(output_arg), bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id_arg, 32)), channel_value_satoshis_arg);
 		const ret_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -341,12 +341,13 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.StaticPaymentOutputDescriptor_write(this.ptr);
-		return ret;
+		const ret: number = bindings.StaticPaymentOutputDescriptor_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_StaticPaymentOutputDescriptorDecodeErrorZ {
-		const ret: number = bindings.StaticPaymentOutputDescriptor_read(ser);
+		const ret: number = bindings.StaticPaymentOutputDescriptor_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_StaticPaymentOutputDescriptorDecodeErrorZ = Result_StaticPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class CommitmentTransaction extends CommonBase {
@@ -301,28 +300,29 @@ export class CommitmentTransaction extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.CommitmentTransaction_write(this.ptr);
-		return ret;
+		const ret: number = bindings.CommitmentTransaction_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_CommitmentTransactionDecodeErrorZ {
-		const ret: number = bindings.CommitmentTransaction_read(ser);
+		const ret: number = bindings.CommitmentTransaction_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CommitmentTransactionDecodeErrorZ = Result_CommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public commitment_number(): number {
-		const ret: number = bindings.CommitmentTransaction_commitment_number(this.ptr);
+	public commitment_number(): bigint {
+		const ret: bigint = bindings.CommitmentTransaction_commitment_number(this.ptr);
 		return ret;
 	}
 
-	public to_broadcaster_value_sat(): number {
-		const ret: number = bindings.CommitmentTransaction_to_broadcaster_value_sat(this.ptr);
+	public to_broadcaster_value_sat(): bigint {
+		const ret: bigint = bindings.CommitmentTransaction_to_broadcaster_value_sat(this.ptr);
 		return ret;
 	}
 
-	public to_countersignatory_value_sat(): number {
-		const ret: number = bindings.CommitmentTransaction_to_countersignatory_value_sat(this.ptr);
+	public to_countersignatory_value_sat(): bigint {
+		const ret: bigint = bindings.CommitmentTransaction_to_countersignatory_value_sat(this.ptr);
 		return ret;
 	}
 

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelDetails extends CommonBase {
@@ -289,12 +288,13 @@ export class ChannelDetails extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelDetails_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelDetails_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.ChannelDetails_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ChannelDetails_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_counterparty(): ChannelCounterparty {
@@ -330,12 +330,12 @@ export class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_short_channel_id(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
-	public get_channel_value_satoshis(): number {
-		const ret: number = bindings.ChannelDetails_get_channel_value_satoshis(this.ptr);
+	public get_channel_value_satoshis(): bigint {
+		const ret: bigint = bindings.ChannelDetails_get_channel_value_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_channel_value_satoshis(val: number): void {
+	public set_channel_value_satoshis(val: bigint): void {
 		bindings.ChannelDetails_set_channel_value_satoshis(this.ptr, val);
 	}
 
@@ -350,39 +350,39 @@ export class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_unspendable_punishment_reserve(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
-	public get_user_channel_id(): number {
-		const ret: number = bindings.ChannelDetails_get_user_channel_id(this.ptr);
+	public get_user_channel_id(): bigint {
+		const ret: bigint = bindings.ChannelDetails_get_user_channel_id(this.ptr);
 		return ret;
 	}
 
-	public set_user_channel_id(val: number): void {
+	public set_user_channel_id(val: bigint): void {
 		bindings.ChannelDetails_set_user_channel_id(this.ptr, val);
 	}
 
-	public get_balance_msat(): number {
-		const ret: number = bindings.ChannelDetails_get_balance_msat(this.ptr);
+	public get_balance_msat(): bigint {
+		const ret: bigint = bindings.ChannelDetails_get_balance_msat(this.ptr);
 		return ret;
 	}
 
-	public set_balance_msat(val: number): void {
+	public set_balance_msat(val: bigint): void {
 		bindings.ChannelDetails_set_balance_msat(this.ptr, val);
 	}
 
-	public get_outbound_capacity_msat(): number {
-		const ret: number = bindings.ChannelDetails_get_outbound_capacity_msat(this.ptr);
+	public get_outbound_capacity_msat(): bigint {
+		const ret: bigint = bindings.ChannelDetails_get_outbound_capacity_msat(this.ptr);
 		return ret;
 	}
 
-	public set_outbound_capacity_msat(val: number): void {
+	public set_outbound_capacity_msat(val: bigint): void {
 		bindings.ChannelDetails_set_outbound_capacity_msat(this.ptr, val);
 	}
 
-	public get_inbound_capacity_msat(): number {
-		const ret: number = bindings.ChannelDetails_get_inbound_capacity_msat(this.ptr);
+	public get_inbound_capacity_msat(): bigint {
+		const ret: bigint = bindings.ChannelDetails_get_inbound_capacity_msat(this.ptr);
 		return ret;
 	}
 
-	public set_inbound_capacity_msat(val: number): void {
+	public set_inbound_capacity_msat(val: bigint): void {
 		bindings.ChannelDetails_set_inbound_capacity_msat(this.ptr, val);
 	}
 
@@ -444,8 +444,8 @@ export class ChannelDetails extends CommonBase {
 		bindings.ChannelDetails_set_is_public(this.ptr, val);
 	}
 
-	public static constructor_new(channel_id_arg: Uint8Array, counterparty_arg: ChannelCounterparty, funding_txo_arg: OutPoint, short_channel_id_arg: Option_u64Z, channel_value_satoshis_arg: number, unspendable_punishment_reserve_arg: Option_u64Z, user_channel_id_arg: number, balance_msat_arg: number, outbound_capacity_msat_arg: number, inbound_capacity_msat_arg: number, confirmations_required_arg: Option_u32Z, force_close_spend_delay_arg: Option_u16Z, is_outbound_arg: boolean, is_funding_locked_arg: boolean, is_usable_arg: boolean, is_public_arg: boolean): ChannelDetails {
-		const ret: number = bindings.ChannelDetails_new(InternalUtils.check_arr_len(channel_id_arg, 32), counterparty_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_arg) & ~1, funding_txo_arg == null ? 0 : CommonBase.get_ptr_of(funding_txo_arg) & ~1, CommonBase.get_ptr_of(short_channel_id_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+	public static constructor_new(channel_id_arg: Uint8Array, counterparty_arg: ChannelCounterparty, funding_txo_arg: OutPoint, short_channel_id_arg: Option_u64Z, channel_value_satoshis_arg: bigint, unspendable_punishment_reserve_arg: Option_u64Z, user_channel_id_arg: bigint, balance_msat_arg: bigint, outbound_capacity_msat_arg: bigint, inbound_capacity_msat_arg: bigint, confirmations_required_arg: Option_u32Z, force_close_spend_delay_arg: Option_u16Z, is_outbound_arg: boolean, is_funding_locked_arg: boolean, is_usable_arg: boolean, is_public_arg: boolean): ChannelDetails {
+		const ret: number = bindings.ChannelDetails_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_arg) & ~1, funding_txo_arg == null ? 0 : CommonBase.get_ptr_of(funding_txo_arg) & ~1, CommonBase.get_ptr_of(short_channel_id_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

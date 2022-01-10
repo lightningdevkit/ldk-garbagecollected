@@ -279,26 +279,20 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class MonitorEvent extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.MonitorEvent_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): MonitorEvent {
-		const raw_val: bindings.LDKMonitorEvent = bindings.LDKMonitorEvent_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKMonitorEvent_HTLCEvent) {
-			return new MonitorEvent_HTLCEvent(ptr, raw_val);
+		const raw_ty: number = bindings.LDKMonitorEvent_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new MonitorEvent_HTLCEvent(ptr);
+			case 1: return new MonitorEvent_CommitmentTxConfirmed(ptr);
+			case 2: return new MonitorEvent_UpdateCompleted(ptr);
+			case 3: return new MonitorEvent_UpdateFailed(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKMonitorEvent_CommitmentTxConfirmed) {
-			return new MonitorEvent_CommitmentTxConfirmed(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMonitorEvent_UpdateCompleted) {
-			return new MonitorEvent_UpdateCompleted(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMonitorEvent_UpdateFailed) {
-			return new MonitorEvent_UpdateFailed(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -327,7 +321,7 @@ export class MonitorEvent extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_update_completed(funding_txo: OutPoint, monitor_update_id: number): MonitorEvent {
+	public static constructor_update_completed(funding_txo: OutPoint, monitor_update_id: bigint): MonitorEvent {
 		const ret: number = bindings.MonitorEvent_update_completed(funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1, monitor_update_id);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -342,17 +336,18 @@ export class MonitorEvent extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.MonitorEvent_write(this.ptr);
-		return ret;
+		const ret: number = bindings.MonitorEvent_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }
 export class MonitorEvent_HTLCEvent extends MonitorEvent {
 	public htlc_event: HTLCUpdate;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMonitorEvent_HTLCEvent) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const htlc_event: number = obj.htlc_event;
+		const htlc_event: number = bindings.LDKMonitorEvent_HTLCEvent_get_htlc_event(ptr);
 		const htlc_event_hu_conv: HTLCUpdate = new HTLCUpdate(null, htlc_event);
 			CommonBase.add_ref_from(htlc_event_hu_conv, this);
 		this.htlc_event = htlc_event_hu_conv;
@@ -361,9 +356,9 @@ export class MonitorEvent_HTLCEvent extends MonitorEvent {
 export class MonitorEvent_CommitmentTxConfirmed extends MonitorEvent {
 	public commitment_tx_confirmed: OutPoint;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMonitorEvent_CommitmentTxConfirmed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const commitment_tx_confirmed: number = obj.commitment_tx_confirmed;
+		const commitment_tx_confirmed: number = bindings.LDKMonitorEvent_CommitmentTxConfirmed_get_commitment_tx_confirmed(ptr);
 		const commitment_tx_confirmed_hu_conv: OutPoint = new OutPoint(null, commitment_tx_confirmed);
 			CommonBase.add_ref_from(commitment_tx_confirmed_hu_conv, this);
 		this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
@@ -371,23 +366,23 @@ export class MonitorEvent_CommitmentTxConfirmed extends MonitorEvent {
 }
 export class MonitorEvent_UpdateCompleted extends MonitorEvent {
 	public funding_txo: OutPoint;
-	public monitor_update_id: number;
+	public monitor_update_id: bigint;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMonitorEvent_UpdateCompleted) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const funding_txo: number = obj.funding_txo;
+		const funding_txo: number = bindings.LDKMonitorEvent_UpdateCompleted_get_funding_txo(ptr);
 		const funding_txo_hu_conv: OutPoint = new OutPoint(null, funding_txo);
 			CommonBase.add_ref_from(funding_txo_hu_conv, this);
 		this.funding_txo = funding_txo_hu_conv;
-		this.monitor_update_id = obj.monitor_update_id;
+		this.monitor_update_id = bindings.LDKMonitorEvent_UpdateCompleted_get_monitor_update_id(ptr);
 	}
 }
 export class MonitorEvent_UpdateFailed extends MonitorEvent {
 	public update_failed: OutPoint;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMonitorEvent_UpdateFailed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const update_failed: number = obj.update_failed;
+		const update_failed: number = bindings.LDKMonitorEvent_UpdateFailed_get_update_failed(ptr);
 		const update_failed_hu_conv: OutPoint = new OutPoint(null, update_failed);
 			CommonBase.add_ref_from(update_failed_hu_conv, this);
 		this.update_failed = update_failed_hu_conv;

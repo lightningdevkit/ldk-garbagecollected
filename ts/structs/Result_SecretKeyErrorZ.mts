@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -296,7 +295,7 @@ export class Result_SecretKeyErrorZ extends CommonBase {
 		}
 	}
 	public static constructor_ok(o: Uint8Array): Result_SecretKeyErrorZ {
-		const ret: number = bindings.CResult_SecretKeyErrorZ_ok(InternalUtils.check_arr_len(o, 32));
+		const ret: number = bindings.CResult_SecretKeyErrorZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 32)));
 		const ret_hu_conv: Result_SecretKeyErrorZ = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -319,7 +318,9 @@ export class Result_SecretKeyErrorZ_OK extends Result_SecretKeyErrorZ {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(_dummy, ptr);
-		this.res = bindings.CResult_SecretKeyErrorZ_get_ok(ptr);
+		const res: number = bindings.CResult_SecretKeyErrorZ_get_ok(ptr);
+		const res_conv: Uint8Array = bindings.decodeUint8Array(res);
+		this.res = res_conv;
 	}
 }
 export class Result_SecretKeyErrorZ_Err extends Result_SecretKeyErrorZ {

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ClosingSignedFeeRange extends CommonBase {
@@ -288,25 +287,25 @@ export class ClosingSignedFeeRange extends CommonBase {
 		super(ptr, bindings.ClosingSignedFeeRange_free);
 	}
 
-	public get_min_fee_satoshis(): number {
-		const ret: number = bindings.ClosingSignedFeeRange_get_min_fee_satoshis(this.ptr);
+	public get_min_fee_satoshis(): bigint {
+		const ret: bigint = bindings.ClosingSignedFeeRange_get_min_fee_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_min_fee_satoshis(val: number): void {
+	public set_min_fee_satoshis(val: bigint): void {
 		bindings.ClosingSignedFeeRange_set_min_fee_satoshis(this.ptr, val);
 	}
 
-	public get_max_fee_satoshis(): number {
-		const ret: number = bindings.ClosingSignedFeeRange_get_max_fee_satoshis(this.ptr);
+	public get_max_fee_satoshis(): bigint {
+		const ret: bigint = bindings.ClosingSignedFeeRange_get_max_fee_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_max_fee_satoshis(val: number): void {
+	public set_max_fee_satoshis(val: bigint): void {
 		bindings.ClosingSignedFeeRange_set_max_fee_satoshis(this.ptr, val);
 	}
 
-	public static constructor_new(min_fee_satoshis_arg: number, max_fee_satoshis_arg: number): ClosingSignedFeeRange {
+	public static constructor_new(min_fee_satoshis_arg: bigint, max_fee_satoshis_arg: bigint): ClosingSignedFeeRange {
 		const ret: number = bindings.ClosingSignedFeeRange_new(min_fee_satoshis_arg, max_fee_satoshis_arg);
 		const ret_hu_conv: ClosingSignedFeeRange = new ClosingSignedFeeRange(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -326,12 +325,13 @@ export class ClosingSignedFeeRange extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ClosingSignedFeeRange_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ClosingSignedFeeRange_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ClosingSignedFeeRangeDecodeErrorZ {
-		const ret: number = bindings.ClosingSignedFeeRange_read(ser);
+		const ret: number = bindings.ClosingSignedFeeRange_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ClosingSignedFeeRangeDecodeErrorZ = Result_ClosingSignedFeeRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

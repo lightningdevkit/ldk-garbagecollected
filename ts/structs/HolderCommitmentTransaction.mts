@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class HolderCommitmentTransaction extends CommonBase {
@@ -289,16 +288,17 @@ export class HolderCommitmentTransaction extends CommonBase {
 	}
 
 	public get_counterparty_sig(): Uint8Array {
-		const ret: Uint8Array = bindings.HolderCommitmentTransaction_get_counterparty_sig(this.ptr);
-		return ret;
+		const ret: number = bindings.HolderCommitmentTransaction_get_counterparty_sig(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_counterparty_sig(val: Uint8Array): void {
-		bindings.HolderCommitmentTransaction_set_counterparty_sig(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.HolderCommitmentTransaction_set_counterparty_sig(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public set_counterparty_htlc_sigs(val: Uint8Array[]): void {
-		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, val != null ? val.map(val_conv_12 => InternalUtils.check_arr_len(val_conv_12, 64)) : null);
+		bindings.HolderCommitmentTransaction_set_counterparty_htlc_sigs(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(val_conv_12, 64))) : null));
 	}
 
 	public clone_ptr(): number {
@@ -314,18 +314,19 @@ export class HolderCommitmentTransaction extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.HolderCommitmentTransaction_write(this.ptr);
-		return ret;
+		const ret: number = bindings.HolderCommitmentTransaction_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_HolderCommitmentTransactionDecodeErrorZ {
-		const ret: number = bindings.HolderCommitmentTransaction_read(ser);
+		const ret: number = bindings.HolderCommitmentTransaction_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_HolderCommitmentTransactionDecodeErrorZ = Result_HolderCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_new(commitment_tx: CommitmentTransaction, counterparty_sig: Uint8Array, counterparty_htlc_sigs: Uint8Array[], holder_funding_key: Uint8Array, counterparty_funding_key: Uint8Array): HolderCommitmentTransaction {
-		const ret: number = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : CommonBase.get_ptr_of(commitment_tx) & ~1, InternalUtils.check_arr_len(counterparty_sig, 64), counterparty_htlc_sigs != null ? counterparty_htlc_sigs.map(counterparty_htlc_sigs_conv_12 => InternalUtils.check_arr_len(counterparty_htlc_sigs_conv_12, 64)) : null, InternalUtils.check_arr_len(holder_funding_key, 33), InternalUtils.check_arr_len(counterparty_funding_key, 33));
+		const ret: number = bindings.HolderCommitmentTransaction_new(commitment_tx == null ? 0 : CommonBase.get_ptr_of(commitment_tx) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(counterparty_sig, 64)), bindings.encodeUint32Array(counterparty_htlc_sigs != null ? counterparty_htlc_sigs.map(counterparty_htlc_sigs_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(counterparty_htlc_sigs_conv_12, 64))) : null), bindings.encodeUint8Array(bindings.check_arr_len(holder_funding_key, 33)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_funding_key, 33)));
 		const ret_hu_conv: HolderCommitmentTransaction = new HolderCommitmentTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

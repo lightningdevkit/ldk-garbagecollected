@@ -279,23 +279,19 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class SpendableOutputDescriptor extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.SpendableOutputDescriptor_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): SpendableOutputDescriptor {
-		const raw_val: bindings.LDKSpendableOutputDescriptor = bindings.LDKSpendableOutputDescriptor_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKSpendableOutputDescriptor_StaticOutput) {
-			return new SpendableOutputDescriptor_StaticOutput(ptr, raw_val);
+		const raw_ty: number = bindings.LDKSpendableOutputDescriptor_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new SpendableOutputDescriptor_StaticOutput(ptr);
+			case 1: return new SpendableOutputDescriptor_DelayedPaymentOutput(ptr);
+			case 2: return new SpendableOutputDescriptor_StaticPaymentOutput(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKSpendableOutputDescriptor_DelayedPaymentOutput) {
-			return new SpendableOutputDescriptor_DelayedPaymentOutput(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKSpendableOutputDescriptor_StaticPaymentOutput) {
-			return new SpendableOutputDescriptor_StaticPaymentOutput(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -332,12 +328,13 @@ export class SpendableOutputDescriptor extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.SpendableOutputDescriptor_write(this.ptr);
-		return ret;
+		const ret: number = bindings.SpendableOutputDescriptor_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_SpendableOutputDescriptorDecodeErrorZ {
-		const ret: number = bindings.SpendableOutputDescriptor_read(ser);
+		const ret: number = bindings.SpendableOutputDescriptor_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_SpendableOutputDescriptorDecodeErrorZ = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -347,13 +344,13 @@ export class SpendableOutputDescriptor_StaticOutput extends SpendableOutputDescr
 	public outpoint: OutPoint;
 	public output: TxOut;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKSpendableOutputDescriptor_StaticOutput) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const outpoint: number = obj.outpoint;
+		const outpoint: number = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_outpoint(ptr);
 		const outpoint_hu_conv: OutPoint = new OutPoint(null, outpoint);
 			CommonBase.add_ref_from(outpoint_hu_conv, this);
 		this.outpoint = outpoint_hu_conv;
-		const output: number = obj.output;
+		const output: number = bindings.LDKSpendableOutputDescriptor_StaticOutput_get_output(ptr);
 		const output_conv: TxOut = new TxOut(null, output);
 		this.output = output_conv;
 	}
@@ -361,9 +358,9 @@ export class SpendableOutputDescriptor_StaticOutput extends SpendableOutputDescr
 export class SpendableOutputDescriptor_DelayedPaymentOutput extends SpendableOutputDescriptor {
 	public delayed_payment_output: DelayedPaymentOutputDescriptor;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKSpendableOutputDescriptor_DelayedPaymentOutput) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const delayed_payment_output: number = obj.delayed_payment_output;
+		const delayed_payment_output: number = bindings.LDKSpendableOutputDescriptor_DelayedPaymentOutput_get_delayed_payment_output(ptr);
 		const delayed_payment_output_hu_conv: DelayedPaymentOutputDescriptor = new DelayedPaymentOutputDescriptor(null, delayed_payment_output);
 			CommonBase.add_ref_from(delayed_payment_output_hu_conv, this);
 		this.delayed_payment_output = delayed_payment_output_hu_conv;
@@ -372,9 +369,9 @@ export class SpendableOutputDescriptor_DelayedPaymentOutput extends SpendableOut
 export class SpendableOutputDescriptor_StaticPaymentOutput extends SpendableOutputDescriptor {
 	public static_payment_output: StaticPaymentOutputDescriptor;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKSpendableOutputDescriptor_StaticPaymentOutput) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const static_payment_output: number = obj.static_payment_output;
+		const static_payment_output: number = bindings.LDKSpendableOutputDescriptor_StaticPaymentOutput_get_static_payment_output(ptr);
 		const static_payment_output_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, static_payment_output);
 			CommonBase.add_ref_from(static_payment_output_hu_conv, this);
 		this.static_payment_output = static_payment_output_hu_conv;

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -295,7 +294,7 @@ export class Result_ScoringParametersDecodeErrorZ extends CommonBase {
 			return new Result_ScoringParametersDecodeErrorZ_Err(null, ptr);
 		}
 	}
-	public static constructor_ok(o_base_penalty_msat_arg: number, o_failure_penalty_msat_arg: number, o_overuse_penalty_start_1024th_arg: number, o_overuse_penalty_msat_per_1024th_arg: number, o_failure_penalty_half_life_arg: number): Result_ScoringParametersDecodeErrorZ {
+	public static constructor_ok(o_base_penalty_msat_arg: bigint, o_failure_penalty_msat_arg: bigint, o_overuse_penalty_start_1024th_arg: number, o_overuse_penalty_msat_per_1024th_arg: bigint, o_failure_penalty_half_life_arg: bigint): Result_ScoringParametersDecodeErrorZ {
 		const ret: number = bindings.CResult_ScoringParametersDecodeErrorZ_ok(bindings.ScoringParameters_new(o_base_penalty_msat_arg, o_failure_penalty_msat_arg, o_overuse_penalty_start_1024th_arg, o_overuse_penalty_msat_per_1024th_arg, o_failure_penalty_half_life_arg));
 		const ret_hu_conv: Result_ScoringParametersDecodeErrorZ = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

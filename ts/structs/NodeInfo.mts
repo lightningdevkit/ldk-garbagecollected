@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class NodeInfo extends CommonBase {
@@ -288,8 +287,8 @@ export class NodeInfo extends CommonBase {
 		super(ptr, bindings.NodeInfo_free);
 	}
 
-	public set_channels(val: number[]): void {
-		bindings.NodeInfo_set_channels(this.ptr, val);
+	public set_channels(val: bigint[]): void {
+		bindings.NodeInfo_set_channels(this.ptr, bindings.encodeUint64Array(val));
 	}
 
 	public get_lowest_inbound_channel_fees(): RoutingFees {
@@ -314,8 +313,8 @@ export class NodeInfo extends CommonBase {
 		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
-	public static constructor_new(channels_arg: number[], lowest_inbound_channel_fees_arg: RoutingFees, announcement_info_arg: NodeAnnouncementInfo): NodeInfo {
-		const ret: number = bindings.NodeInfo_new(channels_arg, lowest_inbound_channel_fees_arg == null ? 0 : CommonBase.get_ptr_of(lowest_inbound_channel_fees_arg) & ~1, announcement_info_arg == null ? 0 : CommonBase.get_ptr_of(announcement_info_arg) & ~1);
+	public static constructor_new(channels_arg: bigint[], lowest_inbound_channel_fees_arg: RoutingFees, announcement_info_arg: NodeAnnouncementInfo): NodeInfo {
+		const ret: number = bindings.NodeInfo_new(bindings.encodeUint64Array(channels_arg), lowest_inbound_channel_fees_arg == null ? 0 : CommonBase.get_ptr_of(lowest_inbound_channel_fees_arg) & ~1, announcement_info_arg == null ? 0 : CommonBase.get_ptr_of(announcement_info_arg) & ~1);
 		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -334,12 +333,13 @@ export class NodeInfo extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.NodeInfo_write(this.ptr);
-		return ret;
+		const ret: number = bindings.NodeInfo_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_NodeInfoDecodeErrorZ {
-		const ret: number = bindings.NodeInfo_read(ser);
+		const ret: number = bindings.NodeInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeInfoDecodeErrorZ = Result_NodeInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

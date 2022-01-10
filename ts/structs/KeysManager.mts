@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class KeysManager extends CommonBase {
@@ -288,22 +287,22 @@ export class KeysManager extends CommonBase {
 		super(ptr, bindings.KeysManager_free);
 	}
 
-	public static constructor_new(seed: Uint8Array, starting_time_secs: number, starting_time_nanos: number): KeysManager {
-		const ret: number = bindings.KeysManager_new(InternalUtils.check_arr_len(seed, 32), starting_time_secs, starting_time_nanos);
+	public static constructor_new(seed: Uint8Array, starting_time_secs: bigint, starting_time_nanos: number): KeysManager {
+		const ret: number = bindings.KeysManager_new(bindings.encodeUint8Array(bindings.check_arr_len(seed, 32)), starting_time_secs, starting_time_nanos);
 		const ret_hu_conv: KeysManager = new KeysManager(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public derive_channel_keys(channel_value_satoshis: number, params: Uint8Array): InMemorySigner {
-		const ret: number = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, InternalUtils.check_arr_len(params, 32));
+	public derive_channel_keys(channel_value_satoshis: bigint, params: Uint8Array): InMemorySigner {
+		const ret: number = bindings.KeysManager_derive_channel_keys(this.ptr, channel_value_satoshis, bindings.encodeUint8Array(bindings.check_arr_len(params, 32)));
 		const ret_hu_conv: InMemorySigner = new InMemorySigner(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
 	public spend_spendable_outputs(descriptors: SpendableOutputDescriptor[], outputs: TxOut[], change_destination_script: Uint8Array, feerate_sat_per_1000_weight: number): Result_TransactionNoneZ {
-		const ret: number = bindings.KeysManager_spend_spendable_outputs(this.ptr, descriptors != null ? descriptors.map(descriptors_conv_27 => CommonBase.get_ptr_of(descriptors_conv_27)) : null, outputs != null ? outputs.map(outputs_conv_7 => CommonBase.get_ptr_of(outputs_conv_7)) : null, change_destination_script, feerate_sat_per_1000_weight);
+		const ret: number = bindings.KeysManager_spend_spendable_outputs(this.ptr, bindings.encodeUint32Array(descriptors != null ? descriptors.map(descriptors_conv_27 => CommonBase.get_ptr_of(descriptors_conv_27)) : null), bindings.encodeUint32Array(outputs != null ? outputs.map(outputs_conv_7 => CommonBase.get_ptr_of(outputs_conv_7)) : null), bindings.encodeUint8Array(change_destination_script), feerate_sat_per_1000_weight);
 		const ret_hu_conv: Result_TransactionNoneZ = Result_TransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

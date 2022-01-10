@@ -280,13 +280,12 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
 export interface TypeInterface {
 	type_id(): number;
-	debug_str(): String;
+	debug_str(): string;
 	write(): Uint8Array;
 }
 
@@ -311,13 +310,15 @@ export class Type extends CommonBase {
 				const ret: number = arg.type_id();
 				return ret;
 			},
-			debug_str (): String {
-				const ret: String = arg.debug_str();
-				return ret;
+			debug_str (): number {
+				const ret: string = arg.debug_str();
+				const result: number = bindings.encodeString(ret);
+				return result;
 			},
-			write (): Uint8Array {
+			write (): number {
 				const ret: Uint8Array = arg.write();
-				return ret;
+				const result: number = bindings.encodeUint8Array(ret);
+				return result;
 			},
 		} as bindings.LDKType;
 		const ptr: number = bindings.LDKType_new(structImplementation);
@@ -331,14 +332,16 @@ export class Type extends CommonBase {
 		return ret;
 	}
 
-	public debug_str(): String {
-		const ret: String = bindings.Type_debug_str(this.ptr);
-		return ret;
+	public debug_str(): string {
+		const ret: number = bindings.Type_debug_str(this.ptr);
+		const ret_conv: string = bindings.decodeString(ret);
+		return ret_conv;
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.Type_write(this.ptr);
-		return ret;
+		const ret: number = bindings.Type_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public clone_ptr(): number {

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelUpdate extends CommonBase {
@@ -289,12 +288,13 @@ export class ChannelUpdate extends CommonBase {
 	}
 
 	public get_signature(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelUpdate_get_signature(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelUpdate_get_signature(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_signature(val: Uint8Array): void {
-		bindings.ChannelUpdate_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.ChannelUpdate_set_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public get_contents(): UnsignedChannelUpdate {
@@ -309,7 +309,7 @@ export class ChannelUpdate extends CommonBase {
 	}
 
 	public static constructor_new(signature_arg: Uint8Array, contents_arg: UnsignedChannelUpdate): ChannelUpdate {
-		const ret: number = bindings.ChannelUpdate_new(InternalUtils.check_arr_len(signature_arg, 64), contents_arg == null ? 0 : CommonBase.get_ptr_of(contents_arg) & ~1);
+		const ret: number = bindings.ChannelUpdate_new(bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), contents_arg == null ? 0 : CommonBase.get_ptr_of(contents_arg) & ~1);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -328,12 +328,13 @@ export class ChannelUpdate extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelUpdate_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelUpdate_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ChannelUpdateDecodeErrorZ {
-		const ret: number = bindings.ChannelUpdate_read(ser);
+		const ret: number = bindings.ChannelUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelUpdateDecodeErrorZ = Result_ChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

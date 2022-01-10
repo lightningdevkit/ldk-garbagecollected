@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -296,7 +295,7 @@ export class Result__u832APIErrorZ extends CommonBase {
 		}
 	}
 	public static constructor_ok(o: Uint8Array): Result__u832APIErrorZ {
-		const ret: number = bindings.CResult__u832APIErrorZ_ok(InternalUtils.check_arr_len(o, 32));
+		const ret: number = bindings.CResult__u832APIErrorZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 32)));
 		const ret_hu_conv: Result__u832APIErrorZ = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -330,7 +329,9 @@ export class Result__u832APIErrorZ_OK extends Result__u832APIErrorZ {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(_dummy, ptr);
-		this.res = bindings.CResult__u832APIErrorZ_get_ok(ptr);
+		const res: number = bindings.CResult__u832APIErrorZ_get_ok(ptr);
+		const res_conv: Uint8Array = bindings.decodeUint8Array(res);
+		this.res = res_conv;
 	}
 }
 export class Result__u832APIErrorZ_Err extends Result__u832APIErrorZ {

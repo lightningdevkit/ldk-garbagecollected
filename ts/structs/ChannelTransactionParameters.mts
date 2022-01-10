@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelTransactionParameters extends CommonBase {
@@ -387,12 +386,13 @@ export class ChannelTransactionParameters extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelTransactionParameters_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelTransactionParameters_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ChannelTransactionParametersDecodeErrorZ {
-		const ret: number = bindings.ChannelTransactionParameters_read(ser);
+		const ret: number = bindings.ChannelTransactionParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelTransactionParametersDecodeErrorZ = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

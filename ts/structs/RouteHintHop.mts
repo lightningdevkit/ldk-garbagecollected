@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class RouteHintHop extends CommonBase {
@@ -289,20 +288,21 @@ export class RouteHintHop extends CommonBase {
 	}
 
 	public get_src_node_id(): Uint8Array {
-		const ret: Uint8Array = bindings.RouteHintHop_get_src_node_id(this.ptr);
-		return ret;
+		const ret: number = bindings.RouteHintHop_get_src_node_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_src_node_id(val: Uint8Array): void {
-		bindings.RouteHintHop_set_src_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.RouteHintHop_set_src_node_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
-	public get_short_channel_id(): number {
-		const ret: number = bindings.RouteHintHop_get_short_channel_id(this.ptr);
+	public get_short_channel_id(): bigint {
+		const ret: bigint = bindings.RouteHintHop_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
-	public set_short_channel_id(val: number): void {
+	public set_short_channel_id(val: bigint): void {
 		bindings.RouteHintHop_set_short_channel_id(this.ptr, val);
 	}
 
@@ -348,8 +348,8 @@ export class RouteHintHop extends CommonBase {
 		bindings.RouteHintHop_set_htlc_maximum_msat(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
-	public static constructor_new(src_node_id_arg: Uint8Array, short_channel_id_arg: number, fees_arg: RoutingFees, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: Option_u64Z, htlc_maximum_msat_arg: Option_u64Z): RouteHintHop {
-		const ret: number = bindings.RouteHintHop_new(InternalUtils.check_arr_len(src_node_id_arg, 33), short_channel_id_arg, fees_arg == null ? 0 : CommonBase.get_ptr_of(fees_arg) & ~1, cltv_expiry_delta_arg, CommonBase.get_ptr_of(htlc_minimum_msat_arg), CommonBase.get_ptr_of(htlc_maximum_msat_arg));
+	public static constructor_new(src_node_id_arg: Uint8Array, short_channel_id_arg: bigint, fees_arg: RoutingFees, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: Option_u64Z, htlc_maximum_msat_arg: Option_u64Z): RouteHintHop {
+		const ret: number = bindings.RouteHintHop_new(bindings.encodeUint8Array(bindings.check_arr_len(src_node_id_arg, 33)), short_channel_id_arg, fees_arg == null ? 0 : CommonBase.get_ptr_of(fees_arg) & ~1, cltv_expiry_delta_arg, CommonBase.get_ptr_of(htlc_minimum_msat_arg), CommonBase.get_ptr_of(htlc_maximum_msat_arg));
 		const ret_hu_conv: RouteHintHop = new RouteHintHop(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -367,8 +367,8 @@ export class RouteHintHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.RouteHintHop_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.RouteHintHop_hash(this.ptr);
 		return ret;
 	}
 
@@ -379,12 +379,13 @@ export class RouteHintHop extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.RouteHintHop_write(this.ptr);
-		return ret;
+		const ret: number = bindings.RouteHintHop_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_RouteHintHopDecodeErrorZ {
-		const ret: number = bindings.RouteHintHop_read(ser);
+		const ret: number = bindings.RouteHintHop_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteHintHopDecodeErrorZ = Result_RouteHintHopDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -288,7 +287,7 @@ export interface KeysInterfaceInterface {
 	get_node_secret(): Uint8Array;
 	get_destination_script(): Uint8Array;
 	get_shutdown_scriptpubkey(): ShutdownScript;
-	get_channel_signer(inbound: boolean, channel_value_satoshis: number): Sign;
+	get_channel_signer(inbound: boolean, channel_value_satoshis: bigint): Sign;
 	get_secure_random_bytes(): Uint8Array;
 	read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ;
 	sign_invoice(invoice_preimage: Uint8Array): Result_RecoverableSignatureNoneZ;
@@ -312,44 +311,47 @@ export class KeysInterface extends CommonBase {
 	static new_impl(arg: KeysInterfaceInterface): KeysInterface {
 		const impl_holder: LDKKeysInterfaceHolder = new LDKKeysInterfaceHolder();
 		let structImplementation = {
-			get_node_secret (): Uint8Array {
+			get_node_secret (): number {
 				const ret: Uint8Array = arg.get_node_secret();
-				const result: Uint8Array = InternalUtils.check_arr_len(ret, 32);
+				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
 				return result;
 			},
-			get_destination_script (): Uint8Array {
+			get_destination_script (): number {
 				const ret: Uint8Array = arg.get_destination_script();
-				return ret;
+				const result: number = bindings.encodeUint8Array(ret);
+				return result;
 			},
 			get_shutdown_scriptpubkey (): number {
 				const ret: ShutdownScript = arg.get_shutdown_scriptpubkey();
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			get_channel_signer (inbound: boolean, channel_value_satoshis: number): number {
+			get_channel_signer (inbound: boolean, channel_value_satoshis: bigint): number {
 				const ret: Sign = arg.get_channel_signer(inbound, channel_value_satoshis);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				CommonBase.add_ref_from(impl_holder.held, ret);
 				return result;
 			},
-			get_secure_random_bytes (): Uint8Array {
+			get_secure_random_bytes (): number {
 				const ret: Uint8Array = arg.get_secure_random_bytes();
-				const result: Uint8Array = InternalUtils.check_arr_len(ret, 32);
+				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
 				return result;
 			},
-			read_chan_signer (reader: Uint8Array): number {
-				const ret: Result_SignDecodeErrorZ = arg.read_chan_signer(reader);
+			read_chan_signer (reader: number): number {
+				const reader_conv: Uint8Array = bindings.decodeUint8Array(reader);
+				const ret: Result_SignDecodeErrorZ = arg.read_chan_signer(reader_conv);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			sign_invoice (invoice_preimage: Uint8Array): number {
-				const ret: Result_RecoverableSignatureNoneZ = arg.sign_invoice(invoice_preimage);
+			sign_invoice (invoice_preimage: number): number {
+				const invoice_preimage_conv: Uint8Array = bindings.decodeUint8Array(invoice_preimage);
+				const ret: Result_RecoverableSignatureNoneZ = arg.sign_invoice(invoice_preimage_conv);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			get_inbound_payment_key_material (): Uint8Array {
+			get_inbound_payment_key_material (): number {
 				const ret: Uint8Array = arg.get_inbound_payment_key_material();
-				const result: Uint8Array = InternalUtils.check_arr_len(ret, 32);
+				const result: number = bindings.encodeUint8Array(bindings.check_arr_len(ret, 32));
 				return result;
 			},
 		} as bindings.LDKKeysInterface;
@@ -360,13 +362,15 @@ export class KeysInterface extends CommonBase {
 		return impl_holder.held;
 	}
 	public get_node_secret(): Uint8Array {
-		const ret: Uint8Array = bindings.KeysInterface_get_node_secret(this.ptr);
-		return ret;
+		const ret: number = bindings.KeysInterface_get_node_secret(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_destination_script(): Uint8Array {
-		const ret: Uint8Array = bindings.KeysInterface_get_destination_script(this.ptr);
-		return ret;
+		const ret: number = bindings.KeysInterface_get_destination_script(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_shutdown_scriptpubkey(): ShutdownScript {
@@ -376,7 +380,7 @@ export class KeysInterface extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public get_channel_signer(inbound: boolean, channel_value_satoshis: number): Sign {
+	public get_channel_signer(inbound: boolean, channel_value_satoshis: bigint): Sign {
 		const ret: number = bindings.KeysInterface_get_channel_signer(this.ptr, inbound, channel_value_satoshis);
 		const ret_hu_conv: Sign = new Sign(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
@@ -384,25 +388,27 @@ export class KeysInterface extends CommonBase {
 	}
 
 	public get_secure_random_bytes(): Uint8Array {
-		const ret: Uint8Array = bindings.KeysInterface_get_secure_random_bytes(this.ptr);
-		return ret;
+		const ret: number = bindings.KeysInterface_get_secure_random_bytes(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ {
-		const ret: number = bindings.KeysInterface_read_chan_signer(this.ptr, reader);
+		const ret: number = bindings.KeysInterface_read_chan_signer(this.ptr, bindings.encodeUint8Array(reader));
 		const ret_hu_conv: Result_SignDecodeErrorZ = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public sign_invoice(invoice_preimage: Uint8Array): Result_RecoverableSignatureNoneZ {
-		const ret: number = bindings.KeysInterface_sign_invoice(this.ptr, invoice_preimage);
+		const ret: number = bindings.KeysInterface_sign_invoice(this.ptr, bindings.encodeUint8Array(invoice_preimage));
 		const ret_hu_conv: Result_RecoverableSignatureNoneZ = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public get_inbound_payment_key_material(): Uint8Array {
-		const ret: Uint8Array = bindings.KeysInterface_get_inbound_payment_key_material(this.ptr);
-		return ret;
+		const ret: number = bindings.KeysInterface_get_inbound_payment_key_material(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class UnsignedChannelUpdate extends CommonBase {
@@ -289,20 +288,21 @@ export class UnsignedChannelUpdate extends CommonBase {
 	}
 
 	public get_chain_hash(): Uint8Array {
-		const ret: Uint8Array = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
-		return ret;
+		const ret: number = bindings.UnsignedChannelUpdate_get_chain_hash(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_chain_hash(val: Uint8Array): void {
-		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UnsignedChannelUpdate_set_chain_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_short_channel_id(): number {
-		const ret: number = bindings.UnsignedChannelUpdate_get_short_channel_id(this.ptr);
+	public get_short_channel_id(): bigint {
+		const ret: bigint = bindings.UnsignedChannelUpdate_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
-	public set_short_channel_id(val: number): void {
+	public set_short_channel_id(val: bigint): void {
 		bindings.UnsignedChannelUpdate_set_short_channel_id(this.ptr, val);
 	}
 
@@ -333,12 +333,12 @@ export class UnsignedChannelUpdate extends CommonBase {
 		bindings.UnsignedChannelUpdate_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public get_htlc_minimum_msat(): number {
-		const ret: number = bindings.UnsignedChannelUpdate_get_htlc_minimum_msat(this.ptr);
+	public get_htlc_minimum_msat(): bigint {
+		const ret: bigint = bindings.UnsignedChannelUpdate_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public set_htlc_minimum_msat(val: number): void {
+	public set_htlc_minimum_msat(val: bigint): void {
 		bindings.UnsignedChannelUpdate_set_htlc_minimum_msat(this.ptr, val);
 	}
 
@@ -373,12 +373,13 @@ export class UnsignedChannelUpdate extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.UnsignedChannelUpdate_write(this.ptr);
-		return ret;
+		const ret: number = bindings.UnsignedChannelUpdate_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_UnsignedChannelUpdateDecodeErrorZ {
-		const ret: number = bindings.UnsignedChannelUpdate_read(ser);
+		const ret: number = bindings.UnsignedChannelUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UnsignedChannelUpdateDecodeErrorZ = Result_UnsignedChannelUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -288,7 +287,7 @@ export interface SocketDescriptorInterface {
 	send_data(data: Uint8Array, resume_read: boolean): number;
 	disconnect_socket(): void;
 	eq(other_arg: SocketDescriptor): boolean;
-	hash(): number;
+	hash(): bigint;
 }
 
 class LDKSocketDescriptorHolder {
@@ -308,8 +307,9 @@ export class SocketDescriptor extends CommonBase {
 	static new_impl(arg: SocketDescriptorInterface): SocketDescriptor {
 		const impl_holder: LDKSocketDescriptorHolder = new LDKSocketDescriptorHolder();
 		let structImplementation = {
-			send_data (data: Uint8Array, resume_read: boolean): number {
-				const ret: number = arg.send_data(data, resume_read);
+			send_data (data: number, resume_read: boolean): number {
+				const data_conv: Uint8Array = bindings.decodeUint8Array(data);
+				const ret: number = arg.send_data(data_conv, resume_read);
 				return ret;
 			},
 			disconnect_socket (): void {
@@ -321,8 +321,8 @@ export class SocketDescriptor extends CommonBase {
 				const ret: boolean = arg.eq(ret_hu_conv);
 				return ret;
 			},
-			hash (): number {
-				const ret: number = arg.hash();
+			hash (): bigint {
+				const ret: bigint = arg.hash();
 				return ret;
 			},
 		} as bindings.LDKSocketDescriptor;
@@ -333,7 +333,7 @@ export class SocketDescriptor extends CommonBase {
 		return impl_holder.held;
 	}
 	public send_data(data: Uint8Array, resume_read: boolean): number {
-		const ret: number = bindings.SocketDescriptor_send_data(this.ptr, data, resume_read);
+		const ret: number = bindings.SocketDescriptor_send_data(this.ptr, bindings.encodeUint8Array(data), resume_read);
 		return ret;
 	}
 
@@ -341,8 +341,8 @@ export class SocketDescriptor extends CommonBase {
 		bindings.SocketDescriptor_disconnect_socket(this.ptr);
 	}
 
-	public hash(): number {
-		const ret: number = bindings.SocketDescriptor_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.SocketDescriptor_hash(this.ptr);
 		return ret;
 	}
 

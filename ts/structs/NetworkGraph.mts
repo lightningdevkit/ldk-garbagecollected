@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class NetworkGraph extends CommonBase {
@@ -301,18 +300,19 @@ export class NetworkGraph extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.NetworkGraph_write(this.ptr);
-		return ret;
+		const ret: number = bindings.NetworkGraph_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_NetworkGraphDecodeErrorZ {
-		const ret: number = bindings.NetworkGraph_read(ser);
+		const ret: number = bindings.NetworkGraph_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NetworkGraphDecodeErrorZ = Result_NetworkGraphDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_new(genesis_hash: Uint8Array): NetworkGraph {
-		const ret: number = bindings.NetworkGraph_new(InternalUtils.check_arr_len(genesis_hash, 32));
+		const ret: number = bindings.NetworkGraph_new(bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)));
 		const ret_hu_conv: NetworkGraph = new NetworkGraph(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -355,15 +355,15 @@ export class NetworkGraph extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public close_channel_from_update(short_channel_id: number, is_permanent: boolean): void {
+	public close_channel_from_update(short_channel_id: bigint, is_permanent: boolean): void {
 		bindings.NetworkGraph_close_channel_from_update(this.ptr, short_channel_id, is_permanent);
 	}
 
 	public fail_node(_node_id: Uint8Array, is_permanent: boolean): void {
-		bindings.NetworkGraph_fail_node(this.ptr, InternalUtils.check_arr_len(_node_id, 33), is_permanent);
+		bindings.NetworkGraph_fail_node(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(_node_id, 33)), is_permanent);
 	}
 
-	public remove_stale_channels_with_time(current_time_unix: number): void {
+	public remove_stale_channels_with_time(current_time_unix: bigint): void {
 		bindings.NetworkGraph_remove_stale_channels_with_time(this.ptr, current_time_unix);
 	}
 

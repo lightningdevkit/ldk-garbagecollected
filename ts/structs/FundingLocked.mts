@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class FundingLocked extends CommonBase {
@@ -289,25 +288,27 @@ export class FundingLocked extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.FundingLocked_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.FundingLocked_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.FundingLocked_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.FundingLocked_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_next_per_commitment_point(): Uint8Array {
-		const ret: Uint8Array = bindings.FundingLocked_get_next_per_commitment_point(this.ptr);
-		return ret;
+		const ret: number = bindings.FundingLocked_get_next_per_commitment_point(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_next_per_commitment_point(val: Uint8Array): void {
-		bindings.FundingLocked_set_next_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.FundingLocked_set_next_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public static constructor_new(channel_id_arg: Uint8Array, next_per_commitment_point_arg: Uint8Array): FundingLocked {
-		const ret: number = bindings.FundingLocked_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33));
+		const ret: number = bindings.FundingLocked_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(next_per_commitment_point_arg, 33)));
 		const ret_hu_conv: FundingLocked = new FundingLocked(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -326,12 +327,13 @@ export class FundingLocked extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.FundingLocked_write(this.ptr);
-		return ret;
+		const ret: number = bindings.FundingLocked_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_FundingLockedDecodeErrorZ {
-		const ret: number = bindings.FundingLocked_read(ser);
+		const ret: number = bindings.FundingLocked_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_FundingLockedDecodeErrorZ = Result_FundingLockedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

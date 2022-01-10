@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelManager extends CommonBase {
@@ -307,17 +306,18 @@ export class ChannelManager extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public create_channel(their_network_key: Uint8Array, channel_value_satoshis: number, push_msat: number, user_channel_id: number, override_config: UserConfig): Result__u832APIErrorZ {
-		const ret: number = bindings.ChannelManager_create_channel(this.ptr, InternalUtils.check_arr_len(their_network_key, 33), channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : CommonBase.get_ptr_of(override_config) & ~1);
+	public create_channel(their_network_key: Uint8Array, channel_value_satoshis: bigint, push_msat: bigint, user_channel_id: bigint, override_config: UserConfig): Result__u832APIErrorZ {
+		const ret: number = bindings.ChannelManager_create_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_network_key, 33)), channel_value_satoshis, push_msat, user_channel_id, override_config == null ? 0 : CommonBase.get_ptr_of(override_config) & ~1);
 		const ret_hu_conv: Result__u832APIErrorZ = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public list_channels(): ChannelDetails[] {
-		const ret: number[] = bindings.ChannelManager_list_channels(this.ptr);
-		const ret_conv_16_arr: ChannelDetails[] = new Array(ret.length).fill(null);
-		for (var q = 0; q < ret.length; q++) {
-			const ret_conv_16: number = ret[q];
+		const ret: number = bindings.ChannelManager_list_channels(this.ptr);
+		const ret_conv_16_len: number = bindings.getArrayLength(ret);
+		const ret_conv_16_arr: ChannelDetails[] = new Array(ret_conv_16_len).fill(null);
+		for (var q = 0; q < ret_conv_16_len; q++) {
+			const ret_conv_16: number = bindings.getU32ArrayElem(ret, q);
 			const ret_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, ret_conv_16);
 			CommonBase.add_ref_from(ret_conv_16_hu_conv, this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
@@ -326,10 +326,11 @@ export class ChannelManager extends CommonBase {
 	}
 
 	public list_usable_channels(): ChannelDetails[] {
-		const ret: number[] = bindings.ChannelManager_list_usable_channels(this.ptr);
-		const ret_conv_16_arr: ChannelDetails[] = new Array(ret.length).fill(null);
-		for (var q = 0; q < ret.length; q++) {
-			const ret_conv_16: number = ret[q];
+		const ret: number = bindings.ChannelManager_list_usable_channels(this.ptr);
+		const ret_conv_16_len: number = bindings.getArrayLength(ret);
+		const ret_conv_16_arr: ChannelDetails[] = new Array(ret_conv_16_len).fill(null);
+		for (var q = 0; q < ret_conv_16_len; q++) {
+			const ret_conv_16: number = bindings.getU32ArrayElem(ret, q);
 			const ret_conv_16_hu_conv: ChannelDetails = new ChannelDetails(null, ret_conv_16);
 			CommonBase.add_ref_from(ret_conv_16_hu_conv, this);
 			ret_conv_16_arr[q] = ret_conv_16_hu_conv;
@@ -338,19 +339,19 @@ export class ChannelManager extends CommonBase {
 	}
 
 	public close_channel(channel_id: Uint8Array): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32));
+		const ret: number = bindings.ChannelManager_close_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public close_channel_with_target_feerate(channel_id: Uint8Array, target_feerate_sats_per_1000_weight: number): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, InternalUtils.check_arr_len(channel_id, 32), target_feerate_sats_per_1000_weight);
+		const ret: number = bindings.ChannelManager_close_channel_with_target_feerate(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), target_feerate_sats_per_1000_weight);
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public force_close_channel(channel_id: Uint8Array): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_force_close_channel(this.ptr, InternalUtils.check_arr_len(channel_id, 32));
+		const ret: number = bindings.ChannelManager_force_close_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -360,38 +361,38 @@ export class ChannelManager extends CommonBase {
 	}
 
 	public send_payment(route: Route, payment_hash: Uint8Array, payment_secret: Uint8Array): Result_PaymentIdPaymentSendFailureZ {
-		const ret: number = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
+		const ret: number = bindings.ChannelManager_send_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
 		const ret_hu_conv: Result_PaymentIdPaymentSendFailureZ = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route);
 		return ret_hu_conv;
 	}
 
 	public retry_payment(route: Route, payment_id: Uint8Array): Result_NonePaymentSendFailureZ {
-		const ret: number = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, InternalUtils.check_arr_len(payment_id, 32));
+		const ret: number = bindings.ChannelManager_retry_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)));
 		const ret_hu_conv: Result_NonePaymentSendFailureZ = Result_NonePaymentSendFailureZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route);
 		return ret_hu_conv;
 	}
 
 	public abandon_payment(payment_id: Uint8Array): void {
-		bindings.ChannelManager_abandon_payment(this.ptr, InternalUtils.check_arr_len(payment_id, 32));
+		bindings.ChannelManager_abandon_payment(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)));
 	}
 
 	public send_spontaneous_payment(route: Route, payment_preimage: Uint8Array): Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ {
-		const ret: number = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, InternalUtils.check_arr_len(payment_preimage, 32));
+		const ret: number = bindings.ChannelManager_send_spontaneous_payment(this.ptr, route == null ? 0 : CommonBase.get_ptr_of(route) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)));
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ = Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, route);
 		return ret_hu_conv;
 	}
 
 	public funding_transaction_generated(temporary_channel_id: Uint8Array, funding_transaction: Uint8Array): Result_NoneAPIErrorZ {
-		const ret: number = bindings.ChannelManager_funding_transaction_generated(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), funding_transaction);
+		const ret: number = bindings.ChannelManager_funding_transaction_generated(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(funding_transaction));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public broadcast_node_announcement(rgb: Uint8Array, alias: Uint8Array, addresses: NetAddress[]): void {
-		bindings.ChannelManager_broadcast_node_announcement(this.ptr, InternalUtils.check_arr_len(rgb, 3), InternalUtils.check_arr_len(alias, 32), addresses != null ? addresses.map(addresses_conv_12 => CommonBase.get_ptr_of(addresses_conv_12)) : null);
+		bindings.ChannelManager_broadcast_node_announcement(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(rgb, 3)), bindings.encodeUint8Array(bindings.check_arr_len(alias, 32)), bindings.encodeUint32Array(addresses != null ? addresses.map(addresses_conv_12 => CommonBase.get_ptr_of(addresses_conv_12)) : null));
 	}
 
 	public process_pending_htlc_forwards(): void {
@@ -403,18 +404,19 @@ export class ChannelManager extends CommonBase {
 	}
 
 	public fail_htlc_backwards(payment_hash: Uint8Array): boolean {
-		const ret: boolean = bindings.ChannelManager_fail_htlc_backwards(this.ptr, InternalUtils.check_arr_len(payment_hash, 32));
+		const ret: boolean = bindings.ChannelManager_fail_htlc_backwards(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
 		return ret;
 	}
 
 	public claim_funds(payment_preimage: Uint8Array): boolean {
-		const ret: boolean = bindings.ChannelManager_claim_funds(this.ptr, InternalUtils.check_arr_len(payment_preimage, 32));
+		const ret: boolean = bindings.ChannelManager_claim_funds(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)));
 		return ret;
 	}
 
 	public get_our_node_id(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelManager_get_our_node_id(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelManager_get_our_node_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public create_inbound_payment(min_value_msat: Option_u64Z, invoice_expiry_delta_secs: number): Result_C2Tuple_PaymentHashPaymentSecretZNoneZ {
@@ -430,19 +432,19 @@ export class ChannelManager extends CommonBase {
 	}
 
 	public create_inbound_payment_for_hash(payment_hash: Uint8Array, min_value_msat: Option_u64Z, invoice_expiry_delta_secs: number): Result_PaymentSecretNoneZ {
-		const ret: number = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), CommonBase.get_ptr_of(min_value_msat), invoice_expiry_delta_secs);
+		const ret: number = bindings.ChannelManager_create_inbound_payment_for_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), CommonBase.get_ptr_of(min_value_msat), invoice_expiry_delta_secs);
 		const ret_hu_conv: Result_PaymentSecretNoneZ = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public create_inbound_payment_for_hash_legacy(payment_hash: Uint8Array, min_value_msat: Option_u64Z, invoice_expiry_delta_secs: number): Result_PaymentSecretAPIErrorZ {
-		const ret: number = bindings.ChannelManager_create_inbound_payment_for_hash_legacy(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), CommonBase.get_ptr_of(min_value_msat), invoice_expiry_delta_secs);
+		const ret: number = bindings.ChannelManager_create_inbound_payment_for_hash_legacy(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), CommonBase.get_ptr_of(min_value_msat), invoice_expiry_delta_secs);
 		const ret_hu_conv: Result_PaymentSecretAPIErrorZ = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public get_payment_preimage(payment_hash: Uint8Array, payment_secret: Uint8Array): Result_PaymentPreimageAPIErrorZ {
-		const ret: number = bindings.ChannelManager_get_payment_preimage(this.ptr, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32));
+		const ret: number = bindings.ChannelManager_get_payment_preimage(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
 		const ret_hu_conv: Result_PaymentPreimageAPIErrorZ = Result_PaymentPreimageAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -494,8 +496,9 @@ export class ChannelManager extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelManager_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelManager_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

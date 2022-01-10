@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class HTLCOutputInCommitment extends CommonBase {
@@ -297,12 +296,12 @@ export class HTLCOutputInCommitment extends CommonBase {
 		bindings.HTLCOutputInCommitment_set_offered(this.ptr, val);
 	}
 
-	public get_amount_msat(): number {
-		const ret: number = bindings.HTLCOutputInCommitment_get_amount_msat(this.ptr);
+	public get_amount_msat(): bigint {
+		const ret: bigint = bindings.HTLCOutputInCommitment_get_amount_msat(this.ptr);
 		return ret;
 	}
 
-	public set_amount_msat(val: number): void {
+	public set_amount_msat(val: bigint): void {
 		bindings.HTLCOutputInCommitment_set_amount_msat(this.ptr, val);
 	}
 
@@ -316,12 +315,13 @@ export class HTLCOutputInCommitment extends CommonBase {
 	}
 
 	public get_payment_hash(): Uint8Array {
-		const ret: Uint8Array = bindings.HTLCOutputInCommitment_get_payment_hash(this.ptr);
-		return ret;
+		const ret: number = bindings.HTLCOutputInCommitment_get_payment_hash(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_payment_hash(val: Uint8Array): void {
-		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.HTLCOutputInCommitment_set_payment_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_transaction_output_index(): Option_u32Z {
@@ -335,8 +335,8 @@ export class HTLCOutputInCommitment extends CommonBase {
 		bindings.HTLCOutputInCommitment_set_transaction_output_index(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
-	public static constructor_new(offered_arg: boolean, amount_msat_arg: number, cltv_expiry_arg: number, payment_hash_arg: Uint8Array, transaction_output_index_arg: Option_u32Z): HTLCOutputInCommitment {
-		const ret: number = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, InternalUtils.check_arr_len(payment_hash_arg, 32), CommonBase.get_ptr_of(transaction_output_index_arg));
+	public static constructor_new(offered_arg: boolean, amount_msat_arg: bigint, cltv_expiry_arg: number, payment_hash_arg: Uint8Array, transaction_output_index_arg: Option_u32Z): HTLCOutputInCommitment {
+		const ret: number = bindings.HTLCOutputInCommitment_new(offered_arg, amount_msat_arg, cltv_expiry_arg, bindings.encodeUint8Array(bindings.check_arr_len(payment_hash_arg, 32)), CommonBase.get_ptr_of(transaction_output_index_arg));
 		const ret_hu_conv: HTLCOutputInCommitment = new HTLCOutputInCommitment(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -355,12 +355,13 @@ export class HTLCOutputInCommitment extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.HTLCOutputInCommitment_write(this.ptr);
-		return ret;
+		const ret: number = bindings.HTLCOutputInCommitment_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_HTLCOutputInCommitmentDecodeErrorZ {
-		const ret: number = bindings.HTLCOutputInCommitment_read(ser);
+		const ret: number = bindings.HTLCOutputInCommitment_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_HTLCOutputInCommitmentDecodeErrorZ = Result_HTLCOutputInCommitmentDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

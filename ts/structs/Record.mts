@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class Record extends CommonBase {
@@ -297,31 +296,34 @@ export class Record extends CommonBase {
 		bindings.Record_set_level(this.ptr, val);
 	}
 
-	public get_args(): String {
-		const ret: String = bindings.Record_get_args(this.ptr);
-		return ret;
+	public get_args(): string {
+		const ret: number = bindings.Record_get_args(this.ptr);
+		const ret_conv: string = bindings.decodeString(ret);
+		return ret_conv;
 	}
 
-	public set_args(val: String): void {
-		bindings.Record_set_args(this.ptr, val);
+	public set_args(val: string): void {
+		bindings.Record_set_args(this.ptr, bindings.encodeString(val));
 	}
 
-	public get_module_path(): String {
-		const ret: String = bindings.Record_get_module_path(this.ptr);
-		return ret;
+	public get_module_path(): string {
+		const ret: number = bindings.Record_get_module_path(this.ptr);
+		const ret_conv: string = bindings.decodeString(ret);
+		return ret_conv;
 	}
 
-	public set_module_path(val: String): void {
-		bindings.Record_set_module_path(this.ptr, val);
+	public set_module_path(val: string): void {
+		bindings.Record_set_module_path(this.ptr, bindings.encodeString(val));
 	}
 
-	public get_file(): String {
-		const ret: String = bindings.Record_get_file(this.ptr);
-		return ret;
+	public get_file(): string {
+		const ret: number = bindings.Record_get_file(this.ptr);
+		const ret_conv: string = bindings.decodeString(ret);
+		return ret_conv;
 	}
 
-	public set_file(val: String): void {
-		bindings.Record_set_file(this.ptr, val);
+	public set_file(val: string): void {
+		bindings.Record_set_file(this.ptr, bindings.encodeString(val));
 	}
 
 	public get_line(): number {

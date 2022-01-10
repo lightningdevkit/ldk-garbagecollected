@@ -279,20 +279,18 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class PaymentPurpose extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.PaymentPurpose_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): PaymentPurpose {
-		const raw_val: bindings.LDKPaymentPurpose = bindings.LDKPaymentPurpose_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKPaymentPurpose_InvoicePayment) {
-			return new PaymentPurpose_InvoicePayment(ptr, raw_val);
+		const raw_ty: number = bindings.LDKPaymentPurpose_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new PaymentPurpose_InvoicePayment(ptr);
+			case 1: return new PaymentPurpose_SpontaneousPayment(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKPaymentPurpose_SpontaneousPayment) {
-			return new PaymentPurpose_SpontaneousPayment(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -308,14 +306,14 @@ export class PaymentPurpose extends CommonBase {
 	}
 
 	public static constructor_invoice_payment(payment_preimage: Uint8Array, payment_secret: Uint8Array): PaymentPurpose {
-		const ret: number = bindings.PaymentPurpose_invoice_payment(InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_secret, 32));
+		const ret: number = bindings.PaymentPurpose_invoice_payment(bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
 		const ret_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_spontaneous_payment(a: Uint8Array): PaymentPurpose {
-		const ret: number = bindings.PaymentPurpose_spontaneous_payment(InternalUtils.check_arr_len(a, 32));
+		const ret: number = bindings.PaymentPurpose_spontaneous_payment(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)));
 		const ret_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -326,17 +324,23 @@ export class PaymentPurpose_InvoicePayment extends PaymentPurpose {
 	public payment_preimage: Uint8Array;
 	public payment_secret: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKPaymentPurpose_InvoicePayment) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.payment_preimage = obj.payment_preimage;
-		this.payment_secret = obj.payment_secret;
+		const payment_preimage: number = bindings.LDKPaymentPurpose_InvoicePayment_get_payment_preimage(ptr);
+		const payment_preimage_conv: Uint8Array = bindings.decodeUint8Array(payment_preimage);
+		this.payment_preimage = payment_preimage_conv;
+		const payment_secret: number = bindings.LDKPaymentPurpose_InvoicePayment_get_payment_secret(ptr);
+		const payment_secret_conv: Uint8Array = bindings.decodeUint8Array(payment_secret);
+		this.payment_secret = payment_secret_conv;
 	}
 }
 export class PaymentPurpose_SpontaneousPayment extends PaymentPurpose {
 	public spontaneous_payment: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKPaymentPurpose_SpontaneousPayment) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.spontaneous_payment = obj.spontaneous_payment;
+		const spontaneous_payment: number = bindings.LDKPaymentPurpose_SpontaneousPayment_get_spontaneous_payment(ptr);
+		const spontaneous_payment_conv: Uint8Array = bindings.decodeUint8Array(spontaneous_payment);
+		this.spontaneous_payment = spontaneous_payment_conv;
 	}
 }

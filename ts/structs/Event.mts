@@ -279,47 +279,27 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Event extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.Event_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Event {
-		const raw_val: bindings.LDKEvent = bindings.LDKEvent_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKEvent_FundingGenerationReady) {
-			return new Event_FundingGenerationReady(ptr, raw_val);
+		const raw_ty: number = bindings.LDKEvent_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Event_FundingGenerationReady(ptr);
+			case 1: return new Event_PaymentReceived(ptr);
+			case 2: return new Event_PaymentSent(ptr);
+			case 3: return new Event_PaymentPathFailed(ptr);
+			case 4: return new Event_PaymentFailed(ptr);
+			case 5: return new Event_PendingHTLCsForwardable(ptr);
+			case 6: return new Event_SpendableOutputs(ptr);
+			case 7: return new Event_PaymentForwarded(ptr);
+			case 8: return new Event_ChannelClosed(ptr);
+			case 9: return new Event_DiscardFunding(ptr);
+			case 10: return new Event_PaymentPathSuccessful(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKEvent_PaymentReceived) {
-			return new Event_PaymentReceived(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_PaymentSent) {
-			return new Event_PaymentSent(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_PaymentPathFailed) {
-			return new Event_PaymentPathFailed(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_PaymentFailed) {
-			return new Event_PaymentFailed(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_PendingHTLCsForwardable) {
-			return new Event_PendingHTLCsForwardable(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_SpendableOutputs) {
-			return new Event_SpendableOutputs(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_PaymentForwarded) {
-			return new Event_PaymentForwarded(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_ChannelClosed) {
-			return new Event_ChannelClosed(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_DiscardFunding) {
-			return new Event_DiscardFunding(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKEvent_PaymentPathSuccessful) {
-			return new Event_PaymentPathSuccessful(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -334,42 +314,42 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_funding_generation_ready(temporary_channel_id: Uint8Array, channel_value_satoshis: number, output_script: Uint8Array, user_channel_id: number): Event {
-		const ret: number = bindings.Event_funding_generation_ready(InternalUtils.check_arr_len(temporary_channel_id, 32), channel_value_satoshis, output_script, user_channel_id);
+	public static constructor_funding_generation_ready(temporary_channel_id: Uint8Array, channel_value_satoshis: bigint, output_script: Uint8Array, user_channel_id: bigint): Event {
+		const ret: number = bindings.Event_funding_generation_ready(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), channel_value_satoshis, bindings.encodeUint8Array(output_script), user_channel_id);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static constructor_payment_received(payment_hash: Uint8Array, amt: number, purpose: PaymentPurpose): Event {
-		const ret: number = bindings.Event_payment_received(InternalUtils.check_arr_len(payment_hash, 32), amt, CommonBase.get_ptr_of(purpose));
+	public static constructor_payment_received(payment_hash: Uint8Array, amt: bigint, purpose: PaymentPurpose): Event {
+		const ret: number = bindings.Event_payment_received(bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), amt, CommonBase.get_ptr_of(purpose));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_payment_sent(payment_id: Uint8Array, payment_preimage: Uint8Array, payment_hash: Uint8Array, fee_paid_msat: Option_u64Z): Event {
-		const ret: number = bindings.Event_payment_sent(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_preimage, 32), InternalUtils.check_arr_len(payment_hash, 32), CommonBase.get_ptr_of(fee_paid_msat));
+		const ret: number = bindings.Event_payment_sent(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), CommonBase.get_ptr_of(fee_paid_msat));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_payment_path_failed(payment_id: Uint8Array, payment_hash: Uint8Array, rejected_by_dest: boolean, network_update: Option_NetworkUpdateZ, all_paths_failed: boolean, path: RouteHop[], short_channel_id: Option_u64Z, retry: RouteParameters): Event {
-		const ret: number = bindings.Event_payment_path_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), rejected_by_dest, CommonBase.get_ptr_of(network_update), all_paths_failed, path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null, CommonBase.get_ptr_of(short_channel_id), retry == null ? 0 : CommonBase.get_ptr_of(retry) & ~1);
+		const ret: number = bindings.Event_payment_path_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), rejected_by_dest, CommonBase.get_ptr_of(network_update), all_paths_failed, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), CommonBase.get_ptr_of(short_channel_id), retry == null ? 0 : CommonBase.get_ptr_of(retry) & ~1);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_payment_failed(payment_id: Uint8Array, payment_hash: Uint8Array): Event {
-		const ret: number = bindings.Event_payment_failed(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32));
+		const ret: number = bindings.Event_payment_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static constructor_pending_htlcs_forwardable(time_forwardable: number): Event {
+	public static constructor_pending_htlcs_forwardable(time_forwardable: bigint): Event {
 		const ret: number = bindings.Event_pending_htlcs_forwardable(time_forwardable);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -377,7 +357,7 @@ export class Event extends CommonBase {
 	}
 
 	public static constructor_spendable_outputs(outputs: SpendableOutputDescriptor[]): Event {
-		const ret: number = bindings.Event_spendable_outputs(outputs != null ? outputs.map(outputs_conv_27 => CommonBase.get_ptr_of(outputs_conv_27)) : null);
+		const ret: number = bindings.Event_spendable_outputs(bindings.encodeUint32Array(outputs != null ? outputs.map(outputs_conv_27 => CommonBase.get_ptr_of(outputs_conv_27)) : null));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -390,57 +370,64 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_channel_closed(channel_id: Uint8Array, user_channel_id: number, reason: ClosureReason): Event {
-		const ret: number = bindings.Event_channel_closed(InternalUtils.check_arr_len(channel_id, 32), user_channel_id, CommonBase.get_ptr_of(reason));
+	public static constructor_channel_closed(channel_id: Uint8Array, user_channel_id: bigint, reason: ClosureReason): Event {
+		const ret: number = bindings.Event_channel_closed(bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), user_channel_id, CommonBase.get_ptr_of(reason));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_discard_funding(channel_id: Uint8Array, transaction: Uint8Array): Event {
-		const ret: number = bindings.Event_discard_funding(InternalUtils.check_arr_len(channel_id, 32), transaction);
+		const ret: number = bindings.Event_discard_funding(bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(transaction));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_payment_path_successful(payment_id: Uint8Array, payment_hash: Uint8Array, path: RouteHop[]): Event {
-		const ret: number = bindings.Event_payment_path_successful(InternalUtils.check_arr_len(payment_id, 32), InternalUtils.check_arr_len(payment_hash, 32), path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null);
+		const ret: number = bindings.Event_payment_path_successful(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.Event_write(this.ptr);
-		return ret;
+		const ret: number = bindings.Event_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }
 export class Event_FundingGenerationReady extends Event {
 	public temporary_channel_id: Uint8Array;
-	public channel_value_satoshis: number;
+	public channel_value_satoshis: bigint;
 	public output_script: Uint8Array;
-	public user_channel_id: number;
+	public user_channel_id: bigint;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_FundingGenerationReady) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.temporary_channel_id = obj.temporary_channel_id;
-		this.channel_value_satoshis = obj.channel_value_satoshis;
-		this.output_script = obj.output_script;
-		this.user_channel_id = obj.user_channel_id;
+		const temporary_channel_id: number = bindings.LDKEvent_FundingGenerationReady_get_temporary_channel_id(ptr);
+		const temporary_channel_id_conv: Uint8Array = bindings.decodeUint8Array(temporary_channel_id);
+		this.temporary_channel_id = temporary_channel_id_conv;
+		this.channel_value_satoshis = bindings.LDKEvent_FundingGenerationReady_get_channel_value_satoshis(ptr);
+		const output_script: number = bindings.LDKEvent_FundingGenerationReady_get_output_script(ptr);
+		const output_script_conv: Uint8Array = bindings.decodeUint8Array(output_script);
+		this.output_script = output_script_conv;
+		this.user_channel_id = bindings.LDKEvent_FundingGenerationReady_get_user_channel_id(ptr);
 	}
 }
 export class Event_PaymentReceived extends Event {
 	public payment_hash: Uint8Array;
-	public amt: number;
+	public amt: bigint;
 	public purpose: PaymentPurpose;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_PaymentReceived) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.payment_hash = obj.payment_hash;
-		this.amt = obj.amt;
-		const purpose: number = obj.purpose;
+		const payment_hash: number = bindings.LDKEvent_PaymentReceived_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+		this.amt = bindings.LDKEvent_PaymentReceived_get_amt(ptr);
+		const purpose: number = bindings.LDKEvent_PaymentReceived_get_purpose(ptr);
 		const purpose_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(purpose);
 			CommonBase.add_ref_from(purpose_hu_conv, this);
 		this.purpose = purpose_hu_conv;
@@ -452,12 +439,18 @@ export class Event_PaymentSent extends Event {
 	public payment_hash: Uint8Array;
 	public fee_paid_msat: Option_u64Z;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_PaymentSent) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.payment_id = obj.payment_id;
-		this.payment_preimage = obj.payment_preimage;
-		this.payment_hash = obj.payment_hash;
-		const fee_paid_msat: number = obj.fee_paid_msat;
+		const payment_id: number = bindings.LDKEvent_PaymentSent_get_payment_id(ptr);
+		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
+		this.payment_id = payment_id_conv;
+		const payment_preimage: number = bindings.LDKEvent_PaymentSent_get_payment_preimage(ptr);
+		const payment_preimage_conv: Uint8Array = bindings.decodeUint8Array(payment_preimage);
+		this.payment_preimage = payment_preimage_conv;
+		const payment_hash: number = bindings.LDKEvent_PaymentSent_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+		const fee_paid_msat: number = bindings.LDKEvent_PaymentSent_get_fee_paid_msat(ptr);
 		const fee_paid_msat_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(fee_paid_msat);
 			CommonBase.add_ref_from(fee_paid_msat_hu_conv, this);
 		this.fee_paid_msat = fee_paid_msat_hu_conv;
@@ -473,30 +466,35 @@ export class Event_PaymentPathFailed extends Event {
 	public short_channel_id: Option_u64Z;
 	public retry: RouteParameters;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_PaymentPathFailed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.payment_id = obj.payment_id;
-		this.payment_hash = obj.payment_hash;
-		this.rejected_by_dest = obj.rejected_by_dest;
-		const network_update: number = obj.network_update;
+		const payment_id: number = bindings.LDKEvent_PaymentPathFailed_get_payment_id(ptr);
+		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
+		this.payment_id = payment_id_conv;
+		const payment_hash: number = bindings.LDKEvent_PaymentPathFailed_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+		this.rejected_by_dest = bindings.LDKEvent_PaymentPathFailed_get_rejected_by_dest(ptr);
+		const network_update: number = bindings.LDKEvent_PaymentPathFailed_get_network_update(ptr);
 		const network_update_hu_conv: Option_NetworkUpdateZ = Option_NetworkUpdateZ.constr_from_ptr(network_update);
 			CommonBase.add_ref_from(network_update_hu_conv, this);
 		this.network_update = network_update_hu_conv;
-		this.all_paths_failed = obj.all_paths_failed;
-		const path: number[] = obj.path;
-		const path_conv_10_arr: RouteHop[] = new Array(path.length).fill(null);
-			for (var k = 0; k < path.length; k++) {
-				const path_conv_10: number = path[k];
+		this.all_paths_failed = bindings.LDKEvent_PaymentPathFailed_get_all_paths_failed(ptr);
+		const path: number = bindings.LDKEvent_PaymentPathFailed_get_path(ptr);
+		const path_conv_10_len: number = bindings.getArrayLength(path);
+			const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+			for (var k = 0; k < path_conv_10_len; k++) {
+				const path_conv_10: number = bindings.getU32ArrayElem(path, k);
 				const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
 				CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
 		this.path = path_conv_10_arr;
-		const short_channel_id: number = obj.short_channel_id;
+		const short_channel_id: number = bindings.LDKEvent_PaymentPathFailed_get_short_channel_id(ptr);
 		const short_channel_id_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(short_channel_id);
 			CommonBase.add_ref_from(short_channel_id_hu_conv, this);
 		this.short_channel_id = short_channel_id_hu_conv;
-		const retry: number = obj.retry;
+		const retry: number = bindings.LDKEvent_PaymentPathFailed_get_retry(ptr);
 		const retry_hu_conv: RouteParameters = new RouteParameters(null, retry);
 			CommonBase.add_ref_from(retry_hu_conv, this);
 		this.retry = retry_hu_conv;
@@ -506,29 +504,34 @@ export class Event_PaymentFailed extends Event {
 	public payment_id: Uint8Array;
 	public payment_hash: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_PaymentFailed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.payment_id = obj.payment_id;
-		this.payment_hash = obj.payment_hash;
+		const payment_id: number = bindings.LDKEvent_PaymentFailed_get_payment_id(ptr);
+		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
+		this.payment_id = payment_id_conv;
+		const payment_hash: number = bindings.LDKEvent_PaymentFailed_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
 	}
 }
 export class Event_PendingHTLCsForwardable extends Event {
-	public time_forwardable: number;
+	public time_forwardable: bigint;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_PendingHTLCsForwardable) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.time_forwardable = obj.time_forwardable;
+		this.time_forwardable = bindings.LDKEvent_PendingHTLCsForwardable_get_time_forwardable(ptr);
 	}
 }
 export class Event_SpendableOutputs extends Event {
 	public outputs: SpendableOutputDescriptor[];
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_SpendableOutputs) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const outputs: number[] = obj.outputs;
-		const outputs_conv_27_arr: SpendableOutputDescriptor[] = new Array(outputs.length).fill(null);
-			for (var b = 0; b < outputs.length; b++) {
-				const outputs_conv_27: number = outputs[b];
+		const outputs: number = bindings.LDKEvent_SpendableOutputs_get_outputs(ptr);
+		const outputs_conv_27_len: number = bindings.getArrayLength(outputs);
+			const outputs_conv_27_arr: SpendableOutputDescriptor[] = new Array(outputs_conv_27_len).fill(null);
+			for (var b = 0; b < outputs_conv_27_len; b++) {
+				const outputs_conv_27: number = bindings.getU32ArrayElem(outputs, b);
 				const outputs_conv_27_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(outputs_conv_27);
 				CommonBase.add_ref_from(outputs_conv_27_hu_conv, this);
 				outputs_conv_27_arr[b] = outputs_conv_27_hu_conv;
@@ -540,25 +543,27 @@ export class Event_PaymentForwarded extends Event {
 	public fee_earned_msat: Option_u64Z;
 	public claim_from_onchain_tx: boolean;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_PaymentForwarded) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const fee_earned_msat: number = obj.fee_earned_msat;
+		const fee_earned_msat: number = bindings.LDKEvent_PaymentForwarded_get_fee_earned_msat(ptr);
 		const fee_earned_msat_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(fee_earned_msat);
 			CommonBase.add_ref_from(fee_earned_msat_hu_conv, this);
 		this.fee_earned_msat = fee_earned_msat_hu_conv;
-		this.claim_from_onchain_tx = obj.claim_from_onchain_tx;
+		this.claim_from_onchain_tx = bindings.LDKEvent_PaymentForwarded_get_claim_from_onchain_tx(ptr);
 	}
 }
 export class Event_ChannelClosed extends Event {
 	public channel_id: Uint8Array;
-	public user_channel_id: number;
+	public user_channel_id: bigint;
 	public reason: ClosureReason;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_ChannelClosed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.channel_id = obj.channel_id;
-		this.user_channel_id = obj.user_channel_id;
-		const reason: number = obj.reason;
+		const channel_id: number = bindings.LDKEvent_ChannelClosed_get_channel_id(ptr);
+		const channel_id_conv: Uint8Array = bindings.decodeUint8Array(channel_id);
+		this.channel_id = channel_id_conv;
+		this.user_channel_id = bindings.LDKEvent_ChannelClosed_get_user_channel_id(ptr);
+		const reason: number = bindings.LDKEvent_ChannelClosed_get_reason(ptr);
 		const reason_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(reason);
 			CommonBase.add_ref_from(reason_hu_conv, this);
 		this.reason = reason_hu_conv;
@@ -568,10 +573,14 @@ export class Event_DiscardFunding extends Event {
 	public channel_id: Uint8Array;
 	public transaction: Uint8Array;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_DiscardFunding) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.channel_id = obj.channel_id;
-		this.transaction = obj.transaction;
+		const channel_id: number = bindings.LDKEvent_DiscardFunding_get_channel_id(ptr);
+		const channel_id_conv: Uint8Array = bindings.decodeUint8Array(channel_id);
+		this.channel_id = channel_id_conv;
+		const transaction: number = bindings.LDKEvent_DiscardFunding_get_transaction(ptr);
+		const transaction_conv: Uint8Array = bindings.decodeUint8Array(transaction);
+		this.transaction = transaction_conv;
 	}
 }
 export class Event_PaymentPathSuccessful extends Event {
@@ -579,14 +588,19 @@ export class Event_PaymentPathSuccessful extends Event {
 	public payment_hash: Uint8Array;
 	public path: RouteHop[];
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKEvent_PaymentPathSuccessful) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.payment_id = obj.payment_id;
-		this.payment_hash = obj.payment_hash;
-		const path: number[] = obj.path;
-		const path_conv_10_arr: RouteHop[] = new Array(path.length).fill(null);
-			for (var k = 0; k < path.length; k++) {
-				const path_conv_10: number = path[k];
+		const payment_id: number = bindings.LDKEvent_PaymentPathSuccessful_get_payment_id(ptr);
+		const payment_id_conv: Uint8Array = bindings.decodeUint8Array(payment_id);
+		this.payment_id = payment_id_conv;
+		const payment_hash: number = bindings.LDKEvent_PaymentPathSuccessful_get_payment_hash(ptr);
+		const payment_hash_conv: Uint8Array = bindings.decodeUint8Array(payment_hash);
+		this.payment_hash = payment_hash_conv;
+		const path: number = bindings.LDKEvent_PaymentPathSuccessful_get_path(ptr);
+		const path_conv_10_len: number = bindings.getArrayLength(path);
+			const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+			for (var k = 0; k < path_conv_10_len; k++) {
+				const path_conv_10: number = bindings.getU32ArrayElem(path, k);
 				const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
 				CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 				path_conv_10_arr[k] = path_conv_10_hu_conv;

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelHandshakeConfig extends CommonBase {
@@ -306,16 +305,16 @@ export class ChannelHandshakeConfig extends CommonBase {
 		bindings.ChannelHandshakeConfig_set_our_to_self_delay(this.ptr, val);
 	}
 
-	public get_our_htlc_minimum_msat(): number {
-		const ret: number = bindings.ChannelHandshakeConfig_get_our_htlc_minimum_msat(this.ptr);
+	public get_our_htlc_minimum_msat(): bigint {
+		const ret: bigint = bindings.ChannelHandshakeConfig_get_our_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public set_our_htlc_minimum_msat(val: number): void {
+	public set_our_htlc_minimum_msat(val: bigint): void {
 		bindings.ChannelHandshakeConfig_set_our_htlc_minimum_msat(this.ptr, val);
 	}
 
-	public static constructor_new(minimum_depth_arg: number, our_to_self_delay_arg: number, our_htlc_minimum_msat_arg: number): ChannelHandshakeConfig {
+	public static constructor_new(minimum_depth_arg: number, our_to_self_delay_arg: number, our_htlc_minimum_msat_arg: bigint): ChannelHandshakeConfig {
 		const ret: number = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);

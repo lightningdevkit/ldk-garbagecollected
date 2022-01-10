@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
@@ -289,8 +288,9 @@ export class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 	}
 
 	public get_a(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_BlockHashChannelManagerZ_get_a(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_get_a(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_b(): ChannelManager {
@@ -301,7 +301,7 @@ export class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 	}
 
 	public static constructor_new(a: Uint8Array, b_fee_est: FeeEstimator, b_chain_monitor: Watch, b_tx_broadcaster: BroadcasterInterface, b_logger: Logger, b_keys_manager: KeysInterface, b_config: UserConfig, b_params: ChainParameters): TwoTuple_BlockHashChannelManagerZ {
-		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_new(InternalUtils.check_arr_len(a, 32), bindings.ChannelManager_new(b_fee_est == null ? 0 : CommonBase.get_ptr_of(b_fee_est), b_chain_monitor == null ? 0 : CommonBase.get_ptr_of(b_chain_monitor), b_tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(b_tx_broadcaster), b_logger == null ? 0 : CommonBase.get_ptr_of(b_logger), b_keys_manager == null ? 0 : CommonBase.get_ptr_of(b_keys_manager), b_config == null ? 0 : CommonBase.get_ptr_of(b_config) & ~1, b_params == null ? 0 : CommonBase.get_ptr_of(b_params) & ~1));
+		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.ChannelManager_new(b_fee_est == null ? 0 : CommonBase.get_ptr_of(b_fee_est), b_chain_monitor == null ? 0 : CommonBase.get_ptr_of(b_chain_monitor), b_tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(b_tx_broadcaster), b_logger == null ? 0 : CommonBase.get_ptr_of(b_logger), b_keys_manager == null ? 0 : CommonBase.get_ptr_of(b_keys_manager), b_config == null ? 0 : CommonBase.get_ptr_of(b_config) & ~1, b_params == null ? 0 : CommonBase.get_ptr_of(b_params) & ~1));
 		const ret_hu_conv: TwoTuple_BlockHashChannelManagerZ = new TwoTuple_BlockHashChannelManagerZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, b_fee_est);

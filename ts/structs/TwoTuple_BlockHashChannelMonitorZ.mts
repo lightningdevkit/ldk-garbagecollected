@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
@@ -289,8 +288,9 @@ export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	}
 
 	public get_a(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_BlockHashChannelMonitorZ_get_a(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_get_a(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_b(): ChannelMonitor {
@@ -313,7 +313,7 @@ export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	}
 
 	public static constructor_new(a: Uint8Array, b: ChannelMonitor): TwoTuple_BlockHashChannelMonitorZ {
-		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_new(InternalUtils.check_arr_len(a, 32), b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
+		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		const ret_hu_conv: TwoTuple_BlockHashChannelMonitorZ = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

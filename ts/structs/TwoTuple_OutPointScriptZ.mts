@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TwoTuple_OutPointScriptZ extends CommonBase {
@@ -296,12 +295,13 @@ export class TwoTuple_OutPointScriptZ extends CommonBase {
 	}
 
 	public get_b(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_OutPointScriptZ_get_b(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_OutPointScriptZ_get_b(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_new(a: OutPoint, b: Uint8Array): TwoTuple_OutPointScriptZ {
-		const ret: number = bindings.C2Tuple_OutPointScriptZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, b);
+		const ret: number = bindings.C2Tuple_OutPointScriptZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, bindings.encodeUint8Array(b));
 		const ret_hu_conv: TwoTuple_OutPointScriptZ = new TwoTuple_OutPointScriptZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

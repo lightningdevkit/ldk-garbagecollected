@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TrustedCommitmentTransaction extends CommonBase {
@@ -289,8 +288,9 @@ export class TrustedCommitmentTransaction extends CommonBase {
 	}
 
 	public txid(): Uint8Array {
-		const ret: Uint8Array = bindings.TrustedCommitmentTransaction_txid(this.ptr);
-		return ret;
+		const ret: number = bindings.TrustedCommitmentTransaction_txid(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public built_transaction(): BuiltCommitmentTransaction {
@@ -313,7 +313,7 @@ export class TrustedCommitmentTransaction extends CommonBase {
 	}
 
 	public get_htlc_sigs(htlc_base_key: Uint8Array, channel_parameters: DirectedChannelTransactionParameters): Result_CVec_SignatureZNoneZ {
-		const ret: number = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : CommonBase.get_ptr_of(channel_parameters) & ~1);
+		const ret: number = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(htlc_base_key, 32)), channel_parameters == null ? 0 : CommonBase.get_ptr_of(channel_parameters) & ~1);
 		const ret_hu_conv: Result_CVec_SignatureZNoneZ = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, channel_parameters);
 		return ret_hu_conv;

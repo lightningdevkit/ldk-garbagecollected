@@ -279,20 +279,18 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Option_u32Z extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_u32Z_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Option_u32Z {
-		const raw_val: bindings.LDKCOption_u32Z = bindings.LDKCOption_u32Z_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKCOption_u32Z_Some) {
-			return new Option_u32Z_Some(ptr, raw_val);
+		const raw_ty: number = bindings.LDKCOption_u32Z_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Option_u32Z_Some(ptr);
+			case 1: return new Option_u32Z_None(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKCOption_u32Z_None) {
-			return new Option_u32Z_None(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public static constructor_some(o: number): Option_u32Z {
@@ -325,14 +323,14 @@ export class Option_u32Z extends CommonBase {
 export class Option_u32Z_Some extends Option_u32Z {
 	public some: number;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_u32Z_Some) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.some = obj.some;
+		this.some = bindings.LDKCOption_u32Z_Some_get_some(ptr);
 	}
 }
 export class Option_u32Z_None extends Option_u32Z {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_u32Z_None) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }

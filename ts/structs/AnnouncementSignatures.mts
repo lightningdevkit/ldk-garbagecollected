@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class AnnouncementSignatures extends CommonBase {
@@ -289,43 +288,46 @@ export class AnnouncementSignatures extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.AnnouncementSignatures_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.AnnouncementSignatures_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.AnnouncementSignatures_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.AnnouncementSignatures_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_short_channel_id(): number {
-		const ret: number = bindings.AnnouncementSignatures_get_short_channel_id(this.ptr);
+	public get_short_channel_id(): bigint {
+		const ret: bigint = bindings.AnnouncementSignatures_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
-	public set_short_channel_id(val: number): void {
+	public set_short_channel_id(val: bigint): void {
 		bindings.AnnouncementSignatures_set_short_channel_id(this.ptr, val);
 	}
 
 	public get_node_signature(): Uint8Array {
-		const ret: Uint8Array = bindings.AnnouncementSignatures_get_node_signature(this.ptr);
-		return ret;
+		const ret: number = bindings.AnnouncementSignatures_get_node_signature(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_node_signature(val: Uint8Array): void {
-		bindings.AnnouncementSignatures_set_node_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.AnnouncementSignatures_set_node_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public get_bitcoin_signature(): Uint8Array {
-		const ret: Uint8Array = bindings.AnnouncementSignatures_get_bitcoin_signature(this.ptr);
-		return ret;
+		const ret: number = bindings.AnnouncementSignatures_get_bitcoin_signature(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_bitcoin_signature(val: Uint8Array): void {
-		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
-	public static constructor_new(channel_id_arg: Uint8Array, short_channel_id_arg: number, node_signature_arg: Uint8Array, bitcoin_signature_arg: Uint8Array): AnnouncementSignatures {
-		const ret: number = bindings.AnnouncementSignatures_new(InternalUtils.check_arr_len(channel_id_arg, 32), short_channel_id_arg, InternalUtils.check_arr_len(node_signature_arg, 64), InternalUtils.check_arr_len(bitcoin_signature_arg, 64));
+	public static constructor_new(channel_id_arg: Uint8Array, short_channel_id_arg: bigint, node_signature_arg: Uint8Array, bitcoin_signature_arg: Uint8Array): AnnouncementSignatures {
+		const ret: number = bindings.AnnouncementSignatures_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), short_channel_id_arg, bindings.encodeUint8Array(bindings.check_arr_len(node_signature_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(bitcoin_signature_arg, 64)));
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -344,12 +346,13 @@ export class AnnouncementSignatures extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.AnnouncementSignatures_write(this.ptr);
-		return ret;
+		const ret: number = bindings.AnnouncementSignatures_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_AnnouncementSignaturesDecodeErrorZ {
-		const ret: number = bindings.AnnouncementSignatures_read(ser);
+		const ret: number = bindings.AnnouncementSignatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_AnnouncementSignaturesDecodeErrorZ = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

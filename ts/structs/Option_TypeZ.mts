@@ -279,20 +279,18 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Option_TypeZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_TypeZ_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Option_TypeZ {
-		const raw_val: bindings.LDKCOption_TypeZ = bindings.LDKCOption_TypeZ_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKCOption_TypeZ_Some) {
-			return new Option_TypeZ_Some(ptr, raw_val);
+		const raw_ty: number = bindings.LDKCOption_TypeZ_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Option_TypeZ_Some(ptr);
+			case 1: return new Option_TypeZ_None(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKCOption_TypeZ_None) {
-			return new Option_TypeZ_None(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public static constructor_some(o: Type): Option_TypeZ {
@@ -326,9 +324,9 @@ export class Option_TypeZ extends CommonBase {
 export class Option_TypeZ_Some extends Option_TypeZ {
 	public some: Type;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_TypeZ_Some) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const some: number = obj.some;
+		const some: number = bindings.LDKCOption_TypeZ_Some_get_some(ptr);
 		const ret_hu_conv: Type = new Type(null, some);
 			CommonBase.add_ref_from(ret_hu_conv, this);
 		this.some = ret_hu_conv;
@@ -336,7 +334,7 @@ export class Option_TypeZ_Some extends Option_TypeZ {
 }
 export class Option_TypeZ_None extends Option_TypeZ {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_TypeZ_None) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
