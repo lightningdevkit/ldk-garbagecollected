@@ -150,7 +150,7 @@ def java_c_types(fn_arg, ret_arr_len):
         rust_obj = "LDKSignature"
         arr_access = "compact_form"
     elif fn_arg.startswith("LDKRecoverableSignature"):
-        fn_arg = "uint8_t (*" + fn_arg[25:] + ")[68]"
+        fn_arg = "uint8_t (*" + fn_arg[24:] + ")[68]"
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKRecoverableSignature"
         arr_access = "serialized_form"
