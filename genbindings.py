@@ -489,11 +489,33 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                             default_constructor_args[argument_conversion_info.arg_name] = []
                         default_constructor_args[argument_conversion_info.arg_name].append(explode_arg_conv)
             argument_types.append(argument_conversion_info)
+
         if not takes_self and return_type_info.java_hu_ty != struct_meth:
             if not return_type_info.java_hu_ty.startswith("Result_" + struct_meth):
                 struct_meth_name = method_name
                 struct_meth = ""
                 expected_struct = ""
+
+        impl_on_struct = (expected_struct in opaque_structs or expected_struct in trait_structs or
+            expected_struct in complex_enums or expected_struct in complex_enums or
+            expected_struct in result_types or expected_struct in tuple_types) and not is_free
+        impl_on_utils = not impl_on_struct and (not is_free and not method_name.endswith("_clone") and
+            not method_name.startswith("TxOut") and
+            not method_name.startswith("_") and
+            method_name != "check_platform" and method_name != "Result_read" and
+            not expected_struct in unitary_enums and
+            ((not method_name.startswith("C2Tuple_") and not method_name.startswith("C3Tuple_"))
+              or method_name.endswith("_read")))
+
+        # If we're adding a static method, and it returns a primitive or an array of primitives,
+        # and a variable conversion adds a reference on the return type (via `this`), skip the
+        # variable's conversion reference-add (as we obviously cannot need a reference).
+        if impl_on_utils and (return_type_info.is_native_primitive or
+                (return_type_info.ty_info.subty is not None and return_type_info.ty_info.subty.is_native_primitive)):
+            for arg in argument_types:
+                if arg.from_hu_conv is not None and arg.from_hu_conv[1] != "":
+                    if "this" in arg.from_hu_conv[1]:
+                        arg.from_hu_conv = (arg.from_hu_conv[0], "")
 
         out_java.write("\t// " + line)
         (out_java_delta, out_c_delta, out_java_struct_delta) = \
@@ -523,24 +545,13 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             write_c(out_c_delta)
 
         out_java_struct = None
-        if (expected_struct in opaque_structs or expected_struct in trait_structs
-                or expected_struct in complex_enums or expected_struct in complex_enums
-                or expected_struct in result_types or expected_struct in tuple_types) and not is_free:
+        if impl_on_struct:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
             out_java_struct.write(out_java_struct_delta)
-        elif (not is_free and not method_name.endswith("_clone") and
-                not method_name.startswith("TxOut") and
-                not method_name.startswith("_") and
-                method_name != "check_platform" and method_name != "Result_read" and
-                not expected_struct in unitary_enums and
-                ((not method_name.startswith("C2Tuple_") and not method_name.startswith("C3Tuple_"))
-                  or method_name.endswith("_read"))):
+        elif impl_on_utils:
             out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
             for line in out_java_struct_delta.splitlines():
-                if "this" not in line:
-                    out_java_struct.write(line + "\n")
-                else:
-                    out_java_struct.write("\t\t// " + line.strip() + "\n")
+                out_java_struct.write(line + "\n")
 
     def map_unitary_enum(struct_name, field_lines, enum_doc_comment):
         assert struct_name.startswith("LDK")
