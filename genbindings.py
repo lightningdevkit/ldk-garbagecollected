@@ -214,13 +214,14 @@ def java_c_types(fn_arg, ret_arr_len):
             return None
         if is_ptr:
             res.pass_by_ref = True
+        java_ty = consts.java_arr_ty_str(res.java_ty)
         if res.is_native_primitive or res.passed_as_ptr:
-            return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=res.java_ty + "[]", java_hu_ty=res.java_hu_ty + "[]",
+            return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=java_ty, java_hu_ty=res.java_hu_ty + "[]",
                 java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=res.c_ty + "Array", passed_as_ptr=False, is_ptr=is_ptr,
                 nonnull_ptr=nonnull_ptr, is_const=is_const,
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
         else:
-            return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=res.java_ty + "[]", java_hu_ty=res.java_hu_ty + "[]",
+            return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=java_ty, java_hu_ty=res.java_hu_ty + "[]",
                 java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=consts.ptr_arr, passed_as_ptr=False, is_ptr=is_ptr,
                 nonnull_ptr=nonnull_ptr, is_const=is_const,
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
@@ -351,10 +352,12 @@ def java_c_types(fn_arg, ret_arr_len):
         assert(not take_by_ptr)
         assert(not is_ptr)
         # is there a special case for plurals?
-        if len(mapped_type) == 2:
+        if len(mapped_type) == 3:
             java_ty = mapped_type[1]
+            java_hu_ty = mapped_type[2]
         else:
             java_ty = java_ty + "[]"
+            java_hu_ty = java_ty
         c_ty = c_ty + "Array"
 
         subty = java_c_types(arr_ty, None)
@@ -366,10 +369,10 @@ def java_c_types(fn_arg, ret_arr_len):
 
         if var_is_arr is not None:
             if var_is_arr.group(1) == "":
-                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
+                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
                     passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name="arg", subty=subty,
                     arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False, contains_trait=contains_trait)
-            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
+            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
                 passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name=var_is_arr.group(1), subty=subty,
                 arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False, contains_trait=contains_trait)
 

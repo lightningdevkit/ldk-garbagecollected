@@ -47,7 +47,6 @@ class TypeMappingGenerator:
                 (set_pfx, set_sfx) = self.consts.set_native_arr_contents(arr_name + "_arr", arr_len, ty_info)
                 ret_conv = ("int8_tArray " + arr_name + "_arr = " + self.consts.create_native_arr_call(arr_len, ty_info) + ";\n" + set_pfx, "")
                 arg_conv_cleanup = None
-                from_hu_conv = None
                 if not arr_len.isdigit():
                     arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
                     arg_conv = arg_conv + arr_name + "_ref." + arr_len + " = " +  self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + ";\n"
@@ -65,26 +64,34 @@ class TypeMappingGenerator:
                     ret_conv = (ret_conv[0], ret_conv[1] + pfx + arr_name + "_var." + ty_info.arr_access + sfx + ";")
                     if not holds_ref and ty_info.rust_obj != "LDKu8slice":
                         ret_conv = (ret_conv[0], ret_conv[1] + "\n" + ty_info.rust_obj.replace("LDK", "") + "_free(" + arr_name + "_var);")
+                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, arr_name)
+                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info.subty, None, arr_name, arr_name + "_conv")
                 elif ty_info.rust_obj is not None:
                     arg_conv = ty_info.rust_obj + " " + arr_name + "_ref;\n"
                     arg_conv = arg_conv + "CHECK(" + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + " == " + arr_len + ");\n"
                     arg_conv = arg_conv + self.consts.get_native_arr_contents(arr_name, arr_name + "_ref." + ty_info.arr_access, arr_len, ty_info, True) + ";"
                     ret_conv = (ret_conv[0], "." + ty_info.arr_access + set_sfx + ";")
-                    from_hu_conv = ("InternalUtils.check_arr_len(" + arr_name + ", " + arr_len + ")", "")
+                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, arr_len, arr_name)
+                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info.subty, None, arr_name, arr_name + "_conv")
                 else:
                     arg_conv = "unsigned char " + arr_name + "_arr[" + arr_len + "];\n"
                     arg_conv = arg_conv + "CHECK(" + self.consts.get_native_arr_len_call[0] + arr_name + self.consts.get_native_arr_len_call[1] + " == " + arr_len + ");\n"
                     arg_conv = arg_conv + self.consts.get_native_arr_contents(arr_name, arr_name + "_arr", arr_len, ty_info, True) + ";\n"
                     arg_conv = arg_conv + "unsigned char (*" + arr_name + "_ref)[" + arr_len + "] = &" + arr_name + "_arr;"
                     ret_conv = (ret_conv[0] + "*", set_sfx + ";")
-                    from_hu_conv = ("InternalUtils.check_arr_len(" + arr_name + ", " + arr_len + ")", "")
+                    from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, arr_len, arr_name)
+                    to_hu_conv = self.consts.primitive_arr_to_hu(ty_info.subty, None, arr_name, arr_name + "_conv")
+                to_hu_conv_name = None
+                if to_hu_conv is not None:
+                    to_hu_conv_name = arr_name + "_conv"
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arr_name + "_ref", arg_conv_cleanup = arg_conv_cleanup,
-                    ret_conv = ret_conv, ret_conv_name = arr_name + "_arr", to_hu_conv = None, to_hu_conv_name = None,
+                    ret_conv = ret_conv, ret_conv_name = arr_name + "_arr",
+                    to_hu_conv = to_hu_conv, to_hu_conv_name = to_hu_conv_name,
                     from_hu_conv = from_hu_conv)
             else:
                 assert not arr_len.isdigit() # fixed length arrays not implemented
-                assert ty_info.java_ty[len(ty_info.java_ty) - 2:] == "[]"
+                assert ty_info.java_hu_ty[len(ty_info.java_hu_ty) - 2:] == "[]"
                 if arr_name == "":
                     arr_name = "ret"
                 conv_name = arr_name + "_conv_" + str(len(ty_info.java_hu_ty))
@@ -183,19 +190,25 @@ class TypeMappingGenerator:
                 to_hu_conv = None
                 to_hu_conv_name = None
                 if subty.to_hu_conv is not None:
-                    to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, conv_name + "_arr", self.consts.constr_hu_array(ty_info, arr_name + ".length"))
-                    to_hu_conv += ";\n" + self.consts.for_n_in_range(idxc, "0", arr_name + ".length") + "\n"
-                    to_hu_conv += "\t" + self.consts.var_decl_statement(subty.java_ty, conv_name, arr_name + "[" + idxc + "]") + ";\n"
+                    to_hu_conv = self.consts.var_decl_statement(self.consts.c_type_map["uint32_t"][0], conv_name + "_len", self.consts.get_java_arr_len(arr_name)) + ";\n"
+                    to_hu_conv += self.consts.var_decl_statement(ty_info.java_hu_ty, conv_name + "_arr", self.consts.constr_hu_array(ty_info, conv_name + "_len"))
+                    to_hu_conv += ";\n" + self.consts.for_n_in_range(idxc, "0", conv_name + "_len") + "\n"
+                    to_hu_conv += "\t" + self.consts.var_decl_statement(subty.java_ty, conv_name, self.consts.get_java_arr_elem(subty, arr_name, idxc)) + ";\n"
                     to_hu_conv += "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"
                     to_hu_conv += "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n}"
                     to_hu_conv_name = conv_name + "_arr"
-                from_hu_conv = None
+                from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, arr_name)
                 if subty.from_hu_conv is not None:
                     hu_conv_b = ""
                     if subty.from_hu_conv[1] != "":
                         iterator = self.consts.for_n_in_arr(conv_name, arr_name, subty)
                         hu_conv_b = iterator[0] + subty.from_hu_conv[1] + ";" + iterator[1]
-                    from_hu_conv = (self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty), hu_conv_b)
+                    if from_hu_conv is not None:
+                        arr_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty))
+                        assert arr_conv[1] == ""
+                        from_hu_conv = (arr_conv[0], hu_conv_b)
+                    else:
+                        from_hu_conv = (self.consts.map_hu_array_elems(arr_name, conv_name, ty_info, subty), hu_conv_b)
 
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = arg_conv, arg_conv_name = arg_conv_name, arg_conv_cleanup = arg_conv_cleanup,

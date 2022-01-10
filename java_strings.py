@@ -662,6 +662,10 @@ import javax.annotation.Nullable;
     def var_decl_statement(self, ty_string, var_name, statement):
         return ty_string + " " + var_name + " = " + statement
 
+    def get_java_arr_len(self, arr_name):
+        return arr_name + ".length"
+    def get_java_arr_elem(self, elem_ty, arr_name, idx):
+        return arr_name + "[" + idx + "]"
     def constr_hu_array(self, ty_info, arr_len):
         base_ty = ty_info.subty.java_hu_ty.split("[")[0].split("<")[0]
         conv = "new " + base_ty + "[" + arr_len + "]"
@@ -669,6 +673,16 @@ import javax.annotation.Nullable;
             # Do a bit of a dance to move any excess [] to the end
             conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
         return conv
+
+    def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
+        if fixed_len is not None:
+            return ("InternalUtils.check_arr_len(" + arr_name + ", " + fixed_len + ")", "")
+        return None
+    def primitive_arr_to_hu(self, primitive_ty, fixed_len, arr_name, conv_name):
+        return None
+
+    def java_arr_ty_str(self, elem_ty_str):
+        return elem_ty_str + "[]"
 
     def for_n_in_range(self, n, minimum, maximum):
         return "for (int " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
