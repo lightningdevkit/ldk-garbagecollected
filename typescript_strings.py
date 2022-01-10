@@ -20,7 +20,7 @@ class Consts:
             uint8_t = ['number', 'number', 'Uint8Array'],
             uint16_t = ['number', 'number', 'Uint16Array'],
             uint32_t = ['number', 'number', 'Uint32Array'],
-            uint64_t = ['BigInt', 'BigInt', 'BigUint64Array'],
+            uint64_t = ['bigint', 'bigint', 'BigUint64Array'],
         )
         self.java_type_map = dict(
             String = "number"
@@ -78,7 +78,7 @@ export default class CommonBase {
 	/** The script_pubkey in this output */
 	public script_pubkey: Uint8Array;
 	/** The value, in satoshis, of this output */
-	public value: BigInt;
+	public value: bigint;
 
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
@@ -86,7 +86,7 @@ export default class CommonBase {
 		this.script_pubkey = bindings.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-	public constructor_new(value: BigInt, script_pubkey: Uint8Array): TxOut {
+	public constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
 		return new TxOut(null, bindings.TxOut_new(bindings.encodeUint8Array(script_pubkey), value));
 	}
 }"""
@@ -466,7 +466,7 @@ export function encodeUint32Array (inputArray: Uint32Array|Array<number>): numbe
 	arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
 }
-export function encodeUint64Array (inputArray: BigUint64Array|Array<BigInt>): number {
+export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
 	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = inputArray.length;
