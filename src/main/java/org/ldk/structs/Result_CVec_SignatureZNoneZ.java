@@ -24,7 +24,7 @@ public class Result_CVec_SignatureZNoneZ extends CommonBase {
 		public final byte[][] res;
 		private Result_CVec_SignatureZNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_CVec_SignatureZNoneZ_get_ok(ptr);
+			this.res = bindings.CResult_CVec_SignatureZNoneZ_get_ok(ptr);
 		}
 	}
 

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class BestBlock extends CommonBase {
@@ -308,15 +307,16 @@ export class BestBlock extends CommonBase {
 	}
 
 	public static constructor_new(block_hash: Uint8Array, height: number): BestBlock {
-		const ret: number = bindings.BestBlock_new(InternalUtils.check_arr_len(block_hash, 32), height);
+		const ret: number = bindings.BestBlock_new(bindings.encodeUint8Array(bindings.check_arr_len(block_hash, 32)), height);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public block_hash(): Uint8Array {
-		const ret: Uint8Array = bindings.BestBlock_block_hash(this.ptr);
-		return ret;
+		const ret: number = bindings.BestBlock_block_hash(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public height(): number {

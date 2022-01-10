@@ -24,7 +24,7 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 		public final byte[] res;
 		private Result_CVec_u8ZPeerHandleErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_ok(ptr);
+			this.res = bindings.CResult_CVec_u8ZPeerHandleErrorZ_get_ok(ptr);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 		public final PeerHandleError err;
 		private Result_CVec_u8ZPeerHandleErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_CVec_u8ZPeerHandleErrorZ_get_err(ptr);
+			long err = bindings.CResult_CVec_u8ZPeerHandleErrorZ_get_err(ptr);
 			PeerHandleError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new PeerHandleError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

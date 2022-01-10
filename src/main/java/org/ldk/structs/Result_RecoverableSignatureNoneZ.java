@@ -24,7 +24,7 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 		public final byte[] res;
 		private Result_RecoverableSignatureNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_RecoverableSignatureNoneZ_get_ok(ptr);
+			this.res = bindings.CResult_RecoverableSignatureNoneZ_get_ok(ptr);
 		}
 	}
 
@@ -37,9 +37,9 @@ public class Result_RecoverableSignatureNoneZ extends CommonBase {
 	/**
 	 * Creates a new CResult_RecoverableSignatureNoneZ in the success state.
 	 */
-	public static Result_RecoverableSignatureNoneZ ok(byte[] arg) {
-		long ret = bindings.CResult_RecoverableSignatureNoneZ_ok(InternalUtils.check_arr_len(arg, 68));
-		Reference.reachabilityFence(arg);
+	public static Result_RecoverableSignatureNoneZ ok(byte[] o) {
+		long ret = bindings.CResult_RecoverableSignatureNoneZ_ok(InternalUtils.check_arr_len(o, 68));
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;

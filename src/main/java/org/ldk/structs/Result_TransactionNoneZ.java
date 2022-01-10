@@ -24,7 +24,7 @@ public class Result_TransactionNoneZ extends CommonBase {
 		public final byte[] res;
 		private Result_TransactionNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_TransactionNoneZ_get_ok(ptr);
+			this.res = bindings.CResult_TransactionNoneZ_get_ok(ptr);
 		}
 	}
 

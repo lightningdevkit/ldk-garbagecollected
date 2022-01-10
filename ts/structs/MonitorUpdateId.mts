@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class MonitorUpdateId extends CommonBase {
@@ -300,8 +299,8 @@ export class MonitorUpdateId extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.MonitorUpdateId_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.MonitorUpdateId_hash(this.ptr);
 		return ret;
 	}
 

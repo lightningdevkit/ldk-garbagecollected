@@ -1,0 +1,36 @@
+{
+  "name": "lightningdevkit",
+  "version": "0.0.104.0alpha0",
+  "description": "Lightning Development Kit",
+  "main": "index.mts",
+  "directories": {
+    "test": "test"
+  },
+  "files": [
+    "structs/*.mts",
+    "enums/*.mts",
+    "bindings.mts",
+    "liblightningjs.wasm",
+    "tsconfig.json",
+    "README.md",
+    "test/tests.mts",
+    "test/node.mjs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lightningdevkit/ldk-garbagecollected.git"
+  },
+  "keywords": [
+    "lightning",
+    "bitcoin"
+  ],
+  "author": "LDK Developers",
+  "license": "MIT OR Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/lightningdevkit/ldk-garbagecollected/issues"
+  },
+  "homepage": "https://github.com/lightningdevkit/ldk-garbagecollected#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.8"
+  }
+}

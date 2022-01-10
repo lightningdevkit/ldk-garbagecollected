@@ -279,20 +279,18 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Option_AccessZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_AccessZ_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Option_AccessZ {
-		const raw_val: bindings.LDKCOption_AccessZ = bindings.LDKCOption_AccessZ_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKCOption_AccessZ_Some) {
-			return new Option_AccessZ_Some(ptr, raw_val);
+		const raw_ty: number = bindings.LDKCOption_AccessZ_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Option_AccessZ_Some(ptr);
+			case 1: return new Option_AccessZ_None(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKCOption_AccessZ_None) {
-			return new Option_AccessZ_None(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public static constructor_some(o: Access): Option_AccessZ {
@@ -314,9 +312,9 @@ export class Option_AccessZ extends CommonBase {
 export class Option_AccessZ_Some extends Option_AccessZ {
 	public some: Access;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_AccessZ_Some) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const some: number = obj.some;
+		const some: number = bindings.LDKCOption_AccessZ_Some_get_some(ptr);
 		const ret_hu_conv: Access = new Access(null, some);
 			CommonBase.add_ref_from(ret_hu_conv, this);
 		this.some = ret_hu_conv;
@@ -324,7 +322,7 @@ export class Option_AccessZ_Some extends Option_AccessZ {
 }
 export class Option_AccessZ_None extends Option_AccessZ {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_AccessZ_None) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ClosingSigned extends CommonBase {
@@ -289,30 +288,32 @@ export class ClosingSigned extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.ClosingSigned_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.ClosingSigned_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.ClosingSigned_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ClosingSigned_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_fee_satoshis(): number {
-		const ret: number = bindings.ClosingSigned_get_fee_satoshis(this.ptr);
+	public get_fee_satoshis(): bigint {
+		const ret: bigint = bindings.ClosingSigned_get_fee_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_fee_satoshis(val: number): void {
+	public set_fee_satoshis(val: bigint): void {
 		bindings.ClosingSigned_set_fee_satoshis(this.ptr, val);
 	}
 
 	public get_signature(): Uint8Array {
-		const ret: Uint8Array = bindings.ClosingSigned_get_signature(this.ptr);
-		return ret;
+		const ret: number = bindings.ClosingSigned_get_signature(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_signature(val: Uint8Array): void {
-		bindings.ClosingSigned_set_signature(this.ptr, InternalUtils.check_arr_len(val, 64));
+		bindings.ClosingSigned_set_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
 	public get_fee_range(): ClosingSignedFeeRange {
@@ -326,8 +327,8 @@ export class ClosingSigned extends CommonBase {
 		bindings.ClosingSigned_set_fee_range(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
-	public static constructor_new(channel_id_arg: Uint8Array, fee_satoshis_arg: number, signature_arg: Uint8Array, fee_range_arg: ClosingSignedFeeRange): ClosingSigned {
-		const ret: number = bindings.ClosingSigned_new(InternalUtils.check_arr_len(channel_id_arg, 32), fee_satoshis_arg, InternalUtils.check_arr_len(signature_arg, 64), fee_range_arg == null ? 0 : CommonBase.get_ptr_of(fee_range_arg) & ~1);
+	public static constructor_new(channel_id_arg: Uint8Array, fee_satoshis_arg: bigint, signature_arg: Uint8Array, fee_range_arg: ClosingSignedFeeRange): ClosingSigned {
+		const ret: number = bindings.ClosingSigned_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), fee_satoshis_arg, bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), fee_range_arg == null ? 0 : CommonBase.get_ptr_of(fee_range_arg) & ~1);
 		const ret_hu_conv: ClosingSigned = new ClosingSigned(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -346,12 +347,13 @@ export class ClosingSigned extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ClosingSigned_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ClosingSigned_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ClosingSignedDecodeErrorZ {
-		const ret: number = bindings.ClosingSigned_read(ser);
+		const ret: number = bindings.ClosingSigned_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ClosingSignedDecodeErrorZ = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

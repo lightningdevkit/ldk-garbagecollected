@@ -199,7 +199,7 @@ else
 	cat ts/bindings.c.body >> ts/bindings.c
 
 	echo "Building TS bindings..."
-	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -Wl,--export-dynamic -Wl,-allow-undefined -nostdlib --target=wasm32-wasi"
+	COMPILE="$COMMON_COMPILE -flto -Wl,--no-entry -nostdlib --target=wasm32-wasi -Wl,-z -Wl,stack-size=$((8*1024*1024)) -Wl,--initial-memory=$((16*1024*1024)) -Wl,--max-memory=$((1024*1024*1024)) -Wl,--global-base=4096"
 	# We only need malloc and assert/abort, but for now just use WASI for those:
 	#EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 	EXTRA_LINK=
@@ -223,13 +223,12 @@ else
 			tsc
 		else
 			tsc --types node --typeRoots .
-			cd ..
 			if [ -x "$(which node)" ]; then
 				NODE_V="$(node --version)"
 				if [ "${NODE_V:1:2}" -gt 14 ]; then
 					rm -f liblightningjs.wasm
-					ln -s $WASM_FILE liblightningjs.wasm
-					node ts/test/node.mjs
+					ln -s "$(pwd)"/../$WASM_FILE liblightningjs.wasm
+					node test/node.mjs
 				fi
 			fi
 		fi

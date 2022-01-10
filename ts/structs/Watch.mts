@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -325,9 +324,9 @@ export class Watch extends CommonBase {
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			release_pending_monitor_events (): number[] {
+			release_pending_monitor_events (): number {
 				const ret: MonitorEvent[] = arg.release_pending_monitor_events();
-				const result: number[] = ret != null ? ret.map(ret_conv_14 => ret_conv_14 == null ? 0 : ret_conv_14.clone_ptr()) : null;
+				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_14 => ret_conv_14 == null ? 0 : ret_conv_14.clone_ptr()) : null);
 				return result;
 			},
 		} as bindings.LDKWatch;
@@ -350,10 +349,11 @@ export class Watch extends CommonBase {
 	}
 
 	public release_pending_monitor_events(): MonitorEvent[] {
-		const ret: number[] = bindings.Watch_release_pending_monitor_events(this.ptr);
-		const ret_conv_14_arr: MonitorEvent[] = new Array(ret.length).fill(null);
-		for (var o = 0; o < ret.length; o++) {
-			const ret_conv_14: number = ret[o];
+		const ret: number = bindings.Watch_release_pending_monitor_events(this.ptr);
+		const ret_conv_14_len: number = bindings.getArrayLength(ret);
+		const ret_conv_14_arr: MonitorEvent[] = new Array(ret_conv_14_len).fill(null);
+		for (var o = 0; o < ret_conv_14_len; o++) {
+			const ret_conv_14: number = bindings.getU32ArrayElem(ret, o);
 			const ret_conv_14_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret_conv_14);
 			CommonBase.add_ref_from(ret_conv_14_hu_conv, this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;

@@ -24,7 +24,7 @@ public class Result_RouteLightningErrorZ extends CommonBase {
 		public final Route res;
 		private Result_RouteLightningErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_RouteLightningErrorZ_get_ok(ptr);
+			long res = bindings.CResult_RouteLightningErrorZ_get_ok(ptr);
 			Route res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Route(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_RouteLightningErrorZ extends CommonBase {
 		public final LightningError err;
 		private Result_RouteLightningErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_RouteLightningErrorZ_get_err(ptr);
+			long err = bindings.CResult_RouteLightningErrorZ_get_err(ptr);
 			LightningError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new LightningError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

@@ -14,19 +14,19 @@ class Consts:
     def __init__(self, DEBUG: bool, target: Target, outdir: str, **kwargs):
         self.outdir = outdir
         self.struct_file_suffixes = {}
+        self.function_ptr_counter = 0
+        self.function_ptrs = {}
         self.c_type_map = dict(
-            uint8_t = ['number', 'Uint8Array'],
-            uint16_t = ['number', 'Uint16Array'],
-            uint32_t = ['number', 'Uint32Array'],
-            uint64_t = ['number'],
+            uint8_t = ['number', 'number', 'Uint8Array'],
+            uint16_t = ['number', 'number', 'Uint16Array'],
+            uint32_t = ['number', 'number', 'Uint32Array'],
+            uint64_t = ['bigint', 'bigint', 'BigUint64Array'],
         )
-
-        self.wasm_decoding_map = dict(
-            int8_tArray = 'decodeUint8Array'
+        self.java_type_map = dict(
+            String = "number"
         )
-
-        self.wasm_encoding_map = dict(
-            int8_tArray = 'encodeUint8Array',
+        self.java_hu_type_map = dict(
+            String = "string"
         )
 
         self.to_hu_conv_templates = dict(
@@ -34,43 +34,7 @@ class Consts:
             default = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
         )
 
-        self.bindings_header = self.wasm_import_header(target) + """
-export class VecOrSliceDef {
-    public dataptr: number;
-    public datalen: number;
-    public stride: number;
-    public constructor(dataptr: number, datalen: number, stride: number) {
-        this.dataptr = dataptr;
-        this.datalen = datalen;
-        this.stride = stride;
-    }
-}
-
-/*
-TODO: load WASM file
-static {
-    System.loadLibrary(\"lightningjni\");
-    init(java.lang.Enum.class, VecOrSliceDef.class);
-    init_class_cache();
-}
-
-static native void init(java.lang.Class c, java.lang.Class slicedef);
-static native void init_class_cache();
-
-public static native boolean deref_bool(long ptr);
-public static native long deref_long(long ptr);
-public static native void free_heap_ptr(long ptr);
-public static native byte[] read_bytes(long ptr, long len);
-public static native byte[] get_u8_slice_bytes(long slice_ptr);
-public static native long bytes_to_u8_vec(byte[] bytes);
-public static native long new_txpointer_copy_data(byte[] txdata);
-public static native void txpointer_free(long ptr);
-public static native byte[] txpointer_get_buffer(long ptr);
-public static native long vec_slice_len(long vec);
-public static native long new_empty_slice_vec();
-*/
-
-"""
+        self.bindings_header = self.wasm_import_header(target)
 
         self.bindings_version_file = ""
 
@@ -79,7 +43,7 @@ public static native long new_empty_slice_vec();
         self.common_base = """
 function freer(f: () => void) { f() }
 const finalizer = new FinalizationRegistry(freer);
-function get_freeer(ptr: number, free_fn: (number) => void) {
+function get_freeer(ptr: number, free_fn: (ptr: number) => void) {
 	return () => {
 		free_fn(ptr);
 	}
@@ -114,16 +78,16 @@ export default class CommonBase {
 	/** The script_pubkey in this output */
 	public script_pubkey: Uint8Array;
 	/** The value, in satoshis, of this output */
-	public value: number;
+	public value: bigint;
 
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.TxOut_free);
-		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
+		this.script_pubkey = bindings.decodeUint8Array(bindings.TxOut_get_script_pubkey(ptr));
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-	public constructor_new(value: number, script_pubkey: Uint8Array): TxOut {
-		return new TxOut(null, bindings.TxOut_new(script_pubkey, value));
+	public constructor_new(value: bigint, script_pubkey: Uint8Array): TxOut {
+		return new TxOut(null, bindings.TxOut_new(bindings.encodeUint8Array(script_pubkey), value));
 	}
 }"""
         self.obj_defined(["TxOut"], "structs")
@@ -137,10 +101,15 @@ void *memset(void *s, int c, size_t n);
 void *memcpy(void *dest, const void *src, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
 
-void __attribute__((noreturn)) abort(void);
+extern void __attribute__((noreturn)) abort(void);
 static inline void assert(bool expression) {
 	if (!expression) { abort(); }
 }
+
+uint32_t __attribute__((export_name("test_bigint_pass_deadbeef0badf00d"))) test_bigint_pass_deadbeef0badf00d(uint64_t val) {
+	return val == 0xdeadbeef0badf00dULL;
+}
+
 """
 
         if not DEBUG:
@@ -308,10 +277,10 @@ static inline LDKStr str_ref_to_owned_c(const jstring str) {
 
 typedef bool jboolean;
 
-uint32_t __attribute__((visibility("default"))) TS_malloc(uint32_t size) {
+uint32_t __attribute__((export_name("TS_malloc"))) TS_malloc(uint32_t size) {
 	return (uint32_t)MALLOC(size, "JS-Called malloc");
 }
-void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
+void __attribute__((export_name("TS_free"))) TS_free(uint32_t ptr) {
 	FREE((void*)ptr);
 }
 """
@@ -321,7 +290,6 @@ void __attribute__((visibility("default"))) TS_free(uint32_t ptr) {
         self.hu_struct_file_prefix = """
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 """
         self.util_fn_pfx = self.hu_struct_file_prefix + "\nexport class UtilMethods extends CommonBase {\n"
@@ -334,12 +302,6 @@ import * as InternalUtils from '../InternalUtils.mjs'
         self.ptr_arr = "ptrArray"
         self.is_arr_some_check = ("", " != 0")
         self.get_native_arr_len_call = ("", "->arr_len")
-
-        with open(outdir + "/InternalUtils.mts", "w") as f:
-            f.write("export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {\n")
-            f.write("\tif (arr.length != len) { throw new Error(\"Expected array of length \" + len + \"got \" + arr.length); }\n")
-            f.write("\treturn arr;\n")
-            f.write("}")
 
     def release_native_arr_ptr_call(self, ty_info, arr_var, arr_ptr_var):
         return None
@@ -365,8 +327,8 @@ import * as InternalUtils from '../InternalUtils.mjs'
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
         if ty_info.subty is not None:
-            return "(" + ty_info.subty.c_ty + "*)(", " + 4)"
-        return "(" + ty_info.c_ty + "*)(", " + 4)"
+            return "(" + ty_info.subty.c_ty + "*)(((uint8_t*)", ") + 4)"
+        return "(" + ty_info.c_ty + "*)(((uint8_t*)", ") + 4)"
     def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
         return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
@@ -376,71 +338,98 @@ import * as InternalUtils from '../InternalUtils.mjs'
             return None
 
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+        assert elem_ty.c_ty == "uint32_t" or elem_ty.c_ty.endswith("Array")
         return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
 
     def str_ref_to_native_call(self, var_name, str_len):
         return "str_ref_to_ts(" + var_name + ", " + str_len + ")"
     def str_ref_to_c_call(self, var_name):
         return "str_ref_to_owned_c(" + var_name + ")"
+    def str_to_hu_conv(self, var_name):
+        return "const " + var_name + "_conv: string = bindings.decodeString(" + var_name + ");"
+    def str_from_hu_conv(self, var_name):
+        return ("bindings.encodeString(" + var_name + ")", "")
 
     def c_fn_name_define_pfx(self, fn_name, have_args):
-        return " __attribute__((visibility(\"default\"))) TS_" + fn_name + "("
+        return " __attribute__((export_name(\"TS_" + fn_name + "\"))) TS_" + fn_name + "("
 
     def wasm_import_header(self, target):
         res = """
 const imports: any = {};
 imports.env = {};
 
-imports.env.tableBase = 0;
-imports.env.table = new WebAssembly.Table({initial: 4, element: 'anyfunc'});
-
-imports.env["abort"] = function () {
-	console.error("ABORT");
-};
-imports.env["js_invoke_function"] = function(fn: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number) {
-	console.log('function called from wasm:', fn, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-};
-imports.env["js_free_function_ptr"] = function(fn: number) {
-	console.log("function ptr free'd from wasm:", fn);
-};
+var js_objs: Array<WeakRef<object>> = [];
+var js_invoke: Function;
 
 imports.wasi_snapshot_preview1 = {
-	"fd_write" : () => {
-		console.log("ABORT");
+	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
+		// This should generally only be used to print panic messages
+		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
+		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
+		for (var i = 0; i < iovec_array_len; i++) {
+			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
+			console.log(String.fromCharCode(...bytes_view));
+		}
+		return 0;
 	},
-	"random_get" : () => {
-		console.log("RAND GET");
+	"random_get": (buf_ptr: number, buf_len: number) => {
+		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
+		crypto.getRandomValues(buf);
+		return 0;
 	},
-	"environ_sizes_get" : () => {
+	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
+		// This is called before fd_write to format + print panic messages
 		console.log("wasi_snapshot_preview1:environ_sizes_get");
+		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
+		out_count_view[0] = 1;
+		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
+		out_len_view[0] = "RUST_BACKTRACE=1".length + 1; // Note that string must be NULL-terminated
+		return 0;
+	},
+	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
+		// This is called before fd_write to format + print panic messages
+		console.log("wasi_snapshot_preview1:environ_get");
+		const out_ptrs = new Uint32Array(wasm.memory.buffer, environ_ptr, 2);
+		out_ptrs[0] = environ_buf_ptr;
+		out_ptrs[1] = "RUST_BACKTRACE=1".length;
+		const out_environ = new Uint8Array(wasm.memory.buffer, environ_buf_ptr, out_ptrs[1]);
+		for (var i = 0; i < out_ptrs[1]; i++) { out_environ[i] = "RUST_BACKTRACE=1".codePointAt(i); }
+		out_environ[out_ptrs[1]] = 0;
+		return 0;
 	},
 	"proc_exit" : () => {
 		console.log("wasi_snapshot_preview1:proc_exit");
 	},
-	"environ_get" : () => {
-		console.log("wasi_snapshot_preview1:environ_get");
-	},
 };
 
-var wasm = null;
+var wasm: any = null;
 let isWasmInitialized: boolean = false;
 """
 
         if target == Target.NODEJS:
             res += """import * as fs from 'fs';
-export async function initializeWasm(path) {
+import { webcrypto as crypto } from 'crypto';
+export async function initializeWasm(path: string) {
 	const source = fs.readFileSync(path);
+	imports.env["js_invoke_function"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);
 	wasm = wasmInstance.exports;
+	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
+		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
+	}
 	isWasmInitialized = true;
 };
 """
         else:
             res += """
-export async function initializeWasm(uri) {
+export async function initializeWasm(uri: string) {
 	const stream = fetch(uri);
+	imports.env["js_invoke_function"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	wasm = wasmInstance.exports;
+	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
+		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
+	}
 	isWasmInitialized = true;
 };
 
@@ -455,7 +444,7 @@ const nextMultipleOfFour = (value: number) => {
 	return Math.ceil(value / 4) * 4;
 }
 
-const encodeUint8Array = (inputArray) => {
+export function encodeUint8Array (inputArray: Uint8Array): number {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
 	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
 	arrayLengthView[0] = inputArray.length;
@@ -463,39 +452,44 @@ const encodeUint8Array = (inputArray) => {
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
-
-const encodeUint32Array = (inputArray) => {
+export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
 	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
 	arrayMemoryView.set(inputArray, 1);
 	arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
 }
+export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
+	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
+	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = inputArray.length;
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
+	arrayMemoryView.set(inputArray);
+	return cArrayPointer;
+}
 
-const getArrayLength = (arrayPointer) => {
-	const arraySizeViewer = new Uint32Array(
-		wasm.memory.buffer, // value
-		arrayPointer, // offset
-		1 // one int
-	);
+export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
+	if (arr.length != len) { throw new Error("Expected array of length " + len + "got " + arr.length); }
+	return arr;
+}
+
+export function getArrayLength(arrayPointer: number): number {
+	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
 	return arraySizeViewer[0];
 }
-const decodeUint8Array = (arrayPointer, free = true) => {
+export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
 	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint8Array(
-		wasm.memory.buffer, // value
-		arrayPointer + 4, // offset (ignoring length bytes)
-		arraySize // uint8 count
-	);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
 	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
 	// will free the underlying memory when it becomes unreachable instead of copying here.
+	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
 	const actualArray = actualArrayViewer.slice(0, arraySize);
 	if (free) {
 		wasm.TS_free(arrayPointer);
 	}
 	return actualArray;
 }
-const decodeUint32Array = (arrayPointer, free = true) => {
+const decodeUint32Array = (arrayPointer: number, free = true) => {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint32Array(
 		wasm.memory.buffer, // value
@@ -511,48 +505,68 @@ const decodeUint32Array = (arrayPointer, free = true) => {
 	return actualArray;
 }
 
-const encodeString = (string) => {
-	// make malloc count divisible by 4
-	const memoryNeed = nextMultipleOfFour(string.length + 1);
-	const stringPointer = wasm.TS_malloc(memoryNeed);
-	const stringMemoryView = new Uint8Array(
-		wasm.memory.buffer, // value
-		stringPointer, // offset
-		string.length + 1 // length
-	);
-	for (let i = 0; i < string.length; i++) {
-		stringMemoryView[i] = string.charCodeAt(i);
-	}
-	stringMemoryView[string.length] = 0;
-	return stringPointer;
+export function getU32ArrayElem(arrayPointer: number, idx: number): number {
+	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	return actualArrayViewer[idx];
 }
 
-const decodeString = (stringPointer, free = true) => {
-	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer);
-	let cursor = 0;
-	let result = '';
+export function encodeString(str: string): number {
+	const charArray = new TextEncoder().encode(str);
+	return encodeUint8Array(charArray);
+}
 
-	while (memoryView[cursor] !== 0) {
-		result += String.fromCharCode(memoryView[cursor]);
-		cursor++;
-	}
+export function decodeString(stringPointer: number, free = true): string {
+	const arraySize = getArrayLength(stringPointer);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
+	const result = new TextDecoder("utf-8").decode(memoryView);
 
 	if (free) {
-		wasm.wasm_free(stringPointer);
+		wasm.TS_free(stringPointer);
 	}
 
 	return result;
-};
+}
 """
 
     def init_str(self):
         return ""
 
+    def get_java_arr_len(self, arr_name):
+        return "bindings.getArrayLength(" + arr_name + ")"
+    def get_java_arr_elem(self, elem_ty, arr_name, idx):
+        if elem_ty.c_ty == "uint32_t" or elem_ty.c_ty == "uintptr_t" or elem_ty.c_ty.endswith("Array"):
+            return "bindings.getU32ArrayElem(" + arr_name + ", " + idx + ")"
+        else:
+            assert False
     def constr_hu_array(self, ty_info, arr_len):
         return "new Array(" + arr_len + ").fill(null)"
 
+    def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
+        inner = arr_name
+        if fixed_len is not None:
+            assert mapped_ty.c_ty == "int8_t"
+            inner = "bindings.check_arr_len(" + arr_name + ", " + fixed_len + ")"
+        if mapped_ty.c_ty.endswith("Array"):
+            return ("bindings.encodeUint32Array(" + inner + ")", "")
+        elif mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t":
+            return ("bindings.encodeUint8Array(" + inner + ")", "")
+        elif mapped_ty.c_ty == "uint32_t":
+            return ("bindings.encodeUint32Array(" + inner + ")", "")
+        elif mapped_ty.c_ty == "int64_t":
+            return ("bindings.encodeUint64Array(" + inner + ")", "")
+        else:
+            print(mapped_ty.c_ty)
+            assert False
+
+    def primitive_arr_to_hu(self, mapped_ty, fixed_len, arr_name, conv_name):
+        assert mapped_ty.c_ty == "uint8_t" or mapped_ty.c_ty == "int8_t"
+        return "const " + conv_name + ": Uint8Array = bindings.decodeUint8Array(" + arr_name + ");"
+
     def var_decl_statement(self, ty_string, var_name, statement):
         return "const " + var_name + ": " + ty_string + " = " + statement
+
+    def java_arr_ty_str(self, elem_ty_str):
+        return "number"
 
     def for_n_in_range(self, n, minimum, maximum):
         return "for (var " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
@@ -613,15 +627,6 @@ const decodeString = (stringPointer, free = true) => {
         return (ty_info.rust_obj + "_to_js(", ")")
     def native_unitary_enum_to_c_call(self, ty_info):
         return (ty_info.rust_obj + "_from_js(", ")")
-
-    def c_complex_enum_pass_ty(self, struct_name):
-        return "uint32_t"
-
-    def c_constr_native_complex_enum(self, struct_name, variant, c_params):
-        ret = "0 /* " + struct_name + " - " + variant + " */"
-        for param in c_params:
-            ret = ret + "; (void) " + param
-        return ret
 
     def native_c_map_trait(self, struct_name, field_var_conversions, flattened_field_var_conversions, field_function_lines, trait_doc_comment):
         out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
@@ -748,11 +753,11 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 """
         self.obj_defined([struct_name.replace("LDK", ""), struct_name.replace("LDK", "") + "Interface"], "structs")
 
-        out_typescript_bindings += "\t\texport interface " + struct_name + " {\n"
+        out_typescript_bindings += "export interface " + struct_name + " {\n"
         java_meths = []
         for fn_line in field_function_lines:
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
-                out_typescript_bindings += f"\t\t\t{fn_line.fn_name} ("
+                out_typescript_bindings += f"\t{fn_line.fn_name} ("
 
                 for idx, arg_conv_info in enumerate(fn_line.args_ty):
                     if idx >= 1:
@@ -761,9 +766,9 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
                 out_typescript_bindings += f"): {fn_line.ret_ty_info.java_ty};\n"
 
-        out_typescript_bindings = out_typescript_bindings + "\t\t}\n\n"
+        out_typescript_bindings += "}\n\n"
 
-        out_typescript_bindings += f"\t\texport function {struct_name}_new(impl: {struct_name}"
+        out_typescript_bindings += f"export function {struct_name}_new(impl: {struct_name}"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_typescript_bindings += f", {var.arg_name}: {var.java_ty}"
@@ -771,15 +776,24 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 out_typescript_bindings += f", {var[1]}: {var[0]}"
 
         out_typescript_bindings += f"""): number {{
-			throw new Error('unimplemented'); // TODO: bind to WASM
-		}}
+	if(!isWasmInitialized) {{
+		throw new Error("initializeWasm() must be awaited first!");
+	}}
+	var new_obj_idx = js_objs.length;
+	for (var i = 0; i < js_objs.length; i++) {{
+		if (js_objs[i] == null || js_objs[i] == undefined) {{ new_obj_idx = i; break; }}
+	}}
+	js_objs[i] = new WeakRef(impl);
+	return wasm.TS_{struct_name}_new(i);
+}}
 """
 
         out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
 
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
-        out_c = out_c + "\tatomic_size_t refcnt;\n"
+        out_c += "\tatomic_size_t refcnt;\n"
+        out_c += "\tuint32_t instance_ptr;\n"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 # We're a regular ol' field
@@ -787,9 +801,6 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
             else:
                 # We're a supertrait
                 out_c = out_c + "\t" + var[0] + "_JCalls* " + var[1] + ";\n"
-        for fn in field_function_lines:
-            if fn.fn_name != "free" and fn.fn_name != "cloned":
-                out_c = out_c + "\tuint32_t " + fn.fn_name + "_meth;\n"
         out_c = out_c + "} " + struct_name + "_JCalls;\n"
 
         for fn_line in field_function_lines:
@@ -797,9 +808,6 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 out_c = out_c + "static void " + struct_name + "_JCalls_free(void* this_arg) {\n"
                 out_c = out_c + "\t" + struct_name + "_JCalls *j_calls = (" + struct_name + "_JCalls*) this_arg;\n"
                 out_c = out_c + "\tif (atomic_fetch_sub_explicit(&j_calls->refcnt, 1, memory_order_acquire) == 1) {\n"
-                for fn in field_function_lines:
-                    if fn.fn_name != "free" and fn.fn_name != "cloned":
-                        out_c = out_c + "\t\tjs_free_function_ptr(j_calls->" + fn.fn_name + "_meth);\n"
                 out_c = out_c + "\t\tFREE(j_calls);\n"
                 out_c = out_c + "\t}\n}\n"
 
@@ -826,15 +834,18 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
                 if fn_line.ret_ty_info.c_ty.endswith("Array"):
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (" + fn_line.ret_ty_info.c_ty + ")"
-                    out_c += "js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c += "js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif fn_line.ret_ty_info.java_ty == "void":
-                    out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
-                elif fn_line.ret_ty_info.java_ty == "String":
-                    out_c = out_c + "\tjstring ret = (jstring)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\tjs_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+                elif fn_line.ret_ty_info.java_hu_ty == "string":
+                    out_c = out_c + "\tjstring ret = (jstring)js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 elif not fn_line.ret_ty_info.passed_as_ptr:
-                    out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\treturn js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
                 else:
-                    out_c = out_c + "\tuint32_t ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->" + fn_line.fn_name + "_meth"
+                    out_c = out_c + "\tuint32_t ret = js_invoke_function_" + str(len(fn_line.args_ty)) + "(j_calls->instance_ptr, " + str(self.function_ptr_counter)
+
+                self.function_ptrs[self.function_ptr_counter] = (struct_name, fn_line.fn_name)
+                self.function_ptr_counter += 1
 
                 for idx, arg_info in enumerate(fn_line.args_ty):
                     if arg_info.ret_conv is not None:
@@ -856,17 +867,17 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                 out_c = out_c + "\tatomic_fetch_add_explicit(&j_calls->" + var[1] + "->refcnt, 1, memory_order_release);\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (/*TODO: JS Object Reference */void* o"
+        out_c = out_c + "static inline " + struct_name + " " + struct_name + "_init (JSValue o"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", /*TODO: JS Object Reference */void* " + var[1]
+                out_c = out_c + ", JSValue " + var[1]
         out_c = out_c + ") {\n"
 
         out_c = out_c + "\t" + struct_name + "_JCalls *calls = MALLOC(sizeof(" + struct_name + "_JCalls), \"" + struct_name + "_JCalls\");\n"
         out_c = out_c + "\tatomic_init(&calls->refcnt, 1);\n"
-        out_c = out_c + "\t//TODO: Assign calls->o from o\n"
+        out_c = out_c + "\tcalls->instance_ptr = o;\n"
 
         for (fn_name, java_meth_descr) in java_meths:
             if fn_name != "free" and fn_name != "cloned":
@@ -908,12 +919,12 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_c = out_c + "\treturn ret;\n"
         out_c = out_c + "}\n"
 
-        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "/*TODO: JS Object Reference */void* o"
+        out_c = out_c + self.c_fn_ty_pfx + "long " + self.c_fn_name_define_pfx(struct_name + "_new", True) + "JSValue o"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_c = out_c + ", " + var.c_ty + " " + var.arg_name
             else:
-                out_c = out_c + ", /*TODO: JS Object Reference */ void* " + var[1]
+                out_c = out_c + ", JSValue " + var[1]
         out_c = out_c + ") {\n"
         out_c = out_c + "\t" + struct_name + " *res_ptr = MALLOC(sizeof(" + struct_name + "), \"" + struct_name + "\");\n"
         out_c = out_c + "\t*res_ptr = " + struct_name + "_init(o"
@@ -946,49 +957,47 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr, bindings." + bindings_type + "_free); }\n"
         java_hu_class += "\t/* @internal */\n"
         java_hu_class += f"\tpublic static constr_from_ptr(ptr: number): {java_hu_type} {{\n"
-        java_hu_class += f"\t\tconst raw_val: bindings.{struct_name} = bindings." + struct_name + "_ref_from_ptr(ptr);\n"
+        java_hu_class += f"\t\tconst raw_ty: number = bindings." + struct_name + "_ty_from_ptr(ptr);\n"
+        out_c += self.c_fn_ty_pfx + "uint32_t" + self.c_fn_name_define_pfx(struct_name + "_ty_from_ptr", True) + self.ptr_c_ty + " ptr) {\n"
+        out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n"
+        out_c += "\tswitch(obj->tag) {\n"
+        java_hu_class += "\t\tswitch (raw_ty) {\n"
         java_hu_subclasses = ""
 
-        out_java += "\texport class " + struct_name + " {\n"
-        out_java += "\t\tprotected constructor() {}\n"
-        java_subclasses = ""
+        out_java += "export class " + struct_name + " {\n"
+        out_java += "\tprotected constructor() {}\n"
+        var_idx = 0
         for var in variant_list:
-            java_subclasses += "\texport class " + struct_name + "_" + var.var_name + " extends " + struct_name + " {\n"
             java_hu_subclasses = java_hu_subclasses + "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
-            java_hu_class += "\t\tif (raw_val instanceof bindings." + struct_name + "_" + var.var_name + ") {\n"
-            java_hu_class += "\t\t\treturn new " + java_hu_type + "_" + var.var_name + "(ptr, raw_val);\n"
-            init_meth_params = ""
+            java_hu_class += f"\t\t\tcase {var_idx}: "
+            java_hu_class += "return new " + java_hu_type + "_" + var.var_name + "(ptr);\n"
+            out_c += f"\t\tcase {struct_name}_{var.var_name}: return {var_idx};\n"
             hu_conv_body = ""
             for idx, (field_ty, field_docs) in enumerate(var.fields):
                 java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
                 if field_ty.to_hu_conv is not None:
-                    hu_conv_body = hu_conv_body + "\t\tconst " + field_ty.arg_name + f": {field_ty.java_ty} = obj." + field_ty.arg_name + ";\n"
-                    hu_conv_body = hu_conv_body + "\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
-                    hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = " + field_ty.to_hu_conv_name + ";\n"
+                    hu_conv_body += f"\t\tconst {field_ty.arg_name}: {field_ty.java_ty} = bindings.{struct_name}_{var.var_name}_get_{field_ty.arg_name}(ptr);\n"
+                    hu_conv_body += f"\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
+                    hu_conv_body += f"\t\tthis." + field_ty.arg_name + " = " + field_ty.to_hu_conv_name + ";\n"
                 else:
-                    hu_conv_body = hu_conv_body + "\t\tthis." + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"
-                if idx > 0:
-                    init_meth_params += ", "
-                init_meth_params += "public " + field_ty.arg_name + ": " + field_ty.java_ty
-            java_subclasses += "\t\tconstructor(" + init_meth_params + ") { super(); }\n"
-            java_subclasses += "\t}\n"
-            java_hu_class += "\t\t}\n"
+                    hu_conv_body += f"\t\tthis.{field_ty.arg_name} = bindings.{struct_name}_{var.var_name}_get_{field_ty.arg_name}(ptr);\n"
             java_hu_subclasses += "\t/* @internal */\n"
-            java_hu_subclasses += "\tpublic constructor(ptr: number, obj: bindings." + struct_name + "_" + var.var_name + ") {\n\t\tsuper(null, ptr);\n"
+            java_hu_subclasses += "\tpublic constructor(ptr: number) {\n\t\tsuper(null, ptr);\n"
             java_hu_subclasses = java_hu_subclasses + hu_conv_body
             java_hu_subclasses = java_hu_subclasses + "\t}\n}\n"
-        out_java += ("\t}\n")
-        out_java += java_subclasses
-        java_hu_class += "\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t}\n\n"
-        out_java += self.fn_call_body(struct_name + "_ref_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
+            var_idx += 1
+        out_java += "}\n"
+        java_hu_class += "\t\t\tdefault:\n\t\t\t\tthrow new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface\n\t\t}\n\t}\n\n"
+        out_java += self.fn_call_body(struct_name + "_ty_from_ptr", "uint32_t", "number", "ptr: number", "ptr")
+        out_c += ("\t\tdefault: abort();\n")
+        out_c += ("\t}\n}\n")
 
-        out_c += (self.c_fn_ty_pfx + self.c_complex_enum_pass_ty(struct_name) + self.c_fn_name_define_pfx(struct_name + "_ref_from_ptr", True) + self.ptr_c_ty + " ptr) {\n")
-        out_c += ("\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n")
-        out_c += ("\tswitch(obj->tag) {\n")
         for var in variant_list:
-            out_c += ("\t\tcase " + struct_name + "_" + var.var_name + ": {\n")
-            c_params = []
             for idx, (field_map, _) in enumerate(var.fields):
+                fn_name = f"{struct_name}_{var.var_name}_get_{field_map.arg_name}"
+                out_c += self.c_fn_ty_pfx + field_map.c_ty + self.c_fn_name_define_pfx(fn_name, True) + self.ptr_c_ty + " ptr) {\n"
+                out_c += "\t" + struct_name + " *obj = (" + struct_name + "*)(ptr & ~1);\n"
+                out_c += f"\tassert(obj->tag == {struct_name}_{var.var_name});\n"
                 if field_map.ret_conv is not None:
                     out_c += ("\t\t\t" + field_map.ret_conv[0].replace("\n", "\n\t\t\t"))
                     if var.tuple_variant:
@@ -996,16 +1005,14 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
                     else:
                         out_c += "obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name
                     out_c += (field_map.ret_conv[1].replace("\n", "\n\t\t\t") + "\n")
-                    c_params.append(field_map.ret_conv_name)
+                    out_c += "\treturn " + field_map.ret_conv_name + ";\n"
                 else:
                     if var.tuple_variant:
-                        c_params.append("obj->" + camel_to_snake(var.var_name))
+                        out_c += "\treturn " + "obj->" + camel_to_snake(var.var_name) + ";\n"
                     else:
-                        c_params.append("obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name)
-            out_c += ("\t\t\treturn " + self.c_constr_native_complex_enum(struct_name, var.var_name, c_params) + ";\n")
-            out_c += ("\t\t}\n")
-        out_c += ("\t\tdefault: abort();\n")
-        out_c += ("\t}\n}\n")
+                        out_c += "\treturn " + "obj->" + camel_to_snake(var.var_name) + "." + field_map.arg_name + ";\n"
+                out_c += "}\n"
+                out_java += self.fn_call_body(fn_name, field_map.c_ty, field_map.java_ty, "ptr: number", "ptr")
         out_java_enum += java_hu_class
         self.struct_file_suffixes[java_hu_type] = java_hu_subclasses
         self.obj_defined([java_hu_type], "structs")
@@ -1093,21 +1100,17 @@ export class {human_ty} extends CommonBase {{
 
     def fn_call_body(self, method_name, return_c_ty, return_java_ty, method_argument_string, native_call_argument_string):
         has_return_value = return_c_ty != 'void'
-        needs_decoding = return_c_ty in self.wasm_decoding_map
         return_statement = 'return nativeResponseValue;'
         if not has_return_value:
             return_statement = '// debug statements here'
-        elif needs_decoding:
-            converter = self.wasm_decoding_map[return_c_ty]
-            return_statement = f"return {converter}(nativeResponseValue);"
 
-        return f"""\texport function {method_name}({method_argument_string}): {return_java_ty} {{
-		if(!isWasmInitialized) {{
-			throw new Error("initializeWasm() must be awaited first!");
-		}}
-		const nativeResponseValue = wasm.TS_{method_name}({native_call_argument_string});
-		{return_statement}
+        return f"""export function {method_name}({method_argument_string}): {return_java_ty} {{
+	if(!isWasmInitialized) {{
+		throw new Error("initializeWasm() must be awaited first!");
 	}}
+	const nativeResponseValue = wasm.TS_{method_name}({native_call_argument_string});
+	{return_statement}
+}}
 """
     def map_function(self, argument_types, c_call_string, method_name, meth_n, return_type_info, struct_meth, default_constructor_args, takes_self, takes_self_as_ref, args_known, type_mapping_generator, doc_comment):
         out_java = ""
@@ -1132,13 +1135,8 @@ export class {human_ty} extends CommonBase {{
                 out_c += (", ")
             if arg_conv_info.c_ty != "void":
                 out_c += (arg_conv_info.c_ty + " " + arg_conv_info.arg_name)
-                needs_encoding = arg_conv_info.c_ty in self.wasm_encoding_map
-                native_argument = arg_conv_info.arg_name
-                if needs_encoding:
-                    converter = self.wasm_encoding_map[arg_conv_info.c_ty]
-                    native_argument = f"{converter}({arg_conv_info.arg_name})"
                 method_argument_string += f"{arg_conv_info.arg_name}: {arg_conv_info.java_ty}"
-                native_call_argument_string += native_argument
+                native_call_argument_string += arg_conv_info.arg_name
         out_java = self.fn_call_body(method_name, return_type_info.c_ty, return_type_info.java_ty, method_argument_string, native_call_argument_string)
 
         out_java_struct = ""
@@ -1265,3 +1263,34 @@ export class {human_ty} extends CommonBase {{
         for struct in self.struct_file_suffixes:
             with open(self.outdir + "/structs/" + struct + self.file_ext, "a") as src:
                 src.write(self.struct_file_suffixes[struct])
+
+        with open(self.outdir + "/bindings.mts", "a") as bindings:
+            bindings.write("""
+
+js_invoke = function(obj_ptr: number, fn_id: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number) {
+	const weak: WeakRef<object> = js_objs[obj_ptr];
+	if (weak == null || weak == undefined) {
+		console.error("Got function call on unknown/free'd JS object!");
+		throw new Error("Got function call on unknown/free'd JS object!");
+	}
+	const obj: object = weak.deref();
+	if (obj == null || obj == undefined) {
+		console.error("Got function call on GC'd JS object!");
+		throw new Error("Got function call on GC'd JS object!");
+	}
+	var fn;
+""")
+            bindings.write("\tswitch (fn_id) {\n")
+            for f in self.function_ptrs:
+                bindings.write(f"\t\tcase {str(f)}: fn = Object.getOwnPropertyDescriptor(obj, \"{self.function_ptrs[f][1]}\"); break;\n")
+
+            bindings.write("""\t\tdefault:
+			console.error("Got unknown function call from C!");
+			throw new Error("Got unknown function call from C!");
+	}
+	if (fn == null || fn == undefined) {
+		console.error("Got function call on incorrect JS object!");
+		throw new Error("Got function call on incorrect JS object!");
+	}
+	return fn.value.bind(obj)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+}""")

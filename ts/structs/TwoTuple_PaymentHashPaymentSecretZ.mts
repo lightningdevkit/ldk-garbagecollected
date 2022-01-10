@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TwoTuple_PaymentHashPaymentSecretZ extends CommonBase {
@@ -289,13 +288,15 @@ export class TwoTuple_PaymentHashPaymentSecretZ extends CommonBase {
 	}
 
 	public get_a(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_PaymentHashPaymentSecretZ_get_a(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_b(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_PaymentHashPaymentSecretZ_get_b(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public clone_ptr(): number {
@@ -311,7 +312,7 @@ export class TwoTuple_PaymentHashPaymentSecretZ extends CommonBase {
 	}
 
 	public static constructor_new(a: Uint8Array, b: Uint8Array): TwoTuple_PaymentHashPaymentSecretZ {
-		const ret: number = bindings.C2Tuple_PaymentHashPaymentSecretZ_new(InternalUtils.check_arr_len(a, 32), InternalUtils.check_arr_len(b, 32));
+		const ret: number = bindings.C2Tuple_PaymentHashPaymentSecretZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.encodeUint8Array(bindings.check_arr_len(b, 32)));
 		const ret_hu_conv: TwoTuple_PaymentHashPaymentSecretZ = new TwoTuple_PaymentHashPaymentSecretZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

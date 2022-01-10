@@ -126,7 +126,7 @@ public class BackgroundProcessor extends CommonBase {
 		// However, in some cases (eg here), there is no way to clone an object, and thus
 		// we actually have to pass full ownership to Rust.
 		// Thus, after this call, this is reset to null and is now a dummy object.
-		this.ptr = 0;
+		this.ptr = 0;;
 		return ret_hu_conv;
 	}
 
@@ -154,7 +154,7 @@ public class BackgroundProcessor extends CommonBase {
 		// However, in some cases (eg here), there is no way to clone an object, and thus
 		// we actually have to pass full ownership to Rust.
 		// Thus, after this call, this is reset to null and is now a dummy object.
-		this.ptr = 0;
+		this.ptr = 0;;
 		return ret_hu_conv;
 	}
 

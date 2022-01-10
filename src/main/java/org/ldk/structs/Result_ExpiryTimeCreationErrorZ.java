@@ -24,7 +24,7 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 		public final ExpiryTime res;
 		private Result_ExpiryTimeCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_ExpiryTimeCreationErrorZ_get_ok(ptr);
+			long res = bindings.CResult_ExpiryTimeCreationErrorZ_get_ok(ptr);
 			ExpiryTime res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ExpiryTime(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_ExpiryTimeCreationErrorZ extends CommonBase {
 		public final CreationError err;
 		private Result_ExpiryTimeCreationErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_ExpiryTimeCreationErrorZ_get_err(ptr);
+			this.err = bindings.CResult_ExpiryTimeCreationErrorZ_get_err(ptr);
 		}
 	}
 

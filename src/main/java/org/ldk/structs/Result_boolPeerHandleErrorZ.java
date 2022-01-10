@@ -24,7 +24,7 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 		public final boolean res;
 		private Result_boolPeerHandleErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_boolPeerHandleErrorZ_get_ok(ptr);
+			this.res = bindings.CResult_boolPeerHandleErrorZ_get_ok(ptr);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class Result_boolPeerHandleErrorZ extends CommonBase {
 		public final PeerHandleError err;
 		private Result_boolPeerHandleErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_boolPeerHandleErrorZ_get_err(ptr);
+			long err = bindings.CResult_boolPeerHandleErrorZ_get_err(ptr);
 			PeerHandleError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new PeerHandleError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

@@ -279,71 +279,35 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class MessageSendEvent extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.MessageSendEvent_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): MessageSendEvent {
-		const raw_val: bindings.LDKMessageSendEvent = bindings.LDKMessageSendEvent_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendAcceptChannel) {
-			return new MessageSendEvent_SendAcceptChannel(ptr, raw_val);
+		const raw_ty: number = bindings.LDKMessageSendEvent_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new MessageSendEvent_SendAcceptChannel(ptr);
+			case 1: return new MessageSendEvent_SendOpenChannel(ptr);
+			case 2: return new MessageSendEvent_SendFundingCreated(ptr);
+			case 3: return new MessageSendEvent_SendFundingSigned(ptr);
+			case 4: return new MessageSendEvent_SendFundingLocked(ptr);
+			case 5: return new MessageSendEvent_SendAnnouncementSignatures(ptr);
+			case 6: return new MessageSendEvent_UpdateHTLCs(ptr);
+			case 7: return new MessageSendEvent_SendRevokeAndACK(ptr);
+			case 8: return new MessageSendEvent_SendClosingSigned(ptr);
+			case 9: return new MessageSendEvent_SendShutdown(ptr);
+			case 10: return new MessageSendEvent_SendChannelReestablish(ptr);
+			case 11: return new MessageSendEvent_BroadcastChannelAnnouncement(ptr);
+			case 12: return new MessageSendEvent_BroadcastNodeAnnouncement(ptr);
+			case 13: return new MessageSendEvent_BroadcastChannelUpdate(ptr);
+			case 14: return new MessageSendEvent_SendChannelUpdate(ptr);
+			case 15: return new MessageSendEvent_HandleError(ptr);
+			case 16: return new MessageSendEvent_SendChannelRangeQuery(ptr);
+			case 17: return new MessageSendEvent_SendShortIdsQuery(ptr);
+			case 18: return new MessageSendEvent_SendReplyChannelRange(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendOpenChannel) {
-			return new MessageSendEvent_SendOpenChannel(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendFundingCreated) {
-			return new MessageSendEvent_SendFundingCreated(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendFundingSigned) {
-			return new MessageSendEvent_SendFundingSigned(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendFundingLocked) {
-			return new MessageSendEvent_SendFundingLocked(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendAnnouncementSignatures) {
-			return new MessageSendEvent_SendAnnouncementSignatures(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_UpdateHTLCs) {
-			return new MessageSendEvent_UpdateHTLCs(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendRevokeAndACK) {
-			return new MessageSendEvent_SendRevokeAndACK(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendClosingSigned) {
-			return new MessageSendEvent_SendClosingSigned(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendShutdown) {
-			return new MessageSendEvent_SendShutdown(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendChannelReestablish) {
-			return new MessageSendEvent_SendChannelReestablish(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_BroadcastChannelAnnouncement) {
-			return new MessageSendEvent_BroadcastChannelAnnouncement(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_BroadcastNodeAnnouncement) {
-			return new MessageSendEvent_BroadcastNodeAnnouncement(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_BroadcastChannelUpdate) {
-			return new MessageSendEvent_BroadcastChannelUpdate(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendChannelUpdate) {
-			return new MessageSendEvent_SendChannelUpdate(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_HandleError) {
-			return new MessageSendEvent_HandleError(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendChannelRangeQuery) {
-			return new MessageSendEvent_SendChannelRangeQuery(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendShortIdsQuery) {
-			return new MessageSendEvent_SendShortIdsQuery(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKMessageSendEvent_SendReplyChannelRange) {
-			return new MessageSendEvent_SendReplyChannelRange(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -359,77 +323,77 @@ export class MessageSendEvent extends CommonBase {
 	}
 
 	public static constructor_send_accept_channel(node_id: Uint8Array, msg: AcceptChannel): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_accept_channel(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_accept_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_open_channel(node_id: Uint8Array, msg: OpenChannel): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_open_channel(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_open_channel(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_funding_created(node_id: Uint8Array, msg: FundingCreated): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_funding_created(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_funding_created(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_funding_signed(node_id: Uint8Array, msg: FundingSigned): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_funding_signed(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_funding_signed(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_funding_locked(node_id: Uint8Array, msg: FundingLocked): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_funding_locked(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_funding_locked(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_announcement_signatures(node_id: Uint8Array, msg: AnnouncementSignatures): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_announcement_signatures(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_announcement_signatures(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_update_htlcs(node_id: Uint8Array, updates: CommitmentUpdate): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_update_htlcs(InternalUtils.check_arr_len(node_id, 33), updates == null ? 0 : CommonBase.get_ptr_of(updates) & ~1);
+		const ret: number = bindings.MessageSendEvent_update_htlcs(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), updates == null ? 0 : CommonBase.get_ptr_of(updates) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_revoke_and_ack(node_id: Uint8Array, msg: RevokeAndACK): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_revoke_and_ack(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_revoke_and_ack(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_closing_signed(node_id: Uint8Array, msg: ClosingSigned): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_closing_signed(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_closing_signed(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_shutdown(node_id: Uint8Array, msg: Shutdown): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_shutdown(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_shutdown(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_channel_reestablish(node_id: Uint8Array, msg: ChannelReestablish): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_channel_reestablish(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_channel_reestablish(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -457,35 +421,35 @@ export class MessageSendEvent extends CommonBase {
 	}
 
 	public static constructor_send_channel_update(node_id: Uint8Array, msg: ChannelUpdate): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_channel_update(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_channel_update(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_handle_error(node_id: Uint8Array, action: ErrorAction): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_handle_error(InternalUtils.check_arr_len(node_id, 33), CommonBase.get_ptr_of(action));
+		const ret: number = bindings.MessageSendEvent_handle_error(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), CommonBase.get_ptr_of(action));
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_channel_range_query(node_id: Uint8Array, msg: QueryChannelRange): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_channel_range_query(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_channel_range_query(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_short_ids_query(node_id: Uint8Array, msg: QueryShortChannelIds): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_short_ids_query(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_short_ids_query(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_send_reply_channel_range(node_id: Uint8Array, msg: ReplyChannelRange): MessageSendEvent {
-		const ret: number = bindings.MessageSendEvent_send_reply_channel_range(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret: number = bindings.MessageSendEvent_send_reply_channel_range(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -496,10 +460,12 @@ export class MessageSendEvent_SendAcceptChannel extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: AcceptChannel;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendAcceptChannel) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendAcceptChannel_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendAcceptChannel_get_msg(ptr);
 		const msg_hu_conv: AcceptChannel = new AcceptChannel(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -509,10 +475,12 @@ export class MessageSendEvent_SendOpenChannel extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: OpenChannel;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendOpenChannel) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendOpenChannel_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendOpenChannel_get_msg(ptr);
 		const msg_hu_conv: OpenChannel = new OpenChannel(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -522,10 +490,12 @@ export class MessageSendEvent_SendFundingCreated extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: FundingCreated;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendFundingCreated) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendFundingCreated_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendFundingCreated_get_msg(ptr);
 		const msg_hu_conv: FundingCreated = new FundingCreated(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -535,10 +505,12 @@ export class MessageSendEvent_SendFundingSigned extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: FundingSigned;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendFundingSigned) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendFundingSigned_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendFundingSigned_get_msg(ptr);
 		const msg_hu_conv: FundingSigned = new FundingSigned(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -548,10 +520,12 @@ export class MessageSendEvent_SendFundingLocked extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: FundingLocked;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendFundingLocked) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendFundingLocked_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendFundingLocked_get_msg(ptr);
 		const msg_hu_conv: FundingLocked = new FundingLocked(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -561,10 +535,12 @@ export class MessageSendEvent_SendAnnouncementSignatures extends MessageSendEven
 	public node_id: Uint8Array;
 	public msg: AnnouncementSignatures;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendAnnouncementSignatures) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendAnnouncementSignatures_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendAnnouncementSignatures_get_msg(ptr);
 		const msg_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -574,10 +550,12 @@ export class MessageSendEvent_UpdateHTLCs extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public updates: CommitmentUpdate;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_UpdateHTLCs) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const updates: number = obj.updates;
+		const node_id: number = bindings.LDKMessageSendEvent_UpdateHTLCs_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const updates: number = bindings.LDKMessageSendEvent_UpdateHTLCs_get_updates(ptr);
 		const updates_hu_conv: CommitmentUpdate = new CommitmentUpdate(null, updates);
 			CommonBase.add_ref_from(updates_hu_conv, this);
 		this.updates = updates_hu_conv;
@@ -587,10 +565,12 @@ export class MessageSendEvent_SendRevokeAndACK extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: RevokeAndACK;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendRevokeAndACK) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendRevokeAndACK_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendRevokeAndACK_get_msg(ptr);
 		const msg_hu_conv: RevokeAndACK = new RevokeAndACK(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -600,10 +580,12 @@ export class MessageSendEvent_SendClosingSigned extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: ClosingSigned;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendClosingSigned) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendClosingSigned_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendClosingSigned_get_msg(ptr);
 		const msg_hu_conv: ClosingSigned = new ClosingSigned(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -613,10 +595,12 @@ export class MessageSendEvent_SendShutdown extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: Shutdown;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendShutdown) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendShutdown_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendShutdown_get_msg(ptr);
 		const msg_hu_conv: Shutdown = new Shutdown(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -626,10 +610,12 @@ export class MessageSendEvent_SendChannelReestablish extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: ChannelReestablish;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendChannelReestablish) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendChannelReestablish_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendChannelReestablish_get_msg(ptr);
 		const msg_hu_conv: ChannelReestablish = new ChannelReestablish(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -639,13 +625,13 @@ export class MessageSendEvent_BroadcastChannelAnnouncement extends MessageSendEv
 	public msg: ChannelAnnouncement;
 	public update_msg: ChannelUpdate;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_BroadcastChannelAnnouncement) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const msg: number = obj.msg;
+		const msg: number = bindings.LDKMessageSendEvent_BroadcastChannelAnnouncement_get_msg(ptr);
 		const msg_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
-		const update_msg: number = obj.update_msg;
+		const update_msg: number = bindings.LDKMessageSendEvent_BroadcastChannelAnnouncement_get_update_msg(ptr);
 		const update_msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, update_msg);
 			CommonBase.add_ref_from(update_msg_hu_conv, this);
 		this.update_msg = update_msg_hu_conv;
@@ -654,9 +640,9 @@ export class MessageSendEvent_BroadcastChannelAnnouncement extends MessageSendEv
 export class MessageSendEvent_BroadcastNodeAnnouncement extends MessageSendEvent {
 	public msg: NodeAnnouncement;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_BroadcastNodeAnnouncement) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const msg: number = obj.msg;
+		const msg: number = bindings.LDKMessageSendEvent_BroadcastNodeAnnouncement_get_msg(ptr);
 		const msg_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -665,9 +651,9 @@ export class MessageSendEvent_BroadcastNodeAnnouncement extends MessageSendEvent
 export class MessageSendEvent_BroadcastChannelUpdate extends MessageSendEvent {
 	public msg: ChannelUpdate;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_BroadcastChannelUpdate) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const msg: number = obj.msg;
+		const msg: number = bindings.LDKMessageSendEvent_BroadcastChannelUpdate_get_msg(ptr);
 		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -677,10 +663,12 @@ export class MessageSendEvent_SendChannelUpdate extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: ChannelUpdate;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendChannelUpdate) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendChannelUpdate_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendChannelUpdate_get_msg(ptr);
 		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -690,10 +678,12 @@ export class MessageSendEvent_HandleError extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public action: ErrorAction;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_HandleError) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const action: number = obj.action;
+		const node_id: number = bindings.LDKMessageSendEvent_HandleError_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const action: number = bindings.LDKMessageSendEvent_HandleError_get_action(ptr);
 		const action_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(action);
 			CommonBase.add_ref_from(action_hu_conv, this);
 		this.action = action_hu_conv;
@@ -703,10 +693,12 @@ export class MessageSendEvent_SendChannelRangeQuery extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: QueryChannelRange;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendChannelRangeQuery) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendChannelRangeQuery_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendChannelRangeQuery_get_msg(ptr);
 		const msg_hu_conv: QueryChannelRange = new QueryChannelRange(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -716,10 +708,12 @@ export class MessageSendEvent_SendShortIdsQuery extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: QueryShortChannelIds;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendShortIdsQuery) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendShortIdsQuery_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendShortIdsQuery_get_msg(ptr);
 		const msg_hu_conv: QueryShortChannelIds = new QueryShortChannelIds(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -729,10 +723,12 @@ export class MessageSendEvent_SendReplyChannelRange extends MessageSendEvent {
 	public node_id: Uint8Array;
 	public msg: ReplyChannelRange;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKMessageSendEvent_SendReplyChannelRange) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		const msg: number = obj.msg;
+		const node_id: number = bindings.LDKMessageSendEvent_SendReplyChannelRange_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendReplyChannelRange_get_msg(ptr);
 		const msg_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;

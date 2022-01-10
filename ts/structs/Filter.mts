@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -306,8 +305,10 @@ export class Filter extends CommonBase {
 	static new_impl(arg: FilterInterface): Filter {
 		const impl_holder: LDKFilterHolder = new LDKFilterHolder();
 		let structImplementation = {
-			register_tx (txid: Uint8Array, script_pubkey: Uint8Array): void {
-				arg.register_tx(txid, script_pubkey);
+			register_tx (txid: number, script_pubkey: number): void {
+				const txid_conv: Uint8Array = bindings.decodeUint8Array(txid);
+				const script_pubkey_conv: Uint8Array = bindings.decodeUint8Array(script_pubkey);
+				arg.register_tx(txid_conv, script_pubkey_conv);
 			},
 			register_output (output: number): number {
 				const output_hu_conv: WatchedOutput = new WatchedOutput(null, output);
@@ -324,7 +325,7 @@ export class Filter extends CommonBase {
 		return impl_holder.held;
 	}
 	public register_tx(txid: Uint8Array, script_pubkey: Uint8Array): void {
-		bindings.Filter_register_tx(this.ptr, InternalUtils.check_arr_len(txid, 32), script_pubkey);
+		bindings.Filter_register_tx(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(txid, 32)), bindings.encodeUint8Array(script_pubkey));
 	}
 
 	public register_output(output: WatchedOutput): Option_C2Tuple_usizeTransactionZZ {

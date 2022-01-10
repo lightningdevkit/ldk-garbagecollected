@@ -30,7 +30,7 @@ public class Result_NoneErrorZ extends CommonBase {
 		public final IOError err;
 		private Result_NoneErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_NoneErrorZ_get_err(ptr);
+			this.err = bindings.CResult_NoneErrorZ_get_err(ptr);
 		}
 	}
 

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TrustedClosingTransaction extends CommonBase {
@@ -289,18 +288,21 @@ export class TrustedClosingTransaction extends CommonBase {
 	}
 
 	public built_transaction(): Uint8Array {
-		const ret: Uint8Array = bindings.TrustedClosingTransaction_built_transaction(this.ptr);
-		return ret;
+		const ret: number = bindings.TrustedClosingTransaction_built_transaction(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
-	public get_sighash_all(funding_redeemscript: Uint8Array, channel_value_satoshis: number): Uint8Array {
-		const ret: Uint8Array = bindings.TrustedClosingTransaction_get_sighash_all(this.ptr, funding_redeemscript, channel_value_satoshis);
-		return ret;
+	public get_sighash_all(funding_redeemscript: Uint8Array, channel_value_satoshis: bigint): Uint8Array {
+		const ret: number = bindings.TrustedClosingTransaction_get_sighash_all(this.ptr, bindings.encodeUint8Array(funding_redeemscript), channel_value_satoshis);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
-	public sign(funding_key: Uint8Array, funding_redeemscript: Uint8Array, channel_value_satoshis: number): Uint8Array {
-		const ret: Uint8Array = bindings.TrustedClosingTransaction_sign(this.ptr, InternalUtils.check_arr_len(funding_key, 32), funding_redeemscript, channel_value_satoshis);
-		return ret;
+	public sign(funding_key: Uint8Array, funding_redeemscript: Uint8Array, channel_value_satoshis: bigint): Uint8Array {
+		const ret: number = bindings.TrustedClosingTransaction_sign(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(funding_key, 32)), bindings.encodeUint8Array(funding_redeemscript), channel_value_satoshis);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

@@ -30,7 +30,7 @@ public class Result_NonePeerHandleErrorZ extends CommonBase {
 		public final PeerHandleError err;
 		private Result_NonePeerHandleErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_NonePeerHandleErrorZ_get_err(ptr);
+			long err = bindings.CResult_NonePeerHandleErrorZ_get_err(ptr);
 			PeerHandleError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new PeerHandleError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

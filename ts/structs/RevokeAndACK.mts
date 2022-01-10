@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class RevokeAndACK extends CommonBase {
@@ -289,34 +288,37 @@ export class RevokeAndACK extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.RevokeAndACK_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.RevokeAndACK_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.RevokeAndACK_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.RevokeAndACK_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_per_commitment_secret(): Uint8Array {
-		const ret: Uint8Array = bindings.RevokeAndACK_get_per_commitment_secret(this.ptr);
-		return ret;
+		const ret: number = bindings.RevokeAndACK_get_per_commitment_secret(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_per_commitment_secret(val: Uint8Array): void {
-		bindings.RevokeAndACK_set_per_commitment_secret(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.RevokeAndACK_set_per_commitment_secret(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_next_per_commitment_point(): Uint8Array {
-		const ret: Uint8Array = bindings.RevokeAndACK_get_next_per_commitment_point(this.ptr);
-		return ret;
+		const ret: number = bindings.RevokeAndACK_get_next_per_commitment_point(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_next_per_commitment_point(val: Uint8Array): void {
-		bindings.RevokeAndACK_set_next_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.RevokeAndACK_set_next_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public static constructor_new(channel_id_arg: Uint8Array, per_commitment_secret_arg: Uint8Array, next_per_commitment_point_arg: Uint8Array): RevokeAndACK {
-		const ret: number = bindings.RevokeAndACK_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(per_commitment_secret_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33));
+		const ret: number = bindings.RevokeAndACK_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_secret_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(next_per_commitment_point_arg, 33)));
 		const ret_hu_conv: RevokeAndACK = new RevokeAndACK(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -335,12 +337,13 @@ export class RevokeAndACK extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.RevokeAndACK_write(this.ptr);
-		return ret;
+		const ret: number = bindings.RevokeAndACK_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_RevokeAndACKDecodeErrorZ {
-		const ret: number = bindings.RevokeAndACK_read(ser);
+		const ret: number = bindings.RevokeAndACK_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RevokeAndACKDecodeErrorZ = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

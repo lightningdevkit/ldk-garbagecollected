@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class InitFeatures extends CommonBase {
@@ -326,12 +325,13 @@ export class InitFeatures extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.InitFeatures_write(this.ptr);
-		return ret;
+		const ret: number = bindings.InitFeatures_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_InitFeaturesDecodeErrorZ {
-		const ret: number = bindings.InitFeatures_read(ser);
+		const ret: number = bindings.InitFeatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_InitFeaturesDecodeErrorZ = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

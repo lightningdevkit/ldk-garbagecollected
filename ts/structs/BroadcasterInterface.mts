@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -305,8 +304,9 @@ export class BroadcasterInterface extends CommonBase {
 	static new_impl(arg: BroadcasterInterfaceInterface): BroadcasterInterface {
 		const impl_holder: LDKBroadcasterInterfaceHolder = new LDKBroadcasterInterfaceHolder();
 		let structImplementation = {
-			broadcast_transaction (tx: Uint8Array): void {
-				arg.broadcast_transaction(tx);
+			broadcast_transaction (tx: number): void {
+				const tx_conv: Uint8Array = bindings.decodeUint8Array(tx);
+				arg.broadcast_transaction(tx_conv);
 			},
 		} as bindings.LDKBroadcasterInterface;
 		const ptr: number = bindings.LDKBroadcasterInterface_new(structImplementation);
@@ -316,7 +316,7 @@ export class BroadcasterInterface extends CommonBase {
 		return impl_holder.held;
 	}
 	public broadcast_transaction(tx: Uint8Array): void {
-		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, tx);
+		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, bindings.encodeUint8Array(tx));
 	}
 
 }

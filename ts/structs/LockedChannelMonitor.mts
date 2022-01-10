@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 /** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */
 export class LockedChannelMonitor extends CommonBase {

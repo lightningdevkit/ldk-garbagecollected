@@ -292,8 +292,9 @@ public class Event extends CommonBase {
 			this.network_update = network_update_hu_conv;
 			this.all_paths_failed = obj.all_paths_failed;
 			long[] path = obj.path;
-			RouteHop[] path_conv_10_arr = new RouteHop[path.length];
-			for (int k = 0; k < path.length; k++) {
+			int path_conv_10_len = path.length;
+			RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
+			for (int k = 0; k < path_conv_10_len; k++) {
 				long path_conv_10 = path[k];
 				RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new RouteHop(null, path_conv_10); }
 				path_conv_10_hu_conv.ptrs_to.add(this);
@@ -376,8 +377,9 @@ public class Event extends CommonBase {
 		private SpendableOutputs(long ptr, bindings.LDKEvent.SpendableOutputs obj) {
 			super(null, ptr);
 			long[] outputs = obj.outputs;
-			SpendableOutputDescriptor[] outputs_conv_27_arr = new SpendableOutputDescriptor[outputs.length];
-			for (int b = 0; b < outputs.length; b++) {
+			int outputs_conv_27_len = outputs.length;
+			SpendableOutputDescriptor[] outputs_conv_27_arr = new SpendableOutputDescriptor[outputs_conv_27_len];
+			for (int b = 0; b < outputs_conv_27_len; b++) {
 				long outputs_conv_27 = outputs[b];
 				SpendableOutputDescriptor outputs_conv_27_hu_conv = SpendableOutputDescriptor.constr_from_ptr(outputs_conv_27);
 				outputs_conv_27_hu_conv.ptrs_to.add(this);
@@ -505,8 +507,9 @@ public class Event extends CommonBase {
 			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
 			long[] path = obj.path;
-			RouteHop[] path_conv_10_arr = new RouteHop[path.length];
-			for (int k = 0; k < path.length; k++) {
+			int path_conv_10_len = path.length;
+			RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
+			for (int k = 0; k < path_conv_10_len; k++) {
 				long path_conv_10 = path[k];
 				RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new RouteHop(null, path_conv_10); }
 				path_conv_10_hu_conv.ptrs_to.add(this);

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class WatchedOutput extends CommonBase {
@@ -289,12 +288,13 @@ export class WatchedOutput extends CommonBase {
 	}
 
 	public get_block_hash(): Uint8Array {
-		const ret: Uint8Array = bindings.WatchedOutput_get_block_hash(this.ptr);
-		return ret;
+		const ret: number = bindings.WatchedOutput_get_block_hash(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_block_hash(val: Uint8Array): void {
-		bindings.WatchedOutput_set_block_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.WatchedOutput_set_block_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_outpoint(): OutPoint {
@@ -309,16 +309,17 @@ export class WatchedOutput extends CommonBase {
 	}
 
 	public get_script_pubkey(): Uint8Array {
-		const ret: Uint8Array = bindings.WatchedOutput_get_script_pubkey(this.ptr);
-		return ret;
+		const ret: number = bindings.WatchedOutput_get_script_pubkey(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_script_pubkey(val: Uint8Array): void {
-		bindings.WatchedOutput_set_script_pubkey(this.ptr, val);
+		bindings.WatchedOutput_set_script_pubkey(this.ptr, bindings.encodeUint8Array(val));
 	}
 
 	public static constructor_new(block_hash_arg: Uint8Array, outpoint_arg: OutPoint, script_pubkey_arg: Uint8Array): WatchedOutput {
-		const ret: number = bindings.WatchedOutput_new(InternalUtils.check_arr_len(block_hash_arg, 32), outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, script_pubkey_arg);
+		const ret: number = bindings.WatchedOutput_new(bindings.encodeUint8Array(bindings.check_arr_len(block_hash_arg, 32)), outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, bindings.encodeUint8Array(script_pubkey_arg));
 		const ret_hu_conv: WatchedOutput = new WatchedOutput(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -336,8 +337,8 @@ export class WatchedOutput extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.WatchedOutput_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.WatchedOutput_hash(this.ptr);
 		return ret;
 	}
 

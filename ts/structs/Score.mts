@@ -280,13 +280,12 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
 export interface ScoreInterface {
-	channel_penalty_msat(short_channel_id: number, send_amt_msat: number, channel_capacity_msat: Option_u64Z, source: NodeId, target: NodeId): number;
-	payment_path_failed(path: RouteHop[], short_channel_id: number): void;
+	channel_penalty_msat(short_channel_id: bigint, send_amt_msat: bigint, channel_capacity_msat: Option_u64Z, source: NodeId, target: NodeId): bigint;
+	payment_path_failed(path: RouteHop[], short_channel_id: bigint): void;
 	payment_path_successful(path: RouteHop[]): void;
 	write(): Uint8Array;
 }
@@ -308,37 +307,40 @@ export class Score extends CommonBase {
 	static new_impl(arg: ScoreInterface): Score {
 		const impl_holder: LDKScoreHolder = new LDKScoreHolder();
 		let structImplementation = {
-			channel_penalty_msat (short_channel_id: number, send_amt_msat: number, channel_capacity_msat: number, source: number, target: number): number {
+			channel_penalty_msat (short_channel_id: bigint, send_amt_msat: bigint, channel_capacity_msat: number, source: number, target: number): bigint {
 				const channel_capacity_msat_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(channel_capacity_msat);
 				CommonBase.add_ref_from(channel_capacity_msat_hu_conv, this);
 				const source_hu_conv: NodeId = new NodeId(null, source);
 				const target_hu_conv: NodeId = new NodeId(null, target);
-				const ret: number = arg.channel_penalty_msat(short_channel_id, send_amt_msat, channel_capacity_msat_hu_conv, source_hu_conv, target_hu_conv);
+				const ret: bigint = arg.channel_penalty_msat(short_channel_id, send_amt_msat, channel_capacity_msat_hu_conv, source_hu_conv, target_hu_conv);
 				return ret;
 			},
-			payment_path_failed (path: number[], short_channel_id: number): void {
-				const path_conv_10_arr: RouteHop[] = new Array(path.length).fill(null);
-				for (var k = 0; k < path.length; k++) {
-					const path_conv_10: number = path[k];
+			payment_path_failed (path: number, short_channel_id: bigint): void {
+				const path_conv_10_len: number = bindings.getArrayLength(path);
+				const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+				for (var k = 0; k < path_conv_10_len; k++) {
+					const path_conv_10: number = bindings.getU32ArrayElem(path, k);
 					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
 					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
 				arg.payment_path_failed(path_conv_10_arr, short_channel_id);
 			},
-			payment_path_successful (path: number[]): void {
-				const path_conv_10_arr: RouteHop[] = new Array(path.length).fill(null);
-				for (var k = 0; k < path.length; k++) {
-					const path_conv_10: number = path[k];
+			payment_path_successful (path: number): void {
+				const path_conv_10_len: number = bindings.getArrayLength(path);
+				const path_conv_10_arr: RouteHop[] = new Array(path_conv_10_len).fill(null);
+				for (var k = 0; k < path_conv_10_len; k++) {
+					const path_conv_10: number = bindings.getU32ArrayElem(path, k);
 					const path_conv_10_hu_conv: RouteHop = new RouteHop(null, path_conv_10);
 					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
 				arg.payment_path_successful(path_conv_10_arr);
 			},
-			write (): Uint8Array {
+			write (): number {
 				const ret: Uint8Array = arg.write();
-				return ret;
+				const result: number = bindings.encodeUint8Array(ret);
+				return result;
 			},
 		} as bindings.LDKScore;
 		const ptr: number = bindings.LDKScore_new(structImplementation);
@@ -347,24 +349,25 @@ export class Score extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
-	public channel_penalty_msat(short_channel_id: number, send_amt_msat: number, channel_capacity_msat: Option_u64Z, source: NodeId, target: NodeId): number {
-		const ret: number = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, send_amt_msat, CommonBase.get_ptr_of(channel_capacity_msat), source == null ? 0 : CommonBase.get_ptr_of(source) & ~1, target == null ? 0 : CommonBase.get_ptr_of(target) & ~1);
+	public channel_penalty_msat(short_channel_id: bigint, send_amt_msat: bigint, channel_capacity_msat: Option_u64Z, source: NodeId, target: NodeId): bigint {
+		const ret: bigint = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, send_amt_msat, CommonBase.get_ptr_of(channel_capacity_msat), source == null ? 0 : CommonBase.get_ptr_of(source) & ~1, target == null ? 0 : CommonBase.get_ptr_of(target) & ~1);
 		CommonBase.add_ref_from(this, source);
 		CommonBase.add_ref_from(this, target);
 		return ret;
 	}
 
-	public payment_path_failed(path: RouteHop[], short_channel_id: number): void {
-		bindings.Score_payment_path_failed(this.ptr, path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null, short_channel_id);
+	public payment_path_failed(path: RouteHop[], short_channel_id: bigint): void {
+		bindings.Score_payment_path_failed(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), short_channel_id);
 	}
 
 	public payment_path_successful(path: RouteHop[]): void {
-		bindings.Score_payment_path_successful(this.ptr, path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null);
+		bindings.Score_payment_path_successful(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.Score_write(this.ptr);
-		return ret;
+		const ret: number = bindings.Score_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

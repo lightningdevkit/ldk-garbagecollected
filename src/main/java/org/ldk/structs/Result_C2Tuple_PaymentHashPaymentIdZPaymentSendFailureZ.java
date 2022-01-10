@@ -24,7 +24,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 		public final TwoTuple_PaymentHashPaymentIdZ res;
 		private Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_ok(ptr);
+			long res = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_ok(ptr);
 			TwoTuple_PaymentHashPaymentIdZ res_hu_conv = new TwoTuple_PaymentHashPaymentIdZ(null, res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 		public final PaymentSendFailure err;
 		private Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_err(ptr);
+			long err = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_err(ptr);
 			PaymentSendFailure err_hu_conv = PaymentSendFailure.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

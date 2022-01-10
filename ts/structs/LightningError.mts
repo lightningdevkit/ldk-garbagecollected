@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class LightningError extends CommonBase {
@@ -288,13 +287,14 @@ export class LightningError extends CommonBase {
 		super(ptr, bindings.LightningError_free);
 	}
 
-	public get_err(): String {
-		const ret: String = bindings.LightningError_get_err(this.ptr);
-		return ret;
+	public get_err(): string {
+		const ret: number = bindings.LightningError_get_err(this.ptr);
+		const ret_conv: string = bindings.decodeString(ret);
+		return ret_conv;
 	}
 
-	public set_err(val: String): void {
-		bindings.LightningError_set_err(this.ptr, val);
+	public set_err(val: string): void {
+		bindings.LightningError_set_err(this.ptr, bindings.encodeString(val));
 	}
 
 	public get_action(): ErrorAction {
@@ -308,8 +308,8 @@ export class LightningError extends CommonBase {
 		bindings.LightningError_set_action(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
-	public static constructor_new(err_arg: String, action_arg: ErrorAction): LightningError {
-		const ret: number = bindings.LightningError_new(err_arg, CommonBase.get_ptr_of(action_arg));
+	public static constructor_new(err_arg: string, action_arg: ErrorAction): LightningError {
+		const ret: number = bindings.LightningError_new(bindings.encodeString(err_arg), CommonBase.get_ptr_of(action_arg));
 		const ret_hu_conv: LightningError = new LightningError(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

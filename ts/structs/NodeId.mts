@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class NodeId extends CommonBase {
@@ -301,29 +300,31 @@ export class NodeId extends CommonBase {
 	}
 
 	public static constructor_from_pubkey(pubkey: Uint8Array): NodeId {
-		const ret: number = bindings.NodeId_from_pubkey(InternalUtils.check_arr_len(pubkey, 33));
+		const ret: number = bindings.NodeId_from_pubkey(bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
 		const ret_hu_conv: NodeId = new NodeId(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public as_slice(): Uint8Array {
-		const ret: Uint8Array = bindings.NodeId_as_slice(this.ptr);
-		return ret;
+		const ret: number = bindings.NodeId_as_slice(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.NodeId_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.NodeId_hash(this.ptr);
 		return ret;
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.NodeId_write(this.ptr);
-		return ret;
+		const ret: number = bindings.NodeId_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_NodeIdDecodeErrorZ {
-		const ret: number = bindings.NodeId_read(ser);
+		const ret: number = bindings.NodeId_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeIdDecodeErrorZ = Result_NodeIdDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

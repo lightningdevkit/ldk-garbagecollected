@@ -24,7 +24,7 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 		public final Pong res;
 		private Result_PongDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_PongDecodeErrorZ_get_ok(ptr);
+			long res = bindings.CResult_PongDecodeErrorZ_get_ok(ptr);
 			Pong res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Pong(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_PongDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_PongDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_PongDecodeErrorZ_get_err(ptr);
+			long err = bindings.CResult_PongDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

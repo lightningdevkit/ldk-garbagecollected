@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class InvalidShutdownScript extends CommonBase {
@@ -289,16 +288,17 @@ export class InvalidShutdownScript extends CommonBase {
 	}
 
 	public get_script(): Uint8Array {
-		const ret: Uint8Array = bindings.InvalidShutdownScript_get_script(this.ptr);
-		return ret;
+		const ret: number = bindings.InvalidShutdownScript_get_script(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_script(val: Uint8Array): void {
-		bindings.InvalidShutdownScript_set_script(this.ptr, val);
+		bindings.InvalidShutdownScript_set_script(this.ptr, bindings.encodeUint8Array(val));
 	}
 
 	public static constructor_new(script_arg: Uint8Array): InvalidShutdownScript {
-		const ret: number = bindings.InvalidShutdownScript_new(script_arg);
+		const ret: number = bindings.InvalidShutdownScript_new(bindings.encodeUint8Array(script_arg));
 		const ret_hu_conv: InvalidShutdownScript = new InvalidShutdownScript(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

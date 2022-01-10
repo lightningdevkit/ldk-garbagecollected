@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -306,11 +305,13 @@ export class Listen extends CommonBase {
 	static new_impl(arg: ListenInterface): Listen {
 		const impl_holder: LDKListenHolder = new LDKListenHolder();
 		let structImplementation = {
-			block_connected (block: Uint8Array, height: number): void {
-				arg.block_connected(block, height);
+			block_connected (block: number, height: number): void {
+				const block_conv: Uint8Array = bindings.decodeUint8Array(block);
+				arg.block_connected(block_conv, height);
 			},
-			block_disconnected (header: Uint8Array, height: number): void {
-				arg.block_disconnected(header, height);
+			block_disconnected (header: number, height: number): void {
+				const header_conv: Uint8Array = bindings.decodeUint8Array(header);
+				arg.block_disconnected(header_conv, height);
 			},
 		} as bindings.LDKListen;
 		const ptr: number = bindings.LDKListen_new(structImplementation);
@@ -320,11 +321,11 @@ export class Listen extends CommonBase {
 		return impl_holder.held;
 	}
 	public block_connected(block: Uint8Array, height: number): void {
-		bindings.Listen_block_connected(this.ptr, block, height);
+		bindings.Listen_block_connected(this.ptr, bindings.encodeUint8Array(block), height);
 	}
 
 	public block_disconnected(header: Uint8Array, height: number): void {
-		bindings.Listen_block_disconnected(this.ptr, InternalUtils.check_arr_len(header, 80), height);
+		bindings.Listen_block_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height);
 	}
 
 }

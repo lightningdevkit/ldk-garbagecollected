@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class Payee extends CommonBase {
@@ -289,12 +288,13 @@ export class Payee extends CommonBase {
 	}
 
 	public get_pubkey(): Uint8Array {
-		const ret: Uint8Array = bindings.Payee_get_pubkey(this.ptr);
-		return ret;
+		const ret: number = bindings.Payee_get_pubkey(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_pubkey(val: Uint8Array): void {
-		bindings.Payee_set_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.Payee_set_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_features(): InvoiceFeatures {
@@ -309,10 +309,11 @@ export class Payee extends CommonBase {
 	}
 
 	public get_route_hints(): RouteHint[] {
-		const ret: number[] = bindings.Payee_get_route_hints(this.ptr);
-		const ret_conv_11_arr: RouteHint[] = new Array(ret.length).fill(null);
-		for (var l = 0; l < ret.length; l++) {
-			const ret_conv_11: number = ret[l];
+		const ret: number = bindings.Payee_get_route_hints(this.ptr);
+		const ret_conv_11_len: number = bindings.getArrayLength(ret);
+		const ret_conv_11_arr: RouteHint[] = new Array(ret_conv_11_len).fill(null);
+		for (var l = 0; l < ret_conv_11_len; l++) {
+			const ret_conv_11: number = bindings.getU32ArrayElem(ret, l);
 			const ret_conv_11_hu_conv: RouteHint = new RouteHint(null, ret_conv_11);
 			CommonBase.add_ref_from(ret_conv_11_hu_conv, this);
 			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
@@ -321,7 +322,7 @@ export class Payee extends CommonBase {
 	}
 
 	public set_route_hints(val: RouteHint[]): void {
-		bindings.Payee_set_route_hints(this.ptr, val != null ? val.map(val_conv_11 => val_conv_11 == null ? 0 : CommonBase.get_ptr_of(val_conv_11) & ~1) : null);
+		bindings.Payee_set_route_hints(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_11 => val_conv_11 == null ? 0 : CommonBase.get_ptr_of(val_conv_11) & ~1) : null));
 	}
 
 	public get_expiry_time(): Option_u64Z {
@@ -336,7 +337,7 @@ export class Payee extends CommonBase {
 	}
 
 	public static constructor_new(pubkey_arg: Uint8Array, features_arg: InvoiceFeatures, route_hints_arg: RouteHint[], expiry_time_arg: Option_u64Z): Payee {
-		const ret: number = bindings.Payee_new(InternalUtils.check_arr_len(pubkey_arg, 33), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : CommonBase.get_ptr_of(route_hints_arg_conv_11) & ~1) : null, CommonBase.get_ptr_of(expiry_time_arg));
+		const ret: number = bindings.Payee_new(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, bindings.encodeUint32Array(route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : CommonBase.get_ptr_of(route_hints_arg_conv_11) & ~1) : null), CommonBase.get_ptr_of(expiry_time_arg));
 		const ret_hu_conv: Payee = new Payee(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -354,8 +355,8 @@ export class Payee extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.Payee_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.Payee_hash(this.ptr);
 		return ret;
 	}
 
@@ -366,25 +367,26 @@ export class Payee extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.Payee_write(this.ptr);
-		return ret;
+		const ret: number = bindings.Payee_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_PayeeDecodeErrorZ {
-		const ret: number = bindings.Payee_read(ser);
+		const ret: number = bindings.Payee_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_PayeeDecodeErrorZ = Result_PayeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_from_node_id(pubkey: Uint8Array): Payee {
-		const ret: number = bindings.Payee_from_node_id(InternalUtils.check_arr_len(pubkey, 33));
+		const ret: number = bindings.Payee_from_node_id(bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
 		const ret_hu_conv: Payee = new Payee(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public static constructor_for_keysend(pubkey: Uint8Array): Payee {
-		const ret: number = bindings.Payee_for_keysend(InternalUtils.check_arr_len(pubkey, 33));
+		const ret: number = bindings.Payee_for_keysend(bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
 		const ret_hu_conv: Payee = new Payee(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

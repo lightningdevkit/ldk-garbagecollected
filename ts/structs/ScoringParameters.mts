@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ScoringParameters extends CommonBase {
@@ -288,21 +287,21 @@ export class ScoringParameters extends CommonBase {
 		super(ptr, bindings.ScoringParameters_free);
 	}
 
-	public get_base_penalty_msat(): number {
-		const ret: number = bindings.ScoringParameters_get_base_penalty_msat(this.ptr);
+	public get_base_penalty_msat(): bigint {
+		const ret: bigint = bindings.ScoringParameters_get_base_penalty_msat(this.ptr);
 		return ret;
 	}
 
-	public set_base_penalty_msat(val: number): void {
+	public set_base_penalty_msat(val: bigint): void {
 		bindings.ScoringParameters_set_base_penalty_msat(this.ptr, val);
 	}
 
-	public get_failure_penalty_msat(): number {
-		const ret: number = bindings.ScoringParameters_get_failure_penalty_msat(this.ptr);
+	public get_failure_penalty_msat(): bigint {
+		const ret: bigint = bindings.ScoringParameters_get_failure_penalty_msat(this.ptr);
 		return ret;
 	}
 
-	public set_failure_penalty_msat(val: number): void {
+	public set_failure_penalty_msat(val: bigint): void {
 		bindings.ScoringParameters_set_failure_penalty_msat(this.ptr, val);
 	}
 
@@ -315,25 +314,25 @@ export class ScoringParameters extends CommonBase {
 		bindings.ScoringParameters_set_overuse_penalty_start_1024th(this.ptr, val);
 	}
 
-	public get_overuse_penalty_msat_per_1024th(): number {
-		const ret: number = bindings.ScoringParameters_get_overuse_penalty_msat_per_1024th(this.ptr);
+	public get_overuse_penalty_msat_per_1024th(): bigint {
+		const ret: bigint = bindings.ScoringParameters_get_overuse_penalty_msat_per_1024th(this.ptr);
 		return ret;
 	}
 
-	public set_overuse_penalty_msat_per_1024th(val: number): void {
+	public set_overuse_penalty_msat_per_1024th(val: bigint): void {
 		bindings.ScoringParameters_set_overuse_penalty_msat_per_1024th(this.ptr, val);
 	}
 
-	public get_failure_penalty_half_life(): number {
-		const ret: number = bindings.ScoringParameters_get_failure_penalty_half_life(this.ptr);
+	public get_failure_penalty_half_life(): bigint {
+		const ret: bigint = bindings.ScoringParameters_get_failure_penalty_half_life(this.ptr);
 		return ret;
 	}
 
-	public set_failure_penalty_half_life(val: number): void {
+	public set_failure_penalty_half_life(val: bigint): void {
 		bindings.ScoringParameters_set_failure_penalty_half_life(this.ptr, val);
 	}
 
-	public static constructor_new(base_penalty_msat_arg: number, failure_penalty_msat_arg: number, overuse_penalty_start_1024th_arg: number, overuse_penalty_msat_per_1024th_arg: number, failure_penalty_half_life_arg: number): ScoringParameters {
+	public static constructor_new(base_penalty_msat_arg: bigint, failure_penalty_msat_arg: bigint, overuse_penalty_start_1024th_arg: number, overuse_penalty_msat_per_1024th_arg: bigint, failure_penalty_half_life_arg: bigint): ScoringParameters {
 		const ret: number = bindings.ScoringParameters_new(base_penalty_msat_arg, failure_penalty_msat_arg, overuse_penalty_start_1024th_arg, overuse_penalty_msat_per_1024th_arg, failure_penalty_half_life_arg);
 		const ret_hu_conv: ScoringParameters = new ScoringParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -341,12 +340,13 @@ export class ScoringParameters extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ScoringParameters_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ScoringParameters_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ScoringParametersDecodeErrorZ {
-		const ret: number = bindings.ScoringParameters_read(ser);
+		const ret: number = bindings.ScoringParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ScoringParametersDecodeErrorZ = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class PeerManager extends CommonBase {
@@ -289,7 +288,7 @@ export class PeerManager extends CommonBase {
 	}
 
 	public static constructor_new(message_handler_chan_handler_arg: ChannelMessageHandler, message_handler_route_handler_arg: RoutingMessageHandler, our_node_secret: Uint8Array, ephemeral_random_data: Uint8Array, logger: Logger, custom_message_handler: CustomMessageHandler): PeerManager {
-		const ret: number = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : CommonBase.get_ptr_of(message_handler_chan_handler_arg), message_handler_route_handler_arg == null ? 0 : CommonBase.get_ptr_of(message_handler_route_handler_arg)), InternalUtils.check_arr_len(our_node_secret, 32), InternalUtils.check_arr_len(ephemeral_random_data, 32), logger == null ? 0 : CommonBase.get_ptr_of(logger), custom_message_handler == null ? 0 : CommonBase.get_ptr_of(custom_message_handler));
+		const ret: number = bindings.PeerManager_new(bindings.MessageHandler_new(message_handler_chan_handler_arg == null ? 0 : CommonBase.get_ptr_of(message_handler_chan_handler_arg), message_handler_route_handler_arg == null ? 0 : CommonBase.get_ptr_of(message_handler_route_handler_arg)), bindings.encodeUint8Array(bindings.check_arr_len(our_node_secret, 32)), bindings.encodeUint8Array(bindings.check_arr_len(ephemeral_random_data, 32)), logger == null ? 0 : CommonBase.get_ptr_of(logger), custom_message_handler == null ? 0 : CommonBase.get_ptr_of(custom_message_handler));
 		const ret_hu_conv: PeerManager = new PeerManager(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, message_handler_chan_handler_arg);
@@ -300,12 +299,19 @@ export class PeerManager extends CommonBase {
 	}
 
 	public get_peer_node_ids(): Uint8Array[] {
-		const ret: Uint8Array[] = bindings.PeerManager_get_peer_node_ids(this.ptr);
-		return ret;
+		const ret: number = bindings.PeerManager_get_peer_node_ids(this.ptr);
+		const ret_conv_12_len: number = bindings.getArrayLength(ret);
+		const ret_conv_12_arr: Uint8Array[] = new Array(ret_conv_12_len).fill(null);
+		for (var m = 0; m < ret_conv_12_len; m++) {
+			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
+			ret_conv_12_arr[m] = ret_conv_12_conv;
+		}
+		return ret_conv_12_arr;
 	}
 
 	public new_outbound_connection(their_node_id: Uint8Array, descriptor: SocketDescriptor): Result_CVec_u8ZPeerHandleErrorZ {
-		const ret: number = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor == null ? 0 : CommonBase.get_ptr_of(descriptor));
+		const ret: number = bindings.PeerManager_new_outbound_connection(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), descriptor == null ? 0 : CommonBase.get_ptr_of(descriptor));
 		const ret_hu_conv: Result_CVec_u8ZPeerHandleErrorZ = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, descriptor);
 		return ret_hu_conv;
@@ -325,7 +331,7 @@ export class PeerManager extends CommonBase {
 	}
 
 	public read_event(peer_descriptor: SocketDescriptor, data: Uint8Array): Result_boolPeerHandleErrorZ {
-		const ret: number = bindings.PeerManager_read_event(this.ptr, peer_descriptor == null ? 0 : CommonBase.get_ptr_of(peer_descriptor), data);
+		const ret: number = bindings.PeerManager_read_event(this.ptr, peer_descriptor == null ? 0 : CommonBase.get_ptr_of(peer_descriptor), bindings.encodeUint8Array(data));
 		const ret_hu_conv: Result_boolPeerHandleErrorZ = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -339,7 +345,7 @@ export class PeerManager extends CommonBase {
 	}
 
 	public disconnect_by_node_id(node_id: Uint8Array, no_connection_possible: boolean): void {
-		bindings.PeerManager_disconnect_by_node_id(this.ptr, InternalUtils.check_arr_len(node_id, 33), no_connection_possible);
+		bindings.PeerManager_disconnect_by_node_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), no_connection_possible);
 	}
 
 	public disconnect_all_peers(): void {

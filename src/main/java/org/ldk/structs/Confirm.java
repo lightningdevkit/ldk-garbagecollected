@@ -112,8 +112,9 @@ public class Confirm extends CommonBase {
 		final LDKConfirmHolder impl_holder = new LDKConfirmHolder();
 		impl_holder.held = new Confirm(new bindings.LDKConfirm() {
 			@Override public void transactions_confirmed(byte[] header, long[] txdata, int height) {
-				TwoTuple_usizeTransactionZ[] txdata_conv_28_arr = new TwoTuple_usizeTransactionZ[txdata.length];
-				for (int c = 0; c < txdata.length; c++) {
+				int txdata_conv_28_len = txdata.length;
+				TwoTuple_usizeTransactionZ[] txdata_conv_28_arr = new TwoTuple_usizeTransactionZ[txdata_conv_28_len];
+				for (int c = 0; c < txdata_conv_28_len; c++) {
 					long txdata_conv_28 = txdata[c];
 					TwoTuple_usizeTransactionZ txdata_conv_28_hu_conv = new TwoTuple_usizeTransactionZ(null, txdata_conv_28);
 					txdata_conv_28_hu_conv.ptrs_to.add(this);

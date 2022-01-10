@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelHandshakeLimits extends CommonBase {
@@ -288,39 +287,39 @@ export class ChannelHandshakeLimits extends CommonBase {
 		super(ptr, bindings.ChannelHandshakeLimits_free);
 	}
 
-	public get_min_funding_satoshis(): number {
-		const ret: number = bindings.ChannelHandshakeLimits_get_min_funding_satoshis(this.ptr);
+	public get_min_funding_satoshis(): bigint {
+		const ret: bigint = bindings.ChannelHandshakeLimits_get_min_funding_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_min_funding_satoshis(val: number): void {
+	public set_min_funding_satoshis(val: bigint): void {
 		bindings.ChannelHandshakeLimits_set_min_funding_satoshis(this.ptr, val);
 	}
 
-	public get_max_htlc_minimum_msat(): number {
-		const ret: number = bindings.ChannelHandshakeLimits_get_max_htlc_minimum_msat(this.ptr);
+	public get_max_htlc_minimum_msat(): bigint {
+		const ret: bigint = bindings.ChannelHandshakeLimits_get_max_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public set_max_htlc_minimum_msat(val: number): void {
+	public set_max_htlc_minimum_msat(val: bigint): void {
 		bindings.ChannelHandshakeLimits_set_max_htlc_minimum_msat(this.ptr, val);
 	}
 
-	public get_min_max_htlc_value_in_flight_msat(): number {
-		const ret: number = bindings.ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(this.ptr);
+	public get_min_max_htlc_value_in_flight_msat(): bigint {
+		const ret: bigint = bindings.ChannelHandshakeLimits_get_min_max_htlc_value_in_flight_msat(this.ptr);
 		return ret;
 	}
 
-	public set_min_max_htlc_value_in_flight_msat(val: number): void {
+	public set_min_max_htlc_value_in_flight_msat(val: bigint): void {
 		bindings.ChannelHandshakeLimits_set_min_max_htlc_value_in_flight_msat(this.ptr, val);
 	}
 
-	public get_max_channel_reserve_satoshis(): number {
-		const ret: number = bindings.ChannelHandshakeLimits_get_max_channel_reserve_satoshis(this.ptr);
+	public get_max_channel_reserve_satoshis(): bigint {
+		const ret: bigint = bindings.ChannelHandshakeLimits_get_max_channel_reserve_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_max_channel_reserve_satoshis(val: number): void {
+	public set_max_channel_reserve_satoshis(val: bigint): void {
 		bindings.ChannelHandshakeLimits_set_max_channel_reserve_satoshis(this.ptr, val);
 	}
 
@@ -360,7 +359,7 @@ export class ChannelHandshakeLimits extends CommonBase {
 		bindings.ChannelHandshakeLimits_set_their_to_self_delay(this.ptr, val);
 	}
 
-	public static constructor_new(min_funding_satoshis_arg: number, max_htlc_minimum_msat_arg: number, min_max_htlc_value_in_flight_msat_arg: number, max_channel_reserve_satoshis_arg: number, min_max_accepted_htlcs_arg: number, max_minimum_depth_arg: number, force_announced_channel_preference_arg: boolean, their_to_self_delay_arg: number): ChannelHandshakeLimits {
+	public static constructor_new(min_funding_satoshis_arg: bigint, max_htlc_minimum_msat_arg: bigint, min_max_htlc_value_in_flight_msat_arg: bigint, max_channel_reserve_satoshis_arg: bigint, min_max_accepted_htlcs_arg: number, max_minimum_depth_arg: number, force_announced_channel_preference_arg: boolean, their_to_self_delay_arg: number): ChannelHandshakeLimits {
 		const ret: number = bindings.ChannelHandshakeLimits_new(min_funding_satoshis_arg, max_htlc_minimum_msat_arg, min_max_htlc_value_in_flight_msat_arg, max_channel_reserve_satoshis_arg, min_max_accepted_htlcs_arg, max_minimum_depth_arg, force_announced_channel_preference_arg, their_to_self_delay_arg);
 		const ret_hu_conv: ChannelHandshakeLimits = new ChannelHandshakeLimits(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);

@@ -24,7 +24,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 		public final TxOut res;
 		private Result_TxOutAccessErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_TxOutAccessErrorZ_get_ok(ptr);
+			long res = bindings.CResult_TxOutAccessErrorZ_get_ok(ptr);
 			TxOut res_conv = new TxOut(null, res);
 			this.res = res_conv;
 		}
@@ -34,7 +34,7 @@ public class Result_TxOutAccessErrorZ extends CommonBase {
 		public final AccessError err;
 		private Result_TxOutAccessErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_TxOutAccessErrorZ_get_err(ptr);
+			this.err = bindings.CResult_TxOutAccessErrorZ_get_err(ptr);
 		}
 	}
 

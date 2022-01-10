@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelReestablish extends CommonBase {
@@ -289,29 +288,30 @@ export class ChannelReestablish extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelReestablish_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelReestablish_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.ChannelReestablish_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ChannelReestablish_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_next_local_commitment_number(): number {
-		const ret: number = bindings.ChannelReestablish_get_next_local_commitment_number(this.ptr);
+	public get_next_local_commitment_number(): bigint {
+		const ret: bigint = bindings.ChannelReestablish_get_next_local_commitment_number(this.ptr);
 		return ret;
 	}
 
-	public set_next_local_commitment_number(val: number): void {
+	public set_next_local_commitment_number(val: bigint): void {
 		bindings.ChannelReestablish_set_next_local_commitment_number(this.ptr, val);
 	}
 
-	public get_next_remote_commitment_number(): number {
-		const ret: number = bindings.ChannelReestablish_get_next_remote_commitment_number(this.ptr);
+	public get_next_remote_commitment_number(): bigint {
+		const ret: bigint = bindings.ChannelReestablish_get_next_remote_commitment_number(this.ptr);
 		return ret;
 	}
 
-	public set_next_remote_commitment_number(val: number): void {
+	public set_next_remote_commitment_number(val: bigint): void {
 		bindings.ChannelReestablish_set_next_remote_commitment_number(this.ptr, val);
 	}
 
@@ -328,12 +328,13 @@ export class ChannelReestablish extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelReestablish_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelReestablish_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ChannelReestablishDecodeErrorZ {
-		const ret: number = bindings.ChannelReestablish_read(ser);
+		const ret: number = bindings.ChannelReestablish_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelReestablishDecodeErrorZ = Result_ChannelReestablishDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class Shutdown extends CommonBase {
@@ -289,25 +288,27 @@ export class Shutdown extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.Shutdown_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.Shutdown_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.Shutdown_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.Shutdown_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_scriptpubkey(): Uint8Array {
-		const ret: Uint8Array = bindings.Shutdown_get_scriptpubkey(this.ptr);
-		return ret;
+		const ret: number = bindings.Shutdown_get_scriptpubkey(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_scriptpubkey(val: Uint8Array): void {
-		bindings.Shutdown_set_scriptpubkey(this.ptr, val);
+		bindings.Shutdown_set_scriptpubkey(this.ptr, bindings.encodeUint8Array(val));
 	}
 
 	public static constructor_new(channel_id_arg: Uint8Array, scriptpubkey_arg: Uint8Array): Shutdown {
-		const ret: number = bindings.Shutdown_new(InternalUtils.check_arr_len(channel_id_arg, 32), scriptpubkey_arg);
+		const ret: number = bindings.Shutdown_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(scriptpubkey_arg));
 		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -326,12 +327,13 @@ export class Shutdown extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.Shutdown_write(this.ptr);
-		return ret;
+		const ret: number = bindings.Shutdown_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ShutdownDecodeErrorZ {
-		const ret: number = bindings.Shutdown_read(ser);
+		const ret: number = bindings.Shutdown_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ShutdownDecodeErrorZ = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

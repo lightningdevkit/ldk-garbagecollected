@@ -279,20 +279,18 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Option_EventZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_EventZ_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Option_EventZ {
-		const raw_val: bindings.LDKCOption_EventZ = bindings.LDKCOption_EventZ_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKCOption_EventZ_Some) {
-			return new Option_EventZ_Some(ptr, raw_val);
+		const raw_ty: number = bindings.LDKCOption_EventZ_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Option_EventZ_Some(ptr);
+			case 1: return new Option_EventZ_None(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKCOption_EventZ_None) {
-			return new Option_EventZ_None(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public static constructor_some(o: Event): Option_EventZ {
@@ -325,9 +323,9 @@ export class Option_EventZ extends CommonBase {
 export class Option_EventZ_Some extends Option_EventZ {
 	public some: Event;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_EventZ_Some) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const some: number = obj.some;
+		const some: number = bindings.LDKCOption_EventZ_Some_get_some(ptr);
 		const some_hu_conv: Event = Event.constr_from_ptr(some);
 			CommonBase.add_ref_from(some_hu_conv, this);
 		this.some = some_hu_conv;
@@ -335,7 +333,7 @@ export class Option_EventZ_Some extends Option_EventZ {
 }
 export class Option_EventZ_None extends Option_EventZ {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_EventZ_None) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }

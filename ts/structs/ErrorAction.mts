@@ -279,29 +279,21 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class ErrorAction extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.ErrorAction_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): ErrorAction {
-		const raw_val: bindings.LDKErrorAction = bindings.LDKErrorAction_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKErrorAction_DisconnectPeer) {
-			return new ErrorAction_DisconnectPeer(ptr, raw_val);
+		const raw_ty: number = bindings.LDKErrorAction_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new ErrorAction_DisconnectPeer(ptr);
+			case 1: return new ErrorAction_IgnoreError(ptr);
+			case 2: return new ErrorAction_IgnoreAndLog(ptr);
+			case 3: return new ErrorAction_IgnoreDuplicateGossip(ptr);
+			case 4: return new ErrorAction_SendErrorMessage(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKErrorAction_IgnoreError) {
-			return new ErrorAction_IgnoreError(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKErrorAction_IgnoreAndLog) {
-			return new ErrorAction_IgnoreAndLog(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKErrorAction_IgnoreDuplicateGossip) {
-			return new ErrorAction_IgnoreDuplicateGossip(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKErrorAction_SendErrorMessage) {
-			return new ErrorAction_SendErrorMessage(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -355,9 +347,9 @@ export class ErrorAction extends CommonBase {
 export class ErrorAction_DisconnectPeer extends ErrorAction {
 	public msg: ErrorMessage;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKErrorAction_DisconnectPeer) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const msg: number = obj.msg;
+		const msg: number = bindings.LDKErrorAction_DisconnectPeer_get_msg(ptr);
 		const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
@@ -365,30 +357,30 @@ export class ErrorAction_DisconnectPeer extends ErrorAction {
 }
 export class ErrorAction_IgnoreError extends ErrorAction {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKErrorAction_IgnoreError) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
 export class ErrorAction_IgnoreAndLog extends ErrorAction {
 	public ignore_and_log: Level;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKErrorAction_IgnoreAndLog) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.ignore_and_log = obj.ignore_and_log;
+		this.ignore_and_log = bindings.LDKErrorAction_IgnoreAndLog_get_ignore_and_log(ptr);
 	}
 }
 export class ErrorAction_IgnoreDuplicateGossip extends ErrorAction {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKErrorAction_IgnoreDuplicateGossip) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
 export class ErrorAction_SendErrorMessage extends ErrorAction {
 	public msg: ErrorMessage;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKErrorAction_SendErrorMessage) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const msg: number = obj.msg;
+		const msg: number = bindings.LDKErrorAction_SendErrorMessage_get_msg(ptr);
 		const msg_hu_conv: ErrorMessage = new ErrorMessage(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -296,7 +295,7 @@ export class Result_CVec_u8ZPeerHandleErrorZ extends CommonBase {
 		}
 	}
 	public static constructor_ok(o: Uint8Array): Result_CVec_u8ZPeerHandleErrorZ {
-		const ret: number = bindings.CResult_CVec_u8ZPeerHandleErrorZ_ok(o);
+		const ret: number = bindings.CResult_CVec_u8ZPeerHandleErrorZ_ok(bindings.encodeUint8Array(o));
 		const ret_hu_conv: Result_CVec_u8ZPeerHandleErrorZ = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -330,7 +329,9 @@ export class Result_CVec_u8ZPeerHandleErrorZ_OK extends Result_CVec_u8ZPeerHandl
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(_dummy, ptr);
-		this.res = bindings.CResult_CVec_u8ZPeerHandleErrorZ_get_ok(ptr);
+		const res: number = bindings.CResult_CVec_u8ZPeerHandleErrorZ_get_ok(ptr);
+		const res_conv: Uint8Array = bindings.decodeUint8Array(res);
+		this.res = res_conv;
 	}
 }
 export class Result_CVec_u8ZPeerHandleErrorZ_Err extends Result_CVec_u8ZPeerHandleErrorZ {

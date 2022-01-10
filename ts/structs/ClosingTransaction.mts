@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ClosingTransaction extends CommonBase {
@@ -300,13 +299,13 @@ export class ClosingTransaction extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.ClosingTransaction_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.ClosingTransaction_hash(this.ptr);
 		return ret;
 	}
 
-	public static constructor_new(to_holder_value_sat: number, to_counterparty_value_sat: number, to_holder_script: Uint8Array, to_counterparty_script: Uint8Array, funding_outpoint: OutPoint): ClosingTransaction {
-		const ret: number = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : CommonBase.get_ptr_of(funding_outpoint) & ~1);
+	public static constructor_new(to_holder_value_sat: bigint, to_counterparty_value_sat: bigint, to_holder_script: Uint8Array, to_counterparty_script: Uint8Array, funding_outpoint: OutPoint): ClosingTransaction {
+		const ret: number = bindings.ClosingTransaction_new(to_holder_value_sat, to_counterparty_value_sat, bindings.encodeUint8Array(to_holder_script), bindings.encodeUint8Array(to_counterparty_script), funding_outpoint == null ? 0 : CommonBase.get_ptr_of(funding_outpoint) & ~1);
 		const ret_hu_conv: ClosingTransaction = new ClosingTransaction(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -325,24 +324,26 @@ export class ClosingTransaction extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public to_holder_value_sat(): number {
-		const ret: number = bindings.ClosingTransaction_to_holder_value_sat(this.ptr);
+	public to_holder_value_sat(): bigint {
+		const ret: bigint = bindings.ClosingTransaction_to_holder_value_sat(this.ptr);
 		return ret;
 	}
 
-	public to_counterparty_value_sat(): number {
-		const ret: number = bindings.ClosingTransaction_to_counterparty_value_sat(this.ptr);
+	public to_counterparty_value_sat(): bigint {
+		const ret: bigint = bindings.ClosingTransaction_to_counterparty_value_sat(this.ptr);
 		return ret;
 	}
 
 	public to_holder_script(): Uint8Array {
-		const ret: Uint8Array = bindings.ClosingTransaction_to_holder_script(this.ptr);
-		return ret;
+		const ret: number = bindings.ClosingTransaction_to_holder_script(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public to_counterparty_script(): Uint8Array {
-		const ret: Uint8Array = bindings.ClosingTransaction_to_counterparty_script(this.ptr);
-		return ret;
+		const ret: number = bindings.ClosingTransaction_to_counterparty_script(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

@@ -280,7 +280,7 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 function freer(f: () => void) { f() }
 const finalizer = new FinalizationRegistry(freer);
-function get_freeer(ptr: number, free_fn: (number) => void) {
+function get_freeer(ptr: number, free_fn: (ptr: number) => void) {
 	return () => {
 		free_fn(ptr);
 	}

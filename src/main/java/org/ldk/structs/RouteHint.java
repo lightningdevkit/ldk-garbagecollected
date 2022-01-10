@@ -23,8 +23,9 @@ public class RouteHint extends CommonBase {
 	public RouteHintHop[] get_a() {
 		long[] ret = bindings.RouteHint_get_a(this.ptr);
 		Reference.reachabilityFence(this);
-		RouteHintHop[] ret_conv_14_arr = new RouteHintHop[ret.length];
-		for (int o = 0; o < ret.length; o++) {
+		int ret_conv_14_len = ret.length;
+		RouteHintHop[] ret_conv_14_arr = new RouteHintHop[ret_conv_14_len];
+		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
 			RouteHintHop ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new RouteHintHop(null, ret_conv_14); }
 			ret_conv_14_hu_conv.ptrs_to.add(this);

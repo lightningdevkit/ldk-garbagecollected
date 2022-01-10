@@ -24,7 +24,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		public final ChannelFeatures res;
 		private Result_ChannelFeaturesDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_ChannelFeaturesDecodeErrorZ_get_ok(ptr);
+			long res = bindings.CResult_ChannelFeaturesDecodeErrorZ_get_ok(ptr);
 			ChannelFeatures res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ChannelFeatures(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_ChannelFeaturesDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_ChannelFeaturesDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_ChannelFeaturesDecodeErrorZ_get_err(ptr);
+			long err = bindings.CResult_ChannelFeaturesDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

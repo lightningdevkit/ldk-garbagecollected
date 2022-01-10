@@ -30,7 +30,7 @@ public class Result_NoneChannelMonitorUpdateErrZ extends CommonBase {
 		public final ChannelMonitorUpdateErr err;
 		private Result_NoneChannelMonitorUpdateErrZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_NoneChannelMonitorUpdateErrZ_get_err(ptr);
+			this.err = bindings.CResult_NoneChannelMonitorUpdateErrZ_get_err(ptr);
 		}
 	}
 

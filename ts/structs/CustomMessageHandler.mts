@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -306,16 +305,17 @@ export class CustomMessageHandler extends CommonBase {
 	static new_impl(arg: CustomMessageHandlerInterface, customMessageReader_impl: CustomMessageReaderInterface): CustomMessageHandler {
 		const impl_holder: LDKCustomMessageHandlerHolder = new LDKCustomMessageHandlerHolder();
 		let structImplementation = {
-			handle_custom_message (msg: number, sender_node_id: Uint8Array): number {
+			handle_custom_message (msg: number, sender_node_id: number): number {
 				const ret_hu_conv: Type = new Type(null, msg);
 				CommonBase.add_ref_from(ret_hu_conv, this);
-				const ret: Result_NoneLightningErrorZ = arg.handle_custom_message(ret_hu_conv, sender_node_id);
+				const sender_node_id_conv: Uint8Array = bindings.decodeUint8Array(sender_node_id);
+				const ret: Result_NoneLightningErrorZ = arg.handle_custom_message(ret_hu_conv, sender_node_id_conv);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
-			get_and_clear_pending_msg (): number[] {
+			get_and_clear_pending_msg (): number {
 				const ret: TwoTuple_PublicKeyTypeZ[] = arg.get_and_clear_pending_msg();
-				const result: number[] = ret != null ? ret.map(ret_conv_25 => ret_conv_25 == null ? 0 : ret_conv_25.clone_ptr()) : null;
+				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_25 => ret_conv_25 == null ? 0 : ret_conv_25.clone_ptr()) : null);
 				return result;
 			},
 		} as bindings.LDKCustomMessageHandler;
@@ -328,17 +328,18 @@ export class CustomMessageHandler extends CommonBase {
 		return impl_holder.held;
 	}
 	public handle_custom_message(msg: Type, sender_node_id: Uint8Array): Result_NoneLightningErrorZ {
-		const ret: number = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg), InternalUtils.check_arr_len(sender_node_id, 33));
+		const ret: number = bindings.CustomMessageHandler_handle_custom_message(this.ptr, msg == null ? 0 : CommonBase.get_ptr_of(msg), bindings.encodeUint8Array(bindings.check_arr_len(sender_node_id, 33)));
 		const ret_hu_conv: Result_NoneLightningErrorZ = Result_NoneLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(this, msg);
 		return ret_hu_conv;
 	}
 
 	public get_and_clear_pending_msg(): TwoTuple_PublicKeyTypeZ[] {
-		const ret: number[] = bindings.CustomMessageHandler_get_and_clear_pending_msg(this.ptr);
-		const ret_conv_25_arr: TwoTuple_PublicKeyTypeZ[] = new Array(ret.length).fill(null);
-		for (var z = 0; z < ret.length; z++) {
-			const ret_conv_25: number = ret[z];
+		const ret: number = bindings.CustomMessageHandler_get_and_clear_pending_msg(this.ptr);
+		const ret_conv_25_len: number = bindings.getArrayLength(ret);
+		const ret_conv_25_arr: TwoTuple_PublicKeyTypeZ[] = new Array(ret_conv_25_len).fill(null);
+		for (var z = 0; z < ret_conv_25_len; z++) {
+			const ret_conv_25: number = bindings.getU32ArrayElem(ret, z);
 			const ret_conv_25_hu_conv: TwoTuple_PublicKeyTypeZ = new TwoTuple_PublicKeyTypeZ(null, ret_conv_25);
 			CommonBase.add_ref_from(ret_conv_25_hu_conv, this);
 			ret_conv_25_arr[z] = ret_conv_25_hu_conv;

@@ -16,6 +16,12 @@ class Consts:
             uint32_t = ['int'],
             uint64_t = ['long'],
         )
+        self.java_type_map = dict(
+            String = "String"
+        )
+        self.java_hu_type_map = dict(
+            String = "String"
+        )
 
         self.to_hu_conv_templates = dict(
             ptr = '{human_type} {var_name}_hu_conv = null; if ({var_name} < 0 || {var_name} > 4096) { {var_name}_hu_conv = new {human_type}(null, {var_name}); }',
@@ -631,6 +637,10 @@ import javax.annotation.Nullable;
         return "str_ref_to_java(env, " + var_name + ", " + str_len + ")"
     def str_ref_to_c_call(self, var_name):
         return "java_to_owned_str(env, " + var_name + ")"
+    def str_to_hu_conv(self, var_name):
+        return None
+    def str_from_hu_conv(self, var_name):
+        return None
 
     def c_fn_name_define_pfx(self, fn_name, has_args):
         if has_args:
@@ -652,6 +662,10 @@ import javax.annotation.Nullable;
     def var_decl_statement(self, ty_string, var_name, statement):
         return ty_string + " " + var_name + " = " + statement
 
+    def get_java_arr_len(self, arr_name):
+        return arr_name + ".length"
+    def get_java_arr_elem(self, elem_ty, arr_name, idx):
+        return arr_name + "[" + idx + "]"
     def constr_hu_array(self, ty_info, arr_len):
         base_ty = ty_info.subty.java_hu_ty.split("[")[0].split("<")[0]
         conv = "new " + base_ty + "[" + arr_len + "]"
@@ -659,6 +673,16 @@ import javax.annotation.Nullable;
             # Do a bit of a dance to move any excess [] to the end
             conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
         return conv
+
+    def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
+        if fixed_len is not None:
+            return ("InternalUtils.check_arr_len(" + arr_name + ", " + fixed_len + ")", "")
+        return None
+    def primitive_arr_to_hu(self, primitive_ty, fixed_len, arr_name, conv_name):
+        return None
+
+    def java_arr_ty_str(self, elem_ty_str):
+        return elem_ty_str + "[]"
 
     def for_n_in_range(self, n, minimum, maximum):
         return "for (int " + n + " = " + minimum + "; " + n + " < " + maximum + "; " + n + "++) {"
@@ -950,7 +974,7 @@ import javax.annotation.Nullable;
                     out_c = out_c + "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif fn_line.ret_ty_info.c_ty == "void":
                     out_c += "\t(*env)->Call" + fn_line.ret_ty_info.java_ty.title() + "Method(env, obj, j_calls->" + fn_line.fn_name + "_meth"
-                elif fn_line.ret_ty_info.java_ty == "String":
+                elif fn_line.ret_ty_info.java_hu_ty == "String":
                     # Manually write out String methods as they're just an Object
                     out_c += "\t" + fn_line.ret_ty_info.c_ty + " ret = (*env)->CallObjectMethod(env, obj, j_calls->" + fn_line.fn_name + "_meth"
                 elif not fn_line.ret_ty_info.passed_as_ptr:

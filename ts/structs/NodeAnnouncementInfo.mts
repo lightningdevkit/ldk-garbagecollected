@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class NodeAnnouncementInfo extends CommonBase {
@@ -309,25 +308,27 @@ export class NodeAnnouncementInfo extends CommonBase {
 	}
 
 	public get_rgb(): Uint8Array {
-		const ret: Uint8Array = bindings.NodeAnnouncementInfo_get_rgb(this.ptr);
-		return ret;
+		const ret: number = bindings.NodeAnnouncementInfo_get_rgb(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_rgb(val: Uint8Array): void {
-		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, InternalUtils.check_arr_len(val, 3));
+		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 3)));
 	}
 
 	public get_alias(): Uint8Array {
-		const ret: Uint8Array = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
-		return ret;
+		const ret: number = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_alias(val: Uint8Array): void {
-		bindings.NodeAnnouncementInfo_set_alias(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.NodeAnnouncementInfo_set_alias(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public set_addresses(val: NetAddress[]): void {
-		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null);
+		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null));
 	}
 
 	public get_announcement_message(): NodeAnnouncement {
@@ -342,7 +343,7 @@ export class NodeAnnouncementInfo extends CommonBase {
 	}
 
 	public static constructor_new(features_arg: NodeFeatures, last_update_arg: number, rgb_arg: Uint8Array, alias_arg: Uint8Array, addresses_arg: NetAddress[], announcement_message_arg: NodeAnnouncement): NodeAnnouncementInfo {
-		const ret: number = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, last_update_arg, InternalUtils.check_arr_len(rgb_arg, 3), InternalUtils.check_arr_len(alias_arg, 32), addresses_arg != null ? addresses_arg.map(addresses_arg_conv_12 => CommonBase.get_ptr_of(addresses_arg_conv_12)) : null, announcement_message_arg == null ? 0 : CommonBase.get_ptr_of(announcement_message_arg) & ~1);
+		const ret: number = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, last_update_arg, bindings.encodeUint8Array(bindings.check_arr_len(rgb_arg, 3)), bindings.encodeUint8Array(bindings.check_arr_len(alias_arg, 32)), bindings.encodeUint32Array(addresses_arg != null ? addresses_arg.map(addresses_arg_conv_12 => CommonBase.get_ptr_of(addresses_arg_conv_12)) : null), announcement_message_arg == null ? 0 : CommonBase.get_ptr_of(announcement_message_arg) & ~1);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -361,12 +362,13 @@ export class NodeAnnouncementInfo extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.NodeAnnouncementInfo_write(this.ptr);
-		return ret;
+		const ret: number = bindings.NodeAnnouncementInfo_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_NodeAnnouncementInfoDecodeErrorZ {
-		const ret: number = bindings.NodeAnnouncementInfo_read(ser);
+		const ret: number = bindings.NodeAnnouncementInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeAnnouncementInfoDecodeErrorZ = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

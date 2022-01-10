@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class Route extends CommonBase {
@@ -289,13 +288,15 @@ export class Route extends CommonBase {
 	}
 
 	public get_paths(): RouteHop[][] {
-		const ret: number[][] = bindings.Route_get_paths(this.ptr);
-		const ret_conv_12_arr: RouteHop[][] = new Array(ret.length).fill(null);
-		for (var m = 0; m < ret.length; m++) {
-			const ret_conv_12: number[] = ret[m];
-			const ret_conv_12_conv_10_arr: RouteHop[] = new Array(ret_conv_12.length).fill(null);
-			for (var k = 0; k < ret_conv_12.length; k++) {
-				const ret_conv_12_conv_10: number = ret_conv_12[k];
+		const ret: number = bindings.Route_get_paths(this.ptr);
+		const ret_conv_12_len: number = bindings.getArrayLength(ret);
+		const ret_conv_12_arr: RouteHop[][] = new Array(ret_conv_12_len).fill(null);
+		for (var m = 0; m < ret_conv_12_len; m++) {
+			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12_conv_10_len: number = bindings.getArrayLength(ret_conv_12);
+			const ret_conv_12_conv_10_arr: RouteHop[] = new Array(ret_conv_12_conv_10_len).fill(null);
+			for (var k = 0; k < ret_conv_12_conv_10_len; k++) {
+				const ret_conv_12_conv_10: number = bindings.getU32ArrayElem(ret_conv_12, k);
 				const ret_conv_12_conv_10_hu_conv: RouteHop = new RouteHop(null, ret_conv_12_conv_10);
 				CommonBase.add_ref_from(ret_conv_12_conv_10_hu_conv, this);
 				ret_conv_12_conv_10_arr[k] = ret_conv_12_conv_10_hu_conv;
@@ -306,7 +307,7 @@ export class Route extends CommonBase {
 	}
 
 	public set_paths(val: RouteHop[][]): void {
-		bindings.Route_set_paths(this.ptr, val != null ? val.map(val_conv_12 => val_conv_12 != null ? val_conv_12.map(val_conv_12_conv_10 => val_conv_12_conv_10 == null ? 0 : CommonBase.get_ptr_of(val_conv_12_conv_10) & ~1) : null) : null);
+		bindings.Route_set_paths(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint32Array(val_conv_12 != null ? val_conv_12.map(val_conv_12_conv_10 => val_conv_12_conv_10 == null ? 0 : CommonBase.get_ptr_of(val_conv_12_conv_10) & ~1) : null)) : null));
 	}
 
 	public get_payee(): Payee {
@@ -321,7 +322,7 @@ export class Route extends CommonBase {
 	}
 
 	public static constructor_new(paths_arg: RouteHop[][], payee_arg: Payee): Route {
-		const ret: number = bindings.Route_new(paths_arg != null ? paths_arg.map(paths_arg_conv_12 => paths_arg_conv_12 != null ? paths_arg_conv_12.map(paths_arg_conv_12_conv_10 => paths_arg_conv_12_conv_10 == null ? 0 : CommonBase.get_ptr_of(paths_arg_conv_12_conv_10) & ~1) : null) : null, payee_arg == null ? 0 : CommonBase.get_ptr_of(payee_arg) & ~1);
+		const ret: number = bindings.Route_new(bindings.encodeUint32Array(paths_arg != null ? paths_arg.map(paths_arg_conv_12 => bindings.encodeUint32Array(paths_arg_conv_12 != null ? paths_arg_conv_12.map(paths_arg_conv_12_conv_10 => paths_arg_conv_12_conv_10 == null ? 0 : CommonBase.get_ptr_of(paths_arg_conv_12_conv_10) & ~1) : null)) : null), payee_arg == null ? 0 : CommonBase.get_ptr_of(payee_arg) & ~1);
 		const ret_hu_conv: Route = new Route(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -339,8 +340,8 @@ export class Route extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.Route_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.Route_hash(this.ptr);
 		return ret;
 	}
 
@@ -350,23 +351,24 @@ export class Route extends CommonBase {
 		return ret;
 	}
 
-	public get_total_fees(): number {
-		const ret: number = bindings.Route_get_total_fees(this.ptr);
+	public get_total_fees(): bigint {
+		const ret: bigint = bindings.Route_get_total_fees(this.ptr);
 		return ret;
 	}
 
-	public get_total_amount(): number {
-		const ret: number = bindings.Route_get_total_amount(this.ptr);
+	public get_total_amount(): bigint {
+		const ret: bigint = bindings.Route_get_total_amount(this.ptr);
 		return ret;
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.Route_write(this.ptr);
-		return ret;
+		const ret: number = bindings.Route_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_RouteDecodeErrorZ {
-		const ret: number = bindings.Route_read(ser);
+		const ret: number = bindings.Route_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteDecodeErrorZ = Result_RouteDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

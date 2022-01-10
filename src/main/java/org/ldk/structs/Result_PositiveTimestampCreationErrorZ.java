@@ -24,7 +24,7 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 		public final PositiveTimestamp res;
 		private Result_PositiveTimestampCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_PositiveTimestampCreationErrorZ_get_ok(ptr);
+			long res = bindings.CResult_PositiveTimestampCreationErrorZ_get_ok(ptr);
 			PositiveTimestamp res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new PositiveTimestamp(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_PositiveTimestampCreationErrorZ extends CommonBase {
 		public final CreationError err;
 		private Result_PositiveTimestampCreationErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_PositiveTimestampCreationErrorZ_get_err(ptr);
+			this.err = bindings.CResult_PositiveTimestampCreationErrorZ_get_err(ptr);
 		}
 	}
 

@@ -279,32 +279,22 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class APIError extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.APIError_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): APIError {
-		const raw_val: bindings.LDKAPIError = bindings.LDKAPIError_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKAPIError_APIMisuseError) {
-			return new APIError_APIMisuseError(ptr, raw_val);
+		const raw_ty: number = bindings.LDKAPIError_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new APIError_APIMisuseError(ptr);
+			case 1: return new APIError_FeeRateTooHigh(ptr);
+			case 2: return new APIError_RouteError(ptr);
+			case 3: return new APIError_ChannelUnavailable(ptr);
+			case 4: return new APIError_MonitorUpdateFailed(ptr);
+			case 5: return new APIError_IncompatibleShutdownScript(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKAPIError_FeeRateTooHigh) {
-			return new APIError_FeeRateTooHigh(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKAPIError_RouteError) {
-			return new APIError_RouteError(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKAPIError_ChannelUnavailable) {
-			return new APIError_ChannelUnavailable(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKAPIError_MonitorUpdateFailed) {
-			return new APIError_MonitorUpdateFailed(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKAPIError_IncompatibleShutdownScript) {
-			return new APIError_IncompatibleShutdownScript(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -319,29 +309,29 @@ export class APIError extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_apimisuse_error(err: String): APIError {
-		const ret: number = bindings.APIError_apimisuse_error(err);
+	public static constructor_apimisuse_error(err: string): APIError {
+		const ret: number = bindings.APIError_apimisuse_error(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static constructor_fee_rate_too_high(err: String, feerate: number): APIError {
-		const ret: number = bindings.APIError_fee_rate_too_high(err, feerate);
+	public static constructor_fee_rate_too_high(err: string, feerate: number): APIError {
+		const ret: number = bindings.APIError_fee_rate_too_high(bindings.encodeString(err), feerate);
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static constructor_route_error(err: String): APIError {
-		const ret: number = bindings.APIError_route_error(err);
+	public static constructor_route_error(err: string): APIError {
+		const ret: number = bindings.APIError_route_error(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static constructor_channel_unavailable(err: String): APIError {
-		const ret: number = bindings.APIError_channel_unavailable(err);
+	public static constructor_channel_unavailable(err: string): APIError {
+		const ret: number = bindings.APIError_channel_unavailable(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -363,51 +353,59 @@ export class APIError extends CommonBase {
 
 }
 export class APIError_APIMisuseError extends APIError {
-	public err: String;
+	public err: string;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKAPIError_APIMisuseError) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.err = obj.err;
+		const err: number = bindings.LDKAPIError_APIMisuseError_get_err(ptr);
+		const err_conv: string = bindings.decodeString(err);
+		this.err = err_conv;
 	}
 }
 export class APIError_FeeRateTooHigh extends APIError {
-	public err: String;
+	public err: string;
 	public feerate: number;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKAPIError_FeeRateTooHigh) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.err = obj.err;
-		this.feerate = obj.feerate;
+		const err: number = bindings.LDKAPIError_FeeRateTooHigh_get_err(ptr);
+		const err_conv: string = bindings.decodeString(err);
+		this.err = err_conv;
+		this.feerate = bindings.LDKAPIError_FeeRateTooHigh_get_feerate(ptr);
 	}
 }
 export class APIError_RouteError extends APIError {
-	public err: String;
+	public err: string;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKAPIError_RouteError) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.err = obj.err;
+		const err: number = bindings.LDKAPIError_RouteError_get_err(ptr);
+		const err_conv: string = bindings.decodeString(err);
+		this.err = err_conv;
 	}
 }
 export class APIError_ChannelUnavailable extends APIError {
-	public err: String;
+	public err: string;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKAPIError_ChannelUnavailable) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.err = obj.err;
+		const err: number = bindings.LDKAPIError_ChannelUnavailable_get_err(ptr);
+		const err_conv: string = bindings.decodeString(err);
+		this.err = err_conv;
 	}
 }
 export class APIError_MonitorUpdateFailed extends APIError {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKAPIError_MonitorUpdateFailed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
 export class APIError_IncompatibleShutdownScript extends APIError {
 	public script: ShutdownScript;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKAPIError_IncompatibleShutdownScript) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const script: number = obj.script;
+		const script: number = bindings.LDKAPIError_IncompatibleShutdownScript_get_script(ptr);
 		const script_hu_conv: ShutdownScript = new ShutdownScript(null, script);
 			CommonBase.add_ref_from(script_hu_conv, this);
 		this.script = script_hu_conv;

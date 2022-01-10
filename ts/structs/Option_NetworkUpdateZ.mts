@@ -279,20 +279,18 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Option_NetworkUpdateZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_NetworkUpdateZ_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Option_NetworkUpdateZ {
-		const raw_val: bindings.LDKCOption_NetworkUpdateZ = bindings.LDKCOption_NetworkUpdateZ_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKCOption_NetworkUpdateZ_Some) {
-			return new Option_NetworkUpdateZ_Some(ptr, raw_val);
+		const raw_ty: number = bindings.LDKCOption_NetworkUpdateZ_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Option_NetworkUpdateZ_Some(ptr);
+			case 1: return new Option_NetworkUpdateZ_None(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKCOption_NetworkUpdateZ_None) {
-			return new Option_NetworkUpdateZ_None(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public static constructor_some(o: NetworkUpdate): Option_NetworkUpdateZ {
@@ -325,9 +323,9 @@ export class Option_NetworkUpdateZ extends CommonBase {
 export class Option_NetworkUpdateZ_Some extends Option_NetworkUpdateZ {
 	public some: NetworkUpdate;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_NetworkUpdateZ_Some) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const some: number = obj.some;
+		const some: number = bindings.LDKCOption_NetworkUpdateZ_Some_get_some(ptr);
 		const some_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(some);
 			CommonBase.add_ref_from(some_hu_conv, this);
 		this.some = some_hu_conv;
@@ -335,7 +333,7 @@ export class Option_NetworkUpdateZ_Some extends Option_NetworkUpdateZ {
 }
 export class Option_NetworkUpdateZ_None extends Option_NetworkUpdateZ {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_NetworkUpdateZ_None) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }

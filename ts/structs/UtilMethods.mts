@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class UtilMethods extends CommonBase {
@@ -295,49 +294,49 @@ export class UtilMethods extends CommonBase {
 	}
 
 	public static constructor_ClosureReason_read(ser: Uint8Array): Result_COption_ClosureReasonZDecodeErrorZ {
-		const ret: number = bindings.ClosureReason_read(ser);
+		const ret: number = bindings.ClosureReason_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_ClosureReasonZDecodeErrorZ = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_Event_read(ser: Uint8Array): Result_COption_EventZDecodeErrorZ {
-		const ret: number = bindings.Event_read(ser);
+		const ret: number = bindings.Event_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_EventZDecodeErrorZ = Result_COption_EventZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_sign(msg: Uint8Array, sk: Uint8Array): Result_StringErrorZ {
-		const ret: number = bindings.sign(msg, InternalUtils.check_arr_len(sk, 32));
+		const ret: number = bindings.sign(bindings.encodeUint8Array(msg), bindings.encodeUint8Array(bindings.check_arr_len(sk, 32)));
 		const ret_hu_conv: Result_StringErrorZ = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static constructor_recover_pk(msg: Uint8Array, sig: String): Result_PublicKeyErrorZ {
-		const ret: number = bindings.recover_pk(msg, sig);
+	public static constructor_recover_pk(msg: Uint8Array, sig: string): Result_PublicKeyErrorZ {
+		const ret: number = bindings.recover_pk(bindings.encodeUint8Array(msg), bindings.encodeString(sig));
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
-	public static constructor_verify(msg: Uint8Array, sig: String, pk: Uint8Array): boolean {
-		const ret: boolean = bindings.verify(msg, sig, InternalUtils.check_arr_len(pk, 33));
+	public static constructor_verify(msg: Uint8Array, sig: string, pk: Uint8Array): boolean {
+		const ret: boolean = bindings.verify(bindings.encodeUint8Array(msg), bindings.encodeString(sig), bindings.encodeUint8Array(bindings.check_arr_len(pk, 33)));
 		return ret;
 	}
 
 	public static constructor_MonitorEvent_read(ser: Uint8Array): Result_COption_MonitorEventZDecodeErrorZ {
-		const ret: number = bindings.MonitorEvent_read(ser);
+		const ret: number = bindings.MonitorEvent_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_MonitorEventZDecodeErrorZ = Result_COption_MonitorEventZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_C2Tuple_BlockHashChannelMonitorZ_read(ser: Uint8Array, arg: KeysInterface): Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ {
-		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_read(ser, arg == null ? 0 : CommonBase.get_ptr_of(arg));
+		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_read(bindings.encodeUint8Array(ser), arg == null ? 0 : CommonBase.get_ptr_of(arg));
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg);
 		return ret_hu_conv;
 	}
 
 	public static constructor_C2Tuple_BlockHashChannelManagerZ_read(ser: Uint8Array, arg_keys_manager: KeysInterface, arg_fee_estimator: FeeEstimator, arg_chain_monitor: Watch, arg_tx_broadcaster: BroadcasterInterface, arg_logger: Logger, arg_default_config: UserConfig, arg_channel_monitors: ChannelMonitor[]): Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ {
-		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_read(ser, bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : CommonBase.get_ptr_of(arg_keys_manager), arg_fee_estimator == null ? 0 : CommonBase.get_ptr_of(arg_fee_estimator), arg_chain_monitor == null ? 0 : CommonBase.get_ptr_of(arg_chain_monitor), arg_tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(arg_tx_broadcaster), arg_logger == null ? 0 : CommonBase.get_ptr_of(arg_logger), arg_default_config == null ? 0 : CommonBase.get_ptr_of(arg_default_config) & ~1, arg_channel_monitors != null ? arg_channel_monitors.map(arg_channel_monitors_conv_16 => arg_channel_monitors_conv_16 == null ? 0 : CommonBase.get_ptr_of(arg_channel_monitors_conv_16) & ~1) : null));
+		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_read(bindings.encodeUint8Array(ser), bindings.ChannelManagerReadArgs_new(arg_keys_manager == null ? 0 : CommonBase.get_ptr_of(arg_keys_manager), arg_fee_estimator == null ? 0 : CommonBase.get_ptr_of(arg_fee_estimator), arg_chain_monitor == null ? 0 : CommonBase.get_ptr_of(arg_chain_monitor), arg_tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(arg_tx_broadcaster), arg_logger == null ? 0 : CommonBase.get_ptr_of(arg_logger), arg_default_config == null ? 0 : CommonBase.get_ptr_of(arg_default_config) & ~1, bindings.encodeUint32Array(arg_channel_monitors != null ? arg_channel_monitors.map(arg_channel_monitors_conv_16 => arg_channel_monitors_conv_16 == null ? 0 : CommonBase.get_ptr_of(arg_channel_monitors_conv_16) & ~1) : null)));
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ = Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, arg_keys_manager);
 		CommonBase.add_ref_from(ret_hu_conv, arg_fee_estimator);
@@ -349,91 +348,95 @@ export class UtilMethods extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_htlc_success_tx_weight(opt_anchors: boolean): number {
-		const ret: number = bindings.htlc_success_tx_weight(opt_anchors);
+	public static constructor_htlc_success_tx_weight(opt_anchors: boolean): bigint {
+		const ret: bigint = bindings.htlc_success_tx_weight(opt_anchors);
 		return ret;
 	}
 
-	public static constructor_htlc_timeout_tx_weight(opt_anchors: boolean): number {
-		const ret: number = bindings.htlc_timeout_tx_weight(opt_anchors);
+	public static constructor_htlc_timeout_tx_weight(opt_anchors: boolean): bigint {
+		const ret: bigint = bindings.htlc_timeout_tx_weight(opt_anchors);
 		return ret;
 	}
 
-	public static constructor_build_commitment_secret(commitment_seed: Uint8Array, idx: number): Uint8Array {
-		const ret: Uint8Array = bindings.build_commitment_secret(InternalUtils.check_arr_len(commitment_seed, 32), idx);
-		return ret;
+	public static constructor_build_commitment_secret(commitment_seed: Uint8Array, idx: bigint): Uint8Array {
+		const ret: number = bindings.build_commitment_secret(bindings.encodeUint8Array(bindings.check_arr_len(commitment_seed, 32)), idx);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
-	public static constructor_build_closing_transaction(to_holder_value_sat: number, to_counterparty_value_sat: number, to_holder_script: Uint8Array, to_counterparty_script: Uint8Array, funding_outpoint: OutPoint): Uint8Array {
-		const ret: Uint8Array = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, to_holder_script, to_counterparty_script, funding_outpoint == null ? 0 : CommonBase.get_ptr_of(funding_outpoint) & ~1);
-		return ret;
+	public static constructor_build_closing_transaction(to_holder_value_sat: bigint, to_counterparty_value_sat: bigint, to_holder_script: Uint8Array, to_counterparty_script: Uint8Array, funding_outpoint: OutPoint): Uint8Array {
+		const ret: number = bindings.build_closing_transaction(to_holder_value_sat, to_counterparty_value_sat, bindings.encodeUint8Array(to_holder_script), bindings.encodeUint8Array(to_counterparty_script), funding_outpoint == null ? 0 : CommonBase.get_ptr_of(funding_outpoint) & ~1);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_derive_private_key(per_commitment_point: Uint8Array, base_secret: Uint8Array): Result_SecretKeyErrorZ {
-		const ret: number = bindings.derive_private_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_secret, 32));
+		const ret: number = bindings.derive_private_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(base_secret, 32)));
 		const ret_hu_conv: Result_SecretKeyErrorZ = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_derive_public_key(per_commitment_point: Uint8Array, base_point: Uint8Array): Result_PublicKeyErrorZ {
-		const ret: number = bindings.derive_public_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(base_point, 33));
+		const ret: number = bindings.derive_public_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(base_point, 33)));
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_derive_private_revocation_key(per_commitment_secret: Uint8Array, countersignatory_revocation_base_secret: Uint8Array): Result_SecretKeyErrorZ {
-		const ret: number = bindings.derive_private_revocation_key(InternalUtils.check_arr_len(per_commitment_secret, 32), InternalUtils.check_arr_len(countersignatory_revocation_base_secret, 32));
+		const ret: number = bindings.derive_private_revocation_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_secret, 32)), bindings.encodeUint8Array(bindings.check_arr_len(countersignatory_revocation_base_secret, 32)));
 		const ret_hu_conv: Result_SecretKeyErrorZ = Result_SecretKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_derive_public_revocation_key(per_commitment_point: Uint8Array, countersignatory_revocation_base_point: Uint8Array): Result_PublicKeyErrorZ {
-		const ret: number = bindings.derive_public_revocation_key(InternalUtils.check_arr_len(per_commitment_point, 33), InternalUtils.check_arr_len(countersignatory_revocation_base_point, 33));
+		const ret: number = bindings.derive_public_revocation_key(bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point, 33)), bindings.encodeUint8Array(bindings.check_arr_len(countersignatory_revocation_base_point, 33)));
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_get_revokeable_redeemscript(revocation_key: Uint8Array, contest_delay: number, broadcaster_delayed_payment_key: Uint8Array): Uint8Array {
-		const ret: Uint8Array = bindings.get_revokeable_redeemscript(InternalUtils.check_arr_len(revocation_key, 33), contest_delay, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33));
-		return ret;
+		const ret: number = bindings.get_revokeable_redeemscript(bindings.encodeUint8Array(bindings.check_arr_len(revocation_key, 33)), contest_delay, bindings.encodeUint8Array(bindings.check_arr_len(broadcaster_delayed_payment_key, 33)));
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_get_htlc_redeemscript(htlc: HTLCOutputInCommitment, opt_anchors: boolean, keys: TxCreationKeys): Uint8Array {
-		const ret: Uint8Array = bindings.get_htlc_redeemscript(htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1, opt_anchors, keys == null ? 0 : CommonBase.get_ptr_of(keys) & ~1);
-		// CommonBase.add_ref_from(this, htlc);
-		// CommonBase.add_ref_from(this, keys);
-		return ret;
+		const ret: number = bindings.get_htlc_redeemscript(htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1, opt_anchors, keys == null ? 0 : CommonBase.get_ptr_of(keys) & ~1);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_make_funding_redeemscript(broadcaster: Uint8Array, countersignatory: Uint8Array): Uint8Array {
-		const ret: Uint8Array = bindings.make_funding_redeemscript(InternalUtils.check_arr_len(broadcaster, 33), InternalUtils.check_arr_len(countersignatory, 33));
-		return ret;
+		const ret: number = bindings.make_funding_redeemscript(bindings.encodeUint8Array(bindings.check_arr_len(broadcaster, 33)), bindings.encodeUint8Array(bindings.check_arr_len(countersignatory, 33)));
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_build_htlc_transaction(commitment_txid: Uint8Array, feerate_per_kw: number, contest_delay: number, htlc: HTLCOutputInCommitment, opt_anchors: boolean, broadcaster_delayed_payment_key: Uint8Array, revocation_key: Uint8Array): Uint8Array {
-		const ret: Uint8Array = bindings.build_htlc_transaction(InternalUtils.check_arr_len(commitment_txid, 32), feerate_per_kw, contest_delay, htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1, opt_anchors, InternalUtils.check_arr_len(broadcaster_delayed_payment_key, 33), InternalUtils.check_arr_len(revocation_key, 33));
-		// CommonBase.add_ref_from(this, htlc);
-		return ret;
+		const ret: number = bindings.build_htlc_transaction(bindings.encodeUint8Array(bindings.check_arr_len(commitment_txid, 32)), feerate_per_kw, contest_delay, htlc == null ? 0 : CommonBase.get_ptr_of(htlc) & ~1, opt_anchors, bindings.encodeUint8Array(bindings.check_arr_len(broadcaster_delayed_payment_key, 33)), bindings.encodeUint8Array(bindings.check_arr_len(revocation_key, 33)));
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_get_anchor_redeemscript(funding_pubkey: Uint8Array): Uint8Array {
-		const ret: Uint8Array = bindings.get_anchor_redeemscript(InternalUtils.check_arr_len(funding_pubkey, 33));
-		return ret;
+		const ret: number = bindings.get_anchor_redeemscript(bindings.encodeUint8Array(bindings.check_arr_len(funding_pubkey, 33)));
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
-	public static constructor_get_commitment_transaction_number_obscure_factor(broadcaster_payment_basepoint: Uint8Array, countersignatory_payment_basepoint: Uint8Array, outbound_from_broadcaster: boolean): number {
-		const ret: number = bindings.get_commitment_transaction_number_obscure_factor(InternalUtils.check_arr_len(broadcaster_payment_basepoint, 33), InternalUtils.check_arr_len(countersignatory_payment_basepoint, 33), outbound_from_broadcaster);
+	public static constructor_get_commitment_transaction_number_obscure_factor(broadcaster_payment_basepoint: Uint8Array, countersignatory_payment_basepoint: Uint8Array, outbound_from_broadcaster: boolean): bigint {
+		const ret: bigint = bindings.get_commitment_transaction_number_obscure_factor(bindings.encodeUint8Array(bindings.check_arr_len(broadcaster_payment_basepoint, 33)), bindings.encodeUint8Array(bindings.check_arr_len(countersignatory_payment_basepoint, 33)), outbound_from_broadcaster);
 		return ret;
 	}
 
 	public static constructor_NetworkUpdate_read(ser: Uint8Array): Result_COption_NetworkUpdateZDecodeErrorZ {
-		const ret: number = bindings.NetworkUpdate_read(ser);
+		const ret: number = bindings.NetworkUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_COption_NetworkUpdateZDecodeErrorZ = Result_COption_NetworkUpdateZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public static constructor_find_route(our_node_pubkey: Uint8Array, params: RouteParameters, network: NetworkGraph, first_hops: ChannelDetails[], logger: Logger, scorer: Score): Result_RouteLightningErrorZ {
-		const ret: number = bindings.find_route(InternalUtils.check_arr_len(our_node_pubkey, 33), params == null ? 0 : CommonBase.get_ptr_of(params) & ~1, network == null ? 0 : CommonBase.get_ptr_of(network) & ~1, first_hops != null ? first_hops.map(first_hops_conv_16 => first_hops_conv_16 == null ? 0 : CommonBase.get_ptr_of(first_hops_conv_16) & ~1) : null, logger == null ? 0 : CommonBase.get_ptr_of(logger), scorer == null ? 0 : CommonBase.get_ptr_of(scorer));
+		const ret: number = bindings.find_route(bindings.encodeUint8Array(bindings.check_arr_len(our_node_pubkey, 33)), params == null ? 0 : CommonBase.get_ptr_of(params) & ~1, network == null ? 0 : CommonBase.get_ptr_of(network) & ~1, bindings.encodeUint32Array(first_hops != null ? first_hops.map(first_hops_conv_16 => first_hops_conv_16 == null ? 0 : CommonBase.get_ptr_of(first_hops_conv_16) & ~1) : null), logger == null ? 0 : CommonBase.get_ptr_of(logger), scorer == null ? 0 : CommonBase.get_ptr_of(scorer));
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, params);
 		CommonBase.add_ref_from(ret_hu_conv, network);

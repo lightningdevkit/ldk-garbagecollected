@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelManagerReadArgs extends CommonBase {
@@ -360,7 +359,7 @@ export class ChannelManagerReadArgs extends CommonBase {
 	}
 
 	public static constructor_new(keys_manager: KeysInterface, fee_estimator: FeeEstimator, chain_monitor: Watch, tx_broadcaster: BroadcasterInterface, logger: Logger, default_config: UserConfig, channel_monitors: ChannelMonitor[]): ChannelManagerReadArgs {
-		const ret: number = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : CommonBase.get_ptr_of(keys_manager), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), chain_monitor == null ? 0 : CommonBase.get_ptr_of(chain_monitor), tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(tx_broadcaster), logger == null ? 0 : CommonBase.get_ptr_of(logger), default_config == null ? 0 : CommonBase.get_ptr_of(default_config) & ~1, channel_monitors != null ? channel_monitors.map(channel_monitors_conv_16 => channel_monitors_conv_16 == null ? 0 : CommonBase.get_ptr_of(channel_monitors_conv_16) & ~1) : null);
+		const ret: number = bindings.ChannelManagerReadArgs_new(keys_manager == null ? 0 : CommonBase.get_ptr_of(keys_manager), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), chain_monitor == null ? 0 : CommonBase.get_ptr_of(chain_monitor), tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(tx_broadcaster), logger == null ? 0 : CommonBase.get_ptr_of(logger), default_config == null ? 0 : CommonBase.get_ptr_of(default_config) & ~1, bindings.encodeUint32Array(channel_monitors != null ? channel_monitors.map(channel_monitors_conv_16 => channel_monitors_conv_16 == null ? 0 : CommonBase.get_ptr_of(channel_monitors_conv_16) & ~1) : null));
 		const ret_hu_conv: ChannelManagerReadArgs = new ChannelManagerReadArgs(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, keys_manager);

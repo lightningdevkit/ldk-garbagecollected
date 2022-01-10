@@ -270,8 +270,6 @@ public class UtilMethods {
 		Reference.reachabilityFence(htlc);
 		Reference.reachabilityFence(opt_anchors);
 		Reference.reachabilityFence(keys);
-		// this.ptrs_to.add(htlc);
-		// this.ptrs_to.add(keys);
 		return ret;
 	}
 
@@ -304,7 +302,6 @@ public class UtilMethods {
 		Reference.reachabilityFence(opt_anchors);
 		Reference.reachabilityFence(broadcaster_delayed_payment_key);
 		Reference.reachabilityFence(revocation_key);
-		// this.ptrs_to.add(htlc);
 		return ret;
 	}
 

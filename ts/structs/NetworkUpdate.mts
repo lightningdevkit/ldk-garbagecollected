@@ -279,23 +279,19 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class NetworkUpdate extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.NetworkUpdate_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): NetworkUpdate {
-		const raw_val: bindings.LDKNetworkUpdate = bindings.LDKNetworkUpdate_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKNetworkUpdate_ChannelUpdateMessage) {
-			return new NetworkUpdate_ChannelUpdateMessage(ptr, raw_val);
+		const raw_ty: number = bindings.LDKNetworkUpdate_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new NetworkUpdate_ChannelUpdateMessage(ptr);
+			case 1: return new NetworkUpdate_ChannelClosed(ptr);
+			case 2: return new NetworkUpdate_NodeFailure(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKNetworkUpdate_ChannelClosed) {
-			return new NetworkUpdate_ChannelClosed(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKNetworkUpdate_NodeFailure) {
-			return new NetworkUpdate_NodeFailure(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -317,7 +313,7 @@ export class NetworkUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_channel_closed(short_channel_id: number, is_permanent: boolean): NetworkUpdate {
+	public static constructor_channel_closed(short_channel_id: bigint, is_permanent: boolean): NetworkUpdate {
 		const ret: number = bindings.NetworkUpdate_channel_closed(short_channel_id, is_permanent);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -325,46 +321,49 @@ export class NetworkUpdate extends CommonBase {
 	}
 
 	public static constructor_node_failure(node_id: Uint8Array, is_permanent: boolean): NetworkUpdate {
-		const ret: number = bindings.NetworkUpdate_node_failure(InternalUtils.check_arr_len(node_id, 33), is_permanent);
+		const ret: number = bindings.NetworkUpdate_node_failure(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), is_permanent);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.NetworkUpdate_write(this.ptr);
-		return ret;
+		const ret: number = bindings.NetworkUpdate_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }
 export class NetworkUpdate_ChannelUpdateMessage extends NetworkUpdate {
 	public msg: ChannelUpdate;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKNetworkUpdate_ChannelUpdateMessage) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const msg: number = obj.msg;
+		const msg: number = bindings.LDKNetworkUpdate_ChannelUpdateMessage_get_msg(ptr);
 		const msg_hu_conv: ChannelUpdate = new ChannelUpdate(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
 	}
 }
 export class NetworkUpdate_ChannelClosed extends NetworkUpdate {
-	public short_channel_id: number;
+	public short_channel_id: bigint;
 	public is_permanent: boolean;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKNetworkUpdate_ChannelClosed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.short_channel_id = obj.short_channel_id;
-		this.is_permanent = obj.is_permanent;
+		this.short_channel_id = bindings.LDKNetworkUpdate_ChannelClosed_get_short_channel_id(ptr);
+		this.is_permanent = bindings.LDKNetworkUpdate_ChannelClosed_get_is_permanent(ptr);
 	}
 }
 export class NetworkUpdate_NodeFailure extends NetworkUpdate {
 	public node_id: Uint8Array;
 	public is_permanent: boolean;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKNetworkUpdate_NodeFailure) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.node_id = obj.node_id;
-		this.is_permanent = obj.is_permanent;
+		const node_id: number = bindings.LDKNetworkUpdate_NodeFailure_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		this.is_permanent = bindings.LDKNetworkUpdate_NodeFailure_get_is_permanent(ptr);
 	}
 }

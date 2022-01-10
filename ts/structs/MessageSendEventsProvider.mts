@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -305,9 +304,9 @@ export class MessageSendEventsProvider extends CommonBase {
 	static new_impl(arg: MessageSendEventsProviderInterface): MessageSendEventsProvider {
 		const impl_holder: LDKMessageSendEventsProviderHolder = new LDKMessageSendEventsProviderHolder();
 		let structImplementation = {
-			get_and_clear_pending_msg_events (): number[] {
+			get_and_clear_pending_msg_events (): number {
 				const ret: MessageSendEvent[] = arg.get_and_clear_pending_msg_events();
-				const result: number[] = ret != null ? ret.map(ret_conv_18 => ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()) : null;
+				const result: number = bindings.encodeUint32Array(ret != null ? ret.map(ret_conv_18 => ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()) : null);
 				return result;
 			},
 		} as bindings.LDKMessageSendEventsProvider;
@@ -318,10 +317,11 @@ export class MessageSendEventsProvider extends CommonBase {
 		return impl_holder.held;
 	}
 	public get_and_clear_pending_msg_events(): MessageSendEvent[] {
-		const ret: number[] = bindings.MessageSendEventsProvider_get_and_clear_pending_msg_events(this.ptr);
-		const ret_conv_18_arr: MessageSendEvent[] = new Array(ret.length).fill(null);
-		for (var s = 0; s < ret.length; s++) {
-			const ret_conv_18: number = ret[s];
+		const ret: number = bindings.MessageSendEventsProvider_get_and_clear_pending_msg_events(this.ptr);
+		const ret_conv_18_len: number = bindings.getArrayLength(ret);
+		const ret_conv_18_arr: MessageSendEvent[] = new Array(ret_conv_18_len).fill(null);
+		for (var s = 0; s < ret_conv_18_len; s++) {
+			const ret_conv_18: number = bindings.getU32ArrayElem(ret, s);
 			const ret_conv_18_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret_conv_18);
 			CommonBase.add_ref_from(ret_conv_18_hu_conv, this);
 			ret_conv_18_arr[s] = ret_conv_18_hu_conv;

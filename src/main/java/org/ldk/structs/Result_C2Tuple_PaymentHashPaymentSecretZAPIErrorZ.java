@@ -24,7 +24,7 @@ public class Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ extends CommonBas
 		public final TwoTuple_PaymentHashPaymentSecretZ res;
 		private Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_get_ok(ptr);
+			long res = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_get_ok(ptr);
 			TwoTuple_PaymentHashPaymentSecretZ res_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ extends CommonBas
 		public final APIError err;
 		private Result_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_get_err(ptr);
+			long err = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_get_err(ptr);
 			APIError err_hu_conv = APIError.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

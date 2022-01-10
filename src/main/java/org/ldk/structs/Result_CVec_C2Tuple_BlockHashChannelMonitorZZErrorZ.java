@@ -24,9 +24,10 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 		public final TwoTuple_BlockHashChannelMonitorZ[] res;
 		private Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long[] res = bindings.LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_ok(ptr);
-			TwoTuple_BlockHashChannelMonitorZ[] res_conv_35_arr = new TwoTuple_BlockHashChannelMonitorZ[res.length];
-			for (int j = 0; j < res.length; j++) {
+			long[] res = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_ok(ptr);
+			int res_conv_35_len = res.length;
+			TwoTuple_BlockHashChannelMonitorZ[] res_conv_35_arr = new TwoTuple_BlockHashChannelMonitorZ[res_conv_35_len];
+			for (int j = 0; j < res_conv_35_len; j++) {
 				long res_conv_35 = res[j];
 				TwoTuple_BlockHashChannelMonitorZ res_conv_35_hu_conv = new TwoTuple_BlockHashChannelMonitorZ(null, res_conv_35);
 				res_conv_35_hu_conv.ptrs_to.add(this);
@@ -40,7 +41,7 @@ public class Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ extends CommonB
 		public final IOError err;
 		private Result_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_err(ptr);
+			this.err = bindings.CResult_CVec_C2Tuple_BlockHashChannelMonitorZZErrorZ_get_err(ptr);
 		}
 	}
 

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelPublicKeys extends CommonBase {
@@ -289,52 +288,57 @@ export class ChannelPublicKeys extends CommonBase {
 	}
 
 	public get_funding_pubkey(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelPublicKeys_get_funding_pubkey(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelPublicKeys_get_funding_pubkey(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_funding_pubkey(val: Uint8Array): void {
-		bindings.ChannelPublicKeys_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelPublicKeys_set_funding_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_revocation_basepoint(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelPublicKeys_get_revocation_basepoint(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelPublicKeys_get_revocation_basepoint(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_revocation_basepoint(val: Uint8Array): void {
-		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelPublicKeys_set_revocation_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_payment_point(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelPublicKeys_get_payment_point(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelPublicKeys_get_payment_point(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_payment_point(val: Uint8Array): void {
-		bindings.ChannelPublicKeys_set_payment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelPublicKeys_set_payment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_delayed_payment_basepoint(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelPublicKeys_get_delayed_payment_basepoint(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelPublicKeys_get_delayed_payment_basepoint(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_delayed_payment_basepoint(val: Uint8Array): void {
-		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelPublicKeys_set_delayed_payment_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_htlc_basepoint(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelPublicKeys_get_htlc_basepoint(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelPublicKeys_get_htlc_basepoint(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_htlc_basepoint(val: Uint8Array): void {
-		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelPublicKeys_set_htlc_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public static constructor_new(funding_pubkey_arg: Uint8Array, revocation_basepoint_arg: Uint8Array, payment_point_arg: Uint8Array, delayed_payment_basepoint_arg: Uint8Array, htlc_basepoint_arg: Uint8Array): ChannelPublicKeys {
-		const ret: number = bindings.ChannelPublicKeys_new(InternalUtils.check_arr_len(funding_pubkey_arg, 33), InternalUtils.check_arr_len(revocation_basepoint_arg, 33), InternalUtils.check_arr_len(payment_point_arg, 33), InternalUtils.check_arr_len(delayed_payment_basepoint_arg, 33), InternalUtils.check_arr_len(htlc_basepoint_arg, 33));
+		const ret: number = bindings.ChannelPublicKeys_new(bindings.encodeUint8Array(bindings.check_arr_len(funding_pubkey_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(revocation_basepoint_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(payment_point_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(delayed_payment_basepoint_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(htlc_basepoint_arg, 33)));
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -353,12 +357,13 @@ export class ChannelPublicKeys extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelPublicKeys_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelPublicKeys_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ChannelPublicKeysDecodeErrorZ {
-		const ret: number = bindings.ChannelPublicKeys_read(ser);
+		const ret: number = bindings.ChannelPublicKeys_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelPublicKeysDecodeErrorZ = Result_ChannelPublicKeysDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

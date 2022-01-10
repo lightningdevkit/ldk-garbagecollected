@@ -280,7 +280,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -305,8 +304,9 @@ export class CustomMessageReader extends CommonBase {
 	static new_impl(arg: CustomMessageReaderInterface): CustomMessageReader {
 		const impl_holder: LDKCustomMessageReaderHolder = new LDKCustomMessageReaderHolder();
 		let structImplementation = {
-			read (message_type: number, buffer: Uint8Array): number {
-				const ret: Result_COption_TypeZDecodeErrorZ = arg.read(message_type, buffer);
+			read (message_type: number, buffer: number): number {
+				const buffer_conv: Uint8Array = bindings.decodeUint8Array(buffer);
+				const ret: Result_COption_TypeZDecodeErrorZ = arg.read(message_type, buffer_conv);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
@@ -318,7 +318,7 @@ export class CustomMessageReader extends CommonBase {
 		return impl_holder.held;
 	}
 	public read(message_type: number, buffer: Uint8Array): Result_COption_TypeZDecodeErrorZ {
-		const ret: number = bindings.CustomMessageReader_read(this.ptr, message_type, buffer);
+		const ret: number = bindings.CustomMessageReader_read(this.ptr, message_type, bindings.encodeUint8Array(buffer));
 		const ret_hu_conv: Result_COption_TypeZDecodeErrorZ = Result_COption_TypeZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TwoTuple_PublicKeyTypeZ extends CommonBase {
@@ -289,8 +288,9 @@ export class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	}
 
 	public get_a(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_PublicKeyTypeZ_get_a(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_PublicKeyTypeZ_get_a(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_b(): Type {
@@ -313,7 +313,7 @@ export class TwoTuple_PublicKeyTypeZ extends CommonBase {
 	}
 
 	public static constructor_new(a: Uint8Array, b: Type): TwoTuple_PublicKeyTypeZ {
-		const ret: number = bindings.C2Tuple_PublicKeyTypeZ_new(InternalUtils.check_arr_len(a, 33), b == null ? 0 : CommonBase.get_ptr_of(b));
+		const ret: number = bindings.C2Tuple_PublicKeyTypeZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 33)), b == null ? 0 : CommonBase.get_ptr_of(b));
 		const ret_hu_conv: TwoTuple_PublicKeyTypeZ = new TwoTuple_PublicKeyTypeZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		CommonBase.add_ref_from(ret_hu_conv, b);

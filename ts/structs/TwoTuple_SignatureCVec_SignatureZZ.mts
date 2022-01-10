@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
@@ -289,13 +288,21 @@ export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	}
 
 	public get_a(): Uint8Array {
-		const ret: Uint8Array = bindings.C2Tuple_SignatureCVec_SignatureZZ_get_a(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_get_a(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public get_b(): Uint8Array[] {
-		const ret: Uint8Array[] = bindings.C2Tuple_SignatureCVec_SignatureZZ_get_b(this.ptr);
-		return ret;
+		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_get_b(this.ptr);
+		const ret_conv_12_len: number = bindings.getArrayLength(ret);
+		const ret_conv_12_arr: Uint8Array[] = new Array(ret_conv_12_len).fill(null);
+		for (var m = 0; m < ret_conv_12_len; m++) {
+			const ret_conv_12: number = bindings.getU32ArrayElem(ret, m);
+			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
+			ret_conv_12_arr[m] = ret_conv_12_conv;
+		}
+		return ret_conv_12_arr;
 	}
 
 	public clone_ptr(): number {
@@ -311,7 +318,7 @@ export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	}
 
 	public static constructor_new(a: Uint8Array, b: Uint8Array[]): TwoTuple_SignatureCVec_SignatureZZ {
-		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(InternalUtils.check_arr_len(a, 64), b != null ? b.map(b_conv_12 => InternalUtils.check_arr_len(b_conv_12, 64)) : null);
+		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 64)), bindings.encodeUint32Array(b != null ? b.map(b_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(b_conv_12, 64))) : null));
 		const ret_hu_conv: TwoTuple_SignatureCVec_SignatureZZ = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

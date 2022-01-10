@@ -279,38 +279,24 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class ClosureReason extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.ClosureReason_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): ClosureReason {
-		const raw_val: bindings.LDKClosureReason = bindings.LDKClosureReason_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKClosureReason_CounterpartyForceClosed) {
-			return new ClosureReason_CounterpartyForceClosed(ptr, raw_val);
+		const raw_ty: number = bindings.LDKClosureReason_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new ClosureReason_CounterpartyForceClosed(ptr);
+			case 1: return new ClosureReason_HolderForceClosed(ptr);
+			case 2: return new ClosureReason_CooperativeClosure(ptr);
+			case 3: return new ClosureReason_CommitmentTxConfirmed(ptr);
+			case 4: return new ClosureReason_FundingTimedOut(ptr);
+			case 5: return new ClosureReason_ProcessingError(ptr);
+			case 6: return new ClosureReason_DisconnectedPeer(ptr);
+			case 7: return new ClosureReason_OutdatedChannelManager(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKClosureReason_HolderForceClosed) {
-			return new ClosureReason_HolderForceClosed(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKClosureReason_CooperativeClosure) {
-			return new ClosureReason_CooperativeClosure(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKClosureReason_CommitmentTxConfirmed) {
-			return new ClosureReason_CommitmentTxConfirmed(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKClosureReason_FundingTimedOut) {
-			return new ClosureReason_FundingTimedOut(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKClosureReason_ProcessingError) {
-			return new ClosureReason_ProcessingError(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKClosureReason_DisconnectedPeer) {
-			return new ClosureReason_DisconnectedPeer(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKClosureReason_OutdatedChannelManager) {
-			return new ClosureReason_OutdatedChannelManager(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -325,8 +311,8 @@ export class ClosureReason extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_counterparty_force_closed(peer_msg: String): ClosureReason {
-		const ret: number = bindings.ClosureReason_counterparty_force_closed(peer_msg);
+	public static constructor_counterparty_force_closed(peer_msg: string): ClosureReason {
+		const ret: number = bindings.ClosureReason_counterparty_force_closed(bindings.encodeString(peer_msg));
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -360,8 +346,8 @@ export class ClosureReason extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_processing_error(err: String): ClosureReason {
-		const ret: number = bindings.ClosureReason_processing_error(err);
+	public static constructor_processing_error(err: string): ClosureReason {
+		const ret: number = bindings.ClosureReason_processing_error(bindings.encodeString(err));
 		const ret_hu_conv: ClosureReason = ClosureReason.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -382,60 +368,65 @@ export class ClosureReason extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ClosureReason_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ClosureReason_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }
 export class ClosureReason_CounterpartyForceClosed extends ClosureReason {
-	public peer_msg: String;
+	public peer_msg: string;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKClosureReason_CounterpartyForceClosed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.peer_msg = obj.peer_msg;
+		const peer_msg: number = bindings.LDKClosureReason_CounterpartyForceClosed_get_peer_msg(ptr);
+		const peer_msg_conv: string = bindings.decodeString(peer_msg);
+		this.peer_msg = peer_msg_conv;
 	}
 }
 export class ClosureReason_HolderForceClosed extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKClosureReason_HolderForceClosed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
 export class ClosureReason_CooperativeClosure extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKClosureReason_CooperativeClosure) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
 export class ClosureReason_CommitmentTxConfirmed extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKClosureReason_CommitmentTxConfirmed) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
 export class ClosureReason_FundingTimedOut extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKClosureReason_FundingTimedOut) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
 export class ClosureReason_ProcessingError extends ClosureReason {
-	public err: String;
+	public err: string;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKClosureReason_ProcessingError) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.err = obj.err;
+		const err: number = bindings.LDKClosureReason_ProcessingError_get_err(ptr);
+		const err_conv: string = bindings.decodeString(err);
+		this.err = err_conv;
 	}
 }
 export class ClosureReason_DisconnectedPeer extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKClosureReason_DisconnectedPeer) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
 export class ClosureReason_OutdatedChannelManager extends ClosureReason {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKClosureReason_OutdatedChannelManager) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }

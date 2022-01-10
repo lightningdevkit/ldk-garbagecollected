@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class DelayedPaymentOutputDescriptor extends CommonBase {
@@ -300,12 +299,13 @@ export class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	public get_per_commitment_point(): Uint8Array {
-		const ret: Uint8Array = bindings.DelayedPaymentOutputDescriptor_get_per_commitment_point(this.ptr);
-		return ret;
+		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_per_commitment_point(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_per_commitment_point(val: Uint8Array): void {
-		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_to_self_delay(): number {
@@ -322,34 +322,36 @@ export class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	public get_revocation_pubkey(): Uint8Array {
-		const ret: Uint8Array = bindings.DelayedPaymentOutputDescriptor_get_revocation_pubkey(this.ptr);
-		return ret;
+		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_revocation_pubkey(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_revocation_pubkey(val: Uint8Array): void {
-		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_channel_keys_id(): Uint8Array {
-		const ret: Uint8Array = bindings.DelayedPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
-		return ret;
+		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_keys_id(val: Uint8Array): void {
-		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_channel_value_satoshis(): number {
-		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_channel_value_satoshis(this.ptr);
+	public get_channel_value_satoshis(): bigint {
+		const ret: bigint = bindings.DelayedPaymentOutputDescriptor_get_channel_value_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_channel_value_satoshis(val: number): void {
+	public set_channel_value_satoshis(val: bigint): void {
 		bindings.DelayedPaymentOutputDescriptor_set_channel_value_satoshis(this.ptr, val);
 	}
 
-	public static constructor_new(outpoint_arg: OutPoint, per_commitment_point_arg: Uint8Array, to_self_delay_arg: number, output_arg: TxOut, revocation_pubkey_arg: Uint8Array, channel_keys_id_arg: Uint8Array, channel_value_satoshis_arg: number): DelayedPaymentOutputDescriptor {
-		const ret: number = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, InternalUtils.check_arr_len(per_commitment_point_arg, 33), to_self_delay_arg, CommonBase.get_ptr_of(output_arg), InternalUtils.check_arr_len(revocation_pubkey_arg, 33), InternalUtils.check_arr_len(channel_keys_id_arg, 32), channel_value_satoshis_arg);
+	public static constructor_new(outpoint_arg: OutPoint, per_commitment_point_arg: Uint8Array, to_self_delay_arg: number, output_arg: TxOut, revocation_pubkey_arg: Uint8Array, channel_keys_id_arg: Uint8Array, channel_value_satoshis_arg: bigint): DelayedPaymentOutputDescriptor {
+		const ret: number = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point_arg, 33)), to_self_delay_arg, CommonBase.get_ptr_of(output_arg), bindings.encodeUint8Array(bindings.check_arr_len(revocation_pubkey_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id_arg, 32)), channel_value_satoshis_arg);
 		const ret_hu_conv: DelayedPaymentOutputDescriptor = new DelayedPaymentOutputDescriptor(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -368,12 +370,13 @@ export class DelayedPaymentOutputDescriptor extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.DelayedPaymentOutputDescriptor_write(this.ptr);
-		return ret;
+		const ret: number = bindings.DelayedPaymentOutputDescriptor_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_DelayedPaymentOutputDescriptorDecodeErrorZ {
-		const ret: number = bindings.DelayedPaymentOutputDescriptor_read(ser);
+		const ret: number = bindings.DelayedPaymentOutputDescriptor_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_DelayedPaymentOutputDescriptorDecodeErrorZ = Result_DelayedPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

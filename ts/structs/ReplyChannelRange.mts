@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ReplyChannelRange extends CommonBase {
@@ -289,12 +288,13 @@ export class ReplyChannelRange extends CommonBase {
 	}
 
 	public get_chain_hash(): Uint8Array {
-		const ret: Uint8Array = bindings.ReplyChannelRange_get_chain_hash(this.ptr);
-		return ret;
+		const ret: number = bindings.ReplyChannelRange_get_chain_hash(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_chain_hash(val: Uint8Array): void {
-		bindings.ReplyChannelRange_set_chain_hash(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ReplyChannelRange_set_chain_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_first_blocknum(): number {
@@ -324,12 +324,12 @@ export class ReplyChannelRange extends CommonBase {
 		bindings.ReplyChannelRange_set_sync_complete(this.ptr, val);
 	}
 
-	public set_short_channel_ids(val: number[]): void {
-		bindings.ReplyChannelRange_set_short_channel_ids(this.ptr, val);
+	public set_short_channel_ids(val: bigint[]): void {
+		bindings.ReplyChannelRange_set_short_channel_ids(this.ptr, bindings.encodeUint64Array(val));
 	}
 
-	public static constructor_new(chain_hash_arg: Uint8Array, first_blocknum_arg: number, number_of_blocks_arg: number, sync_complete_arg: boolean, short_channel_ids_arg: number[]): ReplyChannelRange {
-		const ret: number = bindings.ReplyChannelRange_new(InternalUtils.check_arr_len(chain_hash_arg, 32), first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, short_channel_ids_arg);
+	public static constructor_new(chain_hash_arg: Uint8Array, first_blocknum_arg: number, number_of_blocks_arg: number, sync_complete_arg: boolean, short_channel_ids_arg: bigint[]): ReplyChannelRange {
+		const ret: number = bindings.ReplyChannelRange_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_blocknum_arg, number_of_blocks_arg, sync_complete_arg, bindings.encodeUint64Array(short_channel_ids_arg));
 		const ret_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -348,14 +348,15 @@ export class ReplyChannelRange extends CommonBase {
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ReplyChannelRangeDecodeErrorZ {
-		const ret: number = bindings.ReplyChannelRange_read(ser);
+		const ret: number = bindings.ReplyChannelRange_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ReplyChannelRangeDecodeErrorZ = Result_ReplyChannelRangeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ReplyChannelRange_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ReplyChannelRange_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 }

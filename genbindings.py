@@ -150,7 +150,7 @@ def java_c_types(fn_arg, ret_arr_len):
         rust_obj = "LDKSignature"
         arr_access = "compact_form"
     elif fn_arg.startswith("LDKRecoverableSignature"):
-        fn_arg = "uint8_t (*" + fn_arg[25:] + ")[68]"
+        fn_arg = "uint8_t (*" + fn_arg[24:] + ")[68]"
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKRecoverableSignature"
         arr_access = "serialized_form"
@@ -214,13 +214,14 @@ def java_c_types(fn_arg, ret_arr_len):
             return None
         if is_ptr:
             res.pass_by_ref = True
+        java_ty = consts.java_arr_ty_str(res.java_ty)
         if res.is_native_primitive or res.passed_as_ptr:
-            return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=res.java_ty + "[]", java_hu_ty=res.java_hu_ty + "[]",
+            return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=java_ty, java_hu_ty=res.java_hu_ty + "[]",
                 java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=res.c_ty + "Array", passed_as_ptr=False, is_ptr=is_ptr,
                 nonnull_ptr=nonnull_ptr, is_const=is_const,
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
         else:
-            return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=res.java_ty + "[]", java_hu_ty=res.java_hu_ty + "[]",
+            return TypeInfo(rust_obj=fn_arg.split(" ")[0], java_ty=java_ty, java_hu_ty=res.java_hu_ty + "[]",
                 java_fn_ty_arg="[" + res.java_fn_ty_arg, c_ty=consts.ptr_arr, passed_as_ptr=False, is_ptr=is_ptr,
                 nonnull_ptr=nonnull_ptr, is_const=is_const,
                 var_name=res.var_name, arr_len="datalen", arr_access="data", subty=res, is_native_primitive=False)
@@ -230,6 +231,7 @@ def java_c_types(fn_arg, ret_arr_len):
     arr_len = None
     mapped_type = []
     java_type_plural = None
+    arr_ty = None
     if fn_arg.startswith("void"):
         java_ty = "void"
         c_ty = "void"
@@ -240,6 +242,7 @@ def java_c_types(fn_arg, ret_arr_len):
         java_ty = "boolean"
         c_ty = "jboolean"
         fn_ty_arg = "Z"
+        arr_ty = "bool"
         fn_arg = fn_arg[4:].strip()
         is_primitive = True
     elif fn_arg.startswith("uint8_t"):
@@ -247,6 +250,7 @@ def java_c_types(fn_arg, ret_arr_len):
         java_ty = mapped_type[0]
         c_ty = "int8_t"
         fn_ty_arg = "B"
+        arr_ty = "uint8_t"
         fn_arg = fn_arg[7:].strip()
         is_primitive = True
     elif fn_arg.startswith("LDKu5"):
@@ -254,12 +258,14 @@ def java_c_types(fn_arg, ret_arr_len):
         java_hu_ty = "UInt5"
         rust_obj = "LDKu5"
         c_ty = "int8_t"
+        arr_ty = "uint8_t"
         fn_ty_arg = "B"
         fn_arg = fn_arg[6:].strip()
     elif fn_arg.startswith("uint16_t"):
         mapped_type = consts.c_type_map['uint16_t']
         java_ty = mapped_type[0]
         c_ty = "int16_t"
+        arr_ty = "uint16_t"
         fn_ty_arg = "S"
         fn_arg = fn_arg[8:].strip()
         is_primitive = True
@@ -267,6 +273,7 @@ def java_c_types(fn_arg, ret_arr_len):
         mapped_type = consts.c_type_map['uint32_t']
         java_ty = mapped_type[0]
         c_ty = "int32_t"
+        arr_ty = "uint32_t"
         fn_ty_arg = "I"
         fn_arg = fn_arg[8:].strip()
         is_primitive = True
@@ -277,20 +284,27 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_ty_arg = "J"
         if fn_arg.startswith("uint64_t"):
             c_ty = "int64_t"
+            arr_ty = "uint64_t"
             fn_arg = fn_arg[8:].strip()
         else:
+            java_ty = consts.ptr_native_ty
             c_ty = "int64_t"
+            arr_ty = "uintptr_t"
             rust_obj = "uintptr_t"
             fn_arg = fn_arg[9:].strip()
         is_primitive = True
     elif is_const and fn_arg.startswith("char *"):
-        java_ty = "String"
+        java_ty = consts.java_type_map["String"]
+        java_hu_ty = consts.java_hu_type_map["String"]
         c_ty = "const char*"
+        arr_ty = "LDKStr"
         fn_ty_arg = "Ljava/lang/String;"
         fn_arg = fn_arg[6:].strip()
     elif fn_arg.startswith("LDKStr"):
         rust_obj = "LDKStr"
-        java_ty = "String"
+        arr_ty = "LDKStr"
+        java_ty = consts.java_type_map["String"]
+        java_hu_ty = consts.java_hu_type_map["String"]
         c_ty = "jstring"
         fn_ty_arg = "Ljava/lang/String;"
         fn_arg = fn_arg[6:].strip()
@@ -298,6 +312,7 @@ def java_c_types(fn_arg, ret_arr_len):
         arr_len = "len"
     else:
         ma = var_ty_regex.match(fn_arg)
+        arr_ty = ma.group(1).strip()
         if ma.group(1).strip() in unitary_enums:
             assert ma.group(1).strip().startswith("LDK")
             java_ty = ma.group(1).strip()[3:]
@@ -332,29 +347,40 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_ty_arg = "J"
 
     var_is_arr = var_is_arr_regex.match(fn_arg)
+    subty = None
     if var_is_arr is not None or ret_arr_len is not None:
         assert(not take_by_ptr)
         assert(not is_ptr)
         # is there a special case for plurals?
-        if len(mapped_type) == 2:
+        if len(mapped_type) == 3:
             java_ty = mapped_type[1]
+            java_hu_ty = mapped_type[2]
         else:
             java_ty = java_ty + "[]"
+            java_hu_ty = java_ty
         c_ty = c_ty + "Array"
+
+        subty = java_c_types(arr_ty, None)
+        if subty is None:
+            assert java_c_types_none_allowed
+            return None
+        if is_ptr:
+            subty.pass_by_ref = True
+
         if var_is_arr is not None:
             if var_is_arr.group(1) == "":
-                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
-                    passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name="arg",
+                return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
+                    passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name="arg", subty=subty,
                     arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False, contains_trait=contains_trait)
-            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
-                passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name=var_is_arr.group(1),
+            return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg="[" + fn_ty_arg, c_ty=c_ty, is_const=is_const,
+                passed_as_ptr=False, is_ptr=False, nonnull_ptr=nonnull_ptr, var_name=var_is_arr.group(1), subty=subty,
                 arr_len=var_is_arr.group(2), arr_access=arr_access, is_native_primitive=False, contains_trait=contains_trait)
 
     if java_hu_ty is None:
         java_hu_ty = java_ty
     return TypeInfo(rust_obj=rust_obj, java_ty=java_ty, java_hu_ty=java_hu_ty, java_fn_ty_arg=fn_ty_arg, c_ty=c_ty, passed_as_ptr=is_ptr or take_by_ptr,
         is_const=is_const, is_ptr=is_ptr, nonnull_ptr=nonnull_ptr, var_name=fn_arg, arr_len=arr_len, arr_access=arr_access, is_native_primitive=is_primitive,
-        contains_trait=contains_trait)
+        contains_trait=contains_trait, subty=subty)
 
 fn_ptr_regex = re.compile("^extern const ([A-Za-z_0-9\* ]*) \(\*(.*)\)\((.*)\);$")
 fn_ret_arr_regex = re.compile("(.*) \(\*(.*)\((.*)\)\)\[([0-9]*)\];$")
@@ -431,13 +457,13 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             return_type_info = type_mapping_generator.map_type(method_return_type.strip() + " ret", True, ret_arr_len, False, force_holds_ref)
 
         if method_name.endswith("_clone") and expected_struct not in unitary_enums:
-            meth_line = "uint64_t " + expected_struct.replace("LDK", "") + "_clone_ptr(" + expected_struct + " *NONNULL_PTR arg)"
+            meth_line = "uintptr_t " + expected_struct.replace("LDK", "") + "_clone_ptr(" + expected_struct + " *NONNULL_PTR arg)"
             write_c("static inline " + meth_line + " {\n")
             write_c("\t" + return_type_info.ret_conv[0].replace("\n", "\n\t"))
             write_c(method_name + "(arg)")
             write_c(return_type_info.ret_conv[1])
             write_c("\n\treturn " + return_type_info.ret_conv_name + ";\n}\n")
-            map_fn(meth_line + ";\n", re.compile("(uint64_t) ([A-Za-z_0-9]*)\((.*)\)").match(meth_line), None, None, None)
+            map_fn(meth_line + ";\n", re.compile("(uintptr_t) ([A-Za-z_0-9]*)\((.*)\)").match(meth_line), None, None, None)
 
         argument_types = []
         default_constructor_args = {}
@@ -488,11 +514,33 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                             default_constructor_args[argument_conversion_info.arg_name] = []
                         default_constructor_args[argument_conversion_info.arg_name].append(explode_arg_conv)
             argument_types.append(argument_conversion_info)
+
         if not takes_self and return_type_info.java_hu_ty != struct_meth:
             if not return_type_info.java_hu_ty.startswith("Result_" + struct_meth):
                 struct_meth_name = method_name
                 struct_meth = ""
                 expected_struct = ""
+
+        impl_on_struct = (expected_struct in opaque_structs or expected_struct in trait_structs or
+            expected_struct in complex_enums or expected_struct in complex_enums or
+            expected_struct in result_types or expected_struct in tuple_types) and not is_free
+        impl_on_utils = not impl_on_struct and (not is_free and not method_name.endswith("_clone") and
+            not method_name.startswith("TxOut") and
+            not method_name.startswith("_") and
+            method_name != "check_platform" and method_name != "Result_read" and
+            not expected_struct in unitary_enums and
+            ((not method_name.startswith("C2Tuple_") and not method_name.startswith("C3Tuple_"))
+              or method_name.endswith("_read")))
+
+        # If we're adding a static method, and it returns a primitive or an array of primitives,
+        # and a variable conversion adds a reference on the return type (via `this`), skip the
+        # variable's conversion reference-add (as we obviously cannot need a reference).
+        if impl_on_utils and (return_type_info.is_native_primitive or
+                (return_type_info.ty_info.subty is not None and return_type_info.ty_info.subty.is_native_primitive)):
+            for arg in argument_types:
+                if arg.from_hu_conv is not None and arg.from_hu_conv[1] != "":
+                    if "this" in arg.from_hu_conv[1]:
+                        arg.from_hu_conv = (arg.from_hu_conv[0], "")
 
         out_java.write("\t// " + line)
         (out_java_delta, out_c_delta, out_java_struct_delta) = \
@@ -522,24 +570,13 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             write_c(out_c_delta)
 
         out_java_struct = None
-        if (expected_struct in opaque_structs or expected_struct in trait_structs
-                or expected_struct in complex_enums or expected_struct in complex_enums
-                or expected_struct in result_types or expected_struct in tuple_types) and not is_free:
+        if impl_on_struct:
             out_java_struct = open(f"{sys.argv[3]}/structs/{struct_meth}{consts.file_ext}", "a")
             out_java_struct.write(out_java_struct_delta)
-        elif (not is_free and not method_name.endswith("_clone") and
-                not method_name.startswith("TxOut") and
-                not method_name.startswith("_") and
-                method_name != "check_platform" and method_name != "Result_read" and
-                not expected_struct in unitary_enums and
-                ((not method_name.startswith("C2Tuple_") and not method_name.startswith("C3Tuple_"))
-                  or method_name.endswith("_read"))):
+        elif impl_on_utils:
             out_java_struct = open(f"{sys.argv[3]}/structs/UtilMethods{consts.file_ext}", "a")
             for line in out_java_struct_delta.splitlines():
-                if "this" not in line:
-                    out_java_struct.write(line + "\n")
-                else:
-                    out_java_struct.write("\t\t// " + line.strip() + "\n")
+                out_java_struct.write(line + "\n")
 
     def map_unitary_enum(struct_name, field_lines, enum_doc_comment):
         assert struct_name.startswith("LDK")
@@ -703,6 +740,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             if check_sfx is not None:
                 write_c("CHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
             write_c("\treturn " + accessor[0] + "owner" + accessor[1] + ";\n")
+            holds_ref = True
         else:
             fn_defn = ptr_fn_defn
             write_c("static inline " + fn_defn + "{\n")

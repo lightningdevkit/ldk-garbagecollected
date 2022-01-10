@@ -24,7 +24,7 @@ public class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 		public final byte[][] res;
 		private Result_CVec_CVec_u8ZZNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_CVec_CVec_u8ZZNoneZ_get_ok(ptr);
+			this.res = bindings.CResult_CVec_CVec_u8ZZNoneZ_get_ok(ptr);
 		}
 	}
 

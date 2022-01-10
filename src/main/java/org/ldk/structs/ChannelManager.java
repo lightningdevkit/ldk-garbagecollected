@@ -151,8 +151,9 @@ public class ChannelManager extends CommonBase {
 	public ChannelDetails[] list_channels() {
 		long[] ret = bindings.ChannelManager_list_channels(this.ptr);
 		Reference.reachabilityFence(this);
-		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
-		for (int q = 0; q < ret.length; q++) {
+		int ret_conv_16_len = ret.length;
+		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
+		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
 			ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
@@ -172,8 +173,9 @@ public class ChannelManager extends CommonBase {
 	public ChannelDetails[] list_usable_channels() {
 		long[] ret = bindings.ChannelManager_list_usable_channels(this.ptr);
 		Reference.reachabilityFence(this);
-		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret.length];
-		for (int q = 0; q < ret.length; q++) {
+		int ret_conv_16_len = ret.length;
+		ChannelDetails[] ret_conv_16_arr = new ChannelDetails[ret_conv_16_len];
+		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
 			ChannelDetails ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new ChannelDetails(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);

@@ -279,20 +279,18 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Option_MonitorEventZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_MonitorEventZ_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Option_MonitorEventZ {
-		const raw_val: bindings.LDKCOption_MonitorEventZ = bindings.LDKCOption_MonitorEventZ_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKCOption_MonitorEventZ_Some) {
-			return new Option_MonitorEventZ_Some(ptr, raw_val);
+		const raw_ty: number = bindings.LDKCOption_MonitorEventZ_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Option_MonitorEventZ_Some(ptr);
+			case 1: return new Option_MonitorEventZ_None(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKCOption_MonitorEventZ_None) {
-			return new Option_MonitorEventZ_None(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public static constructor_some(o: MonitorEvent): Option_MonitorEventZ {
@@ -325,9 +323,9 @@ export class Option_MonitorEventZ extends CommonBase {
 export class Option_MonitorEventZ_Some extends Option_MonitorEventZ {
 	public some: MonitorEvent;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_MonitorEventZ_Some) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		const some: number = obj.some;
+		const some: number = bindings.LDKCOption_MonitorEventZ_Some_get_some(ptr);
 		const some_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(some);
 			CommonBase.add_ref_from(some_hu_conv, this);
 		this.some = some_hu_conv;
@@ -335,7 +333,7 @@ export class Option_MonitorEventZ_Some extends Option_MonitorEventZ {
 }
 export class Option_MonitorEventZ_None extends Option_MonitorEventZ {
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKCOption_MonitorEventZ_None) {
+	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }

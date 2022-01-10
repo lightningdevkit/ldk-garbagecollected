@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class OutPoint extends CommonBase {
@@ -289,12 +288,13 @@ export class OutPoint extends CommonBase {
 	}
 
 	public get_txid(): Uint8Array {
-		const ret: Uint8Array = bindings.OutPoint_get_txid(this.ptr);
-		return ret;
+		const ret: number = bindings.OutPoint_get_txid(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_txid(val: Uint8Array): void {
-		bindings.OutPoint_set_txid(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.OutPoint_set_txid(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
 	public get_index(): number {
@@ -307,7 +307,7 @@ export class OutPoint extends CommonBase {
 	}
 
 	public static constructor_new(txid_arg: Uint8Array, index_arg: number): OutPoint {
-		const ret: number = bindings.OutPoint_new(InternalUtils.check_arr_len(txid_arg, 32), index_arg);
+		const ret: number = bindings.OutPoint_new(bindings.encodeUint8Array(bindings.check_arr_len(txid_arg, 32)), index_arg);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -331,23 +331,25 @@ export class OutPoint extends CommonBase {
 		return ret;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.OutPoint_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.OutPoint_hash(this.ptr);
 		return ret;
 	}
 
 	public to_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.OutPoint_to_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.OutPoint_to_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.OutPoint_write(this.ptr);
-		return ret;
+		const ret: number = bindings.OutPoint_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_OutPointDecodeErrorZ {
-		const ret: number = bindings.OutPoint_read(ser);
+		const ret: number = bindings.OutPoint_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_OutPointDecodeErrorZ = Result_OutPointDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

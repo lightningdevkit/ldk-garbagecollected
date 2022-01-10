@@ -24,7 +24,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 		public final TxCreationKeys res;
 		private Result_TxCreationKeysErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_TxCreationKeysErrorZ_get_ok(ptr);
+			long res = bindings.CResult_TxCreationKeysErrorZ_get_ok(ptr);
 			TxCreationKeys res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new TxCreationKeys(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_TxCreationKeysErrorZ extends CommonBase {
 		public final Secp256k1Error err;
 		private Result_TxCreationKeysErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_TxCreationKeysErrorZ_get_err(ptr);
+			this.err = bindings.CResult_TxCreationKeysErrorZ_get_err(ptr);
 		}
 	}
 

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class UpdateFulfillHTLC extends CommonBase {
@@ -289,34 +288,36 @@ export class UpdateFulfillHTLC extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_htlc_id(): number {
-		const ret: number = bindings.UpdateFulfillHTLC_get_htlc_id(this.ptr);
+	public get_htlc_id(): bigint {
+		const ret: bigint = bindings.UpdateFulfillHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
-	public set_htlc_id(val: number): void {
+	public set_htlc_id(val: bigint): void {
 		bindings.UpdateFulfillHTLC_set_htlc_id(this.ptr, val);
 	}
 
 	public get_payment_preimage(): Uint8Array {
-		const ret: Uint8Array = bindings.UpdateFulfillHTLC_get_payment_preimage(this.ptr);
-		return ret;
+		const ret: number = bindings.UpdateFulfillHTLC_get_payment_preimage(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_payment_preimage(val: Uint8Array): void {
-		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public static constructor_new(channel_id_arg: Uint8Array, htlc_id_arg: number, payment_preimage_arg: Uint8Array): UpdateFulfillHTLC {
-		const ret: number = bindings.UpdateFulfillHTLC_new(InternalUtils.check_arr_len(channel_id_arg, 32), htlc_id_arg, InternalUtils.check_arr_len(payment_preimage_arg, 32));
+	public static constructor_new(channel_id_arg: Uint8Array, htlc_id_arg: bigint, payment_preimage_arg: Uint8Array): UpdateFulfillHTLC {
+		const ret: number = bindings.UpdateFulfillHTLC_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), htlc_id_arg, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage_arg, 32)));
 		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -335,12 +336,13 @@ export class UpdateFulfillHTLC extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.UpdateFulfillHTLC_write(this.ptr);
-		return ret;
+		const ret: number = bindings.UpdateFulfillHTLC_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_UpdateFulfillHTLCDecodeErrorZ {
-		const ret: number = bindings.UpdateFulfillHTLC_read(ser);
+		const ret: number = bindings.UpdateFulfillHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateFulfillHTLCDecodeErrorZ = Result_UpdateFulfillHTLCDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

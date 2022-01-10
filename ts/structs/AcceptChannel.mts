@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class AcceptChannel extends CommonBase {
@@ -289,47 +288,48 @@ export class AcceptChannel extends CommonBase {
 	}
 
 	public get_temporary_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.AcceptChannel_get_temporary_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.AcceptChannel_get_temporary_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_temporary_channel_id(val: Uint8Array): void {
-		bindings.AcceptChannel_set_temporary_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.AcceptChannel_set_temporary_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_dust_limit_satoshis(): number {
-		const ret: number = bindings.AcceptChannel_get_dust_limit_satoshis(this.ptr);
+	public get_dust_limit_satoshis(): bigint {
+		const ret: bigint = bindings.AcceptChannel_get_dust_limit_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_dust_limit_satoshis(val: number): void {
+	public set_dust_limit_satoshis(val: bigint): void {
 		bindings.AcceptChannel_set_dust_limit_satoshis(this.ptr, val);
 	}
 
-	public get_max_htlc_value_in_flight_msat(): number {
-		const ret: number = bindings.AcceptChannel_get_max_htlc_value_in_flight_msat(this.ptr);
+	public get_max_htlc_value_in_flight_msat(): bigint {
+		const ret: bigint = bindings.AcceptChannel_get_max_htlc_value_in_flight_msat(this.ptr);
 		return ret;
 	}
 
-	public set_max_htlc_value_in_flight_msat(val: number): void {
+	public set_max_htlc_value_in_flight_msat(val: bigint): void {
 		bindings.AcceptChannel_set_max_htlc_value_in_flight_msat(this.ptr, val);
 	}
 
-	public get_channel_reserve_satoshis(): number {
-		const ret: number = bindings.AcceptChannel_get_channel_reserve_satoshis(this.ptr);
+	public get_channel_reserve_satoshis(): bigint {
+		const ret: bigint = bindings.AcceptChannel_get_channel_reserve_satoshis(this.ptr);
 		return ret;
 	}
 
-	public set_channel_reserve_satoshis(val: number): void {
+	public set_channel_reserve_satoshis(val: bigint): void {
 		bindings.AcceptChannel_set_channel_reserve_satoshis(this.ptr, val);
 	}
 
-	public get_htlc_minimum_msat(): number {
-		const ret: number = bindings.AcceptChannel_get_htlc_minimum_msat(this.ptr);
+	public get_htlc_minimum_msat(): bigint {
+		const ret: bigint = bindings.AcceptChannel_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public set_htlc_minimum_msat(val: number): void {
+	public set_htlc_minimum_msat(val: bigint): void {
 		bindings.AcceptChannel_set_htlc_minimum_msat(this.ptr, val);
 	}
 
@@ -361,57 +361,63 @@ export class AcceptChannel extends CommonBase {
 	}
 
 	public get_funding_pubkey(): Uint8Array {
-		const ret: Uint8Array = bindings.AcceptChannel_get_funding_pubkey(this.ptr);
-		return ret;
+		const ret: number = bindings.AcceptChannel_get_funding_pubkey(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_funding_pubkey(val: Uint8Array): void {
-		bindings.AcceptChannel_set_funding_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.AcceptChannel_set_funding_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_revocation_basepoint(): Uint8Array {
-		const ret: Uint8Array = bindings.AcceptChannel_get_revocation_basepoint(this.ptr);
-		return ret;
+		const ret: number = bindings.AcceptChannel_get_revocation_basepoint(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_revocation_basepoint(val: Uint8Array): void {
-		bindings.AcceptChannel_set_revocation_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.AcceptChannel_set_revocation_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_payment_point(): Uint8Array {
-		const ret: Uint8Array = bindings.AcceptChannel_get_payment_point(this.ptr);
-		return ret;
+		const ret: number = bindings.AcceptChannel_get_payment_point(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_payment_point(val: Uint8Array): void {
-		bindings.AcceptChannel_set_payment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.AcceptChannel_set_payment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_delayed_payment_basepoint(): Uint8Array {
-		const ret: Uint8Array = bindings.AcceptChannel_get_delayed_payment_basepoint(this.ptr);
-		return ret;
+		const ret: number = bindings.AcceptChannel_get_delayed_payment_basepoint(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_delayed_payment_basepoint(val: Uint8Array): void {
-		bindings.AcceptChannel_set_delayed_payment_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.AcceptChannel_set_delayed_payment_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_htlc_basepoint(): Uint8Array {
-		const ret: Uint8Array = bindings.AcceptChannel_get_htlc_basepoint(this.ptr);
-		return ret;
+		const ret: number = bindings.AcceptChannel_get_htlc_basepoint(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_htlc_basepoint(val: Uint8Array): void {
-		bindings.AcceptChannel_set_htlc_basepoint(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.AcceptChannel_set_htlc_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_first_per_commitment_point(): Uint8Array {
-		const ret: Uint8Array = bindings.AcceptChannel_get_first_per_commitment_point(this.ptr);
-		return ret;
+		const ret: number = bindings.AcceptChannel_get_first_per_commitment_point(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_first_per_commitment_point(val: Uint8Array): void {
-		bindings.AcceptChannel_set_first_per_commitment_point(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.AcceptChannel_set_first_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public clone_ptr(): number {
@@ -427,12 +433,13 @@ export class AcceptChannel extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.AcceptChannel_write(this.ptr);
-		return ret;
+		const ret: number = bindings.AcceptChannel_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_AcceptChannelDecodeErrorZ {
-		const ret: number = bindings.AcceptChannel_read(ser);
+		const ret: number = bindings.AcceptChannel_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_AcceptChannelDecodeErrorZ = Result_AcceptChannelDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

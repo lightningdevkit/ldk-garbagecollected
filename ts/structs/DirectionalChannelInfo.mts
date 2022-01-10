@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class DirectionalChannelInfo extends CommonBase {
@@ -315,12 +314,12 @@ export class DirectionalChannelInfo extends CommonBase {
 		bindings.DirectionalChannelInfo_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public get_htlc_minimum_msat(): number {
-		const ret: number = bindings.DirectionalChannelInfo_get_htlc_minimum_msat(this.ptr);
+	public get_htlc_minimum_msat(): bigint {
+		const ret: bigint = bindings.DirectionalChannelInfo_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
-	public set_htlc_minimum_msat(val: number): void {
+	public set_htlc_minimum_msat(val: bigint): void {
 		bindings.DirectionalChannelInfo_set_htlc_minimum_msat(this.ptr, val);
 	}
 
@@ -357,7 +356,7 @@ export class DirectionalChannelInfo extends CommonBase {
 		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
-	public static constructor_new(last_update_arg: number, enabled_arg: boolean, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: number, htlc_maximum_msat_arg: Option_u64Z, fees_arg: RoutingFees, last_update_message_arg: ChannelUpdate): DirectionalChannelInfo {
+	public static constructor_new(last_update_arg: number, enabled_arg: boolean, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: bigint, htlc_maximum_msat_arg: Option_u64Z, fees_arg: RoutingFees, last_update_message_arg: ChannelUpdate): DirectionalChannelInfo {
 		const ret: number = bindings.DirectionalChannelInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, CommonBase.get_ptr_of(htlc_maximum_msat_arg), fees_arg == null ? 0 : CommonBase.get_ptr_of(fees_arg) & ~1, last_update_message_arg == null ? 0 : CommonBase.get_ptr_of(last_update_message_arg) & ~1);
 		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -377,12 +376,13 @@ export class DirectionalChannelInfo extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.DirectionalChannelInfo_write(this.ptr);
-		return ret;
+		const ret: number = bindings.DirectionalChannelInfo_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_DirectionalChannelInfoDecodeErrorZ {
-		const ret: number = bindings.DirectionalChannelInfo_read(ser);
+		const ret: number = bindings.DirectionalChannelInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_DirectionalChannelInfoDecodeErrorZ = Result_DirectionalChannelInfoDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

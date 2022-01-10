@@ -280,12 +280,11 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
 export interface AccessInterface {
-	get_utxo(genesis_hash: Uint8Array, short_channel_id: number): Result_TxOutAccessErrorZ;
+	get_utxo(genesis_hash: Uint8Array, short_channel_id: bigint): Result_TxOutAccessErrorZ;
 }
 
 class LDKAccessHolder {
@@ -305,8 +304,9 @@ export class Access extends CommonBase {
 	static new_impl(arg: AccessInterface): Access {
 		const impl_holder: LDKAccessHolder = new LDKAccessHolder();
 		let structImplementation = {
-			get_utxo (genesis_hash: Uint8Array, short_channel_id: number): number {
-				const ret: Result_TxOutAccessErrorZ = arg.get_utxo(genesis_hash, short_channel_id);
+			get_utxo (genesis_hash: number, short_channel_id: bigint): number {
+				const genesis_hash_conv: Uint8Array = bindings.decodeUint8Array(genesis_hash);
+				const ret: Result_TxOutAccessErrorZ = arg.get_utxo(genesis_hash_conv, short_channel_id);
 				const result: number = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			},
@@ -317,8 +317,8 @@ export class Access extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
-	public get_utxo(genesis_hash: Uint8Array, short_channel_id: number): Result_TxOutAccessErrorZ {
-		const ret: number = bindings.Access_get_utxo(this.ptr, InternalUtils.check_arr_len(genesis_hash, 32), short_channel_id);
+	public get_utxo(genesis_hash: Uint8Array, short_channel_id: bigint): Result_TxOutAccessErrorZ {
+		const ret: number = bindings.Access_get_utxo(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)), short_channel_id);
 		const ret_hu_conv: Result_TxOutAccessErrorZ = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

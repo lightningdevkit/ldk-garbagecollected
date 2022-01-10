@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelMonitorUpdate extends CommonBase {
@@ -288,12 +287,12 @@ export class ChannelMonitorUpdate extends CommonBase {
 		super(ptr, bindings.ChannelMonitorUpdate_free);
 	}
 
-	public get_update_id(): number {
-		const ret: number = bindings.ChannelMonitorUpdate_get_update_id(this.ptr);
+	public get_update_id(): bigint {
+		const ret: bigint = bindings.ChannelMonitorUpdate_get_update_id(this.ptr);
 		return ret;
 	}
 
-	public set_update_id(val: number): void {
+	public set_update_id(val: bigint): void {
 		bindings.ChannelMonitorUpdate_set_update_id(this.ptr, val);
 	}
 
@@ -310,12 +309,13 @@ export class ChannelMonitorUpdate extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelMonitorUpdate_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelMonitorUpdate_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ChannelMonitorUpdateDecodeErrorZ {
-		const ret: number = bindings.ChannelMonitorUpdate_read(ser);
+		const ret: number = bindings.ChannelMonitorUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelMonitorUpdateDecodeErrorZ = Result_ChannelMonitorUpdateDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

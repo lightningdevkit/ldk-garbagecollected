@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 
@@ -295,8 +294,8 @@ export class Result_StringErrorZ extends CommonBase {
 			return new Result_StringErrorZ_Err(null, ptr);
 		}
 	}
-	public static constructor_ok(o: String): Result_StringErrorZ {
-		const ret: number = bindings.CResult_StringErrorZ_ok(o);
+	public static constructor_ok(o: string): Result_StringErrorZ {
+		const ret: number = bindings.CResult_StringErrorZ_ok(bindings.encodeString(o));
 		const ret_hu_conv: Result_StringErrorZ = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
@@ -314,12 +313,14 @@ export class Result_StringErrorZ extends CommonBase {
 
 }
 export class Result_StringErrorZ_OK extends Result_StringErrorZ {
-	public res: String;
+	public res: string;
 
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(_dummy, ptr);
-		this.res = bindings.CResult_StringErrorZ_get_ok(ptr);
+		const res: number = bindings.CResult_StringErrorZ_get_ok(ptr);
+		const res_conv: string = bindings.decodeString(res);
+		this.res = res_conv;
 	}
 }
 export class Result_StringErrorZ_Err extends Result_StringErrorZ {

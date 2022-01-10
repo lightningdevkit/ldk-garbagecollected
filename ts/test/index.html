@@ -2,12 +2,22 @@
 <html>
 <head></head>
 <body>
+<h1><div id="results">Running LDK-TS Tests...</div></h1>
 <script type="text/javascript">
 	var test_runner;
 </script>
 <script type="module">
 	import { run_tests } from './tests.mjs';
-	run_tests('../../liblightningjs.wasm');
+	try {
+		const result = run_tests('../liblightningjs.wasm');
+		if (result) {
+			document.getElementById("results").innerHTML = "All Tests Passed (note free-time errors may still occurr)!";
+		} else {
+			document.getElementById("results").innerHTML = "Some Tests Failed!";
+		}
+	} catch (e) {
+		document.getElementById("results").innerHTML = "Test failed with exception: " + e;
+	}
 	test_runner = run_tests;
 </script>
 </body>

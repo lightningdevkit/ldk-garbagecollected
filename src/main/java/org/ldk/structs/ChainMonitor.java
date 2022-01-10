@@ -70,8 +70,9 @@ public class ChainMonitor extends CommonBase {
 		long[] ret = bindings.ChainMonitor_get_claimable_balances(this.ptr, ignored_channels != null ? Arrays.stream(ignored_channels).mapToLong(ignored_channels_conv_16 -> ignored_channels_conv_16 == null ? 0 : ignored_channels_conv_16.ptr & ~1).toArray() : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(ignored_channels);
-		Balance[] ret_conv_9_arr = new Balance[ret.length];
-		for (int j = 0; j < ret.length; j++) {
+		int ret_conv_9_len = ret.length;
+		Balance[] ret_conv_9_arr = new Balance[ret_conv_9_len];
+		for (int j = 0; j < ret_conv_9_len; j++) {
 			long ret_conv_9 = ret[j];
 			Balance ret_conv_9_hu_conv = Balance.constr_from_ptr(ret_conv_9);
 			ret_conv_9_hu_conv.ptrs_to.add(this);
@@ -105,8 +106,9 @@ public class ChainMonitor extends CommonBase {
 	public OutPoint[] list_monitors() {
 		long[] ret = bindings.ChainMonitor_list_monitors(this.ptr);
 		Reference.reachabilityFence(this);
-		OutPoint[] ret_conv_10_arr = new OutPoint[ret.length];
-		for (int k = 0; k < ret.length; k++) {
+		int ret_conv_10_len = ret.length;
+		OutPoint[] ret_conv_10_arr = new OutPoint[ret_conv_10_len];
+		for (int k = 0; k < ret_conv_10_len; k++) {
 			long ret_conv_10 = ret[k];
 			OutPoint ret_conv_10_hu_conv = null; if (ret_conv_10 < 0 || ret_conv_10 > 4096) { ret_conv_10_hu_conv = new OutPoint(null, ret_conv_10); }
 			ret_conv_10_hu_conv.ptrs_to.add(this);

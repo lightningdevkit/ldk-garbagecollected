@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class RouteParameters extends CommonBase {
@@ -299,12 +298,12 @@ export class RouteParameters extends CommonBase {
 		bindings.RouteParameters_set_payee(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
-	public get_final_value_msat(): number {
-		const ret: number = bindings.RouteParameters_get_final_value_msat(this.ptr);
+	public get_final_value_msat(): bigint {
+		const ret: bigint = bindings.RouteParameters_get_final_value_msat(this.ptr);
 		return ret;
 	}
 
-	public set_final_value_msat(val: number): void {
+	public set_final_value_msat(val: bigint): void {
 		bindings.RouteParameters_set_final_value_msat(this.ptr, val);
 	}
 
@@ -317,7 +316,7 @@ export class RouteParameters extends CommonBase {
 		bindings.RouteParameters_set_final_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public static constructor_new(payee_arg: Payee, final_value_msat_arg: number, final_cltv_expiry_delta_arg: number): RouteParameters {
+	public static constructor_new(payee_arg: Payee, final_value_msat_arg: bigint, final_cltv_expiry_delta_arg: number): RouteParameters {
 		const ret: number = bindings.RouteParameters_new(payee_arg == null ? 0 : CommonBase.get_ptr_of(payee_arg) & ~1, final_value_msat_arg, final_cltv_expiry_delta_arg);
 		const ret_hu_conv: RouteParameters = new RouteParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -337,12 +336,13 @@ export class RouteParameters extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.RouteParameters_write(this.ptr);
-		return ret;
+		const ret: number = bindings.RouteParameters_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_RouteParametersDecodeErrorZ {
-		const ret: number = bindings.RouteParameters_read(ser);
+		const ret: number = bindings.RouteParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteParametersDecodeErrorZ = Result_RouteParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

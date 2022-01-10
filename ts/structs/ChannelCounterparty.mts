@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ChannelCounterparty extends CommonBase {
@@ -289,12 +288,13 @@ export class ChannelCounterparty extends CommonBase {
 	}
 
 	public get_node_id(): Uint8Array {
-		const ret: Uint8Array = bindings.ChannelCounterparty_get_node_id(this.ptr);
-		return ret;
+		const ret: number = bindings.ChannelCounterparty_get_node_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_node_id(val: Uint8Array): void {
-		bindings.ChannelCounterparty_set_node_id(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.ChannelCounterparty_set_node_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_features(): InitFeatures {
@@ -308,12 +308,12 @@ export class ChannelCounterparty extends CommonBase {
 		bindings.ChannelCounterparty_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
-	public get_unspendable_punishment_reserve(): number {
-		const ret: number = bindings.ChannelCounterparty_get_unspendable_punishment_reserve(this.ptr);
+	public get_unspendable_punishment_reserve(): bigint {
+		const ret: bigint = bindings.ChannelCounterparty_get_unspendable_punishment_reserve(this.ptr);
 		return ret;
 	}
 
-	public set_unspendable_punishment_reserve(val: number): void {
+	public set_unspendable_punishment_reserve(val: bigint): void {
 		bindings.ChannelCounterparty_set_unspendable_punishment_reserve(this.ptr, val);
 	}
 
@@ -328,8 +328,8 @@ export class ChannelCounterparty extends CommonBase {
 		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
-	public static constructor_new(node_id_arg: Uint8Array, features_arg: InitFeatures, unspendable_punishment_reserve_arg: number, forwarding_info_arg: CounterpartyForwardingInfo): ChannelCounterparty {
-		const ret: number = bindings.ChannelCounterparty_new(InternalUtils.check_arr_len(node_id_arg, 33), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : CommonBase.get_ptr_of(forwarding_info_arg) & ~1);
+	public static constructor_new(node_id_arg: Uint8Array, features_arg: InitFeatures, unspendable_punishment_reserve_arg: bigint, forwarding_info_arg: CounterpartyForwardingInfo): ChannelCounterparty {
+		const ret: number = bindings.ChannelCounterparty_new(bindings.encodeUint8Array(bindings.check_arr_len(node_id_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : CommonBase.get_ptr_of(forwarding_info_arg) & ~1);
 		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;

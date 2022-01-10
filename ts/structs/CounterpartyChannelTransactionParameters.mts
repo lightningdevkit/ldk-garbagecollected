@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class CounterpartyChannelTransactionParameters extends CommonBase {
@@ -328,12 +327,13 @@ export class CounterpartyChannelTransactionParameters extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.CounterpartyChannelTransactionParameters_write(this.ptr);
-		return ret;
+		const ret: number = bindings.CounterpartyChannelTransactionParameters_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_CounterpartyChannelTransactionParametersDecodeErrorZ {
-		const ret: number = bindings.CounterpartyChannelTransactionParameters_read(ser);
+		const ret: number = bindings.CounterpartyChannelTransactionParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CounterpartyChannelTransactionParametersDecodeErrorZ = Result_CounterpartyChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

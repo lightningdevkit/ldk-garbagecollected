@@ -279,26 +279,20 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 export class Balance extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.Balance_free); }
 	/* @internal */
 	public static constr_from_ptr(ptr: number): Balance {
-		const raw_val: bindings.LDKBalance = bindings.LDKBalance_ref_from_ptr(ptr);
-		if (raw_val instanceof bindings.LDKBalance_ClaimableOnChannelClose) {
-			return new Balance_ClaimableOnChannelClose(ptr, raw_val);
+		const raw_ty: number = bindings.LDKBalance_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Balance_ClaimableOnChannelClose(ptr);
+			case 1: return new Balance_ClaimableAwaitingConfirmations(ptr);
+			case 2: return new Balance_ContentiousClaimable(ptr);
+			case 3: return new Balance_MaybeClaimableHTLCAwaitingTimeout(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-		if (raw_val instanceof bindings.LDKBalance_ClaimableAwaitingConfirmations) {
-			return new Balance_ClaimableAwaitingConfirmations(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKBalance_ContentiousClaimable) {
-			return new Balance_ContentiousClaimable(ptr, raw_val);
-		}
-		if (raw_val instanceof bindings.LDKBalance_MaybeClaimableHTLCAwaitingTimeout) {
-			return new Balance_MaybeClaimableHTLCAwaitingTimeout(ptr, raw_val);
-		}
-		throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 	}
 
 	public clone_ptr(): number {
@@ -313,28 +307,28 @@ export class Balance extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public static constructor_claimable_on_channel_close(claimable_amount_satoshis: number): Balance {
+	public static constructor_claimable_on_channel_close(claimable_amount_satoshis: bigint): Balance {
 		const ret: number = bindings.Balance_claimable_on_channel_close(claimable_amount_satoshis);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static constructor_claimable_awaiting_confirmations(claimable_amount_satoshis: number, confirmation_height: number): Balance {
+	public static constructor_claimable_awaiting_confirmations(claimable_amount_satoshis: bigint, confirmation_height: number): Balance {
 		const ret: number = bindings.Balance_claimable_awaiting_confirmations(claimable_amount_satoshis, confirmation_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static constructor_contentious_claimable(claimable_amount_satoshis: number, timeout_height: number): Balance {
+	public static constructor_contentious_claimable(claimable_amount_satoshis: bigint, timeout_height: number): Balance {
 		const ret: number = bindings.Balance_contentious_claimable(claimable_amount_satoshis, timeout_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
-	public static constructor_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis: number, claimable_height: number): Balance {
+	public static constructor_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis: bigint, claimable_height: number): Balance {
 		const ret: number = bindings.Balance_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis, claimable_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
@@ -348,40 +342,40 @@ export class Balance extends CommonBase {
 
 }
 export class Balance_ClaimableOnChannelClose extends Balance {
-	public claimable_amount_satoshis: number;
+	public claimable_amount_satoshis: bigint;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKBalance_ClaimableOnChannelClose) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
+		this.claimable_amount_satoshis = bindings.LDKBalance_ClaimableOnChannelClose_get_claimable_amount_satoshis(ptr);
 	}
 }
 export class Balance_ClaimableAwaitingConfirmations extends Balance {
-	public claimable_amount_satoshis: number;
+	public claimable_amount_satoshis: bigint;
 	public confirmation_height: number;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKBalance_ClaimableAwaitingConfirmations) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
-		this.confirmation_height = obj.confirmation_height;
+		this.claimable_amount_satoshis = bindings.LDKBalance_ClaimableAwaitingConfirmations_get_claimable_amount_satoshis(ptr);
+		this.confirmation_height = bindings.LDKBalance_ClaimableAwaitingConfirmations_get_confirmation_height(ptr);
 	}
 }
 export class Balance_ContentiousClaimable extends Balance {
-	public claimable_amount_satoshis: number;
+	public claimable_amount_satoshis: bigint;
 	public timeout_height: number;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKBalance_ContentiousClaimable) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
-		this.timeout_height = obj.timeout_height;
+		this.claimable_amount_satoshis = bindings.LDKBalance_ContentiousClaimable_get_claimable_amount_satoshis(ptr);
+		this.timeout_height = bindings.LDKBalance_ContentiousClaimable_get_timeout_height(ptr);
 	}
 }
 export class Balance_MaybeClaimableHTLCAwaitingTimeout extends Balance {
-	public claimable_amount_satoshis: number;
+	public claimable_amount_satoshis: bigint;
 	public claimable_height: number;
 	/* @internal */
-	public constructor(ptr: number, obj: bindings.LDKBalance_MaybeClaimableHTLCAwaitingTimeout) {
+	public constructor(ptr: number) {
 		super(null, ptr);
-		this.claimable_amount_satoshis = obj.claimable_amount_satoshis;
-		this.claimable_height = obj.claimable_height;
+		this.claimable_amount_satoshis = bindings.LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_amount_satoshis(ptr);
+		this.claimable_height = bindings.LDKBalance_MaybeClaimableHTLCAwaitingTimeout_get_claimable_height(ptr);
 	}
 }

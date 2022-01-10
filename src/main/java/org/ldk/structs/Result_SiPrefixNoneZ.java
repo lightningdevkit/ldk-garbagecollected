@@ -24,7 +24,7 @@ public class Result_SiPrefixNoneZ extends CommonBase {
 		public final SiPrefix res;
 		private Result_SiPrefixNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_SiPrefixNoneZ_get_ok(ptr);
+			this.res = bindings.CResult_SiPrefixNoneZ_get_ok(ptr);
 		}
 	}
 

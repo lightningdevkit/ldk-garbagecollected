@@ -50,8 +50,9 @@ public class MessageSendEventsProvider extends CommonBase {
 	public MessageSendEvent[] get_and_clear_pending_msg_events() {
 		long[] ret = bindings.MessageSendEventsProvider_get_and_clear_pending_msg_events(this.ptr);
 		Reference.reachabilityFence(this);
-		MessageSendEvent[] ret_conv_18_arr = new MessageSendEvent[ret.length];
-		for (int s = 0; s < ret.length; s++) {
+		int ret_conv_18_len = ret.length;
+		MessageSendEvent[] ret_conv_18_arr = new MessageSendEvent[ret_conv_18_len];
+		for (int s = 0; s < ret_conv_18_len; s++) {
 			long ret_conv_18 = ret[s];
 			MessageSendEvent ret_conv_18_hu_conv = MessageSendEvent.constr_from_ptr(ret_conv_18);
 			ret_conv_18_hu_conv.ptrs_to.add(this);

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class RouteHop extends CommonBase {
@@ -289,12 +288,13 @@ export class RouteHop extends CommonBase {
 	}
 
 	public get_pubkey(): Uint8Array {
-		const ret: Uint8Array = bindings.RouteHop_get_pubkey(this.ptr);
-		return ret;
+		const ret: number = bindings.RouteHop_get_pubkey(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_pubkey(val: Uint8Array): void {
-		bindings.RouteHop_set_pubkey(this.ptr, InternalUtils.check_arr_len(val, 33));
+		bindings.RouteHop_set_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
 	public get_node_features(): NodeFeatures {
@@ -308,12 +308,12 @@ export class RouteHop extends CommonBase {
 		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
-	public get_short_channel_id(): number {
-		const ret: number = bindings.RouteHop_get_short_channel_id(this.ptr);
+	public get_short_channel_id(): bigint {
+		const ret: bigint = bindings.RouteHop_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
-	public set_short_channel_id(val: number): void {
+	public set_short_channel_id(val: bigint): void {
 		bindings.RouteHop_set_short_channel_id(this.ptr, val);
 	}
 
@@ -328,12 +328,12 @@ export class RouteHop extends CommonBase {
 		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
-	public get_fee_msat(): number {
-		const ret: number = bindings.RouteHop_get_fee_msat(this.ptr);
+	public get_fee_msat(): bigint {
+		const ret: bigint = bindings.RouteHop_get_fee_msat(this.ptr);
 		return ret;
 	}
 
-	public set_fee_msat(val: number): void {
+	public set_fee_msat(val: bigint): void {
 		bindings.RouteHop_set_fee_msat(this.ptr, val);
 	}
 
@@ -346,8 +346,8 @@ export class RouteHop extends CommonBase {
 		bindings.RouteHop_set_cltv_expiry_delta(this.ptr, val);
 	}
 
-	public static constructor_new(pubkey_arg: Uint8Array, node_features_arg: NodeFeatures, short_channel_id_arg: number, channel_features_arg: ChannelFeatures, fee_msat_arg: number, cltv_expiry_delta_arg: number): RouteHop {
-		const ret: number = bindings.RouteHop_new(InternalUtils.check_arr_len(pubkey_arg, 33), node_features_arg == null ? 0 : CommonBase.get_ptr_of(node_features_arg) & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : CommonBase.get_ptr_of(channel_features_arg) & ~1, fee_msat_arg, cltv_expiry_delta_arg);
+	public static constructor_new(pubkey_arg: Uint8Array, node_features_arg: NodeFeatures, short_channel_id_arg: bigint, channel_features_arg: ChannelFeatures, fee_msat_arg: bigint, cltv_expiry_delta_arg: number): RouteHop {
+		const ret: number = bindings.RouteHop_new(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_arg, 33)), node_features_arg == null ? 0 : CommonBase.get_ptr_of(node_features_arg) & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : CommonBase.get_ptr_of(channel_features_arg) & ~1, fee_msat_arg, cltv_expiry_delta_arg);
 		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -365,8 +365,8 @@ export class RouteHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
-	public hash(): number {
-		const ret: number = bindings.RouteHop_hash(this.ptr);
+	public hash(): bigint {
+		const ret: bigint = bindings.RouteHop_hash(this.ptr);
 		return ret;
 	}
 
@@ -377,12 +377,13 @@ export class RouteHop extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.RouteHop_write(this.ptr);
-		return ret;
+		const ret: number = bindings.RouteHop_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_RouteHopDecodeErrorZ {
-		const ret: number = bindings.RouteHop_read(ser);
+		const ret: number = bindings.RouteHop_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteHopDecodeErrorZ = Result_RouteHopDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}

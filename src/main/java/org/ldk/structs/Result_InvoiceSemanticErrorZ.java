@@ -24,7 +24,7 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 		public final Invoice res;
 		private Result_InvoiceSemanticErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_InvoiceSemanticErrorZ_get_ok(ptr);
+			long res = bindings.CResult_InvoiceSemanticErrorZ_get_ok(ptr);
 			Invoice res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Invoice(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_InvoiceSemanticErrorZ extends CommonBase {
 		public final SemanticError err;
 		private Result_InvoiceSemanticErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_InvoiceSemanticErrorZ_get_err(ptr);
+			this.err = bindings.CResult_InvoiceSemanticErrorZ_get_err(ptr);
 		}
 	}
 

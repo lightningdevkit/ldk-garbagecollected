@@ -24,7 +24,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 		public final TrustedCommitmentTransaction res;
 		private Result_TrustedCommitmentTransactionNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_TrustedCommitmentTransactionNoneZ_get_ok(ptr);
+			long res = bindings.CResult_TrustedCommitmentTransactionNoneZ_get_ok(ptr);
 			TrustedCommitmentTransaction res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new TrustedCommitmentTransaction(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -53,7 +53,7 @@ public class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 		// However, in some cases (eg here), there is no way to clone an object, and thus
 		// we actually have to pass full ownership to Rust.
 		// Thus, after ret_hu_conv call, o is reset to null and is now a dummy object.
-		o.ptr = 0;
+		o.ptr = 0;;
 		return ret_hu_conv;
 	}
 

@@ -279,7 +279,6 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
-import * as InternalUtils from '../InternalUtils.mjs'
 
 
 export class ErrorMessage extends CommonBase {
@@ -289,25 +288,27 @@ export class ErrorMessage extends CommonBase {
 	}
 
 	public get_channel_id(): Uint8Array {
-		const ret: Uint8Array = bindings.ErrorMessage_get_channel_id(this.ptr);
-		return ret;
+		const ret: number = bindings.ErrorMessage_get_channel_id(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public set_channel_id(val: Uint8Array): void {
-		bindings.ErrorMessage_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
+		bindings.ErrorMessage_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
-	public get_data(): String {
-		const ret: String = bindings.ErrorMessage_get_data(this.ptr);
-		return ret;
+	public get_data(): string {
+		const ret: number = bindings.ErrorMessage_get_data(this.ptr);
+		const ret_conv: string = bindings.decodeString(ret);
+		return ret_conv;
 	}
 
-	public set_data(val: String): void {
-		bindings.ErrorMessage_set_data(this.ptr, val);
+	public set_data(val: string): void {
+		bindings.ErrorMessage_set_data(this.ptr, bindings.encodeString(val));
 	}
 
-	public static constructor_new(channel_id_arg: Uint8Array, data_arg: String): ErrorMessage {
-		const ret: number = bindings.ErrorMessage_new(InternalUtils.check_arr_len(channel_id_arg, 32), data_arg);
+	public static constructor_new(channel_id_arg: Uint8Array, data_arg: string): ErrorMessage {
+		const ret: number = bindings.ErrorMessage_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeString(data_arg));
 		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -326,12 +327,13 @@ export class ErrorMessage extends CommonBase {
 	}
 
 	public write(): Uint8Array {
-		const ret: Uint8Array = bindings.ErrorMessage_write(this.ptr);
-		return ret;
+		const ret: number = bindings.ErrorMessage_write(this.ptr);
+		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
+		return ret_conv;
 	}
 
 	public static constructor_read(ser: Uint8Array): Result_ErrorMessageDecodeErrorZ {
-		const ret: number = bindings.ErrorMessage_read(ser);
+		const ret: number = bindings.ErrorMessage_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ErrorMessageDecodeErrorZ = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
