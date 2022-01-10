@@ -534,9 +534,12 @@ class TypeMappingGenerator:
                             to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, "ret_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";\n" + self.consts.add_ref("ret_hu_conv", "this") + ";",
                             to_hu_conv_name = "ret_hu_conv",
                             from_hu_conv = (ty_info.var_name + " == null ? 0 : " + self.consts.get_ptr(ty_info.var_name), self.consts.add_ref("this", ty_info.var_name)))
+                ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", ";")
+                if holds_ref:
+                    ret_conv = (ret_conv[0], " | 1;")
                 return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                     arg_conv = ty_info.rust_obj + "* " + ty_info.var_name + "_conv = (" + ty_info.rust_obj + "*)(" + ty_info.var_name + " & ~1);",
                     arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
-                    ret_conv = ("uint64_t ret_" + ty_info.var_name + " = (uint64_t)", ";"), ret_conv_name = "ret_" + ty_info.var_name,
+                    ret_conv = ret_conv, ret_conv_name = "ret_" + ty_info.var_name,
                     to_hu_conv = "TODO 3", to_hu_conv_name = None, from_hu_conv = None) # its a pointer, no conv needed
             assert False # We should have handled every case by now.

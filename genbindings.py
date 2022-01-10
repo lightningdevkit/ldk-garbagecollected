@@ -703,6 +703,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
             if check_sfx is not None:
                 write_c("CHECK(" + check_sfx[0] + "owner" + check_sfx[1] + ");\n")
             write_c("\treturn " + accessor[0] + "owner" + accessor[1] + ";\n")
+            holds_ref = True
         else:
             fn_defn = ptr_fn_defn
             write_c("static inline " + fn_defn + "{\n")
