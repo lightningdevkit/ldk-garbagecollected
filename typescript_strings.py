@@ -20,7 +20,7 @@ class Consts:
             uint8_t = ['number', 'Uint8Array'],
             uint16_t = ['number', 'Uint16Array'],
             uint32_t = ['number', 'Uint32Array'],
-            uint64_t = ['number'],
+            uint64_t = ['BigInt'],
         )
 
         self.wasm_decoding_map = dict(
@@ -36,43 +36,7 @@ class Consts:
             default = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
         )
 
-        self.bindings_header = self.wasm_import_header(target) + """
-export class VecOrSliceDef {
-    public dataptr: number;
-    public datalen: number;
-    public stride: number;
-    public constructor(dataptr: number, datalen: number, stride: number) {
-        this.dataptr = dataptr;
-        this.datalen = datalen;
-        this.stride = stride;
-    }
-}
-
-/*
-TODO: load WASM file
-static {
-    System.loadLibrary(\"lightningjni\");
-    init(java.lang.Enum.class, VecOrSliceDef.class);
-    init_class_cache();
-}
-
-static native void init(java.lang.Class c, java.lang.Class slicedef);
-static native void init_class_cache();
-
-public static native boolean deref_bool(long ptr);
-public static native long deref_long(long ptr);
-public static native void free_heap_ptr(long ptr);
-public static native byte[] read_bytes(long ptr, long len);
-public static native byte[] get_u8_slice_bytes(long slice_ptr);
-public static native long bytes_to_u8_vec(byte[] bytes);
-public static native long new_txpointer_copy_data(byte[] txdata);
-public static native void txpointer_free(long ptr);
-public static native byte[] txpointer_get_buffer(long ptr);
-public static native long vec_slice_len(long vec);
-public static native long new_empty_slice_vec();
-*/
-
-"""
+        self.bindings_header = self.wasm_import_header(target)
 
         self.bindings_version_file = ""
 
@@ -116,7 +80,7 @@ export default class CommonBase {
 	/** The script_pubkey in this output */
 	public script_pubkey: Uint8Array;
 	/** The value, in satoshis, of this output */
-	public value: number;
+	public value: BigInt;
 
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
@@ -124,7 +88,7 @@ export default class CommonBase {
 		this.script_pubkey = bindings.TxOut_get_script_pubkey(ptr);
 		this.value = bindings.TxOut_get_value(ptr);
 	}
-	public constructor_new(value: number, script_pubkey: Uint8Array): TxOut {
+	public constructor_new(value: BigInt, script_pubkey: Uint8Array): TxOut {
 		return new TxOut(null, bindings.TxOut_new(script_pubkey, value));
 	}
 }"""
@@ -143,6 +107,11 @@ void __attribute__((noreturn)) abort(void);
 static inline void assert(bool expression) {
 	if (!expression) { abort(); }
 }
+
+uint32_t __attribute__((visibility("default"))) test_bigint_pass_deadbeef0badf00d(uint64_t val) {
+	return val == 0xdeadbeef0badf00dULL;
+}
+
 """
 
         if not DEBUG:
@@ -428,6 +397,9 @@ export async function initializeWasm(path: string) {
 	imports.env["js_invoke_function"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);
 	wasm = wasmInstance.exports;
+	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
+		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
+	}
 	isWasmInitialized = true;
 };
 """
@@ -438,6 +410,9 @@ export async function initializeWasm(uri: string) {
 	imports.env["js_invoke_function"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
 	wasm = wasmInstance.exports;
+	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
+		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
+	}
 	isWasmInitialized = true;
 };
 
