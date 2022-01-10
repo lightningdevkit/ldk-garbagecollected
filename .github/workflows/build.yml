@@ -50,7 +50,7 @@ jobs:
           # Thus, we install the binary nodejs from nodejs.org and test with that.
           curl https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-x64.tar.xz > nodejs.tar.xz
           tar xvvf nodejs.tar.xz
-          export PATH=$(echo node-*/bin):$PATH
+          export PATH=$(pwd)/$(echo node-*/bin):$PATH
           ./genbindings.sh ./ldk-c-bindings/ wasm false false
       - name: Build and Test TS Bindings for Web
         run: |
@@ -63,9 +63,10 @@ jobs:
           mkdir -p $HOME/.cache/ms-playwright # `playwright install` is too dumb to create this for us
           chmod -R 777 $HOME/
           npx playwright install
-          export PATH=$(echo node-*/bin):$PATH
+          export PATH=$(pwd)/$(echo node-*/bin):$PATH
+          cd ts
           python3 -m http.server &
-          node ts/test/browser.mjs
+          node test/browser.mjs
       - name: Check latest TS files are in git
         run: |
           git diff --exit-code
