@@ -105,8 +105,6 @@ jobs:
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
-          # Reset the Cargo.toml file so that git describe doesn't think we're "-dirty"
-          git checkout lightning-c-bindings/Cargo.toml
           ./genbindings.sh ../rust-lightning true
       - name: Build Java Debug Bindings
         run: ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" true false
@@ -115,6 +113,49 @@ jobs:
           mv liblightningjni_debug_Linux-amd64.so liblightningjni.so
           export ASAN_OPTIONS=detect_leaks=0
           LD_PRELOAD=/usr/lib/llvm-11/lib/clang/11.0.1/lib/linux/libclang_rt.asan-x86_64.so LD_LIBRARY_PATH=. mvn test
+      - name: Build Java Release Bindings
+        run: |
+          ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
+      - name: Check latest headers are in git
+        run: |
+          git checkout pom.xml
+          git diff --exit-code
+
+  java_determinism:
+    runs-on: ubuntu-latest
+    # Ubuntu's version of rustc uses its own LLVM instead of being a real native package.
+    # This leaves us with an incompatible LLVM version when linking. Instead, use a real OS.
+    container: debian:bullseye
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Install native Rust toolchain, Valgrind, and build utilitis
+        run: |
+          apt-get update
+          apt-get -y dist-upgrade
+          apt-get -y install cargo valgrind lld git g++ clang openjdk-11-jdk maven faketime zip unzip llvm curl
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install cbindgen
+        run: cargo install --force cbindgen
+      - name: Checkout Rust-Lightning and LDK-C-Bindings git
+        run: |
+          git config --global user.email "ldk-ci@example.com"
+          git config --global user.name "LDK CI"
+          # Note this is a different endpoint, as we need one non-upstream commit!
+          git clone https://git.bitcoin.ninja/rust-lightning
+          cd rust-lightning
+          git checkout origin/2021-03-java-bindings-base
+          cd ..
+          git clone https://github.com/lightningdevkit/ldk-c-bindings
+          cd ldk-c-bindings
+          git checkout 0.0.104
+      - name: Rebuild C bindings, and check the sample app builds + links
+        run: |
+          cd ldk-c-bindings
+          ./genbindings.sh ../rust-lightning true
       - name: Checkout latest MacOS binaries
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -136,10 +177,6 @@ jobs:
           ./genbindings.sh ./ldk-c-bindings/ "-I/usr/lib/jvm/java-11-openjdk-amd64/include/ -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/" false false
       - name: Build deterministic release jar
         run: ./build-release-jar.sh
-      - name: Check latest headers are in git
-        run: |
-          git checkout pom.xml
-          git diff --exit-code
       - name: Check latest library and jars are in bins repo
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
