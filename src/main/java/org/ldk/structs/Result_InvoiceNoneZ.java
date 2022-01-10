@@ -24,7 +24,7 @@ public class Result_InvoiceNoneZ extends CommonBase {
 		public final Invoice res;
 		private Result_InvoiceNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_InvoiceNoneZ_get_ok(ptr);
+			long res = bindings.CResult_InvoiceNoneZ_get_ok(ptr);
 			Invoice res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Invoice(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;

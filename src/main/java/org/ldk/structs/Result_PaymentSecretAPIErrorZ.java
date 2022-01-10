@@ -24,7 +24,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 		public final byte[] res;
 		private Result_PaymentSecretAPIErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_PaymentSecretAPIErrorZ_get_ok(ptr);
+			this.res = bindings.CResult_PaymentSecretAPIErrorZ_get_ok(ptr);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class Result_PaymentSecretAPIErrorZ extends CommonBase {
 		public final APIError err;
 		private Result_PaymentSecretAPIErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_PaymentSecretAPIErrorZ_get_err(ptr);
+			long err = bindings.CResult_PaymentSecretAPIErrorZ_get_err(ptr);
 			APIError err_hu_conv = APIError.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

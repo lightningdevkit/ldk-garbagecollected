@@ -221,8 +221,9 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(starting_point);
 		Reference.reachabilityFence(batch_amount);
-		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret_conv_59_arr = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[ret.length];
-		for (int h = 0; h < ret.length; h++) {
+		int ret_conv_59_len = ret.length;
+		ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret_conv_59_arr = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[ret_conv_59_len];
+		for (int h = 0; h < ret_conv_59_len; h++) {
 			long ret_conv_59 = ret[h];
 			ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ ret_conv_59_hu_conv = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret_conv_59);
 			ret_conv_59_hu_conv.ptrs_to.add(this);
@@ -244,8 +245,9 @@ public class RoutingMessageHandler extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(starting_point);
 		Reference.reachabilityFence(batch_amount);
-		NodeAnnouncement[] ret_conv_18_arr = new NodeAnnouncement[ret.length];
-		for (int s = 0; s < ret.length; s++) {
+		int ret_conv_18_len = ret.length;
+		NodeAnnouncement[] ret_conv_18_arr = new NodeAnnouncement[ret_conv_18_len];
+		for (int s = 0; s < ret_conv_18_len; s++) {
 			long ret_conv_18 = ret[s];
 			NodeAnnouncement ret_conv_18_hu_conv = null; if (ret_conv_18 < 0 || ret_conv_18 > 4096) { ret_conv_18_hu_conv = new NodeAnnouncement(null, ret_conv_18); }
 			ret_conv_18_hu_conv.ptrs_to.add(this);

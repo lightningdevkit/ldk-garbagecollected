@@ -38,8 +38,9 @@ public class Router extends CommonBase {
 		impl_holder.held = new Router(new bindings.LDKRouter() {
 			@Override public long find_route(byte[] payer, long params, byte[] payment_hash, long[] first_hops, long scorer) {
 				RouteParameters params_hu_conv = null; if (params < 0 || params > 4096) { params_hu_conv = new RouteParameters(null, params); }
-				ChannelDetails[] first_hops_conv_16_arr = new ChannelDetails[first_hops.length];
-				for (int q = 0; q < first_hops.length; q++) {
+				int first_hops_conv_16_len = first_hops.length;
+				ChannelDetails[] first_hops_conv_16_arr = new ChannelDetails[first_hops_conv_16_len];
+				for (int q = 0; q < first_hops_conv_16_len; q++) {
 					long first_hops_conv_16 = first_hops[q];
 					ChannelDetails first_hops_conv_16_hu_conv = null; if (first_hops_conv_16 < 0 || first_hops_conv_16 > 4096) { first_hops_conv_16_hu_conv = new ChannelDetails(null, first_hops_conv_16); }
 					first_hops_conv_16_hu_conv.ptrs_to.add(this);

@@ -67,8 +67,9 @@ public class PaymentSendFailure extends CommonBase {
 		private PathParameterError(long ptr, bindings.LDKPaymentSendFailure.PathParameterError obj) {
 			super(null, ptr);
 			long[] path_parameter_error = obj.path_parameter_error;
-			Result_NoneAPIErrorZ[] path_parameter_error_conv_22_arr = new Result_NoneAPIErrorZ[path_parameter_error.length];
-			for (int w = 0; w < path_parameter_error.length; w++) {
+			int path_parameter_error_conv_22_len = path_parameter_error.length;
+			Result_NoneAPIErrorZ[] path_parameter_error_conv_22_arr = new Result_NoneAPIErrorZ[path_parameter_error_conv_22_len];
+			for (int w = 0; w < path_parameter_error_conv_22_len; w++) {
 				long path_parameter_error_conv_22 = path_parameter_error[w];
 				Result_NoneAPIErrorZ path_parameter_error_conv_22_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(path_parameter_error_conv_22);
 				path_parameter_error_conv_22_arr[w] = path_parameter_error_conv_22_hu_conv;
@@ -86,8 +87,9 @@ public class PaymentSendFailure extends CommonBase {
 		private AllFailedRetrySafe(long ptr, bindings.LDKPaymentSendFailure.AllFailedRetrySafe obj) {
 			super(null, ptr);
 			long[] all_failed_retry_safe = obj.all_failed_retry_safe;
-			APIError[] all_failed_retry_safe_conv_10_arr = new APIError[all_failed_retry_safe.length];
-			for (int k = 0; k < all_failed_retry_safe.length; k++) {
+			int all_failed_retry_safe_conv_10_len = all_failed_retry_safe.length;
+			APIError[] all_failed_retry_safe_conv_10_arr = new APIError[all_failed_retry_safe_conv_10_len];
+			for (int k = 0; k < all_failed_retry_safe_conv_10_len; k++) {
 				long all_failed_retry_safe_conv_10 = all_failed_retry_safe[k];
 				APIError all_failed_retry_safe_conv_10_hu_conv = APIError.constr_from_ptr(all_failed_retry_safe_conv_10);
 				all_failed_retry_safe_conv_10_hu_conv.ptrs_to.add(this);
@@ -130,8 +132,9 @@ public class PaymentSendFailure extends CommonBase {
 		private PartialFailure(long ptr, bindings.LDKPaymentSendFailure.PartialFailure obj) {
 			super(null, ptr);
 			long[] results = obj.results;
-			Result_NoneAPIErrorZ[] results_conv_22_arr = new Result_NoneAPIErrorZ[results.length];
-			for (int w = 0; w < results.length; w++) {
+			int results_conv_22_len = results.length;
+			Result_NoneAPIErrorZ[] results_conv_22_arr = new Result_NoneAPIErrorZ[results_conv_22_len];
+			for (int w = 0; w < results_conv_22_len; w++) {
 				long results_conv_22 = results[w];
 				Result_NoneAPIErrorZ results_conv_22_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(results_conv_22);
 				results_conv_22_arr[w] = results_conv_22_hu_conv;

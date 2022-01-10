@@ -193,8 +193,9 @@ public class RawInvoice extends CommonBase {
 	public PrivateRoute[] private_routes() {
 		long[] ret = bindings.RawInvoice_private_routes(this.ptr);
 		Reference.reachabilityFence(this);
-		PrivateRoute[] ret_conv_14_arr = new PrivateRoute[ret.length];
-		for (int o = 0; o < ret.length; o++) {
+		int ret_conv_14_len = ret.length;
+		PrivateRoute[] ret_conv_14_arr = new PrivateRoute[ret_conv_14_len];
+		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
 			PrivateRoute ret_conv_14_hu_conv = null; if (ret_conv_14 < 0 || ret_conv_14 > 4096) { ret_conv_14_hu_conv = new PrivateRoute(null, ret_conv_14); }
 			ret_conv_14_hu_conv.ptrs_to.add(this);

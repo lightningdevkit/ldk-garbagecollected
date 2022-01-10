@@ -80,8 +80,9 @@ public class Payee extends CommonBase {
 	public RouteHint[] get_route_hints() {
 		long[] ret = bindings.Payee_get_route_hints(this.ptr);
 		Reference.reachabilityFence(this);
-		RouteHint[] ret_conv_11_arr = new RouteHint[ret.length];
-		for (int l = 0; l < ret.length; l++) {
+		int ret_conv_11_len = ret.length;
+		RouteHint[] ret_conv_11_arr = new RouteHint[ret_conv_11_len];
+		for (int l = 0; l < ret_conv_11_len; l++) {
 			long ret_conv_11 = ret[l];
 			RouteHint ret_conv_11_hu_conv = null; if (ret_conv_11 < 0 || ret_conv_11 > 4096) { ret_conv_11_hu_conv = new RouteHint(null, ret_conv_11); }
 			ret_conv_11_hu_conv.ptrs_to.add(this);

@@ -24,7 +24,7 @@ public class Result_ScorerDecodeErrorZ extends CommonBase {
 		public final Scorer res;
 		private Result_ScorerDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_ScorerDecodeErrorZ_get_ok(ptr);
+			long res = bindings.CResult_ScorerDecodeErrorZ_get_ok(ptr);
 			Scorer res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Scorer(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_ScorerDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_ScorerDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_ScorerDecodeErrorZ_get_err(ptr);
+			long err = bindings.CResult_ScorerDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
@@ -58,7 +58,7 @@ public class Result_ScorerDecodeErrorZ extends CommonBase {
 // However, in some cases (eg here), there is no way to clone an object, and thus
 // we actually have to pass full ownership to Rust.
 // Thus, after ret_hu_conv call, o_params is reset to null and is now a dummy object.
-o_params.ptr = 0;
+o_params.ptr = 0;;
 		return ret_hu_conv;
 	}
 

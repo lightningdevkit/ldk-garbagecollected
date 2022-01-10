@@ -30,7 +30,7 @@ public class Result_NoneSemanticErrorZ extends CommonBase {
 		public final SemanticError err;
 		private Result_NoneSemanticErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_NoneSemanticErrorZ_get_err(ptr);
+			this.err = bindings.CResult_NoneSemanticErrorZ_get_err(ptr);
 		}
 	}
 

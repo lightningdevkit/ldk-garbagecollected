@@ -24,7 +24,7 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 		public final Invoice res;
 		private Result_InvoiceSignOrCreationErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_InvoiceSignOrCreationErrorZ_get_ok(ptr);
+			long res = bindings.CResult_InvoiceSignOrCreationErrorZ_get_ok(ptr);
 			Invoice res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new Invoice(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 		public final SignOrCreationError err;
 		private Result_InvoiceSignOrCreationErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_InvoiceSignOrCreationErrorZ_get_err(ptr);
+			long err = bindings.CResult_InvoiceSignOrCreationErrorZ_get_err(ptr);
 			SignOrCreationError err_hu_conv = SignOrCreationError.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

@@ -24,7 +24,7 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 		public final byte[] res;
 		private Result_SecretKeyErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_SecretKeyErrorZ_get_ok(ptr);
+			this.res = bindings.CResult_SecretKeyErrorZ_get_ok(ptr);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 		public final Secp256k1Error err;
 		private Result_SecretKeyErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_SecretKeyErrorZ_get_err(ptr);
+			this.err = bindings.CResult_SecretKeyErrorZ_get_err(ptr);
 		}
 	}
 

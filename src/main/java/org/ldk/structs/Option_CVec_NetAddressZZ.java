@@ -38,8 +38,9 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 		private Some(long ptr, bindings.LDKCOption_CVec_NetAddressZZ.Some obj) {
 			super(null, ptr);
 			long[] some = obj.some;
-			NetAddress[] some_conv_12_arr = new NetAddress[some.length];
-			for (int m = 0; m < some.length; m++) {
+			int some_conv_12_len = some.length;
+			NetAddress[] some_conv_12_arr = new NetAddress[some_conv_12_len];
+			for (int m = 0; m < some_conv_12_len; m++) {
 				long some_conv_12 = some[m];
 				NetAddress some_conv_12_hu_conv = NetAddress.constr_from_ptr(some_conv_12);
 				some_conv_12_hu_conv.ptrs_to.add(this);

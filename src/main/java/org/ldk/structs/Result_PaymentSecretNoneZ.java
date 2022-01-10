@@ -24,7 +24,7 @@ public class Result_PaymentSecretNoneZ extends CommonBase {
 		public final byte[] res;
 		private Result_PaymentSecretNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_PaymentSecretNoneZ_get_ok(ptr);
+			this.res = bindings.CResult_PaymentSecretNoneZ_get_ok(ptr);
 		}
 	}
 

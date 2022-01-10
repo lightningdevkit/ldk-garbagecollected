@@ -68,8 +68,9 @@ public class Score extends CommonBase {
 				return ret;
 			}
 			@Override public void payment_path_failed(long[] path, long short_channel_id) {
-				RouteHop[] path_conv_10_arr = new RouteHop[path.length];
-				for (int k = 0; k < path.length; k++) {
+				int path_conv_10_len = path.length;
+				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
+				for (int k = 0; k < path_conv_10_len; k++) {
 					long path_conv_10 = path[k];
 					RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new RouteHop(null, path_conv_10); }
 					path_conv_10_hu_conv.ptrs_to.add(this);
@@ -78,8 +79,9 @@ public class Score extends CommonBase {
 				arg.payment_path_failed(path_conv_10_arr, short_channel_id);
 			}
 			@Override public void payment_path_successful(long[] path) {
-				RouteHop[] path_conv_10_arr = new RouteHop[path.length];
-				for (int k = 0; k < path.length; k++) {
+				int path_conv_10_len = path.length;
+				RouteHop[] path_conv_10_arr = new RouteHop[path_conv_10_len];
+				for (int k = 0; k < path_conv_10_len; k++) {
 					long path_conv_10 = path[k];
 					RouteHop path_conv_10_hu_conv = null; if (path_conv_10 < 0 || path_conv_10 > 4096) { path_conv_10_hu_conv = new RouteHop(null, path_conv_10); }
 					path_conv_10_hu_conv.ptrs_to.add(this);

@@ -166,8 +166,9 @@ public class Watch extends CommonBase {
 	public MonitorEvent[] release_pending_monitor_events() {
 		long[] ret = bindings.Watch_release_pending_monitor_events(this.ptr);
 		Reference.reachabilityFence(this);
-		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret.length];
-		for (int o = 0; o < ret.length; o++) {
+		int ret_conv_14_len = ret.length;
+		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret_conv_14_len];
+		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
 			MonitorEvent ret_conv_14_hu_conv = MonitorEvent.constr_from_ptr(ret_conv_14);
 			ret_conv_14_hu_conv.ptrs_to.add(this);

@@ -113,8 +113,9 @@ public class ChannelMonitor extends CommonBase {
 	public TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[] get_outputs_to_watch() {
 		long[] ret = bindings.ChannelMonitor_get_outputs_to_watch(this.ptr);
 		Reference.reachabilityFence(this);
-		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[] ret_conv_40_arr = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[ret.length];
-		for (int o = 0; o < ret.length; o++) {
+		int ret_conv_40_len = ret.length;
+		TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[] ret_conv_40_arr = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[ret_conv_40_len];
+		for (int o = 0; o < ret_conv_40_len; o++) {
 			long ret_conv_40 = ret[o];
 			TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ ret_conv_40_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret_conv_40);
 			ret_conv_40_hu_conv.ptrs_to.add(this);
@@ -142,8 +143,9 @@ public class ChannelMonitor extends CommonBase {
 	public MonitorEvent[] get_and_clear_pending_monitor_events() {
 		long[] ret = bindings.ChannelMonitor_get_and_clear_pending_monitor_events(this.ptr);
 		Reference.reachabilityFence(this);
-		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret.length];
-		for (int o = 0; o < ret.length; o++) {
+		int ret_conv_14_len = ret.length;
+		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret_conv_14_len];
+		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
 			MonitorEvent ret_conv_14_hu_conv = MonitorEvent.constr_from_ptr(ret_conv_14);
 			ret_conv_14_hu_conv.ptrs_to.add(this);
@@ -163,8 +165,9 @@ public class ChannelMonitor extends CommonBase {
 	public Event[] get_and_clear_pending_events() {
 		long[] ret = bindings.ChannelMonitor_get_and_clear_pending_events(this.ptr);
 		Reference.reachabilityFence(this);
-		Event[] ret_conv_7_arr = new Event[ret.length];
-		for (int h = 0; h < ret.length; h++) {
+		int ret_conv_7_len = ret.length;
+		Event[] ret_conv_7_arr = new Event[ret_conv_7_len];
+		for (int h = 0; h < ret_conv_7_len; h++) {
 			long ret_conv_7 = ret[h];
 			Event ret_conv_7_hu_conv = Event.constr_from_ptr(ret_conv_7);
 			ret_conv_7_hu_conv.ptrs_to.add(this);
@@ -214,8 +217,9 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
-		for (int n = 0; n < ret.length; n++) {
+		int ret_conv_39_len = ret.length;
+		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret_conv_39_len];
+		for (int n = 0; n < ret_conv_39_len; n++) {
 			long ret_conv_39 = ret[n];
 			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
 			ret_conv_39_hu_conv.ptrs_to.add(this);
@@ -262,8 +266,9 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
-		for (int n = 0; n < ret.length; n++) {
+		int ret_conv_39_len = ret.length;
+		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret_conv_39_len];
+		for (int n = 0; n < ret_conv_39_len; n++) {
 			long ret_conv_39 = ret[n];
 			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
 			ret_conv_39_hu_conv.ptrs_to.add(this);
@@ -312,8 +317,9 @@ public class ChannelMonitor extends CommonBase {
 		Reference.reachabilityFence(broadcaster);
 		Reference.reachabilityFence(fee_estimator);
 		Reference.reachabilityFence(logger);
-		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret.length];
-		for (int n = 0; n < ret.length; n++) {
+		int ret_conv_39_len = ret.length;
+		TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] ret_conv_39_arr = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[ret_conv_39_len];
+		for (int n = 0; n < ret_conv_39_len; n++) {
 			long ret_conv_39 = ret[n];
 			TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ ret_conv_39_hu_conv = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret_conv_39);
 			ret_conv_39_hu_conv.ptrs_to.add(this);
@@ -366,8 +372,9 @@ public class ChannelMonitor extends CommonBase {
 	public Balance[] get_claimable_balances() {
 		long[] ret = bindings.ChannelMonitor_get_claimable_balances(this.ptr);
 		Reference.reachabilityFence(this);
-		Balance[] ret_conv_9_arr = new Balance[ret.length];
-		for (int j = 0; j < ret.length; j++) {
+		int ret_conv_9_len = ret.length;
+		Balance[] ret_conv_9_arr = new Balance[ret_conv_9_len];
+		for (int j = 0; j < ret_conv_9_len; j++) {
 			long ret_conv_9 = ret[j];
 			Balance ret_conv_9_hu_conv = Balance.constr_from_ptr(ret_conv_9);
 			ret_conv_9_hu_conv.ptrs_to.add(this);

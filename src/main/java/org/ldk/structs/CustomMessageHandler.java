@@ -92,8 +92,9 @@ public class CustomMessageHandler extends CommonBase {
 	public TwoTuple_PublicKeyTypeZ[] get_and_clear_pending_msg() {
 		long[] ret = bindings.CustomMessageHandler_get_and_clear_pending_msg(this.ptr);
 		Reference.reachabilityFence(this);
-		TwoTuple_PublicKeyTypeZ[] ret_conv_25_arr = new TwoTuple_PublicKeyTypeZ[ret.length];
-		for (int z = 0; z < ret.length; z++) {
+		int ret_conv_25_len = ret.length;
+		TwoTuple_PublicKeyTypeZ[] ret_conv_25_arr = new TwoTuple_PublicKeyTypeZ[ret_conv_25_len];
+		for (int z = 0; z < ret_conv_25_len; z++) {
 			long ret_conv_25 = ret[z];
 			TwoTuple_PublicKeyTypeZ ret_conv_25_hu_conv = new TwoTuple_PublicKeyTypeZ(null, ret_conv_25);
 			ret_conv_25_hu_conv.ptrs_to.add(this);

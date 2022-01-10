@@ -27,8 +27,9 @@ public class CommitmentUpdate extends CommonBase {
 	public UpdateAddHTLC[] get_update_add_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_add_htlcs(this.ptr);
 		Reference.reachabilityFence(this);
-		UpdateAddHTLC[] ret_conv_15_arr = new UpdateAddHTLC[ret.length];
-		for (int p = 0; p < ret.length; p++) {
+		int ret_conv_15_len = ret.length;
+		UpdateAddHTLC[] ret_conv_15_arr = new UpdateAddHTLC[ret_conv_15_len];
+		for (int p = 0; p < ret_conv_15_len; p++) {
 			long ret_conv_15 = ret[p];
 			UpdateAddHTLC ret_conv_15_hu_conv = null; if (ret_conv_15 < 0 || ret_conv_15 > 4096) { ret_conv_15_hu_conv = new UpdateAddHTLC(null, ret_conv_15); }
 			ret_conv_15_hu_conv.ptrs_to.add(this);
@@ -52,8 +53,9 @@ public class CommitmentUpdate extends CommonBase {
 	public UpdateFulfillHTLC[] get_update_fulfill_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fulfill_htlcs(this.ptr);
 		Reference.reachabilityFence(this);
-		UpdateFulfillHTLC[] ret_conv_19_arr = new UpdateFulfillHTLC[ret.length];
-		for (int t = 0; t < ret.length; t++) {
+		int ret_conv_19_len = ret.length;
+		UpdateFulfillHTLC[] ret_conv_19_arr = new UpdateFulfillHTLC[ret_conv_19_len];
+		for (int t = 0; t < ret_conv_19_len; t++) {
 			long ret_conv_19 = ret[t];
 			UpdateFulfillHTLC ret_conv_19_hu_conv = null; if (ret_conv_19 < 0 || ret_conv_19 > 4096) { ret_conv_19_hu_conv = new UpdateFulfillHTLC(null, ret_conv_19); }
 			ret_conv_19_hu_conv.ptrs_to.add(this);
@@ -77,8 +79,9 @@ public class CommitmentUpdate extends CommonBase {
 	public UpdateFailHTLC[] get_update_fail_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fail_htlcs(this.ptr);
 		Reference.reachabilityFence(this);
-		UpdateFailHTLC[] ret_conv_16_arr = new UpdateFailHTLC[ret.length];
-		for (int q = 0; q < ret.length; q++) {
+		int ret_conv_16_len = ret.length;
+		UpdateFailHTLC[] ret_conv_16_arr = new UpdateFailHTLC[ret_conv_16_len];
+		for (int q = 0; q < ret_conv_16_len; q++) {
 			long ret_conv_16 = ret[q];
 			UpdateFailHTLC ret_conv_16_hu_conv = null; if (ret_conv_16 < 0 || ret_conv_16 > 4096) { ret_conv_16_hu_conv = new UpdateFailHTLC(null, ret_conv_16); }
 			ret_conv_16_hu_conv.ptrs_to.add(this);
@@ -102,8 +105,9 @@ public class CommitmentUpdate extends CommonBase {
 	public UpdateFailMalformedHTLC[] get_update_fail_malformed_htlcs() {
 		long[] ret = bindings.CommitmentUpdate_get_update_fail_malformed_htlcs(this.ptr);
 		Reference.reachabilityFence(this);
-		UpdateFailMalformedHTLC[] ret_conv_25_arr = new UpdateFailMalformedHTLC[ret.length];
-		for (int z = 0; z < ret.length; z++) {
+		int ret_conv_25_len = ret.length;
+		UpdateFailMalformedHTLC[] ret_conv_25_arr = new UpdateFailMalformedHTLC[ret_conv_25_len];
+		for (int z = 0; z < ret_conv_25_len; z++) {
 			long ret_conv_25 = ret[z];
 			UpdateFailMalformedHTLC ret_conv_25_hu_conv = null; if (ret_conv_25 < 0 || ret_conv_25 > 4096) { ret_conv_25_hu_conv = new UpdateFailMalformedHTLC(null, ret_conv_25); }
 			ret_conv_25_hu_conv.ptrs_to.add(this);

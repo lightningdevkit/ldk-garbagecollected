@@ -24,7 +24,7 @@ public class Result_SignedRawInvoiceNoneZ extends CommonBase {
 		public final SignedRawInvoice res;
 		private Result_SignedRawInvoiceNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_SignedRawInvoiceNoneZ_get_ok(ptr);
+			long res = bindings.CResult_SignedRawInvoiceNoneZ_get_ok(ptr);
 			SignedRawInvoice res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new SignedRawInvoice(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;

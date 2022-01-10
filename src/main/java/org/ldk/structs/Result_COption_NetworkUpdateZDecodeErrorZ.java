@@ -24,7 +24,7 @@ public class Result_COption_NetworkUpdateZDecodeErrorZ extends CommonBase {
 		public final Option_NetworkUpdateZ res;
 		private Result_COption_NetworkUpdateZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_COption_NetworkUpdateZDecodeErrorZ_get_ok(ptr);
+			long res = bindings.CResult_COption_NetworkUpdateZDecodeErrorZ_get_ok(ptr);
 			Option_NetworkUpdateZ res_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_COption_NetworkUpdateZDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_COption_NetworkUpdateZDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_COption_NetworkUpdateZDecodeErrorZ_get_err(ptr);
+			long err = bindings.CResult_COption_NetworkUpdateZDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

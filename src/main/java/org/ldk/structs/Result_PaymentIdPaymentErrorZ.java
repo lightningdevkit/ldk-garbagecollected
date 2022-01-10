@@ -24,7 +24,7 @@ public class Result_PaymentIdPaymentErrorZ extends CommonBase {
 		public final byte[] res;
 		private Result_PaymentIdPaymentErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_PaymentIdPaymentErrorZ_get_ok(ptr);
+			this.res = bindings.CResult_PaymentIdPaymentErrorZ_get_ok(ptr);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class Result_PaymentIdPaymentErrorZ extends CommonBase {
 		public final PaymentError err;
 		private Result_PaymentIdPaymentErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_PaymentIdPaymentErrorZ_get_err(ptr);
+			long err = bindings.CResult_PaymentIdPaymentErrorZ_get_err(ptr);
 			PaymentError err_hu_conv = PaymentError.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

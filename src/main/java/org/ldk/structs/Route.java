@@ -32,11 +32,13 @@ public class Route extends CommonBase {
 	public RouteHop[][] get_paths() {
 		long[][] ret = bindings.Route_get_paths(this.ptr);
 		Reference.reachabilityFence(this);
-		RouteHop[][] ret_conv_12_arr = new RouteHop[ret.length][];
-		for (int m = 0; m < ret.length; m++) {
+		int ret_conv_12_len = ret.length;
+		RouteHop[][] ret_conv_12_arr = new RouteHop[ret_conv_12_len][];
+		for (int m = 0; m < ret_conv_12_len; m++) {
 			long[] ret_conv_12 = ret[m];
-			RouteHop[] ret_conv_12_conv_10_arr = new RouteHop[ret_conv_12.length];
-			for (int k = 0; k < ret_conv_12.length; k++) {
+			int ret_conv_12_conv_10_len = ret_conv_12.length;
+			RouteHop[] ret_conv_12_conv_10_arr = new RouteHop[ret_conv_12_conv_10_len];
+			for (int k = 0; k < ret_conv_12_conv_10_len; k++) {
 				long ret_conv_12_conv_10 = ret_conv_12[k];
 				RouteHop ret_conv_12_conv_10_hu_conv = null; if (ret_conv_12_conv_10 < 0 || ret_conv_12_conv_10 > 4096) { ret_conv_12_conv_10_hu_conv = new RouteHop(null, ret_conv_12_conv_10); }
 				ret_conv_12_conv_10_hu_conv.ptrs_to.add(this);

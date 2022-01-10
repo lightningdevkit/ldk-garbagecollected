@@ -24,7 +24,7 @@ public class Result_StringErrorZ extends CommonBase {
 		public final String res;
 		private Result_StringErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_StringErrorZ_get_ok(ptr);
+			this.res = bindings.CResult_StringErrorZ_get_ok(ptr);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class Result_StringErrorZ extends CommonBase {
 		public final Secp256k1Error err;
 		private Result_StringErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.err = bindings.LDKCResult_StringErrorZ_get_err(ptr);
+			this.err = bindings.CResult_StringErrorZ_get_err(ptr);
 		}
 	}
 

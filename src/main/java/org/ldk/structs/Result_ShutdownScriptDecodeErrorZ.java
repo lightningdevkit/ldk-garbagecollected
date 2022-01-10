@@ -24,7 +24,7 @@ public class Result_ShutdownScriptDecodeErrorZ extends CommonBase {
 		public final ShutdownScript res;
 		private Result_ShutdownScriptDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_ShutdownScriptDecodeErrorZ_get_ok(ptr);
+			long res = bindings.CResult_ShutdownScriptDecodeErrorZ_get_ok(ptr);
 			ShutdownScript res_hu_conv = null; if (res < 0 || res > 4096) { res_hu_conv = new ShutdownScript(null, res); }
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
@@ -35,7 +35,7 @@ public class Result_ShutdownScriptDecodeErrorZ extends CommonBase {
 		public final DecodeError err;
 		private Result_ShutdownScriptDecodeErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long err = bindings.LDKCResult_ShutdownScriptDecodeErrorZ_get_err(ptr);
+			long err = bindings.CResult_ShutdownScriptDecodeErrorZ_get_err(ptr);
 			DecodeError err_hu_conv = null; if (err < 0 || err > 4096) { err_hu_conv = new DecodeError(null, err); }
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;

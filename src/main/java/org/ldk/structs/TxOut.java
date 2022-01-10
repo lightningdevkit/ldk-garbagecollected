@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.lang.ref.Reference;
 import javax.annotation.Nullable;
 
-public class TxOut extends CommonBase{
+public class TxOut extends CommonBase {
 	/** The script_pubkey in this output */
 	public final byte[] script_pubkey;
 	/** The value, in satoshis, of this output */
@@ -29,5 +29,4 @@ public class TxOut extends CommonBase{
 		super.finalize();
 		if (ptr != 0) { bindings.TxOut_free(ptr); }
 	}
-
 }

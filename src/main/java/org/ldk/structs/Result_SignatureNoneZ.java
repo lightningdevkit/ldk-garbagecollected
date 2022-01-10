@@ -24,7 +24,7 @@ public class Result_SignatureNoneZ extends CommonBase {
 		public final byte[] res;
 		private Result_SignatureNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			this.res = bindings.LDKCResult_SignatureNoneZ_get_ok(ptr);
+			this.res = bindings.CResult_SignatureNoneZ_get_ok(ptr);
 		}
 	}
 

@@ -35,8 +35,9 @@ public class TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ extends CommonBase {
 	public TwoTuple_u32TxOutZ[] get_b() {
 		long[] ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(this.ptr);
 		Reference.reachabilityFence(this);
-		TwoTuple_u32TxOutZ[] ret_conv_20_arr = new TwoTuple_u32TxOutZ[ret.length];
-		for (int u = 0; u < ret.length; u++) {
+		int ret_conv_20_len = ret.length;
+		TwoTuple_u32TxOutZ[] ret_conv_20_arr = new TwoTuple_u32TxOutZ[ret_conv_20_len];
+		for (int u = 0; u < ret_conv_20_len; u++) {
 			long ret_conv_20 = ret[u];
 			TwoTuple_u32TxOutZ ret_conv_20_hu_conv = new TwoTuple_u32TxOutZ(null, ret_conv_20);
 			ret_conv_20_hu_conv.ptrs_to.add(this);

@@ -35,8 +35,9 @@ public class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	public TwoTuple_u32ScriptZ[] get_b() {
 		long[] ret = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(this.ptr);
 		Reference.reachabilityFence(this);
-		TwoTuple_u32ScriptZ[] ret_conv_21_arr = new TwoTuple_u32ScriptZ[ret.length];
-		for (int v = 0; v < ret.length; v++) {
+		int ret_conv_21_len = ret.length;
+		TwoTuple_u32ScriptZ[] ret_conv_21_arr = new TwoTuple_u32ScriptZ[ret_conv_21_len];
+		for (int v = 0; v < ret_conv_21_len; v++) {
 			long ret_conv_21 = ret[v];
 			TwoTuple_u32ScriptZ ret_conv_21_hu_conv = new TwoTuple_u32ScriptZ(null, ret_conv_21);
 			ret_conv_21_hu_conv.ptrs_to.add(this);

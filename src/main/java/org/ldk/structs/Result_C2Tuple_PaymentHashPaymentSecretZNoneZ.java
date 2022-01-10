@@ -24,7 +24,7 @@ public class Result_C2Tuple_PaymentHashPaymentSecretZNoneZ extends CommonBase {
 		public final TwoTuple_PaymentHashPaymentSecretZ res;
 		private Result_C2Tuple_PaymentHashPaymentSecretZNoneZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
-			long res = bindings.LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_get_ok(ptr);
+			long res = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_get_ok(ptr);
 			TwoTuple_PaymentHashPaymentSecretZ res_hu_conv = new TwoTuple_PaymentHashPaymentSecretZ(null, res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
