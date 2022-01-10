@@ -336,8 +336,8 @@ import * as InternalUtils from '../InternalUtils.mjs'
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
         if ty_info.subty is not None:
-            return "(" + ty_info.subty.c_ty + "*)(", " + 4)"
-        return "(" + ty_info.c_ty + "*)(", " + 4)"
+            return "(" + ty_info.subty.c_ty + "*)(((uint8_t*)", ") + 4)"
+        return "(" + ty_info.c_ty + "*)(((uint8_t*)", ") + 4)"
     def get_native_arr_entry_call(self, ty_info, arr_name, idxc, entry_access):
         return None
     def cleanup_native_arr_ref_contents(self, arr_name, dest_name, arr_len, ty_info):
