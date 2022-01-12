@@ -2,8 +2,11 @@
   "compilerOptions": {
     "target": "es2021",
     "module": "es2020",
+    "sourceMap": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-
+    "declaration": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": false,
