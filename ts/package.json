@@ -2,19 +2,24 @@
   "name": "lightningdevkit",
   "version": "0.0.104.0alpha0",
   "description": "Lightning Development Kit",
-  "main": "index.mts",
+  "main": "index.mjs",
+  "type": "module",
   "directories": {
     "test": "test"
   },
   "files": [
-    "structs/*.mts",
-    "enums/*.mts",
-    "bindings.mts",
+    "structs/*.mjs",
+    "structs/*.d.mts",
+    "enums/*.mjs",
+    "enums/*.d.mts",
+    "bindings.mjs",
+    "bindings.d.mts",
     "liblightningjs.wasm",
     "tsconfig.json",
     "README.md",
-    "test/tests.mts",
-    "test/node.mjs"
+    "test/node.mjs",
+    "test/tests.mjs",
+    "test/tests.d.mts"
   ],
   "repository": {
     "type": "git",
