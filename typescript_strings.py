@@ -36,7 +36,9 @@ class Consts:
 
         self.bindings_header = self.wasm_import_header(target)
 
-        self.bindings_version_file = ""
+        self.bindings_version_file = """export function get_ldk_java_bindings_version(): String {
+	return "<git_version_ldk_garbagecollected>";
+}"""
 
         self.bindings_footer = ""
 
@@ -283,9 +285,23 @@ uint32_t __attribute__((export_name("TS_malloc"))) TS_malloc(uint32_t size) {
 void __attribute__((export_name("TS_free"))) TS_free(uint32_t ptr) {
 	FREE((void*)ptr);
 }
+
+jstring __attribute__((export_name("TS_get_ldk_c_bindings_version"))) TS_get_ldk_c_bindings_version() {
+	const char *res = check_get_ldk_bindings_version();
+	if (res == NULL) return NULL;
+	return str_ref_to_ts(res, strlen(res));
+}
+jstring __attribute__((export_name("TS_get_ldk_version"))) get_ldk_version() {
+	const char *res = check_get_ldk_version();
+	if (res == NULL) return NULL;
+	return str_ref_to_ts(res, strlen(res));
+}
+#include "version.c"
 """
 
-        self.c_version_file = ""
+        self.c_version_file = """jstring __attribute__((export_name("TS_get_lib_version_string"))) TS_get_lib_version_string() {
+	return str_ref_to_ts("<git_version_ldk_garbagecollected>", strlen("<git_version_ldk_garbagecollected>"));
+}"""
 
         self.hu_struct_file_prefix = """
 import CommonBase from './CommonBase.mjs';
@@ -355,6 +371,8 @@ import * as bindings from '../bindings.mjs'
 
     def wasm_import_header(self, target):
         res = """
+import * as version from './version.mjs';
+
 const imports: any = {};
 imports.env = {};
 
@@ -412,31 +430,33 @@ import { webcrypto as crypto } from 'crypto';
 export async function initializeWasm(path: string) {
 	const source = fs.readFileSync(path);
 	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);
-	wasm = wasmInstance.exports;
-	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
-		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
-	}
-	isWasmInitialized = true;
-};
-"""
+	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);"""
         else:
             res += """
 export async function initializeWasm(uri: string) {
 	const stream = fetch(uri);
 	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
+	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);"""
+
+        return res + """
 	wasm = wasmInstance.exports;
 	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
 		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
 	}
+
+	if (decodeString(wasm.TS_get_lib_version_string()) !== version.get_ldk_java_bindings_version())
+		throw new Error(\"Compiled LDK library and LDK class failes do not match\");
+	// Fetching the LDK versions from C also checks that the header and binaries match
+	if (wasm.TS_get_ldk_c_bindings_version() == 0)
+		throw new Error(\"LDK version did not match the header we built against\");
+	if (wasm.TS_get_ldk_version() == 0)
+		throw new Error(\"LDK C bindings version did not match the header we built against\");
+	const c_bindings_version: string = decodeString(wasm.TS_get_ldk_c_bindings_version());
+	const ldk_version: string = decodeString(wasm.TS_get_ldk_version());
+	console.log(\"Loaded LDK-Java Bindings with LDK \" + ldk_version + \" and LDK-C-Bindings \" + c_bindings_version);
+
 	isWasmInitialized = true;
 };
-
-"""
-
-        return res + """
-
 
 // WASM CODEC
 
