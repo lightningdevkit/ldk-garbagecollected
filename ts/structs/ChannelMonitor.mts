@@ -281,6 +281,24 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A ChannelMonitor handles chain events (blocks connected and disconnected) and generates
+ * on-chain transactions to ensure no loss of funds occurs.
+ * 
+ * You MUST ensure that no ChannelMonitors for a given channel anywhere contain out-of-date
+ * information and are actively monitoring the chain.
+ * 
+ * Pending Events or updated HTLCs which have not yet been read out by
+ * get_and_clear_pending_monitor_events or get_and_clear_pending_events are serialized to disk and
+ * reloaded at deserialize-time. Thus, you must ensure that, when handling events, all events
+ * gotten are fully handled before re-serializing the new state.
+ * 
+ * Note that the deserializer is only implemented for (BlockHash, ChannelMonitor), which
+ * tells you the last block hash which was block_connect()ed. You MUST rescan any blocks along
+ * the \"reorg path\" (ie disconnecting blocks until you find a common ancestor from both the
+ * returned block hash and the the current chain and then reconnecting blocks to get to the
+ * best chain) upon deserializing the object!
+ */
 export class ChannelMonitor extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
@@ -292,6 +310,9 @@ export class ChannelMonitor extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelMonitor
+	 */
 	public clone(): ChannelMonitor {
 		const ret: number = bindings.ChannelMonitor_clone(this.ptr);
 		const ret_hu_conv: ChannelMonitor = new ChannelMonitor(null, ret);
@@ -299,12 +320,21 @@ export class ChannelMonitor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelMonitor object into a byte array which can be read by ChannelMonitor_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelMonitor_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Updates a ChannelMonitor on the basis of some new information provided by the Channel
+	 * itself.
+	 * 
+	 * panics if the given update is not the next update by update_id.
+	 */
 	public update_monitor(updates: ChannelMonitorUpdate, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): Result_NoneNoneZ {
 		const ret: number = bindings.ChannelMonitor_update_monitor(this.ptr, updates == null ? 0 : CommonBase.get_ptr_of(updates) & ~1, broadcaster == null ? 0 : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0 : CommonBase.get_ptr_of(logger));
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
@@ -315,11 +345,18 @@ export class ChannelMonitor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Gets the update_id from the latest ChannelMonitorUpdate which was applied to this
+	 * ChannelMonitor.
+	 */
 	public get_latest_update_id(): bigint {
 		const ret: bigint = bindings.ChannelMonitor_get_latest_update_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Gets the funding transaction outpoint of the channel this ChannelMonitor is monitoring for.
+	 */
 	public get_funding_txo(): TwoTuple_OutPointScriptZ {
 		const ret: number = bindings.ChannelMonitor_get_funding_txo(this.ptr);
 		const ret_hu_conv: TwoTuple_OutPointScriptZ = new TwoTuple_OutPointScriptZ(null, ret);
@@ -327,6 +364,10 @@ export class ChannelMonitor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Gets a list of txids, with their output scripts (in the order they appear in the
+	 * transaction), which we must learn about spends of via block_connected().
+	 */
 	public get_outputs_to_watch(): TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ[] {
 		const ret: number = bindings.ChannelMonitor_get_outputs_to_watch(this.ptr);
 		const ret_conv_40_len: number = bindings.getArrayLength(ret);
@@ -337,14 +378,24 @@ export class ChannelMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_40_hu_conv, this);
 			ret_conv_40_arr[o] = ret_conv_40_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_40_arr;
 	}
 
+	/**
+	 * Loads the funding txo and outputs to watch into the given `chain::Filter` by repeatedly
+	 * calling `chain::Filter::register_output` and `chain::Filter::register_tx` until all outputs
+	 * have been registered.
+	 */
 	public load_outputs_to_watch(filter: Filter): void {
 		bindings.ChannelMonitor_load_outputs_to_watch(this.ptr, filter == null ? 0 : CommonBase.get_ptr_of(filter));
 		CommonBase.add_ref_from(this, filter);
 	}
 
+	/**
+	 * Get the list of HTLCs who's status has been updated on chain. This should be called by
+	 * ChannelManager via [`chain::Watch::release_pending_monitor_events`].
+	 */
 	public get_and_clear_pending_monitor_events(): MonitorEvent[] {
 		const ret: number = bindings.ChannelMonitor_get_and_clear_pending_monitor_events(this.ptr);
 		const ret_conv_14_len: number = bindings.getArrayLength(ret);
@@ -355,9 +406,18 @@ export class ChannelMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_14_hu_conv, this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_14_arr;
 	}
 
+	/**
+	 * Gets the list of pending events which were generated by previous actions, clearing the list
+	 * in the process.
+	 * 
+	 * This is called by ChainMonitor::get_and_clear_pending_events() and is equivalent to
+	 * EventsProvider::get_and_clear_pending_events() except that it requires &mut self as we do
+	 * no internal locking in ChannelMonitors.
+	 */
 	public get_and_clear_pending_events(): Event[] {
 		const ret: number = bindings.ChannelMonitor_get_and_clear_pending_events(this.ptr);
 		const ret_conv_7_len: number = bindings.getArrayLength(ret);
@@ -368,9 +428,21 @@ export class ChannelMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_7_hu_conv, this);
 			ret_conv_7_arr[h] = ret_conv_7_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_7_arr;
 	}
 
+	/**
+	 * Used by ChannelManager deserialization to broadcast the latest holder state if its copy of
+	 * the Channel was out-of-date. You may use it to get a broadcastable holder toxic tx in case of
+	 * fallen-behind, i.e when receiving a channel_reestablish with a proof that our counterparty side knows
+	 * a higher revocation secret than the holder commitment number we are aware of. Broadcasting these
+	 * transactions are UNSAFE, as they allow counterparty side to punish you. Nevertheless you may want to
+	 * broadcast them if counterparty don't close channel with his higher commitment transaction after a
+	 * substantial amount of time (a month or even a year) to get back funds. Best may be to contact
+	 * out-of-band the other node operator to coordinate with him if option is available to you.
+	 * In any-case, choice is up to the user.
+	 */
 	public get_latest_holder_commitment_txn(logger: Logger): Uint8Array[] {
 		const ret: number = bindings.ChannelMonitor_get_latest_holder_commitment_txn(this.ptr, logger == null ? 0 : CommonBase.get_ptr_of(logger));
 		const ret_conv_12_len: number = bindings.getArrayLength(ret);
@@ -380,10 +452,24 @@ export class ChannelMonitor extends CommonBase {
 			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
 			ret_conv_12_arr[m] = ret_conv_12_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		CommonBase.add_ref_from(this, logger);
 		return ret_conv_12_arr;
 	}
 
+	/**
+	 * Processes transactions in a newly connected block, which may result in any of the following:
+	 * - update the monitor's state against resolved HTLCs
+	 * - punish the counterparty in the case of seeing a revoked commitment transaction
+	 * - force close the channel and claim/timeout incoming/outgoing HTLCs if near expiration
+	 * - detect settled outputs for later spending
+	 * - schedule and bump any in-flight claims
+	 * 
+	 * Returns any new outputs to watch from `txdata`; after called, these are also included in
+	 * [`get_outputs_to_watch`].
+	 * 
+	 * [`get_outputs_to_watch`]: #method.get_outputs_to_watch
+	 */
 	public block_connected(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] {
 		const ret: number = bindings.ChannelMonitor_block_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint32Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0) : null), height, broadcaster == null ? 0 : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0 : CommonBase.get_ptr_of(logger));
 		const ret_conv_39_len: number = bindings.getArrayLength(ret);
@@ -394,12 +480,17 @@ export class ChannelMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_39_hu_conv, this);
 			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		CommonBase.add_ref_from(this, broadcaster);
 		CommonBase.add_ref_from(this, fee_estimator);
 		CommonBase.add_ref_from(this, logger);
 		return ret_conv_39_arr;
 	}
 
+	/**
+	 * Determines if the disconnected block contained any transactions of interest and updates
+	 * appropriately.
+	 */
 	public block_disconnected(header: Uint8Array, height: number, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): void {
 		bindings.ChannelMonitor_block_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height, broadcaster == null ? 0 : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0 : CommonBase.get_ptr_of(logger));
 		CommonBase.add_ref_from(this, broadcaster);
@@ -407,6 +498,15 @@ export class ChannelMonitor extends CommonBase {
 		CommonBase.add_ref_from(this, logger);
 	}
 
+	/**
+	 * Processes transactions confirmed in a block with the given header and height, returning new
+	 * outputs to watch. See [`block_connected`] for details.
+	 * 
+	 * Used instead of [`block_connected`] by clients that are notified of transactions rather than
+	 * blocks. See [`chain::Confirm`] for calling expectations.
+	 * 
+	 * [`block_connected`]: Self::block_connected
+	 */
 	public transactions_confirmed(header: Uint8Array, txdata: TwoTuple_usizeTransactionZ[], height: number, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] {
 		const ret: number = bindings.ChannelMonitor_transactions_confirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), bindings.encodeUint32Array(txdata != null ? txdata.map(txdata_conv_28 => txdata_conv_28 != null ? CommonBase.get_ptr_of(txdata_conv_28) : 0) : null), height, broadcaster == null ? 0 : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0 : CommonBase.get_ptr_of(logger));
 		const ret_conv_39_len: number = bindings.getArrayLength(ret);
@@ -417,12 +517,21 @@ export class ChannelMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_39_hu_conv, this);
 			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		CommonBase.add_ref_from(this, broadcaster);
 		CommonBase.add_ref_from(this, fee_estimator);
 		CommonBase.add_ref_from(this, logger);
 		return ret_conv_39_arr;
 	}
 
+	/**
+	 * Processes a transaction that was reorganized out of the chain.
+	 * 
+	 * Used instead of [`block_disconnected`] by clients that are notified of transactions rather
+	 * than blocks. See [`chain::Confirm`] for calling expectations.
+	 * 
+	 * [`block_disconnected`]: Self::block_disconnected
+	 */
 	public transaction_unconfirmed(txid: Uint8Array, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): void {
 		bindings.ChannelMonitor_transaction_unconfirmed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(txid, 32)), broadcaster == null ? 0 : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0 : CommonBase.get_ptr_of(logger));
 		CommonBase.add_ref_from(this, broadcaster);
@@ -430,6 +539,15 @@ export class ChannelMonitor extends CommonBase {
 		CommonBase.add_ref_from(this, logger);
 	}
 
+	/**
+	 * Updates the monitor with the current best chain tip, returning new outputs to watch. See
+	 * [`block_connected`] for details.
+	 * 
+	 * Used instead of [`block_connected`] by clients that are notified of transactions rather than
+	 * blocks. See [`chain::Confirm`] for calling expectations.
+	 * 
+	 * [`block_connected`]: Self::block_connected
+	 */
 	public best_block_updated(header: Uint8Array, height: number, broadcaster: BroadcasterInterface, fee_estimator: FeeEstimator, logger: Logger): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ[] {
 		const ret: number = bindings.ChannelMonitor_best_block_updated(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height, broadcaster == null ? 0 : CommonBase.get_ptr_of(broadcaster), fee_estimator == null ? 0 : CommonBase.get_ptr_of(fee_estimator), logger == null ? 0 : CommonBase.get_ptr_of(logger));
 		const ret_conv_39_len: number = bindings.getArrayLength(ret);
@@ -440,12 +558,16 @@ export class ChannelMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_39_hu_conv, this);
 			ret_conv_39_arr[n] = ret_conv_39_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		CommonBase.add_ref_from(this, broadcaster);
 		CommonBase.add_ref_from(this, fee_estimator);
 		CommonBase.add_ref_from(this, logger);
 		return ret_conv_39_arr;
 	}
 
+	/**
+	 * Returns the set of txids that should be monitored for re-organization out of the chain.
+	 */
 	public get_relevant_txids(): Uint8Array[] {
 		const ret: number = bindings.ChannelMonitor_get_relevant_txids(this.ptr);
 		const ret_conv_12_len: number = bindings.getArrayLength(ret);
@@ -455,9 +577,14 @@ export class ChannelMonitor extends CommonBase {
 			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
 			ret_conv_12_arr[m] = ret_conv_12_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_12_arr;
 	}
 
+	/**
+	 * Gets the latest best block which was connected either via the [`chain::Listen`] or
+	 * [`chain::Confirm`] interfaces.
+	 */
 	public current_best_block(): BestBlock {
 		const ret: number = bindings.ChannelMonitor_current_best_block(this.ptr);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
@@ -465,6 +592,22 @@ export class ChannelMonitor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Gets the balances in this channel which are either claimable by us if we were to
+	 * force-close the channel now or which are claimable on-chain (possibly awaiting
+	 * confirmation).
+	 * 
+	 * Any balances in the channel which are available on-chain (excluding on-chain fees) are
+	 * included here until an [`Event::SpendableOutputs`] event has been generated for the
+	 * balance, or until our counterparty has claimed the balance and accrued several
+	 * confirmations on the claim transaction.
+	 * 
+	 * Note that the balances available when you or your counterparty have broadcasted revoked
+	 * state(s) may not be fully captured here.
+	 * 
+	 * See [`Balance`] for additional details on the types of claimable balances which
+	 * may be returned here and their meanings.
+	 */
 	public get_claimable_balances(): Balance[] {
 		const ret: number = bindings.ChannelMonitor_get_claimable_balances(this.ptr);
 		const ret_conv_9_len: number = bindings.getArrayLength(ret);
@@ -475,6 +618,7 @@ export class ChannelMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_9_hu_conv, this);
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_9_arr;
 	}
 

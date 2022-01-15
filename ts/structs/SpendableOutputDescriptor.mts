@@ -280,6 +280,13 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * When on-chain outputs are created by rust-lightning (which our counterparty is not able to
+ * claim at any point in the future) an event is generated which you must track and be able to
+ * spend on-chain. The information needed to do this is provided in this enum, including the
+ * outpoint describing which txid and output index is available, the full output which exists at
+ * that txid/index, and any keys or other information required to sign.
+ */
 export class SpendableOutputDescriptor extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.SpendableOutputDescriptor_free); }
 	/* @internal */
@@ -299,6 +306,9 @@ export class SpendableOutputDescriptor extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the SpendableOutputDescriptor
+	 */
 	public clone(): SpendableOutputDescriptor {
 		const ret: number = bindings.SpendableOutputDescriptor_clone(this.ptr);
 		const ret_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(ret);
@@ -306,6 +316,9 @@ export class SpendableOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new StaticOutput-variant SpendableOutputDescriptor
+	 */
 	public static constructor_static_output(outpoint: OutPoint, output: TxOut): SpendableOutputDescriptor {
 		const ret: number = bindings.SpendableOutputDescriptor_static_output(outpoint == null ? 0 : CommonBase.get_ptr_of(outpoint) & ~1, CommonBase.get_ptr_of(output));
 		const ret_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(ret);
@@ -313,6 +326,9 @@ export class SpendableOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new DelayedPaymentOutput-variant SpendableOutputDescriptor
+	 */
 	public static constructor_delayed_payment_output(a: DelayedPaymentOutputDescriptor): SpendableOutputDescriptor {
 		const ret: number = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
 		const ret_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(ret);
@@ -320,6 +336,9 @@ export class SpendableOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new StaticPaymentOutput-variant SpendableOutputDescriptor
+	 */
 	public static constructor_static_payment_output(a: StaticPaymentOutputDescriptor): SpendableOutputDescriptor {
 		const ret: number = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
 		const ret_hu_conv: SpendableOutputDescriptor = SpendableOutputDescriptor.constr_from_ptr(ret);
@@ -327,12 +346,18 @@ export class SpendableOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the SpendableOutputDescriptor object into a byte array which can be read by SpendableOutputDescriptor_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.SpendableOutputDescriptor_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a SpendableOutputDescriptor from a byte array, created by SpendableOutputDescriptor_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_SpendableOutputDescriptorDecodeErrorZ {
 		const ret: number = bindings.SpendableOutputDescriptor_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_SpendableOutputDescriptorDecodeErrorZ = Result_SpendableOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);
@@ -340,8 +365,15 @@ export class SpendableOutputDescriptor extends CommonBase {
 	}
 
 }
+/** A SpendableOutputDescriptor of type StaticOutput */
 export class SpendableOutputDescriptor_StaticOutput extends SpendableOutputDescriptor {
+	/**
+	 * The outpoint which is spendable
+	 */
 	public outpoint: OutPoint;
+	/**
+	 * The output which is referenced by the given outpoint.
+	 */
 	public output: TxOut;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -355,6 +387,7 @@ export class SpendableOutputDescriptor_StaticOutput extends SpendableOutputDescr
 		this.output = output_conv;
 	}
 }
+/** A SpendableOutputDescriptor of type DelayedPaymentOutput */
 export class SpendableOutputDescriptor_DelayedPaymentOutput extends SpendableOutputDescriptor {
 	public delayed_payment_output: DelayedPaymentOutputDescriptor;
 	/* @internal */
@@ -366,6 +399,7 @@ export class SpendableOutputDescriptor_DelayedPaymentOutput extends SpendableOut
 		this.delayed_payment_output = delayed_payment_output_hu_conv;
 	}
 }
+/** A SpendableOutputDescriptor of type StaticPaymentOutput */
 export class SpendableOutputDescriptor_StaticPaymentOutput extends SpendableOutputDescriptor {
 	public static_payment_output: StaticPaymentOutputDescriptor;
 	/* @internal */

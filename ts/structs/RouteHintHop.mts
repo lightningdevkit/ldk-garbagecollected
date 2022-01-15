@@ -281,31 +281,49 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A channel descriptor for a hop along a payment path.
+ */
 export class RouteHintHop extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.RouteHintHop_free);
 	}
 
+	/**
+	 * The node_id of the non-target end of the route
+	 */
 	public get_src_node_id(): Uint8Array {
 		const ret: number = bindings.RouteHintHop_get_src_node_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The node_id of the non-target end of the route
+	 */
 	public set_src_node_id(val: Uint8Array): void {
 		bindings.RouteHintHop_set_src_node_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * The short_channel_id of this channel
+	 */
 	public get_short_channel_id(): bigint {
 		const ret: bigint = bindings.RouteHintHop_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The short_channel_id of this channel
+	 */
 	public set_short_channel_id(val: bigint): void {
 		bindings.RouteHintHop_set_short_channel_id(this.ptr, val);
 	}
 
+	/**
+	 * The fees which must be paid to use this channel
+	 */
 	public get_fees(): RoutingFees {
 		const ret: number = bindings.RouteHintHop_get_fees(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
@@ -313,19 +331,31 @@ export class RouteHintHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The fees which must be paid to use this channel
+	 */
 	public set_fees(val: RoutingFees): void {
 		bindings.RouteHintHop_set_fees(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The difference in CLTV values between this node and the next node.
+	 */
 	public get_cltv_expiry_delta(): number {
 		const ret: number = bindings.RouteHintHop_get_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The difference in CLTV values between this node and the next node.
+	 */
 	public set_cltv_expiry_delta(val: number): void {
 		bindings.RouteHintHop_set_cltv_expiry_delta(this.ptr, val);
 	}
 
+	/**
+	 * The minimum value, in msat, which must be relayed to the next hop.
+	 */
 	public get_htlc_minimum_msat(): Option_u64Z {
 		const ret: number = bindings.RouteHintHop_get_htlc_minimum_msat(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
@@ -333,10 +363,16 @@ export class RouteHintHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The minimum value, in msat, which must be relayed to the next hop.
+	 */
 	public set_htlc_minimum_msat(val: Option_u64Z): void {
 		bindings.RouteHintHop_set_htlc_minimum_msat(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * The maximum value in msat available for routing with a single HTLC.
+	 */
 	public get_htlc_maximum_msat(): Option_u64Z {
 		const ret: number = bindings.RouteHintHop_get_htlc_maximum_msat(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
@@ -344,10 +380,16 @@ export class RouteHintHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The maximum value in msat available for routing with a single HTLC.
+	 */
 	public set_htlc_maximum_msat(val: Option_u64Z): void {
 		bindings.RouteHintHop_set_htlc_maximum_msat(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * Constructs a new RouteHintHop given each field
+	 */
 	public static constructor_new(src_node_id_arg: Uint8Array, short_channel_id_arg: bigint, fees_arg: RoutingFees, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: Option_u64Z, htlc_maximum_msat_arg: Option_u64Z): RouteHintHop {
 		const ret: number = bindings.RouteHintHop_new(bindings.encodeUint8Array(bindings.check_arr_len(src_node_id_arg, 33)), short_channel_id_arg, fees_arg == null ? 0 : CommonBase.get_ptr_of(fees_arg) & ~1, cltv_expiry_delta_arg, CommonBase.get_ptr_of(htlc_minimum_msat_arg), CommonBase.get_ptr_of(htlc_maximum_msat_arg));
 		const ret_hu_conv: RouteHintHop = new RouteHintHop(null, ret);
@@ -360,6 +402,9 @@ export class RouteHintHop extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the RouteHintHop
+	 */
 	public clone(): RouteHintHop {
 		const ret: number = bindings.RouteHintHop_clone(this.ptr);
 		const ret_hu_conv: RouteHintHop = new RouteHintHop(null, ret);
@@ -367,23 +412,37 @@ export class RouteHintHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two RouteHintHops contain equal inner contents.
+	 */
 	public hash(): bigint {
 		const ret: bigint = bindings.RouteHintHop_hash(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Checks if two RouteHintHops contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: RouteHintHop): boolean {
 		const ret: boolean = bindings.RouteHintHop_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
+	/**
+	 * Serialize the RouteHintHop object into a byte array which can be read by RouteHintHop_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.RouteHintHop_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a RouteHintHop from a byte array, created by RouteHintHop_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteHintHopDecodeErrorZ {
 		const ret: number = bindings.RouteHintHop_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteHintHopDecodeErrorZ = Result_RouteHintHopDecodeErrorZ.constr_from_ptr(ret);

@@ -294,18 +294,27 @@ export class Result_C2Tuple_PaymentHashPaymentSecretZNoneZ extends CommonBase {
 			return new Result_C2Tuple_PaymentHashPaymentSecretZNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ in the success state.
+	 */
 	public static constructor_ok(o: TwoTuple_PaymentHashPaymentSecretZ): Result_C2Tuple_PaymentHashPaymentSecretZNoneZ {
 		const ret: number = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_ok(o != null ? CommonBase.get_ptr_of(o) : 0);
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentSecretZNoneZ = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_C2Tuple_PaymentHashPaymentSecretZNoneZ {
 		const ret: number = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_err();
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentSecretZNoneZ = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_C2Tuple_PaymentHashPaymentSecretZNoneZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_C2Tuple_PaymentHashPaymentSecretZNoneZ {
 		const ret: number = bindings.CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_C2Tuple_PaymentHashPaymentSecretZNoneZ = Result_C2Tuple_PaymentHashPaymentSecretZNoneZ.constr_from_ptr(ret);

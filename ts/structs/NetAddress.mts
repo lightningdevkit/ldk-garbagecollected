@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An address which can be used to connect to a remote peer
+ */
 export class NetAddress extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.NetAddress_free); }
 	/* @internal */
@@ -300,6 +303,9 @@ export class NetAddress extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the NetAddress
+	 */
 	public clone(): NetAddress {
 		const ret: number = bindings.NetAddress_clone(this.ptr);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
@@ -307,6 +313,9 @@ export class NetAddress extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new IPv4-variant NetAddress
+	 */
 	public static constructor_ipv4(addr: Uint8Array, port: number): NetAddress {
 		const ret: number = bindings.NetAddress_ipv4(bindings.encodeUint8Array(bindings.check_arr_len(addr, 4)), port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
@@ -314,6 +323,9 @@ export class NetAddress extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new IPv6-variant NetAddress
+	 */
 	public static constructor_ipv6(addr: Uint8Array, port: number): NetAddress {
 		const ret: number = bindings.NetAddress_ipv6(bindings.encodeUint8Array(bindings.check_arr_len(addr, 16)), port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
@@ -321,6 +333,9 @@ export class NetAddress extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new OnionV2-variant NetAddress
+	 */
 	public static constructor_onion_v2(a: Uint8Array): NetAddress {
 		const ret: number = bindings.NetAddress_onion_v2(bindings.encodeUint8Array(bindings.check_arr_len(a, 12)));
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
@@ -328,6 +343,9 @@ export class NetAddress extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new OnionV3-variant NetAddress
+	 */
 	public static constructor_onion_v3(ed25519_pubkey: Uint8Array, checksum: number, version: number, port: number): NetAddress {
 		const ret: number = bindings.NetAddress_onion_v3(bindings.encodeUint8Array(bindings.check_arr_len(ed25519_pubkey, 32)), checksum, version, port);
 		const ret_hu_conv: NetAddress = NetAddress.constr_from_ptr(ret);
@@ -335,12 +353,18 @@ export class NetAddress extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the NetAddress object into a byte array which can be read by NetAddress_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.NetAddress_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a NetAddress from a byte array, created by NetAddress_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_NetAddressDecodeErrorZ {
 		const ret: number = bindings.NetAddress_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NetAddressDecodeErrorZ = Result_NetAddressDecodeErrorZ.constr_from_ptr(ret);
@@ -348,8 +372,15 @@ export class NetAddress extends CommonBase {
 	}
 
 }
+/** A NetAddress of type IPv4 */
 export class NetAddress_IPv4 extends NetAddress {
+	/**
+	 * The 4-byte IPv4 address
+	 */
 	public addr: Uint8Array;
+	/**
+	 * The port on which the node is listening
+	 */
 	public port: number;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -360,8 +391,15 @@ export class NetAddress_IPv4 extends NetAddress {
 		this.port = bindings.LDKNetAddress_IPv4_get_port(ptr);
 	}
 }
+/** A NetAddress of type IPv6 */
 export class NetAddress_IPv6 extends NetAddress {
+	/**
+	 * The 16-byte IPv6 address
+	 */
 	public addr: Uint8Array;
+	/**
+	 * The port on which the node is listening
+	 */
 	public port: number;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -372,6 +410,7 @@ export class NetAddress_IPv6 extends NetAddress {
 		this.port = bindings.LDKNetAddress_IPv6_get_port(ptr);
 	}
 }
+/** A NetAddress of type OnionV2 */
 export class NetAddress_OnionV2 extends NetAddress {
 	public onion_v2: Uint8Array;
 	/* @internal */
@@ -382,10 +421,23 @@ export class NetAddress_OnionV2 extends NetAddress {
 		this.onion_v2 = onion_v2_conv;
 	}
 }
+/** A NetAddress of type OnionV3 */
 export class NetAddress_OnionV3 extends NetAddress {
+	/**
+	 * The ed25519 long-term public key of the peer
+	 */
 	public ed25519_pubkey: Uint8Array;
+	/**
+	 * The checksum of the pubkey and version, as included in the onion address
+	 */
 	public checksum: number;
+	/**
+	 * The version byte, as defined by the Tor Onion v3 spec.
+	 */
 	public version: number;
+	/**
+	 * The port on which the node is listening
+	 */
 	public port: number;
 	/* @internal */
 	public constructor(ptr: number) {

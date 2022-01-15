@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::c_types::derived::C2Tuple_usizeTransactionZ or not
+ */
 export class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_C2Tuple_usizeTransactionZZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_C2Tuple_usizeTransactionZZ containing a crate::c_types::derived::C2Tuple_usizeTransactionZ
+	 */
 	public static constructor_some(o: TwoTuple_usizeTransactionZ): Option_C2Tuple_usizeTransactionZZ {
 		const ret: number = bindings.COption_C2Tuple_usizeTransactionZZ_some(o != null ? CommonBase.get_ptr_of(o) : 0);
 		const ret_hu_conv: Option_C2Tuple_usizeTransactionZZ = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
@@ -300,6 +306,9 @@ export class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_C2Tuple_usizeTransactionZZ containing nothing
+	 */
 	public static constructor_none(): Option_C2Tuple_usizeTransactionZZ {
 		const ret: number = bindings.COption_C2Tuple_usizeTransactionZZ_none();
 		const ret_hu_conv: Option_C2Tuple_usizeTransactionZZ = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
@@ -312,6 +321,10 @@ export class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new COption_C2Tuple_usizeTransactionZZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Option_C2Tuple_usizeTransactionZZ {
 		const ret: number = bindings.COption_C2Tuple_usizeTransactionZZ_clone(this.ptr);
 		const ret_hu_conv: Option_C2Tuple_usizeTransactionZZ = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
@@ -320,6 +333,7 @@ export class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	}
 
 }
+/** A Option_C2Tuple_usizeTransactionZZ of type Some */
 export class Option_C2Tuple_usizeTransactionZZ_Some extends Option_C2Tuple_usizeTransactionZZ {
 	public some: TwoTuple_usizeTransactionZ;
 	/* @internal */
@@ -331,6 +345,7 @@ export class Option_C2Tuple_usizeTransactionZZ_Some extends Option_C2Tuple_usize
 		this.some = some_hu_conv;
 	}
 }
+/** A Option_C2Tuple_usizeTransactionZZ of type None */
 export class Option_C2Tuple_usizeTransactionZZ_None extends Option_C2Tuple_usizeTransactionZZ {
 	/* @internal */
 	public constructor(ptr: number) {

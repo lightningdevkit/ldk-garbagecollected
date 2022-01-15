@@ -283,7 +283,10 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of Sign */
 export interface SignInterface {
+	/**Serialize the object into a byte array
+	 */
 	write(): Uint8Array;
 }
 
@@ -291,6 +294,13 @@ class LDKSignHolder {
 	held: Sign;
 }
 
+/**
+ * A cloneable signer.
+ * 
+ * Although we require signers to be cloneable, it may be useful for developers to be able to use
+ * signers in an un-sized way, for example as `dyn BaseSign`. Therefore we separate the Clone trait,
+ * which implies Sized, into this derived trait.
+ */
 export class Sign extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKSign;
@@ -301,7 +311,8 @@ export class Sign extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: SignInterface, baseSign_impl: BaseSignInterface, pubkeys: ChannelPublicKeys): Sign {
+	/** Creates a new instance of Sign from a given implementation */
+	public static new_impl(arg: SignInterface, baseSign_impl: BaseSignInterface, pubkeys: ChannelPublicKeys): Sign {
 		const impl_holder: LDKSignHolder = new LDKSignHolder();
 		let structImplementation = {
 			write (): number {
@@ -318,6 +329,10 @@ export class Sign extends CommonBase {
 		impl_holder.held.ptrs_to.push(baseSign);
 		return impl_holder.held;
 	}
+
+	/**
+	 * Serialize the object into a byte array
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.Sign_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
@@ -329,6 +344,9 @@ export class Sign extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of a Sign
+	 */
 	public clone(): Sign {
 		const ret: number = bindings.Sign_clone(this.ptr);
 		const ret_hu_conv: Sign = new Sign(null, ret);

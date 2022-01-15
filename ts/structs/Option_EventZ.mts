@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::lightning::util::events::Event or not
+ */
 export class Option_EventZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_EventZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_EventZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_EventZ containing a crate::lightning::util::events::Event
+	 */
 	public static constructor_some(o: Event): Option_EventZ {
 		const ret: number = bindings.COption_EventZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_EventZ = Option_EventZ.constr_from_ptr(ret);
@@ -300,6 +306,9 @@ export class Option_EventZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_EventZ containing nothing
+	 */
 	public static constructor_none(): Option_EventZ {
 		const ret: number = bindings.COption_EventZ_none();
 		const ret_hu_conv: Option_EventZ = Option_EventZ.constr_from_ptr(ret);
@@ -312,6 +321,10 @@ export class Option_EventZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new COption_EventZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Option_EventZ {
 		const ret: number = bindings.COption_EventZ_clone(this.ptr);
 		const ret_hu_conv: Option_EventZ = Option_EventZ.constr_from_ptr(ret);
@@ -320,6 +333,7 @@ export class Option_EventZ extends CommonBase {
 	}
 
 }
+/** A Option_EventZ of type Some */
 export class Option_EventZ_Some extends Option_EventZ {
 	public some: Event;
 	/* @internal */
@@ -331,6 +345,7 @@ export class Option_EventZ_Some extends Option_EventZ {
 		this.some = some_hu_conv;
 	}
 }
+/** A Option_EventZ of type None */
 export class Option_EventZ_None extends Option_EventZ {
 	/* @internal */
 	public constructor(ptr: number) {

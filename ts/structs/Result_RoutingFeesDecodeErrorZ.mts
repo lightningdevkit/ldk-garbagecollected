@@ -294,18 +294,27 @@ export class Result_RoutingFeesDecodeErrorZ extends CommonBase {
 			return new Result_RoutingFeesDecodeErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_RoutingFeesDecodeErrorZ in the success state.
+	 */
 	public static constructor_ok(o: RoutingFees): Result_RoutingFeesDecodeErrorZ {
 		const ret: number = bindings.CResult_RoutingFeesDecodeErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
 		const ret_hu_conv: Result_RoutingFeesDecodeErrorZ = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_RoutingFeesDecodeErrorZ in the error state.
+	 */
 	public static constructor_err(e: DecodeError): Result_RoutingFeesDecodeErrorZ {
 		const ret: number = bindings.CResult_RoutingFeesDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_RoutingFeesDecodeErrorZ = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_RoutingFeesDecodeErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_RoutingFeesDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_RoutingFeesDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_RoutingFeesDecodeErrorZ {
 		const ret: number = bindings.CResult_RoutingFeesDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_RoutingFeesDecodeErrorZ = Result_RoutingFeesDecodeErrorZ.constr_from_ptr(ret);

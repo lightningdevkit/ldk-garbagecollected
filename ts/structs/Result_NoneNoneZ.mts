@@ -294,18 +294,27 @@ export class Result_NoneNoneZ extends CommonBase {
 			return new Result_NoneNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_NoneNoneZ in the success state.
+	 */
 	public static constructor_ok(): Result_NoneNoneZ {
 		const ret: number = bindings.CResult_NoneNoneZ_ok();
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_NoneNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_NoneNoneZ {
 		const ret: number = bindings.CResult_NoneNoneZ_err();
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_NoneNoneZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_NoneNoneZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_NoneNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_NoneNoneZ {
 		const ret: number = bindings.CResult_NoneNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_NoneNoneZ = Result_NoneNoneZ.constr_from_ptr(ret);

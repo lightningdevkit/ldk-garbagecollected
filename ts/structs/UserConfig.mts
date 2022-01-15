@@ -281,12 +281,21 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Top-level config which holds ChannelHandshakeLimits and ChannelConfig.
+ * 
+ * Default::default() provides sane defaults for most configurations
+ * (but currently with 0 relay fees!)
+ */
 export class UserConfig extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.UserConfig_free);
 	}
 
+	/**
+	 * Channel config that we propose to our counterparty.
+	 */
 	public get_own_channel_config(): ChannelHandshakeConfig {
 		const ret: number = bindings.UserConfig_get_own_channel_config(this.ptr);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
@@ -294,10 +303,16 @@ export class UserConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Channel config that we propose to our counterparty.
+	 */
 	public set_own_channel_config(val: ChannelHandshakeConfig): void {
 		bindings.UserConfig_set_own_channel_config(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Limits applied to our counterparty's proposed channel config settings.
+	 */
 	public get_peer_channel_config_limits(): ChannelHandshakeLimits {
 		const ret: number = bindings.UserConfig_get_peer_channel_config_limits(this.ptr);
 		const ret_hu_conv: ChannelHandshakeLimits = new ChannelHandshakeLimits(null, ret);
@@ -305,10 +320,16 @@ export class UserConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Limits applied to our counterparty's proposed channel config settings.
+	 */
 	public set_peer_channel_config_limits(val: ChannelHandshakeLimits): void {
 		bindings.UserConfig_set_peer_channel_config_limits(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Channel config which affects behavior during channel lifetime.
+	 */
 	public get_channel_options(): ChannelConfig {
 		const ret: number = bindings.UserConfig_get_channel_options(this.ptr);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
@@ -316,28 +337,78 @@ export class UserConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Channel config which affects behavior during channel lifetime.
+	 */
 	public set_channel_options(val: ChannelConfig): void {
 		bindings.UserConfig_set_channel_options(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * If this is set to false, we will reject any HTLCs which were to be forwarded over private
+	 * channels. This prevents us from taking on HTLC-forwarding risk when we intend to run as a
+	 * node which is not online reliably.
+	 * 
+	 * For nodes which are not online reliably, you should set all channels to *not* be announced
+	 * (using [`ChannelConfig::announced_channel`] and
+	 * [`ChannelHandshakeLimits::force_announced_channel_preference`]) and set this to false to
+	 * ensure you are not exposed to any forwarding risk.
+	 * 
+	 * Note that because you cannot change a channel's announced state after creation, there is no
+	 * way to disable forwarding on public channels retroactively. Thus, in order to change a node
+	 * from a publicly-announced forwarding node to a private non-forwarding node you must close
+	 * all your channels and open new ones. For privacy, you should also change your node_id
+	 * (swapping all private and public key material for new ones) at that time.
+	 * 
+	 * Default value: false.
+	 */
 	public get_accept_forwards_to_priv_channels(): boolean {
 		const ret: boolean = bindings.UserConfig_get_accept_forwards_to_priv_channels(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * If this is set to false, we will reject any HTLCs which were to be forwarded over private
+	 * channels. This prevents us from taking on HTLC-forwarding risk when we intend to run as a
+	 * node which is not online reliably.
+	 * 
+	 * For nodes which are not online reliably, you should set all channels to *not* be announced
+	 * (using [`ChannelConfig::announced_channel`] and
+	 * [`ChannelHandshakeLimits::force_announced_channel_preference`]) and set this to false to
+	 * ensure you are not exposed to any forwarding risk.
+	 * 
+	 * Note that because you cannot change a channel's announced state after creation, there is no
+	 * way to disable forwarding on public channels retroactively. Thus, in order to change a node
+	 * from a publicly-announced forwarding node to a private non-forwarding node you must close
+	 * all your channels and open new ones. For privacy, you should also change your node_id
+	 * (swapping all private and public key material for new ones) at that time.
+	 * 
+	 * Default value: false.
+	 */
 	public set_accept_forwards_to_priv_channels(val: boolean): void {
 		bindings.UserConfig_set_accept_forwards_to_priv_channels(this.ptr, val);
 	}
 
+	/**
+	 * If this is set to false, we do not accept inbound requests to open a new channel.
+	 * Default value: true.
+	 */
 	public get_accept_inbound_channels(): boolean {
 		const ret: boolean = bindings.UserConfig_get_accept_inbound_channels(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * If this is set to false, we do not accept inbound requests to open a new channel.
+	 * Default value: true.
+	 */
 	public set_accept_inbound_channels(val: boolean): void {
 		bindings.UserConfig_set_accept_inbound_channels(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new UserConfig given each field
+	 */
 	public static constructor_new(own_channel_config_arg: ChannelHandshakeConfig, peer_channel_config_limits_arg: ChannelHandshakeLimits, channel_options_arg: ChannelConfig, accept_forwards_to_priv_channels_arg: boolean, accept_inbound_channels_arg: boolean): UserConfig {
 		const ret: number = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : CommonBase.get_ptr_of(own_channel_config_arg) & ~1, peer_channel_config_limits_arg == null ? 0 : CommonBase.get_ptr_of(peer_channel_config_limits_arg) & ~1, channel_options_arg == null ? 0 : CommonBase.get_ptr_of(channel_options_arg) & ~1, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg);
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
@@ -350,6 +421,9 @@ export class UserConfig extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the UserConfig
+	 */
 	public clone(): UserConfig {
 		const ret: number = bindings.UserConfig_clone(this.ptr);
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);
@@ -357,6 +431,9 @@ export class UserConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a "default" UserConfig. See struct and individual field documentaiton for details on which values are used.
+	 */
 	public static constructor_default(): UserConfig {
 		const ret: number = bindings.UserConfig_default();
 		const ret_hu_conv: UserConfig = new UserConfig(null, ret);

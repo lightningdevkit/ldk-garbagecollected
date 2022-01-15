@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::c_types::derived::CVec_NetAddressZ or not
+ */
 export class Option_CVec_NetAddressZZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_CVec_NetAddressZZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_CVec_NetAddressZZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_CVec_NetAddressZZ containing a crate::c_types::derived::CVec_NetAddressZ
+	 */
 	public static constructor_some(o: NetAddress[]): Option_CVec_NetAddressZZ {
 		const ret: number = bindings.COption_CVec_NetAddressZZ_some(bindings.encodeUint32Array(o != null ? o.map(o_conv_12 => CommonBase.get_ptr_of(o_conv_12)) : null));
 		const ret_hu_conv: Option_CVec_NetAddressZZ = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
@@ -300,6 +306,9 @@ export class Option_CVec_NetAddressZZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_CVec_NetAddressZZ containing nothing
+	 */
 	public static constructor_none(): Option_CVec_NetAddressZZ {
 		const ret: number = bindings.COption_CVec_NetAddressZZ_none();
 		const ret_hu_conv: Option_CVec_NetAddressZZ = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
@@ -312,6 +321,10 @@ export class Option_CVec_NetAddressZZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new COption_CVec_NetAddressZZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Option_CVec_NetAddressZZ {
 		const ret: number = bindings.COption_CVec_NetAddressZZ_clone(this.ptr);
 		const ret_hu_conv: Option_CVec_NetAddressZZ = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
@@ -320,6 +333,7 @@ export class Option_CVec_NetAddressZZ extends CommonBase {
 	}
 
 }
+/** A Option_CVec_NetAddressZZ of type Some */
 export class Option_CVec_NetAddressZZ_Some extends Option_CVec_NetAddressZZ {
 	public some: NetAddress[];
 	/* @internal */
@@ -334,9 +348,11 @@ export class Option_CVec_NetAddressZZ_Some extends Option_CVec_NetAddressZZ {
 				CommonBase.add_ref_from(some_conv_12_hu_conv, this);
 				some_conv_12_arr[m] = some_conv_12_hu_conv;
 			}
+			bindings.freeWasmMemory(some)
 		this.some = some_conv_12_arr;
 	}
 }
+/** A Option_CVec_NetAddressZZ of type None */
 export class Option_CVec_NetAddressZZ_None extends Option_CVec_NetAddressZZ {
 	/* @internal */
 	public constructor(ptr: number) {

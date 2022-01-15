@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a u32 or not
+ */
 export class Option_u32Z extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_u32Z_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_u32Z extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_u32Z containing a u32
+	 */
 	public static constructor_some(o: number): Option_u32Z {
 		const ret: number = bindings.COption_u32Z_some(o);
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
@@ -300,6 +306,9 @@ export class Option_u32Z extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_u32Z containing nothing
+	 */
 	public static constructor_none(): Option_u32Z {
 		const ret: number = bindings.COption_u32Z_none();
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
@@ -312,6 +321,10 @@ export class Option_u32Z extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new COption_u32Z which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Option_u32Z {
 		const ret: number = bindings.COption_u32Z_clone(this.ptr);
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
@@ -320,6 +333,7 @@ export class Option_u32Z extends CommonBase {
 	}
 
 }
+/** A Option_u32Z of type Some */
 export class Option_u32Z_Some extends Option_u32Z {
 	public some: number;
 	/* @internal */
@@ -328,6 +342,7 @@ export class Option_u32Z_Some extends Option_u32Z {
 		this.some = bindings.LDKCOption_u32Z_Some_get_some(ptr);
 	}
 }
+/** A Option_u32Z of type None */
 export class Option_u32Z_None extends Option_u32Z {
 	/* @internal */
 	public constructor(ptr: number) {

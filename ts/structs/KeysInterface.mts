@@ -283,14 +283,56 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of KeysInterface */
 export interface KeysInterfaceInterface {
+	/**Get node secret key (aka node_id or network_key).
+	 * 
+	 * This method must return the same value each time it is called.
+	 */
 	get_node_secret(): Uint8Array;
+	/**Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
+	 * 
+	 * This method should return a different value each time it is called, to avoid linking
+	 * on-chain funds across channels as controlled to the same user.
+	 */
 	get_destination_script(): Uint8Array;
+	/**Get a script pubkey which we will send funds to when closing a channel.
+	 * 
+	 * This method should return a different value each time it is called, to avoid linking
+	 * on-chain funds across channels as controlled to the same user.
+	 */
 	get_shutdown_scriptpubkey(): ShutdownScript;
+	/**Get a new set of Sign for per-channel secrets. These MUST be unique even if you
+	 * restarted with some stale data!
+	 * 
+	 * This method must return a different value each time it is called.
+	 */
 	get_channel_signer(inbound: boolean, channel_value_satoshis: bigint): Sign;
+	/**Gets a unique, cryptographically-secure, random 32 byte value. This is used for encrypting
+	 * onion packets and for temporary channel IDs. There is no requirement that these be
+	 * persisted anywhere, though they must be unique across restarts.
+	 * 
+	 * This method must return a different value each time it is called.
+	 */
 	get_secure_random_bytes(): Uint8Array;
+	/**Reads a `Signer` for this `KeysInterface` from the given input stream.
+	 * This is only called during deserialization of other objects which contain
+	 * `Sign`-implementing objects (ie `ChannelMonitor`s and `ChannelManager`s).
+	 * The bytes are exactly those which `<Self::Signer as Writeable>::write()` writes, and
+	 * contain no versioning scheme. You may wish to include your own version prefix and ensure
+	 * you've read all of the provided bytes to ensure no corruption occurred.
+	 */
 	read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ;
+	/**Sign an invoice's preimage (note that this is the preimage of the invoice, not the HTLC's
+	 * preimage). By parameterizing by the preimage instead of the hash, we allow implementors of
+	 * this trait to parse the invoice and make sure they're signing what they expect, rather than
+	 * blindly signing the hash.
+	 */
 	sign_invoice(invoice_preimage: Uint8Array): Result_RecoverableSignatureNoneZ;
+	/**Get secret key material as bytes for use in encrypting and decrypting inbound payment data.
+	 * 
+	 * This method must return the same value each time it is called.
+	 */
 	get_inbound_payment_key_material(): Uint8Array;
 }
 
@@ -298,6 +340,9 @@ class LDKKeysInterfaceHolder {
 	held: KeysInterface;
 }
 
+/**
+ * A trait to describe an object which can get user secrets and key material.
+ */
 export class KeysInterface extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKKeysInterface;
@@ -308,7 +353,8 @@ export class KeysInterface extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: KeysInterfaceInterface): KeysInterface {
+	/** Creates a new instance of KeysInterface from a given implementation */
+	public static new_impl(arg: KeysInterfaceInterface): KeysInterface {
 		const impl_holder: LDKKeysInterfaceHolder = new LDKKeysInterfaceHolder();
 		let structImplementation = {
 			get_node_secret (): number {
@@ -361,18 +407,36 @@ export class KeysInterface extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
+
+	/**
+	 * Get node secret key (aka node_id or network_key).
+	 * 
+	 * This method must return the same value each time it is called.
+	 */
 	public get_node_secret(): Uint8Array {
 		const ret: number = bindings.KeysInterface_get_node_secret(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
+	 * 
+	 * This method should return a different value each time it is called, to avoid linking
+	 * on-chain funds across channels as controlled to the same user.
+	 */
 	public get_destination_script(): Uint8Array {
 		const ret: number = bindings.KeysInterface_get_destination_script(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Get a script pubkey which we will send funds to when closing a channel.
+	 * 
+	 * This method should return a different value each time it is called, to avoid linking
+	 * on-chain funds across channels as controlled to the same user.
+	 */
 	public get_shutdown_scriptpubkey(): ShutdownScript {
 		const ret: number = bindings.KeysInterface_get_shutdown_scriptpubkey(this.ptr);
 		const ret_hu_conv: ShutdownScript = new ShutdownScript(null, ret);
@@ -380,6 +444,12 @@ export class KeysInterface extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Get a new set of Sign for per-channel secrets. These MUST be unique even if you
+	 * restarted with some stale data!
+	 * 
+	 * This method must return a different value each time it is called.
+	 */
 	public get_channel_signer(inbound: boolean, channel_value_satoshis: bigint): Sign {
 		const ret: number = bindings.KeysInterface_get_channel_signer(this.ptr, inbound, channel_value_satoshis);
 		const ret_hu_conv: Sign = new Sign(null, ret);
@@ -387,24 +457,50 @@ export class KeysInterface extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Gets a unique, cryptographically-secure, random 32 byte value. This is used for encrypting
+	 * onion packets and for temporary channel IDs. There is no requirement that these be
+	 * persisted anywhere, though they must be unique across restarts.
+	 * 
+	 * This method must return a different value each time it is called.
+	 */
 	public get_secure_random_bytes(): Uint8Array {
 		const ret: number = bindings.KeysInterface_get_secure_random_bytes(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Reads a `Signer` for this `KeysInterface` from the given input stream.
+	 * This is only called during deserialization of other objects which contain
+	 * `Sign`-implementing objects (ie `ChannelMonitor`s and `ChannelManager`s).
+	 * The bytes are exactly those which `<Self::Signer as Writeable>::write()` writes, and
+	 * contain no versioning scheme. You may wish to include your own version prefix and ensure
+	 * you've read all of the provided bytes to ensure no corruption occurred.
+	 */
 	public read_chan_signer(reader: Uint8Array): Result_SignDecodeErrorZ {
 		const ret: number = bindings.KeysInterface_read_chan_signer(this.ptr, bindings.encodeUint8Array(reader));
 		const ret_hu_conv: Result_SignDecodeErrorZ = Result_SignDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Sign an invoice's preimage (note that this is the preimage of the invoice, not the HTLC's
+	 * preimage). By parameterizing by the preimage instead of the hash, we allow implementors of
+	 * this trait to parse the invoice and make sure they're signing what they expect, rather than
+	 * blindly signing the hash.
+	 */
 	public sign_invoice(invoice_preimage: Uint8Array): Result_RecoverableSignatureNoneZ {
 		const ret: number = bindings.KeysInterface_sign_invoice(this.ptr, bindings.encodeUint8Array(invoice_preimage));
 		const ret_hu_conv: Result_RecoverableSignatureNoneZ = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Get secret key material as bytes for use in encrypting and decrypting inbound payment data.
+	 * 
+	 * This method must return the same value each time it is called.
+	 */
 	public get_inbound_payment_key_material(): Uint8Array {
 		const ret: number = bindings.KeysInterface_get_inbound_payment_key_material(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);

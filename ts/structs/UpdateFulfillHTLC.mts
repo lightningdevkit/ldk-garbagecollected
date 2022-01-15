@@ -281,41 +281,65 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An update_fulfill_htlc message to be sent or received from a peer
+ */
 export class UpdateFulfillHTLC extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.UpdateFulfillHTLC_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.UpdateFulfillHTLC_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.UpdateFulfillHTLC_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The HTLC ID
+	 */
 	public get_htlc_id(): bigint {
 		const ret: bigint = bindings.UpdateFulfillHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The HTLC ID
+	 */
 	public set_htlc_id(val: bigint): void {
 		bindings.UpdateFulfillHTLC_set_htlc_id(this.ptr, val);
 	}
 
+	/**
+	 * The pre-image of the payment hash, allowing HTLC redemption
+	 */
 	public get_payment_preimage(): Uint8Array {
 		const ret: number = bindings.UpdateFulfillHTLC_get_payment_preimage(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The pre-image of the payment hash, allowing HTLC redemption
+	 */
 	public set_payment_preimage(val: Uint8Array): void {
 		bindings.UpdateFulfillHTLC_set_payment_preimage(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * Constructs a new UpdateFulfillHTLC given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, htlc_id_arg: bigint, payment_preimage_arg: Uint8Array): UpdateFulfillHTLC {
 		const ret: number = bindings.UpdateFulfillHTLC_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), htlc_id_arg, bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage_arg, 32)));
 		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
@@ -328,6 +352,9 @@ export class UpdateFulfillHTLC extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the UpdateFulfillHTLC
+	 */
 	public clone(): UpdateFulfillHTLC {
 		const ret: number = bindings.UpdateFulfillHTLC_clone(this.ptr);
 		const ret_hu_conv: UpdateFulfillHTLC = new UpdateFulfillHTLC(null, ret);
@@ -335,12 +362,18 @@ export class UpdateFulfillHTLC extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the UpdateFulfillHTLC object into a byte array which can be read by UpdateFulfillHTLC_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.UpdateFulfillHTLC_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a UpdateFulfillHTLC from a byte array, created by UpdateFulfillHTLC_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateFulfillHTLCDecodeErrorZ {
 		const ret: number = bindings.UpdateFulfillHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateFulfillHTLCDecodeErrorZ = Result_UpdateFulfillHTLCDecodeErrorZ.constr_from_ptr(ret);

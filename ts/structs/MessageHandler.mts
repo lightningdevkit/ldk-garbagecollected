@@ -281,12 +281,21 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Provides references to trait impls which handle different types of messages.
+ */
 export class MessageHandler extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.MessageHandler_free);
 	}
 
+	/**
+	 * A message handler which handles messages specific to channels. Usually this is just a
+	 * [`ChannelManager`] object or an [`ErroringMessageHandler`].
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 */
 	public get_chan_handler(): ChannelMessageHandler {
 		const ret: number = bindings.MessageHandler_get_chan_handler(this.ptr);
 		const ret_hu_conv: ChannelMessageHandler = new ChannelMessageHandler(null, ret);
@@ -294,11 +303,24 @@ export class MessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * A message handler which handles messages specific to channels. Usually this is just a
+	 * [`ChannelManager`] object or an [`ErroringMessageHandler`].
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 */
 	public set_chan_handler(val: ChannelMessageHandler): void {
 		bindings.MessageHandler_set_chan_handler(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
+	/**
+	 * A message handler which handles messages updating our knowledge of the network channel
+	 * graph. Usually this is just a [`NetGraphMsgHandler`] object or an
+	 * [`IgnoringMessageHandler`].
+	 * 
+	 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
+	 */
 	public get_route_handler(): RoutingMessageHandler {
 		const ret: number = bindings.MessageHandler_get_route_handler(this.ptr);
 		const ret_hu_conv: RoutingMessageHandler = new RoutingMessageHandler(null, ret);
@@ -306,11 +328,21 @@ export class MessageHandler extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * A message handler which handles messages updating our knowledge of the network channel
+	 * graph. Usually this is just a [`NetGraphMsgHandler`] object or an
+	 * [`IgnoringMessageHandler`].
+	 * 
+	 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
+	 */
 	public set_route_handler(val: RoutingMessageHandler): void {
 		bindings.MessageHandler_set_route_handler(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val));
 		CommonBase.add_ref_from(this, val);
 	}
 
+	/**
+	 * Constructs a new MessageHandler given each field
+	 */
 	public static constructor_new(chan_handler_arg: ChannelMessageHandler, route_handler_arg: RoutingMessageHandler): MessageHandler {
 		const ret: number = bindings.MessageHandler_new(chan_handler_arg == null ? 0 : CommonBase.get_ptr_of(chan_handler_arg), route_handler_arg == null ? 0 : CommonBase.get_ptr_of(route_handler_arg));
 		const ret_hu_conv: MessageHandler = new MessageHandler(null, ret);

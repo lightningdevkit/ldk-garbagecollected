@@ -294,18 +294,27 @@ export class Result_PaymentSecretAPIErrorZ extends CommonBase {
 			return new Result_PaymentSecretAPIErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_PaymentSecretAPIErrorZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array): Result_PaymentSecretAPIErrorZ {
 		const ret: number = bindings.CResult_PaymentSecretAPIErrorZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 32)));
 		const ret_hu_conv: Result_PaymentSecretAPIErrorZ = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_PaymentSecretAPIErrorZ in the error state.
+	 */
 	public static constructor_err(e: APIError): Result_PaymentSecretAPIErrorZ {
 		const ret: number = bindings.CResult_PaymentSecretAPIErrorZ_err(CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_PaymentSecretAPIErrorZ = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_PaymentSecretAPIErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_PaymentSecretAPIErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_PaymentSecretAPIErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_PaymentSecretAPIErrorZ {
 		const ret: number = bindings.CResult_PaymentSecretAPIErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_PaymentSecretAPIErrorZ = Result_PaymentSecretAPIErrorZ.constr_from_ptr(ret);

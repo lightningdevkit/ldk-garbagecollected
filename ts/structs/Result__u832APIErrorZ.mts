@@ -294,18 +294,27 @@ export class Result__u832APIErrorZ extends CommonBase {
 			return new Result__u832APIErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult__u832APIErrorZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array): Result__u832APIErrorZ {
 		const ret: number = bindings.CResult__u832APIErrorZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 32)));
 		const ret_hu_conv: Result__u832APIErrorZ = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult__u832APIErrorZ in the error state.
+	 */
 	public static constructor_err(e: APIError): Result__u832APIErrorZ {
 		const ret: number = bindings.CResult__u832APIErrorZ_err(CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result__u832APIErrorZ = Result__u832APIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult__u832APIErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result__u832APIErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult__u832APIErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result__u832APIErrorZ {
 		const ret: number = bindings.CResult__u832APIErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result__u832APIErrorZ = Result__u832APIErrorZ.constr_from_ptr(ret);

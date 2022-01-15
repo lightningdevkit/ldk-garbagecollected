@@ -281,22 +281,40 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Details of a channel, as returned by ChannelManager::list_channels and ChannelManager::list_usable_channels
+ */
 export class ChannelDetails extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelDetails_free);
 	}
 
+	/**
+	 * The channel's ID (prior to funding transaction generation, this is a random 32 bytes,
+	 * thereafter this is the txid of the funding transaction xor the funding transaction output).
+	 * Note that this means this value is *not* persistent - it can change once during the
+	 * lifetime of the channel.
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.ChannelDetails_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel's ID (prior to funding transaction generation, this is a random 32 bytes,
+	 * thereafter this is the txid of the funding transaction xor the funding transaction output).
+	 * Note that this means this value is *not* persistent - it can change once during the
+	 * lifetime of the channel.
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.ChannelDetails_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * Parameters which apply to our counterparty. See individual fields for more information.
+	 */
 	public get_counterparty(): ChannelCounterparty {
 		const ret: number = bindings.ChannelDetails_get_counterparty(this.ptr);
 		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);
@@ -304,10 +322,22 @@ export class ChannelDetails extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Parameters which apply to our counterparty. See individual fields for more information.
+	 */
 	public set_counterparty(val: ChannelCounterparty): void {
 		bindings.ChannelDetails_set_counterparty(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The Channel's funding transaction output, if we've negotiated the funding transaction with
+	 * our counterparty already.
+	 * 
+	 * Note that, if this has been set, `channel_id` will be equivalent to
+	 * `funding_txo.unwrap().to_channel_id()`.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_funding_txo(): OutPoint {
 		const ret: number = bindings.ChannelDetails_get_funding_txo(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
@@ -315,10 +345,23 @@ export class ChannelDetails extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The Channel's funding transaction output, if we've negotiated the funding transaction with
+	 * our counterparty already.
+	 * 
+	 * Note that, if this has been set, `channel_id` will be equivalent to
+	 * `funding_txo.unwrap().to_channel_id()`.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_funding_txo(val: OutPoint): void {
 		bindings.ChannelDetails_set_funding_txo(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The position of the funding transaction in the chain. None if the funding transaction has
+	 * not yet been confirmed and the channel fully opened.
+	 */
 	public get_short_channel_id(): Option_u64Z {
 		const ret: number = bindings.ChannelDetails_get_short_channel_id(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
@@ -326,19 +369,40 @@ export class ChannelDetails extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The position of the funding transaction in the chain. None if the funding transaction has
+	 * not yet been confirmed and the channel fully opened.
+	 */
 	public set_short_channel_id(val: Option_u64Z): void {
 		bindings.ChannelDetails_set_short_channel_id(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * The value, in satoshis, of this channel as appears in the funding output
+	 */
 	public get_channel_value_satoshis(): bigint {
 		const ret: bigint = bindings.ChannelDetails_get_channel_value_satoshis(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The value, in satoshis, of this channel as appears in the funding output
+	 */
 	public set_channel_value_satoshis(val: bigint): void {
 		bindings.ChannelDetails_set_channel_value_satoshis(this.ptr, val);
 	}
 
+	/**
+	 * The value, in satoshis, that must always be held in the channel for us. This value ensures
+	 * that if we broadcast a revoked state, our counterparty can punish us by claiming at least
+	 * this value on chain.
+	 * 
+	 * This value is not included in [`outbound_capacity_msat`] as it can never be spent.
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 * 
+	 * [`outbound_capacity_msat`]: ChannelDetails::outbound_capacity_msat
+	 */
 	public get_unspendable_punishment_reserve(): Option_u64Z {
 		const ret: number = bindings.ChannelDetails_get_unspendable_punishment_reserve(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
@@ -346,46 +410,146 @@ export class ChannelDetails extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The value, in satoshis, that must always be held in the channel for us. This value ensures
+	 * that if we broadcast a revoked state, our counterparty can punish us by claiming at least
+	 * this value on chain.
+	 * 
+	 * This value is not included in [`outbound_capacity_msat`] as it can never be spent.
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 * 
+	 * [`outbound_capacity_msat`]: ChannelDetails::outbound_capacity_msat
+	 */
 	public set_unspendable_punishment_reserve(val: Option_u64Z): void {
 		bindings.ChannelDetails_set_unspendable_punishment_reserve(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * The `user_channel_id` passed in to create_channel, or 0 if the channel was inbound.
+	 */
 	public get_user_channel_id(): bigint {
 		const ret: bigint = bindings.ChannelDetails_get_user_channel_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The `user_channel_id` passed in to create_channel, or 0 if the channel was inbound.
+	 */
 	public set_user_channel_id(val: bigint): void {
 		bindings.ChannelDetails_set_user_channel_id(this.ptr, val);
 	}
 
+	/**
+	 * Our total balance.  This is the amount we would get if we close the channel.
+	 * This value is not exact. Due to various in-flight changes and feerate changes, exactly this
+	 * amount is not likely to be recoverable on close.
+	 * 
+	 * This does not include any pending HTLCs which are not yet fully resolved (and, thus, whose
+	 * balance is not available for inclusion in new outbound HTLCs). This further does not include
+	 * any pending outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * This does not consider any on-chain fees.
+	 * 
+	 * See also [`ChannelDetails::outbound_capacity_msat`]
+	 */
 	public get_balance_msat(): bigint {
 		const ret: bigint = bindings.ChannelDetails_get_balance_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Our total balance.  This is the amount we would get if we close the channel.
+	 * This value is not exact. Due to various in-flight changes and feerate changes, exactly this
+	 * amount is not likely to be recoverable on close.
+	 * 
+	 * This does not include any pending HTLCs which are not yet fully resolved (and, thus, whose
+	 * balance is not available for inclusion in new outbound HTLCs). This further does not include
+	 * any pending outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * This does not consider any on-chain fees.
+	 * 
+	 * See also [`ChannelDetails::outbound_capacity_msat`]
+	 */
 	public set_balance_msat(val: bigint): void {
 		bindings.ChannelDetails_set_balance_msat(this.ptr, val);
 	}
 
+	/**
+	 * The available outbound capacity for sending HTLCs to the remote peer. This does not include
+	 * any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
+	 * available for inclusion in new outbound HTLCs). This further does not include any pending
+	 * outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * 
+	 * See also [`ChannelDetails::balance_msat`]
+	 * 
+	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
+	 * conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
+	 * should be able to spend nearly this amount.
+	 */
 	public get_outbound_capacity_msat(): bigint {
 		const ret: bigint = bindings.ChannelDetails_get_outbound_capacity_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The available outbound capacity for sending HTLCs to the remote peer. This does not include
+	 * any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
+	 * available for inclusion in new outbound HTLCs). This further does not include any pending
+	 * outgoing HTLCs which are awaiting some other resolution to be sent.
+	 * 
+	 * See also [`ChannelDetails::balance_msat`]
+	 * 
+	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
+	 * conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
+	 * should be able to spend nearly this amount.
+	 */
 	public set_outbound_capacity_msat(val: bigint): void {
 		bindings.ChannelDetails_set_outbound_capacity_msat(this.ptr, val);
 	}
 
+	/**
+	 * The available inbound capacity for the remote peer to send HTLCs to us. This does not
+	 * include any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
+	 * available for inclusion in new inbound HTLCs).
+	 * Note that there are some corner cases not fully handled here, so the actual available
+	 * inbound capacity may be slightly higher than this.
+	 * 
+	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
+	 * counterparty's conflict-avoidance policy, exactly this amount is not likely to be spendable.
+	 * However, our counterparty should be able to spend nearly this amount.
+	 */
 	public get_inbound_capacity_msat(): bigint {
 		const ret: bigint = bindings.ChannelDetails_get_inbound_capacity_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The available inbound capacity for the remote peer to send HTLCs to us. This does not
+	 * include any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
+	 * available for inclusion in new inbound HTLCs).
+	 * Note that there are some corner cases not fully handled here, so the actual available
+	 * inbound capacity may be slightly higher than this.
+	 * 
+	 * This value is not exact. Due to various in-flight changes, feerate changes, and our
+	 * counterparty's conflict-avoidance policy, exactly this amount is not likely to be spendable.
+	 * However, our counterparty should be able to spend nearly this amount.
+	 */
 	public set_inbound_capacity_msat(val: bigint): void {
 		bindings.ChannelDetails_set_inbound_capacity_msat(this.ptr, val);
 	}
 
+	/**
+	 * The number of required confirmations on the funding transaction before the funding will be
+	 * considered \"locked\". This number is selected by the channel fundee (i.e. us if
+	 * [`is_outbound`] is *not* set), and can be selected for inbound channels with
+	 * [`ChannelHandshakeConfig::minimum_depth`] or limited for outbound channels with
+	 * [`ChannelHandshakeLimits::max_minimum_depth`].
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 * 
+	 * [`is_outbound`]: ChannelDetails::is_outbound
+	 * [`ChannelHandshakeConfig::minimum_depth`]: crate::util::config::ChannelHandshakeConfig::minimum_depth
+	 * [`ChannelHandshakeLimits::max_minimum_depth`]: crate::util::config::ChannelHandshakeLimits::max_minimum_depth
+	 */
 	public get_confirmations_required(): Option_u32Z {
 		const ret: number = bindings.ChannelDetails_get_confirmations_required(this.ptr);
 		const ret_hu_conv: Option_u32Z = Option_u32Z.constr_from_ptr(ret);
@@ -393,10 +557,32 @@ export class ChannelDetails extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The number of required confirmations on the funding transaction before the funding will be
+	 * considered \"locked\". This number is selected by the channel fundee (i.e. us if
+	 * [`is_outbound`] is *not* set), and can be selected for inbound channels with
+	 * [`ChannelHandshakeConfig::minimum_depth`] or limited for outbound channels with
+	 * [`ChannelHandshakeLimits::max_minimum_depth`].
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 * 
+	 * [`is_outbound`]: ChannelDetails::is_outbound
+	 * [`ChannelHandshakeConfig::minimum_depth`]: crate::util::config::ChannelHandshakeConfig::minimum_depth
+	 * [`ChannelHandshakeLimits::max_minimum_depth`]: crate::util::config::ChannelHandshakeLimits::max_minimum_depth
+	 */
 	public set_confirmations_required(val: Option_u32Z): void {
 		bindings.ChannelDetails_set_confirmations_required(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * The number of blocks (after our commitment transaction confirms) that we will need to wait
+	 * until we can claim our funds after we force-close the channel. During this time our
+	 * counterparty is allowed to punish us if we broadcasted a stale state. If our counterparty
+	 * force-closes the channel and broadcasts a commitment transaction we do not have to wait any
+	 * time to claim our non-HTLC-encumbered funds.
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 */
 	public get_force_close_spend_delay(): Option_u16Z {
 		const ret: number = bindings.ChannelDetails_get_force_close_spend_delay(this.ptr);
 		const ret_hu_conv: Option_u16Z = Option_u16Z.constr_from_ptr(ret);
@@ -404,46 +590,100 @@ export class ChannelDetails extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The number of blocks (after our commitment transaction confirms) that we will need to wait
+	 * until we can claim our funds after we force-close the channel. During this time our
+	 * counterparty is allowed to punish us if we broadcasted a stale state. If our counterparty
+	 * force-closes the channel and broadcasts a commitment transaction we do not have to wait any
+	 * time to claim our non-HTLC-encumbered funds.
+	 * 
+	 * This value will be `None` for outbound channels until the counterparty accepts the channel.
+	 */
 	public set_force_close_spend_delay(val: Option_u16Z): void {
 		bindings.ChannelDetails_set_force_close_spend_delay(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * True if the channel was initiated (and thus funded) by us.
+	 */
 	public get_is_outbound(): boolean {
 		const ret: boolean = bindings.ChannelDetails_get_is_outbound(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * True if the channel was initiated (and thus funded) by us.
+	 */
 	public set_is_outbound(val: boolean): void {
 		bindings.ChannelDetails_set_is_outbound(this.ptr, val);
 	}
 
+	/**
+	 * True if the channel is confirmed, funding_locked messages have been exchanged, and the
+	 * channel is not currently being shut down. `funding_locked` message exchange implies the
+	 * required confirmation count has been reached (and we were connected to the peer at some
+	 * point after the funding transaction received enough confirmations). The required
+	 * confirmation count is provided in [`confirmations_required`].
+	 * 
+	 * [`confirmations_required`]: ChannelDetails::confirmations_required
+	 */
 	public get_is_funding_locked(): boolean {
 		const ret: boolean = bindings.ChannelDetails_get_is_funding_locked(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * True if the channel is confirmed, funding_locked messages have been exchanged, and the
+	 * channel is not currently being shut down. `funding_locked` message exchange implies the
+	 * required confirmation count has been reached (and we were connected to the peer at some
+	 * point after the funding transaction received enough confirmations). The required
+	 * confirmation count is provided in [`confirmations_required`].
+	 * 
+	 * [`confirmations_required`]: ChannelDetails::confirmations_required
+	 */
 	public set_is_funding_locked(val: boolean): void {
 		bindings.ChannelDetails_set_is_funding_locked(this.ptr, val);
 	}
 
+	/**
+	 * True if the channel is (a) confirmed and funding_locked messages have been exchanged, (b)
+	 * the peer is connected, and (c) the channel is not currently negotiating a shutdown.
+	 * 
+	 * This is a strict superset of `is_funding_locked`.
+	 */
 	public get_is_usable(): boolean {
 		const ret: boolean = bindings.ChannelDetails_get_is_usable(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * True if the channel is (a) confirmed and funding_locked messages have been exchanged, (b)
+	 * the peer is connected, and (c) the channel is not currently negotiating a shutdown.
+	 * 
+	 * This is a strict superset of `is_funding_locked`.
+	 */
 	public set_is_usable(val: boolean): void {
 		bindings.ChannelDetails_set_is_usable(this.ptr, val);
 	}
 
+	/**
+	 * True if this channel is (or will be) publicly-announced.
+	 */
 	public get_is_public(): boolean {
 		const ret: boolean = bindings.ChannelDetails_get_is_public(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * True if this channel is (or will be) publicly-announced.
+	 */
 	public set_is_public(val: boolean): void {
 		bindings.ChannelDetails_set_is_public(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new ChannelDetails given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, counterparty_arg: ChannelCounterparty, funding_txo_arg: OutPoint, short_channel_id_arg: Option_u64Z, channel_value_satoshis_arg: bigint, unspendable_punishment_reserve_arg: Option_u64Z, user_channel_id_arg: bigint, balance_msat_arg: bigint, outbound_capacity_msat_arg: bigint, inbound_capacity_msat_arg: bigint, confirmations_required_arg: Option_u32Z, force_close_spend_delay_arg: Option_u16Z, is_outbound_arg: boolean, is_funding_locked_arg: boolean, is_usable_arg: boolean, is_public_arg: boolean): ChannelDetails {
 		const ret: number = bindings.ChannelDetails_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_arg) & ~1, funding_txo_arg == null ? 0 : CommonBase.get_ptr_of(funding_txo_arg) & ~1, CommonBase.get_ptr_of(short_channel_id_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
@@ -456,6 +696,9 @@ export class ChannelDetails extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelDetails
+	 */
 	public clone(): ChannelDetails {
 		const ret: number = bindings.ChannelDetails_clone(this.ptr);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);

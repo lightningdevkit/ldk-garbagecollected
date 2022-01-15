@@ -281,12 +281,18 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Information received in the latest node_announcement from this node.
+ */
 export class NodeAnnouncementInfo extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.NodeAnnouncementInfo_free);
 	}
 
+	/**
+	 * Protocol features the node announced support for
+	 */
 	public get_features(): NodeFeatures {
 		const ret: number = bindings.NodeAnnouncementInfo_get_features(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
@@ -294,43 +300,81 @@ export class NodeAnnouncementInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Protocol features the node announced support for
+	 */
 	public set_features(val: NodeFeatures): void {
 		bindings.NodeAnnouncementInfo_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * When the last known update to the node state was issued.
+	 * Value is opaque, as set in the announcement.
+	 */
 	public get_last_update(): number {
 		const ret: number = bindings.NodeAnnouncementInfo_get_last_update(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * When the last known update to the node state was issued.
+	 * Value is opaque, as set in the announcement.
+	 */
 	public set_last_update(val: number): void {
 		bindings.NodeAnnouncementInfo_set_last_update(this.ptr, val);
 	}
 
+	/**
+	 * Color assigned to the node
+	 */
 	public get_rgb(): Uint8Array {
 		const ret: number = bindings.NodeAnnouncementInfo_get_rgb(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Color assigned to the node
+	 */
 	public set_rgb(val: Uint8Array): void {
 		bindings.NodeAnnouncementInfo_set_rgb(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 3)));
 	}
 
+	/**
+	 * Moniker assigned to the node.
+	 * May be invalid or malicious (eg control chars),
+	 * should not be exposed to the user.
+	 */
 	public get_alias(): Uint8Array {
 		const ret: number = bindings.NodeAnnouncementInfo_get_alias(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Moniker assigned to the node.
+	 * May be invalid or malicious (eg control chars),
+	 * should not be exposed to the user.
+	 */
 	public set_alias(val: Uint8Array): void {
 		bindings.NodeAnnouncementInfo_set_alias(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * Internet-level addresses via which one can connect to the node
+	 */
 	public set_addresses(val: NetAddress[]): void {
 		bindings.NodeAnnouncementInfo_set_addresses(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null));
 	}
 
+	/**
+	 * An initial announcement of the node
+	 * Mostly redundant with the data we store in fields explicitly.
+	 * Everything else is useful only for sending out for initial routing sync.
+	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_announcement_message(): NodeAnnouncement {
 		const ret: number = bindings.NodeAnnouncementInfo_get_announcement_message(this.ptr);
 		const ret_hu_conv: NodeAnnouncement = new NodeAnnouncement(null, ret);
@@ -338,10 +382,21 @@ export class NodeAnnouncementInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * An initial announcement of the node
+	 * Mostly redundant with the data we store in fields explicitly.
+	 * Everything else is useful only for sending out for initial routing sync.
+	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_announcement_message(val: NodeAnnouncement): void {
 		bindings.NodeAnnouncementInfo_set_announcement_message(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new NodeAnnouncementInfo given each field
+	 */
 	public static constructor_new(features_arg: NodeFeatures, last_update_arg: number, rgb_arg: Uint8Array, alias_arg: Uint8Array, addresses_arg: NetAddress[], announcement_message_arg: NodeAnnouncement): NodeAnnouncementInfo {
 		const ret: number = bindings.NodeAnnouncementInfo_new(features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, last_update_arg, bindings.encodeUint8Array(bindings.check_arr_len(rgb_arg, 3)), bindings.encodeUint8Array(bindings.check_arr_len(alias_arg, 32)), bindings.encodeUint32Array(addresses_arg != null ? addresses_arg.map(addresses_arg_conv_12 => CommonBase.get_ptr_of(addresses_arg_conv_12)) : null), announcement_message_arg == null ? 0 : CommonBase.get_ptr_of(announcement_message_arg) & ~1);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
@@ -354,6 +409,9 @@ export class NodeAnnouncementInfo extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the NodeAnnouncementInfo
+	 */
 	public clone(): NodeAnnouncementInfo {
 		const ret: number = bindings.NodeAnnouncementInfo_clone(this.ptr);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
@@ -361,12 +419,18 @@ export class NodeAnnouncementInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the NodeAnnouncementInfo object into a byte array which can be read by NodeAnnouncementInfo_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.NodeAnnouncementInfo_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a NodeAnnouncementInfo from a byte array, created by NodeAnnouncementInfo_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_NodeAnnouncementInfoDecodeErrorZ {
 		const ret: number = bindings.NodeAnnouncementInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeAnnouncementInfoDecodeErrorZ = Result_NodeAnnouncementInfoDecodeErrorZ.constr_from_ptr(ret);

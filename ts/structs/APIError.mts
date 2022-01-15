@@ -280,6 +280,10 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * Indicates an error on the client's part (usually some variant of attempting to use too-low or
+ * too-high values)
+ */
 export class APIError extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.APIError_free); }
 	/* @internal */
@@ -302,6 +306,9 @@ export class APIError extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the APIError
+	 */
 	public clone(): APIError {
 		const ret: number = bindings.APIError_clone(this.ptr);
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
@@ -309,6 +316,9 @@ export class APIError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new APIMisuseError-variant APIError
+	 */
 	public static constructor_apimisuse_error(err: string): APIError {
 		const ret: number = bindings.APIError_apimisuse_error(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
@@ -316,6 +326,9 @@ export class APIError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new FeeRateTooHigh-variant APIError
+	 */
 	public static constructor_fee_rate_too_high(err: string, feerate: number): APIError {
 		const ret: number = bindings.APIError_fee_rate_too_high(bindings.encodeString(err), feerate);
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
@@ -323,6 +336,9 @@ export class APIError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new RouteError-variant APIError
+	 */
 	public static constructor_route_error(err: string): APIError {
 		const ret: number = bindings.APIError_route_error(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
@@ -330,6 +346,9 @@ export class APIError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new ChannelUnavailable-variant APIError
+	 */
 	public static constructor_channel_unavailable(err: string): APIError {
 		const ret: number = bindings.APIError_channel_unavailable(bindings.encodeString(err));
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
@@ -337,6 +356,9 @@ export class APIError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new MonitorUpdateFailed-variant APIError
+	 */
 	public static constructor_monitor_update_failed(): APIError {
 		const ret: number = bindings.APIError_monitor_update_failed();
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
@@ -344,6 +366,9 @@ export class APIError extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new IncompatibleShutdownScript-variant APIError
+	 */
 	public static constructor_incompatible_shutdown_script(script: ShutdownScript): APIError {
 		const ret: number = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : CommonBase.get_ptr_of(script) & ~1);
 		const ret_hu_conv: APIError = APIError.constr_from_ptr(ret);
@@ -352,7 +377,11 @@ export class APIError extends CommonBase {
 	}
 
 }
+/** A APIError of type APIMisuseError */
 export class APIError_APIMisuseError extends APIError {
+	/**
+	 * A human-readable error message
+	 */
 	public err: string;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -362,8 +391,15 @@ export class APIError_APIMisuseError extends APIError {
 		this.err = err_conv;
 	}
 }
+/** A APIError of type FeeRateTooHigh */
 export class APIError_FeeRateTooHigh extends APIError {
+	/**
+	 * A human-readable error message
+	 */
 	public err: string;
+	/**
+	 * The feerate which was too high.
+	 */
 	public feerate: number;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -374,7 +410,11 @@ export class APIError_FeeRateTooHigh extends APIError {
 		this.feerate = bindings.LDKAPIError_FeeRateTooHigh_get_feerate(ptr);
 	}
 }
+/** A APIError of type RouteError */
 export class APIError_RouteError extends APIError {
+	/**
+	 * A human-readable error message
+	 */
 	public err: string;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -384,7 +424,11 @@ export class APIError_RouteError extends APIError {
 		this.err = err_conv;
 	}
 }
+/** A APIError of type ChannelUnavailable */
 export class APIError_ChannelUnavailable extends APIError {
+	/**
+	 * A human-readable error message
+	 */
 	public err: string;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -394,13 +438,18 @@ export class APIError_ChannelUnavailable extends APIError {
 		this.err = err_conv;
 	}
 }
+/** A APIError of type MonitorUpdateFailed */
 export class APIError_MonitorUpdateFailed extends APIError {
 	/* @internal */
 	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
+/** A APIError of type IncompatibleShutdownScript */
 export class APIError_IncompatibleShutdownScript extends APIError {
+	/**
+	 * The incompatible shutdown script.
+	 */
 	public script: ShutdownScript;
 	/* @internal */
 	public constructor(ptr: number) {

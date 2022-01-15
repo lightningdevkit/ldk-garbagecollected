@@ -280,6 +280,12 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * Update to the [`NetworkGraph`] based on payment failure information conveyed via the Onion
+ * return packet by a node along the route. See [BOLT #4] for details.
+ * 
+ * [BOLT #4]: https://github.com/lightningnetwork/lightning-rfc/blob/master/04-onion-routing.md
+ */
 export class NetworkUpdate extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.NetworkUpdate_free); }
 	/* @internal */
@@ -299,6 +305,9 @@ export class NetworkUpdate extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the NetworkUpdate
+	 */
 	public clone(): NetworkUpdate {
 		const ret: number = bindings.NetworkUpdate_clone(this.ptr);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
@@ -306,6 +315,9 @@ export class NetworkUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new ChannelUpdateMessage-variant NetworkUpdate
+	 */
 	public static constructor_channel_update_message(msg: ChannelUpdate): NetworkUpdate {
 		const ret: number = bindings.NetworkUpdate_channel_update_message(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
@@ -313,6 +325,9 @@ export class NetworkUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new ChannelClosed-variant NetworkUpdate
+	 */
 	public static constructor_channel_closed(short_channel_id: bigint, is_permanent: boolean): NetworkUpdate {
 		const ret: number = bindings.NetworkUpdate_channel_closed(short_channel_id, is_permanent);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
@@ -320,6 +335,9 @@ export class NetworkUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new NodeFailure-variant NetworkUpdate
+	 */
 	public static constructor_node_failure(node_id: Uint8Array, is_permanent: boolean): NetworkUpdate {
 		const ret: number = bindings.NetworkUpdate_node_failure(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), is_permanent);
 		const ret_hu_conv: NetworkUpdate = NetworkUpdate.constr_from_ptr(ret);
@@ -327,6 +345,9 @@ export class NetworkUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the NetworkUpdate object into a byte array which can be read by NetworkUpdate_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.NetworkUpdate_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
@@ -334,7 +355,11 @@ export class NetworkUpdate extends CommonBase {
 	}
 
 }
+/** A NetworkUpdate of type ChannelUpdateMessage */
 export class NetworkUpdate_ChannelUpdateMessage extends NetworkUpdate {
+	/**
+	 * The update to apply via [`NetworkGraph::update_channel`].
+	 */
 	public msg: ChannelUpdate;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -345,8 +370,16 @@ export class NetworkUpdate_ChannelUpdateMessage extends NetworkUpdate {
 		this.msg = msg_hu_conv;
 	}
 }
+/** A NetworkUpdate of type ChannelClosed */
 export class NetworkUpdate_ChannelClosed extends NetworkUpdate {
+	/**
+	 * The short channel id of the closed channel.
+	 */
 	public short_channel_id: bigint;
+	/**
+	 * Whether the channel should be permanently removed or temporarily disabled until a new
+	 * `channel_update` message is received.
+	 */
 	public is_permanent: boolean;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -355,8 +388,16 @@ export class NetworkUpdate_ChannelClosed extends NetworkUpdate {
 		this.is_permanent = bindings.LDKNetworkUpdate_ChannelClosed_get_is_permanent(ptr);
 	}
 }
+/** A NetworkUpdate of type NodeFailure */
 export class NetworkUpdate_NodeFailure extends NetworkUpdate {
+	/**
+	 * The node id of the failed node.
+	 */
 	public node_id: Uint8Array;
+	/**
+	 * Whether the node should be permanently removed from consideration or can be restored
+	 * when a new `channel_update` message is received.
+	 */
 	public is_permanent: boolean;
 	/* @internal */
 	public constructor(ptr: number) {

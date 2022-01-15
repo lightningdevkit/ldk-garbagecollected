@@ -294,18 +294,27 @@ export class Result_TxOutAccessErrorZ extends CommonBase {
 			return new Result_TxOutAccessErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_TxOutAccessErrorZ in the success state.
+	 */
 	public static constructor_ok(o: TxOut): Result_TxOutAccessErrorZ {
 		const ret: number = bindings.CResult_TxOutAccessErrorZ_ok(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_TxOutAccessErrorZ = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_TxOutAccessErrorZ in the error state.
+	 */
 	public static constructor_err(e: AccessError): Result_TxOutAccessErrorZ {
 		const ret: number = bindings.CResult_TxOutAccessErrorZ_err(e);
 		const ret_hu_conv: Result_TxOutAccessErrorZ = Result_TxOutAccessErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_TxOutAccessErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_TxOutAccessErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_TxOutAccessErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_TxOutAccessErrorZ {
 		const ret: number = bindings.CResult_TxOutAccessErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_TxOutAccessErrorZ = Result_TxOutAccessErrorZ.constr_from_ptr(ret);

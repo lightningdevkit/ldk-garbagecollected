@@ -281,12 +281,18 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A concrete implementation of [`LockableScore`] which supports multi-threading.
+ */
 export class MultiThreadedLockableScore extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.MultiThreadedLockableScore_free);
 	}
 
+	/**
+	 * Creates a new [`MultiThreadedLockableScore`] given an underlying [`Score`].
+	 */
 	public static constructor_new(score: Score): MultiThreadedLockableScore {
 		const ret: number = bindings.MultiThreadedLockableScore_new(score == null ? 0 : CommonBase.get_ptr_of(score));
 		const ret_hu_conv: MultiThreadedLockableScore = new MultiThreadedLockableScore(null, ret);

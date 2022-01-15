@@ -294,18 +294,27 @@ export class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 			return new Result_RevokeAndACKDecodeErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_RevokeAndACKDecodeErrorZ in the success state.
+	 */
 	public static constructor_ok(o: RevokeAndACK): Result_RevokeAndACKDecodeErrorZ {
 		const ret: number = bindings.CResult_RevokeAndACKDecodeErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
 		const ret_hu_conv: Result_RevokeAndACKDecodeErrorZ = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_RevokeAndACKDecodeErrorZ in the error state.
+	 */
 	public static constructor_err(e: DecodeError): Result_RevokeAndACKDecodeErrorZ {
 		const ret: number = bindings.CResult_RevokeAndACKDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_RevokeAndACKDecodeErrorZ = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_RevokeAndACKDecodeErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_RevokeAndACKDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_RevokeAndACKDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_RevokeAndACKDecodeErrorZ {
 		const ret: number = bindings.CResult_RevokeAndACKDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_RevokeAndACKDecodeErrorZ = Result_RevokeAndACKDecodeErrorZ.constr_from_ptr(ret);

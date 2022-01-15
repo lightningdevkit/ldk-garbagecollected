@@ -281,6 +281,9 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * The best known block as identified by its hash and height.
+ */
 export class BestBlock extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
@@ -292,6 +295,9 @@ export class BestBlock extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the BestBlock
+	 */
 	public clone(): BestBlock {
 		const ret: number = bindings.BestBlock_clone(this.ptr);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
@@ -299,6 +305,10 @@ export class BestBlock extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a `BestBlock` that represents the genesis block at height 0 of the given
+	 * network.
+	 */
 	public static constructor_from_genesis(network: Network): BestBlock {
 		const ret: number = bindings.BestBlock_from_genesis(network);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
@@ -306,6 +316,9 @@ export class BestBlock extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Returns a `BestBlock` as identified by the given block hash and height.
+	 */
 	public static constructor_new(block_hash: Uint8Array, height: number): BestBlock {
 		const ret: number = bindings.BestBlock_new(bindings.encodeUint8Array(bindings.check_arr_len(block_hash, 32)), height);
 		const ret_hu_conv: BestBlock = new BestBlock(null, ret);
@@ -313,12 +326,18 @@ export class BestBlock extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Returns the best block hash.
+	 */
 	public block_hash(): Uint8Array {
 		const ret: number = bindings.BestBlock_block_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Returns the best block height.
+	 */
 	public height(): number {
 		const ret: number = bindings.BestBlock_height(this.ptr);
 		return ret;

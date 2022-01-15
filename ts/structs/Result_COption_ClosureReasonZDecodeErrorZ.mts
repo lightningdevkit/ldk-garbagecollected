@@ -294,18 +294,27 @@ export class Result_COption_ClosureReasonZDecodeErrorZ extends CommonBase {
 			return new Result_COption_ClosureReasonZDecodeErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_COption_ClosureReasonZDecodeErrorZ in the success state.
+	 */
 	public static constructor_ok(o: Option_ClosureReasonZ): Result_COption_ClosureReasonZDecodeErrorZ {
 		const ret: number = bindings.CResult_COption_ClosureReasonZDecodeErrorZ_ok(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Result_COption_ClosureReasonZDecodeErrorZ = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_COption_ClosureReasonZDecodeErrorZ in the error state.
+	 */
 	public static constructor_err(e: DecodeError): Result_COption_ClosureReasonZDecodeErrorZ {
 		const ret: number = bindings.CResult_COption_ClosureReasonZDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_COption_ClosureReasonZDecodeErrorZ = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_COption_ClosureReasonZDecodeErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_COption_ClosureReasonZDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_COption_ClosureReasonZDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_COption_ClosureReasonZDecodeErrorZ {
 		const ret: number = bindings.CResult_COption_ClosureReasonZDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_COption_ClosureReasonZDecodeErrorZ = Result_COption_ClosureReasonZDecodeErrorZ.constr_from_ptr(ret);

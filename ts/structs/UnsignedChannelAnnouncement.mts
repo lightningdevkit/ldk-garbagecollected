@@ -281,12 +281,18 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * The unsigned part of a channel_announcement
+ */
 export class UnsignedChannelAnnouncement extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.UnsignedChannelAnnouncement_free);
 	}
 
+	/**
+	 * The advertised channel features
+	 */
 	public get_features(): ChannelFeatures {
 		const ret: number = bindings.UnsignedChannelAnnouncement_get_features(this.ptr);
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
@@ -294,65 +300,104 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The advertised channel features
+	 */
 	public set_features(val: ChannelFeatures): void {
 		bindings.UnsignedChannelAnnouncement_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The genesis hash of the blockchain where the channel is to be opened
+	 */
 	public get_chain_hash(): Uint8Array {
 		const ret: number = bindings.UnsignedChannelAnnouncement_get_chain_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The genesis hash of the blockchain where the channel is to be opened
+	 */
 	public set_chain_hash(val: Uint8Array): void {
 		bindings.UnsignedChannelAnnouncement_set_chain_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The short channel ID
+	 */
 	public get_short_channel_id(): bigint {
 		const ret: bigint = bindings.UnsignedChannelAnnouncement_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The short channel ID
+	 */
 	public set_short_channel_id(val: bigint): void {
 		bindings.UnsignedChannelAnnouncement_set_short_channel_id(this.ptr, val);
 	}
 
+	/**
+	 * One of the two node_ids which are endpoints of this channel
+	 */
 	public get_node_id_1(): Uint8Array {
 		const ret: number = bindings.UnsignedChannelAnnouncement_get_node_id_1(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * One of the two node_ids which are endpoints of this channel
+	 */
 	public set_node_id_1(val: Uint8Array): void {
 		bindings.UnsignedChannelAnnouncement_set_node_id_1(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * The other of the two node_ids which are endpoints of this channel
+	 */
 	public get_node_id_2(): Uint8Array {
 		const ret: number = bindings.UnsignedChannelAnnouncement_get_node_id_2(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The other of the two node_ids which are endpoints of this channel
+	 */
 	public set_node_id_2(val: Uint8Array): void {
 		bindings.UnsignedChannelAnnouncement_set_node_id_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * The funding key for the first node
+	 */
 	public get_bitcoin_key_1(): Uint8Array {
 		const ret: number = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_1(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The funding key for the first node
+	 */
 	public set_bitcoin_key_1(val: Uint8Array): void {
 		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_1(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * The funding key for the second node
+	 */
 	public get_bitcoin_key_2(): Uint8Array {
 		const ret: number = bindings.UnsignedChannelAnnouncement_get_bitcoin_key_2(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The funding key for the second node
+	 */
 	public set_bitcoin_key_2(val: Uint8Array): void {
 		bindings.UnsignedChannelAnnouncement_set_bitcoin_key_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
@@ -362,6 +407,9 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the UnsignedChannelAnnouncement
+	 */
 	public clone(): UnsignedChannelAnnouncement {
 		const ret: number = bindings.UnsignedChannelAnnouncement_clone(this.ptr);
 		const ret_hu_conv: UnsignedChannelAnnouncement = new UnsignedChannelAnnouncement(null, ret);
@@ -369,12 +417,18 @@ export class UnsignedChannelAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the UnsignedChannelAnnouncement object into a byte array which can be read by UnsignedChannelAnnouncement_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.UnsignedChannelAnnouncement_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a UnsignedChannelAnnouncement from a byte array, created by UnsignedChannelAnnouncement_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_UnsignedChannelAnnouncementDecodeErrorZ {
 		const ret: number = bindings.UnsignedChannelAnnouncement_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UnsignedChannelAnnouncementDecodeErrorZ = Result_UnsignedChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);

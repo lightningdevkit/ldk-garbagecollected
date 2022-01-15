@@ -281,18 +281,27 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C2Tuple_BlockHashChannelMonitorZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): Uint8Array {
 		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_get_a(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): ChannelMonitor {
 		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_get_b(this.ptr);
 		const ret_hu_conv: ChannelMonitor = new ChannelMonitor(null, ret);
@@ -305,6 +314,10 @@ export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new tuple which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): TwoTuple_BlockHashChannelMonitorZ {
 		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_BlockHashChannelMonitorZ = new TwoTuple_BlockHashChannelMonitorZ(null, ret);
@@ -312,6 +325,9 @@ export class TwoTuple_BlockHashChannelMonitorZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new C2Tuple_BlockHashChannelMonitorZ from the contained elements.
+	 */
 	public static constructor_new(a: Uint8Array, b: ChannelMonitor): TwoTuple_BlockHashChannelMonitorZ {
 		const ret: number = bindings.C2Tuple_BlockHashChannelMonitorZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		const ret_hu_conv: TwoTuple_BlockHashChannelMonitorZ = new TwoTuple_BlockHashChannelMonitorZ(null, ret);

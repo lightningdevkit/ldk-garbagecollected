@@ -281,6 +281,9 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An error in decoding a message or struct.
+ */
 export class DecodeError extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
@@ -292,6 +295,9 @@ export class DecodeError extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the DecodeError
+	 */
 	public clone(): DecodeError {
 		const ret: number = bindings.DecodeError_clone(this.ptr);
 		const ret_hu_conv: DecodeError = new DecodeError(null, ret);

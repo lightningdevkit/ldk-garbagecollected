@@ -294,18 +294,27 @@ export class Result_CVec_SignatureZNoneZ extends CommonBase {
 			return new Result_CVec_SignatureZNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_CVec_SignatureZNoneZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array[]): Result_CVec_SignatureZNoneZ {
 		const ret: number = bindings.CResult_CVec_SignatureZNoneZ_ok(bindings.encodeUint32Array(o != null ? o.map(o_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(o_conv_12, 64))) : null));
 		const ret_hu_conv: Result_CVec_SignatureZNoneZ = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_CVec_SignatureZNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_CVec_SignatureZNoneZ {
 		const ret: number = bindings.CResult_CVec_SignatureZNoneZ_err();
 		const ret_hu_conv: Result_CVec_SignatureZNoneZ = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_CVec_SignatureZNoneZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_CVec_SignatureZNoneZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_CVec_SignatureZNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_CVec_SignatureZNoneZ {
 		const ret: number = bindings.CResult_CVec_SignatureZNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_CVec_SignatureZNoneZ = Result_CVec_SignatureZNoneZ.constr_from_ptr(ret);
@@ -337,6 +350,7 @@ export class Result_CVec_SignatureZNoneZ_OK extends Result_CVec_SignatureZNoneZ 
 			const res_conv_12_conv: Uint8Array = bindings.decodeUint8Array(res_conv_12);
 			res_conv_12_arr[m] = res_conv_12_conv;
 		}
+		bindings.freeWasmMemory(res)
 		this.res = res_conv_12_arr;
 	}
 }

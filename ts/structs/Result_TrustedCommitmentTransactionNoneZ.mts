@@ -294,6 +294,9 @@ export class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 			return new Result_TrustedCommitmentTransactionNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_TrustedCommitmentTransactionNoneZ in the success state.
+	 */
 	public static constructor_ok(o: TrustedCommitmentTransaction): Result_TrustedCommitmentTransactionNoneZ {
 		const ret: number = bindings.CResult_TrustedCommitmentTransactionNoneZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
 		const ret_hu_conv: Result_TrustedCommitmentTransactionNoneZ = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
@@ -309,12 +312,18 @@ export class Result_TrustedCommitmentTransactionNoneZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_TrustedCommitmentTransactionNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_TrustedCommitmentTransactionNoneZ {
 		const ret: number = bindings.CResult_TrustedCommitmentTransactionNoneZ_err();
 		const ret_hu_conv: Result_TrustedCommitmentTransactionNoneZ = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_TrustedCommitmentTransactionNoneZ_is_ok(this.ptr);
 		return ret;

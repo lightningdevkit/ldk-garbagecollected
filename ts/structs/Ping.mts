@@ -281,30 +281,50 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A ping message to be sent or received from a peer
+ */
 export class Ping extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.Ping_free);
 	}
 
+	/**
+	 * The desired response length
+	 */
 	public get_ponglen(): number {
 		const ret: number = bindings.Ping_get_ponglen(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The desired response length
+	 */
 	public set_ponglen(val: number): void {
 		bindings.Ping_set_ponglen(this.ptr, val);
 	}
 
+	/**
+	 * The ping packet size.
+	 * This field is not sent on the wire. byteslen zeros are sent.
+	 */
 	public get_byteslen(): number {
 		const ret: number = bindings.Ping_get_byteslen(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The ping packet size.
+	 * This field is not sent on the wire. byteslen zeros are sent.
+	 */
 	public set_byteslen(val: number): void {
 		bindings.Ping_set_byteslen(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new Ping given each field
+	 */
 	public static constructor_new(ponglen_arg: number, byteslen_arg: number): Ping {
 		const ret: number = bindings.Ping_new(ponglen_arg, byteslen_arg);
 		const ret_hu_conv: Ping = new Ping(null, ret);
@@ -317,6 +337,9 @@ export class Ping extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the Ping
+	 */
 	public clone(): Ping {
 		const ret: number = bindings.Ping_clone(this.ptr);
 		const ret_hu_conv: Ping = new Ping(null, ret);
@@ -324,12 +347,18 @@ export class Ping extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the Ping object into a byte array which can be read by Ping_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.Ping_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a Ping from a byte array, created by Ping_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_PingDecodeErrorZ {
 		const ret: number = bindings.Ping_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_PingDecodeErrorZ = Result_PingDecodeErrorZ.constr_from_ptr(ret);

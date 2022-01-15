@@ -294,18 +294,27 @@ export class Result_NoneAPIErrorZ extends CommonBase {
 			return new Result_NoneAPIErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_NoneAPIErrorZ in the success state.
+	 */
 	public static constructor_ok(): Result_NoneAPIErrorZ {
 		const ret: number = bindings.CResult_NoneAPIErrorZ_ok();
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_NoneAPIErrorZ in the error state.
+	 */
 	public static constructor_err(e: APIError): Result_NoneAPIErrorZ {
 		const ret: number = bindings.CResult_NoneAPIErrorZ_err(CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_NoneAPIErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_NoneAPIErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_NoneAPIErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_NoneAPIErrorZ {
 		const ret: number = bindings.CResult_NoneAPIErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);

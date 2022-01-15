@@ -281,39 +281,113 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Configuration we set when applicable.
+ * 
+ * Default::default() provides sane defaults.
+ */
 export class ChannelHandshakeConfig extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelHandshakeConfig_free);
 	}
 
+	/**
+	 * Confirmations we will wait for before considering the channel locked in.
+	 * Applied only for inbound channels (see ChannelHandshakeLimits::max_minimum_depth for the
+	 * equivalent limit applied to outbound channels).
+	 * 
+	 * Default value: 6.
+	 */
 	public get_minimum_depth(): number {
 		const ret: number = bindings.ChannelHandshakeConfig_get_minimum_depth(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Confirmations we will wait for before considering the channel locked in.
+	 * Applied only for inbound channels (see ChannelHandshakeLimits::max_minimum_depth for the
+	 * equivalent limit applied to outbound channels).
+	 * 
+	 * Default value: 6.
+	 */
 	public set_minimum_depth(val: number): void {
 		bindings.ChannelHandshakeConfig_set_minimum_depth(this.ptr, val);
 	}
 
+	/**
+	 * Set to the number of blocks we require our counterparty to wait to claim their money (ie
+	 * the number of blocks we have to punish our counterparty if they broadcast a revoked
+	 * transaction).
+	 * 
+	 * This is one of the main parameters of our security model. We (or one of our watchtowers) MUST
+	 * be online to check for revoked transactions on-chain at least once every our_to_self_delay
+	 * blocks (minus some margin to allow us enough time to broadcast and confirm a transaction,
+	 * possibly with time in between to RBF the spending transaction).
+	 * 
+	 * Meanwhile, asking for a too high delay, we bother peer to freeze funds for nothing in
+	 * case of an honest unilateral channel close, which implicitly decrease the economic value of
+	 * our channel.
+	 * 
+	 * Default value: [`BREAKDOWN_TIMEOUT`], we enforce it as a minimum at channel opening so you
+	 * can tweak config to ask for more security, not less.
+	 */
 	public get_our_to_self_delay(): number {
 		const ret: number = bindings.ChannelHandshakeConfig_get_our_to_self_delay(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Set to the number of blocks we require our counterparty to wait to claim their money (ie
+	 * the number of blocks we have to punish our counterparty if they broadcast a revoked
+	 * transaction).
+	 * 
+	 * This is one of the main parameters of our security model. We (or one of our watchtowers) MUST
+	 * be online to check for revoked transactions on-chain at least once every our_to_self_delay
+	 * blocks (minus some margin to allow us enough time to broadcast and confirm a transaction,
+	 * possibly with time in between to RBF the spending transaction).
+	 * 
+	 * Meanwhile, asking for a too high delay, we bother peer to freeze funds for nothing in
+	 * case of an honest unilateral channel close, which implicitly decrease the economic value of
+	 * our channel.
+	 * 
+	 * Default value: [`BREAKDOWN_TIMEOUT`], we enforce it as a minimum at channel opening so you
+	 * can tweak config to ask for more security, not less.
+	 */
 	public set_our_to_self_delay(val: number): void {
 		bindings.ChannelHandshakeConfig_set_our_to_self_delay(this.ptr, val);
 	}
 
+	/**
+	 * Set to the smallest value HTLC we will accept to process.
+	 * 
+	 * This value is sent to our counterparty on channel-open and we close the channel any time
+	 * our counterparty misbehaves by sending us an HTLC with a value smaller than this.
+	 * 
+	 * Default value: 1. If the value is less than 1, it is ignored and set to 1, as is required
+	 * by the protocol.
+	 */
 	public get_our_htlc_minimum_msat(): bigint {
 		const ret: bigint = bindings.ChannelHandshakeConfig_get_our_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Set to the smallest value HTLC we will accept to process.
+	 * 
+	 * This value is sent to our counterparty on channel-open and we close the channel any time
+	 * our counterparty misbehaves by sending us an HTLC with a value smaller than this.
+	 * 
+	 * Default value: 1. If the value is less than 1, it is ignored and set to 1, as is required
+	 * by the protocol.
+	 */
 	public set_our_htlc_minimum_msat(val: bigint): void {
 		bindings.ChannelHandshakeConfig_set_our_htlc_minimum_msat(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new ChannelHandshakeConfig given each field
+	 */
 	public static constructor_new(minimum_depth_arg: number, our_to_self_delay_arg: number, our_htlc_minimum_msat_arg: bigint): ChannelHandshakeConfig {
 		const ret: number = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
@@ -326,6 +400,9 @@ export class ChannelHandshakeConfig extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelHandshakeConfig
+	 */
 	public clone(): ChannelHandshakeConfig {
 		const ret: number = bindings.ChannelHandshakeConfig_clone(this.ptr);
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);
@@ -333,6 +410,9 @@ export class ChannelHandshakeConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a "default" ChannelHandshakeConfig. See struct and individual field documentaiton for details on which values are used.
+	 */
 	public static constructor_default(): ChannelHandshakeConfig {
 		const ret: number = bindings.ChannelHandshakeConfig_default();
 		const ret_hu_conv: ChannelHandshakeConfig = new ChannelHandshakeConfig(null, ret);

@@ -283,8 +283,13 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of Listen */
 export interface ListenInterface {
+	/**Notifies the listener that a block was added at the given height.
+	 */
 	block_connected(block: Uint8Array, height: number): void;
+	/**Notifies the listener that a block was removed at the given height.
+	 */
 	block_disconnected(header: Uint8Array, height: number): void;
 }
 
@@ -292,6 +297,15 @@ class LDKListenHolder {
 	held: Listen;
 }
 
+/**
+ * The `Listen` trait is used to notify when blocks have been connected or disconnected from the
+ * chain.
+ * 
+ * Useful when needing to replay chain data upon startup or as new chain events occur. Clients
+ * sourcing chain data using a block-oriented API should prefer this interface over [`Confirm`].
+ * Such clients fetch the entire header chain whereas clients using [`Confirm`] only fetch headers
+ * when needed.
+ */
 export class Listen extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKListen;
@@ -302,7 +316,8 @@ export class Listen extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: ListenInterface): Listen {
+	/** Creates a new instance of Listen from a given implementation */
+	public static new_impl(arg: ListenInterface): Listen {
 		const impl_holder: LDKListenHolder = new LDKListenHolder();
 		let structImplementation = {
 			block_connected (block: number, height: number): void {
@@ -320,10 +335,17 @@ export class Listen extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
+
+	/**
+	 * Notifies the listener that a block was added at the given height.
+	 */
 	public block_connected(block: Uint8Array, height: number): void {
 		bindings.Listen_block_connected(this.ptr, bindings.encodeUint8Array(block), height);
 	}
 
+	/**
+	 * Notifies the listener that a block was removed at the given height.
+	 */
 	public block_disconnected(header: Uint8Array, height: number): void {
 		bindings.Listen_block_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(header, 80)), height);
 	}

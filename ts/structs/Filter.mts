@@ -283,8 +283,22 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of Filter */
 export interface FilterInterface {
+	/**Registers interest in a transaction with `txid` and having an output with `script_pubkey` as
+	 * a spending condition.
+	 */
 	register_tx(txid: Uint8Array, script_pubkey: Uint8Array): void;
+	/**Registers interest in spends of a transaction output.
+	 * 
+	 * Optionally, when `output.block_hash` is set, should return any transaction spending the
+	 * output that is found in the corresponding block along with its index.
+	 * 
+	 * This return value is useful for Electrum clients in order to supply in-block descendant
+	 * transactions which otherwise were not included. This is not necessary for other clients if
+	 * such descendant transactions were already included (e.g., when a BIP 157 client provides the
+	 * full block).
+	 */
 	register_output(output: WatchedOutput): Option_C2Tuple_usizeTransactionZZ;
 }
 
@@ -292,6 +306,28 @@ class LDKFilterHolder {
 	held: Filter;
 }
 
+/**
+ * The `Filter` trait defines behavior for indicating chain activity of interest pertaining to
+ * channels.
+ * 
+ * This is useful in order to have a [`Watch`] implementation convey to a chain source which
+ * transactions to be notified of. Notification may take the form of pre-filtering blocks or, in
+ * the case of [BIP 157]/[BIP 158], only fetching a block if the compact filter matches. If
+ * receiving full blocks from a chain source, any further filtering is unnecessary.
+ * 
+ * After an output has been registered, subsequent block retrievals from the chain source must not
+ * exclude any transactions matching the new criteria nor any in-block descendants of such
+ * transactions.
+ * 
+ * Note that use as part of a [`Watch`] implementation involves reentrancy. Therefore, the `Filter`
+ * should not block on I/O. Implementations should instead queue the newly monitored data to be
+ * processed later. Then, in order to block until the data has been processed, any [`Watch`]
+ * invocation that has called the `Filter` must return [`TemporaryFailure`].
+ * 
+ * [`TemporaryFailure`]: ChannelMonitorUpdateErr::TemporaryFailure
+ * [BIP 157]: https://github.com/bitcoin/bips/blob/master/bip-0157.mediawiki
+ * [BIP 158]: https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki
+ */
 export class Filter extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKFilter;
@@ -302,7 +338,8 @@ export class Filter extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: FilterInterface): Filter {
+	/** Creates a new instance of Filter from a given implementation */
+	public static new_impl(arg: FilterInterface): Filter {
 		const impl_holder: LDKFilterHolder = new LDKFilterHolder();
 		let structImplementation = {
 			register_tx (txid: number, script_pubkey: number): void {
@@ -324,10 +361,26 @@ export class Filter extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
+
+	/**
+	 * Registers interest in a transaction with `txid` and having an output with `script_pubkey` as
+	 * a spending condition.
+	 */
 	public register_tx(txid: Uint8Array, script_pubkey: Uint8Array): void {
 		bindings.Filter_register_tx(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(txid, 32)), bindings.encodeUint8Array(script_pubkey));
 	}
 
+	/**
+	 * Registers interest in spends of a transaction output.
+	 * 
+	 * Optionally, when `output.block_hash` is set, should return any transaction spending the
+	 * output that is found in the corresponding block along with its index.
+	 * 
+	 * This return value is useful for Electrum clients in order to supply in-block descendant
+	 * transactions which otherwise were not included. This is not necessary for other clients if
+	 * such descendant transactions were already included (e.g., when a BIP 157 client provides the
+	 * full block).
+	 */
 	public register_output(output: WatchedOutput): Option_C2Tuple_usizeTransactionZZ {
 		const ret: number = bindings.Filter_register_output(this.ptr, output == null ? 0 : CommonBase.get_ptr_of(output) & ~1);
 		const ret_hu_conv: Option_C2Tuple_usizeTransactionZZ = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);

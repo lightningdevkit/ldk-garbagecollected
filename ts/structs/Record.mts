@@ -281,56 +281,90 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Record, unit of logging output with Metadata to enable filtering
+ * Module_path, file, line to inform on log's source
+ */
 export class Record extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.Record_free);
 	}
 
+	/**
+	 * The verbosity level of the message.
+	 */
 	public get_level(): Level {
 		const ret: Level = bindings.Record_get_level(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The verbosity level of the message.
+	 */
 	public set_level(val: Level): void {
 		bindings.Record_set_level(this.ptr, val);
 	}
 
+	/**
+	 * The message body.
+	 */
 	public get_args(): string {
 		const ret: number = bindings.Record_get_args(this.ptr);
 		const ret_conv: string = bindings.decodeString(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The message body.
+	 */
 	public set_args(val: string): void {
 		bindings.Record_set_args(this.ptr, bindings.encodeString(val));
 	}
 
+	/**
+	 * The module path of the message.
+	 */
 	public get_module_path(): string {
 		const ret: number = bindings.Record_get_module_path(this.ptr);
 		const ret_conv: string = bindings.decodeString(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The module path of the message.
+	 */
 	public set_module_path(val: string): void {
 		bindings.Record_set_module_path(this.ptr, bindings.encodeString(val));
 	}
 
+	/**
+	 * The source file containing the message.
+	 */
 	public get_file(): string {
 		const ret: number = bindings.Record_get_file(this.ptr);
 		const ret_conv: string = bindings.decodeString(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The source file containing the message.
+	 */
 	public set_file(val: string): void {
 		bindings.Record_set_file(this.ptr, bindings.encodeString(val));
 	}
 
+	/**
+	 * The line containing the message.
+	 */
 	public get_line(): number {
 		const ret: number = bindings.Record_get_line(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The line containing the message.
+	 */
 	public set_line(val: number): void {
 		bindings.Record_set_line(this.ptr, val);
 	}
@@ -340,6 +374,9 @@ export class Record extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the Record
+	 */
 	public clone(): Record {
 		const ret: number = bindings.Record_clone(this.ptr);
 		const ret_hu_conv: Record = new Record(null, ret);

@@ -281,12 +281,20 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Features used within a `node_announcement` message.
+ */
 export class NodeFeatures extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.NodeFeatures_free);
 	}
 
+	/**
+	 * Checks if two NodeFeaturess contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: NodeFeatures): boolean {
 		const ret: boolean = bindings.NodeFeatures_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
@@ -298,6 +306,9 @@ export class NodeFeatures extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the NodeFeatures
+	 */
 	public clone(): NodeFeatures {
 		const ret: number = bindings.NodeFeatures_clone(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
@@ -305,6 +316,9 @@ export class NodeFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Create a blank Features with no features set
+	 */
 	public static constructor_empty(): NodeFeatures {
 		const ret: number = bindings.NodeFeatures_empty();
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
@@ -312,6 +326,9 @@ export class NodeFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a Features with the bits set which are known by the implementation
+	 */
 	public static constructor_known(): NodeFeatures {
 		const ret: number = bindings.NodeFeatures_known();
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
@@ -319,17 +336,27 @@ export class NodeFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Returns true if this `Features` object contains unknown feature flags which are set as
+	 * \"required\".
+	 */
 	public requires_unknown_bits(): boolean {
 		const ret: boolean = bindings.NodeFeatures_requires_unknown_bits(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Serialize the NodeFeatures object into a byte array which can be read by NodeFeatures_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.NodeFeatures_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a NodeFeatures from a byte array, created by NodeFeatures_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_NodeFeaturesDecodeErrorZ {
 		const ret: number = bindings.NodeFeatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeFeaturesDecodeErrorZ = Result_NodeFeaturesDecodeErrorZ.constr_from_ptr(ret);

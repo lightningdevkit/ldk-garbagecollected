@@ -281,75 +281,302 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Options which apply on a per-channel basis and may change at runtime or based on negotiation
+ * with our counterparty.
+ */
 export class ChannelConfig extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelConfig_free);
 	}
 
+	/**
+	 * Amount (in millionths of a satoshi) charged per satoshi for payments forwarded outbound
+	 * over the channel.
+	 * This may be allowed to change at runtime in a later update, however doing so must result in
+	 * update messages sent to notify all nodes of our updated relay fee.
+	 * 
+	 * Default value: 0.
+	 */
 	public get_forwarding_fee_proportional_millionths(): number {
 		const ret: number = bindings.ChannelConfig_get_forwarding_fee_proportional_millionths(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Amount (in millionths of a satoshi) charged per satoshi for payments forwarded outbound
+	 * over the channel.
+	 * This may be allowed to change at runtime in a later update, however doing so must result in
+	 * update messages sent to notify all nodes of our updated relay fee.
+	 * 
+	 * Default value: 0.
+	 */
 	public set_forwarding_fee_proportional_millionths(val: number): void {
 		bindings.ChannelConfig_set_forwarding_fee_proportional_millionths(this.ptr, val);
 	}
 
+	/**
+	 * Amount (in milli-satoshi) charged for payments forwarded outbound over the channel, in
+	 * excess of [`forwarding_fee_proportional_millionths`].
+	 * This may be allowed to change at runtime in a later update, however doing so must result in
+	 * update messages sent to notify all nodes of our updated relay fee.
+	 * 
+	 * The default value of a single satoshi roughly matches the market rate on many routing nodes
+	 * as of July 2021. Adjusting it upwards or downwards may change whether nodes route through
+	 * this node.
+	 * 
+	 * Default value: 1000.
+	 * 
+	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
+	 */
 	public get_forwarding_fee_base_msat(): number {
 		const ret: number = bindings.ChannelConfig_get_forwarding_fee_base_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Amount (in milli-satoshi) charged for payments forwarded outbound over the channel, in
+	 * excess of [`forwarding_fee_proportional_millionths`].
+	 * This may be allowed to change at runtime in a later update, however doing so must result in
+	 * update messages sent to notify all nodes of our updated relay fee.
+	 * 
+	 * The default value of a single satoshi roughly matches the market rate on many routing nodes
+	 * as of July 2021. Adjusting it upwards or downwards may change whether nodes route through
+	 * this node.
+	 * 
+	 * Default value: 1000.
+	 * 
+	 * [`forwarding_fee_proportional_millionths`]: ChannelConfig::forwarding_fee_proportional_millionths
+	 */
 	public set_forwarding_fee_base_msat(val: number): void {
 		bindings.ChannelConfig_set_forwarding_fee_base_msat(this.ptr, val);
 	}
 
+	/**
+	 * The difference in the CLTV value between incoming HTLCs and an outbound HTLC forwarded over
+	 * the channel this config applies to.
+	 * 
+	 * This is analogous to [`ChannelHandshakeConfig::our_to_self_delay`] but applies to in-flight
+	 * HTLC balance when a channel appears on-chain whereas
+	 * [`ChannelHandshakeConfig::our_to_self_delay`] applies to the remaining
+	 * (non-HTLC-encumbered) balance.
+	 * 
+	 * Thus, for HTLC-encumbered balances to be enforced on-chain when a channel is force-closed,
+	 * we (or one of our watchtowers) MUST be online to check for broadcast of the current
+	 * commitment transaction at least once per this many blocks (minus some margin to allow us
+	 * enough time to broadcast and confirm a transaction, possibly with time in between to RBF
+	 * the spending transaction).
+	 * 
+	 * Default value: 72 (12 hours at an average of 6 blocks/hour).
+	 * Minimum value: [`MIN_CLTV_EXPIRY_DELTA`], any values less than this will be treated as
+	 * [`MIN_CLTV_EXPIRY_DELTA`] instead.
+	 * 
+	 * [`MIN_CLTV_EXPIRY_DELTA`]: crate::ln::channelmanager::MIN_CLTV_EXPIRY_DELTA
+	 */
 	public get_cltv_expiry_delta(): number {
 		const ret: number = bindings.ChannelConfig_get_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The difference in the CLTV value between incoming HTLCs and an outbound HTLC forwarded over
+	 * the channel this config applies to.
+	 * 
+	 * This is analogous to [`ChannelHandshakeConfig::our_to_self_delay`] but applies to in-flight
+	 * HTLC balance when a channel appears on-chain whereas
+	 * [`ChannelHandshakeConfig::our_to_self_delay`] applies to the remaining
+	 * (non-HTLC-encumbered) balance.
+	 * 
+	 * Thus, for HTLC-encumbered balances to be enforced on-chain when a channel is force-closed,
+	 * we (or one of our watchtowers) MUST be online to check for broadcast of the current
+	 * commitment transaction at least once per this many blocks (minus some margin to allow us
+	 * enough time to broadcast and confirm a transaction, possibly with time in between to RBF
+	 * the spending transaction).
+	 * 
+	 * Default value: 72 (12 hours at an average of 6 blocks/hour).
+	 * Minimum value: [`MIN_CLTV_EXPIRY_DELTA`], any values less than this will be treated as
+	 * [`MIN_CLTV_EXPIRY_DELTA`] instead.
+	 * 
+	 * [`MIN_CLTV_EXPIRY_DELTA`]: crate::ln::channelmanager::MIN_CLTV_EXPIRY_DELTA
+	 */
 	public set_cltv_expiry_delta(val: number): void {
 		bindings.ChannelConfig_set_cltv_expiry_delta(this.ptr, val);
 	}
 
+	/**
+	 * Set to announce the channel publicly and notify all nodes that they can route via this
+	 * channel.
+	 * 
+	 * This should only be set to true for nodes which expect to be online reliably.
+	 * 
+	 * As the node which funds a channel picks this value this will only apply for new outbound
+	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
+	 * 
+	 * This cannot be changed after the initial channel handshake.
+	 * 
+	 * Default value: false.
+	 */
 	public get_announced_channel(): boolean {
 		const ret: boolean = bindings.ChannelConfig_get_announced_channel(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Set to announce the channel publicly and notify all nodes that they can route via this
+	 * channel.
+	 * 
+	 * This should only be set to true for nodes which expect to be online reliably.
+	 * 
+	 * As the node which funds a channel picks this value this will only apply for new outbound
+	 * channels unless [`ChannelHandshakeLimits::force_announced_channel_preference`] is set.
+	 * 
+	 * This cannot be changed after the initial channel handshake.
+	 * 
+	 * Default value: false.
+	 */
 	public set_announced_channel(val: boolean): void {
 		bindings.ChannelConfig_set_announced_channel(this.ptr, val);
 	}
 
+	/**
+	 * When set, we commit to an upfront shutdown_pubkey at channel open. If our counterparty
+	 * supports it, they will then enforce the mutual-close output to us matches what we provided
+	 * at intialization, preventing us from closing to an alternate pubkey.
+	 * 
+	 * This is set to true by default to provide a slight increase in security, though ultimately
+	 * any attacker who is able to take control of a channel can just as easily send the funds via
+	 * lightning payments, so we never require that our counterparties support this option.
+	 * 
+	 * This cannot be changed after a channel has been initialized.
+	 * 
+	 * Default value: true.
+	 */
 	public get_commit_upfront_shutdown_pubkey(): boolean {
 		const ret: boolean = bindings.ChannelConfig_get_commit_upfront_shutdown_pubkey(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * When set, we commit to an upfront shutdown_pubkey at channel open. If our counterparty
+	 * supports it, they will then enforce the mutual-close output to us matches what we provided
+	 * at intialization, preventing us from closing to an alternate pubkey.
+	 * 
+	 * This is set to true by default to provide a slight increase in security, though ultimately
+	 * any attacker who is able to take control of a channel can just as easily send the funds via
+	 * lightning payments, so we never require that our counterparties support this option.
+	 * 
+	 * This cannot be changed after a channel has been initialized.
+	 * 
+	 * Default value: true.
+	 */
 	public set_commit_upfront_shutdown_pubkey(val: boolean): void {
 		bindings.ChannelConfig_set_commit_upfront_shutdown_pubkey(this.ptr, val);
 	}
 
+	/**
+	 * Limit our total exposure to in-flight HTLCs which are burned to fees as they are too
+	 * small to claim on-chain.
+	 * 
+	 * When an HTLC present in one of our channels is below a \"dust\" threshold, the HTLC will
+	 * not be claimable on-chain, instead being turned into additional miner fees if either
+	 * party force-closes the channel. Because the threshold is per-HTLC, our total exposure
+	 * to such payments may be sustantial if there are many dust HTLCs present when the
+	 * channel is force-closed.
+	 * 
+	 * This limit is applied for sent, forwarded, and received HTLCs and limits the total
+	 * exposure across all three types per-channel. Setting this too low may prevent the
+	 * sending or receipt of low-value HTLCs on high-traffic nodes, and this limit is very
+	 * important to prevent stealing of dust HTLCs by miners.
+	 * 
+	 * Default value: 5_000_000 msat.
+	 */
 	public get_max_dust_htlc_exposure_msat(): bigint {
 		const ret: bigint = bindings.ChannelConfig_get_max_dust_htlc_exposure_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Limit our total exposure to in-flight HTLCs which are burned to fees as they are too
+	 * small to claim on-chain.
+	 * 
+	 * When an HTLC present in one of our channels is below a \"dust\" threshold, the HTLC will
+	 * not be claimable on-chain, instead being turned into additional miner fees if either
+	 * party force-closes the channel. Because the threshold is per-HTLC, our total exposure
+	 * to such payments may be sustantial if there are many dust HTLCs present when the
+	 * channel is force-closed.
+	 * 
+	 * This limit is applied for sent, forwarded, and received HTLCs and limits the total
+	 * exposure across all three types per-channel. Setting this too low may prevent the
+	 * sending or receipt of low-value HTLCs on high-traffic nodes, and this limit is very
+	 * important to prevent stealing of dust HTLCs by miners.
+	 * 
+	 * Default value: 5_000_000 msat.
+	 */
 	public set_max_dust_htlc_exposure_msat(val: bigint): void {
 		bindings.ChannelConfig_set_max_dust_htlc_exposure_msat(this.ptr, val);
 	}
 
+	/**
+	 * The additional fee we're willing to pay to avoid waiting for the counterparty's
+	 * `to_self_delay` to reclaim funds.
+	 * 
+	 * When we close a channel cooperatively with our counterparty, we negotiate a fee for the
+	 * closing transaction which both sides find acceptable, ultimately paid by the channel
+	 * funder/initiator.
+	 * 
+	 * When we are the funder, because we have to pay the channel closing fee, we bound the
+	 * acceptable fee by our [`Background`] and [`Normal`] fees, with the upper bound increased by
+	 * this value. Because the on-chain fee we'd pay to force-close the channel is kept near our
+	 * [`Normal`] feerate during normal operation, this value represents the additional fee we're
+	 * willing to pay in order to avoid waiting for our counterparty's to_self_delay to reclaim our
+	 * funds.
+	 * 
+	 * When we are not the funder, we require the closing transaction fee pay at least our
+	 * [`Background`] fee estimate, but allow our counterparty to pay as much fee as they like.
+	 * Thus, this value is ignored when we are not the funder.
+	 * 
+	 * Default value: 1000 satoshis.
+	 * 
+	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
+	 */
 	public get_force_close_avoidance_max_fee_satoshis(): bigint {
 		const ret: bigint = bindings.ChannelConfig_get_force_close_avoidance_max_fee_satoshis(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The additional fee we're willing to pay to avoid waiting for the counterparty's
+	 * `to_self_delay` to reclaim funds.
+	 * 
+	 * When we close a channel cooperatively with our counterparty, we negotiate a fee for the
+	 * closing transaction which both sides find acceptable, ultimately paid by the channel
+	 * funder/initiator.
+	 * 
+	 * When we are the funder, because we have to pay the channel closing fee, we bound the
+	 * acceptable fee by our [`Background`] and [`Normal`] fees, with the upper bound increased by
+	 * this value. Because the on-chain fee we'd pay to force-close the channel is kept near our
+	 * [`Normal`] feerate during normal operation, this value represents the additional fee we're
+	 * willing to pay in order to avoid waiting for our counterparty's to_self_delay to reclaim our
+	 * funds.
+	 * 
+	 * When we are not the funder, we require the closing transaction fee pay at least our
+	 * [`Background`] fee estimate, but allow our counterparty to pay as much fee as they like.
+	 * Thus, this value is ignored when we are not the funder.
+	 * 
+	 * Default value: 1000 satoshis.
+	 * 
+	 * [`Normal`]: crate::chain::chaininterface::ConfirmationTarget::Normal
+	 * [`Background`]: crate::chain::chaininterface::ConfirmationTarget::Background
+	 */
 	public set_force_close_avoidance_max_fee_satoshis(val: bigint): void {
 		bindings.ChannelConfig_set_force_close_avoidance_max_fee_satoshis(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new ChannelConfig given each field
+	 */
 	public static constructor_new(forwarding_fee_proportional_millionths_arg: number, forwarding_fee_base_msat_arg: number, cltv_expiry_delta_arg: number, announced_channel_arg: boolean, commit_upfront_shutdown_pubkey_arg: boolean, max_dust_htlc_exposure_msat_arg: bigint, force_close_avoidance_max_fee_satoshis_arg: bigint): ChannelConfig {
 		const ret: number = bindings.ChannelConfig_new(forwarding_fee_proportional_millionths_arg, forwarding_fee_base_msat_arg, cltv_expiry_delta_arg, announced_channel_arg, commit_upfront_shutdown_pubkey_arg, max_dust_htlc_exposure_msat_arg, force_close_avoidance_max_fee_satoshis_arg);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
@@ -362,6 +589,9 @@ export class ChannelConfig extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelConfig
+	 */
 	public clone(): ChannelConfig {
 		const ret: number = bindings.ChannelConfig_clone(this.ptr);
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
@@ -369,6 +599,9 @@ export class ChannelConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a "default" ChannelConfig. See struct and individual field documentaiton for details on which values are used.
+	 */
 	public static constructor_default(): ChannelConfig {
 		const ret: number = bindings.ChannelConfig_default();
 		const ret_hu_conv: ChannelConfig = new ChannelConfig(null, ret);
@@ -376,12 +609,18 @@ export class ChannelConfig extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelConfig object into a byte array which can be read by ChannelConfig_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelConfig_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ChannelConfig from a byte array, created by ChannelConfig_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelConfigDecodeErrorZ {
 		const ret: number = bindings.ChannelConfig_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelConfigDecodeErrorZ = Result_ChannelConfigDecodeErrorZ.constr_from_ptr(ret);

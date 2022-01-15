@@ -281,52 +281,82 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A channel_announcement message to be sent or received from a peer
+ */
 export class ChannelAnnouncement extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelAnnouncement_free);
 	}
 
+	/**
+	 * Authentication of the announcement by the first public node
+	 */
 	public get_node_signature_1(): Uint8Array {
 		const ret: number = bindings.ChannelAnnouncement_get_node_signature_1(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Authentication of the announcement by the first public node
+	 */
 	public set_node_signature_1(val: Uint8Array): void {
 		bindings.ChannelAnnouncement_set_node_signature_1(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * Authentication of the announcement by the second public node
+	 */
 	public get_node_signature_2(): Uint8Array {
 		const ret: number = bindings.ChannelAnnouncement_get_node_signature_2(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Authentication of the announcement by the second public node
+	 */
 	public set_node_signature_2(val: Uint8Array): void {
 		bindings.ChannelAnnouncement_set_node_signature_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * Proof of funding UTXO ownership by the first public node
+	 */
 	public get_bitcoin_signature_1(): Uint8Array {
 		const ret: number = bindings.ChannelAnnouncement_get_bitcoin_signature_1(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Proof of funding UTXO ownership by the first public node
+	 */
 	public set_bitcoin_signature_1(val: Uint8Array): void {
 		bindings.ChannelAnnouncement_set_bitcoin_signature_1(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * Proof of funding UTXO ownership by the second public node
+	 */
 	public get_bitcoin_signature_2(): Uint8Array {
 		const ret: number = bindings.ChannelAnnouncement_get_bitcoin_signature_2(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Proof of funding UTXO ownership by the second public node
+	 */
 	public set_bitcoin_signature_2(val: Uint8Array): void {
 		bindings.ChannelAnnouncement_set_bitcoin_signature_2(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * The actual announcement
+	 */
 	public get_contents(): UnsignedChannelAnnouncement {
 		const ret: number = bindings.ChannelAnnouncement_get_contents(this.ptr);
 		const ret_hu_conv: UnsignedChannelAnnouncement = new UnsignedChannelAnnouncement(null, ret);
@@ -334,10 +364,16 @@ export class ChannelAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The actual announcement
+	 */
 	public set_contents(val: UnsignedChannelAnnouncement): void {
 		bindings.ChannelAnnouncement_set_contents(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new ChannelAnnouncement given each field
+	 */
 	public static constructor_new(node_signature_1_arg: Uint8Array, node_signature_2_arg: Uint8Array, bitcoin_signature_1_arg: Uint8Array, bitcoin_signature_2_arg: Uint8Array, contents_arg: UnsignedChannelAnnouncement): ChannelAnnouncement {
 		const ret: number = bindings.ChannelAnnouncement_new(bindings.encodeUint8Array(bindings.check_arr_len(node_signature_1_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(node_signature_2_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(bitcoin_signature_1_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(bitcoin_signature_2_arg, 64)), contents_arg == null ? 0 : CommonBase.get_ptr_of(contents_arg) & ~1);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
@@ -350,6 +386,9 @@ export class ChannelAnnouncement extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelAnnouncement
+	 */
 	public clone(): ChannelAnnouncement {
 		const ret: number = bindings.ChannelAnnouncement_clone(this.ptr);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
@@ -357,12 +396,18 @@ export class ChannelAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelAnnouncement object into a byte array which can be read by ChannelAnnouncement_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelAnnouncement_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ChannelAnnouncement from a byte array, created by ChannelAnnouncement_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelAnnouncementDecodeErrorZ {
 		const ret: number = bindings.ChannelAnnouncement_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelAnnouncementDecodeErrorZ = Result_ChannelAnnouncementDecodeErrorZ.constr_from_ptr(ret);

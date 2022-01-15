@@ -281,12 +281,20 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Features used within an `init` message.
+ */
 export class InitFeatures extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.InitFeatures_free);
 	}
 
+	/**
+	 * Checks if two InitFeaturess contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: InitFeatures): boolean {
 		const ret: boolean = bindings.InitFeatures_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
@@ -298,6 +306,9 @@ export class InitFeatures extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the InitFeatures
+	 */
 	public clone(): InitFeatures {
 		const ret: number = bindings.InitFeatures_clone(this.ptr);
 		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
@@ -305,6 +316,9 @@ export class InitFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Create a blank Features with no features set
+	 */
 	public static constructor_empty(): InitFeatures {
 		const ret: number = bindings.InitFeatures_empty();
 		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
@@ -312,6 +326,9 @@ export class InitFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a Features with the bits set which are known by the implementation
+	 */
 	public static constructor_known(): InitFeatures {
 		const ret: number = bindings.InitFeatures_known();
 		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
@@ -319,17 +336,27 @@ export class InitFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Returns true if this `Features` object contains unknown feature flags which are set as
+	 * \"required\".
+	 */
 	public requires_unknown_bits(): boolean {
 		const ret: boolean = bindings.InitFeatures_requires_unknown_bits(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Serialize the InitFeatures object into a byte array which can be read by InitFeatures_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.InitFeatures_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a InitFeatures from a byte array, created by InitFeatures_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_InitFeaturesDecodeErrorZ {
 		const ret: number = bindings.InitFeatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_InitFeaturesDecodeErrorZ = Result_InitFeaturesDecodeErrorZ.constr_from_ptr(ret);

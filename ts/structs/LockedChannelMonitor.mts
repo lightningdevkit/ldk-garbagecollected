@@ -281,6 +281,12 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 /** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */
+/**
+ * A read-only reference to a current ChannelMonitor.
+ * 
+ * Note that this holds a mutex in [`ChainMonitor`] and may block other events until it is
+ * released.
+ */
 export class LockedChannelMonitor extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {

@@ -280,6 +280,10 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * Some information provided on receipt of payment depends on whether the payment received is a
+ * spontaneous payment or a \"conventional\" lightning payment that's paying an invoice.
+ */
 export class PaymentPurpose extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.PaymentPurpose_free); }
 	/* @internal */
@@ -298,6 +302,9 @@ export class PaymentPurpose extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the PaymentPurpose
+	 */
 	public clone(): PaymentPurpose {
 		const ret: number = bindings.PaymentPurpose_clone(this.ptr);
 		const ret_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(ret);
@@ -305,6 +312,9 @@ export class PaymentPurpose extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new InvoicePayment-variant PaymentPurpose
+	 */
 	public static constructor_invoice_payment(payment_preimage: Uint8Array, payment_secret: Uint8Array): PaymentPurpose {
 		const ret: number = bindings.PaymentPurpose_invoice_payment(bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_secret, 32)));
 		const ret_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(ret);
@@ -312,6 +322,9 @@ export class PaymentPurpose extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new SpontaneousPayment-variant PaymentPurpose
+	 */
 	public static constructor_spontaneous_payment(a: Uint8Array): PaymentPurpose {
 		const ret: number = bindings.PaymentPurpose_spontaneous_payment(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)));
 		const ret_hu_conv: PaymentPurpose = PaymentPurpose.constr_from_ptr(ret);
@@ -320,8 +333,31 @@ export class PaymentPurpose extends CommonBase {
 	}
 
 }
+/** A PaymentPurpose of type InvoicePayment */
 export class PaymentPurpose_InvoicePayment extends PaymentPurpose {
+	/**
+	 * The preimage to the payment_hash, if the payment hash (and secret) were fetched via
+	 * [`ChannelManager::create_inbound_payment`]. If provided, this can be handed directly to
+	 * [`ChannelManager::claim_funds`].
+	 * 
+	 * [`ChannelManager::create_inbound_payment`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment
+	 * [`ChannelManager::claim_funds`]: crate::ln::channelmanager::ChannelManager::claim_funds
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public payment_preimage: Uint8Array;
+	/**
+	 * The \"payment secret\". This authenticates the sender to the recipient, preventing a
+	 * number of deanonymization attacks during the routing process.
+	 * It is provided here for your reference, however its accuracy is enforced directly by
+	 * [`ChannelManager`] using the values you previously provided to
+	 * [`ChannelManager::create_inbound_payment`] or
+	 * [`ChannelManager::create_inbound_payment_for_hash`].
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 * [`ChannelManager::create_inbound_payment`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment
+	 * [`ChannelManager::create_inbound_payment_for_hash`]: crate::ln::channelmanager::ChannelManager::create_inbound_payment_for_hash
+	 */
 	public payment_secret: Uint8Array;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -334,6 +370,7 @@ export class PaymentPurpose_InvoicePayment extends PaymentPurpose {
 		this.payment_secret = payment_secret_conv;
 	}
 }
+/** A PaymentPurpose of type SpontaneousPayment */
 export class PaymentPurpose_SpontaneousPayment extends PaymentPurpose {
 	public spontaneous_payment: Uint8Array;
 	/* @internal */

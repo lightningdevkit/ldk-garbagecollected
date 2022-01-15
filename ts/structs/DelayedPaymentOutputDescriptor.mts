@@ -281,12 +281,19 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Information about a spendable output to a P2WSH script. See
+ * SpendableOutputDescriptor::DelayedPaymentOutput for more details on how to spend this.
+ */
 export class DelayedPaymentOutputDescriptor extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.DelayedPaymentOutputDescriptor_free);
 	}
 
+	/**
+	 * The outpoint which is spendable
+	 */
 	public get_outpoint(): OutPoint {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
@@ -294,62 +301,109 @@ export class DelayedPaymentOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The outpoint which is spendable
+	 */
 	public set_outpoint(val: OutPoint): void {
 		bindings.DelayedPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Per commitment point to derive delayed_payment_key by key holder
+	 */
 	public get_per_commitment_point(): Uint8Array {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_per_commitment_point(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Per commitment point to derive delayed_payment_key by key holder
+	 */
 	public set_per_commitment_point(val: Uint8Array): void {
 		bindings.DelayedPaymentOutputDescriptor_set_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * The nSequence value which must be set in the spending input to satisfy the OP_CSV in
+	 * the witness_script.
+	 */
 	public get_to_self_delay(): number {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_to_self_delay(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The nSequence value which must be set in the spending input to satisfy the OP_CSV in
+	 * the witness_script.
+	 */
 	public set_to_self_delay(val: number): void {
 		bindings.DelayedPaymentOutputDescriptor_set_to_self_delay(this.ptr, val);
 	}
 
+	/**
+	 * The output which is referenced by the given outpoint
+	 */
 	public set_output(val: TxOut): void {
 		bindings.DelayedPaymentOutputDescriptor_set_output(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * The revocation point specific to the commitment transaction which was broadcast. Used to
+	 * derive the witnessScript for this output.
+	 */
 	public get_revocation_pubkey(): Uint8Array {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_revocation_pubkey(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The revocation point specific to the commitment transaction which was broadcast. Used to
+	 * derive the witnessScript for this output.
+	 */
 	public set_revocation_pubkey(val: Uint8Array): void {
 		bindings.DelayedPaymentOutputDescriptor_set_revocation_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * Arbitrary identification information returned by a call to
+	 * `Sign::channel_keys_id()`. This may be useful in re-deriving keys used in
+	 * the channel to spend the output.
+	 */
 	public get_channel_keys_id(): Uint8Array {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Arbitrary identification information returned by a call to
+	 * `Sign::channel_keys_id()`. This may be useful in re-deriving keys used in
+	 * the channel to spend the output.
+	 */
 	public set_channel_keys_id(val: Uint8Array): void {
 		bindings.DelayedPaymentOutputDescriptor_set_channel_keys_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The value of the channel which this output originated from, possibly indirectly.
+	 */
 	public get_channel_value_satoshis(): bigint {
 		const ret: bigint = bindings.DelayedPaymentOutputDescriptor_get_channel_value_satoshis(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The value of the channel which this output originated from, possibly indirectly.
+	 */
 	public set_channel_value_satoshis(val: bigint): void {
 		bindings.DelayedPaymentOutputDescriptor_set_channel_value_satoshis(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new DelayedPaymentOutputDescriptor given each field
+	 */
 	public static constructor_new(outpoint_arg: OutPoint, per_commitment_point_arg: Uint8Array, to_self_delay_arg: number, output_arg: TxOut, revocation_pubkey_arg: Uint8Array, channel_keys_id_arg: Uint8Array, channel_value_satoshis_arg: bigint): DelayedPaymentOutputDescriptor {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(per_commitment_point_arg, 33)), to_self_delay_arg, CommonBase.get_ptr_of(output_arg), bindings.encodeUint8Array(bindings.check_arr_len(revocation_pubkey_arg, 33)), bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id_arg, 32)), channel_value_satoshis_arg);
 		const ret_hu_conv: DelayedPaymentOutputDescriptor = new DelayedPaymentOutputDescriptor(null, ret);
@@ -362,6 +416,9 @@ export class DelayedPaymentOutputDescriptor extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the DelayedPaymentOutputDescriptor
+	 */
 	public clone(): DelayedPaymentOutputDescriptor {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_clone(this.ptr);
 		const ret_hu_conv: DelayedPaymentOutputDescriptor = new DelayedPaymentOutputDescriptor(null, ret);
@@ -369,12 +426,18 @@ export class DelayedPaymentOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the DelayedPaymentOutputDescriptor object into a byte array which can be read by DelayedPaymentOutputDescriptor_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a DelayedPaymentOutputDescriptor from a byte array, created by DelayedPaymentOutputDescriptor_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_DelayedPaymentOutputDescriptorDecodeErrorZ {
 		const ret: number = bindings.DelayedPaymentOutputDescriptor_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_DelayedPaymentOutputDescriptorDecodeErrorZ = Result_DelayedPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);

@@ -281,12 +281,18 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An init message to be sent or received from a peer
+ */
 export class Init extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.Init_free);
 	}
 
+	/**
+	 * The relevant features which the sender supports
+	 */
 	public get_features(): InitFeatures {
 		const ret: number = bindings.Init_get_features(this.ptr);
 		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
@@ -294,10 +300,16 @@ export class Init extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The relevant features which the sender supports
+	 */
 	public set_features(val: InitFeatures): void {
 		bindings.Init_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new Init given each field
+	 */
 	public static constructor_new(features_arg: InitFeatures): Init {
 		const ret: number = bindings.Init_new(features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1);
 		const ret_hu_conv: Init = new Init(null, ret);
@@ -310,6 +322,9 @@ export class Init extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the Init
+	 */
 	public clone(): Init {
 		const ret: number = bindings.Init_clone(this.ptr);
 		const ret_hu_conv: Init = new Init(null, ret);
@@ -317,12 +332,18 @@ export class Init extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the Init object into a byte array which can be read by Init_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.Init_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a Init from a byte array, created by Init_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_InitDecodeErrorZ {
 		const ret: number = bindings.Init_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_InitDecodeErrorZ = Result_InitDecodeErrorZ.constr_from_ptr(ret);

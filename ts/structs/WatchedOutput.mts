@@ -281,22 +281,48 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A transaction output watched by a [`ChannelMonitor`] for spends on-chain.
+ * 
+ * Used to convey to a [`Filter`] such an output with a given spending condition. Any transaction
+ * spending the output must be given to [`ChannelMonitor::block_connected`] either directly or via
+ * the return value of [`Filter::register_output`].
+ * 
+ * If `block_hash` is `Some`, this indicates the output was created in the corresponding block and
+ * may have been spent there. See [`Filter::register_output`] for details.
+ * 
+ * [`ChannelMonitor`]: channelmonitor::ChannelMonitor
+ * [`ChannelMonitor::block_connected`]: channelmonitor::ChannelMonitor::block_connected
+ */
 export class WatchedOutput extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.WatchedOutput_free);
 	}
 
+	/**
+	 * First block where the transaction output may have been spent.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_block_hash(): Uint8Array {
 		const ret: number = bindings.WatchedOutput_get_block_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * First block where the transaction output may have been spent.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_block_hash(val: Uint8Array): void {
 		bindings.WatchedOutput_set_block_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * Outpoint identifying the transaction output.
+	 */
 	public get_outpoint(): OutPoint {
 		const ret: number = bindings.WatchedOutput_get_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
@@ -304,20 +330,32 @@ export class WatchedOutput extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Outpoint identifying the transaction output.
+	 */
 	public set_outpoint(val: OutPoint): void {
 		bindings.WatchedOutput_set_outpoint(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Spending condition of the transaction output.
+	 */
 	public get_script_pubkey(): Uint8Array {
 		const ret: number = bindings.WatchedOutput_get_script_pubkey(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Spending condition of the transaction output.
+	 */
 	public set_script_pubkey(val: Uint8Array): void {
 		bindings.WatchedOutput_set_script_pubkey(this.ptr, bindings.encodeUint8Array(val));
 	}
 
+	/**
+	 * Constructs a new WatchedOutput given each field
+	 */
 	public static constructor_new(block_hash_arg: Uint8Array, outpoint_arg: OutPoint, script_pubkey_arg: Uint8Array): WatchedOutput {
 		const ret: number = bindings.WatchedOutput_new(bindings.encodeUint8Array(bindings.check_arr_len(block_hash_arg, 32)), outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, bindings.encodeUint8Array(script_pubkey_arg));
 		const ret_hu_conv: WatchedOutput = new WatchedOutput(null, ret);
@@ -330,6 +368,9 @@ export class WatchedOutput extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the WatchedOutput
+	 */
 	public clone(): WatchedOutput {
 		const ret: number = bindings.WatchedOutput_clone(this.ptr);
 		const ret_hu_conv: WatchedOutput = new WatchedOutput(null, ret);
@@ -337,6 +378,9 @@ export class WatchedOutput extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two WatchedOutputs contain equal inner contents.
+	 */
 	public hash(): bigint {
 		const ret: bigint = bindings.WatchedOutput_hash(this.ptr);
 		return ret;

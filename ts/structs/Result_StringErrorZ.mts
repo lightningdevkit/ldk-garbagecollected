@@ -294,18 +294,27 @@ export class Result_StringErrorZ extends CommonBase {
 			return new Result_StringErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_StringErrorZ in the success state.
+	 */
 	public static constructor_ok(o: string): Result_StringErrorZ {
 		const ret: number = bindings.CResult_StringErrorZ_ok(bindings.encodeString(o));
 		const ret_hu_conv: Result_StringErrorZ = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_StringErrorZ in the error state.
+	 */
 	public static constructor_err(e: Secp256k1Error): Result_StringErrorZ {
 		const ret: number = bindings.CResult_StringErrorZ_err(e);
 		const ret_hu_conv: Result_StringErrorZ = Result_StringErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_StringErrorZ_is_ok(this.ptr);
 		return ret;

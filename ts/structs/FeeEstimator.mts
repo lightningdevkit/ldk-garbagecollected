@@ -283,7 +283,17 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of FeeEstimator */
 export interface FeeEstimatorInterface {
+	/**Gets estimated satoshis of fee required per 1000 Weight-Units.
+	 * 
+	 * Must return a value no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later
+	 * round-downs don't put us below 1 satoshi-per-byte).
+	 * 
+	 * This method can be implemented with the following unit conversions:
+	 * max(satoshis-per-byte * 250, 253)
+	 * max(satoshis-per-kbyte / 4, 253)
+	 */
 	get_est_sat_per_1000_weight(confirmation_target: ConfirmationTarget): number;
 }
 
@@ -291,6 +301,13 @@ class LDKFeeEstimatorHolder {
 	held: FeeEstimator;
 }
 
+/**
+ * A trait which should be implemented to provide feerate information on a number of time
+ * horizons.
+ * 
+ * Note that all of the functions implemented here *must* be reentrant-safe (obviously - they're
+ * called from inside the library in response to chain events, P2P events, or timer events).
+ */
 export class FeeEstimator extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKFeeEstimator;
@@ -301,7 +318,8 @@ export class FeeEstimator extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: FeeEstimatorInterface): FeeEstimator {
+	/** Creates a new instance of FeeEstimator from a given implementation */
+	public static new_impl(arg: FeeEstimatorInterface): FeeEstimator {
 		const impl_holder: LDKFeeEstimatorHolder = new LDKFeeEstimatorHolder();
 		let structImplementation = {
 			get_est_sat_per_1000_weight (confirmation_target: ConfirmationTarget): number {
@@ -315,6 +333,17 @@ export class FeeEstimator extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
+
+	/**
+	 * Gets estimated satoshis of fee required per 1000 Weight-Units.
+	 * 
+	 * Must return a value no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later
+	 * round-downs don't put us below 1 satoshi-per-byte).
+	 * 
+	 * This method can be implemented with the following unit conversions:
+	 * max(satoshis-per-byte * 250, 253)
+	 * max(satoshis-per-kbyte / 4, 253)
+	 */
 	public get_est_sat_per_1000_weight(confirmation_target: ConfirmationTarget): number {
 		const ret: number = bindings.FeeEstimator_get_est_sat_per_1000_weight(this.ptr, confirmation_target);
 		return ret;

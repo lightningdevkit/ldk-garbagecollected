@@ -281,22 +281,34 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A channel_update message to be sent or received from a peer
+ */
 export class ChannelUpdate extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelUpdate_free);
 	}
 
+	/**
+	 * A signature of the channel update
+	 */
 	public get_signature(): Uint8Array {
 		const ret: number = bindings.ChannelUpdate_get_signature(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A signature of the channel update
+	 */
 	public set_signature(val: Uint8Array): void {
 		bindings.ChannelUpdate_set_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * The actual channel update
+	 */
 	public get_contents(): UnsignedChannelUpdate {
 		const ret: number = bindings.ChannelUpdate_get_contents(this.ptr);
 		const ret_hu_conv: UnsignedChannelUpdate = new UnsignedChannelUpdate(null, ret);
@@ -304,10 +316,16 @@ export class ChannelUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The actual channel update
+	 */
 	public set_contents(val: UnsignedChannelUpdate): void {
 		bindings.ChannelUpdate_set_contents(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new ChannelUpdate given each field
+	 */
 	public static constructor_new(signature_arg: Uint8Array, contents_arg: UnsignedChannelUpdate): ChannelUpdate {
 		const ret: number = bindings.ChannelUpdate_new(bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), contents_arg == null ? 0 : CommonBase.get_ptr_of(contents_arg) & ~1);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
@@ -320,6 +338,9 @@ export class ChannelUpdate extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelUpdate
+	 */
 	public clone(): ChannelUpdate {
 		const ret: number = bindings.ChannelUpdate_clone(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
@@ -327,12 +348,18 @@ export class ChannelUpdate extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelUpdate object into a byte array which can be read by ChannelUpdate_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelUpdate_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ChannelUpdate from a byte array, created by ChannelUpdate_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelUpdateDecodeErrorZ {
 		const ret: number = bindings.ChannelUpdate_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelUpdateDecodeErrorZ = Result_ChannelUpdateDecodeErrorZ.constr_from_ptr(ret);

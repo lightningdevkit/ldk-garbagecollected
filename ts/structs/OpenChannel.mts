@@ -281,182 +281,300 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An open_channel message to be sent or received from a peer
+ */
 export class OpenChannel extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.OpenChannel_free);
 	}
 
+	/**
+	 * The genesis hash of the blockchain where the channel is to be opened
+	 */
 	public get_chain_hash(): Uint8Array {
 		const ret: number = bindings.OpenChannel_get_chain_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The genesis hash of the blockchain where the channel is to be opened
+	 */
 	public set_chain_hash(val: Uint8Array): void {
 		bindings.OpenChannel_set_chain_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * A temporary channel ID, until the funding outpoint is announced
+	 */
 	public get_temporary_channel_id(): Uint8Array {
 		const ret: number = bindings.OpenChannel_get_temporary_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A temporary channel ID, until the funding outpoint is announced
+	 */
 	public set_temporary_channel_id(val: Uint8Array): void {
 		bindings.OpenChannel_set_temporary_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The channel value
+	 */
 	public get_funding_satoshis(): bigint {
 		const ret: bigint = bindings.OpenChannel_get_funding_satoshis(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The channel value
+	 */
 	public set_funding_satoshis(val: bigint): void {
 		bindings.OpenChannel_set_funding_satoshis(this.ptr, val);
 	}
 
+	/**
+	 * The amount to push to the counterparty as part of the open, in milli-satoshi
+	 */
 	public get_push_msat(): bigint {
 		const ret: bigint = bindings.OpenChannel_get_push_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The amount to push to the counterparty as part of the open, in milli-satoshi
+	 */
 	public set_push_msat(val: bigint): void {
 		bindings.OpenChannel_set_push_msat(this.ptr, val);
 	}
 
+	/**
+	 * The threshold below which outputs on transactions broadcast by sender will be omitted
+	 */
 	public get_dust_limit_satoshis(): bigint {
 		const ret: bigint = bindings.OpenChannel_get_dust_limit_satoshis(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The threshold below which outputs on transactions broadcast by sender will be omitted
+	 */
 	public set_dust_limit_satoshis(val: bigint): void {
 		bindings.OpenChannel_set_dust_limit_satoshis(this.ptr, val);
 	}
 
+	/**
+	 * The maximum inbound HTLC value in flight towards sender, in milli-satoshi
+	 */
 	public get_max_htlc_value_in_flight_msat(): bigint {
 		const ret: bigint = bindings.OpenChannel_get_max_htlc_value_in_flight_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The maximum inbound HTLC value in flight towards sender, in milli-satoshi
+	 */
 	public set_max_htlc_value_in_flight_msat(val: bigint): void {
 		bindings.OpenChannel_set_max_htlc_value_in_flight_msat(this.ptr, val);
 	}
 
+	/**
+	 * The minimum value unencumbered by HTLCs for the counterparty to keep in the channel
+	 */
 	public get_channel_reserve_satoshis(): bigint {
 		const ret: bigint = bindings.OpenChannel_get_channel_reserve_satoshis(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The minimum value unencumbered by HTLCs for the counterparty to keep in the channel
+	 */
 	public set_channel_reserve_satoshis(val: bigint): void {
 		bindings.OpenChannel_set_channel_reserve_satoshis(this.ptr, val);
 	}
 
+	/**
+	 * The minimum HTLC size incoming to sender, in milli-satoshi
+	 */
 	public get_htlc_minimum_msat(): bigint {
 		const ret: bigint = bindings.OpenChannel_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The minimum HTLC size incoming to sender, in milli-satoshi
+	 */
 	public set_htlc_minimum_msat(val: bigint): void {
 		bindings.OpenChannel_set_htlc_minimum_msat(this.ptr, val);
 	}
 
+	/**
+	 * The feerate per 1000-weight of sender generated transactions, until updated by update_fee
+	 */
 	public get_feerate_per_kw(): number {
 		const ret: number = bindings.OpenChannel_get_feerate_per_kw(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The feerate per 1000-weight of sender generated transactions, until updated by update_fee
+	 */
 	public set_feerate_per_kw(val: number): void {
 		bindings.OpenChannel_set_feerate_per_kw(this.ptr, val);
 	}
 
+	/**
+	 * The number of blocks which the counterparty will have to wait to claim on-chain funds if they broadcast a commitment transaction
+	 */
 	public get_to_self_delay(): number {
 		const ret: number = bindings.OpenChannel_get_to_self_delay(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The number of blocks which the counterparty will have to wait to claim on-chain funds if they broadcast a commitment transaction
+	 */
 	public set_to_self_delay(val: number): void {
 		bindings.OpenChannel_set_to_self_delay(this.ptr, val);
 	}
 
+	/**
+	 * The maximum number of inbound HTLCs towards sender
+	 */
 	public get_max_accepted_htlcs(): number {
 		const ret: number = bindings.OpenChannel_get_max_accepted_htlcs(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The maximum number of inbound HTLCs towards sender
+	 */
 	public set_max_accepted_htlcs(val: number): void {
 		bindings.OpenChannel_set_max_accepted_htlcs(this.ptr, val);
 	}
 
+	/**
+	 * The sender's key controlling the funding transaction
+	 */
 	public get_funding_pubkey(): Uint8Array {
 		const ret: number = bindings.OpenChannel_get_funding_pubkey(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The sender's key controlling the funding transaction
+	 */
 	public set_funding_pubkey(val: Uint8Array): void {
 		bindings.OpenChannel_set_funding_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * Used to derive a revocation key for transactions broadcast by counterparty
+	 */
 	public get_revocation_basepoint(): Uint8Array {
 		const ret: number = bindings.OpenChannel_get_revocation_basepoint(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Used to derive a revocation key for transactions broadcast by counterparty
+	 */
 	public set_revocation_basepoint(val: Uint8Array): void {
 		bindings.OpenChannel_set_revocation_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * A payment key to sender for transactions broadcast by counterparty
+	 */
 	public get_payment_point(): Uint8Array {
 		const ret: number = bindings.OpenChannel_get_payment_point(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A payment key to sender for transactions broadcast by counterparty
+	 */
 	public set_payment_point(val: Uint8Array): void {
 		bindings.OpenChannel_set_payment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * Used to derive a payment key to sender for transactions broadcast by sender
+	 */
 	public get_delayed_payment_basepoint(): Uint8Array {
 		const ret: number = bindings.OpenChannel_get_delayed_payment_basepoint(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Used to derive a payment key to sender for transactions broadcast by sender
+	 */
 	public set_delayed_payment_basepoint(val: Uint8Array): void {
 		bindings.OpenChannel_set_delayed_payment_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * Used to derive an HTLC payment key to sender
+	 */
 	public get_htlc_basepoint(): Uint8Array {
 		const ret: number = bindings.OpenChannel_get_htlc_basepoint(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Used to derive an HTLC payment key to sender
+	 */
 	public set_htlc_basepoint(val: Uint8Array): void {
 		bindings.OpenChannel_set_htlc_basepoint(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * The first to-be-broadcast-by-sender transaction's per commitment point
+	 */
 	public get_first_per_commitment_point(): Uint8Array {
 		const ret: number = bindings.OpenChannel_get_first_per_commitment_point(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The first to-be-broadcast-by-sender transaction's per commitment point
+	 */
 	public set_first_per_commitment_point(val: Uint8Array): void {
 		bindings.OpenChannel_set_first_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * Channel flags
+	 */
 	public get_channel_flags(): number {
 		const ret: number = bindings.OpenChannel_get_channel_flags(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Channel flags
+	 */
 	public set_channel_flags(val: number): void {
 		bindings.OpenChannel_set_channel_flags(this.ptr, val);
 	}
 
+	/**
+	 * The channel type that this channel will represent. If none is set, we derive the channel
+	 * type from the intersection of our feature bits with our counterparty's feature bits from
+	 * the Init message.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_channel_type(): ChannelTypeFeatures {
 		const ret: number = bindings.OpenChannel_get_channel_type(this.ptr);
 		const ret_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, ret);
@@ -464,6 +582,13 @@ export class OpenChannel extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The channel type that this channel will represent. If none is set, we derive the channel
+	 * type from the intersection of our feature bits with our counterparty's feature bits from
+	 * the Init message.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_channel_type(val: ChannelTypeFeatures): void {
 		bindings.OpenChannel_set_channel_type(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
@@ -473,6 +598,9 @@ export class OpenChannel extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the OpenChannel
+	 */
 	public clone(): OpenChannel {
 		const ret: number = bindings.OpenChannel_clone(this.ptr);
 		const ret_hu_conv: OpenChannel = new OpenChannel(null, ret);
@@ -480,12 +608,18 @@ export class OpenChannel extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the OpenChannel object into a byte array which can be read by OpenChannel_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.OpenChannel_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a OpenChannel from a byte array, created by OpenChannel_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_OpenChannelDecodeErrorZ {
 		const ret: number = bindings.OpenChannel_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_OpenChannelDecodeErrorZ = Result_OpenChannelDecodeErrorZ.constr_from_ptr(ret);

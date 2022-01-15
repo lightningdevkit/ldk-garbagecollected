@@ -281,18 +281,27 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C2Tuple_BlockHashChannelManagerZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): Uint8Array {
 		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_get_a(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): ChannelManager {
 		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_get_b(this.ptr);
 		const ret_hu_conv: ChannelManager = new ChannelManager(null, ret);
@@ -300,6 +309,9 @@ export class TwoTuple_BlockHashChannelManagerZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new C2Tuple_BlockHashChannelManagerZ from the contained elements.
+	 */
 	public static constructor_new(a: Uint8Array, b_fee_est: FeeEstimator, b_chain_monitor: Watch, b_tx_broadcaster: BroadcasterInterface, b_logger: Logger, b_keys_manager: KeysInterface, b_config: UserConfig, b_params: ChainParameters): TwoTuple_BlockHashChannelManagerZ {
 		const ret: number = bindings.C2Tuple_BlockHashChannelManagerZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.ChannelManager_new(b_fee_est == null ? 0 : CommonBase.get_ptr_of(b_fee_est), b_chain_monitor == null ? 0 : CommonBase.get_ptr_of(b_chain_monitor), b_tx_broadcaster == null ? 0 : CommonBase.get_ptr_of(b_tx_broadcaster), b_logger == null ? 0 : CommonBase.get_ptr_of(b_logger), b_keys_manager == null ? 0 : CommonBase.get_ptr_of(b_keys_manager), b_config == null ? 0 : CommonBase.get_ptr_of(b_config) & ~1, b_params == null ? 0 : CommonBase.get_ptr_of(b_params) & ~1));
 		const ret_hu_conv: TwoTuple_BlockHashChannelManagerZ = new TwoTuple_BlockHashChannelManagerZ(null, ret);

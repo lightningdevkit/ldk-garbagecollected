@@ -281,12 +281,19 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Information about a spendable output to our \"payment key\". See
+ * SpendableOutputDescriptor::StaticPaymentOutput for more details on how to spend this.
+ */
 export class StaticPaymentOutputDescriptor extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.StaticPaymentOutputDescriptor_free);
 	}
 
+	/**
+	 * The outpoint which is spendable
+	 */
 	public get_outpoint(): OutPoint {
 		const ret: number = bindings.StaticPaymentOutputDescriptor_get_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
@@ -294,33 +301,58 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The outpoint which is spendable
+	 */
 	public set_outpoint(val: OutPoint): void {
 		bindings.StaticPaymentOutputDescriptor_set_outpoint(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The output which is referenced by the given outpoint
+	 */
 	public set_output(val: TxOut): void {
 		bindings.StaticPaymentOutputDescriptor_set_output(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * Arbitrary identification information returned by a call to
+	 * `Sign::channel_keys_id()`. This may be useful in re-deriving keys used in
+	 * the channel to spend the output.
+	 */
 	public get_channel_keys_id(): Uint8Array {
 		const ret: number = bindings.StaticPaymentOutputDescriptor_get_channel_keys_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Arbitrary identification information returned by a call to
+	 * `Sign::channel_keys_id()`. This may be useful in re-deriving keys used in
+	 * the channel to spend the output.
+	 */
 	public set_channel_keys_id(val: Uint8Array): void {
 		bindings.StaticPaymentOutputDescriptor_set_channel_keys_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The value of the channel which this transactions spends.
+	 */
 	public get_channel_value_satoshis(): bigint {
 		const ret: bigint = bindings.StaticPaymentOutputDescriptor_get_channel_value_satoshis(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The value of the channel which this transactions spends.
+	 */
 	public set_channel_value_satoshis(val: bigint): void {
 		bindings.StaticPaymentOutputDescriptor_set_channel_value_satoshis(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new StaticPaymentOutputDescriptor given each field
+	 */
 	public static constructor_new(outpoint_arg: OutPoint, output_arg: TxOut, channel_keys_id_arg: Uint8Array, channel_value_satoshis_arg: bigint): StaticPaymentOutputDescriptor {
 		const ret: number = bindings.StaticPaymentOutputDescriptor_new(outpoint_arg == null ? 0 : CommonBase.get_ptr_of(outpoint_arg) & ~1, CommonBase.get_ptr_of(output_arg), bindings.encodeUint8Array(bindings.check_arr_len(channel_keys_id_arg, 32)), channel_value_satoshis_arg);
 		const ret_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, ret);
@@ -333,6 +365,9 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the StaticPaymentOutputDescriptor
+	 */
 	public clone(): StaticPaymentOutputDescriptor {
 		const ret: number = bindings.StaticPaymentOutputDescriptor_clone(this.ptr);
 		const ret_hu_conv: StaticPaymentOutputDescriptor = new StaticPaymentOutputDescriptor(null, ret);
@@ -340,12 +375,18 @@ export class StaticPaymentOutputDescriptor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the StaticPaymentOutputDescriptor object into a byte array which can be read by StaticPaymentOutputDescriptor_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.StaticPaymentOutputDescriptor_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a StaticPaymentOutputDescriptor from a byte array, created by StaticPaymentOutputDescriptor_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_StaticPaymentOutputDescriptorDecodeErrorZ {
 		const ret: number = bindings.StaticPaymentOutputDescriptor_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_StaticPaymentOutputDescriptorDecodeErrorZ = Result_StaticPaymentOutputDescriptorDecodeErrorZ.constr_from_ptr(ret);

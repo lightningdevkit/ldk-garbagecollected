@@ -281,27 +281,42 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An update_fail_htlc message to be sent or received from a peer
+ */
 export class UpdateFailHTLC extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.UpdateFailHTLC_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.UpdateFailHTLC_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.UpdateFailHTLC_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The HTLC ID
+	 */
 	public get_htlc_id(): bigint {
 		const ret: bigint = bindings.UpdateFailHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The HTLC ID
+	 */
 	public set_htlc_id(val: bigint): void {
 		bindings.UpdateFailHTLC_set_htlc_id(this.ptr, val);
 	}
@@ -311,6 +326,9 @@ export class UpdateFailHTLC extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the UpdateFailHTLC
+	 */
 	public clone(): UpdateFailHTLC {
 		const ret: number = bindings.UpdateFailHTLC_clone(this.ptr);
 		const ret_hu_conv: UpdateFailHTLC = new UpdateFailHTLC(null, ret);
@@ -318,12 +336,18 @@ export class UpdateFailHTLC extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the UpdateFailHTLC object into a byte array which can be read by UpdateFailHTLC_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.UpdateFailHTLC_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a UpdateFailHTLC from a byte array, created by UpdateFailHTLC_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateFailHTLCDecodeErrorZ {
 		const ret: number = bindings.UpdateFailHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateFailHTLCDecodeErrorZ = Result_UpdateFailHTLCDecodeErrorZ.constr_from_ptr(ret);

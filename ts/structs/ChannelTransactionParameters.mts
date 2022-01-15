@@ -281,12 +281,22 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Per-channel data used to build transactions in conjunction with the per-commitment data (CommitmentTransaction).
+ * The fields are organized by holder/counterparty.
+ * 
+ * Normally, this is converted to the broadcaster/countersignatory-organized DirectedChannelTransactionParameters
+ * before use, via the as_holder_broadcastable and as_counterparty_broadcastable functions.
+ */
 export class ChannelTransactionParameters extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelTransactionParameters_free);
 	}
 
+	/**
+	 * Holder public keys
+	 */
 	public get_holder_pubkeys(): ChannelPublicKeys {
 		const ret: number = bindings.ChannelTransactionParameters_get_holder_pubkeys(this.ptr);
 		const ret_hu_conv: ChannelPublicKeys = new ChannelPublicKeys(null, ret);
@@ -294,28 +304,51 @@ export class ChannelTransactionParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Holder public keys
+	 */
 	public set_holder_pubkeys(val: ChannelPublicKeys): void {
 		bindings.ChannelTransactionParameters_set_holder_pubkeys(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The contest delay selected by the holder, which applies to counterparty-broadcast transactions
+	 */
 	public get_holder_selected_contest_delay(): number {
 		const ret: number = bindings.ChannelTransactionParameters_get_holder_selected_contest_delay(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The contest delay selected by the holder, which applies to counterparty-broadcast transactions
+	 */
 	public set_holder_selected_contest_delay(val: number): void {
 		bindings.ChannelTransactionParameters_set_holder_selected_contest_delay(this.ptr, val);
 	}
 
+	/**
+	 * Whether the holder is the initiator of this channel.
+	 * This is an input to the commitment number obscure factor computation.
+	 */
 	public get_is_outbound_from_holder(): boolean {
 		const ret: boolean = bindings.ChannelTransactionParameters_get_is_outbound_from_holder(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Whether the holder is the initiator of this channel.
+	 * This is an input to the commitment number obscure factor computation.
+	 */
 	public set_is_outbound_from_holder(val: boolean): void {
 		bindings.ChannelTransactionParameters_set_is_outbound_from_holder(this.ptr, val);
 	}
 
+	/**
+	 * The late-bound counterparty channel transaction parameters.
+	 * These parameters are populated at the point in the protocol where the counterparty provides them.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_counterparty_parameters(): CounterpartyChannelTransactionParameters {
 		const ret: number = bindings.ChannelTransactionParameters_get_counterparty_parameters(this.ptr);
 		const ret_hu_conv: CounterpartyChannelTransactionParameters = new CounterpartyChannelTransactionParameters(null, ret);
@@ -323,10 +356,21 @@ export class ChannelTransactionParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The late-bound counterparty channel transaction parameters.
+	 * These parameters are populated at the point in the protocol where the counterparty provides them.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_counterparty_parameters(val: CounterpartyChannelTransactionParameters): void {
 		bindings.ChannelTransactionParameters_set_counterparty_parameters(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The late-bound funding outpoint
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_funding_outpoint(): OutPoint {
 		const ret: number = bindings.ChannelTransactionParameters_get_funding_outpoint(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
@@ -334,19 +378,33 @@ export class ChannelTransactionParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The late-bound funding outpoint
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_funding_outpoint(val: OutPoint): void {
 		bindings.ChannelTransactionParameters_set_funding_outpoint(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Are anchors used for this channel.  Boolean is serialization backwards-compatible
+	 */
 	public get_opt_anchors(): COption_NoneZ {
 		const ret: COption_NoneZ = bindings.ChannelTransactionParameters_get_opt_anchors(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Are anchors used for this channel.  Boolean is serialization backwards-compatible
+	 */
 	public set_opt_anchors(val: COption_NoneZ): void {
 		bindings.ChannelTransactionParameters_set_opt_anchors(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new ChannelTransactionParameters given each field
+	 */
 	public static constructor_new(holder_pubkeys_arg: ChannelPublicKeys, holder_selected_contest_delay_arg: number, is_outbound_from_holder_arg: boolean, counterparty_parameters_arg: CounterpartyChannelTransactionParameters, funding_outpoint_arg: OutPoint, opt_anchors_arg: COption_NoneZ): ChannelTransactionParameters {
 		const ret: number = bindings.ChannelTransactionParameters_new(holder_pubkeys_arg == null ? 0 : CommonBase.get_ptr_of(holder_pubkeys_arg) & ~1, holder_selected_contest_delay_arg, is_outbound_from_holder_arg, counterparty_parameters_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_parameters_arg) & ~1, funding_outpoint_arg == null ? 0 : CommonBase.get_ptr_of(funding_outpoint_arg) & ~1, opt_anchors_arg);
 		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
@@ -359,6 +417,9 @@ export class ChannelTransactionParameters extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelTransactionParameters
+	 */
 	public clone(): ChannelTransactionParameters {
 		const ret: number = bindings.ChannelTransactionParameters_clone(this.ptr);
 		const ret_hu_conv: ChannelTransactionParameters = new ChannelTransactionParameters(null, ret);
@@ -366,11 +427,20 @@ export class ChannelTransactionParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Whether the late bound parameters are populated.
+	 */
 	public is_populated(): boolean {
 		const ret: boolean = bindings.ChannelTransactionParameters_is_populated(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Convert the holder/counterparty parameters to broadcaster/countersignatory-organized parameters,
+	 * given that the holder is the broadcaster.
+	 * 
+	 * self.is_populated() must be true before calling this function.
+	 */
 	public as_holder_broadcastable(): DirectedChannelTransactionParameters {
 		const ret: number = bindings.ChannelTransactionParameters_as_holder_broadcastable(this.ptr);
 		const ret_hu_conv: DirectedChannelTransactionParameters = new DirectedChannelTransactionParameters(null, ret);
@@ -378,6 +448,12 @@ export class ChannelTransactionParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Convert the holder/counterparty parameters to broadcaster/countersignatory-organized parameters,
+	 * given that the counterparty is the broadcaster.
+	 * 
+	 * self.is_populated() must be true before calling this function.
+	 */
 	public as_counterparty_broadcastable(): DirectedChannelTransactionParameters {
 		const ret: number = bindings.ChannelTransactionParameters_as_counterparty_broadcastable(this.ptr);
 		const ret_hu_conv: DirectedChannelTransactionParameters = new DirectedChannelTransactionParameters(null, ret);
@@ -385,12 +461,18 @@ export class ChannelTransactionParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelTransactionParameters object into a byte array which can be read by ChannelTransactionParameters_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelTransactionParameters_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ChannelTransactionParameters from a byte array, created by ChannelTransactionParameters_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelTransactionParametersDecodeErrorZ {
 		const ret: number = bindings.ChannelTransactionParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelTransactionParametersDecodeErrorZ = Result_ChannelTransactionParametersDecodeErrorZ.constr_from_ptr(ret);

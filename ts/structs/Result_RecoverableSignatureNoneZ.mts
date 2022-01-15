@@ -294,18 +294,27 @@ export class Result_RecoverableSignatureNoneZ extends CommonBase {
 			return new Result_RecoverableSignatureNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_RecoverableSignatureNoneZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array): Result_RecoverableSignatureNoneZ {
 		const ret: number = bindings.CResult_RecoverableSignatureNoneZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 68)));
 		const ret_hu_conv: Result_RecoverableSignatureNoneZ = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_RecoverableSignatureNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_RecoverableSignatureNoneZ {
 		const ret: number = bindings.CResult_RecoverableSignatureNoneZ_err();
 		const ret_hu_conv: Result_RecoverableSignatureNoneZ = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_RecoverableSignatureNoneZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_RecoverableSignatureNoneZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_RecoverableSignatureNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_RecoverableSignatureNoneZ {
 		const ret: number = bindings.CResult_RecoverableSignatureNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_RecoverableSignatureNoneZ = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);

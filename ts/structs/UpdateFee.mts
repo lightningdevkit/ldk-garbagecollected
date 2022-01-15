@@ -281,31 +281,49 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An update_fee message to be sent or received from a peer
+ */
 export class UpdateFee extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.UpdateFee_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.UpdateFee_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.UpdateFee_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * Fee rate per 1000-weight of the transaction
+	 */
 	public get_feerate_per_kw(): number {
 		const ret: number = bindings.UpdateFee_get_feerate_per_kw(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Fee rate per 1000-weight of the transaction
+	 */
 	public set_feerate_per_kw(val: number): void {
 		bindings.UpdateFee_set_feerate_per_kw(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new UpdateFee given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, feerate_per_kw_arg: number): UpdateFee {
 		const ret: number = bindings.UpdateFee_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), feerate_per_kw_arg);
 		const ret_hu_conv: UpdateFee = new UpdateFee(null, ret);
@@ -318,6 +336,9 @@ export class UpdateFee extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the UpdateFee
+	 */
 	public clone(): UpdateFee {
 		const ret: number = bindings.UpdateFee_clone(this.ptr);
 		const ret_hu_conv: UpdateFee = new UpdateFee(null, ret);
@@ -325,12 +346,18 @@ export class UpdateFee extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the UpdateFee object into a byte array which can be read by UpdateFee_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.UpdateFee_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a UpdateFee from a byte array, created by UpdateFee_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateFeeDecodeErrorZ {
 		const ret: number = bindings.UpdateFee_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateFeeDecodeErrorZ = Result_UpdateFeeDecodeErrorZ.constr_from_ptr(ret);

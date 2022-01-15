@@ -281,16 +281,29 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Details about a node in the network, known from the network announcement.
+ */
 export class NodeInfo extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.NodeInfo_free);
 	}
 
+	/**
+	 * All valid channels a node has announced
+	 */
 	public set_channels(val: bigint[]): void {
 		bindings.NodeInfo_set_channels(this.ptr, bindings.encodeUint64Array(val));
 	}
 
+	/**
+	 * Lowest fees enabling routing via any of the enabled, known channels to a node.
+	 * The two fields (flat and proportional fee) are independent,
+	 * meaning they don't have to refer to the same channel.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_lowest_inbound_channel_fees(): RoutingFees {
 		const ret: number = bindings.NodeInfo_get_lowest_inbound_channel_fees(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
@@ -298,10 +311,24 @@ export class NodeInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Lowest fees enabling routing via any of the enabled, known channels to a node.
+	 * The two fields (flat and proportional fee) are independent,
+	 * meaning they don't have to refer to the same channel.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_lowest_inbound_channel_fees(val: RoutingFees): void {
 		bindings.NodeInfo_set_lowest_inbound_channel_fees(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * More information about a node from node_announcement.
+	 * Optional because we store a Node entry after learning about it from
+	 * a channel announcement, but before receiving a node announcement.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_announcement_info(): NodeAnnouncementInfo {
 		const ret: number = bindings.NodeInfo_get_announcement_info(this.ptr);
 		const ret_hu_conv: NodeAnnouncementInfo = new NodeAnnouncementInfo(null, ret);
@@ -309,10 +336,20 @@ export class NodeInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * More information about a node from node_announcement.
+	 * Optional because we store a Node entry after learning about it from
+	 * a channel announcement, but before receiving a node announcement.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_announcement_info(val: NodeAnnouncementInfo): void {
 		bindings.NodeInfo_set_announcement_info(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new NodeInfo given each field
+	 */
 	public static constructor_new(channels_arg: bigint[], lowest_inbound_channel_fees_arg: RoutingFees, announcement_info_arg: NodeAnnouncementInfo): NodeInfo {
 		const ret: number = bindings.NodeInfo_new(bindings.encodeUint64Array(channels_arg), lowest_inbound_channel_fees_arg == null ? 0 : CommonBase.get_ptr_of(lowest_inbound_channel_fees_arg) & ~1, announcement_info_arg == null ? 0 : CommonBase.get_ptr_of(announcement_info_arg) & ~1);
 		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
@@ -325,6 +362,9 @@ export class NodeInfo extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the NodeInfo
+	 */
 	public clone(): NodeInfo {
 		const ret: number = bindings.NodeInfo_clone(this.ptr);
 		const ret_hu_conv: NodeInfo = new NodeInfo(null, ret);
@@ -332,12 +372,18 @@ export class NodeInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the NodeInfo object into a byte array which can be read by NodeInfo_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.NodeInfo_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a NodeInfo from a byte array, created by NodeInfo_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_NodeInfoDecodeErrorZ {
 		const ret: number = bindings.NodeInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_NodeInfoDecodeErrorZ = Result_NodeInfoDecodeErrorZ.constr_from_ptr(ret);

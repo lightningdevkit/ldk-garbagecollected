@@ -281,40 +281,66 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A gossip_timestamp_filter message is used by a node to request
+ * gossip relay for messages in the requested time range when the
+ * gossip_queries feature has been negotiated.
+ */
 export class GossipTimestampFilter extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.GossipTimestampFilter_free);
 	}
 
+	/**
+	 * The genesis hash of the blockchain for channel and node information
+	 */
 	public get_chain_hash(): Uint8Array {
 		const ret: number = bindings.GossipTimestampFilter_get_chain_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The genesis hash of the blockchain for channel and node information
+	 */
 	public set_chain_hash(val: Uint8Array): void {
 		bindings.GossipTimestampFilter_set_chain_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The starting unix timestamp
+	 */
 	public get_first_timestamp(): number {
 		const ret: number = bindings.GossipTimestampFilter_get_first_timestamp(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The starting unix timestamp
+	 */
 	public set_first_timestamp(val: number): void {
 		bindings.GossipTimestampFilter_set_first_timestamp(this.ptr, val);
 	}
 
+	/**
+	 * The range of information in seconds
+	 */
 	public get_timestamp_range(): number {
 		const ret: number = bindings.GossipTimestampFilter_get_timestamp_range(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The range of information in seconds
+	 */
 	public set_timestamp_range(val: number): void {
 		bindings.GossipTimestampFilter_set_timestamp_range(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new GossipTimestampFilter given each field
+	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, first_timestamp_arg: number, timestamp_range_arg: number): GossipTimestampFilter {
 		const ret: number = bindings.GossipTimestampFilter_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_timestamp_arg, timestamp_range_arg);
 		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
@@ -327,6 +353,9 @@ export class GossipTimestampFilter extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the GossipTimestampFilter
+	 */
 	public clone(): GossipTimestampFilter {
 		const ret: number = bindings.GossipTimestampFilter_clone(this.ptr);
 		const ret_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, ret);
@@ -334,12 +363,18 @@ export class GossipTimestampFilter extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the GossipTimestampFilter object into a byte array which can be read by GossipTimestampFilter_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.GossipTimestampFilter_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a GossipTimestampFilter from a byte array, created by GossipTimestampFilter_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_GossipTimestampFilterDecodeErrorZ {
 		const ret: number = bindings.GossipTimestampFilter_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_GossipTimestampFilterDecodeErrorZ = Result_GossipTimestampFilterDecodeErrorZ.constr_from_ptr(ret);

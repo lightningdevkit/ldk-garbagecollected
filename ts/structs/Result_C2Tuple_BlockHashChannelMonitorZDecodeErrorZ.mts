@@ -294,18 +294,27 @@ export class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 			return new Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ in the success state.
+	 */
 	public static constructor_ok(o: TwoTuple_BlockHashChannelMonitorZ): Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ {
 		const ret: number = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_ok(o != null ? CommonBase.get_ptr_of(o) : 0);
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ in the error state.
+	 */
 	public static constructor_err(e: DecodeError): Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ {
 		const ret: number = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ extends CommonB
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ {
 		const ret: number = bindings.CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ = Result_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ.constr_from_ptr(ret);

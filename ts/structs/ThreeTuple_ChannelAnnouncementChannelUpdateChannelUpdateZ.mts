@@ -281,12 +281,18 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): ChannelAnnouncement {
 		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_a(this.ptr);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
@@ -294,6 +300,9 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 		return ret_hu_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): ChannelUpdate {
 		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_b(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
@@ -301,6 +310,9 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 		return ret_hu_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_c(): ChannelUpdate {
 		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_get_c(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
@@ -313,6 +325,10 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 		return ret;
 	}
 
+	/**
+	 * Creates a new tuple which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ {
 		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(this.ptr);
 		const ret_hu_conv: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret);
@@ -320,6 +336,9 @@ export class ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ extends C
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ from the contained elements.
+	 */
 	public static constructor_new(a: ChannelAnnouncement, b: ChannelUpdate, c: ChannelUpdate): ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ {
 		const ret: number = bindings.C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1, c == null ? 0 : CommonBase.get_ptr_of(c) & ~1);
 		const ret_hu_conv: ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ = new ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ(null, ret);

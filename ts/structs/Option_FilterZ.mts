@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::lightning::chain::Filter or not
+ */
 export class Option_FilterZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_FilterZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_FilterZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_FilterZ containing a crate::lightning::chain::Filter
+	 */
 	public static constructor_some(o: Filter): Option_FilterZ {
 		const ret: number = bindings.COption_FilterZ_some(o == null ? 0 : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_FilterZ = Option_FilterZ.constr_from_ptr(ret);
@@ -301,6 +307,9 @@ export class Option_FilterZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_FilterZ containing nothing
+	 */
 	public static constructor_none(): Option_FilterZ {
 		const ret: number = bindings.COption_FilterZ_none();
 		const ret_hu_conv: Option_FilterZ = Option_FilterZ.constr_from_ptr(ret);
@@ -309,6 +318,7 @@ export class Option_FilterZ extends CommonBase {
 	}
 
 }
+/** A Option_FilterZ of type Some */
 export class Option_FilterZ_Some extends Option_FilterZ {
 	public some: Filter;
 	/* @internal */
@@ -320,6 +330,7 @@ export class Option_FilterZ_Some extends Option_FilterZ {
 		this.some = ret_hu_conv;
 	}
 }
+/** A Option_FilterZ of type None */
 export class Option_FilterZ_None extends Option_FilterZ {
 	/* @internal */
 	public constructor(ptr: number) {

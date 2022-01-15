@@ -294,18 +294,27 @@ export class Result_RouteLightningErrorZ extends CommonBase {
 			return new Result_RouteLightningErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_RouteLightningErrorZ in the success state.
+	 */
 	public static constructor_ok(o: Route): Result_RouteLightningErrorZ {
 		const ret: number = bindings.CResult_RouteLightningErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_RouteLightningErrorZ in the error state.
+	 */
 	public static constructor_err(e: LightningError): Result_RouteLightningErrorZ {
 		const ret: number = bindings.CResult_RouteLightningErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_RouteLightningErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_RouteLightningErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_RouteLightningErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_RouteLightningErrorZ {
 		const ret: number = bindings.CResult_RouteLightningErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_RouteLightningErrorZ = Result_RouteLightningErrorZ.constr_from_ptr(ret);

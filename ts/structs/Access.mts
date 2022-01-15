@@ -283,7 +283,14 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of Access */
 export interface AccessInterface {
+	/**Returns the transaction output of a funding transaction encoded by [`short_channel_id`].
+	 * Returns an error if `genesis_hash` is for a different chain or if such a transaction output
+	 * is unknown.
+	 * 
+	 * [`short_channel_id`]: https://github.com/lightningnetwork/lightning-rfc/blob/master/07-routing-gossip.md#definition-of-short_channel_id
+	 */
 	get_utxo(genesis_hash: Uint8Array, short_channel_id: bigint): Result_TxOutAccessErrorZ;
 }
 
@@ -291,6 +298,10 @@ class LDKAccessHolder {
 	held: Access;
 }
 
+/**
+ * The `Access` trait defines behavior for accessing chain data and state, such as blocks and
+ * UTXOs.
+ */
 export class Access extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKAccess;
@@ -301,7 +312,8 @@ export class Access extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: AccessInterface): Access {
+	/** Creates a new instance of Access from a given implementation */
+	public static new_impl(arg: AccessInterface): Access {
 		const impl_holder: LDKAccessHolder = new LDKAccessHolder();
 		let structImplementation = {
 			get_utxo (genesis_hash: number, short_channel_id: bigint): number {
@@ -317,6 +329,14 @@ export class Access extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
+
+	/**
+	 * Returns the transaction output of a funding transaction encoded by [`short_channel_id`].
+	 * Returns an error if `genesis_hash` is for a different chain or if such a transaction output
+	 * is unknown.
+	 * 
+	 * [`short_channel_id`]: https://github.com/lightningnetwork/lightning-rfc/blob/master/07-routing-gossip.md#definition-of-short_channel_id
+	 */
 	public get_utxo(genesis_hash: Uint8Array, short_channel_id: bigint): Result_TxOutAccessErrorZ {
 		const ret: number = bindings.Access_get_utxo(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(genesis_hash, 32)), short_channel_id);
 		const ret_hu_conv: Result_TxOutAccessErrorZ = Result_TxOutAccessErrorZ.constr_from_ptr(ret);

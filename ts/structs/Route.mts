@@ -281,12 +281,24 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A route directs a payment from the sender (us) to the recipient. If the recipient supports MPP,
+ * it can take multiple paths. Each path is composed of one or more hops through the network.
+ */
 export class Route extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.Route_free);
 	}
 
+	/**
+	 * The list of routes taken for a single (potentially-)multi-part payment. The pubkey of the
+	 * last RouteHop in each path must be the same.
+	 * Each entry represents a list of hops, NOT INCLUDING our own, where the last hop is the
+	 * destination. Thus, this must always be at least length one. While the maximum length of any
+	 * given path is variable, keeping the length of any path to less than 20 should currently
+	 * ensure it is viable.
+	 */
 	public get_paths(): RouteHop[][] {
 		const ret: number = bindings.Route_get_paths(this.ptr);
 		const ret_conv_12_len: number = bindings.getArrayLength(ret);
@@ -301,15 +313,34 @@ export class Route extends CommonBase {
 				CommonBase.add_ref_from(ret_conv_12_conv_10_hu_conv, this);
 				ret_conv_12_conv_10_arr[k] = ret_conv_12_conv_10_hu_conv;
 			}
+			bindings.freeWasmMemory(ret_conv_12)
 			ret_conv_12_arr[m] = ret_conv_12_conv_10_arr;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_12_arr;
 	}
 
+	/**
+	 * The list of routes taken for a single (potentially-)multi-part payment. The pubkey of the
+	 * last RouteHop in each path must be the same.
+	 * Each entry represents a list of hops, NOT INCLUDING our own, where the last hop is the
+	 * destination. Thus, this must always be at least length one. While the maximum length of any
+	 * given path is variable, keeping the length of any path to less than 20 should currently
+	 * ensure it is viable.
+	 */
 	public set_paths(val: RouteHop[][]): void {
 		bindings.Route_set_paths(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint32Array(val_conv_12 != null ? val_conv_12.map(val_conv_12_conv_10 => val_conv_12_conv_10 == null ? 0 : CommonBase.get_ptr_of(val_conv_12_conv_10) & ~1) : null)) : null));
 	}
 
+	/**
+	 * The `payee` parameter passed to [`find_route`].
+	 * This is used by `ChannelManager` to track information which may be required for retries,
+	 * provided back to you via [`Event::PaymentPathFailed`].
+	 * 
+	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_payee(): Payee {
 		const ret: number = bindings.Route_get_payee(this.ptr);
 		const ret_hu_conv: Payee = new Payee(null, ret);
@@ -317,10 +348,22 @@ export class Route extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The `payee` parameter passed to [`find_route`].
+	 * This is used by `ChannelManager` to track information which may be required for retries,
+	 * provided back to you via [`Event::PaymentPathFailed`].
+	 * 
+	 * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_payee(val: Payee): void {
 		bindings.Route_set_payee(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new Route given each field
+	 */
 	public static constructor_new(paths_arg: RouteHop[][], payee_arg: Payee): Route {
 		const ret: number = bindings.Route_new(bindings.encodeUint32Array(paths_arg != null ? paths_arg.map(paths_arg_conv_12 => bindings.encodeUint32Array(paths_arg_conv_12 != null ? paths_arg_conv_12.map(paths_arg_conv_12_conv_10 => paths_arg_conv_12_conv_10 == null ? 0 : CommonBase.get_ptr_of(paths_arg_conv_12_conv_10) & ~1) : null)) : null), payee_arg == null ? 0 : CommonBase.get_ptr_of(payee_arg) & ~1);
 		const ret_hu_conv: Route = new Route(null, ret);
@@ -333,6 +376,9 @@ export class Route extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the Route
+	 */
 	public clone(): Route {
 		const ret: number = bindings.Route_clone(this.ptr);
 		const ret_hu_conv: Route = new Route(null, ret);
@@ -340,33 +386,56 @@ export class Route extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two Routes contain equal inner contents.
+	 */
 	public hash(): bigint {
 		const ret: bigint = bindings.Route_hash(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Checks if two Routes contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: Route): boolean {
 		const ret: boolean = bindings.Route_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
+	/**
+	 * Returns the total amount of fees paid on this [`Route`].
+	 * 
+	 * This doesn't include any extra payment made to the recipient, which can happen in excess of
+	 * the amount passed to [`find_route`]'s `params.final_value_msat`.
+	 */
 	public get_total_fees(): bigint {
 		const ret: bigint = bindings.Route_get_total_fees(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Returns the total amount paid on this [`Route`], excluding the fees.
+	 */
 	public get_total_amount(): bigint {
 		const ret: bigint = bindings.Route_get_total_amount(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Serialize the Route object into a byte array which can be read by Route_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.Route_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a Route from a byte array, created by Route_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteDecodeErrorZ {
 		const ret: number = bindings.Route_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteDecodeErrorZ = Result_RouteDecodeErrorZ.constr_from_ptr(ret);

@@ -281,32 +281,52 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A shutdown message to be sent or received from a peer
+ */
 export class Shutdown extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.Shutdown_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.Shutdown_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.Shutdown_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The destination of this peer's funds on closing.
+	 * Must be in one of these forms: p2pkh, p2sh, p2wpkh, p2wsh.
+	 */
 	public get_scriptpubkey(): Uint8Array {
 		const ret: number = bindings.Shutdown_get_scriptpubkey(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The destination of this peer's funds on closing.
+	 * Must be in one of these forms: p2pkh, p2sh, p2wpkh, p2wsh.
+	 */
 	public set_scriptpubkey(val: Uint8Array): void {
 		bindings.Shutdown_set_scriptpubkey(this.ptr, bindings.encodeUint8Array(val));
 	}
 
+	/**
+	 * Constructs a new Shutdown given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, scriptpubkey_arg: Uint8Array): Shutdown {
 		const ret: number = bindings.Shutdown_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(scriptpubkey_arg));
 		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
@@ -319,6 +339,9 @@ export class Shutdown extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the Shutdown
+	 */
 	public clone(): Shutdown {
 		const ret: number = bindings.Shutdown_clone(this.ptr);
 		const ret_hu_conv: Shutdown = new Shutdown(null, ret);
@@ -326,12 +349,18 @@ export class Shutdown extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the Shutdown object into a byte array which can be read by Shutdown_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.Shutdown_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a Shutdown from a byte array, created by Shutdown_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ShutdownDecodeErrorZ {
 		const ret: number = bindings.Shutdown_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ShutdownDecodeErrorZ = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);

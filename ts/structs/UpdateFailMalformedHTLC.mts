@@ -281,36 +281,57 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An update_fail_malformed_htlc message to be sent or received from a peer
+ */
 export class UpdateFailMalformedHTLC extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.UpdateFailMalformedHTLC_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.UpdateFailMalformedHTLC_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.UpdateFailMalformedHTLC_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The HTLC ID
+	 */
 	public get_htlc_id(): bigint {
 		const ret: bigint = bindings.UpdateFailMalformedHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The HTLC ID
+	 */
 	public set_htlc_id(val: bigint): void {
 		bindings.UpdateFailMalformedHTLC_set_htlc_id(this.ptr, val);
 	}
 
+	/**
+	 * The failure code
+	 */
 	public get_failure_code(): number {
 		const ret: number = bindings.UpdateFailMalformedHTLC_get_failure_code(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The failure code
+	 */
 	public set_failure_code(val: number): void {
 		bindings.UpdateFailMalformedHTLC_set_failure_code(this.ptr, val);
 	}
@@ -320,6 +341,9 @@ export class UpdateFailMalformedHTLC extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the UpdateFailMalformedHTLC
+	 */
 	public clone(): UpdateFailMalformedHTLC {
 		const ret: number = bindings.UpdateFailMalformedHTLC_clone(this.ptr);
 		const ret_hu_conv: UpdateFailMalformedHTLC = new UpdateFailMalformedHTLC(null, ret);
@@ -327,12 +351,18 @@ export class UpdateFailMalformedHTLC extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the UpdateFailMalformedHTLC object into a byte array which can be read by UpdateFailMalformedHTLC_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.UpdateFailMalformedHTLC_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a UpdateFailMalformedHTLC from a byte array, created by UpdateFailMalformedHTLC_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateFailMalformedHTLCDecodeErrorZ {
 		const ret: number = bindings.UpdateFailMalformedHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateFailMalformedHTLCDecodeErrorZ = Result_UpdateFailMalformedHTLCDecodeErrorZ.constr_from_ptr(ret);

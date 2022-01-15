@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An event to be processed by the ChannelManager.
+ */
 export class MonitorEvent extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.MonitorEvent_free); }
 	/* @internal */
@@ -300,6 +303,9 @@ export class MonitorEvent extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the MonitorEvent
+	 */
 	public clone(): MonitorEvent {
 		const ret: number = bindings.MonitorEvent_clone(this.ptr);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
@@ -307,6 +313,9 @@ export class MonitorEvent extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new HTLCEvent-variant MonitorEvent
+	 */
 	public static constructor_htlcevent(a: HTLCUpdate): MonitorEvent {
 		const ret: number = bindings.MonitorEvent_htlcevent(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
@@ -314,6 +323,9 @@ export class MonitorEvent extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new CommitmentTxConfirmed-variant MonitorEvent
+	 */
 	public static constructor_commitment_tx_confirmed(a: OutPoint): MonitorEvent {
 		const ret: number = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
@@ -321,6 +333,9 @@ export class MonitorEvent extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new UpdateCompleted-variant MonitorEvent
+	 */
 	public static constructor_update_completed(funding_txo: OutPoint, monitor_update_id: bigint): MonitorEvent {
 		const ret: number = bindings.MonitorEvent_update_completed(funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1, monitor_update_id);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
@@ -328,6 +343,9 @@ export class MonitorEvent extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new UpdateFailed-variant MonitorEvent
+	 */
 	public static constructor_update_failed(a: OutPoint): MonitorEvent {
 		const ret: number = bindings.MonitorEvent_update_failed(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1);
 		const ret_hu_conv: MonitorEvent = MonitorEvent.constr_from_ptr(ret);
@@ -335,6 +353,9 @@ export class MonitorEvent extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the MonitorEvent object into a byte array which can be read by MonitorEvent_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.MonitorEvent_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
@@ -342,6 +363,7 @@ export class MonitorEvent extends CommonBase {
 	}
 
 }
+/** A MonitorEvent of type HTLCEvent */
 export class MonitorEvent_HTLCEvent extends MonitorEvent {
 	public htlc_event: HTLCUpdate;
 	/* @internal */
@@ -353,6 +375,7 @@ export class MonitorEvent_HTLCEvent extends MonitorEvent {
 		this.htlc_event = htlc_event_hu_conv;
 	}
 }
+/** A MonitorEvent of type CommitmentTxConfirmed */
 export class MonitorEvent_CommitmentTxConfirmed extends MonitorEvent {
 	public commitment_tx_confirmed: OutPoint;
 	/* @internal */
@@ -364,8 +387,19 @@ export class MonitorEvent_CommitmentTxConfirmed extends MonitorEvent {
 		this.commitment_tx_confirmed = commitment_tx_confirmed_hu_conv;
 	}
 }
+/** A MonitorEvent of type UpdateCompleted */
 export class MonitorEvent_UpdateCompleted extends MonitorEvent {
+	/**
+	 * The funding outpoint of the [`ChannelMonitor`] that was updated
+	 */
 	public funding_txo: OutPoint;
+	/**
+	 * The Update ID from [`ChannelMonitorUpdate::update_id`] which was applied or
+	 * [`ChannelMonitor::get_latest_update_id`].
+	 * 
+	 * Note that this should only be set to a given update's ID if all previous updates for the
+	 * same [`ChannelMonitor`] have been applied and persisted.
+	 */
 	public monitor_update_id: bigint;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -377,6 +411,7 @@ export class MonitorEvent_UpdateCompleted extends MonitorEvent {
 		this.monitor_update_id = bindings.LDKMonitorEvent_UpdateCompleted_get_monitor_update_id(ptr);
 	}
 }
+/** A MonitorEvent of type UpdateFailed */
 export class MonitorEvent_UpdateFailed extends MonitorEvent {
 	public update_failed: OutPoint;
 	/* @internal */
