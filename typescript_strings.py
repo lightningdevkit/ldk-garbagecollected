@@ -36,6 +36,13 @@ class Consts:
 
         self.bindings_header = self.wasm_import_header(target)
 
+        with open(outdir + "/index.mts", 'a') as index:
+            index.write("""import { initializeWasm as bindingsInit } from './bindings.mjs';
+export function initializeWasm(path: string) {
+	bindingsInit(path);
+}
+""")
+
         self.bindings_version_file = """export function get_ldk_java_bindings_version(): String {
 	return "<git_version_ldk_garbagecollected>";
 }"""
@@ -427,12 +434,14 @@ let isWasmInitialized: boolean = false;
         if target == Target.NODEJS:
             res += """import * as fs from 'fs';
 import { webcrypto as crypto } from 'crypto';
+/* @internal */
 export async function initializeWasm(path: string) {
 	const source = fs.readFileSync(path);
 	imports.env["js_invoke_function"] = js_invoke;
 	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);"""
         else:
             res += """
+/* @internal */
 export async function initializeWasm(uri: string) {
 	const stream = fetch(uri);
 	imports.env["js_invoke_function"] = js_invoke;
@@ -464,6 +473,7 @@ const nextMultipleOfFour = (value: number) => {
 	return Math.ceil(value / 4) * 4;
 }
 
+/* @internal */
 export function encodeUint8Array (inputArray: Uint8Array): number {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
 	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
@@ -472,6 +482,7 @@ export function encodeUint8Array (inputArray: Uint8Array): number {
 	arrayMemoryView.set(inputArray);
 	return cArrayPointer;
 }
+/* @internal */
 export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
 	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
 	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
@@ -479,6 +490,7 @@ export function encodeUint32Array (inputArray: Uint32Array|Array<number>): numbe
 	arrayMemoryView[0] = inputArray.length;
 	return cArrayPointer;
 }
+/* @internal */
 export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
 	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
 	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
@@ -488,15 +500,18 @@ export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): nu
 	return cArrayPointer;
 }
 
+/* @internal */
 export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
 	if (arr.length != len) { throw new Error("Expected array of length " + len + "got " + arr.length); }
 	return arr;
 }
 
+/* @internal */
 export function getArrayLength(arrayPointer: number): number {
 	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
 	return arraySizeViewer[0];
 }
+/* @internal */
 export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
 	const arraySize = getArrayLength(arrayPointer);
 	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
@@ -525,16 +540,19 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	return actualArray;
 }
 
+/* @internal */
 export function getU32ArrayElem(arrayPointer: number, idx: number): number {
 	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
 	return actualArrayViewer[idx];
 }
 
+/* @internal */
 export function encodeString(str: string): number {
 	const charArray = new TextEncoder().encode(str);
 	return encodeUint8Array(charArray);
 }
 
+/* @internal */
 export function decodeString(stringPointer: number, free = true): string {
 	const arraySize = getArrayLength(stringPointer);
 	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
@@ -618,8 +636,9 @@ export function decodeString(stringPointer: number, free = true): string {
             out_c = out_c + "\t\tcase %d: return %s;\n" % (ord_v, var)
             ord_v = ord_v + 1
             if var_docs is not None:
-                out_typescript_enum_fields += f"/**\n * {var_docs}\n */\n"
-            out_typescript_enum_fields += f"{var},\n\t\t\t\t"
+                var_docs_repld = var_docs.replace("\n", "\n\t")
+                out_typescript_enum_fields += f"/**\n\t * {var_docs_repld}\n\t */\n"
+            out_typescript_enum_fields += f"\t{var},\n\t"
         out_c = out_c + "\t}\n"
         out_c = out_c + "\tabort();\n"
         out_c = out_c + "}\n"
@@ -635,9 +654,10 @@ export function decodeString(stringPointer: number, free = true): string {
         out_c = out_c + "}\n"
 
         out_typescript = f"""
-            export enum {struct_name} {{
-                {out_typescript_enum_fields}
-            }}
+/* @internal */
+export enum {struct_name} {{
+	{out_typescript_enum_fields}
+}}
 """
         out_typescript_enum = f"export {{ {struct_name} }} from \"../bindings.mjs\";"
         self.obj_defined([struct_name], "enums")
@@ -649,8 +669,7 @@ export function decodeString(stringPointer: number, free = true): string {
         return (ty_info.rust_obj + "_from_js(", ")")
 
     def native_c_map_trait(self, struct_name, field_var_conversions, flattened_field_var_conversions, field_function_lines, trait_doc_comment):
-        out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
-
+        out_typescript_bindings = ""
         super_instantiator = ""
         bindings_instantiator = ""
         pointer_to_adder = ""
@@ -773,7 +792,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 """
         self.obj_defined([struct_name.replace("LDK", ""), struct_name.replace("LDK", "") + "Interface"], "structs")
 
-        out_typescript_bindings += "export interface " + struct_name + " {\n"
+        out_typescript_bindings += "/* @internal */\nexport interface " + struct_name + " {\n"
         java_meths = []
         for fn_line in field_function_lines:
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
@@ -788,7 +807,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         out_typescript_bindings += "}\n\n"
 
-        out_typescript_bindings += f"export function {struct_name}_new(impl: {struct_name}"
+        out_typescript_bindings += f"/* @internal */\nexport function {struct_name}_new(impl: {struct_name}"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_typescript_bindings += f", {var.arg_name}: {var.java_ty}"
@@ -807,8 +826,6 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 	return wasm.TS_{struct_name}_new(i);
 }}
 """
-
-        out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
 
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
@@ -984,7 +1001,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         java_hu_class += "\t\tswitch (raw_ty) {\n"
         java_hu_subclasses = ""
 
-        out_java += "export class " + struct_name + " {\n"
+        out_java += "/* @internal */\nexport class " + struct_name + " {\n"
         out_java += "\tprotected constructor() {}\n"
         var_idx = 0
         for var in variant_list:
@@ -1124,7 +1141,8 @@ export class {human_ty} extends CommonBase {{
         if not has_return_value:
             return_statement = '// debug statements here'
 
-        return f"""export function {method_name}({method_argument_string}): {return_java_ty} {{
+        return f"""/* @internal */
+export function {method_name}({method_argument_string}): {return_java_ty} {{
 	if(!isWasmInitialized) {{
 		throw new Error("initializeWasm() must be awaited first!");
 	}}
