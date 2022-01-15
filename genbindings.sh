@@ -209,7 +209,7 @@ else
 		$COMPILE -o liblightningjs_debug.wasm -g -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
 	else
 		WASM_FILE=liblightningjs_release.wasm
-		$COMPILE -o liblightningjs_release.wasm -s -Os -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
+		$COMPILE -o liblightningjs_release.wasm -s -Oz -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
 	fi
 
 	if [ -x "$(which tsc)" ]; then
