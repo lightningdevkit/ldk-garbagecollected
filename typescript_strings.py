@@ -233,9 +233,14 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 	DO_ASSERT(false);
 }
 
-void __attribute__((destructor)) check_leaks() {
+extern int snprintf(char *str, size_t size, const char *format, ...);
+typedef int32_t ssize_t;
+extern ssize_t write(int fd, const void *buf, size_t count);
+void __attribute__((export_name("TS_check_leaks"))) check_leaks() {
+	char debug_str[1024];
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		//XXX: fprintf(stderr, "%s %p remains\\n", a->struct_name, a->ptr);
+		int s_len = snprintf(debug_str, 1023, "%s %p remains\\n", a->struct_name, a->ptr);
+		write(2, debug_str, s_len);
 	}
 	DO_ASSERT(allocation_ll == NULL);
 }
@@ -396,6 +401,16 @@ imports.wasi_snapshot_preview1 = {
 			console.log(String.fromCharCode(...bytes_view));
 		}
 		return 0;
+	},
+	"fd_close": (_fd: number) => {
+		// This is not generally called, but may be referenced in debug builds
+		console.log("wasi_snapshot_preview1:fd_close");
+		return 58; // Not Supported
+	},
+	"fd_seek": (_fd: number, _offset: bigint, _whence: number, _new_offset: number) => {
+		// This is not generally called, but may be referenced in debug builds
+		console.log("wasi_snapshot_preview1:fd_seek");
+		return 58; // Not Supported
 	},
 	"random_get": (buf_ptr: number, buf_len: number) => {
 		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
