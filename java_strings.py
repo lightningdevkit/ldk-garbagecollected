@@ -673,6 +673,8 @@ import javax.annotation.Nullable;
             # Do a bit of a dance to move any excess [] to the end
             conv += "[" + ty_info.subty.java_hu_ty.split("<")[0].split("[")[1]
         return conv
+    def cleanup_converted_native_array(self, ty_info, arr_name):
+        return None
 
     def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
         if fixed_len is not None:

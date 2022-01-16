@@ -196,6 +196,9 @@ class TypeMappingGenerator:
                     to_hu_conv += "\t" + self.consts.var_decl_statement(subty.java_ty, conv_name, self.consts.get_java_arr_elem(subty, arr_name, idxc)) + ";\n"
                     to_hu_conv += "\t" + subty.to_hu_conv.replace("\n", "\n\t") + "\n"
                     to_hu_conv += "\t" + conv_name + "_arr[" + idxc + "] = " + subty.to_hu_conv_name + ";\n}"
+                    cleanup = self.consts.cleanup_converted_native_array(ty_info, arr_name)
+                    if cleanup is not None:
+                        to_hu_conv += "\n" + cleanup
                     to_hu_conv_name = conv_name + "_arr"
                 from_hu_conv = self.consts.primitive_arr_from_hu(ty_info.subty, None, arr_name)
                 if subty.from_hu_conv is not None:

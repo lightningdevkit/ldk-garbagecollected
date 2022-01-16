@@ -207,6 +207,9 @@ const decodeUint32Array = (arrayPointer: number, free = true) => {
 	return actualArray;
 }
 
+
+export function freeWasmMemory(pointer: number) { wasm.TS_free(pointer); }
+
 /* @internal */
 export function getU32ArrayElem(arrayPointer: number, idx: number): number {
 	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
@@ -635,6 +638,8 @@ import * as bindings from '../bindings.mjs'
             assert False
     def constr_hu_array(self, ty_info, arr_len):
         return "new Array(" + arr_len + ").fill(null)"
+    def cleanup_converted_native_array(self, ty_info, arr_name):
+        return "bindings.freeWasmMemory(" + arr_name + ")"
 
     def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
         inner = arr_name
