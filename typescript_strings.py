@@ -232,6 +232,20 @@ export function decodeString(stringPointer: number, free = true): string {
 	return result;
 }
 """
+        if DEBUG:
+            self.bindings_header += """
+/* @internal */
+export function getRemainingAllocationCount(): number {
+	return wasm.TS_allocs_remaining();
+}
+/* @internal */
+export function debugPrintRemainingAllocs() {
+	wasm.TS_print_leaks();
+}
+"""
+        else:
+            self.bindings_header += "\n/* @internal */ export function getRemainingAllocationCount(): number { return 0; }\n"
+            self.bindings_header += "/* @internal */ export function debugPrintRemainingAllocs() { }\n"
 
         with open(outdir + "/index.mts", 'a') as index:
             index.write("""import { initializeWasm as bindingsInit } from './bindings.mjs';
@@ -319,11 +333,12 @@ uint32_t __attribute__((export_name("test_bigint_pass_deadbeef0badf00d"))) test_
 """
 
         if not DEBUG:
-            self.c_file_pfx = self.c_file_pfx + """
+            self.c_file_pfx += """
 void *malloc(size_t size);
 void free(void *ptr);
 
 #define MALLOC(a, _) malloc(a)
+#define do_MALLOC(a, _b, _c) malloc(a)
 #define FREE(p) if ((unsigned long)(p) > 4096) { free(p); }
 #define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
@@ -331,7 +346,16 @@ void free(void *ptr);
 #define CHECK_INNER_FIELD_ACCESS_OR_NULL(v)
 """
         else:
-            self.c_file_pfx = self.c_file_pfx + """
+            self.c_file_pfx += """
+extern int snprintf(char *str, size_t size, const char *format, ...);
+typedef int32_t ssize_t;
+ssize_t write(int fd, const void *buf, size_t count);
+#define DEBUG_PRINT(...) do { \\
+	char debug_str[1024]; \\
+	int s_len = snprintf(debug_str, 1023, __VA_ARGS__); \\
+	write(2, debug_str, s_len); \\
+} while (0);
+
 // Always run a, then assert it is true:
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
 // Assert a is true or do nothing
@@ -347,43 +371,57 @@ typedef struct allocation {
 	struct allocation* next;
 	void* ptr;
 	const char* struct_name;
+	int lineno;
 } allocation;
 static allocation* allocation_ll = NULL;
+static allocation* freed_ll = NULL;
 
 void* __real_malloc(size_t len);
 void* __real_calloc(size_t nmemb, size_t len);
-static void new_allocation(void* res, const char* struct_name) {
+static void new_allocation(void* res, const char* struct_name, int lineno) {
 	allocation* new_alloc = __real_malloc(sizeof(allocation));
 	new_alloc->ptr = res;
 	new_alloc->struct_name = struct_name;
 	new_alloc->next = allocation_ll;
+	new_alloc->lineno = lineno;
 	allocation_ll = new_alloc;
 }
-static void* MALLOC(size_t len, const char* struct_name) {
+static void* do_MALLOC(size_t len, const char* struct_name, int lineno) {
 	void* res = __real_malloc(len);
-	new_allocation(res, struct_name);
+	new_allocation(res, struct_name, lineno);
 	return res;
 }
+#define MALLOC(len, struct_name) do_MALLOC(len, struct_name, __LINE__)
+
 void __real_free(void* ptr);
-static void alloc_freed(void* ptr) {
+static void alloc_freed(void* ptr, int lineno) {
 	allocation* p = NULL;
 	allocation* it = allocation_ll;
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
 		if (it == NULL) {
-			//XXX: fprintf(stderr, "Tried to free unknown pointer %p\\n", ptr);
-			return; // addrsan should catch malloc-unknown and print more info than we have
+			p = NULL;
+			it = freed_ll;
+			while (it && it->ptr != ptr) { p = it; it = it->next; }
+			if (it == NULL) {
+				DEBUG_PRINT("Tried to free unknown pointer %p at line %d.\\n", ptr, lineno);
+			} else {
+				DEBUG_PRINT("Tried to free unknown pointer %p at line %d.\\n Possibly double-free from %s, allocated on line %d.", ptr, lineno, it->struct_name, it->lineno);
+			}
+			abort();
 		}
 	}
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
 	DO_ASSERT(it->ptr == ptr);
-	__real_free(it);
+	it->next = freed_ll;
+	freed_ll = it;
 }
-static void FREE(void* ptr) {
+static void do_FREE(void* ptr, int lineno) {
 	if ((unsigned long)ptr <= 4096) return; // Rust loves to create pointers to the NULL page for dummys
-	alloc_freed(ptr);
+	alloc_freed(ptr, lineno);
 	__real_free(ptr);
 }
+#define FREE(ptr) do_FREE(ptr, __LINE__)
 
 static void CHECK_ACCESS(const void* ptr) {
 	allocation* it = allocation_ll;
@@ -404,25 +442,25 @@ static void CHECK_ACCESS(const void* ptr) {
 
 void* __wrap_malloc(size_t len) {
 	void* res = __real_malloc(len);
-	new_allocation(res, "malloc call");
+	new_allocation(res, "malloc call", 0);
 	return res;
 }
 void* __wrap_calloc(size_t nmemb, size_t len) {
 	void* res = __real_calloc(nmemb, len);
-	new_allocation(res, "calloc call");
+	new_allocation(res, "calloc call", 0);
 	return res;
 }
 void __wrap_free(void* ptr) {
 	if (ptr == NULL) return;
-	alloc_freed(ptr);
+	alloc_freed(ptr, 0);
 	__real_free(ptr);
 }
 
 void* __real_realloc(void* ptr, size_t newlen);
 void* __wrap_realloc(void* ptr, size_t len) {
-	if (ptr != NULL) alloc_freed(ptr);
+	if (ptr != NULL) alloc_freed(ptr, 0);
 	void* res = __real_realloc(ptr, len);
-	new_allocation(res, "realloc call");
+	new_allocation(res, "realloc call", 0);
 	return res;
 }
 void __wrap_reallocarray(void* ptr, size_t new_sz) {
@@ -430,16 +468,17 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 	DO_ASSERT(false);
 }
 
-extern int snprintf(char *str, size_t size, const char *format, ...);
-typedef int32_t ssize_t;
-extern ssize_t write(int fd, const void *buf, size_t count);
-void __attribute__((export_name("TS_check_leaks"))) check_leaks() {
-	char debug_str[1024];
+uint32_t __attribute__((export_name("TS_allocs_remaining"))) allocs_remaining() {
+	uint32_t count = 0;
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		int s_len = snprintf(debug_str, 1023, "%s %p remains\\n", a->struct_name, a->ptr);
-		write(2, debug_str, s_len);
+		count++;
 	}
-	DO_ASSERT(allocation_ll == NULL);
+	return count;
+}
+void __attribute__((export_name("TS_print_leaks"))) print_leaks() {
+	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
+		DEBUG_PRINT("%s %p remains. Allocated on line %d\\n", a->struct_name, a->ptr, a->lineno);
+	}
 }
 """
         self.c_file_pfx = self.c_file_pfx + """
@@ -456,8 +495,8 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 		ty elems[]; \\
 	}; \\
 	typedef struct name##array * name##Array; \\
-	static inline name##Array init_##name##Array(size_t arr_len) { \\
-		name##Array arr = (name##Array)MALLOC(arr_len * sizeof(ty) + sizeof(uint32_t), "##name array init"); \\
+	static inline name##Array init_##name##Array(size_t arr_len, int lineno) { \\
+		name##Array arr = (name##Array)do_MALLOC(arr_len * sizeof(ty) + sizeof(uint32_t), #name" array init", lineno); \\
 		arr->arr_len = arr_len; \\
 		return arr; \\
 	}
@@ -470,7 +509,7 @@ DECL_ARR_TYPE(char, char);
 typedef charArray jstring;
 
 static inline jstring str_ref_to_ts(const char* chars, size_t len) {
-	charArray arr = init_charArray(len);
+	charArray arr = init_charArray(len, __LINE__);
 	memcpy(arr->elems, chars, len);
 	return arr;
 }
@@ -533,7 +572,7 @@ import * as bindings from '../bindings.mjs'
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "ptrArray":
             assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
-        return "init_" + ty_info.c_ty + "(" + arr_len + ")"
+        return "init_" + ty_info.c_ty + "(" + arr_len + ", __LINE__)"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
             return ("memcpy(" + arr_name + "->elems, ", ", " + arr_len + ")")

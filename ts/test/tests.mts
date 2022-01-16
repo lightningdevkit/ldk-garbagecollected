@@ -162,5 +162,18 @@ export async function run_tests(wasm_path: string) {
 	console.log("test results: " + results);
 	const result = results.every((v) => { return v === true });
 	console.log("all tests passed: " + result);
-	return result;
+	if (result !== true) { return result; }
+
+	const allocs_finished = new Promise((resolve, reject) => {
+		var loop_count = 0;
+		const interval_id = setInterval(() => {
+			const alloc_count = rawldk.getRemainingAllocationCount();
+			if (loop_count % 20 == 0)
+				console.log("Remaining LDK allocation count: " + alloc_count);
+			if (alloc_count == 0) { resolve(true); clearInterval(interval_id); }
+			loop_count += 1;
+			if (loop_count > 30*2) { resolve(false); clearInterval(interval_id); rawldk.debugPrintRemainingAllocs(); }
+		}, 500);
+	});
+	return allocs_finished;
 }
