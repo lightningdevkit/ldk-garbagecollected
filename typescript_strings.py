@@ -117,12 +117,14 @@ export async function initializeWasm(uri: string) {
 	if (decodeString(wasm.TS_get_lib_version_string()) !== version.get_ldk_java_bindings_version())
 		throw new Error(\"Compiled LDK library and LDK class failes do not match\");
 	// Fetching the LDK versions from C also checks that the header and binaries match
-	if (wasm.TS_get_ldk_c_bindings_version() == 0)
+	const c_bindings_ver: number = wasm.TS_get_ldk_c_bindings_version();
+	const ldk_ver: number = wasm.TS_get_ldk_version();
+	if (c_bindings_ver == 0)
 		throw new Error(\"LDK version did not match the header we built against\");
-	if (wasm.TS_get_ldk_version() == 0)
+	if (ldk_ver == 0)
 		throw new Error(\"LDK C bindings version did not match the header we built against\");
-	const c_bindings_version: string = decodeString(wasm.TS_get_ldk_c_bindings_version());
-	const ldk_version: string = decodeString(wasm.TS_get_ldk_version());
+	const c_bindings_version: string = decodeString(c_bindings_ver)
+	const ldk_version: string = decodeString(ldk_ver);
 	console.log(\"Loaded LDK-Java Bindings with LDK \" + ldk_version + \" and LDK-C-Bindings \" + c_bindings_version);
 
 	isWasmInitialized = true;
@@ -584,12 +586,12 @@ import * as bindings from '../bindings.mjs'
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
         if ty_info.c_ty == "int8_tArray":
             if copy:
-                return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + ")"
+                return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + "); FREE(" + arr_name + ")"
         if ty_info.c_ty == "ptrArray":
-            return "(void*) " + arr_name + "->elems"
+            return "(void*) " + arr_name + "->elems /* XXX " + arr_name + " leaks */"
         else:
             assert not copy
-            return arr_name + "->elems"
+            return arr_name + "->elems /* XXX " + arr_name + " leaks */"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
