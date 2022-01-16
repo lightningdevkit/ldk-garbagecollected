@@ -73,21 +73,15 @@ imports.wasi_snapshot_preview1 = {
 		// This is called before fd_write to format + print panic messages
 		console.log("wasi_snapshot_preview1:environ_sizes_get");
 		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
-		out_count_view[0] = 1;
+		out_count_view[0] = 0;
 		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
-		out_len_view[0] = "RUST_BACKTRACE=1".length + 1; // Note that string must be NULL-terminated
+		out_len_view[0] = 0;
 		return 0;
 	},
 	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
 		// This is called before fd_write to format + print panic messages
 		console.log("wasi_snapshot_preview1:environ_get");
-		const out_ptrs = new Uint32Array(wasm.memory.buffer, environ_ptr, 2);
-		out_ptrs[0] = environ_buf_ptr;
-		out_ptrs[1] = "RUST_BACKTRACE=1".length;
-		const out_environ = new Uint8Array(wasm.memory.buffer, environ_buf_ptr, out_ptrs[1]);
-		for (var i = 0; i < out_ptrs[1]; i++) { out_environ[i] = "RUST_BACKTRACE=1".codePointAt(i); }
-		out_environ[out_ptrs[1]] = 0;
-		return 0;
+		return 58; // Note supported - we said there were 0 environment entries!
 	},
 	"proc_exit" : () => {
 		console.log("wasi_snapshot_preview1:proc_exit");
