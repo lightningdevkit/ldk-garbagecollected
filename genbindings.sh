@@ -203,7 +203,7 @@ else
 	# We only need malloc and assert/abort, but for now just use WASI for those:
 	#EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 	EXTRA_LINK=
-	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
+	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,aligned_alloc -Wl,-wrap,free"
 	if [ "$3" = "true" ]; then
 		WASM_FILE=liblightningjs_debug.wasm
 		$COMPILE -o liblightningjs_debug.wasm -g -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK

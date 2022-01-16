@@ -376,8 +376,9 @@ typedef struct allocation {
 static allocation* allocation_ll = NULL;
 static allocation* freed_ll = NULL;
 
-void* __real_malloc(size_t len);
-void* __real_calloc(size_t nmemb, size_t len);
+extern void* __real_malloc(size_t len);
+extern void* __real_calloc(size_t nmemb, size_t len);
+extern void* __real_aligned_alloc(size_t alignment, size_t size);
 static void new_allocation(void* res, const char* struct_name, int lineno) {
 	allocation* new_alloc = __real_malloc(sizeof(allocation));
 	new_alloc->ptr = res;
@@ -448,6 +449,11 @@ void* __wrap_malloc(size_t len) {
 void* __wrap_calloc(size_t nmemb, size_t len) {
 	void* res = __real_calloc(nmemb, len);
 	new_allocation(res, "calloc call", 0);
+	return res;
+}
+void* __wrap_aligned_alloc(size_t alignment, size_t size) {
+	void* res = __real_aligned_alloc(alignment, size);
+	new_allocation(res, "aligned_alloc call", 0);
 	return res;
 }
 void __wrap_free(void* ptr) {
