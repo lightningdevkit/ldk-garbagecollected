@@ -34,7 +34,204 @@ class Consts:
             default = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
         )
 
-        self.bindings_header = self.wasm_import_header(target)
+        self.bindings_header = """
+import * as version from './version.mjs';
+
+const imports: any = {};
+imports.env = {};
+
+var js_objs: Array<WeakRef<object>> = [];
+var js_invoke: Function;
+
+imports.wasi_snapshot_preview1 = {
+	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
+		// This should generally only be used to print panic messages
+		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
+		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
+		for (var i = 0; i < iovec_array_len; i++) {
+			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
+			console.log(String.fromCharCode(...bytes_view));
+		}
+		return 0;
+	},
+	"fd_close": (_fd: number) => {
+		// This is not generally called, but may be referenced in debug builds
+		console.log("wasi_snapshot_preview1:fd_close");
+		return 58; // Not Supported
+	},
+	"fd_seek": (_fd: number, _offset: bigint, _whence: number, _new_offset: number) => {
+		// This is not generally called, but may be referenced in debug builds
+		console.log("wasi_snapshot_preview1:fd_seek");
+		return 58; // Not Supported
+	},
+	"random_get": (buf_ptr: number, buf_len: number) => {
+		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
+		crypto.getRandomValues(buf);
+		return 0;
+	},
+	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
+		// This is called before fd_write to format + print panic messages
+		console.log("wasi_snapshot_preview1:environ_sizes_get");
+		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
+		out_count_view[0] = 1;
+		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
+		out_len_view[0] = "RUST_BACKTRACE=1".length + 1; // Note that string must be NULL-terminated
+		return 0;
+	},
+	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
+		// This is called before fd_write to format + print panic messages
+		console.log("wasi_snapshot_preview1:environ_get");
+		const out_ptrs = new Uint32Array(wasm.memory.buffer, environ_ptr, 2);
+		out_ptrs[0] = environ_buf_ptr;
+		out_ptrs[1] = "RUST_BACKTRACE=1".length;
+		const out_environ = new Uint8Array(wasm.memory.buffer, environ_buf_ptr, out_ptrs[1]);
+		for (var i = 0; i < out_ptrs[1]; i++) { out_environ[i] = "RUST_BACKTRACE=1".codePointAt(i); }
+		out_environ[out_ptrs[1]] = 0;
+		return 0;
+	},
+	"proc_exit" : () => {
+		console.log("wasi_snapshot_preview1:proc_exit");
+	},
+};
+
+var wasm: any = null;
+let isWasmInitialized: boolean = false;
+"""
+
+        if target == Target.NODEJS:
+            self.bindings_header += """import * as fs from 'fs';
+import { webcrypto as crypto } from 'crypto';
+/* @internal */
+export async function initializeWasm(path: string) {
+	const source = fs.readFileSync(path);
+	imports.env["js_invoke_function"] = js_invoke;
+	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);"""
+        else:
+            self.bindings_header += """
+/* @internal */
+export async function initializeWasm(uri: string) {
+	const stream = fetch(uri);
+	imports.env["js_invoke_function"] = js_invoke;
+	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);"""
+
+        self.bindings_header += """
+	wasm = wasmInstance.exports;
+	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
+		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
+	}
+
+	if (decodeString(wasm.TS_get_lib_version_string()) !== version.get_ldk_java_bindings_version())
+		throw new Error(\"Compiled LDK library and LDK class failes do not match\");
+	// Fetching the LDK versions from C also checks that the header and binaries match
+	if (wasm.TS_get_ldk_c_bindings_version() == 0)
+		throw new Error(\"LDK version did not match the header we built against\");
+	if (wasm.TS_get_ldk_version() == 0)
+		throw new Error(\"LDK C bindings version did not match the header we built against\");
+	const c_bindings_version: string = decodeString(wasm.TS_get_ldk_c_bindings_version());
+	const ldk_version: string = decodeString(wasm.TS_get_ldk_version());
+	console.log(\"Loaded LDK-Java Bindings with LDK \" + ldk_version + \" and LDK-C-Bindings \" + c_bindings_version);
+
+	isWasmInitialized = true;
+};
+
+// WASM CODEC
+
+const nextMultipleOfFour = (value: number) => {
+	return Math.ceil(value / 4) * 4;
+}
+
+/* @internal */
+export function encodeUint8Array (inputArray: Uint8Array): number {
+	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
+	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = inputArray.length;
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
+	arrayMemoryView.set(inputArray);
+	return cArrayPointer;
+}
+/* @internal */
+export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
+	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
+	arrayMemoryView.set(inputArray, 1);
+	arrayMemoryView[0] = inputArray.length;
+	return cArrayPointer;
+}
+/* @internal */
+export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
+	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
+	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = inputArray.length;
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
+	arrayMemoryView.set(inputArray);
+	return cArrayPointer;
+}
+
+/* @internal */
+export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
+	if (arr.length != len) { throw new Error("Expected array of length " + len + "got " + arr.length); }
+	return arr;
+}
+
+/* @internal */
+export function getArrayLength(arrayPointer: number): number {
+	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
+	return arraySizeViewer[0];
+}
+/* @internal */
+export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
+	const actualArray = actualArrayViewer.slice(0, arraySize);
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return actualArray;
+}
+const decodeUint32Array = (arrayPointer: number, free = true) => {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new Uint32Array(
+		wasm.memory.buffer, // value
+		arrayPointer + 4, // offset (ignoring length bytes)
+		arraySize // uint32 count
+	);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	const actualArray = actualArrayViewer.slice(0, arraySize);
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return actualArray;
+}
+
+/* @internal */
+export function getU32ArrayElem(arrayPointer: number, idx: number): number {
+	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	return actualArrayViewer[idx];
+}
+
+/* @internal */
+export function encodeString(str: string): number {
+	const charArray = new TextEncoder().encode(str);
+	return encodeUint8Array(charArray);
+}
+
+/* @internal */
+export function decodeString(stringPointer: number, free = true): string {
+	const arraySize = getArrayLength(stringPointer);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
+	const result = new TextDecoder("utf-8").decode(memoryView);
+
+	if (free) {
+		wasm.TS_free(stringPointer);
+	}
+
+	return result;
+}
+"""
 
         with open(outdir + "/index.mts", 'a') as index:
             index.write("""import { initializeWasm as bindingsInit } from './bindings.mjs';
@@ -380,206 +577,6 @@ import * as bindings from '../bindings.mjs'
 
     def c_fn_name_define_pfx(self, fn_name, have_args):
         return " __attribute__((export_name(\"TS_" + fn_name + "\"))) TS_" + fn_name + "("
-
-    def wasm_import_header(self, target):
-        res = """
-import * as version from './version.mjs';
-
-const imports: any = {};
-imports.env = {};
-
-var js_objs: Array<WeakRef<object>> = [];
-var js_invoke: Function;
-
-imports.wasi_snapshot_preview1 = {
-	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
-		// This should generally only be used to print panic messages
-		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
-		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
-		for (var i = 0; i < iovec_array_len; i++) {
-			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
-			console.log(String.fromCharCode(...bytes_view));
-		}
-		return 0;
-	},
-	"fd_close": (_fd: number) => {
-		// This is not generally called, but may be referenced in debug builds
-		console.log("wasi_snapshot_preview1:fd_close");
-		return 58; // Not Supported
-	},
-	"fd_seek": (_fd: number, _offset: bigint, _whence: number, _new_offset: number) => {
-		// This is not generally called, but may be referenced in debug builds
-		console.log("wasi_snapshot_preview1:fd_seek");
-		return 58; // Not Supported
-	},
-	"random_get": (buf_ptr: number, buf_len: number) => {
-		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
-		crypto.getRandomValues(buf);
-		return 0;
-	},
-	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
-		// This is called before fd_write to format + print panic messages
-		console.log("wasi_snapshot_preview1:environ_sizes_get");
-		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
-		out_count_view[0] = 1;
-		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
-		out_len_view[0] = "RUST_BACKTRACE=1".length + 1; // Note that string must be NULL-terminated
-		return 0;
-	},
-	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
-		// This is called before fd_write to format + print panic messages
-		console.log("wasi_snapshot_preview1:environ_get");
-		const out_ptrs = new Uint32Array(wasm.memory.buffer, environ_ptr, 2);
-		out_ptrs[0] = environ_buf_ptr;
-		out_ptrs[1] = "RUST_BACKTRACE=1".length;
-		const out_environ = new Uint8Array(wasm.memory.buffer, environ_buf_ptr, out_ptrs[1]);
-		for (var i = 0; i < out_ptrs[1]; i++) { out_environ[i] = "RUST_BACKTRACE=1".codePointAt(i); }
-		out_environ[out_ptrs[1]] = 0;
-		return 0;
-	},
-	"proc_exit" : () => {
-		console.log("wasi_snapshot_preview1:proc_exit");
-	},
-};
-
-var wasm: any = null;
-let isWasmInitialized: boolean = false;
-"""
-
-        if target == Target.NODEJS:
-            res += """import * as fs from 'fs';
-import { webcrypto as crypto } from 'crypto';
-/* @internal */
-export async function initializeWasm(path: string) {
-	const source = fs.readFileSync(path);
-	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);"""
-        else:
-            res += """
-/* @internal */
-export async function initializeWasm(uri: string) {
-	const stream = fetch(uri);
-	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);"""
-
-        return res + """
-	wasm = wasmInstance.exports;
-	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
-		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
-	}
-
-	if (decodeString(wasm.TS_get_lib_version_string()) !== version.get_ldk_java_bindings_version())
-		throw new Error(\"Compiled LDK library and LDK class failes do not match\");
-	// Fetching the LDK versions from C also checks that the header and binaries match
-	if (wasm.TS_get_ldk_c_bindings_version() == 0)
-		throw new Error(\"LDK version did not match the header we built against\");
-	if (wasm.TS_get_ldk_version() == 0)
-		throw new Error(\"LDK C bindings version did not match the header we built against\");
-	const c_bindings_version: string = decodeString(wasm.TS_get_ldk_c_bindings_version());
-	const ldk_version: string = decodeString(wasm.TS_get_ldk_version());
-	console.log(\"Loaded LDK-Java Bindings with LDK \" + ldk_version + \" and LDK-C-Bindings \" + c_bindings_version);
-
-	isWasmInitialized = true;
-};
-
-// WASM CODEC
-
-const nextMultipleOfFour = (value: number) => {
-	return Math.ceil(value / 4) * 4;
-}
-
-/* @internal */
-export function encodeUint8Array (inputArray: Uint8Array): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
-	arrayMemoryView.set(inputArray);
-	return cArrayPointer;
-}
-/* @internal */
-export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
-	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
-	arrayMemoryView.set(inputArray, 1);
-	arrayMemoryView[0] = inputArray.length;
-	return cArrayPointer;
-}
-/* @internal */
-export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
-	arrayMemoryView.set(inputArray);
-	return cArrayPointer;
-}
-
-/* @internal */
-export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
-	if (arr.length != len) { throw new Error("Expected array of length " + len + "got " + arr.length); }
-	return arr;
-}
-
-/* @internal */
-export function getArrayLength(arrayPointer: number): number {
-	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
-	return arraySizeViewer[0];
-}
-/* @internal */
-export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
-	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
-	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
-	// will free the underlying memory when it becomes unreachable instead of copying here.
-	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
-	const actualArray = actualArrayViewer.slice(0, arraySize);
-	if (free) {
-		wasm.TS_free(arrayPointer);
-	}
-	return actualArray;
-}
-const decodeUint32Array = (arrayPointer: number, free = true) => {
-	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint32Array(
-		wasm.memory.buffer, // value
-		arrayPointer + 4, // offset (ignoring length bytes)
-		arraySize // uint32 count
-	);
-	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
-	// will free the underlying memory when it becomes unreachable instead of copying here.
-	const actualArray = actualArrayViewer.slice(0, arraySize);
-	if (free) {
-		wasm.TS_free(arrayPointer);
-	}
-	return actualArray;
-}
-
-/* @internal */
-export function getU32ArrayElem(arrayPointer: number, idx: number): number {
-	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
-	return actualArrayViewer[idx];
-}
-
-/* @internal */
-export function encodeString(str: string): number {
-	const charArray = new TextEncoder().encode(str);
-	return encodeUint8Array(charArray);
-}
-
-/* @internal */
-export function decodeString(stringPointer: number, free = true): string {
-	const arraySize = getArrayLength(stringPointer);
-	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
-	const result = new TextDecoder("utf-8").decode(memoryView);
-
-	if (free) {
-		wasm.TS_free(stringPointer);
-	}
-
-	return result;
-}
-"""
 
     def init_str(self):
         return ""
