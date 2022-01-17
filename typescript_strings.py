@@ -769,6 +769,7 @@ export enum {struct_name} {{
         for fn_line in field_function_lines:
             java_method_descriptor = ""
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
+                out_java_interface += "\t/**" + fn_line.docs.replace("\n", "\n\t * ") + "\n\t */\n"
                 out_java_interface += "\t" + fn_line.fn_name + "("
                 out_interface_implementation_overrides += f"\t\t\t{fn_line.fn_name} ("
 
@@ -817,9 +818,11 @@ export enum {struct_name} {{
                         out_interface_implementation_overrides += "\t\t\t\treturn ret;\n"
                 out_interface_implementation_overrides += f"\t\t\t}},\n"
 
+        formatted_trait_docs = trait_doc_comment.replace("\n", "\n * ")
         out_typescript_human = f"""
 {self.hu_struct_file_prefix}
 
+/** An implementation of {struct_name.replace("LDK","")} */
 export interface {struct_name.replace("LDK", "")}Interface {{
 {out_java_interface}}}
 
@@ -827,6 +830,9 @@ class {struct_name}Holder {{
 	held: {struct_name.replace("LDK", "")};
 }}
 
+/**
+ * {formatted_trait_docs}
+ */
 export class {struct_name.replace("LDK","")} extends CommonBase {{
 	/* @internal */
 	public bindings_instance?: bindings.{struct_name};
@@ -837,7 +843,8 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 		this.bindings_instance = null;
 	}}
 
-	static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
+	/** Creates a new instance of {struct_name.replace("LDK","")} from a given implementation */
+	public static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
 		const impl_holder: {struct_name}Holder = new {struct_name}Holder();
 		let structImplementation = {{
 {out_interface_implementation_overrides}		}} as bindings.{struct_name};
@@ -847,6 +854,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 		impl_holder.held.bindings_instance = structImplementation;
 {pointer_to_adder}		return impl_holder.held;
 	}}
+
 """
         self.obj_defined([struct_name.replace("LDK", ""), struct_name.replace("LDK", "") + "Interface"], "structs")
 
@@ -1047,7 +1055,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         out_java_enum += (self.hu_struct_file_prefix)
 
-        java_hu_class = ""
+        java_hu_class = "/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
         java_hu_class += "export class " + java_hu_type + " extends CommonBase {\n"
         java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr, bindings." + bindings_type + "_free); }\n"
         java_hu_class += "\t/* @internal */\n"
@@ -1063,13 +1071,16 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_java += "\tprotected constructor() {}\n"
         var_idx = 0
         for var in variant_list:
-            java_hu_subclasses = java_hu_subclasses + "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
+            java_hu_subclasses += "/** A " + java_hu_type + " of type " + var.var_name + " */\n"
+            java_hu_subclasses += "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
             java_hu_class += f"\t\t\tcase {var_idx}: "
             java_hu_class += "return new " + java_hu_type + "_" + var.var_name + "(ptr);\n"
             out_c += f"\t\tcase {struct_name}_{var.var_name}: return {var_idx};\n"
             hu_conv_body = ""
             for idx, (field_ty, field_docs) in enumerate(var.fields):
-                java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
+                if field_docs is not None:
+                    java_hu_subclasses += "\t/**\n\t * " + field_docs.replace("\n", "\n\t * ") + "\n\t */\n"
+                java_hu_subclasses += "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
                 if field_ty.to_hu_conv is not None:
                     hu_conv_body += f"\t\tconst {field_ty.arg_name}: {field_ty.java_ty} = bindings.{struct_name}_{var.var_name}_get_{field_ty.arg_name}(ptr);\n"
                     hu_conv_body += f"\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
@@ -1121,7 +1132,11 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_opaque_struct_human = f"{self.hu_struct_file_prefix}"
         if struct_name.startswith("LDKLocked"):
             out_opaque_struct_human += "/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */"
+        formatted_doc_comment = struct_doc_comment.replace("\n", "\n * ")
         out_opaque_struct_human += f"""
+/**
+ * {formatted_doc_comment}
+ */
 export class {hu_name} extends CommonBase {implementations}{{
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {{
@@ -1236,6 +1251,9 @@ export function {method_name}({method_argument_string}): {return_java_ty} {{
         out_java = self.fn_call_body(method_name, return_type_info.c_ty, return_type_info.java_ty, method_argument_string, native_call_argument_string)
 
         out_java_struct = ""
+        if doc_comment is not None:
+            out_java_struct = "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
+
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:
