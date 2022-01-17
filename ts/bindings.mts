@@ -6,6 +6,7 @@ imports.env = {};
 
 var js_objs: Array<WeakRef<object>> = [];
 var js_invoke: Function;
+var getRandomValues: Function;
 
 imports.wasi_snapshot_preview1 = {
 	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
@@ -30,7 +31,7 @@ imports.wasi_snapshot_preview1 = {
 	},
 	"random_get": (buf_ptr: number, buf_len: number) => {
 		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
-		crypto.getRandomValues(buf);
+		getRandomValues(buf);
 		return 0;
 	},
 	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
@@ -55,11 +56,14 @@ imports.wasi_snapshot_preview1 = {
 var wasm: any = null;
 let isWasmInitialized: boolean = false;
 
-/* @internal */
-export async function initializeWasm(uri: string) {
-	const stream = fetch(uri);
-	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
+async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
+	if (typeof crypto === "undefined") {
+		var crypto_import = (await import('crypto')).webcrypto;
+		getRandomValues = crypto_import.getRandomValues.bind(crypto_import);
+	} else {
+		getRandomValues = crypto.getRandomValues.bind(crypto);
+	}
+
 	wasm = wasmInstance.exports;
 	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
 		throw new Error("Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
@@ -79,8 +83,22 @@ export async function initializeWasm(uri: string) {
 	console.log("Loaded LDK-Java Bindings with LDK " + ldk_version + " and LDK-C-Bindings " + c_bindings_version);
 
 	isWasmInitialized = true;
-};
+}
 
+/* @internal */
+export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
+	imports.env["js_invoke_function"] = js_invoke;
+	const { instance: wasmInstance } = await WebAssembly.instantiate(wasmBinary, imports);
+	await finishInitializeWasm(wasmInstance);
+}
+
+/* @internal */
+export async function initializeWasmFetch(uri: string) {
+	const stream = fetch(uri);
+	imports.env["js_invoke_function"] = js_invoke;
+	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
+	await finishInitializeWasm(wasmInstance);
+}
 // WASM CODEC
 
 const nextMultipleOfFour = (value: number) => {
