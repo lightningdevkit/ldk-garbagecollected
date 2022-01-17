@@ -35,6 +35,14 @@ else
 	sed -i "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
 fi
 
+if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
+	export LDK_GARBAGECOLLECTED_GIT_OVERRIDE=$(git describe --tag --dirty)
+fi
+if [ "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:0:1}" != "v" ]; then
+	echo "Version tag should start with a v" > /dev/stderr
+	exit 1
+fi
+
 if [ "$2" != "wasm" ]; then
 	TARGET_STRING="$LDK_TARGET"
 	if [ "$TARGET_STRING" = "" ]; then
@@ -59,14 +67,6 @@ if [ "$2" != "wasm" ]; then
 	esac
 	if [ "$LDK_TARGET_CPU" = "" ]; then
 		LDK_TARGET_CPU="sandybridge"
-	fi
-
-	if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
-		export LDK_GARBAGECOLLECTED_GIT_OVERRIDE=$(git describe --tag --dirty)
-	fi
-	if [ "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:0:1}" != "v" ]; then
-		echo "Version tag should start with a v" > /dev/stderr
-		exit 1
 	fi
 
 	if [ "$(rustc --version --verbose | grep "host:")" = "host: x86_64-apple-darwin" ]; then
