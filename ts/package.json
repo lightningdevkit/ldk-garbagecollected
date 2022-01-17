@@ -1,6 +1,6 @@
 {
   "name": "lightningdevkit",
-  "version": "0.0.104.1alpha3",
+  "version": "0.0.104.1alpha4",
   "description": "Lightning Development Kit",
   "main": "index.mjs",
   "type": "module",
