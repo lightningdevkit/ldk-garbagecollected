@@ -223,11 +223,11 @@ else
 			tsc
 		else
 			tsc --types node --typeRoots .
+			cp ../$WASM_FILE liblightningjs.wasm
+			echo Ready to publish!
 			if [ -x "$(which node)" ]; then
 				NODE_V="$(node --version)"
 				if [ "${NODE_V:1:2}" -gt 14 ]; then
-					rm -f liblightningjs.wasm
-					ln -s "$(pwd)"/../$WASM_FILE liblightningjs.wasm
 					node test/node.mjs
 				fi
 			fi
