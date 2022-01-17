@@ -74,7 +74,9 @@ jobs:
           cd ts
           rm liblightningjs.wasm && ln -s $(pwd)/../liblightningjs_debug.wasm ./liblightningjs.wasm
           python3 -m http.server &
+          SERVER_PID=$!
           node test/browser.mjs
+          kill $SERVER_PID
       - name: Build and Test TS Release Bindings for Web
         run: |
           export HOME=/root/ # Github actions is apparently broken
@@ -82,7 +84,10 @@ jobs:
           ./genbindings.sh ./ldk-c-bindings/ wasm false true
           cd ts
           rm liblightningjs.wasm && ln -s $(pwd)/../liblightningjs_release.wasm ./liblightningjs.wasm
+          python3 -m http.server &
+          SERVER_PID=$!
           node test/browser.mjs
+          kill $SERVER_PID
       - name: Check latest TS files are in git
         run: |
           git diff --exit-code
