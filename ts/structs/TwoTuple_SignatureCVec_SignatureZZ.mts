@@ -281,18 +281,27 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C2Tuple_SignatureCVec_SignatureZZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): Uint8Array {
 		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_get_a(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): Uint8Array[] {
 		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_get_b(this.ptr);
 		const ret_conv_12_len: number = bindings.getArrayLength(ret);
@@ -302,6 +311,7 @@ export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 			const ret_conv_12_conv: Uint8Array = bindings.decodeUint8Array(ret_conv_12);
 			ret_conv_12_arr[m] = ret_conv_12_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_12_arr;
 	}
 
@@ -310,6 +320,10 @@ export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new tuple which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): TwoTuple_SignatureCVec_SignatureZZ {
 		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_SignatureCVec_SignatureZZ = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);
@@ -317,6 +331,9 @@ export class TwoTuple_SignatureCVec_SignatureZZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new C2Tuple_SignatureCVec_SignatureZZ from the contained elements.
+	 */
 	public static constructor_new(a: Uint8Array, b: Uint8Array[]): TwoTuple_SignatureCVec_SignatureZZ {
 		const ret: number = bindings.C2Tuple_SignatureCVec_SignatureZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 64)), bindings.encodeUint32Array(b != null ? b.map(b_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(b_conv_12, 64))) : null));
 		const ret_hu_conv: TwoTuple_SignatureCVec_SignatureZZ = new TwoTuple_SignatureCVec_SignatureZZ(null, ret);

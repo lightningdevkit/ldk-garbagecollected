@@ -281,6 +281,9 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An opaque identifier describing a specific [`Persist`] method call.
+ */
 export class MonitorUpdateId extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
@@ -292,6 +295,9 @@ export class MonitorUpdateId extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the MonitorUpdateId
+	 */
 	public clone(): MonitorUpdateId {
 		const ret: number = bindings.MonitorUpdateId_clone(this.ptr);
 		const ret_hu_conv: MonitorUpdateId = new MonitorUpdateId(null, ret);
@@ -299,11 +305,19 @@ export class MonitorUpdateId extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two MonitorUpdateIds contain equal inner contents.
+	 */
 	public hash(): bigint {
 		const ret: bigint = bindings.MonitorUpdateId_hash(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Checks if two MonitorUpdateIds contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: MonitorUpdateId): boolean {
 		const ret: boolean = bindings.MonitorUpdateId_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);

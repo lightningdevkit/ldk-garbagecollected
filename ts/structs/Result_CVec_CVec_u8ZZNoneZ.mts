@@ -294,18 +294,27 @@ export class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 			return new Result_CVec_CVec_u8ZZNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_CVec_CVec_u8ZZNoneZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array[]): Result_CVec_CVec_u8ZZNoneZ {
 		const ret: number = bindings.CResult_CVec_CVec_u8ZZNoneZ_ok(bindings.encodeUint32Array(o != null ? o.map(o_conv_12 => bindings.encodeUint8Array(o_conv_12)) : null));
 		const ret_hu_conv: Result_CVec_CVec_u8ZZNoneZ = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_CVec_CVec_u8ZZNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_CVec_CVec_u8ZZNoneZ {
 		const ret: number = bindings.CResult_CVec_CVec_u8ZZNoneZ_err();
 		const ret_hu_conv: Result_CVec_CVec_u8ZZNoneZ = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_CVec_CVec_u8ZZNoneZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_CVec_CVec_u8ZZNoneZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_CVec_CVec_u8ZZNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_CVec_CVec_u8ZZNoneZ {
 		const ret: number = bindings.CResult_CVec_CVec_u8ZZNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_CVec_CVec_u8ZZNoneZ = Result_CVec_CVec_u8ZZNoneZ.constr_from_ptr(ret);
@@ -337,6 +350,7 @@ export class Result_CVec_CVec_u8ZZNoneZ_OK extends Result_CVec_CVec_u8ZZNoneZ {
 			const res_conv_12_conv: Uint8Array = bindings.decodeUint8Array(res_conv_12);
 			res_conv_12_arr[m] = res_conv_12_conv;
 		}
+		bindings.freeWasmMemory(res)
 		this.res = res_conv_12_arr;
 	}
 }

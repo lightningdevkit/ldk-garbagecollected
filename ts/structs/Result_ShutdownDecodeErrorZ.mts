@@ -294,18 +294,27 @@ export class Result_ShutdownDecodeErrorZ extends CommonBase {
 			return new Result_ShutdownDecodeErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_ShutdownDecodeErrorZ in the success state.
+	 */
 	public static constructor_ok(o: Shutdown): Result_ShutdownDecodeErrorZ {
 		const ret: number = bindings.CResult_ShutdownDecodeErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
 		const ret_hu_conv: Result_ShutdownDecodeErrorZ = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_ShutdownDecodeErrorZ in the error state.
+	 */
 	public static constructor_err(e: DecodeError): Result_ShutdownDecodeErrorZ {
 		const ret: number = bindings.CResult_ShutdownDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_ShutdownDecodeErrorZ = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_ShutdownDecodeErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_ShutdownDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_ShutdownDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_ShutdownDecodeErrorZ {
 		const ret: number = bindings.CResult_ShutdownDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_ShutdownDecodeErrorZ = Result_ShutdownDecodeErrorZ.constr_from_ptr(ret);

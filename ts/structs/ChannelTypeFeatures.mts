@@ -281,12 +281,29 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Features used within the channel_type field in an OpenChannel message.
+ * 
+ * A channel is always of some known \"type\", describing the transaction formats used and the exact
+ * semantics of our interaction with our peer.
+ * 
+ * Note that because a channel is a specific type which is proposed by the opener and accepted by
+ * the counterparty, only required features are allowed here.
+ * 
+ * This is serialized differently from other feature types - it is not prefixed by a length, and
+ * thus must only appear inside a TLV where its length is known in advance.
+ */
 export class ChannelTypeFeatures extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelTypeFeatures_free);
 	}
 
+	/**
+	 * Checks if two ChannelTypeFeaturess contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: ChannelTypeFeatures): boolean {
 		const ret: boolean = bindings.ChannelTypeFeatures_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
@@ -298,6 +315,9 @@ export class ChannelTypeFeatures extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelTypeFeatures
+	 */
 	public clone(): ChannelTypeFeatures {
 		const ret: number = bindings.ChannelTypeFeatures_clone(this.ptr);
 		const ret_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, ret);
@@ -305,6 +325,9 @@ export class ChannelTypeFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Create a blank Features with no features set
+	 */
 	public static constructor_empty(): ChannelTypeFeatures {
 		const ret: number = bindings.ChannelTypeFeatures_empty();
 		const ret_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, ret);
@@ -312,6 +335,9 @@ export class ChannelTypeFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a Features with the bits set which are known by the implementation
+	 */
 	public static constructor_known(): ChannelTypeFeatures {
 		const ret: number = bindings.ChannelTypeFeatures_known();
 		const ret_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, ret);
@@ -319,17 +345,27 @@ export class ChannelTypeFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Returns true if this `Features` object contains unknown feature flags which are set as
+	 * \"required\".
+	 */
 	public requires_unknown_bits(): boolean {
 		const ret: boolean = bindings.ChannelTypeFeatures_requires_unknown_bits(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Serialize the ChannelTypeFeatures object into a byte array which can be read by ChannelTypeFeatures_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelTypeFeatures_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ChannelTypeFeatures from a byte array, created by ChannelTypeFeatures_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelTypeFeaturesDecodeErrorZ {
 		const ret: number = bindings.ChannelTypeFeatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelTypeFeaturesDecodeErrorZ = Result_ChannelTypeFeaturesDecodeErrorZ.constr_from_ptr(ret);

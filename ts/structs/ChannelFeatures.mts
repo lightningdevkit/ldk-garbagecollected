@@ -281,12 +281,20 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Features used within a `channel_announcement` message.
+ */
 export class ChannelFeatures extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelFeatures_free);
 	}
 
+	/**
+	 * Checks if two ChannelFeaturess contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: ChannelFeatures): boolean {
 		const ret: boolean = bindings.ChannelFeatures_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
@@ -298,6 +306,9 @@ export class ChannelFeatures extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelFeatures
+	 */
 	public clone(): ChannelFeatures {
 		const ret: number = bindings.ChannelFeatures_clone(this.ptr);
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
@@ -305,6 +316,9 @@ export class ChannelFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Create a blank Features with no features set
+	 */
 	public static constructor_empty(): ChannelFeatures {
 		const ret: number = bindings.ChannelFeatures_empty();
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
@@ -312,6 +326,9 @@ export class ChannelFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a Features with the bits set which are known by the implementation
+	 */
 	public static constructor_known(): ChannelFeatures {
 		const ret: number = bindings.ChannelFeatures_known();
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
@@ -319,17 +336,27 @@ export class ChannelFeatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Returns true if this `Features` object contains unknown feature flags which are set as
+	 * \"required\".
+	 */
 	public requires_unknown_bits(): boolean {
 		const ret: boolean = bindings.ChannelFeatures_requires_unknown_bits(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Serialize the ChannelFeatures object into a byte array which can be read by ChannelFeatures_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelFeatures_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ChannelFeatures from a byte array, created by ChannelFeatures_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelFeaturesDecodeErrorZ {
 		const ret: number = bindings.ChannelFeatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelFeaturesDecodeErrorZ = Result_ChannelFeaturesDecodeErrorZ.constr_from_ptr(ret);

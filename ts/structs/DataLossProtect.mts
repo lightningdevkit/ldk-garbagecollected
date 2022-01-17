@@ -281,32 +281,55 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Proof that the sender knows the per-commitment secret of the previous commitment transaction.
+ * This is used to convince the recipient that the channel is at a certain commitment
+ * number even if they lost that data due to a local failure.  Of course, the peer may lie
+ * and even later commitments may have been revoked.
+ */
 export class DataLossProtect extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.DataLossProtect_free);
 	}
 
+	/**
+	 * Proof that the sender knows the per-commitment secret of a specific commitment transaction
+	 * belonging to the recipient
+	 */
 	public get_your_last_per_commitment_secret(): Uint8Array {
 		const ret: number = bindings.DataLossProtect_get_your_last_per_commitment_secret(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Proof that the sender knows the per-commitment secret of a specific commitment transaction
+	 * belonging to the recipient
+	 */
 	public set_your_last_per_commitment_secret(val: Uint8Array): void {
 		bindings.DataLossProtect_set_your_last_per_commitment_secret(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The sender's per-commitment point for their current commitment transaction
+	 */
 	public get_my_current_per_commitment_point(): Uint8Array {
 		const ret: number = bindings.DataLossProtect_get_my_current_per_commitment_point(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The sender's per-commitment point for their current commitment transaction
+	 */
 	public set_my_current_per_commitment_point(val: Uint8Array): void {
 		bindings.DataLossProtect_set_my_current_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * Constructs a new DataLossProtect given each field
+	 */
 	public static constructor_new(your_last_per_commitment_secret_arg: Uint8Array, my_current_per_commitment_point_arg: Uint8Array): DataLossProtect {
 		const ret: number = bindings.DataLossProtect_new(bindings.encodeUint8Array(bindings.check_arr_len(your_last_per_commitment_secret_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(my_current_per_commitment_point_arg, 33)));
 		const ret_hu_conv: DataLossProtect = new DataLossProtect(null, ret);
@@ -319,6 +342,9 @@ export class DataLossProtect extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the DataLossProtect
+	 */
 	public clone(): DataLossProtect {
 		const ret: number = bindings.DataLossProtect_clone(this.ptr);
 		const ret_hu_conv: DataLossProtect = new DataLossProtect(null, ret);

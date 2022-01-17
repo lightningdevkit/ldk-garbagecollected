@@ -8,17 +8,18 @@
 </script>
 <script type="module">
 	import { run_tests } from './tests.mjs';
+	test_runner = run_tests;
 	try {
-		const result = run_tests('../liblightningjs.wasm');
-		if (result) {
+		const result = await run_tests('../liblightningjs.wasm');
+		if (result === true) {
 			document.getElementById("results").innerHTML = "All Tests Passed (note free-time errors may still occurr)!";
 		} else {
 			document.getElementById("results").innerHTML = "Some Tests Failed!";
 		}
 	} catch (e) {
+		console.error(e);
 		document.getElementById("results").innerHTML = "Test failed with exception: " + e;
 	}
-	test_runner = run_tests;
 </script>
 </body>
 </html>

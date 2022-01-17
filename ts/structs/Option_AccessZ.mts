@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::lightning::chain::Access or not
+ */
 export class Option_AccessZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_AccessZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_AccessZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_AccessZ containing a crate::lightning::chain::Access
+	 */
 	public static constructor_some(o: Access): Option_AccessZ {
 		const ret: number = bindings.COption_AccessZ_some(o == null ? 0 : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_AccessZ = Option_AccessZ.constr_from_ptr(ret);
@@ -301,6 +307,9 @@ export class Option_AccessZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_AccessZ containing nothing
+	 */
 	public static constructor_none(): Option_AccessZ {
 		const ret: number = bindings.COption_AccessZ_none();
 		const ret_hu_conv: Option_AccessZ = Option_AccessZ.constr_from_ptr(ret);
@@ -309,6 +318,7 @@ export class Option_AccessZ extends CommonBase {
 	}
 
 }
+/** A Option_AccessZ of type Some */
 export class Option_AccessZ_Some extends Option_AccessZ {
 	public some: Access;
 	/* @internal */
@@ -320,6 +330,7 @@ export class Option_AccessZ_Some extends Option_AccessZ {
 		this.some = ret_hu_conv;
 	}
 }
+/** A Option_AccessZ of type None */
 export class Option_AccessZ_None extends Option_AccessZ {
 	/* @internal */
 	public constructor(ptr: number) {

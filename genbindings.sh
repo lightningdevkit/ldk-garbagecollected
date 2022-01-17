@@ -35,6 +35,14 @@ else
 	sed -i "s/TransactionOutputs/C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ/g" ./lightning.h
 fi
 
+if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
+	export LDK_GARBAGECOLLECTED_GIT_OVERRIDE=$(git describe --tag --dirty)
+fi
+if [ "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:0:1}" != "v" ]; then
+	echo "Version tag should start with a v" > /dev/stderr
+	exit 1
+fi
+
 if [ "$2" != "wasm" ]; then
 	TARGET_STRING="$LDK_TARGET"
 	if [ "$TARGET_STRING" = "" ]; then
@@ -59,14 +67,6 @@ if [ "$2" != "wasm" ]; then
 	esac
 	if [ "$LDK_TARGET_CPU" = "" ]; then
 		LDK_TARGET_CPU="sandybridge"
-	fi
-
-	if [ "$LDK_GARBAGECOLLECTED_GIT_OVERRIDE" = "" ]; then
-		export LDK_GARBAGECOLLECTED_GIT_OVERRIDE=$(git describe --tag --dirty)
-	fi
-	if [ "${LDK_GARBAGECOLLECTED_GIT_OVERRIDE:0:1}" != "v" ]; then
-		echo "Version tag should start with a v" > /dev/stderr
-		exit 1
 	fi
 
 	if [ "$(rustc --version --verbose | grep "host:")" = "host: x86_64-apple-darwin" ]; then
@@ -203,13 +203,13 @@ else
 	# We only need malloc and assert/abort, but for now just use WASI for those:
 	#EXTRA_LINK=/usr/lib/wasm32-wasi/libc.a
 	EXTRA_LINK=
-	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,free"
+	[ "$3" != "false" ] && COMPILE="$COMPILE -Wl,-wrap,calloc -Wl,-wrap,realloc -Wl,-wrap,reallocarray -Wl,-wrap,malloc -Wl,-wrap,aligned_alloc -Wl,-wrap,free"
 	if [ "$3" = "true" ]; then
 		WASM_FILE=liblightningjs_debug.wasm
-		$COMPILE -o liblightningjs_debug.wasm -g -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
+		$COMPILE -o liblightningjs_debug.wasm -g -O1 -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/debug/libldk.a $EXTRA_LINK
 	else
 		WASM_FILE=liblightningjs_release.wasm
-		$COMPILE -o liblightningjs_release.wasm -s -Os -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
+		$COMPILE -o liblightningjs_release.wasm -s -Oz -I"$1"/lightning-c-bindings/include/ ts/bindings.c "$1"/lightning-c-bindings/target/wasm32-wasi/release/libldk.a $EXTRA_LINK
 	fi
 
 	if [ -x "$(which tsc)" ]; then
@@ -223,11 +223,11 @@ else
 			tsc
 		else
 			tsc --types node --typeRoots .
+			cp ../$WASM_FILE liblightningjs.wasm
+			echo Ready to publish!
 			if [ -x "$(which node)" ]; then
 				NODE_V="$(node --version)"
 				if [ "${NODE_V:1:2}" -gt 14 ]; then
-					rm -f liblightningjs.wasm
-					ln -s "$(pwd)"/../$WASM_FILE liblightningjs.wasm
 					node test/node.mjs
 				fi
 			fi

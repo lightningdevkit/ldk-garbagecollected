@@ -294,6 +294,9 @@ export class Result_LockedChannelMonitorNoneZ extends CommonBase {
 			return new Result_LockedChannelMonitorNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_LockedChannelMonitorNoneZ in the success state.
+	 */
 	public static constructor_ok(o: LockedChannelMonitor): Result_LockedChannelMonitorNoneZ {
 		const ret: number = bindings.CResult_LockedChannelMonitorNoneZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
 		const ret_hu_conv: Result_LockedChannelMonitorNoneZ = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
@@ -309,12 +312,18 @@ export class Result_LockedChannelMonitorNoneZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_LockedChannelMonitorNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_LockedChannelMonitorNoneZ {
 		const ret: number = bindings.CResult_LockedChannelMonitorNoneZ_err();
 		const ret_hu_conv: Result_LockedChannelMonitorNoneZ = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_LockedChannelMonitorNoneZ_is_ok(this.ptr);
 		return ret;

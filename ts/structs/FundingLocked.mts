@@ -281,32 +281,50 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A funding_locked message to be sent or received from a peer
+ */
 export class FundingLocked extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.FundingLocked_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.FundingLocked_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.FundingLocked_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The per-commitment point of the second commitment transaction
+	 */
 	public get_next_per_commitment_point(): Uint8Array {
 		const ret: number = bindings.FundingLocked_get_next_per_commitment_point(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The per-commitment point of the second commitment transaction
+	 */
 	public set_next_per_commitment_point(val: Uint8Array): void {
 		bindings.FundingLocked_set_next_per_commitment_point(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * Constructs a new FundingLocked given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, next_per_commitment_point_arg: Uint8Array): FundingLocked {
 		const ret: number = bindings.FundingLocked_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(next_per_commitment_point_arg, 33)));
 		const ret_hu_conv: FundingLocked = new FundingLocked(null, ret);
@@ -319,6 +337,9 @@ export class FundingLocked extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the FundingLocked
+	 */
 	public clone(): FundingLocked {
 		const ret: number = bindings.FundingLocked_clone(this.ptr);
 		const ret_hu_conv: FundingLocked = new FundingLocked(null, ret);
@@ -326,12 +347,18 @@ export class FundingLocked extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the FundingLocked object into a byte array which can be read by FundingLocked_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.FundingLocked_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a FundingLocked from a byte array, created by FundingLocked_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_FundingLockedDecodeErrorZ {
 		const ret: number = bindings.FundingLocked_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_FundingLockedDecodeErrorZ = Result_FundingLockedDecodeErrorZ.constr_from_ptr(ret);

@@ -283,10 +283,30 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of Score */
 export interface ScoreInterface {
+	/**Returns the fee in msats willing to be paid to avoid routing `send_amt_msat` through the
+	 * given channel in the direction from `source` to `target`.
+	 * 
+	 * The channel's capacity (less any other MPP parts which are also being considered for use in
+	 * the same payment) is given by `channel_capacity_msat`. It may be guessed from various
+	 * sources or assumed from no data at all.
+	 * 
+	 * For hints provided in the invoice, we assume the channel has sufficient capacity to accept
+	 * the invoice's full amount, and provide a `channel_capacity_msat` of `None`. In all other
+	 * cases it is set to `Some`, even if we're guessing at the channel value.
+	 * 
+	 * Your code should be overflow-safe through a `channel_capacity_msat` of 21 million BTC.
+	 */
 	channel_penalty_msat(short_channel_id: bigint, send_amt_msat: bigint, channel_capacity_msat: Option_u64Z, source: NodeId, target: NodeId): bigint;
+	/**Handles updating channel penalties after failing to route through a channel.
+	 */
 	payment_path_failed(path: RouteHop[], short_channel_id: bigint): void;
+	/**Handles updating channel penalties after successfully routing along a path.
+	 */
 	payment_path_successful(path: RouteHop[]): void;
+	/**Serialize the object into a byte array
+	 */
 	write(): Uint8Array;
 }
 
@@ -294,6 +314,11 @@ class LDKScoreHolder {
 	held: Score;
 }
 
+/**
+ * An interface used to score payment channels for path finding.
+ * 
+ * \tScoring is in terms of fees willing to be paid in order to avoid routing through a channel.
+ */
 export class Score extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKScore;
@@ -304,7 +329,8 @@ export class Score extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: ScoreInterface): Score {
+	/** Creates a new instance of Score from a given implementation */
+	public static new_impl(arg: ScoreInterface): Score {
 		const impl_holder: LDKScoreHolder = new LDKScoreHolder();
 		let structImplementation = {
 			channel_penalty_msat (short_channel_id: bigint, send_amt_msat: bigint, channel_capacity_msat: number, source: number, target: number): bigint {
@@ -324,6 +350,7 @@ export class Score extends CommonBase {
 					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
+				bindings.freeWasmMemory(path)
 				arg.payment_path_failed(path_conv_10_arr, short_channel_id);
 			},
 			payment_path_successful (path: number): void {
@@ -335,6 +362,7 @@ export class Score extends CommonBase {
 					CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 					path_conv_10_arr[k] = path_conv_10_hu_conv;
 				}
+				bindings.freeWasmMemory(path)
 				arg.payment_path_successful(path_conv_10_arr);
 			},
 			write (): number {
@@ -349,6 +377,21 @@ export class Score extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
+
+	/**
+	 * Returns the fee in msats willing to be paid to avoid routing `send_amt_msat` through the
+	 * given channel in the direction from `source` to `target`.
+	 * 
+	 * The channel's capacity (less any other MPP parts which are also being considered for use in
+	 * the same payment) is given by `channel_capacity_msat`. It may be guessed from various
+	 * sources or assumed from no data at all.
+	 * 
+	 * For hints provided in the invoice, we assume the channel has sufficient capacity to accept
+	 * the invoice's full amount, and provide a `channel_capacity_msat` of `None`. In all other
+	 * cases it is set to `Some`, even if we're guessing at the channel value.
+	 * 
+	 * Your code should be overflow-safe through a `channel_capacity_msat` of 21 million BTC.
+	 */
 	public channel_penalty_msat(short_channel_id: bigint, send_amt_msat: bigint, channel_capacity_msat: Option_u64Z, source: NodeId, target: NodeId): bigint {
 		const ret: bigint = bindings.Score_channel_penalty_msat(this.ptr, short_channel_id, send_amt_msat, CommonBase.get_ptr_of(channel_capacity_msat), source == null ? 0 : CommonBase.get_ptr_of(source) & ~1, target == null ? 0 : CommonBase.get_ptr_of(target) & ~1);
 		CommonBase.add_ref_from(this, source);
@@ -356,14 +399,23 @@ export class Score extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Handles updating channel penalties after failing to route through a channel.
+	 */
 	public payment_path_failed(path: RouteHop[], short_channel_id: bigint): void {
 		bindings.Score_payment_path_failed(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), short_channel_id);
 	}
 
+	/**
+	 * Handles updating channel penalties after successfully routing along a path.
+	 */
 	public payment_path_successful(path: RouteHop[]): void {
 		bindings.Score_payment_path_successful(this.ptr, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
 	}
 
+	/**
+	 * Serialize the object into a byte array
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.Score_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);

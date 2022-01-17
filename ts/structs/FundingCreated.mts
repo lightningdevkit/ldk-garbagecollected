@@ -281,51 +281,81 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A funding_created message to be sent or received from a peer
+ */
 export class FundingCreated extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.FundingCreated_free);
 	}
 
+	/**
+	 * A temporary channel ID, until the funding is established
+	 */
 	public get_temporary_channel_id(): Uint8Array {
 		const ret: number = bindings.FundingCreated_get_temporary_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A temporary channel ID, until the funding is established
+	 */
 	public set_temporary_channel_id(val: Uint8Array): void {
 		bindings.FundingCreated_set_temporary_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The funding transaction ID
+	 */
 	public get_funding_txid(): Uint8Array {
 		const ret: number = bindings.FundingCreated_get_funding_txid(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The funding transaction ID
+	 */
 	public set_funding_txid(val: Uint8Array): void {
 		bindings.FundingCreated_set_funding_txid(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The specific output index funding this channel
+	 */
 	public get_funding_output_index(): number {
 		const ret: number = bindings.FundingCreated_get_funding_output_index(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The specific output index funding this channel
+	 */
 	public set_funding_output_index(val: number): void {
 		bindings.FundingCreated_set_funding_output_index(this.ptr, val);
 	}
 
+	/**
+	 * The signature of the channel initiator (funder) on the initial commitment transaction
+	 */
 	public get_signature(): Uint8Array {
 		const ret: number = bindings.FundingCreated_get_signature(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The signature of the channel initiator (funder) on the initial commitment transaction
+	 */
 	public set_signature(val: Uint8Array): void {
 		bindings.FundingCreated_set_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * Constructs a new FundingCreated given each field
+	 */
 	public static constructor_new(temporary_channel_id_arg: Uint8Array, funding_txid_arg: Uint8Array, funding_output_index_arg: number, signature_arg: Uint8Array): FundingCreated {
 		const ret: number = bindings.FundingCreated_new(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(funding_txid_arg, 32)), funding_output_index_arg, bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)));
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
@@ -338,6 +368,9 @@ export class FundingCreated extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the FundingCreated
+	 */
 	public clone(): FundingCreated {
 		const ret: number = bindings.FundingCreated_clone(this.ptr);
 		const ret_hu_conv: FundingCreated = new FundingCreated(null, ret);
@@ -345,12 +378,18 @@ export class FundingCreated extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the FundingCreated object into a byte array which can be read by FundingCreated_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.FundingCreated_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a FundingCreated from a byte array, created by FundingCreated_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_FundingCreatedDecodeErrorZ {
 		const ret: number = bindings.FundingCreated_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_FundingCreatedDecodeErrorZ = Result_FundingCreatedDecodeErrorZ.constr_from_ptr(ret);

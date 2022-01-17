@@ -294,18 +294,27 @@ export class Result_PublicKeyErrorZ extends CommonBase {
 			return new Result_PublicKeyErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_PublicKeyErrorZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array): Result_PublicKeyErrorZ {
 		const ret: number = bindings.CResult_PublicKeyErrorZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 33)));
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_PublicKeyErrorZ in the error state.
+	 */
 	public static constructor_err(e: Secp256k1Error): Result_PublicKeyErrorZ {
 		const ret: number = bindings.CResult_PublicKeyErrorZ_err(e);
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_PublicKeyErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_PublicKeyErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_PublicKeyErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_PublicKeyErrorZ {
 		const ret: number = bindings.CResult_PublicKeyErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_PublicKeyErrorZ = Result_PublicKeyErrorZ.constr_from_ptr(ret);

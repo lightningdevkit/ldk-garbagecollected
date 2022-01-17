@@ -294,18 +294,27 @@ export class Result_boolPeerHandleErrorZ extends CommonBase {
 			return new Result_boolPeerHandleErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_boolPeerHandleErrorZ in the success state.
+	 */
 	public static constructor_ok(o: boolean): Result_boolPeerHandleErrorZ {
 		const ret: number = bindings.CResult_boolPeerHandleErrorZ_ok(o);
 		const ret_hu_conv: Result_boolPeerHandleErrorZ = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_boolPeerHandleErrorZ in the error state.
+	 */
 	public static constructor_err(e: PeerHandleError): Result_boolPeerHandleErrorZ {
 		const ret: number = bindings.CResult_boolPeerHandleErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_boolPeerHandleErrorZ = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_boolPeerHandleErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_boolPeerHandleErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_boolPeerHandleErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_boolPeerHandleErrorZ {
 		const ret: number = bindings.CResult_boolPeerHandleErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_boolPeerHandleErrorZ = Result_boolPeerHandleErrorZ.constr_from_ptr(ret);

@@ -281,41 +281,68 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A closing_signed message to be sent or received from a peer
+ */
 export class ClosingSigned extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ClosingSigned_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.ClosingSigned_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.ClosingSigned_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The proposed total fee for the closing transaction
+	 */
 	public get_fee_satoshis(): bigint {
 		const ret: bigint = bindings.ClosingSigned_get_fee_satoshis(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The proposed total fee for the closing transaction
+	 */
 	public set_fee_satoshis(val: bigint): void {
 		bindings.ClosingSigned_set_fee_satoshis(this.ptr, val);
 	}
 
+	/**
+	 * A signature on the closing transaction
+	 */
 	public get_signature(): Uint8Array {
 		const ret: number = bindings.ClosingSigned_get_signature(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A signature on the closing transaction
+	 */
 	public set_signature(val: Uint8Array): void {
 		bindings.ClosingSigned_set_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * The minimum and maximum fees which the sender is willing to accept, provided only by new
+	 * nodes.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_fee_range(): ClosingSignedFeeRange {
 		const ret: number = bindings.ClosingSigned_get_fee_range(this.ptr);
 		const ret_hu_conv: ClosingSignedFeeRange = new ClosingSignedFeeRange(null, ret);
@@ -323,10 +350,19 @@ export class ClosingSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The minimum and maximum fees which the sender is willing to accept, provided only by new
+	 * nodes.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_fee_range(val: ClosingSignedFeeRange): void {
 		bindings.ClosingSigned_set_fee_range(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new ClosingSigned given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, fee_satoshis_arg: bigint, signature_arg: Uint8Array, fee_range_arg: ClosingSignedFeeRange): ClosingSigned {
 		const ret: number = bindings.ClosingSigned_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), fee_satoshis_arg, bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), fee_range_arg == null ? 0 : CommonBase.get_ptr_of(fee_range_arg) & ~1);
 		const ret_hu_conv: ClosingSigned = new ClosingSigned(null, ret);
@@ -339,6 +375,9 @@ export class ClosingSigned extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ClosingSigned
+	 */
 	public clone(): ClosingSigned {
 		const ret: number = bindings.ClosingSigned_clone(this.ptr);
 		const ret_hu_conv: ClosingSigned = new ClosingSigned(null, ret);
@@ -346,12 +385,18 @@ export class ClosingSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ClosingSigned object into a byte array which can be read by ClosingSigned_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ClosingSigned_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ClosingSigned from a byte array, created by ClosingSigned_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ClosingSignedDecodeErrorZ {
 		const ret: number = bindings.ClosingSigned_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ClosingSignedDecodeErrorZ = Result_ClosingSignedDecodeErrorZ.constr_from_ptr(ret);

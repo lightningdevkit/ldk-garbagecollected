@@ -294,18 +294,27 @@ export class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 			return new Result_PaymentIdPaymentSendFailureZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_PaymentIdPaymentSendFailureZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array): Result_PaymentIdPaymentSendFailureZ {
 		const ret: number = bindings.CResult_PaymentIdPaymentSendFailureZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 32)));
 		const ret_hu_conv: Result_PaymentIdPaymentSendFailureZ = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_PaymentIdPaymentSendFailureZ in the error state.
+	 */
 	public static constructor_err(e: PaymentSendFailure): Result_PaymentIdPaymentSendFailureZ {
 		const ret: number = bindings.CResult_PaymentIdPaymentSendFailureZ_err(CommonBase.get_ptr_of(e));
 		const ret_hu_conv: Result_PaymentIdPaymentSendFailureZ = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_PaymentIdPaymentSendFailureZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_PaymentIdPaymentSendFailureZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_PaymentIdPaymentSendFailureZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_PaymentIdPaymentSendFailureZ {
 		const ret: number = bindings.CResult_PaymentIdPaymentSendFailureZ_clone(this.ptr);
 		const ret_hu_conv: Result_PaymentIdPaymentSendFailureZ = Result_PaymentIdPaymentSendFailureZ.constr_from_ptr(ret);

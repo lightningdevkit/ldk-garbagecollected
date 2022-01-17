@@ -1,3 +1,7 @@
+import { initializeWasm as bindingsInit } from './bindings.mjs';
+export function initializeWasm(path: string) {
+	bindingsInit(path);
+}
 export * from './structs/TxOut.mjs';
 export * from './enums/AccessError.mjs';
 export * from './enums/COption_NoneZ.mjs';

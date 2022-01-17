@@ -4,7 +4,9 @@
     "module": "es2020",
     "sourceMap": true,
     "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
+    "stripInternal": true,
+
+    "allowSyntheticDefaultImports": false,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "strict": true,

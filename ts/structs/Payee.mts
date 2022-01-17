@@ -281,22 +281,41 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * The recipient of a payment.
+ */
 export class Payee extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.Payee_free);
 	}
 
+	/**
+	 * The node id of the payee.
+	 */
 	public get_pubkey(): Uint8Array {
 		const ret: number = bindings.Payee_get_pubkey(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The node id of the payee.
+	 */
 	public set_pubkey(val: Uint8Array): void {
 		bindings.Payee_set_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * Features supported by the payee.
+	 * 
+	 * May be set from the payee's invoice or via [`for_keysend`]. May be `None` if the invoice
+	 * does not contain any features.
+	 * 
+	 * [`for_keysend`]: Self::for_keysend
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_features(): InvoiceFeatures {
 		const ret: number = bindings.Payee_get_features(this.ptr);
 		const ret_hu_conv: InvoiceFeatures = new InvoiceFeatures(null, ret);
@@ -304,10 +323,23 @@ export class Payee extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Features supported by the payee.
+	 * 
+	 * May be set from the payee's invoice or via [`for_keysend`]. May be `None` if the invoice
+	 * does not contain any features.
+	 * 
+	 * [`for_keysend`]: Self::for_keysend
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_features(val: InvoiceFeatures): void {
 		bindings.Payee_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
+	 */
 	public get_route_hints(): RouteHint[] {
 		const ret: number = bindings.Payee_get_route_hints(this.ptr);
 		const ret_conv_11_len: number = bindings.getArrayLength(ret);
@@ -318,13 +350,20 @@ export class Payee extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_11_hu_conv, this);
 			ret_conv_11_arr[l] = ret_conv_11_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_11_arr;
 	}
 
+	/**
+	 * Hints for routing to the payee, containing channels connecting the payee to public nodes.
+	 */
 	public set_route_hints(val: RouteHint[]): void {
 		bindings.Payee_set_route_hints(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_11 => val_conv_11 == null ? 0 : CommonBase.get_ptr_of(val_conv_11) & ~1) : null));
 	}
 
+	/**
+	 * Expiration of a payment to the payee, in seconds relative to the UNIX epoch.
+	 */
 	public get_expiry_time(): Option_u64Z {
 		const ret: number = bindings.Payee_get_expiry_time(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
@@ -332,10 +371,16 @@ export class Payee extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Expiration of a payment to the payee, in seconds relative to the UNIX epoch.
+	 */
 	public set_expiry_time(val: Option_u64Z): void {
 		bindings.Payee_set_expiry_time(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * Constructs a new Payee given each field
+	 */
 	public static constructor_new(pubkey_arg: Uint8Array, features_arg: InvoiceFeatures, route_hints_arg: RouteHint[], expiry_time_arg: Option_u64Z): Payee {
 		const ret: number = bindings.Payee_new(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, bindings.encodeUint32Array(route_hints_arg != null ? route_hints_arg.map(route_hints_arg_conv_11 => route_hints_arg_conv_11 == null ? 0 : CommonBase.get_ptr_of(route_hints_arg_conv_11) & ~1) : null), CommonBase.get_ptr_of(expiry_time_arg));
 		const ret_hu_conv: Payee = new Payee(null, ret);
@@ -348,6 +393,9 @@ export class Payee extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the Payee
+	 */
 	public clone(): Payee {
 		const ret: number = bindings.Payee_clone(this.ptr);
 		const ret_hu_conv: Payee = new Payee(null, ret);
@@ -355,29 +403,46 @@ export class Payee extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two Payees contain equal inner contents.
+	 */
 	public hash(): bigint {
 		const ret: bigint = bindings.Payee_hash(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Checks if two Payees contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: Payee): boolean {
 		const ret: boolean = bindings.Payee_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
+	/**
+	 * Serialize the Payee object into a byte array which can be read by Payee_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.Payee_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a Payee from a byte array, created by Payee_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_PayeeDecodeErrorZ {
 		const ret: number = bindings.Payee_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_PayeeDecodeErrorZ = Result_PayeeDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a payee with the node id of the given `pubkey`.
+	 */
 	public static constructor_from_node_id(pubkey: Uint8Array): Payee {
 		const ret: number = bindings.Payee_from_node_id(bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
 		const ret_hu_conv: Payee = new Payee(null, ret);
@@ -385,6 +450,9 @@ export class Payee extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a payee with the node id of the given `pubkey` to use for keysend payments.
+	 */
 	public static constructor_for_keysend(pubkey: Uint8Array): Payee {
 		const ret: number = bindings.Payee_for_keysend(bindings.encodeUint8Array(bindings.check_arr_len(pubkey, 33)));
 		const ret_hu_conv: Payee = new Payee(null, ret);

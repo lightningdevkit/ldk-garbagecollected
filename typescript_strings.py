@@ -34,9 +34,228 @@ class Consts:
             default = 'const {var_name}_hu_conv: {human_type} = new {human_type}(null, {var_name});',
         )
 
-        self.bindings_header = self.wasm_import_header(target)
+        self.bindings_header = """
+import * as version from './version.mjs';
 
-        self.bindings_version_file = ""
+const imports: any = {};
+imports.env = {};
+
+var js_objs: Array<WeakRef<object>> = [];
+var js_invoke: Function;
+
+imports.wasi_snapshot_preview1 = {
+	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
+		// This should generally only be used to print panic messages
+		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
+		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
+		for (var i = 0; i < iovec_array_len; i++) {
+			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
+			console.log(String.fromCharCode(...bytes_view));
+		}
+		return 0;
+	},
+	"fd_close": (_fd: number) => {
+		// This is not generally called, but may be referenced in debug builds
+		console.log("wasi_snapshot_preview1:fd_close");
+		return 58; // Not Supported
+	},
+	"fd_seek": (_fd: number, _offset: bigint, _whence: number, _new_offset: number) => {
+		// This is not generally called, but may be referenced in debug builds
+		console.log("wasi_snapshot_preview1:fd_seek");
+		return 58; // Not Supported
+	},
+	"random_get": (buf_ptr: number, buf_len: number) => {
+		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
+		crypto.getRandomValues(buf);
+		return 0;
+	},
+	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
+		// This is called before fd_write to format + print panic messages
+		console.log("wasi_snapshot_preview1:environ_sizes_get");
+		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
+		out_count_view[0] = 0;
+		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
+		out_len_view[0] = 0;
+		return 0;
+	},
+	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
+		// This is called before fd_write to format + print panic messages
+		console.log("wasi_snapshot_preview1:environ_get");
+		return 58; // Note supported - we said there were 0 environment entries!
+	},
+	"proc_exit" : () => {
+		console.log("wasi_snapshot_preview1:proc_exit");
+	},
+};
+
+var wasm: any = null;
+let isWasmInitialized: boolean = false;
+"""
+
+        if target == Target.NODEJS:
+            self.bindings_header += """import * as fs from 'fs';
+import { webcrypto as crypto } from 'crypto';
+/* @internal */
+export async function initializeWasm(path: string) {
+	const source = fs.readFileSync(path);
+	imports.env["js_invoke_function"] = js_invoke;
+	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);"""
+        else:
+            self.bindings_header += """
+/* @internal */
+export async function initializeWasm(uri: string) {
+	const stream = fetch(uri);
+	imports.env["js_invoke_function"] = js_invoke;
+	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);"""
+
+        self.bindings_header += """
+	wasm = wasmInstance.exports;
+	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
+		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
+	}
+
+	if (decodeString(wasm.TS_get_lib_version_string()) !== version.get_ldk_java_bindings_version())
+		throw new Error(\"Compiled LDK library and LDK class failes do not match\");
+	// Fetching the LDK versions from C also checks that the header and binaries match
+	const c_bindings_ver: number = wasm.TS_get_ldk_c_bindings_version();
+	const ldk_ver: number = wasm.TS_get_ldk_version();
+	if (c_bindings_ver == 0)
+		throw new Error(\"LDK version did not match the header we built against\");
+	if (ldk_ver == 0)
+		throw new Error(\"LDK C bindings version did not match the header we built against\");
+	const c_bindings_version: string = decodeString(c_bindings_ver)
+	const ldk_version: string = decodeString(ldk_ver);
+	console.log(\"Loaded LDK-Java Bindings with LDK \" + ldk_version + \" and LDK-C-Bindings \" + c_bindings_version);
+
+	isWasmInitialized = true;
+};
+
+// WASM CODEC
+
+const nextMultipleOfFour = (value: number) => {
+	return Math.ceil(value / 4) * 4;
+}
+
+/* @internal */
+export function encodeUint8Array (inputArray: Uint8Array): number {
+	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
+	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = inputArray.length;
+	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
+	arrayMemoryView.set(inputArray);
+	return cArrayPointer;
+}
+/* @internal */
+export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
+	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
+	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
+	arrayMemoryView.set(inputArray, 1);
+	arrayMemoryView[0] = inputArray.length;
+	return cArrayPointer;
+}
+/* @internal */
+export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
+	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
+	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
+	arrayLengthView[0] = inputArray.length;
+	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
+	arrayMemoryView.set(inputArray);
+	return cArrayPointer;
+}
+
+/* @internal */
+export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
+	if (arr.length != len) { throw new Error("Expected array of length " + len + "got " + arr.length); }
+	return arr;
+}
+
+/* @internal */
+export function getArrayLength(arrayPointer: number): number {
+	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
+	return arraySizeViewer[0];
+}
+/* @internal */
+export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
+	const actualArray = actualArrayViewer.slice(0, arraySize);
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return actualArray;
+}
+const decodeUint32Array = (arrayPointer: number, free = true) => {
+	const arraySize = getArrayLength(arrayPointer);
+	const actualArrayViewer = new Uint32Array(
+		wasm.memory.buffer, // value
+		arrayPointer + 4, // offset (ignoring length bytes)
+		arraySize // uint32 count
+	);
+	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
+	// will free the underlying memory when it becomes unreachable instead of copying here.
+	const actualArray = actualArrayViewer.slice(0, arraySize);
+	if (free) {
+		wasm.TS_free(arrayPointer);
+	}
+	return actualArray;
+}
+
+
+export function freeWasmMemory(pointer: number) { wasm.TS_free(pointer); }
+
+/* @internal */
+export function getU32ArrayElem(arrayPointer: number, idx: number): number {
+	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	return actualArrayViewer[idx];
+}
+
+/* @internal */
+export function encodeString(str: string): number {
+	const charArray = new TextEncoder().encode(str);
+	return encodeUint8Array(charArray);
+}
+
+/* @internal */
+export function decodeString(stringPointer: number, free = true): string {
+	const arraySize = getArrayLength(stringPointer);
+	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
+	const result = new TextDecoder("utf-8").decode(memoryView);
+
+	if (free) {
+		wasm.TS_free(stringPointer);
+	}
+
+	return result;
+}
+"""
+        if DEBUG:
+            self.bindings_header += """
+/* @internal */
+export function getRemainingAllocationCount(): number {
+	return wasm.TS_allocs_remaining();
+}
+/* @internal */
+export function debugPrintRemainingAllocs() {
+	wasm.TS_print_leaks();
+}
+"""
+        else:
+            self.bindings_header += "\n/* @internal */ export function getRemainingAllocationCount(): number { return 0; }\n"
+            self.bindings_header += "/* @internal */ export function debugPrintRemainingAllocs() { }\n"
+
+        with open(outdir + "/index.mts", 'a') as index:
+            index.write("""import { initializeWasm as bindingsInit } from './bindings.mjs';
+export function initializeWasm(path: string) {
+	bindingsInit(path);
+}
+""")
+
+        self.bindings_version_file = """export function get_ldk_java_bindings_version(): String {
+	return "<git_version_ldk_garbagecollected>";
+}"""
 
         self.bindings_footer = ""
 
@@ -113,11 +332,12 @@ uint32_t __attribute__((export_name("test_bigint_pass_deadbeef0badf00d"))) test_
 """
 
         if not DEBUG:
-            self.c_file_pfx = self.c_file_pfx + """
+            self.c_file_pfx += """
 void *malloc(size_t size);
 void free(void *ptr);
 
 #define MALLOC(a, _) malloc(a)
+#define do_MALLOC(a, _b, _c) malloc(a)
 #define FREE(p) if ((unsigned long)(p) > 4096) { free(p); }
 #define DO_ASSERT(a) (void)(a)
 #define CHECK(a)
@@ -125,7 +345,16 @@ void free(void *ptr);
 #define CHECK_INNER_FIELD_ACCESS_OR_NULL(v)
 """
         else:
-            self.c_file_pfx = self.c_file_pfx + """
+            self.c_file_pfx += """
+extern int snprintf(char *str, size_t size, const char *format, ...);
+typedef int32_t ssize_t;
+ssize_t write(int fd, const void *buf, size_t count);
+#define DEBUG_PRINT(...) do { \\
+	char debug_str[1024]; \\
+	int s_len = snprintf(debug_str, 1023, __VA_ARGS__); \\
+	write(2, debug_str, s_len); \\
+} while (0);
+
 // Always run a, then assert it is true:
 #define DO_ASSERT(a) do { bool _assert_val = (a); assert(_assert_val); } while(0)
 // Assert a is true or do nothing
@@ -141,43 +370,58 @@ typedef struct allocation {
 	struct allocation* next;
 	void* ptr;
 	const char* struct_name;
+	int lineno;
 } allocation;
 static allocation* allocation_ll = NULL;
+static allocation* freed_ll = NULL;
 
-void* __real_malloc(size_t len);
-void* __real_calloc(size_t nmemb, size_t len);
-static void new_allocation(void* res, const char* struct_name) {
+extern void* __real_malloc(size_t len);
+extern void* __real_calloc(size_t nmemb, size_t len);
+extern void* __real_aligned_alloc(size_t alignment, size_t size);
+static void new_allocation(void* res, const char* struct_name, int lineno) {
 	allocation* new_alloc = __real_malloc(sizeof(allocation));
 	new_alloc->ptr = res;
 	new_alloc->struct_name = struct_name;
 	new_alloc->next = allocation_ll;
+	new_alloc->lineno = lineno;
 	allocation_ll = new_alloc;
 }
-static void* MALLOC(size_t len, const char* struct_name) {
+static void* do_MALLOC(size_t len, const char* struct_name, int lineno) {
 	void* res = __real_malloc(len);
-	new_allocation(res, struct_name);
+	new_allocation(res, struct_name, lineno);
 	return res;
 }
+#define MALLOC(len, struct_name) do_MALLOC(len, struct_name, __LINE__)
+
 void __real_free(void* ptr);
-static void alloc_freed(void* ptr) {
+static void alloc_freed(void* ptr, int lineno) {
 	allocation* p = NULL;
 	allocation* it = allocation_ll;
 	while (it->ptr != ptr) {
 		p = it; it = it->next;
 		if (it == NULL) {
-			//XXX: fprintf(stderr, "Tried to free unknown pointer %p\\n", ptr);
-			return; // addrsan should catch malloc-unknown and print more info than we have
+			p = NULL;
+			it = freed_ll;
+			while (it && it->ptr != ptr) { p = it; it = it->next; }
+			if (it == NULL) {
+				DEBUG_PRINT("Tried to free unknown pointer %p at line %d.\\n", ptr, lineno);
+			} else {
+				DEBUG_PRINT("Tried to free unknown pointer %p at line %d.\\n Possibly double-free from %s, allocated on line %d.", ptr, lineno, it->struct_name, it->lineno);
+			}
+			abort();
 		}
 	}
 	if (p) { p->next = it->next; } else { allocation_ll = it->next; }
 	DO_ASSERT(it->ptr == ptr);
-	__real_free(it);
+	it->next = freed_ll;
+	freed_ll = it;
 }
-static void FREE(void* ptr) {
+static void do_FREE(void* ptr, int lineno) {
 	if ((unsigned long)ptr <= 4096) return; // Rust loves to create pointers to the NULL page for dummys
-	alloc_freed(ptr);
+	alloc_freed(ptr, lineno);
 	__real_free(ptr);
 }
+#define FREE(ptr) do_FREE(ptr, __LINE__)
 
 static void CHECK_ACCESS(const void* ptr) {
 	allocation* it = allocation_ll;
@@ -198,25 +442,30 @@ static void CHECK_ACCESS(const void* ptr) {
 
 void* __wrap_malloc(size_t len) {
 	void* res = __real_malloc(len);
-	new_allocation(res, "malloc call");
+	new_allocation(res, "malloc call", 0);
 	return res;
 }
 void* __wrap_calloc(size_t nmemb, size_t len) {
 	void* res = __real_calloc(nmemb, len);
-	new_allocation(res, "calloc call");
+	new_allocation(res, "calloc call", 0);
+	return res;
+}
+void* __wrap_aligned_alloc(size_t alignment, size_t size) {
+	void* res = __real_aligned_alloc(alignment, size);
+	new_allocation(res, "aligned_alloc call", 0);
 	return res;
 }
 void __wrap_free(void* ptr) {
 	if (ptr == NULL) return;
-	alloc_freed(ptr);
+	alloc_freed(ptr, 0);
 	__real_free(ptr);
 }
 
 void* __real_realloc(void* ptr, size_t newlen);
 void* __wrap_realloc(void* ptr, size_t len) {
-	if (ptr != NULL) alloc_freed(ptr);
+	if (ptr != NULL) alloc_freed(ptr, 0);
 	void* res = __real_realloc(ptr, len);
-	new_allocation(res, "realloc call");
+	new_allocation(res, "realloc call", 0);
 	return res;
 }
 void __wrap_reallocarray(void* ptr, size_t new_sz) {
@@ -224,11 +473,17 @@ void __wrap_reallocarray(void* ptr, size_t new_sz) {
 	DO_ASSERT(false);
 }
 
-void __attribute__((destructor)) check_leaks() {
+uint32_t __attribute__((export_name("TS_allocs_remaining"))) allocs_remaining() {
+	uint32_t count = 0;
 	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
-		//XXX: fprintf(stderr, "%s %p remains\\n", a->struct_name, a->ptr);
+		count++;
 	}
-	DO_ASSERT(allocation_ll == NULL);
+	return count;
+}
+void __attribute__((export_name("TS_print_leaks"))) print_leaks() {
+	for (allocation* a = allocation_ll; a != NULL; a = a->next) {
+		DEBUG_PRINT("%s %p remains. Allocated on line %d\\n", a->struct_name, a->ptr, a->lineno);
+	}
 }
 """
         self.c_file_pfx = self.c_file_pfx + """
@@ -245,8 +500,8 @@ _Static_assert(sizeof(void*) == 4, "Pointers mut be 32 bits");
 		ty elems[]; \\
 	}; \\
 	typedef struct name##array * name##Array; \\
-	static inline name##Array init_##name##Array(size_t arr_len) { \\
-		name##Array arr = (name##Array)MALLOC(arr_len * sizeof(ty) + sizeof(uint32_t), "##name array init"); \\
+	static inline name##Array init_##name##Array(size_t arr_len, int lineno) { \\
+		name##Array arr = (name##Array)do_MALLOC(arr_len * sizeof(ty) + sizeof(uint32_t), #name" array init", lineno); \\
 		arr->arr_len = arr_len; \\
 		return arr; \\
 	}
@@ -259,7 +514,7 @@ DECL_ARR_TYPE(char, char);
 typedef charArray jstring;
 
 static inline jstring str_ref_to_ts(const char* chars, size_t len) {
-	charArray arr = init_charArray(len);
+	charArray arr = init_charArray(len, __LINE__);
 	memcpy(arr->elems, chars, len);
 	return arr;
 }
@@ -283,9 +538,23 @@ uint32_t __attribute__((export_name("TS_malloc"))) TS_malloc(uint32_t size) {
 void __attribute__((export_name("TS_free"))) TS_free(uint32_t ptr) {
 	FREE((void*)ptr);
 }
+
+jstring __attribute__((export_name("TS_get_ldk_c_bindings_version"))) TS_get_ldk_c_bindings_version() {
+	const char *res = check_get_ldk_bindings_version();
+	if (res == NULL) return NULL;
+	return str_ref_to_ts(res, strlen(res));
+}
+jstring __attribute__((export_name("TS_get_ldk_version"))) get_ldk_version() {
+	const char *res = check_get_ldk_version();
+	if (res == NULL) return NULL;
+	return str_ref_to_ts(res, strlen(res));
+}
+#include "version.c"
 """
 
-        self.c_version_file = ""
+        self.c_version_file = """jstring __attribute__((export_name("TS_get_lib_version_string"))) TS_get_lib_version_string() {
+	return str_ref_to_ts("<git_version_ldk_garbagecollected>", strlen("<git_version_ldk_garbagecollected>"));
+}"""
 
         self.hu_struct_file_prefix = """
 import CommonBase from './CommonBase.mjs';
@@ -308,7 +577,7 @@ import * as bindings from '../bindings.mjs'
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "ptrArray":
             assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
-        return "init_" + ty_info.c_ty + "(" + arr_len + ")"
+        return "init_" + ty_info.c_ty + "(" + arr_len + ", __LINE__)"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
             return ("memcpy(" + arr_name + "->elems, ", ", " + arr_len + ")")
@@ -317,12 +586,12 @@ import * as bindings from '../bindings.mjs'
     def get_native_arr_contents(self, arr_name, dest_name, arr_len, ty_info, copy):
         if ty_info.c_ty == "int8_tArray":
             if copy:
-                return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + ")"
+                return "memcpy(" + dest_name + ", " + arr_name + "->elems, " + arr_len + "); FREE(" + arr_name + ")"
         if ty_info.c_ty == "ptrArray":
-            return "(void*) " + arr_name + "->elems"
+            return "(void*) " + arr_name + "->elems /* XXX " + arr_name + " leaks */"
         else:
             assert not copy
-            return arr_name + "->elems"
+            return arr_name + "->elems /* XXX " + arr_name + " leaks */"
     def get_native_arr_elem(self, arr_name, idxc, ty_info):
         assert False # Only called if above is None
     def get_native_arr_ptr_call(self, ty_info):
@@ -353,181 +622,6 @@ import * as bindings from '../bindings.mjs'
     def c_fn_name_define_pfx(self, fn_name, have_args):
         return " __attribute__((export_name(\"TS_" + fn_name + "\"))) TS_" + fn_name + "("
 
-    def wasm_import_header(self, target):
-        res = """
-const imports: any = {};
-imports.env = {};
-
-var js_objs: Array<WeakRef<object>> = [];
-var js_invoke: Function;
-
-imports.wasi_snapshot_preview1 = {
-	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
-		// This should generally only be used to print panic messages
-		console.log("FD_WRITE to " + fd + " in " + iovec_array_len + " chunks.");
-		const ptr_len_view = new Uint32Array(wasm.memory.buffer, iovec_array_ptr, iovec_array_len * 2);
-		for (var i = 0; i < iovec_array_len; i++) {
-			const bytes_view = new Uint8Array(wasm.memory.buffer, ptr_len_view[i*2], ptr_len_view[i*2+1]);
-			console.log(String.fromCharCode(...bytes_view));
-		}
-		return 0;
-	},
-	"random_get": (buf_ptr: number, buf_len: number) => {
-		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
-		crypto.getRandomValues(buf);
-		return 0;
-	},
-	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
-		// This is called before fd_write to format + print panic messages
-		console.log("wasi_snapshot_preview1:environ_sizes_get");
-		const out_count_view = new Uint32Array(wasm.memory.buffer, environ_var_count_ptr, 1);
-		out_count_view[0] = 1;
-		const out_len_view = new Uint32Array(wasm.memory.buffer, environ_len_ptr, 1);
-		out_len_view[0] = "RUST_BACKTRACE=1".length + 1; // Note that string must be NULL-terminated
-		return 0;
-	},
-	"environ_get": (environ_ptr: number, environ_buf_ptr: number) => {
-		// This is called before fd_write to format + print panic messages
-		console.log("wasi_snapshot_preview1:environ_get");
-		const out_ptrs = new Uint32Array(wasm.memory.buffer, environ_ptr, 2);
-		out_ptrs[0] = environ_buf_ptr;
-		out_ptrs[1] = "RUST_BACKTRACE=1".length;
-		const out_environ = new Uint8Array(wasm.memory.buffer, environ_buf_ptr, out_ptrs[1]);
-		for (var i = 0; i < out_ptrs[1]; i++) { out_environ[i] = "RUST_BACKTRACE=1".codePointAt(i); }
-		out_environ[out_ptrs[1]] = 0;
-		return 0;
-	},
-	"proc_exit" : () => {
-		console.log("wasi_snapshot_preview1:proc_exit");
-	},
-};
-
-var wasm: any = null;
-let isWasmInitialized: boolean = false;
-"""
-
-        if target == Target.NODEJS:
-            res += """import * as fs from 'fs';
-import { webcrypto as crypto } from 'crypto';
-export async function initializeWasm(path: string) {
-	const source = fs.readFileSync(path);
-	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);
-	wasm = wasmInstance.exports;
-	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
-		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
-	}
-	isWasmInitialized = true;
-};
-"""
-        else:
-            res += """
-export async function initializeWasm(uri: string) {
-	const stream = fetch(uri);
-	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
-	wasm = wasmInstance.exports;
-	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
-		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
-	}
-	isWasmInitialized = true;
-};
-
-"""
-
-        return res + """
-
-
-// WASM CODEC
-
-const nextMultipleOfFour = (value: number) => {
-	return Math.ceil(value / 4) * 4;
-}
-
-export function encodeUint8Array (inputArray: Uint8Array): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length + 4);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new Uint8Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
-	arrayMemoryView.set(inputArray);
-	return cArrayPointer;
-}
-export function encodeUint32Array (inputArray: Uint32Array|Array<number>): number {
-	const cArrayPointer = wasm.TS_malloc((inputArray.length + 1) * 4);
-	const arrayMemoryView = new Uint32Array(wasm.memory.buffer, cArrayPointer, inputArray.length);
-	arrayMemoryView.set(inputArray, 1);
-	arrayMemoryView[0] = inputArray.length;
-	return cArrayPointer;
-}
-export function encodeUint64Array (inputArray: BigUint64Array|Array<bigint>): number {
-	const cArrayPointer = wasm.TS_malloc(inputArray.length * 8 + 1);
-	const arrayLengthView = new Uint32Array(wasm.memory.buffer, cArrayPointer, 1);
-	arrayLengthView[0] = inputArray.length;
-	const arrayMemoryView = new BigUint64Array(wasm.memory.buffer, cArrayPointer + 4, inputArray.length);
-	arrayMemoryView.set(inputArray);
-	return cArrayPointer;
-}
-
-export function check_arr_len(arr: Uint8Array, len: number): Uint8Array {
-	if (arr.length != len) { throw new Error("Expected array of length " + len + "got " + arr.length); }
-	return arr;
-}
-
-export function getArrayLength(arrayPointer: number): number {
-	const arraySizeViewer = new Uint32Array(wasm.memory.buffer, arrayPointer, 1);
-	return arraySizeViewer[0];
-}
-export function decodeUint8Array (arrayPointer: number, free = true): Uint8Array {
-	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, arraySize);
-	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
-	// will free the underlying memory when it becomes unreachable instead of copying here.
-	// Note that doing so may have edge-case interactions with memory resizing (invalidating the buffer).
-	const actualArray = actualArrayViewer.slice(0, arraySize);
-	if (free) {
-		wasm.TS_free(arrayPointer);
-	}
-	return actualArray;
-}
-const decodeUint32Array = (arrayPointer: number, free = true) => {
-	const arraySize = getArrayLength(arrayPointer);
-	const actualArrayViewer = new Uint32Array(
-		wasm.memory.buffer, // value
-		arrayPointer + 4, // offset (ignoring length bytes)
-		arraySize // uint32 count
-	);
-	// Clone the contents, TODO: In the future we should wrap the Viewer in a class that
-	// will free the underlying memory when it becomes unreachable instead of copying here.
-	const actualArray = actualArrayViewer.slice(0, arraySize);
-	if (free) {
-		wasm.TS_free(arrayPointer);
-	}
-	return actualArray;
-}
-
-export function getU32ArrayElem(arrayPointer: number, idx: number): number {
-	const actualArrayViewer = new Uint32Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
-	return actualArrayViewer[idx];
-}
-
-export function encodeString(str: string): number {
-	const charArray = new TextEncoder().encode(str);
-	return encodeUint8Array(charArray);
-}
-
-export function decodeString(stringPointer: number, free = true): string {
-	const arraySize = getArrayLength(stringPointer);
-	const memoryView = new Uint8Array(wasm.memory.buffer, stringPointer + 4, arraySize);
-	const result = new TextDecoder("utf-8").decode(memoryView);
-
-	if (free) {
-		wasm.TS_free(stringPointer);
-	}
-
-	return result;
-}
-"""
-
     def init_str(self):
         return ""
 
@@ -540,6 +634,8 @@ export function decodeString(stringPointer: number, free = true): string {
             assert False
     def constr_hu_array(self, ty_info, arr_len):
         return "new Array(" + arr_len + ").fill(null)"
+    def cleanup_converted_native_array(self, ty_info, arr_name):
+        return "bindings.freeWasmMemory(" + arr_name + ")"
 
     def primitive_arr_from_hu(self, mapped_ty, fixed_len, arr_name):
         inner = arr_name
@@ -598,8 +694,9 @@ export function decodeString(stringPointer: number, free = true): string {
             out_c = out_c + "\t\tcase %d: return %s;\n" % (ord_v, var)
             ord_v = ord_v + 1
             if var_docs is not None:
-                out_typescript_enum_fields += f"/**\n * {var_docs}\n */\n"
-            out_typescript_enum_fields += f"{var},\n\t\t\t\t"
+                var_docs_repld = var_docs.replace("\n", "\n\t")
+                out_typescript_enum_fields += f"/**\n\t * {var_docs_repld}\n\t */\n"
+            out_typescript_enum_fields += f"\t{var},\n\t"
         out_c = out_c + "\t}\n"
         out_c = out_c + "\tabort();\n"
         out_c = out_c + "}\n"
@@ -615,9 +712,10 @@ export function decodeString(stringPointer: number, free = true): string {
         out_c = out_c + "}\n"
 
         out_typescript = f"""
-            export enum {struct_name} {{
-                {out_typescript_enum_fields}
-            }}
+/* @internal */
+export enum {struct_name} {{
+	{out_typescript_enum_fields}
+}}
 """
         out_typescript_enum = f"export {{ {struct_name} }} from \"../bindings.mjs\";"
         self.obj_defined([struct_name], "enums")
@@ -629,8 +727,7 @@ export function decodeString(stringPointer: number, free = true): string {
         return (ty_info.rust_obj + "_from_js(", ")")
 
     def native_c_map_trait(self, struct_name, field_var_conversions, flattened_field_var_conversions, field_function_lines, trait_doc_comment):
-        out_typescript_bindings = "\n\n\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: START\n\n"
-
+        out_typescript_bindings = ""
         super_instantiator = ""
         bindings_instantiator = ""
         pointer_to_adder = ""
@@ -672,6 +769,7 @@ export function decodeString(stringPointer: number, free = true): string {
         for fn_line in field_function_lines:
             java_method_descriptor = ""
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
+                out_java_interface += "\t/**" + fn_line.docs.replace("\n", "\n\t * ") + "\n\t */\n"
                 out_java_interface += "\t" + fn_line.fn_name + "("
                 out_interface_implementation_overrides += f"\t\t\t{fn_line.fn_name} ("
 
@@ -720,9 +818,11 @@ export function decodeString(stringPointer: number, free = true): string {
                         out_interface_implementation_overrides += "\t\t\t\treturn ret;\n"
                 out_interface_implementation_overrides += f"\t\t\t}},\n"
 
+        formatted_trait_docs = trait_doc_comment.replace("\n", "\n * ")
         out_typescript_human = f"""
 {self.hu_struct_file_prefix}
 
+/** An implementation of {struct_name.replace("LDK","")} */
 export interface {struct_name.replace("LDK", "")}Interface {{
 {out_java_interface}}}
 
@@ -730,6 +830,9 @@ class {struct_name}Holder {{
 	held: {struct_name.replace("LDK", "")};
 }}
 
+/**
+ * {formatted_trait_docs}
+ */
 export class {struct_name.replace("LDK","")} extends CommonBase {{
 	/* @internal */
 	public bindings_instance?: bindings.{struct_name};
@@ -740,7 +843,8 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 		this.bindings_instance = null;
 	}}
 
-	static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
+	/** Creates a new instance of {struct_name.replace("LDK","")} from a given implementation */
+	public static new_impl(arg: {struct_name.replace("LDK", "")}Interface{impl_constructor_arguments}): {struct_name.replace("LDK", "")} {{
 		const impl_holder: {struct_name}Holder = new {struct_name}Holder();
 		let structImplementation = {{
 {out_interface_implementation_overrides}		}} as bindings.{struct_name};
@@ -750,10 +854,11 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 		impl_holder.held.bindings_instance = structImplementation;
 {pointer_to_adder}		return impl_holder.held;
 	}}
+
 """
         self.obj_defined([struct_name.replace("LDK", ""), struct_name.replace("LDK", "") + "Interface"], "structs")
 
-        out_typescript_bindings += "export interface " + struct_name + " {\n"
+        out_typescript_bindings += "/* @internal */\nexport interface " + struct_name + " {\n"
         java_meths = []
         for fn_line in field_function_lines:
             if fn_line.fn_name != "free" and fn_line.fn_name != "cloned":
@@ -768,7 +873,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         out_typescript_bindings += "}\n\n"
 
-        out_typescript_bindings += f"export function {struct_name}_new(impl: {struct_name}"
+        out_typescript_bindings += f"/* @internal */\nexport function {struct_name}_new(impl: {struct_name}"
         for var in flattened_field_var_conversions:
             if isinstance(var, ConvInfo):
                 out_typescript_bindings += f", {var.arg_name}: {var.java_ty}"
@@ -787,8 +892,6 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 	return wasm.TS_{struct_name}_new(i);
 }}
 """
-
-        out_typescript_bindings += '\n// OUT_TYPESCRIPT_BINDINGS :: MAP_TRAIT :: END\n\n\n'
 
         # Now that we've written out our java code (and created java_meths), generate C
         out_c = "typedef struct " + struct_name + "_JCalls {\n"
@@ -952,7 +1055,7 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
 
         out_java_enum += (self.hu_struct_file_prefix)
 
-        java_hu_class = ""
+        java_hu_class = "/**\n * " + enum_doc_comment.replace("\n", "\n * ") + "\n */\n"
         java_hu_class += "export class " + java_hu_type + " extends CommonBase {\n"
         java_hu_class += "\tprotected constructor(_dummy: object, ptr: number) { super(ptr, bindings." + bindings_type + "_free); }\n"
         java_hu_class += "\t/* @internal */\n"
@@ -964,17 +1067,20 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         java_hu_class += "\t\tswitch (raw_ty) {\n"
         java_hu_subclasses = ""
 
-        out_java += "export class " + struct_name + " {\n"
+        out_java += "/* @internal */\nexport class " + struct_name + " {\n"
         out_java += "\tprotected constructor() {}\n"
         var_idx = 0
         for var in variant_list:
-            java_hu_subclasses = java_hu_subclasses + "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
+            java_hu_subclasses += "/** A " + java_hu_type + " of type " + var.var_name + " */\n"
+            java_hu_subclasses += "export class " + java_hu_type + "_" + var.var_name + " extends " + java_hu_type + " {\n"
             java_hu_class += f"\t\t\tcase {var_idx}: "
             java_hu_class += "return new " + java_hu_type + "_" + var.var_name + "(ptr);\n"
             out_c += f"\t\tcase {struct_name}_{var.var_name}: return {var_idx};\n"
             hu_conv_body = ""
             for idx, (field_ty, field_docs) in enumerate(var.fields):
-                java_hu_subclasses = java_hu_subclasses + "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
+                if field_docs is not None:
+                    java_hu_subclasses += "\t/**\n\t * " + field_docs.replace("\n", "\n\t * ") + "\n\t */\n"
+                java_hu_subclasses += "\tpublic " + field_ty.arg_name + f": {field_ty.java_hu_ty};\n"
                 if field_ty.to_hu_conv is not None:
                     hu_conv_body += f"\t\tconst {field_ty.arg_name}: {field_ty.java_ty} = bindings.{struct_name}_{var.var_name}_get_{field_ty.arg_name}(ptr);\n"
                     hu_conv_body += f"\t\t" + field_ty.to_hu_conv.replace("\n", "\n\t\t\t") + "\n"
@@ -1026,7 +1132,11 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         out_opaque_struct_human = f"{self.hu_struct_file_prefix}"
         if struct_name.startswith("LDKLocked"):
             out_opaque_struct_human += "/** XXX: DO NOT USE THIS - it remains locked until the GC runs (if that ever happens */"
+        formatted_doc_comment = struct_doc_comment.replace("\n", "\n * ")
         out_opaque_struct_human += f"""
+/**
+ * {formatted_doc_comment}
+ */
 export class {hu_name} extends CommonBase {implementations}{{
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {{
@@ -1104,7 +1214,8 @@ export class {human_ty} extends CommonBase {{
         if not has_return_value:
             return_statement = '// debug statements here'
 
-        return f"""export function {method_name}({method_argument_string}): {return_java_ty} {{
+        return f"""/* @internal */
+export function {method_name}({method_argument_string}): {return_java_ty} {{
 	if(!isWasmInitialized) {{
 		throw new Error("initializeWasm() must be awaited first!");
 	}}
@@ -1140,6 +1251,9 @@ export class {human_ty} extends CommonBase {{
         out_java = self.fn_call_body(method_name, return_type_info.c_ty, return_type_info.java_ty, method_argument_string, native_call_argument_string)
 
         out_java_struct = ""
+        if doc_comment is not None:
+            out_java_struct = "\t/**\n\t * " + doc_comment.replace("\n", "\n\t * ") + "\n\t */\n"
+
         if not args_known:
             out_java_struct += ("\t// Skipped " + method_name + "\n")
         else:

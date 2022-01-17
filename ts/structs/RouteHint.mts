@@ -281,6 +281,9 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A list of hops along a payment path terminating with a channel to the recipient.
+ */
 export class RouteHint extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
@@ -297,6 +300,7 @@ export class RouteHint extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_14_hu_conv, this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_14_arr;
 	}
 
@@ -304,6 +308,9 @@ export class RouteHint extends CommonBase {
 		bindings.RouteHint_set_a(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_14 => val_conv_14 == null ? 0 : CommonBase.get_ptr_of(val_conv_14) & ~1) : null));
 	}
 
+	/**
+	 * Constructs a new RouteHint given each field
+	 */
 	public static constructor_new(a_arg: RouteHintHop[]): RouteHint {
 		const ret: number = bindings.RouteHint_new(bindings.encodeUint32Array(a_arg != null ? a_arg.map(a_arg_conv_14 => a_arg_conv_14 == null ? 0 : CommonBase.get_ptr_of(a_arg_conv_14) & ~1) : null));
 		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
@@ -316,6 +323,9 @@ export class RouteHint extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the RouteHint
+	 */
 	public clone(): RouteHint {
 		const ret: number = bindings.RouteHint_clone(this.ptr);
 		const ret_hu_conv: RouteHint = new RouteHint(null, ret);
@@ -323,23 +333,37 @@ export class RouteHint extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two RouteHints contain equal inner contents.
+	 */
 	public hash(): bigint {
 		const ret: bigint = bindings.RouteHint_hash(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Checks if two RouteHints contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: RouteHint): boolean {
 		const ret: boolean = bindings.RouteHint_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
+	/**
+	 * Serialize the RouteHint object into a byte array which can be read by RouteHint_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.RouteHint_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a RouteHint from a byte array, created by RouteHint_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteHintDecodeErrorZ {
 		const ret: number = bindings.RouteHint_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteHintDecodeErrorZ = Result_RouteHintDecodeErrorZ.constr_from_ptr(ret);

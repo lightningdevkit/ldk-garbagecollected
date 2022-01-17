@@ -281,31 +281,54 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A reply_short_channel_ids_end message is sent as a reply to a
+ * query_short_channel_ids message. The query recipient makes a best
+ * effort to respond based on their local network view which may not be
+ * a perfect view of the network.
+ */
 export class ReplyShortChannelIdsEnd extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ReplyShortChannelIdsEnd_free);
 	}
 
+	/**
+	 * The genesis hash of the blockchain that was queried
+	 */
 	public get_chain_hash(): Uint8Array {
 		const ret: number = bindings.ReplyShortChannelIdsEnd_get_chain_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The genesis hash of the blockchain that was queried
+	 */
 	public set_chain_hash(val: Uint8Array): void {
 		bindings.ReplyShortChannelIdsEnd_set_chain_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * Indicates if the query recipient maintains up-to-date channel
+	 * information for the chain_hash
+	 */
 	public get_full_information(): boolean {
 		const ret: boolean = bindings.ReplyShortChannelIdsEnd_get_full_information(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Indicates if the query recipient maintains up-to-date channel
+	 * information for the chain_hash
+	 */
 	public set_full_information(val: boolean): void {
 		bindings.ReplyShortChannelIdsEnd_set_full_information(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new ReplyShortChannelIdsEnd given each field
+	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, full_information_arg: boolean): ReplyShortChannelIdsEnd {
 		const ret: number = bindings.ReplyShortChannelIdsEnd_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), full_information_arg);
 		const ret_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, ret);
@@ -318,6 +341,9 @@ export class ReplyShortChannelIdsEnd extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ReplyShortChannelIdsEnd
+	 */
 	public clone(): ReplyShortChannelIdsEnd {
 		const ret: number = bindings.ReplyShortChannelIdsEnd_clone(this.ptr);
 		const ret_hu_conv: ReplyShortChannelIdsEnd = new ReplyShortChannelIdsEnd(null, ret);
@@ -325,12 +351,18 @@ export class ReplyShortChannelIdsEnd extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ReplyShortChannelIdsEnd object into a byte array which can be read by ReplyShortChannelIdsEnd_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ReplyShortChannelIdsEnd_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ReplyShortChannelIdsEnd from a byte array, created by ReplyShortChannelIdsEnd_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ReplyShortChannelIdsEndDecodeErrorZ {
 		const ret: number = bindings.ReplyShortChannelIdsEnd_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ReplyShortChannelIdsEndDecodeErrorZ = Result_ReplyShortChannelIdsEndDecodeErrorZ.constr_from_ptr(ret);

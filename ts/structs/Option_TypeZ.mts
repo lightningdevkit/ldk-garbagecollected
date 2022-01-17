@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::lightning::ln::wire::Type or not
+ */
 export class Option_TypeZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_TypeZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_TypeZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_TypeZ containing a crate::lightning::ln::wire::Type
+	 */
 	public static constructor_some(o: Type): Option_TypeZ {
 		const ret: number = bindings.COption_TypeZ_some(o == null ? 0 : CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_TypeZ = Option_TypeZ.constr_from_ptr(ret);
@@ -301,6 +307,9 @@ export class Option_TypeZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_TypeZ containing nothing
+	 */
 	public static constructor_none(): Option_TypeZ {
 		const ret: number = bindings.COption_TypeZ_none();
 		const ret_hu_conv: Option_TypeZ = Option_TypeZ.constr_from_ptr(ret);
@@ -313,6 +322,10 @@ export class Option_TypeZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new COption_TypeZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Option_TypeZ {
 		const ret: number = bindings.COption_TypeZ_clone(this.ptr);
 		const ret_hu_conv: Option_TypeZ = Option_TypeZ.constr_from_ptr(ret);
@@ -321,6 +334,7 @@ export class Option_TypeZ extends CommonBase {
 	}
 
 }
+/** A Option_TypeZ of type Some */
 export class Option_TypeZ_Some extends Option_TypeZ {
 	public some: Type;
 	/* @internal */
@@ -332,6 +346,7 @@ export class Option_TypeZ_Some extends Option_TypeZ {
 		this.some = ret_hu_conv;
 	}
 }
+/** A Option_TypeZ of type None */
 export class Option_TypeZ_None extends Option_TypeZ {
 	/* @internal */
 	public constructor(ptr: number) {

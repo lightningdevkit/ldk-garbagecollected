@@ -283,26 +283,70 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of ChannelMessageHandler */
 export interface ChannelMessageHandlerInterface {
+	/**Handle an incoming open_channel message from the given peer.
+	 */
 	handle_open_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: OpenChannel): void;
+	/**Handle an incoming accept_channel message from the given peer.
+	 */
 	handle_accept_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: AcceptChannel): void;
+	/**Handle an incoming funding_created message from the given peer.
+	 */
 	handle_funding_created(their_node_id: Uint8Array, msg: FundingCreated): void;
+	/**Handle an incoming funding_signed message from the given peer.
+	 */
 	handle_funding_signed(their_node_id: Uint8Array, msg: FundingSigned): void;
+	/**Handle an incoming funding_locked message from the given peer.
+	 */
 	handle_funding_locked(their_node_id: Uint8Array, msg: FundingLocked): void;
+	/**Handle an incoming shutdown message from the given peer.
+	 */
 	handle_shutdown(their_node_id: Uint8Array, their_features: InitFeatures, msg: Shutdown): void;
+	/**Handle an incoming closing_signed message from the given peer.
+	 */
 	handle_closing_signed(their_node_id: Uint8Array, msg: ClosingSigned): void;
+	/**Handle an incoming update_add_htlc message from the given peer.
+	 */
 	handle_update_add_htlc(their_node_id: Uint8Array, msg: UpdateAddHTLC): void;
+	/**Handle an incoming update_fulfill_htlc message from the given peer.
+	 */
 	handle_update_fulfill_htlc(their_node_id: Uint8Array, msg: UpdateFulfillHTLC): void;
+	/**Handle an incoming update_fail_htlc message from the given peer.
+	 */
 	handle_update_fail_htlc(their_node_id: Uint8Array, msg: UpdateFailHTLC): void;
+	/**Handle an incoming update_fail_malformed_htlc message from the given peer.
+	 */
 	handle_update_fail_malformed_htlc(their_node_id: Uint8Array, msg: UpdateFailMalformedHTLC): void;
+	/**Handle an incoming commitment_signed message from the given peer.
+	 */
 	handle_commitment_signed(their_node_id: Uint8Array, msg: CommitmentSigned): void;
+	/**Handle an incoming revoke_and_ack message from the given peer.
+	 */
 	handle_revoke_and_ack(their_node_id: Uint8Array, msg: RevokeAndACK): void;
+	/**Handle an incoming update_fee message from the given peer.
+	 */
 	handle_update_fee(their_node_id: Uint8Array, msg: UpdateFee): void;
+	/**Handle an incoming announcement_signatures message from the given peer.
+	 */
 	handle_announcement_signatures(their_node_id: Uint8Array, msg: AnnouncementSignatures): void;
+	/**Indicates a connection to the peer failed/an existing connection was lost. If no connection
+	 * is believed to be possible in the future (eg they're sending us messages we don't
+	 * understand or indicate they require unknown feature bits), no_connection_possible is set
+	 * and any outstanding channels should be failed.
+	 */
 	peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean): void;
+	/**Handle a peer reconnecting, possibly generating channel_reestablish message(s).
+	 */
 	peer_connected(their_node_id: Uint8Array, msg: Init): void;
+	/**Handle an incoming channel_reestablish message from the given peer.
+	 */
 	handle_channel_reestablish(their_node_id: Uint8Array, msg: ChannelReestablish): void;
+	/**Handle an incoming channel update from the given peer.
+	 */
 	handle_channel_update(their_node_id: Uint8Array, msg: ChannelUpdate): void;
+	/**Handle an incoming error message from the given peer.
+	 */
 	handle_error(their_node_id: Uint8Array, msg: ErrorMessage): void;
 }
 
@@ -310,6 +354,12 @@ class LDKChannelMessageHandlerHolder {
 	held: ChannelMessageHandler;
 }
 
+/**
+ * A trait to describe an object which can receive channel messages.
+ * 
+ * Messages MAY be called in parallel when they originate from different their_node_ids, however
+ * they MUST NOT be called in parallel when the two calls have the same their_node_id.
+ */
 export class ChannelMessageHandler extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKChannelMessageHandler;
@@ -320,7 +370,8 @@ export class ChannelMessageHandler extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: ChannelMessageHandlerInterface, messageSendEventsProvider_impl: MessageSendEventsProviderInterface): ChannelMessageHandler {
+	/** Creates a new instance of ChannelMessageHandler from a given implementation */
+	public static new_impl(arg: ChannelMessageHandlerInterface, messageSendEventsProvider_impl: MessageSendEventsProviderInterface): ChannelMessageHandler {
 		const impl_holder: LDKChannelMessageHandlerHolder = new LDKChannelMessageHandlerHolder();
 		let structImplementation = {
 			handle_open_channel (their_node_id: number, their_features: number, msg: number): void {
@@ -436,101 +487,165 @@ export class ChannelMessageHandler extends CommonBase {
 		impl_holder.held.ptrs_to.push(messageSendEventsProvider);
 		return impl_holder.held;
 	}
+
+	/**
+	 * Handle an incoming open_channel message from the given peer.
+	 */
 	public handle_open_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: OpenChannel): void {
 		bindings.ChannelMessageHandler_handle_open_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0 : CommonBase.get_ptr_of(their_features) & ~1, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming accept_channel message from the given peer.
+	 */
 	public handle_accept_channel(their_node_id: Uint8Array, their_features: InitFeatures, msg: AcceptChannel): void {
 		bindings.ChannelMessageHandler_handle_accept_channel(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0 : CommonBase.get_ptr_of(their_features) & ~1, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming funding_created message from the given peer.
+	 */
 	public handle_funding_created(their_node_id: Uint8Array, msg: FundingCreated): void {
 		bindings.ChannelMessageHandler_handle_funding_created(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming funding_signed message from the given peer.
+	 */
 	public handle_funding_signed(their_node_id: Uint8Array, msg: FundingSigned): void {
 		bindings.ChannelMessageHandler_handle_funding_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming funding_locked message from the given peer.
+	 */
 	public handle_funding_locked(their_node_id: Uint8Array, msg: FundingLocked): void {
 		bindings.ChannelMessageHandler_handle_funding_locked(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming shutdown message from the given peer.
+	 */
 	public handle_shutdown(their_node_id: Uint8Array, their_features: InitFeatures, msg: Shutdown): void {
 		bindings.ChannelMessageHandler_handle_shutdown(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), their_features == null ? 0 : CommonBase.get_ptr_of(their_features) & ~1, msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, their_features);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming closing_signed message from the given peer.
+	 */
 	public handle_closing_signed(their_node_id: Uint8Array, msg: ClosingSigned): void {
 		bindings.ChannelMessageHandler_handle_closing_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming update_add_htlc message from the given peer.
+	 */
 	public handle_update_add_htlc(their_node_id: Uint8Array, msg: UpdateAddHTLC): void {
 		bindings.ChannelMessageHandler_handle_update_add_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming update_fulfill_htlc message from the given peer.
+	 */
 	public handle_update_fulfill_htlc(their_node_id: Uint8Array, msg: UpdateFulfillHTLC): void {
 		bindings.ChannelMessageHandler_handle_update_fulfill_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming update_fail_htlc message from the given peer.
+	 */
 	public handle_update_fail_htlc(their_node_id: Uint8Array, msg: UpdateFailHTLC): void {
 		bindings.ChannelMessageHandler_handle_update_fail_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming update_fail_malformed_htlc message from the given peer.
+	 */
 	public handle_update_fail_malformed_htlc(their_node_id: Uint8Array, msg: UpdateFailMalformedHTLC): void {
 		bindings.ChannelMessageHandler_handle_update_fail_malformed_htlc(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming commitment_signed message from the given peer.
+	 */
 	public handle_commitment_signed(their_node_id: Uint8Array, msg: CommitmentSigned): void {
 		bindings.ChannelMessageHandler_handle_commitment_signed(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming revoke_and_ack message from the given peer.
+	 */
 	public handle_revoke_and_ack(their_node_id: Uint8Array, msg: RevokeAndACK): void {
 		bindings.ChannelMessageHandler_handle_revoke_and_ack(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming update_fee message from the given peer.
+	 */
 	public handle_update_fee(their_node_id: Uint8Array, msg: UpdateFee): void {
 		bindings.ChannelMessageHandler_handle_update_fee(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming announcement_signatures message from the given peer.
+	 */
 	public handle_announcement_signatures(their_node_id: Uint8Array, msg: AnnouncementSignatures): void {
 		bindings.ChannelMessageHandler_handle_announcement_signatures(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Indicates a connection to the peer failed/an existing connection was lost. If no connection
+	 * is believed to be possible in the future (eg they're sending us messages we don't
+	 * understand or indicate they require unknown feature bits), no_connection_possible is set
+	 * and any outstanding channels should be failed.
+	 */
 	public peer_disconnected(their_node_id: Uint8Array, no_connection_possible: boolean): void {
 		bindings.ChannelMessageHandler_peer_disconnected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), no_connection_possible);
 	}
 
+	/**
+	 * Handle a peer reconnecting, possibly generating channel_reestablish message(s).
+	 */
 	public peer_connected(their_node_id: Uint8Array, msg: Init): void {
 		bindings.ChannelMessageHandler_peer_connected(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming channel_reestablish message from the given peer.
+	 */
 	public handle_channel_reestablish(their_node_id: Uint8Array, msg: ChannelReestablish): void {
 		bindings.ChannelMessageHandler_handle_channel_reestablish(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming channel update from the given peer.
+	 */
 	public handle_channel_update(their_node_id: Uint8Array, msg: ChannelUpdate): void {
 		bindings.ChannelMessageHandler_handle_channel_update(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);
 	}
 
+	/**
+	 * Handle an incoming error message from the given peer.
+	 */
 	public handle_error(their_node_id: Uint8Array, msg: ErrorMessage): void {
 		bindings.ChannelMessageHandler_handle_error(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(their_node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		CommonBase.add_ref_from(this, msg);

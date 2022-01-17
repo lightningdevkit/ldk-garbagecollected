@@ -294,18 +294,27 @@ export class Result_boolLightningErrorZ extends CommonBase {
 			return new Result_boolLightningErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_boolLightningErrorZ in the success state.
+	 */
 	public static constructor_ok(o: boolean): Result_boolLightningErrorZ {
 		const ret: number = bindings.CResult_boolLightningErrorZ_ok(o);
 		const ret_hu_conv: Result_boolLightningErrorZ = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_boolLightningErrorZ in the error state.
+	 */
 	public static constructor_err(e: LightningError): Result_boolLightningErrorZ {
 		const ret: number = bindings.CResult_boolLightningErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_boolLightningErrorZ = Result_boolLightningErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_boolLightningErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_boolLightningErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_boolLightningErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_boolLightningErrorZ {
 		const ret: number = bindings.CResult_boolLightningErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_boolLightningErrorZ = Result_boolLightningErrorZ.constr_from_ptr(ret);

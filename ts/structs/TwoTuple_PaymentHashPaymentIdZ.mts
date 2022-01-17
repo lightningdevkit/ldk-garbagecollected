@@ -281,18 +281,27 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class TwoTuple_PaymentHashPaymentIdZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C2Tuple_PaymentHashPaymentIdZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): Uint8Array {
 		const ret: number = bindings.C2Tuple_PaymentHashPaymentIdZ_get_a(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): Uint8Array {
 		const ret: number = bindings.C2Tuple_PaymentHashPaymentIdZ_get_b(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
@@ -304,6 +313,10 @@ export class TwoTuple_PaymentHashPaymentIdZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new tuple which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): TwoTuple_PaymentHashPaymentIdZ {
 		const ret: number = bindings.C2Tuple_PaymentHashPaymentIdZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_PaymentHashPaymentIdZ = new TwoTuple_PaymentHashPaymentIdZ(null, ret);
@@ -311,6 +324,9 @@ export class TwoTuple_PaymentHashPaymentIdZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new C2Tuple_PaymentHashPaymentIdZ from the contained elements.
+	 */
 	public static constructor_new(a: Uint8Array, b: Uint8Array): TwoTuple_PaymentHashPaymentIdZ {
 		const ret: number = bindings.C2Tuple_PaymentHashPaymentIdZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.encodeUint8Array(bindings.check_arr_len(b, 32)));
 		const ret_hu_conv: TwoTuple_PaymentHashPaymentIdZ = new TwoTuple_PaymentHashPaymentIdZ(null, ret);

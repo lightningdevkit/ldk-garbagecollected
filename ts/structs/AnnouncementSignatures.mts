@@ -281,51 +281,81 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An announcement_signatures message to be sent or received from a peer
+ */
 export class AnnouncementSignatures extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.AnnouncementSignatures_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.AnnouncementSignatures_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.AnnouncementSignatures_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The short channel ID
+	 */
 	public get_short_channel_id(): bigint {
 		const ret: bigint = bindings.AnnouncementSignatures_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The short channel ID
+	 */
 	public set_short_channel_id(val: bigint): void {
 		bindings.AnnouncementSignatures_set_short_channel_id(this.ptr, val);
 	}
 
+	/**
+	 * A signature by the node key
+	 */
 	public get_node_signature(): Uint8Array {
 		const ret: number = bindings.AnnouncementSignatures_get_node_signature(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A signature by the node key
+	 */
 	public set_node_signature(val: Uint8Array): void {
 		bindings.AnnouncementSignatures_set_node_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * A signature by the funding key
+	 */
 	public get_bitcoin_signature(): Uint8Array {
 		const ret: number = bindings.AnnouncementSignatures_get_bitcoin_signature(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A signature by the funding key
+	 */
 	public set_bitcoin_signature(val: Uint8Array): void {
 		bindings.AnnouncementSignatures_set_bitcoin_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * Constructs a new AnnouncementSignatures given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, short_channel_id_arg: bigint, node_signature_arg: Uint8Array, bitcoin_signature_arg: Uint8Array): AnnouncementSignatures {
 		const ret: number = bindings.AnnouncementSignatures_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), short_channel_id_arg, bindings.encodeUint8Array(bindings.check_arr_len(node_signature_arg, 64)), bindings.encodeUint8Array(bindings.check_arr_len(bitcoin_signature_arg, 64)));
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
@@ -338,6 +368,9 @@ export class AnnouncementSignatures extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the AnnouncementSignatures
+	 */
 	public clone(): AnnouncementSignatures {
 		const ret: number = bindings.AnnouncementSignatures_clone(this.ptr);
 		const ret_hu_conv: AnnouncementSignatures = new AnnouncementSignatures(null, ret);
@@ -345,12 +378,18 @@ export class AnnouncementSignatures extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the AnnouncementSignatures object into a byte array which can be read by AnnouncementSignatures_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.AnnouncementSignatures_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a AnnouncementSignatures from a byte array, created by AnnouncementSignatures_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_AnnouncementSignaturesDecodeErrorZ {
 		const ret: number = bindings.AnnouncementSignatures_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_AnnouncementSignaturesDecodeErrorZ = Result_AnnouncementSignaturesDecodeErrorZ.constr_from_ptr(ret);

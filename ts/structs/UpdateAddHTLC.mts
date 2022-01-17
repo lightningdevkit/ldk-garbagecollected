@@ -281,55 +281,88 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An update_add_htlc message to be sent or received from a peer
+ */
 export class UpdateAddHTLC extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.UpdateAddHTLC_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.UpdateAddHTLC_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.UpdateAddHTLC_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The HTLC ID
+	 */
 	public get_htlc_id(): bigint {
 		const ret: bigint = bindings.UpdateAddHTLC_get_htlc_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The HTLC ID
+	 */
 	public set_htlc_id(val: bigint): void {
 		bindings.UpdateAddHTLC_set_htlc_id(this.ptr, val);
 	}
 
+	/**
+	 * The HTLC value in milli-satoshi
+	 */
 	public get_amount_msat(): bigint {
 		const ret: bigint = bindings.UpdateAddHTLC_get_amount_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The HTLC value in milli-satoshi
+	 */
 	public set_amount_msat(val: bigint): void {
 		bindings.UpdateAddHTLC_set_amount_msat(this.ptr, val);
 	}
 
+	/**
+	 * The payment hash, the pre-image of which controls HTLC redemption
+	 */
 	public get_payment_hash(): Uint8Array {
 		const ret: number = bindings.UpdateAddHTLC_get_payment_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The payment hash, the pre-image of which controls HTLC redemption
+	 */
 	public set_payment_hash(val: Uint8Array): void {
 		bindings.UpdateAddHTLC_set_payment_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The expiry height of the HTLC
+	 */
 	public get_cltv_expiry(): number {
 		const ret: number = bindings.UpdateAddHTLC_get_cltv_expiry(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The expiry height of the HTLC
+	 */
 	public set_cltv_expiry(val: number): void {
 		bindings.UpdateAddHTLC_set_cltv_expiry(this.ptr, val);
 	}
@@ -339,6 +372,9 @@ export class UpdateAddHTLC extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the UpdateAddHTLC
+	 */
 	public clone(): UpdateAddHTLC {
 		const ret: number = bindings.UpdateAddHTLC_clone(this.ptr);
 		const ret_hu_conv: UpdateAddHTLC = new UpdateAddHTLC(null, ret);
@@ -346,12 +382,18 @@ export class UpdateAddHTLC extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the UpdateAddHTLC object into a byte array which can be read by UpdateAddHTLC_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.UpdateAddHTLC_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a UpdateAddHTLC from a byte array, created by UpdateAddHTLC_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_UpdateAddHTLCDecodeErrorZ {
 		const ret: number = bindings.UpdateAddHTLC_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UpdateAddHTLCDecodeErrorZ = Result_UpdateAddHTLCDecodeErrorZ.constr_from_ptr(ret);

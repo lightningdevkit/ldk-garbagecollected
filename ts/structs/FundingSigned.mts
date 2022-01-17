@@ -281,32 +281,50 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A funding_signed message to be sent or received from a peer
+ */
 export class FundingSigned extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.FundingSigned_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.FundingSigned_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.FundingSigned_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The signature of the channel acceptor (fundee) on the initial commitment transaction
+	 */
 	public get_signature(): Uint8Array {
 		const ret: number = bindings.FundingSigned_get_signature(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The signature of the channel acceptor (fundee) on the initial commitment transaction
+	 */
 	public set_signature(val: Uint8Array): void {
 		bindings.FundingSigned_set_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * Constructs a new FundingSigned given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, signature_arg: Uint8Array): FundingSigned {
 		const ret: number = bindings.FundingSigned_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)));
 		const ret_hu_conv: FundingSigned = new FundingSigned(null, ret);
@@ -319,6 +337,9 @@ export class FundingSigned extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the FundingSigned
+	 */
 	public clone(): FundingSigned {
 		const ret: number = bindings.FundingSigned_clone(this.ptr);
 		const ret_hu_conv: FundingSigned = new FundingSigned(null, ret);
@@ -326,12 +347,18 @@ export class FundingSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the FundingSigned object into a byte array which can be read by FundingSigned_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.FundingSigned_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a FundingSigned from a byte array, created by FundingSigned_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_FundingSignedDecodeErrorZ {
 		const ret: number = bindings.FundingSigned_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_FundingSignedDecodeErrorZ = Result_FundingSignedDecodeErrorZ.constr_from_ptr(ret);

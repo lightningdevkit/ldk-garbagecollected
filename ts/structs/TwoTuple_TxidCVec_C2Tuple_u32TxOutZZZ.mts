@@ -281,18 +281,27 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): Uint8Array {
 		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_a(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): TwoTuple_u32TxOutZ[] {
 		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_get_b(this.ptr);
 		const ret_conv_20_len: number = bindings.getArrayLength(ret);
@@ -303,6 +312,7 @@ export class TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_20_hu_conv, this);
 			ret_conv_20_arr[u] = ret_conv_20_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_20_arr;
 	}
 
@@ -311,6 +321,10 @@ export class TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new tuple which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ {
 		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(this.ptr);
 		const ret_hu_conv: TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret);
@@ -318,6 +332,9 @@ export class TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ from the contained elements.
+	 */
 	public static constructor_new(a: Uint8Array, b: TwoTuple_u32TxOutZ[]): TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ {
 		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.encodeUint32Array(b != null ? b.map(b_conv_20 => b_conv_20 != null ? CommonBase.get_ptr_of(b_conv_20) : 0) : null));
 		const ret_hu_conv: TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ = new TwoTuple_TxidCVec_C2Tuple_u32TxOutZZZ(null, ret);

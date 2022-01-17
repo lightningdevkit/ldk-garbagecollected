@@ -283,7 +283,10 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of BroadcasterInterface */
 export interface BroadcasterInterfaceInterface {
+	/**Sends a transaction out to (hopefully) be mined.
+	 */
 	broadcast_transaction(tx: Uint8Array): void;
 }
 
@@ -291,6 +294,9 @@ class LDKBroadcasterInterfaceHolder {
 	held: BroadcasterInterface;
 }
 
+/**
+ * An interface to send a transaction to the Bitcoin network.
+ */
 export class BroadcasterInterface extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKBroadcasterInterface;
@@ -301,7 +307,8 @@ export class BroadcasterInterface extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: BroadcasterInterfaceInterface): BroadcasterInterface {
+	/** Creates a new instance of BroadcasterInterface from a given implementation */
+	public static new_impl(arg: BroadcasterInterfaceInterface): BroadcasterInterface {
 		const impl_holder: LDKBroadcasterInterfaceHolder = new LDKBroadcasterInterfaceHolder();
 		let structImplementation = {
 			broadcast_transaction (tx: number): void {
@@ -315,6 +322,10 @@ export class BroadcasterInterface extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
+
+	/**
+	 * Sends a transaction out to (hopefully) be mined.
+	 */
 	public broadcast_transaction(tx: Uint8Array): void {
 		bindings.BroadcasterInterface_broadcast_transaction(this.ptr, bindings.encodeUint8Array(tx));
 	}

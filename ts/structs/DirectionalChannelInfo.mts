@@ -281,48 +281,81 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Details about one direction of a channel. Received
+ * within a channel update.
+ */
 export class DirectionalChannelInfo extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.DirectionalChannelInfo_free);
 	}
 
+	/**
+	 * When the last update to the channel direction was issued.
+	 * Value is opaque, as set in the announcement.
+	 */
 	public get_last_update(): number {
 		const ret: number = bindings.DirectionalChannelInfo_get_last_update(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * When the last update to the channel direction was issued.
+	 * Value is opaque, as set in the announcement.
+	 */
 	public set_last_update(val: number): void {
 		bindings.DirectionalChannelInfo_set_last_update(this.ptr, val);
 	}
 
+	/**
+	 * Whether the channel can be currently used for payments (in this one direction).
+	 */
 	public get_enabled(): boolean {
 		const ret: boolean = bindings.DirectionalChannelInfo_get_enabled(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Whether the channel can be currently used for payments (in this one direction).
+	 */
 	public set_enabled(val: boolean): void {
 		bindings.DirectionalChannelInfo_set_enabled(this.ptr, val);
 	}
 
+	/**
+	 * The difference in CLTV values that you must have when routing through this channel.
+	 */
 	public get_cltv_expiry_delta(): number {
 		const ret: number = bindings.DirectionalChannelInfo_get_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The difference in CLTV values that you must have when routing through this channel.
+	 */
 	public set_cltv_expiry_delta(val: number): void {
 		bindings.DirectionalChannelInfo_set_cltv_expiry_delta(this.ptr, val);
 	}
 
+	/**
+	 * The minimum value, which must be relayed to the next hop via the channel
+	 */
 	public get_htlc_minimum_msat(): bigint {
 		const ret: bigint = bindings.DirectionalChannelInfo_get_htlc_minimum_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The minimum value, which must be relayed to the next hop via the channel
+	 */
 	public set_htlc_minimum_msat(val: bigint): void {
 		bindings.DirectionalChannelInfo_set_htlc_minimum_msat(this.ptr, val);
 	}
 
+	/**
+	 * The maximum value which may be relayed to the next hop via the channel.
+	 */
 	public get_htlc_maximum_msat(): Option_u64Z {
 		const ret: number = bindings.DirectionalChannelInfo_get_htlc_maximum_msat(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
@@ -330,10 +363,16 @@ export class DirectionalChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The maximum value which may be relayed to the next hop via the channel.
+	 */
 	public set_htlc_maximum_msat(val: Option_u64Z): void {
 		bindings.DirectionalChannelInfo_set_htlc_maximum_msat(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * Fees charged when the channel is used for routing
+	 */
 	public get_fees(): RoutingFees {
 		const ret: number = bindings.DirectionalChannelInfo_get_fees(this.ptr);
 		const ret_hu_conv: RoutingFees = new RoutingFees(null, ret);
@@ -341,10 +380,21 @@ export class DirectionalChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Fees charged when the channel is used for routing
+	 */
 	public set_fees(val: RoutingFees): void {
 		bindings.DirectionalChannelInfo_set_fees(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Most recent update for the channel received from the network
+	 * Mostly redundant with the data we store in fields explicitly.
+	 * Everything else is useful only for sending out for initial routing sync.
+	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_last_update_message(): ChannelUpdate {
 		const ret: number = bindings.DirectionalChannelInfo_get_last_update_message(this.ptr);
 		const ret_hu_conv: ChannelUpdate = new ChannelUpdate(null, ret);
@@ -352,10 +402,21 @@ export class DirectionalChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Most recent update for the channel received from the network
+	 * Mostly redundant with the data we store in fields explicitly.
+	 * Everything else is useful only for sending out for initial routing sync.
+	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_last_update_message(val: ChannelUpdate): void {
 		bindings.DirectionalChannelInfo_set_last_update_message(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new DirectionalChannelInfo given each field
+	 */
 	public static constructor_new(last_update_arg: number, enabled_arg: boolean, cltv_expiry_delta_arg: number, htlc_minimum_msat_arg: bigint, htlc_maximum_msat_arg: Option_u64Z, fees_arg: RoutingFees, last_update_message_arg: ChannelUpdate): DirectionalChannelInfo {
 		const ret: number = bindings.DirectionalChannelInfo_new(last_update_arg, enabled_arg, cltv_expiry_delta_arg, htlc_minimum_msat_arg, CommonBase.get_ptr_of(htlc_maximum_msat_arg), fees_arg == null ? 0 : CommonBase.get_ptr_of(fees_arg) & ~1, last_update_message_arg == null ? 0 : CommonBase.get_ptr_of(last_update_message_arg) & ~1);
 		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
@@ -368,6 +429,9 @@ export class DirectionalChannelInfo extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the DirectionalChannelInfo
+	 */
 	public clone(): DirectionalChannelInfo {
 		const ret: number = bindings.DirectionalChannelInfo_clone(this.ptr);
 		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
@@ -375,12 +439,18 @@ export class DirectionalChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the DirectionalChannelInfo object into a byte array which can be read by DirectionalChannelInfo_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.DirectionalChannelInfo_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a DirectionalChannelInfo from a byte array, created by DirectionalChannelInfo_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_DirectionalChannelInfoDecodeErrorZ {
 		const ret: number = bindings.DirectionalChannelInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_DirectionalChannelInfoDecodeErrorZ = Result_DirectionalChannelInfoDecodeErrorZ.constr_from_ptr(ret);

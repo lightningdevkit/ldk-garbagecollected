@@ -280,6 +280,11 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * If a payment fails to send, it can be in one of several states. This enum is returned as the
+ * Err() type describing which state the payment is in, see the description of individual enum
+ * states for more.
+ */
 export class PaymentSendFailure extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.PaymentSendFailure_free); }
 	/* @internal */
@@ -300,6 +305,9 @@ export class PaymentSendFailure extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the PaymentSendFailure
+	 */
 	public clone(): PaymentSendFailure {
 		const ret: number = bindings.PaymentSendFailure_clone(this.ptr);
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
@@ -307,6 +315,9 @@ export class PaymentSendFailure extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new ParameterError-variant PaymentSendFailure
+	 */
 	public static constructor_parameter_error(a: APIError): PaymentSendFailure {
 		const ret: number = bindings.PaymentSendFailure_parameter_error(CommonBase.get_ptr_of(a));
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
@@ -314,6 +325,9 @@ export class PaymentSendFailure extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PathParameterError-variant PaymentSendFailure
+	 */
 	public static constructor_path_parameter_error(a: Result_NoneAPIErrorZ[]): PaymentSendFailure {
 		const ret: number = bindings.PaymentSendFailure_path_parameter_error(bindings.encodeUint32Array(a != null ? a.map(a_conv_22 => a_conv_22 != null ? CommonBase.get_ptr_of(a_conv_22) : 0) : null));
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
@@ -321,6 +335,9 @@ export class PaymentSendFailure extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new AllFailedRetrySafe-variant PaymentSendFailure
+	 */
 	public static constructor_all_failed_retry_safe(a: APIError[]): PaymentSendFailure {
 		const ret: number = bindings.PaymentSendFailure_all_failed_retry_safe(bindings.encodeUint32Array(a != null ? a.map(a_conv_10 => CommonBase.get_ptr_of(a_conv_10)) : null));
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
@@ -328,6 +345,9 @@ export class PaymentSendFailure extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PartialFailure-variant PaymentSendFailure
+	 */
 	public static constructor_partial_failure(results: Result_NoneAPIErrorZ[], failed_paths_retry: RouteParameters, payment_id: Uint8Array): PaymentSendFailure {
 		const ret: number = bindings.PaymentSendFailure_partial_failure(bindings.encodeUint32Array(results != null ? results.map(results_conv_22 => results_conv_22 != null ? CommonBase.get_ptr_of(results_conv_22) : 0) : null), failed_paths_retry == null ? 0 : CommonBase.get_ptr_of(failed_paths_retry) & ~1, bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)));
 		const ret_hu_conv: PaymentSendFailure = PaymentSendFailure.constr_from_ptr(ret);
@@ -336,6 +356,7 @@ export class PaymentSendFailure extends CommonBase {
 	}
 
 }
+/** A PaymentSendFailure of type ParameterError */
 export class PaymentSendFailure_ParameterError extends PaymentSendFailure {
 	public parameter_error: APIError;
 	/* @internal */
@@ -347,6 +368,7 @@ export class PaymentSendFailure_ParameterError extends PaymentSendFailure {
 		this.parameter_error = parameter_error_hu_conv;
 	}
 }
+/** A PaymentSendFailure of type PathParameterError */
 export class PaymentSendFailure_PathParameterError extends PaymentSendFailure {
 	public path_parameter_error: Result_NoneAPIErrorZ[];
 	/* @internal */
@@ -360,9 +382,11 @@ export class PaymentSendFailure_PathParameterError extends PaymentSendFailure {
 				const path_parameter_error_conv_22_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(path_parameter_error_conv_22);
 				path_parameter_error_conv_22_arr[w] = path_parameter_error_conv_22_hu_conv;
 			}
+			bindings.freeWasmMemory(path_parameter_error)
 		this.path_parameter_error = path_parameter_error_conv_22_arr;
 	}
 }
+/** A PaymentSendFailure of type AllFailedRetrySafe */
 export class PaymentSendFailure_AllFailedRetrySafe extends PaymentSendFailure {
 	public all_failed_retry_safe: APIError[];
 	/* @internal */
@@ -377,12 +401,27 @@ export class PaymentSendFailure_AllFailedRetrySafe extends PaymentSendFailure {
 				CommonBase.add_ref_from(all_failed_retry_safe_conv_10_hu_conv, this);
 				all_failed_retry_safe_conv_10_arr[k] = all_failed_retry_safe_conv_10_hu_conv;
 			}
+			bindings.freeWasmMemory(all_failed_retry_safe)
 		this.all_failed_retry_safe = all_failed_retry_safe_conv_10_arr;
 	}
 }
+/** A PaymentSendFailure of type PartialFailure */
 export class PaymentSendFailure_PartialFailure extends PaymentSendFailure {
+	/**
+	 * The errors themselves, in the same order as the route hops.
+	 */
 	public results: Result_NoneAPIErrorZ[];
+	/**
+	 * If some paths failed without irrevocably committing to the new HTLC(s), this will
+	 * contain a [`RouteParameters`] object which can be used to calculate a new route that
+	 * will pay all remaining unpaid balance.
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public failed_paths_retry: RouteParameters;
+	/**
+	 * The payment id for the payment, which is now at least partially pending.
+	 */
 	public payment_id: Uint8Array;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -395,6 +434,7 @@ export class PaymentSendFailure_PartialFailure extends PaymentSendFailure {
 				const results_conv_22_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(results_conv_22);
 				results_conv_22_arr[w] = results_conv_22_hu_conv;
 			}
+			bindings.freeWasmMemory(results)
 		this.results = results_conv_22_arr;
 		const failed_paths_retry: number = bindings.LDKPaymentSendFailure_PartialFailure_get_failed_paths_retry(ptr);
 		const failed_paths_retry_hu_conv: RouteParameters = new RouteParameters(null, failed_paths_retry);

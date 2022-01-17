@@ -281,23 +281,35 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class TwoTuple_u32ScriptZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C2Tuple_u32ScriptZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): number {
 		const ret: number = bindings.C2Tuple_u32ScriptZ_get_a(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): Uint8Array {
 		const ret: number = bindings.C2Tuple_u32ScriptZ_get_b(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Creates a new C2Tuple_u32ScriptZ from the contained elements.
+	 */
 	public static constructor_new(a: number, b: Uint8Array): TwoTuple_u32ScriptZ {
 		const ret: number = bindings.C2Tuple_u32ScriptZ_new(a, bindings.encodeUint8Array(b));
 		const ret_hu_conv: TwoTuple_u32ScriptZ = new TwoTuple_u32ScriptZ(null, ret);

@@ -281,18 +281,27 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): Uint8Array {
 		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_a(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): TwoTuple_u32ScriptZ[] {
 		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_get_b(this.ptr);
 		const ret_conv_21_len: number = bindings.getArrayLength(ret);
@@ -303,9 +312,13 @@ export class TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_21_hu_conv, this);
 			ret_conv_21_arr[v] = ret_conv_21_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_21_arr;
 	}
 
+	/**
+	 * Creates a new C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ from the contained elements.
+	 */
 	public static constructor_new(a: Uint8Array, b: TwoTuple_u32ScriptZ[]): TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ {
 		const ret: number = bindings.C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_new(bindings.encodeUint8Array(bindings.check_arr_len(a, 32)), bindings.encodeUint32Array(b != null ? b.map(b_conv_21 => b_conv_21 != null ? CommonBase.get_ptr_of(b_conv_21) : 0) : null));
 		const ret_hu_conv: TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ = new TwoTuple_TxidCVec_C2Tuple_u32ScriptZZZ(null, ret);

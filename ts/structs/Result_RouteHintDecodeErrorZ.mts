@@ -294,18 +294,27 @@ export class Result_RouteHintDecodeErrorZ extends CommonBase {
 			return new Result_RouteHintDecodeErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_RouteHintDecodeErrorZ in the success state.
+	 */
 	public static constructor_ok(o: RouteHint): Result_RouteHintDecodeErrorZ {
 		const ret: number = bindings.CResult_RouteHintDecodeErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
 		const ret_hu_conv: Result_RouteHintDecodeErrorZ = Result_RouteHintDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_RouteHintDecodeErrorZ in the error state.
+	 */
 	public static constructor_err(e: DecodeError): Result_RouteHintDecodeErrorZ {
 		const ret: number = bindings.CResult_RouteHintDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_RouteHintDecodeErrorZ = Result_RouteHintDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_RouteHintDecodeErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_RouteHintDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_RouteHintDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_RouteHintDecodeErrorZ {
 		const ret: number = bindings.CResult_RouteHintDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_RouteHintDecodeErrorZ = Result_RouteHintDecodeErrorZ.constr_from_ptr(ret);

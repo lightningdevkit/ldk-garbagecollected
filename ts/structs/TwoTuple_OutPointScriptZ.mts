@@ -281,12 +281,18 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A Tuple
+ */
 export class TwoTuple_OutPointScriptZ extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.C2Tuple_OutPointScriptZ_free);
 	}
 
+	/**
+	 * 
+	 */
 	public get_a(): OutPoint {
 		const ret: number = bindings.C2Tuple_OutPointScriptZ_get_a(this.ptr);
 		const ret_hu_conv: OutPoint = new OutPoint(null, ret);
@@ -294,12 +300,18 @@ export class TwoTuple_OutPointScriptZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * 
+	 */
 	public get_b(): Uint8Array {
 		const ret: number = bindings.C2Tuple_OutPointScriptZ_get_b(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Creates a new C2Tuple_OutPointScriptZ from the contained elements.
+	 */
 	public static constructor_new(a: OutPoint, b: Uint8Array): TwoTuple_OutPointScriptZ {
 		const ret: number = bindings.C2Tuple_OutPointScriptZ_new(a == null ? 0 : CommonBase.get_ptr_of(a) & ~1, bindings.encodeUint8Array(b));
 		const ret_hu_conv: TwoTuple_OutPointScriptZ = new TwoTuple_OutPointScriptZ(null, ret);

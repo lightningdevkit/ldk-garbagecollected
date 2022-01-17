@@ -281,32 +281,56 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An error message to be sent or received from a peer
+ */
 export class ErrorMessage extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ErrorMessage_free);
 	}
 
+	/**
+	 * The channel ID involved in the error
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.ErrorMessage_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID involved in the error
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.ErrorMessage_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * A possibly human-readable error description.
+	 * The string should be sanitized before it is used (e.g. emitted to logs
+	 * or printed to stdout).  Otherwise, a well crafted error message may trigger a security
+	 * vulnerability in the terminal emulator or the logging subsystem.
+	 */
 	public get_data(): string {
 		const ret: number = bindings.ErrorMessage_get_data(this.ptr);
 		const ret_conv: string = bindings.decodeString(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A possibly human-readable error description.
+	 * The string should be sanitized before it is used (e.g. emitted to logs
+	 * or printed to stdout).  Otherwise, a well crafted error message may trigger a security
+	 * vulnerability in the terminal emulator or the logging subsystem.
+	 */
 	public set_data(val: string): void {
 		bindings.ErrorMessage_set_data(this.ptr, bindings.encodeString(val));
 	}
 
+	/**
+	 * Constructs a new ErrorMessage given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, data_arg: string): ErrorMessage {
 		const ret: number = bindings.ErrorMessage_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeString(data_arg));
 		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
@@ -319,6 +343,9 @@ export class ErrorMessage extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ErrorMessage
+	 */
 	public clone(): ErrorMessage {
 		const ret: number = bindings.ErrorMessage_clone(this.ptr);
 		const ret_hu_conv: ErrorMessage = new ErrorMessage(null, ret);
@@ -326,12 +353,18 @@ export class ErrorMessage extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ErrorMessage object into a byte array which can be read by ErrorMessage_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ErrorMessage_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ErrorMessage from a byte array, created by ErrorMessage_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ErrorMessageDecodeErrorZ {
 		const ret: number = bindings.ErrorMessage_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ErrorMessageDecodeErrorZ = Result_ErrorMessageDecodeErrorZ.constr_from_ptr(ret);

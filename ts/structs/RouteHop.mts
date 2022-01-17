@@ -281,22 +281,35 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A hop in a route
+ */
 export class RouteHop extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.RouteHop_free);
 	}
 
+	/**
+	 * The node_id of the node at this hop.
+	 */
 	public get_pubkey(): Uint8Array {
 		const ret: number = bindings.RouteHop_get_pubkey(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The node_id of the node at this hop.
+	 */
 	public set_pubkey(val: Uint8Array): void {
 		bindings.RouteHop_set_pubkey(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * The node_announcement features of the node at this hop. For the last hop, these may be
+	 * amended to match the features present in the invoice this node generated.
+	 */
 	public get_node_features(): NodeFeatures {
 		const ret: number = bindings.RouteHop_get_node_features(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
@@ -304,19 +317,33 @@ export class RouteHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The node_announcement features of the node at this hop. For the last hop, these may be
+	 * amended to match the features present in the invoice this node generated.
+	 */
 	public set_node_features(val: NodeFeatures): void {
 		bindings.RouteHop_set_node_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The channel that should be used from the previous hop to reach this node.
+	 */
 	public get_short_channel_id(): bigint {
 		const ret: bigint = bindings.RouteHop_get_short_channel_id(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The channel that should be used from the previous hop to reach this node.
+	 */
 	public set_short_channel_id(val: bigint): void {
 		bindings.RouteHop_set_short_channel_id(this.ptr, val);
 	}
 
+	/**
+	 * The channel_announcement features of the channel that should be used from the previous hop
+	 * to reach this node.
+	 */
 	public get_channel_features(): ChannelFeatures {
 		const ret: number = bindings.RouteHop_get_channel_features(this.ptr);
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
@@ -324,28 +351,53 @@ export class RouteHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The channel_announcement features of the channel that should be used from the previous hop
+	 * to reach this node.
+	 */
 	public set_channel_features(val: ChannelFeatures): void {
 		bindings.RouteHop_set_channel_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The fee taken on this hop (for paying for the use of the *next* channel in the path).
+	 * For the last hop, this should be the full value of the payment (might be more than
+	 * requested if we had to match htlc_minimum_msat).
+	 */
 	public get_fee_msat(): bigint {
 		const ret: bigint = bindings.RouteHop_get_fee_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The fee taken on this hop (for paying for the use of the *next* channel in the path).
+	 * For the last hop, this should be the full value of the payment (might be more than
+	 * requested if we had to match htlc_minimum_msat).
+	 */
 	public set_fee_msat(val: bigint): void {
 		bindings.RouteHop_set_fee_msat(this.ptr, val);
 	}
 
+	/**
+	 * The CLTV delta added for this hop. For the last hop, this should be the full CLTV value
+	 * expected at the destination, in excess of the current block height.
+	 */
 	public get_cltv_expiry_delta(): number {
 		const ret: number = bindings.RouteHop_get_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The CLTV delta added for this hop. For the last hop, this should be the full CLTV value
+	 * expected at the destination, in excess of the current block height.
+	 */
 	public set_cltv_expiry_delta(val: number): void {
 		bindings.RouteHop_set_cltv_expiry_delta(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new RouteHop given each field
+	 */
 	public static constructor_new(pubkey_arg: Uint8Array, node_features_arg: NodeFeatures, short_channel_id_arg: bigint, channel_features_arg: ChannelFeatures, fee_msat_arg: bigint, cltv_expiry_delta_arg: number): RouteHop {
 		const ret: number = bindings.RouteHop_new(bindings.encodeUint8Array(bindings.check_arr_len(pubkey_arg, 33)), node_features_arg == null ? 0 : CommonBase.get_ptr_of(node_features_arg) & ~1, short_channel_id_arg, channel_features_arg == null ? 0 : CommonBase.get_ptr_of(channel_features_arg) & ~1, fee_msat_arg, cltv_expiry_delta_arg);
 		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
@@ -358,6 +410,9 @@ export class RouteHop extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the RouteHop
+	 */
 	public clone(): RouteHop {
 		const ret: number = bindings.RouteHop_clone(this.ptr);
 		const ret_hu_conv: RouteHop = new RouteHop(null, ret);
@@ -365,23 +420,37 @@ export class RouteHop extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two RouteHops contain equal inner contents.
+	 */
 	public hash(): bigint {
 		const ret: bigint = bindings.RouteHop_hash(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Checks if two RouteHops contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 * Two objects with NULL inner values will be considered "equal" here.
+	 */
 	public eq(b: RouteHop): boolean {
 		const ret: boolean = bindings.RouteHop_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		CommonBase.add_ref_from(this, b);
 		return ret;
 	}
 
+	/**
+	 * Serialize the RouteHop object into a byte array which can be read by RouteHop_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.RouteHop_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a RouteHop from a byte array, created by RouteHop_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteHopDecodeErrorZ {
 		const ret: number = bindings.RouteHop_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteHopDecodeErrorZ = Result_RouteHopDecodeErrorZ.constr_from_ptr(ret);

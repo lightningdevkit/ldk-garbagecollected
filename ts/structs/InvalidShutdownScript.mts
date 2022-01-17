@@ -281,22 +281,38 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An error occurring when converting from [`Script`] to [`ShutdownScript`].
+ */
 export class InvalidShutdownScript extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.InvalidShutdownScript_free);
 	}
 
+	/**
+	 * The script that did not meet the requirements from [BOLT #2].
+	 * 
+	 * [BOLT #2]: https://github.com/lightningnetwork/lightning-rfc/blob/master/02-peer-protocol.md
+	 */
 	public get_script(): Uint8Array {
 		const ret: number = bindings.InvalidShutdownScript_get_script(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The script that did not meet the requirements from [BOLT #2].
+	 * 
+	 * [BOLT #2]: https://github.com/lightningnetwork/lightning-rfc/blob/master/02-peer-protocol.md
+	 */
 	public set_script(val: Uint8Array): void {
 		bindings.InvalidShutdownScript_set_script(this.ptr, bindings.encodeUint8Array(val));
 	}
 
+	/**
+	 * Constructs a new InvalidShutdownScript given each field
+	 */
 	public static constructor_new(script_arg: Uint8Array): InvalidShutdownScript {
 		const ret: number = bindings.InvalidShutdownScript_new(bindings.encodeUint8Array(script_arg));
 		const ret_hu_conv: InvalidShutdownScript = new InvalidShutdownScript(null, ret);
@@ -309,6 +325,9 @@ export class InvalidShutdownScript extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the InvalidShutdownScript
+	 */
 	public clone(): InvalidShutdownScript {
 		const ret: number = bindings.InvalidShutdownScript_clone(this.ptr);
 		const ret_hu_conv: InvalidShutdownScript = new InvalidShutdownScript(null, ret);

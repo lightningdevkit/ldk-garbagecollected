@@ -281,12 +281,32 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * An implementation of [`chain::Watch`] for monitoring channels.
+ * 
+ * Connected and disconnected blocks must be provided to `ChainMonitor` as documented by
+ * [`chain::Watch`]. May be used in conjunction with [`ChannelManager`] to monitor channels locally
+ * or used independently to monitor channels remotely. See the [module-level documentation] for
+ * details.
+ * 
+ * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+ * [module-level documentation]: crate::chain::chainmonitor
+ */
 export class ChainMonitor extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChainMonitor_free);
 	}
 
+	/**
+	 * Creates a new `ChainMonitor` used to watch on-chain activity pertaining to channels.
+	 * 
+	 * When an optional chain source implementing [`chain::Filter`] is provided, the chain monitor
+	 * will call back to it indicating transactions and outputs of interest. This allows clients to
+	 * pre-filter blocks or only fetch blocks matching a compact filter. Otherwise, clients may
+	 * always need to fetch full blocks absent another means for determining which blocks contain
+	 * transactions relevant to the watched channels.
+	 */
 	public static constructor_new(chain_source: Option_FilterZ, broadcaster: BroadcasterInterface, logger: Logger, feeest: FeeEstimator, persister: Persist): ChainMonitor {
 		const ret: number = bindings.ChainMonitor_new(CommonBase.get_ptr_of(chain_source), broadcaster == null ? 0 : CommonBase.get_ptr_of(broadcaster), logger == null ? 0 : CommonBase.get_ptr_of(logger), feeest == null ? 0 : CommonBase.get_ptr_of(feeest), persister == null ? 0 : CommonBase.get_ptr_of(persister));
 		const ret_hu_conv: ChainMonitor = new ChainMonitor(null, ret);
@@ -299,6 +319,17 @@ export class ChainMonitor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Gets the balances in the contained [`ChannelMonitor`]s which are claimable on-chain or
+	 * claims which are awaiting confirmation.
+	 * 
+	 * Includes the balances from each [`ChannelMonitor`] *except* those included in
+	 * `ignored_channels`, allowing you to filter out balances from channels which are still open
+	 * (and whose balance should likely be pulled from the [`ChannelDetails`]).
+	 * 
+	 * See [`ChannelMonitor::get_claimable_balances`] for more details on the exact criteria for
+	 * inclusion in the return value.
+	 */
 	public get_claimable_balances(ignored_channels: ChannelDetails[]): Balance[] {
 		const ret: number = bindings.ChainMonitor_get_claimable_balances(this.ptr, bindings.encodeUint32Array(ignored_channels != null ? ignored_channels.map(ignored_channels_conv_16 => ignored_channels_conv_16 == null ? 0 : CommonBase.get_ptr_of(ignored_channels_conv_16) & ~1) : null));
 		const ret_conv_9_len: number = bindings.getArrayLength(ret);
@@ -309,15 +340,29 @@ export class ChainMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_9_hu_conv, this);
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_9_arr;
 	}
 
+	/**
+	 * Gets the [`LockedChannelMonitor`] for a given funding outpoint, returning an `Err` if no
+	 * such [`ChannelMonitor`] is currently being monitored for.
+	 * 
+	 * Note that the result holds a mutex over our monitor set, and should not be held
+	 * indefinitely.
+	 */
 	public get_monitor(funding_txo: OutPoint): Result_LockedChannelMonitorNoneZ {
 		const ret: number = bindings.ChainMonitor_get_monitor(this.ptr, funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1);
 		const ret_hu_conv: Result_LockedChannelMonitorNoneZ = Result_LockedChannelMonitorNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Lists the funding outpoint of each [`ChannelMonitor`] being monitored.
+	 * 
+	 * Note that [`ChannelMonitor`]s are not removed when a channel is closed as they are always
+	 * monitoring for on-chain state resolutions.
+	 */
 	public list_monitors(): OutPoint[] {
 		const ret: number = bindings.ChainMonitor_list_monitors(this.ptr);
 		const ret_conv_10_len: number = bindings.getArrayLength(ret);
@@ -328,15 +373,35 @@ export class ChainMonitor extends CommonBase {
 			CommonBase.add_ref_from(ret_conv_10_hu_conv, this);
 			ret_conv_10_arr[k] = ret_conv_10_hu_conv;
 		}
+		bindings.freeWasmMemory(ret)
 		return ret_conv_10_arr;
 	}
 
+	/**
+	 * Indicates the persistence of a [`ChannelMonitor`] has completed after
+	 * [`ChannelMonitorUpdateErr::TemporaryFailure`] was returned from an update operation.
+	 * 
+	 * Thus, the anticipated use is, at a high level:
+	 * 1) This [`ChainMonitor`] calls [`Persist::update_persisted_channel`] which stores the
+	 * update to disk and begins updating any remote (e.g. watchtower/backup) copies,
+	 * returning [`ChannelMonitorUpdateErr::TemporaryFailure`],
+	 * 2) once all remote copies are updated, you call this function with the
+	 * `completed_update_id` that completed, and once all pending updates have completed the
+	 * channel will be re-enabled.
+	 * 
+	 * Returns an [`APIError::APIMisuseError`] if `funding_txo` does not match any currently
+	 * registered [`ChannelMonitor`]s.
+	 */
 	public channel_monitor_updated(funding_txo: OutPoint, completed_update_id: MonitorUpdateId): Result_NoneAPIErrorZ {
 		const ret: number = bindings.ChainMonitor_channel_monitor_updated(this.ptr, funding_txo == null ? 0 : CommonBase.get_ptr_of(funding_txo) & ~1, completed_update_id == null ? 0 : CommonBase.get_ptr_of(completed_update_id) & ~1);
 		const ret_hu_conv: Result_NoneAPIErrorZ = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new Listen which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned Listen must be freed before this_arg is
+	 */
 	public as_Listen(): Listen {
 		const ret: number = bindings.ChainMonitor_as_Listen(this.ptr);
 		const ret_hu_conv: Listen = new Listen(null, ret);
@@ -344,6 +409,10 @@ export class ChainMonitor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new Confirm which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned Confirm must be freed before this_arg is
+	 */
 	public as_Confirm(): Confirm {
 		const ret: number = bindings.ChainMonitor_as_Confirm(this.ptr);
 		const ret_hu_conv: Confirm = new Confirm(null, ret);
@@ -351,6 +420,10 @@ export class ChainMonitor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new Watch which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned Watch must be freed before this_arg is
+	 */
 	public as_Watch(): Watch {
 		const ret: number = bindings.ChainMonitor_as_Watch(this.ptr);
 		const ret_hu_conv: Watch = new Watch(null, ret);
@@ -358,6 +431,10 @@ export class ChainMonitor extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new EventsProvider which calls the relevant methods on this_arg.
+	 * This copies the `inner` pointer in this_arg and thus the returned EventsProvider must be freed before this_arg is
+	 */
 	public as_EventsProvider(): EventsProvider {
 		const ret: number = bindings.ChainMonitor_as_EventsProvider(this.ptr);
 		const ret_hu_conv: EventsProvider = new EventsProvider(null, ret);

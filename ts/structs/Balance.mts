@@ -280,6 +280,12 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * Details about the balance(s) available for spending once the channel appears on chain.
+ * 
+ * See [`ChannelMonitor::get_claimable_balances`] for more details on when these will or will not
+ * be provided.
+ */
 export class Balance extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.Balance_free); }
 	/* @internal */
@@ -300,6 +306,9 @@ export class Balance extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the Balance
+	 */
 	public clone(): Balance {
 		const ret: number = bindings.Balance_clone(this.ptr);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
@@ -307,6 +316,9 @@ export class Balance extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new ClaimableOnChannelClose-variant Balance
+	 */
 	public static constructor_claimable_on_channel_close(claimable_amount_satoshis: bigint): Balance {
 		const ret: number = bindings.Balance_claimable_on_channel_close(claimable_amount_satoshis);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
@@ -314,6 +326,9 @@ export class Balance extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new ClaimableAwaitingConfirmations-variant Balance
+	 */
 	public static constructor_claimable_awaiting_confirmations(claimable_amount_satoshis: bigint, confirmation_height: number): Balance {
 		const ret: number = bindings.Balance_claimable_awaiting_confirmations(claimable_amount_satoshis, confirmation_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
@@ -321,6 +336,9 @@ export class Balance extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new ContentiousClaimable-variant Balance
+	 */
 	public static constructor_contentious_claimable(claimable_amount_satoshis: bigint, timeout_height: number): Balance {
 		const ret: number = bindings.Balance_contentious_claimable(claimable_amount_satoshis, timeout_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
@@ -328,6 +346,9 @@ export class Balance extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new MaybeClaimableHTLCAwaitingTimeout-variant Balance
+	 */
 	public static constructor_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis: bigint, claimable_height: number): Balance {
 		const ret: number = bindings.Balance_maybe_claimable_htlcawaiting_timeout(claimable_amount_satoshis, claimable_height);
 		const ret_hu_conv: Balance = Balance.constr_from_ptr(ret);
@@ -335,13 +356,22 @@ export class Balance extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if two Balances contain equal inner contents.
+	 * This ignores pointers and is_owned flags and looks at the values in fields.
+	 */
 	public eq(b: Balance): boolean {
 		const ret: boolean = bindings.Balance_eq(this.ptr, b == null ? 0 : CommonBase.get_ptr_of(b) & ~1);
 		return ret;
 	}
 
 }
+/** A Balance of type ClaimableOnChannelClose */
 export class Balance_ClaimableOnChannelClose extends Balance {
+	/**
+	 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
+	 * required to do so.
+	 */
 	public claimable_amount_satoshis: bigint;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -349,8 +379,17 @@ export class Balance_ClaimableOnChannelClose extends Balance {
 		this.claimable_amount_satoshis = bindings.LDKBalance_ClaimableOnChannelClose_get_claimable_amount_satoshis(ptr);
 	}
 }
+/** A Balance of type ClaimableAwaitingConfirmations */
 export class Balance_ClaimableAwaitingConfirmations extends Balance {
+	/**
+	 * The amount available to claim, in satoshis, possibly excluding the on-chain fees which
+	 * were spent in broadcasting the transaction.
+	 */
 	public claimable_amount_satoshis: bigint;
+	/**
+	 * The height at which an [`Event::SpendableOutputs`] event will be generated for this
+	 * amount.
+	 */
 	public confirmation_height: number;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -359,8 +398,17 @@ export class Balance_ClaimableAwaitingConfirmations extends Balance {
 		this.confirmation_height = bindings.LDKBalance_ClaimableAwaitingConfirmations_get_confirmation_height(ptr);
 	}
 }
+/** A Balance of type ContentiousClaimable */
 export class Balance_ContentiousClaimable extends Balance {
+	/**
+	 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
+	 * required to do so.
+	 */
 	public claimable_amount_satoshis: bigint;
+	/**
+	 * The height at which the counterparty may be able to claim the balance if we have not
+	 * done so.
+	 */
 	public timeout_height: number;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -369,8 +417,17 @@ export class Balance_ContentiousClaimable extends Balance {
 		this.timeout_height = bindings.LDKBalance_ContentiousClaimable_get_timeout_height(ptr);
 	}
 }
+/** A Balance of type MaybeClaimableHTLCAwaitingTimeout */
 export class Balance_MaybeClaimableHTLCAwaitingTimeout extends Balance {
+	/**
+	 * The amount available to claim, in satoshis, excluding the on-chain fees which will be
+	 * required to do so.
+	 */
 	public claimable_amount_satoshis: bigint;
+	/**
+	 * The height at which we will be able to claim the balance if our counterparty has not
+	 * done so.
+	 */
 	public claimable_height: number;
 	/* @internal */
 	public constructor(ptr: number) {

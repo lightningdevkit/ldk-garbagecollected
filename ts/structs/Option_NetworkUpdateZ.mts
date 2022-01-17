@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::lightning::routing::network_graph::NetworkUpdate or not
+ */
 export class Option_NetworkUpdateZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_NetworkUpdateZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_NetworkUpdateZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_NetworkUpdateZ containing a crate::lightning::routing::network_graph::NetworkUpdate
+	 */
 	public static constructor_some(o: NetworkUpdate): Option_NetworkUpdateZ {
 		const ret: number = bindings.COption_NetworkUpdateZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_NetworkUpdateZ = Option_NetworkUpdateZ.constr_from_ptr(ret);
@@ -300,6 +306,9 @@ export class Option_NetworkUpdateZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_NetworkUpdateZ containing nothing
+	 */
 	public static constructor_none(): Option_NetworkUpdateZ {
 		const ret: number = bindings.COption_NetworkUpdateZ_none();
 		const ret_hu_conv: Option_NetworkUpdateZ = Option_NetworkUpdateZ.constr_from_ptr(ret);
@@ -312,6 +321,10 @@ export class Option_NetworkUpdateZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new COption_NetworkUpdateZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Option_NetworkUpdateZ {
 		const ret: number = bindings.COption_NetworkUpdateZ_clone(this.ptr);
 		const ret_hu_conv: Option_NetworkUpdateZ = Option_NetworkUpdateZ.constr_from_ptr(ret);
@@ -320,6 +333,7 @@ export class Option_NetworkUpdateZ extends CommonBase {
 	}
 
 }
+/** A Option_NetworkUpdateZ of type Some */
 export class Option_NetworkUpdateZ_Some extends Option_NetworkUpdateZ {
 	public some: NetworkUpdate;
 	/* @internal */
@@ -331,6 +345,7 @@ export class Option_NetworkUpdateZ_Some extends Option_NetworkUpdateZ {
 		this.some = some_hu_conv;
 	}
 }
+/** A Option_NetworkUpdateZ of type None */
 export class Option_NetworkUpdateZ_None extends Option_NetworkUpdateZ {
 	/* @internal */
 	public constructor(ptr: number) {

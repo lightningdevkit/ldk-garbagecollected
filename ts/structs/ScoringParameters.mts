@@ -281,57 +281,153 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Parameters for configuring [`Scorer`].
+ */
 export class ScoringParameters extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ScoringParameters_free);
 	}
 
+	/**
+	 * A fixed penalty in msats to apply to each channel.
+	 * 
+	 * Default value: 500 msat
+	 */
 	public get_base_penalty_msat(): bigint {
 		const ret: bigint = bindings.ScoringParameters_get_base_penalty_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * A fixed penalty in msats to apply to each channel.
+	 * 
+	 * Default value: 500 msat
+	 */
 	public set_base_penalty_msat(val: bigint): void {
 		bindings.ScoringParameters_set_base_penalty_msat(this.ptr, val);
 	}
 
+	/**
+	 * A penalty in msats to apply to a channel upon failing to relay a payment.
+	 * 
+	 * This accumulates for each failure but may be reduced over time based on
+	 * [`failure_penalty_half_life`] or when successfully routing through a channel.
+	 * 
+	 * Default value: 1,024,000 msat
+	 * 
+	 * [`failure_penalty_half_life`]: Self::failure_penalty_half_life
+	 */
 	public get_failure_penalty_msat(): bigint {
 		const ret: bigint = bindings.ScoringParameters_get_failure_penalty_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * A penalty in msats to apply to a channel upon failing to relay a payment.
+	 * 
+	 * This accumulates for each failure but may be reduced over time based on
+	 * [`failure_penalty_half_life`] or when successfully routing through a channel.
+	 * 
+	 * Default value: 1,024,000 msat
+	 * 
+	 * [`failure_penalty_half_life`]: Self::failure_penalty_half_life
+	 */
 	public set_failure_penalty_msat(val: bigint): void {
 		bindings.ScoringParameters_set_failure_penalty_msat(this.ptr, val);
 	}
 
+	/**
+	 * When the amount being sent over a channel is this many 1024ths of the total channel
+	 * capacity, we begin applying [`overuse_penalty_msat_per_1024th`].
+	 * 
+	 * Default value: 128 1024ths (i.e. begin penalizing when an HTLC uses 1/8th of a channel)
+	 * 
+	 * [`overuse_penalty_msat_per_1024th`]: Self::overuse_penalty_msat_per_1024th
+	 */
 	public get_overuse_penalty_start_1024th(): number {
 		const ret: number = bindings.ScoringParameters_get_overuse_penalty_start_1024th(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * When the amount being sent over a channel is this many 1024ths of the total channel
+	 * capacity, we begin applying [`overuse_penalty_msat_per_1024th`].
+	 * 
+	 * Default value: 128 1024ths (i.e. begin penalizing when an HTLC uses 1/8th of a channel)
+	 * 
+	 * [`overuse_penalty_msat_per_1024th`]: Self::overuse_penalty_msat_per_1024th
+	 */
 	public set_overuse_penalty_start_1024th(val: number): void {
 		bindings.ScoringParameters_set_overuse_penalty_start_1024th(this.ptr, val);
 	}
 
+	/**
+	 * A penalty applied, per whole 1024ths of the channel capacity which the amount being sent
+	 * over the channel exceeds [`overuse_penalty_start_1024th`] by.
+	 * 
+	 * Default value: 20 msat (i.e. 2560 msat penalty to use 1/4th of a channel, 7680 msat penalty
+	 * to use half a channel, and 12,560 msat penalty to use 3/4ths of a channel)
+	 * 
+	 * [`overuse_penalty_start_1024th`]: Self::overuse_penalty_start_1024th
+	 */
 	public get_overuse_penalty_msat_per_1024th(): bigint {
 		const ret: bigint = bindings.ScoringParameters_get_overuse_penalty_msat_per_1024th(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * A penalty applied, per whole 1024ths of the channel capacity which the amount being sent
+	 * over the channel exceeds [`overuse_penalty_start_1024th`] by.
+	 * 
+	 * Default value: 20 msat (i.e. 2560 msat penalty to use 1/4th of a channel, 7680 msat penalty
+	 * to use half a channel, and 12,560 msat penalty to use 3/4ths of a channel)
+	 * 
+	 * [`overuse_penalty_start_1024th`]: Self::overuse_penalty_start_1024th
+	 */
 	public set_overuse_penalty_msat_per_1024th(val: bigint): void {
 		bindings.ScoringParameters_set_overuse_penalty_msat_per_1024th(this.ptr, val);
 	}
 
+	/**
+	 * The time required to elapse before any accumulated [`failure_penalty_msat`] penalties are
+	 * cut in half.
+	 * 
+	 * Successfully routing through a channel will immediately cut the penalty in half as well.
+	 * 
+	 * # Note
+	 * 
+	 * When built with the `no-std` feature, time will never elapse. Therefore, this penalty will
+	 * never decay.
+	 * 
+	 * [`failure_penalty_msat`]: Self::failure_penalty_msat
+	 */
 	public get_failure_penalty_half_life(): bigint {
 		const ret: bigint = bindings.ScoringParameters_get_failure_penalty_half_life(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The time required to elapse before any accumulated [`failure_penalty_msat`] penalties are
+	 * cut in half.
+	 * 
+	 * Successfully routing through a channel will immediately cut the penalty in half as well.
+	 * 
+	 * # Note
+	 * 
+	 * When built with the `no-std` feature, time will never elapse. Therefore, this penalty will
+	 * never decay.
+	 * 
+	 * [`failure_penalty_msat`]: Self::failure_penalty_msat
+	 */
 	public set_failure_penalty_half_life(val: bigint): void {
 		bindings.ScoringParameters_set_failure_penalty_half_life(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new ScoringParameters given each field
+	 */
 	public static constructor_new(base_penalty_msat_arg: bigint, failure_penalty_msat_arg: bigint, overuse_penalty_start_1024th_arg: number, overuse_penalty_msat_per_1024th_arg: bigint, failure_penalty_half_life_arg: bigint): ScoringParameters {
 		const ret: number = bindings.ScoringParameters_new(base_penalty_msat_arg, failure_penalty_msat_arg, overuse_penalty_start_1024th_arg, overuse_penalty_msat_per_1024th_arg, failure_penalty_half_life_arg);
 		const ret_hu_conv: ScoringParameters = new ScoringParameters(null, ret);
@@ -339,18 +435,27 @@ export class ScoringParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ScoringParameters object into a byte array which can be read by ScoringParameters_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ScoringParameters_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ScoringParameters from a byte array, created by ScoringParameters_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ScoringParametersDecodeErrorZ {
 		const ret: number = bindings.ScoringParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ScoringParametersDecodeErrorZ = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a "default" ScoringParameters. See struct and individual field documentaiton for details on which values are used.
+	 */
 	public static constructor_default(): ScoringParameters {
 		const ret: number = bindings.ScoringParameters_default();
 		const ret_hu_conv: ScoringParameters = new ScoringParameters(null, ret);

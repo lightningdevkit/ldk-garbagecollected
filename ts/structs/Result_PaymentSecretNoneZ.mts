@@ -294,18 +294,27 @@ export class Result_PaymentSecretNoneZ extends CommonBase {
 			return new Result_PaymentSecretNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_PaymentSecretNoneZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array): Result_PaymentSecretNoneZ {
 		const ret: number = bindings.CResult_PaymentSecretNoneZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 32)));
 		const ret_hu_conv: Result_PaymentSecretNoneZ = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_PaymentSecretNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_PaymentSecretNoneZ {
 		const ret: number = bindings.CResult_PaymentSecretNoneZ_err();
 		const ret_hu_conv: Result_PaymentSecretNoneZ = Result_PaymentSecretNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_PaymentSecretNoneZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_PaymentSecretNoneZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_PaymentSecretNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_PaymentSecretNoneZ {
 		const ret: number = bindings.CResult_PaymentSecretNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_PaymentSecretNoneZ = Result_PaymentSecretNoneZ.constr_from_ptr(ret);

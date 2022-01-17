@@ -281,36 +281,57 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A commitment_signed message to be sent or received from a peer
+ */
 export class CommitmentSigned extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.CommitmentSigned_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.CommitmentSigned_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.CommitmentSigned_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * A signature on the commitment transaction
+	 */
 	public get_signature(): Uint8Array {
 		const ret: number = bindings.CommitmentSigned_get_signature(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * A signature on the commitment transaction
+	 */
 	public set_signature(val: Uint8Array): void {
 		bindings.CommitmentSigned_set_signature(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 64)));
 	}
 
+	/**
+	 * Signatures on the HTLC transactions
+	 */
 	public set_htlc_signatures(val: Uint8Array[]): void {
 		bindings.CommitmentSigned_set_htlc_signatures(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(val_conv_12, 64))) : null));
 	}
 
+	/**
+	 * Constructs a new CommitmentSigned given each field
+	 */
 	public static constructor_new(channel_id_arg: Uint8Array, signature_arg: Uint8Array, htlc_signatures_arg: Uint8Array[]): CommitmentSigned {
 		const ret: number = bindings.CommitmentSigned_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), bindings.encodeUint8Array(bindings.check_arr_len(signature_arg, 64)), bindings.encodeUint32Array(htlc_signatures_arg != null ? htlc_signatures_arg.map(htlc_signatures_arg_conv_12 => bindings.encodeUint8Array(bindings.check_arr_len(htlc_signatures_arg_conv_12, 64))) : null));
 		const ret_hu_conv: CommitmentSigned = new CommitmentSigned(null, ret);
@@ -323,6 +344,9 @@ export class CommitmentSigned extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the CommitmentSigned
+	 */
 	public clone(): CommitmentSigned {
 		const ret: number = bindings.CommitmentSigned_clone(this.ptr);
 		const ret_hu_conv: CommitmentSigned = new CommitmentSigned(null, ret);
@@ -330,12 +354,18 @@ export class CommitmentSigned extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the CommitmentSigned object into a byte array which can be read by CommitmentSigned_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.CommitmentSigned_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a CommitmentSigned from a byte array, created by CommitmentSigned_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_CommitmentSignedDecodeErrorZ {
 		const ret: number = bindings.CommitmentSigned_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CommitmentSignedDecodeErrorZ = Result_CommitmentSignedDecodeErrorZ.constr_from_ptr(ret);

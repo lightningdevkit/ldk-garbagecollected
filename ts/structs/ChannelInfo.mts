@@ -281,12 +281,19 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Details about a channel (both directions).
+ * Received within a channel announcement.
+ */
 export class ChannelInfo extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelInfo_free);
 	}
 
+	/**
+	 * Protocol features of a channel communicated during its announcement
+	 */
 	public get_features(): ChannelFeatures {
 		const ret: number = bindings.ChannelInfo_get_features(this.ptr);
 		const ret_hu_conv: ChannelFeatures = new ChannelFeatures(null, ret);
@@ -294,10 +301,16 @@ export class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Protocol features of a channel communicated during its announcement
+	 */
 	public set_features(val: ChannelFeatures): void {
 		bindings.ChannelInfo_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Source node of the first direction of a channel
+	 */
 	public get_node_one(): NodeId {
 		const ret: number = bindings.ChannelInfo_get_node_one(this.ptr);
 		const ret_hu_conv: NodeId = new NodeId(null, ret);
@@ -305,10 +318,18 @@ export class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Source node of the first direction of a channel
+	 */
 	public set_node_one(val: NodeId): void {
 		bindings.ChannelInfo_set_node_one(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Details about the first direction of a channel
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_one_to_two(): DirectionalChannelInfo {
 		const ret: number = bindings.ChannelInfo_get_one_to_two(this.ptr);
 		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
@@ -316,10 +337,18 @@ export class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Details about the first direction of a channel
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_one_to_two(val: DirectionalChannelInfo): void {
 		bindings.ChannelInfo_set_one_to_two(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Source node of the second direction of a channel
+	 */
 	public get_node_two(): NodeId {
 		const ret: number = bindings.ChannelInfo_get_node_two(this.ptr);
 		const ret_hu_conv: NodeId = new NodeId(null, ret);
@@ -327,10 +356,18 @@ export class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Source node of the second direction of a channel
+	 */
 	public set_node_two(val: NodeId): void {
 		bindings.ChannelInfo_set_node_two(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Details about the second direction of a channel
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_two_to_one(): DirectionalChannelInfo {
 		const ret: number = bindings.ChannelInfo_get_two_to_one(this.ptr);
 		const ret_hu_conv: DirectionalChannelInfo = new DirectionalChannelInfo(null, ret);
@@ -338,10 +375,18 @@ export class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Details about the second direction of a channel
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_two_to_one(val: DirectionalChannelInfo): void {
 		bindings.ChannelInfo_set_two_to_one(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The channel capacity as seen on-chain, if chain lookup is available.
+	 */
 	public get_capacity_sats(): Option_u64Z {
 		const ret: number = bindings.ChannelInfo_get_capacity_sats(this.ptr);
 		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
@@ -349,10 +394,21 @@ export class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The channel capacity as seen on-chain, if chain lookup is available.
+	 */
 	public set_capacity_sats(val: Option_u64Z): void {
 		bindings.ChannelInfo_set_capacity_sats(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
+	/**
+	 * An initial announcement of the channel
+	 * Mostly redundant with the data we store in fields explicitly.
+	 * Everything else is useful only for sending out for initial routing sync.
+	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_announcement_message(): ChannelAnnouncement {
 		const ret: number = bindings.ChannelInfo_get_announcement_message(this.ptr);
 		const ret_hu_conv: ChannelAnnouncement = new ChannelAnnouncement(null, ret);
@@ -360,6 +416,14 @@ export class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * An initial announcement of the channel
+	 * Mostly redundant with the data we store in fields explicitly.
+	 * Everything else is useful only for sending out for initial routing sync.
+	 * Not stored if contains excess data to prevent DoS.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_announcement_message(val: ChannelAnnouncement): void {
 		bindings.ChannelInfo_set_announcement_message(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
@@ -369,6 +433,9 @@ export class ChannelInfo extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelInfo
+	 */
 	public clone(): ChannelInfo {
 		const ret: number = bindings.ChannelInfo_clone(this.ptr);
 		const ret_hu_conv: ChannelInfo = new ChannelInfo(null, ret);
@@ -376,12 +443,18 @@ export class ChannelInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelInfo object into a byte array which can be read by ChannelInfo_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelInfo_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ChannelInfo from a byte array, created by ChannelInfo_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelInfoDecodeErrorZ {
 		const ret: number = bindings.ChannelInfo_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelInfoDecodeErrorZ = Result_ChannelInfoDecodeErrorZ.constr_from_ptr(ret);

@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * Used to put an error message in a LightningError
+ */
 export class ErrorAction extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.ErrorAction_free); }
 	/* @internal */
@@ -301,6 +304,9 @@ export class ErrorAction extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ErrorAction
+	 */
 	public clone(): ErrorAction {
 		const ret: number = bindings.ErrorAction_clone(this.ptr);
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
@@ -308,6 +314,9 @@ export class ErrorAction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new DisconnectPeer-variant ErrorAction
+	 */
 	public static constructor_disconnect_peer(msg: ErrorMessage): ErrorAction {
 		const ret: number = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
@@ -315,6 +324,9 @@ export class ErrorAction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new IgnoreError-variant ErrorAction
+	 */
 	public static constructor_ignore_error(): ErrorAction {
 		const ret: number = bindings.ErrorAction_ignore_error();
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
@@ -322,6 +334,9 @@ export class ErrorAction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new IgnoreAndLog-variant ErrorAction
+	 */
 	public static constructor_ignore_and_log(a: Level): ErrorAction {
 		const ret: number = bindings.ErrorAction_ignore_and_log(a);
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
@@ -329,6 +344,9 @@ export class ErrorAction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new IgnoreDuplicateGossip-variant ErrorAction
+	 */
 	public static constructor_ignore_duplicate_gossip(): ErrorAction {
 		const ret: number = bindings.ErrorAction_ignore_duplicate_gossip();
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
@@ -336,6 +354,9 @@ export class ErrorAction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new SendErrorMessage-variant ErrorAction
+	 */
 	public static constructor_send_error_message(msg: ErrorMessage): ErrorAction {
 		const ret: number = bindings.ErrorAction_send_error_message(msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: ErrorAction = ErrorAction.constr_from_ptr(ret);
@@ -344,7 +365,13 @@ export class ErrorAction extends CommonBase {
 	}
 
 }
+/** A ErrorAction of type DisconnectPeer */
 export class ErrorAction_DisconnectPeer extends ErrorAction {
+	/**
+	 * An error message which we should make an effort to send before we disconnect.
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public msg: ErrorMessage;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -355,12 +382,14 @@ export class ErrorAction_DisconnectPeer extends ErrorAction {
 		this.msg = msg_hu_conv;
 	}
 }
+/** A ErrorAction of type IgnoreError */
 export class ErrorAction_IgnoreError extends ErrorAction {
 	/* @internal */
 	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
+/** A ErrorAction of type IgnoreAndLog */
 export class ErrorAction_IgnoreAndLog extends ErrorAction {
 	public ignore_and_log: Level;
 	/* @internal */
@@ -369,13 +398,18 @@ export class ErrorAction_IgnoreAndLog extends ErrorAction {
 		this.ignore_and_log = bindings.LDKErrorAction_IgnoreAndLog_get_ignore_and_log(ptr);
 	}
 }
+/** A ErrorAction of type IgnoreDuplicateGossip */
 export class ErrorAction_IgnoreDuplicateGossip extends ErrorAction {
 	/* @internal */
 	public constructor(ptr: number) {
 		super(null, ptr);
 	}
 }
+/** A ErrorAction of type SendErrorMessage */
 export class ErrorAction_SendErrorMessage extends ErrorAction {
+	/**
+	 * The message to send.
+	 */
 	public msg: ErrorMessage;
 	/* @internal */
 	public constructor(ptr: number) {

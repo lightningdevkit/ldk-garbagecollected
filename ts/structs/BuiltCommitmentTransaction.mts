@@ -281,32 +281,56 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A pre-built Bitcoin commitment transaction and its txid.
+ */
 export class BuiltCommitmentTransaction extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.BuiltCommitmentTransaction_free);
 	}
 
+	/**
+	 * The commitment transaction
+	 */
 	public get_transaction(): Uint8Array {
 		const ret: number = bindings.BuiltCommitmentTransaction_get_transaction(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The commitment transaction
+	 */
 	public set_transaction(val: Uint8Array): void {
 		bindings.BuiltCommitmentTransaction_set_transaction(this.ptr, bindings.encodeUint8Array(val));
 	}
 
+	/**
+	 * The txid for the commitment transaction.
+	 * 
+	 * This is provided as a performance optimization, instead of calling transaction.txid()
+	 * multiple times.
+	 */
 	public get_txid(): Uint8Array {
 		const ret: number = bindings.BuiltCommitmentTransaction_get_txid(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The txid for the commitment transaction.
+	 * 
+	 * This is provided as a performance optimization, instead of calling transaction.txid()
+	 * multiple times.
+	 */
 	public set_txid(val: Uint8Array): void {
 		bindings.BuiltCommitmentTransaction_set_txid(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * Constructs a new BuiltCommitmentTransaction given each field
+	 */
 	public static constructor_new(transaction_arg: Uint8Array, txid_arg: Uint8Array): BuiltCommitmentTransaction {
 		const ret: number = bindings.BuiltCommitmentTransaction_new(bindings.encodeUint8Array(transaction_arg), bindings.encodeUint8Array(bindings.check_arr_len(txid_arg, 32)));
 		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
@@ -319,6 +343,9 @@ export class BuiltCommitmentTransaction extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the BuiltCommitmentTransaction
+	 */
 	public clone(): BuiltCommitmentTransaction {
 		const ret: number = bindings.BuiltCommitmentTransaction_clone(this.ptr);
 		const ret_hu_conv: BuiltCommitmentTransaction = new BuiltCommitmentTransaction(null, ret);
@@ -326,24 +353,39 @@ export class BuiltCommitmentTransaction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the BuiltCommitmentTransaction object into a byte array which can be read by BuiltCommitmentTransaction_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.BuiltCommitmentTransaction_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a BuiltCommitmentTransaction from a byte array, created by BuiltCommitmentTransaction_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_BuiltCommitmentTransactionDecodeErrorZ {
 		const ret: number = bindings.BuiltCommitmentTransaction_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_BuiltCommitmentTransactionDecodeErrorZ = Result_BuiltCommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Get the SIGHASH_ALL sighash value of the transaction.
+	 * 
+	 * This can be used to verify a signature.
+	 */
 	public get_sighash_all(funding_redeemscript: Uint8Array, channel_value_satoshis: bigint): Uint8Array {
 		const ret: number = bindings.BuiltCommitmentTransaction_get_sighash_all(this.ptr, bindings.encodeUint8Array(funding_redeemscript), channel_value_satoshis);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Sign a transaction, either because we are counter-signing the counterparty's transaction or
+	 * because we are about to broadcast a holder transaction.
+	 */
 	public sign(funding_key: Uint8Array, funding_redeemscript: Uint8Array, channel_value_satoshis: bigint): Uint8Array {
 		const ret: number = bindings.BuiltCommitmentTransaction_sign(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(funding_key, 32)), bindings.encodeUint8Array(funding_redeemscript), channel_value_satoshis);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);

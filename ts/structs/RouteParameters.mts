@@ -281,12 +281,23 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Parameters needed to find a [`Route`] for paying a [`Payee`].
+ * 
+ * Passed to [`find_route`] and also provided in [`Event::PaymentPathFailed`] for retrying a failed
+ * payment path.
+ * 
+ * [`Event::PaymentPathFailed`]: crate::util::events::Event::PaymentPathFailed
+ */
 export class RouteParameters extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.RouteParameters_free);
 	}
 
+	/**
+	 * The recipient of the failed payment path.
+	 */
 	public get_payee(): Payee {
 		const ret: number = bindings.RouteParameters_get_payee(this.ptr);
 		const ret_hu_conv: Payee = new Payee(null, ret);
@@ -294,28 +305,46 @@ export class RouteParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The recipient of the failed payment path.
+	 */
 	public set_payee(val: Payee): void {
 		bindings.RouteParameters_set_payee(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The amount in msats sent on the failed payment path.
+	 */
 	public get_final_value_msat(): bigint {
 		const ret: bigint = bindings.RouteParameters_get_final_value_msat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The amount in msats sent on the failed payment path.
+	 */
 	public set_final_value_msat(val: bigint): void {
 		bindings.RouteParameters_set_final_value_msat(this.ptr, val);
 	}
 
+	/**
+	 * The CLTV on the final hop of the failed payment path.
+	 */
 	public get_final_cltv_expiry_delta(): number {
 		const ret: number = bindings.RouteParameters_get_final_cltv_expiry_delta(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The CLTV on the final hop of the failed payment path.
+	 */
 	public set_final_cltv_expiry_delta(val: number): void {
 		bindings.RouteParameters_set_final_cltv_expiry_delta(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new RouteParameters given each field
+	 */
 	public static constructor_new(payee_arg: Payee, final_value_msat_arg: bigint, final_cltv_expiry_delta_arg: number): RouteParameters {
 		const ret: number = bindings.RouteParameters_new(payee_arg == null ? 0 : CommonBase.get_ptr_of(payee_arg) & ~1, final_value_msat_arg, final_cltv_expiry_delta_arg);
 		const ret_hu_conv: RouteParameters = new RouteParameters(null, ret);
@@ -328,6 +357,9 @@ export class RouteParameters extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the RouteParameters
+	 */
 	public clone(): RouteParameters {
 		const ret: number = bindings.RouteParameters_clone(this.ptr);
 		const ret_hu_conv: RouteParameters = new RouteParameters(null, ret);
@@ -335,12 +367,18 @@ export class RouteParameters extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the RouteParameters object into a byte array which can be read by RouteParameters_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.RouteParameters_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a RouteParameters from a byte array, created by RouteParameters_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_RouteParametersDecodeErrorZ {
 		const ret: number = bindings.RouteParameters_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_RouteParametersDecodeErrorZ = Result_RouteParametersDecodeErrorZ.constr_from_ptr(ret);

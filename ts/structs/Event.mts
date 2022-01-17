@@ -280,6 +280,13 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An Event which you should probably take some action in response to.
+ * 
+ * Note that while Writeable and Readable are implemented for Event, you probably shouldn't use
+ * them directly as they don't round-trip exactly (for example FundingGenerationReady is never
+ * written as it makes no sense to respond to it after reconnecting to peers).
+ */
 export class Event extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.Event_free); }
 	/* @internal */
@@ -307,6 +314,9 @@ export class Event extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the Event
+	 */
 	public clone(): Event {
 		const ret: number = bindings.Event_clone(this.ptr);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -314,6 +324,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new FundingGenerationReady-variant Event
+	 */
 	public static constructor_funding_generation_ready(temporary_channel_id: Uint8Array, channel_value_satoshis: bigint, output_script: Uint8Array, user_channel_id: bigint): Event {
 		const ret: number = bindings.Event_funding_generation_ready(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), channel_value_satoshis, bindings.encodeUint8Array(output_script), user_channel_id);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -321,6 +334,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PaymentReceived-variant Event
+	 */
 	public static constructor_payment_received(payment_hash: Uint8Array, amt: bigint, purpose: PaymentPurpose): Event {
 		const ret: number = bindings.Event_payment_received(bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), amt, CommonBase.get_ptr_of(purpose));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -328,6 +344,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PaymentSent-variant Event
+	 */
 	public static constructor_payment_sent(payment_id: Uint8Array, payment_preimage: Uint8Array, payment_hash: Uint8Array, fee_paid_msat: Option_u64Z): Event {
 		const ret: number = bindings.Event_payment_sent(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_preimage, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), CommonBase.get_ptr_of(fee_paid_msat));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -335,6 +354,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PaymentPathFailed-variant Event
+	 */
 	public static constructor_payment_path_failed(payment_id: Uint8Array, payment_hash: Uint8Array, rejected_by_dest: boolean, network_update: Option_NetworkUpdateZ, all_paths_failed: boolean, path: RouteHop[], short_channel_id: Option_u64Z, retry: RouteParameters): Event {
 		const ret: number = bindings.Event_payment_path_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), rejected_by_dest, CommonBase.get_ptr_of(network_update), all_paths_failed, bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null), CommonBase.get_ptr_of(short_channel_id), retry == null ? 0 : CommonBase.get_ptr_of(retry) & ~1);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -342,6 +364,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PaymentFailed-variant Event
+	 */
 	public static constructor_payment_failed(payment_id: Uint8Array, payment_hash: Uint8Array): Event {
 		const ret: number = bindings.Event_payment_failed(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -349,6 +374,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PendingHTLCsForwardable-variant Event
+	 */
 	public static constructor_pending_htlcs_forwardable(time_forwardable: bigint): Event {
 		const ret: number = bindings.Event_pending_htlcs_forwardable(time_forwardable);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -356,6 +384,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new SpendableOutputs-variant Event
+	 */
 	public static constructor_spendable_outputs(outputs: SpendableOutputDescriptor[]): Event {
 		const ret: number = bindings.Event_spendable_outputs(bindings.encodeUint32Array(outputs != null ? outputs.map(outputs_conv_27 => CommonBase.get_ptr_of(outputs_conv_27)) : null));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -363,6 +394,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PaymentForwarded-variant Event
+	 */
 	public static constructor_payment_forwarded(fee_earned_msat: Option_u64Z, claim_from_onchain_tx: boolean): Event {
 		const ret: number = bindings.Event_payment_forwarded(CommonBase.get_ptr_of(fee_earned_msat), claim_from_onchain_tx);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -370,6 +404,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new ChannelClosed-variant Event
+	 */
 	public static constructor_channel_closed(channel_id: Uint8Array, user_channel_id: bigint, reason: ClosureReason): Event {
 		const ret: number = bindings.Event_channel_closed(bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), user_channel_id, CommonBase.get_ptr_of(reason));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -377,6 +414,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new DiscardFunding-variant Event
+	 */
 	public static constructor_discard_funding(channel_id: Uint8Array, transaction: Uint8Array): Event {
 		const ret: number = bindings.Event_discard_funding(bindings.encodeUint8Array(bindings.check_arr_len(channel_id, 32)), bindings.encodeUint8Array(transaction));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -384,6 +424,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Utility method to constructs a new PaymentPathSuccessful-variant Event
+	 */
 	public static constructor_payment_path_successful(payment_id: Uint8Array, payment_hash: Uint8Array, path: RouteHop[]): Event {
 		const ret: number = bindings.Event_payment_path_successful(bindings.encodeUint8Array(bindings.check_arr_len(payment_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(payment_hash, 32)), bindings.encodeUint32Array(path != null ? path.map(path_conv_10 => path_conv_10 == null ? 0 : CommonBase.get_ptr_of(path_conv_10) & ~1) : null));
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
@@ -391,6 +434,9 @@ export class Event extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the Event object into a byte array which can be read by Event_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.Event_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
@@ -398,10 +444,27 @@ export class Event extends CommonBase {
 	}
 
 }
+/** A Event of type FundingGenerationReady */
 export class Event_FundingGenerationReady extends Event {
+	/**
+	 * The random channel_id we picked which you'll need to pass into
+	 * ChannelManager::funding_transaction_generated.
+	 */
 	public temporary_channel_id: Uint8Array;
+	/**
+	 * The value, in satoshis, that the output should have.
+	 */
 	public channel_value_satoshis: bigint;
+	/**
+	 * The script which should be used in the transaction output.
+	 */
 	public output_script: Uint8Array;
+	/**
+	 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`], or 0 for
+	 * an inbound channel.
+	 * 
+	 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+	 */
 	public user_channel_id: bigint;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -416,9 +479,21 @@ export class Event_FundingGenerationReady extends Event {
 		this.user_channel_id = bindings.LDKEvent_FundingGenerationReady_get_user_channel_id(ptr);
 	}
 }
+/** A Event of type PaymentReceived */
 export class Event_PaymentReceived extends Event {
+	/**
+	 * The hash for which the preimage should be handed to the ChannelManager. Note that LDK will
+	 * not stop you from registering duplicate payment hashes for inbound payments.
+	 */
 	public payment_hash: Uint8Array;
+	/**
+	 * The value, in thousandths of a satoshi, that this payment is for.
+	 */
 	public amt: bigint;
+	/**
+	 * Information for claiming this received payment, based on whether the purpose of the
+	 * payment is to pay an invoice or to send a spontaneous payment.
+	 */
 	public purpose: PaymentPurpose;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -433,10 +508,41 @@ export class Event_PaymentReceived extends Event {
 		this.purpose = purpose_hu_conv;
 	}
 }
+/** A Event of type PaymentSent */
 export class Event_PaymentSent extends Event {
+	/**
+	 * The id returned by [`ChannelManager::send_payment`] and used with
+	 * [`ChannelManager::retry_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public payment_id: Uint8Array;
+	/**
+	 * The preimage to the hash given to ChannelManager::send_payment.
+	 * Note that this serves as a payment receipt, if you wish to have such a thing, you must
+	 * store it somehow!
+	 */
 	public payment_preimage: Uint8Array;
+	/**
+	 * The hash that was given to [`ChannelManager::send_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 */
 	public payment_hash: Uint8Array;
+	/**
+	 * The total fee which was spent at intermediate hops in this payment, across all paths.
+	 * 
+	 * Note that, like [`Route::get_total_fees`] this does *not* include any potential
+	 * overpayment to the recipient node.
+	 * 
+	 * If the recipient or an intermediate node misbehaves and gives us free money, this may
+	 * overstate the amount paid, though this is unlikely.
+	 * 
+	 * [`Route::get_total_fees`]: crate::routing::router::Route::get_total_fees
+	 */
 	public fee_paid_msat: Option_u64Z;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -456,14 +562,83 @@ export class Event_PaymentSent extends Event {
 		this.fee_paid_msat = fee_paid_msat_hu_conv;
 	}
 }
+/** A Event of type PaymentPathFailed */
 export class Event_PaymentPathFailed extends Event {
+	/**
+	 * The id returned by [`ChannelManager::send_payment`] and used with
+	 * [`ChannelManager::retry_payment`] and [`ChannelManager::abandon_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public payment_id: Uint8Array;
+	/**
+	 * The hash that was given to [`ChannelManager::send_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 */
 	public payment_hash: Uint8Array;
+	/**
+	 * Indicates the payment was rejected for some reason by the recipient. This implies that
+	 * the payment has failed, not just the route in question. If this is not set, you may
+	 * retry the payment via a different route.
+	 */
 	public rejected_by_dest: boolean;
+	/**
+	 * Any failure information conveyed via the Onion return packet by a node along the failed
+	 * payment route.
+	 * 
+	 * Should be applied to the [`NetworkGraph`] so that routing decisions can take into
+	 * account the update. [`NetGraphMsgHandler`] is capable of doing this.
+	 * 
+	 * [`NetworkGraph`]: crate::routing::network_graph::NetworkGraph
+	 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
+	 */
 	public network_update: Option_NetworkUpdateZ;
+	/**
+	 * For both single-path and multi-path payments, this is set if all paths of the payment have
+	 * failed. This will be set to false if (1) this is an MPP payment and (2) other parts of the
+	 * larger MPP payment were still in flight when this event was generated.
+	 * 
+	 * Note that if you are retrying individual MPP parts, using this value to determine if a
+	 * payment has fully failed is race-y. Because multiple failures can happen prior to events
+	 * being processed, you may retry in response to a first failure, with a second failure
+	 * (with `all_paths_failed` set) still pending. Then, when the second failure is processed
+	 * you will see `all_paths_failed` set even though the retry of the first failure still
+	 * has an associated in-flight HTLC. See (1) for an example of such a failure.
+	 * 
+	 * If you wish to retry individual MPP parts and learn when a payment has failed, you must
+	 * call [`ChannelManager::abandon_payment`] and wait for a [`Event::PaymentFailed`] event.
+	 * 
+	 * (1) <https://github.com/lightningdevkit/rust-lightning/issues/1164>
+	 * 
+	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
+	 */
 	public all_paths_failed: boolean;
+	/**
+	 * The payment path that failed.
+	 */
 	public path: RouteHop[];
+	/**
+	 * The channel responsible for the failed payment path.
+	 * 
+	 * If this is `Some`, then the corresponding channel should be avoided when the payment is
+	 * retried. May be `None` for older [`Event`] serializations.
+	 */
 	public short_channel_id: Option_u64Z;
+	/**
+	 * Parameters needed to compute a new [`Route`] when retrying the failed payment path.
+	 * 
+	 * See [`find_route`] for details.
+	 * 
+	 * [`Route`]: crate::routing::router::Route
+	 * [`find_route`]: crate::routing::router::find_route
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public retry: RouteParameters;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -489,6 +664,7 @@ export class Event_PaymentPathFailed extends Event {
 				CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
+			bindings.freeWasmMemory(path)
 		this.path = path_conv_10_arr;
 		const short_channel_id: number = bindings.LDKEvent_PaymentPathFailed_get_short_channel_id(ptr);
 		const short_channel_id_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(short_channel_id);
@@ -500,8 +676,22 @@ export class Event_PaymentPathFailed extends Event {
 		this.retry = retry_hu_conv;
 	}
 }
+/** A Event of type PaymentFailed */
 export class Event_PaymentFailed extends Event {
+	/**
+	 * The id returned by [`ChannelManager::send_payment`] and used with
+	 * [`ChannelManager::retry_payment`] and [`ChannelManager::abandon_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+	 * [`ChannelManager::abandon_payment`]: crate::ln::channelmanager::ChannelManager::abandon_payment
+	 */
 	public payment_id: Uint8Array;
+	/**
+	 * The hash that was given to [`ChannelManager::send_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 */
 	public payment_hash: Uint8Array;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -514,7 +704,14 @@ export class Event_PaymentFailed extends Event {
 		this.payment_hash = payment_hash_conv;
 	}
 }
+/** A Event of type PendingHTLCsForwardable */
 export class Event_PendingHTLCsForwardable extends Event {
+	/**
+	 * The minimum amount of time that should be waited prior to calling
+	 * process_pending_htlc_forwards. To increase the effort required to correlate payments,
+	 * you should wait a random amount of time in roughly the range (now + time_forwardable,
+	 * now + 5*time_forwardable).
+	 */
 	public time_forwardable: bigint;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -522,7 +719,11 @@ export class Event_PendingHTLCsForwardable extends Event {
 		this.time_forwardable = bindings.LDKEvent_PendingHTLCsForwardable_get_time_forwardable(ptr);
 	}
 }
+/** A Event of type SpendableOutputs */
 export class Event_SpendableOutputs extends Event {
+	/**
+	 * The outputs which you should store as spendable by you.
+	 */
 	public outputs: SpendableOutputDescriptor[];
 	/* @internal */
 	public constructor(ptr: number) {
@@ -536,11 +737,32 @@ export class Event_SpendableOutputs extends Event {
 				CommonBase.add_ref_from(outputs_conv_27_hu_conv, this);
 				outputs_conv_27_arr[b] = outputs_conv_27_hu_conv;
 			}
+			bindings.freeWasmMemory(outputs)
 		this.outputs = outputs_conv_27_arr;
 	}
 }
+/** A Event of type PaymentForwarded */
 export class Event_PaymentForwarded extends Event {
+	/**
+	 * The fee, in milli-satoshis, which was earned as a result of the payment.
+	 * 
+	 * Note that if we force-closed the channel over which we forwarded an HTLC while the HTLC
+	 * was pending, the amount the next hop claimed will have been rounded down to the nearest
+	 * whole satoshi. Thus, the fee calculated here may be higher than expected as we still
+	 * claimed the full value in millisatoshis from the source. In this case,
+	 * `claim_from_onchain_tx` will be set.
+	 * 
+	 * If the channel which sent us the payment has been force-closed, we will claim the funds
+	 * via an on-chain transaction. In that case we do not yet know the on-chain transaction
+	 * fees which we will spend and will instead set this to `None`. It is possible duplicate
+	 * `PaymentForwarded` events are generated for the same payment iff `fee_earned_msat` is
+	 * `None`.
+	 */
 	public fee_earned_msat: Option_u64Z;
+	/**
+	 * If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
+	 * transaction.
+	 */
 	public claim_from_onchain_tx: boolean;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -552,9 +774,24 @@ export class Event_PaymentForwarded extends Event {
 		this.claim_from_onchain_tx = bindings.LDKEvent_PaymentForwarded_get_claim_from_onchain_tx(ptr);
 	}
 }
+/** A Event of type ChannelClosed */
 export class Event_ChannelClosed extends Event {
+	/**
+	 * The channel_id of the channel which has been closed. Note that on-chain transactions
+	 * resolving the channel are likely still awaiting confirmation.
+	 */
 	public channel_id: Uint8Array;
+	/**
+	 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`], or 0 for
+	 * an inbound channel. This will always be zero for objects serialized with LDK versions
+	 * prior to 0.0.102.
+	 * 
+	 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+	 */
 	public user_channel_id: bigint;
+	/**
+	 * The reason the channel was closed.
+	 */
 	public reason: ClosureReason;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -569,8 +806,15 @@ export class Event_ChannelClosed extends Event {
 		this.reason = reason_hu_conv;
 	}
 }
+/** A Event of type DiscardFunding */
 export class Event_DiscardFunding extends Event {
+	/**
+	 * The channel_id of the channel which has been closed.
+	 */
 	public channel_id: Uint8Array;
+	/**
+	 * The full transaction received from the user
+	 */
 	public transaction: Uint8Array;
 	/* @internal */
 	public constructor(ptr: number) {
@@ -583,9 +827,29 @@ export class Event_DiscardFunding extends Event {
 		this.transaction = transaction_conv;
 	}
 }
+/** A Event of type PaymentPathSuccessful */
 export class Event_PaymentPathSuccessful extends Event {
+	/**
+	 * The id returned by [`ChannelManager::send_payment`] and used with
+	 * [`ChannelManager::retry_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * [`ChannelManager::retry_payment`]: crate::ln::channelmanager::ChannelManager::retry_payment
+	 */
 	public payment_id: Uint8Array;
+	/**
+	 * The hash that was given to [`ChannelManager::send_payment`].
+	 * 
+	 * [`ChannelManager::send_payment`]: crate::ln::channelmanager::ChannelManager::send_payment
+	 * 
+	 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public payment_hash: Uint8Array;
+	/**
+	 * The payment path that was successful.
+	 * 
+	 * May contain a closed channel if the HTLC sent along the path was fulfilled on chain.
+	 */
 	public path: RouteHop[];
 	/* @internal */
 	public constructor(ptr: number) {
@@ -605,6 +869,7 @@ export class Event_PaymentPathSuccessful extends Event {
 				CommonBase.add_ref_from(path_conv_10_hu_conv, this);
 				path_conv_10_arr[k] = path_conv_10_hu_conv;
 			}
+			bindings.freeWasmMemory(path)
 		this.path = path_conv_10_arr;
 	}
 }

@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::lightning::chain::channelmonitor::MonitorEvent or not
+ */
 export class Option_MonitorEventZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_MonitorEventZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_MonitorEventZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_MonitorEventZ containing a crate::lightning::chain::channelmonitor::MonitorEvent
+	 */
 	public static constructor_some(o: MonitorEvent): Option_MonitorEventZ {
 		const ret: number = bindings.COption_MonitorEventZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_MonitorEventZ = Option_MonitorEventZ.constr_from_ptr(ret);
@@ -300,6 +306,9 @@ export class Option_MonitorEventZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_MonitorEventZ containing nothing
+	 */
 	public static constructor_none(): Option_MonitorEventZ {
 		const ret: number = bindings.COption_MonitorEventZ_none();
 		const ret_hu_conv: Option_MonitorEventZ = Option_MonitorEventZ.constr_from_ptr(ret);
@@ -312,6 +321,10 @@ export class Option_MonitorEventZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new COption_MonitorEventZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Option_MonitorEventZ {
 		const ret: number = bindings.COption_MonitorEventZ_clone(this.ptr);
 		const ret_hu_conv: Option_MonitorEventZ = Option_MonitorEventZ.constr_from_ptr(ret);
@@ -320,6 +333,7 @@ export class Option_MonitorEventZ extends CommonBase {
 	}
 
 }
+/** A Option_MonitorEventZ of type Some */
 export class Option_MonitorEventZ_Some extends Option_MonitorEventZ {
 	public some: MonitorEvent;
 	/* @internal */
@@ -331,6 +345,7 @@ export class Option_MonitorEventZ_Some extends Option_MonitorEventZ {
 		this.some = some_hu_conv;
 	}
 }
+/** A Option_MonitorEventZ of type None */
 export class Option_MonitorEventZ_None extends Option_MonitorEventZ {
 	/* @internal */
 	public constructor(ptr: number) {

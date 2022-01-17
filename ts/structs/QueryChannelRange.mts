@@ -281,40 +281,67 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A query_channel_range message is used to query a peer for channel
+ * UTXOs in a range of blocks. The recipient of a query makes a best
+ * effort to reply to the query using one or more reply_channel_range
+ * messages.
+ */
 export class QueryChannelRange extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.QueryChannelRange_free);
 	}
 
+	/**
+	 * The genesis hash of the blockchain being queried
+	 */
 	public get_chain_hash(): Uint8Array {
 		const ret: number = bindings.QueryChannelRange_get_chain_hash(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The genesis hash of the blockchain being queried
+	 */
 	public set_chain_hash(val: Uint8Array): void {
 		bindings.QueryChannelRange_set_chain_hash(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The height of the first block for the channel UTXOs being queried
+	 */
 	public get_first_blocknum(): number {
 		const ret: number = bindings.QueryChannelRange_get_first_blocknum(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The height of the first block for the channel UTXOs being queried
+	 */
 	public set_first_blocknum(val: number): void {
 		bindings.QueryChannelRange_set_first_blocknum(this.ptr, val);
 	}
 
+	/**
+	 * The number of blocks to include in the query results
+	 */
 	public get_number_of_blocks(): number {
 		const ret: number = bindings.QueryChannelRange_get_number_of_blocks(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The number of blocks to include in the query results
+	 */
 	public set_number_of_blocks(val: number): void {
 		bindings.QueryChannelRange_set_number_of_blocks(this.ptr, val);
 	}
 
+	/**
+	 * Constructs a new QueryChannelRange given each field
+	 */
 	public static constructor_new(chain_hash_arg: Uint8Array, first_blocknum_arg: number, number_of_blocks_arg: number): QueryChannelRange {
 		const ret: number = bindings.QueryChannelRange_new(bindings.encodeUint8Array(bindings.check_arr_len(chain_hash_arg, 32)), first_blocknum_arg, number_of_blocks_arg);
 		const ret_hu_conv: QueryChannelRange = new QueryChannelRange(null, ret);
@@ -327,6 +354,9 @@ export class QueryChannelRange extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the QueryChannelRange
+	 */
 	public clone(): QueryChannelRange {
 		const ret: number = bindings.QueryChannelRange_clone(this.ptr);
 		const ret_hu_conv: QueryChannelRange = new QueryChannelRange(null, ret);
@@ -334,17 +364,26 @@ export class QueryChannelRange extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * \n\t * Calculates the overflow safe ending block height for the query.\n\t * Overflow returns `0xffffffff`, otherwise returns `first_blocknum + number_of_blocks`\n\t
+	 */
 	public end_blocknum(): number {
 		const ret: number = bindings.QueryChannelRange_end_blocknum(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Serialize the QueryChannelRange object into a byte array which can be read by QueryChannelRange_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.QueryChannelRange_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a QueryChannelRange from a byte array, created by QueryChannelRange_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_QueryChannelRangeDecodeErrorZ {
 		const ret: number = bindings.QueryChannelRange_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_QueryChannelRangeDecodeErrorZ = Result_QueryChannelRangeDecodeErrorZ.constr_from_ptr(ret);

@@ -283,7 +283,10 @@ import * as bindings from '../bindings.mjs'
 
 
 
+/** An implementation of Logger */
 export interface LoggerInterface {
+	/**Logs the `Record`
+	 */
 	log(record: Record): void;
 }
 
@@ -291,6 +294,9 @@ class LDKLoggerHolder {
 	held: Logger;
 }
 
+/**
+ * A trait encapsulating the operations required of a logger
+ */
 export class Logger extends CommonBase {
 	/* @internal */
 	public bindings_instance?: bindings.LDKLogger;
@@ -301,7 +307,8 @@ export class Logger extends CommonBase {
 		this.bindings_instance = null;
 	}
 
-	static new_impl(arg: LoggerInterface): Logger {
+	/** Creates a new instance of Logger from a given implementation */
+	public static new_impl(arg: LoggerInterface): Logger {
 		const impl_holder: LDKLoggerHolder = new LDKLoggerHolder();
 		let structImplementation = {
 			log (record: number): void {
@@ -315,4 +322,5 @@ export class Logger extends CommonBase {
 		impl_holder.held.bindings_instance = structImplementation;
 		return impl_holder.held;
 	}
+
 }

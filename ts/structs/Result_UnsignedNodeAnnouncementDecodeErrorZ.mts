@@ -294,18 +294,27 @@ export class Result_UnsignedNodeAnnouncementDecodeErrorZ extends CommonBase {
 			return new Result_UnsignedNodeAnnouncementDecodeErrorZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_UnsignedNodeAnnouncementDecodeErrorZ in the success state.
+	 */
 	public static constructor_ok(o: UnsignedNodeAnnouncement): Result_UnsignedNodeAnnouncementDecodeErrorZ {
 		const ret: number = bindings.CResult_UnsignedNodeAnnouncementDecodeErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
 		const ret_hu_conv: Result_UnsignedNodeAnnouncementDecodeErrorZ = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_UnsignedNodeAnnouncementDecodeErrorZ in the error state.
+	 */
 	public static constructor_err(e: DecodeError): Result_UnsignedNodeAnnouncementDecodeErrorZ {
 		const ret: number = bindings.CResult_UnsignedNodeAnnouncementDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
 		const ret_hu_conv: Result_UnsignedNodeAnnouncementDecodeErrorZ = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_UnsignedNodeAnnouncementDecodeErrorZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_UnsignedNodeAnnouncementDecodeErrorZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_UnsignedNodeAnnouncementDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_UnsignedNodeAnnouncementDecodeErrorZ {
 		const ret: number = bindings.CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone(this.ptr);
 		const ret_hu_conv: Result_UnsignedNodeAnnouncementDecodeErrorZ = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);

@@ -281,12 +281,18 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * The unsigned part of a node_announcement
+ */
 export class UnsignedNodeAnnouncement extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.UnsignedNodeAnnouncement_free);
 	}
 
+	/**
+	 * The advertised features
+	 */
 	public get_features(): NodeFeatures {
 		const ret: number = bindings.UnsignedNodeAnnouncement_get_features(this.ptr);
 		const ret_hu_conv: NodeFeatures = new NodeFeatures(null, ret);
@@ -294,49 +300,83 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The advertised features
+	 */
 	public set_features(val: NodeFeatures): void {
 		bindings.UnsignedNodeAnnouncement_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * A strictly monotonic announcement counter, with gaps allowed
+	 */
 	public get_timestamp(): number {
 		const ret: number = bindings.UnsignedNodeAnnouncement_get_timestamp(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * A strictly monotonic announcement counter, with gaps allowed
+	 */
 	public set_timestamp(val: number): void {
 		bindings.UnsignedNodeAnnouncement_set_timestamp(this.ptr, val);
 	}
 
+	/**
+	 * The node_id this announcement originated from (don't rebroadcast the node_announcement back
+	 * to this node).
+	 */
 	public get_node_id(): Uint8Array {
 		const ret: number = bindings.UnsignedNodeAnnouncement_get_node_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The node_id this announcement originated from (don't rebroadcast the node_announcement back
+	 * to this node).
+	 */
 	public set_node_id(val: Uint8Array): void {
 		bindings.UnsignedNodeAnnouncement_set_node_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * An RGB color for UI purposes
+	 */
 	public get_rgb(): Uint8Array {
 		const ret: number = bindings.UnsignedNodeAnnouncement_get_rgb(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * An RGB color for UI purposes
+	 */
 	public set_rgb(val: Uint8Array): void {
 		bindings.UnsignedNodeAnnouncement_set_rgb(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 3)));
 	}
 
+	/**
+	 * An alias, for UI purposes.  This should be sanitized before use.  There is no guarantee
+	 * of uniqueness.
+	 */
 	public get_alias(): Uint8Array {
 		const ret: number = bindings.UnsignedNodeAnnouncement_get_alias(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * An alias, for UI purposes.  This should be sanitized before use.  There is no guarantee
+	 * of uniqueness.
+	 */
 	public set_alias(val: Uint8Array): void {
 		bindings.UnsignedNodeAnnouncement_set_alias(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * List of addresses on which this node is reachable
+	 */
 	public set_addresses(val: NetAddress[]): void {
 		bindings.UnsignedNodeAnnouncement_set_addresses(this.ptr, bindings.encodeUint32Array(val != null ? val.map(val_conv_12 => CommonBase.get_ptr_of(val_conv_12)) : null));
 	}
@@ -346,6 +386,9 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the UnsignedNodeAnnouncement
+	 */
 	public clone(): UnsignedNodeAnnouncement {
 		const ret: number = bindings.UnsignedNodeAnnouncement_clone(this.ptr);
 		const ret_hu_conv: UnsignedNodeAnnouncement = new UnsignedNodeAnnouncement(null, ret);
@@ -353,12 +396,18 @@ export class UnsignedNodeAnnouncement extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the UnsignedNodeAnnouncement object into a byte array which can be read by UnsignedNodeAnnouncement_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.UnsignedNodeAnnouncement_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a UnsignedNodeAnnouncement from a byte array, created by UnsignedNodeAnnouncement_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_UnsignedNodeAnnouncementDecodeErrorZ {
 		const ret: number = bindings.UnsignedNodeAnnouncement_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_UnsignedNodeAnnouncementDecodeErrorZ = Result_UnsignedNodeAnnouncementDecodeErrorZ.constr_from_ptr(ret);

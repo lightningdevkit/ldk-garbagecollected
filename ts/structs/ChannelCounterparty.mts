@@ -281,22 +281,37 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * Channel parameters which apply to our counterparty. These are split out from [`ChannelDetails`]
+ * to better separate parameters.
+ */
 export class ChannelCounterparty extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelCounterparty_free);
 	}
 
+	/**
+	 * The node_id of our counterparty
+	 */
 	public get_node_id(): Uint8Array {
 		const ret: number = bindings.ChannelCounterparty_get_node_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The node_id of our counterparty
+	 */
 	public set_node_id(val: Uint8Array): void {
 		bindings.ChannelCounterparty_set_node_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 33)));
 	}
 
+	/**
+	 * The Features the channel counterparty provided upon last connection.
+	 * Useful for routing as it is the most up-to-date copy of the counterparty's features and
+	 * many routing-relevant features are present in the init context.
+	 */
 	public get_features(): InitFeatures {
 		const ret: number = bindings.ChannelCounterparty_get_features(this.ptr);
 		const ret_hu_conv: InitFeatures = new InitFeatures(null, ret);
@@ -304,19 +319,48 @@ export class ChannelCounterparty extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The Features the channel counterparty provided upon last connection.
+	 * Useful for routing as it is the most up-to-date copy of the counterparty's features and
+	 * many routing-relevant features are present in the init context.
+	 */
 	public set_features(val: InitFeatures): void {
 		bindings.ChannelCounterparty_set_features(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * The value, in satoshis, that must always be held in the channel for our counterparty. This
+	 * value ensures that if our counterparty broadcasts a revoked state, we can punish them by
+	 * claiming at least this value on chain.
+	 * 
+	 * This value is not included in [`inbound_capacity_msat`] as it can never be spent.
+	 * 
+	 * [`inbound_capacity_msat`]: ChannelDetails::inbound_capacity_msat
+	 */
 	public get_unspendable_punishment_reserve(): bigint {
 		const ret: bigint = bindings.ChannelCounterparty_get_unspendable_punishment_reserve(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The value, in satoshis, that must always be held in the channel for our counterparty. This
+	 * value ensures that if our counterparty broadcasts a revoked state, we can punish them by
+	 * claiming at least this value on chain.
+	 * 
+	 * This value is not included in [`inbound_capacity_msat`] as it can never be spent.
+	 * 
+	 * [`inbound_capacity_msat`]: ChannelDetails::inbound_capacity_msat
+	 */
 	public set_unspendable_punishment_reserve(val: bigint): void {
 		bindings.ChannelCounterparty_set_unspendable_punishment_reserve(this.ptr, val);
 	}
 
+	/**
+	 * Information on the fees and requirements that the counterparty requires when forwarding
+	 * payments to us through this channel.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public get_forwarding_info(): CounterpartyForwardingInfo {
 		const ret: number = bindings.ChannelCounterparty_get_forwarding_info(this.ptr);
 		const ret_hu_conv: CounterpartyForwardingInfo = new CounterpartyForwardingInfo(null, ret);
@@ -324,10 +368,19 @@ export class ChannelCounterparty extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Information on the fees and requirements that the counterparty requires when forwarding
+	 * payments to us through this channel.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
 	public set_forwarding_info(val: CounterpartyForwardingInfo): void {
 		bindings.ChannelCounterparty_set_forwarding_info(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
 	}
 
+	/**
+	 * Constructs a new ChannelCounterparty given each field
+	 */
 	public static constructor_new(node_id_arg: Uint8Array, features_arg: InitFeatures, unspendable_punishment_reserve_arg: bigint, forwarding_info_arg: CounterpartyForwardingInfo): ChannelCounterparty {
 		const ret: number = bindings.ChannelCounterparty_new(bindings.encodeUint8Array(bindings.check_arr_len(node_id_arg, 33)), features_arg == null ? 0 : CommonBase.get_ptr_of(features_arg) & ~1, unspendable_punishment_reserve_arg, forwarding_info_arg == null ? 0 : CommonBase.get_ptr_of(forwarding_info_arg) & ~1);
 		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);
@@ -340,6 +393,9 @@ export class ChannelCounterparty extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelCounterparty
+	 */
 	public clone(): ChannelCounterparty {
 		const ret: number = bindings.ChannelCounterparty_clone(this.ptr);
 		const ret_hu_conv: ChannelCounterparty = new ChannelCounterparty(null, ret);

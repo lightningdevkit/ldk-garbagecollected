@@ -280,6 +280,9 @@ import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScor
 import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
+/**
+ * An enum which can either contain a crate::lightning::util::events::ClosureReason or not
+ */
 export class Option_ClosureReasonZ extends CommonBase {
 	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_ClosureReasonZ_free); }
 	/* @internal */
@@ -293,6 +296,9 @@ export class Option_ClosureReasonZ extends CommonBase {
 		}
 	}
 
+	/**
+	 * Constructs a new COption_ClosureReasonZ containing a crate::lightning::util::events::ClosureReason
+	 */
 	public static constructor_some(o: ClosureReason): Option_ClosureReasonZ {
 		const ret: number = bindings.COption_ClosureReasonZ_some(CommonBase.get_ptr_of(o));
 		const ret_hu_conv: Option_ClosureReasonZ = Option_ClosureReasonZ.constr_from_ptr(ret);
@@ -300,6 +306,9 @@ export class Option_ClosureReasonZ extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Constructs a new COption_ClosureReasonZ containing nothing
+	 */
 	public static constructor_none(): Option_ClosureReasonZ {
 		const ret: number = bindings.COption_ClosureReasonZ_none();
 		const ret_hu_conv: Option_ClosureReasonZ = Option_ClosureReasonZ.constr_from_ptr(ret);
@@ -312,6 +321,10 @@ export class Option_ClosureReasonZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new COption_ClosureReasonZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Option_ClosureReasonZ {
 		const ret: number = bindings.COption_ClosureReasonZ_clone(this.ptr);
 		const ret_hu_conv: Option_ClosureReasonZ = Option_ClosureReasonZ.constr_from_ptr(ret);
@@ -320,6 +333,7 @@ export class Option_ClosureReasonZ extends CommonBase {
 	}
 
 }
+/** A Option_ClosureReasonZ of type Some */
 export class Option_ClosureReasonZ_Some extends Option_ClosureReasonZ {
 	public some: ClosureReason;
 	/* @internal */
@@ -331,6 +345,7 @@ export class Option_ClosureReasonZ_Some extends Option_ClosureReasonZ {
 		this.some = some_hu_conv;
 	}
 }
+/** A Option_ClosureReasonZ of type None */
 export class Option_ClosureReasonZ_None extends Option_ClosureReasonZ {
 	/* @internal */
 	public constructor(ptr: number) {

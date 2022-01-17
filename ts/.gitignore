@@ -1,2 +1,4 @@
 *.mjs
 *.mjs.map
+*.d.mts
+version.mts

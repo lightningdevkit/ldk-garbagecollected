@@ -281,6 +281,14 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * This class tracks the per-transaction information needed to build a commitment transaction and will
+ * actually build it and sign.  It is used for holder transactions that we sign only when needed
+ * and for transactions we sign for the counterparty.
+ * 
+ * This class can be used inside a signer implementation to generate a signature given the relevant
+ * secret key.
+ */
 export class CommitmentTransaction extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
@@ -292,6 +300,9 @@ export class CommitmentTransaction extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the CommitmentTransaction
+	 */
 	public clone(): CommitmentTransaction {
 		const ret: number = bindings.CommitmentTransaction_clone(this.ptr);
 		const ret_hu_conv: CommitmentTransaction = new CommitmentTransaction(null, ret);
@@ -299,38 +310,64 @@ export class CommitmentTransaction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the CommitmentTransaction object into a byte array which can be read by CommitmentTransaction_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.CommitmentTransaction_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a CommitmentTransaction from a byte array, created by CommitmentTransaction_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_CommitmentTransactionDecodeErrorZ {
 		const ret: number = bindings.CommitmentTransaction_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_CommitmentTransactionDecodeErrorZ = Result_CommitmentTransactionDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * The backwards-counting commitment number
+	 */
 	public commitment_number(): bigint {
 		const ret: bigint = bindings.CommitmentTransaction_commitment_number(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The value to be sent to the broadcaster
+	 */
 	public to_broadcaster_value_sat(): bigint {
 		const ret: bigint = bindings.CommitmentTransaction_to_broadcaster_value_sat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The value to be sent to the counterparty
+	 */
 	public to_countersignatory_value_sat(): bigint {
 		const ret: bigint = bindings.CommitmentTransaction_to_countersignatory_value_sat(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The feerate paid per 1000-weight-unit in this commitment transaction.
+	 */
 	public feerate_per_kw(): number {
 		const ret: number = bindings.CommitmentTransaction_feerate_per_kw(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * Trust our pre-built transaction and derived transaction creation public keys.
+	 * 
+	 * Applies a wrapper which allows access to these fields.
+	 * 
+	 * This should only be used if you fully trust the builder of this object.  It should not
+	 * be used by an external signer - instead use the verify function.
+	 */
 	public trust(): TrustedCommitmentTransaction {
 		const ret: number = bindings.CommitmentTransaction_trust(this.ptr);
 		const ret_hu_conv: TrustedCommitmentTransaction = new TrustedCommitmentTransaction(null, ret);
@@ -338,6 +375,14 @@ export class CommitmentTransaction extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Verify our pre-built transaction and derived transaction creation public keys.
+	 * 
+	 * Applies a wrapper which allows access to these fields.
+	 * 
+	 * An external validating signer must call this method before signing
+	 * or using the built transaction.
+	 */
 	public verify(channel_parameters: DirectedChannelTransactionParameters, broadcaster_keys: ChannelPublicKeys, countersignatory_keys: ChannelPublicKeys): Result_TrustedCommitmentTransactionNoneZ {
 		const ret: number = bindings.CommitmentTransaction_verify(this.ptr, channel_parameters == null ? 0 : CommonBase.get_ptr_of(channel_parameters) & ~1, broadcaster_keys == null ? 0 : CommonBase.get_ptr_of(broadcaster_keys) & ~1, countersignatory_keys == null ? 0 : CommonBase.get_ptr_of(countersignatory_keys) & ~1);
 		const ret_hu_conv: Result_TrustedCommitmentTransactionNoneZ = Result_TrustedCommitmentTransactionNoneZ.constr_from_ptr(ret);

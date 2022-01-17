@@ -294,18 +294,27 @@ export class Result_SignatureNoneZ extends CommonBase {
 			return new Result_SignatureNoneZ_Err(null, ptr);
 		}
 	}
+	/**
+	 * Creates a new CResult_SignatureNoneZ in the success state.
+	 */
 	public static constructor_ok(o: Uint8Array): Result_SignatureNoneZ {
 		const ret: number = bindings.CResult_SignatureNoneZ_ok(bindings.encodeUint8Array(bindings.check_arr_len(o, 64)));
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Creates a new CResult_SignatureNoneZ in the error state.
+	 */
 	public static constructor_err(): Result_SignatureNoneZ {
 		const ret: number = bindings.CResult_SignatureNoneZ_err();
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Checks if the given object is currently in the success state
+	 */
 	public is_ok(): boolean {
 		const ret: boolean = bindings.CResult_SignatureNoneZ_is_ok(this.ptr);
 		return ret;
@@ -316,6 +325,10 @@ export class Result_SignatureNoneZ extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a new CResult_SignatureNoneZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
 	public clone(): Result_SignatureNoneZ {
 		const ret: number = bindings.CResult_SignatureNoneZ_clone(this.ptr);
 		const ret_hu_conv: Result_SignatureNoneZ = Result_SignatureNoneZ.constr_from_ptr(ret);

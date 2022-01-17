@@ -281,36 +281,57 @@ import CommonBase from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
+/**
+ * A channel_reestablish message to be sent or received from a peer
+ */
 export class ChannelReestablish extends CommonBase {
 	/* @internal */
 	public constructor(_dummy: object, ptr: number) {
 		super(ptr, bindings.ChannelReestablish_free);
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public get_channel_id(): Uint8Array {
 		const ret: number = bindings.ChannelReestablish_get_channel_id(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * The channel ID
+	 */
 	public set_channel_id(val: Uint8Array): void {
 		bindings.ChannelReestablish_set_channel_id(this.ptr, bindings.encodeUint8Array(bindings.check_arr_len(val, 32)));
 	}
 
+	/**
+	 * The next commitment number for the sender
+	 */
 	public get_next_local_commitment_number(): bigint {
 		const ret: bigint = bindings.ChannelReestablish_get_next_local_commitment_number(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The next commitment number for the sender
+	 */
 	public set_next_local_commitment_number(val: bigint): void {
 		bindings.ChannelReestablish_set_next_local_commitment_number(this.ptr, val);
 	}
 
+	/**
+	 * The next commitment number for the recipient
+	 */
 	public get_next_remote_commitment_number(): bigint {
 		const ret: bigint = bindings.ChannelReestablish_get_next_remote_commitment_number(this.ptr);
 		return ret;
 	}
 
+	/**
+	 * The next commitment number for the recipient
+	 */
 	public set_next_remote_commitment_number(val: bigint): void {
 		bindings.ChannelReestablish_set_next_remote_commitment_number(this.ptr, val);
 	}
@@ -320,6 +341,9 @@ export class ChannelReestablish extends CommonBase {
 		return ret;
 	}
 
+	/**
+	 * Creates a copy of the ChannelReestablish
+	 */
 	public clone(): ChannelReestablish {
 		const ret: number = bindings.ChannelReestablish_clone(this.ptr);
 		const ret_hu_conv: ChannelReestablish = new ChannelReestablish(null, ret);
@@ -327,12 +351,18 @@ export class ChannelReestablish extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelReestablish object into a byte array which can be read by ChannelReestablish_read
+	 */
 	public write(): Uint8Array {
 		const ret: number = bindings.ChannelReestablish_write(this.ptr);
 		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
 		return ret_conv;
 	}
 
+	/**
+	 * Read a ChannelReestablish from a byte array, created by ChannelReestablish_write
+	 */
 	public static constructor_read(ser: Uint8Array): Result_ChannelReestablishDecodeErrorZ {
 		const ret: number = bindings.ChannelReestablish_read(bindings.encodeUint8Array(ser));
 		const ret_hu_conv: Result_ChannelReestablishDecodeErrorZ = Result_ChannelReestablishDecodeErrorZ.constr_from_ptr(ret);
