@@ -197,7 +197,7 @@ tests.push(async () => {
 	return true;
 });
 
-export async function run_tests(wasm_path: string) {
+export async function run_tests(wasm_path: string, check_leaks: boolean = true) {
 	await rawldk.initializeWasm(wasm_path);
 
 	var test_runs = [];
@@ -208,7 +208,7 @@ export async function run_tests(wasm_path: string) {
 	console.log("test results: " + results);
 	const result = results.every((v) => { return v === true });
 	console.log("all tests passed: " + result);
-	if (result !== true) { return result; }
+	if (result !== true || !check_leaks) { return result; }
 
 	const allocs_finished = new Promise((resolve, reject) => {
 		var loop_count = 0;
@@ -216,10 +216,15 @@ export async function run_tests(wasm_path: string) {
 			const alloc_count = rawldk.getRemainingAllocationCount();
 			if (loop_count % 20 == 0)
 				console.log("Remaining LDK allocation count: " + alloc_count);
+
+			// chromium with --js-flags="--expose-gc" exposes a `window.gc()` which we call if we can
+			// @ts-ignore window.gc is considered a type error in TS
+			if (typeof window !== "undefined" && typeof window.gc !== "undefined") window.gc();
+
 			// Note that there are currently 9 leaks in the above tests. At least some are known - look for XXX in bindings.c
-			if (alloc_count <= 10) { resolve(true); clearInterval(interval_id); }
+			if (alloc_count <= 10) { clearInterval(interval_id); rawldk.debugPrintRemainingAllocs(); resolve(true); }
 			loop_count += 1;
-			if (loop_count > 30*2) { resolve(false); clearInterval(interval_id); rawldk.debugPrintRemainingAllocs(); }
+			if (loop_count > 30*2) { clearInterval(interval_id); rawldk.debugPrintRemainingAllocs(); resolve(false); }
 		}, 500);
 	});
 	return allocs_finished;
