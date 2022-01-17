@@ -5,6 +5,12 @@ for (const browserType of [chromium, firefox]) { // We'd like to test webkit, bu
 	const browser = await browserType.launch();
 	const context = await browser.newContext();
 	const page = await context.newPage();
+	page.on('console', async msg => {
+		const values = [];
+		for (const arg of msg.args())
+			values.push(await arg.jsonValue());
+		console.log(...values);
+	});
 	await page.goto('http://localhost:8000/test/index.html');
 	const ret = await page.evaluate(() => {
 		return test_runner('../liblightningjs.wasm');
