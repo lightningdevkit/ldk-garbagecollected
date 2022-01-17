@@ -42,6 +42,7 @@ imports.env = {};
 
 var js_objs: Array<WeakRef<object>> = [];
 var js_invoke: Function;
+var getRandomValues: Function;
 
 imports.wasi_snapshot_preview1 = {
 	"fd_write": (fd: number, iovec_array_ptr: number, iovec_array_len: number) => {
@@ -66,7 +67,7 @@ imports.wasi_snapshot_preview1 = {
 	},
 	"random_get": (buf_ptr: number, buf_len: number) => {
 		const buf = new Uint8Array(wasm.memory.buffer, buf_ptr, buf_len);
-		crypto.getRandomValues(buf);
+		getRandomValues(buf);
 		return 0;
 	},
 	"environ_sizes_get": (environ_var_count_ptr: number, environ_len_ptr: number) => {
@@ -90,25 +91,15 @@ imports.wasi_snapshot_preview1 = {
 
 var wasm: any = null;
 let isWasmInitialized: boolean = false;
-"""
 
-        if target == Target.NODEJS:
-            self.bindings_header += """import * as fs from 'fs';
-import { webcrypto as crypto } from 'crypto';
-/* @internal */
-export async function initializeWasm(path: string) {
-	const source = fs.readFileSync(path);
-	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiate(source, imports);"""
-        else:
-            self.bindings_header += """
-/* @internal */
-export async function initializeWasm(uri: string) {
-	const stream = fetch(uri);
-	imports.env["js_invoke_function"] = js_invoke;
-	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);"""
+async function finishInitializeWasm(wasmInstance: WebAssembly.Instance) {
+	if (typeof crypto === "undefined") {
+		var crypto_import = (await import('crypto')).webcrypto;
+		getRandomValues = crypto_import.getRandomValues.bind(crypto_import);
+	} else {
+		getRandomValues = crypto.getRandomValues.bind(crypto);
+	}
 
-        self.bindings_header += """
 	wasm = wasmInstance.exports;
 	if (!wasm.test_bigint_pass_deadbeef0badf00d(BigInt("0xdeadbeef0badf00d"))) {
 		throw new Error(\"Currently need BigInt-as-u64 support, try ----experimental-wasm-bigint");
@@ -128,8 +119,24 @@ export async function initializeWasm(uri: string) {
 	console.log(\"Loaded LDK-Java Bindings with LDK \" + ldk_version + \" and LDK-C-Bindings \" + c_bindings_version);
 
 	isWasmInitialized = true;
-};
+}
 
+/* @internal */
+export async function initializeWasmFromUint8Array(wasmBinary: Uint8Array) {
+	imports.env["js_invoke_function"] = js_invoke;
+	const { instance: wasmInstance } = await WebAssembly.instantiate(wasmBinary, imports);
+	await finishInitializeWasm(wasmInstance);
+}
+
+/* @internal */
+export async function initializeWasmFetch(uri: string) {
+	const stream = fetch(uri);
+	imports.env["js_invoke_function"] = js_invoke;
+	const { instance: wasmInstance } = await WebAssembly.instantiateStreaming(stream, imports);
+	await finishInitializeWasm(wasmInstance);
+}"""
+
+        self.bindings_header += """
 // WASM CODEC
 
 const nextMultipleOfFour = (value: number) => {
@@ -247,10 +254,16 @@ export function debugPrintRemainingAllocs() {
             self.bindings_header += "/* @internal */ export function debugPrintRemainingAllocs() { }\n"
 
         with open(outdir + "/index.mts", 'a') as index:
-            index.write("""import { initializeWasm as bindingsInit } from './bindings.mjs';
-export function initializeWasm(path: string) {
-	bindingsInit(path);
+            index.write("""import { initializeWasmFetch, initializeWasmFromUint8Array } from './bindings.mjs';
+/** Initializes the WASM backend by calling `fetch()` on the given URI - Browser only */
+export async function initializeWasmWebFetch(uri: string) {
+	await initializeWasmFetch(uri);
 }
+/** Initializes the WASM backend given a Uint8Array of the .wasm binary file - Browser or Node.JS */
+export async function initializeWasmFromBinary(bin: Uint8Array) {
+	await initializeWasmFromUint8Array(bin);
+}
+
 """)
 
         self.bindings_version_file = """export function get_ldk_java_bindings_version(): String {

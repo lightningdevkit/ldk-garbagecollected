@@ -197,9 +197,7 @@ tests.push(async () => {
 	return true;
 });
 
-export async function run_tests(wasm_path: string, check_leaks: boolean = true) {
-	await rawldk.initializeWasm(wasm_path);
-
+async function run_tests(check_leaks: boolean) {
 	var test_runs = [];
 	for (const test of tests) {
 		test_runs.push(test());
@@ -228,4 +226,14 @@ export async function run_tests(wasm_path: string, check_leaks: boolean = true) 
 		}, 500);
 	});
 	return allocs_finished;
+}
+
+export async function run_tests_web(wasm_path: string, check_leaks: boolean = true) {
+	await ldk.initializeWasmWebFetch(wasm_path);
+	return await run_tests(check_leaks);
+}
+
+export async function run_tests_node(wasm_file: Uint8Array, check_leaks: boolean = true) {
+	await ldk.initializeWasmFromBinary(wasm_file);
+	return await run_tests(check_leaks);
 }
