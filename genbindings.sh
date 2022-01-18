@@ -222,6 +222,7 @@ else
 		rm imports.mts.part
 		tsc --types node --typeRoots .
 		cp ../$WASM_FILE liblightningjs.wasm
+		cp ../README.md README.md
 		echo Ready to publish!
 		if [ -x "$(which node)" ]; then
 			NODE_V="$(node --version)"
