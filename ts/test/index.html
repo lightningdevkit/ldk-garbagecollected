@@ -7,10 +7,10 @@
 	var test_runner;
 </script>
 <script type="module">
-	import { run_tests } from './tests.mjs';
-	test_runner = run_tests;
+	import { run_tests_web } from './tests.mjs';
+	test_runner = run_tests_web;
 	try {
-		const result = await run_tests('../liblightningjs.wasm');
+		const result = await run_tests_web('../liblightningjs.wasm');
 		if (result === true) {
 			document.getElementById("results").innerHTML = "All Tests Passed (note free-time errors may still occurr)!";
 		} else {

@@ -1,7 +1,13 @@
-import { initializeWasm as bindingsInit } from './bindings.mjs';
-export function initializeWasm(path: string) {
-	bindingsInit(path);
+import { initializeWasmFetch, initializeWasmFromUint8Array } from './bindings.mjs';
+/** Initializes the WASM backend by calling `fetch()` on the given URI - Browser only */
+export async function initializeWasmWebFetch(uri: string) {
+	await initializeWasmFetch(uri);
 }
+/** Initializes the WASM backend given a Uint8Array of the .wasm binary file - Browser or Node.JS */
+export async function initializeWasmFromBinary(bin: Uint8Array) {
+	await initializeWasmFromUint8Array(bin);
+}
+
 export * from './structs/TxOut.mjs';
 export * from './enums/AccessError.mjs';
 export * from './enums/COption_NoneZ.mjs';

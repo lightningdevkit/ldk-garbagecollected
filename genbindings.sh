@@ -6,6 +6,7 @@ usage() {
 	echo "debug should either be true, false, or leaks"
 	echo "debug of leaks turns on leak tracking on an optimized release bianry"
 	echo "android_web should either be true or false and indicates if we build for android (Java) or web (WASM)"
+	echo "Note that web currently generates the same results as !web (ie Node.JS)"
 	exit 1
 }
 [ "$1" = "" ] && usage
@@ -219,17 +220,13 @@ else
 			mv $F.tmp $F
 		done
 		rm imports.mts.part
-		if [ "$4" = "true" ]; then
-			tsc
-		else
-			tsc --types node --typeRoots .
-			cp ../$WASM_FILE liblightningjs.wasm
-			echo Ready to publish!
-			if [ -x "$(which node)" ]; then
-				NODE_V="$(node --version)"
-				if [ "${NODE_V:1:2}" -gt 14 ]; then
-					node test/node.mjs
-				fi
+		tsc --types node --typeRoots .
+		cp ../$WASM_FILE liblightningjs.wasm
+		echo Ready to publish!
+		if [ -x "$(which node)" ]; then
+			NODE_V="$(node --version)"
+			if [ "${NODE_V:1:2}" -gt 14 ]; then
+				node test/node.mjs
 			fi
 		fi
 	fi
