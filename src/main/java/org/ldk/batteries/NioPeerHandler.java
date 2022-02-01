@@ -332,10 +332,12 @@ public class NioPeerHandler {
     }
 
     /**
-     * Interrupt the background thread, stopping all peer handling. Disconnection events to the PeerHandler are not made,
-     * potentially leaving the PeerHandler in an inconsistent state.
+     * Interrupt the background thread, stopping all peer handling.
+     *
+     * After this method is called, the behavior of future calls to methods on this NioPeerHandler are undefined.
      */
     public void interrupt() {
+        this.peer_manager.disconnect_all_peers();
         shutdown = true;
         selector.wakeup();
         try {
@@ -347,6 +349,7 @@ public class NioPeerHandler {
                 for (ServerSocketChannel chan : listening_sockets) {
                     chan.close();
                 }
+                listening_sockets.clear();
             } catch (IOException ignored) {}
         }
         Reference.reachabilityFence(this.peer_manager); // Almost certainly overkill, but no harm in it
