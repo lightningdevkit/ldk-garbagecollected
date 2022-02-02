@@ -3,6 +3,7 @@
   "version": "0.0.104.1alpha4",
   "description": "Lightning Development Kit",
   "main": "index.mjs",
+  "types": "index.d.mts",
   "type": "module",
   "directories": {
     "test": "test"

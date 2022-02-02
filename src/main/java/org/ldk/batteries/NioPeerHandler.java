@@ -87,7 +87,7 @@ public class NioPeerHandler {
 							(peer.key.interestOps() | SelectionKey.OP_READ) & (~SelectionKey.OP_WRITE)));
 					}
                     return written;
-                } catch (IOException e) {
+                } catch (IOException|CancelledKeyException ignored) {
                     // Most likely the socket is disconnected, let the background thread handle it.
                     return 0;
                 }
@@ -97,7 +97,7 @@ public class NioPeerHandler {
             public void disconnect_socket() {
                 try {
                     do_selector_action(() -> {
-                        peer.key.cancel();
+                        try { peer.key.cancel(); } catch (CancelledKeyException ignored) {}
                         peer.key.channel().close();
                     });
                 } catch (IOException ignored) { }
@@ -189,8 +189,8 @@ public class NioPeerHandler {
                             if (key.isValid() && (key.interestOps() & SelectionKey.OP_WRITE) != 0 && key.isWritable()) {
                                 Result_NonePeerHandleErrorZ res = this.peer_manager.write_buffer_space_avail(peer.descriptor);
                                 if (res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_Err) {
-                                    key.channel().close();
                                     key.cancel();
+                                    key.channel().close();
                                 }
                             }
                             if (key.isValid() && (key.interestOps() & SelectionKey.OP_READ) != 0 && key.isReadable()) {
@@ -199,6 +199,7 @@ public class NioPeerHandler {
                                 if (read == -1) {
                                     this.peer_manager.socket_disconnected(peer.descriptor);
                                     key.cancel();
+                                    key.channel().close(); // This may throw, we read -1 so the channel should already be closed, but do this to be safe
                                 } else if (read > 0) {
                                     ((Buffer)buf).flip();
                                     // This code is quite hot during initial network graph sync, so we go a ways out of
@@ -223,15 +224,15 @@ public class NioPeerHandler {
                                             key.interestOps(key.interestOps() & (~SelectionKey.OP_READ));
                                         }
                                     } else {
-                                        key.channel().close();
                                         key.cancel();
+                                        key.channel().close();
                                     }
                                     bindings.CResult_boolPeerHandleErrorZ_free(read_result_pointer);
                                 }
                             }
                         } catch (IOException ignored) {
-                            try { key.channel().close(); } catch (IOException ignored2) { }
                             key.cancel();
+                            try { key.channel().close(); } catch (IOException ignored2) { }
                             peer_manager.socket_disconnected(peer.descriptor);
                         }
                     } catch (CancelledKeyException e) {
@@ -265,13 +266,21 @@ public class NioPeerHandler {
      */
     public void connect(byte[] their_node_id, SocketAddress remote, int timeout_ms) throws IOException {
         SocketChannel chan = SocketChannel.open();
-        chan.configureBlocking(false);
-        Selector open_selector = Selector.open();
-        chan.register(open_selector, SelectionKey.OP_CONNECT);
-        if (!chan.connect(remote)) {
-            open_selector.select(timeout_ms);
+        boolean connected;
+        try {
+            chan.configureBlocking(false);
+            Selector open_selector = Selector.open();
+            chan.register(open_selector, SelectionKey.OP_CONNECT);
+            if (!chan.connect(remote)) {
+                open_selector.select(timeout_ms);
+            }
+            connected = chan.finishConnect();
+        } catch (IOException e) {
+            try { chan.close(); } catch (IOException _e) { }
+            throw e;
         }
-        if (!chan.finishConnect()) { // Note that this may throw its own IOException if we failed for another reason
+        if (!connected) {
+            try { chan.close(); } catch (IOException _e) { }
             throw new IOException("Timed out");
         }
         Peer peer = setup_socket(chan);
@@ -323,10 +332,12 @@ public class NioPeerHandler {
     }
 
     /**
-     * Interrupt the background thread, stopping all peer handling. Disconnection events to the PeerHandler are not made,
-     * potentially leaving the PeerHandler in an inconsistent state.
+     * Interrupt the background thread, stopping all peer handling.
+     *
+     * After this method is called, the behavior of future calls to methods on this NioPeerHandler are undefined.
      */
     public void interrupt() {
+        this.peer_manager.disconnect_all_peers();
         shutdown = true;
         selector.wakeup();
         try {
@@ -338,6 +349,7 @@ public class NioPeerHandler {
                 for (ServerSocketChannel chan : listening_sockets) {
                     chan.close();
                 }
+                listening_sockets.clear();
             } catch (IOException ignored) {}
         }
         Reference.reachabilityFence(this.peer_manager); // Almost certainly overkill, but no harm in it

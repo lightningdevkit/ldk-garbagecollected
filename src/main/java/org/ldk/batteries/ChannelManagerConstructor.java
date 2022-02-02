@@ -207,7 +207,7 @@ assert this.payer != null;
      * Interrupt the background thread, stopping the background handling of events.
      */
     public void interrupt() {
-        this.background_processor.stop();
         this.nio_peer_handler.interrupt();
+        this.background_processor.stop();
     }
 }
