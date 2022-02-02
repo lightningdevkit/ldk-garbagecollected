@@ -10,10 +10,12 @@ for (const browserType of [chromium, firefox]) { // We'd like to test webkit, bu
 	const context = await browser.newContext();
 	const page = await context.newPage();
 	page.on('console', async msg => {
-		const values = [];
-		for (const arg of msg.args())
-			values.push(await arg.jsonValue());
-		console.log(...values);
+		try {
+			const values = [];
+			for (const arg of msg.args())
+				values.push(await arg.jsonValue());
+			console.log(...values);
+		} catch (_) { /* sometimes this gets hit if we're logging while the browser shuts down */ }
 	});
 	await page.goto('http://localhost:8000/test/index.html');
 	var ret;
