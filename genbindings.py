@@ -481,7 +481,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     takes_self_ptr = True
             elif arg_ty.var_name in params_nullable:
                 argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty, False, None, is_free, True, True)
-                if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
+                if argument_conversion_info.arg_conv is not None and "WARNING" in argument_conversion_info.arg_conv:
                     arg_ty_info = java_c_types(argument, None)
                     print("WARNING: Remapping argument " + arg_ty_info.var_name + " of function " + method_name + " to a reference")
                     print("    The argument appears to require a move, or not clonable, and is nullable.")
@@ -496,11 +496,11 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                     arg_ty_info.requires_clone = False
                     argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty_info, False, None, is_free, True, True)
                     assert argument_conversion_info.nullable
-                    assert argument_conversion_info.arg_conv is not None and "Warning" not in argument_conversion_info.arg_conv
+                    assert argument_conversion_info.arg_conv is not None and "WARNING" not in argument_conversion_info.arg_conv
             else:
                 argument_conversion_info = type_mapping_generator.map_type_with_info(arg_ty, False, None, is_free, True, False)
 
-            if argument_conversion_info.arg_conv is not None and "Warning" in argument_conversion_info.arg_conv:
+            if argument_conversion_info.arg_conv is not None and "WARNING" in argument_conversion_info.arg_conv:
                 if argument_conversion_info.rust_obj in constructor_fns:
                     assert not is_free
                     for explode_arg in constructor_fns[argument_conversion_info.rust_obj].split(','):
