@@ -124,7 +124,17 @@ def java_c_types(fn_arg, ret_arr_len):
     rust_obj = None
     arr_access = None
     java_hu_ty = None
-    if fn_arg.startswith("LDKThirtyTwoBytes"):
+    if fn_arg.startswith("LDKPaymentPreimage") or fn_arg.startswith("LDKPaymentSecret") or fn_arg.startswith("LDKPaymentHash"):
+        if fn_arg.startswith("LDKPaymentPreimage"):
+            fn_arg = "uint8_t (*" + fn_arg[19:] + ")[32]"
+        elif fn_arg.startswith("LDKPaymentSecret"):
+            fn_arg = "uint8_t (*" + fn_arg[17:] + ")[32]"
+        elif fn_arg.startswith("LDKPaymentHash"):
+            fn_arg = "uint8_t (*" + fn_arg[15:] + ")[32]"
+        assert var_is_arr_regex.match(fn_arg[8:])
+        rust_obj = "LDKThirtyTwoBytes"
+        arr_access = "data"
+    elif fn_arg.startswith("LDKThirtyTwoBytes"):
         fn_arg = "uint8_t (*" + fn_arg[18:] + ")[32]"
         assert var_is_arr_regex.match(fn_arg[8:])
         rust_obj = "LDKThirtyTwoBytes"
@@ -904,7 +914,7 @@ with open(sys.argv[1]) as in_h, open(f"{sys.argv[2]}/bindings{consts.file_ext}",
                         write_c("\tmemcpy(ret.data, orig->data, sizeof(" + ty_info.c_ty + ") * ret.datalen);\n")
                         write_c("\treturn ret;\n}\n")
                     elif (ty_info.rust_obj.replace("LDK", "") + "_clone") in clone_fns:
-                        ty_name = "CVec_" + ty_info.rust_obj.replace("LDK", "") + "Z";
+                        ty_name = struct_name.replace("LDK", "")
                         clone_fns.add(ty_name + "_clone")
                         write_c("static inline " + struct_name + " " + ty_name + "_clone(const " + struct_name + " *orig) {\n")
                         write_c("\t" + struct_name + " ret = { .data = MALLOC(sizeof(" + ty_info.rust_obj + ") * orig->datalen, \"" + struct_name + " clone bytes\"), .datalen = orig->datalen };\n")
