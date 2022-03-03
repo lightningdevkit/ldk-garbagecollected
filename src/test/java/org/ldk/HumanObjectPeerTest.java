@@ -5,12 +5,10 @@ import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
 import org.ldk.batteries.ChannelManagerConstructor;
 import org.ldk.batteries.NioPeerHandler;
-import org.ldk.enums.AccessError;
+import org.ldk.enums.*;
 import org.ldk.enums.Currency;
-import org.ldk.enums.Level;
-import org.ldk.enums.Network;
 import org.ldk.structs.*;
-import org.ldk.util.TwoTuple;
+import org.ldk.util.UInt5;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -45,7 +43,7 @@ class HumanObjectPeerTestInstance {
     class Peer {
         KeysInterface manual_keysif(KeysInterface underlying_if) {
             return KeysInterface.new_impl(new KeysInterface.KeysInterfaceInterface() {
-                @Override public byte[] get_node_secret() { return underlying_if.get_node_secret(); }
+                @Override public Result_SecretKeyNoneZ get_node_secret(Recipient recipient) { return underlying_if.get_node_secret(recipient); }
                 @Override public byte[] get_destination_script() { return underlying_if.get_destination_script(); }
                 @Override public ShutdownScript get_shutdown_scriptpubkey() { return underlying_if.get_shutdown_scriptpubkey(); }
 
@@ -60,14 +58,14 @@ class HumanObjectPeerTestInstance {
                         @Override public byte[] release_commitment_secret(long idx) {
                             return underlying_base.release_commitment_secret(idx);
                         }
-                        @Override public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx) {
-                            return underlying_base.validate_holder_commitment(holder_tx);
+                        @Override public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages) {
+                            return underlying_base.validate_holder_commitment(holder_tx, preimages);
                         }
                         @Override public byte[] channel_keys_id() {
                             return new byte[32];
                         }
-                        @Override public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
-                            return underlying_base.sign_counterparty_commitment(commitment_tx);
+                        @Override public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
+                            return underlying_base.sign_counterparty_commitment(commitment_tx, preimages);
                         }
                         @Override public Result_NoneNoneZ validate_counterparty_revocation(long idx, byte[] secret) {
                             return underlying_base.validate_counterparty_revocation(idx, secret);
@@ -87,7 +85,7 @@ class HumanObjectPeerTestInstance {
                         @Override public Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx) {
                             return underlying_base.sign_closing_transaction(closing_tx);
                         }
-                        @Override public Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
+                        @Override public Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
                             return underlying_base.sign_channel_announcement(msg);
                         }
                         @Override public void ready_channel(ChannelTransactionParameters params) {
@@ -120,8 +118,8 @@ class HumanObjectPeerTestInstance {
                 }
 
                 @Override
-                public Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage) {
-                    return underlying_if.sign_invoice(invoice_preimage);
+                public Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, Recipient receipient) {
+                    return underlying_if.sign_invoice(hrp_bytes, invoice_data, receipient);
                 }
 
                 @Override
@@ -377,7 +375,10 @@ class HumanObjectPeerTestInstance {
                 ChainParameters params = ChainParameters.of(Network.LDKNetwork_Bitcoin, BestBlock.of(new byte[32], 0));
                 this.chan_manager = ChannelManager.of(this.fee_estimator, chain_watch, tx_broadcaster, logger, this.keys_interface, UserConfig.with_default(), params);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
-                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
+                Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
+                assert node_secret.is_ok();
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(),
+                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res, random_data, logger, this.custom_message_handler);
                 if (use_invoice_payer) {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
@@ -386,7 +387,7 @@ class HumanObjectPeerTestInstance {
                         }
                     }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
-                        @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, Option_u64Z channel_capacity_msat, NodeId source, NodeId target) { return 0; }
+                        @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, long channel_capacity_msat, NodeId source, NodeId target) { return 0; }
                         @Override public void payment_path_successful(RouteHop[] path) {}
                         @Override public byte[] write() { assert false; return null; }
                     })), logger, EventHandler.new_impl(new EventHandler.EventHandlerInterface() {
@@ -480,7 +481,11 @@ class HumanObjectPeerTestInstance {
                 this.chan_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK) read_res).res.get_b();
                 this.chain_watch.watch_channel(monitors[0].get_funding_txo().get_a(), monitors[0]);
                 byte[] random_data = keys_interface.get_secure_random_bytes();
-                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(), keys_interface.get_node_secret(), random_data, logger, this.custom_message_handler);
+                Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
+                assert node_secret.is_ok();
+                this.peer_manager = PeerManager.of(chan_manager.as_ChannelMessageHandler(), route_handler.as_RoutingMessageHandler(),
+                        ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
+                        random_data, logger, this.custom_message_handler);
                 if (!break_cross_peer_refs && (use_manual_watch || use_km_wrapper)) {
                     // When we pass monitors[0] into chain_watch.watch_channel we create a reference from the new Peer to a
                     // field in the old peer, preventing freeing of the original Peer until the new Peer is freed. Thus, we
@@ -494,7 +499,7 @@ class HumanObjectPeerTestInstance {
                             return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
                         }
                     }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
-                        @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, Option_u64Z channel_capacity_msat, NodeId source, NodeId target) { return 0; }
+                        @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, long channel_capacity_msat, NodeId source, NodeId target) { return 0; }
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
                         @Override public void payment_path_successful(RouteHop[] path) {}
                         @Override public byte[] write() { assert false; return null; }
@@ -828,7 +833,7 @@ class HumanObjectPeerTestInstance {
             InvoiceFeatures invoice_features = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.features();
             RouteHint[] route_hints = ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.route_hints();
 
-            Payee payee = Payee.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none());
+            PaymentParameters payee = PaymentParameters.of(peer2.node_id, invoice_features, route_hints, Option_u64Z.none(), 6*24*14);
             RouteParameters route_params = RouteParameters.of(payee, 10000000, 42);
             Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
                     peer1.chan_manager.get_our_node_id(), route_params, peer1.router,
