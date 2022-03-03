@@ -36,6 +36,7 @@ class Consts:
 
         self.bindings_header = """
 import * as version from './version.mjs';
+import { UInt5 } from './structs/CommonBase.mjs';
 
 const imports: any = {};
 imports.env = {};
@@ -139,8 +140,13 @@ export async function initializeWasmFetch(uri: string) {
         self.bindings_header += """
 // WASM CODEC
 
-const nextMultipleOfFour = (value: number) => {
-	return Math.ceil(value / 4) * 4;
+/* @internal */
+export function uint5ArrToBytes(inputArray: Array<UInt5>): Uint8Array {
+	const arr = new Uint8Array(inputArray.length);
+	for (var i = 0; i < inputArray.length; i++) {
+		arr[i] = inputArray[i].getVal();
+	}
+	return arr;
 }
 
 /* @internal */
@@ -220,6 +226,13 @@ export function getU32ArrayElem(arrayPointer: number, idx: number): number {
 }
 
 /* @internal */
+export function getU8ArrayElem(arrayPointer: number, idx: number): number {
+	const actualArrayViewer = new Uint8Array(wasm.memory.buffer, arrayPointer + 4, idx + 1);
+	return actualArrayViewer[idx];
+}
+
+
+/* @internal */
 export function encodeString(str: string): number {
 	const charArray = new TextEncoder().encode(str);
 	return encodeUint8Array(charArray);
@@ -281,7 +294,7 @@ function get_freeer(ptr: number, free_fn: (ptr: number) => void) {
 	}
 }
 
-export default class CommonBase {
+export class CommonBase {
 	protected ptr: number;
 	protected ptrs_to: object[] = [];
 	protected constructor(ptr: number, free_fn: (ptr: number) => void) {
@@ -302,6 +315,15 @@ export default class CommonBase {
 	protected static set_null_skip_free(o: CommonBase) {
 		o.ptr = 0;
 		finalizer.unregister(o);
+	}
+}
+
+export class UInt5 {
+	public constructor(private val: number) {
+		if (val > 32 || val < 0) throw new Error("UInt5 value is out of range");
+	}
+	public getVal(): number {
+		return this.val;
 	}
 }
 """
@@ -570,7 +592,7 @@ jstring __attribute__((export_name("TS_get_ldk_version"))) get_ldk_version() {
 }"""
 
         self.hu_struct_file_prefix = """
-import CommonBase from './CommonBase.mjs';
+import { CommonBase, UInt5 } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 """
@@ -589,7 +611,7 @@ import * as bindings from '../bindings.mjs'
         return None
     def create_native_arr_call(self, arr_len, ty_info):
         if ty_info.c_ty == "ptrArray":
-            assert ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array")
+            assert ty_info.rust_obj == "LDKCVec_u5Z" or (ty_info.subty is not None and ty_info.subty.c_ty.endswith("Array"))
         return "init_" + ty_info.c_ty + "(" + arr_len + ", __LINE__)"
     def set_native_arr_contents(self, arr_name, arr_len, ty_info):
         if ty_info.c_ty == "int8_tArray":
@@ -620,6 +642,8 @@ import * as bindings from '../bindings.mjs'
             return None
 
     def map_hu_array_elems(self, arr_name, conv_name, arr_ty, elem_ty):
+        if elem_ty.rust_obj == "LDKu5":
+            return arr_name + " != null ? bindings.uint5ArrToBytes(" + arr_name + ") : null"
         assert elem_ty.c_ty == "uint32_t" or elem_ty.c_ty.endswith("Array")
         return arr_name + " != null ? " + arr_name + ".map(" + conv_name + " => " + elem_ty.from_hu_conv[0] + ") : null"
 
@@ -643,6 +667,8 @@ import * as bindings from '../bindings.mjs'
     def get_java_arr_elem(self, elem_ty, arr_name, idx):
         if elem_ty.c_ty == "uint32_t" or elem_ty.c_ty == "uintptr_t" or elem_ty.c_ty.endswith("Array"):
             return "bindings.getU32ArrayElem(" + arr_name + ", " + idx + ")"
+        elif elem_ty.rust_obj == "LDKu5":
+            return "bindings.getU8ArrayElem(" + arr_name + ", " + idx + ")"
         else:
             assert False
     def constr_hu_array(self, ty_info, arr_len):
