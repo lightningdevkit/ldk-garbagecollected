@@ -152,8 +152,9 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Create a new InMemorySigner
 	 */
-	public static InMemorySigner of(byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
-		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
+	public static InMemorySigner of(byte[] node_secret, byte[] funding_key, byte[] revocation_base_key, byte[] payment_key, byte[] delayed_payment_base_key, byte[] htlc_base_key, byte[] commitment_seed, long channel_value_satoshis, byte[] channel_keys_id) {
+		long ret = bindings.InMemorySigner_new(InternalUtils.check_arr_len(node_secret, 32), InternalUtils.check_arr_len(funding_key, 32), InternalUtils.check_arr_len(revocation_base_key, 32), InternalUtils.check_arr_len(payment_key, 32), InternalUtils.check_arr_len(delayed_payment_base_key, 32), InternalUtils.check_arr_len(htlc_base_key, 32), InternalUtils.check_arr_len(commitment_seed, 32), channel_value_satoshis, InternalUtils.check_arr_len(channel_keys_id, 32));
+		Reference.reachabilityFence(node_secret);
 		Reference.reachabilityFence(funding_key);
 		Reference.reachabilityFence(revocation_base_key);
 		Reference.reachabilityFence(payment_key);
@@ -258,7 +259,8 @@ public class InMemorySigner extends CommonBase {
 	 * described by descriptor, returning the witness stack for the input.
 	 * 
 	 * Returns an Err if the input at input_idx does not exist, has a non-empty script_sig,
-	 * or is not spending the outpoint described by `descriptor.outpoint`.
+	 * is not spending the outpoint described by `descriptor.outpoint`,
+	 * or if an output descriptor script_pubkey does not match the one we can spend.
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ sign_counterparty_payment_input(byte[] spend_tx, long input_idx, StaticPaymentOutputDescriptor descriptor) {
 		long ret = bindings.InMemorySigner_sign_counterparty_payment_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr & ~1);
@@ -277,8 +279,9 @@ public class InMemorySigner extends CommonBase {
 	 * described by descriptor, returning the witness stack for the input.
 	 * 
 	 * Returns an Err if the input at input_idx does not exist, has a non-empty script_sig,
-	 * is not spending the outpoint described by `descriptor.outpoint`, or does not have a
-	 * sequence set to `descriptor.to_self_delay`.
+	 * is not spending the outpoint described by `descriptor.outpoint`, does not have a
+	 * sequence set to `descriptor.to_self_delay`, or if an output descriptor
+	 * script_pubkey does not match the one we can spend.
 	 */
 	public Result_CVec_CVec_u8ZZNoneZ sign_dynamic_p2wsh_input(byte[] spend_tx, long input_idx, DelayedPaymentOutputDescriptor descriptor) {
 		long ret = bindings.InMemorySigner_sign_dynamic_p2wsh_input(this.ptr, spend_tx, input_idx, descriptor == null ? 0 : descriptor.ptr & ~1);
@@ -330,9 +333,10 @@ public class InMemorySigner extends CommonBase {
 	/**
 	 * Read a InMemorySigner from a byte array, created by InMemorySigner_write
 	 */
-	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.InMemorySigner_read(ser);
+	public static Result_InMemorySignerDecodeErrorZ read(byte[] ser, byte[] arg) {
+		long ret = bindings.InMemorySigner_read(ser, InternalUtils.check_arr_len(arg, 32));
 		Reference.reachabilityFence(ser);
+		Reference.reachabilityFence(arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InMemorySignerDecodeErrorZ ret_hu_conv = Result_InMemorySignerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;

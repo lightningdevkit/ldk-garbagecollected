@@ -79,19 +79,23 @@ public class SocketDescriptor extends CommonBase {
 		impl_holder.held = new SocketDescriptor(new bindings.LDKSocketDescriptor() {
 			@Override public long send_data(byte[] data, boolean resume_read) {
 				long ret = arg.send_data(data, resume_read);
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 			@Override public void disconnect_socket() {
 				arg.disconnect_socket();
+				Reference.reachabilityFence(arg);
 			}
 			@Override public boolean eq(long other_arg) {
 				SocketDescriptor ret_hu_conv = new SocketDescriptor(null, other_arg);
 				ret_hu_conv.ptrs_to.add(this);
 				boolean ret = arg.eq(ret_hu_conv);
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 			@Override public long hash() {
 				long ret = arg.hash();
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 		});

@@ -72,6 +72,8 @@ public class TrustedCommitmentTransaction extends CommonBase {
 	 * which HTLCOutputInCommitment::transaction_output_index.is_some()).
 	 * 
 	 * The returned Vec has one entry for each HTLC, and in the same order.
+	 * 
+	 * This function is only valid in the holder commitment context, it always uses SigHashType::All.
 	 */
 	public Result_CVec_SignatureZNoneZ get_htlc_sigs(byte[] htlc_base_key, DirectedChannelTransactionParameters channel_parameters) {
 		long ret = bindings.TrustedCommitmentTransaction_get_htlc_sigs(this.ptr, InternalUtils.check_arr_len(htlc_base_key, 32), channel_parameters == null ? 0 : channel_parameters.ptr & ~1);

@@ -36,6 +36,9 @@ public class ErrorAction extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKErrorAction.SendErrorMessage.class) {
 			return new SendErrorMessage(ptr, (bindings.LDKErrorAction.SendErrorMessage)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKErrorAction.SendWarningMessage.class) {
+			return new SendWarningMessage(ptr, (bindings.LDKErrorAction.SendWarningMessage)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -100,6 +103,29 @@ public class ErrorAction extends CommonBase {
 			ErrorMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ErrorMessage(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * The peer did something incorrect. Tell them without closing any channels.
+	 */
+	public final static class SendWarningMessage extends ErrorAction {
+		/**
+		 * The message to send.
+		*/
+		public final WarningMessage msg;
+		/**
+		 * The peer may have done something harmless that we weren't able to meaningfully process,
+		 * though we should still tell them about it.
+		 * If this event is logged, log it at the given level.
+		*/
+		public final Level log_level;
+		private SendWarningMessage(long ptr, bindings.LDKErrorAction.SendWarningMessage obj) {
+			super(null, ptr);
+			long msg = obj.msg;
+			WarningMessage msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new WarningMessage(null, msg); }
+			msg_hu_conv.ptrs_to.add(this);
+			this.msg = msg_hu_conv;
+			this.log_level = obj.log_level;
 		}
 	}
 	long clone_ptr() {
@@ -172,6 +198,19 @@ public class ErrorAction extends CommonBase {
 	public static ErrorAction send_error_message(ErrorMessage msg) {
 		long ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr & ~1);
 		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendWarningMessage-variant ErrorAction
+	 */
+	public static ErrorAction send_warning_message(WarningMessage msg, org.ldk.enums.Level log_level) {
+		long ret = bindings.ErrorAction_send_warning_message(msg == null ? 0 : msg.ptr & ~1, log_level);
+		Reference.reachabilityFence(msg);
+		Reference.reachabilityFence(log_level);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

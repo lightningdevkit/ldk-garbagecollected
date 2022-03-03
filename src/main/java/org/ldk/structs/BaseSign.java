@@ -65,8 +65,15 @@ public class BaseSign extends CommonBase {
 		 * secret won't leave us without a broadcastable holder transaction.
 		 * Policy checks should be implemented in this function, including checking the amount
 		 * sent to us and checking the HTLCs.
+		 * 
+		 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
+		 * A validating signer should ensure that an HTLC output is removed only when the matching
+		 * preimage is provided, or when the value to holder is restored.
+		 * 
+		 * NOTE: all the relevant preimages will be provided, but there may also be additional
+		 * irrelevant or duplicate preimages.
 		 */
-		Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx);
+		Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages);
 		/**
 		 * Gets an arbitrary identifier describing the set of keys which are provided back to you in
 		 * some SpendableOutputDescriptor types. This should be sufficient to identify this
@@ -80,8 +87,15 @@ public class BaseSign extends CommonBase {
 		 * 
 		 * Policy checks should be implemented in this function, including checking the amount
 		 * sent to us and checking the HTLCs.
+		 * 
+		 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
+		 * A validating signer should ensure that an HTLC output is removed only when the matching
+		 * preimage is provided, or when the value to holder is restored.
+		 * 
+		 * NOTE: all the relevant preimages will be provided, but there may also be additional
+		 * irrelevant or duplicate preimages.
 		 */
-		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx);
+		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages);
 		/**
 		 * Validate the counterparty's revocation.
 		 * 
@@ -168,14 +182,17 @@ public class BaseSign extends CommonBase {
 		 */
 		Result_SignatureNoneZ sign_closing_transaction(ClosingTransaction closing_tx);
 		/**
-		 * Signs a channel announcement message with our funding key, proving it comes from one
-		 * of the channel participants.
+		 * Signs a channel announcement message with our funding key and our node secret key (aka
+		 * node_id or network_key), proving it comes from one of the channel participants.
+		 * 
+		 * The first returned signature should be from our node secret key, the second from our
+		 * funding key.
 		 * 
 		 * Note that if this fails or is rejected, the channel will not be publicly announced and
 		 * our counterparty may (though likely will not) close the channel on us for violating the
 		 * protocol.
 		 */
-		Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg);
+		Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg);
 		/**
 		 * Set the counterparty static channel data, including basepoints,
 		 * counterparty_selected/holder_selected_contest_delay and funding outpoint.
@@ -196,74 +213,87 @@ public class BaseSign extends CommonBase {
 		impl_holder.held = new BaseSign(new bindings.LDKBaseSign() {
 			@Override public byte[] get_per_commitment_point(long idx) {
 				byte[] ret = arg.get_per_commitment_point(idx);
+				Reference.reachabilityFence(arg);
 				byte[] result = InternalUtils.check_arr_len(ret, 33);
 				return result;
 			}
 			@Override public byte[] release_commitment_secret(long idx) {
 				byte[] ret = arg.release_commitment_secret(idx);
+				Reference.reachabilityFence(arg);
 				byte[] result = InternalUtils.check_arr_len(ret, 32);
 				return result;
 			}
-			@Override public long validate_holder_commitment(long holder_tx) {
+			@Override public long validate_holder_commitment(long holder_tx, byte[][] preimages) {
 				HolderCommitmentTransaction holder_tx_hu_conv = null; if (holder_tx < 0 || holder_tx > 4096) { holder_tx_hu_conv = new HolderCommitmentTransaction(null, holder_tx); }
-				Result_NoneNoneZ ret = arg.validate_holder_commitment(holder_tx_hu_conv);
+				Result_NoneNoneZ ret = arg.validate_holder_commitment(holder_tx_hu_conv, preimages);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public byte[] channel_keys_id() {
 				byte[] ret = arg.channel_keys_id();
+				Reference.reachabilityFence(arg);
 				byte[] result = InternalUtils.check_arr_len(ret, 32);
 				return result;
 			}
-			@Override public long sign_counterparty_commitment(long commitment_tx) {
+			@Override public long sign_counterparty_commitment(long commitment_tx, byte[][] preimages) {
 				CommitmentTransaction commitment_tx_hu_conv = null; if (commitment_tx < 0 || commitment_tx > 4096) { commitment_tx_hu_conv = new CommitmentTransaction(null, commitment_tx); }
-				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv);
+				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_counterparty_commitment(commitment_tx_hu_conv, preimages);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long validate_counterparty_revocation(long idx, byte[] secret) {
 				Result_NoneNoneZ ret = arg.validate_counterparty_revocation(idx, secret);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_holder_commitment_and_htlcs(long commitment_tx) {
 				HolderCommitmentTransaction commitment_tx_hu_conv = null; if (commitment_tx < 0 || commitment_tx > 4096) { commitment_tx_hu_conv = new HolderCommitmentTransaction(null, commitment_tx); }
 				Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret = arg.sign_holder_commitment_and_htlcs(commitment_tx_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_justice_revoked_output(byte[] justice_tx, long input, long amount, byte[] per_commitment_key) {
 				Result_SignatureNoneZ ret = arg.sign_justice_revoked_output(justice_tx, input, amount, per_commitment_key);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_justice_revoked_htlc(byte[] justice_tx, long input, long amount, byte[] per_commitment_key, long htlc) {
 				HTLCOutputInCommitment htlc_hu_conv = null; if (htlc < 0 || htlc > 4096) { htlc_hu_conv = new HTLCOutputInCommitment(null, htlc); }
 				Result_SignatureNoneZ ret = arg.sign_justice_revoked_htlc(justice_tx, input, amount, per_commitment_key, htlc_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_counterparty_htlc_transaction(byte[] htlc_tx, long input, long amount, byte[] per_commitment_point, long htlc) {
 				HTLCOutputInCommitment htlc_hu_conv = null; if (htlc < 0 || htlc > 4096) { htlc_hu_conv = new HTLCOutputInCommitment(null, htlc); }
 				Result_SignatureNoneZ ret = arg.sign_counterparty_htlc_transaction(htlc_tx, input, amount, per_commitment_point, htlc_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_closing_transaction(long closing_tx) {
 				ClosingTransaction closing_tx_hu_conv = null; if (closing_tx < 0 || closing_tx > 4096) { closing_tx_hu_conv = new ClosingTransaction(null, closing_tx); }
 				Result_SignatureNoneZ ret = arg.sign_closing_transaction(closing_tx_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long sign_channel_announcement(long msg) {
 				UnsignedChannelAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new UnsignedChannelAnnouncement(null, msg); }
-				Result_SignatureNoneZ ret = arg.sign_channel_announcement(msg_hu_conv);
+				Result_C2Tuple_SignatureSignatureZNoneZ ret = arg.sign_channel_announcement(msg_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public void ready_channel(long channel_parameters) {
 				ChannelTransactionParameters channel_parameters_hu_conv = null; if (channel_parameters < 0 || channel_parameters > 4096) { channel_parameters_hu_conv = new ChannelTransactionParameters(null, channel_parameters); }
 				arg.ready_channel(channel_parameters_hu_conv);
+				Reference.reachabilityFence(arg);
 			}
 		}, pubkeys);
 		return impl_holder.held;
@@ -304,11 +334,19 @@ public class BaseSign extends CommonBase {
 	 * secret won't leave us without a broadcastable holder transaction.
 	 * Policy checks should be implemented in this function, including checking the amount
 	 * sent to us and checking the HTLCs.
+	 * 
+	 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
+	 * A validating signer should ensure that an HTLC output is removed only when the matching
+	 * preimage is provided, or when the value to holder is restored.
+	 * 
+	 * NOTE: all the relevant preimages will be provided, but there may also be additional
+	 * irrelevant or duplicate preimages.
 	 */
-	public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx) {
-		long ret = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr & ~1);
+	public Result_NoneNoneZ validate_holder_commitment(HolderCommitmentTransaction holder_tx, byte[][] preimages) {
+		long ret = bindings.BaseSign_validate_holder_commitment(this.ptr, holder_tx == null ? 0 : holder_tx.ptr & ~1, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(holder_tx);
+		Reference.reachabilityFence(preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneNoneZ ret_hu_conv = Result_NoneNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(holder_tx);
@@ -333,11 +371,19 @@ public class BaseSign extends CommonBase {
 	 * 
 	 * Policy checks should be implemented in this function, including checking the amount
 	 * sent to us and checking the HTLCs.
+	 * 
+	 * The preimages of outgoing HTLCs that were fulfilled since the last commitment are provided.
+	 * A validating signer should ensure that an HTLC output is removed only when the matching
+	 * preimage is provided, or when the value to holder is restored.
+	 * 
+	 * NOTE: all the relevant preimages will be provided, but there may also be additional
+	 * irrelevant or duplicate preimages.
 	 */
-	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx) {
-		long ret = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1);
+	public Result_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment(CommitmentTransaction commitment_tx, byte[][] preimages) {
+		long ret = bindings.BaseSign_sign_counterparty_commitment(this.ptr, commitment_tx == null ? 0 : commitment_tx.ptr & ~1, preimages != null ? Arrays.stream(preimages).map(preimages_conv_8 -> InternalUtils.check_arr_len(preimages_conv_8, 32)).toArray(byte[][]::new) : null);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(commitment_tx);
+		Reference.reachabilityFence(preimages);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_C2Tuple_SignatureCVec_SignatureZZNoneZ ret_hu_conv = Result_C2Tuple_SignatureCVec_SignatureZZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(commitment_tx);
@@ -494,19 +540,22 @@ public class BaseSign extends CommonBase {
 	}
 
 	/**
-	 * Signs a channel announcement message with our funding key, proving it comes from one
-	 * of the channel participants.
+	 * Signs a channel announcement message with our funding key and our node secret key (aka
+	 * node_id or network_key), proving it comes from one of the channel participants.
+	 * 
+	 * The first returned signature should be from our node secret key, the second from our
+	 * funding key.
 	 * 
 	 * Note that if this fails or is rejected, the channel will not be publicly announced and
 	 * our counterparty may (though likely will not) close the channel on us for violating the
 	 * protocol.
 	 */
-	public Result_SignatureNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
+	public Result_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement(UnsignedChannelAnnouncement msg) {
 		long ret = bindings.BaseSign_sign_channel_announcement(this.ptr, msg == null ? 0 : msg.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignatureNoneZ ret_hu_conv = Result_SignatureNoneZ.constr_from_ptr(ret);
+		Result_C2Tuple_SignatureSignatureZNoneZ ret_hu_conv = Result_C2Tuple_SignatureSignatureZNoneZ.constr_from_ptr(ret);
 		this.ptrs_to.add(msg);
 		return ret_hu_conv;
 	}

@@ -84,6 +84,16 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Construct the invoice's HRP and signatureless data into a preimage to be hashed.
+	 */
+	public static byte[] construct_invoice_preimage(byte[] hrp_bytes, UInt5[] data_without_signature) {
+		byte[] ret = bindings.construct_invoice_preimage(hrp_bytes, data_without_signature != null ? InternalUtils.convUInt5Array(data_without_signature) : null);
+		Reference.reachabilityFence(hrp_bytes);
+		Reference.reachabilityFence(data_without_signature);
+		return ret;
+	}
+
+	/**
 	 * Read a MonitorEvent from a byte array, created by MonitorEvent_write
 	 */
 	public static Result_COption_MonitorEventZDecodeErrorZ MonitorEvent_read(byte[] ser) {
@@ -378,17 +388,17 @@ public class UtilMethods {
 	 * 
 	 * Note that first_hops (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static Result_RouteLightningErrorZ find_route(byte[] our_node_pubkey, RouteParameters params, NetworkGraph network, @Nullable ChannelDetails[] first_hops, Logger logger, Score scorer) {
-		long ret = bindings.find_route(InternalUtils.check_arr_len(our_node_pubkey, 33), params == null ? 0 : params.ptr & ~1, network == null ? 0 : network.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
+	public static Result_RouteLightningErrorZ find_route(byte[] our_node_pubkey, RouteParameters route_params, NetworkGraph network, @Nullable ChannelDetails[] first_hops, Logger logger, Score scorer) {
+		long ret = bindings.find_route(InternalUtils.check_arr_len(our_node_pubkey, 33), route_params == null ? 0 : route_params.ptr & ~1, network == null ? 0 : network.ptr & ~1, first_hops != null ? Arrays.stream(first_hops).mapToLong(first_hops_conv_16 -> first_hops_conv_16 == null ? 0 : first_hops_conv_16.ptr & ~1).toArray() : null, logger == null ? 0 : logger.ptr, scorer == null ? 0 : scorer.ptr);
 		Reference.reachabilityFence(our_node_pubkey);
-		Reference.reachabilityFence(params);
+		Reference.reachabilityFence(route_params);
 		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(first_hops);
 		Reference.reachabilityFence(logger);
 		Reference.reachabilityFence(scorer);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RouteLightningErrorZ ret_hu_conv = Result_RouteLightningErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(params);
+		ret_hu_conv.ptrs_to.add(route_params);
 		ret_hu_conv.ptrs_to.add(network);
 		for (ChannelDetails first_hops_conv_16: first_hops) { ret_hu_conv.ptrs_to.add(first_hops_conv_16); };
 		ret_hu_conv.ptrs_to.add(logger);
@@ -411,6 +421,47 @@ public class UtilMethods {
 	}
 
 	/**
+	 * Utility to create an invoice that can be paid to one of multiple nodes, or a \"phantom invoice.\"
+	 * See [`PhantomKeysManager`] for more information on phantom node payments.
+	 * 
+	 * `phantom_route_hints` parameter:
+	 * Contains channel info for all nodes participating in the phantom invoice
+	 * Entries are retrieved from a call to [`ChannelManager::get_phantom_route_hints`] on each
+	 * participating node
+	 * It is fine to cache `phantom_route_hints` and reuse it across invoices, as long as the data is
+	 * updated when a channel becomes disabled or closes
+	 * Note that if too many channels are included in [`PhantomRouteHints::channels`], the invoice
+	 * may be too long for QR code scanning. To fix this, `PhantomRouteHints::channels` may be pared
+	 * down
+	 * 
+	 * `payment_hash` and `payment_secret` come from [`ChannelManager::create_inbound_payment`] or
+	 * [`ChannelManager::create_inbound_payment_for_hash`]. These values can be retrieved from any
+	 * participating node.
+	 * 
+	 * Note that the provided `keys_manager`'s `KeysInterface` implementation must support phantom
+	 * invoices in its `sign_invoice` implementation ([`PhantomKeysManager`] satisfies this
+	 * requirement).
+	 * 
+	 * [`PhantomKeysManager`]: lightning::chain::keysinterface::PhantomKeysManager
+	 * [`ChannelManager::get_phantom_route_hints`]: lightning::ln::channelmanager::ChannelManager::get_phantom_route_hints
+	 * [`PhantomRouteHints::channels`]: lightning::ln::channelmanager::PhantomRouteHints::channels
+	 */
+	public static Result_InvoiceSignOrCreationErrorZ create_phantom_invoice(Option_u64Z amt_msat, java.lang.String description, byte[] payment_hash, byte[] payment_secret, PhantomRouteHints[] phantom_route_hints, KeysInterface keys_manager, org.ldk.enums.Currency network) {
+		long ret = bindings.create_phantom_invoice(amt_msat.ptr, description, InternalUtils.check_arr_len(payment_hash, 32), InternalUtils.check_arr_len(payment_secret, 32), phantom_route_hints != null ? Arrays.stream(phantom_route_hints).mapToLong(phantom_route_hints_conv_19 -> phantom_route_hints_conv_19 == null ? 0 : phantom_route_hints_conv_19.ptr & ~1).toArray() : null, keys_manager == null ? 0 : keys_manager.ptr, network);
+		Reference.reachabilityFence(amt_msat);
+		Reference.reachabilityFence(description);
+		Reference.reachabilityFence(payment_hash);
+		Reference.reachabilityFence(payment_secret);
+		Reference.reachabilityFence(phantom_route_hints);
+		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(network);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(keys_manager);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Utility to construct an invoice. Generally, unless you want to do something like a custom
 	 * cltv_expiry, this is what you should be using to create an invoice. The reason being, this
 	 * method stores the invoice's payment secret and preimage in `ChannelManager`, so (a) the user
@@ -424,6 +475,26 @@ public class UtilMethods {
 		Reference.reachabilityFence(network);
 		Reference.reachabilityFence(amt_msat);
 		Reference.reachabilityFence(description);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(channelmanager);
+		ret_hu_conv.ptrs_to.add(keys_manager);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * See [`create_invoice_from_channelmanager`]
+	 * This version can be used in a `no_std` environment, where [`std::time::SystemTime`] is not
+	 * available and the current time is supplied by the caller.
+	 */
+	public static Result_InvoiceSignOrCreationErrorZ create_invoice_from_channelmanager_and_duration_since_epoch(ChannelManager channelmanager, KeysInterface keys_manager, org.ldk.enums.Currency network, Option_u64Z amt_msat, java.lang.String description, long duration_since_epoch) {
+		long ret = bindings.create_invoice_from_channelmanager_and_duration_since_epoch(channelmanager == null ? 0 : channelmanager.ptr & ~1, keys_manager == null ? 0 : keys_manager.ptr, network, amt_msat.ptr, description, duration_since_epoch);
+		Reference.reachabilityFence(channelmanager);
+		Reference.reachabilityFence(keys_manager);
+		Reference.reachabilityFence(network);
+		Reference.reachabilityFence(amt_msat);
+		Reference.reachabilityFence(description);
+		Reference.reachabilityFence(duration_since_epoch);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_InvoiceSignOrCreationErrorZ ret_hu_conv = Result_InvoiceSignOrCreationErrorZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(channelmanager);

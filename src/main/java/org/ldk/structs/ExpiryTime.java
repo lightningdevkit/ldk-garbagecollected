@@ -11,11 +11,6 @@ import javax.annotation.Nullable;
 /**
  * Positive duration that defines when (relatively to the timestamp) in the future the invoice
  * expires
- * 
- * # Invariants
- * The number of seconds this expiry time represents has to be in the range
- * `0...(SYSTEM_TIME_MAX_UNIX_TIMESTAMP - MAX_EXPIRY_TIME)` to avoid overflows when adding it to a
- * timestamp
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ExpiryTime extends CommonBase {
@@ -74,28 +69,26 @@ public class ExpiryTime extends CommonBase {
 		return this.eq((ExpiryTime)o);
 	}
 	/**
-	 * Construct an `ExpiryTime` from seconds. If there exists a `PositiveTimestamp` which would
-	 * overflow on adding the `EpiryTime` to it then this function will return a
-	 * `CreationError::ExpiryTimeOutOfBounds`.
+	 * Construct an `ExpiryTime` from seconds.
 	 */
-	public static Result_ExpiryTimeCreationErrorZ from_seconds(long seconds) {
+	public static ExpiryTime from_seconds(long seconds) {
 		long ret = bindings.ExpiryTime_from_seconds(seconds);
 		Reference.reachabilityFence(seconds);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
+		ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ExpiryTime(null, ret); }
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Construct an `ExpiryTime` from a `Duration`. If there exists a `PositiveTimestamp` which
-	 * would overflow on adding the `EpiryTime` to it then this function will return a
-	 * `CreationError::ExpiryTimeOutOfBounds`.
+	 * Construct an `ExpiryTime` from a `Duration`.
 	 */
-	public static Result_ExpiryTimeCreationErrorZ from_duration(long duration) {
+	public static ExpiryTime from_duration(long duration) {
 		long ret = bindings.ExpiryTime_from_duration(duration);
 		Reference.reachabilityFence(duration);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ExpiryTimeCreationErrorZ ret_hu_conv = Result_ExpiryTimeCreationErrorZ.constr_from_ptr(ret);
+		ExpiryTime ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ExpiryTime(null, ret); }
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
 

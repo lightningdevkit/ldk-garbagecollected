@@ -45,13 +45,9 @@ public class Result_ScoringParametersDecodeErrorZ extends CommonBase {
 	/**
 	 * Creates a new CResult_ScoringParametersDecodeErrorZ in the success state.
 	 */
-	public static Result_ScoringParametersDecodeErrorZ ok(long o_base_penalty_msat_arg, long o_failure_penalty_msat_arg, short o_overuse_penalty_start_1024th_arg, long o_overuse_penalty_msat_per_1024th_arg, long o_failure_penalty_half_life_arg) {
-		long ret = bindings.CResult_ScoringParametersDecodeErrorZ_ok(bindings.ScoringParameters_new(o_base_penalty_msat_arg, o_failure_penalty_msat_arg, o_overuse_penalty_start_1024th_arg, o_overuse_penalty_msat_per_1024th_arg, o_failure_penalty_half_life_arg));
-		Reference.reachabilityFence(o_base_penalty_msat_arg);
-		Reference.reachabilityFence(o_failure_penalty_msat_arg);
-		Reference.reachabilityFence(o_overuse_penalty_start_1024th_arg);
-		Reference.reachabilityFence(o_overuse_penalty_msat_per_1024th_arg);
-		Reference.reachabilityFence(o_failure_penalty_half_life_arg);
+	public static Result_ScoringParametersDecodeErrorZ ok(ScoringParameters o) {
+		long ret = bindings.CResult_ScoringParametersDecodeErrorZ_ok(o == null ? 0 : o.ptr & ~1);
+		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ScoringParametersDecodeErrorZ ret_hu_conv = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -75,6 +71,24 @@ public class Result_ScoringParametersDecodeErrorZ extends CommonBase {
 		boolean ret = bindings.CResult_ScoringParametersDecodeErrorZ_is_ok(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.CResult_ScoringParametersDecodeErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a new CResult_ScoringParametersDecodeErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_ScoringParametersDecodeErrorZ clone() {
+		long ret = bindings.CResult_ScoringParametersDecodeErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ScoringParametersDecodeErrorZ ret_hu_conv = Result_ScoringParametersDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 }

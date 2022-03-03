@@ -65,6 +65,7 @@ public class EventsProvider extends CommonBase {
 				EventHandler ret_hu_conv = new EventHandler(null, handler);
 				ret_hu_conv.ptrs_to.add(this);
 				arg.process_pending_events(ret_hu_conv);
+				Reference.reachabilityFence(arg);
 			}
 		});
 		return impl_holder.held;

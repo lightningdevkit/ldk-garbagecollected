@@ -68,11 +68,13 @@ public class Filter extends CommonBase {
 		impl_holder.held = new Filter(new bindings.LDKFilter() {
 			@Override public void register_tx(byte[] txid, byte[] script_pubkey) {
 				arg.register_tx(txid, script_pubkey);
+				Reference.reachabilityFence(arg);
 			}
 			@Override public long register_output(long output) {
 				WatchedOutput output_hu_conv = null; if (output < 0 || output > 4096) { output_hu_conv = new WatchedOutput(null, output); }
 				output_hu_conv.ptrs_to.add(this);
 				Option_C2Tuple_usizeTransactionZZ ret = arg.register_output(output_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}

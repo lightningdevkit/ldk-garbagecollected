@@ -43,6 +43,7 @@ public class LockableScore extends CommonBase {
 		impl_holder.held = new LockableScore(new bindings.LDKLockableScore() {
 			@Override public long lock() {
 				Score ret = arg.lock();
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.ptr;
 				impl_holder.held.ptrs_to.add(ret);
 				return result;

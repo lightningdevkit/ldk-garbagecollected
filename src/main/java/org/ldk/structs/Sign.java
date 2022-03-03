@@ -41,6 +41,7 @@ public class Sign extends CommonBase {
 		impl_holder.held = new Sign(new bindings.LDKSign() {
 			@Override public byte[] write() {
 				byte[] ret = arg.write();
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 		}, BaseSign.new_impl(BaseSign_impl, pubkeys).bindings_instance, pubkeys);

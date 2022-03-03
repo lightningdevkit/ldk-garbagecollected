@@ -36,6 +36,7 @@ public class BroadcasterInterface extends CommonBase {
 		impl_holder.held = new BroadcasterInterface(new bindings.LDKBroadcasterInterface() {
 			@Override public void broadcast_transaction(byte[] tx) {
 				arg.broadcast_transaction(tx);
+				Reference.reachabilityFence(arg);
 			}
 		});
 		return impl_holder.held;

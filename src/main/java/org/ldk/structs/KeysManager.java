@@ -16,6 +16,12 @@ import javax.annotation.Nullable;
  * ChannelMonitor closes may use seed/1'
  * Cooperative closes may use seed/2'
  * The two close keys may be needed to claim on-chain funds!
+ * 
+ * This struct cannot be used for nodes that wish to support receiving phantom payments;
+ * [`PhantomKeysManager`] must be used instead.
+ * 
+ * Note that switching between this struct and [`PhantomKeysManager`] will invalidate any
+ * previously issued invoices and attempts to pay previous invoices will fail.
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class KeysManager extends CommonBase {
@@ -81,8 +87,9 @@ public class KeysManager extends CommonBase {
 	 * output to the given change destination (if sufficient change value remains). The
 	 * transaction will have a feerate, at least, of the given value.
 	 * 
-	 * Returns `Err(())` if the output value is greater than the input value minus required fee or
-	 * if a descriptor was duplicated.
+	 * Returns `Err(())` if the output value is greater than the input value minus required fee,
+	 * if a descriptor was duplicated, or if an output descriptor `script_pubkey`
+	 * does not match the one we can spend.
 	 * 
 	 * We do not enforce that outputs meet the dust limit or that any output scripts are standard.
 	 * 

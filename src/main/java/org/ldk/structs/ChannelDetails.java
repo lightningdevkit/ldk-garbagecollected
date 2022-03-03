@@ -510,4 +510,24 @@ public class ChannelDetails extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelDetails object into a byte array which can be read by ChannelDetails_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.ChannelDetails_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a ChannelDetails from a byte array, created by ChannelDetails_write
+	 */
+	public static Result_ChannelDetailsDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.ChannelDetails_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ChannelDetailsDecodeErrorZ ret_hu_conv = Result_ChannelDetailsDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

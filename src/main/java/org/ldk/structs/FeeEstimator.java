@@ -47,6 +47,7 @@ public class FeeEstimator extends CommonBase {
 		impl_holder.held = new FeeEstimator(new bindings.LDKFeeEstimator() {
 			@Override public int get_est_sat_per_1000_weight(ConfirmationTarget confirmation_target) {
 				int ret = arg.get_est_sat_per_1000_weight(confirmation_target);
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 		});

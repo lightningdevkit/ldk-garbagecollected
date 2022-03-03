@@ -26,11 +26,12 @@ public class KeysInterface extends CommonBase {
 
 	public static interface KeysInterfaceInterface {
 		/**
-		 * Get node secret key (aka node_id or network_key).
+		 * Get node secret key (aka node_id or network_key) based on the provided [`Recipient`].
 		 * 
-		 * This method must return the same value each time it is called.
+		 * This method must return the same value each time it is called with a given `Recipient`
+		 * parameter.
 		 */
-		byte[] get_node_secret();
+		Result_SecretKeyNoneZ get_node_secret(Recipient recipient);
 		/**
 		 * Get a script pubkey which we send funds to when claiming on-chain contestable outputs.
 		 * 
@@ -70,16 +71,25 @@ public class KeysInterface extends CommonBase {
 		 */
 		Result_SignDecodeErrorZ read_chan_signer(byte[] reader);
 		/**
-		 * Sign an invoice's preimage (note that this is the preimage of the invoice, not the HTLC's
-		 * preimage). By parameterizing by the preimage instead of the hash, we allow implementors of
+		 * Sign an invoice.
+		 * By parameterizing by the raw invoice bytes instead of the hash, we allow implementors of
 		 * this trait to parse the invoice and make sure they're signing what they expect, rather than
 		 * blindly signing the hash.
+		 * The hrp is ascii bytes, while the invoice data is base32.
+		 * 
+		 * The secret key used to sign the invoice is dependent on the [`Recipient`].
 		 */
-		Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage);
+		Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, Recipient receipient);
 		/**
 		 * Get secret key material as bytes for use in encrypting and decrypting inbound payment data.
 		 * 
+		 * If the implementor of this trait supports [phantom node payments], then every node that is
+		 * intended to be included in the phantom invoice route hints must return the same value from
+		 * this method.
+		 * 
 		 * This method must return the same value each time it is called.
+		 * 
+		 * [phantom node payments]: PhantomKeysManager
 		 */
 		byte[] get_inbound_payment_key_material();
 	}
@@ -87,43 +97,58 @@ public class KeysInterface extends CommonBase {
 	public static KeysInterface new_impl(KeysInterfaceInterface arg) {
 		final LDKKeysInterfaceHolder impl_holder = new LDKKeysInterfaceHolder();
 		impl_holder.held = new KeysInterface(new bindings.LDKKeysInterface() {
-			@Override public byte[] get_node_secret() {
-				byte[] ret = arg.get_node_secret();
-				byte[] result = InternalUtils.check_arr_len(ret, 32);
+			@Override public long get_node_secret(Recipient recipient) {
+				Result_SecretKeyNoneZ ret = arg.get_node_secret(recipient);
+				Reference.reachabilityFence(arg);
+				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public byte[] get_destination_script() {
 				byte[] ret = arg.get_destination_script();
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 			@Override public long get_shutdown_scriptpubkey() {
 				ShutdownScript ret = arg.get_shutdown_scriptpubkey();
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long get_channel_signer(boolean inbound, long channel_value_satoshis) {
 				Sign ret = arg.get_channel_signer(inbound, channel_value_satoshis);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				impl_holder.held.ptrs_to.add(ret);
 				return result;
 			}
 			@Override public byte[] get_secure_random_bytes() {
 				byte[] ret = arg.get_secure_random_bytes();
+				Reference.reachabilityFence(arg);
 				byte[] result = InternalUtils.check_arr_len(ret, 32);
 				return result;
 			}
 			@Override public long read_chan_signer(byte[] reader) {
 				Result_SignDecodeErrorZ ret = arg.read_chan_signer(reader);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
-			@Override public long sign_invoice(byte[] invoice_preimage) {
-				Result_RecoverableSignatureNoneZ ret = arg.sign_invoice(invoice_preimage);
+			@Override public long sign_invoice(byte[] hrp_bytes, byte[] invoice_data, Recipient receipient) {
+				int invoice_data_conv_7_len = invoice_data.length;
+				UInt5[] invoice_data_conv_7_arr = new UInt5[invoice_data_conv_7_len];
+				for (int h = 0; h < invoice_data_conv_7_len; h++) {
+					byte invoice_data_conv_7 = invoice_data[h];
+					UInt5 invoice_data_conv_7_conv = new UInt5(invoice_data_conv_7);
+					invoice_data_conv_7_arr[h] = invoice_data_conv_7_conv;
+				}
+				Result_RecoverableSignatureNoneZ ret = arg.sign_invoice(hrp_bytes, invoice_data_conv_7_arr, receipient);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public byte[] get_inbound_payment_key_material() {
 				byte[] ret = arg.get_inbound_payment_key_material();
+				Reference.reachabilityFence(arg);
 				byte[] result = InternalUtils.check_arr_len(ret, 32);
 				return result;
 			}
@@ -131,14 +156,18 @@ public class KeysInterface extends CommonBase {
 		return impl_holder.held;
 	}
 	/**
-	 * Get node secret key (aka node_id or network_key).
+	 * Get node secret key (aka node_id or network_key) based on the provided [`Recipient`].
 	 * 
-	 * This method must return the same value each time it is called.
+	 * This method must return the same value each time it is called with a given `Recipient`
+	 * parameter.
 	 */
-	public byte[] get_node_secret() {
-		byte[] ret = bindings.KeysInterface_get_node_secret(this.ptr);
+	public Result_SecretKeyNoneZ get_node_secret(org.ldk.enums.Recipient recipient) {
+		long ret = bindings.KeysInterface_get_node_secret(this.ptr, recipient);
 		Reference.reachabilityFence(this);
-		return ret;
+		Reference.reachabilityFence(recipient);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_SecretKeyNoneZ ret_hu_conv = Result_SecretKeyNoneZ.constr_from_ptr(ret);
+		return ret_hu_conv;
 	}
 
 	/**
@@ -216,15 +245,20 @@ public class KeysInterface extends CommonBase {
 	}
 
 	/**
-	 * Sign an invoice's preimage (note that this is the preimage of the invoice, not the HTLC's
-	 * preimage). By parameterizing by the preimage instead of the hash, we allow implementors of
+	 * Sign an invoice.
+	 * By parameterizing by the raw invoice bytes instead of the hash, we allow implementors of
 	 * this trait to parse the invoice and make sure they're signing what they expect, rather than
 	 * blindly signing the hash.
+	 * The hrp is ascii bytes, while the invoice data is base32.
+	 * 
+	 * The secret key used to sign the invoice is dependent on the [`Recipient`].
 	 */
-	public Result_RecoverableSignatureNoneZ sign_invoice(byte[] invoice_preimage) {
-		long ret = bindings.KeysInterface_sign_invoice(this.ptr, invoice_preimage);
+	public Result_RecoverableSignatureNoneZ sign_invoice(byte[] hrp_bytes, UInt5[] invoice_data, org.ldk.enums.Recipient receipient) {
+		long ret = bindings.KeysInterface_sign_invoice(this.ptr, hrp_bytes, invoice_data != null ? InternalUtils.convUInt5Array(invoice_data) : null, receipient);
 		Reference.reachabilityFence(this);
-		Reference.reachabilityFence(invoice_preimage);
+		Reference.reachabilityFence(hrp_bytes);
+		Reference.reachabilityFence(invoice_data);
+		Reference.reachabilityFence(receipient);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_RecoverableSignatureNoneZ ret_hu_conv = Result_RecoverableSignatureNoneZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -233,7 +267,13 @@ public class KeysInterface extends CommonBase {
 	/**
 	 * Get secret key material as bytes for use in encrypting and decrypting inbound payment data.
 	 * 
+	 * If the implementor of this trait supports [phantom node payments], then every node that is
+	 * intended to be included in the phantom invoice route hints must return the same value from
+	 * this method.
+	 * 
 	 * This method must return the same value each time it is called.
+	 * 
+	 * [phantom node payments]: PhantomKeysManager
 	 */
 	public byte[] get_inbound_payment_key_material() {
 		byte[] ret = bindings.KeysInterface_get_inbound_payment_key_material(this.ptr);

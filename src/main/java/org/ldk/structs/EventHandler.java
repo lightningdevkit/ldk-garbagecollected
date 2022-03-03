@@ -39,6 +39,7 @@ public class EventHandler extends CommonBase {
 			@Override public void handle_event(long event) {
 				Event event_hu_conv = Event.constr_from_ptr(event);
 				arg.handle_event(event_hu_conv);
+				Reference.reachabilityFence(arg);
 			}
 		});
 		return impl_holder.held;
