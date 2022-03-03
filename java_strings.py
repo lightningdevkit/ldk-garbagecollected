@@ -630,6 +630,8 @@ import javax.annotation.Nullable;
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").mapToLong(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray() : null"
         elif elem_ty.java_ty == "long":
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray() : null"
+        elif elem_ty.java_hu_ty == "UInt5":
+            return arr_name + " != null ? InternalUtils.convUInt5Array(" + arr_name + ") : null"
         else:
             return arr_name + " != null ? Arrays.stream(" + arr_name + ").map(" + conv_name + " -> " + elem_ty.from_hu_conv[0] + ").toArray(" + arr_ty.java_ty + "::new) : null"
 
