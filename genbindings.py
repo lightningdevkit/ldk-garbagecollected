@@ -298,7 +298,7 @@ def java_c_types(fn_arg, ret_arr_len):
             fn_arg = fn_arg[8:].strip()
         else:
             java_ty = consts.ptr_native_ty
-            c_ty = "intptr_t"
+            c_ty = "int64_t"
             arr_ty = "uintptr_t"
             rust_obj = "uintptr_t"
             fn_arg = fn_arg[9:].strip()
