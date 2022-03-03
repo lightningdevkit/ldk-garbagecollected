@@ -882,7 +882,8 @@ import javax.annotation.Nullable;
                     else:
                         java_trait_constr = java_trait_constr + arg_info.arg_name
 
-                java_trait_constr = java_trait_constr + ");\n"
+                java_trait_constr += ");\n"
+                java_trait_constr += "\t\t\t\tReference.reachabilityFence(arg);\n"
                 if fn_line.ret_ty_info.java_ty != "void":
                     if fn_line.ret_ty_info.from_hu_conv is not None:
                         java_trait_constr = java_trait_constr + "\t\t\t\t" + fn_line.ret_ty_info.java_ty + " result = " + fn_line.ret_ty_info.from_hu_conv[0] + ";\n"

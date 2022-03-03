@@ -7,6 +7,7 @@ import org.ldk.enums.Network;
 import org.ldk.enums.Recipient;
 import org.ldk.impl.bindings;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -234,7 +235,8 @@ public class PeerTest {
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         ArrayList<Long> events = new ArrayList();
-        long handler = bindings.LDKEventHandler_new(events::add);
+        bindings.LDKEventHandler events_adder = events::add;
+        long handler = bindings.LDKEventHandler_new(events_adder);
 
         bindings.EventsProvider_process_pending_events(peer1.chan_manager_events, handler);
         assert events.size() == 1;
@@ -336,6 +338,7 @@ public class PeerTest {
         bindings.LDKEvent sent_path = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert sent_path instanceof bindings.LDKEvent.PaymentPathSuccessful;
         bindings.Event_free(events.remove(0));
+        Reference.reachabilityFence(events_adder);
 
         bindings.EventHandler_free(handler);
 
