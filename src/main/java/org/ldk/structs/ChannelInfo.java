@@ -69,11 +69,11 @@ public class ChannelInfo extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	@Nullable
-	public DirectionalChannelInfo get_one_to_two() {
+	public ChannelUpdateInfo get_one_to_two() {
 		long ret = bindings.ChannelInfo_get_one_to_two(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		DirectionalChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DirectionalChannelInfo(null, ret); }
+		ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdateInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -83,7 +83,7 @@ public class ChannelInfo extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_one_to_two(@Nullable DirectionalChannelInfo val) {
+	public void set_one_to_two(@Nullable ChannelUpdateInfo val) {
 		bindings.ChannelInfo_set_one_to_two(this.ptr, val == null ? 0 : val.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
@@ -116,11 +116,11 @@ public class ChannelInfo extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	@Nullable
-	public DirectionalChannelInfo get_two_to_one() {
+	public ChannelUpdateInfo get_two_to_one() {
 		long ret = bindings.ChannelInfo_get_two_to_one(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		DirectionalChannelInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DirectionalChannelInfo(null, ret); }
+		ChannelUpdateInfo ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelUpdateInfo(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -130,7 +130,7 @@ public class ChannelInfo extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_two_to_one(@Nullable DirectionalChannelInfo val) {
+	public void set_two_to_one(@Nullable ChannelUpdateInfo val) {
 		bindings.ChannelInfo_set_two_to_one(this.ptr, val == null ? 0 : val.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);

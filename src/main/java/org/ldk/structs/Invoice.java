@@ -115,10 +115,19 @@ public class Invoice extends CommonBase {
 	}
 
 	/**
-	 * Returns the `Invoice`'s timestamp (should equal it's creation time)
+	 * Returns the `Invoice`'s timestamp (should equal its creation time)
 	 */
 	public long timestamp() {
 		long ret = bindings.Invoice_timestamp(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns the `Invoice`'s timestamp as a duration since the Unix epoch
+	 */
+	public long duration_since_epoch() {
+		long ret = bindings.Invoice_duration_since_epoch(this.ptr);
 		Reference.reachabilityFence(this);
 		return ret;
 	}
@@ -192,6 +201,17 @@ public class Invoice extends CommonBase {
 	public boolean is_expired() {
 		boolean ret = bindings.Invoice_is_expired(this.ptr);
 		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns whether the expiry time would pass at the given point in time.
+	 * `at_time` is the timestamp as a duration since the Unix epoch.
+	 */
+	public boolean would_expire(long at_time) {
+		boolean ret = bindings.Invoice_would_expire(this.ptr, at_time);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(at_time);
 		return ret;
 	}
 

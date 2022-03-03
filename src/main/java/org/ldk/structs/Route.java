@@ -64,7 +64,7 @@ public class Route extends CommonBase {
 	}
 
 	/**
-	 * The `payee` parameter passed to [`find_route`].
+	 * The `payment_params` parameter passed to [`find_route`].
 	 * This is used by `ChannelManager` to track information which may be required for retries,
 	 * provided back to you via [`Event::PaymentPathFailed`].
 	 * 
@@ -73,17 +73,17 @@ public class Route extends CommonBase {
 	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
 	@Nullable
-	public Payee get_payee() {
-		long ret = bindings.Route_get_payee(this.ptr);
+	public PaymentParameters get_payment_params() {
+		long ret = bindings.Route_get_payment_params(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Payee ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Payee(null, ret); }
+		PaymentParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PaymentParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * The `payee` parameter passed to [`find_route`].
+	 * The `payment_params` parameter passed to [`find_route`].
 	 * This is used by `ChannelManager` to track information which may be required for retries,
 	 * provided back to you via [`Event::PaymentPathFailed`].
 	 * 
@@ -91,8 +91,8 @@ public class Route extends CommonBase {
 	 * 
 	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public void set_payee(@Nullable Payee val) {
-		bindings.Route_set_payee(this.ptr, val == null ? 0 : val.ptr & ~1);
+	public void set_payment_params(@Nullable PaymentParameters val) {
+		bindings.Route_set_payment_params(this.ptr, val == null ? 0 : val.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(val);
 	}
@@ -100,10 +100,10 @@ public class Route extends CommonBase {
 	/**
 	 * Constructs a new Route given each field
 	 */
-	public static Route of(RouteHop[][] paths_arg, Payee payee_arg) {
-		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null, payee_arg == null ? 0 : payee_arg.ptr & ~1);
+	public static Route of(RouteHop[][] paths_arg, PaymentParameters payment_params_arg) {
+		long ret = bindings.Route_new(paths_arg != null ? Arrays.stream(paths_arg).map(paths_arg_conv_12 -> paths_arg_conv_12 != null ? Arrays.stream(paths_arg_conv_12).mapToLong(paths_arg_conv_12_conv_10 -> paths_arg_conv_12_conv_10 == null ? 0 : paths_arg_conv_12_conv_10.ptr & ~1).toArray() : null).toArray(long[][]::new) : null, payment_params_arg == null ? 0 : payment_params_arg.ptr & ~1);
 		Reference.reachabilityFence(paths_arg);
-		Reference.reachabilityFence(payee_arg);
+		Reference.reachabilityFence(payment_params_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Route ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Route(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

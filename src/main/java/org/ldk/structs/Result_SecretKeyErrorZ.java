@@ -67,4 +67,22 @@ public class Result_SecretKeyErrorZ extends CommonBase {
 		return ret;
 	}
 
+	long clone_ptr() {
+		long ret = bindings.CResult_SecretKeyErrorZ_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a new CResult_SecretKeyErrorZ which has the same data as `orig`
+	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 */
+	public Result_SecretKeyErrorZ clone() {
+		long ret = bindings.CResult_SecretKeyErrorZ_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_SecretKeyErrorZ ret_hu_conv = Result_SecretKeyErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

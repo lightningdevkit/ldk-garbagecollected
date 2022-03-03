@@ -121,15 +121,19 @@ public class Confirm extends CommonBase {
 					txdata_conv_28_arr[c] = txdata_conv_28_hu_conv;
 				}
 				arg.transactions_confirmed(header, txdata_conv_28_arr, height);
+				Reference.reachabilityFence(arg);
 			}
 			@Override public void transaction_unconfirmed(byte[] txid) {
 				arg.transaction_unconfirmed(txid);
+				Reference.reachabilityFence(arg);
 			}
 			@Override public void best_block_updated(byte[] header, int height) {
 				arg.best_block_updated(header, height);
+				Reference.reachabilityFence(arg);
 			}
 			@Override public byte[][] get_relevant_txids() {
 				byte[][] ret = arg.get_relevant_txids();
+				Reference.reachabilityFence(arg);
 				byte[][] result = ret != null ? Arrays.stream(ret).map(ret_conv_8 -> InternalUtils.check_arr_len(ret_conv_8, 32)).toArray(byte[][]::new) : null;
 				return result;
 			}

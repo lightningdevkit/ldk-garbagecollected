@@ -41,6 +41,7 @@ public class Access extends CommonBase {
 		impl_holder.held = new Access(new bindings.LDKAccess() {
 			@Override public long get_utxo(byte[] genesis_hash, long short_channel_id) {
 				Result_TxOutAccessErrorZ ret = arg.get_utxo(genesis_hash, short_channel_id);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}

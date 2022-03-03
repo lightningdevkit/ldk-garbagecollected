@@ -50,15 +50,7 @@ public class Result_ScorerDecodeErrorZ extends CommonBase {
 		Reference.reachabilityFence(o_params);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ScorerDecodeErrorZ ret_hu_conv = Result_ScorerDecodeErrorZ.constr_from_ptr(ret);
-		ret_hu_conv.ptrs_to.add(o_params);
-// Due to rust's strict-ownership memory model, in some cases we need to "move"
-// an object to pass exclusive ownership to the function being called.
-// In most cases, we avoid ret_hu_conv being visible in GC'd languages by cloning the object
-// at the FFI layer, creating a new object which Rust can claim ownership of
-// However, in some cases (eg here), there is no way to clone an object, and thus
-// we actually have to pass full ownership to Rust.
-// Thus, after ret_hu_conv call, o_params is reset to null and is now a dummy object.
-o_params.ptr = 0;;
+		;
 		return ret_hu_conv;
 	}
 

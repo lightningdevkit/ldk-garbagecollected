@@ -190,6 +190,26 @@ public class NetworkGraph extends CommonBase {
 	 * updates every two weeks, the non-normative section of BOLT 7 currently suggests that
 	 * pruning occur for updates which are at least two weeks old, which we implement here.
 	 * 
+	 * Note that for users of the `lightning-background-processor` crate this method may be
+	 * automatically called regularly for you.
+	 * 
+	 * This method is only available with the `std` feature. See
+	 * [`NetworkGraph::remove_stale_channels_with_time`] for `no-std` use.
+	 */
+	public void remove_stale_channels() {
+		bindings.NetworkGraph_remove_stale_channels(this.ptr);
+		Reference.reachabilityFence(this);
+	}
+
+	/**
+	 * Removes information about channels that we haven't heard any updates about in some time.
+	 * This can be used regularly to prune the network graph of channels that likely no longer
+	 * exist.
+	 * 
+	 * While there is no formal requirement that nodes regularly re-broadcast their channel
+	 * updates every two weeks, the non-normative section of BOLT 7 currently suggests that
+	 * pruning occur for updates which are at least two weeks old, which we implement here.
+	 * 
 	 * This function takes the current unix time as an argument. For users with the `std` feature
 	 * enabled, [`NetworkGraph::remove_stale_channels`] may be preferable.
 	 */

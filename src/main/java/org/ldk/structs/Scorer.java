@@ -14,7 +14,12 @@ import javax.annotation.Nullable;
  * Used to apply a fixed penalty to each channel, thus avoiding long paths when shorter paths with
  * slightly higher fees are available. Will further penalize channels that fail to relay payments.
  * 
- * See [module-level documentation] for usage.
+ * See [module-level documentation] for usage and [`ScoringParameters`] for customization.
+ * 
+ * # Note
+ * 
+ * Mixing the `no-std` feature between serialization and deserialization results in undefined
+ * behavior.
  * 
  * [module-level documentation]: crate::routing::scoring
  */
@@ -30,13 +35,9 @@ public class Scorer extends CommonBase {
 	/**
 	 * Creates a new scorer using the given scoring parameters.
 	 */
-	public static Scorer of(long params_base_penalty_msat_arg, long params_failure_penalty_msat_arg, short params_overuse_penalty_start_1024th_arg, long params_overuse_penalty_msat_per_1024th_arg, long params_failure_penalty_half_life_arg) {
-		long ret = bindings.Scorer_new(bindings.ScoringParameters_new(params_base_penalty_msat_arg, params_failure_penalty_msat_arg, params_overuse_penalty_start_1024th_arg, params_overuse_penalty_msat_per_1024th_arg, params_failure_penalty_half_life_arg));
-		Reference.reachabilityFence(params_base_penalty_msat_arg);
-		Reference.reachabilityFence(params_failure_penalty_msat_arg);
-		Reference.reachabilityFence(params_overuse_penalty_start_1024th_arg);
-		Reference.reachabilityFence(params_overuse_penalty_msat_per_1024th_arg);
-		Reference.reachabilityFence(params_failure_penalty_half_life_arg);
+	public static Scorer of(ScoringParameters params) {
+		long ret = bindings.Scorer_new(params == null ? 0 : params.ptr & ~1);
+		Reference.reachabilityFence(params);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Scorer ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Scorer(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

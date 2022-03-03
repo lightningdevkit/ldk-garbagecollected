@@ -13,17 +13,20 @@ public enum CreationError {
 	 */
 	LDKCreationError_RouteTooLong,
 	/**
-	 * The unix timestamp of the supplied date is <0 or can't be represented as `SystemTime`
+	 * The Unix timestamp of the supplied date is less than zero or greater than 35-bits
 	 */
 	LDKCreationError_TimestampOutOfBounds,
-	/**
-	 * The supplied expiry time could cause an overflow if added to a `PositiveTimestamp`
-	 */
-	LDKCreationError_ExpiryTimeOutOfBounds,
 	/**
 	 * The supplied millisatoshi amount was greater than the total bitcoin supply.
 	 */
 	LDKCreationError_InvalidAmount,
+	/**
+	 * Route hints were required for this invoice and were missing. Applies to
+	 * [phantom invoices].
+	 * 
+	 * [phantom invoices]: crate::utils::create_phantom_invoice
+	 */
+	LDKCreationError_MissingRouteHints,
 	; static native void init();
 	static { init(); }
 }

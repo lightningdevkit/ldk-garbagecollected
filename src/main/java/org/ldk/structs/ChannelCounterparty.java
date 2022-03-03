@@ -155,4 +155,24 @@ public class ChannelCounterparty extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the ChannelCounterparty object into a byte array which can be read by ChannelCounterparty_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.ChannelCounterparty_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a ChannelCounterparty from a byte array, created by ChannelCounterparty_write
+	 */
+	public static Result_ChannelCounterpartyDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.ChannelCounterparty_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_ChannelCounterpartyDecodeErrorZ ret_hu_conv = Result_ChannelCounterpartyDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

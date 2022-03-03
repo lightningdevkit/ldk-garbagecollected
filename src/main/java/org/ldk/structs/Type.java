@@ -46,14 +46,17 @@ public class Type extends CommonBase {
 		impl_holder.held = new Type(new bindings.LDKType() {
 			@Override public short type_id() {
 				short ret = arg.type_id();
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 			@Override public String debug_str() {
 				String ret = arg.debug_str();
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 			@Override public byte[] write() {
 				byte[] ret = arg.write();
+				Reference.reachabilityFence(arg);
 				return ret;
 			}
 		});

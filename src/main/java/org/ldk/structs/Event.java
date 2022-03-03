@@ -58,6 +58,9 @@ public class Event extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKEvent.PaymentPathSuccessful.class) {
 			return new PaymentPathSuccessful(ptr, (bindings.LDKEvent.PaymentPathSuccessful)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKEvent.OpenChannelRequest.class) {
+			return new OpenChannelRequest(ptr, (bindings.LDKEvent.OpenChannelRequest)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -202,7 +205,7 @@ public class Event extends CommonBase {
 	 * Note that this does *not* indicate that all paths for an MPP payment have failed, see
 	 * [`Event::PaymentFailed`] and [`all_paths_failed`].
 	 * 
-	 * [`all_paths_failed`]: Self::all_paths_failed
+	 * [`all_paths_failed`]: Self::PaymentPathFailed::all_paths_failed
 	 */
 	public final static class PaymentPathFailed extends Event {
 		/**
@@ -518,6 +521,51 @@ public class Event extends CommonBase {
 			this.path = path_conv_10_arr;
 		}
 	}
+	/**
+	 * Indicates a request to open a new channel by a peer.
+	 * 
+	 * To accept the request, call [`ChannelManager::accept_inbound_channel`]. To reject the
+	 * request, call [`ChannelManager::force_close_channel`].
+	 * 
+	 * The event is only triggered when a new open channel request is received and the
+	 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true.
+	 * 
+	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+	 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel
+	 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
+	 */
+	public final static class OpenChannelRequest extends Event {
+		/**
+		 * The temporary channel ID of the channel requested to be opened.
+		 * 
+		 * When responding to the request, the `temporary_channel_id` should be passed
+		 * back to the ChannelManager with [`ChannelManager::accept_inbound_channel`] to accept,
+		 * or to [`ChannelManager::force_close_channel`] to reject.
+		 * 
+		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+		 * [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel
+		*/
+		public final byte[] temporary_channel_id;
+		/**
+		 * The node_id of the counterparty requesting to open the channel.
+		*/
+		public final byte[] counterparty_node_id;
+		/**
+		 * The channel value of the requested channel.
+		*/
+		public final long funding_satoshis;
+		/**
+		 * Our starting balance in the channel if the request is accepted, in milli-satoshi.
+		*/
+		public final long push_msat;
+		private OpenChannelRequest(long ptr, bindings.LDKEvent.OpenChannelRequest obj) {
+			super(null, ptr);
+			this.temporary_channel_id = obj.temporary_channel_id;
+			this.counterparty_node_id = obj.counterparty_node_id;
+			this.funding_satoshis = obj.funding_satoshis;
+			this.push_msat = obj.push_msat;
+		}
+	}
 	long clone_ptr() {
 		long ret = bindings.Event_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);
@@ -684,6 +732,21 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new OpenChannelRequest-variant Event
+	 */
+	public static Event open_channel_request(byte[] temporary_channel_id, byte[] counterparty_node_id, long funding_satoshis, long push_msat) {
+		long ret = bindings.Event_open_channel_request(InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_satoshis, push_msat);
+		Reference.reachabilityFence(temporary_channel_id);
+		Reference.reachabilityFence(counterparty_node_id);
+		Reference.reachabilityFence(funding_satoshis);
+		Reference.reachabilityFence(push_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Event ret_hu_conv = Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

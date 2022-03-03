@@ -272,6 +272,40 @@ public class AcceptChannel extends CommonBase {
 		Reference.reachabilityFence(val);
 	}
 
+	/**
+	 * The channel type that this channel will represent. If none is set, we derive the channel
+	 * type from the intersection of our feature bits with our counterparty's feature bits from
+	 * the Init message.
+	 * 
+	 * This is required to match the equivalent field in [`OpenChannel::channel_type`].
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	@Nullable
+	public ChannelTypeFeatures get_channel_type() {
+		long ret = bindings.AcceptChannel_get_channel_type(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ChannelTypeFeatures ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelTypeFeatures(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The channel type that this channel will represent. If none is set, we derive the channel
+	 * type from the intersection of our feature bits with our counterparty's feature bits from
+	 * the Init message.
+	 * 
+	 * This is required to match the equivalent field in [`OpenChannel::channel_type`].
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public void set_channel_type(@Nullable ChannelTypeFeatures val) {
+		bindings.AcceptChannel_set_channel_type(this.ptr, val == null ? 0 : val.ptr & ~1);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
 	long clone_ptr() {
 		long ret = bindings.AcceptChannel_clone_ptr(this.ptr);
 		Reference.reachabilityFence(this);

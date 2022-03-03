@@ -4,8 +4,10 @@ import org.bitcoinj.core.*;
 import org.bitcoinj.script.Script;
 import org.junit.jupiter.api.Test;
 import org.ldk.enums.Network;
+import org.ldk.enums.Recipient;
 import org.ldk.impl.bindings;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -105,8 +107,12 @@ public class PeerTest {
 
             byte[] random_data = new byte[32];
             for (byte i = 0; i < 32; i++) { random_data[i] = (byte) ((i ^ seed) ^ 0xf0); }
-            this.peer_manager = bindings.PeerManager_new(message_handler, bindings.KeysInterface_get_node_secret(keys_interface), random_data,
-                    logger, bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.custom_message_handler));
+
+            long node_id_result = bindings.KeysInterface_get_node_secret(keys_interface, Recipient.LDKRecipient_Node);
+            assert bindings.CResult_SecretKeyNoneZ_is_ok(node_id_result);
+            this.peer_manager = bindings.PeerManager_new(message_handler, bindings.CResult_SecretKeyNoneZ_get_ok(node_id_result),
+                    random_data, logger, bindings.IgnoringMessageHandler_as_CustomMessageHandler(this.custom_message_handler));
+            bindings.CResult_SecretKeyNoneZ_free(node_id_result);
         }
 
         void connect_block(Block b, Transaction t, int height) {
@@ -229,7 +235,8 @@ public class PeerTest {
         deliver_peer_messages(list, peer1.peer_manager, peer2.peer_manager);
 
         ArrayList<Long> events = new ArrayList();
-        long handler = bindings.LDKEventHandler_new(events::add);
+        bindings.LDKEventHandler events_adder = events::add;
+        long handler = bindings.LDKEventHandler_new(events_adder);
 
         bindings.EventsProvider_process_pending_events(peer1.chan_manager_events, handler);
         assert events.size() == 1;
@@ -283,14 +290,14 @@ public class PeerTest {
 
         long no_u64 = bindings.COption_u64Z_none();
         long invoice_features = bindings.InvoiceFeatures_known();
-        long payee = bindings.Payee_new(peer2.node_id, invoice_features, new long[0], no_u64);
+        long payee = bindings.PaymentParameters_new(peer2.node_id, invoice_features, new long[0], no_u64, 6*24*14);
         bindings.InvoiceFeatures_free(invoice_features);
         bindings.COption_u64Z_free(no_u64);
         long route_params = bindings.RouteParameters_new(payee, 1000, 42);
         long route = bindings.find_route(peer1.node_id, route_params, peer1.router, peer1_chans,
                 peer1.logger, scorer_interface);
         bindings.RouteParameters_free(route_params);
-        bindings.Payee_free(payee);
+        bindings.PaymentParameters_free(payee);
         bindings.Score_free(scorer_interface);
         bindings.Scorer_free(scorer);
 
@@ -331,6 +338,7 @@ public class PeerTest {
         bindings.LDKEvent sent_path = bindings.LDKEvent_ref_from_ptr(events.get(0));
         assert sent_path instanceof bindings.LDKEvent.PaymentPathSuccessful;
         bindings.Event_free(events.remove(0));
+        Reference.reachabilityFence(events_adder);
 
         bindings.EventHandler_free(handler);
 

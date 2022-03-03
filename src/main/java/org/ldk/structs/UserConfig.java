@@ -155,15 +155,58 @@ public class UserConfig extends CommonBase {
 	}
 
 	/**
+	 * If this is set to true, the user needs to manually accept inbound requests to open a new
+	 * channel.
+	 * 
+	 * When set to true, [`Event::OpenChannelRequest`] will be triggered once a request to open a
+	 * new inbound channel is received through a [`msgs::OpenChannel`] message. In that case, a
+	 * [`msgs::AcceptChannel`] message will not be sent back to the counterparty node unless the
+	 * user explicitly chooses to accept the request.
+	 * 
+	 * Default value: false.
+	 * 
+	 * [`Event::OpenChannelRequest`]: crate::util::events::Event::OpenChannelRequest
+	 * [`msgs::OpenChannel`]: crate::ln::msgs::OpenChannel
+	 * [`msgs::AcceptChannel`]: crate::ln::msgs::AcceptChannel
+	 */
+	public boolean get_manually_accept_inbound_channels() {
+		boolean ret = bindings.UserConfig_get_manually_accept_inbound_channels(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * If this is set to true, the user needs to manually accept inbound requests to open a new
+	 * channel.
+	 * 
+	 * When set to true, [`Event::OpenChannelRequest`] will be triggered once a request to open a
+	 * new inbound channel is received through a [`msgs::OpenChannel`] message. In that case, a
+	 * [`msgs::AcceptChannel`] message will not be sent back to the counterparty node unless the
+	 * user explicitly chooses to accept the request.
+	 * 
+	 * Default value: false.
+	 * 
+	 * [`Event::OpenChannelRequest`]: crate::util::events::Event::OpenChannelRequest
+	 * [`msgs::OpenChannel`]: crate::ln::msgs::OpenChannel
+	 * [`msgs::AcceptChannel`]: crate::ln::msgs::AcceptChannel
+	 */
+	public void set_manually_accept_inbound_channels(boolean val) {
+		bindings.UserConfig_set_manually_accept_inbound_channels(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new UserConfig given each field
 	 */
-	public static UserConfig of(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg, boolean accept_forwards_to_priv_channels_arg, boolean accept_inbound_channels_arg) {
-		long ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg);
+	public static UserConfig of(ChannelHandshakeConfig own_channel_config_arg, ChannelHandshakeLimits peer_channel_config_limits_arg, ChannelConfig channel_options_arg, boolean accept_forwards_to_priv_channels_arg, boolean accept_inbound_channels_arg, boolean manually_accept_inbound_channels_arg) {
+		long ret = bindings.UserConfig_new(own_channel_config_arg == null ? 0 : own_channel_config_arg.ptr & ~1, peer_channel_config_limits_arg == null ? 0 : peer_channel_config_limits_arg.ptr & ~1, channel_options_arg == null ? 0 : channel_options_arg.ptr & ~1, accept_forwards_to_priv_channels_arg, accept_inbound_channels_arg, manually_accept_inbound_channels_arg);
 		Reference.reachabilityFence(own_channel_config_arg);
 		Reference.reachabilityFence(peer_channel_config_limits_arg);
 		Reference.reachabilityFence(channel_options_arg);
 		Reference.reachabilityFence(accept_forwards_to_priv_channels_arg);
 		Reference.reachabilityFence(accept_inbound_channels_arg);
+		Reference.reachabilityFence(manually_accept_inbound_channels_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		UserConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new UserConfig(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

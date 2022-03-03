@@ -99,39 +99,46 @@ public class RoutingMessageHandler extends CommonBase {
 			@Override public long handle_node_announcement(long msg) {
 				NodeAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new NodeAnnouncement(null, msg); }
 				Result_boolLightningErrorZ ret = arg.handle_node_announcement(msg_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long handle_channel_announcement(long msg) {
 				ChannelAnnouncement msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelAnnouncement(null, msg); }
 				Result_boolLightningErrorZ ret = arg.handle_channel_announcement(msg_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long handle_channel_update(long msg) {
 				ChannelUpdate msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ChannelUpdate(null, msg); }
 				Result_boolLightningErrorZ ret = arg.handle_channel_update(msg_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long[] get_next_channel_announcements(long starting_point, byte batch_amount) {
 				ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ[] ret = arg.get_next_channel_announcements(starting_point, batch_amount);
+				Reference.reachabilityFence(arg);
 				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_59 -> ret_conv_59 == null ? 0 : ret_conv_59.clone_ptr()).toArray() : null;
 				return result;
 			}
 			@Override public long[] get_next_node_announcements(byte[] starting_point, byte batch_amount) {
 				NodeAnnouncement[] ret = arg.get_next_node_announcements(starting_point, batch_amount);
+				Reference.reachabilityFence(arg);
 				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()).toArray() : null;
 				return result;
 			}
 			@Override public void sync_routing_table(byte[] their_node_id, long init) {
 				Init init_hu_conv = null; if (init < 0 || init > 4096) { init_hu_conv = new Init(null, init); }
 				arg.sync_routing_table(their_node_id, init_hu_conv);
+				Reference.reachabilityFence(arg);
 			}
 			@Override public long handle_reply_channel_range(byte[] their_node_id, long msg) {
 				ReplyChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ReplyChannelRange(null, msg); }
 				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_reply_channel_range(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
@@ -139,6 +146,7 @@ public class RoutingMessageHandler extends CommonBase {
 				ReplyShortChannelIdsEnd msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ReplyShortChannelIdsEnd(null, msg); }
 				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_reply_short_channel_ids_end(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
@@ -146,6 +154,7 @@ public class RoutingMessageHandler extends CommonBase {
 				QueryChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new QueryChannelRange(null, msg); }
 				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_query_channel_range(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
@@ -153,6 +162,7 @@ public class RoutingMessageHandler extends CommonBase {
 				QueryShortChannelIds msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new QueryShortChannelIds(null, msg); }
 				msg_hu_conv.ptrs_to.add(this);
 				Result_NoneLightningErrorZ ret = arg.handle_query_short_channel_ids(their_node_id, msg_hu_conv);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}

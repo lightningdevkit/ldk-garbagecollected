@@ -21,7 +21,10 @@ public class ErrorMessage extends CommonBase {
 	}
 
 	/**
-	 * The channel ID involved in the error
+	 * The channel ID involved in the error.
+	 * 
+	 * All-0s indicates a general error unrelated to a specific channel, after which all channels
+	 * with the sending peer should be closed.
 	 */
 	public byte[] get_channel_id() {
 		byte[] ret = bindings.ErrorMessage_get_channel_id(this.ptr);
@@ -30,7 +33,10 @@ public class ErrorMessage extends CommonBase {
 	}
 
 	/**
-	 * The channel ID involved in the error
+	 * The channel ID involved in the error.
+	 * 
+	 * All-0s indicates a general error unrelated to a specific channel, after which all channels
+	 * with the sending peer should be closed.
 	 */
 	public void set_channel_id(byte[] val) {
 		bindings.ErrorMessage_set_channel_id(this.ptr, InternalUtils.check_arr_len(val, 32));
@@ -40,9 +46,9 @@ public class ErrorMessage extends CommonBase {
 
 	/**
 	 * A possibly human-readable error description.
-	 * The string should be sanitized before it is used (e.g. emitted to logs
-	 * or printed to stdout).  Otherwise, a well crafted error message may trigger a security
-	 * vulnerability in the terminal emulator or the logging subsystem.
+	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
+	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
+	 * the terminal emulator or the logging subsystem.
 	 */
 	public String get_data() {
 		String ret = bindings.ErrorMessage_get_data(this.ptr);
@@ -52,9 +58,9 @@ public class ErrorMessage extends CommonBase {
 
 	/**
 	 * A possibly human-readable error description.
-	 * The string should be sanitized before it is used (e.g. emitted to logs
-	 * or printed to stdout).  Otherwise, a well crafted error message may trigger a security
-	 * vulnerability in the terminal emulator or the logging subsystem.
+	 * The string should be sanitized before it is used (e.g. emitted to logs or printed to
+	 * stdout). Otherwise, a well crafted error message may trigger a security vulnerability in
+	 * the terminal emulator or the logging subsystem.
 	 */
 	public void set_data(java.lang.String val) {
 		bindings.ErrorMessage_set_data(this.ptr, val);

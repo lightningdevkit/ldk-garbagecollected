@@ -138,6 +138,8 @@ public class ScoringParameters extends CommonBase {
 	 * 
 	 * Successfully routing through a channel will immediately cut the penalty in half as well.
 	 * 
+	 * Default value: 1 hour
+	 * 
 	 * # Note
 	 * 
 	 * When built with the `no-std` feature, time will never elapse. Therefore, this penalty will
@@ -156,6 +158,8 @@ public class ScoringParameters extends CommonBase {
 	 * cut in half.
 	 * 
 	 * Successfully routing through a channel will immediately cut the penalty in half as well.
+	 * 
+	 * Default value: 1 hour
 	 * 
 	 * # Note
 	 * 
@@ -183,6 +187,24 @@ public class ScoringParameters extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ScoringParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ScoringParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	long clone_ptr() {
+		long ret = bindings.ScoringParameters_clone_ptr(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Creates a copy of the ScoringParameters
+	 */
+	public ScoringParameters clone() {
+		long ret = bindings.ScoringParameters_clone(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		ScoringParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ScoringParameters(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

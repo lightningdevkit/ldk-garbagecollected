@@ -110,4 +110,24 @@ public class CounterpartyForwardingInfo extends CommonBase {
 		return ret_hu_conv;
 	}
 
+	/**
+	 * Serialize the CounterpartyForwardingInfo object into a byte array which can be read by CounterpartyForwardingInfo_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.CounterpartyForwardingInfo_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a CounterpartyForwardingInfo from a byte array, created by CounterpartyForwardingInfo_write
+	 */
+	public static Result_CounterpartyForwardingInfoDecodeErrorZ read(byte[] ser) {
+		long ret = bindings.CounterpartyForwardingInfo_read(ser);
+		Reference.reachabilityFence(ser);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_CounterpartyForwardingInfoDecodeErrorZ ret_hu_conv = Result_CounterpartyForwardingInfoDecodeErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
 }

@@ -9,12 +9,12 @@ import javax.annotation.Nullable;
 
 
 /**
- * A timestamp that refers to a date after 1 January 1970 which means its representation as UNIX
- * timestamp is positive.
+ * A timestamp that refers to a date after 1 January 1970.
  * 
  * # Invariants
- * The UNIX timestamp representing the stored time has to be positive and small enough so that
- * a `EpiryTime` can be added to it without an overflow.
+ * 
+ * The Unix timestamp representing the stored time has to be positive and no greater than
+ * [`MAX_TIMESTAMP`].
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class PositiveTimestamp extends CommonBase {
@@ -61,9 +61,9 @@ public class PositiveTimestamp extends CommonBase {
 	}
 
 	/**
-	 * Create a new `PositiveTimestamp` from a unix timestamp in the Range
-	 * `0...SYSTEM_TIME_MAX_UNIX_TIMESTAMP - MAX_EXPIRY_TIME`, otherwise return a
-	 * `CreationError::TimestampOutOfBounds`.
+	 * Creates a `PositiveTimestamp` from a Unix timestamp in the range `0..=MAX_TIMESTAMP`.
+	 * 
+	 * Otherwise, returns a [`CreationError::TimestampOutOfBounds`].
 	 */
 	public static Result_PositiveTimestampCreationErrorZ from_unix_timestamp(long unix_seconds) {
 		long ret = bindings.PositiveTimestamp_from_unix_timestamp(unix_seconds);
@@ -74,9 +74,10 @@ public class PositiveTimestamp extends CommonBase {
 	}
 
 	/**
-	 * Create a new `PositiveTimestamp` from a `SystemTime` with a corresponding unix timestamp in
-	 * the Range `0...SYSTEM_TIME_MAX_UNIX_TIMESTAMP - MAX_EXPIRY_TIME`, otherwise return a
-	 * `CreationError::TimestampOutOfBounds`.
+	 * Creates a `PositiveTimestamp` from a [`SystemTime`] with a corresponding Unix timestamp in
+	 * the range `0..=MAX_TIMESTAMP`.
+	 * 
+	 * Otherwise, returns a [`CreationError::TimestampOutOfBounds`].
 	 */
 	public static Result_PositiveTimestampCreationErrorZ from_system_time(long time) {
 		long ret = bindings.PositiveTimestamp_from_system_time(time);
@@ -87,7 +88,21 @@ public class PositiveTimestamp extends CommonBase {
 	}
 
 	/**
-	 * Returns the UNIX timestamp representing the stored time
+	 * Creates a `PositiveTimestamp` from a [`Duration`] since the Unix epoch in the range
+	 * `0..=MAX_TIMESTAMP`.
+	 * 
+	 * Otherwise, returns a [`CreationError::TimestampOutOfBounds`].
+	 */
+	public static Result_PositiveTimestampCreationErrorZ from_duration_since_epoch(long duration) {
+		long ret = bindings.PositiveTimestamp_from_duration_since_epoch(duration);
+		Reference.reachabilityFence(duration);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_PositiveTimestampCreationErrorZ ret_hu_conv = Result_PositiveTimestampCreationErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Returns the Unix timestamp representing the stored time
 	 */
 	public long as_unix_timestamp() {
 		long ret = bindings.PositiveTimestamp_as_unix_timestamp(this.ptr);
@@ -96,7 +111,16 @@ public class PositiveTimestamp extends CommonBase {
 	}
 
 	/**
-	 * Returns a reference to the internal `SystemTime` time representation
+	 * Returns the duration of the stored time since the Unix epoch
+	 */
+	public long as_duration_since_epoch() {
+		long ret = bindings.PositiveTimestamp_as_duration_since_epoch(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Returns the [`SystemTime`] representing the stored time
 	 */
 	public long as_time() {
 		long ret = bindings.PositiveTimestamp_as_time(this.ptr);

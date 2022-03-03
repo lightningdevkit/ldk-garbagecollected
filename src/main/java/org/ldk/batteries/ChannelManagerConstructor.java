@@ -2,8 +2,8 @@ package org.ldk.batteries;
 
 import javax.annotation.Nullable;
 import org.ldk.enums.Network;
+import org.ldk.enums.Recipient;
 import org.ldk.structs.*;
-import org.ldk.util.TwoTuple;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -104,16 +104,20 @@ public class ChannelManagerConstructor {
         this.logger = logger;
         byte[] random_data = keys_interface.get_secure_random_bytes();
         this.net_graph = net_graph;
+        Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
+        assert node_secret.is_ok();
         if (net_graph != null) {
             //TODO: We really need to expose the Access here to let users prevent DoS issues
             this.graph_msg_handler = NetGraphMsgHandler.of(net_graph, Option_AccessZ.none(), logger);
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                     graph_msg_handler.as_RoutingMessageHandler(),
-                    keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
+                    ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
+                    random_data, logger, no_custom_messages.as_CustomMessageHandler());
         } else {
             this.graph_msg_handler = null;
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), no_custom_messages.as_RoutingMessageHandler(),
-                    keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
+                    ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
+                    random_data, logger, no_custom_messages.as_CustomMessageHandler());
         }
         NioPeerHandler nio_peer_handler = null;
         try {
@@ -146,16 +150,20 @@ public class ChannelManagerConstructor {
         this.logger = logger;
         byte[] random_data = keys_interface.get_secure_random_bytes();
         this.net_graph = net_graph;
+        Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
+        assert node_secret.is_ok();
         if (net_graph != null) {
             //TODO: We really need to expose the Access here to let users prevent DoS issues
             this.graph_msg_handler = NetGraphMsgHandler.of(net_graph, Option_AccessZ.none(), logger);
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(),
                     graph_msg_handler.as_RoutingMessageHandler(),
-                    keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
+                    ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
+                    random_data, logger, no_custom_messages.as_CustomMessageHandler());
         } else {
             this.graph_msg_handler = null;
             this.peer_manager = PeerManager.of(channel_manager.as_ChannelMessageHandler(), no_custom_messages.as_RoutingMessageHandler(),
-                    keys_interface.get_node_secret(), random_data, logger, no_custom_messages.as_CustomMessageHandler());
+                    ((Result_SecretKeyNoneZ.Result_SecretKeyNoneZ_OK)node_secret).res,
+                    random_data, logger, no_custom_messages.as_CustomMessageHandler());
         }
         NioPeerHandler nio_peer_handler = null;
         try {

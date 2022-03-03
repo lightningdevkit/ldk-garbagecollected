@@ -58,34 +58,40 @@ public class Payer extends CommonBase {
 		impl_holder.held = new Payer(new bindings.LDKPayer() {
 			@Override public byte[] node_id() {
 				byte[] ret = arg.node_id();
+				Reference.reachabilityFence(arg);
 				byte[] result = InternalUtils.check_arr_len(ret, 33);
 				return result;
 			}
 			@Override public long[] first_hops() {
 				ChannelDetails[] ret = arg.first_hops();
+				Reference.reachabilityFence(arg);
 				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_16 -> ret_conv_16 == null ? 0 : ret_conv_16.clone_ptr()).toArray() : null;
 				return result;
 			}
 			@Override public long send_payment(long route, byte[] payment_hash, byte[] payment_secret) {
 				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
 				Result_PaymentIdPaymentSendFailureZ ret = arg.send_payment(route_hu_conv, payment_hash, payment_secret);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long send_spontaneous_payment(long route, byte[] payment_preimage) {
 				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
 				Result_PaymentIdPaymentSendFailureZ ret = arg.send_spontaneous_payment(route_hu_conv, payment_preimage);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public long retry_payment(long route, byte[] payment_id) {
 				Route route_hu_conv = null; if (route < 0 || route > 4096) { route_hu_conv = new Route(null, route); }
 				Result_NonePaymentSendFailureZ ret = arg.retry_payment(route_hu_conv, payment_id);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
 			@Override public void abandon_payment(byte[] payment_id) {
 				arg.abandon_payment(payment_id);
+				Reference.reachabilityFence(arg);
 			}
 		});
 		return impl_holder.held;

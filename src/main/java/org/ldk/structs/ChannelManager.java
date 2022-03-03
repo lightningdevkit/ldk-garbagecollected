@@ -532,6 +532,23 @@ public class ChannelManager extends CommonBase {
 	}
 
 	/**
+	 * Called to accept a request to open a channel after [`Event::OpenChannelRequest`] has been
+	 * triggered.
+	 * 
+	 * The `temporary_channel_id` parameter indicates which inbound channel should be accepted.
+	 * 
+	 * [`Event::OpenChannelRequest`]: crate::util::events::Event::OpenChannelRequest
+	 */
+	public Result_NoneAPIErrorZ accept_inbound_channel(byte[] temporary_channel_id) {
+		long ret = bindings.ChannelManager_accept_inbound_channel(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32));
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(temporary_channel_id);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
 	 * Gets a payment secret and payment hash for use in an invoice given to a third party wishing
 	 * to pay us.
 	 * 
@@ -679,6 +696,32 @@ public class ChannelManager extends CommonBase {
 		Reference.reachabilityFence(payment_secret);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_PaymentPreimageAPIErrorZ ret_hu_conv = Result_PaymentPreimageAPIErrorZ.constr_from_ptr(ret);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets a fake short channel id for use in receiving [phantom node payments]. These fake scids
+	 * are used when constructing the phantom invoice's route hints.
+	 * 
+	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
+	 */
+	public long get_phantom_scid() {
+		long ret = bindings.ChannelManager_get_phantom_scid(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Gets route hints for use in receiving [phantom node payments].
+	 * 
+	 * [phantom node payments]: crate::chain::keysinterface::PhantomKeysManager
+	 */
+	public PhantomRouteHints get_phantom_route_hints() {
+		long ret = bindings.ChannelManager_get_phantom_route_hints(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		PhantomRouteHints ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new PhantomRouteHints(null, ret); }
+		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
 

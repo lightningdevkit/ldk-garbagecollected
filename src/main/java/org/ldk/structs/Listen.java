@@ -46,9 +46,11 @@ public class Listen extends CommonBase {
 		impl_holder.held = new Listen(new bindings.LDKListen() {
 			@Override public void block_connected(byte[] block, int height) {
 				arg.block_connected(block, height);
+				Reference.reachabilityFence(arg);
 			}
 			@Override public void block_disconnected(byte[] header, int height) {
 				arg.block_disconnected(header, height);
+				Reference.reachabilityFence(arg);
 			}
 		});
 		return impl_holder.held;

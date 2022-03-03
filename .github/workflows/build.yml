@@ -38,7 +38,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.104
+          git checkout 0.0.105
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
@@ -122,7 +122,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.104
+          git checkout 0.0.105
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -172,7 +172,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.104
+          git checkout 0.0.105
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -275,7 +275,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.104
+          git checkout 0.0.105
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
@@ -330,14 +330,14 @@ jobs:
         run: rustup target install aarch64-apple-darwin
       - name: Fetch upstream LLVM/clang snapshot
         run: |
-          wget -O clang+llvm-13.0.0-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang+llvm-13.0.0-x86_64-apple-darwin.tar.xz
-          if [ "$(shasum -a 256 clang+llvm-13.0.0-x86_64-apple-darwin.tar.xz | awk '{ print $1 }')" != "d051234eca1db1f5e4bc08c64937c879c7098900f7a0370f3ceb7544816a8b09" ]; then
+          wget -O clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz
+          if [ "$(shasum -a 256 clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz | awk '{ print $1 }')" != "dec02d17698514d0fc7ace8869c38937851c542b02adf102c4e898f027145a4d" ]; then
             echo "Bad hash"
             exit 1
           fi
       - name: Unpack upstream LLVM+clang and use it by default
         run: |
-          tar xvvf clang+llvm-13.0.0-x86_64-apple-darwin.tar.xz
+          tar xvvf clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
@@ -355,11 +355,11 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.104
+          git checkout 0.0.105
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
-          export PATH=`pwd`/clang+llvm-13.0.0-x86_64-apple-darwin/bin:$PATH
+          export PATH=`pwd`/clang+llvm-13.0.1-x86_64-apple-darwin/bin:$PATH
           CC=clang ./genbindings.sh ../rust-lightning true
           cd ..
       - name: Fetch OpenJDK 16
@@ -389,7 +389,7 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           export JAVA_HOME=`pwd`/jdk-16.0.1.jdk/Contents/Home
           export PATH=$JAVA_HOME/bin:$PATH
-          export PATH=`pwd`/clang+llvm-13.0.0-x86_64-apple-darwin/bin:$PATH
+          export PATH=`pwd`/clang+llvm-13.0.1-x86_64-apple-darwin/bin:$PATH
           ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
             export CC="clang --target=aarch64-apple-darwin"

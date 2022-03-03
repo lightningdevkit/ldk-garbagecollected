@@ -40,6 +40,7 @@ public class CustomMessageReader extends CommonBase {
 		impl_holder.held = new CustomMessageReader(new bindings.LDKCustomMessageReader() {
 			@Override public long read(short message_type, byte[] buffer) {
 				Result_COption_TypeZDecodeErrorZ ret = arg.read(message_type, buffer);
+				Reference.reachabilityFence(arg);
 				long result = ret == null ? 0 : ret.clone_ptr();
 				return result;
 			}
