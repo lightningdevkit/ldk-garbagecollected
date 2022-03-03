@@ -1239,9 +1239,9 @@ uint32_t  __attribute__((export_name("TS_CResult_TxOutAccessErrorZ_get_err"))) T
 static inline uintptr_t C2Tuple_usizeTransactionZ_get_a(LDKC2Tuple_usizeTransactionZ *NONNULL_PTR owner){
 	return owner->a;
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_get_a"))) TS_C2Tuple_usizeTransactionZ_get_a(uint32_t owner) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_get_a"))) TS_C2Tuple_usizeTransactionZ_get_a(uint32_t owner) {
 	LDKC2Tuple_usizeTransactionZ* owner_conv = (LDKC2Tuple_usizeTransactionZ*)(owner & ~1);
-	intptr_t ret_val = C2Tuple_usizeTransactionZ_get_a(owner_conv);
+	uint32_t ret_val = C2Tuple_usizeTransactionZ_get_a(owner_conv);
 	return ret_val;
 }
 
@@ -3281,7 +3281,7 @@ uint32_t  __attribute__((export_name("TS_BaseSign_sign_holder_commitment_and_htl
 	return (uintptr_t)ret_conv;
 }
 
-uint32_t  __attribute__((export_name("TS_BaseSign_sign_justice_revoked_output"))) TS_BaseSign_sign_justice_revoked_output(uint32_t this_arg, int8_tArray justice_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_key) {
+uint32_t  __attribute__((export_name("TS_BaseSign_sign_justice_revoked_output"))) TS_BaseSign_sign_justice_revoked_output(uint32_t this_arg, int8_tArray justice_tx, uint32_t input, int64_t amount, int8_tArray per_commitment_key) {
 	void* this_arg_ptr = (void*)(((uintptr_t)this_arg) & ~1);
 	if (!(this_arg & 1)) { CHECK_ACCESS(this_arg_ptr); }
 	LDKBaseSign* this_arg_conv = (LDKBaseSign*)this_arg_ptr;
@@ -3299,7 +3299,7 @@ uint32_t  __attribute__((export_name("TS_BaseSign_sign_justice_revoked_output"))
 	return (uintptr_t)ret_conv;
 }
 
-uint32_t  __attribute__((export_name("TS_BaseSign_sign_justice_revoked_htlc"))) TS_BaseSign_sign_justice_revoked_htlc(uint32_t this_arg, int8_tArray justice_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_key, uint32_t htlc) {
+uint32_t  __attribute__((export_name("TS_BaseSign_sign_justice_revoked_htlc"))) TS_BaseSign_sign_justice_revoked_htlc(uint32_t this_arg, int8_tArray justice_tx, uint32_t input, int64_t amount, int8_tArray per_commitment_key, uint32_t htlc) {
 	void* this_arg_ptr = (void*)(((uintptr_t)this_arg) & ~1);
 	if (!(this_arg & 1)) { CHECK_ACCESS(this_arg_ptr); }
 	LDKBaseSign* this_arg_conv = (LDKBaseSign*)this_arg_ptr;
@@ -3321,7 +3321,7 @@ uint32_t  __attribute__((export_name("TS_BaseSign_sign_justice_revoked_htlc"))) 
 	return (uintptr_t)ret_conv;
 }
 
-uint32_t  __attribute__((export_name("TS_BaseSign_sign_counterparty_htlc_transaction"))) TS_BaseSign_sign_counterparty_htlc_transaction(uint32_t this_arg, int8_tArray htlc_tx, intptr_t input, int64_t amount, int8_tArray per_commitment_point, uint32_t htlc) {
+uint32_t  __attribute__((export_name("TS_BaseSign_sign_counterparty_htlc_transaction"))) TS_BaseSign_sign_counterparty_htlc_transaction(uint32_t this_arg, int8_tArray htlc_tx, uint32_t input, int64_t amount, int8_tArray per_commitment_point, uint32_t htlc) {
 	void* this_arg_ptr = (void*)(((uintptr_t)this_arg) & ~1);
 	if (!(this_arg & 1)) { CHECK_ACCESS(this_arg_ptr); }
 	LDKBaseSign* this_arg_conv = (LDKBaseSign*)this_arg_ptr;
@@ -9670,14 +9670,14 @@ long  __attribute__((export_name("TS_LDKSocketDescriptor_new"))) TS_LDKSocketDes
 	*res_ptr = LDKSocketDescriptor_init(o);
 	return (long)res_ptr;
 }
-intptr_t  __attribute__((export_name("TS_SocketDescriptor_send_data"))) TS_SocketDescriptor_send_data(uint32_t this_arg, int8_tArray data, jboolean resume_read) {
+uint32_t  __attribute__((export_name("TS_SocketDescriptor_send_data"))) TS_SocketDescriptor_send_data(uint32_t this_arg, int8_tArray data, jboolean resume_read) {
 	void* this_arg_ptr = (void*)(((uintptr_t)this_arg) & ~1);
 	if (!(this_arg & 1)) { CHECK_ACCESS(this_arg_ptr); }
 	LDKSocketDescriptor* this_arg_conv = (LDKSocketDescriptor*)this_arg_ptr;
 	LDKu8slice data_ref;
 	data_ref.datalen = data->arr_len;
 	data_ref.data = data->elems /* XXX data leaks */;
-	intptr_t ret_val = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
+	uint32_t ret_val = (this_arg_conv->send_data)(this_arg_conv->this_arg, data_ref, resume_read);
 	return ret_val;
 }
 
@@ -10388,9 +10388,9 @@ static inline uintptr_t TxOut_clone_ptr(LDKTxOut *NONNULL_PTR arg) {
 	*ret_ref = TxOut_clone(arg);
 	return (uintptr_t)ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_TxOut_clone_ptr"))) TS_TxOut_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_TxOut_clone_ptr"))) TS_TxOut_clone_ptr(uint32_t arg) {
 	LDKTxOut* arg_conv = (LDKTxOut*)(arg & ~1);
-	intptr_t ret_val = TxOut_clone_ptr(arg_conv);
+	uint32_t ret_val = TxOut_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10438,9 +10438,9 @@ static inline uintptr_t CResult_NoneNoneZ_clone_ptr(LDKCResult_NoneNoneZ *NONNUL
 	*ret_conv = CResult_NoneNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NoneNoneZ_clone_ptr"))) TS_CResult_NoneNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NoneNoneZ_clone_ptr"))) TS_CResult_NoneNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneNoneZ* arg_conv = (LDKCResult_NoneNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NoneNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NoneNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10493,9 +10493,9 @@ static inline uintptr_t CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_
 	*ret_conv = CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ* arg_conv = (LDKCResult_CounterpartyCommitmentSecretsDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_CounterpartyCommitmentSecretsDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10542,9 +10542,9 @@ static inline uintptr_t CResult_SecretKeyErrorZ_clone_ptr(LDKCResult_SecretKeyEr
 	*ret_conv = CResult_SecretKeyErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_SecretKeyErrorZ_clone_ptr"))) TS_CResult_SecretKeyErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_SecretKeyErrorZ_clone_ptr"))) TS_CResult_SecretKeyErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SecretKeyErrorZ* arg_conv = (LDKCResult_SecretKeyErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_SecretKeyErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_SecretKeyErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10591,9 +10591,9 @@ static inline uintptr_t CResult_PublicKeyErrorZ_clone_ptr(LDKCResult_PublicKeyEr
 	*ret_conv = CResult_PublicKeyErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PublicKeyErrorZ_clone_ptr"))) TS_CResult_PublicKeyErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PublicKeyErrorZ_clone_ptr"))) TS_CResult_PublicKeyErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PublicKeyErrorZ* arg_conv = (LDKCResult_PublicKeyErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PublicKeyErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PublicKeyErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10646,9 +10646,9 @@ static inline uintptr_t CResult_TxCreationKeysDecodeErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_TxCreationKeysDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_clone_ptr"))) TS_CResult_TxCreationKeysDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_TxCreationKeysDecodeErrorZ_clone_ptr"))) TS_CResult_TxCreationKeysDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_TxCreationKeysDecodeErrorZ* arg_conv = (LDKCResult_TxCreationKeysDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_TxCreationKeysDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_TxCreationKeysDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10701,9 +10701,9 @@ static inline uintptr_t CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(LDKCResu
 	*ret_conv = CResult_ChannelPublicKeysDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelPublicKeysDecodeErrorZ* arg_conv = (LDKCResult_ChannelPublicKeysDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelPublicKeysDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10752,9 +10752,9 @@ static inline uintptr_t CResult_TxCreationKeysErrorZ_clone_ptr(LDKCResult_TxCrea
 	*ret_conv = CResult_TxCreationKeysErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_TxCreationKeysErrorZ_clone_ptr"))) TS_CResult_TxCreationKeysErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_TxCreationKeysErrorZ_clone_ptr"))) TS_CResult_TxCreationKeysErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_TxCreationKeysErrorZ* arg_conv = (LDKCResult_TxCreationKeysErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_TxCreationKeysErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_TxCreationKeysErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10794,9 +10794,9 @@ static inline uintptr_t COption_u32Z_clone_ptr(LDKCOption_u32Z *NONNULL_PTR arg)
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_u32Z_clone_ptr"))) TS_COption_u32Z_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_u32Z_clone_ptr"))) TS_COption_u32Z_clone_ptr(uint32_t arg) {
 	LDKCOption_u32Z* arg_conv = (LDKCOption_u32Z*)arg;
-	intptr_t ret_val = COption_u32Z_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_u32Z_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10850,9 +10850,9 @@ static inline uintptr_t CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(LDK
 	*ret_conv = CResult_HTLCOutputInCommitmentDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr"))) TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr"))) TS_CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_HTLCOutputInCommitmentDecodeErrorZ* arg_conv = (LDKCResult_HTLCOutputInCommitmentDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_HTLCOutputInCommitmentDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10920,9 +10920,9 @@ static inline uintptr_t CResult_CounterpartyChannelTransactionParametersDecodeEr
 	*ret_conv = CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ* arg_conv = (LDKCResult_CounterpartyChannelTransactionParametersDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_CounterpartyChannelTransactionParametersDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -10975,9 +10975,9 @@ static inline uintptr_t CResult_ChannelTransactionParametersDecodeErrorZ_clone_p
 	*ret_conv = CResult_ChannelTransactionParametersDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelTransactionParametersDecodeErrorZ* arg_conv = (LDKCResult_ChannelTransactionParametersDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelTransactionParametersDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11048,9 +11048,9 @@ static inline uintptr_t CResult_HolderCommitmentTransactionDecodeErrorZ_clone_pt
 	*ret_conv = CResult_HolderCommitmentTransactionDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_HolderCommitmentTransactionDecodeErrorZ* arg_conv = (LDKCResult_HolderCommitmentTransactionDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_HolderCommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11103,9 +11103,9 @@ static inline uintptr_t CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr
 	*ret_conv = CResult_BuiltCommitmentTransactionDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_BuiltCommitmentTransactionDecodeErrorZ* arg_conv = (LDKCResult_BuiltCommitmentTransactionDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_BuiltCommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11190,9 +11190,9 @@ static inline uintptr_t CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(LDKC
 	*ret_conv = CResult_CommitmentTransactionDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_CommitmentTransactionDecodeErrorZ_clone_ptr"))) TS_CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CommitmentTransactionDecodeErrorZ* arg_conv = (LDKCResult_CommitmentTransactionDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_CommitmentTransactionDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11281,9 +11281,9 @@ static inline uintptr_t CResult_CVec_SignatureZNoneZ_clone_ptr(LDKCResult_CVec_S
 	*ret_conv = CResult_CVec_SignatureZNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_CVec_SignatureZNoneZ_clone_ptr"))) TS_CResult_CVec_SignatureZNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_CVec_SignatureZNoneZ_clone_ptr"))) TS_CResult_CVec_SignatureZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CVec_SignatureZNoneZ* arg_conv = (LDKCResult_CVec_SignatureZNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_CVec_SignatureZNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_CVec_SignatureZNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11336,9 +11336,9 @@ static inline uintptr_t CResult_ShutdownScriptDecodeErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_ShutdownScriptDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_clone_ptr"))) TS_CResult_ShutdownScriptDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ShutdownScriptDecodeErrorZ_clone_ptr"))) TS_CResult_ShutdownScriptDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ShutdownScriptDecodeErrorZ* arg_conv = (LDKCResult_ShutdownScriptDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ShutdownScriptDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ShutdownScriptDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11391,9 +11391,9 @@ static inline uintptr_t CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(L
 	*ret_conv = CResult_ShutdownScriptInvalidShutdownScriptZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr"))) TS_CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr"))) TS_CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ShutdownScriptInvalidShutdownScriptZ* arg_conv = (LDKCResult_ShutdownScriptInvalidShutdownScriptZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ShutdownScriptInvalidShutdownScriptZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11446,9 +11446,9 @@ static inline uintptr_t CResult_RouteHopDecodeErrorZ_clone_ptr(LDKCResult_RouteH
 	*ret_conv = CResult_RouteHopDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHopDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RouteHopDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHopDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteHopDecodeErrorZ* arg_conv = (LDKCResult_RouteHopDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RouteHopDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RouteHopDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11550,9 +11550,9 @@ static inline uintptr_t CResult_RouteDecodeErrorZ_clone_ptr(LDKCResult_RouteDeco
 	*ret_conv = CResult_RouteDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_clone_ptr"))) TS_CResult_RouteDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RouteDecodeErrorZ_clone_ptr"))) TS_CResult_RouteDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteDecodeErrorZ* arg_conv = (LDKCResult_RouteDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RouteDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RouteDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11605,9 +11605,9 @@ static inline uintptr_t CResult_RouteParametersDecodeErrorZ_clone_ptr(LDKCResult
 	*ret_conv = CResult_RouteParametersDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_clone_ptr"))) TS_CResult_RouteParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RouteParametersDecodeErrorZ_clone_ptr"))) TS_CResult_RouteParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteParametersDecodeErrorZ* arg_conv = (LDKCResult_RouteParametersDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RouteParametersDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RouteParametersDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11666,9 +11666,9 @@ static inline uintptr_t COption_u64Z_clone_ptr(LDKCOption_u64Z *NONNULL_PTR arg)
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_u64Z_clone_ptr"))) TS_COption_u64Z_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_u64Z_clone_ptr"))) TS_COption_u64Z_clone_ptr(uint32_t arg) {
 	LDKCOption_u64Z* arg_conv = (LDKCOption_u64Z*)arg;
-	intptr_t ret_val = COption_u64Z_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_u64Z_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11722,9 +11722,9 @@ static inline uintptr_t CResult_PaymentParametersDecodeErrorZ_clone_ptr(LDKCResu
 	*ret_conv = CResult_PaymentParametersDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_clone_ptr"))) TS_CResult_PaymentParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PaymentParametersDecodeErrorZ_clone_ptr"))) TS_CResult_PaymentParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentParametersDecodeErrorZ* arg_conv = (LDKCResult_PaymentParametersDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PaymentParametersDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PaymentParametersDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11796,9 +11796,9 @@ static inline uintptr_t CResult_RouteHintDecodeErrorZ_clone_ptr(LDKCResult_Route
 	*ret_conv = CResult_RouteHintDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHintDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RouteHintDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHintDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteHintDecodeErrorZ* arg_conv = (LDKCResult_RouteHintDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RouteHintDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RouteHintDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11851,9 +11851,9 @@ static inline uintptr_t CResult_RouteHintHopDecodeErrorZ_clone_ptr(LDKCResult_Ro
 	*ret_conv = CResult_RouteHintHopDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHintHopDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RouteHintHopDecodeErrorZ_clone_ptr"))) TS_CResult_RouteHintHopDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteHintHopDecodeErrorZ* arg_conv = (LDKCResult_RouteHintHopDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RouteHintHopDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RouteHintHopDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11925,9 +11925,9 @@ static inline uintptr_t CResult_RouteLightningErrorZ_clone_ptr(LDKCResult_RouteL
 	*ret_conv = CResult_RouteLightningErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_clone_ptr"))) TS_CResult_RouteLightningErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RouteLightningErrorZ_clone_ptr"))) TS_CResult_RouteLightningErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RouteLightningErrorZ* arg_conv = (LDKCResult_RouteLightningErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RouteLightningErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RouteLightningErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11975,9 +11975,9 @@ static inline uintptr_t CResult_TxOutAccessErrorZ_clone_ptr(LDKCResult_TxOutAcce
 	*ret_conv = CResult_TxOutAccessErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_TxOutAccessErrorZ_clone_ptr"))) TS_CResult_TxOutAccessErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_TxOutAccessErrorZ_clone_ptr"))) TS_CResult_TxOutAccessErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_TxOutAccessErrorZ* arg_conv = (LDKCResult_TxOutAccessErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_TxOutAccessErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_TxOutAccessErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -11993,9 +11993,9 @@ static inline uintptr_t C2Tuple_usizeTransactionZ_clone_ptr(LDKC2Tuple_usizeTran
 	*ret_conv = C2Tuple_usizeTransactionZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_clone_ptr"))) TS_C2Tuple_usizeTransactionZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_clone_ptr"))) TS_C2Tuple_usizeTransactionZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_usizeTransactionZ* arg_conv = (LDKC2Tuple_usizeTransactionZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_usizeTransactionZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_usizeTransactionZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12006,7 +12006,7 @@ uint32_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_clone"))) TS_
 	return ((uintptr_t)ret_conv);
 }
 
-uint32_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_new"))) TS_C2Tuple_usizeTransactionZ_new(intptr_t a, int8_tArray b) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_usizeTransactionZ_new"))) TS_C2Tuple_usizeTransactionZ_new(uint32_t a, int8_tArray b) {
 	LDKTransaction b_ref;
 	b_ref.datalen = b->arr_len;
 	b_ref.data = MALLOC(b_ref.datalen, "LDKTransaction Bytes");
@@ -12096,9 +12096,9 @@ static inline uintptr_t CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(LDKCResul
 	*ret_conv = CResult_NoneChannelMonitorUpdateErrZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NoneChannelMonitorUpdateErrZ_clone_ptr"))) TS_CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NoneChannelMonitorUpdateErrZ_clone_ptr"))) TS_CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneChannelMonitorUpdateErrZ* arg_conv = (LDKCResult_NoneChannelMonitorUpdateErrZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NoneChannelMonitorUpdateErrZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12161,9 +12161,9 @@ static inline uintptr_t COption_C2Tuple_usizeTransactionZZ_clone_ptr(LDKCOption_
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_C2Tuple_usizeTransactionZZ_clone_ptr"))) TS_COption_C2Tuple_usizeTransactionZZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_C2Tuple_usizeTransactionZZ_clone_ptr"))) TS_COption_C2Tuple_usizeTransactionZZ_clone_ptr(uint32_t arg) {
 	LDKCOption_C2Tuple_usizeTransactionZZ* arg_conv = (LDKCOption_C2Tuple_usizeTransactionZZ*)arg;
-	intptr_t ret_val = COption_C2Tuple_usizeTransactionZZ_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_C2Tuple_usizeTransactionZZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12208,9 +12208,9 @@ static inline uintptr_t COption_ClosureReasonZ_clone_ptr(LDKCOption_ClosureReaso
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_ClosureReasonZ_clone_ptr"))) TS_COption_ClosureReasonZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_ClosureReasonZ_clone_ptr"))) TS_COption_ClosureReasonZ_clone_ptr(uint32_t arg) {
 	LDKCOption_ClosureReasonZ* arg_conv = (LDKCOption_ClosureReasonZ*)arg;
-	intptr_t ret_val = COption_ClosureReasonZ_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_ClosureReasonZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12263,9 +12263,9 @@ static inline uintptr_t CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(LDK
 	*ret_conv = CResult_COption_ClosureReasonZDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_ClosureReasonZDecodeErrorZ* arg_conv = (LDKCResult_COption_ClosureReasonZDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_COption_ClosureReasonZDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12309,9 +12309,9 @@ static inline uintptr_t COption_NetworkUpdateZ_clone_ptr(LDKCOption_NetworkUpdat
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_NetworkUpdateZ_clone_ptr"))) TS_COption_NetworkUpdateZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_NetworkUpdateZ_clone_ptr"))) TS_COption_NetworkUpdateZ_clone_ptr(uint32_t arg) {
 	LDKCOption_NetworkUpdateZ* arg_conv = (LDKCOption_NetworkUpdateZ*)arg;
-	intptr_t ret_val = COption_NetworkUpdateZ_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_NetworkUpdateZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12375,9 +12375,9 @@ static inline uintptr_t COption_EventZ_clone_ptr(LDKCOption_EventZ *NONNULL_PTR 
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_EventZ_clone_ptr"))) TS_COption_EventZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_EventZ_clone_ptr"))) TS_COption_EventZ_clone_ptr(uint32_t arg) {
 	LDKCOption_EventZ* arg_conv = (LDKCOption_EventZ*)arg;
-	intptr_t ret_val = COption_EventZ_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_EventZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12430,9 +12430,9 @@ static inline uintptr_t CResult_COption_EventZDecodeErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_COption_EventZDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_EventZDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_COption_EventZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_EventZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_EventZDecodeErrorZ* arg_conv = (LDKCResult_COption_EventZDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_COption_EventZDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_COption_EventZDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12504,9 +12504,9 @@ static inline uintptr_t CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(LDKCRes
 	*ret_conv = CResult_FixedPenaltyScorerDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr"))) TS_CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr"))) TS_CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_FixedPenaltyScorerDecodeErrorZ* arg_conv = (LDKCResult_FixedPenaltyScorerDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_FixedPenaltyScorerDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12559,9 +12559,9 @@ static inline uintptr_t CResult_ScoringParametersDecodeErrorZ_clone_ptr(LDKCResu
 	*ret_conv = CResult_ScoringParametersDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ScoringParametersDecodeErrorZ_clone_ptr"))) TS_CResult_ScoringParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ScoringParametersDecodeErrorZ_clone_ptr"))) TS_CResult_ScoringParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ScoringParametersDecodeErrorZ* arg_conv = (LDKCResult_ScoringParametersDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ScoringParametersDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ScoringParametersDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12651,9 +12651,9 @@ static inline uintptr_t CResult_ProbabilisticScoringParametersDecodeErrorZ_clone
 	*ret_conv = CResult_ProbabilisticScoringParametersDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ProbabilisticScoringParametersDecodeErrorZ_clone_ptr"))) TS_CResult_ProbabilisticScoringParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ProbabilisticScoringParametersDecodeErrorZ_clone_ptr"))) TS_CResult_ProbabilisticScoringParametersDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ProbabilisticScoringParametersDecodeErrorZ* arg_conv = (LDKCResult_ProbabilisticScoringParametersDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ProbabilisticScoringParametersDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ProbabilisticScoringParametersDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12891,9 +12891,9 @@ static inline uintptr_t CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone
 	*ret_conv = CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ* arg_conv = (LDKCResult_DelayedPaymentOutputDescriptorDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_DelayedPaymentOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -12946,9 +12946,9 @@ static inline uintptr_t CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_
 	*ret_conv = CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ* arg_conv = (LDKCResult_StaticPaymentOutputDescriptorDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_StaticPaymentOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13000,9 +13000,9 @@ static inline uintptr_t CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(
 	*ret_conv = CResult_SpendableOutputDescriptorDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr"))) TS_CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SpendableOutputDescriptorDecodeErrorZ* arg_conv = (LDKCResult_SpendableOutputDescriptorDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_SpendableOutputDescriptorDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13036,9 +13036,9 @@ static inline uintptr_t C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(LDKC2Tuple_S
 	*ret_conv = C2Tuple_SignatureCVec_SignatureZZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_SignatureCVec_SignatureZZ_clone_ptr"))) TS_C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_SignatureCVec_SignatureZZ_clone_ptr"))) TS_C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_SignatureCVec_SignatureZZ* arg_conv = (LDKC2Tuple_SignatureCVec_SignatureZZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_SignatureCVec_SignatureZZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13117,9 +13117,9 @@ static inline uintptr_t CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr
 	*ret_conv = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ* arg_conv = (LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_C2Tuple_SignatureCVec_SignatureZZNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13165,9 +13165,9 @@ static inline uintptr_t CResult_SignatureNoneZ_clone_ptr(LDKCResult_SignatureNon
 	*ret_conv = CResult_SignatureNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_SignatureNoneZ_clone_ptr"))) TS_CResult_SignatureNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_SignatureNoneZ_clone_ptr"))) TS_CResult_SignatureNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SignatureNoneZ* arg_conv = (LDKCResult_SignatureNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_SignatureNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_SignatureNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13183,9 +13183,9 @@ static inline uintptr_t C2Tuple_SignatureSignatureZ_clone_ptr(LDKC2Tuple_Signatu
 	*ret_conv = C2Tuple_SignatureSignatureZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_SignatureSignatureZ_clone_ptr"))) TS_C2Tuple_SignatureSignatureZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_SignatureSignatureZ_clone_ptr"))) TS_C2Tuple_SignatureSignatureZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_SignatureSignatureZ* arg_conv = (LDKC2Tuple_SignatureSignatureZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_SignatureSignatureZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_SignatureSignatureZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13253,9 +13253,9 @@ static inline uintptr_t CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(LDKCR
 	*ret_conv = CResult_C2Tuple_SignatureSignatureZNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_SignatureSignatureZNoneZ* arg_conv = (LDKCResult_C2Tuple_SignatureSignatureZNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_C2Tuple_SignatureSignatureZNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13301,9 +13301,9 @@ static inline uintptr_t CResult_SecretKeyNoneZ_clone_ptr(LDKCResult_SecretKeyNon
 	*ret_conv = CResult_SecretKeyNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_SecretKeyNoneZ_clone_ptr"))) TS_CResult_SecretKeyNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_SecretKeyNoneZ_clone_ptr"))) TS_CResult_SecretKeyNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SecretKeyNoneZ* arg_conv = (LDKCResult_SecretKeyNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_SecretKeyNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_SecretKeyNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13354,9 +13354,9 @@ static inline uintptr_t CResult_SignDecodeErrorZ_clone_ptr(LDKCResult_SignDecode
 	*ret_conv = CResult_SignDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_clone_ptr"))) TS_CResult_SignDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_SignDecodeErrorZ_clone_ptr"))) TS_CResult_SignDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SignDecodeErrorZ* arg_conv = (LDKCResult_SignDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_SignDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_SignDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13418,9 +13418,9 @@ static inline uintptr_t CResult_RecoverableSignatureNoneZ_clone_ptr(LDKCResult_R
 	*ret_conv = CResult_RecoverableSignatureNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RecoverableSignatureNoneZ_clone_ptr"))) TS_CResult_RecoverableSignatureNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RecoverableSignatureNoneZ_clone_ptr"))) TS_CResult_RecoverableSignatureNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RecoverableSignatureNoneZ* arg_conv = (LDKCResult_RecoverableSignatureNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RecoverableSignatureNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RecoverableSignatureNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13505,9 +13505,9 @@ static inline uintptr_t CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(LDKCResult_CVec_CV
 	*ret_conv = CResult_CVec_CVec_u8ZZNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_CVec_CVec_u8ZZNoneZ_clone_ptr"))) TS_CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_CVec_CVec_u8ZZNoneZ_clone_ptr"))) TS_CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CVec_CVec_u8ZZNoneZ* arg_conv = (LDKCResult_CVec_CVec_u8ZZNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_CVec_CVec_u8ZZNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13560,9 +13560,9 @@ static inline uintptr_t CResult_InMemorySignerDecodeErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_InMemorySignerDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_clone_ptr"))) TS_CResult_InMemorySignerDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_InMemorySignerDecodeErrorZ_clone_ptr"))) TS_CResult_InMemorySignerDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InMemorySignerDecodeErrorZ* arg_conv = (LDKCResult_InMemorySignerDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_InMemorySignerDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_InMemorySignerDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13629,9 +13629,9 @@ static inline uintptr_t CResult_TransactionNoneZ_clone_ptr(LDKCResult_Transactio
 	*ret_conv = CResult_TransactionNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_TransactionNoneZ_clone_ptr"))) TS_CResult_TransactionNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_TransactionNoneZ_clone_ptr"))) TS_CResult_TransactionNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_TransactionNoneZ* arg_conv = (LDKCResult_TransactionNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_TransactionNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_TransactionNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13671,9 +13671,9 @@ static inline uintptr_t COption_u16Z_clone_ptr(LDKCOption_u16Z *NONNULL_PTR arg)
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_u16Z_clone_ptr"))) TS_COption_u16Z_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_u16Z_clone_ptr"))) TS_COption_u16Z_clone_ptr(uint32_t arg) {
 	LDKCOption_u16Z* arg_conv = (LDKCOption_u16Z*)arg;
-	intptr_t ret_val = COption_u16Z_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_u16Z_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13721,9 +13721,9 @@ static inline uintptr_t CResult_NoneAPIErrorZ_clone_ptr(LDKCResult_NoneAPIErrorZ
 	*ret_conv = CResult_NoneAPIErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NoneAPIErrorZ_clone_ptr"))) TS_CResult_NoneAPIErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NoneAPIErrorZ_clone_ptr"))) TS_CResult_NoneAPIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneAPIErrorZ* arg_conv = (LDKCResult_NoneAPIErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NoneAPIErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NoneAPIErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13811,9 +13811,9 @@ static inline uintptr_t CResult__u832APIErrorZ_clone_ptr(LDKCResult__u832APIErro
 	*ret_conv = CResult__u832APIErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult__u832APIErrorZ_clone_ptr"))) TS_CResult__u832APIErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult__u832APIErrorZ_clone_ptr"))) TS_CResult__u832APIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult__u832APIErrorZ* arg_conv = (LDKCResult__u832APIErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult__u832APIErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult__u832APIErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13863,9 +13863,9 @@ static inline uintptr_t CResult_PaymentIdPaymentSendFailureZ_clone_ptr(LDKCResul
 	*ret_conv = CResult_PaymentIdPaymentSendFailureZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentSendFailureZ_clone_ptr"))) TS_CResult_PaymentIdPaymentSendFailureZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentSendFailureZ_clone_ptr"))) TS_CResult_PaymentIdPaymentSendFailureZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentIdPaymentSendFailureZ* arg_conv = (LDKCResult_PaymentIdPaymentSendFailureZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PaymentIdPaymentSendFailureZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PaymentIdPaymentSendFailureZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13912,9 +13912,9 @@ static inline uintptr_t CResult_NonePaymentSendFailureZ_clone_ptr(LDKCResult_Non
 	*ret_conv = CResult_NonePaymentSendFailureZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NonePaymentSendFailureZ_clone_ptr"))) TS_CResult_NonePaymentSendFailureZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NonePaymentSendFailureZ_clone_ptr"))) TS_CResult_NonePaymentSendFailureZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NonePaymentSendFailureZ* arg_conv = (LDKCResult_NonePaymentSendFailureZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NonePaymentSendFailureZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NonePaymentSendFailureZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -13930,9 +13930,9 @@ static inline uintptr_t C2Tuple_PaymentHashPaymentIdZ_clone_ptr(LDKC2Tuple_Payme
 	*ret_conv = C2Tuple_PaymentHashPaymentIdZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_PaymentHashPaymentIdZ_clone_ptr"))) TS_C2Tuple_PaymentHashPaymentIdZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_PaymentHashPaymentIdZ_clone_ptr"))) TS_C2Tuple_PaymentHashPaymentIdZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_PaymentHashPaymentIdZ* arg_conv = (LDKC2Tuple_PaymentHashPaymentIdZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_PaymentHashPaymentIdZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_PaymentHashPaymentIdZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14004,9 +14004,9 @@ static inline uintptr_t CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ
 	*ret_conv = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ* arg_conv = (LDKCResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ*)(arg & ~1);
-	intptr_t ret_val = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14041,9 +14041,9 @@ static inline uintptr_t C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(LDKC2Tuple_P
 	*ret_conv = C2Tuple_PaymentHashPaymentSecretZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_PaymentHashPaymentSecretZ_clone_ptr"))) TS_C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_PaymentHashPaymentSecretZ_clone_ptr"))) TS_C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_PaymentHashPaymentSecretZ* arg_conv = (LDKC2Tuple_PaymentHashPaymentSecretZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_PaymentHashPaymentSecretZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14111,9 +14111,9 @@ static inline uintptr_t CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr
 	*ret_conv = CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ* arg_conv = (LDKCResult_C2Tuple_PaymentHashPaymentSecretZNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_C2Tuple_PaymentHashPaymentSecretZNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14164,9 +14164,9 @@ static inline uintptr_t CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone
 	*ret_conv = CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr"))) TS_CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ* arg_conv = (LDKCResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_C2Tuple_PaymentHashPaymentSecretZAPIErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14212,9 +14212,9 @@ static inline uintptr_t CResult_PaymentSecretNoneZ_clone_ptr(LDKCResult_PaymentS
 	*ret_conv = CResult_PaymentSecretNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PaymentSecretNoneZ_clone_ptr"))) TS_CResult_PaymentSecretNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PaymentSecretNoneZ_clone_ptr"))) TS_CResult_PaymentSecretNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentSecretNoneZ* arg_conv = (LDKCResult_PaymentSecretNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PaymentSecretNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PaymentSecretNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14264,9 +14264,9 @@ static inline uintptr_t CResult_PaymentSecretAPIErrorZ_clone_ptr(LDKCResult_Paym
 	*ret_conv = CResult_PaymentSecretAPIErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PaymentSecretAPIErrorZ_clone_ptr"))) TS_CResult_PaymentSecretAPIErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PaymentSecretAPIErrorZ_clone_ptr"))) TS_CResult_PaymentSecretAPIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentSecretAPIErrorZ* arg_conv = (LDKCResult_PaymentSecretAPIErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PaymentSecretAPIErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PaymentSecretAPIErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14316,9 +14316,9 @@ static inline uintptr_t CResult_PaymentPreimageAPIErrorZ_clone_ptr(LDKCResult_Pa
 	*ret_conv = CResult_PaymentPreimageAPIErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PaymentPreimageAPIErrorZ_clone_ptr"))) TS_CResult_PaymentPreimageAPIErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PaymentPreimageAPIErrorZ_clone_ptr"))) TS_CResult_PaymentPreimageAPIErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentPreimageAPIErrorZ* arg_conv = (LDKCResult_PaymentPreimageAPIErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PaymentPreimageAPIErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PaymentPreimageAPIErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14371,9 +14371,9 @@ static inline uintptr_t CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr
 	*ret_conv = CResult_CounterpartyForwardingInfoDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr"))) TS_CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CounterpartyForwardingInfoDecodeErrorZ* arg_conv = (LDKCResult_CounterpartyForwardingInfoDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_CounterpartyForwardingInfoDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14426,9 +14426,9 @@ static inline uintptr_t CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(LDKCRe
 	*ret_conv = CResult_ChannelCounterpartyDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelCounterpartyDecodeErrorZ* arg_conv = (LDKCResult_ChannelCounterpartyDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelCounterpartyDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14481,9 +14481,9 @@ static inline uintptr_t CResult_ChannelDetailsDecodeErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_ChannelDetailsDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelDetailsDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelDetailsDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelDetailsDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelDetailsDecodeErrorZ* arg_conv = (LDKCResult_ChannelDetailsDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelDetailsDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelDetailsDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14536,9 +14536,9 @@ static inline uintptr_t CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(LDKCResu
 	*ret_conv = CResult_PhantomRouteHintsDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr"))) TS_CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr"))) TS_CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PhantomRouteHintsDecodeErrorZ* arg_conv = (LDKCResult_PhantomRouteHintsDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PhantomRouteHintsDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14669,9 +14669,9 @@ static inline uintptr_t CResult_ChannelConfigDecodeErrorZ_clone_ptr(LDKCResult_C
 	*ret_conv = CResult_ChannelConfigDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelConfigDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelConfigDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelConfigDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelConfigDecodeErrorZ* arg_conv = (LDKCResult_ChannelConfigDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelConfigDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelConfigDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14724,9 +14724,9 @@ static inline uintptr_t CResult_OutPointDecodeErrorZ_clone_ptr(LDKCResult_OutPoi
 	*ret_conv = CResult_OutPointDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_clone_ptr"))) TS_CResult_OutPointDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_OutPointDecodeErrorZ_clone_ptr"))) TS_CResult_OutPointDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_OutPointDecodeErrorZ* arg_conv = (LDKCResult_OutPointDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_OutPointDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_OutPointDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14769,9 +14769,9 @@ static inline uintptr_t COption_TypeZ_clone_ptr(LDKCOption_TypeZ *NONNULL_PTR ar
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_TypeZ_clone_ptr"))) TS_COption_TypeZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_TypeZ_clone_ptr"))) TS_COption_TypeZ_clone_ptr(uint32_t arg) {
 	LDKCOption_TypeZ* arg_conv = (LDKCOption_TypeZ*)arg;
-	intptr_t ret_val = COption_TypeZ_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_TypeZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14824,9 +14824,9 @@ static inline uintptr_t CResult_COption_TypeZDecodeErrorZ_clone_ptr(LDKCResult_C
 	*ret_conv = CResult_COption_TypeZDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_TypeZDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_COption_TypeZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_TypeZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_TypeZDecodeErrorZ* arg_conv = (LDKCResult_COption_TypeZDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_COption_TypeZDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_COption_TypeZDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14876,9 +14876,9 @@ static inline uintptr_t CResult_PaymentIdPaymentErrorZ_clone_ptr(LDKCResult_Paym
 	*ret_conv = CResult_PaymentIdPaymentErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentErrorZ_clone_ptr"))) TS_CResult_PaymentIdPaymentErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PaymentIdPaymentErrorZ_clone_ptr"))) TS_CResult_PaymentIdPaymentErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PaymentIdPaymentErrorZ* arg_conv = (LDKCResult_PaymentIdPaymentErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PaymentIdPaymentErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PaymentIdPaymentErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14922,9 +14922,9 @@ static inline uintptr_t CResult_SiPrefixNoneZ_clone_ptr(LDKCResult_SiPrefixNoneZ
 	*ret_conv = CResult_SiPrefixNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_SiPrefixNoneZ_clone_ptr"))) TS_CResult_SiPrefixNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_SiPrefixNoneZ_clone_ptr"))) TS_CResult_SiPrefixNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SiPrefixNoneZ* arg_conv = (LDKCResult_SiPrefixNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_SiPrefixNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_SiPrefixNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -14972,9 +14972,9 @@ static inline uintptr_t CResult_InvoiceNoneZ_clone_ptr(LDKCResult_InvoiceNoneZ *
 	*ret_conv = CResult_InvoiceNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_InvoiceNoneZ_clone_ptr"))) TS_CResult_InvoiceNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_InvoiceNoneZ_clone_ptr"))) TS_CResult_InvoiceNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InvoiceNoneZ* arg_conv = (LDKCResult_InvoiceNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_InvoiceNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_InvoiceNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15022,9 +15022,9 @@ static inline uintptr_t CResult_SignedRawInvoiceNoneZ_clone_ptr(LDKCResult_Signe
 	*ret_conv = CResult_SignedRawInvoiceNoneZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_SignedRawInvoiceNoneZ_clone_ptr"))) TS_CResult_SignedRawInvoiceNoneZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_SignedRawInvoiceNoneZ_clone_ptr"))) TS_CResult_SignedRawInvoiceNoneZ_clone_ptr(uint32_t arg) {
 	LDKCResult_SignedRawInvoiceNoneZ* arg_conv = (LDKCResult_SignedRawInvoiceNoneZ*)(arg & ~1);
-	intptr_t ret_val = CResult_SignedRawInvoiceNoneZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_SignedRawInvoiceNoneZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15040,9 +15040,9 @@ static inline uintptr_t C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(LDKC3
 	*ret_conv = C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr"))) TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr"))) TS_C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(uint32_t arg) {
 	LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ* arg_conv = (LDKC3Tuple_RawInvoice_u832InvoiceSignatureZ*)(arg & ~1);
-	intptr_t ret_val = C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C3Tuple_RawInvoice_u832InvoiceSignatureZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15119,9 +15119,9 @@ static inline uintptr_t CResult_PayeePubKeyErrorZ_clone_ptr(LDKCResult_PayeePubK
 	*ret_conv = CResult_PayeePubKeyErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PayeePubKeyErrorZ_clone_ptr"))) TS_CResult_PayeePubKeyErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PayeePubKeyErrorZ_clone_ptr"))) TS_CResult_PayeePubKeyErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PayeePubKeyErrorZ* arg_conv = (LDKCResult_PayeePubKeyErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PayeePubKeyErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PayeePubKeyErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15189,9 +15189,9 @@ static inline uintptr_t CResult_PositiveTimestampCreationErrorZ_clone_ptr(LDKCRe
 	*ret_conv = CResult_PositiveTimestampCreationErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PositiveTimestampCreationErrorZ_clone_ptr"))) TS_CResult_PositiveTimestampCreationErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PositiveTimestampCreationErrorZ_clone_ptr"))) TS_CResult_PositiveTimestampCreationErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PositiveTimestampCreationErrorZ* arg_conv = (LDKCResult_PositiveTimestampCreationErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PositiveTimestampCreationErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PositiveTimestampCreationErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15235,9 +15235,9 @@ static inline uintptr_t CResult_NoneSemanticErrorZ_clone_ptr(LDKCResult_NoneSema
 	*ret_conv = CResult_NoneSemanticErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NoneSemanticErrorZ_clone_ptr"))) TS_CResult_NoneSemanticErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NoneSemanticErrorZ_clone_ptr"))) TS_CResult_NoneSemanticErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneSemanticErrorZ* arg_conv = (LDKCResult_NoneSemanticErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NoneSemanticErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NoneSemanticErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15286,9 +15286,9 @@ static inline uintptr_t CResult_InvoiceSemanticErrorZ_clone_ptr(LDKCResult_Invoi
 	*ret_conv = CResult_InvoiceSemanticErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_clone_ptr"))) TS_CResult_InvoiceSemanticErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_InvoiceSemanticErrorZ_clone_ptr"))) TS_CResult_InvoiceSemanticErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InvoiceSemanticErrorZ* arg_conv = (LDKCResult_InvoiceSemanticErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_InvoiceSemanticErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_InvoiceSemanticErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15337,9 +15337,9 @@ static inline uintptr_t CResult_DescriptionCreationErrorZ_clone_ptr(LDKCResult_D
 	*ret_conv = CResult_DescriptionCreationErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_clone_ptr"))) TS_CResult_DescriptionCreationErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_DescriptionCreationErrorZ_clone_ptr"))) TS_CResult_DescriptionCreationErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_DescriptionCreationErrorZ* arg_conv = (LDKCResult_DescriptionCreationErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_DescriptionCreationErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_DescriptionCreationErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15388,9 +15388,9 @@ static inline uintptr_t CResult_PrivateRouteCreationErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_PrivateRouteCreationErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PrivateRouteCreationErrorZ_clone_ptr"))) TS_CResult_PrivateRouteCreationErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PrivateRouteCreationErrorZ_clone_ptr"))) TS_CResult_PrivateRouteCreationErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PrivateRouteCreationErrorZ* arg_conv = (LDKCResult_PrivateRouteCreationErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PrivateRouteCreationErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PrivateRouteCreationErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15472,9 +15472,9 @@ static inline uintptr_t CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(LDKCR
 	*ret_conv = CResult_ChannelMonitorUpdateDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelMonitorUpdateDecodeErrorZ* arg_conv = (LDKCResult_ChannelMonitorUpdateDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelMonitorUpdateDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15518,9 +15518,9 @@ static inline uintptr_t COption_MonitorEventZ_clone_ptr(LDKCOption_MonitorEventZ
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_MonitorEventZ_clone_ptr"))) TS_COption_MonitorEventZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_MonitorEventZ_clone_ptr"))) TS_COption_MonitorEventZ_clone_ptr(uint32_t arg) {
 	LDKCOption_MonitorEventZ* arg_conv = (LDKCOption_MonitorEventZ*)arg;
-	intptr_t ret_val = COption_MonitorEventZ_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_MonitorEventZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15573,9 +15573,9 @@ static inline uintptr_t CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(LDKC
 	*ret_conv = CResult_COption_MonitorEventZDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_MonitorEventZDecodeErrorZ* arg_conv = (LDKCResult_COption_MonitorEventZDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_COption_MonitorEventZDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15628,9 +15628,9 @@ static inline uintptr_t CResult_HTLCUpdateDecodeErrorZ_clone_ptr(LDKCResult_HTLC
 	*ret_conv = CResult_HTLCUpdateDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_HTLCUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_HTLCUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_HTLCUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_HTLCUpdateDecodeErrorZ* arg_conv = (LDKCResult_HTLCUpdateDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_HTLCUpdateDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_HTLCUpdateDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15646,9 +15646,9 @@ static inline uintptr_t C2Tuple_OutPointScriptZ_clone_ptr(LDKC2Tuple_OutPointScr
 	*ret_conv = C2Tuple_OutPointScriptZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_OutPointScriptZ_clone_ptr"))) TS_C2Tuple_OutPointScriptZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_OutPointScriptZ_clone_ptr"))) TS_C2Tuple_OutPointScriptZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_OutPointScriptZ* arg_conv = (LDKC2Tuple_OutPointScriptZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_OutPointScriptZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_OutPointScriptZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15688,9 +15688,9 @@ static inline uintptr_t C2Tuple_u32ScriptZ_clone_ptr(LDKC2Tuple_u32ScriptZ *NONN
 	*ret_conv = C2Tuple_u32ScriptZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_u32ScriptZ_clone_ptr"))) TS_C2Tuple_u32ScriptZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_u32ScriptZ_clone_ptr"))) TS_C2Tuple_u32ScriptZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_u32ScriptZ* arg_conv = (LDKC2Tuple_u32ScriptZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_u32ScriptZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_u32ScriptZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15744,9 +15744,9 @@ static inline uintptr_t C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(LDKC2Tup
 	*ret_conv = C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr"))) TS_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr"))) TS_C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ* arg_conv = (LDKC2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_TxidCVec_C2Tuple_u32ScriptZZZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15853,9 +15853,9 @@ static inline uintptr_t C2Tuple_u32TxOutZ_clone_ptr(LDKC2Tuple_u32TxOutZ *NONNUL
 	*ret_conv = C2Tuple_u32TxOutZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_u32TxOutZ_clone_ptr"))) TS_C2Tuple_u32TxOutZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_u32TxOutZ_clone_ptr"))) TS_C2Tuple_u32TxOutZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_u32TxOutZ* arg_conv = (LDKC2Tuple_u32TxOutZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_u32TxOutZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_u32TxOutZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15909,9 +15909,9 @@ static inline uintptr_t C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(LDKC2Tupl
 	*ret_conv = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr"))) TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr"))) TS_C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ* arg_conv = (LDKC2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_TxidCVec_C2Tuple_u32TxOutZZZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -15998,9 +15998,9 @@ static inline uintptr_t C2Tuple_BlockHashChannelMonitorZ_clone_ptr(LDKC2Tuple_Bl
 	*ret_conv = C2Tuple_BlockHashChannelMonitorZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_BlockHashChannelMonitorZ_clone_ptr"))) TS_C2Tuple_BlockHashChannelMonitorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_BlockHashChannelMonitorZ_clone_ptr"))) TS_C2Tuple_BlockHashChannelMonitorZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_BlockHashChannelMonitorZ* arg_conv = (LDKC2Tuple_BlockHashChannelMonitorZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_BlockHashChannelMonitorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_BlockHashChannelMonitorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16075,9 +16075,9 @@ static inline uintptr_t CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clo
 	*ret_conv = CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr"))) TS_CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ* arg_conv = (LDKCResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_C2Tuple_BlockHashChannelMonitorZDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16125,9 +16125,9 @@ static inline uintptr_t CResult_NoneLightningErrorZ_clone_ptr(LDKCResult_NoneLig
 	*ret_conv = CResult_NoneLightningErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_clone_ptr"))) TS_CResult_NoneLightningErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NoneLightningErrorZ_clone_ptr"))) TS_CResult_NoneLightningErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NoneLightningErrorZ* arg_conv = (LDKCResult_NoneLightningErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NoneLightningErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NoneLightningErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16143,9 +16143,9 @@ static inline uintptr_t C2Tuple_PublicKeyTypeZ_clone_ptr(LDKC2Tuple_PublicKeyTyp
 	*ret_conv = C2Tuple_PublicKeyTypeZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C2Tuple_PublicKeyTypeZ_clone_ptr"))) TS_C2Tuple_PublicKeyTypeZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C2Tuple_PublicKeyTypeZ_clone_ptr"))) TS_C2Tuple_PublicKeyTypeZ_clone_ptr(uint32_t arg) {
 	LDKC2Tuple_PublicKeyTypeZ* arg_conv = (LDKC2Tuple_PublicKeyTypeZ*)(arg & ~1);
-	intptr_t ret_val = C2Tuple_PublicKeyTypeZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C2Tuple_PublicKeyTypeZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16233,9 +16233,9 @@ static inline uintptr_t CResult_boolLightningErrorZ_clone_ptr(LDKCResult_boolLig
 	*ret_conv = CResult_boolLightningErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_boolLightningErrorZ_clone_ptr"))) TS_CResult_boolLightningErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_boolLightningErrorZ_clone_ptr"))) TS_CResult_boolLightningErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_boolLightningErrorZ* arg_conv = (LDKCResult_boolLightningErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_boolLightningErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_boolLightningErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16251,9 +16251,9 @@ static inline uintptr_t C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_c
 	*ret_conv = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone(arg);
 	return ((uintptr_t)ret_conv);
 }
-intptr_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr"))) TS_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(uint32_t arg) {
 	LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ* arg_conv = (LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ*)(arg & ~1);
-	intptr_t ret_val = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(arg_conv);
+	uint32_t ret_val = C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16391,9 +16391,9 @@ static inline uintptr_t CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(LDKCResult_CV
 	*ret_conv = CResult_CVec_u8ZPeerHandleErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr"))) TS_CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CVec_u8ZPeerHandleErrorZ* arg_conv = (LDKCResult_CVec_u8ZPeerHandleErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_CVec_u8ZPeerHandleErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16441,9 +16441,9 @@ static inline uintptr_t CResult_NonePeerHandleErrorZ_clone_ptr(LDKCResult_NonePe
 	*ret_conv = CResult_NonePeerHandleErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_clone_ptr"))) TS_CResult_NonePeerHandleErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NonePeerHandleErrorZ_clone_ptr"))) TS_CResult_NonePeerHandleErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NonePeerHandleErrorZ* arg_conv = (LDKCResult_NonePeerHandleErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NonePeerHandleErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NonePeerHandleErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16491,9 +16491,9 @@ static inline uintptr_t CResult_boolPeerHandleErrorZ_clone_ptr(LDKCResult_boolPe
 	*ret_conv = CResult_boolPeerHandleErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_clone_ptr"))) TS_CResult_boolPeerHandleErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_boolPeerHandleErrorZ_clone_ptr"))) TS_CResult_boolPeerHandleErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_boolPeerHandleErrorZ* arg_conv = (LDKCResult_boolPeerHandleErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_boolPeerHandleErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_boolPeerHandleErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16546,9 +16546,9 @@ static inline uintptr_t CResult_NodeIdDecodeErrorZ_clone_ptr(LDKCResult_NodeIdDe
 	*ret_conv = CResult_NodeIdDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_clone_ptr"))) TS_CResult_NodeIdDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NodeIdDecodeErrorZ_clone_ptr"))) TS_CResult_NodeIdDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NodeIdDecodeErrorZ* arg_conv = (LDKCResult_NodeIdDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NodeIdDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NodeIdDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16600,9 +16600,9 @@ static inline uintptr_t CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(LDK
 	*ret_conv = CResult_COption_NetworkUpdateZDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr"))) TS_CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_COption_NetworkUpdateZDecodeErrorZ* arg_conv = (LDKCResult_COption_NetworkUpdateZDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_COption_NetworkUpdateZDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16681,9 +16681,9 @@ static inline uintptr_t CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(LDKCResu
 	*ret_conv = CResult_ChannelUpdateInfoDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelUpdateInfoDecodeErrorZ* arg_conv = (LDKCResult_ChannelUpdateInfoDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelUpdateInfoDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16736,9 +16736,9 @@ static inline uintptr_t CResult_ChannelInfoDecodeErrorZ_clone_ptr(LDKCResult_Cha
 	*ret_conv = CResult_ChannelInfoDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelInfoDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelInfoDecodeErrorZ* arg_conv = (LDKCResult_ChannelInfoDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelInfoDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelInfoDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16791,9 +16791,9 @@ static inline uintptr_t CResult_RoutingFeesDecodeErrorZ_clone_ptr(LDKCResult_Rou
 	*ret_conv = CResult_RoutingFeesDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_clone_ptr"))) TS_CResult_RoutingFeesDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RoutingFeesDecodeErrorZ_clone_ptr"))) TS_CResult_RoutingFeesDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RoutingFeesDecodeErrorZ* arg_conv = (LDKCResult_RoutingFeesDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RoutingFeesDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RoutingFeesDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16846,9 +16846,9 @@ static inline uintptr_t CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(LDKCR
 	*ret_conv = CResult_NodeAnnouncementInfoDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr"))) TS_CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NodeAnnouncementInfoDecodeErrorZ* arg_conv = (LDKCResult_NodeAnnouncementInfoDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NodeAnnouncementInfoDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16916,9 +16916,9 @@ static inline uintptr_t CResult_NodeInfoDecodeErrorZ_clone_ptr(LDKCResult_NodeIn
 	*ret_conv = CResult_NodeInfoDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_clone_ptr"))) TS_CResult_NodeInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NodeInfoDecodeErrorZ_clone_ptr"))) TS_CResult_NodeInfoDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NodeInfoDecodeErrorZ* arg_conv = (LDKCResult_NodeInfoDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NodeInfoDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NodeInfoDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -16971,9 +16971,9 @@ static inline uintptr_t CResult_NetworkGraphDecodeErrorZ_clone_ptr(LDKCResult_Ne
 	*ret_conv = CResult_NetworkGraphDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_clone_ptr"))) TS_CResult_NetworkGraphDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NetworkGraphDecodeErrorZ_clone_ptr"))) TS_CResult_NetworkGraphDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NetworkGraphDecodeErrorZ* arg_conv = (LDKCResult_NetworkGraphDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NetworkGraphDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NetworkGraphDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17028,9 +17028,9 @@ static inline uintptr_t COption_CVec_NetAddressZZ_clone_ptr(LDKCOption_CVec_NetA
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_COption_CVec_NetAddressZZ_clone_ptr"))) TS_COption_CVec_NetAddressZZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_COption_CVec_NetAddressZZ_clone_ptr"))) TS_COption_CVec_NetAddressZZ_clone_ptr(uint32_t arg) {
 	LDKCOption_CVec_NetAddressZZ* arg_conv = (LDKCOption_CVec_NetAddressZZ*)arg;
-	intptr_t ret_val = COption_CVec_NetAddressZZ_clone_ptr(arg_conv);
+	uint32_t ret_val = COption_CVec_NetAddressZZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17083,9 +17083,9 @@ static inline uintptr_t CResult_NetAddressDecodeErrorZ_clone_ptr(LDKCResult_NetA
 	*ret_conv = CResult_NetAddressDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_clone_ptr"))) TS_CResult_NetAddressDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NetAddressDecodeErrorZ_clone_ptr"))) TS_CResult_NetAddressDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NetAddressDecodeErrorZ* arg_conv = (LDKCResult_NetAddressDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NetAddressDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NetAddressDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17214,9 +17214,9 @@ static inline uintptr_t CResult_AcceptChannelDecodeErrorZ_clone_ptr(LDKCResult_A
 	*ret_conv = CResult_AcceptChannelDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_clone_ptr"))) TS_CResult_AcceptChannelDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_AcceptChannelDecodeErrorZ_clone_ptr"))) TS_CResult_AcceptChannelDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_AcceptChannelDecodeErrorZ* arg_conv = (LDKCResult_AcceptChannelDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_AcceptChannelDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_AcceptChannelDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17269,9 +17269,9 @@ static inline uintptr_t CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(LDK
 	*ret_conv = CResult_AnnouncementSignaturesDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr"))) TS_CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr"))) TS_CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_AnnouncementSignaturesDecodeErrorZ* arg_conv = (LDKCResult_AnnouncementSignaturesDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_AnnouncementSignaturesDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17324,9 +17324,9 @@ static inline uintptr_t CResult_ChannelReestablishDecodeErrorZ_clone_ptr(LDKCRes
 	*ret_conv = CResult_ChannelReestablishDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelReestablishDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelReestablishDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelReestablishDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelReestablishDecodeErrorZ* arg_conv = (LDKCResult_ChannelReestablishDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelReestablishDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelReestablishDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17379,9 +17379,9 @@ static inline uintptr_t CResult_ClosingSignedDecodeErrorZ_clone_ptr(LDKCResult_C
 	*ret_conv = CResult_ClosingSignedDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_clone_ptr"))) TS_CResult_ClosingSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ClosingSignedDecodeErrorZ_clone_ptr"))) TS_CResult_ClosingSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ClosingSignedDecodeErrorZ* arg_conv = (LDKCResult_ClosingSignedDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ClosingSignedDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ClosingSignedDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17434,9 +17434,9 @@ static inline uintptr_t CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(LDKC
 	*ret_conv = CResult_ClosingSignedFeeRangeDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr"))) TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr"))) TS_CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ClosingSignedFeeRangeDecodeErrorZ* arg_conv = (LDKCResult_ClosingSignedFeeRangeDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ClosingSignedFeeRangeDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17489,9 +17489,9 @@ static inline uintptr_t CResult_CommitmentSignedDecodeErrorZ_clone_ptr(LDKCResul
 	*ret_conv = CResult_CommitmentSignedDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_clone_ptr"))) TS_CResult_CommitmentSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_CommitmentSignedDecodeErrorZ_clone_ptr"))) TS_CResult_CommitmentSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_CommitmentSignedDecodeErrorZ* arg_conv = (LDKCResult_CommitmentSignedDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_CommitmentSignedDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_CommitmentSignedDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17544,9 +17544,9 @@ static inline uintptr_t CResult_FundingCreatedDecodeErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_FundingCreatedDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingCreatedDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_FundingCreatedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingCreatedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_FundingCreatedDecodeErrorZ* arg_conv = (LDKCResult_FundingCreatedDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_FundingCreatedDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_FundingCreatedDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17599,9 +17599,9 @@ static inline uintptr_t CResult_FundingSignedDecodeErrorZ_clone_ptr(LDKCResult_F
 	*ret_conv = CResult_FundingSignedDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_FundingSignedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingSignedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_FundingSignedDecodeErrorZ* arg_conv = (LDKCResult_FundingSignedDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_FundingSignedDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_FundingSignedDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17654,9 +17654,9 @@ static inline uintptr_t CResult_FundingLockedDecodeErrorZ_clone_ptr(LDKCResult_F
 	*ret_conv = CResult_FundingLockedDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_FundingLockedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingLockedDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_FundingLockedDecodeErrorZ_clone_ptr"))) TS_CResult_FundingLockedDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_FundingLockedDecodeErrorZ* arg_conv = (LDKCResult_FundingLockedDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_FundingLockedDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_FundingLockedDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17709,9 +17709,9 @@ static inline uintptr_t CResult_InitDecodeErrorZ_clone_ptr(LDKCResult_InitDecode
 	*ret_conv = CResult_InitDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_clone_ptr"))) TS_CResult_InitDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_InitDecodeErrorZ_clone_ptr"))) TS_CResult_InitDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InitDecodeErrorZ* arg_conv = (LDKCResult_InitDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_InitDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_InitDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17764,9 +17764,9 @@ static inline uintptr_t CResult_OpenChannelDecodeErrorZ_clone_ptr(LDKCResult_Ope
 	*ret_conv = CResult_OpenChannelDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_clone_ptr"))) TS_CResult_OpenChannelDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_OpenChannelDecodeErrorZ_clone_ptr"))) TS_CResult_OpenChannelDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_OpenChannelDecodeErrorZ* arg_conv = (LDKCResult_OpenChannelDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_OpenChannelDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_OpenChannelDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17819,9 +17819,9 @@ static inline uintptr_t CResult_RevokeAndACKDecodeErrorZ_clone_ptr(LDKCResult_Re
 	*ret_conv = CResult_RevokeAndACKDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_clone_ptr"))) TS_CResult_RevokeAndACKDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_RevokeAndACKDecodeErrorZ_clone_ptr"))) TS_CResult_RevokeAndACKDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_RevokeAndACKDecodeErrorZ* arg_conv = (LDKCResult_RevokeAndACKDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_RevokeAndACKDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_RevokeAndACKDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17874,9 +17874,9 @@ static inline uintptr_t CResult_ShutdownDecodeErrorZ_clone_ptr(LDKCResult_Shutdo
 	*ret_conv = CResult_ShutdownDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_clone_ptr"))) TS_CResult_ShutdownDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ShutdownDecodeErrorZ_clone_ptr"))) TS_CResult_ShutdownDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ShutdownDecodeErrorZ* arg_conv = (LDKCResult_ShutdownDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ShutdownDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ShutdownDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17929,9 +17929,9 @@ static inline uintptr_t CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_UpdateFailHTLCDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateFailHTLCDecodeErrorZ* arg_conv = (LDKCResult_UpdateFailHTLCDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_UpdateFailHTLCDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -17984,9 +17984,9 @@ static inline uintptr_t CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(LD
 	*ret_conv = CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ* arg_conv = (LDKCResult_UpdateFailMalformedHTLCDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_UpdateFailMalformedHTLCDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18039,9 +18039,9 @@ static inline uintptr_t CResult_UpdateFeeDecodeErrorZ_clone_ptr(LDKCResult_Updat
 	*ret_conv = CResult_UpdateFeeDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFeeDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_UpdateFeeDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFeeDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateFeeDecodeErrorZ* arg_conv = (LDKCResult_UpdateFeeDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_UpdateFeeDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_UpdateFeeDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18094,9 +18094,9 @@ static inline uintptr_t CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(LDKCResu
 	*ret_conv = CResult_UpdateFulfillHTLCDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateFulfillHTLCDecodeErrorZ* arg_conv = (LDKCResult_UpdateFulfillHTLCDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_UpdateFulfillHTLCDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18149,9 +18149,9 @@ static inline uintptr_t CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(LDKCResult_U
 	*ret_conv = CResult_UpdateAddHTLCDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr"))) TS_CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UpdateAddHTLCDecodeErrorZ* arg_conv = (LDKCResult_UpdateAddHTLCDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_UpdateAddHTLCDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18204,9 +18204,9 @@ static inline uintptr_t CResult_PingDecodeErrorZ_clone_ptr(LDKCResult_PingDecode
 	*ret_conv = CResult_PingDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_clone_ptr"))) TS_CResult_PingDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PingDecodeErrorZ_clone_ptr"))) TS_CResult_PingDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PingDecodeErrorZ* arg_conv = (LDKCResult_PingDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PingDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PingDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18259,9 +18259,9 @@ static inline uintptr_t CResult_PongDecodeErrorZ_clone_ptr(LDKCResult_PongDecode
 	*ret_conv = CResult_PongDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_clone_ptr"))) TS_CResult_PongDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_PongDecodeErrorZ_clone_ptr"))) TS_CResult_PongDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_PongDecodeErrorZ* arg_conv = (LDKCResult_PongDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_PongDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_PongDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18314,9 +18314,9 @@ static inline uintptr_t CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_pt
 	*ret_conv = CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ* arg_conv = (LDKCResult_UnsignedChannelAnnouncementDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_UnsignedChannelAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18369,9 +18369,9 @@ static inline uintptr_t CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(LDKCRe
 	*ret_conv = CResult_ChannelAnnouncementDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelAnnouncementDecodeErrorZ* arg_conv = (LDKCResult_ChannelAnnouncementDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18424,9 +18424,9 @@ static inline uintptr_t CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(LDKC
 	*ret_conv = CResult_UnsignedChannelUpdateDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UnsignedChannelUpdateDecodeErrorZ* arg_conv = (LDKCResult_UnsignedChannelUpdateDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_UnsignedChannelUpdateDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18479,9 +18479,9 @@ static inline uintptr_t CResult_ChannelUpdateDecodeErrorZ_clone_ptr(LDKCResult_C
 	*ret_conv = CResult_ChannelUpdateDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ChannelUpdateDecodeErrorZ_clone_ptr"))) TS_CResult_ChannelUpdateDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ChannelUpdateDecodeErrorZ* arg_conv = (LDKCResult_ChannelUpdateDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ChannelUpdateDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ChannelUpdateDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18534,9 +18534,9 @@ static inline uintptr_t CResult_ErrorMessageDecodeErrorZ_clone_ptr(LDKCResult_Er
 	*ret_conv = CResult_ErrorMessageDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_clone_ptr"))) TS_CResult_ErrorMessageDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ErrorMessageDecodeErrorZ_clone_ptr"))) TS_CResult_ErrorMessageDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ErrorMessageDecodeErrorZ* arg_conv = (LDKCResult_ErrorMessageDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ErrorMessageDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ErrorMessageDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18589,9 +18589,9 @@ static inline uintptr_t CResult_WarningMessageDecodeErrorZ_clone_ptr(LDKCResult_
 	*ret_conv = CResult_WarningMessageDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_clone_ptr"))) TS_CResult_WarningMessageDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_WarningMessageDecodeErrorZ_clone_ptr"))) TS_CResult_WarningMessageDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_WarningMessageDecodeErrorZ* arg_conv = (LDKCResult_WarningMessageDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_WarningMessageDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_WarningMessageDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18644,9 +18644,9 @@ static inline uintptr_t CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(L
 	*ret_conv = CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ* arg_conv = (LDKCResult_UnsignedNodeAnnouncementDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_UnsignedNodeAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18699,9 +18699,9 @@ static inline uintptr_t CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(LDKCResul
 	*ret_conv = CResult_NodeAnnouncementDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_NodeAnnouncementDecodeErrorZ_clone_ptr"))) TS_CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_NodeAnnouncementDecodeErrorZ* arg_conv = (LDKCResult_NodeAnnouncementDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_NodeAnnouncementDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18754,9 +18754,9 @@ static inline uintptr_t CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(LDKCR
 	*ret_conv = CResult_QueryShortChannelIdsDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr"))) TS_CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_QueryShortChannelIdsDecodeErrorZ* arg_conv = (LDKCResult_QueryShortChannelIdsDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_QueryShortChannelIdsDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18809,9 +18809,9 @@ static inline uintptr_t CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(LD
 	*ret_conv = CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr"))) TS_CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ* arg_conv = (LDKCResult_ReplyShortChannelIdsEndDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ReplyShortChannelIdsEndDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18864,9 +18864,9 @@ static inline uintptr_t CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(LDKCResu
 	*ret_conv = CResult_QueryChannelRangeDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_clone_ptr"))) TS_CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_QueryChannelRangeDecodeErrorZ_clone_ptr"))) TS_CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_QueryChannelRangeDecodeErrorZ* arg_conv = (LDKCResult_QueryChannelRangeDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_QueryChannelRangeDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18919,9 +18919,9 @@ static inline uintptr_t CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(LDKCResu
 	*ret_conv = CResult_ReplyChannelRangeDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr"))) TS_CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_ReplyChannelRangeDecodeErrorZ* arg_conv = (LDKCResult_ReplyChannelRangeDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_ReplyChannelRangeDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -18974,9 +18974,9 @@ static inline uintptr_t CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(LDKC
 	*ret_conv = CResult_GossipTimestampFilterDecodeErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr"))) TS_CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_GossipTimestampFilterDecodeErrorZ* arg_conv = (LDKCResult_GossipTimestampFilterDecodeErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_GossipTimestampFilterDecodeErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -19028,9 +19028,9 @@ static inline uintptr_t CResult_InvoiceSignOrCreationErrorZ_clone_ptr(LDKCResult
 	*ret_conv = CResult_InvoiceSignOrCreationErrorZ_clone(arg);
 	return (uintptr_t)ret_conv;
 }
-intptr_t  __attribute__((export_name("TS_CResult_InvoiceSignOrCreationErrorZ_clone_ptr"))) TS_CResult_InvoiceSignOrCreationErrorZ_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CResult_InvoiceSignOrCreationErrorZ_clone_ptr"))) TS_CResult_InvoiceSignOrCreationErrorZ_clone_ptr(uint32_t arg) {
 	LDKCResult_InvoiceSignOrCreationErrorZ* arg_conv = (LDKCResult_InvoiceSignOrCreationErrorZ*)(arg & ~1);
-	intptr_t ret_val = CResult_InvoiceSignOrCreationErrorZ_clone_ptr(arg_conv);
+	uint32_t ret_val = CResult_InvoiceSignOrCreationErrorZ_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -19133,9 +19133,9 @@ static inline uintptr_t PaymentPurpose_clone_ptr(LDKPaymentPurpose *NONNULL_PTR 
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PaymentPurpose_clone_ptr"))) TS_PaymentPurpose_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PaymentPurpose_clone_ptr"))) TS_PaymentPurpose_clone_ptr(uint32_t arg) {
 	LDKPaymentPurpose* arg_conv = (LDKPaymentPurpose*)arg;
-	intptr_t ret_val = PaymentPurpose_clone_ptr(arg_conv);
+	uint32_t ret_val = PaymentPurpose_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -19185,9 +19185,9 @@ static inline uintptr_t ClosureReason_clone_ptr(LDKClosureReason *NONNULL_PTR ar
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ClosureReason_clone_ptr"))) TS_ClosureReason_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ClosureReason_clone_ptr"))) TS_ClosureReason_clone_ptr(uint32_t arg) {
 	LDKClosureReason* arg_conv = (LDKClosureReason*)arg;
-	intptr_t ret_val = ClosureReason_clone_ptr(arg_conv);
+	uint32_t ret_val = ClosureReason_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -19290,9 +19290,9 @@ static inline uintptr_t Event_clone_ptr(LDKEvent *NONNULL_PTR arg) {
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Event_clone_ptr"))) TS_Event_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Event_clone_ptr"))) TS_Event_clone_ptr(uint32_t arg) {
 	LDKEvent* arg_conv = (LDKEvent*)arg;
-	intptr_t ret_val = Event_clone_ptr(arg_conv);
+	uint32_t ret_val = Event_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -19551,9 +19551,9 @@ static inline uintptr_t MessageSendEvent_clone_ptr(LDKMessageSendEvent *NONNULL_
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_MessageSendEvent_clone_ptr"))) TS_MessageSendEvent_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_MessageSendEvent_clone_ptr"))) TS_MessageSendEvent_clone_ptr(uint32_t arg) {
 	LDKMessageSendEvent* arg_conv = (LDKMessageSendEvent*)arg;
-	intptr_t ret_val = MessageSendEvent_clone_ptr(arg_conv);
+	uint32_t ret_val = MessageSendEvent_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -19887,9 +19887,9 @@ static inline uintptr_t APIError_clone_ptr(LDKAPIError *NONNULL_PTR arg) {
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_APIError_clone_ptr"))) TS_APIError_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_APIError_clone_ptr"))) TS_APIError_clone_ptr(uint32_t arg) {
 	LDKAPIError* arg_conv = (LDKAPIError*)arg;
-	intptr_t ret_val = APIError_clone_ptr(arg_conv);
+	uint32_t ret_val = APIError_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -20179,12 +20179,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Record_clone_ptr"))) TS_Record_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Record_clone_ptr"))) TS_Record_clone_ptr(uint32_t arg) {
 	LDKRecord arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Record_clone_ptr(&arg_conv);
+	uint32_t ret_val = Record_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -20298,12 +20298,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelHandshakeConfig_clone_ptr"))) TS_ChannelHandshakeConfig_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelHandshakeConfig_clone_ptr"))) TS_ChannelHandshakeConfig_clone_ptr(uint32_t arg) {
 	LDKChannelHandshakeConfig arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelHandshakeConfig_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelHandshakeConfig_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -20506,12 +20506,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelHandshakeLimits_clone_ptr"))) TS_ChannelHandshakeLimits_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelHandshakeLimits_clone_ptr"))) TS_ChannelHandshakeLimits_clone_ptr(uint32_t arg) {
 	LDKChannelHandshakeLimits arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelHandshakeLimits_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelHandshakeLimits_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -20697,12 +20697,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelConfig_clone_ptr"))) TS_ChannelConfig_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelConfig_clone_ptr"))) TS_ChannelConfig_clone_ptr(uint32_t arg) {
 	LDKChannelConfig arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelConfig_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelConfig_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -20946,12 +20946,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UserConfig_clone_ptr"))) TS_UserConfig_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UserConfig_clone_ptr"))) TS_UserConfig_clone_ptr(uint32_t arg) {
 	LDKUserConfig arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UserConfig_clone_ptr(&arg_conv);
+	uint32_t ret_val = UserConfig_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -21005,12 +21005,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_BestBlock_clone_ptr"))) TS_BestBlock_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_BestBlock_clone_ptr"))) TS_BestBlock_clone_ptr(uint32_t arg) {
 	LDKBestBlock arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = BestBlock_clone_ptr(&arg_conv);
+	uint32_t ret_val = BestBlock_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -21276,12 +21276,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_WatchedOutput_clone_ptr"))) TS_WatchedOutput_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_WatchedOutput_clone_ptr"))) TS_WatchedOutput_clone_ptr(uint32_t arg) {
 	LDKWatchedOutput arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = WatchedOutput_clone_ptr(&arg_conv);
+	uint32_t ret_val = WatchedOutput_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -21377,12 +21377,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_MonitorUpdateId_clone_ptr"))) TS_MonitorUpdateId_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_MonitorUpdateId_clone_ptr"))) TS_MonitorUpdateId_clone_ptr(uint32_t arg) {
 	LDKMonitorUpdateId arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = MonitorUpdateId_clone_ptr(&arg_conv);
+	uint32_t ret_val = MonitorUpdateId_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -21656,12 +21656,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelMonitorUpdate_clone_ptr"))) TS_ChannelMonitorUpdate_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelMonitorUpdate_clone_ptr"))) TS_ChannelMonitorUpdate_clone_ptr(uint32_t arg) {
 	LDKChannelMonitorUpdate arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelMonitorUpdate_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelMonitorUpdate_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -21718,9 +21718,9 @@ static inline uintptr_t MonitorEvent_clone_ptr(LDKMonitorEvent *NONNULL_PTR arg)
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_MonitorEvent_clone_ptr"))) TS_MonitorEvent_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_MonitorEvent_clone_ptr"))) TS_MonitorEvent_clone_ptr(uint32_t arg) {
 	LDKMonitorEvent* arg_conv = (LDKMonitorEvent*)arg;
-	intptr_t ret_val = MonitorEvent_clone_ptr(arg_conv);
+	uint32_t ret_val = MonitorEvent_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -21818,12 +21818,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_HTLCUpdate_clone_ptr"))) TS_HTLCUpdate_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_HTLCUpdate_clone_ptr"))) TS_HTLCUpdate_clone_ptr(uint32_t arg) {
 	LDKHTLCUpdate arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = HTLCUpdate_clone_ptr(&arg_conv);
+	uint32_t ret_val = HTLCUpdate_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -21880,9 +21880,9 @@ static inline uintptr_t Balance_clone_ptr(LDKBalance *NONNULL_PTR arg) {
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Balance_clone_ptr"))) TS_Balance_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Balance_clone_ptr"))) TS_Balance_clone_ptr(uint32_t arg) {
 	LDKBalance* arg_conv = (LDKBalance*)arg;
-	intptr_t ret_val = Balance_clone_ptr(arg_conv);
+	uint32_t ret_val = Balance_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -21949,12 +21949,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelMonitor_clone_ptr"))) TS_ChannelMonitor_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelMonitor_clone_ptr"))) TS_ChannelMonitor_clone_ptr(uint32_t arg) {
 	LDKChannelMonitor arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelMonitor_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelMonitor_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -22433,12 +22433,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_OutPoint_clone_ptr"))) TS_OutPoint_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_OutPoint_clone_ptr"))) TS_OutPoint_clone_ptr(uint32_t arg) {
 	LDKOutPoint arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = OutPoint_clone_ptr(&arg_conv);
+	uint32_t ret_val = OutPoint_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -22702,12 +22702,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_DelayedPaymentOutputDescriptor_clone_ptr"))) TS_DelayedPaymentOutputDescriptor_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_DelayedPaymentOutputDescriptor_clone_ptr"))) TS_DelayedPaymentOutputDescriptor_clone_ptr(uint32_t arg) {
 	LDKDelayedPaymentOutputDescriptor arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = DelayedPaymentOutputDescriptor_clone_ptr(&arg_conv);
+	uint32_t ret_val = DelayedPaymentOutputDescriptor_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -22874,12 +22874,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_StaticPaymentOutputDescriptor_clone_ptr"))) TS_StaticPaymentOutputDescriptor_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_StaticPaymentOutputDescriptor_clone_ptr"))) TS_StaticPaymentOutputDescriptor_clone_ptr(uint32_t arg) {
 	LDKStaticPaymentOutputDescriptor arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = StaticPaymentOutputDescriptor_clone_ptr(&arg_conv);
+	uint32_t ret_val = StaticPaymentOutputDescriptor_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -22936,9 +22936,9 @@ static inline uintptr_t SpendableOutputDescriptor_clone_ptr(LDKSpendableOutputDe
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_SpendableOutputDescriptor_clone_ptr"))) TS_SpendableOutputDescriptor_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_SpendableOutputDescriptor_clone_ptr"))) TS_SpendableOutputDescriptor_clone_ptr(uint32_t arg) {
 	LDKSpendableOutputDescriptor* arg_conv = (LDKSpendableOutputDescriptor*)arg;
-	intptr_t ret_val = SpendableOutputDescriptor_clone_ptr(arg_conv);
+	uint32_t ret_val = SpendableOutputDescriptor_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -23022,11 +23022,11 @@ static inline uintptr_t Sign_clone_ptr(LDKSign *NONNULL_PTR arg) {
 	*ret_ret = Sign_clone(arg);
 	return (uintptr_t)ret_ret;
 }
-intptr_t  __attribute__((export_name("TS_Sign_clone_ptr"))) TS_Sign_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Sign_clone_ptr"))) TS_Sign_clone_ptr(uint32_t arg) {
 	void* arg_ptr = (void*)(((uintptr_t)arg) & ~1);
 	if (!(arg & 1)) { CHECK_ACCESS(arg_ptr); }
 	LDKSign* arg_conv = (LDKSign*)arg_ptr;
-	intptr_t ret_val = Sign_clone_ptr(arg_conv);
+	uint32_t ret_val = Sign_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -23219,12 +23219,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_InMemorySigner_clone_ptr"))) TS_InMemorySigner_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_InMemorySigner_clone_ptr"))) TS_InMemorySigner_clone_ptr(uint32_t arg) {
 	LDKInMemorySigner arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = InMemorySigner_clone_ptr(&arg_conv);
+	uint32_t ret_val = InMemorySigner_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -23369,7 +23369,7 @@ jboolean  __attribute__((export_name("TS_InMemorySigner_opt_anchors"))) TS_InMem
 	return ret_val;
 }
 
-uint32_t  __attribute__((export_name("TS_InMemorySigner_sign_counterparty_payment_input"))) TS_InMemorySigner_sign_counterparty_payment_input(uint32_t this_arg, int8_tArray spend_tx, intptr_t input_idx, uint32_t descriptor) {
+uint32_t  __attribute__((export_name("TS_InMemorySigner_sign_counterparty_payment_input"))) TS_InMemorySigner_sign_counterparty_payment_input(uint32_t this_arg, int8_tArray spend_tx, uint32_t input_idx, uint32_t descriptor) {
 	LDKInMemorySigner this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -23388,7 +23388,7 @@ uint32_t  __attribute__((export_name("TS_InMemorySigner_sign_counterparty_paymen
 	return (uintptr_t)ret_conv;
 }
 
-uint32_t  __attribute__((export_name("TS_InMemorySigner_sign_dynamic_p2wsh_input"))) TS_InMemorySigner_sign_dynamic_p2wsh_input(uint32_t this_arg, int8_tArray spend_tx, intptr_t input_idx, uint32_t descriptor) {
+uint32_t  __attribute__((export_name("TS_InMemorySigner_sign_dynamic_p2wsh_input"))) TS_InMemorySigner_sign_dynamic_p2wsh_input(uint32_t this_arg, int8_tArray spend_tx, uint32_t input_idx, uint32_t descriptor) {
 	LDKInMemorySigner this_arg_conv;
 	this_arg_conv.inner = (void*)(this_arg & (~1));
 	this_arg_conv.is_owned = false;
@@ -23750,12 +23750,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChainParameters_clone_ptr"))) TS_ChainParameters_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChainParameters_clone_ptr"))) TS_ChainParameters_clone_ptr(uint32_t arg) {
 	LDKChainParameters arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChainParameters_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChainParameters_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -23860,12 +23860,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_CounterpartyForwardingInfo_clone_ptr"))) TS_CounterpartyForwardingInfo_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CounterpartyForwardingInfo_clone_ptr"))) TS_CounterpartyForwardingInfo_clone_ptr(uint32_t arg) {
 	LDKCounterpartyForwardingInfo arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = CounterpartyForwardingInfo_clone_ptr(&arg_conv);
+	uint32_t ret_val = CounterpartyForwardingInfo_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -24032,12 +24032,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelCounterparty_clone_ptr"))) TS_ChannelCounterparty_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelCounterparty_clone_ptr"))) TS_ChannelCounterparty_clone_ptr(uint32_t arg) {
 	LDKChannelCounterparty arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelCounterparty_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelCounterparty_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -24447,12 +24447,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelDetails_clone_ptr"))) TS_ChannelDetails_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelDetails_clone_ptr"))) TS_ChannelDetails_clone_ptr(uint32_t arg) {
 	LDKChannelDetails arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelDetails_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelDetails_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -24488,9 +24488,9 @@ static inline uintptr_t PaymentSendFailure_clone_ptr(LDKPaymentSendFailure *NONN
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PaymentSendFailure_clone_ptr"))) TS_PaymentSendFailure_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PaymentSendFailure_clone_ptr"))) TS_PaymentSendFailure_clone_ptr(uint32_t arg) {
 	LDKPaymentSendFailure* arg_conv = (LDKPaymentSendFailure*)arg;
-	intptr_t ret_val = PaymentSendFailure_clone_ptr(arg_conv);
+	uint32_t ret_val = PaymentSendFailure_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -24726,12 +24726,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PhantomRouteHints_clone_ptr"))) TS_PhantomRouteHints_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PhantomRouteHints_clone_ptr"))) TS_PhantomRouteHints_clone_ptr(uint32_t arg) {
 	LDKPhantomRouteHints arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = PhantomRouteHints_clone_ptr(&arg_conv);
+	uint32_t ret_val = PhantomRouteHints_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -25604,12 +25604,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_DecodeError_clone_ptr"))) TS_DecodeError_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_DecodeError_clone_ptr"))) TS_DecodeError_clone_ptr(uint32_t arg) {
 	LDKDecodeError arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = DecodeError_clone_ptr(&arg_conv);
+	uint32_t ret_val = DecodeError_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -25698,12 +25698,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Init_clone_ptr"))) TS_Init_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Init_clone_ptr"))) TS_Init_clone_ptr(uint32_t arg) {
 	LDKInit arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Init_clone_ptr(&arg_conv);
+	uint32_t ret_val = Init_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -25802,12 +25802,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ErrorMessage_clone_ptr"))) TS_ErrorMessage_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ErrorMessage_clone_ptr"))) TS_ErrorMessage_clone_ptr(uint32_t arg) {
 	LDKErrorMessage arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ErrorMessage_clone_ptr(&arg_conv);
+	uint32_t ret_val = ErrorMessage_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -25906,12 +25906,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_WarningMessage_clone_ptr"))) TS_WarningMessage_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_WarningMessage_clone_ptr"))) TS_WarningMessage_clone_ptr(uint32_t arg) {
 	LDKWarningMessage arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = WarningMessage_clone_ptr(&arg_conv);
+	uint32_t ret_val = WarningMessage_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -25999,12 +25999,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Ping_clone_ptr"))) TS_Ping_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Ping_clone_ptr"))) TS_Ping_clone_ptr(uint32_t arg) {
 	LDKPing arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Ping_clone_ptr(&arg_conv);
+	uint32_t ret_val = Ping_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -26075,12 +26075,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Pong_clone_ptr"))) TS_Pong_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Pong_clone_ptr"))) TS_Pong_clone_ptr(uint32_t arg) {
 	LDKPong arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Pong_clone_ptr(&arg_conv);
+	uint32_t ret_val = Pong_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -26491,12 +26491,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_OpenChannel_clone_ptr"))) TS_OpenChannel_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_OpenChannel_clone_ptr"))) TS_OpenChannel_clone_ptr(uint32_t arg) {
 	LDKOpenChannel arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = OpenChannel_clone_ptr(&arg_conv);
+	uint32_t ret_val = OpenChannel_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -26835,12 +26835,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_AcceptChannel_clone_ptr"))) TS_AcceptChannel_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_AcceptChannel_clone_ptr"))) TS_AcceptChannel_clone_ptr(uint32_t arg) {
 	LDKAcceptChannel arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = AcceptChannel_clone_ptr(&arg_conv);
+	uint32_t ret_val = AcceptChannel_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -26983,12 +26983,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_FundingCreated_clone_ptr"))) TS_FundingCreated_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_FundingCreated_clone_ptr"))) TS_FundingCreated_clone_ptr(uint32_t arg) {
 	LDKFundingCreated arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = FundingCreated_clone_ptr(&arg_conv);
+	uint32_t ret_val = FundingCreated_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -27090,12 +27090,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_FundingSigned_clone_ptr"))) TS_FundingSigned_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_FundingSigned_clone_ptr"))) TS_FundingSigned_clone_ptr(uint32_t arg) {
 	LDKFundingSigned arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = FundingSigned_clone_ptr(&arg_conv);
+	uint32_t ret_val = FundingSigned_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -27197,12 +27197,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_FundingLocked_clone_ptr"))) TS_FundingLocked_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_FundingLocked_clone_ptr"))) TS_FundingLocked_clone_ptr(uint32_t arg) {
 	LDKFundingLocked arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = FundingLocked_clone_ptr(&arg_conv);
+	uint32_t ret_val = FundingLocked_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -27307,12 +27307,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Shutdown_clone_ptr"))) TS_Shutdown_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Shutdown_clone_ptr"))) TS_Shutdown_clone_ptr(uint32_t arg) {
 	LDKShutdown arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Shutdown_clone_ptr(&arg_conv);
+	uint32_t ret_val = Shutdown_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -27400,12 +27400,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ClosingSignedFeeRange_clone_ptr"))) TS_ClosingSignedFeeRange_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ClosingSignedFeeRange_clone_ptr"))) TS_ClosingSignedFeeRange_clone_ptr(uint32_t arg) {
 	LDKClosingSignedFeeRange arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ClosingSignedFeeRange_clone_ptr(&arg_conv);
+	uint32_t ret_val = ClosingSignedFeeRange_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -27561,12 +27561,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ClosingSigned_clone_ptr"))) TS_ClosingSigned_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ClosingSigned_clone_ptr"))) TS_ClosingSigned_clone_ptr(uint32_t arg) {
 	LDKClosingSigned arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ClosingSigned_clone_ptr(&arg_conv);
+	uint32_t ret_val = ClosingSigned_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -27700,12 +27700,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UpdateAddHTLC_clone_ptr"))) TS_UpdateAddHTLC_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UpdateAddHTLC_clone_ptr"))) TS_UpdateAddHTLC_clone_ptr(uint32_t arg) {
 	LDKUpdateAddHTLC arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UpdateAddHTLC_clone_ptr(&arg_conv);
+	uint32_t ret_val = UpdateAddHTLC_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -27824,12 +27824,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UpdateFulfillHTLC_clone_ptr"))) TS_UpdateFulfillHTLC_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UpdateFulfillHTLC_clone_ptr"))) TS_UpdateFulfillHTLC_clone_ptr(uint32_t arg) {
 	LDKUpdateFulfillHTLC arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UpdateFulfillHTLC_clone_ptr(&arg_conv);
+	uint32_t ret_val = UpdateFulfillHTLC_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -27908,12 +27908,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UpdateFailHTLC_clone_ptr"))) TS_UpdateFailHTLC_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UpdateFailHTLC_clone_ptr"))) TS_UpdateFailHTLC_clone_ptr(uint32_t arg) {
 	LDKUpdateFailHTLC arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UpdateFailHTLC_clone_ptr(&arg_conv);
+	uint32_t ret_val = UpdateFailHTLC_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -28009,12 +28009,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UpdateFailMalformedHTLC_clone_ptr"))) TS_UpdateFailMalformedHTLC_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UpdateFailMalformedHTLC_clone_ptr"))) TS_UpdateFailMalformedHTLC_clone_ptr(uint32_t arg) {
 	LDKUpdateFailMalformedHTLC arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UpdateFailMalformedHTLC_clone_ptr(&arg_conv);
+	uint32_t ret_val = UpdateFailMalformedHTLC_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -28152,12 +28152,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_CommitmentSigned_clone_ptr"))) TS_CommitmentSigned_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CommitmentSigned_clone_ptr"))) TS_CommitmentSigned_clone_ptr(uint32_t arg) {
 	LDKCommitmentSigned arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = CommitmentSigned_clone_ptr(&arg_conv);
+	uint32_t ret_val = CommitmentSigned_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -28283,12 +28283,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RevokeAndACK_clone_ptr"))) TS_RevokeAndACK_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RevokeAndACK_clone_ptr"))) TS_RevokeAndACK_clone_ptr(uint32_t arg) {
 	LDKRevokeAndACK arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RevokeAndACK_clone_ptr(&arg_conv);
+	uint32_t ret_val = RevokeAndACK_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -28383,12 +28383,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UpdateFee_clone_ptr"))) TS_UpdateFee_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UpdateFee_clone_ptr"))) TS_UpdateFee_clone_ptr(uint32_t arg) {
 	LDKUpdateFee arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UpdateFee_clone_ptr(&arg_conv);
+	uint32_t ret_val = UpdateFee_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -28490,12 +28490,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_DataLossProtect_clone_ptr"))) TS_DataLossProtect_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_DataLossProtect_clone_ptr"))) TS_DataLossProtect_clone_ptr(uint32_t arg) {
 	LDKDataLossProtect arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = DataLossProtect_clone_ptr(&arg_conv);
+	uint32_t ret_val = DataLossProtect_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -28591,12 +28591,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelReestablish_clone_ptr"))) TS_ChannelReestablish_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelReestablish_clone_ptr"))) TS_ChannelReestablish_clone_ptr(uint32_t arg) {
 	LDKChannelReestablish arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelReestablish_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelReestablish_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -28739,12 +28739,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_AnnouncementSignatures_clone_ptr"))) TS_AnnouncementSignatures_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_AnnouncementSignatures_clone_ptr"))) TS_AnnouncementSignatures_clone_ptr(uint32_t arg) {
 	LDKAnnouncementSignatures arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = AnnouncementSignatures_clone_ptr(&arg_conv);
+	uint32_t ret_val = AnnouncementSignatures_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -28780,9 +28780,9 @@ static inline uintptr_t NetAddress_clone_ptr(LDKNetAddress *NONNULL_PTR arg) {
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_NetAddress_clone_ptr"))) TS_NetAddress_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_NetAddress_clone_ptr"))) TS_NetAddress_clone_ptr(uint32_t arg) {
 	LDKNetAddress* arg_conv = (LDKNetAddress*)arg;
-	intptr_t ret_val = NetAddress_clone_ptr(arg_conv);
+	uint32_t ret_val = NetAddress_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -29005,12 +29005,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UnsignedNodeAnnouncement_clone_ptr"))) TS_UnsignedNodeAnnouncement_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UnsignedNodeAnnouncement_clone_ptr"))) TS_UnsignedNodeAnnouncement_clone_ptr(uint32_t arg) {
 	LDKUnsignedNodeAnnouncement arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UnsignedNodeAnnouncement_clone_ptr(&arg_conv);
+	uint32_t ret_val = UnsignedNodeAnnouncement_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -29123,12 +29123,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_NodeAnnouncement_clone_ptr"))) TS_NodeAnnouncement_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_NodeAnnouncement_clone_ptr"))) TS_NodeAnnouncement_clone_ptr(uint32_t arg) {
 	LDKNodeAnnouncement arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = NodeAnnouncement_clone_ptr(&arg_conv);
+	uint32_t ret_val = NodeAnnouncement_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -29321,12 +29321,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UnsignedChannelAnnouncement_clone_ptr"))) TS_UnsignedChannelAnnouncement_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UnsignedChannelAnnouncement_clone_ptr"))) TS_UnsignedChannelAnnouncement_clone_ptr(uint32_t arg) {
 	LDKUnsignedChannelAnnouncement arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UnsignedChannelAnnouncement_clone_ptr(&arg_conv);
+	uint32_t ret_val = UnsignedChannelAnnouncement_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -29511,12 +29511,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelAnnouncement_clone_ptr"))) TS_ChannelAnnouncement_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelAnnouncement_clone_ptr"))) TS_ChannelAnnouncement_clone_ptr(uint32_t arg) {
 	LDKChannelAnnouncement arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelAnnouncement_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelAnnouncement_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -29697,12 +29697,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_UnsignedChannelUpdate_clone_ptr"))) TS_UnsignedChannelUpdate_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_UnsignedChannelUpdate_clone_ptr"))) TS_UnsignedChannelUpdate_clone_ptr(uint32_t arg) {
 	LDKUnsignedChannelUpdate arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = UnsignedChannelUpdate_clone_ptr(&arg_conv);
+	uint32_t ret_val = UnsignedChannelUpdate_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -29815,12 +29815,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelUpdate_clone_ptr"))) TS_ChannelUpdate_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelUpdate_clone_ptr"))) TS_ChannelUpdate_clone_ptr(uint32_t arg) {
 	LDKChannelUpdate arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelUpdate_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelUpdate_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -29932,12 +29932,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_QueryChannelRange_clone_ptr"))) TS_QueryChannelRange_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_QueryChannelRange_clone_ptr"))) TS_QueryChannelRange_clone_ptr(uint32_t arg) {
 	LDKQueryChannelRange arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = QueryChannelRange_clone_ptr(&arg_conv);
+	uint32_t ret_val = QueryChannelRange_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -30096,12 +30096,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ReplyChannelRange_clone_ptr"))) TS_ReplyChannelRange_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ReplyChannelRange_clone_ptr"))) TS_ReplyChannelRange_clone_ptr(uint32_t arg) {
 	LDKReplyChannelRange arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ReplyChannelRange_clone_ptr(&arg_conv);
+	uint32_t ret_val = ReplyChannelRange_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -30209,12 +30209,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_QueryShortChannelIds_clone_ptr"))) TS_QueryShortChannelIds_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_QueryShortChannelIds_clone_ptr"))) TS_QueryShortChannelIds_clone_ptr(uint32_t arg) {
 	LDKQueryShortChannelIds arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = QueryShortChannelIds_clone_ptr(&arg_conv);
+	uint32_t ret_val = QueryShortChannelIds_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -30309,12 +30309,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ReplyShortChannelIdsEnd_clone_ptr"))) TS_ReplyShortChannelIdsEnd_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ReplyShortChannelIdsEnd_clone_ptr"))) TS_ReplyShortChannelIdsEnd_clone_ptr(uint32_t arg) {
 	LDKReplyShortChannelIdsEnd arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ReplyShortChannelIdsEnd_clone_ptr(&arg_conv);
+	uint32_t ret_val = ReplyShortChannelIdsEnd_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -30426,12 +30426,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_GossipTimestampFilter_clone_ptr"))) TS_GossipTimestampFilter_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_GossipTimestampFilter_clone_ptr"))) TS_GossipTimestampFilter_clone_ptr(uint32_t arg) {
 	LDKGossipTimestampFilter arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = GossipTimestampFilter_clone_ptr(&arg_conv);
+	uint32_t ret_val = GossipTimestampFilter_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -30467,9 +30467,9 @@ static inline uintptr_t ErrorAction_clone_ptr(LDKErrorAction *NONNULL_PTR arg) {
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ErrorAction_clone_ptr"))) TS_ErrorAction_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ErrorAction_clone_ptr"))) TS_ErrorAction_clone_ptr(uint32_t arg) {
 	LDKErrorAction* arg_conv = (LDKErrorAction*)arg;
-	intptr_t ret_val = ErrorAction_clone_ptr(arg_conv);
+	uint32_t ret_val = ErrorAction_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -30621,12 +30621,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_LightningError_clone_ptr"))) TS_LightningError_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_LightningError_clone_ptr"))) TS_LightningError_clone_ptr(uint32_t arg) {
 	LDKLightningError arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = LightningError_clone_ptr(&arg_conv);
+	uint32_t ret_val = LightningError_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -31016,12 +31016,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_CommitmentUpdate_clone_ptr"))) TS_CommitmentUpdate_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CommitmentUpdate_clone_ptr"))) TS_CommitmentUpdate_clone_ptr(uint32_t arg) {
 	LDKCommitmentUpdate arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = CommitmentUpdate_clone_ptr(&arg_conv);
+	uint32_t ret_val = CommitmentUpdate_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -31947,11 +31947,11 @@ static inline uintptr_t SocketDescriptor_clone_ptr(LDKSocketDescriptor *NONNULL_
 	*ret_ret = SocketDescriptor_clone(arg);
 	return (uintptr_t)ret_ret;
 }
-intptr_t  __attribute__((export_name("TS_SocketDescriptor_clone_ptr"))) TS_SocketDescriptor_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_SocketDescriptor_clone_ptr"))) TS_SocketDescriptor_clone_ptr(uint32_t arg) {
 	void* arg_ptr = (void*)(((uintptr_t)arg) & ~1);
 	if (!(arg & 1)) { CHECK_ACCESS(arg_ptr); }
 	LDKSocketDescriptor* arg_conv = (LDKSocketDescriptor*)arg_ptr;
-	intptr_t ret_val = SocketDescriptor_clone_ptr(arg_conv);
+	uint32_t ret_val = SocketDescriptor_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -32023,12 +32023,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PeerHandleError_clone_ptr"))) TS_PeerHandleError_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PeerHandleError_clone_ptr"))) TS_PeerHandleError_clone_ptr(uint32_t arg) {
 	LDKPeerHandleError arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = PeerHandleError_clone_ptr(&arg_conv);
+	uint32_t ret_val = PeerHandleError_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -32272,12 +32272,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_CounterpartyCommitmentSecrets_clone_ptr"))) TS_CounterpartyCommitmentSecrets_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CounterpartyCommitmentSecrets_clone_ptr"))) TS_CounterpartyCommitmentSecrets_clone_ptr(uint32_t arg) {
 	LDKCounterpartyCommitmentSecrets arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = CounterpartyCommitmentSecrets_clone_ptr(&arg_conv);
+	uint32_t ret_val = CounterpartyCommitmentSecrets_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -32568,12 +32568,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_TxCreationKeys_clone_ptr"))) TS_TxCreationKeys_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_TxCreationKeys_clone_ptr"))) TS_TxCreationKeys_clone_ptr(uint32_t arg) {
 	LDKTxCreationKeys arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = TxCreationKeys_clone_ptr(&arg_conv);
+	uint32_t ret_val = TxCreationKeys_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -32768,12 +32768,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelPublicKeys_clone_ptr"))) TS_ChannelPublicKeys_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelPublicKeys_clone_ptr"))) TS_ChannelPublicKeys_clone_ptr(uint32_t arg) {
 	LDKChannelPublicKeys arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelPublicKeys_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelPublicKeys_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -33002,12 +33002,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_HTLCOutputInCommitment_clone_ptr"))) TS_HTLCOutputInCommitment_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_HTLCOutputInCommitment_clone_ptr"))) TS_HTLCOutputInCommitment_clone_ptr(uint32_t arg) {
 	LDKHTLCOutputInCommitment arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = HTLCOutputInCommitment_clone_ptr(&arg_conv);
+	uint32_t ret_val = HTLCOutputInCommitment_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -33307,12 +33307,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelTransactionParameters_clone_ptr"))) TS_ChannelTransactionParameters_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelTransactionParameters_clone_ptr"))) TS_ChannelTransactionParameters_clone_ptr(uint32_t arg) {
 	LDKChannelTransactionParameters arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelTransactionParameters_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelTransactionParameters_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -33418,12 +33418,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_CounterpartyChannelTransactionParameters_clone_ptr"))) TS_CounterpartyChannelTransactionParameters_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CounterpartyChannelTransactionParameters_clone_ptr"))) TS_CounterpartyChannelTransactionParameters_clone_ptr(uint32_t arg) {
 	LDKCounterpartyChannelTransactionParameters arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = CounterpartyChannelTransactionParameters_clone_ptr(&arg_conv);
+	uint32_t ret_val = CounterpartyChannelTransactionParameters_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -33678,12 +33678,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_HolderCommitmentTransaction_clone_ptr"))) TS_HolderCommitmentTransaction_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_HolderCommitmentTransaction_clone_ptr"))) TS_HolderCommitmentTransaction_clone_ptr(uint32_t arg) {
 	LDKHolderCommitmentTransaction arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = HolderCommitmentTransaction_clone_ptr(&arg_conv);
+	uint32_t ret_val = HolderCommitmentTransaction_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -33853,12 +33853,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_BuiltCommitmentTransaction_clone_ptr"))) TS_BuiltCommitmentTransaction_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_BuiltCommitmentTransaction_clone_ptr"))) TS_BuiltCommitmentTransaction_clone_ptr(uint32_t arg) {
 	LDKBuiltCommitmentTransaction arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = BuiltCommitmentTransaction_clone_ptr(&arg_conv);
+	uint32_t ret_val = BuiltCommitmentTransaction_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -33950,12 +33950,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ClosingTransaction_clone_ptr"))) TS_ClosingTransaction_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ClosingTransaction_clone_ptr"))) TS_ClosingTransaction_clone_ptr(uint32_t arg) {
 	LDKClosingTransaction arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ClosingTransaction_clone_ptr(&arg_conv);
+	uint32_t ret_val = ClosingTransaction_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -34153,12 +34153,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_CommitmentTransaction_clone_ptr"))) TS_CommitmentTransaction_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_CommitmentTransaction_clone_ptr"))) TS_CommitmentTransaction_clone_ptr(uint32_t arg) {
 	LDKCommitmentTransaction arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = CommitmentTransaction_clone_ptr(&arg_conv);
+	uint32_t ret_val = CommitmentTransaction_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -34442,12 +34442,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_InitFeatures_clone_ptr"))) TS_InitFeatures_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_InitFeatures_clone_ptr"))) TS_InitFeatures_clone_ptr(uint32_t arg) {
 	LDKInitFeatures arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = InitFeatures_clone_ptr(&arg_conv);
+	uint32_t ret_val = InitFeatures_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -34480,12 +34480,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_NodeFeatures_clone_ptr"))) TS_NodeFeatures_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_NodeFeatures_clone_ptr"))) TS_NodeFeatures_clone_ptr(uint32_t arg) {
 	LDKNodeFeatures arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = NodeFeatures_clone_ptr(&arg_conv);
+	uint32_t ret_val = NodeFeatures_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -34518,12 +34518,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelFeatures_clone_ptr"))) TS_ChannelFeatures_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelFeatures_clone_ptr"))) TS_ChannelFeatures_clone_ptr(uint32_t arg) {
 	LDKChannelFeatures arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelFeatures_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelFeatures_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -34556,12 +34556,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_InvoiceFeatures_clone_ptr"))) TS_InvoiceFeatures_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_InvoiceFeatures_clone_ptr"))) TS_InvoiceFeatures_clone_ptr(uint32_t arg) {
 	LDKInvoiceFeatures arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = InvoiceFeatures_clone_ptr(&arg_conv);
+	uint32_t ret_val = InvoiceFeatures_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -34594,12 +34594,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelTypeFeatures_clone_ptr"))) TS_ChannelTypeFeatures_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelTypeFeatures_clone_ptr"))) TS_ChannelTypeFeatures_clone_ptr(uint32_t arg) {
 	LDKChannelTypeFeatures arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelTypeFeatures_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelTypeFeatures_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -34960,12 +34960,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ShutdownScript_clone_ptr"))) TS_ShutdownScript_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ShutdownScript_clone_ptr"))) TS_ShutdownScript_clone_ptr(uint32_t arg) {
 	LDKShutdownScript arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ShutdownScript_clone_ptr(&arg_conv);
+	uint32_t ret_val = ShutdownScript_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -35046,12 +35046,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_InvalidShutdownScript_clone_ptr"))) TS_InvalidShutdownScript_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_InvalidShutdownScript_clone_ptr"))) TS_InvalidShutdownScript_clone_ptr(uint32_t arg) {
 	LDKInvalidShutdownScript arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = InvalidShutdownScript_clone_ptr(&arg_conv);
+	uint32_t ret_val = InvalidShutdownScript_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -35186,11 +35186,11 @@ static inline uintptr_t Type_clone_ptr(LDKType *NONNULL_PTR arg) {
 	*ret_ret = Type_clone(arg);
 	return (uintptr_t)ret_ret;
 }
-intptr_t  __attribute__((export_name("TS_Type_clone_ptr"))) TS_Type_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Type_clone_ptr"))) TS_Type_clone_ptr(uint32_t arg) {
 	void* arg_ptr = (void*)(((uintptr_t)arg) & ~1);
 	if (!(arg & 1)) { CHECK_ACCESS(arg_ptr); }
 	LDKType* arg_conv = (LDKType*)arg_ptr;
-	intptr_t ret_val = Type_clone_ptr(arg_conv);
+	uint32_t ret_val = Type_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -35232,12 +35232,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_NodeId_clone_ptr"))) TS_NodeId_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_NodeId_clone_ptr"))) TS_NodeId_clone_ptr(uint32_t arg) {
 	LDKNodeId arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = NodeId_clone_ptr(&arg_conv);
+	uint32_t ret_val = NodeId_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -35335,12 +35335,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_NetworkGraph_clone_ptr"))) TS_NetworkGraph_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_NetworkGraph_clone_ptr"))) TS_NetworkGraph_clone_ptr(uint32_t arg) {
 	LDKNetworkGraph arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = NetworkGraph_clone_ptr(&arg_conv);
+	uint32_t ret_val = NetworkGraph_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -35384,9 +35384,9 @@ static inline uintptr_t NetworkUpdate_clone_ptr(LDKNetworkUpdate *NONNULL_PTR ar
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_NetworkUpdate_clone_ptr"))) TS_NetworkUpdate_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_NetworkUpdate_clone_ptr"))) TS_NetworkUpdate_clone_ptr(uint32_t arg) {
 	LDKNetworkUpdate* arg_conv = (LDKNetworkUpdate*)arg;
-	intptr_t ret_val = NetworkUpdate_clone_ptr(arg_conv);
+	uint32_t ret_val = NetworkUpdate_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -35725,12 +35725,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelUpdateInfo_clone_ptr"))) TS_ChannelUpdateInfo_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelUpdateInfo_clone_ptr"))) TS_ChannelUpdateInfo_clone_ptr(uint32_t arg) {
 	LDKChannelUpdateInfo arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelUpdateInfo_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelUpdateInfo_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -36001,12 +36001,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ChannelInfo_clone_ptr"))) TS_ChannelInfo_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ChannelInfo_clone_ptr"))) TS_ChannelInfo_clone_ptr(uint32_t arg) {
 	LDKChannelInfo arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ChannelInfo_clone_ptr(&arg_conv);
+	uint32_t ret_val = ChannelInfo_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -36068,12 +36068,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_DirectedChannelInfo_clone_ptr"))) TS_DirectedChannelInfo_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_DirectedChannelInfo_clone_ptr"))) TS_DirectedChannelInfo_clone_ptr(uint32_t arg) {
 	LDKDirectedChannelInfo arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = DirectedChannelInfo_clone_ptr(&arg_conv);
+	uint32_t ret_val = DirectedChannelInfo_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -36156,9 +36156,9 @@ static inline uintptr_t EffectiveCapacity_clone_ptr(LDKEffectiveCapacity *NONNUL
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_EffectiveCapacity_clone_ptr"))) TS_EffectiveCapacity_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_EffectiveCapacity_clone_ptr"))) TS_EffectiveCapacity_clone_ptr(uint32_t arg) {
 	LDKEffectiveCapacity* arg_conv = (LDKEffectiveCapacity*)arg;
-	intptr_t ret_val = EffectiveCapacity_clone_ptr(arg_conv);
+	uint32_t ret_val = EffectiveCapacity_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -36291,12 +36291,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RoutingFees_clone_ptr"))) TS_RoutingFees_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RoutingFees_clone_ptr"))) TS_RoutingFees_clone_ptr(uint32_t arg) {
 	LDKRoutingFees arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RoutingFees_clone_ptr(&arg_conv);
+	uint32_t ret_val = RoutingFees_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -36554,12 +36554,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_NodeAnnouncementInfo_clone_ptr"))) TS_NodeAnnouncementInfo_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_NodeAnnouncementInfo_clone_ptr"))) TS_NodeAnnouncementInfo_clone_ptr(uint32_t arg) {
 	LDKNodeAnnouncementInfo arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = NodeAnnouncementInfo_clone_ptr(&arg_conv);
+	uint32_t ret_val = NodeAnnouncementInfo_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -36738,12 +36738,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_NodeInfo_clone_ptr"))) TS_NodeInfo_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_NodeInfo_clone_ptr"))) TS_NodeInfo_clone_ptr(uint32_t arg) {
 	LDKNodeInfo arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = NodeInfo_clone_ptr(&arg_conv);
+	uint32_t ret_val = NodeInfo_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -37156,12 +37156,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RouteHop_clone_ptr"))) TS_RouteHop_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RouteHop_clone_ptr"))) TS_RouteHop_clone_ptr(uint32_t arg) {
 	LDKRouteHop arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RouteHop_clone_ptr(&arg_conv);
+	uint32_t ret_val = RouteHop_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -37392,12 +37392,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Route_clone_ptr"))) TS_Route_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Route_clone_ptr"))) TS_Route_clone_ptr(uint32_t arg) {
 	LDKRoute arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Route_clone_ptr(&arg_conv);
+	uint32_t ret_val = Route_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -37581,12 +37581,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RouteParameters_clone_ptr"))) TS_RouteParameters_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RouteParameters_clone_ptr"))) TS_RouteParameters_clone_ptr(uint32_t arg) {
 	LDKRouteParameters arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RouteParameters_clone_ptr(&arg_conv);
+	uint32_t ret_val = RouteParameters_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -37832,12 +37832,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PaymentParameters_clone_ptr"))) TS_PaymentParameters_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PaymentParameters_clone_ptr"))) TS_PaymentParameters_clone_ptr(uint32_t arg) {
 	LDKPaymentParameters arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = PaymentParameters_clone_ptr(&arg_conv);
+	uint32_t ret_val = PaymentParameters_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -38032,12 +38032,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RouteHint_clone_ptr"))) TS_RouteHint_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RouteHint_clone_ptr"))) TS_RouteHint_clone_ptr(uint32_t arg) {
 	LDKRouteHint arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RouteHint_clone_ptr(&arg_conv);
+	uint32_t ret_val = RouteHint_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -38281,12 +38281,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RouteHintHop_clone_ptr"))) TS_RouteHintHop_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RouteHintHop_clone_ptr"))) TS_RouteHintHop_clone_ptr(uint32_t arg) {
 	LDKRouteHintHop arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RouteHintHop_clone_ptr(&arg_conv);
+	uint32_t ret_val = RouteHintHop_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -38455,12 +38455,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_FixedPenaltyScorer_clone_ptr"))) TS_FixedPenaltyScorer_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_FixedPenaltyScorer_clone_ptr"))) TS_FixedPenaltyScorer_clone_ptr(uint32_t arg) {
 	LDKFixedPenaltyScorer arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = FixedPenaltyScorer_clone_ptr(&arg_conv);
+	uint32_t ret_val = FixedPenaltyScorer_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -38651,12 +38651,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ScoringParameters_clone_ptr"))) TS_ScoringParameters_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ScoringParameters_clone_ptr"))) TS_ScoringParameters_clone_ptr(uint32_t arg) {
 	LDKScoringParameters arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ScoringParameters_clone_ptr(&arg_conv);
+	uint32_t ret_val = ScoringParameters_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -38840,12 +38840,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_clone_ptr"))) TS_ProbabilisticScoringParameters_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ProbabilisticScoringParameters_clone_ptr"))) TS_ProbabilisticScoringParameters_clone_ptr(uint32_t arg) {
 	LDKProbabilisticScoringParameters arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ProbabilisticScoringParameters_clone_ptr(&arg_conv);
+	uint32_t ret_val = ProbabilisticScoringParameters_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -38933,12 +38933,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Invoice_clone_ptr"))) TS_Invoice_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Invoice_clone_ptr"))) TS_Invoice_clone_ptr(uint32_t arg) {
 	LDKInvoice arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Invoice_clone_ptr(&arg_conv);
+	uint32_t ret_val = Invoice_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -38992,12 +38992,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_SignedRawInvoice_clone_ptr"))) TS_SignedRawInvoice_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_SignedRawInvoice_clone_ptr"))) TS_SignedRawInvoice_clone_ptr(uint32_t arg) {
 	LDKSignedRawInvoice arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = SignedRawInvoice_clone_ptr(&arg_conv);
+	uint32_t ret_val = SignedRawInvoice_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39081,12 +39081,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RawInvoice_clone_ptr"))) TS_RawInvoice_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RawInvoice_clone_ptr"))) TS_RawInvoice_clone_ptr(uint32_t arg) {
 	LDKRawInvoice arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RawInvoice_clone_ptr(&arg_conv);
+	uint32_t ret_val = RawInvoice_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39170,12 +39170,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RawDataPart_clone_ptr"))) TS_RawDataPart_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RawDataPart_clone_ptr"))) TS_RawDataPart_clone_ptr(uint32_t arg) {
 	LDKRawDataPart arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RawDataPart_clone_ptr(&arg_conv);
+	uint32_t ret_val = RawDataPart_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39229,12 +39229,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PositiveTimestamp_clone_ptr"))) TS_PositiveTimestamp_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PositiveTimestamp_clone_ptr"))) TS_PositiveTimestamp_clone_ptr(uint32_t arg) {
 	LDKPositiveTimestamp arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = PositiveTimestamp_clone_ptr(&arg_conv);
+	uint32_t ret_val = PositiveTimestamp_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39358,12 +39358,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Sha256_clone_ptr"))) TS_Sha256_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Sha256_clone_ptr"))) TS_Sha256_clone_ptr(uint32_t arg) {
 	LDKSha256 arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Sha256_clone_ptr(&arg_conv);
+	uint32_t ret_val = Sha256_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39426,12 +39426,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Description_clone_ptr"))) TS_Description_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Description_clone_ptr"))) TS_Description_clone_ptr(uint32_t arg) {
 	LDKDescription arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = Description_clone_ptr(&arg_conv);
+	uint32_t ret_val = Description_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39531,12 +39531,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PayeePubKey_clone_ptr"))) TS_PayeePubKey_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PayeePubKey_clone_ptr"))) TS_PayeePubKey_clone_ptr(uint32_t arg) {
 	LDKPayeePubKey arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = PayeePubKey_clone_ptr(&arg_conv);
+	uint32_t ret_val = PayeePubKey_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39599,12 +39599,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_ExpiryTime_clone_ptr"))) TS_ExpiryTime_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_ExpiryTime_clone_ptr"))) TS_ExpiryTime_clone_ptr(uint32_t arg) {
 	LDKExpiryTime arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = ExpiryTime_clone_ptr(&arg_conv);
+	uint32_t ret_val = ExpiryTime_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39697,12 +39697,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_MinFinalCltvExpiry_clone_ptr"))) TS_MinFinalCltvExpiry_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_MinFinalCltvExpiry_clone_ptr"))) TS_MinFinalCltvExpiry_clone_ptr(uint32_t arg) {
 	LDKMinFinalCltvExpiry arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = MinFinalCltvExpiry_clone_ptr(&arg_conv);
+	uint32_t ret_val = MinFinalCltvExpiry_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39760,9 +39760,9 @@ static inline uintptr_t Fallback_clone_ptr(LDKFallback *NONNULL_PTR arg) {
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_Fallback_clone_ptr"))) TS_Fallback_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_Fallback_clone_ptr"))) TS_Fallback_clone_ptr(uint32_t arg) {
 	LDKFallback* arg_conv = (LDKFallback*)arg;
-	intptr_t ret_val = Fallback_clone_ptr(arg_conv);
+	uint32_t ret_val = Fallback_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -39839,12 +39839,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_InvoiceSignature_clone_ptr"))) TS_InvoiceSignature_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_InvoiceSignature_clone_ptr"))) TS_InvoiceSignature_clone_ptr(uint32_t arg) {
 	LDKInvoiceSignature arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = InvoiceSignature_clone_ptr(&arg_conv);
+	uint32_t ret_val = InvoiceSignature_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -39898,12 +39898,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PrivateRoute_clone_ptr"))) TS_PrivateRoute_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PrivateRoute_clone_ptr"))) TS_PrivateRoute_clone_ptr(uint32_t arg) {
 	LDKPrivateRoute arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = PrivateRoute_clone_ptr(&arg_conv);
+	uint32_t ret_val = PrivateRoute_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -40679,9 +40679,9 @@ static inline uintptr_t SignOrCreationError_clone_ptr(LDKSignOrCreationError *NO
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_SignOrCreationError_clone_ptr"))) TS_SignOrCreationError_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_SignOrCreationError_clone_ptr"))) TS_SignOrCreationError_clone_ptr(uint32_t arg) {
 	LDKSignOrCreationError* arg_conv = (LDKSignOrCreationError*)arg;
-	intptr_t ret_val = SignOrCreationError_clone_ptr(arg_conv);
+	uint32_t ret_val = SignOrCreationError_clone_ptr(arg_conv);
 	return ret_val;
 }
 
@@ -40757,16 +40757,16 @@ void  __attribute__((export_name("TS_RetryAttempts_free"))) TS_RetryAttempts_fre
 	RetryAttempts_free(this_obj_conv);
 }
 
-intptr_t  __attribute__((export_name("TS_RetryAttempts_get_a"))) TS_RetryAttempts_get_a(uint32_t this_ptr) {
+uint32_t  __attribute__((export_name("TS_RetryAttempts_get_a"))) TS_RetryAttempts_get_a(uint32_t this_ptr) {
 	LDKRetryAttempts this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_ptr_conv);
-	intptr_t ret_val = RetryAttempts_get_a(&this_ptr_conv);
+	uint32_t ret_val = RetryAttempts_get_a(&this_ptr_conv);
 	return ret_val;
 }
 
-void  __attribute__((export_name("TS_RetryAttempts_set_a"))) TS_RetryAttempts_set_a(uint32_t this_ptr, intptr_t val) {
+void  __attribute__((export_name("TS_RetryAttempts_set_a"))) TS_RetryAttempts_set_a(uint32_t this_ptr, uint32_t val) {
 	LDKRetryAttempts this_ptr_conv;
 	this_ptr_conv.inner = (void*)(this_ptr & (~1));
 	this_ptr_conv.is_owned = false;
@@ -40774,7 +40774,7 @@ void  __attribute__((export_name("TS_RetryAttempts_set_a"))) TS_RetryAttempts_se
 	RetryAttempts_set_a(&this_ptr_conv, val);
 }
 
-uint32_t  __attribute__((export_name("TS_RetryAttempts_new"))) TS_RetryAttempts_new(intptr_t a_arg) {
+uint32_t  __attribute__((export_name("TS_RetryAttempts_new"))) TS_RetryAttempts_new(uint32_t a_arg) {
 	LDKRetryAttempts ret_var = RetryAttempts_new(a_arg);
 	uintptr_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
@@ -40799,12 +40799,12 @@ if (ret_var.is_owned) {
 }
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_RetryAttempts_clone_ptr"))) TS_RetryAttempts_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_RetryAttempts_clone_ptr"))) TS_RetryAttempts_clone_ptr(uint32_t arg) {
 	LDKRetryAttempts arg_conv;
 	arg_conv.inner = (void*)(arg & (~1));
 	arg_conv.is_owned = false;
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(arg_conv);
-	intptr_t ret_val = RetryAttempts_clone_ptr(&arg_conv);
+	uint32_t ret_val = RetryAttempts_clone_ptr(&arg_conv);
 	return ret_val;
 }
 
@@ -40862,9 +40862,9 @@ static inline uintptr_t PaymentError_clone_ptr(LDKPaymentError *NONNULL_PTR arg)
 uintptr_t ret_ref = (uintptr_t)ret_copy;
 	return ret_ref;
 }
-intptr_t  __attribute__((export_name("TS_PaymentError_clone_ptr"))) TS_PaymentError_clone_ptr(uint32_t arg) {
+uint32_t  __attribute__((export_name("TS_PaymentError_clone_ptr"))) TS_PaymentError_clone_ptr(uint32_t arg) {
 	LDKPaymentError* arg_conv = (LDKPaymentError*)arg;
-	intptr_t ret_val = PaymentError_clone_ptr(arg_conv);
+	uint32_t ret_val = PaymentError_clone_ptr(arg_conv);
 	return ret_val;
 }
 
