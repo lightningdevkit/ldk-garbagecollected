@@ -25,8 +25,8 @@ set -x
 LDK_C_BINDINGS="$(realpath $2)"
 RUST_LIGHTNING="$(realpath $1)"
 pushd "$2"
-export LDK_C_BINDINGS_EXTRA_TARGETS="x86_64-linux-android i686-linux-android armv7-linux-androideabi aarch64-linux-android"
-export LDK_C_BINDINGS_EXTRA_TARGET_CCS="x86_64-linux-android24-clang i686-linux-android24-clang armv7a-linux-androideabi24-clang aarch64-linux-android24-clang"
+export LDK_C_BINDINGS_EXTRA_TARGETS="x86_64-linux-android armv7-linux-androideabi aarch64-linux-android"
+export LDK_C_BINDINGS_EXTRA_TARGET_CCS="x86_64-linux-android24-clang armv7a-linux-androideabi24-clang aarch64-linux-android24-clang"
 ./genbindings.sh "$RUST_LIGHTNING" true
 popd
 
@@ -38,8 +38,8 @@ rm -fr src/main/resources
 
 EXTRA_TARGETS=( $LDK_C_BINDINGS_EXTRA_TARGETS )
 EXTRA_TARGET_CCS=( $LDK_C_BINDINGS_EXTRA_TARGET_CCS )
-TARGET_CPUS=( "sandybridge" "generic" "generic" "generic" )
-STRIPS=( "x86_64-linux-android-strip" "i686-linux-android-strip" "arm-linux-androideabi-strip" "aarch64-linux-android-strip" )
+TARGET_CPUS=( "sandybridge" "generic" "generic" )
+STRIPS=( "x86_64-linux-android-strip" "arm-linux-androideabi-strip" "aarch64-linux-android-strip" )
 for IDX in ${!EXTRA_TARGETS[@]}; do
 	export CC="${EXTRA_TARGET_CCS[$IDX]}"
 	export LDK_TARGET="${EXTRA_TARGETS[$IDX]}"
@@ -57,11 +57,10 @@ ls ldk-java-classes.jar
 rm -rf aar
 mkdir aar
 cp -r "$3/"* ./aar/
-mkdir -p ./aar/jni/{armeabi-v7a,arm64-v8a,x86,x86_64}
+mkdir -p ./aar/jni/{armeabi-v7a,arm64-v8a,x86_64}
 
 cp liblightningjni_release_aarch64-linux-android.so ./aar/jni/arm64-v8a/liblightningjni.so
 cp liblightningjni_release_armv7-linux-androideabi.so ./aar/jni/armeabi-v7a/liblightningjni.so
-cp liblightningjni_release_i686-linux-android.so ./aar/jni/x86/liblightningjni.so
 cp liblightningjni_release_x86_64-linux-android.so ./aar/jni/x86_64/liblightningjni.so
 cp ldk-java-classes.jar ./aar/classes.jar
 
