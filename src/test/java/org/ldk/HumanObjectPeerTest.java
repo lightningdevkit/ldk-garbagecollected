@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.InetSocketAddress;
 import java.util.*;
+import java.util.function.IntConsumer;
 
 class HumanObjectPeerTestInstance {
     private final boolean nice_close;
@@ -1083,13 +1084,13 @@ class HumanObjectPeerTestInstance {
     }
 }
 public class HumanObjectPeerTest {
-    HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws InterruptedException {
+    static HumanObjectPeerTestInstance do_test_run(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws InterruptedException {
         HumanObjectPeerTestInstance instance = new HumanObjectPeerTestInstance(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, !nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         HumanObjectPeerTestInstance.TestState state = instance.do_test_message_handler();
         instance.do_test_message_handler_b(state);
         return instance;
     }
-    void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws InterruptedException {
+    static void do_test(boolean nice_close, boolean use_km_wrapper, boolean use_manual_watch, boolean reload_peers, boolean break_cross_peer_refs, boolean nio_peer_handler, boolean use_ignoring_routing_handler, boolean use_chan_manager_constructor, boolean use_invoice_payer) throws InterruptedException {
         HumanObjectPeerTestInstance instance = do_test_run(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_peer_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         while (instance.gc_count != instance.gc_exp_count) {
             System.gc();
@@ -1098,8 +1099,8 @@ public class HumanObjectPeerTest {
         for (WeakReference<Object> o : instance.must_free_objs)
             assert o.get() == null;
     }
-    @Test
-    public void test_message_handler() throws InterruptedException {
+    public static final int TEST_ITERATIONS = (1 << 9);
+    public static void do_test_message_handler(IntConsumer statusFunction) throws InterruptedException {
         Thread gc_thread = new Thread(() -> {
             while (true) {
                 System.gc();
@@ -1108,7 +1109,7 @@ public class HumanObjectPeerTest {
             }
         }, "Test GC Thread");
         gc_thread.start();
-        for (int i = 0; i < (1 << 9) - 1; i++) {
+        for (int i = 0; i < TEST_ITERATIONS; i++) {
             boolean nice_close =                   (i & (1 << 0)) != 0;
             boolean use_km_wrapper =               (i & (1 << 1)) != 0;
             boolean use_manual_watch =             (i & (1 << 2)) != 0;
@@ -1137,17 +1138,21 @@ public class HumanObjectPeerTest {
                 // InvoicePayer to send payments in this case.
                 continue;
             }
-            System.err.println("Running test with flags " + i);
+            statusFunction.accept(i);
             do_test(nice_close, use_km_wrapper, use_manual_watch, reload_peers, break_cross_refs, nio_peer_handler, use_ignoring_routing_handler, use_chan_manager_constructor, use_invoice_payer);
         }
         gc_thread.interrupt();
         gc_thread.join();
     }
+    @Test
+    public void test_message_handler() throws InterruptedException {
+        do_test_message_handler(i -> System.err.println("Running test with flags " + i));
+    }
 
     // This is used in the test jar to test the built jar is runnable
     public static void main(String[] args) {
         try {
-            new HumanObjectPeerTest().test_message_handler();
+            do_test_message_handler(i -> System.err.println("Running test with flags " + i));
         } catch (Exception e) {
             System.err.println("Caught exception:");
             System.err.println(e);
