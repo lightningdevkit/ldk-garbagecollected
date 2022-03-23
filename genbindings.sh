@@ -158,7 +158,7 @@ if [ "$2" != "wasm" ]; then
 			popd
 			LDK_LIB="tmp/libldk.bc tmp/libldk.a"
 		fi
-		$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c $LDK_LIB
+		$COMPILE -o liblightningjni_release$LDK_TARGET_SUFFIX.so -flto -O3 -I"$1"/lightning-c-bindings/include/ $2 src/main/jni/bindings.c $LDK_LIB -lm
 		if [ "$IS_MAC" = "false" -a "$4" = "false" ]; then
 			GLIBC_SYMBS="$(objdump -T liblightningjni_release$LDK_TARGET_SUFFIX.so | grep GLIBC_ | grep -v "GLIBC_2\.2\." | grep -v "GLIBC_2\.3\(\.\| \)" | grep -v "GLIBC_2.\(14\|17\) " || echo)"
 			if [ "$GLIBC_SYMBS" != "" ]; then
