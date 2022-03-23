@@ -357,9 +357,12 @@ class HumanObjectPeerTestInstance {
                     this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
 							this.keys_interface, this.fee_estimator, this.chain_monitor, this.router, this.tx_broadcaster, this.logger);
                 }
-                Result_ScorerDecodeErrorZ score_res = Scorer.read(Scorer.with_default().write());
+                ProbabilisticScoringParameters params = ProbabilisticScoringParameters.with_default();
+                ProbabilisticScorer default_scorer = ProbabilisticScorer.of(params, this.router);
+                Result_ProbabilisticScorerDecodeErrorZ score_res = ProbabilisticScorer.read(default_scorer.write(),
+                        TwoTuple_ProbabilisticScoringParametersNetworkGraphZ.of(params, this.router));
                 assert score_res.is_ok();
-                Score score = ((Result_ScorerDecodeErrorZ.Result_ScorerDecodeErrorZ_OK) score_res).res.as_Score();
+                Score score = ((Result_ProbabilisticScorerDecodeErrorZ.Result_ProbabilisticScorerDecodeErrorZ_OK) score_res).res.as_Score();
                 MultiThreadedLockableScore scorer = null;
                 if (use_invoice_payer) { scorer = MultiThreadedLockableScore.of(score); }
                 constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
@@ -442,7 +445,7 @@ class HumanObjectPeerTestInstance {
                         } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {}
                     }
                     MultiThreadedLockableScore scorer = null;
-                    if (use_invoice_payer) { scorer = MultiThreadedLockableScore.of(Scorer.with_default().as_Score()); }
+                    if (use_invoice_payer) { scorer = MultiThreadedLockableScore.of(ProbabilisticScorer.of(ProbabilisticScoringParameters.with_default(), this.router).as_Score()); }
                     constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
                         @Override public void handle_event(Event event) {
                             synchronized (pending_manager_events) {
