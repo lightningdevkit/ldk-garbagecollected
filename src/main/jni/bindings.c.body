@@ -1295,7 +1295,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1BuiltCommitmentTra
 	return ret_ref;
 }
 
-static inline struct LDKTrustedClosingTransaction *CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner){
+static inline struct LDKTrustedClosingTransaction *NONNULL_PTR CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -1355,7 +1355,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentTransact
 	return ret_ref;
 }
 
-static inline struct LDKTrustedCommitmentTransaction *CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner){
+static inline struct LDKTrustedCommitmentTransaction *NONNULL_PTR CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -3109,7 +3109,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ScoringParametersD
 	return ret_ref;
 }
 
-static inline struct LDKScorer *CResult_ScorerDecodeErrorZ_get_ok(LDKCResult_ScorerDecodeErrorZ *NONNULL_PTR owner){
+static inline struct LDKScorer *NONNULL_PTR CResult_ScorerDecodeErrorZ_get_ok(LDKCResult_ScorerDecodeErrorZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -3167,6 +3167,73 @@ CHECK(!owner->result_ok);
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScoringParametersDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
 	LDKCResult_ProbabilisticScoringParametersDecodeErrorZ* owner_conv = (LDKCResult_ProbabilisticScoringParametersDecodeErrorZ*)(owner & ~1);
 	LDKDecodeError ret_var = CResult_ProbabilisticScoringParametersDecodeErrorZ_get_err(owner_conv);
+	int64_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+static inline struct LDKProbabilisticScoringParameters C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_a(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR owner){
+	return ProbabilisticScoringParameters_clone(&owner->a);
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1ProbabilisticScoringParametersNetworkGraphZ_1get_1a(JNIEnv *env, jclass clz, int64_t owner) {
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ* owner_conv = (LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ*)(owner & ~1);
+	LDKProbabilisticScoringParameters ret_var = C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_a(owner_conv);
+	int64_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+static inline struct LDKNetworkGraph C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_b(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR owner){
+	return NetworkGraph_clone(&owner->b);
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1ProbabilisticScoringParametersNetworkGraphZ_1get_1b(JNIEnv *env, jclass clz, int64_t owner) {
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ* owner_conv = (LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ*)(owner & ~1);
+	LDKNetworkGraph ret_var = C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_b(owner_conv);
+	int64_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
+static inline struct LDKProbabilisticScorer *NONNULL_PTR CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
+CHECK(owner->result_ok);
+	return &*owner->contents.result;
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScorerDecodeErrorZ_1get_1ok(JNIEnv *env, jclass clz, int64_t owner) {
+	LDKCResult_ProbabilisticScorerDecodeErrorZ* owner_conv = (LDKCResult_ProbabilisticScorerDecodeErrorZ*)(owner & ~1);
+	LDKProbabilisticScorer ret_var = *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(owner_conv);
+	int64_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner & ~1;
+	return ret_ref;
+}
+
+static inline struct LDKDecodeError CResult_ProbabilisticScorerDecodeErrorZ_get_err(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
+CHECK(!owner->result_ok);
+	return DecodeError_clone(&*owner->contents.err);
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScorerDecodeErrorZ_1get_1err(JNIEnv *env, jclass clz, int64_t owner) {
+	LDKCResult_ProbabilisticScorerDecodeErrorZ* owner_conv = (LDKCResult_ProbabilisticScorerDecodeErrorZ*)(owner & ~1);
+	LDKDecodeError ret_var = CResult_ProbabilisticScorerDecodeErrorZ_get_err(owner_conv);
 	int64_t ret_ref = 0;
 	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
@@ -3689,7 +3756,7 @@ LDKCResult_NoneNoneZ validate_holder_commitment_LDKBaseSign_jcall(const void* th
 	}
 	LDKHolderCommitmentTransaction holder_tx_var = *holder_tx;
 	int64_t holder_tx_ref = 0;
-	holder_tx_var = HolderCommitmentTransaction_clone(holder_tx);
+	holder_tx_var = HolderCommitmentTransaction_clone(&holder_tx_var);
 	CHECK((((uintptr_t)holder_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&holder_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(holder_tx_var);
@@ -3759,7 +3826,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_counterparty_commitment_L
 	}
 	LDKCommitmentTransaction commitment_tx_var = *commitment_tx;
 	int64_t commitment_tx_ref = 0;
-	commitment_tx_var = CommitmentTransaction_clone(commitment_tx);
+	commitment_tx_var = CommitmentTransaction_clone(&commitment_tx_var);
 	CHECK((((uintptr_t)commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(commitment_tx_var);
@@ -3832,7 +3899,7 @@ LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ sign_holder_commitment_and_htl
 	}
 	LDKHolderCommitmentTransaction commitment_tx_var = *commitment_tx;
 	int64_t commitment_tx_ref = 0;
-	commitment_tx_var = HolderCommitmentTransaction_clone(commitment_tx);
+	commitment_tx_var = HolderCommitmentTransaction_clone(&commitment_tx_var);
 	CHECK((((uintptr_t)commitment_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&commitment_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(commitment_tx_var);
@@ -3904,7 +3971,7 @@ LDKCResult_SignatureNoneZ sign_justice_revoked_htlc_LDKBaseSign_jcall(const void
 	(*env)->SetByteArrayRegion(env, per_commitment_key_arr, 0, 32, *per_commitment_key);
 	LDKHTLCOutputInCommitment htlc_var = *htlc;
 	int64_t htlc_ref = 0;
-	htlc_var = HTLCOutputInCommitment_clone(htlc);
+	htlc_var = HTLCOutputInCommitment_clone(&htlc_var);
 	CHECK((((uintptr_t)htlc_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&htlc_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(htlc_var);
@@ -3945,7 +4012,7 @@ LDKCResult_SignatureNoneZ sign_counterparty_htlc_transaction_LDKBaseSign_jcall(c
 	(*env)->SetByteArrayRegion(env, per_commitment_point_arr, 0, 33, per_commitment_point.compressed_form);
 	LDKHTLCOutputInCommitment htlc_var = *htlc;
 	int64_t htlc_ref = 0;
-	htlc_var = HTLCOutputInCommitment_clone(htlc);
+	htlc_var = HTLCOutputInCommitment_clone(&htlc_var);
 	CHECK((((uintptr_t)htlc_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&htlc_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(htlc_var);
@@ -3980,7 +4047,7 @@ LDKCResult_SignatureNoneZ sign_closing_transaction_LDKBaseSign_jcall(const void*
 	}
 	LDKClosingTransaction closing_tx_var = *closing_tx;
 	int64_t closing_tx_ref = 0;
-	closing_tx_var = ClosingTransaction_clone(closing_tx);
+	closing_tx_var = ClosingTransaction_clone(&closing_tx_var);
 	CHECK((((uintptr_t)closing_tx_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&closing_tx_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(closing_tx_var);
@@ -4015,7 +4082,7 @@ LDKCResult_C2Tuple_SignatureSignatureZNoneZ sign_channel_announcement_LDKBaseSig
 	}
 	LDKUnsignedChannelAnnouncement msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = UnsignedChannelAnnouncement_clone(msg);
+	msg_var = UnsignedChannelAnnouncement_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -4050,7 +4117,7 @@ void ready_channel_LDKBaseSign_jcall(void* this_arg, const LDKChannelTransaction
 	}
 	LDKChannelTransactionParameters channel_parameters_var = *channel_parameters;
 	int64_t channel_parameters_ref = 0;
-	channel_parameters_var = ChannelTransactionParameters_clone(channel_parameters);
+	channel_parameters_var = ChannelTransactionParameters_clone(&channel_parameters_var);
 	CHECK((((uintptr_t)channel_parameters_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&channel_parameters_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(channel_parameters_var);
@@ -6195,7 +6262,7 @@ void log_LDKLogger_jcall(const void* this_arg, const LDKRecord * record) {
 	}
 	LDKRecord record_var = *record;
 	int64_t record_ref = 0;
-	record_var = Record_clone(record);
+	record_var = Record_clone(&record_var);
 	CHECK((((uintptr_t)record_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&record_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(record_var);
@@ -6250,7 +6317,7 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChann
 	return ret_arr;
 }
 
-static inline struct LDKChannelManager *C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner){
+static inline struct LDKChannelManager *NONNULL_PTR C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner){
 	return &owner->b;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelManagerZ_1get_1b(JNIEnv *env, jclass clz, int64_t owner) {
@@ -6264,7 +6331,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelMa
 	return ret_ref;
 }
 
-static inline struct LDKC2Tuple_BlockHashChannelManagerZ *CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner){
+static inline struct LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -9500,7 +9567,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCOption_1FilterZ_1ref_1f
 		default: abort();
 	}
 }
-static inline struct LDKLockedChannelMonitor *CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner){
+static inline struct LDKLockedChannelMonitor *NONNULL_PTR CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -10203,7 +10270,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ persist_new_channel_LDKPersist_jcall(con
 	}
 	LDKChannelMonitor data_var = *data;
 	int64_t data_ref = 0;
-	data_var = ChannelMonitor_clone(data);
+	data_var = ChannelMonitor_clone(&data_var);
 	CHECK((((uintptr_t)data_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&data_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(data_var);
@@ -10257,7 +10324,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_LDKPersist_jcal
 	LDKChannelMonitorUpdate update_var = *update;
 	int64_t update_ref = 0;
 	if ((uintptr_t)update_var.inner > 4096) {
-		update_var = ChannelMonitorUpdate_clone(update);
+		update_var = ChannelMonitorUpdate_clone(&update_var);
 		CHECK((((uintptr_t)update_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 		CHECK((((uintptr_t)&update_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(update_var);
@@ -10268,7 +10335,7 @@ LDKCResult_NoneChannelMonitorUpdateErrZ update_persisted_channel_LDKPersist_jcal
 	}
 	LDKChannelMonitor data_var = *data;
 	int64_t data_ref = 0;
-	data_var = ChannelMonitor_clone(data);
+	data_var = ChannelMonitor_clone(&data_var);
 	CHECK((((uintptr_t)data_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&data_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(data_var);
@@ -10445,7 +10512,7 @@ void handle_open_channel_LDKChannelMessageHandler_jcall(const void* this_arg, LD
 	}
 	LDKOpenChannel msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = OpenChannel_clone(msg);
+	msg_var = OpenChannel_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10486,7 +10553,7 @@ void handle_accept_channel_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	}
 	LDKAcceptChannel msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = AcceptChannel_clone(msg);
+	msg_var = AcceptChannel_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10518,7 +10585,7 @@ void handle_funding_created_LDKChannelMessageHandler_jcall(const void* this_arg,
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKFundingCreated msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = FundingCreated_clone(msg);
+	msg_var = FundingCreated_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10550,7 +10617,7 @@ void handle_funding_signed_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKFundingSigned msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = FundingSigned_clone(msg);
+	msg_var = FundingSigned_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10582,7 +10649,7 @@ void handle_funding_locked_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKFundingLocked msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = FundingLocked_clone(msg);
+	msg_var = FundingLocked_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10614,7 +10681,7 @@ void handle_shutdown_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPub
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKInitFeatures their_features_var = *their_features;
 	int64_t their_features_ref = 0;
-	their_features_var = InitFeatures_clone(their_features);
+	their_features_var = InitFeatures_clone(&their_features_var);
 	CHECK((((uintptr_t)their_features_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&their_features_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(their_features_var);
@@ -10624,7 +10691,7 @@ void handle_shutdown_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPub
 	}
 	LDKShutdown msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = Shutdown_clone(msg);
+	msg_var = Shutdown_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10656,7 +10723,7 @@ void handle_closing_signed_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKClosingSigned msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = ClosingSigned_clone(msg);
+	msg_var = ClosingSigned_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10688,7 +10755,7 @@ void handle_update_add_htlc_LDKChannelMessageHandler_jcall(const void* this_arg,
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKUpdateAddHTLC msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = UpdateAddHTLC_clone(msg);
+	msg_var = UpdateAddHTLC_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10720,7 +10787,7 @@ void handle_update_fulfill_htlc_LDKChannelMessageHandler_jcall(const void* this_
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKUpdateFulfillHTLC msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = UpdateFulfillHTLC_clone(msg);
+	msg_var = UpdateFulfillHTLC_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10752,7 +10819,7 @@ void handle_update_fail_htlc_LDKChannelMessageHandler_jcall(const void* this_arg
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKUpdateFailHTLC msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = UpdateFailHTLC_clone(msg);
+	msg_var = UpdateFailHTLC_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10784,7 +10851,7 @@ void handle_update_fail_malformed_htlc_LDKChannelMessageHandler_jcall(const void
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKUpdateFailMalformedHTLC msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = UpdateFailMalformedHTLC_clone(msg);
+	msg_var = UpdateFailMalformedHTLC_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10816,7 +10883,7 @@ void handle_commitment_signed_LDKChannelMessageHandler_jcall(const void* this_ar
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKCommitmentSigned msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = CommitmentSigned_clone(msg);
+	msg_var = CommitmentSigned_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10848,7 +10915,7 @@ void handle_revoke_and_ack_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKRevokeAndACK msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = RevokeAndACK_clone(msg);
+	msg_var = RevokeAndACK_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10880,7 +10947,7 @@ void handle_update_fee_LDKChannelMessageHandler_jcall(const void* this_arg, LDKP
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKUpdateFee msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = UpdateFee_clone(msg);
+	msg_var = UpdateFee_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10912,7 +10979,7 @@ void handle_announcement_signatures_LDKChannelMessageHandler_jcall(const void* t
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKAnnouncementSignatures msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = AnnouncementSignatures_clone(msg);
+	msg_var = AnnouncementSignatures_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10966,7 +11033,7 @@ void peer_connected_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPubl
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKInit msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = Init_clone(msg);
+	msg_var = Init_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -10998,7 +11065,7 @@ void handle_channel_reestablish_LDKChannelMessageHandler_jcall(const void* this_
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKChannelReestablish msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = ChannelReestablish_clone(msg);
+	msg_var = ChannelReestablish_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -11030,7 +11097,7 @@ void handle_channel_update_LDKChannelMessageHandler_jcall(const void* this_arg, 
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKChannelUpdate msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = ChannelUpdate_clone(msg);
+	msg_var = ChannelUpdate_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -11062,7 +11129,7 @@ void handle_error_LDKChannelMessageHandler_jcall(const void* this_arg, LDKPublic
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKErrorMessage msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = ErrorMessage_clone(msg);
+	msg_var = ErrorMessage_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -11507,7 +11574,7 @@ LDKCResult_boolLightningErrorZ handle_node_announcement_LDKRoutingMessageHandler
 	}
 	LDKNodeAnnouncement msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = NodeAnnouncement_clone(msg);
+	msg_var = NodeAnnouncement_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -11542,7 +11609,7 @@ LDKCResult_boolLightningErrorZ handle_channel_announcement_LDKRoutingMessageHand
 	}
 	LDKChannelAnnouncement msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = ChannelAnnouncement_clone(msg);
+	msg_var = ChannelAnnouncement_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -11577,7 +11644,7 @@ LDKCResult_boolLightningErrorZ handle_channel_update_LDKRoutingMessageHandler_jc
 	}
 	LDKChannelUpdate msg_var = *msg;
 	int64_t msg_ref = 0;
-	msg_var = ChannelUpdate_clone(msg);
+	msg_var = ChannelUpdate_clone(&msg_var);
 	CHECK((((uintptr_t)msg_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&msg_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(msg_var);
@@ -11690,7 +11757,7 @@ void sync_routing_table_LDKRoutingMessageHandler_jcall(const void* this_arg, LDK
 	(*env)->SetByteArrayRegion(env, their_node_id_arr, 0, 33, their_node_id.compressed_form);
 	LDKInit init_var = *init;
 	int64_t init_ref = 0;
-	init_var = Init_clone(init);
+	init_var = Init_clone(&init_var);
 	CHECK((((uintptr_t)init_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&init_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(init_var);
@@ -12610,7 +12677,7 @@ uint64_t channel_penalty_msat_LDKScore_jcall(const void* this_arg, uint64_t shor
 	}
 	LDKNodeId source_var = *source;
 	int64_t source_ref = 0;
-	source_var = NodeId_clone(source);
+	source_var = NodeId_clone(&source_var);
 	CHECK((((uintptr_t)source_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&source_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(source_var);
@@ -12620,7 +12687,7 @@ uint64_t channel_penalty_msat_LDKScore_jcall(const void* this_arg, uint64_t shor
 	}
 	LDKNodeId target_var = *target;
 	int64_t target_ref = 0;
-	target_var = NodeId_clone(target);
+	target_var = NodeId_clone(&target_var);
 	CHECK((((uintptr_t)target_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&target_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(target_var);
@@ -13181,7 +13248,7 @@ LDKCResult_PaymentIdPaymentSendFailureZ send_payment_LDKPayer_jcall(const void* 
 	}
 	LDKRoute route_var = *route;
 	int64_t route_ref = 0;
-	route_var = Route_clone(route);
+	route_var = Route_clone(&route_var);
 	CHECK((((uintptr_t)route_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&route_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(route_var);
@@ -13220,7 +13287,7 @@ LDKCResult_PaymentIdPaymentSendFailureZ send_spontaneous_payment_LDKPayer_jcall(
 	}
 	LDKRoute route_var = *route;
 	int64_t route_ref = 0;
-	route_var = Route_clone(route);
+	route_var = Route_clone(&route_var);
 	CHECK((((uintptr_t)route_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&route_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(route_var);
@@ -13257,7 +13324,7 @@ LDKCResult_NonePaymentSendFailureZ retry_payment_LDKPayer_jcall(const void* this
 	}
 	LDKRoute route_var = *route;
 	int64_t route_ref = 0;
-	route_var = Route_clone(route);
+	route_var = Route_clone(&route_var);
 	CHECK((((uintptr_t)route_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&route_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(route_var);
@@ -13477,7 +13544,7 @@ LDKCResult_RouteLightningErrorZ find_route_LDKRouter_jcall(const void* this_arg,
 	(*env)->SetByteArrayRegion(env, payer_arr, 0, 33, payer.compressed_form);
 	LDKRouteParameters route_params_var = *route_params;
 	int64_t route_params_ref = 0;
-	route_params_var = RouteParameters_clone(route_params);
+	route_params_var = RouteParameters_clone(&route_params_var);
 	CHECK((((uintptr_t)route_params_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
 	CHECK((((uintptr_t)&route_params_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
 	CHECK_INNER_FIELD_ACCESS_OR_NULL(route_params_var);
@@ -15967,6 +16034,85 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScori
 	LDKCResult_ProbabilisticScoringParametersDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_ProbabilisticScoringParametersDecodeErrorZ), "LDKCResult_ProbabilisticScoringParametersDecodeErrorZ");
 	*ret_conv = CResult_ProbabilisticScoringParametersDecodeErrorZ_clone(orig_conv);
 	return (int64_t)ret_conv;
+}
+
+static inline uintptr_t C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone_ptr(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR arg) {
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ* ret_conv = MALLOC(sizeof(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ), "LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ");
+	*ret_conv = C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone(arg);
+	return ((int64_t)ret_conv);
+}
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1ProbabilisticScoringParametersNetworkGraphZ_1clone_1ptr(JNIEnv *env, jclass clz, int64_t arg) {
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ* arg_conv = (LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ*)(arg & ~1);
+	int64_t ret_val = C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone_ptr(arg_conv);
+	return ret_val;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1ProbabilisticScoringParametersNetworkGraphZ_1clone(JNIEnv *env, jclass clz, int64_t orig) {
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ* orig_conv = (LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ*)(orig & ~1);
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ* ret_conv = MALLOC(sizeof(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ), "LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ");
+	*ret_conv = C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone(orig_conv);
+	return ((int64_t)ret_conv);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1ProbabilisticScoringParametersNetworkGraphZ_1new(JNIEnv *env, jclass clz, int64_t a, int64_t b) {
+	LDKProbabilisticScoringParameters a_conv;
+	a_conv.inner = (void*)(a & (~1));
+	a_conv.is_owned = (a & 1) || (a == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(a_conv);
+	a_conv = ProbabilisticScoringParameters_clone(&a_conv);
+	LDKNetworkGraph b_conv;
+	b_conv.inner = (void*)(b & (~1));
+	b_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(b_conv);
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ* ret_conv = MALLOC(sizeof(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ), "LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ");
+	*ret_conv = C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_new(a_conv, &b_conv);
+	return ((int64_t)ret_conv);
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_C2Tuple_1ProbabilisticScoringParametersNetworkGraphZ_1free(JNIEnv *env, jclass clz, int64_t _res) {
+	if ((_res & 1) != 0) return;
+	void* _res_ptr = (void*)(((uintptr_t)_res) & ~1);
+	CHECK_ACCESS(_res_ptr);
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ _res_conv = *(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ*)(_res_ptr);
+	FREE((void*)_res);
+	C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_free(_res_conv);
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScorerDecodeErrorZ_1ok(JNIEnv *env, jclass clz, int64_t o) {
+	LDKProbabilisticScorer o_conv;
+	o_conv.inner = (void*)(o & (~1));
+	o_conv.is_owned = (o & 1) || (o == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(o_conv);
+	// WARNING: we need a move here but no clone is available for LDKProbabilisticScorer
+	LDKCResult_ProbabilisticScorerDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_ProbabilisticScorerDecodeErrorZ), "LDKCResult_ProbabilisticScorerDecodeErrorZ");
+	*ret_conv = CResult_ProbabilisticScorerDecodeErrorZ_ok(o_conv);
+	return (int64_t)ret_conv;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScorerDecodeErrorZ_1err(JNIEnv *env, jclass clz, int64_t e) {
+	LDKDecodeError e_conv;
+	e_conv.inner = (void*)(e & (~1));
+	e_conv.is_owned = (e & 1) || (e == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(e_conv);
+	e_conv = DecodeError_clone(&e_conv);
+	LDKCResult_ProbabilisticScorerDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_ProbabilisticScorerDecodeErrorZ), "LDKCResult_ProbabilisticScorerDecodeErrorZ");
+	*ret_conv = CResult_ProbabilisticScorerDecodeErrorZ_err(e_conv);
+	return (int64_t)ret_conv;
+}
+
+JNIEXPORT jboolean JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScorerDecodeErrorZ_1is_1ok(JNIEnv *env, jclass clz, int64_t o) {
+	LDKCResult_ProbabilisticScorerDecodeErrorZ* o_conv = (LDKCResult_ProbabilisticScorerDecodeErrorZ*)(o & ~1);
+	jboolean ret_val = CResult_ProbabilisticScorerDecodeErrorZ_is_ok(o_conv);
+	return ret_val;
+}
+
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_CResult_1ProbabilisticScorerDecodeErrorZ_1free(JNIEnv *env, jclass clz, int64_t _res) {
+	if ((_res & 1) != 0) return;
+	void* _res_ptr = (void*)(((uintptr_t)_res) & ~1);
+	CHECK_ACCESS(_res_ptr);
+	LDKCResult_ProbabilisticScorerDecodeErrorZ _res_conv = *(LDKCResult_ProbabilisticScorerDecodeErrorZ*)(_res_ptr);
+	FREE((void*)_res);
+	CResult_ProbabilisticScorerDecodeErrorZ_free(_res_conv);
 }
 
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1InitFeaturesDecodeErrorZ_1ok(JNIEnv *env, jclass clz, int64_t o) {
@@ -42565,6 +42711,14 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_Scorer_1read(JNIEnv *env, j
 	return (int64_t)ret_conv;
 }
 
+JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ProbabilisticScorer_1free(JNIEnv *env, jclass clz, int64_t this_obj) {
+	LDKProbabilisticScorer this_obj_conv;
+	this_obj_conv.inner = (void*)(this_obj & (~1));
+	this_obj_conv.is_owned = (this_obj & 1) || (this_obj == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_obj_conv);
+	ProbabilisticScorer_free(this_obj_conv);
+}
+
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_ProbabilisticScoringParameters_1free(JNIEnv *env, jclass clz, int64_t this_obj) {
 	LDKProbabilisticScoringParameters this_obj_conv;
 	this_obj_conv.inner = (void*)(this_obj & (~1));
@@ -42680,6 +42834,28 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ProbabilisticScoringParamet
 	return (int64_t)ret_conv;
 }
 
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ProbabilisticScorer_1new(JNIEnv *env, jclass clz, int64_t params, int64_t network_graph) {
+	LDKProbabilisticScoringParameters params_conv;
+	params_conv.inner = (void*)(params & (~1));
+	params_conv.is_owned = (params & 1) || (params == 0);
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(params_conv);
+	params_conv = ProbabilisticScoringParameters_clone(&params_conv);
+	LDKNetworkGraph network_graph_conv;
+	network_graph_conv.inner = (void*)(network_graph & (~1));
+	network_graph_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(network_graph_conv);
+	LDKProbabilisticScorer ret_var = ProbabilisticScorer_new(params_conv, &network_graph_conv);
+	int64_t ret_ref = 0;
+	CHECK((((uintptr_t)ret_var.inner) & 1) == 0); // We rely on a free low bit, malloc guarantees this.
+	CHECK((((uintptr_t)&ret_var) & 1) == 0); // We rely on a free low bit, pointer alignment guarantees this.
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(ret_var);
+	ret_ref = (uintptr_t)ret_var.inner;
+	if (ret_var.is_owned) {
+		ret_ref |= 1;
+	}
+	return ret_ref;
+}
+
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ProbabilisticScoringParameters_1default(JNIEnv *env, jclass clz) {
 	LDKProbabilisticScoringParameters ret_var = ProbabilisticScoringParameters_default();
 	int64_t ret_ref = 0;
@@ -42691,6 +42867,42 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ProbabilisticScoringParamet
 		ret_ref |= 1;
 	}
 	return ret_ref;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ProbabilisticScorer_1as_1Score(JNIEnv *env, jclass clz, int64_t this_arg) {
+	LDKProbabilisticScorer this_arg_conv;
+	this_arg_conv.inner = (void*)(this_arg & (~1));
+	this_arg_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(this_arg_conv);
+	LDKScore* ret_ret = MALLOC(sizeof(LDKScore), "LDKScore");
+	*ret_ret = ProbabilisticScorer_as_Score(&this_arg_conv);
+	return (int64_t)ret_ret;
+}
+
+JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_ProbabilisticScorer_1write(JNIEnv *env, jclass clz, int64_t obj) {
+	LDKProbabilisticScorer obj_conv;
+	obj_conv.inner = (void*)(obj & (~1));
+	obj_conv.is_owned = false;
+	CHECK_INNER_FIELD_ACCESS_OR_NULL(obj_conv);
+	LDKCVec_u8Z ret_var = ProbabilisticScorer_write(&obj_conv);
+	int8_tArray ret_arr = (*env)->NewByteArray(env, ret_var.datalen);
+	(*env)->SetByteArrayRegion(env, ret_arr, 0, ret_var.datalen, ret_var.data);
+	CVec_u8Z_free(ret_var);
+	return ret_arr;
+}
+
+JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_ProbabilisticScorer_1read(JNIEnv *env, jclass clz, int8_tArray ser, int64_t arg) {
+	LDKu8slice ser_ref;
+	ser_ref.datalen = (*env)->GetArrayLength(env, ser);
+	ser_ref.data = (*env)->GetByteArrayElements (env, ser, NULL);
+	void* arg_ptr = (void*)(((uintptr_t)arg) & ~1);
+	CHECK_ACCESS(arg_ptr);
+	LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ arg_conv = *(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ*)(arg_ptr);
+	arg_conv = C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone((LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ*)(((uintptr_t)arg) & ~1));
+	LDKCResult_ProbabilisticScorerDecodeErrorZ* ret_conv = MALLOC(sizeof(LDKCResult_ProbabilisticScorerDecodeErrorZ), "LDKCResult_ProbabilisticScorerDecodeErrorZ");
+	*ret_conv = ProbabilisticScorer_read(ser_ref, arg_conv);
+	(*env)->ReleaseByteArrayElements(env, ser, (int8_t*)ser_ref.data, 0);
+	return (int64_t)ret_conv;
 }
 
 JNIEXPORT void JNICALL Java_org_ldk_impl_bindings_FilesystemPersister_1free(JNIEnv *env, jclass clz, int64_t this_obj) {

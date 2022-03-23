@@ -144,7 +144,7 @@ public class bindings {
 	public static native long CResult_BuiltCommitmentTransactionDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(LDKCResult_BuiltCommitmentTransactionDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_BuiltCommitmentTransactionDecodeErrorZ_get_err(long owner);
-	// struct LDKTrustedClosingTransaction *CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner);
+	// struct LDKTrustedClosingTransaction *NONNULL_PTR CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner);
 	public static native long CResult_TrustedClosingTransactionNoneZ_get_ok(long owner);
 	// void CResult_TrustedClosingTransactionNoneZ_get_err(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner);
 	public static native void CResult_TrustedClosingTransactionNoneZ_get_err(long owner);
@@ -152,7 +152,7 @@ public class bindings {
 	public static native long CResult_CommitmentTransactionDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_CommitmentTransactionDecodeErrorZ_get_err(LDKCResult_CommitmentTransactionDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_CommitmentTransactionDecodeErrorZ_get_err(long owner);
-	// struct LDKTrustedCommitmentTransaction *CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner);
+	// struct LDKTrustedCommitmentTransaction *NONNULL_PTR CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner);
 	public static native long CResult_TrustedCommitmentTransactionNoneZ_get_ok(long owner);
 	// void CResult_TrustedCommitmentTransactionNoneZ_get_err(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner);
 	public static native void CResult_TrustedCommitmentTransactionNoneZ_get_err(long owner);
@@ -609,7 +609,7 @@ public class bindings {
 	public static native long CResult_ScoringParametersDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_ScoringParametersDecodeErrorZ_get_err(LDKCResult_ScoringParametersDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ScoringParametersDecodeErrorZ_get_err(long owner);
-	// struct LDKScorer *CResult_ScorerDecodeErrorZ_get_ok(LDKCResult_ScorerDecodeErrorZ *NONNULL_PTR owner);
+	// struct LDKScorer *NONNULL_PTR CResult_ScorerDecodeErrorZ_get_ok(LDKCResult_ScorerDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ScorerDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_ScorerDecodeErrorZ_get_err(LDKCResult_ScorerDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ScorerDecodeErrorZ_get_err(long owner);
@@ -617,6 +617,14 @@ public class bindings {
 	public static native long CResult_ProbabilisticScoringParametersDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_ProbabilisticScoringParametersDecodeErrorZ_get_err(LDKCResult_ProbabilisticScoringParametersDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_ProbabilisticScoringParametersDecodeErrorZ_get_err(long owner);
+	// struct LDKProbabilisticScoringParameters C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_a(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR owner);
+	public static native long C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_a(long owner);
+	// struct LDKNetworkGraph C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_b(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR owner);
+	public static native long C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_b(long owner);
+	// struct LDKProbabilisticScorer *NONNULL_PTR CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_ProbabilisticScorerDecodeErrorZ_get_ok(long owner);
+	// struct LDKDecodeError CResult_ProbabilisticScorerDecodeErrorZ_get_err(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
+	public static native long CResult_ProbabilisticScorerDecodeErrorZ_get_err(long owner);
 	// struct LDKInitFeatures CResult_InitFeaturesDecodeErrorZ_get_ok(LDKCResult_InitFeaturesDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_InitFeaturesDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_InitFeaturesDecodeErrorZ_get_err(LDKCResult_InitFeaturesDecodeErrorZ *NONNULL_PTR owner);
@@ -967,9 +975,9 @@ public class bindings {
 	public static native long LDKLogger_new(LDKLogger impl);
 	// struct LDKThirtyTwoBytes C2Tuple_BlockHashChannelManagerZ_get_a(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
 	public static native byte[] C2Tuple_BlockHashChannelManagerZ_get_a(long owner);
-	// struct LDKChannelManager *C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
+	// struct LDKChannelManager *NONNULL_PTR C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner);
 	public static native long C2Tuple_BlockHashChannelManagerZ_get_b(long owner);
-	// struct LDKC2Tuple_BlockHashChannelManagerZ *CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner);
+	// struct LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(long owner);
 	// struct LDKDecodeError CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner);
 	public static native long CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_err(long owner);
@@ -1421,7 +1429,7 @@ public class bindings {
 	}
 	static { LDKCOption_FilterZ.init(); }
 	public static native LDKCOption_FilterZ LDKCOption_FilterZ_ref_from_ptr(long ptr);
-	// struct LDKLockedChannelMonitor *CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner);
+	// struct LDKLockedChannelMonitor *NONNULL_PTR CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner);
 	public static native long CResult_LockedChannelMonitorNoneZ_get_ok(long owner);
 	// void CResult_LockedChannelMonitorNoneZ_get_err(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner);
 	public static native void CResult_LockedChannelMonitorNoneZ_get_err(long owner);
@@ -2208,6 +2216,22 @@ public class bindings {
 	public static native long CResult_ProbabilisticScoringParametersDecodeErrorZ_clone_ptr(long arg);
 	// struct LDKCResult_ProbabilisticScoringParametersDecodeErrorZ CResult_ProbabilisticScoringParametersDecodeErrorZ_clone(const struct LDKCResult_ProbabilisticScoringParametersDecodeErrorZ *NONNULL_PTR orig);
 	public static native long CResult_ProbabilisticScoringParametersDecodeErrorZ_clone(long orig);
+	// uintptr_t C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone_ptr(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR arg);
+	public static native long C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone_ptr(long arg);
+	// struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone(const struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR orig);
+	public static native long C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone(long orig);
+	// struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_new(struct LDKProbabilisticScoringParameters a, const struct LDKNetworkGraph *NONNULL_PTR b);
+	public static native long C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_new(long a, long b);
+	// void C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_free(struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ _res);
+	public static native void C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_free(long _res);
+	// struct LDKCResult_ProbabilisticScorerDecodeErrorZ CResult_ProbabilisticScorerDecodeErrorZ_ok(struct LDKProbabilisticScorer o);
+	public static native long CResult_ProbabilisticScorerDecodeErrorZ_ok(long o);
+	// struct LDKCResult_ProbabilisticScorerDecodeErrorZ CResult_ProbabilisticScorerDecodeErrorZ_err(struct LDKDecodeError e);
+	public static native long CResult_ProbabilisticScorerDecodeErrorZ_err(long e);
+	// bool CResult_ProbabilisticScorerDecodeErrorZ_is_ok(const struct LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR o);
+	public static native boolean CResult_ProbabilisticScorerDecodeErrorZ_is_ok(long o);
+	// void CResult_ProbabilisticScorerDecodeErrorZ_free(struct LDKCResult_ProbabilisticScorerDecodeErrorZ _res);
+	public static native void CResult_ProbabilisticScorerDecodeErrorZ_free(long _res);
 	// struct LDKCResult_InitFeaturesDecodeErrorZ CResult_InitFeaturesDecodeErrorZ_ok(struct LDKInitFeatures o);
 	public static native long CResult_InitFeaturesDecodeErrorZ_ok(long o);
 	// struct LDKCResult_InitFeaturesDecodeErrorZ CResult_InitFeaturesDecodeErrorZ_err(struct LDKDecodeError e);
@@ -6696,6 +6720,8 @@ public class bindings {
 	public static native byte[] Scorer_write(long obj);
 	// struct LDKCResult_ScorerDecodeErrorZ Scorer_read(struct LDKu8slice ser);
 	public static native long Scorer_read(byte[] ser);
+	// void ProbabilisticScorer_free(struct LDKProbabilisticScorer this_obj);
+	public static native void ProbabilisticScorer_free(long this_obj);
 	// void ProbabilisticScoringParameters_free(struct LDKProbabilisticScoringParameters this_obj);
 	public static native void ProbabilisticScoringParameters_free(long this_obj);
 	// uint64_t ProbabilisticScoringParameters_get_liquidity_penalty_multiplier_msat(const struct LDKProbabilisticScoringParameters *NONNULL_PTR this_ptr);
@@ -6716,8 +6742,16 @@ public class bindings {
 	public static native byte[] ProbabilisticScoringParameters_write(long obj);
 	// struct LDKCResult_ProbabilisticScoringParametersDecodeErrorZ ProbabilisticScoringParameters_read(struct LDKu8slice ser);
 	public static native long ProbabilisticScoringParameters_read(byte[] ser);
+	// MUST_USE_RES struct LDKProbabilisticScorer ProbabilisticScorer_new(struct LDKProbabilisticScoringParameters params, const struct LDKNetworkGraph *NONNULL_PTR network_graph);
+	public static native long ProbabilisticScorer_new(long params, long network_graph);
 	// MUST_USE_RES struct LDKProbabilisticScoringParameters ProbabilisticScoringParameters_default(void);
 	public static native long ProbabilisticScoringParameters_default();
+	// struct LDKScore ProbabilisticScorer_as_Score(const struct LDKProbabilisticScorer *NONNULL_PTR this_arg);
+	public static native long ProbabilisticScorer_as_Score(long this_arg);
+	// struct LDKCVec_u8Z ProbabilisticScorer_write(const struct LDKProbabilisticScorer *NONNULL_PTR obj);
+	public static native byte[] ProbabilisticScorer_write(long obj);
+	// struct LDKCResult_ProbabilisticScorerDecodeErrorZ ProbabilisticScorer_read(struct LDKu8slice ser, struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ arg);
+	public static native long ProbabilisticScorer_read(byte[] ser, long arg);
 	// void FilesystemPersister_free(struct LDKFilesystemPersister this_obj);
 	public static native void FilesystemPersister_free(long this_obj);
 	// MUST_USE_RES struct LDKFilesystemPersister FilesystemPersister_new(struct LDKStr path_to_channel_data);
