@@ -309,7 +309,7 @@ class TypeMappingGenerator:
                     opaque_ret_conv_suf += "if ((uintptr_t)" + ty_info.var_name + "_var.inner > 4096) {\n"
                     indent = "\t"
                 if not holds_ref and ty_info.is_ptr and (ty_info.rust_obj.replace("LDK", "") + "_clone") in self.clone_fns: # is_ptr, not holds_ref implies passing a pointed-to value to java, which needs copied
-                    opaque_ret_conv_suf += indent + ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(" + ty_info.var_name + ");\n"
+                    opaque_ret_conv_suf += indent + ty_info.var_name + "_var = " + ty_info.rust_obj.replace("LDK", "") + "_clone(&" + ty_info.var_name + "_var);\n"
                 elif not holds_ref and ty_info.is_ptr:
                     opaque_ret_conv_suf += indent + "// WARNING: we may need a move here but no clone is available for " + ty_info.rust_obj + "\n"
 

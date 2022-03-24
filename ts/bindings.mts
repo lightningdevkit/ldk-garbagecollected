@@ -2176,6 +2176,42 @@ export function CResult_ProbabilisticScoringParametersDecodeErrorZ_get_err(owner
 	const nativeResponseValue = wasm.TS_CResult_ProbabilisticScoringParametersDecodeErrorZ_get_err(owner);
 	return nativeResponseValue;
 }
+	// struct LDKProbabilisticScoringParameters C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_a(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR owner);
+/* @internal */
+export function C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_a(owner: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_a(owner);
+	return nativeResponseValue;
+}
+	// struct LDKNetworkGraph C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_b(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR owner);
+/* @internal */
+export function C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_b(owner: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_get_b(owner);
+	return nativeResponseValue;
+}
+	// struct LDKProbabilisticScorer *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
+/* @internal */
+export function CResult_ProbabilisticScorerDecodeErrorZ_get_ok(owner: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_ProbabilisticScorerDecodeErrorZ_get_ok(owner);
+	return nativeResponseValue;
+}
+	// struct LDKDecodeError CResult_ProbabilisticScorerDecodeErrorZ_get_err(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner);
+/* @internal */
+export function CResult_ProbabilisticScorerDecodeErrorZ_get_err(owner: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_ProbabilisticScorerDecodeErrorZ_get_err(owner);
+	return nativeResponseValue;
+}
 	// struct LDKInitFeatures CResult_InitFeaturesDecodeErrorZ_get_ok(LDKCResult_InitFeaturesDecodeErrorZ *NONNULL_PTR owner);
 /* @internal */
 export function CResult_InitFeaturesDecodeErrorZ_get_ok(owner: number): number {
@@ -8318,6 +8354,78 @@ export function CResult_ProbabilisticScoringParametersDecodeErrorZ_clone(orig: n
 	}
 	const nativeResponseValue = wasm.TS_CResult_ProbabilisticScoringParametersDecodeErrorZ_clone(orig);
 	return nativeResponseValue;
+}
+	// uintptr_t C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone_ptr(LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR arg);
+/* @internal */
+export function C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone_ptr(arg: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone_ptr(arg);
+	return nativeResponseValue;
+}
+	// struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone(const struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ *NONNULL_PTR orig);
+/* @internal */
+export function C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone(orig: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_clone(orig);
+	return nativeResponseValue;
+}
+	// struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_new(struct LDKProbabilisticScoringParameters a, const struct LDKNetworkGraph *NONNULL_PTR b);
+/* @internal */
+export function C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_new(a: number, b: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_new(a, b);
+	return nativeResponseValue;
+}
+	// void C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_free(struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ _res);
+/* @internal */
+export function C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_free(_res: number): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_C2Tuple_ProbabilisticScoringParametersNetworkGraphZ_free(_res);
+	// debug statements here
+}
+	// struct LDKCResult_ProbabilisticScorerDecodeErrorZ CResult_ProbabilisticScorerDecodeErrorZ_ok(struct LDKProbabilisticScorer o);
+/* @internal */
+export function CResult_ProbabilisticScorerDecodeErrorZ_ok(o: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_ProbabilisticScorerDecodeErrorZ_ok(o);
+	return nativeResponseValue;
+}
+	// struct LDKCResult_ProbabilisticScorerDecodeErrorZ CResult_ProbabilisticScorerDecodeErrorZ_err(struct LDKDecodeError e);
+/* @internal */
+export function CResult_ProbabilisticScorerDecodeErrorZ_err(e: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_ProbabilisticScorerDecodeErrorZ_err(e);
+	return nativeResponseValue;
+}
+	// bool CResult_ProbabilisticScorerDecodeErrorZ_is_ok(const struct LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR o);
+/* @internal */
+export function CResult_ProbabilisticScorerDecodeErrorZ_is_ok(o: number): boolean {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_ProbabilisticScorerDecodeErrorZ_is_ok(o);
+	return nativeResponseValue;
+}
+	// void CResult_ProbabilisticScorerDecodeErrorZ_free(struct LDKCResult_ProbabilisticScorerDecodeErrorZ _res);
+/* @internal */
+export function CResult_ProbabilisticScorerDecodeErrorZ_free(_res: number): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_CResult_ProbabilisticScorerDecodeErrorZ_free(_res);
+	// debug statements here
 }
 	// struct LDKCResult_InitFeaturesDecodeErrorZ CResult_InitFeaturesDecodeErrorZ_ok(struct LDKInitFeatures o);
 /* @internal */
@@ -28425,6 +28533,15 @@ export function Scorer_read(ser: number): number {
 	const nativeResponseValue = wasm.TS_Scorer_read(ser);
 	return nativeResponseValue;
 }
+	// void ProbabilisticScorer_free(struct LDKProbabilisticScorer this_obj);
+/* @internal */
+export function ProbabilisticScorer_free(this_obj: number): void {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ProbabilisticScorer_free(this_obj);
+	// debug statements here
+}
 	// void ProbabilisticScoringParameters_free(struct LDKProbabilisticScoringParameters this_obj);
 /* @internal */
 export function ProbabilisticScoringParameters_free(this_obj: number): void {
@@ -28515,6 +28632,15 @@ export function ProbabilisticScoringParameters_read(ser: number): number {
 	const nativeResponseValue = wasm.TS_ProbabilisticScoringParameters_read(ser);
 	return nativeResponseValue;
 }
+	// MUST_USE_RES struct LDKProbabilisticScorer ProbabilisticScorer_new(struct LDKProbabilisticScoringParameters params, const struct LDKNetworkGraph *NONNULL_PTR network_graph);
+/* @internal */
+export function ProbabilisticScorer_new(params: number, network_graph: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ProbabilisticScorer_new(params, network_graph);
+	return nativeResponseValue;
+}
 	// MUST_USE_RES struct LDKProbabilisticScoringParameters ProbabilisticScoringParameters_default(void);
 /* @internal */
 export function ProbabilisticScoringParameters_default(): number {
@@ -28522,6 +28648,33 @@ export function ProbabilisticScoringParameters_default(): number {
 		throw new Error("initializeWasm() must be awaited first!");
 	}
 	const nativeResponseValue = wasm.TS_ProbabilisticScoringParameters_default();
+	return nativeResponseValue;
+}
+	// struct LDKScore ProbabilisticScorer_as_Score(const struct LDKProbabilisticScorer *NONNULL_PTR this_arg);
+/* @internal */
+export function ProbabilisticScorer_as_Score(this_arg: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ProbabilisticScorer_as_Score(this_arg);
+	return nativeResponseValue;
+}
+	// struct LDKCVec_u8Z ProbabilisticScorer_write(const struct LDKProbabilisticScorer *NONNULL_PTR obj);
+/* @internal */
+export function ProbabilisticScorer_write(obj: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ProbabilisticScorer_write(obj);
+	return nativeResponseValue;
+}
+	// struct LDKCResult_ProbabilisticScorerDecodeErrorZ ProbabilisticScorer_read(struct LDKu8slice ser, struct LDKC2Tuple_ProbabilisticScoringParametersNetworkGraphZ arg);
+/* @internal */
+export function ProbabilisticScorer_read(ser: number, arg: number): number {
+	if(!isWasmInitialized) {
+		throw new Error("initializeWasm() must be awaited first!");
+	}
+	const nativeResponseValue = wasm.TS_ProbabilisticScorer_read(ser, arg);
 	return nativeResponseValue;
 }
 	// void Invoice_free(struct LDKInvoice this_obj);
