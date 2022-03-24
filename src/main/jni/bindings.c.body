@@ -1295,7 +1295,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1BuiltCommitmentTra
 	return ret_ref;
 }
 
-static inline struct LDKTrustedClosingTransaction *NONNULL_PTR CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner){
+static inline struct LDKTrustedClosingTransaction *CResult_TrustedClosingTransactionNoneZ_get_ok(LDKCResult_TrustedClosingTransactionNoneZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -1355,7 +1355,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1CommitmentTransact
 	return ret_ref;
 }
 
-static inline struct LDKTrustedCommitmentTransaction *NONNULL_PTR CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner){
+static inline struct LDKTrustedCommitmentTransaction *CResult_TrustedCommitmentTransactionNoneZ_get_ok(LDKCResult_TrustedCommitmentTransactionNoneZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -3109,7 +3109,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_CResult_1ScoringParametersD
 	return ret_ref;
 }
 
-static inline struct LDKScorer *NONNULL_PTR CResult_ScorerDecodeErrorZ_get_ok(LDKCResult_ScorerDecodeErrorZ *NONNULL_PTR owner){
+static inline struct LDKScorer *CResult_ScorerDecodeErrorZ_get_ok(LDKCResult_ScorerDecodeErrorZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -3212,7 +3212,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1ProbabilisticScori
 	return ret_ref;
 }
 
-static inline struct LDKProbabilisticScorer *NONNULL_PTR CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
+static inline struct LDKProbabilisticScorer *CResult_ProbabilisticScorerDecodeErrorZ_get_ok(LDKCResult_ProbabilisticScorerDecodeErrorZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -6317,7 +6317,7 @@ JNIEXPORT int8_tArray JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChann
 	return ret_arr;
 }
 
-static inline struct LDKChannelManager *NONNULL_PTR C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner){
+static inline struct LDKChannelManager *C2Tuple_BlockHashChannelManagerZ_get_b(LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR owner){
 	return &owner->b;
 }
 JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelManagerZ_1get_1b(JNIEnv *env, jclass clz, int64_t owner) {
@@ -6331,7 +6331,7 @@ JNIEXPORT int64_t JNICALL Java_org_ldk_impl_bindings_C2Tuple_1BlockHashChannelMa
 	return ret_ref;
 }
 
-static inline struct LDKC2Tuple_BlockHashChannelManagerZ *NONNULL_PTR CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner){
+static inline struct LDKC2Tuple_BlockHashChannelManagerZ *CResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_get_ok(LDKCResult_C2Tuple_BlockHashChannelManagerZDecodeErrorZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
@@ -9567,7 +9567,7 @@ JNIEXPORT jobject JNICALL Java_org_ldk_impl_bindings_LDKCOption_1FilterZ_1ref_1f
 		default: abort();
 	}
 }
-static inline struct LDKLockedChannelMonitor *NONNULL_PTR CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner){
+static inline struct LDKLockedChannelMonitor *CResult_LockedChannelMonitorNoneZ_get_ok(LDKCResult_LockedChannelMonitorNoneZ *NONNULL_PTR owner){
 CHECK(owner->result_ok);
 	return &*owner->contents.result;
 }
