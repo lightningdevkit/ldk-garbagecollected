@@ -722,6 +722,9 @@ import * as bindings from '../bindings.mjs'
         with open(self.outdir + "/imports.mts.part", 'a') as imports:
             imports.write(f"import {{ {', '.join(struct_names)} }} from '../{folder}/{struct_names[0]}.mjs';\n")
 
+    def fully_qualified_hu_ty_path(self, ty):
+        return ty.java_hu_ty
+
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_c = "static inline LDK" + struct_name + " LDK" + struct_name + "_from_js(int32_t ord) {\n"
         out_c = out_c + "\tswitch (ord) {\n"
