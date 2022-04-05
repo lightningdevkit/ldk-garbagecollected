@@ -130,10 +130,7 @@ public class ManualMsgHandlingPeerTest {
                 return new long[0];
             }
 
-            @Override
-            public void sync_routing_table(byte[] their_node_id, long init) {
-
-            }
+            @Override public void peer_connected(byte[] their_node_id, long init) { }
 
             @Override
             public long handle_reply_channel_range(byte[] their_node_id, long msg) {
