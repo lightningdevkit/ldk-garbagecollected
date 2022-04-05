@@ -326,6 +326,10 @@ export class UInt5 {
 		return this.val;
 	}
 }
+
+export class UnqualifiedError {
+	public constructor(val: number) {}
+}
 """
 
         self.txout_defn = """export class TxOut extends CommonBase {
@@ -592,7 +596,7 @@ jstring __attribute__((export_name("TS_get_ldk_version"))) get_ldk_version() {
 }"""
 
         self.hu_struct_file_prefix = """
-import { CommonBase, UInt5 } from './CommonBase.mjs';
+import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 """
