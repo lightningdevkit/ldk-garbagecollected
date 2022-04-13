@@ -67,7 +67,7 @@ public class RoutingMessageHandler extends CommonBase {
 		 * perform routing table synchronization using a strategy defined by the
 		 * implementor.
 		 */
-		void sync_routing_table(byte[] their_node_id, Init init);
+		void peer_connected(byte[] their_node_id, Init init);
 		/**
 		 * Handles the reply of a query we initiated to learn about channels
 		 * for a given range of blocks. We can expect to receive one or more
@@ -129,9 +129,9 @@ public class RoutingMessageHandler extends CommonBase {
 				long[] result = ret != null ? Arrays.stream(ret).mapToLong(ret_conv_18 -> ret_conv_18 == null ? 0 : ret_conv_18.clone_ptr()).toArray() : null;
 				return result;
 			}
-			@Override public void sync_routing_table(byte[] their_node_id, long init) {
+			@Override public void peer_connected(byte[] their_node_id, long init) {
 				Init init_hu_conv = null; if (init < 0 || init > 4096) { init_hu_conv = new Init(null, init); }
-				arg.sync_routing_table(their_node_id, init_hu_conv);
+				arg.peer_connected(their_node_id, init_hu_conv);
 				Reference.reachabilityFence(arg);
 			}
 			@Override public long handle_reply_channel_range(byte[] their_node_id, long msg) {
@@ -271,8 +271,8 @@ public class RoutingMessageHandler extends CommonBase {
 	 * perform routing table synchronization using a strategy defined by the
 	 * implementor.
 	 */
-	public void sync_routing_table(byte[] their_node_id, Init init) {
-		bindings.RoutingMessageHandler_sync_routing_table(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr & ~1);
+	public void peer_connected(byte[] their_node_id, Init init) {
+		bindings.RoutingMessageHandler_peer_connected(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), init == null ? 0 : init.ptr & ~1);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(init);

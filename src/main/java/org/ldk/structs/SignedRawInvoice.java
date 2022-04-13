@@ -132,11 +132,11 @@ public class SignedRawInvoice extends CommonBase {
 	/**
 	 * Read a SignedRawInvoice object from a string
 	 */
-	public static Result_SignedRawInvoiceNoneZ from_str(java.lang.String s) {
+	public static Result_SignedRawInvoiceParseErrorZ from_str(java.lang.String s) {
 		long ret = bindings.SignedRawInvoice_from_str(s);
 		Reference.reachabilityFence(s);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_SignedRawInvoiceNoneZ ret_hu_conv = Result_SignedRawInvoiceNoneZ.constr_from_ptr(ret);
+		Result_SignedRawInvoiceParseErrorZ ret_hu_conv = Result_SignedRawInvoiceParseErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

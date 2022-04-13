@@ -51,7 +51,7 @@ public class ErrorAction extends CommonBase {
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
-		@Nullable public final ErrorMessage msg;
+		@Nullable public final org.ldk.structs.ErrorMessage msg;
 		private DisconnectPeer(long ptr, bindings.LDKErrorAction.DisconnectPeer obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -73,7 +73,7 @@ public class ErrorAction extends CommonBase {
 	 * If the error is logged, log it at the given level.
 	 */
 	public final static class IgnoreAndLog extends ErrorAction {
-		public final Level ignore_and_log;
+		public final org.ldk.enums.Level ignore_and_log;
 		private IgnoreAndLog(long ptr, bindings.LDKErrorAction.IgnoreAndLog obj) {
 			super(null, ptr);
 			this.ignore_and_log = obj.ignore_and_log;
@@ -96,7 +96,7 @@ public class ErrorAction extends CommonBase {
 		/**
 		 * The message to send.
 		*/
-		public final ErrorMessage msg;
+		public final org.ldk.structs.ErrorMessage msg;
 		private SendErrorMessage(long ptr, bindings.LDKErrorAction.SendErrorMessage obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -112,13 +112,13 @@ public class ErrorAction extends CommonBase {
 		/**
 		 * The message to send.
 		*/
-		public final WarningMessage msg;
+		public final org.ldk.structs.WarningMessage msg;
 		/**
 		 * The peer may have done something harmless that we weren't able to meaningfully process,
 		 * though we should still tell them about it.
 		 * If this event is logged, log it at the given level.
 		*/
-		public final Level log_level;
+		public final org.ldk.enums.Level log_level;
 		private SendWarningMessage(long ptr, bindings.LDKErrorAction.SendWarningMessage obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -141,7 +141,7 @@ public class ErrorAction extends CommonBase {
 		long ret = bindings.ErrorAction_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -153,7 +153,7 @@ public class ErrorAction extends CommonBase {
 		long ret = bindings.ErrorAction_disconnect_peer(msg == null ? 0 : msg.ptr & ~1);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -164,7 +164,7 @@ public class ErrorAction extends CommonBase {
 	public static ErrorAction ignore_error() {
 		long ret = bindings.ErrorAction_ignore_error();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -176,7 +176,7 @@ public class ErrorAction extends CommonBase {
 		long ret = bindings.ErrorAction_ignore_and_log(a);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -187,7 +187,7 @@ public class ErrorAction extends CommonBase {
 	public static ErrorAction ignore_duplicate_gossip() {
 		long ret = bindings.ErrorAction_ignore_duplicate_gossip();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -199,7 +199,7 @@ public class ErrorAction extends CommonBase {
 		long ret = bindings.ErrorAction_send_error_message(msg == null ? 0 : msg.ptr & ~1);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -212,7 +212,7 @@ public class ErrorAction extends CommonBase {
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(log_level);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

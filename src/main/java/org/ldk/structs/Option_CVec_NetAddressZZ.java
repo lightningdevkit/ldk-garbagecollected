@@ -42,7 +42,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 			NetAddress[] some_conv_12_arr = new NetAddress[some_conv_12_len];
 			for (int m = 0; m < some_conv_12_len; m++) {
 				long some_conv_12 = some[m];
-				NetAddress some_conv_12_hu_conv = NetAddress.constr_from_ptr(some_conv_12);
+				org.ldk.structs.NetAddress some_conv_12_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(some_conv_12);
 				some_conv_12_hu_conv.ptrs_to.add(this);
 				some_conv_12_arr[m] = some_conv_12_hu_conv;
 			}
@@ -64,7 +64,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 		long ret = bindings.COption_CVec_NetAddressZZ_some(o != null ? Arrays.stream(o).mapToLong(o_conv_12 -> o_conv_12.ptr).toArray() : null);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -75,7 +75,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 	public static Option_CVec_NetAddressZZ none() {
 		long ret = bindings.COption_CVec_NetAddressZZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -94,7 +94,7 @@ public class Option_CVec_NetAddressZZ extends CommonBase {
 		long ret = bindings.COption_CVec_NetAddressZZ_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

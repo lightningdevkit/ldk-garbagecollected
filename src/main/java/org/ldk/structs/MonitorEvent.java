@@ -40,7 +40,7 @@ public class MonitorEvent extends CommonBase {
 	 * A monitor event containing an HTLCUpdate.
 	 */
 	public final static class HTLCEvent extends MonitorEvent {
-		public final HTLCUpdate htlc_event;
+		public final org.ldk.structs.HTLCUpdate htlc_event;
 		private HTLCEvent(long ptr, bindings.LDKMonitorEvent.HTLCEvent obj) {
 			super(null, ptr);
 			long htlc_event = obj.htlc_event;
@@ -53,7 +53,7 @@ public class MonitorEvent extends CommonBase {
 	 * A monitor event that the Channel's commitment transaction was confirmed.
 	 */
 	public final static class CommitmentTxConfirmed extends MonitorEvent {
-		public final OutPoint commitment_tx_confirmed;
+		public final org.ldk.structs.OutPoint commitment_tx_confirmed;
 		private CommitmentTxConfirmed(long ptr, bindings.LDKMonitorEvent.CommitmentTxConfirmed obj) {
 			super(null, ptr);
 			long commitment_tx_confirmed = obj.commitment_tx_confirmed;
@@ -72,7 +72,7 @@ public class MonitorEvent extends CommonBase {
 		/**
 		 * The funding outpoint of the [`ChannelMonitor`] that was updated
 		*/
-		public final OutPoint funding_txo;
+		public final org.ldk.structs.OutPoint funding_txo;
 		/**
 		 * The Update ID from [`ChannelMonitorUpdate::update_id`] which was applied or
 		 * [`ChannelMonitor::get_latest_update_id`].
@@ -97,7 +97,7 @@ public class MonitorEvent extends CommonBase {
 	 * [`ChannelMonitorUpdateErr::PermanentFailure`]: super::ChannelMonitorUpdateErr::PermanentFailure
 	 */
 	public final static class UpdateFailed extends MonitorEvent {
-		public final OutPoint update_failed;
+		public final org.ldk.structs.OutPoint update_failed;
 		private UpdateFailed(long ptr, bindings.LDKMonitorEvent.UpdateFailed obj) {
 			super(null, ptr);
 			long update_failed = obj.update_failed;
@@ -119,7 +119,7 @@ public class MonitorEvent extends CommonBase {
 		long ret = bindings.MonitorEvent_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -131,7 +131,7 @@ public class MonitorEvent extends CommonBase {
 		long ret = bindings.MonitorEvent_htlcevent(a == null ? 0 : a.ptr & ~1);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -143,7 +143,7 @@ public class MonitorEvent extends CommonBase {
 		long ret = bindings.MonitorEvent_commitment_tx_confirmed(a == null ? 0 : a.ptr & ~1);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -156,7 +156,7 @@ public class MonitorEvent extends CommonBase {
 		Reference.reachabilityFence(funding_txo);
 		Reference.reachabilityFence(monitor_update_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -168,7 +168,7 @@ public class MonitorEvent extends CommonBase {
 		long ret = bindings.MonitorEvent_update_failed(a == null ? 0 : a.ptr & ~1);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MonitorEvent ret_hu_conv = MonitorEvent.constr_from_ptr(ret);
+		org.ldk.structs.MonitorEvent ret_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

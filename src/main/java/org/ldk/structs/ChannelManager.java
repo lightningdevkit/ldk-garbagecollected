@@ -537,12 +537,18 @@ public class ChannelManager extends CommonBase {
 	 * 
 	 * The `temporary_channel_id` parameter indicates which inbound channel should be accepted.
 	 * 
-	 * [`Event::OpenChannelRequest`]: crate::util::events::Event::OpenChannelRequest
+	 * For inbound channels, the `user_channel_id` parameter will be provided back in
+	 * [`Event::ChannelClosed::user_channel_id`] to allow tracking of which events correspond
+	 * with which `accept_inbound_channel` call.
+	 * 
+	 * [`Event::OpenChannelRequest`]: events::Event::OpenChannelRequest
+	 * [`Event::ChannelClosed::user_channel_id`]: events::Event::ChannelClosed::user_channel_id
 	 */
-	public Result_NoneAPIErrorZ accept_inbound_channel(byte[] temporary_channel_id) {
-		long ret = bindings.ChannelManager_accept_inbound_channel(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32));
+	public Result_NoneAPIErrorZ accept_inbound_channel(byte[] temporary_channel_id, long user_channel_id) {
+		long ret = bindings.ChannelManager_accept_inbound_channel(this.ptr, InternalUtils.check_arr_len(temporary_channel_id, 32), user_channel_id);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(temporary_channel_id);
+		Reference.reachabilityFence(user_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NoneAPIErrorZ ret_hu_conv = Result_NoneAPIErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
@@ -590,6 +596,8 @@ public class ChannelManager extends CommonBase {
 	 * Legacy version of [`create_inbound_payment`]. Use this method if you wish to share
 	 * serialized state with LDK node(s) running 0.0.103 and earlier.
 	 * 
+	 * May panic if `invoice_expiry_delta_secs` is greater than one year.
+	 * 
 	 * # Note
 	 * This method is deprecated and will be removed soon.
 	 * 
@@ -634,8 +642,6 @@ public class ChannelManager extends CommonBase {
 	 * If you need exact expiry semantics, you should enforce them upon receipt of
 	 * [`PaymentReceived`].
 	 * 
-	 * May panic if `invoice_expiry_delta_secs` is greater than one year.
-	 * 
 	 * Note that invoices generated for inbound payments should have their `min_final_cltv_expiry`
 	 * set to at least [`MIN_FINAL_CLTV_EXPIRY`].
 	 * 
@@ -666,6 +672,8 @@ public class ChannelManager extends CommonBase {
 	/**
 	 * Legacy version of [`create_inbound_payment_for_hash`]. Use this method if you wish to share
 	 * serialized state with LDK node(s) running 0.0.103 and earlier.
+	 * 
+	 * May panic if `invoice_expiry_delta_secs` is greater than one year.
 	 * 
 	 * # Note
 	 * This method is deprecated and will be removed soon.

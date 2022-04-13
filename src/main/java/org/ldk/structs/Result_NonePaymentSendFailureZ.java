@@ -31,7 +31,7 @@ public class Result_NonePaymentSendFailureZ extends CommonBase {
 		private Result_NonePaymentSendFailureZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_NonePaymentSendFailureZ_get_err(ptr);
-			PaymentSendFailure err_hu_conv = PaymentSendFailure.constr_from_ptr(err);
+			org.ldk.structs.PaymentSendFailure err_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

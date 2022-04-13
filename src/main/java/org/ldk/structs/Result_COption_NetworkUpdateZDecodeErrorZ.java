@@ -25,7 +25,7 @@ public class Result_COption_NetworkUpdateZDecodeErrorZ extends CommonBase {
 		private Result_COption_NetworkUpdateZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_COption_NetworkUpdateZDecodeErrorZ_get_ok(ptr);
-			Option_NetworkUpdateZ res_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(res);
+			org.ldk.structs.Option_NetworkUpdateZ res_hu_conv = org.ldk.structs.Option_NetworkUpdateZ.constr_from_ptr(res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

@@ -25,7 +25,7 @@ public class Result_SpendableOutputDescriptorDecodeErrorZ extends CommonBase {
 		private Result_SpendableOutputDescriptorDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_SpendableOutputDescriptorDecodeErrorZ_get_ok(ptr);
-			SpendableOutputDescriptor res_hu_conv = SpendableOutputDescriptor.constr_from_ptr(res);
+			org.ldk.structs.SpendableOutputDescriptor res_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

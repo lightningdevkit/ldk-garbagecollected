@@ -51,7 +51,7 @@ public class APIError extends CommonBase {
 		/**
 		 * A human-readable error message
 		*/
-		public final String err;
+		public final java.lang.String err;
 		private APIMisuseError(long ptr, bindings.LDKAPIError.APIMisuseError obj) {
 			super(null, ptr);
 			this.err = obj.err;
@@ -66,7 +66,7 @@ public class APIError extends CommonBase {
 		/**
 		 * A human-readable error message
 		*/
-		public final String err;
+		public final java.lang.String err;
 		/**
 		 * The feerate which was too high.
 		*/
@@ -85,7 +85,7 @@ public class APIError extends CommonBase {
 		/**
 		 * A human-readable error message
 		*/
-		public final String err;
+		public final java.lang.String err;
 		private RouteError(long ptr, bindings.LDKAPIError.RouteError obj) {
 			super(null, ptr);
 			this.err = obj.err;
@@ -100,7 +100,7 @@ public class APIError extends CommonBase {
 		/**
 		 * A human-readable error message
 		*/
-		public final String err;
+		public final java.lang.String err;
 		private ChannelUnavailable(long ptr, bindings.LDKAPIError.ChannelUnavailable obj) {
 			super(null, ptr);
 			this.err = obj.err;
@@ -129,7 +129,7 @@ public class APIError extends CommonBase {
 		/**
 		 * The incompatible shutdown script.
 		*/
-		public final ShutdownScript script;
+		public final org.ldk.structs.ShutdownScript script;
 		private IncompatibleShutdownScript(long ptr, bindings.LDKAPIError.IncompatibleShutdownScript obj) {
 			super(null, ptr);
 			long script = obj.script;
@@ -151,7 +151,7 @@ public class APIError extends CommonBase {
 		long ret = bindings.APIError_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -163,7 +163,7 @@ public class APIError extends CommonBase {
 		long ret = bindings.APIError_apimisuse_error(err);
 		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -176,7 +176,7 @@ public class APIError extends CommonBase {
 		Reference.reachabilityFence(err);
 		Reference.reachabilityFence(feerate);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -188,7 +188,7 @@ public class APIError extends CommonBase {
 		long ret = bindings.APIError_route_error(err);
 		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -200,7 +200,7 @@ public class APIError extends CommonBase {
 		long ret = bindings.APIError_channel_unavailable(err);
 		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -211,7 +211,7 @@ public class APIError extends CommonBase {
 	public static APIError monitor_update_failed() {
 		long ret = bindings.APIError_monitor_update_failed();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -223,7 +223,7 @@ public class APIError extends CommonBase {
 		long ret = bindings.APIError_incompatible_shutdown_script(script == null ? 0 : script.ptr & ~1);
 		Reference.reachabilityFence(script);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		APIError ret_hu_conv = APIError.constr_from_ptr(ret);
+		org.ldk.structs.APIError ret_hu_conv = org.ldk.structs.APIError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

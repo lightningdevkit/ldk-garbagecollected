@@ -30,7 +30,7 @@ public class ReadOnlyNetworkGraph extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(pubkey);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_CVec_NetAddressZZ ret_hu_conv = Option_CVec_NetAddressZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_CVec_NetAddressZZ ret_hu_conv = org.ldk.structs.Option_CVec_NetAddressZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

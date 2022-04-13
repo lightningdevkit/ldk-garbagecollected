@@ -134,13 +134,13 @@ public class Event extends CommonBase {
 		 * Information for claiming this received payment, based on whether the purpose of the
 		 * payment is to pay an invoice or to send a spontaneous payment.
 		*/
-		public final PaymentPurpose purpose;
+		public final org.ldk.structs.PaymentPurpose purpose;
 		private PaymentReceived(long ptr, bindings.LDKEvent.PaymentReceived obj) {
 			super(null, ptr);
 			this.payment_hash = obj.payment_hash;
 			this.amt = obj.amt;
 			long purpose = obj.purpose;
-			PaymentPurpose purpose_hu_conv = PaymentPurpose.constr_from_ptr(purpose);
+			org.ldk.structs.PaymentPurpose purpose_hu_conv = org.ldk.structs.PaymentPurpose.constr_from_ptr(purpose);
 			purpose_hu_conv.ptrs_to.add(this);
 			this.purpose = purpose_hu_conv;
 		}
@@ -186,14 +186,14 @@ public class Event extends CommonBase {
 		 * 
 		 * [`Route::get_total_fees`]: crate::routing::router::Route::get_total_fees
 		*/
-		public final Option_u64Z fee_paid_msat;
+		public final org.ldk.structs.Option_u64Z fee_paid_msat;
 		private PaymentSent(long ptr, bindings.LDKEvent.PaymentSent obj) {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
 			this.payment_preimage = obj.payment_preimage;
 			this.payment_hash = obj.payment_hash;
 			long fee_paid_msat = obj.fee_paid_msat;
-			Option_u64Z fee_paid_msat_hu_conv = Option_u64Z.constr_from_ptr(fee_paid_msat);
+			org.ldk.structs.Option_u64Z fee_paid_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(fee_paid_msat);
 			fee_paid_msat_hu_conv.ptrs_to.add(this);
 			this.fee_paid_msat = fee_paid_msat_hu_conv;
 		}
@@ -241,7 +241,7 @@ public class Event extends CommonBase {
 		 * [`NetworkGraph`]: crate::routing::network_graph::NetworkGraph
 		 * [`NetGraphMsgHandler`]: crate::routing::network_graph::NetGraphMsgHandler
 		*/
-		public final Option_NetworkUpdateZ network_update;
+		public final org.ldk.structs.Option_NetworkUpdateZ network_update;
 		/**
 		 * For both single-path and multi-path payments, this is set if all paths of the payment have
 		 * failed. This will be set to false if (1) this is an MPP payment and (2) other parts of the
@@ -272,7 +272,7 @@ public class Event extends CommonBase {
 		 * If this is `Some`, then the corresponding channel should be avoided when the payment is
 		 * retried. May be `None` for older [`Event`] serializations.
 		*/
-		public final Option_u64Z short_channel_id;
+		public final org.ldk.structs.Option_u64Z short_channel_id;
 		/**
 		 * Parameters needed to compute a new [`Route`] when retrying the failed payment path.
 		 * 
@@ -283,14 +283,14 @@ public class Event extends CommonBase {
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
-		@Nullable public final RouteParameters retry;
+		@Nullable public final org.ldk.structs.RouteParameters retry;
 		private PaymentPathFailed(long ptr, bindings.LDKEvent.PaymentPathFailed obj) {
 			super(null, ptr);
 			this.payment_id = obj.payment_id;
 			this.payment_hash = obj.payment_hash;
 			this.rejected_by_dest = obj.rejected_by_dest;
 			long network_update = obj.network_update;
-			Option_NetworkUpdateZ network_update_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(network_update);
+			org.ldk.structs.Option_NetworkUpdateZ network_update_hu_conv = org.ldk.structs.Option_NetworkUpdateZ.constr_from_ptr(network_update);
 			network_update_hu_conv.ptrs_to.add(this);
 			this.network_update = network_update_hu_conv;
 			this.all_paths_failed = obj.all_paths_failed;
@@ -305,7 +305,7 @@ public class Event extends CommonBase {
 			}
 			this.path = path_conv_10_arr;
 			long short_channel_id = obj.short_channel_id;
-			Option_u64Z short_channel_id_hu_conv = Option_u64Z.constr_from_ptr(short_channel_id);
+			org.ldk.structs.Option_u64Z short_channel_id_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(short_channel_id);
 			short_channel_id_hu_conv.ptrs_to.add(this);
 			this.short_channel_id = short_channel_id_hu_conv;
 			long retry = obj.retry;
@@ -384,7 +384,7 @@ public class Event extends CommonBase {
 			SpendableOutputDescriptor[] outputs_conv_27_arr = new SpendableOutputDescriptor[outputs_conv_27_len];
 			for (int b = 0; b < outputs_conv_27_len; b++) {
 				long outputs_conv_27 = outputs[b];
-				SpendableOutputDescriptor outputs_conv_27_hu_conv = SpendableOutputDescriptor.constr_from_ptr(outputs_conv_27);
+				org.ldk.structs.SpendableOutputDescriptor outputs_conv_27_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(outputs_conv_27);
 				outputs_conv_27_hu_conv.ptrs_to.add(this);
 				outputs_conv_27_arr[b] = outputs_conv_27_hu_conv;
 			}
@@ -411,7 +411,7 @@ public class Event extends CommonBase {
 		 * `PaymentForwarded` events are generated for the same payment iff `fee_earned_msat` is
 		 * `None`.
 		*/
-		public final Option_u64Z fee_earned_msat;
+		public final org.ldk.structs.Option_u64Z fee_earned_msat;
 		/**
 		 * If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
 		 * transaction.
@@ -420,7 +420,7 @@ public class Event extends CommonBase {
 		private PaymentForwarded(long ptr, bindings.LDKEvent.PaymentForwarded obj) {
 			super(null, ptr);
 			long fee_earned_msat = obj.fee_earned_msat;
-			Option_u64Z fee_earned_msat_hu_conv = Option_u64Z.constr_from_ptr(fee_earned_msat);
+			org.ldk.structs.Option_u64Z fee_earned_msat_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(fee_earned_msat);
 			fee_earned_msat_hu_conv.ptrs_to.add(this);
 			this.fee_earned_msat = fee_earned_msat_hu_conv;
 			this.claim_from_onchain_tx = obj.claim_from_onchain_tx;
@@ -436,23 +436,27 @@ public class Event extends CommonBase {
 		*/
 		public final byte[] channel_id;
 		/**
-		 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`], or 0 for
-		 * an inbound channel. This will always be zero for objects serialized with LDK versions
-		 * prior to 0.0.102.
+		 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`] for outbound
+		 * channels, or to [`ChannelManager::accept_inbound_channel`] for inbound channels if
+		 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true. Otherwise
+		 * `user_channel_id` will be 0 for an inbound channel.
+		 * This will always be zero for objects serialized with LDK versions prior to 0.0.102.
 		 * 
 		 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+		 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+		 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
 		*/
 		public final long user_channel_id;
 		/**
 		 * The reason the channel was closed.
 		*/
-		public final ClosureReason reason;
+		public final org.ldk.structs.ClosureReason reason;
 		private ChannelClosed(long ptr, bindings.LDKEvent.ChannelClosed obj) {
 			super(null, ptr);
 			this.channel_id = obj.channel_id;
 			this.user_channel_id = obj.user_channel_id;
 			long reason = obj.reason;
-			ClosureReason reason_hu_conv = ClosureReason.constr_from_ptr(reason);
+			org.ldk.structs.ClosureReason reason_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(reason);
 			reason_hu_conv.ptrs_to.add(this);
 			this.reason = reason_hu_conv;
 		}
@@ -558,12 +562,28 @@ public class Event extends CommonBase {
 		 * Our starting balance in the channel if the request is accepted, in milli-satoshi.
 		*/
 		public final long push_msat;
+		/**
+		 * The features that this channel will operate with. If you reject the channel, a
+		 * well-behaved counterparty may automatically re-attempt the channel with a new set of
+		 * feature flags.
+		 * 
+		 * Note that if [`ChannelTypeFeatures::supports_scid_privacy`] returns true on this type,
+		 * the resulting [`ChannelManager`] will not be readable by versions of LDK prior to
+		 * 0.0.106.
+		 * 
+		 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+		*/
+		public final org.ldk.structs.ChannelTypeFeatures channel_type;
 		private OpenChannelRequest(long ptr, bindings.LDKEvent.OpenChannelRequest obj) {
 			super(null, ptr);
 			this.temporary_channel_id = obj.temporary_channel_id;
 			this.counterparty_node_id = obj.counterparty_node_id;
 			this.funding_satoshis = obj.funding_satoshis;
 			this.push_msat = obj.push_msat;
+			long channel_type = obj.channel_type;
+			ChannelTypeFeatures channel_type_hu_conv = null; if (channel_type < 0 || channel_type > 4096) { channel_type_hu_conv = new ChannelTypeFeatures(null, channel_type); }
+			channel_type_hu_conv.ptrs_to.add(this);
+			this.channel_type = channel_type_hu_conv;
 		}
 	}
 	long clone_ptr() {
@@ -579,7 +599,7 @@ public class Event extends CommonBase {
 		long ret = bindings.Event_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -594,7 +614,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(output_script);
 		Reference.reachabilityFence(user_channel_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -608,7 +628,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(amt);
 		Reference.reachabilityFence(purpose);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -623,7 +643,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(fee_paid_msat);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -642,7 +662,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(short_channel_id);
 		Reference.reachabilityFence(retry);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -655,7 +675,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(payment_id);
 		Reference.reachabilityFence(payment_hash);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -667,7 +687,7 @@ public class Event extends CommonBase {
 		long ret = bindings.Event_pending_htlcs_forwardable(time_forwardable);
 		Reference.reachabilityFence(time_forwardable);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -679,7 +699,7 @@ public class Event extends CommonBase {
 		long ret = bindings.Event_spendable_outputs(outputs != null ? Arrays.stream(outputs).mapToLong(outputs_conv_27 -> outputs_conv_27.ptr).toArray() : null);
 		Reference.reachabilityFence(outputs);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -692,7 +712,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(fee_earned_msat);
 		Reference.reachabilityFence(claim_from_onchain_tx);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -706,7 +726,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(user_channel_id);
 		Reference.reachabilityFence(reason);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -719,7 +739,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(channel_id);
 		Reference.reachabilityFence(transaction);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -733,7 +753,7 @@ public class Event extends CommonBase {
 		Reference.reachabilityFence(payment_hash);
 		Reference.reachabilityFence(path);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -741,14 +761,15 @@ public class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new OpenChannelRequest-variant Event
 	 */
-	public static Event open_channel_request(byte[] temporary_channel_id, byte[] counterparty_node_id, long funding_satoshis, long push_msat) {
-		long ret = bindings.Event_open_channel_request(InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_satoshis, push_msat);
+	public static Event open_channel_request(byte[] temporary_channel_id, byte[] counterparty_node_id, long funding_satoshis, long push_msat, ChannelTypeFeatures channel_type) {
+		long ret = bindings.Event_open_channel_request(InternalUtils.check_arr_len(temporary_channel_id, 32), InternalUtils.check_arr_len(counterparty_node_id, 33), funding_satoshis, push_msat, channel_type == null ? 0 : channel_type.ptr & ~1);
 		Reference.reachabilityFence(temporary_channel_id);
 		Reference.reachabilityFence(counterparty_node_id);
 		Reference.reachabilityFence(funding_satoshis);
 		Reference.reachabilityFence(push_msat);
+		Reference.reachabilityFence(channel_type);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Event ret_hu_conv = Event.constr_from_ptr(ret);
+		org.ldk.structs.Event ret_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

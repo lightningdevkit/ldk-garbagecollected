@@ -62,7 +62,7 @@ public class ClosureReason extends CommonBase {
 		 * or printed to stdout). Otherwise, a well crafted error message may exploit
 		 * a security vulnerability in the terminal emulator or the logging subsystem.
 		*/
-		public final String peer_msg;
+		public final java.lang.String peer_msg;
 		private CounterpartyForceClosed(long ptr, bindings.LDKClosureReason.CounterpartyForceClosed obj) {
 			super(null, ptr);
 			this.peer_msg = obj.peer_msg;
@@ -112,7 +112,7 @@ public class ClosureReason extends CommonBase {
 		/**
 		 * A developer-readable error message which we generated.
 		*/
-		public final String err;
+		public final java.lang.String err;
 		private ProcessingError(long ptr, bindings.LDKClosureReason.ProcessingError obj) {
 			super(null, ptr);
 			this.err = obj.err;
@@ -152,7 +152,7 @@ public class ClosureReason extends CommonBase {
 		long ret = bindings.ClosureReason_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -164,7 +164,7 @@ public class ClosureReason extends CommonBase {
 		long ret = bindings.ClosureReason_counterparty_force_closed(peer_msg);
 		Reference.reachabilityFence(peer_msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -175,7 +175,7 @@ public class ClosureReason extends CommonBase {
 	public static ClosureReason holder_force_closed() {
 		long ret = bindings.ClosureReason_holder_force_closed();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -186,7 +186,7 @@ public class ClosureReason extends CommonBase {
 	public static ClosureReason cooperative_closure() {
 		long ret = bindings.ClosureReason_cooperative_closure();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -197,7 +197,7 @@ public class ClosureReason extends CommonBase {
 	public static ClosureReason commitment_tx_confirmed() {
 		long ret = bindings.ClosureReason_commitment_tx_confirmed();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -208,7 +208,7 @@ public class ClosureReason extends CommonBase {
 	public static ClosureReason funding_timed_out() {
 		long ret = bindings.ClosureReason_funding_timed_out();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -220,7 +220,7 @@ public class ClosureReason extends CommonBase {
 		long ret = bindings.ClosureReason_processing_error(err);
 		Reference.reachabilityFence(err);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -231,7 +231,7 @@ public class ClosureReason extends CommonBase {
 	public static ClosureReason disconnected_peer() {
 		long ret = bindings.ClosureReason_disconnected_peer();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -242,7 +242,7 @@ public class ClosureReason extends CommonBase {
 	public static ClosureReason outdated_channel_manager() {
 		long ret = bindings.ClosureReason_outdated_channel_manager();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ClosureReason ret_hu_conv = ClosureReason.constr_from_ptr(ret);
+		org.ldk.structs.ClosureReason ret_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

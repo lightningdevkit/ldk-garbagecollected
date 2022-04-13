@@ -147,7 +147,7 @@ public class ChannelMonitor extends CommonBase {
 		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret_conv_14_len];
 		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
-			MonitorEvent ret_conv_14_hu_conv = MonitorEvent.constr_from_ptr(ret_conv_14);
+			org.ldk.structs.MonitorEvent ret_conv_14_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret_conv_14);
 			ret_conv_14_hu_conv.ptrs_to.add(this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}
@@ -169,7 +169,7 @@ public class ChannelMonitor extends CommonBase {
 		Event[] ret_conv_7_arr = new Event[ret_conv_7_len];
 		for (int h = 0; h < ret_conv_7_len; h++) {
 			long ret_conv_7 = ret[h];
-			Event ret_conv_7_hu_conv = Event.constr_from_ptr(ret_conv_7);
+			org.ldk.structs.Event ret_conv_7_hu_conv = org.ldk.structs.Event.constr_from_ptr(ret_conv_7);
 			ret_conv_7_hu_conv.ptrs_to.add(this);
 			ret_conv_7_arr[h] = ret_conv_7_hu_conv;
 		}
@@ -376,7 +376,7 @@ public class ChannelMonitor extends CommonBase {
 		Balance[] ret_conv_9_arr = new Balance[ret_conv_9_len];
 		for (int j = 0; j < ret_conv_9_len; j++) {
 			long ret_conv_9 = ret[j];
-			Balance ret_conv_9_hu_conv = Balance.constr_from_ptr(ret_conv_9);
+			org.ldk.structs.Balance ret_conv_9_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret_conv_9);
 			ret_conv_9_hu_conv.ptrs_to.add(this);
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}

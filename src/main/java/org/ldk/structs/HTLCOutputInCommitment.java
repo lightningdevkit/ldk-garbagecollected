@@ -109,7 +109,7 @@ public class HTLCOutputInCommitment extends CommonBase {
 		long ret = bindings.HTLCOutputInCommitment_get_transaction_output_index(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_u32Z ret_hu_conv = Option_u32Z.constr_from_ptr(ret);
+		org.ldk.structs.Option_u32Z ret_hu_conv = org.ldk.structs.Option_u32Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

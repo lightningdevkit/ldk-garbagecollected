@@ -49,17 +49,21 @@ public class BackgroundProcessor extends CommonBase {
 	 * documentation].
 	 * 
 	 * The thread runs indefinitely unless the object is dropped, [`stop`] is called, or
-	 * `persist_manager` returns an error. In case of an error, the error is retrieved by calling
+	 * [`Persister::persist_manager`] returns an error. In case of an error, the error is retrieved by calling
 	 * either [`join`] or [`stop`].
 	 * 
 	 * # Data Persistence
 	 * 
-	 * `persist_manager` is responsible for writing out the [`ChannelManager`] to disk, and/or
+	 * [`Persister::persist_manager`] is responsible for writing out the [`ChannelManager`] to disk, and/or
 	 * uploading to one or more backup services. See [`ChannelManager::write`] for writing out a
 	 * [`ChannelManager`]. See [`FilesystemPersister::persist_manager`] for Rust-Lightning's
 	 * provided implementation.
 	 * 
-	 * Typically, users should either implement [`ChannelManagerPersister`] to never return an
+	 * [`Persister::persist_graph`] is responsible for writing out the [`NetworkGraph`] to disk. See
+	 * [`NetworkGraph::write`] for writing out a [`NetworkGraph`]. See [`FilesystemPersister::persist_network_graph`]
+	 * for Rust-Lightning's provided implementation.
+	 * 
+	 * Typically, users should either implement [`Persister::persist_manager`] to never return an
 	 * error or call [`join`] and handle any error that may arise. For the latter case,
 	 * `BackgroundProcessor` must be restarted by calling `start` again after handling the error.
 	 * 
@@ -76,11 +80,13 @@ public class BackgroundProcessor extends CommonBase {
 	 * [`ChannelManager`]: lightning::ln::channelmanager::ChannelManager
 	 * [`ChannelManager::write`]: lightning::ln::channelmanager::ChannelManager#impl-Writeable
 	 * [`FilesystemPersister::persist_manager`]: lightning_persister::FilesystemPersister::persist_manager
+	 * [`FilesystemPersister::persist_network_graph`]: lightning_persister::FilesystemPersister::persist_network_graph
 	 * [`NetworkGraph`]: lightning::routing::network_graph::NetworkGraph
+	 * [`NetworkGraph::write`]: lightning::routing::network_graph::NetworkGraph#impl-Writeable
 	 * 
 	 * Note that net_graph_msg_handler (or a relevant inner pointer) may be NULL or all-0s to represent None
 	 */
-	public static BackgroundProcessor start(ChannelManagerPersister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, @Nullable NetGraphMsgHandler net_graph_msg_handler, PeerManager peer_manager, Logger logger) {
+	public static BackgroundProcessor start(Persister persister, EventHandler event_handler, ChainMonitor chain_monitor, ChannelManager channel_manager, @Nullable NetGraphMsgHandler net_graph_msg_handler, PeerManager peer_manager, Logger logger) {
 		long ret = bindings.BackgroundProcessor_start(persister == null ? 0 : persister.ptr, event_handler == null ? 0 : event_handler.ptr, chain_monitor == null ? 0 : chain_monitor.ptr & ~1, channel_manager == null ? 0 : channel_manager.ptr & ~1, net_graph_msg_handler == null ? 0 : net_graph_msg_handler.ptr & ~1, peer_manager == null ? 0 : peer_manager.ptr & ~1, logger == null ? 0 : logger.ptr);
 		Reference.reachabilityFence(persister);
 		Reference.reachabilityFence(event_handler);

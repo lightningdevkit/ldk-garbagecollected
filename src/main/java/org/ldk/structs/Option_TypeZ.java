@@ -34,7 +34,7 @@ public class Option_TypeZ extends CommonBase {
 	 * When we're in this state, this COption_TypeZ contains a crate::lightning::ln::wire::Type
 	 */
 	public final static class Some extends Option_TypeZ {
-		public final Type some;
+		public final org.ldk.structs.Type some;
 		private Some(long ptr, bindings.LDKCOption_TypeZ.Some obj) {
 			super(null, ptr);
 			long some = obj.some;
@@ -58,7 +58,7 @@ public class Option_TypeZ extends CommonBase {
 		long ret = bindings.COption_TypeZ_some(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_TypeZ ret_hu_conv = org.ldk.structs.Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
@@ -70,7 +70,7 @@ public class Option_TypeZ extends CommonBase {
 	public static Option_TypeZ none() {
 		long ret = bindings.COption_TypeZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_TypeZ ret_hu_conv = org.ldk.structs.Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -89,7 +89,7 @@ public class Option_TypeZ extends CommonBase {
 		long ret = bindings.COption_TypeZ_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_TypeZ ret_hu_conv = Option_TypeZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_TypeZ ret_hu_conv = org.ldk.structs.Option_TypeZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

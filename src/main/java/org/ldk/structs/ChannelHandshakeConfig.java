@@ -125,13 +125,72 @@ public class ChannelHandshakeConfig extends CommonBase {
 	}
 
 	/**
+	 * If set, we attempt to negotiate the `scid_privacy` (referred to as `scid_alias` in the
+	 * BOLTs) option for outbound private channels. This provides better privacy by not including
+	 * our real on-chain channel UTXO in each invoice and requiring that our counterparty only
+	 * relay HTLCs to us using the channel's SCID alias.
+	 * 
+	 * If this option is set, channels may be created that will not be readable by LDK versions
+	 * prior to 0.0.106, causing [`ChannelManager`]'s read method to return a
+	 * [`DecodeError:InvalidValue`].
+	 * 
+	 * Note that setting this to true does *not* prevent us from opening channels with
+	 * counterparties that do not support the `scid_alias` option; we will simply fall back to a
+	 * private channel without that option.
+	 * 
+	 * Ignored if the channel is negotiated to be announced, see
+	 * [`ChannelConfig::announced_channel`] and
+	 * [`ChannelHandshakeLimits::force_announced_channel_preference`] for more.
+	 * 
+	 * Default value: false. This value is likely to change to true in the future.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 * [`DecodeError:InvalidValue`]: crate::ln::msgs::DecodeError::InvalidValue
+	 */
+	public boolean get_negotiate_scid_privacy() {
+		boolean ret = bindings.ChannelHandshakeConfig_get_negotiate_scid_privacy(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * If set, we attempt to negotiate the `scid_privacy` (referred to as `scid_alias` in the
+	 * BOLTs) option for outbound private channels. This provides better privacy by not including
+	 * our real on-chain channel UTXO in each invoice and requiring that our counterparty only
+	 * relay HTLCs to us using the channel's SCID alias.
+	 * 
+	 * If this option is set, channels may be created that will not be readable by LDK versions
+	 * prior to 0.0.106, causing [`ChannelManager`]'s read method to return a
+	 * [`DecodeError:InvalidValue`].
+	 * 
+	 * Note that setting this to true does *not* prevent us from opening channels with
+	 * counterparties that do not support the `scid_alias` option; we will simply fall back to a
+	 * private channel without that option.
+	 * 
+	 * Ignored if the channel is negotiated to be announced, see
+	 * [`ChannelConfig::announced_channel`] and
+	 * [`ChannelHandshakeLimits::force_announced_channel_preference`] for more.
+	 * 
+	 * Default value: false. This value is likely to change to true in the future.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 * [`DecodeError:InvalidValue`]: crate::ln::msgs::DecodeError::InvalidValue
+	 */
+	public void set_negotiate_scid_privacy(boolean val) {
+		bindings.ChannelHandshakeConfig_set_negotiate_scid_privacy(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new ChannelHandshakeConfig given each field
 	 */
-	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg) {
-		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg);
+	public static ChannelHandshakeConfig of(int minimum_depth_arg, short our_to_self_delay_arg, long our_htlc_minimum_msat_arg, boolean negotiate_scid_privacy_arg) {
+		long ret = bindings.ChannelHandshakeConfig_new(minimum_depth_arg, our_to_self_delay_arg, our_htlc_minimum_msat_arg, negotiate_scid_privacy_arg);
 		Reference.reachabilityFence(minimum_depth_arg);
 		Reference.reachabilityFence(our_to_self_delay_arg);
 		Reference.reachabilityFence(our_htlc_minimum_msat_arg);
+		Reference.reachabilityFence(negotiate_scid_privacy_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ChannelHandshakeConfig ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ChannelHandshakeConfig(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

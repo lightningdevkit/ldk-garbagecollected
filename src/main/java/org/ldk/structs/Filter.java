@@ -108,7 +108,7 @@ public class Filter extends CommonBase {
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(output);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_C2Tuple_usizeTransactionZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

@@ -34,7 +34,7 @@ public class Fallback extends CommonBase {
 	}
 
 	public final static class SegWitProgram extends Fallback {
-		public final UInt5 version;
+		public final org.ldk.util.UInt5 version;
 		public final byte[] program;
 		private SegWitProgram(long ptr, bindings.LDKFallback.SegWitProgram obj) {
 			super(null, ptr);
@@ -71,7 +71,7 @@ public class Fallback extends CommonBase {
 		long ret = bindings.Fallback_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		org.ldk.structs.Fallback ret_hu_conv = org.ldk.structs.Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -84,7 +84,7 @@ public class Fallback extends CommonBase {
 		Reference.reachabilityFence(version);
 		Reference.reachabilityFence(program);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		org.ldk.structs.Fallback ret_hu_conv = org.ldk.structs.Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -96,7 +96,7 @@ public class Fallback extends CommonBase {
 		long ret = bindings.Fallback_pub_key_hash(InternalUtils.check_arr_len(a, 20));
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		org.ldk.structs.Fallback ret_hu_conv = org.ldk.structs.Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -108,7 +108,7 @@ public class Fallback extends CommonBase {
 		long ret = bindings.Fallback_script_hash(InternalUtils.check_arr_len(a, 20));
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Fallback ret_hu_conv = Fallback.constr_from_ptr(ret);
+		org.ldk.structs.Fallback ret_hu_conv = org.ldk.structs.Fallback.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

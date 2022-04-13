@@ -62,7 +62,7 @@ public class SignOrCreationError extends CommonBase {
 		long ret = bindings.SignOrCreationError_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
+		org.ldk.structs.SignOrCreationError ret_hu_conv = org.ldk.structs.SignOrCreationError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -73,7 +73,7 @@ public class SignOrCreationError extends CommonBase {
 	public static SignOrCreationError sign_error() {
 		long ret = bindings.SignOrCreationError_sign_error();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
+		org.ldk.structs.SignOrCreationError ret_hu_conv = org.ldk.structs.SignOrCreationError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -85,7 +85,7 @@ public class SignOrCreationError extends CommonBase {
 		long ret = bindings.SignOrCreationError_creation_error(a);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		SignOrCreationError ret_hu_conv = SignOrCreationError.constr_from_ptr(ret);
+		org.ldk.structs.SignOrCreationError ret_hu_conv = org.ldk.structs.SignOrCreationError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

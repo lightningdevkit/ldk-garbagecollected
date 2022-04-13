@@ -34,7 +34,7 @@ public class Option_AccessZ extends CommonBase {
 	 * When we're in this state, this COption_AccessZ contains a crate::lightning::chain::Access
 	 */
 	public final static class Some extends Option_AccessZ {
-		public final Access some;
+		public final org.ldk.structs.Access some;
 		private Some(long ptr, bindings.LDKCOption_AccessZ.Some obj) {
 			super(null, ptr);
 			long some = obj.some;
@@ -58,7 +58,7 @@ public class Option_AccessZ extends CommonBase {
 		long ret = bindings.COption_AccessZ_some(o == null ? 0 : o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_AccessZ ret_hu_conv = Option_AccessZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_AccessZ ret_hu_conv = org.ldk.structs.Option_AccessZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		ret_hu_conv.ptrs_to.add(o);
 		return ret_hu_conv;
@@ -70,7 +70,7 @@ public class Option_AccessZ extends CommonBase {
 	public static Option_AccessZ none() {
 		long ret = bindings.COption_AccessZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_AccessZ ret_hu_conv = Option_AccessZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_AccessZ ret_hu_conv = org.ldk.structs.Option_AccessZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

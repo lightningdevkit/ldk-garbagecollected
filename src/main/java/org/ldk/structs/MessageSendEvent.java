@@ -80,6 +80,9 @@ public class MessageSendEvent extends CommonBase {
 		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendReplyChannelRange.class) {
 			return new SendReplyChannelRange(ptr, (bindings.LDKMessageSendEvent.SendReplyChannelRange)raw_val);
 		}
+		if (raw_val.getClass() == bindings.LDKMessageSendEvent.SendGossipTimestampFilter.class) {
+			return new SendGossipTimestampFilter(ptr, (bindings.LDKMessageSendEvent.SendGossipTimestampFilter)raw_val);
+		}
 		assert false; return null; // Unreachable without extending the (internal) bindings interface
 	}
 
@@ -95,7 +98,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final AcceptChannel msg;
+		public final org.ldk.structs.AcceptChannel msg;
 		private SendAcceptChannel(long ptr, bindings.LDKMessageSendEvent.SendAcceptChannel obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -117,7 +120,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final OpenChannel msg;
+		public final org.ldk.structs.OpenChannel msg;
 		private SendOpenChannel(long ptr, bindings.LDKMessageSendEvent.SendOpenChannel obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -138,7 +141,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final FundingCreated msg;
+		public final org.ldk.structs.FundingCreated msg;
 		private SendFundingCreated(long ptr, bindings.LDKMessageSendEvent.SendFundingCreated obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -159,7 +162,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final FundingSigned msg;
+		public final org.ldk.structs.FundingSigned msg;
 		private SendFundingSigned(long ptr, bindings.LDKMessageSendEvent.SendFundingSigned obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -180,7 +183,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The funding_locked message which should be sent.
 		*/
-		public final FundingLocked msg;
+		public final org.ldk.structs.FundingLocked msg;
 		private SendFundingLocked(long ptr, bindings.LDKMessageSendEvent.SendFundingLocked obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -201,7 +204,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The announcement_signatures message which should be sent.
 		*/
-		public final AnnouncementSignatures msg;
+		public final org.ldk.structs.AnnouncementSignatures msg;
 		private SendAnnouncementSignatures(long ptr, bindings.LDKMessageSendEvent.SendAnnouncementSignatures obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -223,7 +226,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The update messages which should be sent. ALL messages in the struct should be sent!
 		*/
-		public final CommitmentUpdate updates;
+		public final org.ldk.structs.CommitmentUpdate updates;
 		private UpdateHTLCs(long ptr, bindings.LDKMessageSendEvent.UpdateHTLCs obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -244,7 +247,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final RevokeAndACK msg;
+		public final org.ldk.structs.RevokeAndACK msg;
 		private SendRevokeAndACK(long ptr, bindings.LDKMessageSendEvent.SendRevokeAndACK obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -265,7 +268,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final ClosingSigned msg;
+		public final org.ldk.structs.ClosingSigned msg;
 		private SendClosingSigned(long ptr, bindings.LDKMessageSendEvent.SendClosingSigned obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -286,7 +289,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final Shutdown msg;
+		public final org.ldk.structs.Shutdown msg;
 		private SendShutdown(long ptr, bindings.LDKMessageSendEvent.SendShutdown obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -307,7 +310,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The message which should be sent.
 		*/
-		public final ChannelReestablish msg;
+		public final org.ldk.structs.ChannelReestablish msg;
 		private SendChannelReestablish(long ptr, bindings.LDKMessageSendEvent.SendChannelReestablish obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -331,11 +334,11 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The channel_announcement which should be sent.
 		*/
-		public final ChannelAnnouncement msg;
+		public final org.ldk.structs.ChannelAnnouncement msg;
 		/**
 		 * The followup channel_update which should be sent.
 		*/
-		public final ChannelUpdate update_msg;
+		public final org.ldk.structs.ChannelUpdate update_msg;
 		private BroadcastChannelAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelAnnouncement obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -355,7 +358,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The node_announcement which should be sent.
 		*/
-		public final NodeAnnouncement msg;
+		public final org.ldk.structs.NodeAnnouncement msg;
 		private BroadcastNodeAnnouncement(long ptr, bindings.LDKMessageSendEvent.BroadcastNodeAnnouncement obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -371,7 +374,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The channel_update which should be sent.
 		*/
-		public final ChannelUpdate msg;
+		public final org.ldk.structs.ChannelUpdate msg;
 		private BroadcastChannelUpdate(long ptr, bindings.LDKMessageSendEvent.BroadcastChannelUpdate obj) {
 			super(null, ptr);
 			long msg = obj.msg;
@@ -393,7 +396,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The channel_update which should be sent.
 		*/
-		public final ChannelUpdate msg;
+		public final org.ldk.structs.ChannelUpdate msg;
 		private SendChannelUpdate(long ptr, bindings.LDKMessageSendEvent.SendChannelUpdate obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -414,12 +417,12 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The action which should be taken.
 		*/
-		public final ErrorAction action;
+		public final org.ldk.structs.ErrorAction action;
 		private HandleError(long ptr, bindings.LDKMessageSendEvent.HandleError obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long action = obj.action;
-			ErrorAction action_hu_conv = ErrorAction.constr_from_ptr(action);
+			org.ldk.structs.ErrorAction action_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(action);
 			action_hu_conv.ptrs_to.add(this);
 			this.action = action_hu_conv;
 		}
@@ -435,7 +438,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The query_channel_range which should be sent.
 		*/
-		public final QueryChannelRange msg;
+		public final org.ldk.structs.QueryChannelRange msg;
 		private SendChannelRangeQuery(long ptr, bindings.LDKMessageSendEvent.SendChannelRangeQuery obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -457,7 +460,7 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The query_short_channel_ids which should be sent.
 		*/
-		public final QueryShortChannelIds msg;
+		public final org.ldk.structs.QueryShortChannelIds msg;
 		private SendShortIdsQuery(long ptr, bindings.LDKMessageSendEvent.SendShortIdsQuery obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
@@ -479,12 +482,34 @@ public class MessageSendEvent extends CommonBase {
 		/**
 		 * The reply_channel_range which should be sent.
 		*/
-		public final ReplyChannelRange msg;
+		public final org.ldk.structs.ReplyChannelRange msg;
 		private SendReplyChannelRange(long ptr, bindings.LDKMessageSendEvent.SendReplyChannelRange obj) {
 			super(null, ptr);
 			this.node_id = obj.node_id;
 			long msg = obj.msg;
 			ReplyChannelRange msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new ReplyChannelRange(null, msg); }
+			msg_hu_conv.ptrs_to.add(this);
+			this.msg = msg_hu_conv;
+		}
+	}
+	/**
+	 * Sends a timestamp filter for inbound gossip. This should be sent on each new connection to
+	 * enable receiving gossip messages from the peer.
+	 */
+	public final static class SendGossipTimestampFilter extends MessageSendEvent {
+		/**
+		 * The node_id of this message recipient
+		*/
+		public final byte[] node_id;
+		/**
+		 * The gossip_timestamp_filter which should be sent.
+		*/
+		public final org.ldk.structs.GossipTimestampFilter msg;
+		private SendGossipTimestampFilter(long ptr, bindings.LDKMessageSendEvent.SendGossipTimestampFilter obj) {
+			super(null, ptr);
+			this.node_id = obj.node_id;
+			long msg = obj.msg;
+			GossipTimestampFilter msg_hu_conv = null; if (msg < 0 || msg > 4096) { msg_hu_conv = new GossipTimestampFilter(null, msg); }
 			msg_hu_conv.ptrs_to.add(this);
 			this.msg = msg_hu_conv;
 		}
@@ -502,7 +527,7 @@ public class MessageSendEvent extends CommonBase {
 		long ret = bindings.MessageSendEvent_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -515,7 +540,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -528,7 +553,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -541,7 +566,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -554,7 +579,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -567,7 +592,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -580,7 +605,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -593,7 +618,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(updates);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -606,7 +631,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -619,7 +644,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -632,7 +657,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -645,7 +670,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -658,7 +683,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(msg);
 		Reference.reachabilityFence(update_msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -670,7 +695,7 @@ public class MessageSendEvent extends CommonBase {
 		long ret = bindings.MessageSendEvent_broadcast_node_announcement(msg == null ? 0 : msg.ptr & ~1);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -682,7 +707,7 @@ public class MessageSendEvent extends CommonBase {
 		long ret = bindings.MessageSendEvent_broadcast_channel_update(msg == null ? 0 : msg.ptr & ~1);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -695,7 +720,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -708,7 +733,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(action);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -721,7 +746,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -734,7 +759,7 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -747,7 +772,20 @@ public class MessageSendEvent extends CommonBase {
 		Reference.reachabilityFence(node_id);
 		Reference.reachabilityFence(msg);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		MessageSendEvent ret_hu_conv = MessageSendEvent.constr_from_ptr(ret);
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendGossipTimestampFilter-variant MessageSendEvent
+	 */
+	public static MessageSendEvent send_gossip_timestamp_filter(byte[] node_id, GossipTimestampFilter msg) {
+		long ret = bindings.MessageSendEvent_send_gossip_timestamp_filter(InternalUtils.check_arr_len(node_id, 33), msg == null ? 0 : msg.ptr & ~1);
+		Reference.reachabilityFence(node_id);
+		Reference.reachabilityFence(msg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.MessageSendEvent ret_hu_conv = org.ldk.structs.MessageSendEvent.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

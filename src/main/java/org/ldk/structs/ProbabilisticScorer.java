@@ -81,12 +81,14 @@ public class ProbabilisticScorer extends CommonBase {
 	/**
 	 * Read a ProbabilisticScorer from a byte array, created by ProbabilisticScorer_write
 	 */
-	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, TwoTuple_ProbabilisticScoringParametersNetworkGraphZ arg) {
-		long ret = bindings.ProbabilisticScorer_read(ser, arg != null ? arg.ptr : 0);
+	public static Result_ProbabilisticScorerDecodeErrorZ read(byte[] ser, ProbabilisticScoringParameters arg_a, NetworkGraph arg_b) {
+		long ret = bindings.ProbabilisticScorer_read(ser, arg_a == null ? 0 : arg_a.ptr & ~1, arg_b == null ? 0 : arg_b.ptr & ~1);
 		Reference.reachabilityFence(ser);
-		Reference.reachabilityFence(arg);
+		Reference.reachabilityFence(arg_a);
+		Reference.reachabilityFence(arg_b);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_ProbabilisticScorerDecodeErrorZ ret_hu_conv = Result_ProbabilisticScorerDecodeErrorZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(arg_b);
 		return ret_hu_conv;
 	}
 

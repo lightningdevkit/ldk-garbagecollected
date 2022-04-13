@@ -57,12 +57,36 @@ public class FundingLocked extends CommonBase {
 	}
 
 	/**
+	 * If set, provides a short_channel_id alias for this channel. The sender will accept payments
+	 * to be forwarded over this SCID and forward them to this messages' recipient.
+	 */
+	public Option_u64Z get_short_channel_id_alias() {
+		long ret = bindings.FundingLocked_get_short_channel_id_alias(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * If set, provides a short_channel_id alias for this channel. The sender will accept payments
+	 * to be forwarded over this SCID and forward them to this messages' recipient.
+	 */
+	public void set_short_channel_id_alias(Option_u64Z val) {
+		bindings.FundingLocked_set_short_channel_id_alias(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new FundingLocked given each field
 	 */
-	public static FundingLocked of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg) {
-		long ret = bindings.FundingLocked_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33));
+	public static FundingLocked of(byte[] channel_id_arg, byte[] next_per_commitment_point_arg, Option_u64Z short_channel_id_alias_arg) {
+		long ret = bindings.FundingLocked_new(InternalUtils.check_arr_len(channel_id_arg, 32), InternalUtils.check_arr_len(next_per_commitment_point_arg, 33), short_channel_id_alias_arg.ptr);
 		Reference.reachabilityFence(channel_id_arg);
 		Reference.reachabilityFence(next_per_commitment_point_arg);
+		Reference.reachabilityFence(short_channel_id_alias_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		FundingLocked ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new FundingLocked(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

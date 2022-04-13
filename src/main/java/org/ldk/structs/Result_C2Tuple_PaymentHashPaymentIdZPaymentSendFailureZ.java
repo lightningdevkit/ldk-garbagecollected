@@ -36,7 +36,7 @@ public class Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ extends Com
 		private Result_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_C2Tuple_PaymentHashPaymentIdZPaymentSendFailureZ_get_err(ptr);
-			PaymentSendFailure err_hu_conv = PaymentSendFailure.constr_from_ptr(err);
+			org.ldk.structs.PaymentSendFailure err_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

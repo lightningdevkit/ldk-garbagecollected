@@ -75,7 +75,13 @@ public class PeerManager extends CommonBase {
 	}
 
 	/**
-	 * Indicates a new outbound connection has been established to a node with the given node_id.
+	 * Indicates a new outbound connection has been established to a node with the given node_id
+	 * and an optional remote network address.
+	 * 
+	 * The remote network address adds the option to report a remote IP address back to a connecting
+	 * peer using the init message.
+	 * The user should pass the remote network address of the host they are connected to.
+	 * 
 	 * Note that if an Err is returned here you MUST NOT call socket_disconnected for the new
 	 * descriptor but must disconnect the connection immediately.
 	 * 
@@ -86,11 +92,12 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
 	 */
-	public Result_CVec_u8ZPeerHandleErrorZ new_outbound_connection(byte[] their_node_id, SocketDescriptor descriptor) {
-		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor == null ? 0 : descriptor.ptr);
+	public Result_CVec_u8ZPeerHandleErrorZ new_outbound_connection(byte[] their_node_id, SocketDescriptor descriptor, Option_NetAddressZ remote_network_address) {
+		long ret = bindings.PeerManager_new_outbound_connection(this.ptr, InternalUtils.check_arr_len(their_node_id, 33), descriptor == null ? 0 : descriptor.ptr, remote_network_address.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(their_node_id);
 		Reference.reachabilityFence(descriptor);
+		Reference.reachabilityFence(remote_network_address);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_CVec_u8ZPeerHandleErrorZ ret_hu_conv = Result_CVec_u8ZPeerHandleErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(descriptor);
@@ -98,7 +105,12 @@ public class PeerManager extends CommonBase {
 	}
 
 	/**
-	 * Indicates a new inbound connection has been established.
+	 * Indicates a new inbound connection has been established to a node with an optional remote
+	 * network address.
+	 * 
+	 * The remote network address adds the option to report a remote IP address back to a connecting
+	 * peer using the init message.
+	 * The user should pass the remote network address of the host they are connected to.
 	 * 
 	 * May refuse the connection by returning an Err, but will never write bytes to the remote end
 	 * (outbound connector always speaks first). Note that if an Err is returned here you MUST NOT
@@ -110,10 +122,11 @@ public class PeerManager extends CommonBase {
 	 * 
 	 * [`socket_disconnected()`]: PeerManager::socket_disconnected
 	 */
-	public Result_NonePeerHandleErrorZ new_inbound_connection(SocketDescriptor descriptor) {
-		long ret = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor == null ? 0 : descriptor.ptr);
+	public Result_NonePeerHandleErrorZ new_inbound_connection(SocketDescriptor descriptor, Option_NetAddressZ remote_network_address) {
+		long ret = bindings.PeerManager_new_inbound_connection(this.ptr, descriptor == null ? 0 : descriptor.ptr, remote_network_address.ptr);
 		Reference.reachabilityFence(this);
 		Reference.reachabilityFence(descriptor);
+		Reference.reachabilityFence(remote_network_address);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Result_NonePeerHandleErrorZ ret_hu_conv = Result_NonePeerHandleErrorZ.constr_from_ptr(ret);
 		this.ptrs_to.add(descriptor);
@@ -230,9 +243,9 @@ public class PeerManager extends CommonBase {
 	 * Send pings to each peer and disconnect those which did not respond to the last round of
 	 * pings.
 	 * 
-	 * This may be called on any timescale you want, however, roughly once every five to ten
-	 * seconds is preferred. The call rate determines both how often we send a ping to our peers
-	 * and how much time they have to respond before we disconnect them.
+	 * This may be called on any timescale you want, however, roughly once every ten seconds is
+	 * preferred. The call rate determines both how often we send a ping to our peers and how much
+	 * time they have to respond before we disconnect them.
 	 * 
 	 * May call [`send_data`] on all [`SocketDescriptor`]s. Thus, be very careful with reentrancy
 	 * issues!

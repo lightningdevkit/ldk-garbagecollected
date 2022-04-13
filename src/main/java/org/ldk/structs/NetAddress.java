@@ -128,7 +128,7 @@ public class NetAddress extends CommonBase {
 		long ret = bindings.NetAddress_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -141,7 +141,7 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(addr);
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -154,7 +154,7 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(addr);
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -166,7 +166,7 @@ public class NetAddress extends CommonBase {
 		long ret = bindings.NetAddress_onion_v2(InternalUtils.check_arr_len(a, 12));
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -181,7 +181,7 @@ public class NetAddress extends CommonBase {
 		Reference.reachabilityFence(version);
 		Reference.reachabilityFence(port);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		NetAddress ret_hu_conv = NetAddress.constr_from_ptr(ret);
+		org.ldk.structs.NetAddress ret_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

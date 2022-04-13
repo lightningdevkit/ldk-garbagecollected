@@ -25,7 +25,7 @@ public class Result_COption_ClosureReasonZDecodeErrorZ extends CommonBase {
 		private Result_COption_ClosureReasonZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_COption_ClosureReasonZDecodeErrorZ_get_ok(ptr);
-			Option_ClosureReasonZ res_hu_conv = Option_ClosureReasonZ.constr_from_ptr(res);
+			org.ldk.structs.Option_ClosureReasonZ res_hu_conv = org.ldk.structs.Option_ClosureReasonZ.constr_from_ptr(res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

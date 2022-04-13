@@ -39,26 +39,6 @@ public class FixedPenaltyScorer extends CommonBase {
 	}
 
 	/**
-	 * Serialize the FixedPenaltyScorer object into a byte array which can be read by FixedPenaltyScorer_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.FixedPenaltyScorer_write(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Read a FixedPenaltyScorer from a byte array, created by FixedPenaltyScorer_write
-	 */
-	public static Result_FixedPenaltyScorerDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.FixedPenaltyScorer_read(ser);
-		Reference.reachabilityFence(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_FixedPenaltyScorerDecodeErrorZ ret_hu_conv = Result_FixedPenaltyScorerDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
 	 * Creates a new scorer using `penalty_msat`.
 	 */
 	public static FixedPenaltyScorer with_penalty(long penalty_msat) {
@@ -80,6 +60,27 @@ public class FixedPenaltyScorer extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Score ret_hu_conv = new Score(null, ret);
 		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Serialize the FixedPenaltyScorer object into a byte array which can be read by FixedPenaltyScorer_read
+	 */
+	public byte[] write() {
+		byte[] ret = bindings.FixedPenaltyScorer_write(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * Read a FixedPenaltyScorer from a byte array, created by FixedPenaltyScorer_write
+	 */
+	public static Result_FixedPenaltyScorerDecodeErrorZ read(byte[] ser, long arg) {
+		long ret = bindings.FixedPenaltyScorer_read(ser, arg);
+		Reference.reachabilityFence(ser);
+		Reference.reachabilityFence(arg);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		Result_FixedPenaltyScorerDecodeErrorZ ret_hu_conv = Result_FixedPenaltyScorerDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 
