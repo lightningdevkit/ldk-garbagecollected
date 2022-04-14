@@ -145,8 +145,8 @@ tests.push(async () => {
 	const chan_man_a: ldk.ChannelManager = peer_a[0] as ldk.ChannelManager;
 	const chan_man_b: ldk.ChannelManager = peer_b[0] as ldk.ChannelManager;
 
-	chan_man_a.as_ChannelMessageHandler().peer_connected(chan_man_b.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known()));
-	chan_man_b.as_ChannelMessageHandler().peer_connected(chan_man_a.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known()));
+	chan_man_a.as_ChannelMessageHandler().peer_connected(chan_man_b.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known(), ldk.Option_NetAddressZ.constructor_none()));
+	chan_man_b.as_ChannelMessageHandler().peer_connected(chan_man_a.get_our_node_id(), ldk.Init.constructor_new(ldk.InitFeatures.constructor_known(), ldk.Option_NetAddressZ.constructor_none()));
 
 	const chan_create_err = chan_man_a.create_channel(chan_man_b.get_our_node_id(), BigInt(0), BigInt(400), BigInt(0), ldk.UserConfig.constructor_default());
 	if (chan_create_err.is_ok()) return false;
