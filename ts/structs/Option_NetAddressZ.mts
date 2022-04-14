@@ -11,6 +11,7 @@ import { Recipient } from '../enums/Recipient.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
+import { Bech32Error } from '../structs/Bech32Error.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
 import { DecodeError } from '../structs/DecodeError.mjs';
@@ -77,6 +78,7 @@ import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputD
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
@@ -99,6 +101,7 @@ import { ErrorAction } from '../structs/ErrorAction.mjs';
 import { QueryChannelRange } from '../structs/QueryChannelRange.mjs';
 import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
+import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -106,10 +109,7 @@ import { ScoringParameters } from '../structs/ScoringParameters.mjs';
 import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
 import { Scorer } from '../structs/Scorer.mjs';
 import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
-import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
-import { Result_ProbabilisticScoringParametersDecodeErrorZ } from '../structs/Result_ProbabilisticScoringParametersDecodeErrorZ.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
-import { TwoTuple_ProbabilisticScoringParametersNetworkGraphZ } from '../structs/TwoTuple_ProbabilisticScoringParametersNetworkGraphZ.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
 import { InitFeatures } from '../structs/InitFeatures.mjs';
@@ -120,7 +120,6 @@ import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
-import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
@@ -183,10 +182,13 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
+import { ParseError } from '../structs/ParseError.mjs';
+import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
-import { Result_InvoiceNoneZ } from '../structs/Result_InvoiceNoneZ.mjs';
+import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
+import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
 import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceNoneZ } from '../structs/Result_SignedRawInvoiceNoneZ.mjs';
+import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
 import { RawInvoice } from '../structs/RawInvoice.mjs';
 import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
 import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
@@ -284,7 +286,6 @@ import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs'
 import { Result_ReplyShortChannelIdsEndDecodeErrorZ } from '../structs/Result_ReplyShortChannelIdsEndDecodeErrorZ.mjs';
 import { Result_QueryChannelRangeDecodeErrorZ } from '../structs/Result_QueryChannelRangeDecodeErrorZ.mjs';
 import { Result_ReplyChannelRangeDecodeErrorZ } from '../structs/Result_ReplyChannelRangeDecodeErrorZ.mjs';
-import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { Result_GossipTimestampFilterDecodeErrorZ } from '../structs/Result_GossipTimestampFilterDecodeErrorZ.mjs';
 import { SignOrCreationError } from '../structs/SignOrCreationError.mjs';
 import { Result_InvoiceSignOrCreationErrorZ } from '../structs/Result_InvoiceSignOrCreationErrorZ.mjs';
@@ -327,6 +328,7 @@ import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -338,78 +340,78 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { RetryAttempts } from '../structs/RetryAttempts.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5 } from './CommonBase.mjs';
+import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
-
-
-export class Result_SiPrefixNoneZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.CResult_SiPrefixNoneZ_free);
-	}
+/**
+ * An enum which can either contain a crate::lightning::ln::msgs::NetAddress or not
+ */
+export class Option_NetAddressZ extends CommonBase {
+	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.COption_NetAddressZ_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_SiPrefixNoneZ {
-		if (bindings.CResult_SiPrefixNoneZ_is_ok(ptr)) {
-			return new Result_SiPrefixNoneZ_OK(null, ptr);
-		} else {
-			return new Result_SiPrefixNoneZ_Err(null, ptr);
+	public static constr_from_ptr(ptr: number): Option_NetAddressZ {
+		const raw_ty: number = bindings.LDKCOption_NetAddressZ_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new Option_NetAddressZ_Some(ptr);
+			case 1: return new Option_NetAddressZ_None(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
 	}
+
 	/**
-	 * Creates a new CResult_SiPrefixNoneZ in the success state.
+	 * Constructs a new COption_NetAddressZ containing a crate::lightning::ln::msgs::NetAddress
 	 */
-	public static constructor_ok(o: SiPrefix): Result_SiPrefixNoneZ {
-		const ret: number = bindings.CResult_SiPrefixNoneZ_ok(o);
-		const ret_hu_conv: Result_SiPrefixNoneZ = Result_SiPrefixNoneZ.constr_from_ptr(ret);
+	public static constructor_some(o: NetAddress): Option_NetAddressZ {
+		const ret: number = bindings.COption_NetAddressZ_some(CommonBase.get_ptr_of(o));
+		const ret_hu_conv: Option_NetAddressZ = Option_NetAddressZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
 	}
 
 	/**
-	 * Creates a new CResult_SiPrefixNoneZ in the error state.
+	 * Constructs a new COption_NetAddressZ containing nothing
 	 */
-	public static constructor_err(): Result_SiPrefixNoneZ {
-		const ret: number = bindings.CResult_SiPrefixNoneZ_err();
-		const ret_hu_conv: Result_SiPrefixNoneZ = Result_SiPrefixNoneZ.constr_from_ptr(ret);
+	public static constructor_none(): Option_NetAddressZ {
+		const ret: number = bindings.COption_NetAddressZ_none();
+		const ret_hu_conv: Option_NetAddressZ = Option_NetAddressZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
-	}
-
-	/**
-	 * Checks if the given object is currently in the success state
-	 */
-	public is_ok(): boolean {
-		const ret: boolean = bindings.CResult_SiPrefixNoneZ_is_ok(this.ptr);
-		return ret;
 	}
 
 	public clone_ptr(): number {
-		const ret: number = bindings.CResult_SiPrefixNoneZ_clone_ptr(this.ptr);
+		const ret: number = bindings.COption_NetAddressZ_clone_ptr(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * Creates a new CResult_SiPrefixNoneZ which has the same data as `orig`
+	 * Creates a new COption_NetAddressZ which has the same data as `orig`
 	 * but with all dynamically-allocated buffers duplicated in new buffers.
 	 */
-	public clone(): Result_SiPrefixNoneZ {
-		const ret: number = bindings.CResult_SiPrefixNoneZ_clone(this.ptr);
-		const ret_hu_conv: Result_SiPrefixNoneZ = Result_SiPrefixNoneZ.constr_from_ptr(ret);
+	public clone(): Option_NetAddressZ {
+		const ret: number = bindings.COption_NetAddressZ_clone(this.ptr);
+		const ret_hu_conv: Option_NetAddressZ = Option_NetAddressZ.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
 }
-export class Result_SiPrefixNoneZ_OK extends Result_SiPrefixNoneZ {
-	public res: SiPrefix;
-
+/** A Option_NetAddressZ of type Some */
+export class Option_NetAddressZ_Some extends Option_NetAddressZ {
+	public some: NetAddress;
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
-		super(_dummy, ptr);
-		this.res = bindings.CResult_SiPrefixNoneZ_get_ok(ptr);
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const some: number = bindings.LDKCOption_NetAddressZ_Some_get_some(ptr);
+		const some_hu_conv: NetAddress = NetAddress.constr_from_ptr(some);
+			CommonBase.add_ref_from(some_hu_conv, this);
+		this.some = some_hu_conv;
 	}
 }
-export class Result_SiPrefixNoneZ_Err extends Result_SiPrefixNoneZ {
-
+/** A Option_NetAddressZ of type None */
+export class Option_NetAddressZ_None extends Option_NetAddressZ {
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
-		super(_dummy, ptr);
+	public constructor(ptr: number) {
+		super(null, ptr);
 	}
 }

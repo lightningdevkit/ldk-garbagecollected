@@ -11,6 +11,7 @@ import { Recipient } from '../enums/Recipient.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
+import { Bech32Error } from '../structs/Bech32Error.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
 import { DecodeError } from '../structs/DecodeError.mjs';
@@ -77,6 +78,7 @@ import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputD
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
@@ -99,6 +101,7 @@ import { ErrorAction } from '../structs/ErrorAction.mjs';
 import { QueryChannelRange } from '../structs/QueryChannelRange.mjs';
 import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
+import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -106,9 +109,7 @@ import { ScoringParameters } from '../structs/ScoringParameters.mjs';
 import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
 import { Scorer } from '../structs/Scorer.mjs';
 import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
-import { Result_ProbabilisticScoringParametersDecodeErrorZ } from '../structs/Result_ProbabilisticScoringParametersDecodeErrorZ.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
-import { TwoTuple_ProbabilisticScoringParametersNetworkGraphZ } from '../structs/TwoTuple_ProbabilisticScoringParametersNetworkGraphZ.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
 import { InitFeatures } from '../structs/InitFeatures.mjs';
@@ -119,7 +120,6 @@ import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
-import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
@@ -182,11 +182,13 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
-import { Result_SiPrefixNoneZ } from '../structs/Result_SiPrefixNoneZ.mjs';
+import { ParseError } from '../structs/ParseError.mjs';
+import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
-import { Result_InvoiceNoneZ } from '../structs/Result_InvoiceNoneZ.mjs';
+import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
+import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
 import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceNoneZ } from '../structs/Result_SignedRawInvoiceNoneZ.mjs';
+import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
 import { RawInvoice } from '../structs/RawInvoice.mjs';
 import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
 import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
@@ -217,6 +219,7 @@ import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningError
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
@@ -284,7 +287,6 @@ import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs'
 import { Result_ReplyShortChannelIdsEndDecodeErrorZ } from '../structs/Result_ReplyShortChannelIdsEndDecodeErrorZ.mjs';
 import { Result_QueryChannelRangeDecodeErrorZ } from '../structs/Result_QueryChannelRangeDecodeErrorZ.mjs';
 import { Result_ReplyChannelRangeDecodeErrorZ } from '../structs/Result_ReplyChannelRangeDecodeErrorZ.mjs';
-import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { Result_GossipTimestampFilterDecodeErrorZ } from '../structs/Result_GossipTimestampFilterDecodeErrorZ.mjs';
 import { SignOrCreationError } from '../structs/SignOrCreationError.mjs';
 import { Result_InvoiceSignOrCreationErrorZ } from '../structs/Result_InvoiceSignOrCreationErrorZ.mjs';
@@ -338,12 +340,15 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { RetryAttempts } from '../structs/RetryAttempts.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5 } from './CommonBase.mjs';
+import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
 /**
  * Parameters for configuring [`ProbabilisticScorer`].
+ * 
+ * Used to configure base, liquidity, and amount penalties, the sum of which comprises the channel
+ * penalty (i.e., the amount in msats willing to be paid to avoid routing through the channel).
  */
 export class ProbabilisticScoringParameters extends CommonBase {
 	/* @internal */
@@ -352,17 +357,36 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
-	 * A multiplier used to determine the amount in msats willing to be paid to avoid routing
-	 * through a channel, as per multiplying by the negative `log10` of the channel's success
-	 * probability for a payment.
+	 * A fixed penalty in msats to apply to each channel.
 	 * 
-	 * The success probability is determined by the effective channel capacity, the payment amount,
-	 * and knowledge learned from prior successful and unsuccessful payments. The lower bound of
-	 * the success probability is 0.01, effectively limiting the penalty to the range
-	 * `0..=2*liquidity_penalty_multiplier_msat`. The knowledge learned is decayed over time based
-	 * on [`liquidity_offset_half_life`].
+	 * Default value: 500 msat
+	 */
+	public get_base_penalty_msat(): bigint {
+		const ret: bigint = bindings.ProbabilisticScoringParameters_get_base_penalty_msat(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * A fixed penalty in msats to apply to each channel.
 	 * 
-	 * Default value: 10,000 msat
+	 * Default value: 500 msat
+	 */
+	public set_base_penalty_msat(val: bigint): void {
+		bindings.ProbabilisticScoringParameters_set_base_penalty_msat(this.ptr, val);
+	}
+
+	/**
+	 * A multiplier used in conjunction with the negative `log10` of the channel's success
+	 * probability for a payment to determine the liquidity penalty.
+	 * 
+	 * The penalty is based in part on the knowledge learned from prior successful and unsuccessful
+	 * payments. This knowledge is decayed over time based on [`liquidity_offset_half_life`]. The
+	 * penalty is effectively limited to `2 * liquidity_penalty_multiplier_msat` (corresponding to
+	 * lower bounding the success probability to `0.01`) when the amount falls within the
+	 * uncertainty bounds of the channel liquidity balance. Amounts above the upper bound will
+	 * result in a `u64::max_value` penalty, however.
+	 * 
+	 * Default value: 40,000 msat
 	 * 
 	 * [`liquidity_offset_half_life`]: Self::liquidity_offset_half_life
 	 */
@@ -372,17 +396,17 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
-	 * A multiplier used to determine the amount in msats willing to be paid to avoid routing
-	 * through a channel, as per multiplying by the negative `log10` of the channel's success
-	 * probability for a payment.
+	 * A multiplier used in conjunction with the negative `log10` of the channel's success
+	 * probability for a payment to determine the liquidity penalty.
 	 * 
-	 * The success probability is determined by the effective channel capacity, the payment amount,
-	 * and knowledge learned from prior successful and unsuccessful payments. The lower bound of
-	 * the success probability is 0.01, effectively limiting the penalty to the range
-	 * `0..=2*liquidity_penalty_multiplier_msat`. The knowledge learned is decayed over time based
-	 * on [`liquidity_offset_half_life`].
+	 * The penalty is based in part on the knowledge learned from prior successful and unsuccessful
+	 * payments. This knowledge is decayed over time based on [`liquidity_offset_half_life`]. The
+	 * penalty is effectively limited to `2 * liquidity_penalty_multiplier_msat` (corresponding to
+	 * lower bounding the success probability to `0.01`) when the amount falls within the
+	 * uncertainty bounds of the channel liquidity balance. Amounts above the upper bound will
+	 * result in a `u64::max_value` penalty, however.
 	 * 
-	 * Default value: 10,000 msat
+	 * Default value: 40,000 msat
 	 * 
 	 * [`liquidity_offset_half_life`]: Self::liquidity_offset_half_life
 	 */
@@ -430,10 +454,57 @@ export class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
+	 * A multiplier used in conjunction with a payment amount and the negative `log10` of the
+	 * channel's success probability for the payment to determine the amount penalty.
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
+	 * fees plus penalty) for large payments. The penalty is computed as the product of this
+	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
+	 * success probability.
+	 * 
+	 * `-log10(success_probability) * amount_penalty_multiplier_msat * amount_msat / 2^20`
+	 * 
+	 * In practice, this means for 0.1 success probability (`-log10(0.1) == 1`) each `2^20`th of
+	 * the amount will result in a penalty of the multiplier. And, as the success probability
+	 * decreases, the negative `log10` weighting will increase dramatically. For higher success
+	 * probabilities, the multiplier will have a decreasing effect as the negative `log10` will
+	 * fall below `1`.
+	 * 
+	 * Default value: 256 msat
+	 */
+	public get_amount_penalty_multiplier_msat(): bigint {
+		const ret: bigint = bindings.ProbabilisticScoringParameters_get_amount_penalty_multiplier_msat(this.ptr);
+		return ret;
+	}
+
+	/**
+	 * A multiplier used in conjunction with a payment amount and the negative `log10` of the
+	 * channel's success probability for the payment to determine the amount penalty.
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
+	 * fees plus penalty) for large payments. The penalty is computed as the product of this
+	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
+	 * success probability.
+	 * 
+	 * `-log10(success_probability) * amount_penalty_multiplier_msat * amount_msat / 2^20`
+	 * 
+	 * In practice, this means for 0.1 success probability (`-log10(0.1) == 1`) each `2^20`th of
+	 * the amount will result in a penalty of the multiplier. And, as the success probability
+	 * decreases, the negative `log10` weighting will increase dramatically. For higher success
+	 * probabilities, the multiplier will have a decreasing effect as the negative `log10` will
+	 * fall below `1`.
+	 * 
+	 * Default value: 256 msat
+	 */
+	public set_amount_penalty_multiplier_msat(val: bigint): void {
+		bindings.ProbabilisticScoringParameters_set_amount_penalty_multiplier_msat(this.ptr, val);
+	}
+
+	/**
 	 * Constructs a new ProbabilisticScoringParameters given each field
 	 */
-	public static constructor_new(liquidity_penalty_multiplier_msat_arg: bigint, liquidity_offset_half_life_arg: bigint): ProbabilisticScoringParameters {
-		const ret: number = bindings.ProbabilisticScoringParameters_new(liquidity_penalty_multiplier_msat_arg, liquidity_offset_half_life_arg);
+	public static constructor_new(base_penalty_msat_arg: bigint, liquidity_penalty_multiplier_msat_arg: bigint, liquidity_offset_half_life_arg: bigint, amount_penalty_multiplier_msat_arg: bigint): ProbabilisticScoringParameters {
+		const ret: number = bindings.ProbabilisticScoringParameters_new(base_penalty_msat_arg, liquidity_penalty_multiplier_msat_arg, liquidity_offset_half_life_arg, amount_penalty_multiplier_msat_arg);
 		const ret_hu_conv: ProbabilisticScoringParameters = new ProbabilisticScoringParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -451,24 +522,6 @@ export class ProbabilisticScoringParameters extends CommonBase {
 		const ret: number = bindings.ProbabilisticScoringParameters_clone(this.ptr);
 		const ret_hu_conv: ProbabilisticScoringParameters = new ProbabilisticScoringParameters(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Serialize the ProbabilisticScoringParameters object into a byte array which can be read by ProbabilisticScoringParameters_read
-	 */
-	public write(): Uint8Array {
-		const ret: number = bindings.ProbabilisticScoringParameters_write(this.ptr);
-		const ret_conv: Uint8Array = bindings.decodeUint8Array(ret);
-		return ret_conv;
-	}
-
-	/**
-	 * Read a ProbabilisticScoringParameters from a byte array, created by ProbabilisticScoringParameters_write
-	 */
-	public static constructor_read(ser: Uint8Array): Result_ProbabilisticScoringParametersDecodeErrorZ {
-		const ret: number = bindings.ProbabilisticScoringParameters_read(bindings.encodeUint8Array(ser));
-		const ret_hu_conv: Result_ProbabilisticScoringParametersDecodeErrorZ = Result_ProbabilisticScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

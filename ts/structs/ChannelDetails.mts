@@ -11,6 +11,7 @@ import { Recipient } from '../enums/Recipient.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
+import { Bech32Error } from '../structs/Bech32Error.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
 import { DecodeError } from '../structs/DecodeError.mjs';
@@ -76,6 +77,7 @@ import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputD
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
@@ -98,6 +100,7 @@ import { ErrorAction } from '../structs/ErrorAction.mjs';
 import { QueryChannelRange } from '../structs/QueryChannelRange.mjs';
 import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
+import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -105,10 +108,7 @@ import { ScoringParameters } from '../structs/ScoringParameters.mjs';
 import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
 import { Scorer } from '../structs/Scorer.mjs';
 import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
-import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
-import { Result_ProbabilisticScoringParametersDecodeErrorZ } from '../structs/Result_ProbabilisticScoringParametersDecodeErrorZ.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
-import { TwoTuple_ProbabilisticScoringParametersNetworkGraphZ } from '../structs/TwoTuple_ProbabilisticScoringParametersNetworkGraphZ.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
 import { InitFeatures } from '../structs/InitFeatures.mjs';
@@ -119,7 +119,6 @@ import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
-import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
@@ -182,11 +181,13 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
-import { Result_SiPrefixNoneZ } from '../structs/Result_SiPrefixNoneZ.mjs';
+import { ParseError } from '../structs/ParseError.mjs';
+import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
-import { Result_InvoiceNoneZ } from '../structs/Result_InvoiceNoneZ.mjs';
+import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
+import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
 import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceNoneZ } from '../structs/Result_SignedRawInvoiceNoneZ.mjs';
+import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
 import { RawInvoice } from '../structs/RawInvoice.mjs';
 import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
 import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
@@ -217,6 +218,7 @@ import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningError
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
@@ -284,7 +286,6 @@ import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs'
 import { Result_ReplyShortChannelIdsEndDecodeErrorZ } from '../structs/Result_ReplyShortChannelIdsEndDecodeErrorZ.mjs';
 import { Result_QueryChannelRangeDecodeErrorZ } from '../structs/Result_QueryChannelRangeDecodeErrorZ.mjs';
 import { Result_ReplyChannelRangeDecodeErrorZ } from '../structs/Result_ReplyChannelRangeDecodeErrorZ.mjs';
-import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { Result_GossipTimestampFilterDecodeErrorZ } from '../structs/Result_GossipTimestampFilterDecodeErrorZ.mjs';
 import { SignOrCreationError } from '../structs/SignOrCreationError.mjs';
 import { Result_InvoiceSignOrCreationErrorZ } from '../structs/Result_InvoiceSignOrCreationErrorZ.mjs';
@@ -327,6 +328,7 @@ import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -338,7 +340,7 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { RetryAttempts } from '../structs/RetryAttempts.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5 } from './CommonBase.mjs';
+import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 
@@ -420,8 +422,39 @@ export class ChannelDetails extends CommonBase {
 	}
 
 	/**
+	 * The features which this channel operates with. See individual features for more info.
+	 * 
+	 * `None` until negotiation completes and the channel type is finalized.
+	 * 
+	 * Note that the return value (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public get_channel_type(): ChannelTypeFeatures {
+		const ret: number = bindings.ChannelDetails_get_channel_type(this.ptr);
+		const ret_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The features which this channel operates with. See individual features for more info.
+	 * 
+	 * `None` until negotiation completes and the channel type is finalized.
+	 * 
+	 * Note that val (or a relevant inner pointer) may be NULL or all-0s to represent None
+	 */
+	public set_channel_type(val: ChannelTypeFeatures): void {
+		bindings.ChannelDetails_set_channel_type(this.ptr, val == null ? 0 : CommonBase.get_ptr_of(val) & ~1);
+	}
+
+	/**
 	 * The position of the funding transaction in the chain. None if the funding transaction has
 	 * not yet been confirmed and the channel fully opened.
+	 * 
+	 * Note that if [`inbound_scid_alias`] is set, it must be used for invoices and inbound
+	 * payments instead of this. See [`get_inbound_payment_scid`].
+	 * 
+	 * [`inbound_scid_alias`]: Self::inbound_scid_alias
+	 * [`get_inbound_payment_scid`]: Self::get_inbound_payment_scid
 	 */
 	public get_short_channel_id(): Option_u64Z {
 		const ret: number = bindings.ChannelDetails_get_short_channel_id(this.ptr);
@@ -433,9 +466,48 @@ export class ChannelDetails extends CommonBase {
 	/**
 	 * The position of the funding transaction in the chain. None if the funding transaction has
 	 * not yet been confirmed and the channel fully opened.
+	 * 
+	 * Note that if [`inbound_scid_alias`] is set, it must be used for invoices and inbound
+	 * payments instead of this. See [`get_inbound_payment_scid`].
+	 * 
+	 * [`inbound_scid_alias`]: Self::inbound_scid_alias
+	 * [`get_inbound_payment_scid`]: Self::get_inbound_payment_scid
 	 */
 	public set_short_channel_id(val: Option_u64Z): void {
 		bindings.ChannelDetails_set_short_channel_id(this.ptr, CommonBase.get_ptr_of(val));
+	}
+
+	/**
+	 * An optional [`short_channel_id`] alias for this channel, randomly generated by our
+	 * counterparty and usable in place of [`short_channel_id`] in invoice route hints. Our
+	 * counterparty will recognize the alias provided here in place of the [`short_channel_id`]
+	 * when they see a payment to be routed to us.
+	 * 
+	 * Our counterparty may choose to rotate this value at any time, though will always recognize
+	 * previous values for inbound payment forwarding.
+	 * 
+	 * [`short_channel_id`]: Self::short_channel_id
+	 */
+	public get_inbound_scid_alias(): Option_u64Z {
+		const ret: number = bindings.ChannelDetails_get_inbound_scid_alias(this.ptr);
+		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * An optional [`short_channel_id`] alias for this channel, randomly generated by our
+	 * counterparty and usable in place of [`short_channel_id`] in invoice route hints. Our
+	 * counterparty will recognize the alias provided here in place of the [`short_channel_id`]
+	 * when they see a payment to be routed to us.
+	 * 
+	 * Our counterparty may choose to rotate this value at any time, though will always recognize
+	 * previous values for inbound payment forwarding.
+	 * 
+	 * [`short_channel_id`]: Self::short_channel_id
+	 */
+	public set_inbound_scid_alias(val: Option_u64Z): void {
+		bindings.ChannelDetails_set_inbound_scid_alias(this.ptr, CommonBase.get_ptr_of(val));
 	}
 
 	/**
@@ -745,8 +817,8 @@ export class ChannelDetails extends CommonBase {
 	/**
 	 * Constructs a new ChannelDetails given each field
 	 */
-	public static constructor_new(channel_id_arg: Uint8Array, counterparty_arg: ChannelCounterparty, funding_txo_arg: OutPoint, short_channel_id_arg: Option_u64Z, channel_value_satoshis_arg: bigint, unspendable_punishment_reserve_arg: Option_u64Z, user_channel_id_arg: bigint, balance_msat_arg: bigint, outbound_capacity_msat_arg: bigint, inbound_capacity_msat_arg: bigint, confirmations_required_arg: Option_u32Z, force_close_spend_delay_arg: Option_u16Z, is_outbound_arg: boolean, is_funding_locked_arg: boolean, is_usable_arg: boolean, is_public_arg: boolean): ChannelDetails {
-		const ret: number = bindings.ChannelDetails_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_arg) & ~1, funding_txo_arg == null ? 0 : CommonBase.get_ptr_of(funding_txo_arg) & ~1, CommonBase.get_ptr_of(short_channel_id_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
+	public static constructor_new(channel_id_arg: Uint8Array, counterparty_arg: ChannelCounterparty, funding_txo_arg: OutPoint, channel_type_arg: ChannelTypeFeatures, short_channel_id_arg: Option_u64Z, inbound_scid_alias_arg: Option_u64Z, channel_value_satoshis_arg: bigint, unspendable_punishment_reserve_arg: Option_u64Z, user_channel_id_arg: bigint, balance_msat_arg: bigint, outbound_capacity_msat_arg: bigint, inbound_capacity_msat_arg: bigint, confirmations_required_arg: Option_u32Z, force_close_spend_delay_arg: Option_u16Z, is_outbound_arg: boolean, is_funding_locked_arg: boolean, is_usable_arg: boolean, is_public_arg: boolean): ChannelDetails {
+		const ret: number = bindings.ChannelDetails_new(bindings.encodeUint8Array(bindings.check_arr_len(channel_id_arg, 32)), counterparty_arg == null ? 0 : CommonBase.get_ptr_of(counterparty_arg) & ~1, funding_txo_arg == null ? 0 : CommonBase.get_ptr_of(funding_txo_arg) & ~1, channel_type_arg == null ? 0 : CommonBase.get_ptr_of(channel_type_arg) & ~1, CommonBase.get_ptr_of(short_channel_id_arg), CommonBase.get_ptr_of(inbound_scid_alias_arg), channel_value_satoshis_arg, CommonBase.get_ptr_of(unspendable_punishment_reserve_arg), user_channel_id_arg, balance_msat_arg, outbound_capacity_msat_arg, inbound_capacity_msat_arg, CommonBase.get_ptr_of(confirmations_required_arg), CommonBase.get_ptr_of(force_close_spend_delay_arg), is_outbound_arg, is_funding_locked_arg, is_usable_arg, is_public_arg);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -763,6 +835,21 @@ export class ChannelDetails extends CommonBase {
 	public clone(): ChannelDetails {
 		const ret: number = bindings.ChannelDetails_clone(this.ptr);
 		const ret_hu_conv: ChannelDetails = new ChannelDetails(null, ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Gets the current SCID which should be used to identify this channel for inbound payments.
+	 * This should be used for providing invoice hints or in any other context where our
+	 * counterparty will forward a payment to us.
+	 * 
+	 * This is either the [`ChannelDetails::inbound_scid_alias`], if set, or the
+	 * [`ChannelDetails::short_channel_id`]. See those for more information.
+	 */
+	public get_inbound_payment_scid(): Option_u64Z {
+		const ret: number = bindings.ChannelDetails_get_inbound_payment_scid(this.ptr);
+		const ret_hu_conv: Option_u64Z = Option_u64Z.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
