@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --force cbindgen
+        run: cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -110,7 +110,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --force cbindgen
+        run: cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -160,7 +160,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --force cbindgen
+        run: cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -263,7 +263,7 @@ jobs:
       - name: Install cbindgen
         run: |
           . $HOME/.cargo/env
-          cargo install --force cbindgen
+          cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -343,7 +343,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --force cbindgen
+        run: cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
