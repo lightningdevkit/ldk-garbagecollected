@@ -192,6 +192,7 @@ jobs:
           cd ../..
           mkdir -p src/main/resources/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"* src/main/resources/
+          rm src/main/resources/liblightningjni_MacOSX-*-leaktracking.nativelib
       - name: Build Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
