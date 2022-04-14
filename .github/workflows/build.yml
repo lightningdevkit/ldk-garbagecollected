@@ -430,6 +430,18 @@ jobs:
             diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-x86_64.nativelib src/main/resources/liblightningjni_MacOSX-x86_64.nativelib || echo
             diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-aarch64.nativelib src/main/resources/liblightningjni_MacOSX-aarch64.nativelib || echo
           fi
+      - name: Upload CI x86_64 build for analysis
+        if: matrix.platform == 'macos-11'
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: liblightningjni_MacOSX-x86_64.nativelib.ci-build
+          path: src/main/resources/liblightningjni_MacOSX-x86_64.nativelib
+      - name: Upload CI aarch64 build for analysis
+        if: matrix.platform == 'macos-11'
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: liblightningjni_MacOSX-aarch64.nativelib.ci-build
+          path: src/main/resources/liblightningjni_MacOSX-aarch64.nativelib
       - name: Run Java Tests against release bins
         run: |
           if [ "${{ matrix.platform }}" != "macos-11" ]; then
