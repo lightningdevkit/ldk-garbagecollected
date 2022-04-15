@@ -1089,7 +1089,10 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         return (out_typescript_bindings, out_typescript_human, out_c)
 
     def trait_struct_inc_refcnt(self, ty_info):
-        return ""
+        base_conv = "\nif (" + ty_info.var_name + "_conv.free == " + ty_info.rust_obj + "_JCalls_free) {\n"
+        base_conv = base_conv + "\t// If this_arg is a JCalls struct, then we need to increment the refcnt in it.\n"
+        base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_cloned(&" + ty_info.var_name + "_conv);\n}"
+        return base_conv
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake, enum_doc_comment):
         bindings_type = struct_name.replace("LDK", "")
