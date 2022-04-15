@@ -11,6 +11,7 @@ import { Recipient } from '../enums/Recipient.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
+import { Bech32Error } from '../structs/Bech32Error.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
 import { DecodeError } from '../structs/DecodeError.mjs';
@@ -77,6 +78,7 @@ import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputD
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
 import { AcceptChannel } from '../structs/AcceptChannel.mjs';
@@ -98,6 +100,7 @@ import { ErrorAction } from '../structs/ErrorAction.mjs';
 import { QueryChannelRange } from '../structs/QueryChannelRange.mjs';
 import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
+import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -105,10 +108,7 @@ import { ScoringParameters } from '../structs/ScoringParameters.mjs';
 import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
 import { Scorer } from '../structs/Scorer.mjs';
 import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
-import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
-import { Result_ProbabilisticScoringParametersDecodeErrorZ } from '../structs/Result_ProbabilisticScoringParametersDecodeErrorZ.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
-import { TwoTuple_ProbabilisticScoringParametersNetworkGraphZ } from '../structs/TwoTuple_ProbabilisticScoringParametersNetworkGraphZ.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
 import { InitFeatures } from '../structs/InitFeatures.mjs';
@@ -119,7 +119,6 @@ import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
-import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
@@ -182,11 +181,13 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
-import { Result_SiPrefixNoneZ } from '../structs/Result_SiPrefixNoneZ.mjs';
+import { ParseError } from '../structs/ParseError.mjs';
+import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
-import { Result_InvoiceNoneZ } from '../structs/Result_InvoiceNoneZ.mjs';
+import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
+import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
 import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceNoneZ } from '../structs/Result_SignedRawInvoiceNoneZ.mjs';
+import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
 import { RawInvoice } from '../structs/RawInvoice.mjs';
 import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
 import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
@@ -217,6 +218,7 @@ import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningError
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
@@ -284,7 +286,6 @@ import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs'
 import { Result_ReplyShortChannelIdsEndDecodeErrorZ } from '../structs/Result_ReplyShortChannelIdsEndDecodeErrorZ.mjs';
 import { Result_QueryChannelRangeDecodeErrorZ } from '../structs/Result_QueryChannelRangeDecodeErrorZ.mjs';
 import { Result_ReplyChannelRangeDecodeErrorZ } from '../structs/Result_ReplyChannelRangeDecodeErrorZ.mjs';
-import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { Result_GossipTimestampFilterDecodeErrorZ } from '../structs/Result_GossipTimestampFilterDecodeErrorZ.mjs';
 import { SignOrCreationError } from '../structs/SignOrCreationError.mjs';
 import { Result_InvoiceSignOrCreationErrorZ } from '../structs/Result_InvoiceSignOrCreationErrorZ.mjs';
@@ -327,6 +328,7 @@ import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -338,7 +340,7 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { RetryAttempts } from '../structs/RetryAttempts.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5 } from './CommonBase.mjs';
+import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 /**
@@ -499,8 +501,8 @@ export class Event extends CommonBase {
 	/**
 	 * Utility method to constructs a new OpenChannelRequest-variant Event
 	 */
-	public static constructor_open_channel_request(temporary_channel_id: Uint8Array, counterparty_node_id: Uint8Array, funding_satoshis: bigint, push_msat: bigint): Event {
-		const ret: number = bindings.Event_open_channel_request(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), funding_satoshis, push_msat);
+	public static constructor_open_channel_request(temporary_channel_id: Uint8Array, counterparty_node_id: Uint8Array, funding_satoshis: bigint, push_msat: bigint, channel_type: ChannelTypeFeatures): Event {
+		const ret: number = bindings.Event_open_channel_request(bindings.encodeUint8Array(bindings.check_arr_len(temporary_channel_id, 32)), bindings.encodeUint8Array(bindings.check_arr_len(counterparty_node_id, 33)), funding_satoshis, push_msat, channel_type == null ? 0 : CommonBase.get_ptr_of(channel_type) & ~1);
 		const ret_hu_conv: Event = Event.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -854,11 +856,15 @@ export class Event_ChannelClosed extends Event {
 	 */
 	public channel_id: Uint8Array;
 	/**
-	 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`], or 0 for
-	 * an inbound channel. This will always be zero for objects serialized with LDK versions
-	 * prior to 0.0.102.
+	 * The `user_channel_id` value passed in to [`ChannelManager::create_channel`] for outbound
+	 * channels, or to [`ChannelManager::accept_inbound_channel`] for inbound channels if
+	 * [`UserConfig::manually_accept_inbound_channels`] config flag is set to true. Otherwise
+	 * `user_channel_id` will be 0 for an inbound channel.
+	 * This will always be zero for objects serialized with LDK versions prior to 0.0.102.
 	 * 
 	 * [`ChannelManager::create_channel`]: crate::ln::channelmanager::ChannelManager::create_channel
+	 * [`ChannelManager::accept_inbound_channel`]: crate::ln::channelmanager::ChannelManager::accept_inbound_channel
+	 * [`UserConfig::manually_accept_inbound_channels`]: crate::util::config::UserConfig::manually_accept_inbound_channels
 	 */
 	public user_channel_id: bigint;
 	/**
@@ -970,6 +976,18 @@ export class Event_OpenChannelRequest extends Event {
 	 * Our starting balance in the channel if the request is accepted, in milli-satoshi.
 	 */
 	public push_msat: bigint;
+	/**
+	 * The features that this channel will operate with. If you reject the channel, a
+	 * well-behaved counterparty may automatically re-attempt the channel with a new set of
+	 * feature flags.
+	 * 
+	 * Note that if [`ChannelTypeFeatures::supports_scid_privacy`] returns true on this type,
+	 * the resulting [`ChannelManager`] will not be readable by versions of LDK prior to
+	 * 0.0.106.
+	 * 
+	 * [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+	 */
+	public channel_type: ChannelTypeFeatures;
 	/* @internal */
 	public constructor(ptr: number) {
 		super(null, ptr);
@@ -981,5 +999,9 @@ export class Event_OpenChannelRequest extends Event {
 		this.counterparty_node_id = counterparty_node_id_conv;
 		this.funding_satoshis = bindings.LDKEvent_OpenChannelRequest_get_funding_satoshis(ptr);
 		this.push_msat = bindings.LDKEvent_OpenChannelRequest_get_push_msat(ptr);
+		const channel_type: number = bindings.LDKEvent_OpenChannelRequest_get_channel_type(ptr);
+		const channel_type_hu_conv: ChannelTypeFeatures = new ChannelTypeFeatures(null, channel_type);
+			CommonBase.add_ref_from(channel_type_hu_conv, this);
+		this.channel_type = channel_type_hu_conv;
 	}
 }

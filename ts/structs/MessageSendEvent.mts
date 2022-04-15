@@ -11,6 +11,7 @@ import { Recipient } from '../enums/Recipient.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
+import { Bech32Error } from '../structs/Bech32Error.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
 import { DecodeError } from '../structs/DecodeError.mjs';
@@ -77,6 +78,7 @@ import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputD
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
@@ -99,16 +101,14 @@ import { ErrorAction } from '../structs/ErrorAction.mjs';
 import { QueryChannelRange } from '../structs/QueryChannelRange.mjs';
 import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
+import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
 import { ScoringParameters } from '../structs/ScoringParameters.mjs';
 import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
 import { Scorer } from '../structs/Scorer.mjs';
 import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
-import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
-import { Result_ProbabilisticScoringParametersDecodeErrorZ } from '../structs/Result_ProbabilisticScoringParametersDecodeErrorZ.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
-import { TwoTuple_ProbabilisticScoringParametersNetworkGraphZ } from '../structs/TwoTuple_ProbabilisticScoringParametersNetworkGraphZ.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
 import { InitFeatures } from '../structs/InitFeatures.mjs';
@@ -119,7 +119,6 @@ import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
-import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
@@ -182,11 +181,13 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
-import { Result_SiPrefixNoneZ } from '../structs/Result_SiPrefixNoneZ.mjs';
+import { ParseError } from '../structs/ParseError.mjs';
+import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
-import { Result_InvoiceNoneZ } from '../structs/Result_InvoiceNoneZ.mjs';
+import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
+import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
 import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceNoneZ } from '../structs/Result_SignedRawInvoiceNoneZ.mjs';
+import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
 import { RawInvoice } from '../structs/RawInvoice.mjs';
 import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
 import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
@@ -217,6 +218,7 @@ import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningError
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
@@ -284,7 +286,6 @@ import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs'
 import { Result_ReplyShortChannelIdsEndDecodeErrorZ } from '../structs/Result_ReplyShortChannelIdsEndDecodeErrorZ.mjs';
 import { Result_QueryChannelRangeDecodeErrorZ } from '../structs/Result_QueryChannelRangeDecodeErrorZ.mjs';
 import { Result_ReplyChannelRangeDecodeErrorZ } from '../structs/Result_ReplyChannelRangeDecodeErrorZ.mjs';
-import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { Result_GossipTimestampFilterDecodeErrorZ } from '../structs/Result_GossipTimestampFilterDecodeErrorZ.mjs';
 import { SignOrCreationError } from '../structs/SignOrCreationError.mjs';
 import { Result_InvoiceSignOrCreationErrorZ } from '../structs/Result_InvoiceSignOrCreationErrorZ.mjs';
@@ -327,6 +328,7 @@ import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -338,7 +340,7 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { RetryAttempts } from '../structs/RetryAttempts.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5 } from './CommonBase.mjs';
+import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 /**
@@ -371,6 +373,7 @@ export class MessageSendEvent extends CommonBase {
 			case 16: return new MessageSendEvent_SendChannelRangeQuery(ptr);
 			case 17: return new MessageSendEvent_SendShortIdsQuery(ptr);
 			case 18: return new MessageSendEvent_SendReplyChannelRange(ptr);
+			case 19: return new MessageSendEvent_SendGossipTimestampFilter(ptr);
 			default:
 				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
@@ -576,6 +579,16 @@ export class MessageSendEvent extends CommonBase {
 	 */
 	public static constructor_send_reply_channel_range(node_id: Uint8Array, msg: ReplyChannelRange): MessageSendEvent {
 		const ret: number = bindings.MessageSendEvent_send_reply_channel_range(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
+		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new SendGossipTimestampFilter-variant MessageSendEvent
+	 */
+	public static constructor_send_gossip_timestamp_filter(node_id: Uint8Array, msg: GossipTimestampFilter): MessageSendEvent {
+		const ret: number = bindings.MessageSendEvent_send_gossip_timestamp_filter(bindings.encodeUint8Array(bindings.check_arr_len(node_id, 33)), msg == null ? 0 : CommonBase.get_ptr_of(msg) & ~1);
 		const ret_hu_conv: MessageSendEvent = MessageSendEvent.constr_from_ptr(ret);
 		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
 		return ret_hu_conv;
@@ -983,6 +996,28 @@ export class MessageSendEvent_SendReplyChannelRange extends MessageSendEvent {
 		this.node_id = node_id_conv;
 		const msg: number = bindings.LDKMessageSendEvent_SendReplyChannelRange_get_msg(ptr);
 		const msg_hu_conv: ReplyChannelRange = new ReplyChannelRange(null, msg);
+			CommonBase.add_ref_from(msg_hu_conv, this);
+		this.msg = msg_hu_conv;
+	}
+}
+/** A MessageSendEvent of type SendGossipTimestampFilter */
+export class MessageSendEvent_SendGossipTimestampFilter extends MessageSendEvent {
+	/**
+	 * The node_id of this message recipient
+	 */
+	public node_id: Uint8Array;
+	/**
+	 * The gossip_timestamp_filter which should be sent.
+	 */
+	public msg: GossipTimestampFilter;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const node_id: number = bindings.LDKMessageSendEvent_SendGossipTimestampFilter_get_node_id(ptr);
+		const node_id_conv: Uint8Array = bindings.decodeUint8Array(node_id);
+		this.node_id = node_id_conv;
+		const msg: number = bindings.LDKMessageSendEvent_SendGossipTimestampFilter_get_msg(ptr);
+		const msg_hu_conv: GossipTimestampFilter = new GossipTimestampFilter(null, msg);
 			CommonBase.add_ref_from(msg_hu_conv, this);
 		this.msg = msg_hu_conv;
 	}

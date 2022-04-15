@@ -137,7 +137,7 @@ public class Balance extends CommonBase {
 		long ret = bindings.Balance_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
+		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -149,7 +149,7 @@ public class Balance extends CommonBase {
 		long ret = bindings.Balance_claimable_on_channel_close(claimable_amount_satoshis);
 		Reference.reachabilityFence(claimable_amount_satoshis);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
+		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -162,7 +162,7 @@ public class Balance extends CommonBase {
 		Reference.reachabilityFence(claimable_amount_satoshis);
 		Reference.reachabilityFence(confirmation_height);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
+		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -175,7 +175,7 @@ public class Balance extends CommonBase {
 		Reference.reachabilityFence(claimable_amount_satoshis);
 		Reference.reachabilityFence(timeout_height);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
+		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -188,7 +188,7 @@ public class Balance extends CommonBase {
 		Reference.reachabilityFence(claimable_amount_satoshis);
 		Reference.reachabilityFence(claimable_height);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Balance ret_hu_conv = Balance.constr_from_ptr(ret);
+		org.ldk.structs.Balance ret_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

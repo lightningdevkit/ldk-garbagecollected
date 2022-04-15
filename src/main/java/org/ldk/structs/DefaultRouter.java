@@ -21,12 +21,14 @@ public class DefaultRouter extends CommonBase {
 	}
 
 	/**
-	 * Creates a new router using the given [`NetworkGraph`] and  [`Logger`].
+	 * Creates a new router using the given [`NetworkGraph`], a [`Logger`], and a randomness source
+	 * `random_seed_bytes`.
 	 */
-	public static DefaultRouter of(NetworkGraph network_graph, Logger logger) {
-		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr & ~1, logger == null ? 0 : logger.ptr);
+	public static DefaultRouter of(NetworkGraph network_graph, Logger logger, byte[] random_seed_bytes) {
+		long ret = bindings.DefaultRouter_new(network_graph == null ? 0 : network_graph.ptr & ~1, logger == null ? 0 : logger.ptr, InternalUtils.check_arr_len(random_seed_bytes, 32));
 		Reference.reachabilityFence(network_graph);
 		Reference.reachabilityFence(logger);
+		Reference.reachabilityFence(random_seed_bytes);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		DefaultRouter ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new DefaultRouter(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

@@ -34,11 +34,11 @@ public class Option_ClosureReasonZ extends CommonBase {
 	 * When we're in this state, this COption_ClosureReasonZ contains a crate::lightning::util::events::ClosureReason
 	 */
 	public final static class Some extends Option_ClosureReasonZ {
-		public final ClosureReason some;
+		public final org.ldk.structs.ClosureReason some;
 		private Some(long ptr, bindings.LDKCOption_ClosureReasonZ.Some obj) {
 			super(null, ptr);
 			long some = obj.some;
-			ClosureReason some_hu_conv = ClosureReason.constr_from_ptr(some);
+			org.ldk.structs.ClosureReason some_hu_conv = org.ldk.structs.ClosureReason.constr_from_ptr(some);
 			some_hu_conv.ptrs_to.add(this);
 			this.some = some_hu_conv;
 		}
@@ -58,7 +58,7 @@ public class Option_ClosureReasonZ extends CommonBase {
 		long ret = bindings.COption_ClosureReasonZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_ClosureReasonZ ret_hu_conv = Option_ClosureReasonZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ClosureReasonZ ret_hu_conv = org.ldk.structs.Option_ClosureReasonZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -69,7 +69,7 @@ public class Option_ClosureReasonZ extends CommonBase {
 	public static Option_ClosureReasonZ none() {
 		long ret = bindings.COption_ClosureReasonZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_ClosureReasonZ ret_hu_conv = Option_ClosureReasonZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ClosureReasonZ ret_hu_conv = org.ldk.structs.Option_ClosureReasonZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -88,7 +88,7 @@ public class Option_ClosureReasonZ extends CommonBase {
 		long ret = bindings.COption_ClosureReasonZ_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_ClosureReasonZ ret_hu_conv = Option_ClosureReasonZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_ClosureReasonZ ret_hu_conv = org.ldk.structs.Option_ClosureReasonZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

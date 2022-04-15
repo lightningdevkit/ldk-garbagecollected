@@ -25,7 +25,7 @@ public class Result_COption_TypeZDecodeErrorZ extends CommonBase {
 		private Result_COption_TypeZDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_COption_TypeZDecodeErrorZ_get_ok(ptr);
-			Option_TypeZ res_hu_conv = Option_TypeZ.constr_from_ptr(res);
+			org.ldk.structs.Option_TypeZ res_hu_conv = org.ldk.structs.Option_TypeZ.constr_from_ptr(res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

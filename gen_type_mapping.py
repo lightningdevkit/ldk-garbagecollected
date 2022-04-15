@@ -439,10 +439,12 @@ class TypeMappingGenerator:
                     if from_hu_conv is None:
                         from_hu_conv = (self.consts.get_ptr(ty_info.var_name), "")
                     from_hu_conv = (from_hu_conv[0], to_hu_conv_sfx)
+                    fully_qualified_ty = self.consts.fully_qualified_hu_ty_path(ty_info)
+                    to_hu_call = fully_qualified_ty + ".constr_from_ptr(" + ty_info.var_name + ")"
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
                         arg_conv = base_conv, arg_conv_name = ty_info.var_name + "_conv", arg_conv_cleanup = None,
                         ret_conv = ret_conv, ret_conv_name = ty_info.var_name + "_ref",
-                        to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_hu_conv", ty_info.java_hu_ty + ".constr_from_ptr(" + ty_info.var_name + ")") + ";\n" + self.consts.add_ref(ty_info.var_name + "_hu_conv", "this") + ";",
+                        to_hu_conv = self.consts.var_decl_statement(fully_qualified_ty, ty_info.var_name + "_hu_conv", to_hu_call) + ";\n" + self.consts.add_ref(ty_info.var_name + "_hu_conv", "this") + ";",
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = from_hu_conv)
                 if ty_info.rust_obj in self.result_types:
                     if holds_ref:
@@ -484,7 +486,15 @@ class TypeMappingGenerator:
                         to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_hu_conv", "new " + ty_info.java_hu_ty + "(null, " + ty_info.var_name + ")") + ";" + to_hu_conv_sfx,
                         to_hu_conv_name = ty_info.var_name + "_hu_conv", from_hu_conv = from_hu_conv)
 
-                # The manually-defined types - TxOut and u5
+                # The manually-defined types - TxOut, u5, and Error
+                if ty_info.rust_obj == "LDKError":
+                    assert from_hu_conv is None
+                    return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,
+                        arg_conv = "", arg_conv_name = "(LDKError){ ._dummy = 0 }", arg_conv_cleanup = None,
+                        ret_conv = ("/*", "*/"), ret_conv_name = "0",
+                        to_hu_conv = self.consts.var_decl_statement(ty_info.java_hu_ty, ty_info.var_name + "_conv", "new " + ty_info.java_hu_ty + "(" + ty_info.var_name + ")") + ";",
+                        to_hu_conv_name = ty_info.var_name + "_conv", from_hu_conv = ("0", ""))
+
                 if ty_info.rust_obj == "LDKu5":
                     assert from_hu_conv is None
                     return ConvInfo(ty_info = ty_info, arg_name = ty_info.var_name,

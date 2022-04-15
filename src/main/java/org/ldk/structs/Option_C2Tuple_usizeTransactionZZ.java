@@ -34,7 +34,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	 * When we're in this state, this COption_C2Tuple_usizeTransactionZZ contains a crate::c_types::derived::C2Tuple_usizeTransactionZ
 	 */
 	public final static class Some extends Option_C2Tuple_usizeTransactionZZ {
-		public final TwoTuple_usizeTransactionZ some;
+		public final org.ldk.structs.TwoTuple_usizeTransactionZ some;
 		private Some(long ptr, bindings.LDKCOption_C2Tuple_usizeTransactionZZ.Some obj) {
 			super(null, ptr);
 			long some = obj.some;
@@ -58,7 +58,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_some(o != null ? o.ptr : 0);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_C2Tuple_usizeTransactionZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -69,7 +69,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 	public static Option_C2Tuple_usizeTransactionZZ none() {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_C2Tuple_usizeTransactionZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -88,7 +88,7 @@ public class Option_C2Tuple_usizeTransactionZZ extends CommonBase {
 		long ret = bindings.COption_C2Tuple_usizeTransactionZZ_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_C2Tuple_usizeTransactionZZ ret_hu_conv = Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_C2Tuple_usizeTransactionZZ ret_hu_conv = org.ldk.structs.Option_C2Tuple_usizeTransactionZZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

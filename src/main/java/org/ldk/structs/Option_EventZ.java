@@ -34,11 +34,11 @@ public class Option_EventZ extends CommonBase {
 	 * When we're in this state, this COption_EventZ contains a crate::lightning::util::events::Event
 	 */
 	public final static class Some extends Option_EventZ {
-		public final Event some;
+		public final org.ldk.structs.Event some;
 		private Some(long ptr, bindings.LDKCOption_EventZ.Some obj) {
 			super(null, ptr);
 			long some = obj.some;
-			Event some_hu_conv = Event.constr_from_ptr(some);
+			org.ldk.structs.Event some_hu_conv = org.ldk.structs.Event.constr_from_ptr(some);
 			some_hu_conv.ptrs_to.add(this);
 			this.some = some_hu_conv;
 		}
@@ -58,7 +58,7 @@ public class Option_EventZ extends CommonBase {
 		long ret = bindings.COption_EventZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_EventZ ret_hu_conv = Option_EventZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_EventZ ret_hu_conv = org.ldk.structs.Option_EventZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -69,7 +69,7 @@ public class Option_EventZ extends CommonBase {
 	public static Option_EventZ none() {
 		long ret = bindings.COption_EventZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_EventZ ret_hu_conv = Option_EventZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_EventZ ret_hu_conv = org.ldk.structs.Option_EventZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -88,7 +88,7 @@ public class Option_EventZ extends CommonBase {
 		long ret = bindings.COption_EventZ_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_EventZ ret_hu_conv = Option_EventZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_EventZ ret_hu_conv = org.ldk.structs.Option_EventZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

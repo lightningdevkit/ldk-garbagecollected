@@ -175,7 +175,7 @@ class HumanObjectPeerTestInstance {
         final KeysManager explicit_keys_manager;
         final KeysInterface keys_interface;
         final ChainMonitor chain_monitor;
-        final NetworkGraph router;
+        NetworkGraph router;
         NetGraphMsgHandler route_handler;
         final Watch chain_watch;
         final HashSet<String> filter_additions;
@@ -284,16 +284,6 @@ class HumanObjectPeerTestInstance {
                 this.keys_interface = keys.as_KeysInterface();
                 this.explicit_keys_manager = keys;
             }
-            this.router = NetworkGraph.of(new byte[32]);
-            this.route_handler = NetGraphMsgHandler.of(this.router, Option_AccessZ.some(Access.new_impl(new Access.AccessInterface() {
-                @Override
-                public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
-                    // We don't exchange any gossip, so should never actually get called, but providing a Some(Access)
-                    // is a good test of our Option<Trait> free'ing, which used to be broken and relies on a dirty hack.
-                    assert false;
-                    return Result_TxOutAccessErrorZ.err(AccessError.LDKAccessError_UnknownTx);
-                }
-            })), logger);
 
             this.custom_message_handler = CustomMessageHandler.new_impl(new CustomMessageHandler.CustomMessageHandlerInterface() {
                 @Override
@@ -347,8 +337,22 @@ class HumanObjectPeerTestInstance {
                 } catch (IOException e) { assert i < 10_500; }
             }
         }
+        private void setup_route_handler() {
+            this.route_handler = NetGraphMsgHandler.of(this.router, Option_AccessZ.some(Access.new_impl(new Access.AccessInterface() {
+                @Override
+                public Result_TxOutAccessErrorZ get_utxo(byte[] genesis_hash, long short_channel_id) {
+                    // We don't exchange any gossip, so should never actually get called, but providing a Some(Access)
+                    // is a good test of our Option<Trait> free'ing, which used to be broken and relies on a dirty hack.
+                    assert false;
+                    return Result_TxOutAccessErrorZ.err(AccessError.LDKAccessError_UnknownTx);
+                }
+            })), this.logger);
+        }
         Peer(byte seed) {
             this(null, seed);
+            this.router = NetworkGraph.of(new byte[32]);
+            this.setup_route_handler();
+
             if (use_chan_manager_constructor) {
                 if (use_ignore_handler) {
                     this.constructor = new ChannelManagerConstructor(Network.LDKNetwork_Bitcoin, UserConfig.with_default(), new byte[32], 0,
@@ -359,8 +363,7 @@ class HumanObjectPeerTestInstance {
                 }
                 ProbabilisticScoringParameters params = ProbabilisticScoringParameters.with_default();
                 ProbabilisticScorer default_scorer = ProbabilisticScorer.of(params, this.router);
-                Result_ProbabilisticScorerDecodeErrorZ score_res = ProbabilisticScorer.read(default_scorer.write(),
-                        TwoTuple_ProbabilisticScoringParametersNetworkGraphZ.of(params, this.router));
+                Result_ProbabilisticScorerDecodeErrorZ score_res = ProbabilisticScorer.read(default_scorer.write(), params, this.router);
                 assert score_res.is_ok();
                 Score score = ((Result_ProbabilisticScorerDecodeErrorZ.Result_ProbabilisticScorerDecodeErrorZ_OK) score_res).res.as_Score();
                 MultiThreadedLockableScore scorer = null;
@@ -373,6 +376,7 @@ class HumanObjectPeerTestInstance {
                         }
                     }
                     @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
+                    @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; }
                 }, scorer);
                 this.chan_manager = constructor.channel_manager;
                 this.peer_manager = constructor.peer_manager;
@@ -390,7 +394,7 @@ class HumanObjectPeerTestInstance {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
                         public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] payment_hash, ChannelDetails[] first_hops, Score scorer) {
-                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
+                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
                         }
                     }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
                         @Override public void payment_path_failed(RouteHop[] path, long scid) {}
@@ -420,6 +424,7 @@ class HumanObjectPeerTestInstance {
             if (use_chan_manager_constructor) {
                 byte[][] monitors = {orig.monitors.values().stream().iterator().next().write()};
                 byte[] serialized = orig.chan_manager.write();
+                byte[] serialized_router = orig.router.write();
                 try {
                     Filter filter_nullable = null;
                     if (this.filter instanceof Option_FilterZ.Some) {
@@ -432,7 +437,7 @@ class HumanObjectPeerTestInstance {
                     } else {
                         this.constructor = new ChannelManagerConstructor(serialized, monitors, UserConfig.with_default(),
                                 this.keys_interface, this.fee_estimator, this.chain_monitor, filter_nullable,
-                                this.router, this.tx_broadcaster, this.logger);
+                                serialized_router, this.tx_broadcaster, this.logger);
                         try {
                             // Test that ChannelManagerConstructor correctly rejects duplicate ChannelMonitors
                             byte[][] monitors_dupd = new byte[2][];
@@ -444,6 +449,8 @@ class HumanObjectPeerTestInstance {
                             assert false;
                         } catch (ChannelManagerConstructor.InvalidSerializedDataException e) {}
                     }
+                    this.router = this.constructor.net_graph;
+                    setup_route_handler();
                     MultiThreadedLockableScore scorer = null;
                     if (use_invoice_payer) { scorer = MultiThreadedLockableScore.of(ProbabilisticScorer.of(ProbabilisticScoringParameters.with_default(), this.router).as_Score()); }
                     constructor.chain_sync_completed(new ChannelManagerConstructor.EventHandler() {
@@ -454,6 +461,7 @@ class HumanObjectPeerTestInstance {
                             }
                         }
                         @Override public void persist_manager(byte[] channel_manager_bytes) { assert channel_manager_bytes.length > 1; }
+                        @Override public void persist_network_graph(byte[] graph_bytes) { assert graph_bytes.length > 1; }
                     }, scorer);
                     this.chan_manager = constructor.channel_manager;
                     this.payer = constructor.payer;
@@ -470,6 +478,8 @@ class HumanObjectPeerTestInstance {
                     assert false;
                 }
             } else {
+                this.router = NetworkGraph.of(new byte[32]);
+                this.setup_route_handler();
                 ChannelMonitor[] monitors = new ChannelMonitor[1];
                 assert orig.monitors.size() == 1;
                 if (!break_cross_peer_refs) {
@@ -503,7 +513,7 @@ class HumanObjectPeerTestInstance {
                     this.payer = InvoicePayer.of(this.chan_manager.as_Payer(), Router.new_impl(new Router.RouterInterface() {
                         @Override
                         public Result_RouteLightningErrorZ find_route(byte[] payer, RouteParameters params, byte[] _payment_hash, ChannelDetails[] first_hops, Score scorer) {
-                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer);
+                            return UtilMethods.find_route(payer, params, router, first_hops, logger, scorer, new byte[32]);
                         }
                     }), MultiThreadedLockableScore.of(Score.new_impl(new Score.ScoreInterface() {
                         @Override public long channel_penalty_msat(long short_channel_id, long send_amt_msat, long channel_capacity_msat, NodeId source, NodeId target) { return 0; }
@@ -739,10 +749,10 @@ class HumanObjectPeerTestInstance {
                 @Override public long hash() { return 1; }
             });
 
-            Result_CVec_u8ZPeerHandleErrorZ conn_res = peer1.peer_manager.new_outbound_connection(peer2.node_id, descriptor1.val);
+            Result_CVec_u8ZPeerHandleErrorZ conn_res = peer1.peer_manager.new_outbound_connection(peer2.node_id, descriptor1.val, Option_NetAddressZ.none());
             assert conn_res instanceof Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK;
 
-            Result_NonePeerHandleErrorZ inbound_conn_res = peer2.peer_manager.new_inbound_connection(descriptor2);
+            Result_NonePeerHandleErrorZ inbound_conn_res = peer2.peer_manager.new_inbound_connection(descriptor2, Option_NetAddressZ.none());
             assert inbound_conn_res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_OK;
             do_read_event(peer2.peer_manager, descriptor2, ((Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) conn_res).res);
 
@@ -822,10 +832,10 @@ class HumanObjectPeerTestInstance {
         assert invoice instanceof Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK;
         System.out.println("Got invoice: " + ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
 
-        Result_InvoiceNoneZ parsed_invoice = Invoice.from_str(((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
-        assert parsed_invoice instanceof Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK;
-        assert Arrays.equals(((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res.payment_hash(), ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());
-        SignedRawInvoice signed_raw = ((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res.into_signed_raw();
+        Result_InvoiceParseOrSemanticErrorZ parsed_invoice = Invoice.from_str(((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.to_str());
+        assert parsed_invoice instanceof Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK;
+        assert Arrays.equals(((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.payment_hash(), ((Result_InvoiceSignOrCreationErrorZ.Result_InvoiceSignOrCreationErrorZ_OK) invoice).res.payment_hash());
+        SignedRawInvoice signed_raw = ((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res.into_signed_raw();
         RawInvoice raw_invoice = signed_raw.raw_invoice();
         byte[] desc_hash = raw_invoice.hash();
         Description raw_invoice_description = raw_invoice.description();
@@ -844,7 +854,7 @@ class HumanObjectPeerTestInstance {
             RouteParameters route_params = RouteParameters.of(payee, 10000000, 42);
             Result_RouteLightningErrorZ route_res = UtilMethods.find_route(
                     peer1.chan_manager.get_our_node_id(), route_params, peer1.router,
-                    peer1_chans, peer1.logger, Scorer.with_default().as_Score());
+                    peer1_chans, peer1.logger, Scorer.with_default().as_Score(), new byte[32]);
             assert route_res instanceof Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK;
             Route route = ((Result_RouteLightningErrorZ.Result_RouteLightningErrorZ_OK) route_res).res;
             assert route.get_paths().length == 1;
@@ -863,7 +873,7 @@ class HumanObjectPeerTestInstance {
             payment_res = peer1.chan_manager.send_payment(r2, payment_hash, payment_secret);
             assert payment_res instanceof Result_PaymentIdPaymentSendFailureZ.Result_PaymentIdPaymentSendFailureZ_Err;
         } else {
-            Result_PaymentIdPaymentErrorZ send_res = peer1.payer.pay_invoice(((Result_InvoiceNoneZ.Result_InvoiceNoneZ_OK) parsed_invoice).res);
+            Result_PaymentIdPaymentErrorZ send_res = peer1.payer.pay_invoice(((Result_InvoiceParseOrSemanticErrorZ.Result_InvoiceParseOrSemanticErrorZ_OK) parsed_invoice).res);
             assert send_res instanceof Result_PaymentIdPaymentErrorZ.Result_PaymentIdPaymentErrorZ_OK;
         }
 
@@ -1065,7 +1075,8 @@ class HumanObjectPeerTestInstance {
 
         t.interrupt();
 
-        state.peer1.router.write();
+        if (state.peer1.router != null)
+            state.peer1.router.write();
 
         // Construct the only Option_Enum::Variant(OpaqueStruct) we have in the codebase as this used to cause double-frees:
         byte[] serd = new byte[] {(byte)0xd9,(byte)0x77,(byte)0xcb,(byte)0x9b,(byte)0x53,(byte)0xd9,(byte)0x3a,(byte)0x6f,(byte)0xf6,(byte)0x4b,(byte)0xb5,(byte)0xf1,(byte)0xe1,(byte)0x58,(byte)0xb4,(byte)0x09,(byte)0x4b,(byte)0x66,(byte)0xe7,(byte)0x98,(byte)0xfb,(byte)0x12,(byte)0x91,(byte)0x11,(byte)0x68,(byte)0xa3,(byte)0xcc,(byte)0xdf,(byte)0x80,(byte)0xa8,(byte)0x30,(byte)0x96,(byte)0x34,(byte)0x0a,(byte)0x6a,(byte)0x95,(byte)0xda,(byte)0x0a,(byte)0xe8,(byte)0xd9,(byte)0xf7,(byte)0x76,(byte)0x52,(byte)0x8e,(byte)0xec,(byte)0xdb,(byte)0xb7,(byte)0x47,(byte)0xeb,(byte)0x6b,(byte)0x54,(byte)0x54,(byte)0x95,(byte)0xa4,(byte)0x31,(byte)0x9e,(byte)0xd5,(byte)0x37,(byte)0x8e,(byte)0x35,(byte)0xb2,(byte)0x1e,(byte)0x07,(byte)0x3a,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x19,(byte)0xd6,(byte)0x68,(byte)0x9c,(byte)0x08,(byte)0x5a,(byte)0xe1,(byte)0x65,(byte)0x83,(byte)0x1e,(byte)0x93,(byte)0x4f,(byte)0xf7,(byte)0x63,(byte)0xae,(byte)0x46,(byte)0xa2,(byte)0xa6,(byte)0xc1,(byte)0x72,(byte)0xb3,(byte)0xf1,(byte)0xb6,(byte)0x0a,(byte)0x8c,(byte)0xe2,(byte)0x6f,(byte)0x00,(byte)0x08,(byte)0x3a,(byte)0x84,(byte)0x00,(byte)0x00,(byte)0x03,(byte)0x4d,(byte)0x01,(byte)0x34,(byte)0x13,(byte)0xa7,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x90,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x0f,(byte)0x42,(byte)0x40,(byte)0x00,(byte)0x00,(byte)0x27,(byte)0x10,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x14,};

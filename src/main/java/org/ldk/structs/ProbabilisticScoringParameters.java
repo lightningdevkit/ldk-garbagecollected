@@ -10,6 +10,9 @@ import javax.annotation.Nullable;
 
 /**
  * Parameters for configuring [`ProbabilisticScorer`].
+ * 
+ * Used to configure base, liquidity, and amount penalties, the sum of which comprises the channel
+ * penalty (i.e., the amount in msats willing to be paid to avoid routing through the channel).
  */
 @SuppressWarnings("unchecked") // We correctly assign various generic arrays
 public class ProbabilisticScoringParameters extends CommonBase {
@@ -21,17 +24,39 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
-	 * A multiplier used to determine the amount in msats willing to be paid to avoid routing
-	 * through a channel, as per multiplying by the negative `log10` of the channel's success
-	 * probability for a payment.
+	 * A fixed penalty in msats to apply to each channel.
 	 * 
-	 * The success probability is determined by the effective channel capacity, the payment amount,
-	 * and knowledge learned from prior successful and unsuccessful payments. The lower bound of
-	 * the success probability is 0.01, effectively limiting the penalty to the range
-	 * `0..=2*liquidity_penalty_multiplier_msat`. The knowledge learned is decayed over time based
-	 * on [`liquidity_offset_half_life`].
+	 * Default value: 500 msat
+	 */
+	public long get_base_penalty_msat() {
+		long ret = bindings.ProbabilisticScoringParameters_get_base_penalty_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * A fixed penalty in msats to apply to each channel.
 	 * 
-	 * Default value: 10,000 msat
+	 * Default value: 500 msat
+	 */
+	public void set_base_penalty_msat(long val) {
+		bindings.ProbabilisticScoringParameters_set_base_penalty_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
+	 * A multiplier used in conjunction with the negative `log10` of the channel's success
+	 * probability for a payment to determine the liquidity penalty.
+	 * 
+	 * The penalty is based in part on the knowledge learned from prior successful and unsuccessful
+	 * payments. This knowledge is decayed over time based on [`liquidity_offset_half_life`]. The
+	 * penalty is effectively limited to `2 * liquidity_penalty_multiplier_msat` (corresponding to
+	 * lower bounding the success probability to `0.01`) when the amount falls within the
+	 * uncertainty bounds of the channel liquidity balance. Amounts above the upper bound will
+	 * result in a `u64::max_value` penalty, however.
+	 * 
+	 * Default value: 40,000 msat
 	 * 
 	 * [`liquidity_offset_half_life`]: Self::liquidity_offset_half_life
 	 */
@@ -42,17 +67,17 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
-	 * A multiplier used to determine the amount in msats willing to be paid to avoid routing
-	 * through a channel, as per multiplying by the negative `log10` of the channel's success
-	 * probability for a payment.
+	 * A multiplier used in conjunction with the negative `log10` of the channel's success
+	 * probability for a payment to determine the liquidity penalty.
 	 * 
-	 * The success probability is determined by the effective channel capacity, the payment amount,
-	 * and knowledge learned from prior successful and unsuccessful payments. The lower bound of
-	 * the success probability is 0.01, effectively limiting the penalty to the range
-	 * `0..=2*liquidity_penalty_multiplier_msat`. The knowledge learned is decayed over time based
-	 * on [`liquidity_offset_half_life`].
+	 * The penalty is based in part on the knowledge learned from prior successful and unsuccessful
+	 * payments. This knowledge is decayed over time based on [`liquidity_offset_half_life`]. The
+	 * penalty is effectively limited to `2 * liquidity_penalty_multiplier_msat` (corresponding to
+	 * lower bounding the success probability to `0.01`) when the amount falls within the
+	 * uncertainty bounds of the channel liquidity balance. Amounts above the upper bound will
+	 * result in a `u64::max_value` penalty, however.
 	 * 
-	 * Default value: 10,000 msat
+	 * Default value: 40,000 msat
 	 * 
 	 * [`liquidity_offset_half_life`]: Self::liquidity_offset_half_life
 	 */
@@ -105,12 +130,64 @@ public class ProbabilisticScoringParameters extends CommonBase {
 	}
 
 	/**
+	 * A multiplier used in conjunction with a payment amount and the negative `log10` of the
+	 * channel's success probability for the payment to determine the amount penalty.
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
+	 * fees plus penalty) for large payments. The penalty is computed as the product of this
+	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
+	 * success probability.
+	 * 
+	 * `-log10(success_probability) * amount_penalty_multiplier_msat * amount_msat / 2^20`
+	 * 
+	 * In practice, this means for 0.1 success probability (`-log10(0.1) == 1`) each `2^20`th of
+	 * the amount will result in a penalty of the multiplier. And, as the success probability
+	 * decreases, the negative `log10` weighting will increase dramatically. For higher success
+	 * probabilities, the multiplier will have a decreasing effect as the negative `log10` will
+	 * fall below `1`.
+	 * 
+	 * Default value: 256 msat
+	 */
+	public long get_amount_penalty_multiplier_msat() {
+		long ret = bindings.ProbabilisticScoringParameters_get_amount_penalty_multiplier_msat(this.ptr);
+		Reference.reachabilityFence(this);
+		return ret;
+	}
+
+	/**
+	 * A multiplier used in conjunction with a payment amount and the negative `log10` of the
+	 * channel's success probability for the payment to determine the amount penalty.
+	 * 
+	 * The purpose of the amount penalty is to avoid having fees dominate the channel cost (i.e.,
+	 * fees plus penalty) for large payments. The penalty is computed as the product of this
+	 * multiplier and `2^20`ths of the payment amount, weighted by the negative `log10` of the
+	 * success probability.
+	 * 
+	 * `-log10(success_probability) * amount_penalty_multiplier_msat * amount_msat / 2^20`
+	 * 
+	 * In practice, this means for 0.1 success probability (`-log10(0.1) == 1`) each `2^20`th of
+	 * the amount will result in a penalty of the multiplier. And, as the success probability
+	 * decreases, the negative `log10` weighting will increase dramatically. For higher success
+	 * probabilities, the multiplier will have a decreasing effect as the negative `log10` will
+	 * fall below `1`.
+	 * 
+	 * Default value: 256 msat
+	 */
+	public void set_amount_penalty_multiplier_msat(long val) {
+		bindings.ProbabilisticScoringParameters_set_amount_penalty_multiplier_msat(this.ptr, val);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new ProbabilisticScoringParameters given each field
 	 */
-	public static ProbabilisticScoringParameters of(long liquidity_penalty_multiplier_msat_arg, long liquidity_offset_half_life_arg) {
-		long ret = bindings.ProbabilisticScoringParameters_new(liquidity_penalty_multiplier_msat_arg, liquidity_offset_half_life_arg);
+	public static ProbabilisticScoringParameters of(long base_penalty_msat_arg, long liquidity_penalty_multiplier_msat_arg, long liquidity_offset_half_life_arg, long amount_penalty_multiplier_msat_arg) {
+		long ret = bindings.ProbabilisticScoringParameters_new(base_penalty_msat_arg, liquidity_penalty_multiplier_msat_arg, liquidity_offset_half_life_arg, amount_penalty_multiplier_msat_arg);
+		Reference.reachabilityFence(base_penalty_msat_arg);
 		Reference.reachabilityFence(liquidity_penalty_multiplier_msat_arg);
 		Reference.reachabilityFence(liquidity_offset_half_life_arg);
+		Reference.reachabilityFence(amount_penalty_multiplier_msat_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ProbabilisticScoringParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ProbabilisticScoringParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
@@ -132,26 +209,6 @@ public class ProbabilisticScoringParameters extends CommonBase {
 		if (ret >= 0 && ret <= 4096) { return null; }
 		ProbabilisticScoringParameters ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new ProbabilisticScoringParameters(null, ret); }
 		ret_hu_conv.ptrs_to.add(this);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Serialize the ProbabilisticScoringParameters object into a byte array which can be read by ProbabilisticScoringParameters_read
-	 */
-	public byte[] write() {
-		byte[] ret = bindings.ProbabilisticScoringParameters_write(this.ptr);
-		Reference.reachabilityFence(this);
-		return ret;
-	}
-
-	/**
-	 * Read a ProbabilisticScoringParameters from a byte array, created by ProbabilisticScoringParameters_write
-	 */
-	public static Result_ProbabilisticScoringParametersDecodeErrorZ read(byte[] ser) {
-		long ret = bindings.ProbabilisticScoringParameters_read(ser);
-		Reference.reachabilityFence(ser);
-		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_ProbabilisticScoringParametersDecodeErrorZ ret_hu_conv = Result_ProbabilisticScoringParametersDecodeErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

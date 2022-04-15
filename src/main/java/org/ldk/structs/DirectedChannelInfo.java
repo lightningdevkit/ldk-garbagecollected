@@ -77,7 +77,7 @@ public class DirectedChannelInfo extends CommonBase {
 		long ret = bindings.DirectedChannelInfo_effective_capacity(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		EffectiveCapacity ret_hu_conv = EffectiveCapacity.constr_from_ptr(ret);
+		org.ldk.structs.EffectiveCapacity ret_hu_conv = org.ldk.structs.EffectiveCapacity.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

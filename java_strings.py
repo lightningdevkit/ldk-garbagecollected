@@ -701,6 +701,15 @@ import javax.annotation.Nullable;
     def add_ref(self, holder, referent):
         return holder + ".ptrs_to.add(" + referent + ")"
 
+    def fully_qualified_hu_ty_path(self, ty):
+        if ty.java_fn_ty_arg.startswith("L") and ty.java_fn_ty_arg.endswith(";"):
+            return ty.java_fn_ty_arg.strip("L;").replace("/", ".")
+        if ty.java_hu_ty == "UnqualifiedError" or ty.java_hu_ty == "UInt5":
+            return "org.ldk.util." + ty.java_hu_ty
+        if ty.rust_obj is not None and not "[]" in ty.java_hu_ty:
+            return "org.ldk.structs." + ty.java_hu_ty
+        return ty.java_hu_ty
+
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_java_enum = "package org.ldk.enums;\n\n"
         out_java = ""
@@ -1166,20 +1175,19 @@ import javax.annotation.Nullable;
                 if idx > 0:
                     init_meth_params = init_meth_params + ", "
 
-                if field_ty.java_hu_ty == var.var_name:
-                    field_path = field_ty.java_fn_ty_arg.strip("L;").replace("/", ".")
-                    out_java += "\t\t\tpublic " + field_path + " " + field_ty.arg_name + ";\n"
-                    java_hu_subclasses = java_hu_subclasses + "\t\tpublic final " + field_path + " " + field_ty.arg_name + ";\n"
-                    init_meth_params = init_meth_params + field_path + " " + field_ty.arg_name
-                else:
-                    out_java += "\t\t\tpublic " + field_ty.java_ty + " " + field_ty.arg_name + ";\n"
-                    if field_docs is not None:
-                        java_hu_subclasses += "\t\t/**\n\t\t * " + field_docs.replace("\n", "\n\t\t * ") + "\n\t\t*/\n"
-                    java_hu_subclasses += "\t\t"
-                    if field_ty.nullable:
-                        java_hu_subclasses += "@Nullable "
-                    java_hu_subclasses += "public final " + field_ty.java_hu_ty + " " + field_ty.arg_name + ";\n"
-                    init_meth_params = init_meth_params + field_ty.java_ty + " " + field_ty.arg_name
+                java_ty = field_ty.java_ty
+                if field_ty.java_fn_ty_arg.startswith("L") and field_ty.java_fn_ty_arg.endswith(";"):
+                    # If this is a simple enum, we have to reference it in the low-level bindings differently:
+                    java_ty = field_ty.java_fn_ty_arg.strip("L;").replace("/", ".")
+                out_java += "\t\t\tpublic " + java_ty + " " + field_ty.arg_name + ";\n"
+                if field_docs is not None:
+                    java_hu_subclasses += "\t\t/**\n\t\t * " + field_docs.replace("\n", "\n\t\t * ") + "\n\t\t*/\n"
+                java_hu_subclasses += "\t\t"
+                if field_ty.nullable:
+                    java_hu_subclasses += "@Nullable "
+                java_hu_subclasses += "public final " + self.fully_qualified_hu_ty_path(field_ty) + " " + field_ty.arg_name + ";\n"
+                init_meth_params = init_meth_params + java_ty + " " + field_ty.arg_name
+
                 init_meth_body = init_meth_body + "this." + field_ty.arg_name + " = " + field_ty.arg_name + "; "
                 if field_ty.to_hu_conv is not None:
                     hu_conv_body = hu_conv_body + "\t\t\t" + field_ty.java_ty + " " + field_ty.arg_name + " = obj." + field_ty.arg_name + ";\n"

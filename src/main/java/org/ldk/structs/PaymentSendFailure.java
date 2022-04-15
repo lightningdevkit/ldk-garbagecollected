@@ -44,11 +44,11 @@ public class PaymentSendFailure extends CommonBase {
 	 * once you've changed the parameter at error, you can freely retry the payment in full.
 	 */
 	public final static class ParameterError extends PaymentSendFailure {
-		public final APIError parameter_error;
+		public final org.ldk.structs.APIError parameter_error;
 		private ParameterError(long ptr, bindings.LDKPaymentSendFailure.ParameterError obj) {
 			super(null, ptr);
 			long parameter_error = obj.parameter_error;
-			APIError parameter_error_hu_conv = APIError.constr_from_ptr(parameter_error);
+			org.ldk.structs.APIError parameter_error_hu_conv = org.ldk.structs.APIError.constr_from_ptr(parameter_error);
 			parameter_error_hu_conv.ptrs_to.add(this);
 			this.parameter_error = parameter_error_hu_conv;
 		}
@@ -91,7 +91,7 @@ public class PaymentSendFailure extends CommonBase {
 			APIError[] all_failed_retry_safe_conv_10_arr = new APIError[all_failed_retry_safe_conv_10_len];
 			for (int k = 0; k < all_failed_retry_safe_conv_10_len; k++) {
 				long all_failed_retry_safe_conv_10 = all_failed_retry_safe[k];
-				APIError all_failed_retry_safe_conv_10_hu_conv = APIError.constr_from_ptr(all_failed_retry_safe_conv_10);
+				org.ldk.structs.APIError all_failed_retry_safe_conv_10_hu_conv = org.ldk.structs.APIError.constr_from_ptr(all_failed_retry_safe_conv_10);
 				all_failed_retry_safe_conv_10_hu_conv.ptrs_to.add(this);
 				all_failed_retry_safe_conv_10_arr[k] = all_failed_retry_safe_conv_10_hu_conv;
 			}
@@ -124,7 +124,7 @@ public class PaymentSendFailure extends CommonBase {
 		 * 
 		 * Note that this (or a relevant inner pointer) may be NULL or all-0s to represent None
 		*/
-		@Nullable public final RouteParameters failed_paths_retry;
+		@Nullable public final org.ldk.structs.RouteParameters failed_paths_retry;
 		/**
 		 * The payment id for the payment, which is now at least partially pending.
 		*/
@@ -160,7 +160,7 @@ public class PaymentSendFailure extends CommonBase {
 		long ret = bindings.PaymentSendFailure_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -172,7 +172,7 @@ public class PaymentSendFailure extends CommonBase {
 		long ret = bindings.PaymentSendFailure_parameter_error(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -184,7 +184,7 @@ public class PaymentSendFailure extends CommonBase {
 		long ret = bindings.PaymentSendFailure_path_parameter_error(a != null ? Arrays.stream(a).mapToLong(a_conv_22 -> a_conv_22 != null ? a_conv_22.ptr : 0).toArray() : null);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -196,7 +196,7 @@ public class PaymentSendFailure extends CommonBase {
 		long ret = bindings.PaymentSendFailure_all_failed_retry_safe(a != null ? Arrays.stream(a).mapToLong(a_conv_10 -> a_conv_10.ptr).toArray() : null);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -210,7 +210,7 @@ public class PaymentSendFailure extends CommonBase {
 		Reference.reachabilityFence(failed_paths_retry);
 		Reference.reachabilityFence(payment_id);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentSendFailure ret_hu_conv = PaymentSendFailure.constr_from_ptr(ret);
+		org.ldk.structs.PaymentSendFailure ret_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

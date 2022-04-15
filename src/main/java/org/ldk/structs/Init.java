@@ -42,11 +42,39 @@ public class Init extends CommonBase {
 	}
 
 	/**
+	 * The receipient's network address. This adds the option to report a remote IP address
+	 * back to a connecting peer using the init message. A node can decide to use that information
+	 * to discover a potential update to its public IPv4 address (NAT) and use
+	 * that for a node_announcement update message containing the new address.
+	 */
+	public Option_NetAddressZ get_remote_network_address() {
+		long ret = bindings.Init_get_remote_network_address(this.ptr);
+		Reference.reachabilityFence(this);
+		if (ret >= 0 && ret <= 4096) { return null; }
+		org.ldk.structs.Option_NetAddressZ ret_hu_conv = org.ldk.structs.Option_NetAddressZ.constr_from_ptr(ret);
+		ret_hu_conv.ptrs_to.add(this);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * The receipient's network address. This adds the option to report a remote IP address
+	 * back to a connecting peer using the init message. A node can decide to use that information
+	 * to discover a potential update to its public IPv4 address (NAT) and use
+	 * that for a node_announcement update message containing the new address.
+	 */
+	public void set_remote_network_address(Option_NetAddressZ val) {
+		bindings.Init_set_remote_network_address(this.ptr, val.ptr);
+		Reference.reachabilityFence(this);
+		Reference.reachabilityFence(val);
+	}
+
+	/**
 	 * Constructs a new Init given each field
 	 */
-	public static Init of(InitFeatures features_arg) {
-		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr & ~1);
+	public static Init of(InitFeatures features_arg, Option_NetAddressZ remote_network_address_arg) {
+		long ret = bindings.Init_new(features_arg == null ? 0 : features_arg.ptr & ~1, remote_network_address_arg.ptr);
 		Reference.reachabilityFence(features_arg);
+		Reference.reachabilityFence(remote_network_address_arg);
 		if (ret >= 0 && ret <= 4096) { return null; }
 		Init ret_hu_conv = null; if (ret < 0 || ret > 4096) { ret_hu_conv = new Init(null, ret); }
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);

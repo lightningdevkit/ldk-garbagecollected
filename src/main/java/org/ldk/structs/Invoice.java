@@ -275,7 +275,7 @@ public class Invoice extends CommonBase {
 		long ret = bindings.Invoice_amount_milli_satoshis(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -283,11 +283,11 @@ public class Invoice extends CommonBase {
 	/**
 	 * Read a Invoice object from a string
 	 */
-	public static Result_InvoiceNoneZ from_str(java.lang.String s) {
+	public static Result_InvoiceParseOrSemanticErrorZ from_str(java.lang.String s) {
 		long ret = bindings.Invoice_from_str(s);
 		Reference.reachabilityFence(s);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Result_InvoiceNoneZ ret_hu_conv = Result_InvoiceNoneZ.constr_from_ptr(ret);
+		Result_InvoiceParseOrSemanticErrorZ ret_hu_conv = Result_InvoiceParseOrSemanticErrorZ.constr_from_ptr(ret);
 		return ret_hu_conv;
 	}
 

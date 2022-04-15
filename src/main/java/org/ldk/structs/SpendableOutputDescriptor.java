@@ -48,11 +48,11 @@ public class SpendableOutputDescriptor extends CommonBase {
 		/**
 		 * The outpoint which is spendable
 		*/
-		public final OutPoint outpoint;
+		public final org.ldk.structs.OutPoint outpoint;
 		/**
 		 * The output which is referenced by the given outpoint.
 		*/
-		public final TxOut output;
+		public final org.ldk.structs.TxOut output;
 		private StaticOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticOutput obj) {
 			super(null, ptr);
 			long outpoint = obj.outpoint;
@@ -95,7 +95,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 * chan_utils::get_revokeable_redeemscript.
 	 */
 	public final static class DelayedPaymentOutput extends SpendableOutputDescriptor {
-		public final DelayedPaymentOutputDescriptor delayed_payment_output;
+		public final org.ldk.structs.DelayedPaymentOutputDescriptor delayed_payment_output;
 		private DelayedPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.DelayedPaymentOutput obj) {
 			super(null, ptr);
 			long delayed_payment_output = obj.delayed_payment_output;
@@ -114,7 +114,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 	 * allowing us to claim the non-HTLC-encumbered outputs immediately.
 	 */
 	public final static class StaticPaymentOutput extends SpendableOutputDescriptor {
-		public final StaticPaymentOutputDescriptor static_payment_output;
+		public final org.ldk.structs.StaticPaymentOutputDescriptor static_payment_output;
 		private StaticPaymentOutput(long ptr, bindings.LDKSpendableOutputDescriptor.StaticPaymentOutput obj) {
 			super(null, ptr);
 			long static_payment_output = obj.static_payment_output;
@@ -136,7 +136,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		long ret = bindings.SpendableOutputDescriptor_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -149,7 +149,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		Reference.reachabilityFence(outpoint);
 		Reference.reachabilityFence(output);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -161,7 +161,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		long ret = bindings.SpendableOutputDescriptor_delayed_payment_output(a == null ? 0 : a.ptr & ~1);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -173,7 +173,7 @@ public class SpendableOutputDescriptor extends CommonBase {
 		long ret = bindings.SpendableOutputDescriptor_static_payment_output(a == null ? 0 : a.ptr & ~1);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		SpendableOutputDescriptor ret_hu_conv = SpendableOutputDescriptor.constr_from_ptr(ret);
+		org.ldk.structs.SpendableOutputDescriptor ret_hu_conv = org.ldk.structs.SpendableOutputDescriptor.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

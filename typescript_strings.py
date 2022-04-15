@@ -326,6 +326,10 @@ export class UInt5 {
 		return this.val;
 	}
 }
+
+export class UnqualifiedError {
+	public constructor(val: number) {}
+}
 """
 
         self.txout_defn = """export class TxOut extends CommonBase {
@@ -592,7 +596,7 @@ jstring __attribute__((export_name("TS_get_ldk_version"))) get_ldk_version() {
 }"""
 
         self.hu_struct_file_prefix = """
-import { CommonBase, UInt5 } from './CommonBase.mjs';
+import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
 """
@@ -721,6 +725,9 @@ import * as bindings from '../bindings.mjs'
             index.write(f"export * from './{folder}/{struct_names[0]}.mjs';\n")
         with open(self.outdir + "/imports.mts.part", 'a') as imports:
             imports.write(f"import {{ {', '.join(struct_names)} }} from '../{folder}/{struct_names[0]}.mjs';\n")
+
+    def fully_qualified_hu_ty_path(self, ty):
+        return ty.java_hu_ty
 
     def native_c_unitary_enum_map(self, struct_name, variants, enum_doc_comment):
         out_c = "static inline LDK" + struct_name + " LDK" + struct_name + "_from_js(int32_t ord) {\n"
@@ -1082,7 +1089,10 @@ export class {struct_name.replace("LDK","")} extends CommonBase {{
         return (out_typescript_bindings, out_typescript_human, out_c)
 
     def trait_struct_inc_refcnt(self, ty_info):
-        return ""
+        base_conv = "\nif (" + ty_info.var_name + "_conv.free == " + ty_info.rust_obj + "_JCalls_free) {\n"
+        base_conv = base_conv + "\t// If this_arg is a JCalls struct, then we need to increment the refcnt in it.\n"
+        base_conv = base_conv + "\t" + ty_info.rust_obj + "_JCalls_cloned(&" + ty_info.var_name + "_conv);\n}"
+        return base_conv
 
     def map_complex_enum(self, struct_name, variant_list, camel_to_snake, enum_doc_comment):
         bindings_type = struct_name.replace("LDK", "")

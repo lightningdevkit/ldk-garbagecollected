@@ -6,9 +6,8 @@ import org.ldk.structs.*;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.ref.Reference;
+import java.net.*;
 import java.util.LinkedList;
-import java.net.SocketAddress;
-import java.net.StandardSocketOptions;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
@@ -121,6 +120,19 @@ public class NioPeerHandler {
     long socket_id;
     volatile boolean shutdown = false;
 
+    private static Option_NetAddressZ get_netaddr_from_sockaddr(SocketAddress sockaddr) {
+        if (sockaddr instanceof InetSocketAddress) {
+            InetAddress addr = ((InetSocketAddress) sockaddr).getAddress();
+            short port = (short) ((InetSocketAddress) sockaddr).getPort();
+            if (addr instanceof Inet4Address) {
+                return Option_NetAddressZ.some(NetAddress.ipv4(addr.getAddress(), port));
+            } else if (addr instanceof Inet6Address) {
+                return Option_NetAddressZ.some(NetAddress.ipv6(addr.getAddress(), port));
+            }
+        }
+        return Option_NetAddressZ.none();
+    }
+
     /**
      * Constructs a new peer handler, spawning a thread to monitor for socket events.
      *
@@ -176,7 +188,8 @@ public class NioPeerHandler {
                                 try {
                                     Peer peer = setup_socket(chan);
                                     peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer);
-                                    Result_NonePeerHandleErrorZ res = this.peer_manager.new_inbound_connection(peer.descriptor);
+                                    Option_NetAddressZ netaddr = get_netaddr_from_sockaddr(chan.getRemoteAddress());
+                                    Result_NonePeerHandleErrorZ res = this.peer_manager.new_inbound_connection(peer.descriptor, netaddr);
                                     if (res instanceof Result_NonePeerHandleErrorZ.Result_NonePeerHandleErrorZ_Err) {
 										peer.descriptor.disconnect_socket();
 									}
@@ -285,7 +298,7 @@ public class NioPeerHandler {
         }
         Peer peer = setup_socket(chan);
         do_selector_action(() -> peer.key = chan.register(this.selector, SelectionKey.OP_READ, peer));
-        Result_CVec_u8ZPeerHandleErrorZ res = this.peer_manager.new_outbound_connection(their_node_id, peer.descriptor);
+        Result_CVec_u8ZPeerHandleErrorZ res = this.peer_manager.new_outbound_connection(their_node_id, peer.descriptor, get_netaddr_from_sockaddr(remote));
         if (res instanceof  Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) {
             byte[] initial_bytes = ((Result_CVec_u8ZPeerHandleErrorZ.Result_CVec_u8ZPeerHandleErrorZ_OK) res).res;
             if (chan.write(ByteBuffer.wrap(initial_bytes)) != initial_bytes.length) {

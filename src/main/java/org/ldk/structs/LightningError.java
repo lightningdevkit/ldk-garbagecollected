@@ -45,7 +45,7 @@ public class LightningError extends CommonBase {
 		long ret = bindings.LightningError_get_action(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		ErrorAction ret_hu_conv = ErrorAction.constr_from_ptr(ret);
+		org.ldk.structs.ErrorAction ret_hu_conv = org.ldk.structs.ErrorAction.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

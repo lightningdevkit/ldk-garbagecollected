@@ -62,9 +62,16 @@ public class ChannelManagerConstructor {
     @Nullable public InvoicePayer payer;
 
     private final ChainMonitor chain_monitor;
-    @Nullable private final NetworkGraph net_graph;
+
+    /**
+     * The `NetworkGraph` deserialized from the byte given to the constructor when deserializing or the `NetworkGraph`
+     * given explicitly to the new-object constructor.
+     */
+    @Nullable public final NetworkGraph net_graph;
     @Nullable private final NetGraphMsgHandler graph_msg_handler;
     private final Logger logger;
+
+    private final byte[] router_rand_bytes;
 
     /**
      * Deserializes a channel manager and a set of channel monitors from the given serialized copies and interface implementations
@@ -75,7 +82,7 @@ public class ChannelManagerConstructor {
      */
     public ChannelManagerConstructor(byte[] channel_manager_serialized, byte[][] channel_monitors_serialized, UserConfig config,
                                      KeysInterface keys_interface, FeeEstimator fee_estimator, ChainMonitor chain_monitor,
-                                     @Nullable Filter filter, @Nullable NetworkGraph net_graph,
+                                     @Nullable Filter filter, @Nullable byte[] net_graph_serialized,
                                      BroadcasterInterface tx_broadcaster, Logger logger) throws InvalidSerializedDataException {
         final IgnoringMessageHandler no_custom_messages = IgnoringMessageHandler.of();
         final ChannelMonitor[] monitors = new ChannelMonitor[channel_monitors_serialized.length];
@@ -95,7 +102,7 @@ public class ChannelManagerConstructor {
         Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ res =
                 UtilMethods.C2Tuple_BlockHashChannelManagerZ_read(channel_manager_serialized, keys_interface, fee_estimator, chain_monitor.as_Watch(), tx_broadcaster,
                         logger, config, monitors);
-        if (res instanceof Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_Err) {
+        if (!res.is_ok()) {
             throw new InvalidSerializedDataException("Serialized ChannelManager was corrupt");
         }
         this.channel_manager = ((Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ.Result_C2Tuple_BlockHashChannelManagerZDecodeErrorZ_OK)res).res.get_b();
@@ -103,7 +110,15 @@ public class ChannelManagerConstructor {
         this.chain_monitor = chain_monitor;
         this.logger = logger;
         byte[] random_data = keys_interface.get_secure_random_bytes();
-        this.net_graph = net_graph;
+        if (net_graph_serialized != null) {
+            Result_NetworkGraphDecodeErrorZ graph_res = NetworkGraph.read(net_graph_serialized);
+            if (!graph_res.is_ok()) {
+                throw new InvalidSerializedDataException("Serialized Network Graph was corrupt");
+            }
+            this.net_graph = ((Result_NetworkGraphDecodeErrorZ.Result_NetworkGraphDecodeErrorZ_OK)graph_res).res;
+        } else {
+            this.net_graph = null;
+        }
         Result_SecretKeyNoneZ node_secret = keys_interface.get_node_secret(Recipient.LDKRecipient_Node);
         assert node_secret.is_ok();
         if (net_graph != null) {
@@ -131,6 +146,7 @@ public class ChannelManagerConstructor {
                 monitor.load_outputs_to_watch(filter);
             }
         }
+        router_rand_bytes = keys_interface.get_secure_random_bytes();
     }
 
     /**
@@ -172,6 +188,7 @@ public class ChannelManagerConstructor {
             throw new IllegalStateException("We should never fail to construct nio objects unless we're on a platform that cannot run LDK.");
         }
         this.nio_peer_handler = nio_peer_handler;
+        router_rand_bytes = keys_interface.get_secure_random_bytes();
     }
 
     /**
@@ -181,6 +198,7 @@ public class ChannelManagerConstructor {
     public interface EventHandler {
         void handle_event(Event events);
         void persist_manager(byte[] channel_manager_bytes);
+        void persist_network_graph(byte[] network_graph);
     }
 
     BackgroundProcessor background_processor = null;
@@ -199,15 +217,24 @@ public class ChannelManagerConstructor {
         }
         org.ldk.structs.EventHandler ldk_handler = org.ldk.structs.EventHandler.new_impl(event_handler::handle_event);
         if (this.net_graph != null && scorer != null) {
-            Router router = DefaultRouter.of(net_graph, logger).as_Router();
+            Router router = DefaultRouter.of(net_graph, logger, router_rand_bytes).as_Router();
             this.payer = InvoicePayer.of(this.channel_manager.as_Payer(), router, scorer, this.logger, ldk_handler, RetryAttempts.of(3));
 assert this.payer != null;
             ldk_handler = this.payer.as_EventHandler();
         }
 
-        background_processor = BackgroundProcessor.start(org.ldk.structs.ChannelManagerPersister.new_impl(channel_manager -> {
-            event_handler.persist_manager(channel_manager.write());
-            return Result_NoneErrorZ.ok();
+        background_processor = BackgroundProcessor.start(Persister.new_impl(new Persister.PersisterInterface() {
+            @Override
+            public Result_NoneErrorZ persist_manager(ChannelManager channel_manager) {
+                event_handler.persist_manager(channel_manager.write());
+                return Result_NoneErrorZ.ok();
+            }
+
+            @Override
+            public Result_NoneErrorZ persist_graph(NetworkGraph network_graph) {
+                event_handler.persist_network_graph(network_graph.write());
+                return Result_NoneErrorZ.ok();
+            }
         }), ldk_handler, this.chain_monitor, this.channel_manager, this.graph_msg_handler, this.peer_manager, this.logger);
     }
 

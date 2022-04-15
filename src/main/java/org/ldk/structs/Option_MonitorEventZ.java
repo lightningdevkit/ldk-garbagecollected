@@ -34,11 +34,11 @@ public class Option_MonitorEventZ extends CommonBase {
 	 * When we're in this state, this COption_MonitorEventZ contains a crate::lightning::chain::channelmonitor::MonitorEvent
 	 */
 	public final static class Some extends Option_MonitorEventZ {
-		public final MonitorEvent some;
+		public final org.ldk.structs.MonitorEvent some;
 		private Some(long ptr, bindings.LDKCOption_MonitorEventZ.Some obj) {
 			super(null, ptr);
 			long some = obj.some;
-			MonitorEvent some_hu_conv = MonitorEvent.constr_from_ptr(some);
+			org.ldk.structs.MonitorEvent some_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(some);
 			some_hu_conv.ptrs_to.add(this);
 			this.some = some_hu_conv;
 		}
@@ -58,7 +58,7 @@ public class Option_MonitorEventZ extends CommonBase {
 		long ret = bindings.COption_MonitorEventZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_MonitorEventZ ret_hu_conv = Option_MonitorEventZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_MonitorEventZ ret_hu_conv = org.ldk.structs.Option_MonitorEventZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -69,7 +69,7 @@ public class Option_MonitorEventZ extends CommonBase {
 	public static Option_MonitorEventZ none() {
 		long ret = bindings.COption_MonitorEventZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_MonitorEventZ ret_hu_conv = Option_MonitorEventZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_MonitorEventZ ret_hu_conv = org.ldk.structs.Option_MonitorEventZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -88,7 +88,7 @@ public class Option_MonitorEventZ extends CommonBase {
 		long ret = bindings.COption_MonitorEventZ_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_MonitorEventZ ret_hu_conv = Option_MonitorEventZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_MonitorEventZ ret_hu_conv = org.ldk.structs.Option_MonitorEventZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --force cbindgen
+        run: cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -38,7 +38,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.105
+          git checkout 0.0.106
       - name: Rebuild C bindings without STD
         run: |
           cd ldk-c-bindings
@@ -110,7 +110,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --force cbindgen
+        run: cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -122,7 +122,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.105
+          git checkout 0.0.106
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -160,7 +160,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --force cbindgen
+        run: cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -172,7 +172,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.105
+          git checkout 0.0.106
       - name: Rebuild C bindings, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
@@ -192,6 +192,7 @@ jobs:
           cd ../..
           mkdir -p src/main/resources/
           cp "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/liblightningjni_MacOSX-"* src/main/resources/
+          rm src/main/resources/liblightningjni_MacOSX-*-leaktracking.nativelib
       - name: Build Java Release Bindings
         run: |
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
@@ -263,7 +264,7 @@ jobs:
       - name: Install cbindgen
         run: |
           . $HOME/.cargo/env
-          cargo install --force cbindgen
+          cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -275,7 +276,7 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.105
+          git checkout 0.0.106
       - name: Checkout Android AAR binaries and artifacts
         run: |
           # Gitweb only allows snapshots of folders by providing the object hash, which we have to extract:
@@ -330,20 +331,20 @@ jobs:
         run: rustup target install aarch64-apple-darwin
       - name: Fetch upstream LLVM/clang snapshot
         run: |
-          wget -O clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz
-          if [ "$(shasum -a 256 clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz | awk '{ print $1 }')" != "dec02d17698514d0fc7ace8869c38937851c542b02adf102c4e898f027145a4d" ]; then
+          wget -O clang+llvm-14.0.0-x86_64-apple-darwin.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.0/clang+llvm-14.0.0-x86_64-apple-darwin.tar.xz
+          if [ "$(shasum -a 256 clang+llvm-14.0.0-x86_64-apple-darwin.tar.xz | awk '{ print $1 }')" != "cf5af0f32d78dcf4413ef6966abbfd5b1445fe80bba57f2ff8a08f77e672b9b3" ]; then
             echo "Bad hash"
             exit 1
           fi
       - name: Unpack upstream LLVM+clang and use it by default
         run: |
-          tar xvvf clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz
+          tar xvvf clang+llvm-14.0.0-x86_64-apple-darwin.tar.xz
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Install cbindgen
-        run: cargo install --force cbindgen
+        run: cargo install --version 0.20.0 cbindgen
       - name: Checkout Rust-Lightning and LDK-C-Bindings git
         run: |
           git config --global user.email "ldk-ci@example.com"
@@ -355,11 +356,11 @@ jobs:
           cd ..
           git clone https://github.com/lightningdevkit/ldk-c-bindings
           cd ldk-c-bindings
-          git checkout 0.0.105
+          git checkout 0.0.106
       - name: Rebuild C bindings with upstream clang, and check the sample app builds + links
         run: |
           cd ldk-c-bindings
-          export PATH=`pwd`/clang+llvm-13.0.1-x86_64-apple-darwin/bin:$PATH
+          export PATH=`pwd`/clang+llvm-14.0.0-x86_64-apple-darwin/bin:$PATH
           CC=clang ./genbindings.sh ../rust-lightning true
           cd ..
       - name: Fetch OpenJDK 16
@@ -389,7 +390,7 @@ jobs:
           export LDK_GARBAGECOLLECTED_GIT_OVERRIDE="$(git describe --tag HEAD)"
           export JAVA_HOME=`pwd`/jdk-16.0.1.jdk/Contents/Home
           export PATH=$JAVA_HOME/bin:$PATH
-          export PATH=`pwd`/clang+llvm-13.0.1-x86_64-apple-darwin/bin:$PATH
+          export PATH=`pwd`/clang+llvm-14.0.0-x86_64-apple-darwin/bin:$PATH
           ./genbindings.sh ./ldk-c-bindings/ "-I$JAVA_HOME/include/ -I$JAVA_HOME/include/darwin -isysroot$(xcrun --show-sdk-path)" false false
           if [ "${{ matrix.platform }}" = "macos-11" ]; then
             export CC="clang --target=aarch64-apple-darwin"
@@ -430,6 +431,18 @@ jobs:
             diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-x86_64.nativelib src/main/resources/liblightningjni_MacOSX-x86_64.nativelib || echo
             diff "ldk-java-bins/${LDK_GARBAGECOLLECTED_GIT_OVERRIDE}/"liblightningjni_MacOSX-aarch64.nativelib src/main/resources/liblightningjni_MacOSX-aarch64.nativelib || echo
           fi
+      - name: Upload CI x86_64 build for analysis
+        if: matrix.platform == 'macos-11'
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: liblightningjni_MacOSX-x86_64.nativelib.ci-build
+          path: src/main/resources/liblightningjni_MacOSX-x86_64.nativelib
+      - name: Upload CI aarch64 build for analysis
+        if: matrix.platform == 'macos-11'
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: liblightningjni_MacOSX-aarch64.nativelib.ci-build
+          path: src/main/resources/liblightningjni_MacOSX-aarch64.nativelib
       - name: Run Java Tests against release bins
         run: |
           if [ "${{ matrix.platform }}" != "macos-11" ]; then

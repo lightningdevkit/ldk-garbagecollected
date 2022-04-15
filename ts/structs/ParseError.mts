@@ -11,6 +11,7 @@ import { Recipient } from '../enums/Recipient.mjs';
 import { Secp256k1Error } from '../enums/Secp256k1Error.mjs';
 import { SemanticError } from '../enums/SemanticError.mjs';
 import { SiPrefix } from '../enums/SiPrefix.mjs';
+import { Bech32Error } from '../structs/Bech32Error.mjs';
 import { Result_NoneNoneZ } from '../structs/Result_NoneNoneZ.mjs';
 import { CounterpartyCommitmentSecrets } from '../structs/CounterpartyCommitmentSecrets.mjs';
 import { DecodeError } from '../structs/DecodeError.mjs';
@@ -77,6 +78,7 @@ import { DelayedPaymentOutputDescriptor } from '../structs/DelayedPaymentOutputD
 import { StaticPaymentOutputDescriptor } from '../structs/StaticPaymentOutputDescriptor.mjs';
 import { SpendableOutputDescriptor } from '../structs/SpendableOutputDescriptor.mjs';
 import { PaymentPurpose } from '../structs/PaymentPurpose.mjs';
+import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Event } from '../structs/Event.mjs';
 import { Option_EventZ } from '../structs/Option_EventZ.mjs';
 import { Result_COption_EventZDecodeErrorZ } from '../structs/Result_COption_EventZDecodeErrorZ.mjs';
@@ -99,6 +101,7 @@ import { ErrorAction } from '../structs/ErrorAction.mjs';
 import { QueryChannelRange } from '../structs/QueryChannelRange.mjs';
 import { QueryShortChannelIds } from '../structs/QueryShortChannelIds.mjs';
 import { ReplyChannelRange } from '../structs/ReplyChannelRange.mjs';
+import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { MessageSendEvent } from '../structs/MessageSendEvent.mjs';
 import { FixedPenaltyScorer } from '../structs/FixedPenaltyScorer.mjs';
 import { Result_FixedPenaltyScorerDecodeErrorZ } from '../structs/Result_FixedPenaltyScorerDecodeErrorZ.mjs';
@@ -106,9 +109,7 @@ import { ScoringParameters } from '../structs/ScoringParameters.mjs';
 import { Result_ScoringParametersDecodeErrorZ } from '../structs/Result_ScoringParametersDecodeErrorZ.mjs';
 import { Scorer } from '../structs/Scorer.mjs';
 import { Result_ScorerDecodeErrorZ } from '../structs/Result_ScorerDecodeErrorZ.mjs';
-import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { NetworkGraph } from '../structs/NetworkGraph.mjs';
-import { TwoTuple_ProbabilisticScoringParametersNetworkGraphZ } from '../structs/TwoTuple_ProbabilisticScoringParametersNetworkGraphZ.mjs';
 import { ProbabilisticScorer } from '../structs/ProbabilisticScorer.mjs';
 import { Result_ProbabilisticScorerDecodeErrorZ } from '../structs/Result_ProbabilisticScorerDecodeErrorZ.mjs';
 import { InitFeatures } from '../structs/InitFeatures.mjs';
@@ -119,7 +120,6 @@ import { NodeFeatures } from '../structs/NodeFeatures.mjs';
 import { Result_NodeFeaturesDecodeErrorZ } from '../structs/Result_NodeFeaturesDecodeErrorZ.mjs';
 import { InvoiceFeatures } from '../structs/InvoiceFeatures.mjs';
 import { Result_InvoiceFeaturesDecodeErrorZ } from '../structs/Result_InvoiceFeaturesDecodeErrorZ.mjs';
-import { ChannelTypeFeatures } from '../structs/ChannelTypeFeatures.mjs';
 import { Result_ChannelTypeFeaturesDecodeErrorZ } from '../structs/Result_ChannelTypeFeaturesDecodeErrorZ.mjs';
 import { Result_DelayedPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_DelayedPaymentOutputDescriptorDecodeErrorZ.mjs';
 import { Result_StaticPaymentOutputDescriptorDecodeErrorZ } from '../structs/Result_StaticPaymentOutputDescriptorDecodeErrorZ.mjs';
@@ -182,11 +182,12 @@ import { Option_TypeZ } from '../structs/Option_TypeZ.mjs';
 import { Result_COption_TypeZDecodeErrorZ } from '../structs/Result_COption_TypeZDecodeErrorZ.mjs';
 import { PaymentError } from '../structs/PaymentError.mjs';
 import { Result_PaymentIdPaymentErrorZ } from '../structs/Result_PaymentIdPaymentErrorZ.mjs';
-import { Result_SiPrefixNoneZ } from '../structs/Result_SiPrefixNoneZ.mjs';
+import { Result_SiPrefixParseErrorZ } from '../structs/Result_SiPrefixParseErrorZ.mjs';
 import { Invoice } from '../structs/Invoice.mjs';
-import { Result_InvoiceNoneZ } from '../structs/Result_InvoiceNoneZ.mjs';
+import { ParseOrSemanticError } from '../structs/ParseOrSemanticError.mjs';
+import { Result_InvoiceParseOrSemanticErrorZ } from '../structs/Result_InvoiceParseOrSemanticErrorZ.mjs';
 import { SignedRawInvoice } from '../structs/SignedRawInvoice.mjs';
-import { Result_SignedRawInvoiceNoneZ } from '../structs/Result_SignedRawInvoiceNoneZ.mjs';
+import { Result_SignedRawInvoiceParseErrorZ } from '../structs/Result_SignedRawInvoiceParseErrorZ.mjs';
 import { RawInvoice } from '../structs/RawInvoice.mjs';
 import { InvoiceSignature } from '../structs/InvoiceSignature.mjs';
 import { ThreeTuple_RawInvoice_u832InvoiceSignatureZ } from '../structs/ThreeTuple_RawInvoice_u832InvoiceSignatureZ.mjs';
@@ -217,6 +218,7 @@ import { Result_NoneLightningErrorZ } from '../structs/Result_NoneLightningError
 import { TwoTuple_PublicKeyTypeZ } from '../structs/TwoTuple_PublicKeyTypeZ.mjs';
 import { Result_boolLightningErrorZ } from '../structs/Result_boolLightningErrorZ.mjs';
 import { ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ } from '../structs/ThreeTuple_ChannelAnnouncementChannelUpdateChannelUpdateZ.mjs';
+import { Option_NetAddressZ } from '../structs/Option_NetAddressZ.mjs';
 import { PeerHandleError } from '../structs/PeerHandleError.mjs';
 import { Result_CVec_u8ZPeerHandleErrorZ } from '../structs/Result_CVec_u8ZPeerHandleErrorZ.mjs';
 import { Result_NonePeerHandleErrorZ } from '../structs/Result_NonePeerHandleErrorZ.mjs';
@@ -284,7 +286,6 @@ import { ReplyShortChannelIdsEnd } from '../structs/ReplyShortChannelIdsEnd.mjs'
 import { Result_ReplyShortChannelIdsEndDecodeErrorZ } from '../structs/Result_ReplyShortChannelIdsEndDecodeErrorZ.mjs';
 import { Result_QueryChannelRangeDecodeErrorZ } from '../structs/Result_QueryChannelRangeDecodeErrorZ.mjs';
 import { Result_ReplyChannelRangeDecodeErrorZ } from '../structs/Result_ReplyChannelRangeDecodeErrorZ.mjs';
-import { GossipTimestampFilter } from '../structs/GossipTimestampFilter.mjs';
 import { Result_GossipTimestampFilterDecodeErrorZ } from '../structs/Result_GossipTimestampFilterDecodeErrorZ.mjs';
 import { SignOrCreationError } from '../structs/SignOrCreationError.mjs';
 import { Result_InvoiceSignOrCreationErrorZ } from '../structs/Result_InvoiceSignOrCreationErrorZ.mjs';
@@ -327,6 +328,7 @@ import { EffectiveCapacity } from '../structs/EffectiveCapacity.mjs';
 import { Score, ScoreInterface } from '../structs/Score.mjs';
 import { LockableScore, LockableScoreInterface } from '../structs/LockableScore.mjs';
 import { MultiThreadedLockableScore } from '../structs/MultiThreadedLockableScore.mjs';
+import { ProbabilisticScoringParameters } from '../structs/ProbabilisticScoringParameters.mjs';
 import { RawDataPart } from '../structs/RawDataPart.mjs';
 import { Sha256 } from '../structs/Sha256.mjs';
 import { ExpiryTime } from '../structs/ExpiryTime.mjs';
@@ -338,86 +340,389 @@ import { InvoicePayer } from '../structs/InvoicePayer.mjs';
 import { RetryAttempts } from '../structs/RetryAttempts.mjs';
 import { DefaultRouter } from '../structs/DefaultRouter.mjs';
 
-import { CommonBase, UInt5 } from './CommonBase.mjs';
+import { CommonBase, UInt5, UnqualifiedError } from './CommonBase.mjs';
 import * as bindings from '../bindings.mjs'
 
-
-
-export class Result_ProbabilisticScoringParametersDecodeErrorZ extends CommonBase {
-	protected constructor(_dummy: object, ptr: number) {
-		super(ptr, bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_free);
-	}
+/**
+ * Errors that indicate what is wrong with the invoice. They have some granularity for debug
+ * reasons, but should generally result in an \"invalid BOLT11 invoice\" message for the user.
+ */
+export class ParseError extends CommonBase {
+	protected constructor(_dummy: object, ptr: number) { super(ptr, bindings.ParseError_free); }
 	/* @internal */
-	public static constr_from_ptr(ptr: number): Result_ProbabilisticScoringParametersDecodeErrorZ {
-		if (bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_is_ok(ptr)) {
-			return new Result_ProbabilisticScoringParametersDecodeErrorZ_OK(null, ptr);
-		} else {
-			return new Result_ProbabilisticScoringParametersDecodeErrorZ_Err(null, ptr);
+	public static constr_from_ptr(ptr: number): ParseError {
+		const raw_ty: number = bindings.LDKParseError_ty_from_ptr(ptr);
+		switch (raw_ty) {
+			case 0: return new ParseError_Bech32Error(ptr);
+			case 1: return new ParseError_ParseAmountError(ptr);
+			case 2: return new ParseError_MalformedSignature(ptr);
+			case 3: return new ParseError_BadPrefix(ptr);
+			case 4: return new ParseError_UnknownCurrency(ptr);
+			case 5: return new ParseError_UnknownSiPrefix(ptr);
+			case 6: return new ParseError_MalformedHRP(ptr);
+			case 7: return new ParseError_TooShortDataPart(ptr);
+			case 8: return new ParseError_UnexpectedEndOfTaggedFields(ptr);
+			case 9: return new ParseError_DescriptionDecodeError(ptr);
+			case 10: return new ParseError_PaddingError(ptr);
+			case 11: return new ParseError_IntegerOverflowError(ptr);
+			case 12: return new ParseError_InvalidSegWitProgramLength(ptr);
+			case 13: return new ParseError_InvalidPubKeyHashLength(ptr);
+			case 14: return new ParseError_InvalidScriptHashLength(ptr);
+			case 15: return new ParseError_InvalidRecoveryId(ptr);
+			case 16: return new ParseError_InvalidSliceLength(ptr);
+			case 17: return new ParseError_Skip(ptr);
+			default:
+				throw new Error('oops, this should be unreachable'); // Unreachable without extending the (internal) bindings interface
 		}
-	}
-	/**
-	 * Creates a new CResult_ProbabilisticScoringParametersDecodeErrorZ in the success state.
-	 */
-	public static constructor_ok(o: ProbabilisticScoringParameters): Result_ProbabilisticScoringParametersDecodeErrorZ {
-		const ret: number = bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_ok(o == null ? 0 : CommonBase.get_ptr_of(o) & ~1);
-		const ret_hu_conv: Result_ProbabilisticScoringParametersDecodeErrorZ = Result_ProbabilisticScoringParametersDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Creates a new CResult_ProbabilisticScoringParametersDecodeErrorZ in the error state.
-	 */
-	public static constructor_err(e: DecodeError): Result_ProbabilisticScoringParametersDecodeErrorZ {
-		const ret: number = bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_err(e == null ? 0 : CommonBase.get_ptr_of(e) & ~1);
-		const ret_hu_conv: Result_ProbabilisticScoringParametersDecodeErrorZ = Result_ProbabilisticScoringParametersDecodeErrorZ.constr_from_ptr(ret);
-		return ret_hu_conv;
-	}
-
-	/**
-	 * Checks if the given object is currently in the success state
-	 */
-	public is_ok(): boolean {
-		const ret: boolean = bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_is_ok(this.ptr);
-		return ret;
 	}
 
 	public clone_ptr(): number {
-		const ret: number = bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_clone_ptr(this.ptr);
+		const ret: number = bindings.ParseError_clone_ptr(this.ptr);
 		return ret;
 	}
 
 	/**
-	 * Creates a new CResult_ProbabilisticScoringParametersDecodeErrorZ which has the same data as `orig`
-	 * but with all dynamically-allocated buffers duplicated in new buffers.
+	 * Creates a copy of the ParseError
 	 */
-	public clone(): Result_ProbabilisticScoringParametersDecodeErrorZ {
-		const ret: number = bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_clone(this.ptr);
-		const ret_hu_conv: Result_ProbabilisticScoringParametersDecodeErrorZ = Result_ProbabilisticScoringParametersDecodeErrorZ.constr_from_ptr(ret);
+	public clone(): ParseError {
+		const ret: number = bindings.ParseError_clone(this.ptr);
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, this);
 		return ret_hu_conv;
 	}
 
-}
-export class Result_ProbabilisticScoringParametersDecodeErrorZ_OK extends Result_ProbabilisticScoringParametersDecodeErrorZ {
-	public res: ProbabilisticScoringParameters;
+	/**
+	 * Utility method to constructs a new Bech32Error-variant ParseError
+	 */
+	public static constructor_bech32_error(a: Bech32Error): ParseError {
+		const ret: number = bindings.ParseError_bech32_error(CommonBase.get_ptr_of(a));
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
 
+	/**
+	 * Utility method to constructs a new ParseAmountError-variant ParseError
+	 */
+	public static constructor_parse_amount_error(a: UnqualifiedError): ParseError {
+		const ret: number = bindings.ParseError_parse_amount_error(0);
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new MalformedSignature-variant ParseError
+	 */
+	public static constructor_malformed_signature(a: Secp256k1Error): ParseError {
+		const ret: number = bindings.ParseError_malformed_signature(a);
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new BadPrefix-variant ParseError
+	 */
+	public static constructor_bad_prefix(): ParseError {
+		const ret: number = bindings.ParseError_bad_prefix();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new UnknownCurrency-variant ParseError
+	 */
+	public static constructor_unknown_currency(): ParseError {
+		const ret: number = bindings.ParseError_unknown_currency();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new UnknownSiPrefix-variant ParseError
+	 */
+	public static constructor_unknown_si_prefix(): ParseError {
+		const ret: number = bindings.ParseError_unknown_si_prefix();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new MalformedHRP-variant ParseError
+	 */
+	public static constructor_malformed_hrp(): ParseError {
+		const ret: number = bindings.ParseError_malformed_hrp();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new TooShortDataPart-variant ParseError
+	 */
+	public static constructor_too_short_data_part(): ParseError {
+		const ret: number = bindings.ParseError_too_short_data_part();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new UnexpectedEndOfTaggedFields-variant ParseError
+	 */
+	public static constructor_unexpected_end_of_tagged_fields(): ParseError {
+		const ret: number = bindings.ParseError_unexpected_end_of_tagged_fields();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new DescriptionDecodeError-variant ParseError
+	 */
+	public static constructor_description_decode_error(a: UnqualifiedError): ParseError {
+		const ret: number = bindings.ParseError_description_decode_error(0);
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new PaddingError-variant ParseError
+	 */
+	public static constructor_padding_error(): ParseError {
+		const ret: number = bindings.ParseError_padding_error();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new IntegerOverflowError-variant ParseError
+	 */
+	public static constructor_integer_overflow_error(): ParseError {
+		const ret: number = bindings.ParseError_integer_overflow_error();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new InvalidSegWitProgramLength-variant ParseError
+	 */
+	public static constructor_invalid_seg_wit_program_length(): ParseError {
+		const ret: number = bindings.ParseError_invalid_seg_wit_program_length();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new InvalidPubKeyHashLength-variant ParseError
+	 */
+	public static constructor_invalid_pub_key_hash_length(): ParseError {
+		const ret: number = bindings.ParseError_invalid_pub_key_hash_length();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new InvalidScriptHashLength-variant ParseError
+	 */
+	public static constructor_invalid_script_hash_length(): ParseError {
+		const ret: number = bindings.ParseError_invalid_script_hash_length();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new InvalidRecoveryId-variant ParseError
+	 */
+	public static constructor_invalid_recovery_id(): ParseError {
+		const ret: number = bindings.ParseError_invalid_recovery_id();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new InvalidSliceLength-variant ParseError
+	 */
+	public static constructor_invalid_slice_length(a: string): ParseError {
+		const ret: number = bindings.ParseError_invalid_slice_length(bindings.encodeString(a));
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Utility method to constructs a new Skip-variant ParseError
+	 */
+	public static constructor_skip(): ParseError {
+		const ret: number = bindings.ParseError_skip();
+		const ret_hu_conv: ParseError = ParseError.constr_from_ptr(ret);
+		CommonBase.add_ref_from(ret_hu_conv, ret_hu_conv);
+		return ret_hu_conv;
+	}
+
+	/**
+	 * Get the string representation of a ParseError object
+	 */
+	public to_str(): string {
+		const ret: number = bindings.ParseError_to_str(this.ptr);
+		const ret_conv: string = bindings.decodeString(ret);
+		return ret_conv;
+	}
+
+}
+/** A ParseError of type Bech32Error */
+export class ParseError_Bech32Error extends ParseError {
+	public bech32_error: Bech32Error;
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
-		super(_dummy, ptr);
-		const res: number = bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_get_ok(ptr);
-		const res_hu_conv: ProbabilisticScoringParameters = new ProbabilisticScoringParameters(null, res);
-		CommonBase.add_ref_from(res_hu_conv, this);
-		this.res = res_hu_conv;
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const bech32_error: number = bindings.LDKParseError_Bech32Error_get_bech32_error(ptr);
+		const bech32_error_hu_conv: Bech32Error = Bech32Error.constr_from_ptr(bech32_error);
+			CommonBase.add_ref_from(bech32_error_hu_conv, this);
+		this.bech32_error = bech32_error_hu_conv;
 	}
 }
-export class Result_ProbabilisticScoringParametersDecodeErrorZ_Err extends Result_ProbabilisticScoringParametersDecodeErrorZ {
-	public err: DecodeError;
-
+/** A ParseError of type ParseAmountError */
+export class ParseError_ParseAmountError extends ParseError {
+	public parse_amount_error: UnqualifiedError;
 	/* @internal */
-	public constructor(_dummy: object, ptr: number) {
-		super(_dummy, ptr);
-		const err: number = bindings.CResult_ProbabilisticScoringParametersDecodeErrorZ_get_err(ptr);
-		const err_hu_conv: DecodeError = new DecodeError(null, err);
-		CommonBase.add_ref_from(err_hu_conv, this);
-		this.err = err_hu_conv;
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const parse_amount_error: number = bindings.LDKParseError_ParseAmountError_get_parse_amount_error(ptr);
+		const parse_amount_error_conv: UnqualifiedError = new UnqualifiedError(parse_amount_error);
+		this.parse_amount_error = parse_amount_error_conv;
+	}
+}
+/** A ParseError of type MalformedSignature */
+export class ParseError_MalformedSignature extends ParseError {
+	public malformed_signature: Secp256k1Error;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		this.malformed_signature = bindings.LDKParseError_MalformedSignature_get_malformed_signature(ptr);
+	}
+}
+/** A ParseError of type BadPrefix */
+export class ParseError_BadPrefix extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type UnknownCurrency */
+export class ParseError_UnknownCurrency extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type UnknownSiPrefix */
+export class ParseError_UnknownSiPrefix extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type MalformedHRP */
+export class ParseError_MalformedHRP extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type TooShortDataPart */
+export class ParseError_TooShortDataPart extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type UnexpectedEndOfTaggedFields */
+export class ParseError_UnexpectedEndOfTaggedFields extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type DescriptionDecodeError */
+export class ParseError_DescriptionDecodeError extends ParseError {
+	public description_decode_error: UnqualifiedError;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const description_decode_error: number = bindings.LDKParseError_DescriptionDecodeError_get_description_decode_error(ptr);
+		const description_decode_error_conv: UnqualifiedError = new UnqualifiedError(description_decode_error);
+		this.description_decode_error = description_decode_error_conv;
+	}
+}
+/** A ParseError of type PaddingError */
+export class ParseError_PaddingError extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type IntegerOverflowError */
+export class ParseError_IntegerOverflowError extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type InvalidSegWitProgramLength */
+export class ParseError_InvalidSegWitProgramLength extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type InvalidPubKeyHashLength */
+export class ParseError_InvalidPubKeyHashLength extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type InvalidScriptHashLength */
+export class ParseError_InvalidScriptHashLength extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type InvalidRecoveryId */
+export class ParseError_InvalidRecoveryId extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+	}
+}
+/** A ParseError of type InvalidSliceLength */
+export class ParseError_InvalidSliceLength extends ParseError {
+	public invalid_slice_length: string;
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
+		const invalid_slice_length: number = bindings.LDKParseError_InvalidSliceLength_get_invalid_slice_length(ptr);
+		const invalid_slice_length_conv: string = bindings.decodeString(invalid_slice_length);
+		this.invalid_slice_length = invalid_slice_length_conv;
+	}
+}
+/** A ParseError of type Skip */
+export class ParseError_Skip extends ParseError {
+	/* @internal */
+	public constructor(ptr: number) {
+		super(null, ptr);
 	}
 }

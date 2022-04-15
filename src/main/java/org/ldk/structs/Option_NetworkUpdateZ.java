@@ -34,11 +34,11 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	 * When we're in this state, this COption_NetworkUpdateZ contains a crate::lightning::routing::network_graph::NetworkUpdate
 	 */
 	public final static class Some extends Option_NetworkUpdateZ {
-		public final NetworkUpdate some;
+		public final org.ldk.structs.NetworkUpdate some;
 		private Some(long ptr, bindings.LDKCOption_NetworkUpdateZ.Some obj) {
 			super(null, ptr);
 			long some = obj.some;
-			NetworkUpdate some_hu_conv = NetworkUpdate.constr_from_ptr(some);
+			org.ldk.structs.NetworkUpdate some_hu_conv = org.ldk.structs.NetworkUpdate.constr_from_ptr(some);
 			some_hu_conv.ptrs_to.add(this);
 			this.some = some_hu_conv;
 		}
@@ -58,7 +58,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 		long ret = bindings.COption_NetworkUpdateZ_some(o.ptr);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_NetworkUpdateZ ret_hu_conv = org.ldk.structs.Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -69,7 +69,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 	public static Option_NetworkUpdateZ none() {
 		long ret = bindings.COption_NetworkUpdateZ_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_NetworkUpdateZ ret_hu_conv = org.ldk.structs.Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -88,7 +88,7 @@ public class Option_NetworkUpdateZ extends CommonBase {
 		long ret = bindings.COption_NetworkUpdateZ_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_NetworkUpdateZ ret_hu_conv = Option_NetworkUpdateZ.constr_from_ptr(ret);
+		org.ldk.structs.Option_NetworkUpdateZ ret_hu_conv = org.ldk.structs.Option_NetworkUpdateZ.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

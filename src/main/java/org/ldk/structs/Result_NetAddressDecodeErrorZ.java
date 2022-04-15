@@ -25,7 +25,7 @@ public class Result_NetAddressDecodeErrorZ extends CommonBase {
 		private Result_NetAddressDecodeErrorZ_OK(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long res = bindings.CResult_NetAddressDecodeErrorZ_get_ok(ptr);
-			NetAddress res_hu_conv = NetAddress.constr_from_ptr(res);
+			org.ldk.structs.NetAddress res_hu_conv = org.ldk.structs.NetAddress.constr_from_ptr(res);
 			res_hu_conv.ptrs_to.add(this);
 			this.res = res_hu_conv;
 		}

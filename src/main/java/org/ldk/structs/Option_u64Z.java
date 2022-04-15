@@ -55,7 +55,7 @@ public class Option_u64Z extends CommonBase {
 		long ret = bindings.COption_u64Z_some(o);
 		Reference.reachabilityFence(o);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -66,7 +66,7 @@ public class Option_u64Z extends CommonBase {
 	public static Option_u64Z none() {
 		long ret = bindings.COption_u64Z_none();
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -85,7 +85,7 @@ public class Option_u64Z extends CommonBase {
 		long ret = bindings.COption_u64Z_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

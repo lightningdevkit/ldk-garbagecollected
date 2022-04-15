@@ -74,7 +74,7 @@ public class ChainMonitor extends CommonBase {
 		Balance[] ret_conv_9_arr = new Balance[ret_conv_9_len];
 		for (int j = 0; j < ret_conv_9_len; j++) {
 			long ret_conv_9 = ret[j];
-			Balance ret_conv_9_hu_conv = Balance.constr_from_ptr(ret_conv_9);
+			org.ldk.structs.Balance ret_conv_9_hu_conv = org.ldk.structs.Balance.constr_from_ptr(ret_conv_9);
 			ret_conv_9_hu_conv.ptrs_to.add(this);
 			ret_conv_9_arr[j] = ret_conv_9_hu_conv;
 		}

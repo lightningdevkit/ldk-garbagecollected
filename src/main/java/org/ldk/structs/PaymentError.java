@@ -37,7 +37,7 @@ public class PaymentError extends CommonBase {
 	 * An error resulting from the provided [`Invoice`] or payment hash.
 	 */
 	public final static class Invoice extends PaymentError {
-		public final String invoice;
+		public final java.lang.String invoice;
 		private Invoice(long ptr, bindings.LDKPaymentError.Invoice obj) {
 			super(null, ptr);
 			this.invoice = obj.invoice;
@@ -47,7 +47,7 @@ public class PaymentError extends CommonBase {
 	 * An error occurring when finding a route.
 	 */
 	public final static class Routing extends PaymentError {
-		public final LightningError routing;
+		public final org.ldk.structs.LightningError routing;
 		private Routing(long ptr, bindings.LDKPaymentError.Routing obj) {
 			super(null, ptr);
 			long routing = obj.routing;
@@ -60,11 +60,11 @@ public class PaymentError extends CommonBase {
 	 * An error occurring when sending a payment.
 	 */
 	public final static class Sending extends PaymentError {
-		public final PaymentSendFailure sending;
+		public final org.ldk.structs.PaymentSendFailure sending;
 		private Sending(long ptr, bindings.LDKPaymentError.Sending obj) {
 			super(null, ptr);
 			long sending = obj.sending;
-			PaymentSendFailure sending_hu_conv = PaymentSendFailure.constr_from_ptr(sending);
+			org.ldk.structs.PaymentSendFailure sending_hu_conv = org.ldk.structs.PaymentSendFailure.constr_from_ptr(sending);
 			sending_hu_conv.ptrs_to.add(this);
 			this.sending = sending_hu_conv;
 		}
@@ -82,7 +82,7 @@ public class PaymentError extends CommonBase {
 		long ret = bindings.PaymentError_clone(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);
+		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -94,7 +94,7 @@ public class PaymentError extends CommonBase {
 		long ret = bindings.PaymentError_invoice(a);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);
+		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -106,7 +106,7 @@ public class PaymentError extends CommonBase {
 		long ret = bindings.PaymentError_routing(a == null ? 0 : a.ptr & ~1);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);
+		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}
@@ -118,7 +118,7 @@ public class PaymentError extends CommonBase {
 		long ret = bindings.PaymentError_sending(a.ptr);
 		Reference.reachabilityFence(a);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		PaymentError ret_hu_conv = PaymentError.constr_from_ptr(ret);
+		org.ldk.structs.PaymentError ret_hu_conv = org.ldk.structs.PaymentError.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(ret_hu_conv);
 		return ret_hu_conv;
 	}

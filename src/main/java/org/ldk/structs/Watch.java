@@ -173,7 +173,7 @@ public class Watch extends CommonBase {
 		MonitorEvent[] ret_conv_14_arr = new MonitorEvent[ret_conv_14_len];
 		for (int o = 0; o < ret_conv_14_len; o++) {
 			long ret_conv_14 = ret[o];
-			MonitorEvent ret_conv_14_hu_conv = MonitorEvent.constr_from_ptr(ret_conv_14);
+			org.ldk.structs.MonitorEvent ret_conv_14_hu_conv = org.ldk.structs.MonitorEvent.constr_from_ptr(ret_conv_14);
 			ret_conv_14_hu_conv.ptrs_to.add(this);
 			ret_conv_14_arr[o] = ret_conv_14_hu_conv;
 		}

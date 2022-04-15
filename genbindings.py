@@ -320,6 +320,14 @@ def java_c_types(fn_arg, ret_arr_len):
         fn_arg = fn_arg[6:].strip()
         arr_access = "chars"
         arr_len = "len"
+    elif fn_arg.startswith("LDKError ") or fn_arg == "LDKError":
+        java_ty = consts.c_type_map['uint32_t'][0]
+        java_hu_ty = "UnqualifiedError"
+        rust_obj = "LDKError"
+        c_ty = "int32_t"
+        arr_ty = "uint32_t"
+        fn_ty_arg = "I"
+        fn_arg = fn_arg[8:].strip()
     else:
         ma = var_ty_regex.match(fn_arg)
         arr_ty = ma.group(1).strip()

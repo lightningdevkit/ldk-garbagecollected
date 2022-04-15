@@ -102,7 +102,7 @@ public class RouteHintHop extends CommonBase {
 		long ret = bindings.RouteHintHop_get_htlc_minimum_msat(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}
@@ -123,7 +123,7 @@ public class RouteHintHop extends CommonBase {
 		long ret = bindings.RouteHintHop_get_htlc_maximum_msat(this.ptr);
 		Reference.reachabilityFence(this);
 		if (ret >= 0 && ret <= 4096) { return null; }
-		Option_u64Z ret_hu_conv = Option_u64Z.constr_from_ptr(ret);
+		org.ldk.structs.Option_u64Z ret_hu_conv = org.ldk.structs.Option_u64Z.constr_from_ptr(ret);
 		ret_hu_conv.ptrs_to.add(this);
 		return ret_hu_conv;
 	}

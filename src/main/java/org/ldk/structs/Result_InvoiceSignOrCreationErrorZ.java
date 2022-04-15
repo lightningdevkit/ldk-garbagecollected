@@ -36,7 +36,7 @@ public class Result_InvoiceSignOrCreationErrorZ extends CommonBase {
 		private Result_InvoiceSignOrCreationErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_InvoiceSignOrCreationErrorZ_get_err(ptr);
-			SignOrCreationError err_hu_conv = SignOrCreationError.constr_from_ptr(err);
+			org.ldk.structs.SignOrCreationError err_hu_conv = org.ldk.structs.SignOrCreationError.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}

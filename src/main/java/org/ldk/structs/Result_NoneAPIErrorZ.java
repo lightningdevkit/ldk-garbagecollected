@@ -31,7 +31,7 @@ public class Result_NoneAPIErrorZ extends CommonBase {
 		private Result_NoneAPIErrorZ_Err(Object _dummy, long ptr) {
 			super(_dummy, ptr);
 			long err = bindings.CResult_NoneAPIErrorZ_get_err(ptr);
-			APIError err_hu_conv = APIError.constr_from_ptr(err);
+			org.ldk.structs.APIError err_hu_conv = org.ldk.structs.APIError.constr_from_ptr(err);
 			err_hu_conv.ptrs_to.add(this);
 			this.err = err_hu_conv;
 		}
